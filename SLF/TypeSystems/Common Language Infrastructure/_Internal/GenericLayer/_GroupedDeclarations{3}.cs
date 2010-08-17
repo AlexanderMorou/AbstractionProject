@@ -14,8 +14,8 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
-    internal abstract partial class _GroupedDeclarations<TDeclarationSpecific, TDeclaration, TDictionary> :
-        _DeclarationsBase<TDeclaration, TDeclarationSpecific, IGenericType, TDictionary>,
+    internal abstract partial class _GroupedDeclarations<TDeclarationSpecific, TParent, TDeclaration, TDictionary> :
+        _DeclarationsBase<TDeclaration, TDeclarationSpecific, TParent, TDictionary>,
         ISubordinateDictionary<string, TDeclarationSpecific, TDeclaration>,
         IGroupedDeclarationDictionary<TDeclarationSpecific>
         where TDeclarationSpecific :
@@ -30,14 +30,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             IGroupedDeclarationDictionary<TDeclarationSpecific>
     {
         /// <summary>
-        /// Creates a new <see cref="_GroupedDeclarations{TDeclarationSpecific, TDeclaration, TDictionary}"/>
+        /// Creates a new <see cref="_GroupedDeclarations{TDeclarationSpecific, TParent, TDeclaration, TDictionary}"/>
         /// instance with the <paramref name="originalSet"/>
         /// provided.
         /// </summary>
         /// <param name="originalSet">The <typeparamref name="TTypes"/>
-        /// from which the <see cref="_GroupedDeclarations{TDeclarationSpecific, TDeclaration, TDictionary}"/>
+        /// from which the <see cref="_GroupedDeclarations{TDeclarationSpecific, TParent, TDeclaration, TDictionary}"/>
         /// operates.</param>
-        protected _GroupedDeclarations(_GroupedMasterBase<TDeclaration> master, TDictionary originalSet, IGenericType parent)
+        protected _GroupedDeclarations(_GroupedMasterBase<TDeclaration> master, TDictionary originalSet, TParent parent)
             : base(master, parent, originalSet)
         {
         }
@@ -126,7 +126,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         protected abstract TDeclarationSpecific ObtainWrapper(TDeclarationSpecific item);
 
-        protected override TDeclarationSpecific GetWrapper(TDeclarationSpecific original, IGenericType parent)
+        protected override TDeclarationSpecific GetWrapper(TDeclarationSpecific original, TParent parent)
         {
             return ObtainWrapper(original);
         }

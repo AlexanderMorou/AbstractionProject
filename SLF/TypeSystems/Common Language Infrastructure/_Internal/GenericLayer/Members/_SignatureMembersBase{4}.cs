@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             ISignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent>,
             IGroupedMemberDictionary<TSignatureParent, TSignature>
     {
-        internal _SignatureMembersBase(_FullMembersBase master, TSignatureMembers originalSet, IGenericType parent)
+        internal _SignatureMembersBase(_FullMembersBase master, TSignatureMembers originalSet, TSignatureParent parent)
             : base(master, originalSet, parent)
         {
         }

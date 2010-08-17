@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         where TSignatureParent :
             IMethodSignatureParent<TSignature, TSignatureParent>
     {
-        protected _MethodSignatureMembersBase(_FullMembersBase master, IMethodSignatureMemberDictionary<TSignature, TSignatureParent> originalSet, IGenericType parent)
+        protected _MethodSignatureMembersBase(_FullMembersBase master, IMethodSignatureMemberDictionary<TSignature, TSignatureParent> originalSet, TSignatureParent parent)
             : base(master, originalSet, parent)
         {
         }

@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             IEventSignatureMemberDictionary<TEvent, TEventParameter, TEventParent>
     {
         internal _EventSignatureMembersBase(_FullMembersBase master, TDictionary originalSet, TEventParent parent)
-            : base(master, originalSet, (IGenericType)parent)
+            : base(master, originalSet, parent)
         {
         }
     }

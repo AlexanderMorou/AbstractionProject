@@ -12,7 +12,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     {
         partial class PropertyMember
         {
-            protected internal sealed class PropertyMethod :
+            internal sealed class PropertyMethod :
                 MethodMember,
                 IPropertySignatureMethodMember
             {

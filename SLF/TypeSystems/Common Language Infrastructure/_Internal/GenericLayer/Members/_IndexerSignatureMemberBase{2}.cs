@@ -87,7 +87,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
                     return null;
                 if (this.getMethod == null)
                 {
-                    this.getMethod = this.OnGetMethod(PropertyMethodType.GetMethod, this.Original.GetMethod);
+                    this.getMethod = this.OnGetMethod(this.Original.GetMethod);
                     this._getMethod = this.Original.GetMethod;
                     this._getMethod.Disposed += new EventHandler(GetMethod_Disposed);
                 }
@@ -108,7 +108,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
                     return null;
                 if (this.setMethod == null)
                 {
-                    this.setMethod = this.OnGetMethod(PropertyMethodType.SetMethod, this.Original.SetMethod);
+                    this.setMethod = this.OnGetMethod(this.Original.SetMethod);
                     this._setMethod = this.Original.SetMethod;
                     this._setMethod.Disposed += new EventHandler(SetMethod_Disposed);
                 }
@@ -116,7 +116,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             }
         }
 
-        protected abstract IPropertySignatureMethodMember OnGetMethod(PropertyMethodType methodType, IMethodSignatureMember originalMethod);
+        protected abstract IPropertySignatureMethodMember OnGetMethod(IPropertySignatureMethodMember originalMethod);
 
         void GetMethod_Disposed(object sender, EventArgs e)
         {

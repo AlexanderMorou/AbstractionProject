@@ -64,11 +64,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return new _FieldMembersBase(this._Members, this.Original.Fields, this);
         }
 
-        protected override IBinaryOperatorCoercionMemberDictionary<IClassType> InitializeBinaryOperatorCoercions()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override ITypeCoercionMemberDictionary<IClassType> InitializeTypeCoercions()
         {
             throw new NotImplementedException();
@@ -79,6 +74,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             throw new NotImplementedException();
         }
 
+
+        protected override IEventMemberDictionary<IClassEventMember, IClassType> InitializeEvents()
+        {
+            throw new NotImplementedException();
+        }
 
         protected override IClassCtorMember InitializeTypeInitializer(IClassCtorMember original)
         {
@@ -107,5 +107,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 return ((IClassType)(base.BaseType));
             }
         }
+
     }
 }

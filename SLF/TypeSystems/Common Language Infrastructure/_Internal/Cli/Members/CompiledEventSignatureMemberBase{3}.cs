@@ -22,18 +22,18 @@ using System.Reflection;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    internal abstract class CompiledEventSignatureMemberBase<TMethod, TEvent, TEventParent> :
+    internal abstract partial class CompiledEventSignatureMemberBase<TMethod, TEvent, TEventParent> :
         EventSignatureMemberBase<TEvent, TEventParent>
         where TEvent :
             IEventSignatureMember<TEvent, TEventParent>
         where TEventParent :
             IEventSignatureParent<TEvent, TEventParent>
     {
-        private EventInfo source;
+        private EventInfo memberInfo;
         public CompiledEventSignatureMemberBase(TEventParent parent, EventInfo source)
             : base(parent)
         {
-            this.source = source;
+            this.memberInfo = source;
         }
 
         protected override EventSignatureSource SignatureSourceImpl
@@ -43,7 +43,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override IParameterMemberDictionary<TEvent, IEventSignatureParameterMember<TEvent, TEventParent>> InitializeParameters()
         {
-            throw new NotImplementedException();
+            var delegateType = this.memberInfo.EventHandlerType.GetTypeReference<IDelegateType>();
+            return new ParameterMemberDictionary(this, from delegateParameter in delegateType.Parameters.Values
+                                                       select new ParameterMember(delegateParameter, this));
         }
 
         protected override bool LastIsParamsImpl
@@ -53,12 +55,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override string OnGetName()
         {
-            return source.Name;
+            return memberInfo.Name;
         }
 
         protected override IDelegateType SignatureTypeImpl
         {
-            get { return this.source.EventHandlerType.GetTypeReference<IDelegateType>(); }
+            get { return this.memberInfo.EventHandlerType.GetTypeReference<IDelegateType>(); }
         }
     }
 }

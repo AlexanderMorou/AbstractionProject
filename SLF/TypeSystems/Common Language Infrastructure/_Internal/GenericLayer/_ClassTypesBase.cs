@@ -17,6 +17,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         _Types<IClassType, IClassTypeDictionary>,
         IClassTypeDictionary
     {
+        private IGenericType _Parent
+        {
+            get
+            {
+                return base.Parent as IGenericType;
+            }
+        }
         internal _ClassTypesBase(_FullTypesBase master, IClassTypeDictionary originalSet, IGenericType parent)
             : base(master, originalSet, parent)
         {
@@ -33,10 +40,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         protected override IClassType ObtainWrapper(IClassType item)
         {
-            if (this.Parent.GenericParameters.Count != item.GenericParameters.Count)
+            if (this._Parent.GenericParameters.Count != item.GenericParameters.Count)
                 return item;
             else
-                return new _ClassTypeBase(item, Parent.GenericParameters);
+                return new _ClassTypeBase(item, _Parent.GenericParameters);
         }
     }
 }

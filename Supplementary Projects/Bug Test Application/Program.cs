@@ -71,7 +71,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             Console.WriteLine(" - ");
             Console.WriteLine(queryTestB);
             //LeftOuterJoinExample();
-            var ww = ExpressionKinds.AddOperation.ToString();
+            //var ww = ExpressionKinds.AddOperation.ToString();
             Console.WriteLine("OIL version takes {0}.", Time(OilVersion));
             Console.WriteLine("CodeDOM version takes {0}.", Time(CodeDomVersion));
         }
@@ -89,26 +89,27 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             
             mainMethod.AccessLevel = AccessLevelModifiers.Internal;
             mainMethod.Call((typeof(Console).GetMethodExpression("WriteLine").Invoke("It is now {0}.".ToPrimitive(), typeof(DateTime).GetTypeExpression().GetProperty("Now"))));
-            //mainMethod.Call((Symbol)"Console", "WriteLine", "It is now {0}.".ToPrimitive(), "DateTime".Fuse("Now"));
-            //mainMethod.Call("Activator".Fuse("CreateInstance").Fuse(typeof(Form)).Fuse(ExpressionCollection.EmptyExpressionArray));
-            //var testGeneric = dNameSpace.Classes.Add("GenericType");
-            //var testGenericParam = testGeneric.TypeParameters.Add("TTypeParam");
-            //testGenericParam.SpecialConstraint = GenericTypeParameterSpecialConstraint.Struct;
-            //var testNestGeneric = testGeneric.Classes.Add("TestNestGenericType");
-            //var testNestGenericParam = testNestGeneric.TypeParameters.Add("TestGenericParameter");
-            //var testNestGenericMethod = testNestGeneric.Methods.Add("TestNestGenericMethod", new TypedNameSeries() { { "p1", testNestGenericParam }, { "p2", testGenericParam }, { "p3", "TTestNestGenericMethodTypeParam" } }, new GenericParameterData("TTestNestGenericMethodTypeParam"));
-            //testNestGenericParam.SpecialConstraint = GenericTypeParameterSpecialConstraint.Struct;
-            //var testNestInstance = testNestGeneric.MakeGenericType(typeof(long), typeof(double));
-            //var testNestGenericMethodInstance = testNestInstance.Methods[0].Value.MakeGenericMethod(new TypeCollection(typeof(int).GetTypeReference()));
+            mainMethod.Call((Symbol)"Console", "WriteLine", "It is now {0}.".ToPrimitive(), "DateTime".Fuse("Now"));
+            mainMethod.Call("Activator".Fuse("CreateInstance").Fuse(typeof(Form)).Fuse(ExpressionCollection.EmptyExpressionArray));
+            var testGeneric = dNameSpace.Classes.Add("GenericType");
+            var testGenericParam = testGeneric.TypeParameters.Add("TTypeParam");
+            testGenericParam.SpecialConstraint = GenericTypeParameterSpecialConstraint.Struct;
+            var testNestGeneric = testGeneric.Classes.Add("TestNestGenericType");
+            var testNestGenericParam = testNestGeneric.TypeParameters.Add("TestGenericParameter");
+            var testNestGenericMethod = testNestGeneric.Methods.Add("TestNestGenericMethod", new TypedNameSeries() { { "p1", testNestGenericParam }, { "p2", testGenericParam }, { "p3", "TTestNestGenericMethodTypeParam" } }, new GenericParameterData("TTestNestGenericMethodTypeParam"));
+            testNestGenericParam.SpecialConstraint = GenericTypeParameterSpecialConstraint.Struct;
+            var testNestInstance = testNestGeneric.MakeGenericType(typeof(long), typeof(double));
+            var testNestGenericMethodInstance = testNestInstance.Methods[0].Value.MakeGenericMethod(new TypeCollection(typeof(int).GetTypeReference()));
             //Console.WriteLine(testNestGenericMethodInstance);
             //Console.WriteLine(testNestInstance.CSharpToString());
             //Console.WriteLine(testNestGeneric.CSharpToString());
-            
-            //var fType = typeof(IIntermediateDeclarationDictionary<INamespaceDeclaration, IIntermediateNamespaceDeclaration>).GetTypeReference<IInterfaceType>();
-            //Console.WriteLine();
-            //foreach (var member in from m in fType.Members.Keys.Shuffle()
-            //                       select fType.Members[m].Entry)
-            //    Console.WriteLine(member);
+
+            var fType = typeof(IntermediateDeclarationDictionary<INamespaceDeclaration, IIntermediateNamespaceDeclaration>).GetTypeReference<IClassType>();
+            Console.WriteLine();
+            Console.WriteLine(fType.Members.Count);
+            foreach (var member in from m in fType.Members
+                                   select m.Value.Entry)
+                Console.WriteLine(member);
             
         }
 
