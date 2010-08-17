@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8B815295-30CD-4825-8634-155776DEEE14}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AllenCopeland.Abstraction.Slf</RootNamespace>
+    <AssemblyName>_abs.slf.languages.csharp</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Allen Copeland.pfx</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <WarningsAsErrors>0162,0108</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Ast\CSharpAssembly.cs" />
+    <Compile Include="Ast\Expressions\CSharpAddSubtExpression.cs" />
+    <Compile Include="Ast\Expressions\CSharpAssignExpression.cs" />
+    <Compile Include="Ast\Expressions\CSharpBinaryOperationExpressionBase.cs" />
+    <Compile Include="Ast\Expressions\CSharpBitwiseAndExpression.cs" />
+    <Compile Include="Ast\Expressions\CSharpBitwiseExclusiveOrExpression.cs" />
+    <Compile Include="Ast\Expressions\CSharpBitwiseOrExpression.cs" />
+    <Compile Include="Ast\Expressions\CSharpConditionalExpression.cs" />
+    <Compile Include="Ast\Expressions\CSharpExpressionBase.cs" />
+    <Compile Include="Ast\Expressions\CSharpExpressionExtensions.cs" />
+    <Compile Include="Ast\Expressions\ICSharpAddSubtExpression.cs" />
+    <Compile Include="Ast\Expressions\ICSharpAssignExpression.cs" />
+    <Compile Include="Ast\Expressions\ICSharpBitwiseAndExpression.cs" />
+    <Compile Include="Ast\Expressions\ICSharpBitwiseExclusiveOrExpression.cs" />
+    <Compile Include="Ast\Expressions\ICSharpBitwiseOrExpression.cs" />
+    <Compile Include="Ast\Expressions\ICSharpConditionalExpression.cs" />
+    <Compile Include="Ast\Expressions\ICSharpExpression.cs" />
+    <Compile Include="Ast\Expressions\ICSharpInequalityExpression.cs" />
+    <Compile Include="Ast\Expressions\ICSharpLogicalAndExpression.cs" />
+    <Compile Include="Ast\Expressions\ICSharpLogicalOrExpression.cs" />
+    <Compile Include="Ast\Expressions\ICSharpMulDivExpression.cs" />
+    <Compile Include="Ast\Expressions\CSharpInequalityExpression.cs" />
+    <Compile Include="Ast\Expressions\InvalidIncrementTargetException.cs" />
+    <Compile Include="Ast\Expressions\InvalidInvertTargetException.cs" />
+    <Compile Include="Ast\Expressions\ICSharpRelationalExpression.cs" />
+    <Compile Include="Ast\Expressions\ICSharpShiftExpression.cs" />
+    <Compile Include="Ast\Expressions\ICSharpUnaryOperationExpression.cs" />
+    <Compile Include="Ast\Expressions\CSharpLogicalAndExpression.cs" />
+    <Compile Include="Ast\Expressions\CSharpLogicalOrExpression.cs" />
+    <Compile Include="Ast\Expressions\CSharpMulDivExpression.cs" />
+    <Compile Include="Ast\Expressions\OperatorPrecedences.cs" />
+    <Compile Include="Ast\Expressions\CSharpRelationalExpression.cs" />
+    <Compile Include="Ast\Expressions\CSharpShiftExpression.cs" />
+    <Compile Include="Ast\Expressions\CSharpUnaryOperationExpression.cs" />
+    <Compile Include="Ast\ICSharpAssembly.cs" />
+    <Compile Include="Compilers\CSharpCommandLineCompilerAid.cs" />
+    <Compile Include="Ast\Expressions\ICSharpBinaryOperator.cs" />
+    <Compile Include="Parsers\CSharpParser.cs" />
+    <Compile Include="Parsers\CSharpTokenizer.cs" />
+    <Compile Include="Parsers\ICSharpParser.cs" />
+    <Compile Include="Parsers\ICSharpTokenizer.cs" />
+    <Compile Include="Parsers\StateMachines\CSharpAttributeTargetStateMachine.cs" />
+    <Compile Include="Parsers\StateMachines\CSharpKeywordStateMachine.cs" />
+    <Compile Include="Parsers\StateMachines\CSharpLiteralStateMachine.cs" />
+    <Compile Include="Parsers\StateMachines\CSharpOperatorStateMachine.cs" />
+    <Compile Include="Parsers\Tokens\CSharpAttributeTargetToken.cs" />
+    <Compile Include="Parsers\Tokens\CSharpKeywordToken.cs" />
+    <Compile Include="Parsers\Tokens\CSharpOperatorToken.cs" />
+    <Compile Include="Parsers\Tokens\ICSharpAttributeTargetToken.cs" />
+    <Compile Include="Parsers\Tokens\ICSharpKeywordToken.cs" />
+    <Compile Include="Parsers\Tokens\ICSharpLiteralToken.cs" />
+    <Compile Include="Parsers\Tokens\ICSharpOperatorToken.cs" />
+    <Compile Include="Parsers\Tokens\Token.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Common Utilities.csproj">
+      <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
+      <Name>Common Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AST\Objectified Intermediate Language\Objectified Intermediate Language.csproj">
+      <Project>{02607DC2-E98B-43AE-B906-FE151A70A68D}</Project>
+      <Name>Objectified Intermediate Language</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Parsers\Parser Abstract\Parser Abstract.csproj">
+      <Project>{54DBB205-D8B4-42ED-ADA3-50004FAFE708}</Project>
+      <Name>Parser Abstract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TypeSystems\Abstract\TypeSystem Abstract.csproj">
+      <Project>{161EAA8C-20C6-4B82-925A-4B8B112910AB}</Project>
+      <Name>TypeSystem Abstract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TypeSystems\Common Language Infrastructure\Common Language Infrastructure.csproj">
+      <Project>{4FF91A45-B361-4D8F-8C5B-03D11E5291E6}</Project>
+      <Name>Common Language Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common Intermediate Language\Common Intermediate Language.csproj">
+      <Project>{DF059670-2803-4B58-BF97-A5322DAA8CC0}</Project>
+      <Name>Common Intermediate Language</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Language Metadata Library\Language Services.csproj">
+      <Project>{41C87F7B-840B-4237-AEED-A471955AB3D7}</Project>
+      <Name>Language Services</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Allen Copeland.pfx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

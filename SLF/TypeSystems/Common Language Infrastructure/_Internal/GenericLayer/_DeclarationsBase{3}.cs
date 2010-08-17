@@ -1,0 +1,129 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Utilities.Collections;
+ /*---------------------------------------------------------------------\
+ | Copyright © 2009 Allen Copeland Jr.                                  |
+ |----------------------------------------------------------------------|
+ | The Abstraction Project's code is provided under a contract-release  |
+ | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+ \-------------------------------------------------------------------- */
+
+namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
+{
+    internal abstract partial class _DeclarationsBase<TDeclaration, TDeclarationSpecific, TOriginalContainer, TDictionary> :
+        SubordinateDictionary<string, TDeclarationSpecific, TDeclaration>,
+        IDeclarationDictionary<TDeclarationSpecific>,
+        IDeclarationDictionary
+        where TDeclaration :
+            class,
+            IDeclaration
+        where TDeclarationSpecific :
+            class,
+            TDeclaration
+        where TDictionary :
+            class,
+            IDeclarationDictionary<TDeclarationSpecific>
+    {
+        /// <summary>
+        /// Data member for <see cref="Parent"/>.
+        /// </summary>
+        private TOriginalContainer parent;
+        /// <summary>
+        /// Data member for <see cref="Original"/>.
+        /// </summary>
+        private TDictionary original;
+        protected _DeclarationsBase(TOriginalContainer parent, TDictionary original)
+            : this(null, parent, original)
+        {
+        }
+
+        internal _DeclarationsBase(MasterDictionaryBase<string, TDeclaration> master, TOriginalContainer parent, TDictionary original)
+            : base(master)
+        {
+            this.parent = parent;
+            this.original = original;
+        }
+
+        public override sealed int Count
+        {
+            get
+            {
+                return this.Original.Count;
+            }
+        }
+
+        protected abstract TDeclarationSpecific GetWrapper(TDeclarationSpecific original, TOriginalContainer parent);
+
+        #region IDisposable Members
+
+        public virtual void Dispose()
+        {
+            this.original = null;
+            if (this.valuesCollection != null)
+            {
+                ((_ValuesCollection)(this.valuesCollection)).Dispose();
+                this.valuesCollection = null;
+            }
+            if (this.keysCollection != null)
+            {
+                ((_KeysCollection)(this.keysCollection)).Dispose();
+                this.keysCollection = null;
+            }
+            this.parent = default(TOriginalContainer);
+        }
+
+        #endregion
+
+        public TOriginalContainer Parent
+        {
+            get { return this.parent; }
+        }
+
+        public TDictionary Original
+        {
+            get
+            {
+                return this.original;
+            }
+        }
+
+        protected override ControlledStateDictionary<string, TDeclarationSpecific>.KeysCollection InitializeKeysCollection()
+        {
+            return new _KeysCollection(this);
+        }
+
+        protected override ControlledStateDictionary<string, TDeclarationSpecific>.ValuesCollection InitializeValuesCollection()
+        {
+            return new _ValuesCollection(this);
+        }
+        #region IDeclarationDictionary Members
+
+        int IDeclarationDictionary.IndexOf(IDeclaration decl)
+        {
+            if (!(decl is TDeclarationSpecific))
+                return -1;
+            return this.IndexOf((TDeclarationSpecific)(decl));
+        }
+
+        #endregion
+
+        public int IndexOf(TDeclarationSpecific decl)
+        {
+            if (this.valuesCollection == null)
+                return -1;
+            int index = 0;
+            foreach (var item in ((_ValuesCollection)(this.Values)).values.Values)
+                if (object.ReferenceEquals(item, decl))
+                    return index;
+                else
+                    index++;
+            return -1;
+        }
+
+    }
+}

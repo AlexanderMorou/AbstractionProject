@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DefaultIndexerName" xml:space="preserve">
+    <value>Item</value>
+    <comment>The default indexer name as observed by some languages, like C#.</comment>
+  </data>
+  <data name="ResourcesAutoClassName" xml:space="preserve">
+    <value>Resources</value>
+    <comment>The auto-generated name for resource classes associated to types.</comment>
+  </data>
+  <data name="ResourcesAutoNamespaceName" xml:space="preserve">
+    <value>{0}.Properties</value>
+    <comment>The auto-generated namespace name associated to a resource class for an assembly.</comment>
+  </data>
+  <data name="TypeConstraintFailure" xml:space="preserve">
+    <value>The type {0} does not meet the constraints placed upon {1}.
+
+Reason: {2}</value>
+  </data>
+  <data name="TypeConstraintFailure_ParamConstraint" xml:space="preserve">
+    <value>Replacement parameter did not pass constraint {0}.</value>
+  </data>
+  <data name="TypeConstraintFailure_NewInterfaceDelegateOther" xml:space="preserve">
+    <value>Requires empty public constructor; interfaces, delegates and Other, non-creatable, types don't have constructors.</value>
+  </data>
+  <data name="TypeConstraintFailure_NewStandard" xml:space="preserve">
+    <value>Requires empty public constructor; none was found.</value>
+  </data>
+  <data name="TypeConstraintFailure_Constraint" xml:space="preserve">
+    <value>Replacement type did not pass constraint {0} ({1}).</value>
+  </data>
+  <data name="TypeConstraintFailure_InvalidType" xml:space="preserve">
+    <value>Type '{0}' not valid as a generic type parameter.</value>
+  </data>
+  <data name="TypeConstraintFailure_NewConstraint" xml:space="preserve">
+    <value>Requires public empty-parameter constructor; none was found on the replacement type-parameter.</value>
+  </data>
+  <data name="TypeConstraintFailure_ReferenceType" xml:space="preserve">
+    <value>Requires a reference type.</value>
+  </data>
+  <data name="TypeConstraintFailure_ValueType" xml:space="preserve">
+    <value>Requires a value type.</value>
+  </data>
+  <data name="MakeGenericTypeError_IsGenericTypeDefFalse" xml:space="preserve">
+    <value>The type is not a generic type definition; operation only valid on generic type definitions.</value>
+    <comment>MakeGenericType was called on a fully closed generic type, this is not legal because it is not the generic definition.</comment>
+  </data>
+  <data name="MustBeGenericType" xml:space="preserve">
+    <value>The type must be a generic type to perform this action.</value>
+    <comment>The generic operation was attempted on a non-generic type.</comment>
+  </data>
+  <data name="MakePointerError_ArrayType" xml:space="preserve">
+    <value>Cannot make a pointer of an array.</value>
+    <comment>Error message for 'MakePointer' on a type marked as an array.</comment>
+  </data>
+  <data name="MakeArrayError_ByReferenceType" xml:space="preserve">
+    <value>Cannot make an array of a by-reference type.</value>
+    <comment>Error message for 'MakeArray' on a type marked as ByRef.</comment>
+  </data>
+  <data name="MakeArrayError_VectorLowerBounds" xml:space="preserve">
+    <value>Single dimensional, vector, arrays are innately zero-based; due to language interop, non-zero index single dimensional arrays are not supported at a type level.</value>
+    <comment>Vector arrays aren't allowed non-zero lower-bounds indexing.  In languages that are CLI compliant, you can not even define non-zero single-dimensional arrays.  That is not to say that it is illegal to use helper functions on the Array class, but referring to its type is not possible.</comment>
+  </data>
+  <data name="TypeConstraintFailure_GenericTypeDefinition" xml:space="preserve">
+    <value>Generic definitions don't require validation.</value>
+  </data>
+  <data name="TypeConstraintFailure_InvalidType_AbstractSealed" xml:space="preserve">
+    <value>Type '{0}' not valid as a generic type parameter, due to the type being both abstract and sealed.</value>
+  </data>
+</root>

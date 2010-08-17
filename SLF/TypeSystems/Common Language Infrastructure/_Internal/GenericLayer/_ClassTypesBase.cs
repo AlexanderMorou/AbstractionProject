@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Cli;
+ /*---------------------------------------------------------------------\
+ | Copyright © 2009 Allen Copeland Jr.                                  |
+ |----------------------------------------------------------------------|
+ | The Abstraction Project's code is provided under a contract-release  |
+ | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+ \-------------------------------------------------------------------- */
+
+namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
+{
+    internal class _ClassTypesBase :
+        _Types<IClassType, IClassTypeDictionary>,
+        IClassTypeDictionary
+    {
+        internal _ClassTypesBase(_FullTypesBase master, IClassTypeDictionary originalSet, IGenericType parent)
+            : base(master, originalSet, parent)
+        {
+        }
+
+        #region IClassTypeDictionary Members
+
+        ITypeParent IClassTypeDictionary.Parent
+        {
+            get { return ((ITypeParent)(base.Parent)); }
+        }
+
+        #endregion
+
+        protected override IClassType ObtainWrapper(IClassType item)
+        {
+            if (this.Parent.GenericParameters.Count != item.GenericParameters.Count)
+                return item;
+            else
+                return new _ClassTypeBase(item, Parent.GenericParameters);
+        }
+    }
+}
