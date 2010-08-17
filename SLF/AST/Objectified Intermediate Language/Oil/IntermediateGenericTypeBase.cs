@@ -1,0 +1,337 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Oil.Members;
+using System.Linq;
+using AllenCopeland.Abstraction.Slf.Abstract.Properties;
+using AllenCopeland.Abstraction.Utilities.Collections;
+using System.Globalization;
+using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
+using AllenCopeland.Abstraction.Slf._Internal.Ast;
+ /*---------------------------------------------------------------------\
+ | Copyright © 2009 Allen Copeland Jr.                                  |
+ |----------------------------------------------------------------------|
+ | The Abstraction Project's code is provided under a contract-release  |
+ | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+ \-------------------------------------------------------------------- */
+
+namespace AllenCopeland.Abstraction.Slf.Oil
+{
+    public abstract partial class IntermediateGenericTypeBase<TType, TIntermediateType> :
+        IntermediateTypeBase<TType, TIntermediateType>,
+        IIntermediateGenericType<TType, TIntermediateType>,
+        _IGenericTypeRegistrar,
+        _IIntermediateGenericType
+        where TType :
+            class,
+            IGenericType<TType>
+        where TIntermediateType :
+            class,
+            TType,
+            IIntermediateGenericType<TType, TIntermediateType>
+    {
+        private Dictionary<ITypeCollectionBase, TType> genericCache = null;
+        private GenericParameterCollection genericParameters;
+        private IIntermediateGenericParameterDictionary<IGenericTypeParameter<TType>, IIntermediateGenericTypeParameter<TType, TIntermediateType>, TType, TIntermediateType> typeParameters;
+
+        /// <summary>
+        /// Creates a new <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>
+        /// with the <paramref name="name"/> and <paramref name="parent"/> 
+        /// provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> in which the <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>
+        /// is referred to by.</param>
+        /// <param name="parent">The <see cref="IIntermediateTypeParent"/> which 
+        /// contains the <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>.</param>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/>, or <paramref name="parent"/>, is null.</exception>
+        /// <exception cref="System.ArgumentException">thrown when <paramref name="name"/> is 
+        /// <see cref="String.Empty"/></exception>
+        public IntermediateGenericTypeBase(string name, IIntermediateTypeParent parent)
+            : base(name, parent)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>
+        /// with the <paramref name="parent"/> provided.
+        /// </summary>
+        /// <param name="parent">The <see cref="IIntermediateTypeParent"/>
+        /// which contians the <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>.</param>
+        /// <exception cref="System.ArgumentNullException">thrown when
+        /// <paramref name="parent"/> is null.</exception>
+        internal IntermediateGenericTypeBase(IIntermediateTypeParent parent)
+            : base(parent)
+        {
+        }
+
+        public override bool IsGenericType
+        {
+            get
+            {
+                if (this.typeParameters == null || this.TypeParameters.Count == 0)
+                    if (this.Parent is IGenericType)
+                        return ((IGenericType)(this.Parent)).IsGenericType;
+                    else
+                        return false;
+                else
+                    return true;
+            }
+        }
+
+        #region IIntermediateGenericParameterParent<IGenericTypeParameter<TType>,IIntermediateGenericTypeParameter<TType,TIntermediateType>,TType,TIntermediateType> Members
+        /// <summary>
+        /// Returns the type parameter dictionary which manages
+        /// the current generic type's type-parameters.
+        /// </summary>
+        public IIntermediateGenericParameterDictionary<IGenericTypeParameter<TType>, IIntermediateGenericTypeParameter<TType, TIntermediateType>, TType, TIntermediateType> TypeParameters
+        {
+            get
+            {
+                if (this.typeParameters == null)
+                    this.typeParameters = this.InitializeTypeParameters();
+                return this.typeParameters;
+            }
+        }
+
+        #endregion
+
+        #region IGenericParamParent<IGenericTypeParameter<TType>,TType> Members
+
+        IGenericParameterDictionary<IGenericTypeParameter<TType>, TType> IGenericParamParent<IGenericTypeParameter<TType>, TType>.TypeParameters
+        {
+            get { return this.TypeParameters; }
+        }
+
+        #endregion
+
+        #region IGenericParamParent Members
+
+        IGenericParameterDictionary IGenericParamParent.TypeParameters
+        {
+            get { return (IGenericParameterDictionary)this.TypeParameters; }
+        }
+
+        #endregion
+
+        #region IIntermediateGenericParameterParent Members
+
+        IIntermediateGenericParameterDictionary IIntermediateGenericParameterParent.TypeParameters
+        {
+            get { return (IIntermediateGenericParameterDictionary)this.TypeParameters; }
+        }
+
+        #endregion
+
+        #region IGenericType<TType> Members
+
+        public TType MakeGenericType(ITypeCollectionBase typeParameters)
+        {
+            IType r = null;
+            if (this.ContainsGenericType(typeParameters, ref r))
+                return (TType)r;
+            return this.OnMakeGenericType(typeParameters);
+        }
+
+        public TType MakeGenericType(params IType[] typeParameters)
+        {
+            return this.MakeGenericType(typeParameters.ToCollection());
+        }
+
+        #endregion
+
+        #region IGenericType Members
+
+        public bool IsGenericTypeDefinition
+        {
+            get { return this.IsGenericType; }
+        }
+
+        public bool ContainsGenericParameters
+        {
+            get { return this.ContainsGenericParameters(); }
+        }
+
+        public ILockedTypeCollection GenericParameters
+        {
+            get
+            {
+                if (this.genericParameters == null)
+                    this.genericParameters = new GenericParameterCollection(this);
+                return this.genericParameters;
+            }
+        }
+
+        IGenericType IGenericType.MakeGenericType(ITypeCollectionBase typeParameters)
+        {
+            return this.MakeGenericType(typeParameters);
+        }
+
+        IGenericType IGenericType.MakeGenericType(params IType[] typeParameters)
+        {
+            return this.MakeGenericType(typeParameters);
+        }
+
+        public IGenericType MakeVerifiedGenericType(ITypeCollection typeParameters)
+        {
+            IType r = null;
+            if (!this.IsGenericTypeDefinition)
+                throw new System.InvalidOperationException();
+            if (typeParameters.Count != this.GenericParameters.Count)
+                throw new ArgumentException("typeParameters");
+            if (this.ContainsGenericType(typeParameters, ref r))
+                return (TType)r;
+            return this.OnMakeGenericType(typeParameters);
+        }
+
+        public void ReverifyTypeParameters()
+        {
+            throw new InvalidOperationException(Resources.TypeConstraintFailure_GenericTypeDefinition);
+        }
+
+        #endregion
+
+        protected virtual IIntermediateGenericParameterDictionary<IGenericTypeParameter<TType>, IIntermediateGenericTypeParameter<TType, TIntermediateType>, TType, TIntermediateType> InitializeTypeParameters()
+        {
+            return new TypeParameterDictionary(this);
+        }
+
+        private bool ContainsGenericType(ITypeCollectionBase typeParameters, ref IType r)
+        {
+            if (this.genericCache == null)
+                return false;
+            var fd = this.genericCache.Keys.FirstOrDefault(itc => itc.SequenceEqual(typeParameters));
+            if (fd == null)
+                return false;
+            r = this.genericCache[fd];
+            return true;
+        }
+        /// <summary>
+        /// Obtains the <typeparamref name="TType"/> relative to the
+        /// <paramref name="typeParameters"/> provided.
+        /// </summary>
+        /// <param name="typeParameters">The <see cref="IType"/>
+        /// series from which to create the generic type.</param>
+        /// <returns>A <typeparamref name="TType"/>
+        /// instance which replaces the type-parameters
+        /// contained within the <see cref="IntermediateGenericType{TType, TIntermediateType}"/>.</returns>
+        /// <remarks>Performs no type-parameter check.</remarks>
+        protected abstract TType OnMakeGenericType(ITypeCollectionBase typeParameters);
+
+        protected override string OnGetName()
+        {
+            return base.OnGetName();
+        }
+
+        /// <summary>
+        /// Disposes the <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>
+        /// and <paramref name="dispose"/>s the managed data as needed.
+        /// </summary>
+        /// <param name="dispose">whether to dispose all data, including the managed data (true), or just the
+        /// unmanaged data (false).</param>
+        protected override void Disposed(bool dispose)
+        {
+            try
+            {
+                if (genericCache != null)
+                {
+                    this.genericCache.Values.OnAllP(q => q.Dispose());
+                    this.genericCache.Clear();
+                    this.genericCache = null;
+                }
+                if (this.genericParameters != null)
+                {
+                    this.genericParameters.Dispose();
+                    this.genericParameters = null;
+                }
+                if (this.typeParameters != null)
+                {
+                    this.typeParameters.Dispose();
+                    this.typeParameters = null;
+                }
+            }
+            finally
+            {
+                base.Disposed(dispose);
+            }
+        }
+
+        /// <summary>
+        /// Determines whether the type-parameters of the generic type have
+        /// been instantiated yet.
+        /// </summary>
+        protected bool TypeParametersInitialized
+        {
+            get
+            {
+                return this.typeParameters != null;
+            }
+        }
+
+
+        #region _IGenericTypeRegistrar Members
+
+        public void RegisterGenericType(IGenericType targetType, ITypeCollectionBase typeParameters)
+        {
+            if (this.genericCache == null)
+                this.genericCache = new Dictionary<ITypeCollectionBase, TType>();
+            IType required = null;
+            if (this.ContainsGenericType(typeParameters, ref required))
+                return;
+            genericCache.Add(typeParameters, (TType)targetType);
+        }
+
+        public void UnregisterGenericType(ITypeCollectionBase typeParameters)
+        {
+            if (this.genericCache == null)
+                return;
+            ITypeCollectionBase match = null;
+            foreach (var itc in this.genericCache.Keys)
+                if (itc.SequenceEqual(typeParameters))
+                {
+                    match = itc;
+                    break;
+                }
+            if (match == null)
+                return;
+            genericCache.Remove(match);
+            if (match is ILockedTypeCollection)
+                ((ILockedTypeCollection)(match)).Dispose();
+            else if (match is ITypeCollection)
+                try
+                {
+                    ((ITypeCollection)(match)).Clear();
+                }
+                catch (NotSupportedException) { }
+        }
+
+        #endregion
+
+        internal void OnRearranged(GenericParameterMovedEventArgs e)
+        {
+            OnRearrangedInner(e.From, e.To);
+        }
+
+        internal virtual void OnRearrangedInner(int from, int to)
+        {
+            if (this.genericCache == null)
+                return;
+            int gpC = this.GenericParameters.Count;
+            int baseLine = (gpC - this.TypeParameters.Count);
+            int realFrom = baseLine + from;
+            int realTo = baseLine + to;
+            foreach (var element in this.genericCache.Values.Cast<_IGenericType>())
+                element.PositionalShift(realFrom, realTo);
+        }
+
+
+        #region _IIntermediateGenericType Members
+
+        void _IIntermediateGenericType.Rearranged(int from, int to)
+        {
+            this.OnRearrangedInner(from, to);
+        }
+
+        #endregion
+    }
+}

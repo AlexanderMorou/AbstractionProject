@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{161EAA8C-20C6-4B82-925A-4B8B112910AB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AllenCopeland.Abstraction.Slf</RootNamespace>
+    <AssemblyName>_abs.slf.typesystems.abstract</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Allen Copeland.pfx</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <DocumentationFile>bin\Debug\_abs.slf.typesystems.abstract.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\_abs.slf.typesystems.abstract.xml</DocumentationFile>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <DocumentationFile>bin\Debug\_abs.slf.typesystems.abstract.xml</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\_abs.slf.typesystems.abstract.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <DocumentationFile>bin\Debug\_abs.slf.typesystems.abstract.xml</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\_abs.slf.typesystems.abstract.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Abstract\AbstractGateway.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\AmbiguousType.cs" />
+    <Compile Include="Abstract\AnonymousTypeDisplayStyle.cs" />
+    <Compile Include="Abstract\AnonymousTypeMember.cs" />
+    <Compile Include="Abstract\AnonymousTypePatternAid.cs" />
+    <Compile Include="Abstract\AssemblyWorkspace+GroupedTypeDictionary{T}+KeysCollection.cs" />
+    <Compile Include="Abstract\AssemblyWorkspace+GroupedTypeDictionary{T}+ValuesCollection.cs" />
+    <Compile Include="Abstract\AssemblyWorkspace+GroupedTypeDictionary{T}.cs" />
+    <Compile Include="Abstract\AssemblyWorkspace+ReferenceCollection.cs" />
+    <Compile Include="Abstract\AssemblyWorkspace+CombinedNamespace.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Abstract\AssemblyWorkspace+CombinedNamespaceDictionary+KeysCollection.cs" />
+    <Compile Include="Abstract\AssemblyWorkspace+CombinedNamespaceDictionary+ValuesCollection.cs" />
+    <Compile Include="Abstract\AssemblyWorkspace+CombinedNamespaceDictionary.cs" />
+    <Compile Include="Abstract\AssemblyWorkspace+SpecificTypeDictionaries.cs" />
+    <Compile Include="Abstract\AssemblyWorkspace+FullTypesMasterDictionary.cs" />
+    <Compile Include="Abstract\AssemblyWorkspace.cs" />
+    <Compile Include="Abstract\CultureIdentifier.cs" />
+    <Compile Include="Abstract\CultureIdentifiers+CountryRegions.cs" />
+    <Compile Include="Abstract\CultureIdentifiers+CultureCodes.cs" />
+    <Compile Include="Abstract\CultureIdentifiers+IDs.cs" />
+    <Compile Include="Abstract\CultureIdentifiers+LocalizedNames.cs" />
+    <Compile Include="Abstract\CultureIdentifiers.cs" />
+    <Compile Include="Abstract\CultureIdentifierTypeConverter.cs" />
+    <Compile Include="Abstract\DeclarationBase.cs" />
+    <Compile Include="Abstract\DeclarationDictionaryBase{TItem}.cs" />
+    <Compile Include="Abstract\FullDeclarationDictionaryBase{TMItem}.cs" />
+    <Compile Include="Abstract\GenericParameterData.cs" />
+    <Compile Include="Abstract\GenericParameterDictionaryBase{TGenericParameter, TParent}.cs" />
+    <Compile Include="Abstract\GenericTypeParameterSpecialConstraint.cs" />
+    <Compile Include="Abstract\GroupedDeclarationDictionaryBase{TItem, TMItem}.cs" />
+    <Compile Include="Abstract\IAmbiguousType.cs" />
+    <Compile Include="Abstract\IAnonymousType.cs" />
+    <Compile Include="Abstract\IAnonymousTypePatternAid.cs" />
+    <Compile Include="Abstract\IArrayType.cs" />
+    <Compile Include="Abstract\IAssembly.cs" />
+    <Compile Include="Abstract\IAssemblyInformation.cs" />
+    <Compile Include="Abstract\IAssemblyReferences.cs" />
+    <Compile Include="Abstract\IAssemblyWorkspace.cs" />
+    <Compile Include="Abstract\IClassType.cs" />
+    <Compile Include="Abstract\IClassTypeDictionary.cs" />
+    <Compile Include="Abstract\ICoercibleType.cs" />
+    <Compile Include="Abstract\ICoercibleType`1.cs" />
+    <Compile Include="Abstract\ICoercibleType`2.cs" />
+    <Compile Include="Abstract\ICreatableType.cs" />
+    <Compile Include="Abstract\ICultureIdentifier.cs" />
+    <Compile Include="Abstract\ICustomAttributeCollection.cs" />
+    <Compile Include="Abstract\ICustomAttributedDeclaration.cs" />
+    <Compile Include="Abstract\ICustomAttributeInstance.cs" />
+    <Compile Include="Abstract\IDeclaration.cs" />
+    <Compile Include="Abstract\IDeclarations.cs" />
+    <Compile Include="Abstract\IDeclarations{TItem}.cs" />
+    <Compile Include="Abstract\IDelegateType.cs" />
+    <Compile Include="Abstract\IDelegateTypeDictionary.cs" />
+    <Compile Include="Abstract\IEnumType.cs" />
+    <Compile Include="Abstract\IEnumTypeDictionary.cs" />
+    <Compile Include="Abstract\IEventParent.cs" />
+    <Compile Include="Abstract\IEventSignatureParent.cs" />
+    <Compile Include="Abstract\IEventSignatureParent`2.cs" />
+    <Compile Include="Abstract\IEventSignatureParent`3.cs" />
+    <Compile Include="Abstract\IFieldParent.cs" />
+    <Compile Include="Abstract\IFullDeclarationDictionary.cs" />
+    <Compile Include="Abstract\IFullTypeDictionary.cs" />
+    <Compile Include="Abstract\IGenericParameter.cs" />
+    <Compile Include="Abstract\IGenericParameterParent.cs" />
+    <Compile Include="Abstract\IGenericParameterDictionary.cs" />
+    <Compile Include="Abstract\IGenericTestCaseParameter.cs" />
+    <Compile Include="Abstract\IGenericType.cs" />
+    <Compile Include="Abstract\IGenericTypeParameter.cs" />
+    <Compile Include="Abstract\IGenericType{TType}.cs" />
+    <Compile Include="Abstract\IGroupedDeclarationDictionary.cs" />
+    <Compile Include="Abstract\IIndexerParent.cs" />
+    <Compile Include="Abstract\IIndexerParent`2.cs" />
+    <Compile Include="Abstract\IIndexerSignatureParent.cs" />
+    <Compile Include="Abstract\IIndexerSignatureParent`2.cs" />
+    <Compile Include="Abstract\IInstantiableType.cs" />
+    <Compile Include="Abstract\IInstantiableType`7.cs" />
+    <Compile Include="Abstract\IInterfaceType.cs" />
+    <Compile Include="Abstract\IInterfaceTypeDictionary.cs" />
+    <Compile Include="Abstract\ILockedTypeCollection.cs" />
+    <Compile Include="Abstract\IMethodParent.cs" />
+    <Compile Include="Abstract\IMethodParent`2.cs" />
+    <Compile Include="Abstract\INamespaceDictionary.cs" />
+    <Compile Include="Abstract\INamespaceDeclaration.cs" />
+    <Compile Include="Abstract\INamespaceParent.cs" />
+    <Compile Include="Abstract\IPropertyParentType.cs" />
+    <Compile Include="Abstract\IPropertySignatureParentType.cs" />
+    <Compile Include="Abstract\IReferenceType.cs" />
+    <Compile Include="Abstract\IScopedDeclaration.cs" />
+    <Compile Include="Abstract\IStructInterfaceMapping.cs" />
+    <Compile Include="Abstract\IStructType.cs" />
+    <Compile Include="Abstract\IStructTypeDictionary.cs" />
+    <Compile Include="Abstract\IType.cs" />
+    <Compile Include="Abstract\ITypeCollection.cs" />
+    <Compile Include="Abstract\ITypeCollectionBase.cs" />
+    <Compile Include="Abstract\ITypeParent.cs" />
+    <Compile Include="Abstract\IType{TType}.cs" />
+    <Compile Include="Abstract\LockedTypeCollection.cs" />
+    <Compile Include="Abstract\Members\ConstructorCascadeTarget.cs" />
+    <Compile Include="Abstract\Members\EventSignatureSource.cs" />
+    <Compile Include="Abstract\Members\ExtendedSignatureData.cs" />
+    <Compile Include="Abstract\Members\ExtendedSignaturesData.cs" />
+    <Compile Include="Abstract\Members\IBinaryOperatorCoercionMember.cs" />
+    <Compile Include="Abstract\Members\IBinaryOperatorCoercionMemberDictionary.cs" />
+    <Compile Include="Abstract\Members\IClassConstructorMember.cs" />
+    <Compile Include="Abstract\Members\IClassEventMember.cs" />
+    <Compile Include="Abstract\Members\IClassFieldMember.cs" />
+    <Compile Include="Abstract\Members\IClassIndexerMember.cs" />
+    <Compile Include="Abstract\Members\IClassInterfaceMapping.cs" />
+    <Compile Include="Abstract\Members\IClassMethodMember.cs" />
+    <Compile Include="Abstract\Members\IClassPropertyMember.cs" />
+    <Compile Include="Abstract\Members\IClassPropertyMethodMember.cs" />
+    <Compile Include="Abstract\Members\ICoercionMember.cs" />
+    <Compile Include="Abstract\Members\IConstructorMember.cs" />
+    <Compile Include="Abstract\Members\IConstructorMembers.cs" />
+    <Compile Include="Abstract\Members\IConstructorMember`2.cs" />
+    <Compile Include="Abstract\Members\IConstructorParameterMember.cs" />
+    <Compile Include="Abstract\Members\IDelegateTypeParameterMember.cs" />
+    <Compile Include="Abstract\Members\IDelegateTypeParameterMembers.cs" />
+    <Compile Include="Abstract\Members\IEnumFieldMember.cs" />
+    <Compile Include="Abstract\Members\IEventMember.cs" />
+    <Compile Include="Abstract\Members\IEventMemberDictionary.cs" />
+    <Compile Include="Abstract\Members\IEventMemberSignatureType.cs" />
+    <Compile Include="Abstract\Members\IEventParameterMember`2.cs" />
+    <Compile Include="Abstract\Members\IEventSignatureMember.cs" />
+    <Compile Include="Abstract\Members\IEventSignatureMemberDictionary.cs" />
+    <Compile Include="Abstract\Members\IEventSignatureParameterMember`2.cs" />
+    <Compile Include="Abstract\Members\IExtendedInstanceMember.cs" />
+    <Compile Include="Abstract\Members\IFieldMember.cs" />
+    <Compile Include="Abstract\Members\IFieldMembers.cs" />
+    <Compile Include="Abstract\Members\IFilteredSignatureMemberDictionary.cs" />
+    <Compile Include="Abstract\Members\IFullMemberDictionary.cs" />
+    <Compile Include="Abstract\Members\IGenericParameterConstructorMember.cs" />
+    <Compile Include="Abstract\Members\IGenericParameterConstructorMembers.cs" />
+    <Compile Include="Abstract\Members\IGenericParameterEventMember.cs" />
+    <Compile Include="Abstract\Members\IGenericParameterEventMembers.cs" />
+    <Compile Include="Abstract\Members\IGenericParameterIndexerMember.cs" />
+    <Compile Include="Abstract\Members\IGenericParameterIndexerMembers.cs" />
+    <Compile Include="Abstract\Members\IGenericParameterMethodMember.cs" />
+    <Compile Include="Abstract\Members\IGenericParameterMethodMembers.cs" />
+    <Compile Include="Abstract\Members\IGenericParameterPropertyMember.cs" />
+    <Compile Include="Abstract\Members\IGenericParameterPropertyMembers.cs" />
+    <Compile Include="Abstract\Members\IGroupedMemberDictionary.cs" />
+    <Compile Include="Abstract\Members\IIndexerMember.cs" />
+    <Compile Include="Abstract\Members\IIndexerMemberDictionary.cs" />
+    <Compile Include="Abstract\Members\IIndexerParamMember`2.cs" />
+    <Compile Include="Abstract\Members\IIndexerSignatureMember.cs" />
+    <Compile Include="Abstract\Members\IIndexerSignatureMemberDictionary.cs" />
+    <Compile Include="Abstract\Members\IIndexerSignatureParameterMember`2.cs" />
+    <Compile Include="Abstract\Members\IInstanceMember.cs" />
+    <Compile Include="Abstract\Members\IInterfaceEventMember.cs" />
+    <Compile Include="Abstract\Members\IInterfaceIndexerMember.cs" />
+    <Compile Include="Abstract\Members\IInterfaceMemberMapping`10.cs" />
+    <Compile Include="Abstract\Members\IInterfaceMethodMember.cs" />
+    <Compile Include="Abstract\Members\IInterfacePropertyMember.cs" />
+    <Compile Include="Abstract\Members\IMember.cs" />
+    <Compile Include="Abstract\Members\IMemberParent.cs" />
+    <Compile Include="Abstract\Members\IMembers.cs" />
+    <Compile Include="Abstract\Members\IMethodMember.cs" />
+    <Compile Include="Abstract\Members\IMethodMembers.cs" />
+    <Compile Include="Abstract\Members\IMethodParameterMember.cs" />
+    <Compile Include="Abstract\Members\IMethodSignatureGenericTypeParameterMember.cs" />
+    <Compile Include="Abstract\Members\IMethodSignatureMember.cs" />
+    <Compile Include="Abstract\Members\IMethodSignatureMemberDictionary.cs" />
+    <Compile Include="Abstract\Members\IMethodSignatureParameterMember.cs" />
+    <Compile Include="Abstract\Members\IMethodSignatureParent.cs" />
+    <Compile Include="Abstract\Members\IParameterMember.cs" />
+    <Compile Include="Abstract\Members\IParameterMemberDictionary.cs" />
+    <Compile Include="Abstract\Members\IParameterParent.cs" />
+    <Compile Include="Abstract\Members\IPropertyMember.cs" />
+    <Compile Include="Abstract\Members\IPropertyMembers.cs" />
+    <Compile Include="Abstract\Members\IPropertyMethodMember.cs" />
+    <Compile Include="Abstract\Members\IPropertySignatureMember.cs" />
+    <Compile Include="Abstract\Members\IPropertySignatureMemberDictionary.cs" />
+    <Compile Include="Abstract\Members\ISignatureMember.cs" />
+    <Compile Include="Abstract\Members\ISignatureMemberDictionary.cs" />
+    <Compile Include="Abstract\Members\ISignatureParameterMember.cs" />
+    <Compile Include="Abstract\Members\ISignatureParent.cs" />
+    <Compile Include="Abstract\Members\IStructConstructorMember.cs" />
+    <Compile Include="Abstract\Members\IStructEventMember.cs" />
+    <Compile Include="Abstract\Members\IStructFieldMember.cs" />
+    <Compile Include="Abstract\Members\IStructIndexerMember.cs" />
+    <Compile Include="Abstract\Members\IStructMethodMember.cs" />
+    <Compile Include="Abstract\Members\IStructPropertyMember.cs" />
+    <Compile Include="Abstract\Members\IStructPropertyMethodMember.cs" />
+    <Compile Include="Abstract\Members\ITypeCoercionMember.cs" />
+    <Compile Include="Abstract\Members\ITypeCoercionMemberDictionary.cs" />
+    <Compile Include="Abstract\Members\ITypeCoercionMemberDictionary`1.cs" />
+    <Compile Include="Abstract\Members\ITypeCoercionMember`1.cs" />
+    <Compile Include="Abstract\Members\IUnaryOperatorCoercionMember.cs" />
+    <Compile Include="Abstract\Members\IUnaryOperatorCoercionMemberDictionary.cs" />
+    <Compile Include="Abstract\Members\IUnaryOperatorCoercionMemberDictionary`1.cs" />
+    <Compile Include="Abstract\Members\IUnaryOperatorCoercionMember`1.cs" />
+    <Compile Include="Abstract\Members\MemberKind.cs" />
+    <Compile Include="Abstract\Members\ParameterDirection.cs" />
+    <Compile Include="Abstract\Members\SignatureData.cs" />
+    <Compile Include="Abstract\Members\SignaturesData.cs" />
+    <Compile Include="Abstract\TypedNameSeries.cs" />
+    <Compile Include="Abstract\Modules\IModule.cs" />
+    <Compile Include="Abstract\Modules\IModuleGlobalField.cs" />
+    <Compile Include="Abstract\Modules\IModuleGlobalFields.cs" />
+    <Compile Include="Abstract\Modules\IModuleGlobalMethod.cs" />
+    <Compile Include="Abstract\Modules\IModuleGlobalMethods.cs" />
+    <Compile Include="Abstract\Modules\IModules.cs" />
+    <Compile Include="Abstract\Modules\ModuleBase.cs" />
+    <Compile Include="Abstract\TypeBase.cs" />
+    <Compile Include="Abstract\TypeBase{TType}.cs" />
+    <Compile Include="Abstract\TypeCollection.cs" />
+    <Compile Include="Abstract\TypedName.cs" />
+    <Compile Include="Abstract\TypeElementClassification.cs" />
+    <Compile Include="Abstract\TypeExtensions %28Conversions%29.cs" />
+    <Compile Include="Abstract\TypeExtensions.cs" />
+    <Compile Include="Abstract\TypeKind.cs" />
+    <Compile Include="Abstract\TypeKindGeneric.cs" />
+    <Compile Include="Abstract\AssemblyBase.cs" />
+    <Compile Include="_Internal\Abstract\LockedBinaryOperatorCoercionMembers{TType}.cs" />
+    <Compile Include="_Internal\Abstract\LockedDeclarationsBase`1.cs" />
+    <Compile Include="_Internal\Abstract\LockedFieldMembersBase`2.cs" />
+    <Compile Include="_Internal\Abstract\LockedFullDeclarations{TMItem}+KeysCollection.cs" />
+    <Compile Include="_Internal\Abstract\LockedFullDeclarations{TMItem}+ValuesCollection.cs" />
+    <Compile Include="_Internal\Abstract\LockedFullDeclarations{TMItem}.cs" />
+    <Compile Include="_Internal\Abstract\LockedFullMembersBase.cs" />
+    <Compile Include="_Internal\Abstract\LockedFullTypes.cs" />
+    <Compile Include="_Internal\Abstract\LockedGenericParameters`2.cs" />
+    <Compile Include="_Internal\Abstract\LockedGroupedDeclarationsBase{3}+KeysCollection.cs" />
+    <Compile Include="_Internal\Abstract\LockedGroupedDeclarationsBase{3}+ValuesCollection.cs" />
+    <Compile Include="_Internal\Abstract\LockedGroupedDeclarationsBase{3}.cs" />
+    <Compile Include="_Internal\Abstract\LockedGroupedMembersBase{3}.cs" />
+    <Compile Include="_Internal\Abstract\LockedMembersBase`2.cs" />
+    <Compile Include="_Internal\Abstract\LockedParameterMembersBase`2.cs" />
+    <Compile Include="_Internal\Abstract\LockedPropertyMembersBase`2.cs" />
+    <Compile Include="_Internal\Abstract\LockedTypeCoercionMemberDictionary{TCoercionParent}.cs" />
+    <Compile Include="_Internal\Abstract\LockedUnaryOperatorCoercionMembers{TType}.cs" />
+    <Compile Include="_Internal\Abstract\Members\BinaryOperatorCoercionMemberBase`1.cs" />
+    <Compile Include="_Internal\Abstract\Members\ConstructorMemberBase`2.cs" />
+    <Compile Include="_Internal\Abstract\Members\IndexerMemberBase.cs" />
+    <Compile Include="_Internal\Abstract\Members\EventMemberBase`2.cs" />
+    <Compile Include="_Internal\Abstract\Members\EventSignatureMemberBase`2.cs" />
+    <Compile Include="_Internal\Abstract\Members\EventSignatureMemberBase`3.cs" />
+    <Compile Include="_Internal\Abstract\Members\FieldMemberBase`2.cs" />
+    <Compile Include="_Internal\Abstract\Members\FieldMembersBase`2.cs" />
+    <Compile Include="_Internal\Abstract\Members\FullMembersBase`2.cs" />
+    <Compile Include="_Internal\Abstract\Members\GenericParameterConstructorMemberBase`3.cs" />
+    <Compile Include="_Internal\Abstract\Members\GroupedMembersBase`2.cs" />
+    <Compile Include="_Internal\Abstract\Members\IndexerSignatureMemberBase.cs" />
+    <Compile Include="_Internal\Abstract\Members\MemberBase`1.cs" />
+    <Compile Include="_Internal\Abstract\Members\MemberExtensions.cs" />
+    <Compile Include="_Internal\Abstract\Members\MembersBase`2.cs" />
+    <Compile Include="_Internal\Abstract\Members\MethodMemberBase`2.cs" />
+    <Compile Include="_Internal\Abstract\Members\MethodSignatureMemberBase{2}.cs" />
+    <Compile Include="_Internal\Abstract\Members\MethodSignatureMemberBase{3}.cs" />
+    <Compile Include="_Internal\Abstract\Members\ParameterMemberBase`1.cs" />
+    <Compile Include="_Internal\Abstract\Members\ParameterMembersBase`2.cs" />
+    <Compile Include="_Internal\Abstract\Members\PropertyMemberBase{TProperty, TPropertyParent}.cs" />
+    <Compile Include="_Internal\Abstract\Members\PropertySignatureMemberBase.cs" />
+    <Compile Include="_Internal\Abstract\Members\SignatureMemberBase{3}.cs" />
+    <Compile Include="_Internal\Abstract\Members\TypeCoercionMemberBase`1.cs" />
+    <Compile Include="_Internal\Abstract\Members\TypeCoercionMembers`1.cs" />
+    <Compile Include="_Internal\Abstract\Members\UnaryOperatorCoercionMemberBase{TCoercionParent}.cs" />
+    <Compile Include="_Internal\Abstract\NamespaceCollectionBase.cs" />
+    <Compile Include="_Internal\Abstract\TypeArrayCache.cs" />
+    <Compile Include="_Internal\Abstract\_LockedGroupMembersMasterPass.cs" />
+    <Compile Include="_Internal\Abstract\_LockedRelativeHelper.cs" />
+    <Compile Include="_Internal\_CoreHelperMethods.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Common Utilities.csproj">
+      <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
+      <Name>Common Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Languages\Language Metadata Library\Language Services.csproj">
+      <Project>{41C87F7B-840B-4237-AEED-A471955AB3D7}</Project>
+      <Name>Language Services</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Allen Copeland.pfx" />
+    <None Include="Abstract\Members\Member Abstractions.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>AllenCopeland.Abstraction.Slf.Abstract.Properties</CustomToolNamespace>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,7 @@
+﻿Were it not for the differences between the various type-members, there would 
+be no need to have a struct method, class method, et cetera.
+
+Struct (ValueType) methods cannot be virtual (as they cannot be derived from).
+Interface methods are signature only, and have no accessibility flags defined.
+Enum fields do not have complex initializers, and cannot be of any type other
+than a primitive numeric value.

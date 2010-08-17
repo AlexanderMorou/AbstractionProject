@@ -1,0 +1,33 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
+ /*---------------------------------------------------------------------\
+ | Copyright © 2009 Allen Copeland Jr.                                  |
+ |----------------------------------------------------------------------|
+ | The Abstraction Project's code is provided under a contract-release  |
+ | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+ \-------------------------------------------------------------------- */
+
+namespace AllenCopeland.Abstraction.Slf.Oil.Members
+{
+    /// <summary>
+    /// Defines properties and methods for working 
+    /// with an intermediate instance member.
+    /// </summary>
+    public interface IIntermediateInstanceMember : 
+        IIntermediateMember,
+        IInstanceMember
+    {
+        /// <summary>
+        /// Returns/sets whether the <see cref="IIntermediateInstanceMember"/>
+        /// hides the original definition completely.
+        /// </summary>
+        new bool IsHideBySignature { get; set; }
+        /// <summary>
+        /// Returns/sets whether the <see cref="IIntermediateInstanceMember"/> is
+        /// static.
+        /// </summary>
+        new bool IsStatic { get; set; }
+    }
+}
