@@ -124,16 +124,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return paramType;
         }
 
-        protected override void RemoveImpl(int index)
+        protected override bool RemoveImpl(int index)
         {
             this[index].Value.Renamed -= method_Renamed;
-            base.RemoveImpl(index);
+            return base.RemoveImpl(index);
         }
 
-        protected override void RemoveImpl(string key)
+        protected override bool RemoveImpl(string key)
         {
             this[key].Renamed -= method_Renamed;
-            base.RemoveImpl(key);
+            return base.RemoveImpl(key);
         }
 
         #region IIntermediateMethodSignatureMemberDictionary<TSignatureParameter,TIntermediateSignatureParameter,TSignature,TIntermediateSignature,TSignatureParent,TIntermediateSignatureParent> Members

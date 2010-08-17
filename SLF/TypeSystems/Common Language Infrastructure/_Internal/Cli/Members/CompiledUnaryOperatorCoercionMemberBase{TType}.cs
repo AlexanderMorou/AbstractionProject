@@ -113,7 +113,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public override string UniqueIdentifier
         {
-            get { throw new NotImplementedException(); }
+            get {
+                return string.Format("{0} {1}({2})", this.ResultedType, this.Operator, this.Parent);
+            }
         }
     }
 }

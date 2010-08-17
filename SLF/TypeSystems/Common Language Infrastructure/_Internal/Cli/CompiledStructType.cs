@@ -108,7 +108,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// with the <paramref name="info"/> provided.</returns>
         protected override IStructEventMember GetEvent(EventInfo info)
         {
-            throw new NotImplementedException();
+            return new EventMember(info, this);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// with the <paramref name="info"/> provided.</returns>
         protected override IStructIndexerMember GetIndexer(PropertyInfo info)
         {
-            throw new NotImplementedException();
+            return new IndexerMember(info, this);
         }
 
         #region ICompiledStructType Members

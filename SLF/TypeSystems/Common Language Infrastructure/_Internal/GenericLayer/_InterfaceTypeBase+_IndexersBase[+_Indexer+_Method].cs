@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
                 public override string UniqueIdentifier
                 {
-                    get { return this.Name; }
+                    get { return string.Format("{0}[{1}]", this.Name, string.Join(",", this.Parameters.Values)); }
                 }
                 internal protected class _MethodMember :
                     _MethodsBase._Method,

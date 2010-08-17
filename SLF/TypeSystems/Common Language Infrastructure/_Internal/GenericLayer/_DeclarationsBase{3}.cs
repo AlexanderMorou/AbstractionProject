@@ -53,6 +53,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         {
             get
             {
+                if (this.Original == null)
+                    return 0;
                 return this.Original.Count;
             }
         }
@@ -125,5 +127,85 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return -1;
         }
 
+        public override IEnumerator<KeyValuePair<string, TDeclarationSpecific>> GetEnumerator()
+        {
+            var kE = this.Keys.GetEnumerator();
+            var vE = this.Values.GetEnumerator();
+            while (kE.MoveNext())
+            {
+                vE.MoveNext();
+                yield return new KeyValuePair<string, TDeclarationSpecific>(kE.Current, vE.Current);
+            }
+            kE.Dispose();
+            vE.Dispose();
+        }
+
+        public override KeyValuePair<string, TDeclarationSpecific> this[int index]
+        {
+            get
+            {
+                return new KeyValuePair<string, TDeclarationSpecific>(this.Keys[index], this.Values[index]);
+            }
+        }
+
+        public override KeyValuePair<string, TDeclarationSpecific>[] ToArray()
+        {
+            return Enumerable.ToArray(this);
+        }
+
+        public override TDeclarationSpecific this[string key]
+        {
+            get
+            {
+                return OnGetThis(key);
+            }
+            protected set
+            {
+                throw new NotSupportedException();
+            }
+        }
+        public override bool ContainsKey(string key)
+        {
+            return this.Keys.Contains(key);
+        }
+
+        public override bool Contains(KeyValuePair<string, TDeclarationSpecific> item)
+        {
+            if (this.Keys.Contains(item.Key))
+                return this.Values[this.Keys.GetIndexOf(item.Key)] == item.Value;
+            return false;
+        }
+
+        protected override void Add(string key, TDeclarationSpecific value)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override TDeclarationSpecific OnGetThis(string key)
+        {
+            if (this.ContainsKey(key))
+                return this.Values[this.Keys.GetIndexOf(key)];
+            throw new KeyNotFoundException(key);
+        }
+
+        protected override bool RemoveImpl(int index)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override bool RemoveImpl(string key)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void Clear()
+        {
+            throw new NotSupportedException();
+        }
+
+        public override void CopyTo(KeyValuePair<string, TDeclarationSpecific>[] array, int arrayIndex)
+        {
+            this.ToArray().CopyTo(array, arrayIndex);
+        }
     }
 }

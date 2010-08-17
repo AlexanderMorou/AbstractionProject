@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     partial class CompiledStructType
     {
-        private class MethodMember :
+        internal class MethodMember :
             CompiledMethodMemberBase<IStructMethodMember, IStructType>,
             IStructMethodMember,
             ICompiledMethodMember

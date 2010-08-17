@@ -282,12 +282,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 yield break;
             }
 
-            protected override void RemoveImpl(int index)
+            protected override bool RemoveImpl(int index)
             {
                 throw new NotSupportedException();
             }
 
-            protected override void RemoveImpl(string key)
+            protected override bool RemoveImpl(string key)
             {
                 throw new NotSupportedException();
             }

@@ -59,17 +59,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         protected override IFieldMemberDictionary<IStructFieldMember, IStructType> InitializeFields()
         {
-            throw new NotImplementedException();
-        }
-
-        protected override ITypeCoercionMemberDictionary<IStructType> InitializeTypeCoercions()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IUnaryOperatorCoercionMemberDictionary<IStructType> InitializeUnaryOperatorCoercions()
-        {
-            throw new NotImplementedException();
+            return new _FieldMembersBase(this._Members, this.Original.Fields, this);
         }
 
         protected override IStructCtorMember InitializeTypeInitializer(IStructCtorMember original)
@@ -79,7 +69,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         protected override IEventMemberDictionary<IStructEventMember, IStructType> InitializeEvents()
         {
-            throw new NotImplementedException();
+            return new _EventsBase(this._Members, this.Original.Events, this);
+        }
+
+        protected override IIndexerMemberDictionary<IStructIndexerMember, IStructType> InitializeIndexers()
+        {
+            return new _IndexersBase(this._Members, this.Original.Indexers, this);
         }
     }
 }

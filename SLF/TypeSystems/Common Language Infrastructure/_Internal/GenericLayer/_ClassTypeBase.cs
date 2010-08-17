@@ -64,20 +64,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return new _FieldMembersBase(this._Members, this.Original.Fields, this);
         }
 
-        protected override ITypeCoercionMemberDictionary<IClassType> InitializeTypeCoercions()
+        protected override IIndexerMemberDictionary<IClassIndexerMember, IClassType> InitializeIndexers()
         {
-            throw new NotImplementedException();
+            return new _IndexersBase(this._Members, this.Original.Indexers, this);
         }
-
-        protected override IUnaryOperatorCoercionMemberDictionary<IClassType> InitializeUnaryOperatorCoercions()
-        {
-            throw new NotImplementedException();
-        }
-
 
         protected override IEventMemberDictionary<IClassEventMember, IClassType> InitializeEvents()
         {
-            throw new NotImplementedException();
+            return new _EventsBase(this._Members, this.Original.Events, this);
         }
 
         protected override IClassCtorMember InitializeTypeInitializer(IClassCtorMember original)

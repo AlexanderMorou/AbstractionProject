@@ -36,7 +36,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 coercionType = MemberInfo.ReturnType.GetTypeReference();
                 direction = TypeConversionDirection.FromContainingType;
             }
-            
         }
 
         public override TypeConversionRequirement Requirement
