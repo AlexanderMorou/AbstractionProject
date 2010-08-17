@@ -201,7 +201,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         private IIndexerSignatureMemberDictionary<IInterfaceIndexerMember, IInterfaceType> InitializeIndexers()
         {
-            throw new NotImplementedException();
+            return new _IndexersBase(this._Members, this.Original.Indexers, this);
         }
 
         #region IIndexerSignatureParent Members
@@ -232,7 +232,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         private IPropertySignatureMemberDictionary<IInterfacePropertyMember, IInterfaceType> InitializeProperties()
         {
-            throw new NotImplementedException();
+            return new _PropertiesBase(this._Members, this.Original.Properties, this);
         }
 
         #endregion

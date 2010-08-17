@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
     /// contains the original set to reference for generic
     /// instantiations.</typeparam>
     internal abstract class _Types<TType, TTypes> :
-        _GroupedDeclarations<TType, IType, TTypes>
+        _GroupedDeclarations<TType, IGenericType, IType, TTypes>
         where TType :
             class,
             IType<TType>

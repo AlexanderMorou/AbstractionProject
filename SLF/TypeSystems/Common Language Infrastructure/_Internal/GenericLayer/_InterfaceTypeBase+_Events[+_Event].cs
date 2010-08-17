@@ -20,13 +20,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         private class _Events :
             _EventSignatureMembersBase<IInterfaceEventMember, IInterfaceType>
         {
+            private _InterfaceTypeBase _Parent { get { return (_InterfaceTypeBase)base.Parent; } }
             internal _Events(_FullMembersBase master, IEventSignatureMemberDictionary<IInterfaceEventMember, IInterfaceType> originalSet, _InterfaceTypeBase parent)
                 : base(master, originalSet, parent)
             {
             }
             protected override IInterfaceEventMember ObtainWrapper(IInterfaceEventMember item)
             {
-                throw new NotImplementedException();
+                return new _Event(item, this._Parent);
             }
             private class _Event :
                 _EventSignatureMemberBase<IInterfaceEventMember, IInterfaceType>,

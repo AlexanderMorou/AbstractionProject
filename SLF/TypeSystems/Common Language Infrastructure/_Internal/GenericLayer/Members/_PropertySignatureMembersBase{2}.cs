@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             IPropertySignatureParentType<TProperty, TPropertyParent>
     {
         public _PropertySignatureMembersBase(_FullMembersBase master, IPropertySignatureMemberDictionary<TProperty, TPropertyParent> originalSet, TPropertyParent parent)
-            : base(master, originalSet, (IGenericType)parent)
+            : base(master, originalSet, parent)
         {
 
         }

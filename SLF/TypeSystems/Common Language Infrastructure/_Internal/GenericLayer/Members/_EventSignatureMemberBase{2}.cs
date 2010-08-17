@@ -34,5 +34,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         {
             return new _Parameters(this.Original.Parameters, this);
         }
+
     }
 }

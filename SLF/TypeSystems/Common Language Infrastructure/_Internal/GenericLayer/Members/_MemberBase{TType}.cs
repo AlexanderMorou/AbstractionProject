@@ -64,5 +64,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         {
             return this.Original.Name;
         }
+
+        public override string ToString()
+        {
+            return this.UniqueIdentifier;
+        }
     }
 }

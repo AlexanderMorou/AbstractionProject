@@ -199,6 +199,8 @@
     <Compile Include="_Internal\Cli\Members\CompiledBinaryOperatorCoercionMemberBase{TCoercionParent}.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledConstructorMemberBase{TCtor, TCtorParent}.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledEventMemberBase{TEvent, TEventParent}.cs" />
+    <Compile Include="_Internal\Cli\Members\CompiledEventSignatureMemberBase{3}+ParameterMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CompiledEventSignatureMemberBase{3}+ParameterMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledEventSignatureMemberBase{3}.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledFieldMemberBase{TField, TFieldParent}.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledGenericParameterConstructorMemberBase+ParameterDictionary.cs" />
@@ -239,7 +241,14 @@
     <Compile Include="_Internal\Cli\_ICompiledAssembly.cs" />
     <Compile Include="_Internal\Cli\_ICompiledNamespaceDeclarations.cs" />
     <Compile Include="_Internal\Cli\_ICompiledNamespaceParent.cs" />
+    <Compile Include="_Internal\GenericLayer\Members\_IndexerSignatureMembersBase{2}.cs" />
+    <Compile Include="_Internal\GenericLayer\_GenericInstantiableTypeBase{7}+_BinaryOperatorsBase[+_BinaryOperator].cs" />
+    <Compile Include="_Internal\GenericLayer\_GroupedMasterBase{TDeclaration}+DictionaryEnumerator.cs" />
+    <Compile Include="_Internal\GenericLayer\_GroupedMasterbase{TDeclaration}._KC.cs" />
+    <Compile Include="_Internal\GenericLayer\_GroupedMasterbase{TDeclaration}._VC.cs" />
+    <Compile Include="_Internal\GenericLayer\_InterfaceTypeBase+_IndexersBase[+_Indexer+_Method].cs" />
     <Compile Include="_Internal\GenericLayer\_IGenericType.cs" />
+    <Compile Include="_Internal\GenericLayer\_InterfaceTypeBase+_Properties[+_Property+_Method].cs" />
     <Compile Include="_Internal\GenericLayer\_StructTypeBase+_PropertiesBase[+_PropertyBase].cs" />
     <Compile Include="_Internal\GenericLayer\IGeneralParamsParent{TParam, TParent}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_ConstructorBase{2}+Parameters.cs" />

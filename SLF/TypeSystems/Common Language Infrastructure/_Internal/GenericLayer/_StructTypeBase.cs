@@ -62,11 +62,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             throw new NotImplementedException();
         }
 
-        protected override IBinaryOperatorCoercionMemberDictionary<IStructType> InitializeBinaryOperatorCoercions()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override ITypeCoercionMemberDictionary<IStructType> InitializeTypeCoercions()
         {
             throw new NotImplementedException();
@@ -80,6 +75,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         protected override IStructCtorMember InitializeTypeInitializer(IStructCtorMember original)
         {
             return new _ConstructorsBase._Constructor(original, this);
+        }
+
+        protected override IEventMemberDictionary<IStructEventMember, IStructType> InitializeEvents()
+        {
+            throw new NotImplementedException();
         }
     }
 }

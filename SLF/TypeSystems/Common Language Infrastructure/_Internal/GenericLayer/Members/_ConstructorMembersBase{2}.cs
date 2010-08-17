@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             ICreatableType<TCtor, TType>
     {
         internal _ConstructorMembersBase(_FullMembersBase fullMembers, IConstructorMemberDictionary<TCtor, TType> originalSet, TType parent)
-            : base(fullMembers, originalSet, (IGenericType)parent)
+            : base(fullMembers, originalSet, parent)
         {
 
         }

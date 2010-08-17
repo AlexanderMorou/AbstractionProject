@@ -149,21 +149,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
 
         public static AccessLevelModifiers GetAccessModifiers(this EventInfo @event)
         {
-            MethodInfo firstMethod = @event.GetAddMethod(true);
-            if (firstMethod == null)
-                firstMethod = @event.GetRemoveMethod(true);
-            if (firstMethod == null)
-                firstMethod = @event.GetRaiseMethod(true);
-            if (firstMethod == null)
-            {
-                var otherMethods = @event.GetOtherMethods(true);
-                foreach (var oMeth in otherMethods)
-                    if (firstMethod == null)
-                    {
-                        firstMethod = oMeth;
-                        break;
-                    }
-            }
+            MethodInfo firstMethod = GetEventFirstMethod(@event);
             if (firstMethod.IsPublic)
                 return AccessLevelModifiers.Public;
             else if (firstMethod.IsAssembly)
@@ -178,6 +164,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
                 //Special case, not available in C# or VB.
                 return AccessLevelModifiers.InternalProtected;
             return AccessLevelModifiers.Private;
+        }
+
+        internal static MethodInfo GetEventFirstMethod(this EventInfo @event)
+        {
+            MethodInfo result = @event.GetAddMethod(true);
+            if (result == null)
+                result = @event.GetRemoveMethod(true);
+            if (result == null)
+                result = @event.GetRaiseMethod(true);
+            if (result == null)
+            {
+                var otherMethods = @event.GetOtherMethods(true);
+                foreach (var oMeth in otherMethods)
+                    if (result == null)
+                    {
+                        result = oMeth;
+                        break;
+                    }
+            }
+            return result;
         }
 
         public static AccessLevelModifiers GetAccessModifiers(this MethodBase method)

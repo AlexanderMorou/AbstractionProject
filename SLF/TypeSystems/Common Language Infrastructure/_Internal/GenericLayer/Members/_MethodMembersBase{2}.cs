@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         where TMethodParent :
             IMethodParent<TMethod, TMethodParent>
     {
-        protected _MethodMembersBase(_FullMembersBase master, IMethodMemberDictionary<TMethod, TMethodParent> originalSet, IGenericType parent)
+        protected _MethodMembersBase(_FullMembersBase master, IMethodMemberDictionary<TMethod, TMethodParent> originalSet, TMethodParent parent)
             : base(master, originalSet, parent)
         {
         }
