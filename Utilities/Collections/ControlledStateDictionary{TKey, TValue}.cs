@@ -324,18 +324,18 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// </summary>
         /// <param name="index">A zero-based index which designates the <see cref="KeyValuePair{TKey, TItem}"/> to 
         /// remove from the <see cref="ControlledStateDictionary{TKey, TValue}"/></param>
-        protected virtual void RemoveImpl(int index)
+        protected virtual bool RemoveImpl(int index)
         {
-            this.RemoveImpl(this.Keys[index]);
+            return this.RemoveImpl(this.Keys[index]);
         }
 
         /// <summary>
         /// Removes the element under the provided <paramref name="key"/>
         /// </summary>
         /// <param name="key">The <typeparamref name="TKey"/> of the element to remove.</param>
-        protected virtual void RemoveImpl(TKey key)
+        protected virtual bool RemoveImpl(TKey key)
         {
-            this.dictionaryCopy.Remove(key);
+            return this.dictionaryCopy.Remove(key);
         }
 
         /// <summary>

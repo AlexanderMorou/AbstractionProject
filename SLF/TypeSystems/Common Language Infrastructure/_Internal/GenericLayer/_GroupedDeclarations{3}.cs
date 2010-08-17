@@ -68,21 +68,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return false;
         }
 
-        protected override void Add(string key, TDeclarationSpecific value)
-        {
-            throw new NotSupportedException("Immutable");
-        }
-
-        protected override void RemoveImpl(int index)
-        {
-            throw new NotSupportedException("Immutable");
-        }
-
-        protected override bool Remove(string key)
-        {
-            throw new NotSupportedException("Immutable");
-        }
-
         public override TDeclarationSpecific this[string key]
         {
             get
@@ -103,25 +88,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                     throw new ArgumentOutOfRangeException("index");
                 return new KeyValuePair<string, TDeclarationSpecific>(this.Keys[index], this.Values[index]);
             }
-        }
-
-        public override KeyValuePair<string, TDeclarationSpecific>[] ToArray()
-        {
-            return System.Linq.Enumerable.ToArray(this);
-        }
-
-        public override IEnumerator<KeyValuePair<string, TDeclarationSpecific>> GetEnumerator()
-        {
-            for (int i = 0; i < this.Count; i++)
-                yield return new KeyValuePair<string, TDeclarationSpecific>(this.Keys[i], this.Values[i]);
-            yield break;
-        }
-
-        protected override TDeclarationSpecific OnGetThis(string key)
-        {
-            if (!this.Keys.Contains(key))
-                throw new KeyNotFoundException();
-            return this.Values[this.Keys.GetIndexOf(key)];
         }
 
         protected abstract TDeclarationSpecific ObtainWrapper(TDeclarationSpecific item);

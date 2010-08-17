@@ -93,7 +93,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         /// <exception cref="System.NotSupportedException">
         /// The <see cref="LockedDeclarationsBase{TItem}"/> does 
         /// not support modification.</exception>
-        protected override void RemoveImpl(string key)
+        protected override bool RemoveImpl(string key)
         {
             throw new NotSupportedException("Declarations locked.");
         }

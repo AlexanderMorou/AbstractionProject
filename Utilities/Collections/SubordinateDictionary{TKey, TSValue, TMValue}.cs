@@ -115,7 +115,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             this.RefreshCheck();
             if (this.Master != null)
                 this.master.Subordinate_ItemRemoved(this, key);
-            return base.dictionaryCopy.Remove(key);
+            return base.RemoveImpl(key);
         }
 
         /// <summary>

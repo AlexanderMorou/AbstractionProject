@@ -132,7 +132,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// with the <paramref name="info"/> provided.</returns>
         protected override IClassEventMember GetEvent(EventInfo info)
         {
-            throw new NotImplementedException();
+            return new EventMember(info, this);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// with the <paramref name="info"/> provided.</returns>
         protected override IClassIndexerMember GetIndexer(PropertyInfo info)
         {
-            throw new NotImplementedException();
+            return new IndexerMember(info, this);
             //return new IndexerMember();
         }
         #endregion

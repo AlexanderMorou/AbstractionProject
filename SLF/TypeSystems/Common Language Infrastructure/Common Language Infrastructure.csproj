@@ -133,7 +133,9 @@
     <Compile Include="_Internal\Cli\CompiledAssembly+CustomAttributeCollection.cs" />
     <Compile Include="_Internal\Cli\CompiledAssembly.cs" />
     <Compile Include="_Internal\Cli\CompiledClassType+ConstructorMember.cs" />
+    <Compile Include="_Internal\Cli\CompiledClassType+EventMember+MethodMember.cs" />
     <Compile Include="_Internal\Cli\CompiledClassType+FieldMember.cs" />
+    <Compile Include="_Internal\Cli\CompiledClassType+IndexerMember+MethodMember.cs" />
     <Compile Include="_Internal\Cli\CompiledClassType+IndexerMember.cs" />
     <Compile Include="_Internal\Cli\CompiledClassType+MethodMember.cs" />
     <Compile Include="_Internal\Cli\CompiledClassType+PropertyMember.cs" />
@@ -146,8 +148,12 @@
     <Compile Include="_Internal\Cli\CompiledFullTypeDictionary+_VC.cs" />
     <Compile Include="_Internal\Cli\CompiledFullTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\CompiledInterfaceType+IndexerMember+MethodMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledInterfaceType+IndexerMember+ParameterMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledInterfaceType+IndexerMember+ParameterMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\CompiledInterfaceType+IndexerMember+ParameterMember.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledInterfaceType+IndexerMember+ParameterMemberDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="_Internal\Cli\CompiledInterfaceType+IndexerMember.cs" />
     <Compile Include="_Internal\Cli\CompiledInterfaceType+PropertyMember+PropertyMethod.cs" />
     <Compile Include="_Internal\Cli\CompiledInterfaceType+PropertyMember.cs" />
@@ -183,6 +189,11 @@
     <Compile Include="_Internal\Cli\CompiledTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\CompiledTypeGenericParameter.cs" />
     <Compile Include="_Internal\Cli\CompiledTypes{TType}.cs" />
+    <Compile Include="_Internal\Cli\CompiledStructType+EventMember+MethodMember.cs" />
+    <Compile Include="_Internal\Cli\CompiledStructType+IndexerMember+MethodMember.cs" />
+    <Compile Include="_Internal\Cli\CompiledStructType+IndexerMember.cs" />
+    <Compile Include="_Internal\Cli\LockedIndexerMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\LockedEventMembersBase{2}.cs" />
     <Compile Include="_Internal\Cli\GenericVerificationParameter.cs" />
     <Compile Include="_Internal\Cli\ICompiledTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\ICompiledTypeParent.cs" />
@@ -210,6 +221,7 @@
     <Compile Include="_Internal\Cli\Members\CompiledGenericParameterMethodMember+ParameterMember.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledGenericParameterMethodMember.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledGenericParameterPropertyMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CompiledIndexerMemberBase+ParameterMemberDictionary[+ParameterMember].cs" />
     <Compile Include="_Internal\Cli\Members\CompiledIndexerMemberBase.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledIndexerSignatureMemberBase.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledMethodMemberBase{2}+GenericParameterMember.cs" />
@@ -226,6 +238,8 @@
     <Compile Include="_Internal\Cli\Members\CompiledMethodSignatureMemberBase{2}+ParameterDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledMethodSignatureMemberBase{2}+ParameterMember.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledMethodSignatureMemberBase{2}.cs" />
+    <Compile Include="_Internal\Cli\Members\CompiledEventMemberBase{TEvent, TEventParent}+ParameterMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CompiledEventMemberBase{TEvent, TEventParent}+ParameterMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\FilteredSignatureMembers.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledGenericParameterMethodMember+GenericParameterMember.cs" />
     <Compile Include="_Internal\Cli\Members\IGenericParameterPropertyMethodMember{1}.cs" />
@@ -241,7 +255,15 @@
     <Compile Include="_Internal\Cli\_ICompiledAssembly.cs" />
     <Compile Include="_Internal\Cli\_ICompiledNamespaceDeclarations.cs" />
     <Compile Include="_Internal\Cli\_ICompiledNamespaceParent.cs" />
+    <Compile Include="_Internal\GenericLayer\_StructTypeBase+_IndexersBase[+_IndexerMember+_MethodMember].cs" />
+    <Compile Include="_Internal\GenericLayer\Members\_IndexerMembersBase{2}.cs" />
+    <Compile Include="_Internal\GenericLayer\_ClassTypeBase+_IndexersBase[+_IndexerMember+_MethodMember].cs" />
+    <Compile Include="_Internal\GenericLayer\_GenericInstantiableTypeBase{7}+_TypeCoercionsBase[+_TypeCoercionMember].cs" />
+    <Compile Include="_Internal\GenericLayer\_GenericInstantiableTypeBase{7}+_UnaryOperatorsBase[+_UnaryOperatorMember].cs" />
+    <Compile Include="_Internal\GenericLayer\_StructTypeBase+_Fields[+FieldMember].cs" />
+    <Compile Include="_Internal\GenericLayer\_StructTypeBase+_EventsBase[+_EventMember+_MethodMember].cs" />
     <Compile Include="_Internal\GenericLayer\Members\_IndexerSignatureMembersBase{2}.cs" />
+    <Compile Include="_Internal\GenericLayer\_ClassTypeBase+_EventsBase[+_EventMember+_MethodMember].cs" />
     <Compile Include="_Internal\GenericLayer\_GenericInstantiableTypeBase{7}+_BinaryOperatorsBase[+_BinaryOperator].cs" />
     <Compile Include="_Internal\GenericLayer\_GroupedMasterBase{TDeclaration}+DictionaryEnumerator.cs" />
     <Compile Include="_Internal\GenericLayer\_GroupedMasterbase{TDeclaration}._KC.cs" />

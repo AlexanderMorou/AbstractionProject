@@ -350,7 +350,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// <returns>
         /// A <see cref="ITypeCoercionMemberDictionary{TType}"/> instance.
         /// </returns>
-        protected abstract ITypeCoercionMemberDictionary<TType> InitializeTypeCoercions();
+        protected ITypeCoercionMemberDictionary<TType> InitializeTypeCoercions()
+        {
+            return new _TypeCoercionsBase(this._Members, this.Original.TypeCoercions, ((TType)(object)this));
+        }
         
         public IUnaryOperatorCoercionMemberDictionary<TType> UnaryOperatorCoercions
         {
@@ -381,7 +384,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// <returns>
         /// A <see cref="IUnaryOperatorCoercionMemberDictionary{TType}"/> instance.
         /// </returns>
-        protected abstract IUnaryOperatorCoercionMemberDictionary<TType> InitializeUnaryOperatorCoercions();
+        protected IUnaryOperatorCoercionMemberDictionary<TType> InitializeUnaryOperatorCoercions()
+        {
+            return new _UnaryOperatorsBase(master:this._Members, originalSet:this.Original.UnaryOperatorCoercions, parent:this);
+        }
 
 
         #endregion
@@ -439,7 +445,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </returns>
         protected abstract IEventMemberDictionary<TEvent, TType> InitializeEvents();
 
-
         #endregion
 
         #region IEventSignatureParent<TEvent,IEventParameterMember<TEvent,TType>,TType> Members
@@ -491,13 +496,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// <returns>
         /// A <see cref="IIndexerMemberDictionary{TIndexer, TType}"/> instance.
         /// </returns>
-        private IIndexerMemberDictionary<TIndexer, TType> InitializeIndexers()
-        {
-            /* * 
-             * ToDo: Place code here to initialize the property.
-             * */
-            throw new NotImplementedException();
-        }
+        protected abstract IIndexerMemberDictionary<TIndexer, TType> InitializeIndexers();
 
 
         #endregion

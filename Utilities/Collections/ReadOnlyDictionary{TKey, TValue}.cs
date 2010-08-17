@@ -47,7 +47,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// </summary>
         /// <param name="key">The <typeparamref name="TKey"/> of the element to remove.</param>
         /// <exception cref="System.Data.ReadOnlyException">Remove not allowed on a read-only collection.</exception>
-        protected override void RemoveImpl(TKey key)
+        protected override bool RemoveImpl(TKey key)
         {
             throw new ReadOnlyException(string.Format("ReadOnlyCollection<{0}, {1}> is read-only", typeof(TKey).Name, typeof(TValue).Name));
         }
@@ -58,7 +58,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <param name="index">A zero-based index which designates the <see cref="KeyValuePair{TKey, TItem}"/> to 
         /// remove from the <see cref="ReadOnlyDictionary{TKey, TValue}"/></param>
         /// <exception cref="System.Data.ReadOnlyException">Remove not allowed on a read-only collection.</exception>
-        protected override void RemoveImpl(int index)
+        protected override bool RemoveImpl(int index)
         {
             throw new ReadOnlyException(string.Format("ReadOnlyCollection<{0}, {1}> is read-only", typeof(TKey).Name, typeof(TValue).Name));
         }

@@ -104,10 +104,10 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             //Console.WriteLine(testNestInstance.CSharpToString());
             //Console.WriteLine(testNestGeneric.CSharpToString());
 
-            var fType = typeof(IntermediateDeclarationDictionary<INamespaceDeclaration, IIntermediateNamespaceDeclaration>).GetTypeReference<IClassType>();
+            var fType = typeof(AccessLevelModifiers).GetTypeReference();
             Console.WriteLine();
             Console.WriteLine(fType.Members.Count);
-            foreach (var member in from m in fType.Members
+            foreach (var member in from m in fType.Members.Shuffle()
                                    select m.Value.Entry)
                 Console.WriteLine(member);
             

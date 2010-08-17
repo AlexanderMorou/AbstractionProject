@@ -160,5 +160,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get { return this.lastIsParams; }
         }
+
+        protected override IParameterMemberDictionary<TIndexer, IIndexerParameterMember<TIndexer, TIndexerParent>> InitializeParameters()
+        {
+            return new ParameterDictionary(((TIndexer)(object)(this)), this.MemberInfo.GetIndexParameters());
+        }
     }
 }

@@ -161,12 +161,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private void CheckEvents()
         {
-            try
+            if (this.events == null)
             {
-                this.events = this.InitializeEvents();
-            }
-            catch (NotImplementedException)
-            {
+                try
+                {
+                    this.events = this.InitializeEvents();
+                }
+                catch (NotImplementedException)
+                {
+                }
             }
         }
 
@@ -263,7 +266,24 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IEventMemberDictionary<TEvent, TType> InitializeEvents()
         {
-            throw new NotImplementedException();
+            return new LockedEventMembersBase<TEvent, TType>(this._Members,
+                ((TType)(object)(this)), UnderlyingSystemType.GetEvents(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly).Filter(eventInfo =>
+                {
+                    var accessModifiers = eventInfo.GetAccessModifiers();
+                    switch (accessModifiers)
+                    {
+                        case AccessLevelModifiers.Private:
+                        case AccessLevelModifiers.PrivateScope:
+                            return false;
+                        case AccessLevelModifiers.InternalProtected:
+                        case AccessLevelModifiers.Internal:
+                        case AccessLevelModifiers.Public:
+                        case AccessLevelModifiers.Protected:
+                        case AccessLevelModifiers.ProtectedInternal:
+                        default:
+                            return true;
+                    }
+                }), this.GetEvent);
         }
 
         private IFieldMemberDictionary<TField, TType> InitializeFields()
@@ -290,7 +310,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IIndexerMemberDictionary<TIndexer, TType> InitializeIndexers()
         {
-            throw new NotImplementedException();
+            return new LockedIndexerMemberDictionary<TIndexer, TType>(this._Members, ((TType)((object)(this))), UnderlyingSystemType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly).Filter(indexerInfo =>
+            {
+                var accessModifiers = indexerInfo.GetAccessModifiers();
+                switch (accessModifiers)
+                {
+                    case AccessLevelModifiers.Private:
+                    case AccessLevelModifiers.PrivateScope:
+                        return false;
+                    case AccessLevelModifiers.InternalProtected:
+                    case AccessLevelModifiers.Internal:
+                    case AccessLevelModifiers.Public:
+                    case AccessLevelModifiers.Protected:
+                    case AccessLevelModifiers.ProtectedInternal:
+                    default:
+                        return !(indexerInfo.IsSpecialName || indexerInfo.IsDefined(typeof(CompilerGeneratedAttribute), true)) && indexerInfo.GetIndexParameters().Length > 0;
+                }
+            }), GetIndexer);
         }
 
         private IMethodMemberDictionary<TMethod, TType> InitializeMethods()
@@ -774,8 +810,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.events != null)
-                    this.events = this.InitializeEvents();
+                this.CheckEvents();
                 return this.events;
             }
         }

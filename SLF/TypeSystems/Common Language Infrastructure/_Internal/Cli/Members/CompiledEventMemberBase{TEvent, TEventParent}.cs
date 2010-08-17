@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
     /// <typeparam name="TEventParent">The type of 
     /// <see cref="IEventParent{TEvent, TEventParent}"/>
     /// used in the current implementation.</typeparam>
-    internal abstract class CompiledEventMemberBase<TMethod, TEvent, TEventParent> :
+    internal abstract partial class CompiledEventMemberBase<TMethod, TEvent, TEventParent> :
         EventMemberBase<TEvent, TEventParent>,
         ICompiledEventMember
         where TMethod :
@@ -245,7 +245,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override IParameterMemberDictionary<TEvent, IEventParameterMember<TEvent, TEventParent>> InitializeParameters()
         {
-            throw new NotImplementedException();
+            var delegateType = this.memberInfo.EventHandlerType.GetTypeReference<IDelegateType>();
+            return new ParameterMemberDictionary(this, from delegateParameter in delegateType.Parameters.Values
+                                                       select new ParameterMember(delegateParameter, this));
         }
 
         protected override bool LastIsParamsImpl
@@ -268,5 +270,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             get { return this.MemberInfo.GetAccessModifiers(); }
         }
 
+        protected override IDelegateType SignatureTypeImpl
+        {
+            get { return this.memberInfo.EventHandlerType.GetTypeReference<IDelegateType>(); }
+        }
     }
 }

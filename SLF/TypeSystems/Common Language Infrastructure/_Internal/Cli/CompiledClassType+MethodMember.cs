@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     partial class CompiledClassType
     {
-        private class MethodMember :
+        class MethodMember :
             CompiledMethodMemberBase<IClassMethodMember, IClassType>,
             IClassMethodMember,
             ICompiledMethodMember

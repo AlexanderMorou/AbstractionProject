@@ -37,10 +37,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private IFieldMemberDictionary<IEnumFieldMember, IEnumType> InitializeFields()
         {
             return new LockedFieldMembersBase<IEnumFieldMember, IEnumType>(this._Members, this, this.UnderlyingSystemType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly).Filter(field =>
-                !(field.IsSpecialName || field.IsDefined(typeof(CompilerGeneratedAttribute), true))).OnAll(source =>
-                GetField(source)));
+                !(field.IsSpecialName || field.IsDefined(typeof(CompilerGeneratedAttribute), true))), GetField);
         }
-
+        protected override IFullMemberDictionary OnGetMembers()
+        {
+            this.CheckFields();
+            return base.OnGetMembers();
+        }
         private IEnumFieldMember GetField(FieldInfo source)
         {
             return new FieldMember(source, this);
@@ -51,10 +54,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public IFieldMemberDictionary<IEnumFieldMember, IEnumType> Fields
         {
             get {
-                if (this.fields == null)
-                    this.fields = this.InitializeFields();
+                CheckFields();
                 return this.fields;
             }
+        }
+
+        private void CheckFields()
+        {
+            if (this.fields == null)
+                this.fields = this.InitializeFields();
         }
 
         #endregion
