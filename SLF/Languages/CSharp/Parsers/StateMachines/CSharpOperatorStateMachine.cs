@@ -349,10 +349,10 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.StateMachines
                             return true;
                         case '!':
                             this.state = (this.exitState = 24);
-                            /* -------------------------------------\
+                            /* -----------------------------------------------\
                             |  Yields BooleanInversion if the next character  |
-                            |  in the sequence isn't encountered.   |
-                            \------------------------------------- */
+                            |  in the sequence isn't encountered.             |
+                            \----------------------------------------------- */
                             return true;
                         case '%':
                             this.state = (this.exitState = 12);

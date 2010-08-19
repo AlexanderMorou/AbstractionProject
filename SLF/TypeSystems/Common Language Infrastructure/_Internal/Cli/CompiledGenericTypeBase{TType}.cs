@@ -275,7 +275,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IType required = null;
             if (this.ContainsGenericType(typeParameters, ref required))
                 return;
-            genericCache.Add(typeParameters, (TType)targetType);
+            genericCache.Add(new LockedTypeCollection(typeParameters), (TType)targetType);
         }
 
         public void UnregisterGenericType(ITypeCollectionBase typeParameters)

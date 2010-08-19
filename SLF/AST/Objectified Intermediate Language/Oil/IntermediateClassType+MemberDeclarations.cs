@@ -276,10 +276,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
             set
             {
-                if (this.IsAbstract == value)
-                    return;
                 if (value)
+                {
+                    this.instanceFlags &= ~(ExtendedInstanceMemberFlags.Static | ExtendedInstanceMemberFlags.Virtual | ExtendedInstanceMemberFlags.Override | ExtendedInstanceMemberFlags.Final);
                     this.instanceFlags |= ExtendedInstanceMemberFlags.Abstract;
+                }
                 else
                     this.instanceFlags &= ~ExtendedInstanceMemberFlags.Abstract;
             }
@@ -297,10 +298,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
             set
             {
-                if (this.IsVirtual == value)
-                    return;
                 if (value)
+                {
+                    this.instanceFlags &= ~(ExtendedInstanceMemberFlags.Static | ExtendedInstanceMemberFlags.Abstract | ExtendedInstanceMemberFlags.Override | ExtendedInstanceMemberFlags.Final);
                     this.instanceFlags |= ExtendedInstanceMemberFlags.Virtual;
+                }
                 else
                     this.instanceFlags &= ~ExtendedInstanceMemberFlags.Virtual;
             }
@@ -319,10 +321,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
             set
             {
-                if (this.IsFinal == value)
-                    return;
                 if (value)
+                {
+                    this.instanceFlags &= ~(ExtendedInstanceMemberFlags.Virtual | ExtendedInstanceMemberFlags.Abstract | ExtendedInstanceMemberFlags.Static);
                     this.instanceFlags |= ExtendedInstanceMemberFlags.Final;
+                }
                 else
                     this.instanceFlags &= ~ExtendedInstanceMemberFlags.Final;
             }
@@ -340,12 +343,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
             set
             {
-                if (this.IsOverride == value)
-                    return;
                 if (value)
+                {
+                    this.instanceFlags &= ~(ExtendedInstanceMemberFlags.Static | ExtendedInstanceMemberFlags.Abstract | ExtendedInstanceMemberFlags.Virtual);
                     this.instanceFlags |= ExtendedInstanceMemberFlags.Override;
+                }
                 else
-                    this.instanceFlags &= ~ExtendedInstanceMemberFlags.Override;
+                    this.instanceFlags ^= ExtendedInstanceMemberFlags.Override;
             }
         }
 
@@ -382,16 +386,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get
             {
-                return ((this.instanceFlags & ExtendedInstanceMemberFlags.Static) == ExtendedInstanceMemberFlags.Static);
+                if (Parent.SpecialModifier != SpecialClassModifier.None)
+                    return true;
+                return IsExplicitStatic;
             }
             set
             {
-                if (this.IsStatic == value)
-                    return;
                 if (value)
+                {
+                    this.instanceFlags &= ~(ExtendedInstanceMemberFlags.Abstract | ExtendedInstanceMemberFlags.Virtual | ExtendedInstanceMemberFlags.Override | ExtendedInstanceMemberFlags.Final);
                     this.instanceFlags |= ExtendedInstanceMemberFlags.Static;
+                }
                 else
                     this.instanceFlags &= ~ExtendedInstanceMemberFlags.Static;
+            }
+        }
+
+        public bool IsExplicitStatic
+        {
+            get
+            {
+                return ((this.instanceFlags & ExtendedInstanceMemberFlags.Static) == ExtendedInstanceMemberFlags.Static);
             }
         }
 

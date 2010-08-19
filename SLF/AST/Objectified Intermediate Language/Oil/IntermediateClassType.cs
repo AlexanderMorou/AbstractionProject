@@ -256,7 +256,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                             current = EXTENSION | MODULE;
                         else
                             current = MODULE;
-                    else if (this.IsDefined(typeof(ExtensionAttribute).GetTypeReference(), false))
+                    else if (this.IsDefined(IntermediateGateway.CommonlyUsedTypeReferences.ExtensionAttribute, false))
                         current = EXTENSION;
                     else
                         current = STATIC;

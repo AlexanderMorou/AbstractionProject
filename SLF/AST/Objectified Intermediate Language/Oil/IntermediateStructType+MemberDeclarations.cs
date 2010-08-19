@@ -289,7 +289,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get
             {
-                return ((this.instanceFlags & ExtendedInstanceMemberFlags.Static) == ExtendedInstanceMemberFlags.Static);
+                return IsExplicitStatic;
             }
             set
             {
@@ -301,6 +301,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     this.instanceFlags &= ~ExtendedInstanceMemberFlags.Static;
             }
         }
+
+        public bool IsExplicitStatic
+        {
+            get
+            {
+                return ((this.instanceFlags & ExtendedInstanceMemberFlags.Static) == ExtendedInstanceMemberFlags.Static);
+            }
+        }
+
 
         #endregion
 

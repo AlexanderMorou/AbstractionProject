@@ -35,7 +35,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             get { return this.lastIsParams; }
         }
 
-
         protected override AccessLevelModifiers AccessLevelImpl
         {
             get { return this.MemberInfo.GetAccessModifiers(); }
