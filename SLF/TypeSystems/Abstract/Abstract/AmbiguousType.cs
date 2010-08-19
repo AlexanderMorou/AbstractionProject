@@ -314,5 +314,15 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         #endregion
+
+        #region IType Members
+
+
+        public IEnumerable<IDeclaration> Declarations
+        {
+            get { yield break; }
+        }
+
+        #endregion
     }
 }

@@ -79,7 +79,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         parent = parent.Namespaces[names[i]];
                     else
                     {
-                        hadNonExistant = true;
+                        if (!hadNonExistant)
+                            hadNonExistant = true;
                         parent = parent.Namespaces.Add(names[i]);
                     }
                 //The path already exists.

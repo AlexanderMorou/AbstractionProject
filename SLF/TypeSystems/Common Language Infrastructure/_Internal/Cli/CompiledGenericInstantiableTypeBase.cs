@@ -1013,5 +1013,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     }
                 });
         }
+
+        protected override IEnumerable<IDeclaration> OnGetDeclarations()
+        {
+            return GetTypeParentDeclarations(this);
+        }
     }
 }

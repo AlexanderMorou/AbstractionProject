@@ -61,6 +61,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         #region IType Members
 
+        public IEnumerable<IDeclaration> Declarations
+        {
+            get { return TypeBase.EmptyDeclarations; }
+        }
+
         public TypeElementClassification ElementClassification
         {
             get { return TypeElementClassification.Nullable; }

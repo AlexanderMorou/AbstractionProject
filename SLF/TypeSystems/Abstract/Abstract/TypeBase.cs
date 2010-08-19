@@ -23,6 +23,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IType,
         ICustomAttributedDeclaration
     {
+        internal static IEnumerable<IDeclaration> EmptyDeclarations = GetEmptyDeclarations();
+
         /// <summary>
         /// Data member for <see cref="CustomAttributes"/>.
         /// </summary>
@@ -588,5 +590,36 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// attributes relative to the current instance.</returns>
         protected abstract ICustomAttributeCollection InitializeCustomAttributes();
 
+
+        public IEnumerable<IDeclaration> Declarations
+        {
+            get
+            {
+                return this.OnGetDeclarations();
+            }
+        }
+
+        protected virtual IEnumerable<IDeclaration> OnGetDeclarations()
+        {
+            foreach (var member in this.Members.Values)
+                yield return member.Entry;
+        }
+
+        private static IEnumerable<IDeclaration> GetEmptyDeclarations()
+        {
+            yield break;
+        }
+
+
+        internal static IEnumerable<IDeclaration> GetTypeParentDeclarations<T>(T parent)
+            where T :
+                IType,
+                ITypeParent
+        {
+            foreach (var type in parent.Types.Values)
+                yield return type.Entry;
+            foreach (var member in parent.Members.Values)
+                yield return member.Entry;
+        }
     }
 }

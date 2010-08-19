@@ -792,6 +792,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             this.CheckEvents();
             this.CheckFields();
             this.CheckIndexers();
+            this.CheckMethods();
             this.CheckProperties();
             this.CheckTypeCoercions();
             this.CheckUnaryOperatorCoercions();
@@ -824,5 +825,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         }
 
         #endregion
+
+        protected override IEnumerable<IDeclaration> OnGetDeclarations()
+        {
+            return GetTypeParentDeclarations(this);
+        }
     }
 }

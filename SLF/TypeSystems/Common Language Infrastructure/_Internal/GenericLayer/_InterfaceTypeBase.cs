@@ -499,5 +499,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #endregion
 
+        protected override IEnumerable<IDeclaration> OnGetDeclarations()
+        {
+            return GetTypeParentDeclarations(this);
+        }
     }
 }

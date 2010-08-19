@@ -406,7 +406,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-
         #region ICompiledTypeParent Members
 
         public Type[] UnderlyingSystemTypes
@@ -441,5 +440,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 });
         }
         #endregion
+
+        protected override IEnumerable<IDeclaration> OnGetDeclarations()
+        {
+            return GetTypeParentDeclarations(this);
+        }
     }
 }

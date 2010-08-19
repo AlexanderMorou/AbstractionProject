@@ -21,18 +21,20 @@ using System.Linq.Expressions;
 using System.Diagnostics;
 using System.Windows.Forms;
 using AllenCopeland.Abstraction.Utilities.Common;
+using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 {
     internal static partial class Program
     {
+
         /// <summary>
         /// The entrypoint for the application.
         /// </summary>
         private static void Main()
         {
-
-
             Console.WriteLine("Took {0} to process initially.", Time(Test1));
             Console.ReadKey();
             //Console.Clear();
@@ -72,11 +74,15 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             Console.WriteLine(queryTestB);
             //LeftOuterJoinExample();
             //var ww = ExpressionKinds.AddOperation.ToString();
-            Console.WriteLine("OIL version takes {0}.", Time(OilVersion));
+            IIntermediateNamespaceDeclaration defaultNamespace = null;
+            Action OILVersion = () =>
+                defaultNamespace = OilVersion();
+            Console.WriteLine("OIL version takes {0}.", Time(OILVersion));
             Console.WriteLine("CodeDOM version takes {0}.", Time(CodeDomVersion));
+            Console.WriteLine("Extraction01 takes {0}.", Time(() => Extraction01(defaultNamespace)));
         }
 
-        private static void OilVersion()
+        private static IIntermediateNamespaceDeclaration OilVersion()
         {
             var project = IntermediateGateway.CreateAssembly("TestAssembly");
 
@@ -84,13 +90,44 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             var programClass = dNameSpace.Classes.Add("Program");
             programClass.AccessLevel = AccessLevelModifiers.Internal;
             programClass.SpecialModifier = SpecialClassModifier.Module;
-            programClass.SpecialModifier = SpecialClassModifier.ExtensionTarget;
             var mainMethod = programClass.Methods.Add("Main");
-            
             mainMethod.AccessLevel = AccessLevelModifiers.Internal;
-            mainMethod.Call((typeof(Console).GetMethodExpression("WriteLine").Invoke("It is now {0}.".ToPrimitive(), typeof(DateTime).GetTypeExpression().GetProperty("Now"))));
-            mainMethod.Call((Symbol)"Console", "WriteLine", "It is now {0}.".ToPrimitive(), "DateTime".Fuse("Now"));
-            mainMethod.Call("Activator".Fuse("CreateInstance").Fuse(typeof(Form)).Fuse(ExpressionCollection.EmptyExpressionArray));
+            mainMethod.IsStatic = true;
+            mainMethod.Call(
+                typeof(Console).GetInvokeMethodExpression("WriteLine", "It is now {0}.".ToPrimitive(), typeof(DateTime).GetPropertyExpression("Now")));
+            return dNameSpace;
+        }
+
+        private static void CodeDomVersion()
+        {
+            var project = new CodeCompileUnit();
+            var dNameSpace = new CodeNamespace("AllenCopeland.Abstraction.Slf.Examples.TestAssembly");
+            project.Namespaces.Add(dNameSpace);
+
+            CodeTypeDeclaration programClass = new CodeTypeDeclaration("Program");
+            dNameSpace.Types.Add(programClass);
+            programClass.IsClass = true;
+            programClass.Attributes = MemberAttributes.Final | MemberAttributes.Assembly;
+            programClass.CustomAttributes.Add(new CodeAttributeDeclaration(new CodeTypeReference(typeof(StandardModuleAttribute))));
+            
+            CodeMemberMethod mainMethod = new CodeMemberMethod();
+            programClass.Members.Add(mainMethod);
+            mainMethod.Name = "Main";
+            mainMethod.Attributes = MemberAttributes.Static | MemberAttributes.Assembly;
+            mainMethod.Statements.Add(
+                new CodeMethodInvokeExpression(
+                    new CodeTypeReferenceExpression(
+                        typeof(Console)), 
+                        "WriteLine", 
+                            new CodeExpression[] { 
+                                new CodePrimitiveExpression("It is now {0}."), 
+                                new CodePropertyReferenceExpression(
+                                    new CodeTypeReferenceExpression(typeof(DateTime)), 
+                                    "Now") }));
+        }
+
+        private static void Extraction01(IIntermediateNamespaceDeclaration dNameSpace)
+        {
             var testGeneric = dNameSpace.Classes.Add("GenericType");
             var testGenericParam = testGeneric.TypeParameters.Add("TTypeParam");
             testGenericParam.SpecialConstraint = GenericTypeParameterSpecialConstraint.Struct;
@@ -100,30 +137,14 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             testNestGenericParam.SpecialConstraint = GenericTypeParameterSpecialConstraint.Struct;
             var testNestInstance = testNestGeneric.MakeGenericType(typeof(long), typeof(double));
             var testNestGenericMethodInstance = testNestInstance.Methods[0].Value.MakeGenericMethod(new TypeCollection(typeof(int).GetTypeReference()));
-            //Console.WriteLine(testNestGenericMethodInstance);
-            //Console.WriteLine(testNestInstance.CSharpToString());
-            //Console.WriteLine(testNestGeneric.CSharpToString());
 
-            var fType = typeof(AccessLevelModifiers).GetTypeReference();
+            //IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<IntermediateClassType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<IntermediateClassType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<IntermediateClassType>.PropertyMethodMember, IClassType, IIntermediateClassType, IntermediateClassType>
+            var fType = typeof(Dictionary<string, int>).GetTypeReference();
             Console.WriteLine();
             Console.WriteLine(fType.Members.Count);
-            foreach (var member in from m in fType.Members.Shuffle()
-                                   select m.Value.Entry)
-                Console.WriteLine(member);
-            
-        }
+            foreach (var declaration in fType.Declarations)
+                Console.WriteLine(declaration);
 
-        private static void CodeDomVersion()
-        {
-            var project = new CodeCompileUnit();
-            var dNameSpace = new CodeNamespace("AllenCopeland.Abstraction.Slf.Examples.TestAssembly");
-            project.Namespaces.Add(dNameSpace);
-
-            CodeTypeDeclaration programClass;
-            dNameSpace.Types.Add(programClass = new CodeTypeDeclaration("Program") { IsClass = true, Attributes = MemberAttributes.Static | MemberAttributes.Assembly });
-            CodeMemberMethod mainMethod;
-            programClass.Members.Add(mainMethod = new CodeMemberMethod() { Name = "Main", Attributes = MemberAttributes.Static | MemberAttributes.Assembly });
-            mainMethod.Statements.Add(new CodeMethodInvokeExpression(new CodeTypeReferenceExpression(typeof(Console)), "WriteLine", new CodeExpression[] { new CodePrimitiveExpression("It is now {0}."), new CodePropertyReferenceExpression(new CodeTypeReferenceExpression(typeof(DateTime)), "Now") }));
         }
     }
 }

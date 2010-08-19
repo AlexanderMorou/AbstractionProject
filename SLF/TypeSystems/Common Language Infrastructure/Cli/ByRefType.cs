@@ -44,6 +44,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         #region IType Members
 
+        public IEnumerable<IDeclaration> Declarations
+        {
+            get { return TypeBase.EmptyDeclarations; }
+        }
+
         public TypeElementClassification ElementClassification
         {
             get { return TypeElementClassification.Reference; }
@@ -186,7 +191,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public bool Equals(IType other)
         {
-            if (other.ElementType.Equals(this.ElementType) && other.ElementClassification == TypeElementClassification.Reference)
+            if (other.ElementClassification == TypeElementClassification.Reference && other.ElementType.Equals(this.ElementType))
                 return true;
             return false;
         }

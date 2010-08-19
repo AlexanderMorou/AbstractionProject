@@ -236,12 +236,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
             set
             {
-                if (IsAbstract == value)
-                    return;
                 if (value)
+                {
+                    this.instanceFlags &= ~(ExtendedInstanceMemberFlags.Static | ExtendedInstanceMemberFlags.Virtual | ExtendedInstanceMemberFlags.Override | ExtendedInstanceMemberFlags.Final);
                     this.instanceFlags |= ExtendedInstanceMemberFlags.Abstract;
+                }
                 else
-                    this.instanceFlags ^= ExtendedInstanceMemberFlags.Abstract;
+                    this.instanceFlags &= ~ExtendedInstanceMemberFlags.Abstract;
             }
         }
 
@@ -253,12 +254,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
             set
             {
-                if (IsVirtual == value)
-                    return;
                 if (value)
+                {
+                    this.instanceFlags &= ~(ExtendedInstanceMemberFlags.Static | ExtendedInstanceMemberFlags.Abstract | ExtendedInstanceMemberFlags.Override | ExtendedInstanceMemberFlags.Final);
                     this.instanceFlags |= ExtendedInstanceMemberFlags.Virtual;
+                }
                 else
-                    this.instanceFlags ^= ExtendedInstanceMemberFlags.Virtual;
+                    this.instanceFlags &= ~ExtendedInstanceMemberFlags.Virtual;
             }
         }
 
@@ -270,12 +272,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
             set
             {
-                if (IsFinal == value)
-                    return;
                 if (value)
+                {
+                    this.instanceFlags &= ~(ExtendedInstanceMemberFlags.Virtual | ExtendedInstanceMemberFlags.Abstract | ExtendedInstanceMemberFlags.Static);
                     this.instanceFlags |= ExtendedInstanceMemberFlags.Final;
+                }
                 else
-                    this.instanceFlags ^= ExtendedInstanceMemberFlags.Final;
+                    this.instanceFlags &= ~ExtendedInstanceMemberFlags.Final;
             }
         }
 
@@ -287,10 +290,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
             set
             {
-                if (IsOverride == value)
-                    return;
                 if (value)
+                {
+                    this.instanceFlags &= ~(ExtendedInstanceMemberFlags.Static | ExtendedInstanceMemberFlags.Abstract | ExtendedInstanceMemberFlags.Virtual);
                     this.instanceFlags |= ExtendedInstanceMemberFlags.Override;
+                }
                 else
                     this.instanceFlags ^= ExtendedInstanceMemberFlags.Override;
             }
@@ -313,7 +317,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 if (value)
                     this.instanceFlags |= ExtendedInstanceMemberFlags.HideBySignature;
                 else
-                    this.instanceFlags ^= ExtendedInstanceMemberFlags.HideBySignature;
+                    this.instanceFlags &= ~ExtendedInstanceMemberFlags.HideBySignature;
             }
         }
 
@@ -321,19 +325,33 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             get
             {
-                return ((this.instanceFlags & ExtendedInstanceMemberFlags.Static) == ExtendedInstanceMemberFlags.Static);
+                if (Parent is IClassType)
+                {
+                    var parent = (IClassType)Parent;
+                    if (parent.SpecialModifier != SpecialClassModifier.None)
+                        return true;
+                }
+                return IsExplicitStatic;
             }
             set
             {
-                if (this.IsStatic == value)
-                    return;
                 if (value)
+                {
+                    this.instanceFlags &= ~(ExtendedInstanceMemberFlags.Abstract | ExtendedInstanceMemberFlags.Virtual | ExtendedInstanceMemberFlags.Override | ExtendedInstanceMemberFlags.Final);
                     this.instanceFlags |= ExtendedInstanceMemberFlags.Static;
+                }
                 else
-                    this.instanceFlags ^= ExtendedInstanceMemberFlags.Static;
+                    this.instanceFlags &= ~ExtendedInstanceMemberFlags.Static;
             }
         }
 
+        public bool IsExplicitStatic
+        {
+            get
+            {
+                return ((this.instanceFlags & ExtendedInstanceMemberFlags.Static) == ExtendedInstanceMemberFlags.Static);
+            }
+        }
         #endregion
 
         #region IInstanceMember Members

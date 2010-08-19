@@ -29,5 +29,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// static.
         /// </summary>
         new bool IsStatic { get; set; }
+        /// <summary>
+        /// Returns whether the <see cref="IIntermediateInstanceMember"/>
+        /// is explicitly declared as static.
+        /// </summary>
+        /// <remarks>
+        /// Important in langauges such as C# where a non-static method
+        /// is a syntactically legal declaration, but it will not compile.</remarks>
+        bool IsExplicitStatic { get; }
     }
 }

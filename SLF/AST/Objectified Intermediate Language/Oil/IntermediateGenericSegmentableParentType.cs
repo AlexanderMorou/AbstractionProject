@@ -355,5 +355,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 element.Rearranged(realFrom, realTo);
             base.OnRearrangedInner(from, to);
         }
+
+        protected override IEnumerable<IDeclaration> OnGetDeclarations()
+        {
+            return GetTypeParentDeclarations(this);
+        }
     }
 }
