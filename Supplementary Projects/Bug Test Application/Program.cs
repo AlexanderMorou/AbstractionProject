@@ -24,6 +24,7 @@ using AllenCopeland.Abstraction.Utilities.Common;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using Microsoft.VisualBasic.CompilerServices;
+using AllenCopeland.Abstraction.Slf.Cli.Members;
 
 namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 {
@@ -139,12 +140,28 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             var testNestGenericMethodInstance = testNestInstance.Methods[0].Value.MakeGenericMethod(new TypeCollection(typeof(int).GetTypeReference()));
 
             //IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<IntermediateClassType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<IntermediateClassType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<IntermediateClassType>.PropertyMethodMember, IClassType, IIntermediateClassType, IntermediateClassType>
-            var fType = typeof(Dictionary<string, int>).GetTypeReference();
-            Console.WriteLine();
+            var dType = typeof(IntermediateDeclarationDictionary<,>);
+            var fType = dType.GetTypeReference();
+
             Console.WriteLine(fType.Members.Count);
             foreach (var declaration in fType.Declarations)
                 Console.WriteLine(declaration);
 
+        }
+
+        private static void Extraction02(Type dType, IType fType)
+        {
+            var iMap = dType.GetInterfaceMap(dType.GetInterfaces().First(p =>
+            {
+                if (p.IsInterface && p.IsGenericType && !p.IsGenericTypeDefinition)
+                    if (p.GetGenericTypeDefinition() == typeof(IIntermediateDeclarationDictionary<,>))
+                        return true;
+                return false;
+            }));
+            var valuesProp = fType.Members.First(p => p.Value.Entry.Name == "Values").Value.Entry as ICompiledPropertyMember;
+            var valuesPropGetMethod = valuesProp.GetMethod as ICompiledMethodMember;
+            if (valuesPropGetMethod.MemberInfo == iMap.TargetMethods[0])
+                Console.WriteLine("??");
         }
     }
 }

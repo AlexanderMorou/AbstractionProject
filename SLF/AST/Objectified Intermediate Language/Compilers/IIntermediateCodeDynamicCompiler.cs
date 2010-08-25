@@ -32,7 +32,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         TypeBuilder CurrentType { get; }
 
         /// <summary>
-        /// Returns a dictionary containing the currently built types.
+        /// Returns a dictionary containing the types associated to the current build.
         /// </summary>
         IControlledStateDictionary<IIntermediateType, TypeBuilder> ActiveTypes { get; }
     }

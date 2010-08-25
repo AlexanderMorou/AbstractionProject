@@ -251,9 +251,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             protected override TIntermediateCtor GetConstructor(TypedNameSeries parameters)
             {
-                var result = ((TIntermediateCtor)((object)(this.Parent.GetNewConstructor(parameters))));
-                base.Add(result.UniqueIdentifier, result);
-                return result;
+                return ((TIntermediateCtor)((object)(this.Parent.GetNewConstructor(parameters))));
             }
         }
 

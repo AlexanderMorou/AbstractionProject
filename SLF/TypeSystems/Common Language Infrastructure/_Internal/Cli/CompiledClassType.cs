@@ -159,7 +159,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region IClassType Members
 
-        public new IClassInterfaceMapping GetInterfaceMap(IInterfaceType type)
+        public IClassInterfaceMapping GetInterfaceMap(IInterfaceType type)
         {
             throw new NotImplementedException();
         }
@@ -172,7 +172,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 {
                     if (this.UnderlyingSystemType.IsDefined(typeof(ExtensionAttribute), false))
                         this.specialModifier = SpecialClassModifier.ExtensionTarget;
-                    else if (this.UnderlyingSystemType.IsDefined(typeof(StandardModuleAttribute), false))
+                    else if (this.UnderlyingSystemType.DeclaringType == null && this.UnderlyingSystemType.IsDefined(typeof(StandardModuleAttribute), false))
                         this.specialModifier = SpecialClassModifier.Module;
                     else if (this.UnderlyingSystemType.IsSealed && this.UnderlyingSystemType.IsAbstract)
                         this.specialModifier = SpecialClassModifier.Static;

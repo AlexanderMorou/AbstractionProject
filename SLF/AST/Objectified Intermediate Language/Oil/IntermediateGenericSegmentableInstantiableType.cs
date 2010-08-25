@@ -585,6 +585,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         public IInterfaceMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType> GetInterfaceMap(IInterfaceType type)
         {
+            
             throw new NotImplementedException();
         }
 

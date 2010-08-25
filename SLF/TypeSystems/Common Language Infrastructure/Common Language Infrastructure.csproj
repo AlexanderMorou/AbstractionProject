@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -97,11 +97,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cli\CLIGateway.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Cli\ArrayType.cs" />
     <Compile Include="Cli\AssemblyInformation.cs" />
     <Compile Include="Cli\ByRefType.cs" />
+    <Compile Include="Cli\CLIGateway.cs" />
     <Compile Include="Cli\ICompiledAssembly.cs" />
     <Compile Include="Cli\ICompiledClassType.cs" />
     <Compile Include="Cli\ICompiledDelegateType.cs" />
@@ -110,7 +109,6 @@
     <Compile Include="Cli\ICompiledInterfaceType.cs" />
     <Compile Include="Cli\ICompiledStructType.cs" />
     <Compile Include="Cli\ICompiledType.cs" />
-    <Compile Include="Cli\Members\ICompiledPropertySignatureMember.cs" />
     <Compile Include="Cli\Members\ICompiledBinaryOperatorCoercionMember.cs" />
     <Compile Include="Cli\Members\ICompiledCoercionMember.cs" />
     <Compile Include="Cli\Members\ICompiledConstructorMember.cs" />
@@ -123,84 +121,150 @@
     <Compile Include="Cli\Members\ICompiledMethodSignature.cs" />
     <Compile Include="Cli\Members\ICompiledParameterMember.cs" />
     <Compile Include="Cli\Members\ICompiledPropertyMember.cs" />
+    <Compile Include="Cli\Members\ICompiledPropertySignatureMember.cs" />
     <Compile Include="Cli\Members\ICompiledTypeCoercionMember.cs" />
     <Compile Include="Cli\Members\ICompiledUnaryOperatorCoercionMember.cs" />
     <Compile Include="Cli\Modules\ICompiledModule.cs" />
     <Compile Include="Cli\NullableType.cs" />
     <Compile Include="Cli\PointerType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_Internal\Cli\CliAssist.cs" />
-    <Compile Include="_Internal\Cli\CompiledAssembly+CustomAttributeCollection+CustomAttributeInstance.cs" />
-    <Compile Include="_Internal\Cli\CompiledAssembly+CustomAttributeCollection.cs" />
+    <Compile Include="_Internal\Cli\CompiledAssembly+CustomAttributeCollection+CustomAttributeInstance.cs">
+      <DependentUpon>CompiledAssembly+CustomAttributeCollection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledAssembly+CustomAttributeCollection.cs">
+      <DependentUpon>CompiledAssembly.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\Cli\CompiledAssembly.cs" />
-    <Compile Include="_Internal\Cli\CompiledClassType+ConstructorMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledClassType+EventMember+MethodMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledClassType+FieldMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledClassType+IndexerMember+MethodMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledClassType+IndexerMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledClassType+MethodMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledClassType+PropertyMember.cs" />
+    <Compile Include="_Internal\Cli\CompiledClassType+ConstructorMember.cs">
+      <DependentUpon>CompiledClassType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledClassType+EventMember+MethodMember.cs">
+      <DependentUpon>CompiledClassType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledClassType+FieldMember.cs">
+      <DependentUpon>CompiledClassType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledClassType+IndexerMember+MethodMember.cs">
+      <DependentUpon>CompiledClassType+IndexerMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledClassType+IndexerMember.cs">
+      <DependentUpon>CompiledClassType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledClassType+MethodMember.cs">
+      <DependentUpon>CompiledClassType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledClassType+PropertyMember.cs">
+      <DependentUpon>CompiledClassType.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\Cli\CompiledClassType.cs" />
     <Compile Include="_Internal\Cli\CompiledClassTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\CompiledCustomAttributeCollection.cs" />
-    <Compile Include="_Internal\Cli\CompiledDelegateTypeDictionary.cs" />
-    <Compile Include="_Internal\Cli\CompiledEnumTypeDictionary.cs" />
-    <Compile Include="_Internal\Cli\CompiledFullTypeDictionary+_KC.cs" />
-    <Compile Include="_Internal\Cli\CompiledFullTypeDictionary+_VC.cs" />
-    <Compile Include="_Internal\Cli\CompiledFullTypeDictionary.cs" />
-    <Compile Include="_Internal\Cli\CompiledInterfaceType+IndexerMember+MethodMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledInterfaceType+IndexerMember+ParameterMember.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="_Internal\Cli\CompiledInterfaceType+IndexerMember+ParameterMemberDictionary.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="_Internal\Cli\CompiledInterfaceType+IndexerMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledInterfaceType+PropertyMember+PropertyMethod.cs" />
-    <Compile Include="_Internal\Cli\CompiledInterfaceType+PropertyMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledInterfaceTypeDictionary.cs" />
-    <Compile Include="_Internal\Cli\CompiledStructTypeDictionary.cs" />
-    <Compile Include="_Internal\Cli\CompiledTypeCustomAttributeCollection.cs" />
     <Compile Include="_Internal\Cli\CompiledCustomAttributeInstance.cs" />
     <Compile Include="_Internal\Cli\CompiledDelegateType+ParameterMember.cs" />
     <Compile Include="_Internal\Cli\CompiledDelegateType+ParametersDictionary.cs" />
     <Compile Include="_Internal\Cli\CompiledDelegateType.cs" />
-    <Compile Include="_Internal\Cli\CompiledEnumType+FieldMember.cs" />
+    <Compile Include="_Internal\Cli\CompiledDelegateTypeDictionary.cs" />
+    <Compile Include="_Internal\Cli\CompiledEnumType+FieldMember.cs">
+      <DependentUpon>CompiledEnumType.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\Cli\CompiledEnumType.cs" />
+    <Compile Include="_Internal\Cli\CompiledEnumTypeDictionary.cs" />
+    <Compile Include="_Internal\Cli\CompiledFullTypeDictionary+_KC.cs">
+      <DependentUpon>CompiledFullTypeDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledFullTypeDictionary+_VC.cs">
+      <DependentUpon>CompiledFullTypeDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledFullTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\CompiledGenericInstantiableTypeBase.cs" />
-    <Compile Include="_Internal\Cli\CompiledGenericTypeBase{TType}+GenericTypeParameter.cs" />
+    <Compile Include="_Internal\Cli\CompiledGenericTypeBase{TType}+GenericTypeParameter.cs">
+      <DependentUpon>CompiledGenericTypeBase{TType}.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\Cli\CompiledGenericTypeBase{TType}.cs" />
-    <Compile Include="_Internal\Cli\CompiledInterfaceType+EventMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledInterfaceType+MethodMember+GenericParameterMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledInterfaceType+MethodMember+ParameterMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledInterfaceType+MethodMember.cs" />
+    <Compile Include="_Internal\Cli\CompiledInterfaceType+EventMember.cs">
+      <DependentUpon>CompiledInterfaceType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledInterfaceType+IndexerMember+MethodMember.cs">
+      <DependentUpon>CompiledInterfaceType+IndexerMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledInterfaceType+IndexerMember+ParameterMember.cs">
+      <DependentUpon>CompiledInterfaceType+IndexerMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledInterfaceType+IndexerMember+ParameterMemberDictionary.cs">
+      <DependentUpon>CompiledInterfaceType+IndexerMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledInterfaceType+IndexerMember.cs">
+      <DependentUpon>CompiledInterfaceType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledInterfaceType+MethodMember+GenericParameterMember.cs">
+      <DependentUpon>CompiledInterfaceType+MethodMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledInterfaceType+MethodMember+ParameterMember.cs">
+      <DependentUpon>CompiledInterfaceType+MethodMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledInterfaceType+MethodMember.cs">
+      <DependentUpon>CompiledInterfaceType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledInterfaceType+PropertyMember+PropertyMethod.cs">
+      <DependentUpon>CompiledInterfaceType+PropertyMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledInterfaceType+PropertyMember.cs">
+      <DependentUpon>CompiledInterfaceType.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\Cli\CompiledInterfaceType.cs" />
+    <Compile Include="_Internal\Cli\CompiledInterfaceTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\CompiledNamespaceDeclaration.cs" />
-    <Compile Include="_Internal\Cli\CompiledNamespaceDeclarations+KeysCollection.cs" />
-    <Compile Include="_Internal\Cli\CompiledNamespaceDeclarations+ValuesCollection.cs" />
+    <Compile Include="_Internal\Cli\CompiledNamespaceDeclarations+KeysCollection.cs">
+      <DependentUpon>CompiledNamespaceDeclaration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledNamespaceDeclarations+ValuesCollection.cs">
+      <DependentUpon>CompiledNamespaceDeclaration.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\Cli\CompiledNamespaceDeclarations.cs" />
-    <Compile Include="_Internal\Cli\CompiledStructType+ConstructorMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledStructType+FieldMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledStructType+MethodMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledStructType+PropertyMember.cs" />
+    <Compile Include="_Internal\Cli\CompiledStructType+ConstructorMember.cs">
+      <DependentUpon>CompiledStructType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledStructType+EventMember+MethodMember.cs">
+      <DependentUpon>CompiledStructType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledStructType+FieldMember.cs">
+      <DependentUpon>CompiledStructType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledStructType+IndexerMember+MethodMember.cs">
+      <DependentUpon>CompiledStructType+IndexerMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledStructType+IndexerMember.cs">
+      <DependentUpon>CompiledStructType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledStructType+MethodMember.cs">
+      <DependentUpon>CompiledStructType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledStructType+PropertyMember.cs">
+      <DependentUpon>CompiledStructType.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\Cli\CompiledStructType.cs" />
+    <Compile Include="_Internal\Cli\CompiledStructTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\CompiledTypeBase{TType}.cs" />
-    <Compile Include="_Internal\Cli\CompiledTypeDictionary+KC.cs" />
-    <Compile Include="_Internal\Cli\CompiledTypeDictionary+VC.cs" />
+    <Compile Include="_Internal\Cli\CompiledTypeCustomAttributeCollection.cs" />
+    <Compile Include="_Internal\Cli\CompiledTypeDictionary+KC.cs">
+      <DependentUpon>CompiledTypeDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledTypeDictionary+VC.cs">
+      <DependentUpon>CompiledTypeDictionary.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\Cli\CompiledTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\CompiledTypeGenericParameter.cs" />
     <Compile Include="_Internal\Cli\CompiledTypes{TType}.cs" />
-    <Compile Include="_Internal\Cli\CompiledStructType+EventMember+MethodMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledStructType+IndexerMember+MethodMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledStructType+IndexerMember.cs" />
-    <Compile Include="_Internal\Cli\LockedIndexerMemberDictionary.cs" />
-    <Compile Include="_Internal\Cli\LockedEventMembersBase{2}.cs" />
     <Compile Include="_Internal\Cli\GenericVerificationParameter.cs" />
     <Compile Include="_Internal\Cli\ICompiledTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\ICompiledTypeParent.cs" />
     <Compile Include="_Internal\Cli\LockedConstructorMembers`2.cs" />
     <Compile Include="_Internal\Cli\LockedEmptyCustomAttributeCollection.cs" />
-    <Compile Include="_Internal\Cli\LockedEventSignatureMembersBase{3}.cs" />
+    <Compile Include="_Internal\Cli\LockedEventMembersBase{2}.cs" />
     <Compile Include="_Internal\Cli\LockedEventSignatureMembersBase{2}.cs" />
+    <Compile Include="_Internal\Cli\LockedEventSignatureMembersBase{3}.cs" />
+    <Compile Include="_Internal\Cli\LockedIndexerMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\LockedIndexerSignatureMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\LockedMethodMembersBase`2.cs" />
     <Compile Include="_Internal\Cli\LockedMethodSignatureMembersBase{TSignatureParameter, TSignature, TSignatureParent}.cs" />
@@ -209,44 +273,74 @@
     <Compile Include="_Internal\Cli\LockedSignatureMembersBase`3.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledBinaryOperatorCoercionMemberBase{TCoercionParent}.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledConstructorMemberBase{TCtor, TCtorParent}.cs" />
+    <Compile Include="_Internal\Cli\Members\CompiledEventMemberBase{TEvent, TEventParent}+ParameterMember.cs">
+      <DependentUpon>CompiledEventMemberBase{TEvent, TEventParent}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\Members\CompiledEventMemberBase{TEvent, TEventParent}+ParameterMemberDictionary.cs">
+      <DependentUpon>CompiledEventMemberBase{TEvent, TEventParent}.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\Cli\Members\CompiledEventMemberBase{TEvent, TEventParent}.cs" />
-    <Compile Include="_Internal\Cli\Members\CompiledEventSignatureMemberBase{3}+ParameterMember.cs" />
-    <Compile Include="_Internal\Cli\Members\CompiledEventSignatureMemberBase{3}+ParameterMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CompiledEventSignatureMemberBase{3}+ParameterMember.cs">
+      <DependentUpon>CompiledEventSignatureMemberBase{3}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\Members\CompiledEventSignatureMemberBase{3}+ParameterMemberDictionary.cs">
+      <DependentUpon>CompiledEventSignatureMemberBase{3}.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\Cli\Members\CompiledEventSignatureMemberBase{3}.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledFieldMemberBase{TField, TFieldParent}.cs" />
-    <Compile Include="_Internal\Cli\Members\CompiledGenericParameterConstructorMemberBase+ParameterDictionary.cs" />
-    <Compile Include="_Internal\Cli\Members\CompiledGenericParameterConstructorMemberBase+ParameterMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CompiledGenericParameterConstructorMemberBase+ParameterDictionary.cs">
+      <DependentUpon>CompiledGenericParameterConstructorMemberBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\Members\CompiledGenericParameterConstructorMemberBase+ParameterMember.cs">
+      <DependentUpon>CompiledGenericParameterConstructorMemberBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\Cli\Members\CompiledGenericParameterConstructorMemberBase.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledGenericParameterMemberBase{2}.cs" />
-    <Compile Include="_Internal\Cli\Members\CompiledGenericParameterMethodMember+ParameterMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CompiledGenericParameterMethodMember+GenericParameterMember.cs">
+      <DependentUpon>CompiledGenericParameterMethodMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\Members\CompiledGenericParameterMethodMember+ParameterMember.cs">
+      <DependentUpon>CompiledGenericParameterMethodMember.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\Cli\Members\CompiledGenericParameterMethodMember.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledGenericParameterPropertyMember.cs" />
-    <Compile Include="_Internal\Cli\Members\CompiledIndexerMemberBase+ParameterMemberDictionary[+ParameterMember].cs" />
+    <Compile Include="_Internal\Cli\Members\CompiledIndexerMemberBase+ParameterMemberDictionary[+ParameterMember].cs">
+      <DependentUpon>CompiledIndexerMemberBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\Cli\Members\CompiledIndexerMemberBase.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledIndexerSignatureMemberBase.cs" />
-    <Compile Include="_Internal\Cli\Members\CompiledMethodMemberBase{2}+GenericParameterMember.cs" />
-    <Compile Include="_Internal\Cli\Members\CompiledMethodMemberBase{2}+ParameterDictionary.cs" />
-    <Compile Include="_Internal\Cli\Members\CompiledMethodMemberBase{2}+ParameterMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CompiledMethodMemberBase{2}+GenericParameterMember.cs">
+      <DependentUpon>CompiledMethodMemberBase{2}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\Members\CompiledMethodMemberBase{2}+ParameterDictionary.cs">
+      <DependentUpon>CompiledMethodMemberBase{2}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\Members\CompiledMethodMemberBase{2}+ParameterMember.cs">
+      <DependentUpon>CompiledMethodMemberBase{2}.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\Cli\Members\CompiledMethodMemberBase{2}.cs" />
+    <Compile Include="_Internal\Cli\Members\CompiledMethodSignatureMemberBase{2}+GenericParameterMember.cs">
+      <DependentUpon>CompiledMethodSignatureMemberBase{2}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\Members\CompiledMethodSignatureMemberBase{2}+ParameterDictionary.cs">
+      <DependentUpon>CompiledMethodSignatureMemberBase{2}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\Members\CompiledMethodSignatureMemberBase{2}+ParameterMember.cs">
+      <DependentUpon>CompiledMethodSignatureMemberBase{2}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\Members\CompiledMethodSignatureMemberBase{2}.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledParameterMemberBase{TParent}.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledPropertyMemberBase{5}.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledPropertySignatureMemberBase.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledTypeCoercionMemberBase{TCoercionParent}.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledUnaryOperatorCoercionMemberBase{TType}.cs" />
     <Compile Include="_Internal\Cli\Members\ConstructorMembers`2.cs" />
-    <Compile Include="_Internal\Cli\Members\CompiledMethodSignatureMemberBase{2}+GenericParameterMember.cs" />
-    <Compile Include="_Internal\Cli\Members\CompiledMethodSignatureMemberBase{2}+ParameterDictionary.cs" />
-    <Compile Include="_Internal\Cli\Members\CompiledMethodSignatureMemberBase{2}+ParameterMember.cs" />
-    <Compile Include="_Internal\Cli\Members\CompiledMethodSignatureMemberBase{2}.cs" />
-    <Compile Include="_Internal\Cli\Members\CompiledEventMemberBase{TEvent, TEventParent}+ParameterMember.cs" />
-    <Compile Include="_Internal\Cli\Members\CompiledEventMemberBase{TEvent, TEventParent}+ParameterMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\FilteredSignatureMembers.cs" />
-    <Compile Include="_Internal\Cli\Members\CompiledGenericParameterMethodMember+GenericParameterMember.cs" />
     <Compile Include="_Internal\Cli\Members\IGenericParameterPropertyMethodMember{1}.cs" />
     <Compile Include="_Internal\Cli\Members\LockedGenericParameterConstructorMembers.cs" />
+    <Compile Include="_Internal\Cli\Members\LockedGenericParameterMethodMembers.cs" />
     <Compile Include="_Internal\Cli\Members\LockedGenericParameterPropertyMembers.cs" />
     <Compile Include="_Internal\Cli\Members\LockedGenericTypeParameterConstructorMembers{1}.cs" />
-    <Compile Include="_Internal\Cli\Members\LockedGenericParameterMethodMembers.cs" />
     <Compile Include="_Internal\Cli\Members\MethodMembersBase`2.cs" />
     <Compile Include="_Internal\Cli\Members\MethodSignatureMembersBase`6.cs" />
     <Compile Include="_Internal\Cli\Members\SignatureMembersBase`3.cs" />
@@ -255,35 +349,24 @@
     <Compile Include="_Internal\Cli\_ICompiledAssembly.cs" />
     <Compile Include="_Internal\Cli\_ICompiledNamespaceDeclarations.cs" />
     <Compile Include="_Internal\Cli\_ICompiledNamespaceParent.cs" />
-    <Compile Include="_Internal\GenericLayer\_StructTypeBase+_IndexersBase[+_IndexerMember+_MethodMember].cs" />
-    <Compile Include="_Internal\GenericLayer\Members\_IndexerMembersBase{2}.cs" />
-    <Compile Include="_Internal\GenericLayer\_ClassTypeBase+_IndexersBase[+_IndexerMember+_MethodMember].cs" />
-    <Compile Include="_Internal\GenericLayer\_GenericInstantiableTypeBase{7}+_TypeCoercionsBase[+_TypeCoercionMember].cs" />
-    <Compile Include="_Internal\GenericLayer\_GenericInstantiableTypeBase{7}+_UnaryOperatorsBase[+_UnaryOperatorMember].cs" />
-    <Compile Include="_Internal\GenericLayer\_StructTypeBase+_Fields[+FieldMember].cs" />
-    <Compile Include="_Internal\GenericLayer\_StructTypeBase+_EventsBase[+_EventMember+_MethodMember].cs" />
-    <Compile Include="_Internal\GenericLayer\Members\_IndexerSignatureMembersBase{2}.cs" />
-    <Compile Include="_Internal\GenericLayer\_ClassTypeBase+_EventsBase[+_EventMember+_MethodMember].cs" />
-    <Compile Include="_Internal\GenericLayer\_GenericInstantiableTypeBase{7}+_BinaryOperatorsBase[+_BinaryOperator].cs" />
-    <Compile Include="_Internal\GenericLayer\_GroupedMasterBase{TDeclaration}+DictionaryEnumerator.cs" />
-    <Compile Include="_Internal\GenericLayer\_GroupedMasterbase{TDeclaration}._KC.cs" />
-    <Compile Include="_Internal\GenericLayer\_GroupedMasterbase{TDeclaration}._VC.cs" />
-    <Compile Include="_Internal\GenericLayer\_InterfaceTypeBase+_IndexersBase[+_Indexer+_Method].cs" />
-    <Compile Include="_Internal\GenericLayer\_IGenericType.cs" />
-    <Compile Include="_Internal\GenericLayer\_InterfaceTypeBase+_Properties[+_Property+_Method].cs" />
-    <Compile Include="_Internal\GenericLayer\_StructTypeBase+_PropertiesBase[+_PropertyBase].cs" />
     <Compile Include="_Internal\GenericLayer\IGeneralParamsParent{TParam, TParent}.cs" />
-    <Compile Include="_Internal\GenericLayer\Members\_ConstructorBase{2}+Parameters.cs" />
+    <Compile Include="_Internal\GenericLayer\Members\_ConstructorBase{2}+Parameters.cs">
+      <DependentUpon>_ConstructorBase{2}.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\GenericLayer\Members\_ConstructorBase{2}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_ConstructorMembersBase{2}.cs" />
-    <Compile Include="_Internal\GenericLayer\Members\_EventMemberBase{2}+_Parameters[+_Parameter].cs" />
+    <Compile Include="_Internal\GenericLayer\Members\_EventMemberBase{2}+_Parameters[+_Parameter].cs">
+      <DependentUpon>_EventMemberBase{2}.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\GenericLayer\Members\_EventMemberBase{2}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_EventMembersBase{2}.cs" />
-    <Compile Include="_Internal\GenericLayer\Members\_EventSignatureMemberBase{3}.cs" />
-    <Compile Include="_Internal\GenericLayer\Members\_EventSignatureMemberBase{2}+_Parameters[+_Parameter].cs" />
+    <Compile Include="_Internal\GenericLayer\Members\_EventSignatureMemberBase{2}+_Parameters[+_Parameter].cs">
+      <DependentUpon>_EventSignatureMemberBase{2}.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\GenericLayer\Members\_EventSignatureMemberBase{2}.cs" />
-    <Compile Include="_Internal\GenericLayer\Members\_EventSignatureMembersBase{4}.cs" />
+    <Compile Include="_Internal\GenericLayer\Members\_EventSignatureMemberBase{3}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_EventSignatureMembersBase{2}.cs" />
+    <Compile Include="_Internal\GenericLayer\Members\_EventSignatureMembersBase{4}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_FieldMemberBase{2}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_FieldMembersBase{2}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_FullMembersBase.cs" />
@@ -291,22 +374,34 @@
     <Compile Include="_Internal\GenericLayer\Members\_GroupedMembersBase{3}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_IGenericMethodRegistrar.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_IGenericMethodSignatureRegistrar.cs" />
-    <Compile Include="_Internal\GenericLayer\Members\_IndexerMemberBase{2}+_Parameters[+_Parameter].cs" />
+    <Compile Include="_Internal\GenericLayer\Members\_IndexerMemberBase{2}+_Parameters[+_Parameter].cs">
+      <DependentUpon>_IndexerMemberBase{2}.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\GenericLayer\Members\_IndexerMemberBase{2}.cs" />
-    <Compile Include="_Internal\GenericLayer\Members\_IndexerSignatureMemberBase{2}+_Parameters[+_Parameter].cs" />
+    <Compile Include="_Internal\GenericLayer\Members\_IndexerMembersBase{2}.cs" />
+    <Compile Include="_Internal\GenericLayer\Members\_IndexerSignatureMemberBase{2}+_Parameters[+_Parameter].cs">
+      <DependentUpon>_IndexerSignatureMemberBase{2}.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\GenericLayer\Members\_IndexerSignatureMemberBase{2}.cs" />
+    <Compile Include="_Internal\GenericLayer\Members\_IndexerSignatureMembersBase{2}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_MemberBase{TType}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_MembersBase{TMember}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_MethodMemberBase{2}+_Parameters.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_MethodMemberBase{2}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_MethodMembersBase{2}.cs" />
-    <Compile Include="_Internal\GenericLayer\Members\_MethodSignatureMemberBase{2}+_Parameters.cs" />
+    <Compile Include="_Internal\GenericLayer\Members\_MethodSignatureMemberBase{2}+_Parameters.cs">
+      <DependentUpon>_MethodSignatureMemberBase{2}.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\GenericLayer\Members\_MethodSignatureMemberBase{2}.cs" />
-    <Compile Include="_Internal\GenericLayer\Members\_MethodSignatureMemberBase{3}+_Parameters.cs" />
+    <Compile Include="_Internal\GenericLayer\Members\_MethodSignatureMemberBase{3}+_Parameters.cs">
+      <DependentUpon>_MethodSignatureMemberBase{3}.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\GenericLayer\Members\_MethodSignatureMemberBase{3}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_MethodSignatureMembersBase{2}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_MethodSignatureMembersBase{6}.cs" />
-    <Compile Include="_Internal\GenericLayer\Members\_ParametersBase{2}+_Parameter.cs" />
+    <Compile Include="_Internal\GenericLayer\Members\_ParametersBase{2}+_Parameter.cs">
+      <DependentUpon>_ParametersBase{2}.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\GenericLayer\Members\_ParametersBase{2}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_PropertyBase.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_PropertyMembersBase{2}.cs" />
@@ -314,31 +409,96 @@
     <Compile Include="_Internal\GenericLayer\Members\_PropertySignatureMembersBase{2}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_SignatureMembersBase{4}.cs" />
     <Compile Include="_Internal\GenericLayer\Modules\_GlobalMethodMember{2}.cs" />
-    <Compile Include="_Internal\GenericLayer\_ClassTypeBase+_ConstructorsBase[+_Constructor].cs" />
-    <Compile Include="_Internal\GenericLayer\_ClassTypeBase+_Fields[+FieldMember].cs" />
-    <Compile Include="_Internal\GenericLayer\_ClassTypeBase+_MethodsBase[+_Method].cs" />
-    <Compile Include="_Internal\GenericLayer\_ClassTypeBase+_PropertiesBase[+_PropertyBase].cs" />
+    <Compile Include="_Internal\GenericLayer\_ClassTypeBase+_ConstructorsBase[+_Constructor].cs">
+      <DependentUpon>_ClassTypeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\GenericLayer\_ClassTypeBase+_EventsBase[+_EventMember+_MethodMember].cs">
+      <DependentUpon>_ClassTypeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\GenericLayer\_ClassTypeBase+_Fields[+FieldMember].cs">
+      <DependentUpon>_ClassTypeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\GenericLayer\_ClassTypeBase+_IndexersBase[+_IndexerMember+_MethodMember].cs">
+      <DependentUpon>_ClassTypeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\GenericLayer\_ClassTypeBase+_MethodsBase[+_Method].cs">
+      <DependentUpon>_ClassTypeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\GenericLayer\_ClassTypeBase+_PropertiesBase[+_PropertyBase].cs">
+      <DependentUpon>_ClassTypeBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\GenericLayer\_ClassTypeBase.cs" />
     <Compile Include="_Internal\GenericLayer\_ClassTypesBase.cs" />
+    <Compile Include="_Internal\GenericLayer\_DeclarationsBase{3}+_KeysCollection.cs">
+      <DependentUpon>_DeclarationsBase{3}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\GenericLayer\_DeclarationsBase{3}+_ValuesCollection.cs">
+      <DependentUpon>_DeclarationsBase{3}.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\GenericLayer\_DeclarationsBase{3}.cs" />
-    <Compile Include="_Internal\GenericLayer\_DeclarationsBase{3}+_KeysCollection.cs" />
-    <Compile Include="_Internal\GenericLayer\_DeclarationsBase{3}+_ValuesCollection.cs" />
-    <Compile Include="_Internal\GenericLayer\_DelegateTypeBase+_Parameters.cs" />
+    <Compile Include="_Internal\GenericLayer\_DelegateTypeBase+_Parameters.cs">
+      <DependentUpon>_DelegateTypeBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\GenericLayer\_DelegateTypeBase.cs" />
     <Compile Include="_Internal\GenericLayer\_DelegateTypesBase.cs" />
     <Compile Include="_Internal\GenericLayer\_EnumTypesBase.cs" />
     <Compile Include="_Internal\GenericLayer\_FullTypesBase.cs" />
+    <Compile Include="_Internal\GenericLayer\_GenericInstantiableTypeBase{7}+_BinaryOperatorsBase[+_BinaryOperator].cs">
+      <DependentUpon>_GenericInstantiableTypeBase{7}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\GenericLayer\_GenericInstantiableTypeBase{7}+_TypeCoercionsBase[+_TypeCoercionMember].cs">
+      <DependentUpon>_GenericInstantiableTypeBase{7}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\GenericLayer\_GenericInstantiableTypeBase{7}+_UnaryOperatorsBase[+_UnaryOperatorMember].cs">
+      <DependentUpon>_GenericInstantiableTypeBase{7}.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\GenericLayer\_GenericInstantiableTypeBase{7}.cs" />
     <Compile Include="_Internal\GenericLayer\_GenericTypeBase{TType}.cs" />
     <Compile Include="_Internal\GenericLayer\_GroupedDeclarations{3}.cs" />
+    <Compile Include="_Internal\GenericLayer\_GroupedMasterBase{TDeclaration}+DictionaryEnumerator.cs">
+      <DependentUpon>_GroupedMasterBase{TDeclaration}.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\GenericLayer\_GroupedMasterBase{TDeclaration}.cs" />
+    <Compile Include="_Internal\GenericLayer\_GroupedMasterbase{TDeclaration}._KC.cs">
+      <DependentUpon>_GroupedMasterBase{TDeclaration}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\GenericLayer\_GroupedMasterbase{TDeclaration}._VC.cs">
+      <DependentUpon>_GroupedMasterBase{TDeclaration}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\GenericLayer\_IGenericType.cs" />
     <Compile Include="_Internal\GenericLayer\_IGenericTypeRegistrar.cs" />
-    <Compile Include="_Internal\GenericLayer\_InterfaceTypeBase+_Events[+_Event].cs" />
-    <Compile Include="_Internal\GenericLayer\_InterfaceTypeBase+_MethodsBase[+_Method].cs" />
+    <Compile Include="_Internal\GenericLayer\_InterfaceTypeBase+_Events[+_Event].cs">
+      <DependentUpon>_InterfaceTypeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\GenericLayer\_InterfaceTypeBase+_IndexersBase[+_Indexer+_Method].cs">
+      <DependentUpon>_InterfaceTypeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\GenericLayer\_InterfaceTypeBase+_MethodsBase[+_Method].cs">
+      <DependentUpon>_InterfaceTypeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\GenericLayer\_InterfaceTypeBase+_Properties[+_Property+_Method].cs">
+      <DependentUpon>_InterfaceTypeBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\GenericLayer\_InterfaceTypeBase.cs" />
     <Compile Include="_Internal\GenericLayer\_InterfaceTypesBase.cs" />
-    <Compile Include="_Internal\GenericLayer\_StructTypeBase+_ConstructorsBase[+_Constructor].cs" />
-    <Compile Include="_Internal\GenericLayer\_StructTypeBase+_MethodsBase[+_Method].cs" />
+    <Compile Include="_Internal\GenericLayer\_StructTypeBase+_ConstructorsBase[+_Constructor].cs">
+      <DependentUpon>_StructTypeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\GenericLayer\_StructTypeBase+_EventsBase[+_EventMember+_MethodMember].cs">
+      <DependentUpon>_StructTypeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\GenericLayer\_StructTypeBase+_Fields[+FieldMember].cs">
+      <DependentUpon>_StructTypeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\GenericLayer\_StructTypeBase+_IndexersBase[+_IndexerMember+_MethodMember].cs">
+      <DependentUpon>_StructTypeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\GenericLayer\_StructTypeBase+_MethodsBase[+_Method].cs">
+      <DependentUpon>_StructTypeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\GenericLayer\_StructTypeBase+_PropertiesBase[+_PropertyBase].cs">
+      <DependentUpon>_StructTypeBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\GenericLayer\_StructTypeBase.cs" />
     <Compile Include="_Internal\GenericLayer\_StructTypesBase.cs" />
     <Compile Include="_Internal\GenericLayer\_Types{TType, TTypes}.cs" />

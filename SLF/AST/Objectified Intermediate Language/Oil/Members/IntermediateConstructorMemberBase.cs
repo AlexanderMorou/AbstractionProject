@@ -38,7 +38,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TType,
             IIntermediateCreatableType<TCtor, TIntermediateCtor, TType, TIntermediateType>
     {
-        bool naming = false;
         /// <summary>
         /// Creates a new <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
         /// with the <paramref name="parent"/> provdied.
@@ -49,20 +48,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public IntermediateConstructorMemberBase(TIntermediateType parent)
             : base(parent)
         {
-            naming = true;
-            this.Name = ".ctor";
-            naming = false;
         }
 
         internal IntermediateConstructorMemberBase(TIntermediateType parent, bool typeInitializer)
-            : this(parent)
+            : base(parent,typeInitializer)
         {
-            if (typeInitializer)
-            {
-                naming = true;
-                this.Name = ".cctor";
-                naming = false;
-            }
         }
 
         #region TopBlock Members

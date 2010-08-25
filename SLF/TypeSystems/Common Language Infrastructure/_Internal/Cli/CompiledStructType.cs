@@ -33,6 +33,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
         }
 
+        /// <summary>
+        /// Obtains the <see cref="IStructType"/> relative to the
+        /// <paramref name="typeParameters"/> provided.
+        /// </summary>
+        /// <param name="typeParameters">The <see cref="IType"/>
+        /// series from which to create the generic type.</param>
+        /// <returns>An <see cref="IStructType"/>
+        /// instance which replaces the type-parameters
+        /// contained within the <see cref="IStructType"/>.</returns>
+        /// <remarks>Performs no type-parameter check.</remarks>
         protected override IStructType OnMakeGenericType(ITypeCollectionBase typeParameters)
         {
             return new _StructTypeBase(this, typeParameters);
@@ -134,12 +144,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-
         protected override IInterfaceMemberMapping<IStructMethodMember, IInterfaceMethodMember, IStructPropertyMember, IInterfacePropertyMember, IStructEventMember, IInterfaceEventMember, IStructIndexerMember, IInterfaceIndexerMember, IStructType, IInterfaceType> OnGetInterfaceMap(IInterfaceType type)
         {
             return this.GetInterfaceMap(type);
         }
 
+        /// <summary>
+        /// Returns the <see cref="TypeKind"/> the <see cref="CompiledStructType"/>
+        /// is.
+        /// </summary>
+        /// <remarks>Returns <see cref="TypeKind.Struct"/>.</remarks>
         protected override TypeKind TypeImpl
         {
             get { return TypeKind.Struct; }
