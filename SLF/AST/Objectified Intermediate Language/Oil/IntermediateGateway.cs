@@ -142,8 +142,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <exception cref="System.ArgumentException">thrown when the
         /// type <typeparamref name="TAssembly"/> does not have a public
         /// constructor which accepts a <see cref="String"/> value.</exception>
-        /// <remarks>The resulted instance is a part of a new <typeparamref name="TAssembly"/>
-        /// instance created.</remarks>
+        /// <remarks><para>The resulted instance is a part of a new <typeparamref name="TAssembly"/>
+        /// instance created.</para><para>To allow for internal type variations to execute 
+        /// smoothly, refer to <see cref="RegisterCreateAssemblyBridge{T}(ICreateAssemblyBridge{T})"/>.</para></remarks>
         public static TAssembly CreateAssembly<TAssembly>(string name)
             where TAssembly :
                 IIntermediateAssembly/*,
