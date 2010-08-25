@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -110,82 +110,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compilers\AssemblyOutputType.cs" />
+    <Compile Include="Compilers\CommandLineCompilerState.cs" />
     <Compile Include="Compilers\CompilerOptions.cs" />
+    <Compile Include="Compilers\CompilerSupport.cs" />
+    <Compile Include="Compilers\DebugSupport.cs" />
+    <Compile Include="Compilers\ICommandLineCompiler.cs" />
+    <Compile Include="Compilers\ICommandLineCompilerAid.cs" />
+    <Compile Include="Compilers\ICommandLineCompilerResults.cs" />
+    <Compile Include="Compilers\ICompileOptions.cs" />
+    <Compile Include="Compilers\ICompiler.cs" />
+    <Compile Include="Compilers\ICompilerAid.cs" />
+    <Compile Include="Compilers\ICompilerResults.cs" />
+    <Compile Include="Compilers\IIntermediateCodeDynamicCompiler.cs" />
+    <Compile Include="Compilers\IIntermediateCodeDynamicCompilerAid.cs" />
+    <Compile Include="Compilers\IIntermediateCodeTranslatorCompiler.cs" />
+    <Compile Include="Compilers\IIntermediateCodeTranslatorCompilerAid.cs" />
     <Compile Include="Compilers\IntermediateCodeDynamicCompiler.cs" />
+    <Compile Include="Compilers\IntermediateCodeDynamicCompilerAid.cs" />
+    <Compile Include="Compilers\WarningLevel.cs" />
+    <Compile Include="Languages\ILanguageProvider.cs" />
     <Compile Include="Oil\AnonymousType+PropertyMembers.cs">
       <DependentUpon>AnonymousType.cs</DependentUpon>
     </Compile>
     <Compile Include="Oil\AnonymousType.cs" />
-    <Compile Include="Oil\Expressions\IndexerReferenceExpression.cs" />
-    <Compile Include="Oil\Expressions\IStatementExpression.cs" />
-    <Compile Include="Oil\Expressions\IWorkspaceExpression.cs" />
-    <Compile Include="Oil\IIntermediateCreatableSignatureType.cs" />
-    <Compile Include="Oil\Expressions\IAnonymousMethodExpression.cs" />
-    <Compile Include="Oil\Expressions\IStaticGetMemberHandleExpression.cs" />
-    <Compile Include="Oil\Expressions\Lambda\ILambdaTypedExpression.cs" />
-    <Compile Include="Oil\Expressions\Lambda\ILambdaTypedExpressionParameterMemberDictionary.cs" />
-    <Compile Include="Oil\Expressions\Lambda\ILambdaTypedSimpleExpression.cs" />
-    <Compile Include="Oil\Expressions\Lambda\ILambdaTypedStatementExpression.cs" />
-    <Compile Include="Oil\Expressions\Lambda\ILambdaTypeInferredExpression.cs" />
-    <Compile Include="Oil\Expressions\Lambda\ILambdaTypeInferreExpressiondParameterMember.cs" />
-    <Compile Include="Oil\Expressions\Lambda\ILambdaTypeInferredExpressionParameterMemberDictionary.cs" />
-    <Compile Include="Oil\Expressions\Lambda\ILambdaTypeInferredSimpleExpression.cs" />
-    <Compile Include="Oil\Expressions\Lambda\ILambdaTypeInferredStatementExpression.cs" />
-    <Compile Include="Oil\Expressions\Lambda\LambdaExpression.cs" />
-    <Compile Include="Oil\Expressions\Lambda\LambdaExpressionKind.cs" />
-    <Compile Include="Oil\Expressions\Linq\ILinqDirectedOrderByGroupClause.cs" />
-    <Compile Include="Oil\Expressions\Linq\ILinqOrderByGroupClause.cs" />
-    <Compile Include="Oil\Expressions\Linq\ILinqOrderingPairCollection.cs" />
-    <Compile Include="Oil\Expressions\Linq\IRangeVariableReferenceExpression.cs" />
-    <Compile Include="Oil\Expressions\Linq\LinqOrderingPair.cs" />
-    <Compile Include="Oil\Expressions\Linq\LinqOrderingPairCollection.cs" />
-    <Compile Include="Oil\IAnonymousTypeManager.cs" />
-    <Compile Include="Oil\IIntermediateCodeVisitor.cs" />
-    <Compile Include="Oil\IIntermediateLocalizableDeclaration.cs" />
-    <Compile Include="Oil\IntermediateAssembly.cs" />
-    <Compile Include="Oil\IntermediateGenericSegmentableParentType.cs" />
-    <Compile Include="Oil\IntermediateInterfaceType %28MemberDeclarations%29.cs">
-      <DependentUpon>IntermediateInterfaceType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Oil\IntermediateInterfaceType %28MemberDictionaries%29.cs">
-      <DependentUpon>IntermediateInterfaceType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Oil\Members\IntermediateConstructorSignatureMemberBase.cs" />
-    <Compile Include="Oil\Members\IntermediateConstructorMemberDictionary.cs" />
-    <Compile Include="Oil\Members\IIntermediateConstructorSignatureMemberCollection.cs" />
-    <Compile Include="Oil\Members\IIntermediateConstructorSignatureMember.cs" />
-    <Compile Include="Oil\Members\IntermediatePropertySignatureMemberDictionary.cs" />
-    <Compile Include="Oil\IntermediateStructType+MemberDeclarations.cs">
-      <DependentUpon>IntermediateStructType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Oil\IntermediateStructType.cs" />
-    <Compile Include="Oil\ISourceElement.cs" />
-    <Compile Include="Oil\LineColumnPair.cs" />
-    <Compile Include="Oil\Members\IIntermediatePropertyMethodMember.cs" />
-    <Compile Include="Oil\Members\IIntermediatePropertySignatureMethodMember.cs" />
-    <Compile Include="Oil\Members\IntermediateEventSignatureMemberBase+_Parameters+Parameter.cs">
-      <DependentUpon>IntermediateEventSignatureMemberBase+_Parameters.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Oil\Members\IntermediateEventSignatureMemberBase+_Parameters.cs">
-      <DependentUpon>IntermediateEventSignatureMemberBase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Oil\Members\IntermediateIndexerMember+ParameterMembersDictionary+ParameterMember.cs">
-      <DependentUpon>IntermediateIndexerMember+ParameterMembersDictionary.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Oil\Members\IntermediateIndexerMember+ParameterMembersDictionary.cs">
-      <DependentUpon>IntermediateIndexerMember.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Oil\Members\IntermediateIndexerMember.cs" />
-    <Compile Include="Oil\Members\IntermediatePropertyMember.cs" />
-    <Compile Include="Oil\Members\IntermediatePropertyMemberDictionary.cs" />
-    <Compile Include="Oil\Members\IntermediatePropertySignatureMember.cs" />
-    <Compile Include="Oil\Modules\IIntermediateModuleDictionary.cs" />
-    <Compile Include="Oil\Modules\IntermediateModuleDictionary.cs" />
-    <Compile Include="Oil\Modules\IntermediateModuleGlobalField.cs" />
-    <Compile Include="Oil\Modules\IntermediateModuleGlobalMethod.cs" />
-    <Compile Include="Oil\Modules\IntermediateModuleGlobalMethodDictionary.cs" />
-    <Compile Include="Oil\Precompiler.cs" />
-    <Compile Include="Oil\PrivateImplementationDetails.cs" />
     <Compile Include="Oil\CustomAttributeDefinition+AttributeWrapper+AttributeCollection.cs">
       <DependentUpon>CustomAttributeDefinition+AttributeWrapper.cs</DependentUpon>
     </Compile>
@@ -201,6 +149,7 @@
       <DependentUpon>CustomAttributeDefinitionCollectionSeries.cs</DependentUpon>
     </Compile>
     <Compile Include="Oil\CustomAttributeDefinitionCollectionSeries.cs" />
+    <Compile Include="Oil\CustomAttributeDefinitionNamedParameter.cs" />
     <Compile Include="Oil\CustomAttributeDefinitionNamedParameterValue.cs" />
     <Compile Include="Oil\CustomAttributeDefinitionParameter.cs" />
     <Compile Include="Oil\CustomAttributeDefinitionParameterCollection.cs" />
@@ -218,12 +167,12 @@
     <Compile Include="Oil\Expressions\ExpressionToCommaFusionExpression.cs" />
     <Compile Include="Oil\Expressions\ExpressionToCommaTypeReferenceFusionExpression.cs" />
     <Compile Include="Oil\Expressions\FixedLengthMalleableExpressionCollection.cs" />
+    <Compile Include="Oil\Expressions\IAnonymousMethodExpression.cs" />
     <Compile Include="Oil\Expressions\IArrayDimensionDetailExpression.cs" />
     <Compile Include="Oil\Expressions\IArrayDimensionDetailExpressions.cs" />
-    <Compile Include="Oil\Expressions\IAssignmentExpression.cs" />
     <Compile Include="Oil\Expressions\IAssignTargetExpression.cs" />
+    <Compile Include="Oil\Expressions\IAssignmentExpression.cs" />
     <Compile Include="Oil\Expressions\IBinaryOperationExpression.cs" />
-    <Compile Include="Oil\Expressions\INaryOperandExpression.cs" />
     <Compile Include="Oil\Expressions\ICommaExpression.cs" />
     <Compile Include="Oil\Expressions\IConditionalExpression.cs" />
     <Compile Include="Oil\Expressions\ICreateArrayDetailExpression.cs" />
@@ -254,11 +203,14 @@
     <Compile Include="Oil\Expressions\IMethodPointerReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\IMethodReferenceStub.cs" />
     <Compile Include="Oil\Expressions\INamedParameterExpression.cs" />
+    <Compile Include="Oil\Expressions\INaryOperandExpression.cs" />
     <Compile Include="Oil\Expressions\IParenthesizedExpression.cs" />
     <Compile Include="Oil\Expressions\IPrimitiveExpression.cs" />
     <Compile Include="Oil\Expressions\IPrimitiveExpression{T}.cs" />
     <Compile Include="Oil\Expressions\IPropertyReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\ISpecialReferenceExpression.cs" />
+    <Compile Include="Oil\Expressions\IStatementExpression.cs" />
+    <Compile Include="Oil\Expressions\IStaticGetMemberHandleExpression.cs" />
     <Compile Include="Oil\Expressions\ISymbolExpression.cs" />
     <Compile Include="Oil\Expressions\ITypeCastExpression.cs" />
     <Compile Include="Oil\Expressions\ITypeOfExpression.cs" />
@@ -266,48 +218,67 @@
     <Compile Include="Oil\Expressions\IUnaryOperationExpression.cs" />
     <Compile Include="Oil\Expressions\IUnaryOperationPrimaryTerm.cs" />
     <Compile Include="Oil\Expressions\IVariadicTypeCastExpression.cs" />
+    <Compile Include="Oil\Expressions\IWorkspaceExpression.cs" />
+    <Compile Include="Oil\Expressions\IndexerReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\Lambda\ILambdaBody.cs" />
     <Compile Include="Oil\Expressions\Lambda\ILambdaBodySimple.cs" />
     <Compile Include="Oil\Expressions\Lambda\ILambdaBodyStatement.cs" />
     <Compile Include="Oil\Expressions\Lambda\ILambdaExpression.cs" />
-    <Compile Include="Oil\Expressions\Lambda\ILambdaTypedExpressionParameterMember.cs" />
     <Compile Include="Oil\Expressions\Lambda\ILambdaSimpleExpression.cs" />
     <Compile Include="Oil\Expressions\Lambda\ILambdaStatementExpression.cs" />
+    <Compile Include="Oil\Expressions\Lambda\ILambdaTypeInferreExpressiondParameterMember.cs" />
+    <Compile Include="Oil\Expressions\Lambda\ILambdaTypeInferredExpression.cs" />
+    <Compile Include="Oil\Expressions\Lambda\ILambdaTypeInferredExpressionParameterMemberDictionary.cs" />
+    <Compile Include="Oil\Expressions\Lambda\ILambdaTypeInferredSimpleExpression.cs" />
+    <Compile Include="Oil\Expressions\Lambda\ILambdaTypeInferredStatementExpression.cs" />
+    <Compile Include="Oil\Expressions\Lambda\ILambdaTypedExpression.cs" />
+    <Compile Include="Oil\Expressions\Lambda\ILambdaTypedExpressionParameterMember.cs" />
+    <Compile Include="Oil\Expressions\Lambda\ILambdaTypedExpressionParameterMemberDictionary.cs" />
+    <Compile Include="Oil\Expressions\Lambda\ILambdaTypedSimpleExpression.cs" />
+    <Compile Include="Oil\Expressions\Lambda\ILambdaTypedStatementExpression.cs" />
+    <Compile Include="Oil\Expressions\Lambda\LambdaExpression.cs" />
+    <Compile Include="Oil\Expressions\Lambda\LambdaExpressionKind.cs" />
     <Compile Include="Oil\Expressions\Lambda\LambdaExtensions.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqBody.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqBodyBuilder.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqClause.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqClauseCollection.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqDirectedOrderByClause.cs" />
+    <Compile Include="Oil\Expressions\Linq\ILinqDirectedOrderByGroupClause.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqExpression.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqFromClause.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqFusionBody.cs" />
-    <Compile Include="Oil\Expressions\Linq\ILinqFusionGroupBody.cs" />
-    <Compile Include="Oil\Expressions\Linq\ILinqGroupBody.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqFusionBodyBuilder.cs" />
+    <Compile Include="Oil\Expressions\Linq\ILinqFusionGroupBody.cs" />
+    <Compile Include="Oil\Expressions\Linq\ILinqFusionSelectBody.cs" />
+    <Compile Include="Oil\Expressions\Linq\ILinqGroupBody.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqJoinClause.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqLetClause.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqOrderByClause.cs" />
-    <Compile Include="Oil\Expressions\Linq\ILinqTailBodyBuilder.cs" />
+    <Compile Include="Oil\Expressions\Linq\ILinqOrderByGroupClause.cs" />
+    <Compile Include="Oil\Expressions\Linq\ILinqOrderingPairCollection.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqSelectBody.cs" />
-    <Compile Include="Oil\Expressions\Linq\ILinqFusionSelectBody.cs" />
+    <Compile Include="Oil\Expressions\Linq\ILinqTailBodyBuilder.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqTypedFromClause.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqTypedJoinClause.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqWhereClause.cs" />
+    <Compile Include="Oil\Expressions\Linq\IRangeVariableReferenceExpression.cs" />
+    <Compile Include="Oil\Expressions\Linq\LinqBody.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqClauseBase.cs" />
+    <Compile Include="Oil\Expressions\Linq\LinqClauseCollection.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqDirectedOrderByClause.cs" />
+    <Compile Include="Oil\Expressions\Linq\LinqExpression.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqFromClause.cs" />
+    <Compile Include="Oil\Expressions\Linq\LinqFusionGroupBody.cs" />
+    <Compile Include="Oil\Expressions\Linq\LinqFusionSelectBody.cs" />
+    <Compile Include="Oil\Expressions\Linq\LinqGroupBody.cs" />
+    <Compile Include="Oil\Expressions\Linq\LinqHelper.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqJoinClause.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqLetClause.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqOrderByClause.cs" />
+    <Compile Include="Oil\Expressions\Linq\LinqOrderingPair.cs" />
+    <Compile Include="Oil\Expressions\Linq\LinqOrderingPairCollection.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqSelectBody.cs" />
-    <Compile Include="Oil\Expressions\Linq\LinqBody.cs" />
-    <Compile Include="Oil\Expressions\Linq\LinqClauseCollection.cs" />
-    <Compile Include="Oil\Expressions\Linq\LinqExpression.cs" />
-    <Compile Include="Oil\Expressions\Linq\LinqFusionSelectBody.cs" />
-    <Compile Include="Oil\Expressions\Linq\LinqGroupBody.cs" />
-    <Compile Include="Oil\Expressions\Linq\LinqFusionGroupBody.cs" />
-    <Compile Include="Oil\Expressions\Linq\LinqHelper.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqTypedFromClause.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqTypedJoinClause.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqWhereClause.cs" />
@@ -327,12 +298,11 @@
     <Compile Include="Oil\Expressions\TypeCastExpression.cs" />
     <Compile Include="Oil\Expressions\TypeOfExpression.cs" />
     <Compile Include="Oil\Expressions\TypeReferenceExpression.cs" />
-    <Compile Include="Oil\ICustomAttributeDefinitionCollectionSeries.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Oil\IAnonymousTypeCollection.cs" />
+    <Compile Include="Oil\IAnonymousTypeManager.cs" />
     <Compile Include="Oil\ICustomAttributeDefinition.cs" />
     <Compile Include="Oil\ICustomAttributeDefinitionCollection.cs" />
-    <Compile Include="Oil\CustomAttributeDefinitionNamedParameter.cs" />
+    <Compile Include="Oil\ICustomAttributeDefinitionCollectionSeries.cs" />
     <Compile Include="Oil\ICustomAttributeDefinitionNamedParameter.cs" />
     <Compile Include="Oil\ICustomAttributeDefinitionNamedParameter{T}.cs" />
     <Compile Include="Oil\ICustomAttributeDefinitionParameter.cs" />
@@ -341,57 +311,70 @@
     <Compile Include="Oil\ICustomAttributeDefinitionParameter{T}.cs" />
     <Compile Include="Oil\IIntermediateAssembly.cs" />
     <Compile Include="Oil\IIntermediateAssemblyInformation.cs" />
+    <Compile Include="Oil\IIntermediateClassType.cs" />
+    <Compile Include="Oil\IIntermediateClassTypeDictionary.cs" />
+    <Compile Include="Oil\IIntermediateCodeVisitor.cs" />
+    <Compile Include="Oil\IIntermediateCoercibleType.cs" />
+    <Compile Include="Oil\IIntermediateCreatableSignatureType.cs" />
+    <Compile Include="Oil\IIntermediateCreatableType.cs" />
     <Compile Include="Oil\IIntermediateCustomAttributedDeclaration.cs" />
     <Compile Include="Oil\IIntermediateDeclaration.cs" />
+    <Compile Include="Oil\IIntermediateDeclarationDictionary.cs" />
+    <Compile Include="Oil\IIntermediateDelegateType.cs" />
+    <Compile Include="Oil\IIntermediateDelegateTypeDictionary.cs" />
+    <Compile Include="Oil\IIntermediateEnumType.cs" />
+    <Compile Include="Oil\IIntermediateEnumTypeDictionary.cs" />
+    <Compile Include="Oil\IIntermediateEventParent.cs" />
+    <Compile Include="Oil\IIntermediateEventSignatureParent.cs" />
     <Compile Include="Oil\IIntermediateFullDeclarationDictionary.cs" />
+    <Compile Include="Oil\IIntermediateFullTypeDictionary.cs" />
+    <Compile Include="Oil\IIntermediateGenericParameterParent.cs" />
+    <Compile Include="Oil\IIntermediateGenericType.cs" />
+    <Compile Include="Oil\IIntermediateGroupedDeclarationDictionary.cs" />
+    <Compile Include="Oil\IIntermediateIndexerParent.cs" />
+    <Compile Include="Oil\IIntermediateIndexerSignatureParent.cs" />
+    <Compile Include="Oil\IIntermediateInstantiableTypeImplementedInterfaces.cs" />
+    <Compile Include="Oil\IIntermediateInstantiableType`14.cs" />
+    <Compile Include="Oil\IIntermediateInterfaceMemberMapping.cs" />
+    <Compile Include="Oil\IIntermediateInterfaceType.cs" />
+    <Compile Include="Oil\IIntermediateInterfaceTypeDictionary.cs" />
+    <Compile Include="Oil\IIntermediateLocalizableDeclaration.cs" />
     <Compile Include="Oil\IIntermediateNamespaceDeclaration.cs" />
     <Compile Include="Oil\IIntermediateNamespaceDictionary.cs" />
     <Compile Include="Oil\IIntermediateNamespaceParent.cs" />
+    <Compile Include="Oil\IIntermediatePropertyParentType.cs" />
+    <Compile Include="Oil\IIntermediatePropertySignatureParentType.cs" />
     <Compile Include="Oil\IIntermediateScopedDeclaration.cs" />
+    <Compile Include="Oil\IIntermediateSegmentableDeclaration.cs" />
+    <Compile Include="Oil\IIntermediateSegmentableDeclarationPartCollection.cs" />
+    <Compile Include="Oil\IIntermediateSegmentableType.cs" />
+    <Compile Include="Oil\IIntermediateStructType.cs" />
+    <Compile Include="Oil\IIntermediateStructTypeDictionary.cs" />
+    <Compile Include="Oil\IIntermediateType.cs" />
+    <Compile Include="Oil\IIntermediateTypeCollection.cs" />
+    <Compile Include="Oil\IIntermediateTypeDictionary.cs" />
     <Compile Include="Oil\IIntermediateTypeParent.cs" />
+    <Compile Include="Oil\ILambdaSignatureType.cs" />
+    <Compile Include="Oil\IPrivateImplementationDetails.cs" />
+    <Compile Include="Oil\ISourceElement.cs" />
+    <Compile Include="Oil\ISymbolType.cs" />
     <Compile Include="Oil\Instructions\IStackInstruction.cs" />
     <Compile Include="Oil\IntermediateAssembly+PartsCollection.cs">
       <DependentUpon>IntermediateAssembly{TAssembly}.cs</DependentUpon>
     </Compile>
-    <Compile Include="Oil\IntermediateAssembly{TAssembly}.cs" />
+    <Compile Include="Oil\IntermediateAssembly.cs" />
     <Compile Include="Oil\IntermediateAssemblyInformation.cs" />
-    <Compile Include="Oil\IIntermediateSegmentableDeclaration.cs" />
-    <Compile Include="Oil\IIntermediateSegmentableDeclarationPartCollection.cs" />
-    <Compile Include="Oil\IntermediateDeclarationBase.cs" />
-    <Compile Include="Oil\IntermediateFullDeclarationDictionary+ValuesCollection.cs">
-      <DependentUpon>IntermediateFullDeclarationDictionary.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Oil\IntermediateFullDeclarationDictionary.cs" />
-    <Compile Include="Oil\IntermediateNamespaceDictionary.cs" />
-    <Compile Include="Oil\ISymbolType.cs" />
-    <Compile Include="Oil\Statements\BlockStatementBase.cs" />
-    <Compile Include="Oil\Statements\BlockStatementParentContainer.cs" />
-    <Compile Include="Oil\Statements\BreakableConditionBlockStatement.cs" />
-    <Compile Include="Oil\Statements\BreakStatement.cs" />
-    <Compile Include="Oil\Statements\CallFusionStatement.cs" />
-    <Compile Include="Oil\Statements\CallMethodStatement.cs" />
-    <Compile Include="Oil\Statements\ConditionStatement.cs" />
-    <Compile Include="Oil\Statements\IBreakableConditionBlockStatement.cs" />
-    <Compile Include="Oil\Statements\IBreakableConditionContinuationStatement.cs" />
-    <Compile Include="Oil\Statements\ICallFusionStatement.cs" />
-    <Compile Include="Oil\Statements\ICallMethodStatement.cs" />
-    <Compile Include="Oil\Statements\IConditionContinuationStatement.cs" />
-    <Compile Include="Oil\Statements\ILocalVariableDeclarationStatement.cs" />
-    <Compile Include="Oil\Statements\IExplicitlyTypedLocalVariableDeclarationStatement.cs" />
-    <Compile Include="Oil\Statements\IStatementParent.cs" />
-    <Compile Include="Oil\Statements\ReturnStatement.cs" />
-    <Compile Include="Oil\Statements\StatementBase.cs" />
-    <Compile Include="Oil\Statements\StatementKind.cs" />
-    <Compile Include="Oil\IAnonymousTypeCollection.cs" />
-    <Compile Include="Oil\IIntermediateInstantiableTypeImplementedInterfaces.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\IIntermediateInterfaceMemberMapping.cs" />
-    <Compile Include="Oil\IntermediateClassTypeDictionary.cs" />
+    <Compile Include="Oil\IntermediateAssembly{TAssembly}.cs" />
     <Compile Include="Oil\IntermediateClassType+MemberDeclarations.cs">
       <DependentUpon>IntermediateClassType.cs</DependentUpon>
     </Compile>
     <Compile Include="Oil\IntermediateClassType.cs" />
+    <Compile Include="Oil\IntermediateClassTypeDictionary.cs" />
+    <Compile Include="Oil\IntermediateDeclarationBase.cs" />
+    <Compile Include="Oil\IntermediateDeclarationDictionary+ValuesCollection.cs">
+      <DependentUpon>IntermediateDeclarationDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\IntermediateDeclarationDictionary.cs" />
     <Compile Include="Oil\IntermediateDelegateType+ParameterDictionary.cs">
       <DependentUpon>IntermediateDelegateType.cs</DependentUpon>
     </Compile>
@@ -399,13 +382,37 @@
       <DependentUpon>IntermediateDelegateType.cs</DependentUpon>
     </Compile>
     <Compile Include="Oil\IntermediateDelegateType.cs" />
+    <Compile Include="Oil\IntermediateDelegateTypeDictionary.cs" />
     <Compile Include="Oil\IntermediateEnumType+FieldMember+FieldValue.cs">
       <DependentUpon>IntermediateEnumType+FieldMember.cs</DependentUpon>
     </Compile>
     <Compile Include="Oil\IntermediateEnumType+FieldMember.cs">
       <DependentUpon>IntermediateEnumType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Oil\IntermediateEnumType+FieldMemberDictionary.cs">
+      <DependentUpon>IntermediateEnumType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Oil\IntermediateEnumType.cs" />
+    <Compile Include="Oil\IntermediateEnumTypeDictionary.cs" />
+    <Compile Include="Oil\IntermediateFullDeclarationDictionary+ValuesCollection.cs">
+      <DependentUpon>IntermediateFullDeclarationDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\IntermediateFullDeclarationDictionary.cs" />
+    <Compile Include="Oil\IntermediateFullTypeDictionary.cs" />
+    <Compile Include="Oil\IntermediateGateway+CommonlyUsedTypeReferences.cs" />
+    <Compile Include="Oil\IntermediateGateway+CreateAssemblyDynamicBridge.cs">
+      <DependentUpon>IntermediateGateway.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\IntermediateGateway+CreateIntermediateAssemblyBridge.cs">
+      <DependentUpon>IntermediateGateway.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\IntermediateGateway+DefaultATPatternAid.cs">
+      <DependentUpon>IntermediateGateway.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\IntermediateGateway+ICreateAssemblyBridge{T}.cs">
+      <DependentUpon>IntermediateGateway.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\IntermediateGateway.cs" />
     <Compile Include="Oil\IntermediateGenericSegmentableInstantiableType+ImplementedInterfacesDictionary.cs">
       <DependentUpon>IntermediateGenericSegmentableInstantiableType.cs</DependentUpon>
     </Compile>
@@ -416,153 +423,46 @@
       <DependentUpon>IntermediateGenericSegmentableInstantiableType.cs</DependentUpon>
     </Compile>
     <Compile Include="Oil\IntermediateGenericSegmentableInstantiableType.cs" />
+    <Compile Include="Oil\IntermediateGenericSegmentableParentType.cs" />
     <Compile Include="Oil\IntermediateGenericSegmentableType.cs" />
-    <Compile Include="Oil\IntermediateGenericTypeBase+TypeParameter.cs">
-      <DependentUpon>IntermediateGenericTypeBase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Oil\IPrivateImplementationDetails.cs" />
-    <Compile Include="Oil\IntermediateGateway+CreateAssemblyDynamicBridge.cs">
-      <DependentUpon>IntermediateGateway.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Oil\IntermediateGateway+CreateIntermediateAssemblyBridge.cs">
-      <DependentUpon>IntermediateGateway.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Oil\IntermediateGateway+ICreateAssemblyBridge{T}.cs">
-      <DependentUpon>IntermediateGateway.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Oil\Statements\SwitchStatement.cs" />
-    <Compile Include="_Internal\Ast\Expressions\Linq\ILinqBodyBuilderParent.cs" />
-    <Compile Include="_Internal\Ast\Expressions\Linq\LinqDirectedOrderByBodyBuilder.cs" />
-    <Compile Include="_Internal\Ast\Expressions\Linq\LinqFusionBodyBuilder.cs" />
-    <Compile Include="_Internal\Ast\Expressions\Linq\LinqJoinBodyBuilder.cs" />
-    <Compile Include="_Internal\Ast\Expressions\Linq\LinqLetBodyBuilder.cs" />
-    <Compile Include="_Internal\Ast\Expressions\Linq\LinqOrderByBodyBuilder.cs" />
-    <Compile Include="_Internal\Ast\Expressions\Linq\LinqTailBodyBuilder.cs" />
-    <Compile Include="_Internal\Ast\Expressions\Linq\LinqTailGroupBodyBuilder.cs" />
-    <Compile Include="_Internal\Ast\Expressions\Linq\LinqTailSelectBodyBuilder.cs" />
-    <Compile Include="_Internal\Ast\Expressions\Linq\LinqTypedJoinBodyBuilder.cs" />
-    <Compile Include="_Internal\Ast\Expressions\Linq\LinqBodyBuilderBase.cs" />
-    <Compile Include="_Internal\Ast\Expressions\Linq\LinqFromBodyBuilder.cs" />
-    <Compile Include="_Internal\Ast\Expressions\Linq\LinqTypedFromBodyBuilder.cs" />
-    <Compile Include="_Internal\Ast\Expressions\Linq\LinqWhereBodyBuilder.cs" />
-    <Compile Include="_Internal\Ast\IntermediateImplementedInterfaces.cs" />
-    <Compile Include="Oil\IntermediateInterfaceType.cs" />
-    <Compile Include="Oil\Members\IIntermediateDelegateTypeParameterDictionary.cs" />
-    <Compile Include="Oil\Members\IIntermediateEventMethodMember.cs" />
-    <Compile Include="Oil\Members\IntermediateCoercionMemberBase.cs" />
-    <Compile Include="Oil\IntermediateEnumType+FieldMemberDictionary.cs" />
-    <Compile Include="Oil\Members\IntermediateEnumFieldAutomaticValue.cs" />
-    <Compile Include="Oil\Members\IntermediateEventMember+ParameterDictionary.cs">
-      <DependentUpon>IntermediateEventMember.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Oil\Members\IntermediateEventMember+ParameterMember.cs">
-      <DependentUpon>IntermediateEventMember.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Oil\Members\IntermediateEventMember.cs" />
-    <Compile Include="Oil\Members\IntermediateEventSignatureMemberBase.cs" />
-    <Compile Include="Oil\Members\IntermediateEventSignatureParameterMember.cs" />
-    <Compile Include="Oil\Members\IntermediateFieldMemberBase.cs" />
-    <Compile Include="Oil\Members\IntermediateFieldMemberDictionary.cs" />
-    <Compile Include="Oil\Members\IntermediateMethodSignatureMemberBase+GenericParameterCollection.cs" />
-    <Compile Include="Oil\Members\IntermediateMethodMemberBase+ParameterDictionary.cs" />
-    <Compile Include="Oil\Members\IntermediateMethodMemberBase+ParameterMember.cs" />
-    <Compile Include="Oil\Members\IntermediateMethodMemberBase.cs" />
-    <Compile Include="Oil\Members\IntermediateMethodMemberDictionary.cs" />
-    <Compile Include="Oil\Members\IntermediateMethodSignatureMemberBase+Parameter.cs" />
-    <Compile Include="Oil\Members\IntermediateMethodSignatureMemberBase+ParameterDictionary.cs" />
-    <Compile Include="Oil\Members\IntermediateMethodSignatureMemberBase+TypeParameterDictionary+TypeParameter.cs" />
-    <Compile Include="Oil\Members\IntermediateMethodSignatureMemberBase+TypeParameterDictionary.cs" />
-    <Compile Include="Oil\Members\IntermediateMethodSignatureMemberBase.cs" />
-    <Compile Include="Oil\Members\IntermediateMethodSignatureMemberDictionary.cs" />
-    <Compile Include="Oil\IntermediateGateway+CommonlyUsedTypeReferences.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Oil\IntermediateSegmentableTypePartCollection.cs" />
-    <Compile Include="_Internal\Ast\IntermediateCustomAttributesBaseCollection.cs" />
-    <Compile Include="Oil\IntermediateDelegateTypeDictionary.cs" />
-    <Compile Include="Oil\IntermediateEnumTypeDictionary.cs" />
-    <Compile Include="Oil\IntermediateFullTypeDictionary.cs" />
-    <Compile Include="Oil\IntermediateGenericTypeBase+TypeParameterDictionary.cs">
-      <DependentUpon>IntermediateGenericTypeBase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Oil\IntermediateInterfaceTypeDictionary.cs" />
-    <Compile Include="Oil\IntermediateStructTypeDictionary.cs" />
-    <Compile Include="Oil\IntermediateTypeDictionary.cs" />
-    <Compile Include="Oil\Members\GenericParameterMovedEventArgs.cs" />
-    <Compile Include="Oil\Members\IntermediateConstructorSignatureMemberBase+Parameter.cs" />
-    <Compile Include="Oil\Members\IntermediateConstructorSignatureMemberBase+ParameterDictionary.cs" />
-    <Compile Include="Oil\Members\IntermediateParameterParentDeclarationBase.cs" />
-    <Compile Include="Oil\Members\IntermediateParameterMemberDictionary.cs" />
-    <Compile Include="Oil\Modules\IIntermediateModule.cs" />
-    <Compile Include="Oil\Modules\IIntermediateModuleGlobalField.cs" />
-    <Compile Include="Oil\Modules\IIntermediateModuleGlobalFieldDictionary.cs" />
-    <Compile Include="Oil\Modules\IIntermediateModuleGlobalMethod.cs" />
-    <Compile Include="Oil\Modules\IIntermediateModuleGlobalMethodDictionary.cs" />
-    <Compile Include="Oil\Modules\IntermediateModule.cs" />
-    <Compile Include="Oil\Modules\IntermediateModuleGlobalFieldDictionary.cs" />
-    <Compile Include="Oil\Statements\IBlockStatement.cs" />
-    <Compile Include="Oil\Statements\IBlockStatementParent.cs" />
-    <Compile Include="Oil\Statements\IBreakableBlockStatement.cs" />
-    <Compile Include="Oil\Statements\IBreakStatement.cs" />
-    <Compile Include="Oil\Statements\IBreakExit.cs" />
-    <Compile Include="Oil\Statements\IConditionBlockStatement.cs" />
-    <Compile Include="Oil\Statements\IEnumerationBlockStatement.cs" />
-    <Compile Include="Oil\Statements\IExpressionStatement.cs" />
-    <Compile Include="Oil\Statements\IGoToStatement.cs" />
-    <Compile Include="Oil\Statements\IIterationBlockStatement.cs" />
-    <Compile Include="Oil\Statements\IJumpStatement.cs" />
-    <Compile Include="Oil\Statements\IJumpTarget.cs" />
-    <Compile Include="Oil\Statements\ILabelStatement.cs" />
-    <Compile Include="Oil\Statements\IReturnStatement.cs" />
-    <Compile Include="Oil\Statements\ISimpleIterationBlockStatement.cs" />
-    <Compile Include="Oil\Statements\IStatement.cs" />
-    <Compile Include="Oil\Statements\IStatements.cs" />
-    <Compile Include="Oil\Statements\ISwitchCaseBlockStatement.cs" />
-    <Compile Include="Oil\Statements\ISwitchStatement.cs" />
-    <Compile Include="Oil\Statements\ITopBlockStatement.cs" />
-    <Compile Include="Oil\Statements\ITryCatchStatement.cs" />
-    <Compile Include="Oil\Statements\ITryStatement.cs" />
-    <Compile Include="Oil\IIntermediateClassType.cs" />
-    <Compile Include="Oil\IIntermediateClassTypeDictionary.cs" />
-    <Compile Include="Oil\IIntermediateCoercibleType.cs" />
-    <Compile Include="Oil\IIntermediateCreatableType.cs" />
-    <Compile Include="Oil\IIntermediateDeclarationDictionary.cs" />
-    <Compile Include="Oil\IIntermediateDelegateType.cs" />
-    <Compile Include="Oil\IIntermediateDelegateTypeDictionary.cs" />
-    <Compile Include="Oil\IIntermediateEnumType.cs" />
-    <Compile Include="Oil\IIntermediateEnumTypeDictionary.cs" />
-    <Compile Include="Oil\IIntermediateEventSignatureParent.cs" />
-    <Compile Include="Oil\IIntermediateFullTypeDictionary.cs" />
-    <Compile Include="Oil\IIntermediateGenericParameterParent.cs" />
-    <Compile Include="Oil\IIntermediateGenericType.cs" />
-    <Compile Include="Oil\IIntermediateGroupedDeclarationDictionary.cs" />
-    <Compile Include="Oil\IIntermediateInstantiableType`14.cs" />
-    <Compile Include="Oil\IIntermediateInterfaceType.cs" />
-    <Compile Include="Oil\IIntermediateInterfaceTypeDictionary.cs" />
-    <Compile Include="Oil\IIntermediatePropertyParentType.cs" />
-    <Compile Include="Oil\IIntermediateSegmentableType.cs" />
-    <Compile Include="Oil\IIntermediateTypeDictionary.cs" />
-    <Compile Include="Oil\ILambdaSignatureType.cs" />
     <Compile Include="Oil\IntermediateGenericTypeBase+GenericParameterCollection.cs">
       <DependentUpon>IntermediateGenericTypeBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Oil\IntermediateGenericTypeBase+TypeParameter.cs">
+      <DependentUpon>IntermediateGenericTypeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\IntermediateGenericTypeBase+TypeParameterDictionary.cs">
+      <DependentUpon>IntermediateGenericTypeBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Oil\IntermediateGenericTypeBase.cs" />
-    <Compile Include="Oil\IntermediateTypeBase.cs" />
     <Compile Include="Oil\IntermediateGroupedDeclarationDictionary+ValuesCollection.cs">
       <DependentUpon>IntermediateGroupedDeclarationDictionary.cs</DependentUpon>
     </Compile>
-    <Compile Include="Oil\Members\IIntermediateBinaryOperatorCoercionMemberDictionary.cs" />
-    <Compile Include="Oil\Members\IIntermediateConstructorParameterMember.cs" />
-    <Compile Include="Oil\Members\IIntermediateEnumFieldExpressionValue.cs" />
-    <Compile Include="Oil\Members\IIntermediateEnumFieldMemberDictionary.cs" />
-    <Compile Include="Oil\Members\IIntermediateEnumFieldValue.cs" />
-    <Compile Include="Oil\Members\IIntermediateEnumFieldConstantValue.cs" />
-    <Compile Include="Oil\Members\IIntermediateEventMemberDictionary.cs" />
-    <Compile Include="Oil\Members\IIntermediateFullMemberDictionary.cs" />
+    <Compile Include="Oil\IntermediateGroupedDeclarationDictionary.cs" />
+    <Compile Include="Oil\IntermediateInterfaceType %28MemberDeclarations%29.cs">
+      <DependentUpon>IntermediateInterfaceType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\IntermediateInterfaceType %28MemberDictionaries%29.cs">
+      <DependentUpon>IntermediateInterfaceType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\IntermediateInterfaceType.cs" />
+    <Compile Include="Oil\IntermediateInterfaceTypeDictionary.cs" />
+    <Compile Include="Oil\IntermediateNamespaceDeclaration.cs" />
+    <Compile Include="Oil\IntermediateNamespaceDictionary.cs" />
+    <Compile Include="Oil\IntermediateSegmentableDeclarationBase.cs" />
+    <Compile Include="Oil\IntermediateSegmentableDeclarationParts.cs" />
+    <Compile Include="Oil\IntermediateSegmentableTypePartCollection.cs" />
+    <Compile Include="Oil\IntermediateStructType+MemberDeclarations.cs">
+      <DependentUpon>IntermediateStructType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\IntermediateStructType.cs" />
+    <Compile Include="Oil\IntermediateStructTypeDictionary.cs" />
+    <Compile Include="Oil\IntermediateTypeBase.cs" />
+    <Compile Include="Oil\IntermediateTypeDictionary.cs" />
+    <Compile Include="Oil\LineColumnPair.cs" />
+    <Compile Include="Oil\Members\GenericParameterMovedEventArgs.cs" />
     <Compile Include="Oil\Members\IIntermediateBinaryOperatorCoercionMember.cs" />
+    <Compile Include="Oil\Members\IIntermediateBinaryOperatorCoercionMemberDictionary.cs" />
     <Compile Include="Oil\Members\IIntermediateClassCtorMember.cs" />
     <Compile Include="Oil\Members\IIntermediateClassEventMember.cs" />
     <Compile Include="Oil\Members\IIntermediateClassFieldMember.cs" />
@@ -570,10 +470,21 @@
     <Compile Include="Oil\Members\IIntermediateClassMethodMember.cs" />
     <Compile Include="Oil\Members\IIntermediateClassPropertyMember.cs" />
     <Compile Include="Oil\Members\IIntermediateCoercionMember.cs" />
+    <Compile Include="Oil\Members\IIntermediateConstructorMember.cs" />
+    <Compile Include="Oil\Members\IIntermediateConstructorMemberCollection.cs" />
+    <Compile Include="Oil\Members\IIntermediateConstructorParameterMember.cs" />
+    <Compile Include="Oil\Members\IIntermediateConstructorSignatureMember.cs" />
+    <Compile Include="Oil\Members\IIntermediateConstructorSignatureMemberCollection.cs" />
     <Compile Include="Oil\Members\IIntermediateDelegateTypeParamMember.cs" />
+    <Compile Include="Oil\Members\IIntermediateDelegateTypeParameterDictionary.cs" />
+    <Compile Include="Oil\Members\IIntermediateEnumFieldConstantValue.cs" />
+    <Compile Include="Oil\Members\IIntermediateEnumFieldExpressionValue.cs" />
     <Compile Include="Oil\Members\IIntermediateEnumFieldMember.cs" />
+    <Compile Include="Oil\Members\IIntermediateEnumFieldMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IIntermediateEnumFieldValue.cs" />
     <Compile Include="Oil\Members\IIntermediateEventMember.cs" />
-    <Compile Include="Oil\IIntermediateEventParent.cs" />
+    <Compile Include="Oil\Members\IIntermediateEventMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IIntermediateEventMethodMember.cs" />
     <Compile Include="Oil\Members\IIntermediateEventParamMember.cs" />
     <Compile Include="Oil\Members\IIntermediateEventSignatureMember.cs" />
     <Compile Include="Oil\Members\IIntermediateEventSignatureMemberDictionary.cs" />
@@ -582,7 +493,11 @@
     <Compile Include="Oil\Members\IIntermediateFieldMember.cs" />
     <Compile Include="Oil\Members\IIntermediateFieldMemberDictionary.cs" />
     <Compile Include="Oil\Members\IIntermediateFieldParent.cs" />
+    <Compile Include="Oil\Members\IIntermediateFullMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IIntermediateGenericParameter.cs" />
+    <Compile Include="Oil\Members\IIntermediateGenericParameterConstructorMember.cs" />
     <Compile Include="Oil\Members\IIntermediateGenericParameterConstructorMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IIntermediateGenericParameterDictionary.cs" />
     <Compile Include="Oil\Members\IIntermediateGenericParameterEventMember.cs" />
     <Compile Include="Oil\Members\IIntermediateGenericParameterEventMemberDictionary.cs" />
     <Compile Include="Oil\Members\IIntermediateGenericParameterIndexerMember.cs" />
@@ -594,11 +509,9 @@
     <Compile Include="Oil\Members\IIntermediateGenericTypeParameter.cs" />
     <Compile Include="Oil\Members\IIntermediateGroupedMemberDictionary.cs" />
     <Compile Include="Oil\Members\IIntermediateIndexerMember.cs" />
-    <Compile Include="Oil\IIntermediateIndexerParent.cs" />
     <Compile Include="Oil\Members\IIntermediateIndexerMemberDictionary.cs" />
     <Compile Include="Oil\Members\IIntermediateIndexerParameterMember.cs" />
     <Compile Include="Oil\Members\IIntermediateIndexerSignatureMember.cs" />
-    <Compile Include="Oil\IIntermediateIndexerSignatureParent.cs" />
     <Compile Include="Oil\Members\IIntermediateIndexerSignatureMemberDictionary.cs" />
     <Compile Include="Oil\Members\IIntermediateIndexerSignatureParameterMember.cs" />
     <Compile Include="Oil\Members\IIntermediateInstanceMember.cs" />
@@ -606,39 +519,31 @@
     <Compile Include="Oil\Members\IIntermediateInterfaceIndexerMember.cs" />
     <Compile Include="Oil\Members\IIntermediateInterfaceMethodMember.cs" />
     <Compile Include="Oil\Members\IIntermediateInterfacePropertyMember.cs" />
-    <Compile Include="Oil\Members\IIntermediateMethodParameterMember.cs" />
-    <Compile Include="Oil\Members\IIntermediateMethodSignatureMemberDictionary.cs" />
-    <Compile Include="Oil\Members\IIntermediateMethodSignatureParameterMember.cs" />
-    <Compile Include="Oil\Members\IIntermediateMethodSignatureParent.cs" />
-    <Compile Include="Oil\Members\IIntermediatePropertyMember.cs" />
-    <Compile Include="Oil\Members\IIntermediatePropertyMemberDictionary.cs" />
-    <Compile Include="Oil\Members\IIntermediatePropertySignatureMember.cs" />
-    <Compile Include="Oil\IIntermediatePropertySignatureParentType.cs" />
-    <Compile Include="Oil\Members\IIntermediatePropertySignatureMemberDictionary.cs" />
-    <Compile Include="Oil\Members\IIntermediateSignatureParameterMember.cs" />
-    <Compile Include="Oil\Members\IIntermediateSignatureParent.cs" />
-    <Compile Include="Oil\IIntermediateStructType.cs" />
-    <Compile Include="Oil\IIntermediateStructTypeDictionary.cs" />
-    <Compile Include="Oil\IIntermediateType.cs" />
-    <Compile Include="Oil\IIntermediateTypeCollection.cs" />
-    <Compile Include="Oil\Members\IIntermediateConstructorMember.cs" />
-    <Compile Include="Oil\Members\IIntermediateConstructorMemberCollection.cs" />
-    <Compile Include="Oil\Members\IIntermediateGenericParameter.cs" />
-    <Compile Include="Oil\Members\IIntermediateGenericParameterDictionary.cs" />
-    <Compile Include="Oil\Members\IIntermediateGenericParameterConstructorMember.cs" />
     <Compile Include="Oil\Members\IIntermediateMember.cs" />
     <Compile Include="Oil\Members\IIntermediateMemberDictionary.cs" />
     <Compile Include="Oil\Members\IIntermediateMemberParent.cs" />
     <Compile Include="Oil\Members\IIntermediateMethodMember.cs" />
     <Compile Include="Oil\Members\IIntermediateMethodMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IIntermediateMethodParameterMember.cs" />
     <Compile Include="Oil\Members\IIntermediateMethodParent.cs" />
     <Compile Include="Oil\Members\IIntermediateMethodSignatureGenericTypeParamMember.cs" />
     <Compile Include="Oil\Members\IIntermediateMethodSignatureMember.cs" />
+    <Compile Include="Oil\Members\IIntermediateMethodSignatureMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IIntermediateMethodSignatureParameterMember.cs" />
+    <Compile Include="Oil\Members\IIntermediateMethodSignatureParent.cs" />
     <Compile Include="Oil\Members\IIntermediateParameterMember.cs" />
     <Compile Include="Oil\Members\IIntermediateParameterMemberDictionary.cs" />
     <Compile Include="Oil\Members\IIntermediateParameterParent.cs" />
+    <Compile Include="Oil\Members\IIntermediatePropertyMember.cs" />
+    <Compile Include="Oil\Members\IIntermediatePropertyMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IIntermediatePropertyMethodMember.cs" />
+    <Compile Include="Oil\Members\IIntermediatePropertySignatureMember.cs" />
+    <Compile Include="Oil\Members\IIntermediatePropertySignatureMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IIntermediatePropertySignatureMethodMember.cs" />
     <Compile Include="Oil\Members\IIntermediateSignatureMember.cs" />
     <Compile Include="Oil\Members\IIntermediateSignatureMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IIntermediateSignatureParameterMember.cs" />
+    <Compile Include="Oil\Members\IIntermediateSignatureParent.cs" />
     <Compile Include="Oil\Members\IIntermediateStructCtorMember.cs" />
     <Compile Include="Oil\Members\IIntermediateStructEventMember.cs" />
     <Compile Include="Oil\Members\IIntermediateStructFieldMember.cs" />
@@ -649,14 +554,37 @@
     <Compile Include="Oil\Members\IIntermediateTypeCoercionMemberDictionary.cs" />
     <Compile Include="Oil\Members\IIntermediateUnaryOperatorCoercionMember.cs" />
     <Compile Include="Oil\Members\IIntermediateUnaryOperatorCoercionMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IntermediateCoercionMemberBase.cs" />
     <Compile Include="Oil\Members\IntermediateConstructorMemberBase.cs" />
-    <Compile Include="Oil\Members\IntermediateConstructorSignatureMemberDictionary.cs" />
-    <Compile Include="Oil\IntermediateDeclarationDictionary+ValuesCollection.cs">
-      <DependentUpon>IntermediateDeclarationDictionary.cs</DependentUpon>
+    <Compile Include="Oil\Members\IntermediateConstructorMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IntermediateConstructorSignatureMemberBase+Parameter.cs">
+      <DependentUpon>IntermediateConstructorSignatureMemberBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Oil\IntermediateDeclarationDictionary.cs" />
+    <Compile Include="Oil\Members\IntermediateConstructorSignatureMemberBase+ParameterDictionary.cs">
+      <DependentUpon>IntermediateConstructorSignatureMemberBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\Members\IntermediateConstructorSignatureMemberBase.cs" />
+    <Compile Include="Oil\Members\IntermediateConstructorSignatureMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IntermediateEnumFieldAutomaticValue.cs" />
+    <Compile Include="Oil\Members\IntermediateEventMember+ParameterDictionary.cs">
+      <DependentUpon>IntermediateEventMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\Members\IntermediateEventMember+ParameterMember.cs">
+      <DependentUpon>IntermediateEventMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\Members\IntermediateEventMember.cs" />
     <Compile Include="Oil\Members\IntermediateEventMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IntermediateEventSignatureMemberBase+_Parameters+Parameter.cs">
+      <DependentUpon>IntermediateEventSignatureMemberBase+_Parameters.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\Members\IntermediateEventSignatureMemberBase+_Parameters.cs">
+      <DependentUpon>IntermediateEventSignatureMemberBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\Members\IntermediateEventSignatureMemberBase.cs" />
     <Compile Include="Oil\Members\IntermediateEventSignatureMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IntermediateEventSignatureParameterMember.cs" />
+    <Compile Include="Oil\Members\IntermediateFieldMemberBase.cs" />
+    <Compile Include="Oil\Members\IntermediateFieldMemberDictionary.cs" />
     <Compile Include="Oil\Members\IntermediateFullMemberDictionary.cs" />
     <Compile Include="Oil\Members\IntermediateGenericParameterBase+MemberDefinitions.cs">
       <DependentUpon>IntermediateGenericParameterBase.cs</DependentUpon>
@@ -667,45 +595,129 @@
     <Compile Include="Oil\Members\IntermediateGenericParameterBase.cs" />
     <Compile Include="Oil\Members\IntermediateGenericParameterDictionary.cs" />
     <Compile Include="Oil\Members\IntermediateGenericTypeParameterBase{TType, TInterType}.cs" />
-    <Compile Include="Oil\IntermediateGroupedDeclarationDictionary.cs" />
     <Compile Include="Oil\Members\IntermediateGroupedMemberDictionary.cs" />
     <Compile Include="Oil\Members\IntermediateGroupedSignatureMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IntermediateIndexerMember+ParameterMembersDictionary+ParameterMember.cs">
+      <DependentUpon>IntermediateIndexerMember+ParameterMembersDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\Members\IntermediateIndexerMember+ParameterMembersDictionary.cs">
+      <DependentUpon>IntermediateIndexerMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\Members\IntermediateIndexerMember.cs" />
     <Compile Include="Oil\Members\IntermediateIndexerMemberDictionary.cs" />
     <Compile Include="Oil\Members\IntermediateIndexerSignatureMemberDictionary.cs" />
     <Compile Include="Oil\Members\IntermediateMemberBase.cs" />
     <Compile Include="Oil\Members\IntermediateMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IntermediateMethodMemberBase+ParameterDictionary.cs" />
+    <Compile Include="Oil\Members\IntermediateMethodMemberBase+ParameterMember.cs" />
+    <Compile Include="Oil\Members\IntermediateMethodMemberBase.cs" />
+    <Compile Include="Oil\Members\IntermediateMethodMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IntermediateMethodSignatureMemberBase+GenericParameterCollection.cs">
+      <DependentUpon>IntermediateMethodSignatureMemberBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\Members\IntermediateMethodSignatureMemberBase+Parameter.cs">
+      <DependentUpon>IntermediateMethodSignatureMemberBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\Members\IntermediateMethodSignatureMemberBase+ParameterDictionary.cs">
+      <DependentUpon>IntermediateMethodSignatureMemberBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\Members\IntermediateMethodSignatureMemberBase+TypeParameterDictionary+TypeParameter.cs">
+      <DependentUpon>IntermediateMethodSignatureMemberBase+TypeParameterDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\Members\IntermediateMethodSignatureMemberBase+TypeParameterDictionary.cs">
+      <DependentUpon>IntermediateMethodSignatureMemberBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Oil\Members\IntermediateMethodSignatureMemberBase.cs" />
+    <Compile Include="Oil\Members\IntermediateMethodSignatureMemberDictionary.cs" />
     <Compile Include="Oil\Members\IntermediateParameterMemberBase.cs" />
+    <Compile Include="Oil\Members\IntermediateParameterMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IntermediateParameterParentDeclarationBase.cs" />
     <Compile Include="Oil\Members\IntermediateParameterParentMemberBase.cs" />
+    <Compile Include="Oil\Members\IntermediatePropertyMember.cs" />
+    <Compile Include="Oil\Members\IntermediatePropertyMemberDictionary.cs" />
+    <Compile Include="Oil\Members\IntermediatePropertySignatureMember.cs" />
+    <Compile Include="Oil\Members\IntermediatePropertySignatureMemberDictionary.cs" />
     <Compile Include="Oil\Members\IntermediateSignatureMemberBase.cs" />
     <Compile Include="Oil\Members\IntermediateSignatureMemberDictionary.cs" />
     <Compile Include="Oil\Members\IntermediateSignatureParameterMemberBase.cs" />
+    <Compile Include="Oil\Modules\IIntermediateModule.cs" />
+    <Compile Include="Oil\Modules\IIntermediateModuleDictionary.cs" />
+    <Compile Include="Oil\Modules\IIntermediateModuleGlobalField.cs" />
+    <Compile Include="Oil\Modules\IIntermediateModuleGlobalFieldDictionary.cs" />
+    <Compile Include="Oil\Modules\IIntermediateModuleGlobalMethod.cs" />
+    <Compile Include="Oil\Modules\IIntermediateModuleGlobalMethodDictionary.cs" />
+    <Compile Include="Oil\Modules\IntermediateModule.cs" />
+    <Compile Include="Oil\Modules\IntermediateModuleDictionary.cs" />
+    <Compile Include="Oil\Modules\IntermediateModuleGlobalField.cs" />
+    <Compile Include="Oil\Modules\IntermediateModuleGlobalFieldDictionary.cs" />
+    <Compile Include="Oil\Modules\IntermediateModuleGlobalMethod.cs" />
+    <Compile Include="Oil\Modules\IntermediateModuleGlobalMethodDictionary.cs" />
+    <Compile Include="Oil\Precompiler.cs" />
+    <Compile Include="Oil\PrivateImplementationDetails.cs" />
+    <Compile Include="Oil\Statements\BlockStatementBase.cs" />
+    <Compile Include="Oil\Statements\BlockStatementParentContainer.cs" />
+    <Compile Include="Oil\Statements\BreakStatement.cs" />
+    <Compile Include="Oil\Statements\BreakableConditionBlockStatement.cs" />
+    <Compile Include="Oil\Statements\CallFusionStatement.cs" />
+    <Compile Include="Oil\Statements\CallMethodStatement.cs" />
+    <Compile Include="Oil\Statements\ConditionStatement.cs" />
+    <Compile Include="Oil\Statements\IBlockStatement.cs" />
+    <Compile Include="Oil\Statements\IBlockStatementParent.cs" />
+    <Compile Include="Oil\Statements\IBreakExit.cs" />
+    <Compile Include="Oil\Statements\IBreakStatement.cs" />
+    <Compile Include="Oil\Statements\IBreakableBlockStatement.cs" />
+    <Compile Include="Oil\Statements\IBreakableConditionBlockStatement.cs" />
+    <Compile Include="Oil\Statements\IBreakableConditionContinuationStatement.cs" />
+    <Compile Include="Oil\Statements\ICallFusionStatement.cs" />
+    <Compile Include="Oil\Statements\ICallMethodStatement.cs" />
+    <Compile Include="Oil\Statements\IConditionBlockStatement.cs" />
+    <Compile Include="Oil\Statements\IConditionContinuationStatement.cs" />
+    <Compile Include="Oil\Statements\IEnumerationBlockStatement.cs" />
+    <Compile Include="Oil\Statements\IExplicitlyTypedLocalVariableDeclarationStatement.cs" />
+    <Compile Include="Oil\Statements\IExpressionStatement.cs" />
+    <Compile Include="Oil\Statements\IGoToStatement.cs" />
+    <Compile Include="Oil\Statements\IIterationBlockStatement.cs" />
+    <Compile Include="Oil\Statements\IJumpStatement.cs" />
+    <Compile Include="Oil\Statements\IJumpTarget.cs" />
+    <Compile Include="Oil\Statements\ILabelStatement.cs" />
+    <Compile Include="Oil\Statements\ILocalVariableDeclarationStatement.cs" />
+    <Compile Include="Oil\Statements\IReturnStatement.cs" />
+    <Compile Include="Oil\Statements\ISimpleIterationBlockStatement.cs" />
+    <Compile Include="Oil\Statements\IStatement.cs" />
+    <Compile Include="Oil\Statements\IStatementParent.cs" />
+    <Compile Include="Oil\Statements\IStatements.cs" />
+    <Compile Include="Oil\Statements\ISwitchCaseBlockStatement.cs" />
+    <Compile Include="Oil\Statements\ISwitchStatement.cs" />
+    <Compile Include="Oil\Statements\ITopBlockStatement.cs" />
+    <Compile Include="Oil\Statements\ITryCatchStatement.cs" />
+    <Compile Include="Oil\Statements\ITryStatement.cs" />
+    <Compile Include="Oil\Statements\ReturnStatement.cs" />
+    <Compile Include="Oil\Statements\StatementBase.cs" />
+    <Compile Include="Oil\Statements\StatementKind.cs" />
+    <Compile Include="Oil\Statements\SwitchStatement.cs" />
     <Compile Include="Oil\_ICustomAttributeDefinitionParameterCollection.cs" />
-    <Compile Include="Compilers\AssemblyOutputType.cs" />
-    <Compile Include="Compilers\CommandLineCompilerState.cs" />
-    <Compile Include="Compilers\CompilerSupport.cs" />
-    <Compile Include="Compilers\DebugSupport.cs" />
-    <Compile Include="Compilers\ICommandLineCompiler.cs" />
-    <Compile Include="Compilers\ICommandLineCompilerAid.cs" />
-    <Compile Include="Compilers\ICommandLineCompilerResults.cs" />
-    <Compile Include="Compilers\ICompileOptions.cs" />
-    <Compile Include="Compilers\ICompiler.cs" />
-    <Compile Include="Compilers\ICompilerAid.cs" />
-    <Compile Include="Compilers\ICompilerResults.cs" />
-    <Compile Include="Compilers\IIntermediateCodeDynamicCompiler.cs" />
-    <Compile Include="Compilers\IIntermediateCodeDynamicCompilerAid.cs" />
-    <Compile Include="Compilers\IIntermediateCodeTranslatorCompiler.cs" />
-    <Compile Include="Compilers\IIntermediateCodeTranslatorCompilerAid.cs" />
-    <Compile Include="Compilers\IntermediateCodeDynamicCompilerAid.cs" />
-    <Compile Include="Compilers\WarningLevel.cs" />
-    <Compile Include="Oil\IntermediateGateway+DefaultATPatternAid.cs">
-      <DependentUpon>IntermediateGateway.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Oil\IntermediateGateway.cs" />
-    <Compile Include="Languages\ILanguageProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Oil\IntermediateNamespaceDeclaration.cs" />
-    <Compile Include="Oil\IntermediateSegmentableDeclarationBase.cs" />
-    <Compile Include="Oil\IntermediateSegmentableDeclarationParts.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Ast\Expressions\Linq\ILinqBodyBuilderParent.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqBodyBuilderBase.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqDirectedOrderByBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqFromBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqFusionBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqJoinBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqLetBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqOrderByBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqTailBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqTailGroupBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqTailSelectBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqTypedFromBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqTypedJoinBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqWhereBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\IntermediateCustomAttributesBaseCollection.cs" />
+    <Compile Include="_Internal\Ast\IntermediateImplementedInterfaces.cs" />
     <Compile Include="_Internal\Ast\SymbolType+CustomAttributeCollection.cs">
       <DependentUpon>SymbolType.cs</DependentUpon>
     </Compile>

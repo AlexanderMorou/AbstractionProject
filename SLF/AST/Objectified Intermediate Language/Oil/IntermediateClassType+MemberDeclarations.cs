@@ -82,6 +82,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         }
     }
+    public class IntermediateClassCtorMember<TInstanceIntermediateType> :
+        IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<TInstanceIntermediateType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IClassType, IIntermediateClassType, TInstanceIntermediateType>.ConstructorMember,
+        IIntermediateClassCtorMember
+        where TInstanceIntermediateType :
+            IntermediateClassType<TInstanceIntermediateType>
+    {
+        public IntermediateClassCtorMember(TInstanceIntermediateType parent)
+            : base(parent)
+        {
+
+        }
+    }
+
     public class IntermediateClassIndexerMember<TInstanceIntermediateType> :
         IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<TInstanceIntermediateType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IClassType, IIntermediateClassType, TInstanceIntermediateType>.IndexerMember
         where TInstanceIntermediateType :

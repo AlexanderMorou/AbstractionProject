@@ -553,6 +553,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         /// <remarks>Instance not a singleton, new element retrieved per access.</remarks>
         public static IPrimitiveExpression<bool> FalseValue { get { return new PrimitiveExpression<bool>(false); } }
-
+        public static IType GetTypeRef(this TypedName nameAndType)
+        {
+            switch (nameAndType.Source)
+            {
+                case TypedNameSource.TypeReference:
+                    return nameAndType.Reference;
+                case TypedNameSource.SymbolReference:
+                    return nameAndType.SymbolReference.GetSymbolType();
+                case TypedNameSource.InvalidReference:
+                default:
+                    throw new ArgumentException("nameAndType");
+            }
+        }
     }
 }

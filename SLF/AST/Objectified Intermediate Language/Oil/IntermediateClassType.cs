@@ -80,7 +80,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
     }
     /// <summary>
-    /// Provides an implementation of an intermediate class type.
+    /// Provides a generic implementation of an intermediate class type.
     /// </summary>
     public abstract partial class IntermediateClassType<TInstanceIntermediateType> :
         IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<TInstanceIntermediateType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IClassType, IIntermediateClassType, TInstanceIntermediateType>,
@@ -133,30 +133,105 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         }
 
+        /// <summary>
+        /// Obtains a new <see cref="IntermediateClassCtorMember{TInstanceIntermediateType}"/> with the <paramref name="parameters"/>
+        /// provided.
+        /// </summary>
+        /// <param name="parameters">The <see cref="TypedNameSeries"/>
+        /// which designates the names and types of the parameters contained within the
+        /// <see cref="IntermediateClassCtorMember{TInstanceIntermediateType}"/> to be created.</param>
+        /// <returns>A new <see cref="IntermediateClassCtorMember{TInstanceIntermediateType}"/>, if successful.</returns>
+        /// <remarks>Required by design, due to further inheritance on constructors being necessary.</remarks>
         protected override IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<TInstanceIntermediateType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IClassType, IIntermediateClassType, TInstanceIntermediateType>.
                            ConstructorMember GetNewConstructor(TypedNameSeries parameters)
         {
-            throw new NotImplementedException();
+            var result = new IntermediateClassCtorMember<TInstanceIntermediateType>((TInstanceIntermediateType)(object)this);
+            foreach (var param in parameters)
+                result.Parameters.Add(param.Name, param.GetTypeRef(), param.Direction);
+            return result;
         }
 
+        /// <summary>
+        /// Obtains a new <see cref="IntermediateClassEventMember{TInstanceIntermediateType}"/> which designates the 
+        /// name and delegate type of the new event to add.
+        /// </summary>
+        /// <param name="nameAndDelegateType">The <see cref="String"/> name of the
+        /// event and the <see cref="IType"/> related to its delegate type.</param>
+        /// <returns>A new <see cref="IntermediateClassEventMember{TInstanceIntermediateType}"/>.</returns>
         protected override IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<TInstanceIntermediateType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IClassType, IIntermediateClassType, TInstanceIntermediateType>.
                            EventMember GetNewEvent(TypedName nameAndDelegateType)
         {
-            throw new NotImplementedException();
+            var type = nameAndDelegateType.GetTypeRef();
+            if (!(type is IDelegateType))
+                throw new ArgumentException("nameAndDelegateType");
+            var result = new IntermediateClassEventMember<TInstanceIntermediateType>(((TInstanceIntermediateType)(object)this))
+            {
+                SignatureSource = EventSignatureSource.Delegate,
+                SignatureType = (IDelegateType)type,
+                Name = nameAndDelegateType.Name
+            };
+            return result;
         }
 
+        /// <summary>
+        /// Obtains a new <see cref="EventMember"/> which designates
+        /// the <paramref name="name"/> and <paramref name="eventSignature"/> of
+        /// the event to add.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> name of the event.</param>
+        /// <param name="eventSignature">The series of names and types which relate to the
+        /// auto-generated delegate that's associated to the event.</param>
+        /// <returns>A new <see cref="EventMember"/>.</returns>
         protected override IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<TInstanceIntermediateType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IClassType, IIntermediateClassType, TInstanceIntermediateType>.
                            EventMember GetNewEvent(string name, TypedNameSeries eventSignature)
         {
-            throw new NotImplementedException();
+            var result = new IntermediateClassEventMember<TInstanceIntermediateType>(((TInstanceIntermediateType)(object)this))
+            { 
+                SignatureSource = EventSignatureSource.Declared,
+                Name = name
+            };
+            foreach (var param in eventSignature)
+                result.Parameters.Add(param.Name, param.GetTypeRef(), param.Direction);
+            return result;
         }
 
+        /// <summary>
+        /// Obtains a new <see cref="IntermediateClassEventMember{TInstanceIntermediateType}"/> which designates the name
+        /// of the method member to add.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> name of the method to obtain.</param>
+        /// <returns>A new <see cref="IntermediateClassEventMember{TInstanceIntermediateType}"/> instance that derives from 
+        /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}.MethodMember"/>.</returns>
         protected override IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<TInstanceIntermediateType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IClassType, IIntermediateClassType, TInstanceIntermediateType>.
                            MethodMember GetNewMethod(string name)
         {
             var result = new IntermediateClassMethodMember<TInstanceIntermediateType>((TInstanceIntermediateType)this);
             result.Name = name;
             return result;
+        }
+
+        protected override IndexerMember GetNewIndexer(TypedName nameAndReturn)
+        {
+            return new IntermediateClassIndexerMember<TInstanceIntermediateType>(nameAndReturn.Name, (TInstanceIntermediateType)(object)this)
+            {
+                PropertyType = nameAndReturn.Source == TypedNameSource.TypeReference ?
+                               nameAndReturn.Reference :
+                               nameAndReturn.Source == TypedNameSource.SymbolReference ?
+                               nameAndReturn.SymbolReference.GetSymbolType() :
+                               null
+            };
+        }
+
+        protected override PropertyMember GetNewProperty(TypedName nameAndType)
+        {
+            return new IntermediateClassPropertyMember<TInstanceIntermediateType>(nameAndType.Name, (TInstanceIntermediateType)this)
+            {
+                PropertyType = nameAndType.Source == TypedNameSource.TypeReference ?
+                   nameAndType.Reference :
+                   nameAndType.Source == TypedNameSource.SymbolReference ?
+                   nameAndType.SymbolReference.GetSymbolType() :
+                   null
+            };
         }
 
         /// <summary>
@@ -339,29 +414,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     this.implementedInterfaces = new TypeCollection();
                 return this.implementedInterfaces;
             }
-        }
-
-        protected override IndexerMember GetNewIndexer(TypedName nameAndReturn)
-        {
-            return new IntermediateClassIndexerMember<TInstanceIntermediateType>(nameAndReturn.Name, (TInstanceIntermediateType)(object)this)
-            {
-                PropertyType = nameAndReturn.Source == TypedNameSource.TypeReference ?
-                               nameAndReturn.Reference :
-                               nameAndReturn.Source == TypedNameSource.SymbolReference ?
-                               nameAndReturn.SymbolReference.GetSymbolType() :
-                               null
-            };
-        }
-
-        protected override PropertyMember GetNewProperty(TypedName nameAndType)
-        {
-            return new IntermediateClassPropertyMember<TInstanceIntermediateType>(nameAndType.Name, (TInstanceIntermediateType)this) {
-                PropertyType = nameAndType.Source == TypedNameSource.TypeReference ?
-                   nameAndType.Reference :
-                   nameAndType.Source == TypedNameSource.SymbolReference ?
-                   nameAndType.SymbolReference.GetSymbolType() :
-                   null
-            };
         }
     }
 }

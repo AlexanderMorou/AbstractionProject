@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -113,26 +113,53 @@
     <Compile Include="Abstract\AnonymousTypeDisplayStyle.cs" />
     <Compile Include="Abstract\AnonymousTypeMember.cs" />
     <Compile Include="Abstract\AnonymousTypePatternAid.cs" />
-    <Compile Include="Abstract\AssemblyWorkspace+GroupedTypeDictionary{T}+KeysCollection.cs" />
-    <Compile Include="Abstract\AssemblyWorkspace+GroupedTypeDictionary{T}+ValuesCollection.cs" />
-    <Compile Include="Abstract\AssemblyWorkspace+GroupedTypeDictionary{T}.cs" />
-    <Compile Include="Abstract\AssemblyWorkspace+ReferenceCollection.cs" />
+    <Compile Include="Abstract\AssemblyBase.cs" />
     <Compile Include="Abstract\AssemblyWorkspace+CombinedNamespace.cs">
-      <SubType>Code</SubType>
+      <DependentUpon>AssemblyWorkspace.cs</DependentUpon>
     </Compile>
-    <Compile Include="Abstract\AssemblyWorkspace+CombinedNamespaceDictionary+KeysCollection.cs" />
-    <Compile Include="Abstract\AssemblyWorkspace+CombinedNamespaceDictionary+ValuesCollection.cs" />
-    <Compile Include="Abstract\AssemblyWorkspace+CombinedNamespaceDictionary.cs" />
-    <Compile Include="Abstract\AssemblyWorkspace+SpecificTypeDictionaries.cs" />
-    <Compile Include="Abstract\AssemblyWorkspace+FullTypesMasterDictionary.cs" />
+    <Compile Include="Abstract\AssemblyWorkspace+CombinedNamespaceDictionary+KeysCollection.cs">
+      <DependentUpon>AssemblyWorkspace+CombinedNamespaceDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\AssemblyWorkspace+CombinedNamespaceDictionary+ValuesCollection.cs">
+      <DependentUpon>AssemblyWorkspace+CombinedNamespaceDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\AssemblyWorkspace+CombinedNamespaceDictionary.cs">
+      <DependentUpon>AssemblyWorkspace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\AssemblyWorkspace+FullTypesMasterDictionary.cs">
+      <DependentUpon>AssemblyWorkspace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\AssemblyWorkspace+GroupedTypeDictionary{T}+KeysCollection.cs">
+      <DependentUpon>AssemblyWorkspace+GroupedTypeDictionary{T}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\AssemblyWorkspace+GroupedTypeDictionary{T}+ValuesCollection.cs">
+      <DependentUpon>AssemblyWorkspace+GroupedTypeDictionary{T}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\AssemblyWorkspace+GroupedTypeDictionary{T}.cs">
+      <DependentUpon>AssemblyWorkspace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\AssemblyWorkspace+ReferenceCollection.cs">
+      <DependentUpon>AssemblyWorkspace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\AssemblyWorkspace+SpecificTypeDictionaries.cs">
+      <DependentUpon>AssemblyWorkspace.cs</DependentUpon>
+    </Compile>
     <Compile Include="Abstract\AssemblyWorkspace.cs" />
     <Compile Include="Abstract\CultureIdentifier.cs" />
-    <Compile Include="Abstract\CultureIdentifiers+CountryRegions.cs" />
-    <Compile Include="Abstract\CultureIdentifiers+CultureCodes.cs" />
-    <Compile Include="Abstract\CultureIdentifiers+IDs.cs" />
-    <Compile Include="Abstract\CultureIdentifiers+LocalizedNames.cs" />
-    <Compile Include="Abstract\CultureIdentifiers.cs" />
     <Compile Include="Abstract\CultureIdentifierTypeConverter.cs" />
+    <Compile Include="Abstract\CultureIdentifiers+CountryRegions.cs">
+      <DependentUpon>CultureIdentifiers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\CultureIdentifiers+CultureCodes.cs">
+      <DependentUpon>CultureIdentifiers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\CultureIdentifiers+IDs.cs">
+      <DependentUpon>CultureIdentifiers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\CultureIdentifiers+LocalizedNames.cs">
+      <DependentUpon>CultureIdentifiers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\CultureIdentifiers.cs" />
     <Compile Include="Abstract\DeclarationBase.cs" />
     <Compile Include="Abstract\DeclarationDictionaryBase{TItem}.cs" />
     <Compile Include="Abstract\FullDeclarationDictionaryBase{TMItem}.cs" />
@@ -156,8 +183,8 @@
     <Compile Include="Abstract\ICreatableType.cs" />
     <Compile Include="Abstract\ICultureIdentifier.cs" />
     <Compile Include="Abstract\ICustomAttributeCollection.cs" />
-    <Compile Include="Abstract\ICustomAttributedDeclaration.cs" />
     <Compile Include="Abstract\ICustomAttributeInstance.cs" />
+    <Compile Include="Abstract\ICustomAttributedDeclaration.cs" />
     <Compile Include="Abstract\IDeclaration.cs" />
     <Compile Include="Abstract\IDeclarations.cs" />
     <Compile Include="Abstract\IDeclarations{TItem}.cs" />
@@ -173,8 +200,8 @@
     <Compile Include="Abstract\IFullDeclarationDictionary.cs" />
     <Compile Include="Abstract\IFullTypeDictionary.cs" />
     <Compile Include="Abstract\IGenericParameter.cs" />
-    <Compile Include="Abstract\IGenericParameterParent.cs" />
     <Compile Include="Abstract\IGenericParameterDictionary.cs" />
+    <Compile Include="Abstract\IGenericParameterParent.cs" />
     <Compile Include="Abstract\IGenericTestCaseParameter.cs" />
     <Compile Include="Abstract\IGenericType.cs" />
     <Compile Include="Abstract\IGenericTypeParameter.cs" />
@@ -191,8 +218,8 @@
     <Compile Include="Abstract\ILockedTypeCollection.cs" />
     <Compile Include="Abstract\IMethodParent.cs" />
     <Compile Include="Abstract\IMethodParent`2.cs" />
-    <Compile Include="Abstract\INamespaceDictionary.cs" />
     <Compile Include="Abstract\INamespaceDeclaration.cs" />
+    <Compile Include="Abstract\INamespaceDictionary.cs" />
     <Compile Include="Abstract\INamespaceParent.cs" />
     <Compile Include="Abstract\IPropertyParentType.cs" />
     <Compile Include="Abstract\IPropertySignatureParentType.cs" />
@@ -223,8 +250,8 @@
     <Compile Include="Abstract\Members\IClassPropertyMethodMember.cs" />
     <Compile Include="Abstract\Members\ICoercionMember.cs" />
     <Compile Include="Abstract\Members\IConstructorMember.cs" />
-    <Compile Include="Abstract\Members\IConstructorMembers.cs" />
     <Compile Include="Abstract\Members\IConstructorMember`2.cs" />
+    <Compile Include="Abstract\Members\IConstructorMembers.cs" />
     <Compile Include="Abstract\Members\IConstructorParameterMember.cs" />
     <Compile Include="Abstract\Members\IDelegateTypeParameterMember.cs" />
     <Compile Include="Abstract\Members\IDelegateTypeParameterMembers.cs" />
@@ -306,7 +333,6 @@
     <Compile Include="Abstract\Members\ParameterDirection.cs" />
     <Compile Include="Abstract\Members\SignatureData.cs" />
     <Compile Include="Abstract\Members\SignaturesData.cs" />
-    <Compile Include="Abstract\TypedNameSeries.cs" />
     <Compile Include="Abstract\Modules\IModule.cs" />
     <Compile Include="Abstract\Modules\IModuleGlobalField.cs" />
     <Compile Include="Abstract\Modules\IModuleGlobalFields.cs" />
@@ -317,24 +343,32 @@
     <Compile Include="Abstract\TypeBase.cs" />
     <Compile Include="Abstract\TypeBase{TType}.cs" />
     <Compile Include="Abstract\TypeCollection.cs" />
-    <Compile Include="Abstract\TypedName.cs" />
     <Compile Include="Abstract\TypeElementClassification.cs" />
     <Compile Include="Abstract\TypeExtensions %28Conversions%29.cs" />
     <Compile Include="Abstract\TypeExtensions.cs" />
     <Compile Include="Abstract\TypeKind.cs" />
     <Compile Include="Abstract\TypeKindGeneric.cs" />
-    <Compile Include="Abstract\AssemblyBase.cs" />
+    <Compile Include="Abstract\TypedName.cs" />
+    <Compile Include="Abstract\TypedNameSeries.cs" />
     <Compile Include="_Internal\Abstract\LockedBinaryOperatorCoercionMembers{TType}.cs" />
     <Compile Include="_Internal\Abstract\LockedDeclarationsBase`1.cs" />
     <Compile Include="_Internal\Abstract\LockedFieldMembersBase`2.cs" />
-    <Compile Include="_Internal\Abstract\LockedFullDeclarations{TMItem}+KeysCollection.cs" />
-    <Compile Include="_Internal\Abstract\LockedFullDeclarations{TMItem}+ValuesCollection.cs" />
+    <Compile Include="_Internal\Abstract\LockedFullDeclarations{TMItem}+KeysCollection.cs">
+      <DependentUpon>LockedFullDeclarations{TMItem}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Abstract\LockedFullDeclarations{TMItem}+ValuesCollection.cs">
+      <DependentUpon>LockedFullDeclarations{TMItem}.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\Abstract\LockedFullDeclarations{TMItem}.cs" />
     <Compile Include="_Internal\Abstract\LockedFullMembersBase.cs" />
     <Compile Include="_Internal\Abstract\LockedFullTypes.cs" />
     <Compile Include="_Internal\Abstract\LockedGenericParameters`2.cs" />
-    <Compile Include="_Internal\Abstract\LockedGroupedDeclarationsBase{3}+KeysCollection.cs" />
-    <Compile Include="_Internal\Abstract\LockedGroupedDeclarationsBase{3}+ValuesCollection.cs" />
+    <Compile Include="_Internal\Abstract\LockedGroupedDeclarationsBase{3}+KeysCollection.cs">
+      <DependentUpon>LockedGroupedDeclarationsBase{3}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Abstract\LockedGroupedDeclarationsBase{3}+ValuesCollection.cs">
+      <DependentUpon>LockedGroupedDeclarationsBase{3}.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\Abstract\LockedGroupedDeclarationsBase{3}.cs" />
     <Compile Include="_Internal\Abstract\LockedGroupedMembersBase{3}.cs" />
     <Compile Include="_Internal\Abstract\LockedMembersBase`2.cs" />
@@ -344,7 +378,6 @@
     <Compile Include="_Internal\Abstract\LockedUnaryOperatorCoercionMembers{TType}.cs" />
     <Compile Include="_Internal\Abstract\Members\BinaryOperatorCoercionMemberBase`1.cs" />
     <Compile Include="_Internal\Abstract\Members\ConstructorMemberBase`2.cs" />
-    <Compile Include="_Internal\Abstract\Members\IndexerMemberBase.cs" />
     <Compile Include="_Internal\Abstract\Members\EventMemberBase`2.cs" />
     <Compile Include="_Internal\Abstract\Members\EventSignatureMemberBase`2.cs" />
     <Compile Include="_Internal\Abstract\Members\EventSignatureMemberBase`3.cs" />
@@ -353,6 +386,7 @@
     <Compile Include="_Internal\Abstract\Members\FullMembersBase`2.cs" />
     <Compile Include="_Internal\Abstract\Members\GenericParameterConstructorMemberBase`3.cs" />
     <Compile Include="_Internal\Abstract\Members\GroupedMembersBase`2.cs" />
+    <Compile Include="_Internal\Abstract\Members\IndexerMemberBase.cs" />
     <Compile Include="_Internal\Abstract\Members\IndexerSignatureMemberBase.cs" />
     <Compile Include="_Internal\Abstract\Members\MemberBase`1.cs" />
     <Compile Include="_Internal\Abstract\Members\MemberExtensions.cs" />
