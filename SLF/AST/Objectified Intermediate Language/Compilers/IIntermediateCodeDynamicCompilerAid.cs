@@ -5,6 +5,7 @@ using System.Reflection.Emit;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Modules;
+using AllenCopeland.Abstraction.Slf.Cst;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -18,8 +19,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     /// Defines properties and methods for working with a compiler aid translating
     /// intermediate code via Reflection.Emit.
     /// </summary>
-    public interface IIntermediateCodeDynamicCompilerAid :
-        ICompilerAid<IIntermediateCodeDynamicCompiler>
+    public interface IIntermediateCodeDynamicCompilerAid<TRootNode> :
+        ICompilerAid<IIntermediateCompiler<TRootNode>>
+        where TRootNode :
+            IConcreteNode
     {
         /// <summary>
         /// Creates an <see cref="AssemblyBuilder"/> for the provided
@@ -33,7 +36,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// </summary>
         /// <param name="type">The <see cref="IIntermediateType"/> to create a <see cref="TypeBuilder"/> for.</param>
         /// <returns></returns>
-        /// <exception cref="System.ArgumentException">thrown when the <see cref="IIntermediateCodeDynamicCompiler.CurrentModule"/> is null.-or- when <paramref name="type"/> is an unknown kind of type.-or- when
+        /// <exception cref="System.ArgumentException">thrown when the <see cref="IIntermediateCompiler.CurrentModule"/> is null.-or- when <paramref name="type"/> is an unknown kind of type.-or- when
         /// the <paramref name="type"/> provided is a nested type, and its parent hasn't been created yet.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="type"/> is null.</exception>
         TypeBuilder CreateTypeBuilder(IIntermediateType type);

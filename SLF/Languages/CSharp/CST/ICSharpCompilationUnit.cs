@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AllenCopeland.Abstraction.Slf.Languages
+namespace AllenCopeland.Abstraction.Slf.Cst
 {
-    public interface ILanguageProvider
+    public interface ICSharpCompilationUnit :
+        IConcreteNode
     {
-
     }
 }

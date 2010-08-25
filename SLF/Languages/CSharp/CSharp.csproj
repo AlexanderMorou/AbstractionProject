@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ast\CSharpAssembly.cs" />
+    <Compile Include="Ast\CSharpGateway.cs" />
     <Compile Include="Ast\Expressions\CSharpAddSubtExpression.cs" />
     <Compile Include="Ast\Expressions\CSharpAssignExpression.cs" />
     <Compile Include="Ast\Expressions\CSharpBinaryOperationExpressionBase.cs" />
@@ -129,8 +130,10 @@
     <Compile Include="Ast\Expressions\CSharpShiftExpression.cs" />
     <Compile Include="Ast\Expressions\CSharpUnaryOperationExpression.cs" />
     <Compile Include="Ast\ICSharpAssembly.cs" />
-    <Compile Include="Compilers\CSharpCommandLineCompilerAid.cs" />
     <Compile Include="Ast\Expressions\ICSharpBinaryOperator.cs" />
+    <Compile Include="Compilers\CSharpCompiler.cs" />
+    <Compile Include="CST\ICSharpCompilationUnit.cs" />
+    <Compile Include="Languages\ICSharpLanguage.cs" />
     <Compile Include="Parsers\CSharpParser.cs" />
     <Compile Include="Parsers\CSharpTokenizer.cs" />
     <Compile Include="Parsers\ICSharpParser.cs" />
@@ -182,6 +185,7 @@
   <ItemGroup>
     <None Include="Allen Copeland.pfx" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

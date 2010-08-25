@@ -6,22 +6,28 @@ using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Oil;
 using System.Reflection.Emit;
+using AllenCopeland.Abstraction.Slf.Oil.Modules;
+using AllenCopeland.Abstraction.Slf.Cst;
+using AllenCopeland.Abstraction.Slf.Languages;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
-    public partial class IntermediateCodeDynamicCompiler :
-        IIntermediateCodeDynamicCompiler
+    public abstract partial class IntermediateCompiler<TRootNode> :
+        IIntermediateCompiler<TRootNode>
+        where TRootNode :
+            IConcreteNode
     {
+        
         private ICompilerOptions options;
-        private IIntermediateCodeDynamicCompilerAid aid;
+        private IIntermediateCodeDynamicCompilerAid<TRootNode> aid;
         internal Dictionary<IIntermediateType, TypeBuilder> activeTypes = new Dictionary<IIntermediateType, TypeBuilder>();
 
-        public IntermediateCodeDynamicCompiler()
+        public IntermediateCompiler()
         {
             this.ActiveTypes = new ControlledStateDictionary<IIntermediateType, TypeBuilder>(this.activeTypes);
         }
 
-        #region IIntermediateCodeDynamicCompiler Members
+        #region IIntermediateCompiler Members
 
         /// <summary>
         /// Returns the current <see cref="AssemblyBuilder"/> for the <see cref="IIntermediateAssembly"/> being compiled.
@@ -48,16 +54,16 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
 
         #region ICompiler<IIntermediateCodeDynamicCompilerAid,IIntermediateCodeDynamicCompilerOptions> Members
 
-        public IIntermediateCodeDynamicCompilerAid Aid
+        public IIntermediateCodeDynamicCompilerAid<TRootNode> Aid
         {
             get
             {
                 if (this.aid == null)
-                    this.aid = new IntermediateCodeDynamicCompilerAid(this);
+                    this.aid = new IntermediateCompilerAid<TRootNode>(this);
                 return this.aid;
             }
         }
-
+        
         #endregion
 
         #region ICompiler Members
@@ -75,10 +81,21 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                 return this.options;
             }
         }
+        #endregion
 
-        public ICompilerResults Compile(IIntermediateAssembly assembly)
+        #region IIntermediateCompiler<TRootNode> Members
+
+
+        public abstract IHighLevelLanguage<TRootNode> Language { get; }
+
+        #endregion
+
+        #region ICompiler Members
+
+
+        ILanguage ICompiler.Language
         {
-            throw new NotImplementedException();
+            get { return this.Language; }
         }
 
         #endregion

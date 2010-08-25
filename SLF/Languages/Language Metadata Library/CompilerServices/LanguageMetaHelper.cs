@@ -133,7 +133,8 @@ namespace AllenCopeland.Abstraction.Slf.CompilerServices
                                 deviations[list[i]]++;
                             else
                                 deviations.Add(list[i], 1);
-                        else {
+                        else
+                        {
                             match[i] = false;
                             break;
                         }
@@ -209,7 +210,8 @@ namespace AllenCopeland.Abstraction.Slf.CompilerServices
                 throw new ArgumentException("TDelegate");
             //Obtain the invoke method on the delegate and obtain its signature.
             var delegateInvoke = delegateType.GetMethod("Invoke");
-            var delegateTypes = delegateInvoke.GetParameters().OnAll(param => param.ParameterType).ToArray();
+            var delegateTypes = (from parameter in delegateInvoke.GetParameters()
+                                 select parameter.ParameterType).ToArray();
 
             //Obtain the method call parameters.
             var ctorParameters = ctor.GetParameters();
@@ -305,7 +307,7 @@ namespace AllenCopeland.Abstraction.Slf.CompilerServices
                     GenericParamDataTargetAttribute sigs =
                         parameter.GetCustomAttributes(typeof(GenericParamDataTargetAttribute), true).Cast<GenericParamDataTargetAttribute>().First();
                     var sigSource = sigs.GenericLocalType;
-                    var ctors = sigSource.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance);
+                    var ctors     = sigSource.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance);
                     return ctors;
                 }
                 catch (InvalidOperationException)
@@ -326,7 +328,7 @@ namespace AllenCopeland.Abstraction.Slf.CompilerServices
                     GenericParamDataTargetAttribute sigs =
                         parameter.GetCustomAttributes(typeof(GenericParamDataTargetAttribute), true).Cast<GenericParamDataTargetAttribute>().First();
                     var sigSource = sigs.GenericLocalType;
-                    var methods = sigSource.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+                    var methods   = sigSource.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
                     return methods;
                 }
                 catch (InvalidOperationException)
@@ -347,8 +349,8 @@ namespace AllenCopeland.Abstraction.Slf.CompilerServices
                 {
                     GenericParamDataTargetAttribute sigs =
                         parameter.GetCustomAttributes(typeof(GenericParamDataTargetAttribute), true).Cast<GenericParamDataTargetAttribute>().First();
-                    var sigSource = sigs.GenericLocalType;
-                    var properties = sigSource.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+                    var sigSource                         = sigs.GenericLocalType;
+                    var properties                        = sigSource.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
                     List<PropertyInfo> filteredProperties = new List<PropertyInfo>();
                     foreach (var prop in properties)
                     {
@@ -393,8 +395,8 @@ namespace AllenCopeland.Abstraction.Slf.CompilerServices
                     //First fails
                     return new PropertyInfo[0];
                 }
-                var sigSource = sigs.GenericLocalType;
-                var indexers = sigSource.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+                var sigSource                       = sigs.GenericLocalType;
+                var indexers                        = sigSource.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
                 List<PropertyInfo> filteredIndexers = new List<PropertyInfo>();
                 foreach (var prop in indexers)
                 {
@@ -424,7 +426,7 @@ namespace AllenCopeland.Abstraction.Slf.CompilerServices
                     GenericParamDataTargetAttribute sigs =
                         parameter.GetCustomAttributes(typeof(GenericParamDataTargetAttribute), true).Cast<GenericParamDataTargetAttribute>().First();
                     var sigSource = sigs.GenericLocalType;
-                    var events = sigSource.GetEvents(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+                    var events    = sigSource.GetEvents(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
                     return events;
                 }
                 catch (InvalidOperationException)

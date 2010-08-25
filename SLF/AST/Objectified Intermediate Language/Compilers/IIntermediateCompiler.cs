@@ -4,6 +4,8 @@ using System.Text;
 using System.Reflection.Emit;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Slf.Cst;
+using AllenCopeland.Abstraction.Slf.Languages;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -13,8 +15,10 @@ using AllenCopeland.Abstraction.Slf.Oil;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
-    public interface IIntermediateCodeDynamicCompiler :
-        ICompiler<IIntermediateCodeDynamicCompilerAid>
+    public interface IIntermediateCompiler<TRootNode> :
+        ICompiler<IIntermediateCodeDynamicCompilerAid<TRootNode>>
+        where TRootNode :
+            IConcreteNode
     {
         /// <summary>
         /// Returns the current <see cref="AssemblyBuilder"/> for the <see cref="IIntermediateAssembly"/> being compiled.
@@ -35,5 +39,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// Returns a dictionary containing the types associated to the current build.
         /// </summary>
         IControlledStateDictionary<IIntermediateType, TypeBuilder> ActiveTypes { get; }
+
+        /// <summary>
+        /// Returns the <see cref="IHighLevelLanguage{TRootNode}"/> associated to the
+        /// <see cref="IIntermediateCompiler{TRootNode}"/>.
+        /// </summary>
+        new IHighLevelLanguage<TRootNode> Language { get; }
     }
 }

@@ -11,6 +11,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Modules;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Oil.Properties;
 using AllenCopeland.Abstraction.Slf._Internal;
+using AllenCopeland.Abstraction.Slf.Cst;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -20,11 +21,13 @@ using AllenCopeland.Abstraction.Slf._Internal;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
-    public sealed class IntermediateCodeDynamicCompilerAid :
-        IIntermediateCodeDynamicCompilerAid
+    public sealed class IntermediateCompilerAid<TRootNode> :
+        IIntermediateCodeDynamicCompilerAid<TRootNode>
+        where TRootNode :
+            IConcreteNode
     {
 
-        internal IntermediateCodeDynamicCompilerAid(IIntermediateCodeDynamicCompiler compiler)
+        internal IntermediateCompilerAid(IIntermediateCompiler<TRootNode> compiler)
         {
             this.Compiler = compiler;
         }
@@ -257,9 +260,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
 
         #endregion
 
-        #region ICompilerAid<IIntermediateCodeDynamicCompiler> Members
+        #region ICompilerAid<IIntermediateCompiler> Members
 
-        public IIntermediateCodeDynamicCompiler Compiler { get; private set; }
+        public IIntermediateCompiler<TRootNode> Compiler { get; private set; }
 
         #endregion
 

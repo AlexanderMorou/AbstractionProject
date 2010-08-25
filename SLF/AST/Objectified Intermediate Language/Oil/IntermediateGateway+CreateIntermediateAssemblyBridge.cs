@@ -62,7 +62,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             (new CreateIntermediateAssemblyBridge()).RegisterCreateAssemblyBridge();
         }
 
-        [CompilerGenerated]
+        /// <summary>
+        /// Registers a <see cref="ICreateAssemblyBridge{T}"/> which associates
+        /// the create assembly functionality to the <paramref name="bridge"/> provided
+        /// versus an automatically generated variant of the same.
+        /// </summary>
+        /// <typeparam name="T">The type of <typeparamref name="IIntermediateAssembly"/> to
+        /// construct through the <paramref name="bridge"/>
+        /// provided.</typeparam>
+        /// <param name="bridge">The <see cref="ICreateAssemblyBridge"/> which
+        /// provides the create assembly functionality.</param>
         public static void RegisterCreateAssemblyBridge<T>(this ICreateAssemblyBridge<T> bridge)
             where T :
                 IIntermediateAssembly
