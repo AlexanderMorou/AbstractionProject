@@ -42,6 +42,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             IIntermediateMethodParent<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>,
             TMethodParent
     {
+
         /// <summary>
         /// Creates a new <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/> with the
         /// <paramref name="parent"/> provided.
@@ -285,5 +286,102 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
         #endregion
+
+        #region IIntermediateTypeParent Members
+
+        public IIntermediateClassTypeDictionary Classes
+        {
+            get
+            {
+                return this.statementContainer.Classes;
+            }
+        }
+
+        public IIntermediateDelegateTypeDictionary Delegates
+        {
+            get
+            {
+                return this.statementContainer.Delegates;
+            }
+        }
+
+        public IIntermediateEnumTypeDictionary Enums
+        {
+            get
+            {
+                return this.statementContainer.Enums;
+            }
+        }
+
+        public IIntermediateInterfaceTypeDictionary Interfaces
+        {
+            get
+            {
+                return this.statementContainer.Interfaces;
+            }
+        }
+
+        public IIntermediateStructTypeDictionary Structs
+        {
+            get
+            {
+                return this.statementContainer.Structs;
+            }
+        }
+
+        public IIntermediateFullTypeDictionary Types
+        {
+            get
+            {
+                return this.statementContainer.Types;
+            }
+        }
+
+        public abstract IIntermediateAssembly Assembly { get; }
+
+        #endregion
+
+        #region ITypeParent Members
+
+        IClassTypeDictionary ITypeParent.Classes
+        {
+            get { return this.Classes; }
+        }
+
+        IDelegateTypeDictionary ITypeParent.Delegates
+        {
+            get { return this.Delegates; }
+        }
+
+        IEnumTypeDictionary ITypeParent.Enums
+        {
+            get { return this.Enums; }
+        }
+
+        IInterfaceTypeDictionary ITypeParent.Interfaces
+        {
+            get { return this.Interfaces; }
+        }
+
+        IStructTypeDictionary ITypeParent.Structs
+        {
+            get { return this.Structs; }
+        }
+
+        IFullTypeDictionary ITypeParent.Types
+        {
+            get { return this.Types; }
+        }
+
+        IAssembly ITypeParent.Assembly
+        {
+            get
+            {
+                return this.Assembly;
+            }
+        }
+
+        #endregion
+
     }
 }

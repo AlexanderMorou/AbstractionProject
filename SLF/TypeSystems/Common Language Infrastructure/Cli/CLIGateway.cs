@@ -12,7 +12,6 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
-using AllenCopeland.Abstraction.Utilities.Tuples;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -100,6 +99,37 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             if (!(ict is TType))
                 throw new ArgumentException("type");
             return ((TType)ict);
+        }
+
+        public static IType GetTypeReference(this Type type, ITypeCollection typeParameters)
+        {
+            if (type.IsGenericType && type.IsGenericTypeDefinition)
+                return ((IGenericType)type.GetTypeReference()).MakeGenericType(typeParameters);
+            throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
+        }
+
+        public static IType GetTypeReference(this Type type, params IType[] typeParameters)
+        {
+            if (type.IsGenericType && type.IsGenericTypeDefinition)
+                return ((IGenericType)type.GetTypeReference()).MakeGenericType(typeParameters);
+            throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
+        }
+        public static TType GetTypeReference<TType>(this Type type, ITypeCollection typeParameters)
+            where TType :
+                IGenericType<TType>
+        {
+            if (type.IsGenericType && type.IsGenericTypeDefinition)
+                return type.GetTypeReference<TType>().MakeGenericType(typeParameters);
+            throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
+        }
+
+        public static TType GetTypeReference<TType>(this Type type, params IType[] typeParameters)
+            where TType :
+                IGenericType<TType>
+        {
+            if (type.IsGenericType && type.IsGenericTypeDefinition)
+                return type.GetTypeReference<TType>().MakeGenericType(typeParameters);
+            throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
         }
 
         /// <summary>

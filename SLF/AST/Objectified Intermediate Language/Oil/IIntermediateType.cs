@@ -29,12 +29,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         new IIntermediateType DeclaringType { get; }
 
         /// <summary>
-        /// Returns the <see cref="IIntermediateAssembly"/> in which
-        /// the <see cref="IIntermediateType"/> is declared
-        /// </summary>
-        new IIntermediateAssembly Assembly { get; }
-
-        /// <summary>
         /// Returns/sets the <see cref="IIntermediateModule"/>
         /// in which the <see cref="IIntermediateType"/>
         /// is defined.
@@ -63,5 +57,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// in which the current type (or its parent type) is declared.
         /// </summary>
         new IIntermediateNamespaceDeclaration Namespace { get; }
+        /// <summary>
+        /// Returns the <see cref="IIntermediateAssembly"/> in which the
+        /// <see cref="IIntermediateTypeParent"/> is defined.
+        /// </summary>
+        new IIntermediateAssembly Assembly { get; }
     }
 }

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using AllenCopeland.Abstraction.Utilities.Tuples;
+//using AllenCopeland.Abstraction.Utilities.Tuples;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             var mi = sf.GetMethod();
             if (mi == null)
                 return null;
-            return TupleHelper.GetTuple(mi.DeclaringType, mi);
+            return new Tuple<Type, MethodBase>(mi.DeclaringType, mi);
         }
     }
 }

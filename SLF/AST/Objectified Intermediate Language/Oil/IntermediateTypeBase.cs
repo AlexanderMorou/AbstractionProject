@@ -430,5 +430,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return this.OnGetIntermediateMembers();
             }
         }
+
+        public override string UniqueIdentifier
+        {
+            get
+            {
+                return base.UniqueIdentifier;
+            }
+        }
     }
 }

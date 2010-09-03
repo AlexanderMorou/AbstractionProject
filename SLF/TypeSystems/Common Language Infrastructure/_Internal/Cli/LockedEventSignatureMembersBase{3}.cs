@@ -18,7 +18,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 {
     internal partial class LockedEventSignatureMembersBase<TEventSignature, TEventSignatureParameter, TEventSignatureParent> :
         LockedSignatureMembersBase<TEventSignature, TEventSignatureParameter, TEventSignatureParent, EventInfo>,
-        IEventSignatureMemberDictionary<TEventSignature, TEventSignatureParameter, TEventSignatureParent>
+        IEventSignatureMemberDictionary<TEventSignature, TEventSignatureParameter, TEventSignatureParent>,
+        IEventSignatureMemberDictionary
         where TEventSignature :
             class,
             IEventSignatureMember<TEventSignature, TEventSignatureParameter, TEventSignatureParent>

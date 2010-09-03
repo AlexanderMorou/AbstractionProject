@@ -47,38 +47,118 @@ namespace AllenCopeland.Abstraction.Utilities.Tuples
             return new Tuple<TItem1, TItem2, TItem3, TItem4, TItem5, TItem6, TItem7, TItem8>(item, item2, item3, item4, item5, item6, item7, item8);
         }
 
-        /// <summary>
-        /// Obtains a new tuple with the item, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, item12, item13, item14, item15, and item16 provided
-        /// </summary>
-        public static Tuple<TItem1, TItem2, TItem3, TItem4, TItem5, TItem6, TItem7, TItem8, TItem9, TItem10, TItem11, TItem12, TItem13, TItem14, TItem15, TItem16> GetTuple<TItem1, TItem2, TItem3, TItem4, TItem5, TItem6, TItem7, TItem8, TItem9, TItem10, TItem11, TItem12, TItem13, TItem14, TItem15, TItem16>(TItem1 item, TItem2 item2, TItem3 item3, TItem4 item4, TItem5 item5, TItem6 item6, TItem7 item7, TItem8 item8, TItem9 item9, TItem10 item10, TItem11 item11, TItem12 item12, TItem13 item13, TItem14 item14, TItem15 item15, TItem16 item16)
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9> GetTuple<T1, T2, T3, T4, T5, T6, T7, T8, T9>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9)
         {
-            return new Tuple<TItem1, TItem2, TItem3, TItem4, TItem5, TItem6, TItem7, TItem8, TItem9, TItem10, TItem11, TItem12, TItem13, TItem14, TItem15, TItem16>(item, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, item12, item13, item14, item15, item16);
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9>(item1, item2, item3,
+                item4, item5, item6,
+                item7, item8, item9);
         }
 
-        /// <summary>
-        /// Obtains a new tuple with the item, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, item12, item13, item14, item15, item16, item17, item18, item19, item20, item21, item22, item23, item24, item25, item26, item27, item28, item29, item30, item31, and item32 provided
-        /// </summary>
-        public static Tuple<TItem1, TItem2, TItem3, TItem4, TItem5, TItem6, TItem7, TItem8, TItem9, TItem10, TItem11, TItem12, TItem13, TItem14, TItem15, TItem16, TItem17, TItem18, TItem19, TItem20, TItem21, TItem22, TItem23, TItem24, TItem25, TItem26, TItem27, TItem28, TItem29, TItem30, TItem31, TItem32> GetTuple<TItem1, TItem2, TItem3, TItem4, TItem5, TItem6, TItem7, TItem8, TItem9, TItem10, TItem11, TItem12, TItem13, TItem14, TItem15, TItem16, TItem17, TItem18, TItem19, TItem20, TItem21, TItem22, TItem23, TItem24, TItem25, TItem26, TItem27, TItem28, TItem29, TItem30, TItem31, TItem32>(TItem1 item, TItem2 item2, TItem3 item3, TItem4 item4, TItem5 item5, TItem6 item6, TItem7 item7, TItem8 item8, TItem9 item9, TItem10 item10, TItem11 item11, TItem12 item12, TItem13 item13, TItem14 item14, TItem15 item15, TItem16 item16, TItem17 item17, TItem18 item18, TItem19 item19, TItem20 item20, TItem21 item21, TItem22 item22, TItem23 item23, TItem24 item24, TItem25 item25, TItem26 item26, TItem27 item27, TItem28 item28, TItem29 item29, TItem30 item30, TItem31 item31, TItem32 item32)
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> GetTuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10)
         {
-            return new Tuple<TItem1, TItem2, TItem3, TItem4, TItem5, TItem6, TItem7, TItem8, TItem9, TItem10, TItem11, TItem12, TItem13, TItem14, TItem15, TItem16, TItem17, TItem18, TItem19, TItem20, TItem21, TItem22, TItem23, TItem24, TItem25, TItem26, TItem27, TItem28, TItem29, TItem30, TItem31, TItem32>(item, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, item12, item13, item14, item15, item16, item17, item18, item19, item20, item21, item22, item23, item24, item25, item26, item27, item28, item29, item30, item31, item32);
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(item1, item2, item3,
+                item4, item5, item6,
+                item7, item8, item9,
+                item10);
         }
 
-        /// <summary>
-        /// Obtains a new tuple with the item, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, item12, item13, item14, item15, item16, item17, item18, item19, item20, item21, item22, item23, item24, item25, item26, item27, item28, item29, item30, item31, item32, item33, item34, item35, item36, item37, item38, item39, item40, item41, item42, item43, item44, item45, item46, item47, item48, item49, item50, item51, item52, item53, item54, item55, item56, item57, item58, item59, item60, item61, item62, item63, and item64 provided
-        /// </summary>
-        public static Tuple<TItem1, TItem2, TItem3, TItem4, TItem5, TItem6, TItem7, TItem8, TItem9, TItem10, TItem11, TItem12, TItem13, TItem14, TItem15, TItem16, TItem17, TItem18, TItem19, TItem20, TItem21, TItem22, TItem23, TItem24, TItem25, TItem26, TItem27, TItem28, TItem29, TItem30, TItem31, TItem32, TItem33, TItem34, TItem35, TItem36, TItem37, TItem38, TItem39, TItem40, TItem41, TItem42, TItem43, TItem44, TItem45, TItem46, TItem47, TItem48, TItem49, TItem50, TItem51, TItem52, TItem53, TItem54, TItem55, TItem56, TItem57, TItem58, TItem59, TItem60, TItem61, TItem62, TItem63, TItem64> GetTuple<TItem1, TItem2, TItem3, TItem4, TItem5, TItem6, TItem7, TItem8, TItem9, TItem10, TItem11, TItem12, TItem13, TItem14, TItem15, TItem16, TItem17, TItem18, TItem19, TItem20, TItem21, TItem22, TItem23, TItem24, TItem25, TItem26, TItem27, TItem28, TItem29, TItem30, TItem31, TItem32, TItem33, TItem34, TItem35, TItem36, TItem37, TItem38, TItem39, TItem40, TItem41, TItem42, TItem43, TItem44, TItem45, TItem46, TItem47, TItem48, TItem49, TItem50, TItem51, TItem52, TItem53, TItem54, TItem55, TItem56, TItem57, TItem58, TItem59, TItem60, TItem61, TItem62, TItem63, TItem64>(TItem1 item, TItem2 item2, TItem3 item3, TItem4 item4, TItem5 item5, TItem6 item6, TItem7 item7, TItem8 item8, TItem9 item9, TItem10 item10, TItem11 item11, TItem12 item12, TItem13 item13, TItem14 item14, TItem15 item15, TItem16 item16, TItem17 item17, TItem18 item18, TItem19 item19, TItem20 item20, TItem21 item21, TItem22 item22, TItem23 item23, TItem24 item24, TItem25 item25, TItem26 item26, TItem27 item27, TItem28 item28, TItem29 item29, TItem30 item30, TItem31 item31, TItem32 item32, TItem33 item33, TItem34 item34, TItem35 item35, TItem36 item36, TItem37 item37, TItem38 item38, TItem39 item39, TItem40 item40, TItem41 item41, TItem42 item42, TItem43 item43, TItem44 item44, TItem45 item45, TItem46 item46, TItem47 item47, TItem48 item48, TItem49 item49, TItem50 item50, TItem51 item51, TItem52 item52, TItem53 item53, TItem54 item54, TItem55 item55, TItem56 item56, TItem57 item57, TItem58 item58, TItem59 item59, TItem60 item60, TItem61 item61, TItem62 item62, TItem63 item63, TItem64 item64)
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> GetTuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11)
         {
-            return new Tuple<TItem1, TItem2, TItem3, TItem4, TItem5, TItem6, TItem7, TItem8, TItem9, TItem10, TItem11, TItem12, TItem13, TItem14, TItem15, TItem16, TItem17, TItem18, TItem19, TItem20, TItem21, TItem22, TItem23, TItem24, TItem25, TItem26, TItem27, TItem28, TItem29, TItem30, TItem31, TItem32, TItem33, TItem34, TItem35, TItem36, TItem37, TItem38, TItem39, TItem40, TItem41, TItem42, TItem43, TItem44, TItem45, TItem46, TItem47, TItem48, TItem49, TItem50, TItem51, TItem52, TItem53, TItem54, TItem55, TItem56, TItem57, TItem58, TItem59, TItem60, TItem61, TItem62, TItem63, TItem64>(item, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, item12, item13, item14, item15, item16, item17, item18, item19, item20, item21, item22, item23, item24, item25, item26, item27, item28, item29, item30, item31, item32, item33, item34, item35, item36, item37, item38, item39, item40, item41, item42, item43, item44, item45, item46, item47, item48, item49, item50, item51, item52, item53, item54, item55, item56, item57, item58, item59, item60, item61, item62, item63, item64);
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(item1, item2, item3,
+                item4, item5, item6,
+                item7, item8, item9,
+                item10, item11);
         }
 
-        /// <summary>
-        /// Obtains a new tuple with the item, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, item12, item13, item14, item15, item16, item17, item18, item19, item20, item21, item22, item23, item24, item25, item26, item27, item28, item29, item30, item31, item32, item33, item34, item35, item36, item37, item38, item39, item40, item41, item42, item43, item44, item45, item46, item47, item48, item49, item50, item51, item52, item53, item54, item55, item56, item57, item58, item59, item60, item61, item62, item63, item64, item65, item66, item67, item68, item69, item70, item71, item72, item73, item74, item75, item76, item77, item78, item79, item80, item81, item82, item83, item84, item85, item86, item87, item88, item89, item90, item91, item92, item93, item94, item95, item96, item97, item98, item99, item100, item101, item102, item103, item104, item105, item106, item107, item108, item109, item110, item111, item112, item113, item114, item115, item116, item117, item118, item119, item120, item121, item122, item123, item124, item125, item126, item127, and item128 provided
-        /// </summary>
-        public static Tuple<TItem1, TItem2, TItem3, TItem4, TItem5, TItem6, TItem7, TItem8, TItem9, TItem10, TItem11, TItem12, TItem13, TItem14, TItem15, TItem16, TItem17, TItem18, TItem19, TItem20, TItem21, TItem22, TItem23, TItem24, TItem25, TItem26, TItem27, TItem28, TItem29, TItem30, TItem31, TItem32, TItem33, TItem34, TItem35, TItem36, TItem37, TItem38, TItem39, TItem40, TItem41, TItem42, TItem43, TItem44, TItem45, TItem46, TItem47, TItem48, TItem49, TItem50, TItem51, TItem52, TItem53, TItem54, TItem55, TItem56, TItem57, TItem58, TItem59, TItem60, TItem61, TItem62, TItem63, TItem64, TItem65, TItem66, TItem67, TItem68, TItem69, TItem70, TItem71, TItem72, TItem73, TItem74, TItem75, TItem76, TItem77, TItem78, TItem79, TItem80, TItem81, TItem82, TItem83, TItem84, TItem85, TItem86, TItem87, TItem88, TItem89, TItem90, TItem91, TItem92, TItem93, TItem94, TItem95, TItem96, TItem97, TItem98, TItem99, TItem100, TItem101, TItem102, TItem103, TItem104, TItem105, TItem106, TItem107, TItem108, TItem109, TItem110, TItem111, TItem112, TItem113, TItem114, TItem115, TItem116, TItem117, TItem118, TItem119, TItem120, TItem121, TItem122, TItem123, TItem124, TItem125, TItem126, TItem127, TItem128> GetTuple<TItem1, TItem2, TItem3, TItem4, TItem5, TItem6, TItem7, TItem8, TItem9, TItem10, TItem11, TItem12, TItem13, TItem14, TItem15, TItem16, TItem17, TItem18, TItem19, TItem20, TItem21, TItem22, TItem23, TItem24, TItem25, TItem26, TItem27, TItem28, TItem29, TItem30, TItem31, TItem32, TItem33, TItem34, TItem35, TItem36, TItem37, TItem38, TItem39, TItem40, TItem41, TItem42, TItem43, TItem44, TItem45, TItem46, TItem47, TItem48, TItem49, TItem50, TItem51, TItem52, TItem53, TItem54, TItem55, TItem56, TItem57, TItem58, TItem59, TItem60, TItem61, TItem62, TItem63, TItem64, TItem65, TItem66, TItem67, TItem68, TItem69, TItem70, TItem71, TItem72, TItem73, TItem74, TItem75, TItem76, TItem77, TItem78, TItem79, TItem80, TItem81, TItem82, TItem83, TItem84, TItem85, TItem86, TItem87, TItem88, TItem89, TItem90, TItem91, TItem92, TItem93, TItem94, TItem95, TItem96, TItem97, TItem98, TItem99, TItem100, TItem101, TItem102, TItem103, TItem104, TItem105, TItem106, TItem107, TItem108, TItem109, TItem110, TItem111, TItem112, TItem113, TItem114, TItem115, TItem116, TItem117, TItem118, TItem119, TItem120, TItem121, TItem122, TItem123, TItem124, TItem125, TItem126, TItem127, TItem128>(TItem1 item, TItem2 item2, TItem3 item3, TItem4 item4, TItem5 item5, TItem6 item6, TItem7 item7, TItem8 item8, TItem9 item9, TItem10 item10, TItem11 item11, TItem12 item12, TItem13 item13, TItem14 item14, TItem15 item15, TItem16 item16, TItem17 item17, TItem18 item18, TItem19 item19, TItem20 item20, TItem21 item21, TItem22 item22, TItem23 item23, TItem24 item24, TItem25 item25, TItem26 item26, TItem27 item27, TItem28 item28, TItem29 item29, TItem30 item30, TItem31 item31, TItem32 item32, TItem33 item33, TItem34 item34, TItem35 item35, TItem36 item36, TItem37 item37, TItem38 item38, TItem39 item39, TItem40 item40, TItem41 item41, TItem42 item42, TItem43 item43, TItem44 item44, TItem45 item45, TItem46 item46, TItem47 item47, TItem48 item48, TItem49 item49, TItem50 item50, TItem51 item51, TItem52 item52, TItem53 item53, TItem54 item54, TItem55 item55, TItem56 item56, TItem57 item57, TItem58 item58, TItem59 item59, TItem60 item60, TItem61 item61, TItem62 item62, TItem63 item63, TItem64 item64, TItem65 item65, TItem66 item66, TItem67 item67, TItem68 item68, TItem69 item69, TItem70 item70, TItem71 item71, TItem72 item72, TItem73 item73, TItem74 item74, TItem75 item75, TItem76 item76, TItem77 item77, TItem78 item78, TItem79 item79, TItem80 item80, TItem81 item81, TItem82 item82, TItem83 item83, TItem84 item84, TItem85 item85, TItem86 item86, TItem87 item87, TItem88 item88, TItem89 item89, TItem90 item90, TItem91 item91, TItem92 item92, TItem93 item93, TItem94 item94, TItem95 item95, TItem96 item96, TItem97 item97, TItem98 item98, TItem99 item99, TItem100 item100, TItem101 item101, TItem102 item102, TItem103 item103, TItem104 item104, TItem105 item105, TItem106 item106, TItem107 item107, TItem108 item108, TItem109 item109, TItem110 item110, TItem111 item111, TItem112 item112, TItem113 item113, TItem114 item114, TItem115 item115, TItem116 item116, TItem117 item117, TItem118 item118, TItem119 item119, TItem120 item120, TItem121 item121, TItem122 item122, TItem123 item123, TItem124 item124, TItem125 item125, TItem126 item126, TItem127 item127, TItem128 item128)
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> GetTuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12)
         {
-            return new Tuple<TItem1, TItem2, TItem3, TItem4, TItem5, TItem6, TItem7, TItem8, TItem9, TItem10, TItem11, TItem12, TItem13, TItem14, TItem15, TItem16, TItem17, TItem18, TItem19, TItem20, TItem21, TItem22, TItem23, TItem24, TItem25, TItem26, TItem27, TItem28, TItem29, TItem30, TItem31, TItem32, TItem33, TItem34, TItem35, TItem36, TItem37, TItem38, TItem39, TItem40, TItem41, TItem42, TItem43, TItem44, TItem45, TItem46, TItem47, TItem48, TItem49, TItem50, TItem51, TItem52, TItem53, TItem54, TItem55, TItem56, TItem57, TItem58, TItem59, TItem60, TItem61, TItem62, TItem63, TItem64, TItem65, TItem66, TItem67, TItem68, TItem69, TItem70, TItem71, TItem72, TItem73, TItem74, TItem75, TItem76, TItem77, TItem78, TItem79, TItem80, TItem81, TItem82, TItem83, TItem84, TItem85, TItem86, TItem87, TItem88, TItem89, TItem90, TItem91, TItem92, TItem93, TItem94, TItem95, TItem96, TItem97, TItem98, TItem99, TItem100, TItem101, TItem102, TItem103, TItem104, TItem105, TItem106, TItem107, TItem108, TItem109, TItem110, TItem111, TItem112, TItem113, TItem114, TItem115, TItem116, TItem117, TItem118, TItem119, TItem120, TItem121, TItem122, TItem123, TItem124, TItem125, TItem126, TItem127, TItem128>(item, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, item12, item13, item14, item15, item16, item17, item18, item19, item20, item21, item22, item23, item24, item25, item26, item27, item28, item29, item30, item31, item32, item33, item34, item35, item36, item37, item38, item39, item40, item41, item42, item43, item44, item45, item46, item47, item48, item49, item50, item51, item52, item53, item54, item55, item56, item57, item58, item59, item60, item61, item62, item63, item64, item65, item66, item67, item68, item69, item70, item71, item72, item73, item74, item75, item76, item77, item78, item79, item80, item81, item82, item83, item84, item85, item86, item87, item88, item89, item90, item91, item92, item93, item94, item95, item96, item97, item98, item99, item100, item101, item102, item103, item104, item105, item106, item107, item108, item109, item110, item111, item112, item113, item114, item115, item116, item117, item118, item119, item120, item121, item122, item123, item124, item125, item126, item127, item128);
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(item1, item2, item3,
+                item4, item5, item6,
+                item7, item8, item9,
+                item10, item11, item12);
+        }
+
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> GetTuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13)
+        {
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(item1, item2, item3,
+                item4, item5, item6,
+                item7, item8, item9,
+                item10, item11, item12,
+                item13);
+        }
+
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> GetTuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14)
+        {
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(item1, item2, item3,
+                item4, item5, item6,
+                item7, item8, item9,
+                item10, item11, item12,
+                item13, item14);
+        }
+
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> GetTuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15)
+        {
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(item1, item2, item3,
+                item4, item5, item6,
+                item7, item8, item9,
+                item10, item11, item12,
+                item13, item14, item15);
+        }
+
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> GetTuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15, T16 item16)
+        {
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(item1, item2, item3,
+                item4, item5, item6,
+                item7, item8, item9,
+                item10, item11, item12,
+                item13, item14, item15,
+                item16);
+        }
+
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> GetTuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15, T16 item16, T17 item17)
+        {
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>(item1, item2, item3,
+                item4, item5, item6,
+                item7, item8, item9,
+                item10, item11, item12,
+                item13, item14, item15,
+                item16, item17);
+        }
+
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> GetTuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15, T16 item16, T17 item17, T18 item18)
+        {
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18>(item1, item2, item3,
+                item4, item5, item6,
+                item7, item8, item9,
+                item10, item11, item12,
+                item13, item14, item15,
+                item16, item17, item18);
+        }
+
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> GetTuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15, T16 item16, T17 item17, T18 item18, T19 item19)
+        {
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19>(item1, item2, item3,
+                item4, item5, item6,
+                item7, item8, item9,
+                item10, item11, item12,
+                item13, item14, item15,
+                item16, item17, item18,
+                item19);
+        }
+
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20> GetTuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15, T16 item16, T17 item17, T18 item18, T19 item19, T20 item20)
+        {
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>(item1, item2, item3,
+                item4, item5, item6,
+                item7, item8, item9,
+                item10, item11, item12,
+                item13, item14, item15,
+                item16, item17, item18,
+                item19, item20);
         }
         #endregion // TupleHelper methods
+
+
     }
     // Module: RootModule
 }

@@ -27,5 +27,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         {
             return new _GlobalMethodMember(this.Parent, this);
         }
+
+        public override IIntermediateAssembly Assembly
+        {
+            get { return this.Parent.Parent; }
+        }
     }
 }

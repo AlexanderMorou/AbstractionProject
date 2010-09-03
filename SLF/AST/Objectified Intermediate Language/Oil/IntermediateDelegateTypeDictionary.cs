@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 {
     [DebuggerDisplay("Delegates: {Count}")]
     public class IntermediateDelegateTypeDictionary :
-        IntermediateTypeDictionary<IDelegateType, IIntermediateDelegateType>,
+        IntermediateGenericTypeDictionary<IDelegateType, IIntermediateDelegateType>,
         IIntermediateDelegateTypeDictionary
     {
         public IntermediateDelegateTypeDictionary(IIntermediateTypeParent parent, IntermediateFullTypeDictionary master)

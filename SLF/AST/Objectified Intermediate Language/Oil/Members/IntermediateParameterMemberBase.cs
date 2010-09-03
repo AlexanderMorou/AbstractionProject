@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -135,6 +136,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 return string.Format("{0} {1}", this.ParameterType.BuildTypeName(true, true), base.UniqueIdentifier);
             }
         }
+
+        #region IIntermediateParameterMember Members
+
+        IParameterReferenceExpression IIntermediateParameterMember.GetReference()
+        {
+            return this.GetReference();
+        }
+
+        public IParameterReferenceExpression<TParent, TIntermediateParent, TParameter, TIntermediateParameter> GetReference()
+        {
+            return new ParameterReferenceExpression<TParent, TIntermediateParent, TParameter, TIntermediateParameter>(((TIntermediateParameter)(object)(this)));
+        }
+
+        #endregion
+
     }
 
 }

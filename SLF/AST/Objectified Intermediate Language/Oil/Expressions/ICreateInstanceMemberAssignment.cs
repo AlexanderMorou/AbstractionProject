@@ -16,14 +16,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// <see cref="ICreateInstanceExpression"/>'s member
     /// assignment expression.
     /// </summary>
-    public interface ICreateInstanceMemberAssignExpression
+    public interface ICreateInstanceMemberAssignment
     {
         /// <summary>
-        /// Returns/sets the <see cref="IMemberReferenceExpression"/>
-        /// that designates the property to assign on the 
-        /// <see cref="ICreateInstanceExpression.InstanceType"/>.
+        /// Returns/sets the <see cref="String"/>
+        /// that designates the name of the property to assign to
+        /// <see cref="AssignValue"/>.
         /// </summary>
-        IMemberReferenceExpression Target { get; set; }
+        string PropertyName { get; set; }
         /// <summary>
         /// Returns/sets the value to assign to the <see cref="Target"/>.
         /// </summary>

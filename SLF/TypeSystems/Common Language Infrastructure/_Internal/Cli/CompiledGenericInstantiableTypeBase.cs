@@ -162,15 +162,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private void CheckEvents()
         {
             if (this.events == null)
-            {
-                try
-                {
-                    this.events = this.InitializeEvents();
-                }
-                catch (NotImplementedException)
-                {
-                }
-            }
+                this.events = this.InitializeEvents();
         }
 
         private void CheckFields()

@@ -1262,38 +1262,38 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         [Flags]
         public enum ReferenceSector
         {
-            None                                = 0x0000000000000000,
+            None = 0x0000000000000000,
             /// <summary>
             /// The expression is a reference to a local variable.
             /// </summary>
-            LocalReference                      = 0x0000000000000001,
+            LocalReference = 0x0000000000000001,
             /// <summary>
             /// The expression is a reference to an event.
             /// </summary>
-            EventReference                      = 0x0000000000000002,
+            EventReference = 0x0000000000000002,
             /// <summary>
             /// The expression is a type-reference.
             /// </summary>
-            TypeReference                       = 0x0000000000000004,
+            TypeReference = 0x0000000000000004,
             /// <summary>
             /// The expression is a method reference expression.
             /// </summary>
-            MethodReference                     = 0x0000000000000008,
+            MethodReference = 0x0000000000000008,
             /// <summary>
             /// The expressioin is a property reference.
             /// </summary>
-            PropertyReference                   = 0x0000000000000010,
+            PropertyReference = 0x0000000000000010,
             /// <summary>
             /// Indicates that an expression is a this reference expression
             /// and method references by default are virtual, if applicable.
             /// </summary>
-            ThisReference                       = 0x0000000000000020,
+            ThisReference = 0x0000000000000020,
             /// <summary>
             /// Indicates that an expression is a base reference expression
             /// and method references by default are never virtual and 
             /// refer to the base-type of the type provided.
             /// </summary>
-            BaseReference                       = 0x0000000000000040,
+            BaseReference = 0x0000000000000040,
             /// <summary>
             /// Indicates that an expression is a self reference expression
             /// and method references by default are never virtual.
@@ -1301,29 +1301,37 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             /// <remarks>'self' for 'selfish' as in it prioritizes 
             /// its own members over the those from the inheritance 
             /// hierarchy disregarding higher order overrides.</remarks>
-            SelfReference                       = 0x0000000000000080,
+            SelfReference = 0x0000000000000080,
             /// <summary>
             /// The expression is a field reference.
             /// </summary>
-            FieldReference                      = 0x0000000000000100,
+            FieldReference = 0x0000000000000100,
             /// <summary>
             /// The expression is an indexer reference.
             /// </summary>
-            IndexerReference                    = 0x0000000000000200,
+            IndexerReference = 0x0000000000000200,
             /// <summary>
             /// The expression refers to the current type of the active
             /// instance.
             /// </summary>
-            CurrentTypeReference                = 0x0000000000000400,
+            CurrentTypeReference = 0x0000000000000400,
             /// <summary>
             /// The expression wraps a sub-expression and denotes the
             /// named parameter 
             /// </summary>
-            NamedParameterReference             = 0x0000000000000800,
+            NamedParameterReference = 0x0000000000000800,
+            /// <summary>
+            /// The expression references a method parameter.
+            /// </summary>
+            ParameterReference  = 0x0000000000001000,
+            /// <summary>
+            /// The expression references a specific constructor.
+            /// </summary>
+            ConstructorReference= 0x0000000000002000,
             /// <summary>
             /// Represents every kind of reference.
             /// </summary>
-            All                                 = 0x0000000000000FFF,
+            All = 0x0000000000003FFF,
         }
         /// <summary>
         /// The kinds of primitive value inserts possible.
@@ -1462,24 +1470,29 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         [Flags]
         public enum InvocationSector
         {
-            None                                = 0x0000000000000000,
+            None = 0x0000000000000000,
             /// <summary>
             /// The expression is the act of firing/raising an event.
             /// </summary>
-            EventFire                           = 0x0000000000000001,
+            EventFire = 0x0000000000000001,
             /// <summary>
             /// The expression is a method call.
             /// </summary>
-            MethodCall                          = 0x0000000000000002,
+            MethodCall = 0x0000000000000002,
             /// <summary>
             /// The expression is a call to a multicast delegate.
             /// </summary>
-            MultiCastDelegateCall               = 0x0000000000000004,
+            MultiCastDelegateCall = 0x0000000000000004,
+            /// <summary>
+            /// The expression invokes a constructor member, generally
+            /// returning an instance to an object.
+            /// </summary>
+            ConstructorInvoke     = 0x0000000000000008,
             /// <summary>
             /// Represents all expressions which involve invocation
             /// targets.
             /// </summary>
-            All                                 = 0x0000000000000007,
+            All = 0x000000000000000F,
         }
 
         /// <summary>

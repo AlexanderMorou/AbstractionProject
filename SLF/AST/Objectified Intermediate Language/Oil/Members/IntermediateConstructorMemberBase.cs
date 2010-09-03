@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateType">The type of the owning <see cref="IIntermediateCreatableType{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
     /// in the intermediate abstract syntax tree.</typeparam>
-    public partial class IntermediateConstructorMemberBase<TCtor, TIntermediateCtor, TType, TIntermediateType> :
+    public abstract partial class IntermediateConstructorMemberBase<TCtor, TIntermediateCtor, TType, TIntermediateType> :
         IntermediateConstructorSignatureMemberBase<TCtor, TIntermediateCtor, TType, TIntermediateType>,
         IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
         where TCtor :
@@ -38,6 +38,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TType,
             IIntermediateCreatableType<TCtor, TIntermediateCtor, TType, TIntermediateType>
     {
+        private ICallParameterSet cascadeMembers;
         /// <summary>
         /// Creates a new <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
         /// with the <paramref name="parent"/> provdied.
@@ -54,6 +55,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             : base(parent,typeInitializer)
         {
         }
+
+        #region IIntermediateConstructorMember Members
+
+        public ConstructorCascadeTarget CascadeTarget { get; set; }
+
+        public ICallParameterSet CascadeMembers
+        {
+            get
+            {
+                if (this.cascadeMembers == null)
+                    this.cascadeMembers = new CallParameterSet();
+                return this.cascadeMembers;
+            }
+        }
+
+        #endregion
 
         #region TopBlock Members
 
@@ -247,5 +264,102 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
         #endregion
+
+        #region IIntermediateTypeParent Members
+
+        public IIntermediateClassTypeDictionary Classes
+        {
+            get
+            {
+                return this.statementContainer.Classes;
+            }
+        }
+
+        public IIntermediateDelegateTypeDictionary Delegates
+        {
+            get
+            {
+                return this.statementContainer.Delegates;
+            }
+        }
+
+        public IIntermediateEnumTypeDictionary Enums
+        {
+            get
+            {
+                return this.statementContainer.Enums;
+            }
+        }
+
+        public IIntermediateInterfaceTypeDictionary Interfaces
+        {
+            get
+            {
+                return this.statementContainer.Interfaces;
+            }
+        }
+
+        public IIntermediateStructTypeDictionary Structs
+        {
+            get
+            {
+                return this.statementContainer.Structs;
+            }
+        }
+
+        public IIntermediateFullTypeDictionary Types
+        {
+            get
+            {
+                return this.statementContainer.Types;
+            }
+        }
+
+        public abstract IIntermediateAssembly Assembly { get; }
+
+        #endregion
+
+        #region ITypeParent Members
+
+        IClassTypeDictionary ITypeParent.Classes
+        {
+            get { return this.Classes; }
+        }
+
+        IDelegateTypeDictionary ITypeParent.Delegates
+        {
+            get { return this.Delegates; }
+        }
+
+        IEnumTypeDictionary ITypeParent.Enums
+        {
+            get { return this.Enums; }
+        }
+
+        IInterfaceTypeDictionary ITypeParent.Interfaces
+        {
+            get { return this.Interfaces; }
+        }
+
+        IStructTypeDictionary ITypeParent.Structs
+        {
+            get { return this.Structs; }
+        }
+
+        IFullTypeDictionary ITypeParent.Types
+        {
+            get { return this.Types; }
+        }
+
+        IAssembly ITypeParent.Assembly
+        {
+            get
+            {
+                return this.Assembly;
+            }
+        }
+
+        #endregion
+
     }
 }

@@ -86,7 +86,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TIntermediateGenericParameter result = this.GetNew(name);
             if (this.ContainsKey(result.UniqueIdentifier))
                 throw new ArgumentException("Name");
-            base.Add(result.UniqueIdentifier, result);
+            this.Add(result.UniqueIdentifier, result);
             return result;
         }
 
@@ -107,7 +107,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 //result.Properties.Add
             foreach (var method in genericParameterData.Methods.Signatures)
                 result.Methods.Add(new TypedName(method.Name, method.ReturnType), method.Parameters.ToSeries());
-            base.Add(result.UniqueIdentifier, result);
+            this.Add(result.UniqueIdentifier, result);
             return result;
         }
 

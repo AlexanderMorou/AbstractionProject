@@ -568,5 +568,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         public static readonly ExpressionKind WorkspaceExpression               = ExpressionKind.ExpansionRequiredSector.WorkspaceExpression;
 
+        /// <summary>
+        /// The expression references a method parameter.
+        /// </summary>
+        public static readonly ExpressionKind ParameterReference                = ExpressionKind.ReferenceSector.ParameterReference;
+        /// <summary>
+        /// The expression invokes a constructor member, generally
+        /// returning an instance to an object.
+        /// </summary>
+        public static readonly ExpressionKind ConstructorInvoke                 = ExpressionKind.InvocationSector.ConstructorInvoke;
+        /// <summary>
+        /// The expression references a specific constructor.
+        /// </summary>
+        public static readonly ExpressionKind ConstructorReference              = ExpressionKind.ReferenceSector.ConstructorReference;
     }
 }

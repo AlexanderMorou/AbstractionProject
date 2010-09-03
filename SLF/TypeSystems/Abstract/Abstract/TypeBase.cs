@@ -510,16 +510,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <see cref="Name"/> is not enough to distinguish between two 
         /// <see cref="TypeBase"/> entities.
         /// </summary>
-        public sealed override string UniqueIdentifier
+        public override string UniqueIdentifier
         {
-            get {
-                //if (this.IsGenericType && this is IGenericType)
-                //    if (((IGenericType)(this)).IsGenericTypeDefinition)
-                //        return string.Format("{0}`{1}", this.Name, ((IGenericType)(this)).TypeParameters.Count);
-                //    else
+            get
+            {
                 return this.BuildTypeName();
-                //else
-                //    return this.Name;
             }
         }
 
@@ -609,7 +604,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             yield break;
         }
-
 
         internal static IEnumerable<IDeclaration> GetTypeParentDeclarations<T>(T parent)
             where T :

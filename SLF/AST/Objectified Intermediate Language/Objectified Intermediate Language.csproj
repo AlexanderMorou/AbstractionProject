@@ -136,6 +136,10 @@
       <DependentUpon>AnonymousType.cs</DependentUpon>
     </Compile>
     <Compile Include="Oil\AnonymousType.cs" />
+    <Compile Include="Oil\Expressions\CallParameterSet+IndexedParameterCollection.cs" />
+    <Compile Include="Oil\Expressions\ConstructorReferenceStub.cs" />
+    <Compile Include="Oil\Expressions\CallParameterSet+NamedParametersDictionary.cs" />
+    <Compile Include="Oil\Expressions\ConstructorPointerReferenceExpression.cs" />
     <Compile Include="Oil\CustomAttributeDefinition+AttributeWrapper+AttributeCollection.cs">
       <DependentUpon>CustomAttributeDefinition+AttributeWrapper.cs</DependentUpon>
     </Compile>
@@ -159,6 +163,12 @@
     <Compile Include="Oil\DeclarationNameChangedEventArgs.cs" />
     <Compile Include="Oil\DeclarationRenamingEventArgs.cs" />
     <Compile Include="Oil\Expressions\Abstract\ExpressionAbstractions.cs" />
+    <Compile Include="Oil\Expressions\CallNamedParameterDictionary.cs" />
+    <Compile Include="Oil\Expressions\CallParameterSet.cs" />
+    <Compile Include="Oil\Expressions\ConstructorInvokeExpression.cs" />
+    <Compile Include="Oil\Expressions\CreateInstanceExpression.cs" />
+    <Compile Include="Oil\Expressions\CreateInstanceMemberAssignment.cs" />
+    <Compile Include="Oil\Expressions\CreateInstanceMemberAssignmentDictionary.cs" />
     <Compile Include="Oil\Expressions\ExpressionBase.cs" />
     <Compile Include="Oil\Expressions\ExpressionCollection.cs" />
     <Compile Include="Oil\Expressions\ExpressionException.cs" />
@@ -175,12 +185,18 @@
     <Compile Include="Oil\Expressions\IAssignTargetExpression.cs" />
     <Compile Include="Oil\Expressions\IAssignmentExpression.cs" />
     <Compile Include="Oil\Expressions\IBinaryOperationExpression.cs" />
+    <Compile Include="Oil\Expressions\ICallNamedParameterDictionary.cs" />
+    <Compile Include="Oil\Expressions\ICallParameterSet.cs" />
     <Compile Include="Oil\Expressions\ICommaExpression.cs" />
     <Compile Include="Oil\Expressions\IConditionalExpression.cs" />
+    <Compile Include="Oil\Expressions\IConstructorInvokeExpression.cs" />
+    <Compile Include="Oil\Expressions\IConstructorPointerReferenceExpression.cs" />
+    <Compile Include="Oil\Expressions\IConstructorReferenceStub.cs" />
     <Compile Include="Oil\Expressions\ICreateArrayDetailExpression.cs" />
     <Compile Include="Oil\Expressions\ICreateArrayExpression.cs" />
     <Compile Include="Oil\Expressions\ICreateInstanceExpression.cs" />
-    <Compile Include="Oil\Expressions\ICreateInstanceMemberAssignExpression.cs" />
+    <Compile Include="Oil\Expressions\ICreateInstanceMemberAssignment.cs" />
+    <Compile Include="Oil\Expressions\ICreateInstanceMemberAssignmentDictionary.cs" />
     <Compile Include="Oil\Expressions\IDelegateInvokeExpression.cs" />
     <Compile Include="Oil\Expressions\IDelegateReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\IDirectionExpression.cs" />
@@ -206,6 +222,7 @@
     <Compile Include="Oil\Expressions\IMethodReferenceStub.cs" />
     <Compile Include="Oil\Expressions\INamedParameterExpression.cs" />
     <Compile Include="Oil\Expressions\INaryOperandExpression.cs" />
+    <Compile Include="Oil\Expressions\IParameterReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\IParenthesizedExpression.cs" />
     <Compile Include="Oil\Expressions\IPrimitiveExpression.cs" />
     <Compile Include="Oil\Expressions\IPrimitiveExpression{T}.cs" />
@@ -291,6 +308,7 @@
     <Compile Include="Oil\Expressions\MethodReferenceStub.cs" />
     <Compile Include="Oil\Expressions\MethodReferenceType.cs" />
     <Compile Include="Oil\Expressions\NamedParameterExpression.cs" />
+    <Compile Include="Oil\Expressions\ParameterReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\ParenthesizedExpression.cs" />
     <Compile Include="Oil\Expressions\PrimitiveExpression{T}.cs" />
     <Compile Include="Oil\Expressions\PrimitiveNullExpression.cs" />
@@ -358,6 +376,7 @@
     <Compile Include="Oil\IIntermediateTypeDictionary.cs" />
     <Compile Include="Oil\IIntermediateTypeParent.cs" />
     <Compile Include="Oil\ILambdaSignatureType.cs" />
+    <Compile Include="Oil\IntermediateGenericTypeDictionary.cs" />
     <Compile Include="Oil\IPrivateImplementationDetails.cs" />
     <Compile Include="Oil\ISourceElement.cs" />
     <Compile Include="Oil\ISymbolType.cs" />

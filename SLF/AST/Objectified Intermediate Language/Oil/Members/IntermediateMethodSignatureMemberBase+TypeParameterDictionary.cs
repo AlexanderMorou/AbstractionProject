@@ -48,6 +48,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
             }
 
+            protected override void Add(string key, IMethodSignatureGenericTypeParameterMember value)
+            {
+                Parent.OnTypeParameterAdded((IIntermediateMethodSignatureGenericTypeParameterMember)value);
+                base.Add(key, value);
+            }
+
+            protected override bool RemoveImpl(string key)
+            {
+                if (base.ContainsKey(key))
+                    Parent.OnTypeParameterRemoved(base[key]);
+                return base.RemoveImpl(key);
+            }
+
+
             #region IGenericParameterDictionary<IMethodSignatureGenericTypeParameterMember,IMethodSignatureMember> Members
 
             IMethodSignatureMember IGenericParameterDictionary<IMethodSignatureGenericTypeParameterMember,IMethodSignatureMember>.Parent
@@ -56,7 +70,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
 
             #endregion
-
 
             protected override IIntermediateMethodSignatureGenericTypeParameterMember GetNew(string name)
             {

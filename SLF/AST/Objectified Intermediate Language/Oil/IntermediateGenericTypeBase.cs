@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Globalization;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
 using AllenCopeland.Abstraction.Slf._Internal.Ast;
+using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -191,7 +192,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        protected virtual IIntermediateGenericParameterDictionary<IGenericTypeParameter<TType>, IIntermediateGenericTypeParameter<TType, TIntermediateType>, TType, TIntermediateType> InitializeTypeParameters()
+        protected virtual TypeParameterDictionary InitializeTypeParameters()
         {
             return new TypeParameterDictionary(this);
         }
@@ -268,7 +269,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-
         #region _IGenericTypeRegistrar Members
 
         public void RegisterGenericType(IGenericType targetType, ITypeCollectionBase typeParameters)
@@ -324,12 +324,61 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 element.PositionalShift(realFrom, realTo);
         }
 
-
         #region _IIntermediateGenericType Members
 
         void _IIntermediateGenericType.Rearranged(int from, int to)
         {
             this.OnRearrangedInner(from, to);
+        }
+
+        void _IIntermediateGenericType.ItemAdded(IGenericParameter parameter)
+        {
+            this.OnTypeParameterAdded(arg1:(IIntermediateGenericTypeParameter<TType, TIntermediateType>)parameter);
+        }
+
+        void _IIntermediateGenericType.ItemRemoved(IGenericParameter parameter)
+        {
+            this.OnTypeParameterRemoved(arg1: (IIntermediateGenericTypeParameter<TType, TIntermediateType>)parameter);
+        }
+
+        protected virtual void OnTypeParameterAdded(IIntermediateGenericTypeParameter<TType, TIntermediateType> arg1)
+        {
+            if (this._TypeParameterAdded != null)
+                this._TypeParameterAdded(this, new EventArgsR1<IIntermediateGenericParameter>(arg1));
+            if (this.TypeParameterAdded != null)
+                this.TypeParameterAdded(this, new EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>(arg1));
+        }
+
+        protected virtual void OnTypeParameterRemoved(IIntermediateGenericTypeParameter<TType, TIntermediateType> arg1)
+        {
+            if (this._TypeParameterRemoved != null)
+                this._TypeParameterRemoved(this, new EventArgsR1<IIntermediateGenericParameter>(arg1));
+            if (this.TypeParameterRemoved != null)
+                this.TypeParameterRemoved(this, new EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>(arg1));
+        }
+        #endregion
+
+        #region IIntermediateGenericType<TType,TIntermediateType> Members
+
+        public event EventHandler<EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>> TypeParameterAdded;
+
+        public event EventHandler<EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>> TypeParameterRemoved;
+
+        #endregion
+
+        #region IIntermediateGenericType Members
+        private event EventHandler<EventArgsR1<IIntermediateGenericParameter>> _TypeParameterAdded;
+        private event EventHandler<EventArgsR1<IIntermediateGenericParameter>> _TypeParameterRemoved;
+        event EventHandler<EventArgsR1<IIntermediateGenericParameter>> IIntermediateGenericParameterParent.TypeParameterAdded
+        {
+            add { _TypeParameterAdded += value; }
+            remove { _TypeParameterAdded -= value; }
+        }
+
+        event EventHandler<EventArgsR1<IIntermediateGenericParameter>> IIntermediateGenericParameterParent.TypeParameterRemoved
+        {
+            add { _TypeParameterRemoved += value; }
+            remove { _TypeParameterRemoved -= value; }
         }
 
         #endregion

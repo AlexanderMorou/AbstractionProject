@@ -5,6 +5,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Utilities.Events;
 /*----------------------------------------\
 | Copyright © 2009 Allen Copeland Jr.     |
 |-----------------------------------------|
@@ -72,7 +73,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             TIntermediateSignature method = this.OnGetNewMethod(name);
             method.Renamed += method_Renamed;
+            method.TypeParameterAdded += new EventHandler<Utilities.Events.EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>>(method_TypeParameterAddOrRemove);
+            method.TypeParameterRemoved += new EventHandler<Utilities.Events.EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>>(method_TypeParameterAddOrRemove);
             return method;
+        }
+
+        void method_TypeParameterAddOrRemove(object sender, EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember> e)
+        {
+            base.IncrementVersion();
         }
 
         void method_Renamed(object sender, DeclarationNameChangedEventArgs e)
@@ -124,15 +132,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return paramType;
         }
 
-        protected override bool RemoveImpl(int index)
-        {
-            this[index].Value.Renamed -= method_Renamed;
-            return base.RemoveImpl(index);
-        }
-
         protected override bool RemoveImpl(string key)
         {
-            this[key].Renamed -= method_Renamed;
+            if (base.ContainsKey(key))
+            {
+                var method = (TIntermediateSignature)base[key];
+                if (method != null)
+                {
+                    method.TypeParameterAdded -= new EventHandler<Utilities.Events.EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>>(method_TypeParameterAddOrRemove);
+                    method.TypeParameterRemoved -= new EventHandler<Utilities.Events.EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>>(method_TypeParameterAddOrRemove);
+                    method.Renamed -= method_Renamed;
+                }
+            }
             return base.RemoveImpl(key);
         }
 

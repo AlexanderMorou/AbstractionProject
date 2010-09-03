@@ -93,6 +93,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
 
         }
+
+        public override IIntermediateAssembly Assembly
+        {
+            get { return Parent.Assembly; }
+        }
     }
 
     public class IntermediateClassIndexerMember<TInstanceIntermediateType> :

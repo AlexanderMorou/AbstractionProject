@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -39,6 +40,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <see cref="IIntermediateGenericParameterParent{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>.
         /// </summary>
         new IIntermediateGenericParameterDictionary<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent> TypeParameters { get; }
+        /// <summary>
+        /// Occurs when a type-parameter is inserted into the 
+        /// <see cref="IIntermediateGenericParameterParent{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>.
+        /// </summary>
+        new event EventHandler<EventArgsR1<TIntermediateGenericParameter>> TypeParameterAdded;
+        /// <summary>
+        /// Occurs when a type-parameter is removed from the 
+        /// <see cref="IIntermediateGenericParameterParent{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>.
+        /// </summary>
+        new event EventHandler<EventArgsR1<TIntermediateGenericParameter>> TypeParameterRemoved;
     }
     /// <summary>
     /// Defines properties and methods for working with a parent of
@@ -52,5 +63,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <see cref="IIntermediateGenericParameterParent"/>.
         /// </summary>
         new IIntermediateGenericParameterDictionary TypeParameters { get; }
+        /// <summary>
+        /// Occurs when a type-parameter is inserted into the 
+        /// <see cref="IIntermediateGenericParameterParent"/>.
+        /// </summary>
+        event EventHandler<EventArgsR1<IIntermediateGenericParameter>> TypeParameterAdded;
+        /// <summary>
+        /// Occurs when a type-parameter is removed from the 
+        /// <see cref="IIntermediateGenericParameterParent"/>.
+        /// </summary>
+        event EventHandler<EventArgsR1<IIntermediateGenericParameter>> TypeParameterRemoved;
     }
 }
