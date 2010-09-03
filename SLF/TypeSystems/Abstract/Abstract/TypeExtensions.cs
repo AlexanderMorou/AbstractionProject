@@ -12,6 +12,11 @@ using AllenCopeland.Abstraction.Utilities.Common;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
+    internal enum TypeParameterDisplayMode
+    {
+        SystemStandard,
+        DebuggerStandard,
+    }
     /// <summary>
     /// Defines the source of type-replacements for the
     /// generic.
@@ -135,7 +140,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             return new LockedTypeCollection(array.Cast<IType>());
         }
 
-        internal static string BuildTypeName(this IType target, bool shortFormGeneric = false, bool numericTypeParams = false)
+        internal static string BuildTypeName(this IType target, bool shortFormGeneric = false, bool numericTypeParams = false, TypeParameterDisplayMode typeParameterDisplayMode = TypeParameterDisplayMode.SystemStandard)
         {
             switch (target.ElementClassification)
             {
@@ -153,7 +158,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                             return ((IGenericParameter)(target)).Name;
                     string targetName = target.Name;
                     var genericTarget = target as IGenericType;
-                    if (genericTarget != null && genericTarget.IsGenericType)
+                    if (typeParameterDisplayMode == TypeParameterDisplayMode.SystemStandard && genericTarget != null && genericTarget.IsGenericType)
                     {
                         int count = 0;
                         if (genericTarget.ElementClassification == TypeElementClassification.None)
@@ -201,7 +206,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                          * names of the parameters with a comma, obtain 
                          * the string-variant of each via a lambda operating on each.
                          * */
-                        return string.Format("{0}[{1}]", target.ElementType.FullName, string.Join(",",
+                        bool debuggerStandard = typeParameterDisplayMode == TypeParameterDisplayMode.DebuggerStandard;
+                        return string.Format("{0}{2}{1}{3}", target.ElementType.BuildTypeName(typeParameterDisplayMode: typeParameterDisplayMode), string.Join(",",
                                 ((IGenericType)(target)).GenericParameters.OnAll(genericReplacement =>
                                 {
                                     if (shortFormGeneric)
@@ -257,10 +263,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                                             return string.Format("{0}", genericReplacement.FullName);
                                         }
                                     }
-                                }).ToArray()));
+                                }).ToArray()), debuggerStandard ? '<' : '[', debuggerStandard ? '>' : ']');
                     }
                     else
-                        return string.Format("{0}[[?],...]", target.FullName);
+                    {
+                        bool debuggerStandard = typeParameterDisplayMode == TypeParameterDisplayMode.DebuggerStandard;
+                        return string.Format("{0}{1}[?],...{2}", target.FullName, debuggerStandard ? '<' : '[', debuggerStandard ? '>' : ']');
+                    }
             }
             return null;
         }

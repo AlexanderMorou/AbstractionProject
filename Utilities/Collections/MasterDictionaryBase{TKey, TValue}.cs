@@ -205,6 +205,18 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             base[key] = new MasterDictionaryEntry<TValue>((ISubordinateDictionary)subordinate, value);
         }
+       
+        protected internal virtual void Subordinate_ItemsRekeyed<TSValue>(ISubordinateDictionary<TKey, TSValue, TValue> subordinate, IEnumerable<Tuple<TKey, TKey, TSValue>> oldNewPair)
+            where TSValue :
+                TValue
+        {
+            var cachedSet = oldNewPair.ToArray();
+            foreach (var element in cachedSet)
+                backup.Remove(element.Item1);
+
+            foreach (var element in cachedSet)
+                backup.Add(element.Item2, new MasterDictionaryEntry<TValue>((ISubordinateDictionary)subordinate, element.Item3));
+        }
 
         /// <summary>
         /// Notifier for subordinate dictionaries 

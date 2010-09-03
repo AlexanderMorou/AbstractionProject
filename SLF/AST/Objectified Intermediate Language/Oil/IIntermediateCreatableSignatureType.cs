@@ -46,6 +46,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// Defines properties and methods for working with a creatable (instantiable) type.
     /// </summary>
     public interface IIntermediateCreatableSignatureType :
+        IIntermediateSignatureParent,
+        IIntermediateType,
         ICreatableType
     {
         /// <summary>

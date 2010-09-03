@@ -125,6 +125,7 @@
     <Compile Include="Collections\ReadOnlyDictionary{TKey, TValue}.cs" />
     <Compile Include="Collections\SimpleCollection{T}.cs" />
     <Compile Include="Collections\SimpleDictionaryEnumerator{TKey, TValue}.cs" />
+    <Compile Include="Collections\SubordinateDictionary{TKey, TSValue, TMValue}+KC.cs" />
     <Compile Include="Collections\SubordinateDictionary{TKey, TSValue, TMValue}.cs" />
     <Compile Include="Collections\_ISubordinateDictionaryMasterPass.cs" />
     <Compile Include="Common\BinaryBase.cs" />
@@ -154,9 +155,18 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Tuples\TupleHelper.cs" />
-    <Compile Include="Tuples\Tuples.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Tuples\Tuple`10.cs" />
+    <Compile Include="Tuples\Tuple`11.cs" />
+    <Compile Include="Tuples\Tuple`12.cs" />
+    <Compile Include="Tuples\Tuple`13.cs" />
+    <Compile Include="Tuples\Tuple`14.cs" />
+    <Compile Include="Tuples\Tuple`15.cs" />
+    <Compile Include="Tuples\Tuple`16.cs" />
+    <Compile Include="Tuples\Tuple`17.cs" />
+    <Compile Include="Tuples\Tuple`18.cs" />
+    <Compile Include="Tuples\Tuple`19.cs" />
+    <Compile Include="Tuples\Tuple`20.cs" />
+    <Compile Include="Tuples\Tuple`9.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -167,6 +177,7 @@
   <ItemGroup>
     <None Include="Allen Copeland.pfx" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

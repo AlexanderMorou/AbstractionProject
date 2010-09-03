@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -31,7 +32,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TParent, 
             IIntermediateParameterParent
     {
-
     }
     /// <summary>
     /// Defines properties and methods for working with an intermediate parameter
@@ -55,5 +55,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// Returns/sets the direction the parameter is coerced.
         /// </summary>
         new ParameterDirection Direction { get; set; }
+        /// <summary>
+        /// Obtains a <see cref="IParameterReferenceExpression"/> for the
+        /// current <see cref="IIntermediateParameterMember"/>.
+        /// </summary>
+        /// <returns>A <see cref="IParameterReferenceExpression"/> for the
+        /// current <see cref="IIntermediateParameterMember"/>.</returns>
+        IParameterReferenceExpression GetReference();
     }
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -234,7 +234,6 @@
     <Compile Include="Abstract\ITypeParent.cs" />
     <Compile Include="Abstract\IType{TType}.cs" />
     <Compile Include="Abstract\LockedTypeCollection.cs" />
-    <Compile Include="Abstract\Members\ConstructorCascadeTarget.cs" />
     <Compile Include="Abstract\Members\EventSignatureSource.cs" />
     <Compile Include="Abstract\Members\ExtendedSignatureData.cs" />
     <Compile Include="Abstract\Members\ExtendedSignaturesData.cs" />

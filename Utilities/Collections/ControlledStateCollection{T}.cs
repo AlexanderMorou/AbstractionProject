@@ -212,8 +212,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         #endregion
 
+        protected virtual void AddImpl(T expression)
+        {
+            this.baseCollection.Add(expression);
+        }
 
-        protected void InsertItem(int index, T item)
+        protected virtual void InsertItem(int index, T item)
         {
             if (this.baseCollection is IList<T>)
                 ((IList<T>)(this.baseCollection)).Insert(index, item);

@@ -1,6 +1,8 @@
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
+using System;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -10,9 +12,29 @@ using AllenCopeland.Abstraction.Slf.Oil.Statements;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
+    /// <summary>
+    /// The target of a series of constructor cascade arguments.
+    /// </summary>
+    [Serializable]
+    public enum ConstructorCascadeTarget
+    {
+        /// <summary>
+        /// The constructor cascade isn't used.
+        /// </summary>
+        Undefined,
+        /// <summary>
+        /// The constructor cascade should occur on the base-type.
+        /// </summary>
+        Base,
+        /// <summary>
+        /// The constructor cascade should occur on the current type.
+        /// </summary>
+        This
+    }
     /* *
      * The difference between the constructor and constructor signature members:
-     * One has code, the other does not.
+     * One has code, the other does not, and one has cascade target awareness, and
+     * the other does not for the same reasons.
      * */
 
     /// <summary>
@@ -47,5 +69,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IIntermediateConstructorSignatureMember,
         ITopBlockStatement
     {
+        /// <summary>
+        /// Returns the <see cref="ConstructorCascadeTarget"/>
+        /// which designates whether the <see cref="CascadeMembers"/> 
+        /// target the base class or the active class.
+        /// </summary>
+        ConstructorCascadeTarget CascadeTarget { get; set; }
+        /// <summary>
+        /// The <see cref="ICallParameterSet"/>
+        /// which denotes the expressions to use to call the
+        /// parent/local constructor.
+        /// </summary>
+        ICallParameterSet CascadeMembers { get; }
     }
 }

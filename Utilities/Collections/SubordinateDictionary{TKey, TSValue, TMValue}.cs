@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// uses for its elements.</typeparam>
     /// <typeparam name="TMValue"></typeparam>
     [DebuggerDisplay("Count: {Count}")]
-    public class SubordinateDictionary<TKey, TSValue, TMValue> :
+    public partial class SubordinateDictionary<TKey, TSValue, TMValue> :
         ControlledStateDictionary<TKey, TSValue>,
         ISubordinateDictionary<TKey, TSValue, TMValue>,
         ISubordinateDictionary,
@@ -39,6 +39,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     {
         private int version;
         bool needsRefresh = false;
+
         /// <summary>
         /// Data member for <see cref="Master"/>.
         /// </summary>
@@ -205,6 +206,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         #endregion
 
+        protected override ControlledStateDictionary<TKey, TSValue>.KeysCollection InitializeKeysCollection()
+        {
+            return new KeysCollection(this, base.dictionaryCopy.Keys);
+        }
+
         protected void IncrementVersion()
         {
             this.version++;
@@ -215,17 +221,30 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             if (this.needsRefresh)
             {
-                KeyValuePair<TKey, TSValue>[] kvpSet = new KeyValuePair<TKey,TSValue>[this.Count];
+                Tuple<bool, TKey, KeyValuePair<TKey, TSValue>>[] kvpSet = new Tuple<bool, TKey, KeyValuePair<TKey, TSValue>>[this.Count];
                 int index = 0;
                 foreach (var kvp in this)
-                    kvpSet[index++] = this.RekeyElement(kvp);
+                {
+                    var newKey = this.RekeyElement(kvp);
+                    if (newKey.Equals(kvp.Key))
+                        kvpSet[index++] = new Tuple<bool, TKey, KeyValuePair<TKey, TSValue>>(false, kvp.Key, kvp);
+                    else
+                        kvpSet[index++] = new Tuple<bool, TKey, KeyValuePair<TKey, TSValue>>(true, kvp.Key, new KeyValuePair<TKey, TSValue>(this.RekeyElement(kvp), kvp.Value));
+                }
+                base.dictionaryCopy.Clear();
+                foreach (var element in kvpSet)
+                    ((ICollection<KeyValuePair<TKey, TSValue>>)base.dictionaryCopy).Add(element.Item3);
+                master.Subordinate_ItemsRekeyed(this, from element in kvpSet
+                                                      where element.Item1
+                                                      select new Tuple<TKey, TKey, TSValue>(element.Item2, element.Item3.Key, element.Item3.Value));
+
                 this.needsRefresh = false;
             }
         }
 
-        protected virtual KeyValuePair<TKey, TSValue> RekeyElement(KeyValuePair<TKey, TSValue> kvp)
+        protected virtual TKey RekeyElement(KeyValuePair<TKey, TSValue> kvp)
         {
-            return kvp;
+            return kvp.Key;
         }
 
     }

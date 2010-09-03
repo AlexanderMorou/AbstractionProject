@@ -60,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
             if (this.ReturnValue == null)
                 return string.Format("{0};",Resources.Statement_Return_Keyword);
             else
-                return string.Format("{0} {1};", ReturnValue.ToString());
+                return string.Format("{0} {1};", Resources.Statement_Return_Keyword, ReturnValue.ToString());
         }
         /// <summary>
         /// Visits the <paramref name="visitor"/> based upon the type of the
@@ -78,5 +78,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
                 throw new ArgumentNullException("visitor");
             visitor.Visit(this);
         }
+        
     }
 }

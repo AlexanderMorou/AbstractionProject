@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Utilities.Common;
 using System.Globalization;
-using AllenCopeland.Abstraction.Utilities.Tuples;
+//using AllenCopeland.Abstraction.Utilities.Tuples;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|

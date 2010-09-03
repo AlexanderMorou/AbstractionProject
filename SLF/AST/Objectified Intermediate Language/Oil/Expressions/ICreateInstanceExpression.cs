@@ -18,22 +18,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// instance creation expression.
     /// </summary>
     public interface ICreateInstanceExpression :
-        IMemberParentReferenceExpression
+        IConstructorInvokeExpression
     {
         /// <summary>
-        /// Returns/sets the type of instance to create.
+        /// Returns the <see cref="ICreateInstanceMemberAssignmentDictionary"/> 
+        /// which relates to the property assignment expressions for 
+        /// the <see cref="ICreateInstanceExpression"/>.
         /// </summary>
-        IType InstanceType { get; set; }
-        /// <summary>
-        /// Returns the <see cref="IExpressionCollection"/>
-        /// </summary>
-        IExpressionCollection ConstructorParameters { get; }
-        /// <summary>
-        /// Returns the <see cref="ICollection{T}"/> of <see cref="ICreateInstanceMemberAssignExpression"/>
-        /// instances that relates to the property assignment
-        /// expressions for the 
-        /// <see cref="ICreateInstanceExpression"/>.
-        /// </summary>
-        ICollection<ICreateInstanceMemberAssignExpression> PropertyAssignments { get; }
+        ICreateInstanceMemberAssignmentDictionary PropertyAssignments { get; }
     }
 }

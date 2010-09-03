@@ -185,7 +185,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         void Visit(IDelegateMethodPointerReferenceExpression expression);
         void Visit(IDelegateInvokeExpression expression);
         void Visit(IDelegateHolderReferenceExpression expression);
-        void Visit(ICreateInstanceMemberAssignExpression expression);
+        void Visit(ICreateInstanceMemberAssignment expression);
         void Visit(ICreateInstanceExpression expression);
         void Visit(ICreateArrayExpression expression);
         void Visit(ICreateArrayDetailExpression expression);
@@ -212,6 +212,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         void Visit(ILinqTypedFromClause linqClause);
         void Visit(ILinqTypedJoinClause linqClause);
         void Visit(ILinqWhereClause linqClause);
+        void Visit(IParameterReferenceExpression expression);
+        void Visit(IConstructorInvokeExpression expression);
+        void Visit(IConstructorPointerReferenceExpression constructorPointerReferenceExpression);
         void VisitNull();
 
         void Visit(IBlockStatement statement);

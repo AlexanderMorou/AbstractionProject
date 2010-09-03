@@ -5,7 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Common;
-using AllenCopeland.Abstraction.Utilities.Tuples;
+//using AllenCopeland.Abstraction.Utilities.Tuples;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using System.Globalization;
 

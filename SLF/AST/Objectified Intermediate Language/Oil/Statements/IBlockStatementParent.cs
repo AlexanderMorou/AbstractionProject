@@ -22,7 +22,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
     /// </summary>
     public interface IBlockStatementParent :
         IControlledStateCollection<IStatement>,
-        IStatementParent
+        IStatementParent,
+        IIntermediateTypeParent
     {
         /// <summary>
         /// Inserts and returns a new <see cref="IReturnStatement"/>

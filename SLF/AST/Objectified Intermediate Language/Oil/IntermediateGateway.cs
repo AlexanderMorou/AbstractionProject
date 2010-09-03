@@ -567,5 +567,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     throw new ArgumentException("nameAndType");
             }
         }
+
+        public static ICreateInstanceExpression NewExpression(this IType target, params IExpression[] parameters)
+        {
+            var result = new CreateInstanceExpression(new ConstructorPointerReferenceExpression(new ConstructorReferenceStub(target)), parameters);
+            return result;
+        }
+
+        public static ICreateInstanceExpression NewExpression(this IType target, IExpressionCollection parameters)
+        {
+            var result = new CreateInstanceExpression(new ConstructorPointerReferenceExpression(new ConstructorReferenceStub(target)), parameters);
+            return result;
+        }
+
+        public static ICreateInstanceExpression NewExpression(this IType target, IEnumerable<IExpression> parameters)
+        {
+            var result = new CreateInstanceExpression(new ConstructorPointerReferenceExpression(new ConstructorReferenceStub(target)), parameters.ToArray());
+            return result;
+        }
     }
 }

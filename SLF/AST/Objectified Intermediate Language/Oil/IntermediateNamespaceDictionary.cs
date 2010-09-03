@@ -101,16 +101,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public override bool ContainsKey(string key)
         {
             if (key == null)
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException("parameterName");
             if (key == string.Empty)
-                throw new ArgumentException("key");
+                throw new ArgumentException("parameterName");
             if (!key.Contains("."))
                 return base.ContainsKey(key);
             else
             {
                 string[] keys = key.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
                 if (keys.Length == 0)
-                    throw new ArgumentException("key");
+                    throw new ArgumentException("parameterName");
                 if (keys.Length == 1)
                     return this.ContainsKey(keys[0]);
                 IIntermediateNamespaceParent parent = this.parent;

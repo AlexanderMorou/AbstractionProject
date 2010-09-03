@@ -173,12 +173,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        protected override IIntermediateGenericParameterDictionary<IGenericTypeParameter<TType>, IIntermediateGenericTypeParameter<TType, TIntermediateType>, TType, TIntermediateType> InitializeTypeParameters()
+        protected override TypeParameterDictionary InitializeTypeParameters()
         {
             if (this.IsRoot)
                 return base.InitializeTypeParameters();
             else
-                return this.GetRoot().TypeParameters;
+                return (TypeParameterDictionary)this.GetRoot().TypeParameters;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Slf._Internal.Ast;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -37,6 +38,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
             }
 
+            private new _IIntermediateGenericType _Parent
+            {
+                get
+                {
+                    return this.Parent;
+                }
+            }
             protected override void OnRearranged(GenericParameterMovedEventArgs e)
             {
                 this.Parent.OnRearranged(e);
@@ -46,6 +54,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             protected override IIntermediateGenericTypeParameter<TType, TIntermediateType> GetNew(string name)
             {
                 return new TypeParameter(name, (IntermediateGenericTypeBase<TType, TIntermediateType>)(object)this.Parent);
+            }
+
+            protected override void Add(string key, IGenericTypeParameter<TType> value)
+            {
+                _Parent.ItemAdded(value);
+                base.Add(key, value);
+            }
+
+            protected override bool RemoveImpl(string key)
+            {
+                if (base.ContainsKey(key))
+                    _Parent.ItemRemoved(base[key]);
+                return base.RemoveImpl(key);
             }
         }
     }

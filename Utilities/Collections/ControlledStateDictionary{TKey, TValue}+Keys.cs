@@ -30,5 +30,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             {
             }
         }
+
     }
 }

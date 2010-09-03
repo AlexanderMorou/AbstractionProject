@@ -105,7 +105,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                             this.CheckItemAt(i);
                             return this.elements[i];
                         }
-                    throw new ArgumentException("key");
+                    throw new ArgumentException("parameterName");
                 }
             }
 
@@ -256,9 +256,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 get
                 {
                     if (key == null)
-                        throw new ArgumentNullException("key");
+                        throw new ArgumentNullException("parameterName");
                     if (!(key is string))
-                        throw new ArgumentException("key");
+                        throw new ArgumentException("parameterName");
                     return this[(string)key];
                 }
             }
@@ -266,9 +266,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             bool IControlledStateDictionary.ContainsKey(object key)
             {
                 if (key == null)
-                    throw new ArgumentNullException("key");
+                    throw new ArgumentNullException("parameterName");
                 if (!(key is string))
-                    throw new ArgumentException("key");
+                    throw new ArgumentException("parameterName");
                 return this.ContainsKey((string)key);
             }
 

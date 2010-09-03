@@ -224,6 +224,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.types = this.InitializeTypes();
         }
         #endregion
+
         #region Initializers
 
         /// <summary>

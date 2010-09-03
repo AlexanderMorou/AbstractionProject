@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -122,7 +123,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region IIntermediateGenericParameterParent<IMethodSignatureGenericTypeParameterMember,IIntermediateMethodSignatureGenericTypeParameterMember,IMethodSignatureMember,IIntermediateMethodSignatureMember> Members
 
-        IIntermediateGenericParameterDictionary<IMethodSignatureGenericTypeParameterMember, IIntermediateMethodSignatureGenericTypeParameterMember, IMethodSignatureMember, IIntermediateMethodSignatureMember> IIntermediateGenericParameterParent<IMethodSignatureGenericTypeParameterMember,IIntermediateMethodSignatureGenericTypeParameterMember,IMethodSignatureMember,IIntermediateMethodSignatureMember>.TypeParameters
+        IIntermediateGenericParameterDictionary<IMethodSignatureGenericTypeParameterMember, IIntermediateMethodSignatureGenericTypeParameterMember, IMethodSignatureMember, IIntermediateMethodSignatureMember> IIntermediateGenericParameterParent<IMethodSignatureGenericTypeParameterMember, IIntermediateMethodSignatureGenericTypeParameterMember, IMethodSignatureMember, IIntermediateMethodSignatureMember>.TypeParameters
         {
             get { return this.TypeParameters; }
         }
@@ -160,7 +161,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public bool IsGenericMethod
         {
-            get {
+            get
+            {
                 if (this.typeParameters == null)
                     return false;
                 return this.TypeParameters.Count > 0;
@@ -169,7 +171,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public bool IsGenericMethodDefinition
         {
-            get {
+            get
+            {
                 return this.IsGenericMethod;
             }
         }
@@ -322,6 +325,46 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
+        internal void OnTypeParameterAdded(IIntermediateMethodSignatureGenericTypeParameterMember arg1)
+        {
+            if (this._TypeParameterAdded != null)
+                this._TypeParameterAdded(this, new EventArgsR1<IIntermediateGenericParameter>(arg1));
+            if (this.TypeParameterAdded != null)
+                this.TypeParameterAdded(this, new EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>(arg1));
+        }
 
+        internal void OnTypeParameterRemoved(IIntermediateMethodSignatureGenericTypeParameterMember arg1)
+        {
+            if (this._TypeParameterRemoved != null)
+                this._TypeParameterRemoved(this, new EventArgsR1<IIntermediateGenericParameter>(arg1));
+            if (this.TypeParameterRemoved != null)
+                this.TypeParameterRemoved(this, new EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>(arg1));
+        }
+
+
+        #region IIntermediateGenericParameterParent<IMethodSignatureGenericTypeParameterMember,IIntermediateMethodSignatureGenericTypeParameterMember,IMethodSignatureMember,IIntermediateMethodSignatureMember> Members
+
+        public event EventHandler<EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>> TypeParameterAdded;
+
+        public event EventHandler<EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>> TypeParameterRemoved;
+
+        #endregion
+
+        #region IIntermediateGenericType Members
+        private event EventHandler<EventArgsR1<IIntermediateGenericParameter>> _TypeParameterAdded;
+        private event EventHandler<EventArgsR1<IIntermediateGenericParameter>> _TypeParameterRemoved;
+        event EventHandler<EventArgsR1<IIntermediateGenericParameter>> IIntermediateGenericParameterParent.TypeParameterAdded
+        {
+            add { _TypeParameterAdded += value; }
+            remove { _TypeParameterAdded -= value; }
+        }
+
+        event EventHandler<EventArgsR1<IIntermediateGenericParameter>> IIntermediateGenericParameterParent.TypeParameterRemoved
+        {
+            add { _TypeParameterRemoved += value; }
+            remove { _TypeParameterRemoved -= value; }
+        }
+
+        #endregion
     }
 }

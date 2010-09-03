@@ -162,7 +162,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         public int IndexOf(TDeclaration decl)
         {
-            if (this.valuesCollection == null)
+            if (this.valuesCollection == null && this.Count == 0)
                 return -1;
             int index = 0;
             foreach (var item in this.Values)
@@ -185,6 +185,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         #endregion
-
+        protected override string RekeyElement(KeyValuePair<string, TDeclaration> kvp)
+        {
+            return kvp.Value.UniqueIdentifier;
+        }
     }
 }

@@ -204,12 +204,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
             set
             {
-                if (this.IsVirtual == value)
-                    return;
-                if (value)
-                    this.instanceFlags |= ExtendedInstanceMemberFlags.Virtual;
-                else
-                    this.instanceFlags &= ~ExtendedInstanceMemberFlags.Virtual;
+                throw new InvalidOperationException("Structs cannot contain virtual methods.");
             }
         }
 
@@ -345,6 +340,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         protected override IStructMethodMember OnMakeGenericMethod(ITypeCollection genericReplacements)
         {
             return new _StructTypeBase._MethodsBase._Method(this, genericReplacements);
+        }
+
+        public override IIntermediateAssembly Assembly
+        {
+            get { return this.Parent.Assembly; }
         }
     }
 

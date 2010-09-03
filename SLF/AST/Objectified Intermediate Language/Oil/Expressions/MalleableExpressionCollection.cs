@@ -47,8 +47,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// to add to the <see cref="IMalleableExpressionCollection"/>.</param>
         public void Add(IExpression expression)
         {
-            this.baseCollection.Add(expression);
+            this.AddImpl(expression);
         }
+
 
         /// <summary>
         /// Inserts the <paramref name="expression"/> provided
@@ -58,7 +59,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <param name="index">The zero-based <see cref="Int32"/> index to place the <paramref name="expression"/>.</param>
         public void Insert(IExpression expression, int index)
         {
-            base.InsertItem(index, expression);
+            this.InsertItem(index, expression);
         }
 
         public void RemoveAt(int index)

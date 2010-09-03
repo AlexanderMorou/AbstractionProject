@@ -18,7 +18,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 {
     internal class LockedEventMembersBase<TEvent, TEventParent> :
         LockedEventSignatureMembersBase<TEvent, IEventParameterMember<TEvent, TEventParent>, TEventParent>,
-        IEventMemberDictionary<TEvent, TEventParent>
+        IEventMemberDictionary<TEvent, TEventParent>,
+        IEventMemberDictionary
         where TEvent :
             class,
             IEventMember<TEvent, TEventParent>
@@ -34,5 +35,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             : base(master, parent, sourceData, fetchImpl)
         {
         }
+
     }
 }
