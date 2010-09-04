@@ -64,21 +64,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #endregion
 
         /// <summary>
-        /// Creates and adds a new <see cref="IIntermediateStructType"/> 
+        /// Creates a new <see cref="IIntermediateStructType"/> 
         /// instance with the <paramref name="name"/> provided.
         /// </summary>
         /// <param name="name">The <see cref="String"/> name of the new
         /// <see cref="IIntermediateStructType"/>.</param>
         /// <returns>A new <see cref="IntermediateStructType"/>, if successful.</returns>
-        /// <exception cref="System.ArgumentException">thrown when a type by the <paramref name="name"/>
-        /// provided already exists in the containing type parent, or <paramref name="name"/> equals
-        /// <see cref="String.Empty"/>.</exception>
+        /// <exception cref="System.ArgumentException">thrown when <paramref name="name"/>
+        /// equals <see cref="String.Empty"/>.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> is null.</exception>
-        public override IIntermediateStructType Add(string name)
+        protected override IIntermediateStructType GetNewType(string name)
         {
-            IntermediateStructType ict = new IntermediateStructType(name, this.Parent);
-            base.Add(ict.UniqueIdentifier, ict);
-            return ict;
+            if (name == null)
+                throw new ArgumentNullException("name");
+            if (name == string.Empty)
+                throw new ArgumentException("name");
+            return new IntermediateStructType(name, this.Parent);
         }
 
     }

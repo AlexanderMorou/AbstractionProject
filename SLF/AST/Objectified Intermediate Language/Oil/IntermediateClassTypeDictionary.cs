@@ -37,11 +37,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        public override IIntermediateClassType Add(string name)
+        /// <summary>
+        /// Creates a new <see cref="IIntermediateClassType"/> 
+        /// instance with the <paramref name="name"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> name of the new
+        /// <see cref="IIntermediateStructType"/>.</param>
+        /// <returns>A new <see cref="IIntermediateClassType"/>, if successful.</returns>
+        /// <exception cref="System.ArgumentException">thrown when <paramref name="name"/>
+        /// equals <see cref="String.Empty"/>.</exception>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> is null.</exception>
+        protected override IIntermediateClassType GetNewType(string name)
         {
-            IntermediateClassType ict = new IntermediateClassType(name, this.Parent);
-            base.Add(ict.UniqueIdentifier, ict);
-            return ict;
+            if (name == null)
+                throw new ArgumentNullException("name");
+            if (name == string.Empty)
+                throw new ArgumentException("name");
+            return new IntermediateClassType(name, this.Parent);
         }
     }
 }

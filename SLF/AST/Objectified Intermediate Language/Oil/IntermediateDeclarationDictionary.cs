@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Events;
+using System.Linq;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -137,8 +139,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (disposing)
             {
-                for (int i = this.Count - 1; i >= 0; i--)
-                    this.Values[i].Dispose();
+                var arrayCopy = this.baseCollection.ToArray();
+                for (int i = 0; i < arrayCopy.Length; i++)
+                    arrayCopy[i].Value.Dispose();
                 this.baseCollection.Clear();
             }
         }

@@ -51,7 +51,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// provided already exists in the containing type parent, or <paramref name="name"/> equals
         /// <see cref="String.Empty"/>.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> is null.</exception>
-        public abstract TIntermediateType Add(string name);
+        public TIntermediateType Add(string name)
+        {
+            var result = this.GetNewType(name);
+            this.Add(result.UniqueIdentifier, result);
+            return result;
+        }
+
+        protected abstract TIntermediateType GetNewType(string name);
 
         /// <summary>
         /// Creates and inserts a new <typeparamref name="TIntermediateType"/> instance

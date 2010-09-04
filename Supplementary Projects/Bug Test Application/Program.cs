@@ -163,8 +163,15 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
         /// </summary>
         private static void Main()
         {
+            //First time's skewed due to JIT compilation.
             BuildTupleSamples();
-            Extraction03();
+            Console.WriteLine("Press any key to run test again...");
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            Console.ReadKey(true);
+            Console.Clear();
+            BuildTupleSamples();
+            //Extraction03();
         }
 
 
@@ -208,36 +215,61 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
         private static void BuildTupleSamples()
         {
             int minTuple = 9;
-            int maxTuple = 20;
+            int maxTuple = 92;
+            /* *
+             * The system tuple implementation maxes out at eight
+             * elements with the final element consisting of a secondary
+             * tuple set.
+             * */
             var eightTupleType = typeof(Tuple<,,,,,,,>).GetTypeReference<IClassType>();
             IIntermediateAssembly result = IntermediateGateway.CreateAssembly("TupleProject");
+            /* *
+             * Add a default namespace and tuple helper class for simpler instantiation of
+             * tuple instances.
+             * */
             result.DefaultNamespace = result.Namespaces.Add("AllenCopeland.Abstraction.Utilities.Tuples");
             var tupleHelperClass = result.DefaultNamespace.Parts.Add().Classes.Add("TupleHelper");
+            /* *
+             * Obtain a stopwatch for monitoring each individual pass.
+             * */
+            Stopwatch sw = new Stopwatch();
+            TimeSpan[] passTimes = new TimeSpan[maxTuple + 1 - minTuple];
+
             for (int i = minTuple; i <= maxTuple; i++)
             {
+                sw.Start();
+                /* *
+                 * Each tuple has n-many type-parameters where n is equal
+                 * to the current value of i.
+                 * *
+                 * As such helper methods and the type's constructor must 
+                 * have n-many parameters in order to instantiate such 
+                 * types.
+                 * */
                 GenericParameterData[] names = new GenericParameterData[i];
                 for (int j = 0; j < i; j++)
                     names[j] = new GenericParameterData(string.Format("T{0}", j + 1));
-                var currentType = result.DefaultNamespace/*.Partials.AddNew()*/.Classes.Add("Tuple");
-                for (int j = 0; j < i; j++)
-                    currentType.TypeParameters.Add(names[j]);
+                var currentType = result.DefaultNamespace.Parts.Add().Classes.Add("Tuple", names);
                 TypedName[] parameterInfo = new TypedName[i];
                 for (int j = 0; j < i; j++)
-                    parameterInfo[j] = new TypedName(string.Format("item{0}", j + 1), currentType.TypeParameters.Values[j]);
-                var currentTupleHelper = tupleHelperClass.Methods.Add(new TypedName("GetTuple", IntermediateGateway.CommonlyUsedTypeReferences.Void), parameterInfo.ToSeries());
+                    parameterInfo[j] = new TypedName(string.Format("item{0}", j + 1), names[j].Name);
+                var currentTupleHelper = tupleHelperClass.Methods.Add(new TypedName("GetTuple", IntermediateGateway.CommonlyUsedTypeReferences.Void), parameterInfo.ToSeries(), names);
                 
                 var mainConstructor = currentType.Constructors.Add(parameterInfo);
-                for (int j = 0; j < i; j++)
-                {
-                    currentTupleHelper.TypeParameters.Add(names[j]);
-                    currentTupleHelper.Parameters.Values[j].ParameterType = currentTupleHelper.TypeParameters.Values[j];
-                }
+
                 currentTupleHelper.ReturnType = currentType.MakeGenericType(currentTupleHelper.GenericParameters);
-                Console.WriteLine(result.DefaultNamespace.Classes[result.DefaultNamespace.Classes.IndexOf(currentType)].Key);
-                Console.WriteLine(tupleHelperClass.Methods[tupleHelperClass.Methods.IndexOf(currentTupleHelper)].Key);
                 LinkedList<ITypeCollection> sevenTupleSets = new LinkedList<ITypeCollection>();
                 LinkedList<IParameterReferenceExpression[]> sevenParameterSets = new LinkedList<IParameterReferenceExpression[]>();
                 int sevenTupleSetCount = (int)Math.Ceiling(((double)(i)) / 7);
+                /* *
+                 * Since the final eight-type tuple represents a tuple whose last type-parameter
+                 * is another tuple, it's necessary to segment the tuple into groups of seven,
+                 * where the eighth would be a forward reference to the rest of the tuple's
+                 * data elements.  This process is recursive, so a 14-type tuple would be:
+                 * Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13, T14>>
+                 * whereas a 15-type tuple would be:
+                 * Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15>>>
+                 * */
                 for (int j = 0; j < sevenTupleSetCount; j++)
                 {
                     var currentSetRange = new Tuple<int, int>((j * 7), Math.Min(((j + 1) * 7), i));
@@ -251,14 +283,30 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
                     sevenParameterSets.AddLast(currentParamRefs.ToArray());
                     sevenTupleSets.AddLast(currentTupleSet);
                 }
+                /* *
+                 * We start with the last type in the tuple groups,
+                 * this way we can build the type backwards and end up with
+                 * a final type where the last few types are in as small a tuple
+                 * as possible.
+                 * */
                 var current = sevenTupleSets.Last;
                 IClassType currentTypeBase = null;
                 ICreateInstanceExpression trailingCascadeParameter = null;
                 var currentParamSet = sevenParameterSets.Last;
                 while (current != null)
                 {
+                    /* *
+                     * Since we start with the last element, it's only
+                     * null on the last element, or the first pass.
+                     * */
                     if (currentTypeBase == null)
                     {
+                        /* *
+                         * The last set will always have no more than seven types.
+                         * *
+                         * So create a reference to a tuple grouping with the appropriate
+                         * number of type-parameters.
+                         * */
                         switch (current.Value.Count)
                         {
                             case 1:
@@ -283,15 +331,28 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
                                 currentTypeBase = typeof(Tuple<,,,,,,>).GetTypeReference<IClassType>(current.Value);
                                 break;
                         }
-                        trailingCascadeParameter = currentTypeBase.NewExpression();
-                        foreach (var parameterRef in currentParamSet.Value)
-                            trailingCascadeParameter.Parameters.Add(parameterRef);
+                        /* *
+                         * The trailing cascade parameter instantiates the final tuple on all
+                         * versions of the type-parameter, except for the last, which has no more
+                         * than seven elements.
+                         * */
+                        trailingCascadeParameter = currentTypeBase.NewExpression(currentParamSet.Value);
                     }
                     else
                     {
-                        var tempTypeBase = eightTupleType.MakeGenericType(current.Value.Concat(new IType[]{currentTypeBase}).ToArray());
+                        /* *
+                         * Every element after the first processed (or last in line)
+                         * has exactly eight types.
+                         * */
+                        var tempTypeBase = eightTupleType.MakeGenericType(current.Value.Concat(new IType[] { currentTypeBase }).ToArray());
                         if (currentParamSet != sevenParameterSets.First)
                         {
+                            /* *
+                             * Rebuild the trailing cascade parameter to new up an instance of
+                             * the current temp base type, its final parameter is the current
+                             * cascade parameter, thereby making the final cascade member
+                             * the results of this action.
+                             * */
                             var tempCascadeParameter = tempTypeBase.NewExpression();
                             foreach (var parameterRef in currentParamSet.Value)
                                 tempCascadeParameter.Parameters.Add(parameterRef);
@@ -299,6 +360,12 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
                             trailingCascadeParameter = tempCascadeParameter;
                         }
                         else
+                            /* *
+                             * In cases where it's the last set to be processed, or the
+                             * first set of tuple types, instead of newing up the base type,
+                             * redirect them to the main constructor's cascade parameters
+                             * targeted at the base 8-type tuple.
+                             * */
                             foreach (var parameterRef in currentParamSet.Value)
                                 mainConstructor.CascadeMembers.Add(parameterRef);
                         currentTypeBase = tempTypeBase;
@@ -306,21 +373,40 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
                     current = current.Previous;
                     currentParamSet = currentParamSet.Previous;
                 }
+                /* *
+                 * Assign the current type's base type.
+                 * */
                 currentType.BaseType = currentTypeBase;
+                //Denote the cascade target.
                 mainConstructor.CascadeTarget = ConstructorCascadeTarget.Base;
-                var creationExpression = currentTupleHelper.ReturnType.NewExpression(new ExpressionCollection((from parameter in currentTupleHelper.Parameters.Values
-                                                                                                               select parameter.GetReference()).ToArray()));
-                creationExpression.PropertyAssignments.Add("test", 3.ToPrimitive());
-                currentTupleHelper.Return(creationExpression);
+
+                //Obtain a series of references to the parameters.
+                var createTupleHelperParams = from parameter in currentTupleHelper.Parameters.Values.AsQueryable()
+                                              select parameter.GetReference();
+                //for use with the constructor of the type.
+                currentTupleHelper.Return(currentTupleHelper.ReturnType.NewExpression(createTupleHelperParams));
+                //Make the method accessible and static.
                 currentTupleHelper.AccessLevel = AccessLevelModifiers.Public;
                 currentTupleHelper.IsStatic = true;
+                //Apply the trailing cascade parameter.
                 mainConstructor.CascadeMembers.Add(trailingCascadeParameter);
+                //Make the main constructor accessible.
                 mainConstructor.AccessLevel = AccessLevelModifiers.Public;
+                //Obtain the current pass' time and reset the timer.
+                sw.Stop();
+                passTimes[i - minTuple] = sw.Elapsed;
+                sw.Reset();
             }
+            TimeSpan fullTimeTaken = TimeSpan.Zero;
 
+            foreach (var span in passTimes)
+                fullTimeTaken += span;
+            TimeSpan averageSpan = new TimeSpan(fullTimeTaken.Ticks / (passTimes.Length - 1));
             //WriteProject(result, @"C:\Projects\Code\C#\OILexer\");
             //WriteProject(result, @"C:\Projects\Code\C#\OILexer\", ".html", "&nbsp;".Repeat(4), true);
-
+            result.Dispose();
+            Console.WriteLine("To build a series of {0} tuple classes it took: {1}", passTimes.Length, fullTimeTaken);
+            Console.WriteLine("The average pass took: {0}", averageSpan);
         }
 
     }

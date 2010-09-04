@@ -185,7 +185,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             else
                 throw new InvalidOperationException();
         }
-        protected override void Disposed(bool dispose)
+        protected override void Dispose(bool dispose)
         {
             if (this.original != null)
                 this.original = null;
@@ -199,7 +199,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 this.lockedConstraints.Dispose();
                 this.lockedConstraints = null;
             }
-            base.Disposed(dispose);
+            base.Dispose(dispose);
         }
 
         #region IGenericParameter Members

@@ -66,7 +66,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             private static IType @enum;
             #endregion
 
-            #region IType Disposed section
+            #region IType Dispose section
             static void void_Disposed(object sender, EventArgs e)
             {
                 CommonlyUsedTypeReferences.@void.Disposed -=new EventHandler(void_Disposed);

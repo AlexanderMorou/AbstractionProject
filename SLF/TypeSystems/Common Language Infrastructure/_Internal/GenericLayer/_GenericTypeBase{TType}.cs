@@ -67,7 +67,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
              * */
             if (original is _IGenericTypeRegistrar)
                 ((_IGenericTypeRegistrar)(original)).RegisterGenericType(this, genericParameters);
+            foreach (var type in this.genericParameters)
+                type.Disposed += new EventHandler(genericParameter_Disposed);
             
+        }
+
+        void genericParameter_Disposed(object sender, EventArgs e)
+        {
+            this.Dispose();
         }
 
         public override TypeElementClassification ElementClassification
@@ -274,7 +281,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             }
         }
 
-        protected override void Disposed(bool dispose)
+        protected override void Dispose(bool dispose)
         {
             if (CLIGateway.CompiledTypeCache.Values.Contains(this))
                 this.RemoveFromCache();
@@ -282,10 +289,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             {
                 if (original is _IGenericTypeRegistrar)
                     ((_IGenericTypeRegistrar)(original)).UnregisterGenericType(this.genericParameters);
+                foreach (var parameter in this.genericParameters)
+                    parameter.Disposed -= new EventHandler(genericParameter_Disposed);
                 this.genericParameters = null;
                 this.original = null;
             }
-            base.Disposed(dispose);
+            base.Dispose(dispose);
         }
 
         public override bool IsGenericType

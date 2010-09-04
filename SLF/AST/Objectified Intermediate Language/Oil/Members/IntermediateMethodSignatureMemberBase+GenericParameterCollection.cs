@@ -96,6 +96,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
             public IEnumerator<IType> GetEnumerator()
             {
+                if (this.owner == null)
+                    yield break;
                 foreach (var value in this.owner.TypeParameters.Values)
                     yield return value;
                 yield break;

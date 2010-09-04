@@ -661,7 +661,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
-        protected override void Disposed(bool dispose)
+        protected override void Dispose(bool dispose)
         {
             try
             {
@@ -713,7 +713,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
             finally
             {
-                base.Disposed(dispose);
+                base.Dispose(dispose);
             }
         }
 

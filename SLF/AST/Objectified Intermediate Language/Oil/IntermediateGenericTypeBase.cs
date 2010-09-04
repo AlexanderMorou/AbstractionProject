@@ -230,7 +230,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         /// <param name="dispose">whether to dispose all data, including the managed data (true), or just the
         /// unmanaged data (false).</param>
-        protected override void Disposed(bool dispose)
+        protected override void Dispose(bool dispose)
         {
             try
             {
@@ -253,7 +253,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
             finally
             {
-                base.Disposed(dispose);
+                base.Dispose(dispose);
             }
         }
 

@@ -416,6 +416,50 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return this.FullName;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            try
+            {
+                if (this.classes != null)
+                {
+                    this.classes.Dispose();
+                    this.classes = null;
+                }
+                if (this.enums != null)
+                {
+                    this.enums.Dispose();
+                    this.enums = null;
+                }
+                if (this.delegates != null)
+                {
+                    this.delegates.Dispose();
+                    this.delegates = null;
+                }
+                if (this.interfaces != null)
+                {
+                    this.interfaces.Dispose();
+                    this.interfaces = null;
+                }
+                if (this.structs != null)
+                {
+                    this.structs.Dispose();
+                    this.structs = null;
+                }
+                if (this.types != null)
+                    this.types = null;
+                if (this.namespaces != null)
+                {
+                    this.namespaces.Dispose();
+                    this.namespaces = null;
+                }
+
+            }
+            finally
+            {
+                base.Dispose(disposing);
+            }
+        }
+
         protected override IntermediateNamespaceDeclaration GetNewPartial()
         {
             var sParent = this.Parent as IIntermediateSegmentableDeclaration;

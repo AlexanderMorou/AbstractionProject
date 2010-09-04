@@ -502,7 +502,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         public sealed override void Dispose()
         {
             //Dispose
-            this.Disposed(true);
+            this.Dispose(true);
         }
 
         /// <summary>
@@ -518,7 +518,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
 
-        protected new virtual void Disposed(bool dispose)
+        protected new virtual void Dispose(bool dispose)
         {
             try
             {
