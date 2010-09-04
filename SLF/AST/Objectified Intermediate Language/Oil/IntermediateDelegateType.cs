@@ -242,9 +242,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.members = new IntermediateFullMemberDictionary();
         }
 
-        protected override void Disposed(bool dispose)
+        protected override void Dispose(bool dispose)
         {
-            base.Disposed(dispose);
+            base.Dispose(dispose);
         }
     }
 }

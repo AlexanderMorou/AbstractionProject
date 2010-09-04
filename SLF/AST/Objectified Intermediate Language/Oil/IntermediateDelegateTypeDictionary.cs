@@ -36,26 +36,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #endregion
 
         /// <summary>
-        /// Creates and adds a new <see cref="IIntermediateDelegateType"/>
+        /// Creates a new <see cref="IIntermediateDelegateType"/>
         /// instance with the <paramref name="name"/> provided.
         /// </summary>
         /// <param name="name">The <see cref="String"/> name of the new
         /// <see cref="IIntermediateDelegateType"/>.</param>
         /// <returns>A new <see cref="IIntermediateDelegateType"/>, if successful.</returns>
-        /// <exception cref="System.ArgumentException">thrown when a type by the <paramref name="name"/>
-        /// provided already exists in the containing type parent, or <paramref name="name"/> equals
-        /// <see cref="String.Empty"/>.</exception>
+        /// <exception cref="System.ArgumentException">thrown when <paramref name="name"/>
+        /// equals <see cref="String.Empty"/>.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> is null.</exception>
-        public override IIntermediateDelegateType Add(string name)
+        protected override IIntermediateDelegateType GetNewType(string name)
         {
             if (name == null)
                 throw new ArgumentNullException("name");
             if (name == string.Empty)
                 throw new ArgumentException("name");
 
-            var result = new IntermediateDelegateType(name, this.Parent);
-            base.Add(result.UniqueIdentifier, result);
-            return result;
+            return new IntermediateDelegateType(name, this.Parent);
         }
     }
 }

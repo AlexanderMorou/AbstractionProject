@@ -45,6 +45,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         {
             get
             {
+                if (this.signatures == null)
+                    yield break;
                 for (int i = 0; i < this.signatures.Length; i++)
                     yield return this.signatures[i];
                 yield break;

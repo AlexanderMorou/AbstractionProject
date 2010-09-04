@@ -9,7 +9,8 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
     public abstract class IntermediateGenericTypeDictionary<TType, TIntermediateType> :
-        IntermediateTypeDictionary<TType, TIntermediateType>
+        IntermediateTypeDictionary<TType, TIntermediateType>,
+        IIntermediateGenericTypeDictionary<TType, TIntermediateType>
         where TType :
             IGenericType<TType>
         where TIntermediateType :
@@ -55,6 +56,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
             return base.RemoveImpl(key);
         }
+
+
+        #region IIntermediateGenericTypeDictionary<TType,TIntermediateType> Members
+
+        public TIntermediateType Add(string name, params GenericParameterData[] typeParameters)
+        {
+            var result = this.GetNewType(name);
+            foreach (var paramData in typeParameters)
+                result.TypeParameters.Add(paramData);
+            this.Add(result.UniqueIdentifier, result);
+            return result;
+        }
+
+        public TIntermediateType Add(string name, Modules.IIntermediateModule module, params GenericParameterData[] typeParameters)
+        {
+            var result = this.Add(name, typeParameters);
+            result.DeclaringModule = module;
+            return result;
+        }
+
+        #endregion
 
     }
 }

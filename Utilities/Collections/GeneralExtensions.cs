@@ -181,6 +181,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             yield break;
         }
 
+        public static IEnumerable<int> RangeFrom(this int source, int exclusiveTo)
+        {
+            for (int i = source; i < exclusiveTo; i++)
+                yield return i;
+            yield break;
+        }
         public static T[] GetRigidArray<T>(params T[] array)
         {
             if (array == null)

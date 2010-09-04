@@ -98,16 +98,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.GetRoot().Name = value;
         }
 
-        protected override void Disposed(bool dispose)
+        protected override void Dispose(bool dispose)
         {
             try
             {
-
-                this.rootType = null;
+                if (this.IsRoot)
+                {
+                    this.parts = null;
+                }
+                else
+                    this.rootType = null;
             }
             finally
             {
-                base.Disposed(dispose);
+                base.Dispose(dispose);
             }
         }
 

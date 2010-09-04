@@ -25,8 +25,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         where TType :
             IType<TType>
         where TIntermediateType :
-            TType,
-            IIntermediateType
+            IIntermediateType,
+            TType
     {
         /// <summary>
         /// Creates and adds a new <typeparamref name="TIntermediateType"/> 

@@ -351,6 +351,7 @@
     <Compile Include="Oil\IIntermediateFullTypeDictionary.cs" />
     <Compile Include="Oil\IIntermediateGenericParameterParent.cs" />
     <Compile Include="Oil\IIntermediateGenericType.cs" />
+    <Compile Include="Oil\IIntermediateGenericTypeDictionary.cs" />
     <Compile Include="Oil\IIntermediateGroupedDeclarationDictionary.cs" />
     <Compile Include="Oil\IIntermediateIndexerParent.cs" />
     <Compile Include="Oil\IIntermediateIndexerSignatureParent.cs" />

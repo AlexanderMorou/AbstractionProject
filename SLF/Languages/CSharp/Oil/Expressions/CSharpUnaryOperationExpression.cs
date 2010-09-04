@@ -181,9 +181,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 result = "-";
             if (preOp)
                 if (decrement)
-                    result += "--";
+                    result = "--" + result;
                 else if (increment)
-                    result += "++";
+                    result = "++" + result;
             result += this.Term.ToString();
             if (postOp)
                 if (decrement)

@@ -35,11 +35,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #endregion
 
 
-        public override IIntermediateEnumType Add(string name)
+        /// <summary>
+        /// Creates a new <see cref="IIntermediateEnumType"/> 
+        /// instance with the <paramref name="name"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> name of the new
+        /// <see cref="IIntermediateStructType"/>.</param>
+        /// <returns>A new <see cref="IntermediateEnumType"/>, if successful.</returns>
+        /// <exception cref="System.ArgumentException">thrown when <paramref name="name"/>
+        /// equals <see cref="String.Empty"/>.</exception>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> is null.</exception>
+        protected override IIntermediateEnumType GetNewType(string name)
         {
-            var result = new IntermediateEnumType(name, this.Parent);
-            base.Add(result.UniqueIdentifier, result);
-            return result;
+            if (name == null)
+                throw new ArgumentNullException("name");
+            if (name == string.Empty)
+                throw new ArgumentException("name");
+            return new IntermediateEnumType(name, this.Parent);
         }
 
     }

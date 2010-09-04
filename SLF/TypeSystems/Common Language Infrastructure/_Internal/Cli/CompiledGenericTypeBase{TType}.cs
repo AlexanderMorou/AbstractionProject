@@ -118,7 +118,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return typeParams.Values.ToCollection();
         }
 
-        protected override void Disposed(bool dispose)
+        protected override void Dispose(bool dispose)
         {
             if (dispose)
             {
@@ -144,7 +144,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     this.genericCache = null;
                 }
             }
-            base.Disposed(dispose);
+            base.Dispose(dispose);
         }
 
         #region IGenericType<TType> Members

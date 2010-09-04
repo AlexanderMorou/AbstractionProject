@@ -356,7 +356,43 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 element.Rearranged(realFrom, realTo);
             base.OnRearrangedInner(from, to);
         }
-
+        protected override void Dispose(bool dispose)
+        {
+            try
+            {
+                if (this.classes != null)
+                {
+                    this.classes.Dispose();
+                    this.classes = null;
+                }
+                if (this.enums != null)
+                {
+                    this.enums.Dispose();
+                    this.enums = null;
+                }
+                if (this.delegates != null)
+                {
+                    this.delegates.Dispose();
+                    this.delegates = null;
+                }
+                if (this.interfaces != null)
+                {
+                    this.interfaces.Dispose();
+                    this.interfaces = null;
+                }
+                if (this.structs != null)
+                {
+                    this.structs.Dispose();
+                    this.structs = null;
+                }
+                if (this.types != null)
+                    this.types = null;
+            }
+            finally
+            {
+                base.Dispose(dispose);
+            }
+        }
         protected override IEnumerable<IDeclaration> OnGetDeclarations()
         {
             return GetTypeParentDeclarations(this);
