@@ -97,7 +97,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public TIntermediateEvent Add(string name, TypedNameSeries eventSignature)
         {
             var result = this.GetEvent(name, eventSignature);
-            base.Add(result.UniqueIdentifier, result);
+            this.AddDeclaration(result);
             return result;
         }
 

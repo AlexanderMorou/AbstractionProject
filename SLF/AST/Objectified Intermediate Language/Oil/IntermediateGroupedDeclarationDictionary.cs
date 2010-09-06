@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Oil;
@@ -33,6 +34,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IIntermediateDeclaration,
             TDeclaration
     {
+        private int suspensionLevel = 0;
+        private IList<TDeclaration> suspendedMembers = new List<TDeclaration>();
+        //private IDictionary<string, TDeclaration> suspendedMembers = new Dictionary<string,TDeclaration>();
+        
         private new ValuesCollection valuesCollection;
         /// <summary>
         /// Creates a new <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>
@@ -139,7 +144,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            try
+            {
+                this.Dispose(true);
+            }
+            finally
+            {
+                GC.SuppressFinalize(this);
+            }
         }
 
         #endregion
@@ -152,6 +164,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (disposing)
             {
+                if (this.Suspended)
+                {
+                    for (int i = 0; i < this.suspendedMembers.Count; i++)
+                        this.suspendedMembers[i].Dispose();
+                    this.suspendedMembers.Clear();
+                }
                 for (int i = this.Count - 1; i >= 0; i--)
                     this.Values[i].Dispose();
                 this.baseCollection.Clear();
@@ -185,9 +203,114 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         #endregion
+
+        /// <summary>
+        /// Returns whether the dictionary is suspended.
+        /// </summary>
+        protected bool Suspended { get { return this.suspensionLevel > 0; } }
+
+
+        protected internal void Suspend()
+        {
+            this.suspensionLevel++;
+        }
+
+        protected internal void Resume()
+        {
+            if (this.suspensionLevel == 0)
+                return;
+            this.suspensionLevel--;
+            if (suspensionLevel == 0)
+            {
+                this.ProcessSuspendedMembers(this.suspendedMembers);
+                this.suspendedMembers.Clear();
+            }
+        }
+
         protected override string RekeyElement(KeyValuePair<string, TDeclaration> kvp)
         {
             return kvp.Value.UniqueIdentifier;
+        }
+
+        protected override void Add(string key, TDeclaration value)
+        {
+            if (!this.Suspended)
+            {
+                this.OnItemAdded(new EventArgsR1<TIntermediateDeclaration>(((TIntermediateDeclaration)(value))));
+                base.Add(key, value);
+            }
+            else
+                this.suspendedMembers.Add(value);
+        }
+
+        protected override bool RemoveImpl(string key)
+        {
+            if (Suspended)
+            {
+                if (base.ContainsKey(key))
+                    return base.Remove(key);
+                foreach (var member in suspendedMembers)
+                    if (member.UniqueIdentifier == key)
+                    {
+                        member.Dispose();
+                        this.OnItemRemoved(new EventArgsR1<TIntermediateDeclaration>((TIntermediateDeclaration)member));
+                        suspendedMembers.Remove(member);
+                        return true;
+                    }
+                return false;
+            }
+            if (this.ContainsKey(key))
+                this.OnItemRemoved(new EventArgsR1<TIntermediateDeclaration>(this[key]));
+            return base.RemoveImpl(key);
+        }
+
+        protected virtual void ProcessSuspendedMembers(IEnumerable<TDeclaration> members)
+        {
+            if (this.Master != null)
+            {
+                List<KeyValuePair<string, TDeclaration>> processedMembers = new List<KeyValuePair<string, TDeclaration>>();
+                foreach (var member in members)
+                    processedMembers.Add(new KeyValuePair<string, TDeclaration>(member.UniqueIdentifier, member));
+                ((MasterDictionaryBase<string, TMDeclaration>)(this.Master)).Subordinate_ItemsAdded(this, processedMembers);
+                foreach (var element in processedMembers)
+                    base.AddImpl(element);
+            }
+        }
+
+        protected override TDeclaration OnGetThis(string key)
+        {
+            if (Suspended)
+            {
+                if (base.ContainsKey(key))
+                    return base[key];
+                foreach (var suspendedMember in this.suspendedMembers)
+                    if (suspendedMember.UniqueIdentifier == key)
+                        return suspendedMember;
+                throw new KeyNotFoundException("key");
+            }
+            return base.OnGetThis(key);
+        }
+
+        public override bool ContainsKey(string key)
+        {
+            if (this.Suspended)
+            {
+                if (base.ContainsKey(key))
+                    return true;
+                foreach (var member in this.suspendedMembers)
+                    if (member.UniqueIdentifier == key)
+                        return true;
+                return false;
+            }
+            return base.ContainsKey(key);
+        }
+
+        protected void AddDeclaration(TIntermediateDeclaration declaration)
+        {
+            if (this.Suspended)
+                this.suspendedMembers.Add(declaration);
+            else
+                base.AddImpl(new KeyValuePair<string, TDeclaration>(declaration.UniqueIdentifier, declaration));
         }
     }
 }

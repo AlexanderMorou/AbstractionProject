@@ -755,5 +755,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public GenericParameterVariance Variance { get; set; }
 
+        public override string UniqueIdentifier
+        {
+            get
+            {
+                return this.Name;
+            }
+        }
     }
 }

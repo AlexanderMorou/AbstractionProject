@@ -132,11 +132,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Data member for the fields defined in the type.
         /// </summary>
-        private IIntermediateFieldMemberDictionary<TField, TIntermediateField, TType, TIntermediateType> fields;
+        private IntermediateFieldMemberDictionary<TField, TIntermediateField, TType, TIntermediateType> fields;
         /// <summary>
         /// Data member for the indexers defined in the type.
         /// </summary>
-        private IIntermediateIndexerMemberDictionary<TIndexer, TIntermediateIndexer, TType, TIntermediateType> indexers;
+        private IntermediateIndexerMemberDictionary<TIndexer, TIntermediateIndexer, TType, TIntermediateType> indexers;
         /// <summary>
         /// Data member for the methods defined within the type.
         /// </summary>
@@ -144,7 +144,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Data member for the properties defined within the type.
         /// </summary>
-        private IIntermediatePropertyMemberDictionary<TProperty, TIntermediateProperty, TType, TIntermediateType> properties;
+        private IntermediatePropertyMemberDictionary<TProperty, TIntermediateProperty, TType, TIntermediateType> properties;
         /// <summary>
         /// Data member for the type coercions defined within the type.
         /// </summary>
@@ -153,7 +153,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Data member for the unary operator coercions defined within the type.
         /// </summary>
         private UnaryOperatorDictionary unaryOperatorCoercions;
+
         #endregion
+
+        private int suspendLevel = 0;
+
         #endregion
 
         /// <summary>
@@ -687,59 +691,104 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         protected abstract EventMember GetNewEvent(string name, TypedNameSeries eventSignature);
 
         #region Member Check Methods
-
+        private static void SuspendCheck<TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember>(IntermediateGroupedMemberDictionary<TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember> target, int suspendLevel)
+            where TMemberParent :
+                IMemberParent
+            where TIntermediateMemberParent :
+                TMemberParent,
+                IIntermediateMemberParent
+            where TMember :
+                IMember<TMemberParent>
+            where TIntermediateMember :
+                TMember,
+                IIntermediateMember<TMemberParent, TIntermediateMemberParent>
+        {
+            if (suspendLevel <= 0)
+                return;
+            if (target == null)
+                throw new ArgumentNullException("target");
+            for (int i = 0; i < suspendLevel; i++)
+                target.Suspend();
+        }
         private void CheckBinaryOperatorCoercions()
         {
             if (this.binaryOperatorCoercions == null)
+            {
                 this.binaryOperatorCoercions = InitializeBinaryOperatorCoercions();
+                SuspendCheck(binaryOperatorCoercions, suspendLevel);
+            }
         }
 
         private void CheckConstructors()
         {
             if (this.constructors == null)
+            {
                 this.constructors = this.InitializeConstructors();
+                SuspendCheck(constructors, suspendLevel);
+            }
         }
 
         private void CheckEvents()
         {
             if (this.events == null)
+            {
                 this.events = this.InitializeEvents();
+                SuspendCheck(events, suspendLevel);
+            }
         }
 
         private void CheckFields()
         {
             if (this.fields == null)
+            {
                 this.fields = this.InitializeFields();
+                SuspendCheck(fields, suspendLevel);
+            }
         }
 
         private void CheckIndexers()
         {
             if (this.indexers == null)
+            {
                 this.indexers = this.InitializeIndexers();
+                SuspendCheck(indexers, suspendLevel);
+            }
         }
 
         private void CheckMethods()
         {
             if (this.methods == null)
+            {
                 this.methods = this.InitializeMethods();
+                SuspendCheck(methods, suspendLevel);
+            }
         }
 
         private void CheckProperties()
         {
             if (this.properties == null)
+            {
                 this.properties = this.InitializeProperties();
+                SuspendCheck(properties, suspendLevel);
+            }
         }
 
         private void CheckTypeCoercions()
         {
             if (this.typeCoercions == null)
+            {
                 this.typeCoercions = this.InitializeTypeCoercions();
+                SuspendCheck(typeCoercions, suspendLevel);
+            }
         }
 
         private void CheckUnaryOperatorCoercions()
         {
             if (this.unaryOperatorCoercions == null)
+            {
                 this.unaryOperatorCoercions = this.InitializeUnaryOperatorCoercions();
+                SuspendCheck(unaryOperatorCoercions, suspendLevel);
+            }
         }
 
         #endregion
@@ -770,12 +819,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new EventDictionary(this._Members, this, (EventDictionary)this.GetRoot().Events);
         }
 
-        protected virtual IIntermediateFieldMemberDictionary<TField, TIntermediateField, TType, TIntermediateType> InitializeFields()
+        protected virtual IntermediateFieldMemberDictionary<TField, TIntermediateField, TType, TIntermediateType> InitializeFields()
         {
             throw new NotImplementedException();
         }
 
-        protected virtual IIntermediateIndexerMemberDictionary<TIndexer, TIntermediateIndexer, TType, TIntermediateType> InitializeIndexers()
+        protected virtual IntermediateIndexerMemberDictionary<TIndexer, TIntermediateIndexer, TType, TIntermediateType> InitializeIndexers()
         {
             throw new NotImplementedException();
         }
@@ -788,7 +837,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new MethodDictionary(this._Members, (TInstanceIntermediateType)this, (MethodDictionary)this.GetRoot().Methods);
         }
 
-        protected virtual IIntermediatePropertyMemberDictionary<TProperty, TIntermediateProperty, TType, TIntermediateType> InitializeProperties()
+        protected virtual IntermediatePropertyMemberDictionary<TProperty, TIntermediateProperty, TType, TIntermediateType> InitializeProperties()
         {
             if (this.IsRoot)
                 return new PropertyDictionary(this._Members, (TInstanceIntermediateType)this);
@@ -822,5 +871,96 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         #endregion
+       
+        #region IIntermediateInstantiableType Members
+
+        public void SuspendDualLayout()
+        {
+            this.suspendLevel++;
+            base.SuspendTypeContainers();
+            if (this.binaryOperatorCoercions != null)
+                this.binaryOperatorCoercions.Suspend();
+            if (this.constructors != null)
+                this.constructors.Suspend();
+            if (this.events != null)
+                this.events.Suspend();
+            if (this.fields != null)
+                this.fields.Suspend();
+            if (this.indexers != null)
+                this.indexers.Suspend();
+            if (this.methods != null)
+                this.methods.Suspend();
+            if (this.properties != null)
+                this.properties.Suspend();
+            if (this.typeCoercions != null)
+                this.typeCoercions.Suspend();
+            if (this.unaryOperatorCoercions != null)
+                this.unaryOperatorCoercions.Suspend();
+        }
+
+        public void ResumeDualLayout()
+        {
+            if (this.suspendLevel == 0)
+                return;
+            this.suspendLevel--;
+            base.ResumeTypeContainers();
+            if (this.binaryOperatorCoercions != null)
+                this.binaryOperatorCoercions.Resume();
+            if (this.constructors != null)
+                this.constructors.Resume();
+            if (this.events != null)
+                this.events.Resume();
+            if (this.fields != null)
+                this.fields.Resume();
+            if (this.indexers != null)
+                this.indexers.Resume();
+            if (this.methods != null)
+                this.methods.Resume();
+            if (this.properties != null)
+                this.properties.Resume();
+            if (this.typeCoercions != null)
+                this.typeCoercions.Resume();
+            if (this.unaryOperatorCoercions != null)
+                this.unaryOperatorCoercions.Resume();
+        }
+
+        public bool Suspended
+        {
+            get { return this.suspendLevel > 0; }
+        }
+
+        #endregion
+
+        protected override void Dispose(bool dispose)
+        {
+            try
+            {
+                if (dispose)
+                {
+                    if (this.binaryOperatorCoercions != null)
+                        this.binaryOperatorCoercions.Dispose();
+                    if (this.constructors != null)
+                        this.constructors.Dispose();
+                    if (this.events != null)
+                        this.events.Dispose();
+                    if (this.fields != null)
+                        this.fields.Dispose();
+                    if (this.indexers != null)
+                        this.indexers.Dispose();
+                    if (this.methods != null)
+                        this.methods.Dispose();
+                    if (this.properties != null)
+                        this.properties.Dispose();
+                    if (this.typeCoercions != null)
+                        this.typeCoercions.Dispose();
+                    if (this.unaryOperatorCoercions != null)
+                        this.unaryOperatorCoercions.Dispose();
+                }
+            }
+            finally
+            {
+                base.Dispose(dispose);
+            }
+        }
     }
 }

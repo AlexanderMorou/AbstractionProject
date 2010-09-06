@@ -129,12 +129,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
-        public override string UniqueIdentifier
+        public override string ToString()
         {
-            get
-            {
-                return string.Format("{0} {1}", this.ParameterType.BuildTypeName(true, true), base.UniqueIdentifier);
-            }
+            return string.Format("{0} {1}", this.ParameterType.BuildTypeName(true, true), base.UniqueIdentifier);;
         }
 
         #region IIntermediateParameterMember Members

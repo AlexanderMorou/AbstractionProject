@@ -82,7 +82,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TIntermediateCtor item = this.GetConstructor(parameters);
             if (this.ContainsKey(item.UniqueIdentifier))
                 throw new ArgumentException("parameters");
-            base.Add(item.UniqueIdentifier, item);
+            this.AddDeclaration(item);
             return item;
         }
 

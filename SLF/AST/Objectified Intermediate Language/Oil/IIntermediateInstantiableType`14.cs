@@ -89,5 +89,26 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IIntermediateMethodParent,
         IInstantiableType
     {
+        /// <summary>
+        /// Suspends the duality in the type layout where members 
+        /// inserted in methods, properties, events and so on are 
+        /// dually inserted in a verbatim-order master set.
+        /// </summary>
+        /// <remarks>Incremental function, all resumes must
+        /// be invoked prior to resuming the duality.</remarks>
+        void SuspendDualLayout();
+        /// <summary>
+        /// Resumes the duality in the type layout where members
+        /// inserted in methods, properties, events, and so on are
+        /// dually inserted in a verbatim-order master set.
+        /// </summary>
+        /// <remarks>Incremental function, all resumes must
+        /// be invoked prior to resuming the duality.</remarks>
+        void ResumeDualLayout();
+        /// <summary>
+        /// Returns/sets whether the <see cref="IIntermediateInstantiableType"/>
+        /// has had its duality suspended.
+        /// </summary>
+        bool Suspended { get; }
     }
 }

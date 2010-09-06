@@ -40,6 +40,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Data member for <see cref="RequiresBlankConstructor"/>.
         /// </summary>
         private bool requiresBlankConstructor;
+
+        public GenericParameterData(string name)
+            : this(name, false, SignaturesData.Empty) { }
+
         /// <summary>
         /// Creates a new <see cref="GenericParameterData"/>
         /// with the <paramref name="name"/> and <paramref name="constructors"/>

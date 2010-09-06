@@ -105,7 +105,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
-
         #region IIntermediateMemberDictionary Members
 
         public new bool Remove(string uniqueId)
@@ -136,7 +135,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         #endregion
-
 
     }
 }

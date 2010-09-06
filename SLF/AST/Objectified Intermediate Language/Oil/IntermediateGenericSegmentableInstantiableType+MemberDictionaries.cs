@@ -150,7 +150,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     else
                         member.OtherSide = otherSide;
                 member.ReturnType = returnType;
-                base.Add(member.UniqueIdentifier, member);
+                this.AddDeclaration(member);
                 return member;
             }
 
@@ -160,7 +160,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 member.Operator = op;
                 member.ContainingSide = BinaryOpCoercionContainingSide.Both;
                 member.ReturnType = returnType;
-                base.Add(member.UniqueIdentifier, member);
+                this.AddDeclaration(member);
                 return member;
             }
 
@@ -465,7 +465,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         throw new ArgumentOutOfRangeException("direction");
                 }
                 member.CoercionType = target;
-                base.Add(member.UniqueIdentifier, member);
+                this.AddDeclaration(member);
                 return member;
             }
 
@@ -619,7 +619,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             public IIntermediateUnaryOperatorCoercionMember<TType, TIntermediateType> Add(CoercibleUnaryOperators op)
             {
                 UnaryOperatorMember member = new UnaryOperatorMember(this.Parent);
-                base.Add(member.UniqueIdentifier, member);
+                this.AddDeclaration(member);
                 return member;
             }
 

@@ -261,5 +261,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         #endregion
+
+        public static implicit operator TypedNameSeries(TypedName[] target)
+        {
+            return new TypedNameSeries(target);
+        }
     }
 }

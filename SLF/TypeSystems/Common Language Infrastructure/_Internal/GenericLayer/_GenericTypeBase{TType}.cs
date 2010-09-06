@@ -33,6 +33,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             class,
             IGenericType<TType>
     {
+        private bool disposed;
         /// <summary>
         /// Data member for <see cref="Original"/>.
         /// </summary>
@@ -74,6 +75,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         void genericParameter_Disposed(object sender, EventArgs e)
         {
+            if (this.IsDisposed && sender is IType)
+            {
+                var senderType = sender as IType;
+                senderType.Disposed -= new EventHandler(genericParameter_Disposed);
+                return;
+            }
             this.Dispose();
         }
 
@@ -149,7 +156,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return this.MakeGenericType(typeParameters);
         }
 
-        public IGenericType MakeVerifiedGenericType(ITypeCollection typeParameters)
+        public IGenericType MakeVerifiedGenericType(ITypeCollectionBase typeParameters)
         {
             throw new InvalidOperationException(Resources.MakeGenericTypeError_IsGenericTypeDefFalse);
         }
@@ -165,6 +172,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         protected override IType OnGetDeclaringType()
         {
+            if (this.IsDisposed)
+                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
             if (this.declaringType == null)
                 this.declaringType = this.OnGetDeclaringTypeImpl();
             return this.declaringType;
@@ -198,6 +207,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         {
             get
             {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
                 /* *
                  * Certifiable that compiled types won't change during the
                  * active runtime lifetime.
@@ -208,27 +219,37 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         protected override ILockedTypeCollection OnGetImplementedInterfaces()
         {
+            if (this.IsDisposed)
+                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
             return this.Original.ImplementedInterfaces.OnAll(q => q.Disambiguify(this.GenericParameters, null, TypeParameterSources.Type)).ToLockedCollection();
         }
 
         protected override INamespaceDeclaration OnGetNameSpace()
         {
+            if (this.IsDisposed)
+                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
             return this.original.Namespace;
         }
 
         protected override AccessLevelModifiers OnGetAccessLevel()
         {
+            if (this.IsDisposed)
+                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
             return this.original.AccessLevel;
         }
 
         protected override IAssembly OnGetAssembly()
         {
+            if (this.IsDisposed)
+                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
             return this.original.Assembly;
         }
 
         protected override IType BaseTypeImpl
         {
             get {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
                 /* *
                  * Perform a quick check on the base type
                  * to ensure that it hasn't changed
@@ -243,6 +264,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         private void BaseTypeCheck()
         {
+            if (this.IsDisposed)
+                return;
             if (this.baseType == null)
                 return;
             IType bt = this.baseType;
@@ -262,6 +285,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         {
             get
             {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
                 if (this.original.BaseType == null)
                     return null;
                 return this.Original.BaseType.Disambiguify(this.GenericParameters, null, TypeParameterSources.Type);
@@ -270,6 +295,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         protected override string OnGetName()
         {
+            if (this.IsDisposed)
+                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
             return this.original.Name;
         }
 
@@ -285,6 +312,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         {
             if (CLIGateway.CompiledTypeCache.Values.Contains(this))
                 this.RemoveFromCache();
+            if (this.IsDisposed)
+                return;
             if (dispose)
             {
                 if (original is _IGenericTypeRegistrar)
@@ -293,6 +322,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                     parameter.Disposed -= new EventHandler(genericParameter_Disposed);
                 this.genericParameters = null;
                 this.original = null;
+                this.disposed = true;
             }
             base.Dispose(dispose);
         }
@@ -304,46 +334,64 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         public void ReverifyTypeParameters()
         {
+            if (this.IsDisposed)
+                return;
             this.ElementType.VerifyTypeParameters(this.GenericParameters);
         }
 
         protected override IArrayType OnMakeArray(int rank)
         {
+            if (this.IsDisposed)
+                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
             return new ArrayType(this, rank);
         }
 
         protected override IArrayType OnMakeArray(params int[] lowerBounds)
         {
+            if (this.IsDisposed)
+                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
             return new ArrayType(this, lowerBounds);
         }
 
         protected override IType OnMakeByReference()
         {
+            if (this.IsDisposed)
+                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
             return new ByRefType(this);
         }
 
         protected override IType OnMakePointer()
         {
+            if (this.IsDisposed)
+                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
             return new PointerType(this);
         }
 
         protected override IType OnMakeNullable()
         {
+            if (this.IsDisposed)
+                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
             return new NullableType(this);
         }
 
         protected override bool IsSubclassOfImpl(IType other)
         {
+            if (this.IsDisposed)
+                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
             return other.Equals(typeof(object).GetTypeReference());
         }
 
         protected override ICustomAttributeCollection InitializeCustomAttributes()
         {
+            if (this.IsDisposed)
+                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
             return this.Original.CustomAttributes;
         }
 
         protected override string OnGetNamespaceName()
         {
+            if (this.IsDisposed)
+                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
             return this.Original.NamespaceName;
         }
 
@@ -352,7 +400,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         public void PositionalShift(int from, int to)
         {
-
+            if (this.IsDisposed)
+                return;
             if (from < 0 || from >= this.genericParameters.Count)
                 throw new ArgumentOutOfRangeException("from");
             if (to < 0 || to >= this.genericParameters.Count)
@@ -378,5 +427,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         }
 
         #endregion
+
+        protected bool IsDisposed
+        {
+            get
+            {
+                return this.disposed;
+            }
+        }
     }
 }

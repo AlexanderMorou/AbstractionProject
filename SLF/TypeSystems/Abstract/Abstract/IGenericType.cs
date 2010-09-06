@@ -88,7 +88,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// The current <see cref="IGenericType"/>'s
         /// <seealso cref="IsGenericTypeDefinition"/> is false.</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        IGenericType MakeVerifiedGenericType(ITypeCollection typeParameters);
+        IGenericType MakeVerifiedGenericType(ITypeCollectionBase typeParameters);
 
         /// <summary>
         /// Forces the system to revalidate the type-parameters used

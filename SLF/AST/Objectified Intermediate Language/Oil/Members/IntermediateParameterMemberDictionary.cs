@@ -80,7 +80,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public TIntermediateParameter Add(string name, IType parameterType, ParameterDirection direction)
         {
             TIntermediateParameter item = this.GetNewParameter(name, parameterType, direction);
-            base.Add(item.UniqueIdentifier, item);
+            this.Add(item.UniqueIdentifier, item);
             return item;
         }
 
@@ -124,6 +124,26 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         #endregion
+
+        internal bool Changed { get; set; }
+
+        protected override void AddImpl(KeyValuePair<string, TParameter> expression)
+        {
+            this.Changed = true;
+            base.AddImpl(expression);
+        }
+
+        protected override bool RemoveImpl(string key)
+        {
+            this.Changed = true;
+            return base.RemoveImpl(key);
+        }
+
+        protected override void Clear()
+        {
+            this.Changed = true;
+            base.Clear();
+        }
 
     }
 }
