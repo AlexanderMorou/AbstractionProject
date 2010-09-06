@@ -346,7 +346,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <param name="value">The value of the element.</param>
         protected virtual void Add(TKey key, TValue value)
         {
-            this.dictionaryCopy.Add(key, value);
+            base.AddImpl(new KeyValuePair<TKey, TValue>(key, value));
         }
         /// <summary>
         /// Adds a series of <see cref="KeyValuePair{TKey, TValue}"/> instances.

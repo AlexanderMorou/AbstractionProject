@@ -101,34 +101,46 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             return ((TType)ict);
         }
 
-        public static IType GetTypeReference(this Type type, ITypeCollection typeParameters)
+        public static IType GetTypeReference(this Type type, ITypeCollection typeParameters, bool verify=true)
         {
             if (type.IsGenericType && type.IsGenericTypeDefinition)
-                return ((IGenericType)type.GetTypeReference()).MakeGenericType(typeParameters);
+                if (verify)
+                    return ((IGenericType)type.GetTypeReference()).MakeGenericType(typeParameters);
+                else
+                    return ((IGenericType)type.GetTypeReference()).MakeVerifiedGenericType(typeParameters);
             throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
         }
 
-        public static IType GetTypeReference(this Type type, params IType[] typeParameters)
+        public static IType GetTypeReference(this Type type, bool verify=true, params IType[] typeParameters)
         {
             if (type.IsGenericType && type.IsGenericTypeDefinition)
-                return ((IGenericType)type.GetTypeReference()).MakeGenericType(typeParameters);
+                if (verify)
+                    return ((IGenericType)type.GetTypeReference()).MakeGenericType(typeParameters);
+                else
+                    return ((IGenericType)type.GetTypeReference()).MakeVerifiedGenericType(typeParameters.ToCollection());
             throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
         }
-        public static TType GetTypeReference<TType>(this Type type, ITypeCollection typeParameters)
+        public static TType GetTypeReference<TType>(this Type type, ITypeCollection typeParameters, bool verify=true)
             where TType :
                 IGenericType<TType>
         {
             if (type.IsGenericType && type.IsGenericTypeDefinition)
-                return type.GetTypeReference<TType>().MakeGenericType(typeParameters);
+                if (verify)
+                    return type.GetTypeReference<TType>().MakeGenericType(typeParameters);
+                else
+                    return (TType)type.GetTypeReference<TType>().MakeVerifiedGenericType(typeParameters);
             throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
         }
 
-        public static TType GetTypeReference<TType>(this Type type, params IType[] typeParameters)
+        public static TType GetTypeReference<TType>(this Type type, bool verify = true, params IType[] typeParameters)
             where TType :
                 IGenericType<TType>
         {
             if (type.IsGenericType && type.IsGenericTypeDefinition)
-                return type.GetTypeReference<TType>().MakeGenericType(typeParameters);
+                if (verify)
+                    return type.GetTypeReference<TType>().MakeGenericType(typeParameters);
+                else
+                    return (TType)type.GetTypeReference<TType>().MakeVerifiedGenericType(typeParameters.ToCollection());
             throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
         }
 

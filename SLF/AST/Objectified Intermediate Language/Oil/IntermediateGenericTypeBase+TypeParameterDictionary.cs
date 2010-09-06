@@ -68,6 +68,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     _Parent.ItemRemoved(base[key]);
                 return base.RemoveImpl(key);
             }
+
         }
     }
 }

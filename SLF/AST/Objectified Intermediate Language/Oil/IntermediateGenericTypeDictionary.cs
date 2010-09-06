@@ -65,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             var result = this.GetNewType(name);
             foreach (var paramData in typeParameters)
                 result.TypeParameters.Add(paramData);
-            this.Add(result.UniqueIdentifier, result);
+            this.AddDeclaration(result);
             return result;
         }
 

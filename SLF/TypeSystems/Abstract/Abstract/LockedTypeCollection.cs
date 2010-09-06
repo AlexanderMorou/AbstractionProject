@@ -40,6 +40,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
         }
 
+        public LockedTypeCollection(IEnumerable<IType> sourceA, params IType[] sourceB)
+        {
+            this.copy = new List<IType>(sourceA);
+            this.copy.AddRange(sourceB);
+        }
+
         public LockedTypeCollection(IEnumerable<IType> source)
         {
             this.copy = new List<IType>(source);
@@ -113,6 +119,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         internal void _AddRange(IType[] series)
         {
             copy.AddRange(series);
+        }
+
+        internal void _Add(IType type)
+        {
+            copy.Add(type);
         }
 
         public bool Contains(IType item)

@@ -19,8 +19,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IType<TType>
         where TIntermediateType :
             class,
-            TType,
-            IIntermediateType
+            IIntermediateType,
+            TType
     {
         /// <summary>
         /// Data member for <see cref="Parent"/>.
@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public TIntermediateType Add(string name)
         {
             var result = this.GetNewType(name);
-            this.Add(result.UniqueIdentifier, result);
+            this.AddDeclaration(result);
             return result;
         }
 

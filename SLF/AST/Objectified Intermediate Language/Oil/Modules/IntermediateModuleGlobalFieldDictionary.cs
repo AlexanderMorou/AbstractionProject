@@ -106,7 +106,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         public IIntermediateModuleGlobalField Add(AccessLevelModifiers modifiers, TypedName nameAndType, IExpression initializationExpression)
         {
             IntermediateModuleGlobalField result = new IntermediateModuleGlobalField(nameAndType.Name, base.Parent);
-            base.Add(result.UniqueIdentifier, result);
+            this.AddDeclaration(result);
             return result;
         }
 

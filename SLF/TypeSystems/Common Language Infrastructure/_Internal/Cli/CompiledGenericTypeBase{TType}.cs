@@ -240,7 +240,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.MakeGenericType(typeParameters.ToCollection());
         }
 
-        public IGenericType MakeVerifiedGenericType(ITypeCollection typeParameters)
+        public IGenericType MakeVerifiedGenericType(ITypeCollectionBase typeParameters)
         {
             IType r = null;
             if (!this.IsGenericTypeDefinition)

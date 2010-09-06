@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Utilities.Common;
 using System.Globalization;
+using AllenCopeland.Abstraction.Utilities.Arrays;
 //using AllenCopeland.Abstraction.Utilities.Tuples;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
@@ -19,6 +20,25 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     public static class GeneralExtensions
     {
         private static readonly Random shuffleRandom = new Random();
+        private static readonly Random shuffleRandomSecond = GetSecondRandom();
+
+        private static Random GetSecondRandom()
+        {
+            Random r = new Random();
+            return new Random(Environment.TickCount + r.Next());
+        }
+        public static IEnumerable<T> AddInline<T>(this IEnumerable<T> target, params T[] inlineElements)
+        {
+            foreach (var element in target)
+                yield return element;
+            foreach (var element in inlineElements)
+                yield return element;
+        }
+
+        public static T[] AddInlineArray<T>(this IEnumerable<T> target, params T[] inlineElements)
+        {
+            return Tweaks.MergeArrays(target.ToArray(), inlineElements);
+        }
         /// <summary>
         /// Performs <paramref name="f"/> on all <typeparamref name="T"/> intances in <paramref name="e"/>.
         /// </summary>
@@ -334,7 +354,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> target)
         {
             return from t in target
-                   orderby shuffleRandom.Next()
+                   orderby shuffleRandom.Next() descending,
+                           shuffleRandomSecond.Next() ascending
                    select t;
         }
     }

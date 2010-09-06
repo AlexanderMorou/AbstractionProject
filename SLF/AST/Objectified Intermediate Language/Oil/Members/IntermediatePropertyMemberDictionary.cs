@@ -110,7 +110,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             var result = this.GetProperty(nameAndType);
             result.CanRead = canGet;
             result.CanWrite = canSet;
-            base.Add(result.UniqueIdentifier, result);
+            this.AddDeclaration(result);
             return result;
         }
 

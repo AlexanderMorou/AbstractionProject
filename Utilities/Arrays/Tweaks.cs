@@ -29,6 +29,14 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
     /// </summary>
     public static partial class Tweaks
     {
+        public static T[] Add<T>(this T[] target, params T[] elements)
+        {
+            return MergeArrays(target, elements);
+        }
+        public static T[] AddBefore<T>(this T[] target, params T[] elements)
+        {
+            return MergeArrays(elements, target);
+        }
         /// <summary>
         /// Casts an array from the <typeparamref name="TOriginatingType"/> to the <typeparamref name="TDesiredType"/>
         /// </summary>

@@ -4,6 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Collections;
+using System.Linq;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -45,15 +46,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public bool Contains(TIntermediateDeclaration item)
             {
-                return ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values.Contains(item);
+                return this.owner.dictionaryCopy.Values.Contains(item);
             }
 
             public void CopyTo(TIntermediateDeclaration[] array, int arrayIndex)
             {
                 if ((arrayIndex + this.Count) >= array.Length)
                     throw new ArgumentException("array");
-                for (int i = 0; i < this.Count; i++)
-                    array[i + arrayIndex] = this[i];
+                var valueEnum = this.owner.dictionaryCopy.Values.GetEnumerator();
+                int index = 0;
+                while (valueEnum.MoveNext())
+                    array[index++ + arrayIndex] = (TIntermediateDeclaration)valueEnum.Current;
+                //for (int i = 0; i < this.Count; i++)
+                //    array[i + arrayIndex] = this[i];
             }
 
             public TIntermediateDeclaration this[int index]
@@ -64,8 +69,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             public TIntermediateDeclaration[] ToArray()
             {
                 TIntermediateDeclaration[] result = new TIntermediateDeclaration[this.Count];
-                for (int i = 0; i < this.Count; i++)
-                    result[i] = this[i];
+                var valueEnum = this.owner.dictionaryCopy.Values.GetEnumerator();
+                var index = 0;
+                while (valueEnum.MoveNext())
+                    result[index++] = (TIntermediateDeclaration)valueEnum.Current;
                 return result;
             }
 

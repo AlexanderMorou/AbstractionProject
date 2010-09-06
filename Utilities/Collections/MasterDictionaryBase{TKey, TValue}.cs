@@ -178,6 +178,14 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             base.Add(key, new MasterDictionaryEntry<TValue>((ISubordinateDictionary)subordinate, value));
         }
 
+        protected internal virtual void Subordinate_ItemsAdded<TSValue>(ISubordinateDictionary<TKey, TSValue, TValue> subordinate, IEnumerable<KeyValuePair<TKey, TSValue>> items)
+            where TSValue :
+                TValue
+        {
+            foreach (var element in items)
+                base.Add(element.Key, new MasterDictionaryEntry<TValue>((ISubordinateDictionary)subordinate, element.Value));
+        }
+
         /// <summary>
         /// Notifier for subordinate dictionaries 
         /// indicating that an item has been changed.

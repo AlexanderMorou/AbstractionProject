@@ -162,7 +162,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     throw new NotSupportedException();
                 }
 
-                public IGenericType MakeVerifiedGenericType(ITypeCollection typeParameters)
+                public IGenericType MakeVerifiedGenericType(ITypeCollectionBase typeParameters)
                 {
                     throw new NotSupportedException();
                 }
@@ -533,7 +533,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     throw new NotSupportedException();
                 }
 
-                public IGenericType MakeVerifiedGenericType(ITypeCollection typeParameters)
+                public IGenericType MakeVerifiedGenericType(ITypeCollectionBase typeParameters)
                 {
                     throw new NotSupportedException();
                 }
@@ -730,7 +730,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     throw new NotSupportedException();
                 }
 
-                public IGenericType MakeVerifiedGenericType(ITypeCollection typeParameters)
+                public IGenericType MakeVerifiedGenericType(ITypeCollectionBase typeParameters)
                 {
                     throw new NotSupportedException();
                 }
@@ -970,7 +970,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     throw new NotSupportedException();
                 }
 
-                public IGenericType MakeVerifiedGenericType(ITypeCollection typeParameters)
+                public IGenericType MakeVerifiedGenericType(ITypeCollectionBase typeParameters)
                 {
                     throw new NotSupportedException();
                 }

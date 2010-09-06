@@ -189,7 +189,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             return this.MakeGenericType(typeParameters);
         }
 
-        public IGenericType MakeVerifiedGenericType(ITypeCollection typeParameters)
+        public IGenericType MakeVerifiedGenericType(ITypeCollectionBase typeParameters)
         {
             return this.MakeGenericType(typeParameters);
         }

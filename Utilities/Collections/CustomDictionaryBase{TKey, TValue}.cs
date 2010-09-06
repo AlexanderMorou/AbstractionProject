@@ -257,9 +257,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <see cref="CustomDictionaryBase{TKey, TValue}"/>.</returns>
         public virtual IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            foreach (KeyValuePair<TKey, TValue> kvp in this.backup)
-                yield return kvp;
-            yield break;
+            return this.backup.GetEnumerator();
         }
 
         #endregion
