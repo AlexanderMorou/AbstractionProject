@@ -455,13 +455,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (typeSymbol == null)
                 throw new ArgumentNullException("typeSymbol");
-            if (!SymbolTypeCache.ContainsKey(typeSymbol))
-                SymbolTypeCache.Add(typeSymbol, new Dictionary<string, IDictionary<int, ISymbolType>>());
-            if (!SymbolTypeCache[typeSymbol].ContainsKey(nullNamespace))
-                SymbolTypeCache[typeSymbol].Add(nullNamespace, new Dictionary<int, ISymbolType>());
-            if (!SymbolTypeCache[typeSymbol][nullNamespace].ContainsKey(0))
-                SymbolTypeCache[typeSymbol][nullNamespace].Add(0, new SymbolType(typeSymbol));
-            return SymbolTypeCache[typeSymbol][nullNamespace][0];
+            lock (SymbolTypeCache)
+            {
+                if (!SymbolTypeCache.ContainsKey(typeSymbol))
+                    SymbolTypeCache.Add(typeSymbol, new Dictionary<string, IDictionary<int, ISymbolType>>());
+                if (!SymbolTypeCache[typeSymbol].ContainsKey(nullNamespace))
+                    SymbolTypeCache[typeSymbol].Add(nullNamespace, new Dictionary<int, ISymbolType>());
+                if (!SymbolTypeCache[typeSymbol][nullNamespace].ContainsKey(0))
+                    SymbolTypeCache[typeSymbol][nullNamespace].Add(0, new SymbolType(typeSymbol));
+                return SymbolTypeCache[typeSymbol][nullNamespace][0];
+            }
         }
 
         public static ISymbolType GetSymbolType(this string typeSymbol, ITypeCollection genericParameters)
@@ -471,13 +474,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             if (genericParameters == null)
                 throw new ArgumentNullException("genericParameters");
             int count = genericParameters.Count;
-            if (!SymbolTypeCache.ContainsKey(typeSymbol))
-                SymbolTypeCache.Add(typeSymbol, new Dictionary<string, IDictionary<int, ISymbolType>>());
-            if (!SymbolTypeCache[typeSymbol].ContainsKey(nullNamespace))
-                SymbolTypeCache[typeSymbol].Add(nullNamespace, new Dictionary<int, ISymbolType>());
-            if (!SymbolTypeCache[typeSymbol][nullNamespace].ContainsKey(count))
-                SymbolTypeCache[typeSymbol][nullNamespace].Add(count, new SymbolType(typeSymbol, genericParameters.Count).MakeGenericType(genericParameters));
-            return SymbolTypeCache[typeSymbol][nullNamespace][count];
+            lock (SymbolTypeCache)
+            {
+                if (!SymbolTypeCache.ContainsKey(typeSymbol))
+                    SymbolTypeCache.Add(typeSymbol, new Dictionary<string, IDictionary<int, ISymbolType>>());
+                if (!SymbolTypeCache[typeSymbol].ContainsKey(nullNamespace))
+                    SymbolTypeCache[typeSymbol].Add(nullNamespace, new Dictionary<int, ISymbolType>());
+                if (!SymbolTypeCache[typeSymbol][nullNamespace].ContainsKey(count))
+                    SymbolTypeCache[typeSymbol][nullNamespace].Add(count, new SymbolType(typeSymbol, genericParameters.Count).MakeGenericType(genericParameters));
+                return SymbolTypeCache[typeSymbol][nullNamespace][count];
+            }
         }
 
         public static ISymbolType GetSymbolType(this string typeSymbol, string @namespace)
@@ -486,13 +492,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 throw new ArgumentNullException("typeSymbol");
             if (@namespace == null)
                 throw new ArgumentNullException("namespace");
-            if (!SymbolTypeCache.ContainsKey(typeSymbol))
-                SymbolTypeCache.Add(typeSymbol, new Dictionary<string, IDictionary<int, ISymbolType>>());
-            if (!SymbolTypeCache[typeSymbol].ContainsKey(@namespace))
-                SymbolTypeCache[typeSymbol].Add(@namespace,new Dictionary<int, ISymbolType>());
-            if (!SymbolTypeCache[typeSymbol][@namespace].ContainsKey(0))
-                SymbolTypeCache[typeSymbol][@namespace].Add(0, new SymbolType(typeSymbol, @namespace));
-            return SymbolTypeCache[typeSymbol][@namespace][0];
+            lock (SymbolTypeCache)
+            {
+                if (!SymbolTypeCache.ContainsKey(typeSymbol))
+                    SymbolTypeCache.Add(typeSymbol, new Dictionary<string, IDictionary<int, ISymbolType>>());
+                if (!SymbolTypeCache[typeSymbol].ContainsKey(@namespace))
+                    SymbolTypeCache[typeSymbol].Add(@namespace, new Dictionary<int, ISymbolType>());
+                if (!SymbolTypeCache[typeSymbol][@namespace].ContainsKey(0))
+                    SymbolTypeCache[typeSymbol][@namespace].Add(0, new SymbolType(typeSymbol, @namespace));
+                return SymbolTypeCache[typeSymbol][@namespace][0];
+            }
             //return new SymbolType(typeSymbol, @namespace);
         }
 
@@ -503,13 +512,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             if (genericParameters == null)
                 throw new ArgumentNullException("genericParameters");
             int count = genericParameters.Count;
-            if (!SymbolTypeCache.ContainsKey(typeSymbol))
-                SymbolTypeCache.Add(typeSymbol, new Dictionary<string, IDictionary<int, ISymbolType>>());
-            if (!SymbolTypeCache[typeSymbol].ContainsKey(@namespace))
-                SymbolTypeCache[typeSymbol].Add(@namespace, new Dictionary<int, ISymbolType>());
-            if (!SymbolTypeCache[typeSymbol][@namespace].ContainsKey(count))
-                SymbolTypeCache[typeSymbol][@namespace].Add(count, new SymbolType(typeSymbol, genericParameters.Count, @namespace).MakeGenericType(genericParameters));
-            return SymbolTypeCache[typeSymbol][@namespace][count];
+            lock (SymbolTypeCache)
+            {
+                if (!SymbolTypeCache.ContainsKey(typeSymbol))
+                    SymbolTypeCache.Add(typeSymbol, new Dictionary<string, IDictionary<int, ISymbolType>>());
+                if (!SymbolTypeCache[typeSymbol].ContainsKey(@namespace))
+                    SymbolTypeCache[typeSymbol].Add(@namespace, new Dictionary<int, ISymbolType>());
+                if (!SymbolTypeCache[typeSymbol][@namespace].ContainsKey(count))
+                    SymbolTypeCache[typeSymbol][@namespace].Add(count, new SymbolType(typeSymbol, genericParameters.Count, @namespace).MakeGenericType(genericParameters));
+                return SymbolTypeCache[typeSymbol][@namespace][count];
+            }
         }
 
         public static ITypeReferenceExpression GetSymbolTypeExpression(this string typeSymbol, string @namespace, ITypeCollection genericParameters)

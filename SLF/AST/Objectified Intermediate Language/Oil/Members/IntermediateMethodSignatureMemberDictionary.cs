@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Utilities.Events;
+using System.Threading.Tasks;
 /*----------------------------------------\
 | Copyright © 2009 Allen Copeland Jr.     |
 |-----------------------------------------|
@@ -71,11 +72,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
         protected TIntermediateSignature GetNewMethod(string name)
         {
-            TIntermediateSignature method = this.OnGetNewMethod(name);
-            method.Renamed += method_Renamed;
-            method.TypeParameterAdded += new EventHandler<Utilities.Events.EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>>(method_TypeParameterAddOrRemove);
-            method.TypeParameterRemoved += new EventHandler<Utilities.Events.EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>>(method_TypeParameterAddOrRemove);
-            return method;
+            return this.OnGetNewMethod(name);
         }
 
         void method_TypeParameterAddOrRemove(object sender, EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember> e)
@@ -93,8 +90,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             var method = this.GetNewMethod(name);
             foreach (var item in parameters)
             {
-                IType paramType = null;
-                SetTypeReference(item, p => paramType = p);
+                IType paramType = GetTypeReference(item);
                 paramType = AdjustTypeReference(paramType, item.Direction);
                 method.Parameters.Add(item.Name, paramType, item.Direction);
             }
@@ -107,16 +103,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         private TIntermediateSignature GetNewMethodWithParametersAndTypeParameters(string name, TypedNameSeries parameters, GenericParameterData[] typeParameters)
         {
             var method = this.GetNewMethod(name);
-            for (int i = 0; i < typeParameters.Length; i++)
+            method.TypeParameters.AddRange(typeParameters);
+            if (parameters.Count > 0)
             {
-                method.TypeParameters.Add(typeParameters[i]);
-            }
-            foreach (var item in parameters)
-            {
-                IType paramType = null;
-                SetTypeReference(item, p => paramType = p, p => method.TypeParameters.ContainsKey(p) ? method.TypeParameters[p] : null);
-                paramType = AdjustTypeReference(paramType, item.Direction);
-                method.Parameters.Add(item.Name, paramType, item.Direction);
+                TypedName[] adjustedParameters = new TypedName[parameters.Count];
+                Parallel.For(0, parameters.Count, i =>
+                    {
+                        TypedName currentItem = parameters[i];
+                        IType paramType = GetTypeReference(currentItem, p => method.TypeParameters.ContainsKey(p) ? method.TypeParameters[p] : null);
+                        paramType = AdjustTypeReference(paramType, currentItem.Direction);
+                        adjustedParameters[i] = new TypedName(currentItem.Name, paramType);
+                    });
+                method.Parameters.AddRange(adjustedParameters);
             }
             return method;
         }
@@ -132,6 +130,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return paramType;
         }
 
+        protected override void Add(string key, TSignature value)
+        {
+            var method = (TIntermediateSignature)value;
+            method.Renamed += method_Renamed;
+            method.TypeParameterAdded += new EventHandler<EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>>(method_TypeParameterAddOrRemove);
+            method.TypeParameterRemoved += new EventHandler<EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>>(method_TypeParameterAddOrRemove);
+            base.Add(key, value);
+        }
         protected override bool RemoveImpl(string key)
         {
             if (base.ContainsKey(key))
@@ -176,11 +182,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public TIntermediateSignature Add(TypedName nameAndReturn)
         {
             TIntermediateSignature method = this.Add(nameAndReturn.Name);
-            SetTypeReference(nameAndReturn, p => method.ReturnType = p);
+            method.ReturnType = GetTypeReference(nameAndReturn);
             return method;
         }
 
-        private void SetTypeReference(TypedName source, Action<IType> setter, Func<string, IType> altGetter = null)
+        private IType GetTypeReference(TypedName source, Func<string, IType> altGetter = null)
         {
             /* *
              * Attempts to do an early type-resolution on potential symbols
@@ -189,48 +195,38 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             switch (source.Source)
             {
                 case TypedNameSource.TypeReference:
-                    setter(source.Reference);
-                    break;
+                    return (source.Reference);
                 case TypedNameSource.SymbolReference:
                     if (this.Parent is IGenericType)
                     {
                         IGenericType t = ((IGenericType)(this.Parent));
-                        bool found = false;
                         for (; t != null; t = (((t.DeclaringType != null) && (t.DeclaringType is IGenericType)) ? (IGenericType)t.DeclaringType : null))
-                        {
                             if (t.TypeParameters.ContainsKey(source.SymbolReference))
-                            {
-                                setter((IGenericTypeParameter)t.TypeParameters[source.SymbolReference]);
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found)
-                        {
-                            IType q = null;
-                            if (altGetter != null)
-                                q = altGetter(source.SymbolReference);
-                            if (q != null)
-                                setter(q);
-                            else
-                                setter(source.SymbolReference.GetSymbolType());
-                        }
+                                return ((IGenericTypeParameter)t.TypeParameters[source.SymbolReference]);
+                        IType q = null;
+                        if (altGetter != null)
+                            q = altGetter(source.SymbolReference);
+                        if (q != null)
+                            return (q);
+                        else
+                            return (source.SymbolReference.GetSymbolType());
                     }
                     break;
             }
+            return null;
         }
 
         public TIntermediateSignature Add(TypedName nameAndReturn, TypedNameSeries parameters)
         {
             TIntermediateSignature method = this.Add(nameAndReturn.Name, parameters);
-            SetTypeReference(nameAndReturn, p => method.ReturnType = p);
+            method.ReturnType = GetTypeReference(nameAndReturn);
             return method;
         }
 
         public TIntermediateSignature Add(TypedName nameAndReturn, TypedNameSeries parameters, params GenericParameterData[] typeParameters)
         {
             TIntermediateSignature method = this.Add(nameAndReturn.Name, parameters, typeParameters);
-            SetTypeReference(nameAndReturn, p => method.ReturnType = p, p => method.TypeParameters.ContainsKey(p) ? method.TypeParameters[p] : null);
+            method.ReturnType = GetTypeReference(nameAndReturn, p => method.TypeParameters.ContainsKey(p) ? method.TypeParameters[p] : null);
             return method;
         }
 
@@ -403,29 +399,31 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             var method = this.GetNewMethod(name);
             foreach (var item in parameters)
             {
-                IType paramType = null;
-                SetTypeReference(item, p => paramType = AdjustTypeReference(p, item.Direction), null);
+                IType paramType = GetTypeReference(item);
+                paramType = AdjustTypeReference(paramType, item.Direction);
                 method.Parameters.Add(item.Name, paramType, item.Direction);
             }
             return method;
         }
 
+        /* *
+         * Lovely method name, huh?
+         * */
         private TIntermediateSignature GetNewMethodWithParametersAndTypeParameters(string name, TypedNameSeries parameters, GenericParameterData[] typeParameters)
         {
             var method = this.GetNewMethod(name);
-            for (int i = 0; i < typeParameters.Length; i++)
-            {
-                method.TypeParameters.Add(typeParameters[i]);
-            }
+            method.TypeParameters.AddRange(typeParameters);
             if (parameters.Count > 0)
             {
-                Func<String, IType> altGetter = typeParameterName => method.TypeParameters.ContainsKey(typeParameterName) ? method.TypeParameters[typeParameterName] : null;
-                foreach (var item in parameters)
+                TypedName[] adjustedParameters = new TypedName[parameters.Count];
+                Parallel.For(0, parameters.Count, i =>
                 {
-                    IType paramType = null;
-                    SetTypeReference(item, incomingType => paramType = AdjustTypeReference(incomingType, item.Direction), altGetter);
-                    method.Parameters.Add(item.Name, paramType, item.Direction);
-                }
+                    TypedName currentItem = parameters[i];
+                    IType paramType = GetTypeReference(currentItem, p => method.TypeParameters.ContainsKey(p) ? method.TypeParameters[p] : null);
+                    paramType = AdjustTypeReference(paramType, currentItem.Direction);
+                    adjustedParameters[i] = new TypedName(currentItem.Name, paramType);
+                });
+                method.Parameters.AddRange(adjustedParameters);
             }
             return method;
         }
@@ -445,6 +443,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public TIntermediateSignature Add(string name)
         {
             var method = this.GetNewMethod(name);
+            method.ReturnType = IntermediateGateway.CommonlyUsedTypeReferences.Void;
             this.Add(method.UniqueIdentifier, method);
             return method;
         }
@@ -452,6 +451,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public TIntermediateSignature Add(string name, TypedNameSeries parameters)
         {
             var method = this.GetNewMethodWithParameters(name, parameters);
+            method.ReturnType = IntermediateGateway.CommonlyUsedTypeReferences.Void;
             this.Add(method.UniqueIdentifier, method);
             return method;
         }
@@ -459,6 +459,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public TIntermediateSignature Add(string name, TypedNameSeries parameters, params GenericParameterData[] typeParameters)
         {
             var method = this.GetNewMethodWithParametersAndTypeParameters(name, parameters, typeParameters);
+            method.ReturnType = IntermediateGateway.CommonlyUsedTypeReferences.Void;
             this.Add(method.UniqueIdentifier, method);
             return method;
         }
@@ -466,57 +467,53 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public TIntermediateSignature Add(TypedName nameAndReturn)
         {
             TIntermediateSignature method = this.Add(nameAndReturn.Name);
-            SetTypeReference(nameAndReturn, p => method.ReturnType = p, null);
+            method.ReturnType = GetTypeReference(nameAndReturn);
             return method;
         }
 
-        private void SetTypeReference(TypedName source, Action<IType> setter, Func<string, IType> altGetter)
+
+        private IType GetTypeReference(TypedName source, Func<string, IType> altGetter = null)
         {
+            /* *
+             * Attempts to do an early type-resolution on potential symbols
+             * passed in.
+             * */
             switch (source.Source)
             {
                 case TypedNameSource.TypeReference:
-                    setter(source.Reference);
-                    break;
+                    return (source.Reference);
                 case TypedNameSource.SymbolReference:
                     if (this.Parent is IGenericType)
                     {
                         IGenericType t = ((IGenericType)(this.Parent));
-                        bool found = false;
                         for (; t != null; t = (((t.DeclaringType != null) && (t.DeclaringType is IGenericType)) ? (IGenericType)t.DeclaringType : null))
-                        {
                             if (t.TypeParameters.ContainsKey(source.SymbolReference))
-                            {
-                                setter((IGenericTypeParameter)t.TypeParameters[source.SymbolReference]);
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found)
-                        {
-                            IType q = null;
-                            if (altGetter != null)
-                                q = altGetter(source.SymbolReference);
-                            if (q != null)
-                                setter(q);
-                            else
-                                setter(source.SymbolReference.GetSymbolType());
-                        }
+                                return ((IGenericTypeParameter)t.TypeParameters[source.SymbolReference]);
+                        IType q = null;
+                        if (altGetter != null)
+                            q = altGetter(source.SymbolReference);
+                        if (q != null)
+                            return (q);
+                        else
+                            return (source.SymbolReference.GetSymbolType());
                     }
                     break;
             }
+            return null;
         }
+
 
         public TIntermediateSignature Add(TypedName nameAndReturn, TypedNameSeries parameters)
         {
             TIntermediateSignature method = this.Add(nameAndReturn.Name, parameters);
-            SetTypeReference(nameAndReturn, p => method.ReturnType = p, null);
+            method.ReturnType = GetTypeReference(nameAndReturn);
             return method;
         }
 
         public TIntermediateSignature Add(TypedName nameAndReturn, TypedNameSeries parameters, params GenericParameterData[] typeParameters)
         {
             TIntermediateSignature method = this.Add(nameAndReturn.Name, parameters, typeParameters);
-            SetTypeReference(nameAndReturn, p => method.ReturnType = p, p => method.TypeParameters.ContainsKey(p) ? method.TypeParameters[p] : null);
+            method.ReturnType = GetTypeReference(nameAndReturn, p => method.TypeParameters.ContainsKey(p) ? method.TypeParameters[p] : null);
             return method;
         }
 

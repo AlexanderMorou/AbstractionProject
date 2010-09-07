@@ -147,9 +147,6 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Tokens
         ///<summary>
         ///C&#9839; Keyword for "is" which is 2 characters long.
         ///</summary>
-        ///<summary>
-        ///C&#9839; Keyword for "lock" which is 4 characters long.
-        ///</summary>
         Is                      = 0x0000000100000000,
         ///<summary>
         ///C&#9839; Keyword for "lock" which is 4 characters long.

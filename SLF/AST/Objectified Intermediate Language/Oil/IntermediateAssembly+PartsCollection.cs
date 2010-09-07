@@ -57,7 +57,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             public IIntermediateAssembly Add()
             {
                 TAssembly result = root.GetNewPart();
-                this.baseCollection.Add(result);
+                base.AddImpl(result);
                 return result;
             }
 
@@ -202,7 +202,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 if (part.IsRoot || part.GetRoot() != this.Root)
                     throw new ArgumentException("part");
-                this.baseCollection.Add(part);
+                base.AddImpl(part);
             }
 
             #endregion

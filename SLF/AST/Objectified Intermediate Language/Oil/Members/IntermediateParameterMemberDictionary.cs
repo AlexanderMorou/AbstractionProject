@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using System.Threading.Tasks;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -84,6 +85,40 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return item;
         }
 
+        public new TIntermediateParameter Add(TypedName parameterInfo)
+        {
+            if (parameterInfo.Source == TypedNameSource.SymbolReference)
+                return this.Add(parameterInfo.Name, parameterInfo.Reference, parameterInfo.Direction);
+            else
+                return this.Add(parameterInfo.Name, parameterInfo.SymbolReference.GetSymbolType(), parameterInfo.Direction);
+        }
+
+        public new TIntermediateParameter[] AddRange(params TypedName[] parameterInfo)
+        {
+            if (parameterInfo == null)
+                throw new ArgumentNullException("parameterInfo");
+            TIntermediateParameter[] result = new TIntermediateParameter[parameterInfo.Length];
+            Parallel.For(0, parameterInfo.Length, i =>
+                {
+                    var currentParamInfo = parameterInfo[i];
+                    switch (currentParamInfo.Source)
+                    {
+                        case TypedNameSource.TypeReference:
+                            result[i] = this.GetNewParameter(currentParamInfo.Name, currentParamInfo.Reference, currentParamInfo.Direction);
+                            break;
+                        case TypedNameSource.SymbolReference:
+                            result[i] = this.GetNewParameter(currentParamInfo.Name, currentParamInfo.SymbolReference.GetSymbolType(), currentParamInfo.Direction);
+                            break;
+                        case TypedNameSource.InvalidReference:
+                        default:
+                            throw new ArgumentException("parameterInfo");
+                    }
+                });
+            foreach (var element in result)
+                this.Add(element.Name, element);
+            return result;
+        }
+        
         #endregion
 
         /// <summary>
@@ -121,6 +156,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IIntermediateParameterMember IIntermediateParameterMemberDictionary.Add(string name, IType parameterType, ParameterDirection direction)
         {
             return Add(name, parameterType, direction);
+        }
+
+        IIntermediateParameterMember[] IIntermediateParameterMemberDictionary.AddRange(params TypedName[] parameterInfo)
+        {
+            var resultOriginal = this.AddRange(parameterInfo);
+            var result = new IIntermediateParameterMember[resultOriginal.Length];
+            Parallel.For(0, resultOriginal.Length, i =>
+                result[i] = resultOriginal[i]);
+            return result;
+        }
+
+        IIntermediateParameterMember IIntermediateParameterMemberDictionary.Add(TypedName parameterInfo)
+        {
+            return this.Add(parameterInfo);
         }
 
         #endregion

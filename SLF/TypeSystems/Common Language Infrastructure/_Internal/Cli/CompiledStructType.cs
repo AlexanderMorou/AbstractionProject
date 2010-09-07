@@ -158,5 +158,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get { return TypeKind.Struct; }
         }
+
+        protected override sealed IArrayType OnMakeArray(int rank)
+        {
+            if (this.UnderlyingSystemType == typeof(TypedReference) ||
+                this.UnderlyingSystemType == typeof(ArgIterator))
+                throw new InvalidOperationException("Type cannot be an array.");
+            return base.OnMakeArray(rank);
+        }
     }
 }

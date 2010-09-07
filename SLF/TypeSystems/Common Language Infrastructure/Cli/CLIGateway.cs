@@ -12,6 +12,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using System.Threading.Tasks;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -173,10 +174,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
              *             per stage.
              * */
             Type t = type;
+            //lock (CLIGateway.CompiledTypeCache)
             if (CLIGateway.CompiledTypeCache.ContainsKey(t))
                 return CLIGateway.CompiledTypeCache[t];
             Type byRefType = null;
-
             #region Type breakdown
 
             #region ByReference
@@ -345,8 +346,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         private static void CacheAdd(Type t, IType result)
         {
-            if (!CompiledTypeCache.ContainsKey(t))
-                CompiledTypeCache.Add(t, result);
+            lock (CompiledTypeCache)
+                if (!CompiledTypeCache.ContainsKey(t))
+                    CompiledTypeCache.Add(t, result);
         }
 
         /// <summary>
@@ -364,8 +366,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         internal static void RemoveFromCache(this IType type)
         {
-            if (CompiledTypeCache.Values.Contains(type))
-                CompiledTypeCache.Remove(CompiledTypeCache.First(kvp => kvp.Value == type).Key);
+            lock(CompiledTypeCache)
+                if (CompiledTypeCache.Values.Contains(type))
+                    CompiledTypeCache.Remove(CompiledTypeCache.First(kvp => kvp.Value == type).Key);
         }
 
         internal static void RemoveFromCache(this ICompiledAssembly assembly)
@@ -676,7 +679,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli
              * Iterate through the replacements and compare them against 
              * the test cases.
              * */
-            for (int i = 0; i < testCases.Length; i++)
+            Parallel.For(0, testCases.Length, i=>
+            //for (int i = 0; i < testCases.Length; i++)
             {
                 IGenericTestCaseParameter param = testCases[i];
                 IType replacement = typeReplacements[i];
@@ -789,7 +793,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                  * Dispose the type-parameter test case, it's no longer needed
                  * */
                 param.Dispose();
-            }
+            });
         }
         /// <summary>
         /// Obtains a <see cref="ILockedTypeCollection"/> for the <paramref name="array"/> 

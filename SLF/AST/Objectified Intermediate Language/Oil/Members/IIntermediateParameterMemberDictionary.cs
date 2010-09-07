@@ -50,7 +50,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         /// <summary>
         /// Adds a new <typeparamref name="TIntermediateParameter"/> instance
-        /// with the <paramref name="name"/>, <paramref name="parameterType"/> and 
+        /// with the <paramref name="name"/>, <paramref name="parameterType"/> and
         /// <paramref name="direction"/>
         /// provided.
         /// </summary>
@@ -62,6 +62,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// as it exists in the <see cref="IIntermediateParameterMemberDictionary{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>.</returns>
         TIntermediateParameter Add(string name, IType parameterType, ParameterDirection direction);
 
+        /// <summary>
+        /// Adds a new <typeparamref name="TIntermediateParameter"/> instance
+        /// with the <paramref name="parameterInfo"/> provided.
+        /// </summary>
+        /// <param name="parameterInfo">The <see cref="TypedName"/>
+        /// which denotes the name, type and direction of the parameter.</param>
+        /// <returns>The <typeparamref name="TIntermediateParameter"/> instance
+        /// resulted from the add operation.</returns>
+        TIntermediateParameter Add(TypedName parameterInfo);
+
+        /// <summary>
+        /// Adds a series of <typeparamref name="TIntermediateParameter"/>
+        /// instances from the <paramref name="parameterInfo"/> provided.
+        /// </summary>
+        /// <param name="parameterInfo">The <see cref="TypedName"/>
+        /// series which denotes the name and direction of each element to
+        /// insert.</param>
+        /// <returns>A series of <typeparamref name="TIntermediateParameter"/>
+        /// instances created from the <paramref name="parameterInfo"/>
+        /// provided.</returns>
+        TIntermediateParameter[] AddRange(params TypedName[] parameterInfo);
     }
     /// <summary>
     /// Defines properties and methods for working with a dictionary of
@@ -100,6 +121,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <returns>A new <see cref="IIntermediateParameterMember"/>
         /// as it exists in the <see cref="IIntermediateParameterMemberDictionary"/>.</returns>
         IIntermediateParameterMember Add(string name, IType parameterType, ParameterDirection direction);
+        /// <summary>
+        /// Adds a series of <see cref="IIntermediateParameterMember"/>
+        /// instances from the <paramref name="parameterInfo"/> provided.
+        /// </summary>
+        /// <param name="parameterInfo">The <see cref="TypedName"/>
+        /// series which denotes the name and direction of each element to
+        /// insert.</param>
+        /// <returns>A series of <see cref="IIntermediateParameterMember"/>
+        /// instances created from the <paramref name="parameterInfo"/>
+        /// provided.</returns>
+        IIntermediateParameterMember[] AddRange(params TypedName[] parameterInfo);
+
+        /// <summary>
+        /// Adds a new <see cref="IIntermediateParameterMember"/> instance
+        /// with the <paramref name="parameterInfo"/> provided.
+        /// </summary>
+        /// <param name="parameterInfo">The <see cref="TypedName"/>
+        /// which denotes the name, type and direction of the parameter.</param>
+        /// <returns>The <see cref="IIntermediateParameterMember"/> instance
+        /// resulted from the add operation.</returns>
+        IIntermediateParameterMember Add(TypedName parameterInfo);
 
     }
 }

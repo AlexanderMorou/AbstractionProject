@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf._Internal;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
+using System.Threading.Tasks;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -179,6 +181,53 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
 
+        IIntermediateGenericParameter[] IIntermediateGenericParameterDictionary.AddRange(params GenericParameterData[] genericParameterData)
+        {
+            var resultOriginal = this.AddRange(genericParameterData);
+            var result = new IIntermediateGenericParameter[resultOriginal.Length];
+            Parallel.For(0, resultOriginal.Length, i=> 
+                result[i] = resultOriginal[i]);
+            return result;
+        }
+
+
+
+        #region IIntermediateGenericParameterDictionary<TGenericParameter,TIntermediateGenericParameter,TParent,TIntermediateParent> Members
+
+
+        public new TIntermediateGenericParameter[] AddRange(params GenericParameterData[] genericParameterData)
+        {
+            if (genericParameterData == null)
+                throw new ArgumentNullException("genericParameterData");
+            TIntermediateGenericParameter[] result = new TIntermediateGenericParameter[genericParameterData.Length];
+            string[] currentKeys = new string[result.Length];
+            Parallel.For(0, genericParameterData.Length, i =>
+            {
+                var currentParameterData = genericParameterData[i];
+                var current = this.GetNew(currentParameterData.Name);
+                var currentUniqueId = current.UniqueIdentifier;
+                if (this.ContainsKey(currentUniqueId) ||
+                    currentKeys.Contains(currentUniqueId))
+                    throw new ArgumentException("genericParameterData");
+                if (currentParameterData.RequiresBlankConstructor)
+                    current.RequiresNewConstructor = true;
+                foreach (var ctorSig in currentParameterData.Constructors.Signatures)
+                    current.Constructors.Add(ctorSig.Parameters.ToSeries());
+                foreach (var eventGroup in currentParameterData.Events)
+                    current.Events.Add(eventGroup);
+                //foreach (var propertyGroup in genericParameterData.Properties)
+                //result.Properties.Add
+                foreach (var method in currentParameterData.Methods.Signatures)
+                    current.Methods.Add(new TypedName(method.Name, method.ReturnType), method.Parameters.ToSeries());
+                currentKeys[i] = currentUniqueId;
+                result[i] = current;
+            });
+            for (int i = 0; i < genericParameterData.Length; i++)
+                this.Add(currentKeys[i], result[i]);
+            return result;
+        }
+
+        #endregion
 
     }
 }
