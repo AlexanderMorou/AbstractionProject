@@ -76,14 +76,22 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         #region ISubordinateDictionary<TKey,TSValue,TMValue> Members
 
+        public MasterDictionaryBase<TKey, TMValue> Master
+        {
+            get
+            {
+                return this.master;
+            }
+        }
+
         /// <summary>
         /// Returns the <see cref="IMasterDictionary{TKey, TValue}"/> which
         /// contains and moderates the current
         /// <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/>.
         /// </summary>
-        public IMasterDictionary<TKey, TMValue> Master
+        IMasterDictionary<TKey, TMValue> ISubordinateDictionary<TKey,TSValue,TMValue>.Master
         {
-            get { return this.master; }
+            get { return this.Master; }
         }
 
         #endregion

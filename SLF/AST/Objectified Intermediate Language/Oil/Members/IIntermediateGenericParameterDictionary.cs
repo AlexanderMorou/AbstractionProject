@@ -82,6 +82,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// is <see cref="String.Empty"/> or null, or when the <see cref="GenericParameterData.Name"/>
         /// collides with another type-parameter name.</exception>
         TIntermediateGenericParameter Add(GenericParameterData genericParameterData);
+        /// <summary>
+        /// Adds a new series of type-parameters by specifying the full set of
+        /// generic parameter data.
+        /// </summary>
+        /// <param name="genericParameterData">The <see cref="GenericParameterData"/> array
+        /// associated to the elements to add.</param>
+        /// <returns>A series of <typeparamref name="TIntermediateGenericParameter"/>
+        /// elements resulted from the operation.</returns>
+        TIntermediateGenericParameter[] AddRange(params GenericParameterData[] genericParameterData);
     }
     /// <summary>
     /// Defines properties and methods for working with a series of
@@ -134,5 +143,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// is <see cref="String.Empty"/> or null, or when the <see cref="GenericParameterData.Name"/>
         /// collides with another type-parameter name.</exception>
         IIntermediateGenericParameter Add(GenericParameterData genericParameterData);
+        /// <summary>
+        /// Adds a new series of type-parameters by specifying the full set of
+        /// generic parameter data.
+        /// </summary>
+        /// <param name="genericParameterData">The <see cref="GenericParameterData"/> array
+        /// associated to the elements to add.</param>
+        /// <returns>A series of <see cref="IIntermediateGenericParameter"/>
+        /// elements resulted from the operation.</returns>
+        IIntermediateGenericParameter[] AddRange(params GenericParameterData[] genericParameterData);
     }
 }

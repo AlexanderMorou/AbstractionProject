@@ -214,17 +214,21 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         protected virtual void AddImpl(T expression)
         {
-            this.baseCollection.Add(expression);
+            lock (baseCollection)
+                this.baseCollection.Add(expression);
         }
 
         protected virtual void InsertItem(int index, T item)
         {
-            if (this.baseCollection is IList<T>)
-                ((IList<T>)(this.baseCollection)).Insert(index, item);
-            else if (this.baseCollection is IList)
-                ((IList)(this.baseCollection)).Insert(index, item);
-            else
-                throw new NotSupportedException("The baseCollection associated to the current ControlledStateCollection does not support insertion by index.");
+            lock (baseCollection)
+            {
+                if (this.baseCollection is IList<T>)
+                    ((IList<T>)(this.baseCollection)).Insert(index, item);
+                else if (this.baseCollection is IList)
+                    ((IList)(this.baseCollection)).Insert(index, item);
+                else
+                    throw new NotSupportedException("The baseCollection associated to the current ControlledStateCollection does not support insertion by index.");
+            }
         }
     }
 }

@@ -48,15 +48,35 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public bool Contains(TIntermediateDeclaration item)
             {
-                return ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values.Contains(item);
+                if (this.owner.Suspended)
+                {
+                    var originalContains = ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values.Contains(item);
+                    if (originalContains)
+                        return true;
+                    if (owner.suspendedMembers.Contains(item))
+                        return true;
+                    return false;
+                }
+                else
+                    return ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values.Contains(item);
             }
 
             public void CopyTo(TIntermediateDeclaration[] array, int arrayIndex)
             {
                 if ((arrayIndex + this.Count) >= array.Length)
                     throw new ArgumentException("array");
-                for (int i = 0; i < this.Count; i++)
-                    array[i + arrayIndex] = this[i];
+                var ownerValuesCollection = ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).dictionaryCopy.Values;
+                IEnumerator<TDeclaration> valuesEnum = ownerValuesCollection.GetEnumerator();
+
+                int index = arrayIndex;
+                while (valuesEnum.MoveNext())
+                    array[index++] = (TIntermediateDeclaration)valuesEnum.Current;
+                if (this.owner.Suspended)
+                {
+                    valuesEnum = this.owner.suspendedMembers.GetEnumerator();
+                    while (valuesEnum.MoveNext())
+                        array[index++] = (TIntermediateDeclaration)valuesEnum.Current;
+                }
             }
 
             public TIntermediateDeclaration this[int index]
@@ -67,8 +87,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             public TIntermediateDeclaration[] ToArray()
             {
                 TIntermediateDeclaration[] result = new TIntermediateDeclaration[this.Count];
-                for (int i = 0; i < this.Count; i++)
-                    result[i] = this[i];
+                this.CopyTo(result, 0);
                 return result;
             }
 
@@ -80,6 +99,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 foreach (var item in ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values)
                     yield return ((TIntermediateDeclaration)(item));
+                if (owner.Suspended)
+                    foreach (var item in this.owner.suspendedMembers)
+                        yield return (TIntermediateDeclaration)item;
                 yield break;
             }
 
@@ -107,8 +129,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 if ((arrayIndex + this.Count) >= array.Length)
                     throw new ArgumentException("array");
-                for (int i = 0; i < this.Count; i++)
-                    array.SetValue(this[i], i + arrayIndex);
+                if (!(array is TIntermediateDeclaration[]))
+                    throw new ArgumentException("array");
+                this.CopyTo((TIntermediateDeclaration[])array, arrayIndex);
             }
 
             object IControlledStateCollection.this[int index]
@@ -135,8 +158,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 if ((arrayIndex + this.Count) >= array.Length)
                     throw new ArgumentException("array");
-                for (int i = 0; i < this.Count; i++)
-                    array.SetValue(this[i], i + arrayIndex);
+                if (!(array is TIntermediateDeclaration[]))
+                    throw new ArgumentException("array");
+                this.CopyTo((TIntermediateDeclaration[])array, arrayIndex);
             }
 
             #endregion

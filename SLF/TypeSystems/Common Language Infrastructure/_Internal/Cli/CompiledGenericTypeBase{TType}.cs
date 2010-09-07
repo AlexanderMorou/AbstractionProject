@@ -30,6 +30,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             class,
             IGenericType<TType>
     {
+        private object typeParamSynch = new object();
         /// <summary>
         /// Data member for <see cref="GenericParameters"/>
         /// </summary>
@@ -38,6 +39,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// Data member for <see cref="TypeParameters"/>
         /// </summary>
         private IGenericParameterDictionary<IGenericTypeParameter<TType>, TType> typeParameters;
+        private LockedTypeCollection _typeParameters;
         /// <summary>
         /// Data member for <see cref="GenericParameters"/>.
         /// </summary>
@@ -98,24 +100,30 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected ITypeCollection GetGenericParameters()
         {
-            Type[] parameters = this.UnderlyingSystemType.GetGenericArguments();
-            LockedGenericParameters<IGenericTypeParameter<TType>, TType> typeParams = new LockedGenericParameters<IGenericTypeParameter<TType>, TType>(((TType)(object)(this)));
-            foreach (Type t in parameters)
+            lock (typeParamSynch)
             {
-                GenericTypeParameter param = new GenericTypeParameter(((TType)(object)(this)), t);
-                typeParams.dictionaryCopy.Add(param.Name, param);
+                if (this._typeParameters != null)
+                    return this._typeParameters;
+                Type[] parameters = this.UnderlyingSystemType.GetGenericArguments();
+                LockedGenericParameters<IGenericTypeParameter<TType>, TType> typeParams = new LockedGenericParameters<IGenericTypeParameter<TType>, TType>(((TType)(object)(this)));
+                foreach (Type t in parameters)
+                {
+                    GenericTypeParameter param = new GenericTypeParameter(((TType)(object)(this)), t);
+                    typeParams.dictionaryCopy.Add(param.Name, param);
+                }
+                int parentParamCount = 0;
+                if (this.DeclaringType != null && this.DeclaringType.IsGenericType && this.DeclaringType is IGenericType)
+                    parentParamCount = ((IGenericType)(this.DeclaringType)).GenericParameters.Count;
+                if (this is IGenericType)
+                {
+                    this.typeParameters = new LockedGenericParameters<IGenericTypeParameter<TType>, TType>(((TType)(object)(this)));
+                    typeParams.Values.Filter(tParam => tParam.Position >= parentParamCount).OnAllP<IGenericTypeParameter<TType>>(param => ((LockedGenericParameters<IGenericTypeParameter<TType>, TType>)(this.typeParameters)).dictionaryCopy.Add(param.Name, param));
+                }
+                else
+                    this.typeParameters = null;
+                this._typeParameters = (LockedTypeCollection)typeParameters.Values.ToLockedCollection();
+                return _typeParameters;
             }
-            int parentParamCount = 0;
-            if (this.DeclaringType != null && this.DeclaringType.IsGenericType && this.DeclaringType is IGenericType)
-                parentParamCount = ((IGenericType)(this.DeclaringType)).GenericParameters.Count;
-            if (this is IGenericType)
-            {
-                this.typeParameters = new LockedGenericParameters<IGenericTypeParameter<TType>, TType>(((TType)(object)(this)));
-                typeParams.Values.Filter(tParam => tParam.Position >= parentParamCount).OnAll<IGenericTypeParameter<TType>>(param => ((LockedGenericParameters<IGenericTypeParameter<TType>, TType>)(this.typeParameters)).dictionaryCopy.Add(param.Name, param));
-            }
-            else
-                this.typeParameters = null;
-            return typeParams.Values.ToCollection();
         }
 
         protected override void Dispose(bool dispose)
@@ -194,7 +202,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             if (this.genericCache == null)
                 return false;
-            var fd = this.genericCache.Keys.FirstOrDefault(itc => itc.SequenceEqual(typeParameters));
+
+            ITypeCollectionBase fd = null;
+            ITypeCollectionBase[] keyCopy = null;
+            lock (genericCache)
+                keyCopy = genericCache.Keys.ToArray();
+            fd = keyCopy.FirstOrDefault(itc =>
+            {
+                return itc.SequenceEqual(typeParameters);
+            });
             if (fd == null)
                 return false;
             r = this.genericCache[fd];
@@ -275,7 +291,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IType required = null;
             if (this.ContainsGenericType(typeParameters, ref required))
                 return;
-            genericCache.Add(new LockedTypeCollection(typeParameters), (TType)targetType);
+            lock (genericCache)
+                genericCache.Add(new LockedTypeCollection(typeParameters), (TType)targetType);
         }
 
         public void UnregisterGenericType(ITypeCollectionBase typeParameters)
@@ -283,6 +300,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (this.genericCache == null)
                 return;
             ITypeCollectionBase match = null;
+            //lock (genericCache)
+            //{
             foreach (var itc in this.genericCache.Keys)
                 if (itc.SequenceEqual(typeParameters))
                 {
@@ -292,6 +311,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (match == null)
                 return;
             genericCache.Remove(match);
+            //}
             if (match is ILockedTypeCollection)
                 ((ILockedTypeCollection)(match)).Dispose();
             else if (match is ITypeCollection)

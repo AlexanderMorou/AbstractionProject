@@ -169,6 +169,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     for (int i = 0; i < this.suspendedMembers.Count; i++)
                         this.suspendedMembers[i].Dispose();
                     this.suspendedMembers.Clear();
+                    this.suspensionLevel = 0;
                 }
                 for (int i = this.Count - 1; i >= 0; i--)
                     this.Values[i].Dispose();
@@ -266,15 +267,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         protected virtual void ProcessSuspendedMembers(IEnumerable<TDeclaration> members)
         {
+            List<KeyValuePair<string, TDeclaration>> processedMembers = new List<KeyValuePair<string, TDeclaration>>();
+            foreach (var member in members)
+                processedMembers.Add(new KeyValuePair<string, TDeclaration>(member.UniqueIdentifier, member));
             if (this.Master != null)
-            {
-                List<KeyValuePair<string, TDeclaration>> processedMembers = new List<KeyValuePair<string, TDeclaration>>();
-                foreach (var member in members)
-                    processedMembers.Add(new KeyValuePair<string, TDeclaration>(member.UniqueIdentifier, member));
-                ((MasterDictionaryBase<string, TMDeclaration>)(this.Master)).Subordinate_ItemsAdded(this, processedMembers);
-                foreach (var element in processedMembers)
-                    base.AddImpl(element);
-            }
+                this.Master.Subordinate_ItemsAdded(this, processedMembers);
+            foreach (var element in processedMembers)
+                base.AddImpl(element);
         }
 
         protected override TDeclaration OnGetThis(string key)
@@ -305,10 +304,55 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return base.ContainsKey(key);
         }
 
+        public override int Count
+        {
+            get
+            {
+                if (this.Suspended)
+                {
+                    return this.suspendedMembers.Count + base.Count;
+                }
+                else
+                    return base.Count;
+            }
+        }
+
+        protected override void Clear()
+        {
+            if (Suspended)
+                if (this.Suspended)
+                {
+                    for (int i = 0; i < this.suspendedMembers.Count; i++)
+                        this.suspendedMembers[i].Dispose();
+                    this.suspendedMembers.Clear();
+                }
+            base.Clear();
+        }
+
+        protected override bool RemoveImpl(int index)
+        {
+            if (Suspended)
+            {
+                if (index < base.Count)
+                    return base.RemoveImpl(index);
+                if (index >= this.Count || index < 0)
+                    throw new ArgumentOutOfRangeException("index");
+                var target = this.suspendedMembers[index - base.Count];
+                this.suspendedMembers.RemoveAt(index - base.Count);
+                target.Dispose();
+                return true;
+            }
+            else
+                return base.RemoveImpl(index);
+        }
+
         protected void AddDeclaration(TIntermediateDeclaration declaration)
         {
+            if (declaration == null)
+                throw new ArgumentNullException("declaration");
             if (this.Suspended)
-                this.suspendedMembers.Add(declaration);
+                lock (suspendedMembers)
+                    this.suspendedMembers.Add(declaration);
             else
                 base.AddImpl(new KeyValuePair<string, TDeclaration>(declaration.UniqueIdentifier, declaration));
         }
