@@ -88,7 +88,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TIntermediateGenericParameter result = this.GetNew(name);
             if (this.ContainsKey(result.UniqueIdentifier))
                 throw new ArgumentException("Name");
-            this.Add(result.UniqueIdentifier, result);
+            this._Add(result.UniqueIdentifier, result);
             return result;
         }
 
@@ -109,7 +109,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 //result.Properties.Add
             foreach (var method in genericParameterData.Methods.Signatures)
                 result.Methods.Add(new TypedName(method.Name, method.ReturnType), method.Parameters.ToSeries());
-            this.Add(result.UniqueIdentifier, result);
+            this._Add(result.UniqueIdentifier, result);
             return result;
         }
 
@@ -159,9 +159,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 for (int i = from; i < to; i++)
                     items[i] = items[i + 1];
             items[to] = item;
-            this.Clear();
+            this._Clear();
             foreach (var k in items)
-                base.Add(k.Key, k.Value);
+                base._Add(k.Key, k.Value);
             this.OnRearranged(new GenericParameterMovedEventArgs(from,to, (TIntermediateGenericParameter)item.Value));
         }
 
@@ -223,7 +223,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 result[i] = current;
             });
             for (int i = 0; i < genericParameterData.Length; i++)
-                this.Add(currentKeys[i], result[i]);
+                this._Add(currentKeys[i], result[i]);
             return result;
         }
 

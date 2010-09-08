@@ -50,8 +50,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 foreach (var assembly in copy)
                     assembly.Dispose();
             }
-            foreach (var v in CompiledTypeCache.Values.ToArray())
-                v.Dispose();
+            Parallel.ForEach(CompiledTypeCache.Values.ToArray(), p => p.Dispose());
             CompiledTypeCache.Clear();
             GC.Collect();
             GC.WaitForPendingFinalizers();
@@ -373,8 +372,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         internal static void RemoveFromCache(this ICompiledAssembly assembly)
         {
-            if (assemblyCache.Values.Contains(assembly))
-                assemblyCache.Remove(assemblyCache.First(kvp => kvp.Value == assembly).Key);
+            lock (assemblyCache)
+                if (assemblyCache.Values.Contains(assembly))
+                    assemblyCache.Remove(assemblyCache.First(kvp => kvp.Value == assembly).Key);
         }
 
         public static TypedName GetTypedName(this Type type, string name)

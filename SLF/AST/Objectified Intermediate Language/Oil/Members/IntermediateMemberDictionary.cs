@@ -93,7 +93,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             if (!this.ContainsKey(uniqueId))
                 throw new KeyNotFoundException();
             var dummy = this[uniqueId];
-            base.dictionaryCopy.Remove(uniqueId);
+            base._Remove(uniqueId);
             dummy.Dispose();
             dummy = default(TIntermediateMember);
             return true;

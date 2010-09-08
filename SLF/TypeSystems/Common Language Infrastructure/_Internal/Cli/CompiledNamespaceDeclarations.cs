@@ -80,7 +80,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public override void Dispose()
         {
-            if (this.valuesCollection != null)
+            if (this.valuesInstance != null)
                 ((_ValuesCollection)this.Values).Dispose();
             this.baseData = null;
             base.Dispose();
@@ -97,12 +97,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.GetThis(key);
         }
 
-        public override KeyValuePair<string, INamespaceDeclaration> this[int index]
+        protected override KeyValuePair<string, INamespaceDeclaration> OnGetThis(int index)
         {
-            get
-            {
-                return new KeyValuePair<string, INamespaceDeclaration>(this.Keys[index], this.Values[index]);
-            }
+            return new KeyValuePair<string, INamespaceDeclaration>(this.Keys[index], this.Values[index]);
         }
 
         public override KeyValuePair<string, INamespaceDeclaration>[] ToArray()

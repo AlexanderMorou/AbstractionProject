@@ -122,6 +122,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
 
             #endregion
+
+            #region ILockedTypeCollection Members
+
+            public bool IsDisposed
+            {
+                get { return this.owner == null; }
+            }
+
+            #endregion
         }
     }
 }

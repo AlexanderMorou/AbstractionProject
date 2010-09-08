@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         public ICreateInstanceMemberAssignment Add(string name, IExpression value)
         {
             var result = new CreateInstanceMemberAssignment(name, value);
-            base.Add(name, result);
+            this._Add(name, result);
             return result;
         }
 
@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         public void Add(ICreateInstanceMemberAssignment assignment)
         {
 
-            base.Add(assignment.PropertyName, assignment);
+            this._Add(assignment.PropertyName, assignment);
         }
 
         #endregion

@@ -20,11 +20,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         
         private ICompilerOptions options;
         private IIntermediateCodeDynamicCompilerAid<TRootNode> aid;
-        internal Dictionary<IIntermediateType, TypeBuilder> activeTypes = new Dictionary<IIntermediateType, TypeBuilder>();
 
         public IntermediateCompiler()
         {
-            this.ActiveTypes = new ControlledStateDictionary<IIntermediateType, TypeBuilder>(this.activeTypes);
+            this.ActiveTypes = new ControlledStateDictionary<IIntermediateType, TypeBuilder>();
         }
 
         #region IIntermediateCompiler Members
@@ -48,7 +47,15 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <summary>
         /// Returns a dictionary containing the currently built types.
         /// </summary>
-        public IControlledStateDictionary<IIntermediateType, TypeBuilder> ActiveTypes { get; private set; }
+        public ControlledStateDictionary<IIntermediateType, TypeBuilder> ActiveTypes { get; private set; }
+
+        IControlledStateDictionary<IIntermediateType, TypeBuilder> IIntermediateCompiler<TRootNode>.ActiveTypes
+        {
+            get
+            {
+                return this.ActiveTypes;
+            }
+        }
 
         #endregion
 

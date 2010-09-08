@@ -50,10 +50,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             if (!this.Subordinates.Contains((ISubordinateDictionary)subordinate))
                 throw new ArgumentException("subordinate");
             if (this.state != USE_FETCH)
-            {
                 this.state = USE_FETCH;
-                this.backup = null;
-            }
             if (this.sourceData == null)
                 this.sourceData = new List<MasterDictionaryEntry<object>>();
             this.sourceData.AddRange(sourceData.OnAll(u => new MasterDictionaryEntry<object>((ISubordinateDictionary)subordinate, u)));
@@ -63,65 +60,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 this._fetchValues.SetRange(this._fetchValues.Count + sourceData.Length);
         }
 
-        #region IDictionary<string,TMItem> Members
-
-        /// <summary>
-        /// Adds an element of the provided <paramref name="key"/> and <paramref name="value"/> to the
-        /// <see cref="LockedFullDeclarations{TMItem}"/>.
-        /// </summary>
-        /// <param name="key">The <see cref="IDeclaration.UniqueIdentifier"/> of the current <paramref name="value"/></param>
-        /// <param name="value">The <typeparamref name="TMItem"/> to insert.</param>
-        /// <exception cref="System.NotSupportedException">
-        /// The <see cref="LockedFullDeclarations{TMItem}"/> does not
-        /// support modification.</exception>
-        public override void Add(string key, MasterDictionaryEntry<TMItem> value)
-        {
-            throw new NotSupportedException("Declarations locked.");
-        }
-
-        /// <summary>
-        /// Removes an element with the specified <paramref name="key"/> from the 
-        /// <see cref="LockedFullDeclarations{TMItem}"/>.
-        /// </summary>
-        /// <param name="key">The key of the <see cref="MasterDictionaryEntry{TEntry}"/> to remove.</param>
-        /// <returns>true if the element was successfully removed; false otherwise.</returns>
-        /// <exception cref="System.NotSupportedException">
-        /// The <see cref="LockedFullDeclarations{TMItem}"/> does 
-        /// not support modification.</exception>
-        public override bool Remove(string key)
-        {
-            throw new NotSupportedException("Declarations locked.");
-        }
-
-        /// <summary>
-        /// Gets the value associated with the specified <paramref name="key"/>.
-        /// </summary>
-        /// <param name="key">The <see cref="IDeclaration.UniqueIdentifier"/> to look for.</param>
-        /// <returns>A <see cref="MasterDictionaryEntry{TEntry}"/> relative to <paramref name="key"/>.</returns>
-        /// <exception cref="System.NotSupportedException">The <see cref="LockedFullDeclarations{TMItem}"/> does 
-        /// not support modification.</exception>
-        public override MasterDictionaryEntry<TMItem> this[string key]
-        {
-            get
-            {
-                if (this.state == USE_FETCH)
-                {
-                    if (this.ContainsKey(key))
-                    {
-                        return ((_ValuesCollection)this.Values)[((_KeysCollection)this.Keys).IndexOf(key)];
-                    }
-                    throw new ArgumentException("key");
-                }
-                else
-                    return base[key];
-            }
-            set
-            {
-                throw new NotSupportedException("Declarations locked.");
-            }
-        }
-
-        #endregion
         public override bool ContainsKey(string key)
         {
             if (this.state == USE_FETCH)
@@ -133,14 +71,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 return base.ContainsKey(key);
         }
 
-        protected override ICollection<string> GetKeys()
+        protected override ControlledStateDictionary<string, MasterDictionaryEntry<TMItem>>.KeysCollection InitializeKeysCollection()
         {
             if (this.state == USE_FETCH)
             {
                 FetchKeysCheck();
                 return this._fetchKeys;
             }
-            return base.GetKeys();
+            return base.InitializeKeysCollection();
         }
 
         private void FetchKeysCheck()
@@ -148,8 +86,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             if (this._fetchKeys == null)
                 this._fetchKeys = new _KeysCollection(this);
         }
-
-        protected override ICollection<MasterDictionaryEntry<TMItem>> GetValues()
+        protected override ControlledStateDictionary<string, MasterDictionaryEntry<TMItem>>.ValuesCollection InitializeValuesCollection()
         {
             if (this.state == USE_FETCH)
             {
@@ -157,7 +94,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 return this._fetchValues;
             }
 
-            return base.GetValues();
+            return base.InitializeValuesCollection();
         }
 
 
@@ -214,14 +151,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 yield return new KeyValuePair<string, MasterDictionaryEntry<TMItem>>(this._fetchKeys[i], this._fetchValues[i]);
             yield break;
         }
-        protected sealed override void ICollection_CopyTo(KeyValuePair<string, MasterDictionaryEntry<TMItem>>[] array, int arrayIndex)
+
+        protected sealed override void ICollection_CopyTo(Array array, int arrayIndex)
         {
             if (arrayIndex + this.Count > array.Length)
                 throw new ArgumentException("array");
             this.FetchKeysCheck();
             this.FetchValuesCheck();
             for (int i = 0; i < this.Count; i++)
-                array[i + arrayIndex] = new KeyValuePair<string, MasterDictionaryEntry<TMItem>>(this._fetchKeys[i], this._fetchValues[i]);
+                array.SetValue(new KeyValuePair<string, MasterDictionaryEntry<TMItem>>(this._fetchKeys[i], this._fetchValues[i]), i + arrayIndex);
         }
 
         #region _LockedRelativeHelper<TMItem> Members

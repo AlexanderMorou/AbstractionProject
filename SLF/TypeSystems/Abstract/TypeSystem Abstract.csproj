@@ -114,37 +114,6 @@
     <Compile Include="Abstract\AnonymousTypeMember.cs" />
     <Compile Include="Abstract\AnonymousTypePatternAid.cs" />
     <Compile Include="Abstract\AssemblyBase.cs" />
-    <Compile Include="Abstract\AssemblyWorkspace+CombinedNamespace.cs">
-      <DependentUpon>AssemblyWorkspace.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abstract\AssemblyWorkspace+CombinedNamespaceDictionary+KeysCollection.cs">
-      <DependentUpon>AssemblyWorkspace+CombinedNamespaceDictionary.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abstract\AssemblyWorkspace+CombinedNamespaceDictionary+ValuesCollection.cs">
-      <DependentUpon>AssemblyWorkspace+CombinedNamespaceDictionary.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abstract\AssemblyWorkspace+CombinedNamespaceDictionary.cs">
-      <DependentUpon>AssemblyWorkspace.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abstract\AssemblyWorkspace+FullTypesMasterDictionary.cs">
-      <DependentUpon>AssemblyWorkspace.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abstract\AssemblyWorkspace+GroupedTypeDictionary{T}+KeysCollection.cs">
-      <DependentUpon>AssemblyWorkspace+GroupedTypeDictionary{T}.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abstract\AssemblyWorkspace+GroupedTypeDictionary{T}+ValuesCollection.cs">
-      <DependentUpon>AssemblyWorkspace+GroupedTypeDictionary{T}.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abstract\AssemblyWorkspace+GroupedTypeDictionary{T}.cs">
-      <DependentUpon>AssemblyWorkspace.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abstract\AssemblyWorkspace+ReferenceCollection.cs">
-      <DependentUpon>AssemblyWorkspace.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abstract\AssemblyWorkspace+SpecificTypeDictionaries.cs">
-      <DependentUpon>AssemblyWorkspace.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abstract\AssemblyWorkspace.cs" />
     <Compile Include="Abstract\CultureIdentifier.cs" />
     <Compile Include="Abstract\CultureIdentifierTypeConverter.cs" />
     <Compile Include="Abstract\CultureIdentifiers+CountryRegions.cs">

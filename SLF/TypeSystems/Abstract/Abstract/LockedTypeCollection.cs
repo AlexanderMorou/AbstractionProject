@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         internal LockedTypeCollection() { this.copy = new List<IType>(); }
         internal LockedTypeCollection(params IType[] source)
-            : this(source.ToCollection()) { }
+            : this((IEnumerable<IType>)source) { }
         /// <summary>
         /// Creates a new <see cref="LockedTypeCollection"/> with the <paramref name="source"/>
         /// provided.
@@ -96,6 +96,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         public IType[] ToArray()
         {
+            if (this.IsDisposed)
+                return new IType[0];
+            //lock (this.copy)
             return this.copy.ToArray();
         }
 
@@ -138,7 +141,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         public int Count
         {
-            get { return this.copy.Count; }
+            get {
+                if (this.copy == null)
+                    return 0;
+                return this.copy.Count; }
         }
 
         public bool IsReadOnly
@@ -152,9 +158,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         public IEnumerator<IType> GetEnumerator()
         {
-            foreach (IType itr in this.copy)
-                yield return itr;
-            yield break;
+            if (this.copy == null)
+                yield break;
+            foreach (var element in this.copy)
+                yield return element;
         }
 
         #endregion
@@ -174,6 +181,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             get
             {
+                if (index < 0 || index >= this.Count)
+                    throw new ArgumentOutOfRangeException("index");
                 return this.copy[index];
             }
             set
@@ -213,10 +222,23 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         public void Dispose()
         {
-            this.copy.Clear();
-            this.copy = null;
+            if (this.IsDisposed)
+                return;
+            lock (this.copy)
+            {
+                this.copy.Clear();
+                this.copy = null;
+            }
         }
 
         #endregion
+
+        public bool IsDisposed
+        {
+            get
+            {
+                return this.copy == null;
+            }
+        }
     }
 }

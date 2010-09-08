@@ -27,19 +27,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         return true;
                 return false;
             }
-            public override MasterDictionaryEntry<IType> this[string key]
+
+            protected override KeyValuePair<string, MasterDictionaryEntry<IType>> OnGetThis(int index)
             {
-                get
-                {
-                    if (this.Keys.Contains(key))
-                        return ((_VC)this.Values)[this.Keys.GetIndexOf(key)];
-                    throw new KeyNotFoundException();
-                }
-                set
-                {
-                    throw new NotSupportedException("Read-only.");
-                }
+                if (index < 0 || index >= this.Count)
+                    throw new ArgumentOutOfRangeException("index");
+                var key = this.Keys[index];
+                return new KeyValuePair<string, MasterDictionaryEntry<IType>>(key, ((_VC)this.Values)[index]);
+                throw new KeyNotFoundException();
             }
+
+            protected override MasterDictionaryEntry<IType> OnGetThis(string key)
+            {
+                return ((_VC)this.Values)[this.Keys.IndexOf(key)];
+            }
+
             public override int Count
             {
                 get
@@ -50,17 +52,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return count;
                 }
             }
-            public override bool IsReadOnly
-            {
-                get
-                {
-                    return true;
-                }
-            }
-            public override void Clear()
-            {
-                throw new InvalidOperationException("Readonly");
-            }
 
             public override IEnumerator<KeyValuePair<string, MasterDictionaryEntry<IType>>> GetEnumerator()
             {
@@ -69,26 +60,29 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         yield return new KeyValuePair<string, MasterDictionaryEntry<IType>>(t.Name, new MasterDictionaryEntry<IType>((ISubordinateDictionary)igd, t));
                 yield break;
             }
-            protected override void ICollection_CopyTo(KeyValuePair<string, MasterDictionaryEntry<IType>>[] array, int arrayIndex)
+
+            protected override void ICollection_CopyTo(Array array, int arrayIndex)
             {
                 int i = 0;
                 foreach (IGroupedDeclarationDictionary igd in this.Subordinates)
                     foreach (var t in igd.Values.Cast<IType>())
-                        array[i++ + arrayIndex] = new KeyValuePair<string, MasterDictionaryEntry<IType>>(t.Name, new MasterDictionaryEntry<IType>((ISubordinateDictionary)igd, t));
+                        array.SetValue(new KeyValuePair<string, MasterDictionaryEntry<IType>>(t.Name, new MasterDictionaryEntry<IType>((ISubordinateDictionary)igd, t)), i++ + arrayIndex);
+
             }
-            protected override ICollection<string> GetKeys()
+
+            protected override ControlledStateDictionary<string, MasterDictionaryEntry<IType>>.KeysCollection InitializeKeysCollection()
             {
                 if (kc == null)
                     this.kc = new _KC(this);
                 return this.kc;
             }
-            protected override ICollection<MasterDictionaryEntry<IType>> GetValues()
+
+            protected override ControlledStateDictionary<string, MasterDictionaryEntry<IType>>.ValuesCollection InitializeValuesCollection()
             {
                 if (this.vc == null)
                     this.vc = new _VC(this);
                 return this.vc;
             }
-
 
             public void Dispose()
             {

@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             private CompiledTypeDictionary<TType> parent;
             internal TType[] values;
             public VC(CompiledTypeDictionary<TType> parent)
-                : base(null)
+                : base(parent)
             {
                 this.parent = parent;
                 this.values = new TType[this.parent.Count];
@@ -107,17 +107,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
                 yield break;
             }
-
-            public override TType this[int index]
+            protected override TType OnGetThis(int index)
             {
-                get
-                {
-                    if (index < 0 ||
-                        index >= this.Count)
-                        throw new ArgumentOutOfRangeException("index");
-                    CheckItemAt(index);
-                    return this.values[index];
-                }
+                if (index < 0 ||
+                    index >= this.Count)
+                    throw new ArgumentOutOfRangeException("index");
+                CheckItemAt(index);
+                return this.values[index];
             }
 
             public void Dispose()

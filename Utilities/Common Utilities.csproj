@@ -98,10 +98,10 @@
   <ItemGroup>
     <Compile Include="Arrays\Tweaks.cs" />
     <Compile Include="Collections\ControlledStateCollection{T}.cs" />
-    <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}+Keys.cs" />
-    <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}+Values.cs" />
+    <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}+KeysCollection.cs" />
+    <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}+SharedLocals.cs" />
+    <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}+ValuesCollection.cs" />
     <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}.cs" />
-    <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}.Enumerator.cs" />
     <Compile Include="Collections\CustomDictionaryBase{TKey, TValue}.cs" />
     <Compile Include="Collections\GeneralExtensions.cs" />
     <Compile Include="Collections\HashList{T}.cs" />

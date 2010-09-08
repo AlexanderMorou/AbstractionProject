@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             private CompiledNamespaceDeclarations parent;
             public _KeysCollection(CompiledNamespaceDeclarations parent)
-                : base(null)
+                : base(parent)
             {
                 this.parent = parent;
             }

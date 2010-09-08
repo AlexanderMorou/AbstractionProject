@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Utilities.Events;
+using System.Threading.Tasks;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -63,7 +64,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <remarks>To establish separation of parent, in multi-instance parents, and unity amongst the 
         /// elements.</remarks>
         public IntermediateGroupedDeclarationDictionary(MasterDictionaryBase<string, TMDeclaration> master, IntermediateGroupedDeclarationDictionary<TDeclaration, TMDeclaration, TIntermediateDeclaration> root)
-            : base(master, root.dictionaryCopy)
+            : base(master, root)
         {
         }
 
@@ -159,21 +160,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Disposes the current <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>.
         /// </summary>
-        /// <param name="disposing">Whether to release managed memory.  If true, all data should be disposed; otherwise, only unmanaged memory should be disposed.</param>
+        /// <param name="disposing">Whether to release managed memory.  If true, all data
+        /// should be disposed; otherwise, only unmanaged memory should be disposed.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
                 if (this.Suspended)
                 {
-                    for (int i = 0; i < this.suspendedMembers.Count; i++)
-                        this.suspendedMembers[i].Dispose();
+                    Parallel.For(0, this.suspendedMembers.Count, i =>
+                        this.suspendedMembers[i].Dispose());
                     this.suspendedMembers.Clear();
                     this.suspensionLevel = 0;
                 }
-                for (int i = this.Count - 1; i >= 0; i--)
-                    this.Values[i].Dispose();
-                this.baseCollection.Clear();
+                var declarationValueCopy = this.Values.ToArray();
+                Parallel.For(0, declarationValueCopy.Length, i =>
+                    declarationValueCopy[i].Dispose());
+                this._Clear();
             }
         }
 
@@ -223,7 +226,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             this.suspensionLevel--;
             if (suspensionLevel == 0)
             {
-                this.ProcessSuspendedMembers(this.suspendedMembers);
+                this.ProcessSuspendedDeclarations(this.suspendedMembers);
                 this.suspendedMembers.Clear();
             }
         }
@@ -233,47 +236,45 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return kvp.Value.UniqueIdentifier;
         }
 
-        protected override void Add(string key, TDeclaration value)
+        protected internal override void _Add(string key, TDeclaration value)
         {
             if (!this.Suspended)
             {
                 this.OnItemAdded(new EventArgsR1<TIntermediateDeclaration>(((TIntermediateDeclaration)(value))));
-                base.Add(key, value);
+                base._Add(key, value);
             }
             else
-                this.suspendedMembers.Add(value);
+                lock(this.suspendedMembers)
+                    this.suspendedMembers.Add(value);
         }
 
-        protected override bool RemoveImpl(string key)
+        protected internal override bool _Remove(int index)
         {
             if (Suspended)
             {
-                if (base.ContainsKey(key))
-                    return base.Remove(key);
-                foreach (var member in suspendedMembers)
-                    if (member.UniqueIdentifier == key)
+                if (index > base.Count)
+                    if (index < this.Count)
                     {
-                        member.Dispose();
-                        this.OnItemRemoved(new EventArgsR1<TIntermediateDeclaration>((TIntermediateDeclaration)member));
-                        suspendedMembers.Remove(member);
-                        return true;
+                        var suspendedInex = index-this.Count;
+                        var suspendedMember = this.suspendedMembers[suspendedInex];
+                        this.OnItemRemoved(new EventArgsR1<TIntermediateDeclaration>((TIntermediateDeclaration)suspendedMember));
+                        suspendedMember.Dispose();
+                        this.suspendedMembers.RemoveAt(suspendedInex);
                     }
-                return false;
+                    else
+                        return false;
             }
-            if (this.ContainsKey(key))
-                this.OnItemRemoved(new EventArgsR1<TIntermediateDeclaration>(this[key]));
-            return base.RemoveImpl(key);
+            return base._Remove(index);
         }
 
-        protected virtual void ProcessSuspendedMembers(IEnumerable<TDeclaration> members)
+        protected virtual void ProcessSuspendedDeclarations(IEnumerable<TDeclaration> declarations)
         {
-            List<KeyValuePair<string, TDeclaration>> processedMembers = new List<KeyValuePair<string, TDeclaration>>();
-            foreach (var member in members)
-                processedMembers.Add(new KeyValuePair<string, TDeclaration>(member.UniqueIdentifier, member));
+            List<KeyValuePair<string, TDeclaration>> processedDeclarations = new List<KeyValuePair<string, TDeclaration>>();
+            foreach (var declaration in declarations)
+                processedDeclarations.Add(new KeyValuePair<string, TDeclaration>(declaration.UniqueIdentifier, declaration));
             if (this.Master != null)
-                this.Master.Subordinate_ItemsAdded(this, processedMembers);
-            foreach (var element in processedMembers)
-                base.AddImpl(element);
+                this.Master.Subordinate_ItemsAdded(this, processedDeclarations);
+            base._AddRange(processedDeclarations);
         }
 
         protected override TDeclaration OnGetThis(string key)
@@ -317,7 +318,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        protected override void Clear()
+        protected internal override void _Clear()
         {
             if (Suspended)
                 if (this.Suspended)
@@ -326,25 +327,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         this.suspendedMembers[i].Dispose();
                     this.suspendedMembers.Clear();
                 }
-            base.Clear();
+            base._Clear();
         }
 
-        protected override bool RemoveImpl(int index)
-        {
-            if (Suspended)
-            {
-                if (index < base.Count)
-                    return base.RemoveImpl(index);
-                if (index >= this.Count || index < 0)
-                    throw new ArgumentOutOfRangeException("index");
-                var target = this.suspendedMembers[index - base.Count];
-                this.suspendedMembers.RemoveAt(index - base.Count);
-                target.Dispose();
-                return true;
-            }
-            else
-                return base.RemoveImpl(index);
-        }
 
         protected void AddDeclaration(TIntermediateDeclaration declaration)
         {
@@ -354,7 +339,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 lock (suspendedMembers)
                     this.suspendedMembers.Add(declaration);
             else
-                base.AddImpl(new KeyValuePair<string, TDeclaration>(declaration.UniqueIdentifier, declaration));
+                base._Add(new KeyValuePair<string, TDeclaration>(declaration.UniqueIdentifier, declaration));
         }
     }
 }

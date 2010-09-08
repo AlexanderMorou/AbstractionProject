@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// <typeparam name="TValue">The type of value to use in the 
     /// <see cref="MasterDictionaryEntry{TEntry}"/> values.</typeparam>
     public abstract class MasterDictionaryBase<TKey, TValue> :
-        CustomDictionaryBase<TKey, MasterDictionaryEntry<TValue>>,
+        ControlledStateDictionary<TKey, MasterDictionaryEntry<TValue>>,
         IMasterDictionary<TKey, TValue>,
         IMasterDictionary
         where TValue :
@@ -40,12 +40,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         #region MasterDictionaryBase<TKey, TValue> Constructors
         /// <summary>
         /// Creates a new <see cref="MasterDictionaryBase{TKey, TValue}"/>
-        /// with the <paramref name="target"/> provided.
+        /// with the <paramref name="sibling"/> provided.
         /// </summary>
-        /// <param name="target">The <see cref="IDictionary{TKey, TValue}"/> 
+        /// <param name="sibling">The <see cref="MasterDictionaryBase{TKey, TValue}"/> 
         /// to encapsulate.</param>
-        protected MasterDictionaryBase(IDictionary<TKey, MasterDictionaryEntry<TValue>> target)
-            : base(target)
+        protected MasterDictionaryBase(MasterDictionaryBase<TKey, TValue> sibling)
+            : base(sibling)
         {
             Initialize();
         }
@@ -175,7 +175,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             where TSValue :
                 TValue
         {
-            base.Add(key, new MasterDictionaryEntry<TValue>((ISubordinateDictionary)subordinate, value));
+            base._Add(key, new MasterDictionaryEntry<TValue>((ISubordinateDictionary)subordinate, value));
         }
 
         protected internal virtual void Subordinate_ItemsAdded<TSValue>(ISubordinateDictionary<TKey, TSValue, TValue> subordinate, IEnumerable<KeyValuePair<TKey, TSValue>> items)
@@ -183,7 +183,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 TValue
         {
             foreach (var element in items)
-                base.Add(element.Key, new MasterDictionaryEntry<TValue>((ISubordinateDictionary)subordinate, element.Value));
+                base._Add(element.Key, new MasterDictionaryEntry<TValue>((ISubordinateDictionary)subordinate, element.Value));
         }
 
         /// <summary>
@@ -214,16 +214,13 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             base[key] = new MasterDictionaryEntry<TValue>((ISubordinateDictionary)subordinate, value);
         }
        
-        protected internal virtual void Subordinate_ItemsRekeyed<TSValue>(ISubordinateDictionary<TKey, TSValue, TValue> subordinate, IEnumerable<Tuple<TKey, TKey, TSValue>> oldNewPair)
+        protected internal virtual void Subordinate_ItemsRekeyed<TSValue>(ISubordinateDictionary<TKey, TSValue, TValue> subordinate, IEnumerable<Tuple<TKey, TKey>> oldNewPair)
             where TSValue :
                 TValue
         {
             var cachedSet = oldNewPair.ToArray();
-            foreach (var element in cachedSet)
-                backup.Remove(element.Item1);
-
-            foreach (var element in cachedSet)
-                backup.Add(element.Item2, new MasterDictionaryEntry<TValue>((ISubordinateDictionary)subordinate, element.Item3));
+            this.Keys.Rekey(from entry in cachedSet
+                            select entry);
         }
 
         /// <summary>
@@ -249,7 +246,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             if (this[key].Subordinate != subordinate)
                 throw new ArgumentException("subordinate");
-            base.Remove(key);
+            this._Remove(key);
         }
 
         /// <summary>
@@ -290,7 +287,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <remarks>Due to compiler warning CS1911</remarks>
         private void __Subordinate_Cleared__removeHelper(TKey k)
         {
-            base.Remove(k);
+            this._Remove(k);
         }
 
         #endregion
@@ -309,7 +306,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <paramref name="value"/> is: null or not a subordinate 
         /// of the <see cref="MasterDictionaryBase{TKey, TValue}"/>.
         /// </exception>
-        public override void Add(TKey key, MasterDictionaryEntry<TValue> value)
+        protected internal override void _Add(TKey key, MasterDictionaryEntry<TValue> value)
         {
             if (value.Subordinate == null)
                 throw new ArgumentException("value");
@@ -326,7 +323,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <summary>
         /// Removes all entries from the <see cref="MasterDictionaryBase{TKey, TValue}"/>.
         /// </summary>
-        public override void Clear()
+        protected internal override void _Clear()
         {
             /* *
              * Again, don't call the base class' clear
@@ -338,13 +335,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 ((_ISubordinateDictionaryMasterPass)isd).Clear();
         }
 
-        /// <summary>
-        /// Removes an element with the specified <paramref name="key"/> from the 
-        /// <see cref="MasterDictionaryBase{TKey, TValue}"/>.
-        /// </summary>
-        /// <param name="key">The key of the <typeparamref name="TValue"/> to remove.</param>
-        /// <returns>true if the element was successfully removed; false otherwise.</returns>
-        public override bool Remove(TKey key)
+        protected internal override bool _Remove(int index)
         {
             try
             {
@@ -353,7 +344,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                  * invoke Subordinate_ItemRemoved<TSValue> which will
                  * invoke the base remove
                  * */
-                ((_ISubordinateDictionaryMasterPass)(this[key].Subordinate)).Remove(key);
+                var currentEntry = this[index];
+                ((_ISubordinateDictionaryMasterPass)(currentEntry.Value.Subordinate)).Remove(currentEntry.Key);
             }
             catch
             {
@@ -364,40 +356,31 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         }
 
         /// <summary>
-        /// Gets the value associated with the specified 
+        /// Sets the value associated with the specified 
         /// <paramref name="key"/>.</summary>
-        /// <param name="key">The 
-        /// <typeparamref name="TKey"/>
+        /// <param name="key">The <typeparamref name="TKey"/>
         /// to look for.</param>
-        /// <returns>A <typeparamref name="TValue"/> relative 
-        /// to <paramref name="key"/>.</returns>
+        /// <exception cref="System.ArgumentNullException">
         /// <see cref="MasterDictionaryEntry{TEntry}.Subordinate"/> in 
         /// value is: null, or not a subordinate 
         /// of the <see cref="MasterDictionaryBase{TKey, TValue}"/>,
         /// or tries to alter which subordinate the 
         /// <paramref name="key"/> points to.
         /// </exception>
-        public override MasterDictionaryEntry<TValue> this[TKey key]
+        protected override void OnSetThis(TKey key, MasterDictionaryEntry<TValue> value)
         {
-            get
-            {
-                return base[key];
-            }
-            set
-            {
-                if (value.Subordinate == null)
-                    throw new ArgumentException("value");
-                if (!this.subordinates.Contains(value.Subordinate))
-                    throw new ArgumentException("value");
-                if (base[key].Subordinate != value.Subordinate)
-                    throw new ArgumentException("value");
-                /* *
-                 * This is the primary reason that 
-                 * MasterDictionaryEntry<TEntry> contains
-                 * a 'value'.
-                 * */
-                ((_ISubordinateDictionaryMasterPass)(this[key].Subordinate))[key] = value.Entry;
-            }
+            if (value.Subordinate == null)
+                throw new ArgumentException("value");
+            if (!this.subordinates.Contains(value.Subordinate))
+                throw new ArgumentException("value");
+            if (base[key].Subordinate != value.Subordinate)
+                throw new ArgumentException("value");
+            /* *
+             * This is the primary reason that 
+             * MasterDictionaryEntry<TEntry> contains
+             * a 'value'.
+             * */
+            ((_ISubordinateDictionaryMasterPass)(this[key].Subordinate))[key] = value.Entry;
         }
 
         #region IMasterDictionary Members

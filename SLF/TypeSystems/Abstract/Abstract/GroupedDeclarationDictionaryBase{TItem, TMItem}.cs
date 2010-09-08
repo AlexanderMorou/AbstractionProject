@@ -48,8 +48,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         public virtual void Dispose()
         {
-            this.dictionaryCopy.Clear();
-            this.dictionaryCopy = null;
+            base._Clear();
         }
 
         #endregion

@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
             : base()
         {
             foreach (TParameter p in parameters)
-                base.dictionaryCopy.Add(p.UniqueIdentifier, p);
+                base._Add(p.UniqueIdentifier, p);
         }
         internal ParameterMembersBase(TParent parent)
             : base(parent)
@@ -46,7 +46,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
             : base(parent)
         {
             foreach (TParameter p in parameters)
-                base.dictionaryCopy.Add(p.UniqueIdentifier, p);
+                this._Add(p.UniqueIdentifier, p);
         }
 
         #region IParameterMemberDictionary Members

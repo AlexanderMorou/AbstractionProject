@@ -77,8 +77,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         {
             if (this.IsDisposed && sender is IType)
             {
-                var senderType = sender as IType;
-                senderType.Disposed -= new EventHandler(genericParameter_Disposed);
+                var typeSender = sender as IType;
+                typeSender.Disposed -= new EventHandler(genericParameter_Disposed);
                 return;
             }
             this.Dispose();
@@ -308,21 +308,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             }
         }
 
+        private object disposeLock = new object();
         protected override void Dispose(bool dispose)
         {
             if (CLIGateway.CompiledTypeCache.Values.Contains(this))
                 this.RemoveFromCache();
             if (this.IsDisposed)
                 return;
-            if (dispose)
+            lock (disposeLock)
             {
-                if (original is _IGenericTypeRegistrar)
-                    ((_IGenericTypeRegistrar)(original)).UnregisterGenericType(this.genericParameters);
-                foreach (var parameter in this.genericParameters)
-                    parameter.Disposed -= new EventHandler(genericParameter_Disposed);
-                this.genericParameters = null;
-                this.original = null;
-                this.disposed = true;
+                if (dispose)
+                {
+                    this.disposed = true;
+                    if (original is _IGenericTypeRegistrar)
+                        ((_IGenericTypeRegistrar)(original)).UnregisterGenericType(this.genericParameters);
+                    this.genericParameters = null;
+                    this.original = null;
+                }
             }
             base.Dispose(dispose);
         }

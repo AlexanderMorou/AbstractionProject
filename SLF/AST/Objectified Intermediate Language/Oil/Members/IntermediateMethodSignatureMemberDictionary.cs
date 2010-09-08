@@ -130,19 +130,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return paramType;
         }
 
-        protected override void Add(string key, TSignature value)
+        protected internal override void _Add(string key, TSignature value)
         {
             var method = (TIntermediateSignature)value;
             method.Renamed += method_Renamed;
             method.TypeParameterAdded += new EventHandler<EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>>(method_TypeParameterAddOrRemove);
             method.TypeParameterRemoved += new EventHandler<EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>>(method_TypeParameterAddOrRemove);
-            base.Add(key, value);
+            base._Add(key, value);
         }
-        protected override bool RemoveImpl(string key)
+
+        protected internal override bool _Remove(int index)
         {
-            if (base.ContainsKey(key))
+            if (index > 0 && index < this.Count)
             {
-                var method = (TIntermediateSignature)base[key];
+                var method = (TIntermediateSignature)base[index].Value;
                 if (method != null)
                 {
                     method.TypeParameterAdded -= new EventHandler<Utilities.Events.EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>>(method_TypeParameterAddOrRemove);
@@ -150,7 +151,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                     method.Renamed -= method_Renamed;
                 }
             }
-            return base.RemoveImpl(key);
+            return base._Remove(index);
         }
 
         #region IIntermediateMethodSignatureMemberDictionary<TSignatureParameter,TIntermediateSignatureParameter,TSignature,TIntermediateSignature,TSignatureParent,TIntermediateSignatureParent> Members
@@ -444,7 +445,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             var method = this.GetNewMethod(name);
             method.ReturnType = IntermediateGateway.CommonlyUsedTypeReferences.Void;
-            this.Add(method.UniqueIdentifier, method);
+            this._Add(method.UniqueIdentifier, method);
             return method;
         }
 
@@ -452,7 +453,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             var method = this.GetNewMethodWithParameters(name, parameters);
             method.ReturnType = IntermediateGateway.CommonlyUsedTypeReferences.Void;
-            this.Add(method.UniqueIdentifier, method);
+            this._Add(method.UniqueIdentifier, method);
             return method;
         }
 
@@ -460,7 +461,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             var method = this.GetNewMethodWithParametersAndTypeParameters(name, parameters, typeParameters);
             method.ReturnType = IntermediateGateway.CommonlyUsedTypeReferences.Void;
-            this.Add(method.UniqueIdentifier, method);
+            this._Add(method.UniqueIdentifier, method);
             return method;
         }
 

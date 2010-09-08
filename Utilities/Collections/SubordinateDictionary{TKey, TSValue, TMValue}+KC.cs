@@ -11,12 +11,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         where TSValue :
             TMValue
     {
-        private class KeysCollection :
+        private new class KeysCollection :
             ControlledStateDictionary<TKey, TSValue>.KeysCollection
         {
             private SubordinateDictionary<TKey, TSValue, TMValue> owner;
-            public KeysCollection(SubordinateDictionary<TKey, TSValue, TMValue> owner, ICollection<TKey> collection)
-                : base(collection)
+            public KeysCollection(SubordinateDictionary<TKey, TSValue, TMValue> owner)
+                : base(owner)
             {
                 this.owner = owner;
             }
@@ -27,6 +27,10 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 {
                     this.owner.RefreshCheck();
                     return base[index];
+                }
+                internal protected set
+                {
+                    base[index] = value;
                 }
             }
 

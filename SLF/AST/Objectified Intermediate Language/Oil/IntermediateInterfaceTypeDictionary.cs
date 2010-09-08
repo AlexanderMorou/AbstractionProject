@@ -38,7 +38,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         public new int IndexOf(IInterfaceType decl)
         {
-            if (this.valuesCollection == null)
+            if (this.valuesInstance == null)
                 return -1;
             int index = 0;
             foreach (var item in this.Values)

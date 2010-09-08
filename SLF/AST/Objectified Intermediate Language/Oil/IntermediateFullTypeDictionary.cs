@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <paramref name="root"/> set provided.
         /// </summary>
         public IntermediateFullTypeDictionary(IIntermediateTypeParent parent, IntermediateFullTypeDictionary root)
-            : base(root.backup)
+            : base(root)
         {
             this.Parent = parent;
         }

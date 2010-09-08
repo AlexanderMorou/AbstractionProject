@@ -12,6 +12,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using System.Threading.Tasks;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -109,7 +110,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 foreach (Type t in parameters)
                 {
                     GenericTypeParameter param = new GenericTypeParameter(((TType)(object)(this)), t);
-                    typeParams.dictionaryCopy.Add(param.Name, param);
+                    typeParams._AddInternal(param.Name, param);
                 }
                 int parentParamCount = 0;
                 if (this.DeclaringType != null && this.DeclaringType.IsGenericType && this.DeclaringType is IGenericType)
@@ -117,11 +118,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (this is IGenericType)
                 {
                     this.typeParameters = new LockedGenericParameters<IGenericTypeParameter<TType>, TType>(((TType)(object)(this)));
-                    typeParams.Values.Filter(tParam => tParam.Position >= parentParamCount).OnAllP<IGenericTypeParameter<TType>>(param => ((LockedGenericParameters<IGenericTypeParameter<TType>, TType>)(this.typeParameters)).dictionaryCopy.Add(param.Name, param));
+                    typeParams.Values.Filter(tParam => tParam.Position >= parentParamCount).OnAllP<IGenericTypeParameter<TType>>(param => ((LockedGenericParameters<IGenericTypeParameter<TType>, TType>)(this.typeParameters))._AddInternal(param.Name, param));
                 }
                 else
                     this.typeParameters = null;
-                this._typeParameters = (LockedTypeCollection)typeParameters.Values.ToLockedCollection();
+                this._typeParameters = (LockedTypeCollection)typeParams.Values.ToLockedCollection();
                 return _typeParameters;
             }
         }
@@ -202,14 +203,47 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             if (this.genericCache == null)
                 return false;
-
+            if (typeParameters == null)
+                return false;
             ITypeCollectionBase fd = null;
             ITypeCollectionBase[] keyCopy = null;
             lock (genericCache)
                 keyCopy = genericCache.Keys.ToArray();
-            fd = keyCopy.FirstOrDefault(itc =>
+            Parallel.For(0, keyCopy.Length, (i, parallelLoopState) =>
+            //for (int i = 0; i < keyCopy.Length; i++)
             {
-                return itc.SequenceEqual(typeParameters);
+                var currentSet = keyCopy[i];
+                if (currentSet.Count != typeParameters.Count)
+                    return;
+                bool allFound = true;
+                bool currentFound = false;
+                IType[] currentCopy;
+                currentCopy = currentSet.ToArray();
+                for (int j = 0; j < typeParameters.Count; j++)
+                {
+                    var currentElement = typeParameters[j];
+                    for (int k = 0; k < currentCopy.Length; k++)
+                    {
+                        if (currentCopy[k].Equals(currentElement))
+                        {
+                            currentFound = true;
+                            break;
+                        }
+                    }
+                    if (!currentFound)
+                    {
+                        allFound = false;
+                        break;
+                    }
+                }
+                if (allFound)
+                {
+                    var currentLocked = currentSet as ILockedTypeCollection;
+                    if (currentLocked != null && currentLocked.IsDisposed)
+                        return;
+                    fd = currentSet;
+                    parallelLoopState.Stop();
+                }
             });
             if (fd == null)
                 return false;
@@ -300,26 +334,55 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (this.genericCache == null)
                 return;
             ITypeCollectionBase match = null;
-            //lock (genericCache)
-            //{
-            foreach (var itc in this.genericCache.Keys)
-                if (itc.SequenceEqual(typeParameters))
+            ITypeCollectionBase[] keyCopy;
+            lock (this.genericCache)
+                keyCopy = this.genericCache.Keys.ToArray();
+            Parallel.For(0, keyCopy.Length, (i, parallelLoopState) =>
+            {
+                var currentSet = keyCopy[i];
+                if (currentSet.Count != typeParameters.Count)
+                    return;
+                bool allFound = true;
+                bool currentFound = false;
+                IType[] currentCopy;
+                currentCopy = currentSet.ToArray();
+                for (int j = 0; j < typeParameters.Count; j++)
                 {
-                    match = itc;
-                    break;
+                    var currentElement = typeParameters[j];
+                    for (int k = 0; k < currentCopy.Length; k++)
+                    {
+                        if (currentCopy[k].Equals(currentElement))
+                        {
+                            currentFound = true;
+                            break;
+                        }
+                    }
+                    if (!currentFound)
+                    {
+                        allFound = false;
+                        break;
+                    }
                 }
+                if (allFound)
+                {
+                    var currentLocked = currentSet as ILockedTypeCollection;
+                    if (currentLocked != null && currentLocked.IsDisposed)
+                        return;
+                    match = currentSet;
+                    parallelLoopState.Stop();
+                }
+            });
             if (match == null)
                 return;
-            genericCache.Remove(match);
-            //}
-            if (match is ILockedTypeCollection)
-                ((ILockedTypeCollection)(match)).Dispose();
-            else if (match is ITypeCollection)
-                try
-                {
-                    ((ITypeCollection)(match)).Clear();
-                }
-                catch (NotSupportedException) { }
+            /* *
+             * Multi-threading requirement, if the generic type which has been
+             * disposed is the result of this disposing, this very well could
+             * occur.
+             * */
+            if (this.genericCache == null)
+                return;
+            lock (this.genericCache)
+                genericCache.Remove(match);
         }
 
         #endregion

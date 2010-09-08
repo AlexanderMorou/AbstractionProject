@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             private CompiledTypeDictionary<TType> parent;
             private string[] names;
             public KC(CompiledTypeDictionary<TType> parent)
-                : base(null)
+                : base(parent)
             {
                 this.parent = parent;
                 this.names = new string[this.parent.Count];

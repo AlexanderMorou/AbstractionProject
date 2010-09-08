@@ -63,9 +63,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public void CopyTo(TIntermediateDeclaration[] array, int arrayIndex)
             {
-                if ((arrayIndex + this.Count) >= array.Length)
+                if ((arrayIndex + this.Count) > array.Length)
                     throw new ArgumentException("array");
-                var ownerValuesCollection = ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).dictionaryCopy.Values;
+                var ownerValuesCollection = ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values;
                 IEnumerator<TDeclaration> valuesEnum = ownerValuesCollection.GetEnumerator();
 
                 int index = arrayIndex;

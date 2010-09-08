@@ -45,7 +45,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         }
 
         internal LockedGenericParameters(TParent parent)
-            : base(new Dictionary<string, TGenericParameter>())
+            : base()
         {
             this.parent = parent;
         }

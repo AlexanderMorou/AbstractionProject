@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IIntermediateDeclaration,
             TDeclaration
     {
-        protected class ValuesCollection : 
+        protected new class ValuesCollection : 
             IControlledStateCollection<MasterDictionaryEntry<TIntermediateDeclaration>>,
             IControlledStateCollection
         {

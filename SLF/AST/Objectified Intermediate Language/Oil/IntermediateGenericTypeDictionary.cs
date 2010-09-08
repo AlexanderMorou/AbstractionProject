@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
         }
 
-        protected override void Add(string key, TType value)
+        protected internal override void _Add(string key, TType value)
         {
             if (value == null)
                 throw new ArgumentNullException("value");
@@ -38,7 +38,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 intermediateType.TypeParameterAdded += new EventHandler<EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>>(intermediateType_TypeParameterAddOrRemove);
                 intermediateType.TypeParameterRemoved += new EventHandler<EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>>(intermediateType_TypeParameterAddOrRemove);
             }
-            base.Add(key, value);
+            base._Add(key, value);
         }
 
         void intermediateType_TypeParameterAddOrRemove(object sender, EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>> e)
@@ -46,15 +46,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             base.IncrementVersion();
         }
 
-        protected override bool RemoveImpl(string key)
+        protected internal override bool _Remove(int index)
         {
-            if (base.ContainsKey(key))
+            if (index >= 0 && index < this.Count)
             {
-                var element = base[key];
+                var element = base[index].Value;
                 element.TypeParameterAdded -= new EventHandler<EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>>(intermediateType_TypeParameterAddOrRemove);
                 element.TypeParameterRemoved -= new EventHandler<EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>>(intermediateType_TypeParameterAddOrRemove);
             }
-            return base.RemoveImpl(key);
+            return base._Remove(index);
         }
 
 

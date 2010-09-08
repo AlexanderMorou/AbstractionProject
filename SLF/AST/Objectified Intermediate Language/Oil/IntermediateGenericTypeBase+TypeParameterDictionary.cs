@@ -56,17 +56,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new TypeParameter(name, (IntermediateGenericTypeBase<TType, TIntermediateType>)(object)this.Parent);
             }
 
-            protected override void Add(string key, IGenericTypeParameter<TType> value)
+            protected internal override void _Add(string key, IGenericTypeParameter<TType> value)
             {
                 _Parent.ItemAdded(value);
-                base.Add(key, value);
+                base._Add(key, value);
             }
 
-            protected override bool RemoveImpl(string key)
+            protected internal override bool _Remove(int index)
             {
-                if (base.ContainsKey(key))
-                    _Parent.ItemRemoved(base[key]);
-                return base.RemoveImpl(key);
+                if (index < 0 || index >= this.Count)
+                    return false;
+                _Parent.ItemRemoved(base[index].Value);
+                return base._Remove(index);
             }
 
         }

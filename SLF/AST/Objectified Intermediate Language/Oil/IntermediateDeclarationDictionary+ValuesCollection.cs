@@ -46,14 +46,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public bool Contains(TIntermediateDeclaration item)
             {
-                return this.owner.dictionaryCopy.Values.Contains(item);
+                return this.owner.Values.Contains(item);
             }
 
             public void CopyTo(TIntermediateDeclaration[] array, int arrayIndex)
             {
                 if ((arrayIndex + this.Count) >= array.Length)
                     throw new ArgumentException("array");
-                var valueEnum = this.owner.dictionaryCopy.Values.GetEnumerator();
+                var valueEnum = this.owner.Values.GetEnumerator();
                 int index = 0;
                 while (valueEnum.MoveNext())
                     array[index++ + arrayIndex] = (TIntermediateDeclaration)valueEnum.Current;
@@ -69,7 +69,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             public TIntermediateDeclaration[] ToArray()
             {
                 TIntermediateDeclaration[] result = new TIntermediateDeclaration[this.Count];
-                var valueEnum = this.owner.dictionaryCopy.Values.GetEnumerator();
+                var valueEnum = this.owner.Values.GetEnumerator();
                 var index = 0;
                 while (valueEnum.MoveNext())
                     result[index++] = (TIntermediateDeclaration)valueEnum.Current;
