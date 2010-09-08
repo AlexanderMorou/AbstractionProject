@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             internal Dictionary<TDeclarationSpecific, TDeclarationSpecific> values;
             private _DeclarationsBase<TDeclaration, TDeclarationSpecific, TOriginalContainer, TDictionary> ParentTypes { get; set; }
             internal _ValuesCollection(_DeclarationsBase<TDeclaration, TDeclarationSpecific, TOriginalContainer, TDictionary> parentTypes)
-                : base(null)
+                : base(parentTypes)
             {
                 this.ParentTypes = parentTypes;
                 this.values = new Dictionary<TDeclarationSpecific, TDeclarationSpecific>();
@@ -86,20 +86,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 this.ToArray().CopyTo(array, arrayIndex);
             }
 
-            public override TDeclarationSpecific this[int index]
+            protected override TDeclarationSpecific OnGetThis(int index)
             {
-                get
+                if (index < 0 || index >= this.Count)
+                    throw new ArgumentOutOfRangeException("index");
+                if (this.values.Count <= index)
                 {
-                    if (index < 0 || index >= this.Count)
-                        throw new ArgumentOutOfRangeException("index");
-                    if (this.values.Count <= index)
-                    {
-                        int oldCount = this.values.Count;
-                        for (int i = oldCount; i <= index; i++)
-                            this.CheckItemAt(this.ParentTypes.Original.Values[i]);
-                    }
-                    return this.values.Values.Take(index,1).First();
+                    int oldCount = this.values.Count;
+                    for (int i = oldCount; i <= index; i++)
+                        this.CheckItemAt(this.ParentTypes.Original.Values[i]);
                 }
+                return this.values.Values.Take(index, 1).First();
             }
 
             public override TDeclarationSpecific[] ToArray()

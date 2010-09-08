@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             private _DeclarationsBase<TDeclaration, TDeclarationSpecific, TOriginalContainer, TDictionary> ParentTypes { get; set; }
             private Dictionary<TDeclarationSpecific, string> values;
             internal _KeysCollection(_DeclarationsBase<TDeclaration, TDeclarationSpecific, TOriginalContainer, TDictionary> parentTypes)
-                : base(null)
+                : base(parentTypes)
             {
                 this.values = new Dictionary<TDeclarationSpecific, string>();
                 this.ParentTypes = parentTypes;

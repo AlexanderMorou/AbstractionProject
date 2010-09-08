@@ -66,9 +66,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         public void Dispose()
         {
-            this.dictionaryCopy.Values.OnAll(f => f.Dispose());
-            this.dictionaryCopy.Clear();
-            this.dictionaryCopy = null;
+            if (this.valuesInstance != null)
+            {
+                var valuesCopy = this.Values.ToArray();
+                foreach (var value in valuesCopy)
+                    value.Dispose();
+                base._Clear();
+            }
             this.parent = default(TParent);
         }
 
@@ -88,7 +92,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         public int IndexOf(TGenericParameter decl)
         {
             int index = 0;
-            if (this.valuesCollection == null)
+            if (this.valuesInstance == null)
                 return -1;
             foreach (var item in this.Values)
                 if (object.ReferenceEquals(decl, item))

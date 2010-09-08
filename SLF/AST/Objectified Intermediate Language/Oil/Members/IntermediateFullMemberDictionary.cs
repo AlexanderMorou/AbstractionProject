@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <param name="target">The <see cref="IDictionary{TKey, TValue}"/> which contains the target
         /// dictonary the <see cref="IntermediateFullMemberDictionary"/>
         /// encapsulates</param>
-        public IntermediateFullMemberDictionary(IDictionary<string, MasterDictionaryEntry<IMember>> target)
+        public IntermediateFullMemberDictionary(IntermediateFullMemberDictionary target)
             : base(target)
         {
         }
@@ -45,7 +45,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public void Dispose()
         {
-            this.backup.Clear();
+            this._Clear();
         }
 
         #endregion

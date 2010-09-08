@@ -315,9 +315,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             get
             {
                 if (this.workspace == null)
-                    this.workspace = new AssemblyWorkspace(this);
+                    this.workspace = InitializeWorkspace();
                 return this.workspace;
             }
+        }
+
+        private IAssemblyWorkspace InitializeWorkspace()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

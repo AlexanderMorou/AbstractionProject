@@ -93,7 +93,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (this.ContainsKey(name))
                     throw new ArgumentException(string.Format("The provided name {0} already exists.", name),"name");
                 IntermediateNamespaceDeclaration ind = new IntermediateNamespaceDeclaration(name, this.Parent);
-                base.Add(name, ind);
+                this._Add(name, ind);
                 return ind;
             }
         }

@@ -51,11 +51,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #endregion
 
-        protected override void Clear()
-        {
-            throw new NotSupportedException("Immutable.");
-        }
-
         public override bool ContainsKey(string key)
         {
             return this.Keys.Contains(key);
@@ -63,7 +58,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         public override bool Contains(KeyValuePair<string, TDeclarationSpecific> item)
         {
-            if (this.keysCollection.Contains(item.Key))
+            if (this.Keys.Contains(item.Key))
                 return this.Values[this.Keys.GetIndexOf(item.Key)] == item.Value;
             return false;
         }
@@ -80,14 +75,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             }
         }
 
-        public override KeyValuePair<string, TDeclarationSpecific> this[int index]
+        protected override KeyValuePair<string, TDeclarationSpecific> OnGetThis(int index)
         {
-            get
-            {
-                if (index < 0 && index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
-                return new KeyValuePair<string, TDeclarationSpecific>(this.Keys[index], this.Values[index]);
-            }
+            if (index < 0 && index >= this.Count)
+                throw new ArgumentOutOfRangeException("index");
+            return new KeyValuePair<string, TDeclarationSpecific>(this.Keys[index], this.Values[index]);
         }
 
         protected abstract TDeclarationSpecific ObtainWrapper(TDeclarationSpecific item);

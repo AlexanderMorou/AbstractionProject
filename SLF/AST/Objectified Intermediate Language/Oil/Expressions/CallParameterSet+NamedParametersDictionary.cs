@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 this.owner = owner;
             }
 
-            protected override void Add(string key, INamedParameterExpression value)
+            protected internal override void _Add(string key, INamedParameterExpression value)
             {
                 this.owner.ElementAdded(value);
                 base.Add(key, value);

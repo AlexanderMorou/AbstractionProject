@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             private CompiledNamespaceDeclaration[] dataCopy;
             private CompiledNamespaceDeclarations parent;
             internal _ValuesCollection(CompiledNamespaceDeclarations parent)
-                : base(null)
+                : base(parent)
             {
                 this.parent = parent;
                 this.dataCopy = new CompiledNamespaceDeclaration[this.parent.baseData.Length];
@@ -59,16 +59,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return result;
             }
 
-            public override INamespaceDeclaration this[int index]
+            protected override INamespaceDeclaration OnGetThis(int index)
             {
-                get
-                {
-                    if (index < 0 || index > this.dataCopy.Length)
-                        throw new ArgumentOutOfRangeException("index");
-                    CheckLoadStatus(index);
-                    return this.dataCopy[index];
-                }
+                if (index < 0 || index > this.dataCopy.Length)
+                    throw new ArgumentOutOfRangeException("index");
+                CheckLoadStatus(index);
+                return this.dataCopy[index];
             }
+
             public override IEnumerator<INamespaceDeclaration> GetEnumerator()
             {
                 for (int i = 0; i < this.dataCopy.Length; i++)

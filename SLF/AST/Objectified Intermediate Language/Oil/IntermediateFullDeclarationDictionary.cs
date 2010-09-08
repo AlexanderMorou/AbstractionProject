@@ -65,11 +65,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Creates a new <see cref="IntermediateFullDeclarationDictionary{TDeclaration, TIntermediateDeclaration}"/>
         /// initialized to ecapsulate the <paramref name="target"/> provided.
         /// </summary>
-        /// <param name="target">The <see cref="IDictionary{TKey, TValue}"/> which contains the target
-        /// dictonary the <see cref="IntermediateFullDeclarationDictionary{TDeclaration, TIntermediateDeclaration}"/>
-        /// encapsulates</param>
-        public IntermediateFullDeclarationDictionary(IDictionary<string, MasterDictionaryEntry<TDeclaration>> target)
-            : base(target)
+        /// <param name="sibling">The <see cref="IntermediateFullDeclarationDictionary{TDeclaration, TIntermediateDeclaration}"/> 
+        /// as the sibling of the active instance.</param>
+        public IntermediateFullDeclarationDictionary(IntermediateFullDeclarationDictionary<TDeclaration, TIntermediateDeclaration> sibling)
+            : base(sibling)
         {
         }
 

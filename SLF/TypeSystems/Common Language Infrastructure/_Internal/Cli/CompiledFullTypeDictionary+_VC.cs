@@ -11,12 +11,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     partial class CompiledFullTypeDictionary
     {
         private class _VC :
-        ICollection<MasterDictionaryEntry<IType>>,
-        IDisposable
+            CompiledFullTypeDictionary.ValuesCollection,
+            IDisposable
         {
             private CompiledFullTypeDictionary parent;
             private MasterDictionaryEntry<IType>?[] dataCopy;
             internal _VC(CompiledFullTypeDictionary parent)
+                : base(parent)
             {
                 this.parent = parent;
                 this.dataCopy = new MasterDictionaryEntry<IType>?[this.parent.parent.UnderlyingSystemTypes.Length];
@@ -115,15 +116,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         yield return this.dataCopy[i].Value;
                 }
                 yield break;
-            }
-
-            #endregion
-
-            #region IEnumerable Members
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
             }
 
             #endregion

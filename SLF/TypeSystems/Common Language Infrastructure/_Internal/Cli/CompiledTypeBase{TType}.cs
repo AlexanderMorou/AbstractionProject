@@ -175,7 +175,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.declaringType = null;
             if (this._members != null)
             {
-                this._members.Clear();
+                this._members._Clear();
                 this._members = null;
             }
             base.Dispose(dispose);

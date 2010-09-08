@@ -20,20 +20,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             private LockedGroupedDeclarationsBase<TItem, TMItem, TSourceItem> source;
             internal TItem[] dataCopy;
             public _ValuesCollection(LockedGroupedDeclarationsBase<TItem, TMItem, TSourceItem> source)
-                : base(null)
+                : base(source)
             {
                 this.source = source;
                 this.dataCopy = new TItem[source.sourceData.Length];
             }
-            public override TItem this[int index]
+
+            protected override TItem OnGetThis(int index)
             {
-                get
-                {
-                    if (object.ReferenceEquals(this.dataCopy[index], default(TItem)))
-                        this.dataCopy[index] = this.source.Fetch(source.sourceData[index]);
-                    return this.dataCopy[index];
-                }
+                if (object.ReferenceEquals(this.dataCopy[index], default(TItem)))
+                    this.dataCopy[index] = this.source.Fetch(source.sourceData[index]);
+                return this.dataCopy[index];
             }
+
             public override int Count
             {
                 get

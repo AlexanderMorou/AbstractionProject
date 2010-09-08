@@ -98,8 +98,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         /// which moderates the <see cref="LockedGroupedDeclarationsBase{TItem, TMItem, TSourceItem}"/>.</param>
         /// <param name="items">The <see cref="IDictionary{TKey, TValue}"/> 
         /// to encapsulate.</param>
-        internal LockedGroupedDeclarationsBase(MasterDictionaryBase<string, TMItem> master, Dictionary<string, TItem> items)
-            : base(master, items)
+        internal LockedGroupedDeclarationsBase(MasterDictionaryBase<string, TMItem> master, LockedGroupedDeclarationsBase<TItem, TMItem, TSourceItem> sibling)
+            : base(master, sibling)
         {
             this.state = USE_BASE;
         }
@@ -120,7 +120,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             {
                 if (master != null)
                     master.Subordinate_ItemAdded(this, ti.UniqueIdentifier, ti);
-                dictionaryCopy.Add(ti.UniqueIdentifier, ti);
+                this._Add(ti.UniqueIdentifier, ti);
             }
         }
 
@@ -135,7 +135,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         /// <exception cref="System.NotSupportedException">
         /// The <see cref="LockedGroupedDeclarationsBase{TItem, TMItem, TSourceItem}"/> does not
         /// support modification.</exception>
-        protected override void Add(string key, TItem value)
+        protected internal override void _Add(string key, TItem value)
         {
             throw new NotSupportedException("Declarations locked.");
         }
@@ -149,7 +149,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         /// <exception cref="System.NotSupportedException">
         /// The <see cref="LockedGroupedDeclarationsBase{TItem, TMItem, TSourceItem}"/> does 
         /// not support modification.</exception>
-        protected override bool Remove(string key)
+        protected internal override bool Remove(string key)
         {
             throw new NotSupportedException("Declarations locked.");
         }
@@ -188,14 +188,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         {
             if (this.state == USE_FETCH)
             {
-                _ValuesCollection vc = ((_ValuesCollection)this.valuesCollection);
-                _KeysCollection kc = ((_KeysCollection)this.keysCollection);
+                _ValuesCollection vc = ((_ValuesCollection)this.valuesInstance);
+                _KeysCollection kc = ((_KeysCollection)this.keysInstance);
                 if (vc != null)
                     vc.Dispose();
                 if (kc != null)
                     kc.Dispose();
-                this.keysCollection = null;
-                this.valuesCollection = null;
+                this.valuesInstance = null;
+                this.keysInstance = null;
             }
             else
             {
@@ -257,15 +257,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             else
                 return base.Contains(item);
         }
-        public override KeyValuePair<string, TItem> this[int index]
+
+        protected override KeyValuePair<string, TItem> OnGetThis(int index)
         {
-            get
-            {
-                if (this.state == USE_FETCH)
-                    return new KeyValuePair<string, TItem>(this.Keys[index], this.Values[index]);
-                else
-                    return base[index];
-            }
+            if (this.state == USE_FETCH)
+                return new KeyValuePair<string, TItem>(this.Keys[index], this.Values[index]);
+            else
+                return base.OnGetThis(index);
         }
 
         public override bool ContainsKey(string key)
@@ -299,6 +297,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 yield return new KeyValuePair<string, TItem>(this.Keys[i], this.Values[i]);
             yield break;
         }
+        
         protected override TItem OnGetThis(string key)
         {
             if (this.state == USE_FETCH)

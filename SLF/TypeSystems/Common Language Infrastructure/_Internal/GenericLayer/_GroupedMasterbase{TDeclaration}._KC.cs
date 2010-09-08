@@ -9,45 +9,24 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
     partial class _GroupedMasterBase<TDeclaration>
     {
         private _KC keysCollection;
-        protected override ICollection<string> GetKeys()
+
+        protected override ControlledStateDictionary<string, MasterDictionaryEntry<TDeclaration>>.KeysCollection InitializeKeysCollection()
         {
             if (this.keysCollection == null)
                 this.keysCollection = new _KC(this);
-            return this.keysCollection;
+            return keysCollection;
         }
+
         private class _KC :
-            ReadOnlyCollection<string>,
-            ICollection<string>
+            _GroupedMasterBase<TDeclaration>.KeysCollection
         {
             private _GroupedMasterBase<TDeclaration> master;
 
             public _KC(_GroupedMasterBase<TDeclaration> master)
+                : base(master)
             {
                 this.master = master;
             }
-            #region ICollection<string> Members
-
-            public void Add(string item)
-            {
-                throw new NotSupportedException();
-            }
-
-            public void Clear()
-            {
-                throw new NotSupportedException();
-            }
-
-            public bool IsReadOnly
-            {
-                get { return true; }
-            }
-
-            public bool Remove(string item)
-            {
-                throw new NotSupportedException();
-            }
-
-            #endregion 
 
             public override int Count
             {
@@ -57,22 +36,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 }
             }
 
-            public override string this[int index]
+            protected override string OnGetKey(int index)
             {
-                get
+                int currentIndexBase = 0;
+                foreach (var subordinate in this.master.Subordinates)
                 {
-                    int currentIndexBase = 0;
-                    foreach (var subordinate in this.master.Subordinates)
+                    if (index >= currentIndexBase &&
+                        index < currentIndexBase + subordinate.Count)
                     {
-                        if (index >= currentIndexBase &&
-                            index < currentIndexBase + subordinate.Count)
-                        {
-                            return (string)subordinate.Keys[index - currentIndexBase];
-                        }
-                        currentIndexBase += subordinate.Count;
+                        return (string)subordinate.Keys[index - currentIndexBase];
                     }
-                    throw new ArgumentOutOfRangeException("index");
+                    currentIndexBase += subordinate.Count;
                 }
+                throw new ArgumentOutOfRangeException("index");
             }
 
             public override void CopyTo(string[] array, int arrayIndex)

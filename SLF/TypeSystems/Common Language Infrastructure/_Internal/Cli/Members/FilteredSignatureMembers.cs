@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
             : base(null)
         {
             foreach (TSignature ts in items)
-                this.Add(ts.UniqueIdentifier, ts);
+                this._Add(ts.UniqueIdentifier, ts);
         }
 
         /// <summary>
@@ -71,9 +71,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
                 throw new InvalidOperationException("Invalid state.");
             List<TSignature> values = new List<TSignature>(this.Values);
             values.Sort((a, b) => this.deviations[a].CompareTo(this.deviations[b]));
-            base.Clear();
+            base._Clear();
             foreach (TSignature s in values)
-                this.Add(s.UniqueIdentifier, s);
+                this._Add(s.UniqueIdentifier, s);
         }
 
         int IFilteredSignatureMemberDictionary.this[IMember deviant]

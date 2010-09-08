@@ -20,6 +20,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         ITypeCollectionBase,
         IDisposable
     {
-
+        /// <summary>
+        /// Returns whether the current <see cref="ILockedTypeCollection"/>
+        /// is disposed.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }

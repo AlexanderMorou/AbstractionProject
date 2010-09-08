@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             private LockedGroupedDeclarationsBase<TItem, TMItem, TSourceItem> source;
             private string[] dataCopy;
             public _KeysCollection(LockedGroupedDeclarationsBase<TItem, TMItem, TSourceItem> source)
-                : base(null)
+                : base(source)
             {
                 this.source = source;
                 this.dataCopy = new string[source.sourceData.Length];

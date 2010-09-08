@@ -17,35 +17,33 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
     partial class LockedFullDeclarations<TMItem>
     {
         private class _ValuesCollection :
-            ICollection<MasterDictionaryEntry<TMItem>>
+            ControlledStateDictionary<string, MasterDictionaryEntry<TMItem>>.ValuesCollection
         {
             private LockedFullDeclarations<TMItem> source;
             private List<MasterDictionaryEntry<TMItem>?> dataCopy;
             public _ValuesCollection(LockedFullDeclarations<TMItem> source)
+                : base(source)
             {
                 this.source = source;
                 this.dataCopy = new List<MasterDictionaryEntry<TMItem>?>(source.sourceData.Count);
                 for (int i = 0; i < this.source.sourceData.Count; i++)
                     this.dataCopy.Add(null);
             }
-            public MasterDictionaryEntry<TMItem> this[int index]
-            {
-                get
-                {
-                    if (this.dataCopy[index] == null)
-                        this.dataCopy[index] = this.source.Fetch(source.sourceData[index]);
-                    return this.dataCopy[index].Value;
-                }
-            }
-            public int Count
+
+            public override int Count
             {
                 get
                 {
                     return this.dataCopy.Count;
                 }
             }
-
-            public IEnumerator<MasterDictionaryEntry<TMItem>> GetEnumerator()
+            protected override MasterDictionaryEntry<TMItem> OnGetThis(int index)
+            {
+                if (this.dataCopy[index] == null)
+                    this.dataCopy[index] = this.source.Fetch(source.sourceData[index]);
+                return this.dataCopy[index].Value;
+            }
+            public override IEnumerator<MasterDictionaryEntry<TMItem>> GetEnumerator()
             {
                 for (int i = 0; i < this.dataCopy.Capacity; i++)
                 {
@@ -56,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 yield break;
             }
 
-            public MasterDictionaryEntry<TMItem>[] ToArray()
+            public override MasterDictionaryEntry<TMItem>[] ToArray()
             {
                 for (int i = 0; i < this.dataCopy.Count; i++)
                     if (this.dataCopy[i] == null)
@@ -148,14 +146,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
             #endregion
 
-            #region IEnumerable Members
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-
-            #endregion
         }
     }
 }

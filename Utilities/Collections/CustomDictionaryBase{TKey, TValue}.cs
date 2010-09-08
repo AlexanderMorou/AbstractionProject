@@ -80,7 +80,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// to insert.</param>
         public virtual void Add(TKey key, TValue value)
         {
-            this.backup.Add(key, value);
+            lock(this.backup)
+                this.backup.Add(key, value);
         }
 
         /// <summary>

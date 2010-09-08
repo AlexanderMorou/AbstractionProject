@@ -70,8 +70,13 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
         {
             Console.WriteLine("Took {0} to process initially.", Time(Test1));
             Console.ReadKey();
+            Console.WriteLine();
             Console.WriteLine("Took {0} to clear cache and wait for pending finalizers", Time(CLIGateway.ClearCache));
+            Console.WriteLine();
+            Console.WriteLine();
             Console.WriteLine("Took {0} to process secondarily.", Time(Test1));
+            Console.WriteLine();
+            Console.WriteLine("Took {0} to to clear and wait (again)", Time(CLIGateway.ClearCache));
             Console.ReadKey(true);
         }
 
@@ -165,14 +170,20 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
         private static void Main()
         {
             //First time's skewed due to JIT compilation.
+            Extraction03();
+        }
+
+        private static void Extraction05()
+        {
             BuildTupleSamples();
             GC.Collect();
             GC.WaitForPendingFinalizers();
             Console.WriteLine();
             Console.WriteLine("Re-running test...");
             BuildTupleSamples();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             Console.ReadKey(true);
-            //Extraction03();
         }
 
 
@@ -189,7 +200,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             var testNestGenericMethodInstance = testNestInstance.Methods[0].Value.MakeGenericMethod(new TypeCollection(typeof(int).GetTypeReference()));
 
             //IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<IntermediateClassType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<IntermediateClassType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<IntermediateClassType>.PropertyMethodMember, IClassType, IIntermediateClassType, IntermediateClassType>
-            var dType = typeof(IntermediateDeclarationDictionary<,>);
+            var dType = typeof(ControlledStateDictionary<,>);
             var fType = dType.GetTypeReference();
 
             Console.WriteLine(fType.Members.Count);
@@ -216,7 +227,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
         private static void BuildTupleSamples()
         {
             int minTuple = 9;
-            int maxTuple = 28;
+            int maxTuple = 300;
             /* *
              * The system tuple implementation maxes out at eight
              * elements with the final element consisting of a secondary
@@ -231,7 +242,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
              * tuple instances.
              * */
             result.DefaultNamespace = result.Namespaces.Add("AllenCopeland.Abstraction.Utilities.Tuples");
-            var tupleHelperClass    = result.DefaultNamespace.Parts.Add().Classes.Add("TupleHelper");
+            var tupleHelperClass    = result.DefaultNamespace.Classes.Add("TupleHelper");
             /* *
              * Obtain a stopwatch for monitoring each individual pass.
              * */
@@ -249,7 +260,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             IClassType[] tupleBaseTypes = new IClassType[7];
             /* *
              * Unrealistic example, but need to verify ability to obtain multiple 
-             * type references simultaneously.
+             * type references in a thread safe manner.
              * */
             Parallel.For(0, 8, i =>
                 {
@@ -279,6 +290,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
                     }
                 });
+            
             var unused = tupleHelperClass.Methods;
             var unused2 = result.DefaultNamespace.Types;
             Parallel.For(minTuple, maxTuple + 1, i =>
@@ -325,20 +337,41 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
                 while (parametersEnum.MoveNext())
                     parameters[parameterIndex++] = parametersEnum.Current.GetReference();
-
-                for (int j = 0; j < sevenTupleSetCount; j++)
+                List<IExpression> currentParamReferences = new List<IExpression>();
+                List<IType> currentTupleTypes = new List<IType>();
+                for (int k = 0, j = 0; k < i; k++, j++)
                 {
-                    var currentSetRange  = new Tuple<int, int>((j * 7), Math.Min(((j + 1) * 7), i));
-                    var currentTupleSet  = new TypeCollection();
-                    List<IExpression> currentParamRefs = new List<IExpression>();
-                    for (int k = currentSetRange.Item1; k < currentSetRange.Item2; k++)
+                    currentTupleTypes.Add(typeParams[k]);
+                    currentParamReferences.Add(parameters[k]);
+                    if (j >= 6)
                     {
-                        currentTupleSet.Add(typeParams[k]);
-                        currentParamRefs.Add(parameters[k]);
+                        sevenParameterSets.AddLast(currentParamReferences.ToArray());
+                        sevenTupleSets.AddLast((LockedTypeCollection)currentTupleTypes.ToLockedCollection());
+                        j = -1;
+                        currentParamReferences.Clear();
+                        currentTupleTypes.Clear();
                     }
-                    sevenParameterSets.AddLast(currentParamRefs.ToArray());
-                    sevenTupleSets.AddLast(currentTupleSet);
                 }
+                if (currentParamReferences.Count > 0)
+                {
+                    sevenParameterSets.AddLast(currentParamReferences.ToArray());
+                    sevenTupleSets.AddLast((LockedTypeCollection)currentTupleTypes.ToLockedCollection());
+                    currentParamReferences.Clear();
+                    currentTupleTypes.Clear();
+                }
+                //for (int j = 0; j < sevenTupleSetCount; j++)
+                //{
+                //    var currentSetRange = new Tuple<int, int>((j * 7), Math.Min(((j + 1) * 7), i));
+                //    var currentTupleSet = new TypeCollection();
+                //    List<IExpression> currentParamRefs = new List<IExpression>();
+                //    for (int k = currentSetRange.Item1; k < currentSetRange.Item2; k++)
+                //    {
+                //        currentTupleSet.Add(typeParams[k]);
+                //        currentParamRefs.Add(parameters[k]);
+                //    }
+                //    sevenParameterSets.AddLast(currentParamRefs.ToArray());
+                //    sevenTupleSets.AddLast(currentTupleSet);
+                //}
                 /* *
                  * We start with the last type in the tuple groups,
                  * this way we can build the type backwards and end up with
@@ -377,7 +410,8 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
                          * Every element after the first processed (or last in line)
                          * has exactly eight types.
                          * */
-                        var lockedTypes = new LockedTypeCollection(current.Value, currentTypeBase);
+                        var lockedTypes = (LockedTypeCollection)(current.Value);
+                        lockedTypes._Add(currentTypeBase);
                         var tempTypeBase = (IClassType)eightTupleType.MakeVerifiedGenericType(lockedTypes);
 
                         if (currentParamSet != sevenParameterSets.First)
@@ -461,15 +495,22 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
                 index++;
             }
             TimeSpan averageSpan = new TimeSpan(fullTimeTaken.Ticks / passTimes.Length);
+            TimeSpan averageSpan2 = new TimeSpan(actualTimeTaken.Ticks / passTimes.Length);
             //WriteProject(result, @"C:\Projects\Code\C#\OILexer\");
             //WriteProject(result, @"C:\Projects\Code\C#\OILexer\", ".html", "&nbsp;".Repeat(4), true);
+            var dualResume = sw.Elapsed;
+            sw.Reset();
+            sw.Start();
             result.Dispose();
+            sw.Stop();
+
             Console.WriteLine("To build a series of {0} tuple classes it took: {1}", passTimes.Length, actualTimeTaken);
-            Console.WriteLine("The average pass took: {0}", averageSpan);
+            Console.WriteLine("The average pass took: {0} / {1}", averageSpan, averageSpan2);
             Console.WriteLine("Total core processing time: {0}", fullTimeTaken);
             Console.WriteLine("Multi-core advantage {0:#.##}% gain", (100 - (((double)actualTimeTaken.Ticks * 100) / (double)(fullTimeTaken.Ticks))));
             Console.WriteLine("MaxPass: {0} ({2})\tMinPass: {1} ({3})", maxTime, minTime, maxIndex, minIndex);
-            Console.WriteLine("Resuming dual layout on TupleHelper took {0}", sw.Elapsed);
+            Console.WriteLine("Resuming dual layout on TupleHelper took {0}", dualResume);
+            Console.WriteLine("Disposal took {0}", sw.Elapsed);
         }
 
     }

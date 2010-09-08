@@ -47,20 +47,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                     yield return new KeyValuePair<string, MasterDictionaryEntry<TDeclaration>>((string)subordinate.Keys[element], new MasterDictionaryEntry<TDeclaration>(subordinate, (TDeclaration)subordinate.Values[element]));
         }
 
-        public override MasterDictionaryEntry<TDeclaration> this[string key]
+        protected override KeyValuePair<string, MasterDictionaryEntry<TDeclaration>> OnGetThis(int index)
         {
-            get
-            {
-                foreach (var subordinate in this.Subordinates)
-                    if (subordinate.ContainsKey(key))
-                        return new MasterDictionaryEntry<TDeclaration>(subordinate, (TDeclaration)subordinate[key]);
-                throw new KeyNotFoundException();
-            }
-            set
-            {
-                throw new NotSupportedException();
-            }
+            var key = this.Keys[index];
+            foreach (var subordinate in this.Subordinates)
+                if (subordinate.ContainsKey(key))
+                    return new KeyValuePair<string, MasterDictionaryEntry<TDeclaration>>(key, new MasterDictionaryEntry<TDeclaration>(subordinate, (TDeclaration)subordinate[key]));
+            throw new KeyNotFoundException();
         }
+
         public override bool ContainsKey(string key)
         {
             foreach (var subordinate in this.Subordinates)
@@ -69,39 +64,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return false;
         }
 
-        public override void Clear()
-        {
-            throw new NotSupportedException();
-        }
-
-        public override void Add(string key, MasterDictionaryEntry<TDeclaration> value)
-        {
-            throw new NotSupportedException();
-        }
-
-        public override bool IsReadOnly
-        {
-            get
-            {
-                return true;
-            }
-        }
-        protected override bool OnGetIsSynchronized()
-        {
-            return false;
-        }
-
-        public override bool Remove(string key)
-        {
-            throw new NotSupportedException();
-        }
-
-        protected override IDictionaryEnumerator IDictionaryGetEnumerator()
-        {
-            return new _DictionaryEnumerator(this);
-        }
-
-        protected override void ICollection_CopyTo(KeyValuePair<string, MasterDictionaryEntry<TDeclaration>>[] array, int arrayIndex)
+        protected override void ICollection_CopyTo(Array array, int arrayIndex)
         {
             if (array.Length - arrayIndex < this.Count)
                 throw new ArgumentException("array");
@@ -110,7 +73,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             {
                 var currentSubordinate = subordinates[i];
                 for (int j = 0; j < currentSubordinate.Count; j++)
-                    array[offset + j] = new KeyValuePair<string, MasterDictionaryEntry<TDeclaration>>((string)currentSubordinate.Keys[j], new MasterDictionaryEntry<TDeclaration>(currentSubordinate, (TDeclaration)currentSubordinate.Values[j]));
+                    array.SetValue(new KeyValuePair<string, MasterDictionaryEntry<TDeclaration>>((string)currentSubordinate.Keys[j], new MasterDictionaryEntry<TDeclaration>(currentSubordinate, (TDeclaration)currentSubordinate.Values[j])), offset + j);
             }
         }
 

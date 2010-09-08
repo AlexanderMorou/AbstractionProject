@@ -61,7 +61,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// end of the destination <paramref name="array"/>.-or-Type <typeparamref name="T"/> 
         /// cannot be cast automatically to the type of the destination
         /// <paramref name="array"/>.</exception>
-        new void CopyTo(Array array, int arrayIndex);
+        new void CopyTo(Array array, int arrayIndex = 0);
 
         /// <summary>
         /// Returns the element at the <paramref name="index"/> provided

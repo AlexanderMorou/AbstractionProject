@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         public IIntermediateModule Add(string moduleName)
         {
             var result = new IntermediateModule(moduleName, this.assembly);
-            this.Add(moduleName, result);
+            this._Add(moduleName, result);
             return result;
         }
 

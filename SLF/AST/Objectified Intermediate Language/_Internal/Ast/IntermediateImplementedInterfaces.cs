@@ -90,5 +90,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         }
 
         #endregion
+
+        #region ILockedTypeCollection Members
+
+        public bool IsDisposed
+        {
+            get { return this.source == null; }
+        }
+
+        #endregion
     }
 }

@@ -66,15 +66,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         public virtual void Dispose()
         {
             this.original = null;
-            if (this.valuesCollection != null)
+            if (this.valuesInstance != null)
             {
-                ((_ValuesCollection)(this.valuesCollection)).Dispose();
-                this.valuesCollection = null;
+                ((_ValuesCollection)(this.valuesInstance)).Dispose();
+                this.valuesInstance = null;
             }
-            if (this.keysCollection != null)
+            if (this.keysInstance != null)
             {
-                ((_KeysCollection)(this.keysCollection)).Dispose();
-                this.keysCollection = null;
+                ((_KeysCollection)(this.keysInstance)).Dispose();
+                this.keysInstance = null;
             }
             this.parent = default(TOriginalContainer);
         }
@@ -116,7 +116,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         public int IndexOf(TDeclarationSpecific decl)
         {
-            if (this.valuesCollection == null)
+            if (this.valuesInstance == null)
                 return -1;
             int index = 0;
             foreach (var item in ((_ValuesCollection)(this.Values)).values.Values)
@@ -140,12 +140,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             vE.Dispose();
         }
 
-        public override KeyValuePair<string, TDeclarationSpecific> this[int index]
+
+        protected override KeyValuePair<string, TDeclarationSpecific> OnGetThis(int index)
         {
-            get
-            {
-                return new KeyValuePair<string, TDeclarationSpecific>(this.Keys[index], this.Values[index]);
-            }
+            return new KeyValuePair<string, TDeclarationSpecific>(this.Keys[index], this.Values[index]);
         }
 
         public override KeyValuePair<string, TDeclarationSpecific>[] ToArray()
@@ -176,11 +174,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return false;
         }
 
-        protected override void Add(string key, TDeclarationSpecific value)
-        {
-            throw new NotSupportedException();
-        }
-
         protected override TDeclarationSpecific OnGetThis(string key)
         {
             if (this.ContainsKey(key))
@@ -188,20 +181,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             throw new KeyNotFoundException(key);
         }
 
-        protected override bool RemoveImpl(int index)
-        {
-            throw new NotSupportedException();
-        }
-
-        protected override bool RemoveImpl(string key)
-        {
-            throw new NotSupportedException();
-        }
-
-        protected override void Clear()
-        {
-            throw new NotSupportedException();
-        }
 
         public override void CopyTo(KeyValuePair<string, TDeclarationSpecific>[] array, int arrayIndex)
         {

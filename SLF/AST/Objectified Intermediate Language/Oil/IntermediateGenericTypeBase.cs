@@ -10,6 +10,7 @@ using System.Globalization;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
 using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using AllenCopeland.Abstraction.Utilities.Events;
+using System.Threading.Tasks;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -236,7 +237,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 if (genericCache != null)
                 {
-                    this.genericCache.Values.OnAllP(q => q.Dispose());
+                    Parallel.ForEach(this.genericCache.Values.ToArray(), q =>
+                        q.Dispose());
                     this.genericCache.Clear();
                     this.genericCache = null;
                 }

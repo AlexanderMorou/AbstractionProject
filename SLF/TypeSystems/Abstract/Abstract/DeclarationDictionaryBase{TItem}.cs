@@ -42,10 +42,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         public virtual void Dispose()
         {
-            foreach (var key in this.dictionaryCopy.Keys)
-                this.dictionaryCopy[key].Dispose();
-            this.dictionaryCopy.Clear();
-            this.dictionaryCopy = null;
+            var values = this.Values.ToArray();
+            foreach (var value in values)
+                value.Dispose();
+            this._Clear();
         }
 
         #endregion
@@ -75,7 +75,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         public int IndexOf(TItem decl)
         {
             int index = 0;
-            if (this.valuesCollection == null)
+            if (this.valuesInstance == null)
                 return -1;
             foreach (var item in this.Values)
                 if (object.ReferenceEquals(item, decl))

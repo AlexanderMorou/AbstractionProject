@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 var result = new FieldMember(name, this.Parent);
                 result.Value = new IntermediateEnumType.FieldMember.ConstantValue<TValue>(value);
-                base.Add(result.UniqueIdentifier, result);
+                this._Add(result.UniqueIdentifier, result);
                 return result;
             }
 
@@ -102,14 +102,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 IIntermediateEnumFieldMember result = new FieldMember(name, this.Parent);
                 result.Value = new FieldMember.ExpressionValue(value);
-                base.Add(result.UniqueIdentifier, result);
+                this._Add(result.UniqueIdentifier, result);
                 return result;
             }
 
             public IIntermediateEnumFieldMember Add(string name)
             {
                 IIntermediateEnumFieldMember result = new FieldMember(name, this.Parent);
-                base.Add(result.UniqueIdentifier, result);
+                this._Add(result.UniqueIdentifier, result);
                 return result;
             }
 

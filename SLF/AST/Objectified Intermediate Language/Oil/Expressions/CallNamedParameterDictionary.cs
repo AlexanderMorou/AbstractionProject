@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         public INamedParameterExpression Add(string parameterName, IExpression expression)
         {
             var result = new NamedParameterExpression(parameterName, expression);
-            base.Add(parameterName, result);
+            this._Add(parameterName, result);
             return result;
         }
 
@@ -46,15 +46,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// to add.</param>
         public void Add(INamedParameterExpression expression)
         {
-            base.Add(expression.Name, expression);
+            this._Add(expression.Name, expression);
         }
 
         /// <summary>
         /// Clears the <see cref="ICallNamedParameterDictionary"/>.
         /// </summary>
-        public new void Clear()
+        public void Clear()
         {
-            base.Clear();
+            base._Clear();
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (index < 0 || index >= this.Count)
                 throw new ArgumentOutOfRangeException("index");
-            base.RemoveImpl(index);
+            base._Remove(index);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// false, otherwise.</returns>
         public bool Remove(string parameterName)
         {
-            return base.RemoveImpl(parameterName);
+            return this._Remove(parameterName);
         }
 
         #endregion

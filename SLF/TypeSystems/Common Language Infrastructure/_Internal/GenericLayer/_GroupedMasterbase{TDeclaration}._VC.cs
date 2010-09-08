@@ -10,7 +10,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
     {
         private _VC valuesCollection;
 
-        protected override ICollection<MasterDictionaryEntry<TDeclaration>> GetValues()
+        protected override ControlledStateDictionary<string, MasterDictionaryEntry<TDeclaration>>.ValuesCollection InitializeValuesCollection()
         {
             if (this.valuesCollection == null)
                 this.valuesCollection = new _VC(this);
@@ -18,39 +18,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         }
 
         private class _VC :
-            ReadOnlyCollection<MasterDictionaryEntry<TDeclaration>>,
-            ICollection<MasterDictionaryEntry<TDeclaration>>
+            _GroupedMasterBase<TDeclaration>.ValuesCollection
         {
             private _GroupedMasterBase<TDeclaration> master;
 
             public _VC(_GroupedMasterBase<TDeclaration> master)
+                : base(master)
             {
                 this.master = master;
             }
-
-            #region ICollection<MasterDictionaryEntry<TDeclaration>> Members
-
-            public void Add(MasterDictionaryEntry<TDeclaration> item)
-            {
-                throw new NotSupportedException();
-            }
-
-            public void Clear()
-            {
-                throw new NotSupportedException();
-            }
-
-            public bool IsReadOnly
-            {
-                get { return true; }
-            }
-
-            public bool Remove(MasterDictionaryEntry<TDeclaration> item)
-            {
-                throw new NotSupportedException();
-            }
-
-            #endregion
 
             public override int Count
             {
@@ -59,23 +35,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                     return this.master.Count;
                 }
             }
-
-            public override MasterDictionaryEntry<TDeclaration> this[int index]
+            protected override MasterDictionaryEntry<TDeclaration> OnGetThis(int index)
             {
-                get
+                int currentIndexBase = 0;
+                foreach (var subordinate in this.master.Subordinates)
                 {
-                    int currentIndexBase = 0;
-                    foreach (var subordinate in this.master.Subordinates)
+                    if (index >= currentIndexBase &&
+                        index < currentIndexBase + subordinate.Count)
                     {
-                        if (index >= currentIndexBase &&
-                            index < currentIndexBase + subordinate.Count)
-                        {
-                            return new MasterDictionaryEntry<TDeclaration>(subordinate, (TDeclaration)subordinate.Values[index - currentIndexBase]);
-                        }
-                        currentIndexBase += subordinate.Count;
+                        return new MasterDictionaryEntry<TDeclaration>(subordinate, (TDeclaration)subordinate.Values[index - currentIndexBase]);
                     }
-                    throw new ArgumentOutOfRangeException("index");
+                    currentIndexBase += subordinate.Count;
                 }
+                throw new ArgumentOutOfRangeException("index");
             }
 
             public override void CopyTo(MasterDictionaryEntry<TDeclaration>[] array, int arrayIndex)

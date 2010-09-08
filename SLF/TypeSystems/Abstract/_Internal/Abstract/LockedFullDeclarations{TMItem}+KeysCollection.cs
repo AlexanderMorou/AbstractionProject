@@ -17,25 +17,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
     partial class LockedFullDeclarations<TMItem>
     {
         private class _KeysCollection :
-            ICollection<string>
+            ControlledStateDictionary<string, MasterDictionaryEntry<TMItem>>.KeysCollection
         {
             private LockedFullDeclarations<TMItem> source;
             private string[] dataCopy;
             public _KeysCollection(LockedFullDeclarations<TMItem> source)
+                : base(source)
             {
                 this.source = source;
                 this.dataCopy = new string[source.sourceData.Count];
             }
-            public string this[int index]
+
+            protected override string OnGetKey(int index)
             {
-                get
-                {
-                    if (this.dataCopy[index] == null)
-                        this.dataCopy[index] = this.source.FetchKey(source.sourceData[index]);
-                    return this.dataCopy[index];
-                }
+                if (this.dataCopy[index] == null)
+                    this.dataCopy[index] = this.source.FetchKey(source.sourceData[index]);
+                return this.dataCopy[index];
             }
-            public int Count
+
+            protected sealed override void OnSetKey(int index, string value) { }
+
+            public override int Count
             {
                 get
                 {
@@ -43,7 +45,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 }
             }
 
-            public IEnumerator<string> GetEnumerator()
+            public override IEnumerator<string> GetEnumerator()
             {
                 for (int i = 0; i < this.dataCopy.Length; i++)
                 {
@@ -54,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 yield break;
             }
 
-            public string[] ToArray()
+            public override string[] ToArray()
             {
                 for (int i = 0; i < this.dataCopy.Length; i++)
                     if (this.dataCopy[i] == null)
@@ -64,7 +66,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 return dc;
             }
             
-            public bool Contains(string item)
+            public override bool Contains(string item)
             {
                 bool containsUnloaded = false;
                 foreach (string s in this.dataCopy)
@@ -131,44 +133,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 this.dataCopy = r;
             }
 
-
-            #region ICollection<string> Members
-
-            public void Add(string item)
-            {
-                throw new NotSupportedException();
-            }
-
-            public void Clear()
-            {
-                throw new NotSupportedException();
-            }
-
-            public void CopyTo(string[] array, int arrayIndex)
-            {
-                this.ToArray().CopyTo(array, arrayIndex);
-            }
-
-            public bool IsReadOnly
-            {
-                get { return true; }
-            }
-
-            public bool Remove(string item)
-            {
-                throw new NotSupportedException();
-            }
-
-            #endregion
-
-            #region IEnumerable Members
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
-
-            #endregion
         }
     }
 }

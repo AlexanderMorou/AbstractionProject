@@ -68,8 +68,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// in which the <see cref="SubordinateDictionary{TKey, TSValue, TValue}"/> resides.</param>
         /// <param name="items">The <see cref="Dictionary{TKey, TSValue}"/>
         /// to wrap.</param>
-        protected SubordinateDictionary(MasterDictionaryBase<TKey, TMValue> master, Dictionary<TKey, TSValue> items)
-            : base(items)
+        protected SubordinateDictionary(MasterDictionaryBase<TKey, TMValue> master, SubordinateDictionary<TKey, TSValue, TMValue> sibling)
+            : base(sibling)
         {
             this.master = master;
         }
@@ -105,12 +105,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// current <paramref name="value"/> inserted.</param>
         /// <param name="value">The <typeparamref name="TValue"/>
         /// to insert.</param>
-        protected override void Add(TKey key, TSValue value)
+        protected internal override void _Add(TKey key, TSValue value)
         {
             this.RefreshCheck();
             if (this.Master != null)
                 this.master.Subordinate_ItemAdded(this, key, value);
-            base.Add(key, value);
+            base._Add(key, value);
         }
 
         /// <summary>
@@ -119,25 +119,25 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// </summary>
         /// <param name="key">The key of the <typeparamref name="TValue"/> to remove.</param>
         /// <returns>true if the element was successfully removed; false otherwise.</returns>
-        protected virtual bool Remove(TKey key)
+        protected internal virtual bool Remove(TKey key)
         {
             this.RefreshCheck();
             if (this.Master != null)
                 this.master.Subordinate_ItemRemoved(this, key);
-            return base.RemoveImpl(key);
+            return base._Remove(key);
         }
 
         /// <summary>
         /// Removes all entries from the 
         /// <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/>.
         /// </summary>
-        protected override void Clear()
+        protected internal override void _Clear()
         {
             if (this.Master != null)
                 this.master.Subordinate_Cleared(this);
             this.version = 0;
             this.needsRefresh = false;
-            base.Clear();
+            base._Clear();
         }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 this.RefreshCheck();
                 if (this.Master != null)
                     this.master.Subordinate_ItemChanged(this, key, value);
-                base.dictionaryCopy[key] = value;
+                base[key] = value;
             }
         }
 
@@ -189,34 +189,36 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         void _ISubordinateDictionaryMasterPass.Add(object key, object value)
         {
             this.RefreshCheck();
-            this.dictionaryCopy.Add((TKey)key, (TSValue)value);
+            base._Add((TKey)key, (TSValue)value);
         }
 
         void _ISubordinateDictionaryMasterPass.Clear()
         {
             this.version = 0;
             this.needsRefresh = false;
-            this.dictionaryCopy.Clear();
+            this._Clear();
         }
 
         void _ISubordinateDictionaryMasterPass.Remove(object key)
         {
             this.RefreshCheck();
-            this.dictionaryCopy.Remove((TKey)key);
+            base._Remove((TKey)key);
         }
 
         object _ISubordinateDictionaryMasterPass.this[object key]
         {
-            set {
+            set
+            {
                 this.RefreshCheck();
-                this.dictionaryCopy[(TKey)key] = (TSValue)value; }
+                base[(TKey)key] = (TSValue)value;
+            }
         }
 
         #endregion
 
         protected override ControlledStateDictionary<TKey, TSValue>.KeysCollection InitializeKeysCollection()
         {
-            return new KeysCollection(this, base.dictionaryCopy.Keys);
+            return new KeysCollection(this);
         }
 
         protected void IncrementVersion()
@@ -229,22 +231,21 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             if (this.needsRefresh)
             {
-                Tuple<bool, TKey, KeyValuePair<TKey, TSValue>>[] kvpSet = new Tuple<bool, TKey, KeyValuePair<TKey, TSValue>>[this.Count];
                 int index = 0;
+                List<Tuple<TKey, TKey>> rekeyedElements = new List<Tuple<TKey, TKey>>();
+
                 foreach (var kvp in this)
                 {
                     var newKey = this.RekeyElement(kvp);
                     if (newKey.Equals(kvp.Key))
-                        kvpSet[index++] = new Tuple<bool, TKey, KeyValuePair<TKey, TSValue>>(false, kvp.Key, kvp);
+                        index++;
                     else
-                        kvpSet[index++] = new Tuple<bool, TKey, KeyValuePair<TKey, TSValue>>(true, kvp.Key, new KeyValuePair<TKey, TSValue>(this.RekeyElement(kvp), kvp.Value));
+                    {
+                        rekeyedElements.Add(new Tuple<TKey, TKey>(kvp.Key, newKey));
+                        this.Keys[index++] = newKey;
+                    }
                 }
-                base.dictionaryCopy.Clear();
-                foreach (var element in kvpSet)
-                    ((ICollection<KeyValuePair<TKey, TSValue>>)base.dictionaryCopy).Add(element.Item3);
-                master.Subordinate_ItemsRekeyed(this, from element in kvpSet
-                                                      where element.Item1
-                                                      select new Tuple<TKey, TKey, TSValue>(element.Item2, element.Item3.Key, element.Item3.Value));
+                master.Subordinate_ItemsRekeyed(this, rekeyedElements);
 
                 this.needsRefresh = false;
             }

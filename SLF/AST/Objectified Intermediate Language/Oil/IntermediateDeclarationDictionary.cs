@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Events;
 using System.Linq;
+using System.Threading.Tasks;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -46,7 +47,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         /// <param name="toWrap">The <see cref="Dictionary{TKey, TValue}"/> to encapsulate.</param>
         public IntermediateDeclarationDictionary(IntermediateDeclarationDictionary<TDeclaration, TIntermediateDeclaration> toWrap) :
-            base(toWrap.dictionaryCopy)
+            base(toWrap)
         {
         }
 
@@ -68,13 +69,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 if (!this.Keys.Contains(identifier))
                     throw new ArgumentOutOfRangeException("identifier");
-                return ((TIntermediateDeclaration)(base.Values[this.Keys.GetIndexOf(identifier)]));
+                return (TIntermediateDeclaration)base[identifier];
             }
         }
 
         public new KeyValuePair<string, TIntermediateDeclaration> this[int index]
         {
-            get { return new KeyValuePair<string, TIntermediateDeclaration>(this.Keys[index], this.Values[index]); }
+            get {
+                var original = base[index];
+                return new KeyValuePair<string, TIntermediateDeclaration>(original.Key, (TIntermediateDeclaration)original.Value);
+            }
         }
 
         public new IEnumerator<KeyValuePair<string, TIntermediateDeclaration>> GetEnumerator()
@@ -139,10 +143,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (disposing)
             {
-                var arrayCopy = this.baseCollection.ToArray();
-                for (int i = 0; i < arrayCopy.Length; i++)
-                    arrayCopy[i].Value.Dispose();
-                this.baseCollection.Clear();
+                var declarationValueCopy = this.Values.ToArray();
+                Parallel.For(0, declarationValueCopy.Length,
+                    i =>
+                    {
+                        declarationValueCopy[i].Dispose();
+                    });
+                this._Clear();
             }
         }
 

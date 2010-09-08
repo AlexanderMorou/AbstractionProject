@@ -41,8 +41,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         /// </summary>
         /// <param name="items">The <see cref="IDictionary{TKey, TValue}"/> 
         /// to encapsulate.</param>
-        internal LockedDeclarationsBase(Dictionary<string, TItem> items)
-            : base(items)
+        internal LockedDeclarationsBase(LockedDeclarationsBase<TItem> sibling)
+            : base(sibling)
         {
         }
 
@@ -65,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             : base()
         {
             foreach (TItem ti in target)
-                dictionaryCopy.Add(ti.UniqueIdentifier, ti);
+                base._Add(ti.UniqueIdentifier, ti);
         }
 
         #region IDictionary<string,TItem> Members
@@ -79,21 +79,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         /// <exception cref="System.NotSupportedException">
         /// The <see cref="LockedDeclarationsBase{TItem}"/> does not
         /// support modification.</exception>
-        protected override void Add(string key, TItem value)
+        protected internal override void _Add(string key, TItem value)
         {
             throw new NotSupportedException("Declarations locked.");
         }
 
+        internal void _AddInternal(string key, TItem value)
+        {
+            base._Add(key, value);
+        }
+
         /// <summary>
-        /// Removes an element with the specified <paramref name="key"/> from the 
+        /// Removes an element with the specified <paramref name="index"/> from the 
         /// <see cref="LockedDeclarationsBase{TItem}"/>.
         /// </summary>
-        /// <param name="key">The key of the <typeparamref name="TItem"/> to remove.</param>
+        /// <param name="key">The <see cref="Int32"/> ordinal index of 
+        /// the <typeparamref name="TItem"/> to remove.</param>
         /// <returns>true if the element was successfully removed; false otherwise.</returns>
         /// <exception cref="System.NotSupportedException">
         /// The <see cref="LockedDeclarationsBase{TItem}"/> does 
         /// not support modification.</exception>
-        protected override bool RemoveImpl(string key)
+        protected internal override bool _Remove(int index)
         {
             throw new NotSupportedException("Declarations locked.");
         }
@@ -105,8 +111,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         public virtual void Dispose()
         {
-            this.dictionaryCopy.Values.OnAll(f => f.Dispose());
-            this.dictionaryCopy.Clear();
+            this.Values.OnAll(f => f.Dispose());
+            this._Clear();
         }
 
         #endregion
