@@ -216,21 +216,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (currentSet.Count != typeParameters.Count)
                     return;
                 bool allFound = true;
-                bool currentFound = false;
-                IType[] currentCopy;
-                currentCopy = currentSet.ToArray();
                 for (int j = 0; j < typeParameters.Count; j++)
                 {
                     var currentElement = typeParameters[j];
-                    for (int k = 0; k < currentCopy.Length; k++)
-                    {
-                        if (currentCopy[k].Equals(currentElement))
-                        {
-                            currentFound = true;
-                            break;
-                        }
-                    }
-                    if (!currentFound)
+                    IType currentAlternate;
+                    lock (currentSet)
+                        currentAlternate = currentSet[j];
+                    if (!currentAlternate.Equals(currentElement))
                     {
                         allFound = false;
                         break;
@@ -343,21 +335,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (currentSet.Count != typeParameters.Count)
                     return;
                 bool allFound = true;
-                bool currentFound = false;
-                IType[] currentCopy;
-                currentCopy = currentSet.ToArray();
                 for (int j = 0; j < typeParameters.Count; j++)
                 {
                     var currentElement = typeParameters[j];
-                    for (int k = 0; k < currentCopy.Length; k++)
-                    {
-                        if (currentCopy[k].Equals(currentElement))
-                        {
-                            currentFound = true;
-                            break;
-                        }
-                    }
-                    if (!currentFound)
+                    IType currentAlternate;
+                    lock (currentSet)
+                        currentAlternate = currentSet[j];
+                    if (!currentAlternate.Equals(currentElement))
                     {
                         allFound = false;
                         break;

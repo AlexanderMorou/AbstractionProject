@@ -102,7 +102,6 @@
     <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}+SharedLocals.cs" />
     <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}+ValuesCollection.cs" />
     <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}.cs" />
-    <Compile Include="Collections\CustomDictionaryBase{TKey, TValue}.cs" />
     <Compile Include="Collections\GeneralExtensions.cs" />
     <Compile Include="Collections\HashList{T}.cs" />
     <Compile Include="Collections\IControlledStateCollection.cs" />

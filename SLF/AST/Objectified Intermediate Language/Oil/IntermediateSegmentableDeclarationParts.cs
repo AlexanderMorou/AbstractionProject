@@ -48,7 +48,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public TDeclaration Add()
         {
             TDeclaration t = creator();
-            base.baseCollection.Add(t);
+            lock (this.baseCollection)
+                this.baseCollection.Add(t);
             return t;
         }
 
@@ -57,7 +58,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             if (!this.Contains(part))
                 throw new ArgumentException("part");
             part.Dispose();
-            this.baseCollection.Remove(part);
+            lock (this.baseCollection)
+                this.baseCollection.Remove(part);
         }
 
         public void Remove(int index)

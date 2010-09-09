@@ -153,46 +153,47 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         #endregion
 
         #region Member Initialization Checks
+        private object memberInitSynch = new object();
         private void CheckConstructor()
         {
-            if (this.constructors == null)
-                this.constructors = this.InitializeCtors();
+            lock (memberInitSynch)
+                if (this.constructors == null)
+                    this.constructors = this.InitializeCtors();
         }
 
         private void CheckEvents()
         {
-            if (this.events == null)
-                this.events = this.InitializeEvents();
+            lock (memberInitSynch)
+                if (this.events == null)
+                    this.events = this.InitializeEvents();
         }
 
         private void CheckFields()
         {
-            if (this.fields == null)
-                this.fields = this.InitializeFields();
+            lock (memberInitSynch)
+                if (this.fields == null)
+                    this.fields = this.InitializeFields();
         }
 
         private void CheckIndexers()
         {
-            try
-            {
+            lock (memberInitSynch)
                 if (this.indexers == null)
                     this.indexers = this.InitializeIndexers();
-            }
-            catch (NotImplementedException)
-            {
-            }
         }
 
         private void CheckMethods()
         {
-            if (this.methods == null)
-                this.methods = this.InitializeMethods();
+            lock (memberInitSynch)
+                if (this.methods == null)
+                    this.methods = this.InitializeMethods();
         }
 
         private void CheckProperties()
         {
-            if (this.properties == null)
-                this.properties = this.InitializeProperties();
+            lock (memberInitSynch)
+                if (this.properties == null)
+                    this.properties = this.InitializeProperties();
         }
         #endregion
 
