@@ -15,6 +15,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.CompilerServices;
 using AllenCopeland.Abstraction.Slf._Internal;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Utilities.Common;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 using System.Collections.Generic;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq;
@@ -170,7 +171,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
         private static void Main()
         {
             //First time's skewed due to JIT compilation.
-            Extraction03();
+            Extraction05();
         }
 
         private static void Extraction05()
@@ -227,7 +228,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
         private static void BuildTupleSamples()
         {
             int minTuple = 9;
-            int maxTuple = 300;
+            int maxTuple = 20;
             /* *
              * The system tuple implementation maxes out at eight
              * elements with the final element consisting of a secondary
@@ -310,7 +311,8 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
                 var parameterInfo            = new TypedName[i];
                 Array.Copy(nameCopy, names, i);
                 Array.Copy(parameterInfoCopy, parameterInfo, i);
-                var currentType              = result.DefaultNamespace.Parts.Add().Classes.Add("Tuple", names);
+                var dNSParts = result.DefaultNamespace.Parts;
+                var currentType = dNSParts.Add().Classes.Add("Tuple", names);
                 currentType.SuspendDualLayout();
 
                 var currentTupleHelper       = tupleHelperClass.Methods.Add(getTupleName, parameterInfo, names);
@@ -359,19 +361,6 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
                     currentParamReferences.Clear();
                     currentTupleTypes.Clear();
                 }
-                //for (int j = 0; j < sevenTupleSetCount; j++)
-                //{
-                //    var currentSetRange = new Tuple<int, int>((j * 7), Math.Min(((j + 1) * 7), i));
-                //    var currentTupleSet = new TypeCollection();
-                //    List<IExpression> currentParamRefs = new List<IExpression>();
-                //    for (int k = currentSetRange.Item1; k < currentSetRange.Item2; k++)
-                //    {
-                //        currentTupleSet.Add(typeParams[k]);
-                //        currentParamRefs.Add(parameters[k]);
-                //    }
-                //    sevenParameterSets.AddLast(currentParamRefs.ToArray());
-                //    sevenTupleSets.AddLast(currentTupleSet);
-                //}
                 /* *
                  * We start with the last type in the tuple groups,
                  * this way we can build the type backwards and end up with
@@ -466,6 +455,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
                 //Obtain the current pass' time and reset the timer.
                 swInner.Stop();
                 passTimes[i - minTuple] = swInner.Elapsed;
+
             } /**/);
             sw.Stop();
             TimeSpan actualTimeTaken = sw.Elapsed;

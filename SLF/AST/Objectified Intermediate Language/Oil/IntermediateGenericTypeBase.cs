@@ -202,7 +202,40 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.genericCache == null)
                 return false;
-            var fd = this.genericCache.Keys.FirstOrDefault(itc => itc.SequenceEqual(typeParameters));
+            if (typeParameters == null)
+                return false;
+            ITypeCollectionBase fd = null;
+            ITypeCollectionBase[] keyCopy = null;
+            lock (genericCache)
+                keyCopy = genericCache.Keys.ToArray();
+            Parallel.For(0, keyCopy.Length, (i, parallelLoopState) =>
+            //for (int i = 0; i < keyCopy.Length; i++)
+            {
+                var currentSet = keyCopy[i];
+                if (currentSet.Count != typeParameters.Count)
+                    return;
+                bool allFound = true;
+                for (int j = 0; j < typeParameters.Count; j++)
+                {
+                    var currentElement = typeParameters[j];
+                    IType currentAlternate;
+                    lock (currentSet)
+                        currentAlternate = currentSet[j];
+                    if (!currentAlternate.Equals(currentElement))
+                    {
+                        allFound = false;
+                        break;
+                    }
+                }
+                if (allFound)
+                {
+                    var currentLocked = currentSet as ILockedTypeCollection;
+                    if (currentLocked != null && currentLocked.IsDisposed)
+                        return;
+                    fd = currentSet;
+                    parallelLoopState.Stop();
+                }
+            });
             if (fd == null)
                 return false;
             r = this.genericCache[fd];
@@ -288,23 +321,47 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             if (this.genericCache == null)
                 return;
             ITypeCollectionBase match = null;
-            foreach (var itc in this.genericCache.Keys)
-                if (itc.SequenceEqual(typeParameters))
+            ITypeCollectionBase[] keyCopy;
+            lock (this.genericCache)
+                keyCopy = this.genericCache.Keys.ToArray();
+            Parallel.For(0, keyCopy.Length, (i, parallelLoopState) =>
+            {
+                var currentSet = keyCopy[i];
+                if (currentSet.Count != typeParameters.Count)
+                    return;
+                bool allFound = true;
+                for (int j = 0; j < typeParameters.Count; j++)
                 {
-                    match = itc;
-                    break;
+                    var currentElement = typeParameters[j];
+                    IType currentAlternate;
+                    lock (currentSet)
+                        currentAlternate = currentSet[j];
+                    if (!currentAlternate.Equals(currentElement))
+                    {
+                        allFound = false;
+                        break;
+                    }
                 }
+                if (allFound)
+                {
+                    var currentLocked = currentSet as ILockedTypeCollection;
+                    if (currentLocked != null && currentLocked.IsDisposed)
+                        return;
+                    match = currentSet;
+                    parallelLoopState.Stop();
+                }
+            });
             if (match == null)
                 return;
-            genericCache.Remove(match);
-            if (match is ILockedTypeCollection)
-                ((ILockedTypeCollection)(match)).Dispose();
-            else if (match is ITypeCollection)
-                try
-                {
-                    ((ITypeCollection)(match)).Clear();
-                }
-                catch (NotSupportedException) { }
+            /* *
+             * Multi-threading requirement, if the generic type which has been
+             * disposed is the result of this disposing, this very well could
+             * occur.
+             * */
+            if (this.genericCache == null)
+                return;
+            lock (this.genericCache)
+                genericCache.Remove(match);
         }
 
         #endregion

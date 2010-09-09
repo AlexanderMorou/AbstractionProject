@@ -135,7 +135,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckConstructors()
         {
-            if (this.constructors == null)
+            lock (memberInitSynch)
+                if (this.constructors == null)
                 this.constructors = this.InitializeConstructors();
         }
 
@@ -179,7 +180,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckMethods()
         {
-            if (this.methods == null)
+            lock (memberInitSynch)
+                if (this.methods == null)
                 this.methods = this.InitializeMethods();
         }
 
@@ -214,7 +216,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckProperties()
         {
-            if (this.properties == null)
+            lock (memberInitSynch)
+                if (this.properties == null)
                 this.properties = this.InitializeProperties();
         }
 
@@ -259,7 +262,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckFields()
         {
-            if (this.fields == null)
+            lock (memberInitSynch)
+                if (this.fields == null)
                 this.fields = this.InitializeFields();
         }
 
@@ -303,7 +307,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckBinaryOperatorCoercions()
         {
-            if (this.binaryOperatorCoercions == null)
+            lock (memberInitSynch)
+                if (this.binaryOperatorCoercions == null)
                 this.binaryOperatorCoercions = this.InitializeBinaryOperatorCoercions();
         }
 
@@ -337,7 +342,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckTypeCoercions()
         {
-            if (this.typeCoercions == null)
+            lock (memberInitSynch)
+                if (this.typeCoercions == null)
                 this.typeCoercions = this.InitializeTypeCoercions();
         }
 
@@ -371,7 +377,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckUnaryOperatorCoercions()
         {
-            if (this.unaryOperatorCoercions == null)
+            lock (memberInitSynch)
+                if (this.unaryOperatorCoercions == null)
                 this.unaryOperatorCoercions = this.InitializeUnaryOperatorCoercions();
         }
 
@@ -430,7 +437,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckEvents()
         {
-            if (this.events == null)
+            lock (memberInitSynch)
+                if (this.events == null)
                 this.events = this.InitializeEvents();
         }
 
@@ -483,7 +491,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckIndexers()
         {
-            if (this.indexers == null)
+            lock (memberInitSynch)
+                if (this.indexers == null)
                 this.indexers = this.InitializeIndexers();
         }
 
@@ -511,7 +520,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         #endregion
 
         #region ITypeParent Members
-        
+        private object typeInitializerSynch = new object();
         public IClassTypeDictionary Classes
         {
             get
@@ -528,8 +537,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckClasses()
         {
-            if (this.classes == null)
-                this.classes = this.InitializeClasses();
+            lock (typeInitializerSynch)
+                if (this.classes == null)
+                    this.classes = this.InitializeClasses();
         }
 
         /// <summary>
@@ -562,8 +572,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckDelegates()
         {
-            if (this.delegates == null)
-                this.delegates = this.InitializeDelegates();
+            lock (typeInitializerSynch)
+                if (this.delegates == null)
+                    this.delegates = this.InitializeDelegates();
         }
 
         /// <summary>
@@ -597,8 +608,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckEnums()
         {
-            if (this.enums == null)
-                this.enums = this.InitializeEnums();
+            lock (typeInitializerSynch)
+                if (this.enums == null)
+                    this.enums = this.InitializeEnums();
         }
 
         /// <summary>
@@ -632,8 +644,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckInterfaces()
         {
-            if (this.interfaces == null)
-                this.interfaces = this.InitializeInterfaces();
+            lock (typeInitializerSynch)
+                if (this.interfaces == null)
+                    this.interfaces = this.InitializeInterfaces(); ;
         }
 
         /// <summary>
@@ -667,8 +680,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckStructs()
         {
-            if (this.structs == null)
-                this.structs = this.InitializeStructs();
+            lock (typeInitializerSynch)
+                if (this.structs == null)
+                    this.structs = this.InitializeStructs();
         }
 
         /// <summary>
@@ -730,8 +744,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void Check_Types()
         {
-            if (this.types == null)
-                this.types = this.Initialize_Types();
+            lock (typeInitializerSynch)
+                if (this.types == null)
+                    this.types = this.Initialize_Types();
         }
 
         /// <summary>
@@ -750,7 +765,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #endregion
 
-        
+        private object memberInitSynch = new object();
         public _FullMembersBase _Members
         {
             get
@@ -767,8 +782,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void Check_Members()
         {
-            if (this._members == null)
-                this._members = this.Initialize_Members();
+            lock (memberInitSynch)
+                if (this._members == null)
+                    this._members = this.Initialize_Members();
         }
 
         /// <summary>
