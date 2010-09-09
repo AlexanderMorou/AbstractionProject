@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -466,7 +466,6 @@
       <DependentUpon>_GroupedMasterBase{TDeclaration}.cs</DependentUpon>
     </Compile>
     <Compile Include="_Internal\GenericLayer\_IGenericType.cs" />
-    <Compile Include="_Internal\GenericLayer\_IGenericTypeRegistrar.cs" />
     <Compile Include="_Internal\GenericLayer\_InterfaceTypeBase+_Events[+_Event].cs">
       <DependentUpon>_InterfaceTypeBase.cs</DependentUpon>
     </Compile>

@@ -109,13 +109,13 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 {
                     for (int i = index; i < this.Count - 1; i++)
                     {
-                        var next = this.entries[i];
+                        var next = this.entries[i + 1];
                         this.orderings[next.Key] = i;
-                        this.entries[i] = this.entries[i + 1];
+                        this.entries[i] = next;
                     }
+                    this.orderings.Remove(removed.Key);
                     this.entries[this.Count] = default(KeyValuePair<TKey, TValue>);
                 }
-                this.orderings.Remove(removed.Key);
                 return true;
             }
 

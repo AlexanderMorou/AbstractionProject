@@ -19,7 +19,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// </summary>
     public interface IGenericType :
         IType,
-        IGenericParamParent
+        IGenericParamParent,
+        IMassTargetHandler
     {
 
         /// <summary>

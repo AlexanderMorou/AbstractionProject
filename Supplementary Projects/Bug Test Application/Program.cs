@@ -184,7 +184,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             BuildTupleSamples();
             GC.Collect();
             GC.WaitForPendingFinalizers();
-            Console.ReadKey(true);
+            //Console.ReadKey(true);
         }
 
 
@@ -228,7 +228,8 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
         private static void BuildTupleSamples()
         {
             int minTuple = 9;
-            int maxTuple = 20;
+            int maxTuple = 68;
+            var disposalAid = new MassDisposalAid();
             /* *
              * The system tuple implementation maxes out at eight
              * elements with the final element consisting of a secondary
@@ -238,6 +239,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             sw.Start();
             var eightTupleType           = typeof(Tuple<,,,,,,,>).GetTypeReference<IClassType>();
             IIntermediateAssembly result = IntermediateGateway.CreateAssembly("TupleProject");
+            disposalAid.Add(eightTupleType);
             /* *
              * Add a default namespace and tuple helper class for simpler instantiation of
              * tuple instances.
@@ -291,7 +293,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
                     }
                 });
-            
+            disposalAid.AddRange(tupleBaseTypes);
             var unused = tupleHelperClass.Methods;
             var unused2 = result.DefaultNamespace.Types;
             Parallel.For(minTuple, maxTuple + 1, i =>
@@ -490,16 +492,19 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             //WriteProject(result, @"C:\Projects\Code\C#\OILexer\", ".html", "&nbsp;".Repeat(4), true);
             var dualResume = sw.Elapsed;
             sw.Reset();
-            sw.Start();
-            result.Dispose();
-            sw.Stop();
-
             Console.WriteLine("To build a series of {0} tuple classes it took: {1}", passTimes.Length, actualTimeTaken);
             Console.WriteLine("The average pass took: {0} / {1}", averageSpan, averageSpan2);
             Console.WriteLine("Total core processing time: {0}", fullTimeTaken);
             Console.WriteLine("Multi-core advantage {0:#.##}% gain", (100 - (((double)actualTimeTaken.Ticks * 100) / (double)(fullTimeTaken.Ticks))));
             Console.WriteLine("MaxPass: {0} ({2})\tMinPass: {1} ({3})", maxTime, minTime, maxIndex, minIndex);
             Console.WriteLine("Resuming dual layout on TupleHelper took {0}", dualResume);
+            sw.Start();
+            //CLIGateway.ClearCache();
+            disposalAid.BeginExodus();
+            result.Dispose();
+            disposalAid.EndExodus();
+            sw.Stop();
+
             Console.WriteLine("Disposal took {0}", sw.Elapsed);
         }
 

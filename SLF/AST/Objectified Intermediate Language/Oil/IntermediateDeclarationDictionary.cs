@@ -32,6 +32,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             TDeclaration,
             IIntermediateDeclaration
     {
+        private bool disposing;
+        private object disposeSynch = new object();
         private new ValuesCollection valuesCollection;
 
         /// <summary>
@@ -141,15 +143,29 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <param name="disposing">Whether to release managed memory.  If true, all data should be disposed; otherwise, only unmanaged memory should be disposed.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (this.disposeSynch == null)
+                return;
+            lock (this.disposeSynch)
             {
-                var declarationValueCopy = this.Values.ToArray();
-                Parallel.For(0, declarationValueCopy.Length,
-                    i =>
-                    {
-                        declarationValueCopy[i].Dispose();
-                    });
-                this._Clear();
+                if (this.disposing)
+                    return;
+                this.disposing = true;
+            }
+            try
+            {
+                if (disposing)
+                {
+                    var declarationValueCopy = this.Values.ToArray();
+                    Parallel.For(0, declarationValueCopy.Length,
+                        i => declarationValueCopy[i].Dispose());
+                    this._Clear();
+                }
+            }
+            finally
+            {
+                lock (this.disposeSynch)
+                    this.disposing = false;
+                this.disposeSynch = null;
             }
         }
 

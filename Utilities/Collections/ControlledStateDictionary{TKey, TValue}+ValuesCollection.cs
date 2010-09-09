@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using System.Threading.Tasks;
 
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
@@ -57,16 +58,20 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
             protected virtual TValue OnGetThis(int index)
             {
-                if (index < 0 ||
-                    index >= this.Count)
+                if (index < 0 || index >= this.Count)
                     throw new ArgumentOutOfRangeException("index");
                 return this.locals.entries[index].Value;
             }
 
             public virtual TValue[] ToArray()
             {
-                TValue[] result = new TValue[this.Count];
-                this.CopyTo(result, 0);
+                TValue[] result;
+                lock (this.locals.syncObject)
+                {
+                    result = new TValue[this.Count];
+                    Parallel.For(0, this.Count, i =>
+                        result[i] = this.locals.entries[i].Value);
+                }
                 return result;
             }
 
