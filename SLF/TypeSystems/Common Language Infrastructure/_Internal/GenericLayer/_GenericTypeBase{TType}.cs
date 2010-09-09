@@ -28,7 +28,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
     internal abstract class _GenericTypeBase<TType> :
         TypeBase<TType>,
         IGenericType<TType>,
-        _IGenericType
+        _IGenericType,
+        IMassTargetHandler
         where TType :
             class,
             IGenericType<TType>
@@ -437,5 +438,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 return this.disposed;
             }
         }
+
+        #region IMassTargetHandler Members
+
+        public void BeginExodus()
+        {
+            throw new NotSupportedException("Generic type instances are singletons which are part of an exodus, not the harbinger.");
+        }
+
+        public void EndExodus()
+        {
+            throw new NotSupportedException("Generic type instances are singletons which are part of an exodus, not the harbinger.");
+        }
+
+        #endregion
     }
 }

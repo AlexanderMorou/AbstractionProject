@@ -36,12 +36,14 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
             public virtual void CopyTo(TKey[] array, int arrayIndex = 0)
             {
+                if (this.Count == 0)
+                    return;
                 if (arrayIndex < 0 || arrayIndex >= array.Length)
-                    throw new ArgumentException("arrayIndex");
-                if (this.Count + arrayIndex >= array.Length)
+                    throw new ArgumentOutOfRangeException("arrayIndex");
+                if (this.Count + arrayIndex > array.Length)
                     throw new ArgumentException("array");
-                for (int i = 0; i < this.Count; i++)
-                    array[arrayIndex + i] = this.locals.entries[i].Key;
+                lock (this.locals.syncObject)
+                    this.locals.orderings.Keys.CopyTo(array, arrayIndex);
             }
 
             public virtual TKey this[int index]
@@ -77,8 +79,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
             public virtual TKey[] ToArray()
             {
-                TKey[] result = new TKey[this.Count];
-                this.CopyTo(result, 0);
+                TKey[] result;
+                lock (this.locals.syncObject)
+                {
+                    result = new TKey[this.Count];
+                    this.locals.orderings.Keys.CopyTo(result, 0);
+                }
                 return result;
             }
 

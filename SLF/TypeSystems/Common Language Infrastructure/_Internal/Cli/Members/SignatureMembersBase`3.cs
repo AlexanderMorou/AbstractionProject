@@ -68,7 +68,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         #region ISignatureMemberDictionary<TSignature,TSignatureParameter,TSignatureParent> Members
 
         /// <summary>
-        /// Searches for <typeparamref name="TSignature"/> instances that match the <paramref name="search"/> criteria.
+        /// Searches for <typeparamref name="TSignature"/> instances that familliarSeries the <paramref name="search"/> criteria.
         /// </summary>
         /// <param name="strict">Whether to adhere to the <paramref name="search"/> criteria
         /// strictly.</param>
@@ -82,7 +82,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         }
 
         /// <summary>
-        /// Searches for <typeparamref name="TSignature"/> instances that match the <paramref name="search"/> criteria.
+        /// Searches for <typeparamref name="TSignature"/> instances that familliarSeries the <paramref name="search"/> criteria.
         /// </summary>
         /// <param name="strict">Whether to adhere to the <paramref name="search"/> criteria
         /// strictly.</param>
@@ -96,7 +96,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         }
 
         /// <summary>
-        /// Searches for <typeparamref name="TSignature"/> instances that match the <paramref name="search"/> criteria.
+        /// Searches for <typeparamref name="TSignature"/> instances that familliarSeries the <paramref name="search"/> criteria.
         /// </summary>
         /// <param name="search">The <see cref="ITypeCollection"/> that designates the signature to look for.</param>
         /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignature, TSignatureParameter, TSignatureParent}"/> of 
@@ -109,7 +109,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         }
 
         /// <summary>
-        /// Searches for <typeparamref name="TSignature"/> instances that match the <paramref name="search"/> criteria.
+        /// Searches for <typeparamref name="TSignature"/> instances that familliarSeries the <paramref name="search"/> criteria.
         /// </summary>
         /// <param name="search">The <see cref="IType"/> array that designates the signature to look for.</param>
         /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignature, TSignatureParameter, TSignatureParent}"/> of 

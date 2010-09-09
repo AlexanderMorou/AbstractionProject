@@ -23,7 +23,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
     internal partial class SymbolType :
         TypeBase<ISymbolType>,
         ISymbolType,
-        IExpression
+        IExpression,
+        _IGenericTypeRegistrar,
+        IMassTargetHandler
     {
         private int sourceSelector = NameSelection;
         private const int NameSelection = 1;
@@ -31,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         private IExpression sourceExpression;
         private string name;
         private GenericParameterDictionary typeParameters;
-        private Dictionary<ITypeCollectionBase, ISymbolType> genericCache = null;
+        private GenericTypeCache<ISymbolType> genericCache = null;
         private string _namespace;
         private IClassType baseType;
 
@@ -104,22 +106,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 throw new System.InvalidOperationException();
             if (typeParameters.Count != this.GenericParameters.Count)
                 throw new ArgumentException("typeParameters");
-            IType r = null;
-            if (this.ContainsGenericType(typeParameters, ref r))
-                return (ISymbolType)r;
+            if (this.genericCache != null)
+            {
+                ISymbolType r = null;
+                if (this.genericCache.ContainsGenericType(typeParameters, out r))
+                    return r;
+            }
             ISymbolType result = this.OnMakeGenericType(typeParameters);
             return result;
-        }
-
-        private bool ContainsGenericType(ITypeCollectionBase typeParameters, ref IType r)
-        {
-            if (this.genericCache == null)
-                return false;
-            var fd = this.genericCache.Keys.FirstOrDefault(itc => itc.SequenceEqual(typeParameters));
-            if (fd == null)
-                return false;
-            r = this.genericCache[fd];
-            return true;
         }
 
         public ISymbolType MakeGenericType(params IType[] typeParameters)
@@ -346,5 +340,39 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         {
             return this._namespace;
         }
+
+        #region _IGenericTypeRegistrar Members
+
+        public void RegisterGenericType(IGenericType targetType, ITypeCollectionBase typeParameters)
+        {
+            if (this.genericCache == null)
+                this.genericCache = new GenericTypeCache<ISymbolType>();
+            this.genericCache.RegisterGenericType(targetType, typeParameters);
+        }
+
+        public void UnregisterGenericType(ITypeCollectionBase typeParameters)
+        {
+            if (this.genericCache == null)
+                return;
+            this.genericCache.UnregisterGenericType(typeParameters);
+        }
+
+        #endregion
+
+        #region IMassTargetHandler Members
+
+        public void BeginExodus()
+        {
+            if (this.genericCache != null)
+                this.genericCache.BeginExodus();
+        }
+
+        public void EndExodus()
+        {
+            if (this.genericCache != null)
+                this.genericCache.EndExodus();
+        }
+
+        #endregion
     }
 }

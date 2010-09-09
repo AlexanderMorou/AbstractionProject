@@ -31,6 +31,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             class,
             IGenericType<TType>
     {
+        private object disposeSynch = new object();
+        private bool disposing;
         private object typeParamSynch = new object();
         /// <summary>
         /// Data member for <see cref="GenericParameters"/>
@@ -48,7 +50,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// <summary>
         /// Data member for the generic parameters cache.
         /// </summary>
-        private Dictionary<ITypeCollectionBase, TType> genericCache = null;
+        private GenericTypeCache<TType> genericCache;
 
         /// <summary>
         /// Creates a new <see cref="CompiledGenericTypeBase{TType}"/> with the 
@@ -129,31 +131,47 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override void Dispose(bool dispose)
         {
-            if (dispose)
+            if (this.disposeSynch == null)
+                return;
+            lock (disposeSynch)
             {
-                if (this.subSet != null)
+                if (this.disposing)
+                    return;
+                this.disposing = true;
+            }
+            try
+            {
+                if (dispose)
                 {
-                    this.subSet.Dispose();
-                    this.subSet = null;
-                }
-                if (this.typeParameters != null)
-                {
-                    this.typeParameters = null;
-                }
-                if (this.genericParamsCache != null)
-                {
-                    this.genericParamsCache.OnAll(q => q.Dispose());
-                    this.genericParamsCache._Clear();
-                    this.genericParamsCache = null;
-                }
-                if (genericCache != null)
-                {
-                    this.genericCache.Values.OnAllP(q => q.Dispose());
-                    this.genericCache.Clear();
-                    this.genericCache = null;
+                    if (this.subSet != null)
+                    {
+                        this.subSet.Dispose();
+                        this.subSet = null;
+                    }
+                    if (this.typeParameters != null)
+                    {
+                        this.typeParameters = null;
+                    }
+                    if (this.genericParamsCache != null)
+                    {
+                        this.genericParamsCache.OnAll(q => q.Dispose());
+                        this.genericParamsCache._Clear();
+                        this.genericParamsCache = null;
+                    }
+                    if (genericCache != null)
+                    {
+                        this.genericCache.Dispose();
+                        this.genericCache = null;
+                    }
                 }
             }
-            base.Dispose(dispose);
+            finally
+            {
+                lock (this.disposeSynch)
+                    this.disposing = false;
+                this.disposeSynch = null;
+                base.Dispose(dispose);
+            }
         }
 
         #region IGenericType<TType> Members
@@ -164,9 +182,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 throw new ArgumentNullException("typeParameters");
             if (!this.IsGenericTypeDefinition)
                 throw new System.InvalidOperationException();
-            IType r = null;
-            if (this.ContainsGenericType(typeParameters, ref r))
-                return (TType)r;
+            if (this.genericCache != null)
+            {
+                TType r;
+                if (this.genericCache.ContainsGenericType(typeParameters, out r))
+                    return r;
+            }
             /* *
              * Make the generic type *before* verifying the 
              * type-parameters.
@@ -192,55 +213,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             catch (ArgumentException e)
             {
                 result.Dispose();
-                if (this.genericCache.ContainsKey(typeParameters))
-                    this.genericCache.Remove(typeParameters);
+                this.genericCache.UnregisterGenericType(typeParameters);
                 throw e;
             }
             return result;
-        }
-
-        private bool ContainsGenericType(ITypeCollectionBase typeParameters, ref IType r)
-        {
-            if (this.genericCache == null)
-                return false;
-            if (typeParameters == null)
-                return false;
-            ITypeCollectionBase fd = null;
-            ITypeCollectionBase[] keyCopy = null;
-            lock (genericCache)
-                keyCopy = genericCache.Keys.ToArray();
-            Parallel.For(0, keyCopy.Length, (i, parallelLoopState) =>
-            //for (int i = 0; i < keyCopy.Length; i++)
-            {
-                var currentSet = keyCopy[i];
-                if (currentSet.Count != typeParameters.Count)
-                    return;
-                bool allFound = true;
-                for (int j = 0; j < typeParameters.Count; j++)
-                {
-                    var currentElement = typeParameters[j];
-                    IType currentAlternate;
-                    lock (currentSet)
-                        currentAlternate = currentSet[j];
-                    if (!currentAlternate.Equals(currentElement))
-                    {
-                        allFound = false;
-                        break;
-                    }
-                }
-                if (allFound)
-                {
-                    var currentLocked = currentSet as ILockedTypeCollection;
-                    if (currentLocked != null && currentLocked.IsDisposed)
-                        return;
-                    fd = currentSet;
-                    parallelLoopState.Stop();
-                }
-            });
-            if (fd == null)
-                return false;
-            r = this.genericCache[fd];
-            return true;
         }
 
         public TType MakeGenericType(params IType[] typeParameters)
@@ -284,13 +260,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IGenericType MakeVerifiedGenericType(ITypeCollectionBase typeParameters)
         {
-            IType r = null;
+            TType r = null;
             if (!this.IsGenericTypeDefinition)
                 throw new System.InvalidOperationException();
             if (typeParameters.Count != this.GenericParameters.Count)
                 throw new ArgumentException("typeParameters");
-            if (this.ContainsGenericType(typeParameters, ref r))
-                return (TType)r;
+            if (this.genericCache != null)
+            {
+                if (this.genericCache.ContainsGenericType(typeParameters, out r))
+                    return (TType)r;
+            }
             return this.OnMakeGenericType(typeParameters);
         }
 
@@ -312,61 +291,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public void RegisterGenericType(IGenericType targetType, ITypeCollectionBase typeParameters)
         {
-            if (this.genericCache == null)
-                this.genericCache = new Dictionary<ITypeCollectionBase, TType>();
-            IType required = null;
-            if (this.ContainsGenericType(typeParameters, ref required))
+            if (this.disposing || this.disposeSynch == null)
                 return;
-            lock (genericCache)
-                genericCache.Add(new LockedTypeCollection(typeParameters), (TType)targetType);
+            if (this.genericCache == null)
+                this.genericCache = new GenericTypeCache<TType>();
+            this.genericCache.RegisterGenericType(targetType, typeParameters);
         }
 
         public void UnregisterGenericType(ITypeCollectionBase typeParameters)
         {
-            if (this.genericCache == null)
+            if (this.genericCache == null || this.disposing || this.disposeSynch == null)
                 return;
-            ITypeCollectionBase match = null;
-            ITypeCollectionBase[] keyCopy;
-            lock (this.genericCache)
-                keyCopy = this.genericCache.Keys.ToArray();
-            Parallel.For(0, keyCopy.Length, (i, parallelLoopState) =>
-            {
-                var currentSet = keyCopy[i];
-                if (currentSet.Count != typeParameters.Count)
-                    return;
-                bool allFound = true;
-                for (int j = 0; j < typeParameters.Count; j++)
-                {
-                    var currentElement = typeParameters[j];
-                    IType currentAlternate;
-                    lock (currentSet)
-                        currentAlternate = currentSet[j];
-                    if (!currentAlternate.Equals(currentElement))
-                    {
-                        allFound = false;
-                        break;
-                    }
-                }
-                if (allFound)
-                {
-                    var currentLocked = currentSet as ILockedTypeCollection;
-                    if (currentLocked != null && currentLocked.IsDisposed)
-                        return;
-                    match = currentSet;
-                    parallelLoopState.Stop();
-                }
-            });
-            if (match == null)
-                return;
-            /* *
-             * Multi-threading requirement, if the generic type which has been
-             * disposed is the result of this disposing, this very well could
-             * occur.
-             * */
-            if (this.genericCache == null)
-                return;
-            lock (this.genericCache)
-                genericCache.Remove(match);
+            this.genericCache.UnregisterGenericType(typeParameters);
         }
 
         #endregion
@@ -374,6 +310,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public void ReverifyTypeParameters()
         {
             throw new InvalidOperationException(Resources.TypeConstraintFailure_GenericTypeDefinition);
+        }
+
+        public void BeginExodus()
+        {
+            if (this.genericCache == null || this.disposing || this.disposeSynch == null)
+                return;
+            this.genericCache.BeginExodus();
+        }
+
+        public void EndExodus()
+        {
+            if (this.genericCache == null || this.disposing || this.disposeSynch == null)
+                return;
+            this.genericCache.EndExodus();
         }
     }
 }

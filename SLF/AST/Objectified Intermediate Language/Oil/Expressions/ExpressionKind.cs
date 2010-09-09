@@ -923,7 +923,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Returns whether the <see cref="ExpressionKind"/> values <paramref name="a"/>
-        /// and <paramref name="b"/> match.
+        /// and <paramref name="b"/> familliarSeries.
         /// </summary>
         /// <param name="a">The left-side of the equals operation.</param>
         /// <param name="b">The right-side of the equals operation.</param>
@@ -935,7 +935,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Returns whether the <see cref="ExpressionKind"/> values <paramref name="a"/>
-        /// and <paramref name="b"/> match.
+        /// and <paramref name="b"/> familliarSeries.
         /// </summary>
         /// <param name="a">The left-side of the equals operation.</param>
         /// <param name="b">The right-side of the equals operation.</param>

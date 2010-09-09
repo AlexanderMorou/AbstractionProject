@@ -24,7 +24,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IntermediateTypeBase<TType, TIntermediateType>,
         IIntermediateGenericType<TType, TIntermediateType>,
         _IGenericTypeRegistrar,
-        _IIntermediateGenericType
+        _IIntermediateGenericType,
+        IMassTargetHandler
         where TType :
             class,
             IGenericType<TType>
@@ -33,10 +34,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             TType,
             IIntermediateGenericType<TType, TIntermediateType>
     {
-        private Dictionary<ITypeCollectionBase, TType> genericCache = null;
+        private GenericTypeCache<TType> genericCache = null;
         private GenericParameterCollection genericParameters;
         private IIntermediateGenericParameterDictionary<IGenericTypeParameter<TType>, IIntermediateGenericTypeParameter<TType, TIntermediateType>, TType, TIntermediateType> typeParameters;
-
+        private bool disposing;
+        private object disposeSynch = new object();
         /// <summary>
         /// Creates a new <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>
         /// with the <paramref name="name"/> and <paramref name="parent"/> 
@@ -129,9 +131,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         public TType MakeGenericType(ITypeCollectionBase typeParameters)
         {
-            IType r = null;
-            if (this.ContainsGenericType(typeParameters, ref r))
-                return (TType)r;
+            if (this.genericCache != null)
+            {
+                TType r;
+                if (this.genericCache.ContainsGenericType(typeParameters, out r))
+                    return r;
+            }
             return this.OnMakeGenericType(typeParameters);
         }
 
@@ -176,13 +181,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         public IGenericType MakeVerifiedGenericType(ITypeCollectionBase typeParameters)
         {
-            IType r = null;
             if (!this.IsGenericTypeDefinition)
                 throw new System.InvalidOperationException();
             if (typeParameters.Count != this.GenericParameters.Count)
                 throw new ArgumentException("typeParameters");
-            if (this.ContainsGenericType(typeParameters, ref r))
-                return (TType)r;
+            if (this.genericCache != null)
+            {
+                TType r = null;
+                if (this.genericCache.ContainsGenericType(typeParameters, out r))
+                    return r;
+            }
             return this.OnMakeGenericType(typeParameters);
         }
 
@@ -198,49 +206,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return new TypeParameterDictionary(this);
         }
 
-        private bool ContainsGenericType(ITypeCollectionBase typeParameters, ref IType r)
-        {
-            if (this.genericCache == null)
-                return false;
-            if (typeParameters == null)
-                return false;
-            ITypeCollectionBase fd = null;
-            ITypeCollectionBase[] keyCopy = null;
-            lock (genericCache)
-                keyCopy = genericCache.Keys.ToArray();
-            Parallel.For(0, keyCopy.Length, (i, parallelLoopState) =>
-            //for (int i = 0; i < keyCopy.Length; i++)
-            {
-                var currentSet = keyCopy[i];
-                if (currentSet.Count != typeParameters.Count)
-                    return;
-                bool allFound = true;
-                for (int j = 0; j < typeParameters.Count; j++)
-                {
-                    var currentElement = typeParameters[j];
-                    IType currentAlternate;
-                    lock (currentSet)
-                        currentAlternate = currentSet[j];
-                    if (!currentAlternate.Equals(currentElement))
-                    {
-                        allFound = false;
-                        break;
-                    }
-                }
-                if (allFound)
-                {
-                    var currentLocked = currentSet as ILockedTypeCollection;
-                    if (currentLocked != null && currentLocked.IsDisposed)
-                        return;
-                    fd = currentSet;
-                    parallelLoopState.Stop();
-                }
-            });
-            if (fd == null)
-                return false;
-            r = this.genericCache[fd];
-            return true;
-        }
         /// <summary>
         /// Obtains the <typeparamref name="TType"/> relative to the
         /// <paramref name="typeParameters"/> provided.
@@ -266,13 +231,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// unmanaged data (false).</param>
         protected override void Dispose(bool dispose)
         {
+            if (this.disposeSynch == null)
+                return;
+            lock (this.disposeSynch)
+            {
+                if (this.disposing)
+                    return;
+                this.disposing = true;
+            }
             try
             {
                 if (genericCache != null)
                 {
-                    Parallel.ForEach(this.genericCache.Values.ToArray(), q =>
-                        q.Dispose());
-                    this.genericCache.Clear();
+                    this.genericCache.Dispose();
                     this.genericCache = null;
                 }
                 if (this.genericParameters != null)
@@ -285,6 +256,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     this.typeParameters.Dispose();
                     this.typeParameters = null;
                 }
+                lock (this.disposeSynch)
+                    this.disposing = false;
+                this.disposeSynch = null;
             }
             finally
             {
@@ -309,59 +283,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public void RegisterGenericType(IGenericType targetType, ITypeCollectionBase typeParameters)
         {
             if (this.genericCache == null)
-                this.genericCache = new Dictionary<ITypeCollectionBase, TType>();
-            IType required = null;
-            if (this.ContainsGenericType(typeParameters, ref required))
-                return;
-            genericCache.Add(typeParameters, (TType)targetType);
+                this.genericCache = new GenericTypeCache<TType>();
+            this.genericCache.RegisterGenericType(targetType, typeParameters);
         }
 
         public void UnregisterGenericType(ITypeCollectionBase typeParameters)
         {
-            if (this.genericCache == null)
+            if (this.genericCache == null || this.disposing)
                 return;
-            ITypeCollectionBase match = null;
-            ITypeCollectionBase[] keyCopy;
-            lock (this.genericCache)
-                keyCopy = this.genericCache.Keys.ToArray();
-            Parallel.For(0, keyCopy.Length, (i, parallelLoopState) =>
-            {
-                var currentSet = keyCopy[i];
-                if (currentSet.Count != typeParameters.Count)
-                    return;
-                bool allFound = true;
-                for (int j = 0; j < typeParameters.Count; j++)
-                {
-                    var currentElement = typeParameters[j];
-                    IType currentAlternate;
-                    lock (currentSet)
-                        currentAlternate = currentSet[j];
-                    if (!currentAlternate.Equals(currentElement))
-                    {
-                        allFound = false;
-                        break;
-                    }
-                }
-                if (allFound)
-                {
-                    var currentLocked = currentSet as ILockedTypeCollection;
-                    if (currentLocked != null && currentLocked.IsDisposed)
-                        return;
-                    match = currentSet;
-                    parallelLoopState.Stop();
-                }
-            });
-            if (match == null)
-                return;
-            /* *
-             * Multi-threading requirement, if the generic type which has been
-             * disposed is the result of this disposing, this very well could
-             * occur.
-             * */
-            if (this.genericCache == null)
-                return;
-            lock (this.genericCache)
-                genericCache.Remove(match);
+            this.genericCache.UnregisterGenericType(typeParameters);
         }
 
         #endregion
@@ -379,7 +309,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             int baseLine = (gpC - this.TypeParameters.Count);
             int realFrom = baseLine + from;
             int realTo = baseLine + to;
-            foreach (var element in this.genericCache.Values.Cast<_IGenericType>())
+            foreach (var element in this.genericCache.Cast<_IGenericType>())
                 element.PositionalShift(realFrom, realTo);
         }
 
@@ -438,6 +368,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             add { _TypeParameterRemoved += value; }
             remove { _TypeParameterRemoved -= value; }
+        }
+
+        #endregion
+
+        #region IMassTargetHandler Members
+
+        public void BeginExodus()
+        {
+            if (this.genericCache == null || this.disposing || this.disposeSynch == null)
+                return;
+            this.genericCache.BeginExodus();
+        }
+
+        public void EndExodus()
+        {
+            this.genericCache.EndExodus();
         }
 
         #endregion
