@@ -8,7 +8,7 @@ using System.Text;
 | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
 \-------------------------------------------------------------------- */
 
-namespace Oilexer.FiniteAutomata
+namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
     public class FiniteAutomataSingleTargetTransitionTable<TCheck, TState> :
         FiniteAutomataTransitionTable<TCheck, TState, TState>,

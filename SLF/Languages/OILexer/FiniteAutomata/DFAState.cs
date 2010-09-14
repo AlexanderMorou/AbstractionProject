@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-namespace Oilexer.FiniteAutomata
+namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
     public abstract class DFAState<TCheck, TState, TSourceElement> :
         FiniteAutomataState<TCheck, TState, TState, TSourceElement>,
