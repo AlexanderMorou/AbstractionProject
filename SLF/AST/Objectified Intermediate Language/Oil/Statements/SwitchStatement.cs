@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 {
@@ -13,8 +15,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         ControlledStateCollection<ISwitchCaseBlockStatement>,
         ISwitchStatement
     {
-
-        public SwitchStatement(IStatementParent parent)
+        private IBreakExit exitPoint;
+        public SwitchStatement(IBlockStatementParent parent)
         {
             this.Parent = parent;
         }
@@ -23,19 +25,51 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         public ISwitchCaseBlockStatement DefaultBlock
         {
-            get { throw new NotImplementedException(); }
+            get {
+                foreach (var block in this)
+                    if (block.IsDefault)
+                        return block;
+                return null;
+            }
         }
 
         public IBreakExit BreakExit
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (this.exitPoint == null)
+                    this.exitPoint = new BreakExit(this.Parent);
+                return this.exitPoint;
+            }
         }
+        public ILocalMemberDictionary Locals
+        {
+            get { return this.Parent.Locals; }
+        }
+
+        public ISwitchCaseBlockStatement Case(params IExpression[] conditions)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ISwitchCaseBlockStatement Case(bool isDefault, params IExpression[] conditions)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// The <see cref="IExpression"/> which selects the target
+        /// for the constant jump table.
+        /// </summary>
+        public IExpression Selection { get; set; }
 
         #endregion
 
         #region IStatement Members
 
-        public IStatementParent Parent { get; private set; }
+        public IBlockStatementParent Parent { get; private set; }
+
+        IStatementParent IStatement.Parent { get { return this.Parent; } }
 
         /// <summary>
         /// Visits the <paramref name="visitor"/> based upon the type of the
@@ -47,7 +81,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// through <see cref="IIntermediateCodeVisitor.Visit(ISwitchStatement)"/>.</remarks>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="visitor"/>
         /// is null.</exception>
-        public void Visit(IIntermediateCodeVisitor visitor)
+        public void Visit(IStatementVisitor visitor)
         {
             if (visitor == null)
                 throw new ArgumentNullException("visitor");

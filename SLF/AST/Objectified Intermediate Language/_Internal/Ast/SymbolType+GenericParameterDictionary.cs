@@ -188,6 +188,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 return result;
             }
 
+            public int IndexOf(KeyValuePair<string, IGenericTypeParameter<ISymbolType>> element)
+            {
+                for (int i = 0; i < this.Count; i++)
+                    if (this.elements[i] == null)
+                        continue;
+                    else if (this.tParamNames[i] == element.Key &&
+                             this.elements[i] == element.Value)
+                        return i;
+                return -1;
+            }
             #endregion
 
             #region IEnumerable<KeyValuePair<string,IGenericTypeParameter<ISymbolType>>> Members
@@ -316,6 +326,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             object IControlledStateCollection.this[int index]
             {
                 get { return this[index]; }
+            }
+
+            int IControlledStateCollection.IndexOf(object element)
+            {
+                if (element is KeyValuePair<string, IGenericTypeParameter<ISymbolType>>)
+                    return this.IndexOf((KeyValuePair<string, IGenericTypeParameter<ISymbolType>>)element);
+                else if (element is IGenericTypeParameter<ISymbolType>)
+                    return this.IndexOf((IGenericTypeParameter<ISymbolType>)element);
+                return -1;
             }
 
             #endregion

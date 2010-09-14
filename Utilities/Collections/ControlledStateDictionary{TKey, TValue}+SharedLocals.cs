@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
@@ -99,7 +100,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 }
             }
 
-
             internal bool _Remove(int index)
             {
                 if (index < 0 || index >= this.Count)
@@ -148,6 +148,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                     this.values = value;
                 }
             }
+
 
         }
     }

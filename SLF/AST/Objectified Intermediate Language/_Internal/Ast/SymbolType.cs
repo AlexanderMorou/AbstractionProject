@@ -294,10 +294,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         {
             if (this.sourceSelector == NameSelection)
             {
-                if (this.typeParameters != null && this.typeParameters.Count > 0)
-                    return string.Format("{0}`{1}", this.name, this.typeParameters.Count);
-                else
-                    return this.name;
+                return this.name;
             }
             else if (this.sourceSelector == ExpressionSelection)
             {
@@ -328,7 +325,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         /// through <see cref="IIntermediateCodeVisitor.Visit(ICallFusionStatement)"/>.</remarks>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="visitor"/>
         /// is null.</exception>
-        public void Visit(IIntermediateCodeVisitor visitor)
+        public void Visit(IExpressionVisitor visitor)
         {
             //ToDo: Fix #2.
             throw new NotImplementedException();
@@ -343,14 +340,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         #region _IGenericTypeRegistrar Members
 
-        public void RegisterGenericType(IGenericType targetType, ITypeCollectionBase typeParameters)
+        public void RegisterGenericType(IGenericType targetType, LockedTypeCollection typeParameters)
         {
             if (this.genericCache == null)
                 this.genericCache = new GenericTypeCache<ISymbolType>();
             this.genericCache.RegisterGenericType(targetType, typeParameters);
         }
 
-        public void UnregisterGenericType(ITypeCollectionBase typeParameters)
+        public void UnregisterGenericType(LockedTypeCollection typeParameters)
         {
             if (this.genericCache == null)
                 return;

@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -16,22 +17,254 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
     /// <summary>
+    /// Provides a generic implementation of an expression
+    /// which represents a reference to a property.
+    /// </summary>
+    /// <typeparam name="TProperty">The type of property as it exists int he
+    /// abstract type system.</typeparam>
+    /// <typeparam name="TIntermediateProperty">The type of property as it exists
+    /// in the intermediate abstract syntax tree.</typeparam>
+    /// <typeparam name="TPropertyParent">The type which owns the properties
+    /// in the abstract type system.</typeparam>
+    /// <typeparam name="TIntermediatePropertyParent">The type which owns the properties
+    /// in the intermediate abstract syntax tree.</typeparam>
+    public class PropertyReferenceExpression<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> :
+        MemberParentReferenceExpressionBase,
+        IPropertyReferenceExpression<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+        where TProperty :
+            IPropertyMember<TProperty, TPropertyParent>
+        where TIntermediateProperty :
+            TProperty,
+            IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+        where TPropertyParent :
+            IPropertyParentType<TProperty, TPropertyParent>
+        where TIntermediatePropertyParent :
+            TPropertyParent,
+            IIntermediatePropertyParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> 
+    {
+        /// <summary>
+        /// Data member for <see cref="ReferenceType"/>.
+        /// </summary>
+        private MethodReferenceType referenceType;
+
+        public PropertyReferenceExpression(IMemberParentReferenceExpression source, TIntermediateProperty member)
+        {
+            this.Source = source;
+            this.Member = member;
+        }
+
+        #region IPropertyReferenceExpression<TProperty,TIntermediateProperty,TPropertyParent,TIntermediatePropertyParent> Members
+
+        /// <summary>
+        /// Returns the <typeparamref name="TIntermediateProperty"/> member to which the 
+        /// <see cref="IPropertyReferenceExpression{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/> refers.
+        /// </summary>
+        public TIntermediateProperty Member { get; private set; }
+
+        #endregion
+
+        #region ITypedMemberReferenceExpression Members
+
+        /// <summary>
+        /// Returns the <see cref="IType"/> associated to the member
+        /// </summary>
+        public IType MemberType
+        {
+            get { return this.Member.PropertyType; }
+        }
+
+        IMember ITypedMemberReferenceExpression.Member
+        {
+            get { return this.Member; }
+        }
+
+        #endregion
+
+        #region IMemberReferenceExpression Members
+
+        /// <summary>
+        /// Returns/sets the name of the member to reference.
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return this.Member.Name;
+            }
+            set
+            {
+                this.Member.Name = value;
+            }
+        }
+
+        #endregion
+
+        #region IPropertyReferenceExpression Members
+
+        /// <summary>
+        /// Returns/sets the type of reference to the 
+        /// <see cref="IPropertyReferenceExpression"/>,
+        /// get/set methods, is.
+        /// </summary>
+        public MethodReferenceType ReferenceType { get; set; }
+
+        /// <summary>
+        /// Returns the <see cref="IMemberParentReferenceExpression"/>
+        /// that sourced the <see cref="IPropertyReferenceExpression"/>.
+        /// </summary>
+        public IMemberParentReferenceExpression Source { get; private set; }
+
+        #endregion
+
+        public override string ToString()
+        {
+            return string.Format("{0}.{1}", this.Source.ToString(), this.Name);
+        }
+
+        /// <summary>
+        /// Returns the type of expression the <see cref="PropertyReferenceExpression"/> is.
+        /// </summary>
+        /// <remarks>Returns <see cref="ExpressionType.PropertyReference"/>.</remarks>
+        public override ExpressionKind Type 
+        {
+            get { return ExpressionKinds.PropertyReference; }
+        }
+
+        public override void Visit(IExpressionVisitor visitor) 
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    /// <summary>
+    /// Provides a generic implementation of an expression
+    /// which represents a reference to a property signature.
+    /// </summary>
+    /// <typeparam name="TProperty">The type of property as it exists int he
+    /// abstract type system.</typeparam>
+    /// <typeparam name="TIntermediateProperty">The type of property as it exists
+    /// in the intermediate abstract syntax tree.</typeparam>
+    /// <typeparam name="TPropertyParent">The type which owns the properties
+    /// in the abstract type system.</typeparam>
+    /// <typeparam name="TIntermediatePropertyParent">The type which owns the properties
+    /// in the intermediate abstract syntax tree.</typeparam>
+    public class PropertySignatureReferenceExpression<TPropertySignature, TIntermediatePropertySignature, TPropertySignatureParent, TIntermediatePropertySignatureParent> :
+        MemberParentReferenceExpressionBase,
+        IPropertySignatureReferenceExpression<TPropertySignature, TIntermediatePropertySignature, TPropertySignatureParent, TIntermediatePropertySignatureParent>
+        where TPropertySignature :
+            IPropertySignatureMember<TPropertySignature, TPropertySignatureParent>
+        where TIntermediatePropertySignature :
+            TPropertySignature,
+            IIntermediatePropertySignatureMember<TPropertySignature, TIntermediatePropertySignature, TPropertySignatureParent, TIntermediatePropertySignatureParent>
+        where TPropertySignatureParent :
+            IPropertySignatureParentType<TPropertySignature, TPropertySignatureParent>
+        where TIntermediatePropertySignatureParent :
+            TPropertySignatureParent,
+            IIntermediatePropertySignatureParentType<TPropertySignature, TIntermediatePropertySignature, TPropertySignatureParent, TIntermediatePropertySignatureParent> 
+    {
+        /// <summary>
+        /// Data member for <see cref="ReferenceType"/>.
+        /// </summary>
+        private MethodReferenceType referenceType;
+
+        public PropertySignatureReferenceExpression(IMemberParentReferenceExpression source, TIntermediatePropertySignature member)
+        {
+            this.Source = source;
+            this.Member = member;
+        }
+
+        #region IPropertySignatureReferenceExpression<TPropertySignature,TIntermediatePropertySignature,TPropertySignatureParent,TIntermediatePropertySignatureParent> Members
+
+        /// <summary>
+        /// Returns the <see cref="TIntermediatePropertySignature"/> member to which the 
+        /// <see cref="IPropertySignatureReferenceExpression{TPropertySignature, TIntermediatePropertySignature, TPropertySignatureParent, TIntermediatePropertySignatureParent}"/> refers.
+        /// </summary>
+        public TIntermediatePropertySignature Member { get; private set; }
+
+        #endregion
+
+        #region ITypedMemberReferenceExpression Members
+
+        /// <summary>
+        /// Returns the <see cref="IType"/> associated to the member
+        /// </summary>
+        public IType MemberType
+        {
+            get { return this.Member.PropertyType; }
+        }
+
+        IMember ITypedMemberReferenceExpression.Member
+        {
+            get { return this.Member; }
+        }
+
+        #endregion
+
+        #region IMemberReferenceExpression Members
+
+        /// <summary>
+        /// Returns/sets the name of the member to reference.
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return this.Member.Name;
+            }
+            set
+            {
+                this.Member.Name = value;
+            }
+        }
+
+        #endregion
+
+        #region IPropertySignatureReferenceExpression Members
+
+        /// <summary>
+        /// Returns/sets the type of reference to the 
+        /// <see cref="IPropertySignatureReferenceExpression"/>,
+        /// get/set methods, is.
+        /// </summary>
+        public MethodReferenceType ReferenceType { get; set; }
+
+        /// <summary>
+        /// Returns the <see cref="IMemberParentReferenceExpression"/>
+        /// that sourced the <see cref="IPropertySignatureReferenceExpression"/>.
+        /// </summary>
+        public IMemberParentReferenceExpression Source { get; private set; }
+
+        #endregion
+
+        public override string ToString()
+        {
+            return string.Format("{0}.{1}", this.Source.ToString(), this.Name);
+        }
+
+        /// <summary>
+        /// Returns the type of expression the <see cref="PropertyReferenceExpression"/> is.
+        /// </summary>
+        /// <remarks>Returns <see cref="ExpressionType.PropertyReference"/>.</remarks>
+        public override ExpressionKind Type
+        {
+            get { return ExpressionKinds.PropertyReference; }
+        }
+
+        public override void Visit(IExpressionVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+    }
+
+    /// <summary>
     /// Provides a base implementation of an <see cref="IPropertyReferenceExpression"/>
     /// which references a <see cref="IPropertySignatureMember"/> 
     /// in code by name.
     /// </summary>
     public class PropertyReferenceExpression :
         MemberParentReferenceExpressionBase,
-        IPropertyReferenceExpression
+        IPropertyReferenceExpression 
     {
-        /// <summary>
-        /// Data member for <see cref="ReferenceType"/>.
-        /// </summary>
-        private MethodReferenceType referenceType;
-        /// <summary>
-        /// Data member for <see cref="AssociatedMember"/>.
-        /// </summary>
-        private IPropertySignatureMember associatedMember;
         /// <summary>
         /// Data member for <see cref="Name"/>.
         /// </summary>
@@ -57,37 +290,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         #region IPropertyReferenceExpression Members
-        /*
-        /// <summary>
-        /// Returns the <see cref="IPropertySignatureMember"/> 
-        /// associated to the <see cref="PropertyReferenceExpression"/>.
-        /// </summary>
-        public IPropertySignatureMember AssociatedMember
-        {
-            get
-            {
-                if (!this.IsLinked)
-                    this.Link();
-                return this.associatedMember;
-            }
-        }
-        */
         /// <summary>
         /// Returns/sets the type of reference to the 
         /// <see cref="IPropertyReferenceExpression"/>,
         /// get/set methods, is.
         /// </summary>
-        public MethodReferenceType ReferenceType
-        {
-            get
-            {
-                return this.referenceType;
-            }
-            set
-            {
-                this.referenceType = value;
-            }
-        }
+        public MethodReferenceType ReferenceType { get; set; }
 
         /// <summary>
         /// Returns the <see cref="IMemberParentReferenceExpression"/>
@@ -102,6 +310,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region IMemberReferenceExpression Members
 
+        /// <summary>
+        /// Returns/sets the name of the member to reference.
+        /// </summary>
         public string Name
         {
             get
@@ -113,72 +324,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 this.name = value;
             }
         }
-        /*
-        IMember IMemberReferenceExpression.AssociatedMember
-        {
-            get { return this.AssociatedMember; }
-        }
-        */
 
         #endregion
-        /*
-        /// <summary>
-        /// Returns the type which is used as a spring
-        /// point for obtaining and linking the members.
-        /// </summary>
-        /// <remarks>Necessary for every 
-        /// <see cref="IMemberParentReferenceExpression"/>
-        /// to have in order to properly link.</remarks>
-        public override IType ForwardType
-        {
-            get {
-                return this.AssociatedMember.PropertyType;
-            }
-        }
 
-        /// <summary>
-        /// Invoked when <see cref="Link"/> is called.
-        /// </summary>
-        /// <remarks>Used in case <see cref="Link"/> needs 
-        /// hidden and overridden.</remarks>
-        protected override void OnLink()
-        {
-            try
-            {
-                IType t = this.Source.ForwardType;
-                if (t.ElementClassification == TypeElementClassification.Array)
-                    this.associatedMember = ((ICompiledClassType)typeof(Array).GetTypeReference()).Properties[this.Name];
-                else if (t is IPropertyParentType)
-                {
-                    while (t.ElementClassification != TypeElementClassification.None)
-                        t = t.ElementType;
-                    this.associatedMember = (IPropertySignatureMember)((IPropertyParentType)(t)).Properties[this.Name];
-                }
-            }
-            catch (Exception e)
-            {
-                //Rethrow the exception wrapped in an invalid operation exception.
-                throw new InvalidOperationException(string.Format("Could not link property '{0}'.", this.name), e);
-            }
-        }
-        */
         /// <summary>
         /// Returns the type of expression the <see cref="PropertyReferenceExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionType.PropertyReference"/>.</remarks>
+        /// <remarks>Returns <see cref="ExpressionKinds.PropertyReference"/>.</remarks>
         public override ExpressionKind Type
         {
             get { return ExpressionKinds.PropertyReference; }
         }
-
-
 
         public override string ToString()
         {
             return string.Format("{0}.{1}", this.source.ToString(), this.Name);
         }
 
-        public override void Visit(IIntermediateCodeVisitor visitor)
+        public override void Visit(IExpressionVisitor visitor)
         {
             visitor.Visit(this);
         }

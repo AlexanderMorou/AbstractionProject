@@ -30,6 +30,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// to visit.</param>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="visitor"/>
         /// is null.</exception>
-        void Visit(IIntermediateCodeVisitor visitor);
+        void Visit(IStatementVisitor visitor);
     }
 }

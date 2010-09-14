@@ -10,7 +10,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
     /// Provides a base implementation of a condition block statement.
     /// </summary>
     public class ConditionBlockStatement :
-        BlockStatementBase,
+        ConditionContinuationStatement,
         IConditionBlockStatement
     {
         private IConditionContinuationStatement next;
@@ -41,25 +41,28 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         {
             get
             {
-                return this.GetNext();
+                if (this.next == null)
+                    this.CreateNext();
+                return this.next;
             }
             set
             {
-                SetNext(value);
+                this.next = value;
             }
         }
 
         #endregion
 
-        internal virtual IConditionContinuationStatement GetNext()
+        public void CreateNext(IExpression condition)
         {
-            return this.next;
+            this.Next = new ConditionBlockStatement(this.Parent) { Condition = condition };
         }
 
-        internal virtual void SetNext(IConditionContinuationStatement value)
+        public void CreateNext()
         {
-            this.next = value;
+            this.Next = new ConditionContinuationStatement(this.Parent);
         }
+
         /// <summary>
         /// Visits the <paramref name="visitor"/> based upon the type of the
         /// <see cref="IStatement"/>.
@@ -70,7 +73,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// through <see cref="IIntermediateCodeVisitor.Visit(IConditionBlockStatement)"/>.</remarks>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="visitor"/>
         /// is null.</exception>
-        public override void Visit(IIntermediateCodeVisitor visitor)
+        public override void Visit(IStatementVisitor visitor)
         {
             if (visitor == null)
                 throw new ArgumentNullException("visitor");

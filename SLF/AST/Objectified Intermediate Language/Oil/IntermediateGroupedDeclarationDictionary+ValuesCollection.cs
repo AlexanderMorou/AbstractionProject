@@ -91,6 +91,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return result;
             }
 
+            public int IndexOf(TIntermediateDeclaration element)
+            {
+                if (this.owner.Suspended)
+                {
+                    int ownerIndex = ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values.IndexOf(element);
+                    if (ownerIndex == -1)
+                    {
+                        int suspendedIndex = this.owner.suspendedMembers.IndexOf(element);
+                        if (suspendedIndex == -1)
+                            return -1;
+                        return this.owner.BaseCount + suspendedIndex;
+                    }
+                    return ownerIndex;
+                }
+                return ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values.IndexOf(element);
+            }
             #endregion
 
             #region IEnumerable<TIntermediateDeclaration> Members
@@ -163,7 +179,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.CopyTo((TIntermediateDeclaration[])array, arrayIndex);
             }
 
+            int IControlledStateCollection.IndexOf(object element)
+            {
+                throw new NotImplementedException();
+            }
+
             #endregion
+
         }
     }
 }

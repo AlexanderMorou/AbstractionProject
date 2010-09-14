@@ -71,7 +71,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// <param name="visitor">The <see cref="IIntermediateCodeVisitor"/>
         /// to which the <see cref="LinqBody"/> needs to repay the visit
         /// to.</param>
-        public abstract void Visit(IIntermediateCodeVisitor visitor);
+        public abstract void Visit(ILinqVisitor visitor);
 
     }
 }

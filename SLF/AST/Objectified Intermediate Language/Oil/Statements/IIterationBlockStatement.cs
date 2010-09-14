@@ -18,22 +18,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
     /// that represents an iteration.
     /// </summary>
     public interface IIterationBlockStatement :
+        IIterationBlockBaseStatement
+    {
+        /// <summary>
+        /// Returns the <see cref="IMalleableStatementExpressionCollection"/> which executes once at the initialization
+        /// of the iteration process.
+        /// </summary>
+        IMalleableStatementExpressionCollection Initializers { get; }
+    }
+
+    public interface IIterationBlockBaseStatement :
         IBreakableBlockStatement
     {
         /// <summary>
-        /// Returns the <see cref="IMalleableExpressionCollection"/> which executes once at the initialization
-        /// of the iteration process.
-        /// </summary>
-        IMalleableExpressionCollection DeclarePart { get; }
-        /// <summary>
-        /// Returns the <see cref="IExpression"/> which evaluates as a boolean to determine
+        /// Returns/sets the <see cref="IExpression"/> which evaluates as a boolean to determine
         /// whether to continue the iteration process.
         /// </summary>
-        IExpression ConditionPart { get; set; }
+        IExpression Condition { get; set; }
         /// <summary>
-        /// Returns the <see cref="IMalleableExpressionCollection"/> of expressions that should 
+        /// Returns the <see cref="IMalleableStatementExpressionCollection"/> of expressions that should 
         /// execute at the end of each iteration.
         /// </summary>
-        IMalleableExpressionCollection IteratePart { get; }
+        IMalleableStatementExpressionCollection Iterations { get; }
     }
 }

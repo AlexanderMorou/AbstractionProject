@@ -38,6 +38,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Stores the CLI type->SLF type relationships.
         /// </summary>
         internal static IDictionary<Type, IType> CompiledTypeCache = new Dictionary<Type, IType>();
+        private static bool cacheFreeze = false;
         /// <summary>
         /// Clears the cache.
         /// </summary>
@@ -50,7 +51,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 foreach (var assembly in copy)
                     assembly.Dispose();
             }
+            cacheFreeze = true;
             Parallel.ForEach(CompiledTypeCache.Values.ToArray(), p => p.Dispose());
+            cacheFreeze = false;
             CompiledTypeCache.Clear();
             GC.Collect();
             GC.WaitForPendingFinalizers();
@@ -365,6 +368,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         internal static void RemoveFromCache(this IType type)
         {
+            if (cacheFreeze)
+                return;
             lock(CompiledTypeCache)
                 if (CompiledTypeCache.Values.Contains(type))
                     CompiledTypeCache.Remove(CompiledTypeCache.First(kvp => kvp.Value == type).Key);
@@ -885,7 +890,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                     /* *
                      * So far, so good, the first n-1 elements checked out.
                      * Next step is to check the n->z elements to see if they
-                     * familliarSeries the element type of the params member.
+                     * match the element type of the params member.
                      * */
                     TSignatureParameter paramsParam = t.Parameters.Values.ElementAt(tCount - 1);
                     /* *
@@ -899,17 +904,17 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                             return true;
                     }
                 }
-                //No familliarSeries found.
+                //No match found.
                 if (paramsDeviate && deviations != null)
                     deviations.Remove(t);
                 return false;
             }
-            //When their parameters familliarSeries.
+            //When their parameters match.
             bool bResult = t.Parameters.Values.CompareSeriesTo(search, (a, b) =>
             {
                 return typeChecker(a.ParameterType, b);
             });
-            //If a parameter didn't familliarSeries at all.
+            //If a parameter didn't match at all.
             if (deviations != null && (!bResult && deviations.ContainsKey(t)))
                 deviations.Remove(t);
             return bResult;
@@ -970,7 +975,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                      *           will have to fill in the gaps through
                      *           analyzing the associated set result 
                      *           interactions.  If a member on one possible
-                     *           familliarSeries is used, then instances without
+                     *           match is used, then instances without
                      *           said member(s) can be eliminated.
                      *           Similar inferences can be made through remaining
                      *           sets and the usage of chained expressions that 

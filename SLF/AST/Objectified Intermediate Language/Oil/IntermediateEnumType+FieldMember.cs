@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using System.Globalization;
 using System.Diagnostics;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -123,6 +124,26 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 {
                     throw new NotSupportedException();
                 }
+            }
+
+            #endregion
+
+
+            #region IIntermediateFieldMember Members
+
+            /// <summary>
+            /// Obtains a reference expression which refers to the current
+            /// <see cref="FieldMember"/> with the <paramref name="source"/>
+            /// that leads up to it.
+            /// </summary>
+            /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
+            /// which leads up to the field.</param>
+            /// <returns>A <see cref="IFieldReferenceExpression"/> which refers to the current
+            /// <see cref="FieldMember"/> with the <paramref name="source"/>
+            /// that leads up to it.</returns>
+            public IFieldReferenceExpression GetReference(IMemberParentReferenceExpression source)
+            {
+                return new ReferenceExpression(this, source);
             }
 
             #endregion

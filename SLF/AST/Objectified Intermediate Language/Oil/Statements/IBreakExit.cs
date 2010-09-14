@@ -15,7 +15,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
     /// breakable block statement.
     /// </summary>
     public interface IBreakExit :
-        IJumpTarget
+        IJumpTarget,
+        IStatement
     {
     }
 }

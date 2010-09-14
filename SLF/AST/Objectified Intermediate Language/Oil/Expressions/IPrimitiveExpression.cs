@@ -28,5 +28,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns the <see cref="PrimitiveType"/> the <see cref="IPrimitiveExpression"/> is.
         /// </summary>
         PrimitiveType PrimitiveType { get; }
+        void Visit(IIntermediatePrimitiveVisitor visitor);
     }
 }

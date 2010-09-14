@@ -92,7 +92,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
         private static void Test1()
         {
-            Console.WriteLine("test".ToPrimitive().GetIndexer(new IExpression[] { 0.ToPrimitive() }.ToCollection()));
+            Console.WriteLine("test".ToPrimitive().GetIndexer(0.ToPrimitive()));
             ILinqExpression queryTestA = new LinqExpression();
             queryTestA.From = new LinqFromClause(/* rangeVariableName: */"person", /* rangeSource: */"people".GetSymbolExpression());
             var queryTestABody = new LinqSelectBody();
@@ -177,13 +177,17 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
         private static void Extraction05()
         {
             BuildTupleSamples();
+            var cacheClearing = Time(CLIGateway.ClearCache);
             GC.Collect();
             GC.WaitForPendingFinalizers();
             Console.WriteLine();
             Console.WriteLine("Re-running test...");
             BuildTupleSamples();
+            var secondCacheClearing = Time(CLIGateway.ClearCache);
             GC.Collect();
             GC.WaitForPendingFinalizers();
+            Console.WriteLine();
+            Console.WriteLine("Clearing cache took (first/second): {0}/{1}", cacheClearing, secondCacheClearing);
             //Console.ReadKey(true);
         }
 
@@ -228,15 +232,15 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
         private static void BuildTupleSamples()
         {
             int minTuple = 9;
-            int maxTuple = 68;
+            int maxTuple = 58;
             var disposalAid = new MassDisposalAid();
             /* *
              * The system tuple implementation maxes out at eight
              * elements with the final element consisting of a secondary
              * tuple set.
              * */
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
+            Stopwatch mainStopwatch      = new Stopwatch();
+            mainStopwatch.Start();
             var eightTupleType           = typeof(Tuple<,,,,,,,>).GetTypeReference<IClassType>();
             IIntermediateAssembly result = IntermediateGateway.CreateAssembly("TupleProject");
             disposalAid.Add(eightTupleType);
@@ -299,8 +303,8 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             Parallel.For(minTuple, maxTuple + 1, i =>
             //for (int i = minTuple; i <= maxTuple; i++)
             {
-                Stopwatch swInner = new Stopwatch();
-                swInner.Start();
+                Stopwatch innerStopwatch = new Stopwatch();
+                innerStopwatch.Start();
                 /* *
                  * Each tuple has n-many type-parameters where n is equal
                  * to the current value of i.
@@ -455,17 +459,18 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
                 mainConstructor.AccessLevel = AccessLevelModifiers.Public;
                 currentType.ResumeDualLayout();
                 //Obtain the current pass' time and reset the timer.
-                swInner.Stop();
-                passTimes[i - minTuple] = swInner.Elapsed;
+                innerStopwatch.Stop();
+                passTimes[i - minTuple] = innerStopwatch.Elapsed;
 
             } /**/);
-            sw.Stop();
-            TimeSpan actualTimeTaken = sw.Elapsed;
+            mainStopwatch.Stop();
+            TimeSpan actualTimeTaken = mainStopwatch.Elapsed;
             TimeSpan fullTimeTaken = TimeSpan.Zero;
-            sw.Reset();
-            sw.Start();
+            mainStopwatch.Reset();
+            mainStopwatch.Start();
             tupleHelperClass.ResumeDualLayout();
-            sw.Stop();
+            mainStopwatch.Stop();
+            var dualResume = mainStopwatch.Elapsed;
             TimeSpan minTime = TimeSpan.MaxValue;
             TimeSpan maxTime = TimeSpan.MinValue;
             int minIndex = 0,
@@ -490,22 +495,21 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             TimeSpan averageSpan2 = new TimeSpan(actualTimeTaken.Ticks / passTimes.Length);
             //WriteProject(result, @"C:\Projects\Code\C#\OILexer\");
             //WriteProject(result, @"C:\Projects\Code\C#\OILexer\", ".html", "&nbsp;".Repeat(4), true);
-            var dualResume = sw.Elapsed;
-            sw.Reset();
+            mainStopwatch.Reset();
             Console.WriteLine("To build a series of {0} tuple classes it took: {1}", passTimes.Length, actualTimeTaken);
             Console.WriteLine("The average pass took: {0} / {1}", averageSpan, averageSpan2);
             Console.WriteLine("Total core processing time: {0}", fullTimeTaken);
             Console.WriteLine("Multi-core advantage {0:#.##}% gain", (100 - (((double)actualTimeTaken.Ticks * 100) / (double)(fullTimeTaken.Ticks))));
             Console.WriteLine("MaxPass: {0} ({2})\tMinPass: {1} ({3})", maxTime, minTime, maxIndex, minIndex);
             Console.WriteLine("Resuming dual layout on TupleHelper took {0}", dualResume);
-            sw.Start();
-            //CLIGateway.ClearCache();
+            mainStopwatch.Start();
             disposalAid.BeginExodus();
+            //CLIGateway.ClearCache();
             result.Dispose();
             disposalAid.EndExodus();
-            sw.Stop();
-
-            Console.WriteLine("Disposal took {0}", sw.Elapsed);
+            mainStopwatch.Stop();
+            
+            Console.WriteLine("Disposal took {0}", mainStopwatch.Elapsed);
         }
 
     }

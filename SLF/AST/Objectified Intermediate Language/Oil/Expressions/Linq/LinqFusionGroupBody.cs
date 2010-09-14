@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
             return string.Format(CultureInfo.CurrentCulture, "{0} group {4} by {1} into {2}\r\n{3}", base.BodyToString(), this.Key, base.Target, base.Next, base.Selection);
         }
 
-        public override void Visit(IIntermediateCodeVisitor visitor)
+        public override void Visit(ILinqVisitor visitor)
         {
             visitor.Visit((ILinqFusionGroupBody)this);
         }

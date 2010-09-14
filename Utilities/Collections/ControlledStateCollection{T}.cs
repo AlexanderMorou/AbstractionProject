@@ -106,6 +106,18 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             this.baseCollection.CopyTo(array, arrayIndex);
         }
 
+        public int IndexOf(T element)
+        {
+            if (this.baseCollection is IList<T>)
+                return ((IList<T>)(this.baseCollection)).IndexOf(element);
+            int index = 0;
+            foreach (var currentEntry in this.baseCollection)
+                if (currentEntry.Equals(element))
+                    return index;
+                else 
+                    index++;
+            return -1;
+        }
         #endregion
 
         #region IEnumerable<T> Members
@@ -141,6 +153,13 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             this.CopyTo((T[])array, index);
         }
 
+
+        int IControlledStateCollection.IndexOf(object element)
+        {
+            if (element is T)
+                return this.IndexOf((T)element);
+            return -1;
+        }
         #endregion
 
         /// <summary>
@@ -230,5 +249,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                     throw new NotSupportedException("The baseCollection associated to the current ControlledStateCollection does not support insertion by index.");
             }
         }
+
     }
 }

@@ -28,5 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// code flow control conditioning.
         /// </summary>
         IConditionContinuationStatement Next { get; set; }
+        void CreateNext();
+        void CreateNext(IExpression condition);
     }
 }

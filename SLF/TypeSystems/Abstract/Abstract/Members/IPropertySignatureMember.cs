@@ -26,7 +26,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         where TPropertyParent :
             IPropertySignatureParentType<TProperty, TPropertyParent>
     {
-
     }
     /// <summary>
     /// Defines properties and methods for working

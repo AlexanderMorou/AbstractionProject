@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
@@ -484,5 +485,43 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             return new ParameterMembersDictionary((TIntermediateIndexer)(object)this);
         }
+
+        #region IIntermediateIndexerMember<TIndexer,TIntermediateIndexer,TIndexerParent,TIntermediateIndexerParent> Members
+
+        public IIndexerReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> GetReference(IMemberParentReferenceExpression parent, params IExpression[] parameters)
+        {
+            return this.GetReference(parent, (IEnumerable<IExpression>)parameters);
+        }
+
+        public IIndexerReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> GetReference(IMemberParentReferenceExpression source, IEnumerable<IExpression> parameters)
+        {
+            return new IndexerReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>(((TIntermediateIndexer)(object)(this)), parameters, source);
+        }
+
+        #endregion
+        
+        #region IIntermediatePropertySignatureMember Members
+
+
+        IPropertyReferenceExpression IIntermediatePropertySignatureMember.GetReference(IMemberParentReferenceExpression source)
+        {
+            return this.GetReference(source);
+        }
+
+        #endregion
+
+        #region IIntermediateIndexerSignatureMember Members
+
+        IIndexerReferenceExpression IIntermediateIndexerSignatureMember.GetReference(IMemberParentReferenceExpression parent, params IExpression[] parameters)
+        {
+            return this.GetReference(parent, parameters);
+        }
+
+        IIndexerReferenceExpression IIntermediateIndexerSignatureMember.GetReference(IMemberParentReferenceExpression parent, IEnumerable<IExpression> parameters)
+        {
+            return this.GetReference(parent, (IEnumerable<IExpression>)parameters);
+        }
+
+        #endregion
     }
 }

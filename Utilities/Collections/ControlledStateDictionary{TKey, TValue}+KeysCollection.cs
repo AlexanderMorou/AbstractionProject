@@ -24,16 +24,53 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             }
             #region IControlledStateCollection<TKey> Members
 
+            /// <summary>:
+            /// Gets the number of elements contained in the <see cref="KeysCollection"/>.</summary>
+            /// <returns>
+            /// The number of elements contained in the <see cref="KeysCollection"/>.</returns>
             public virtual int Count
             {
                 get { return this.locals.Count; }
             }
 
+            /// <summary>
+            /// Determines whether the <see cref="KeysCollection"/> contains a specific 
+            /// value.</summary>
+            /// <param name="item">
+            /// The object to locate in the <see cref="KeysCollection"/>.</param>
+            /// <returns>
+            /// true if <paramref name="item"/> is found in the <see cref="KeysCollection"/>;
+            /// otherwise, false.
+            /// </returns>
             public virtual bool Contains(TKey item)
             {
                 return this.locals.orderings.ContainsKey(item);
             }
 
+            /// <summary>
+            /// Copies the elements of the <see cref="KeysCollection"/> to an
+            /// <see cref="System.Array"/>, starting at a particular <see cref="System.Array"/> 
+            /// index.
+            /// </summary>
+            /// <param name="array">
+            /// The one-dimensional <see cref="System.Array"/> that is the destination of the 
+            /// elements copied from <see cref="KeysCollection"/>. The 
+            /// <see cref="System.Array"/> must
+            /// have zero-based indexing.</param>
+            /// <param name="arrayIndex">
+            /// The zero-based index in <paramref name="array"/> at which copying begins.</param>
+            /// <exception cref="System.ArgumentOutOfRangeException">
+            /// <paramref name="arrayIndex"/> is less than 0.</exception>
+            /// <exception cref="System.ArgumentNullException">
+            /// <paramref name="array"/> is null.</exception>
+            /// <exception cref="System.ArgumentException">
+            /// <paramref name="array"/> is multidimensional.-or-<paramref name="arrayIndex"/> 
+            /// is equal to or greater than the length of <paramref name="array"/>.-or-The 
+            /// number of elements in the source <see cref="KeysCollection"/> is greater 
+            /// than the available space from <paramref name="arrayIndex"/> to the 
+            /// end of the destination <paramref name="array"/>.-or-Type <typeparamref name="T"/> 
+            /// cannot be cast automatically to the type of the destination
+            /// <paramref name="array"/>.</exception>
             public virtual void CopyTo(TKey[] array, int arrayIndex = 0)
             {
                 if (this.Count == 0)
@@ -46,6 +83,15 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                     this.locals.orderings.Keys.CopyTo(array, arrayIndex);
             }
 
+            /// <summary>
+            /// Returns the element at the index provided
+            /// </summary>
+            /// <param name="index">The index of the element to get.</param>
+            /// <returns>The instance of <typeparamref name="T"/> at the index provided.</returns>
+            /// <exception cref="System.ArgumentOutOfRangeException">
+            /// <paramref name="index"/> is  beyond the range of the 
+            /// <see cref="KeysCollection"/>.
+            /// </exception>
             public virtual TKey this[int index]
             {
                 get
@@ -77,6 +123,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 this.locals.entries[index] = new KeyValuePair<TKey, TValue>(value, currentElement.Value);
             }
 
+            /// <summary>
+            /// Translates the <see cref="KeysCollection"/> into a flat <see cref="System.Array"/>
+            /// of <typeparamref name="T"/> elements.
+            /// </summary>
+            /// <returns>A new <see cref="System.Array"/> of <typeparamref name="T"/> instances.</returns>
             public virtual TKey[] ToArray()
             {
                 TKey[] result;
@@ -88,6 +139,23 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 return result;
             }
 
+            /// <summary>
+            /// Returns the <see cref="Int32"/> ordinal index of the 
+            /// <paramref name="element"/> provided.
+            /// </summary>
+            /// <param name="element">The <typeparamref name="T"/>
+            /// instance to find within the <see cref="KeysCollection"/>.</param>
+            /// <returns>-1 if the <paramref name="element"/> was not found within
+            /// the <see cref="KeysCollection"/>; a positive <see cref="Int32"/>
+            /// value indicating the ordinal index of <paramref name="element"/>
+            /// otherwise.</returns>
+            public int IndexOf(TKey key)
+            {
+                int index;
+                if (this.locals.orderings.TryGetValue(key, out index))
+                    return index;
+                return -1;
+            }
             #endregion
 
             #region IEnumerable<TKey> Members
@@ -130,8 +198,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                     throw new ArgumentException("arrayIndex");
                 if (this.Count + arrayIndex >= array.Length)
                     throw new ArgumentException("array");
-                for (int i = 0; i < this.Count; i++)
-                    array.SetValue(this.locals.entries[i].Key, i + arrayIndex);
+                lock (this.locals.syncObject)
+                    for (int i = 0; i < this.Count; i++)
+                        array.SetValue(this.locals.entries[i].Key, i + arrayIndex);
             }
 
             object IControlledStateCollection.this[int index]
@@ -139,6 +208,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 get { return this[index]; }
             }
 
+            int IControlledStateCollection.IndexOf(object element)
+            {
+                if (element is TKey)
+                    return this.IndexOf((TKey)element);
+                return -1;
+            }
             #endregion
 
             #region ICollection Members
@@ -182,10 +257,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 }
             }
 
-            public int IndexOf(TKey key)
-            {
-                return this.locals.orderings[key];
-            }
         }
 
     }

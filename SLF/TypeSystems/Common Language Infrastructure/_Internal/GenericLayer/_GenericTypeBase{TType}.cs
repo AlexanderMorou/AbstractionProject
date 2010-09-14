@@ -48,7 +48,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// The <see cref="IType"/>
         /// </summary>
         private IType declaringType;
-        private ILockedTypeCollection genericParameters;
+        private LockedTypeCollection genericParameters;
 
         /// <summary>
         /// Creates a new <see cref="_GenericTypeBase{TType}"/> with the
@@ -59,16 +59,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         public _GenericTypeBase(TType original, ITypeCollectionBase genericParameters)
             : base()
         {
-            if (!(genericParameters is ILockedTypeCollection))
+            if (!(genericParameters is LockedTypeCollection))
                 genericParameters = genericParameters.ToLockedCollection();
             this.original = original;
-            this.genericParameters = (ILockedTypeCollection)genericParameters;
+            this.genericParameters = (LockedTypeCollection)genericParameters;
             /* *
              * Allow the original to cache this series of generic
              * parameters to the current instance.
              * */
             if (original is _IGenericTypeRegistrar)
-                ((_IGenericTypeRegistrar)(original)).RegisterGenericType(this, genericParameters);
+                ((_IGenericTypeRegistrar)(original)).RegisterGenericType(this, this.genericParameters);
             foreach (var type in this.genericParameters)
                 type.Disposed += new EventHandler(genericParameter_Disposed);
             
@@ -166,7 +166,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         protected override bool Equals(TType other)
         {
-            if (this.Equals(other))
+            if (object.ReferenceEquals(this, other))
                 return true;
             return false;
         }
@@ -175,9 +175,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         {
             if (this.IsDisposed)
                 throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            if (this.declaringType == null)
-                this.declaringType = this.OnGetDeclaringTypeImpl();
-            return this.declaringType;
+            if (this.original is ICompiledType)
+            {
+                if (this.declaringType == null)
+                    this.declaringType = this.OnGetDeclaringTypeImpl();
+                return this.declaringType;
+            }
+            else
+                /* *
+                 * Can't predict the volatility of non-compiled types.
+                 * */
+                return this.OnGetDeclaringTypeImpl();
         }
 
         private IType OnGetDeclaringTypeImpl()
@@ -435,7 +443,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         {
             get
             {
-                return this.disposed;
+                lock (this.disposeLock)
+                    return this.disposed;
             }
         }
 

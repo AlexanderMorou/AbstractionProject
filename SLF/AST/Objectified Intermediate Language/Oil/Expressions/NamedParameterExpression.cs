@@ -71,7 +71,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region IExpression Members
 
-        public void Visit(IIntermediateCodeVisitor visitor)
+        public void Visit(IExpressionVisitor visitor)
         {
             visitor.Visit(this);
         }

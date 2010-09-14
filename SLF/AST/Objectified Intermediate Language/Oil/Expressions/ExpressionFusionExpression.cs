@@ -56,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             return new ExpressionToCommaFusionExpression(left, right);
         }
 
-        public override void Visit(IIntermediateCodeVisitor visitor)
+        public override void Visit(IExpressionVisitor visitor)
         {
             visitor.Visit(this);
         }

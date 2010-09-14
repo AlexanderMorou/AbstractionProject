@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -15,26 +16,52 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
     /// <summary>
+    /// Defines generic properties and methods for working with
+    /// an expression that refers to a specific field.
+    /// </summary>
+    /// <typeparam name="TField">The type of field in the abstract type system.</typeparam>
+    /// <typeparam name="TIntermediateField">The type of field in the intermediate
+    /// abstract syntax tree.</typeparam>
+    /// <typeparam name="TFieldParent">The type which owns the fields
+    /// in the abstract type system.</typeparam>
+    /// <typeparam name="TIntermediateFieldParent">The type which owns the fields
+    /// in the intermediate abstract syntax tree.</typeparam>
+    public interface IFieldReferenceExpression<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent> :
+        ITypedMemberReferenceExpression,
+        IFieldReferenceExpression
+        where TField :
+            IFieldMember<TField, TFieldParent>
+        where TIntermediateField :
+            TField,
+            IIntermediateFieldMember<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>
+        where TFieldParent :
+            IFieldParent<TField, TFieldParent>
+        where TIntermediateFieldParent :
+            TFieldParent,
+            IIntermediateFieldParent<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>
+    {
+        /// <summary>
+        /// Returns the member associated to the
+        /// <see cref="IFieldReferenceExpression"/>.
+        /// </summary>
+        new TIntermediateField Member { get; }
+    }
+
+    /// <summary>
     /// Defines properties and methods for working 
     /// an expression that refers to a field.
     /// </summary>
     public interface IFieldReferenceExpression :
         IMemberReferenceExpression,
         IMemberParentReferenceExpression,
-        /*ILinkableExpression,*/
         IAssignTargetExpression,
         IUnaryOperationPrimaryTerm
     {
         /// <summary>
-        /// Returns the member associated to the
-        /// <see cref="IFieldReferenceExpression"/>.
-        /// </summary>
-        IFieldMember AssociatedMember { get; }
-        /// <summary>
-        /// Returns the <see cref="IMemberReferenceExpression"/> 
+        /// Returns the <see cref="IMemberParentReferenceExpression"/> 
         /// from which the <see cref="IFieldReferenceExpression"/>
         /// was sourced.
         /// </summary>
-        IMemberReferenceExpression Source { get; }
+        IMemberParentReferenceExpression Source { get; }
     }
 }

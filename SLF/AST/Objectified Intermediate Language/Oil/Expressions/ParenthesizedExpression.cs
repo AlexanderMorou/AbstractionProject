@@ -75,7 +75,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
          */
 
 
-        public override void Visit(IIntermediateCodeVisitor visitor)
+        public override void Visit(IExpressionVisitor visitor)
         {
             visitor.Visit(this);
         }

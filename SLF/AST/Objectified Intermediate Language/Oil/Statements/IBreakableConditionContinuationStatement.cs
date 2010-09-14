@@ -14,5 +14,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         IBreakableBlockStatement,
         IConditionContinuationStatement
     {
+        /// <summary>
+        /// Returns the <see cref="IBreakableBlockStatement"/> which contains the 
+        /// <see cref="IBreakableConditionBlockStatement"/>.
+        /// </summary>
+        new IBreakableBlockStatement Parent { get; }
     }
 }

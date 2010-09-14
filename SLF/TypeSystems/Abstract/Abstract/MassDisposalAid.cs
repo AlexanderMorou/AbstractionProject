@@ -6,12 +6,20 @@ using System.Threading.Tasks;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
+    /// <summary>
+    /// Provides a <see cref="IMassTargetHandler"/> which
+    /// distributes across a series of other handlers.
+    /// </summary>
     public class MassDisposalAid :
         List<IMassTargetHandler>,
         IMassTargetHandler
     {
         #region IMassTargetHandler Members
 
+        /// <summary>
+        /// Begins an exodus upon the elements of the
+        /// <see cref="MassDisposalAid"/>.
+        /// </summary>
         public void BeginExodus()
         {
             foreach (var element in this)
@@ -21,6 +29,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     element.BeginExodus();
         }
 
+        /// <summary>
+        /// Ends an exodus upon the elements of the
+        /// <see cref="MassDisposalAid"/>.
+        /// </summary>
         public void EndExodus()
         {
             var thisCopy = this.ToArray();
@@ -31,12 +43,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     return;
                 thisCurrent.EndExodus();
             });
-        }
+         }
 
         #endregion
 
         #region IDisposable Members
-
+        /// <summary>
+        /// Disposes the <see cref="MassDisposalAid"/>.
+        /// </summary>
         public void Dispose()
         {
             this.Clear();

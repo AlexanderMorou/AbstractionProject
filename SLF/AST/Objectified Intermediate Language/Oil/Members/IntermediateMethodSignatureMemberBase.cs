@@ -10,6 +10,7 @@ using AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Utilities.Events;
 using System.Threading.Tasks;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -98,6 +99,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         private IDictionary<ITypeCollectionBase, TSignature> genericCache;
         private IType returnType;
         private TypeParameterDictionary typeParameters;
+        private MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.SignatureTypes signatureTypes;
         /// <summary>
         /// Creates a new <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
         /// with the <paramref name="parent"/> provided.
@@ -365,6 +367,64 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             add { _TypeParameterRemoved += value; }
             remove { _TypeParameterRemoved -= value; }
+        }
+
+        #endregion
+
+        private MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.SignatureTypes GetSignatureTypes()
+        {
+            if (signatureTypes == null)
+                this.signatureTypes = new MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.SignatureTypes((TIntermediateSignature)(object)this);
+            return this.signatureTypes;
+        }
+
+        #region IIntermediateMethodSignatureMember<TSignatureParameter,TIntermediateSignatureParameter,TSignature,TIntermediateSignature,TParent,TIntermediateParent> Members
+
+        public IMethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetReference(IMemberParentReferenceExpression source)
+        {
+            return new MethodReferenceStub<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>(source, (TIntermediateSignature)(object)this, this.GetSignatureTypes).GetPointer();
+        }
+
+        public IMethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetReference(IMemberParentReferenceExpression source, IEnumerable<IType> typeParameters)
+        {
+            return this.GetReference(source, typeParameters.ToArray());
+        }
+
+        public IMethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetReference(IMemberParentReferenceExpression source, params IType[] typeParameters)
+        {
+
+            if (!this.IsGenericMethod)
+                throw new InvalidOperationException("Not valid on a non-generic method.");
+            if (this is IIntermediateInstanceMember)
+            {
+                if (source == null)
+                    source = new AutoContextMemberSource((IIntermediateInstanceMember)this);
+            }
+            else if (source == null)
+                throw new ArgumentNullException("source");
+            if (typeParameters.Length != this.TypeParameters.Count)
+                throw new ArgumentException("typeParameters");
+            return new MethodReferenceStub<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>(source, (TIntermediateSignature)(object)this, typeParameters.ToCollection(), this.GetSignatureTypes).GetPointer();
+        }
+
+        #endregion
+
+        #region IIntermediateMethodSignatureMember Members
+
+
+        IMethodPointerReferenceExpression IIntermediateMethodSignatureMember.GetReference(IMemberParentReferenceExpression source)
+        {
+            return GetReference(source);
+        }
+
+        IMethodPointerReferenceExpression IIntermediateMethodSignatureMember.GetReference(IMemberParentReferenceExpression source, IEnumerable<IType> typeParameters)
+        {
+            return GetReference(source, typeParameters);
+        }
+
+        IMethodPointerReferenceExpression IIntermediateMethodSignatureMember.GetReference(IMemberParentReferenceExpression source, params IType[] typeParameters)
+        {
+            return GetReference(source, typeParameters);
         }
 
         #endregion

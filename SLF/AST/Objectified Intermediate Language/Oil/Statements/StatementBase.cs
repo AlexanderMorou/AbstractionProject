@@ -36,7 +36,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// </summary>
         /// <param name="visitor">The <see cref="IIntermediateCodeVisitor"/> 
         /// to visit.</param>
-        public abstract void Visit(IIntermediateCodeVisitor visitor);
+        public abstract void Visit(IStatementVisitor visitor);
 
         #endregion
     }

@@ -266,5 +266,18 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             return new TypedNameSeries(target);
         }
+
+        #region IControlledStateCollection<TypedName> Members
+
+
+        public int IndexOf(TypedName element)
+        {
+            for (int i = 0; i < this.Count; i++)
+                if (this.data[i].Equals(element))
+                    return i;
+            return -1;
+        }
+
+        #endregion
     }
 }

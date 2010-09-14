@@ -8,7 +8,8 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
     public interface IParameterReferenceExpression :
-        IMemberParentReferenceExpression
+        IMemberParentReferenceExpression,
+        IAssignTargetExpression
     {
         /// <summary>
         /// Returns/sets the <see cref="IIntermediateParameterMember"/> to which the

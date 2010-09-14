@@ -83,22 +83,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Abstract
 
         public static IIndexerReferenceExpression This(this string symbol, params IExpression[] args)
         {
-            return symbol.This(args.ToCollection());
+            return symbol.This((IEnumerable<IExpression>)args);
         }
 
-        public static IIndexerReferenceExpression This(this string symbol, IMalleableExpressionCollection args)
+        public static IIndexerReferenceExpression This(this string symbol, IEnumerable<IExpression> args)
         {
-            return symbol.GetSymbol().GetIndexer(args);
+            return symbol.GetSymbol().GetIndexer(args.ToArray());
         }
 
         public static IIndexerReferenceExpression This(this string symbol, string indexerName, params IExpression[] args)
         {
-            return symbol.This(indexerName, args.ToCollection());
+            return symbol.GetSymbol().GetIndexer(indexerName, args);
         }
 
         public static IIndexerReferenceExpression This(this string symbol, string indexerName, IMalleableExpressionCollection args)
         {
-            return symbol.GetSymbol().GetIndexer(indexerName, args);
+            return symbol.GetIndexer(indexerName, args.ToArray());
         }
 
         public static IIndexerReferenceExpression This(this string symbol, IndexerReferenceType indexerType, params IExpression[] args)

@@ -98,7 +98,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         #region IMethodSignatureMemberDictionary<TSignatureParameter,TSignature,TSignatureParent> Members
 
         /// <summary>
-        /// Searches for <typeparamref name="TSignature"/> instances that familliarSeries the <paramref name="search"/> criteria.
+        /// Searches for <typeparamref name="TSignature"/> instances that match the <paramref name="search"/> criteria.
         /// </summary>
         /// <param name="name">The root name of the items to include in the result.</param>
         /// <param name="strict">Whether to adhere to the <paramref name="search"/> criteria
@@ -113,7 +113,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         }
 
         /// <summary>
-        /// Searches for <typeparamref name="TSignature"/> instances that familliarSeries the <paramref name="search"/> criteria.
+        /// Searches for <typeparamref name="TSignature"/> instances that match the <paramref name="search"/> criteria.
         /// </summary>
         /// <param name="name">The root name of the items to include in the result.</param>
         /// <param name="search">The <see cref="ITypeCollection"/> that designates the signature to look for.</param>
@@ -127,7 +127,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         }
 
         /// <summary>
-        /// Searches for <typeparamref name="TSignature"/> instances that familliarSeries the <paramref name="search"/> criteria.
+        /// Searches for <typeparamref name="TSignature"/> instances that match the <paramref name="search"/> criteria.
         /// </summary>
         /// <param name="name">The root name of the items to include in the result.</param>
         /// <param name="strict">Whether to adhere to the <paramref name="search"/> criteria
@@ -142,7 +142,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         }
 
         /// <summary>
-        /// Searches for <typeparamref name="TSignature"/> instances that familliarSeries the <paramref name="search"/> criteria.
+        /// Searches for <typeparamref name="TSignature"/> instances that match the <paramref name="search"/> criteria.
         /// </summary>
         /// <param name="name">The root name of the items to include in the result.</param>
         /// <param name="search">The <see cref="IType"/> array that designates the signature to look for.</param>

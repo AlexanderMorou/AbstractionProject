@@ -17,23 +17,44 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         where TType :
             IGenericType<TType>
     {
-        private ControlledStateDictionary<ITypeCollectionBase, TType> genericCache = null;
-        private HashSet<ITypeCollectionBase> exodusCache;
+        private Dictionary<LockedTypeCollection, TType> genericCache = null;
+        private HashSet<LockedTypeCollection> exodusCache;
         private object syncObject = new object();
         private bool disposing;
         #region _IGenericTypeRegistrar Members
-
-        public void RegisterGenericType(IGenericType targetType, ITypeCollectionBase typeParameters)
+        /// <summary>
+        /// Registers a generic type with the <paramref name="targetType"/> and 
+        /// <paramref name="typeParameters"/> provided.
+        /// </summary>
+        /// <param name="targetType">The <see cref="IGenericType"/>
+        /// which represents the specific generic instance of the user of the 
+        /// <see cref="GenericTypeCache{TType}"/>.</param>
+        /// <param name="typeParameters">The series of <see cref="IType"/>
+        /// instances which replace the type-parameters of the type the 
+        /// <see cref="GenericTypeCache{TType}"/> is used by.</param>
+        internal void RegisterGenericType(IGenericType targetType, LockedTypeCollection typeParameters)
         {
             if (this.genericCache == null)
-                this.genericCache = new ControlledStateDictionary<ITypeCollectionBase, TType>();
+                this.genericCache = new Dictionary<LockedTypeCollection, TType>();
             TType required;
             if (this.ContainsGenericType(typeParameters, out required))
                 return;
-            lock (genericCache)
-                genericCache._Add(new LockedTypeCollection(typeParameters), (TType)targetType);
+            lock (syncObject)
+                genericCache.Add(new LockedTypeCollection(typeParameters), (TType)targetType);
         }
 
+        /// <summary>
+        /// Returns whether the current <see cref="GenericTypeCache{TType}"/>
+        /// contains a generic instance for the <see cref="typeParameters"/>
+        /// provided.
+        /// </summary>
+        /// <param name="typeParameters">The <see cref="ITypeCollectionBase"/>
+        /// which represents the generic parameter replacements to search for.</param>
+        /// <param name="r">The output <typeparamref name="TType"/>
+        /// instance represented by the <paramref name="typeParameters"/> provided.</param>
+        /// <returns>true if the <see cref="GenericTypeCache{TType}"/> contains
+        /// a generic instance with the <paramref name="typeParameters"/>
+        /// provided; false, otherwise.</returns>
         public bool ContainsGenericType(ITypeCollectionBase typeParameters, out TType r)
         {
             if (this.genericCache == null || typeParameters == null)
@@ -41,7 +62,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 r = default(TType);
                 return false;
             }
-            ITypeCollectionBase familliarSeries = ObtainGenericFamilliar(typeParameters);
+            LockedTypeCollection familliarSeries = ObtainGenericFamilliar(typeParameters);
             if (familliarSeries == null)
             {
                 r = default(TType);
@@ -51,11 +72,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             return true;
         }
 
-        public void UnregisterGenericType(ITypeCollectionBase typeParameters)
+        internal void UnregisterGenericType(LockedTypeCollection typeParameters)
         {
-            if (this.syncObject == null)
-                return;
-            if (typeParameters == null)
+            if (this.syncObject == null || typeParameters == null)
                 return;
             if (this.exodusCache != null)
             {
@@ -65,7 +84,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
             if (this.genericCache == null || this.disposing)
                 return;
-            ITypeCollectionBase familliarSeries = ObtainGenericFamilliar(typeParameters);
+            var familliarSeries = ObtainGenericFamilliar(typeParameters);
             if (familliarSeries == null)
                 return;
             /* *
@@ -76,7 +95,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
             lock (this.syncObject)
                 if (this.genericCache != null)
-                    genericCache._Remove(familliarSeries);
+                    genericCache.Remove(familliarSeries);
         }
 
         #endregion
@@ -87,7 +106,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             if (this.exodusCache != null)
                 return;
-            this.exodusCache = new HashSet<ITypeCollectionBase>();
+            this.exodusCache = new HashSet<LockedTypeCollection>();
         }
         #region IDisposable Members
 
@@ -117,7 +136,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                         genericEntity.Dispose());
                     lock (this.syncObject)
                     {
-                        this.genericCache._Clear();
+                        this.genericCache.Clear();
                         this.genericCache = null;
                     }
                 }
@@ -135,7 +154,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             if (this.exodusCache == null)
                 return;
-            ITypeCollectionBase[] exodusCopy;
+            int exodusElements = 0;
+            LockedTypeCollection[] exodusCopy;
             lock (exodusCache)
             {
                 exodusCopy = exodusCache.ToArray();
@@ -143,52 +163,60 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 if (exodusCopy.Length == 0)
                     return;
             }
-            ITypeCollectionBase[] keyCopy;
+            LockedTypeCollection[] keyCopy;
             lock (this.syncObject)
                 keyCopy = this.genericCache.Keys.ToArray();
 
             Parallel.For(0, exodusCopy.Length, exodusSetIndex =>
+            //for (int exodusSetIndex = 0; exodusSetIndex < exodusCopy.Length; exodusSetIndex++)
             {
-                var currentSet = exodusCopy[exodusSetIndex];
+                var currentSet = exodusCopy[exodusSetIndex].copy;
                 //Parallel.For(0, keyCopy.Length, (keySetIndex, keySetLoopState) =>
                 for (int keySetIndex = 0; keySetIndex < keyCopy.Length; keySetIndex++)
                 {
-                    var currentKeySet = keyCopy[keySetIndex];
+                    var currentKeySet = keyCopy[keySetIndex].copy;
                     if (currentKeySet.Count != currentSet.Count)
                         return;
                     bool allFound = true;
-                    //Parallel.For(0, currentSet.Count, (currentElementIndex, sequenceLoopState) =>
-                    for (int currentElementIndex = 0; currentElementIndex < currentSet.Count; currentElementIndex ++)
+                    //Parallel.For(0, currentSet.Count, (currentElementIndex, currentSetLoopState) =>
+                    for (int currentElementIndex = 0; currentElementIndex < currentSet.Count; currentElementIndex++)
                     {
                         IType currentElement = currentSet[currentElementIndex];
-                        IType currentAlternate = currentKeySet[currentElementIndex];
+                        IType currentAlternate;
+                        lock (currentKeySet)
+                            currentAlternate = currentKeySet[currentElementIndex];
                         if (!currentAlternate.Equals(currentElement))
                         {
                             allFound = false;
+                            //currentSetLoopState.Stop(); return;
                             break;
-                            //return;
                         }
                     }//);
                     if (allFound)
                     {
-                        var currentLocked = currentKeySet as ILockedTypeCollection;
+                        var currentLocked = keyCopy[keySetIndex];
                         if (currentLocked != null && currentLocked.IsDisposed)
-                            return;
-                        lock (genericCache)
-                            genericCache._Remove(currentKeySet);
+                            continue;
+
+                        lock (syncObject)
+                        {
+                            genericCache.Remove(currentLocked);
+                            exodusElements++;
+                        }
+                        //keySetLoopState.Stop(); return;
                         break;
-                        //keySetLoopState.Stop();
                     }
                 }//);
             });
+            //Console.WriteLine("{0} were expunged.", exodusElements);
             exodusCache = null;
         }
 
 
-        private ITypeCollectionBase ObtainGenericFamilliar(ITypeCollectionBase typeParameters)
+        private LockedTypeCollection ObtainGenericFamilliar(ITypeCollectionBase typeParameters)
         {
-            ITypeCollectionBase familliar = null;
-            ITypeCollectionBase[] keyCopy;
+            LockedTypeCollection familliar = null;
+            LockedTypeCollection[] keyCopy;
             IType[] typeParametersCopy;
             /* *
              * Obtain a copy of the object references.
@@ -204,7 +232,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
              * */
             Parallel.For(0, keyCopy.Length, (i, parallelLoopState) =>
             {
-                var currentSet = keyCopy[i];
+                var currentSet = keyCopy[i].copy;
                 if (currentSet.Count != typeParametersCopy.Length)
                     return;
                 bool allFound = true;
@@ -222,10 +250,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 }
                 if (allFound)
                 {
-                    var currentLocked = currentSet as ILockedTypeCollection;
-                    if (currentLocked != null && currentLocked.IsDisposed)
+                    var currentSetL = keyCopy[i];
+                    if (currentSetL.IsDisposed)
                         return;
-                    familliar = currentSet;
+                    familliar = currentSetL;
                     parallelLoopState.Stop();
                 }
             });
@@ -248,6 +276,20 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
+        }
+
+        #endregion
+
+        #region _IGenericTypeRegistrar Members
+
+        void _IGenericTypeRegistrar.RegisterGenericType(IGenericType targetType, LockedTypeCollection typeParameters)
+        {
+            this.RegisterGenericType(targetType, typeParameters);
+        }
+
+        void _IGenericTypeRegistrar.UnregisterGenericType(LockedTypeCollection typeParameters)
+        {
+            this.UnregisterGenericType(typeParameters);
         }
 
         #endregion

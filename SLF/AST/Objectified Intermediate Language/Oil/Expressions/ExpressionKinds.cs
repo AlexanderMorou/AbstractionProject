@@ -581,5 +581,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// The expression references a specific constructor.
         /// </summary>
         public static readonly ExpressionKind ConstructorReference              = ExpressionKind.ReferenceSector.ConstructorReference;
+        /// <summary>
+        /// The expression instructs the CLI to create an array.
+        /// </summary>
+        /// <remarks>Part of the expansions required sector in cases where 
+        /// data at a specific location is required (for primitives).</remarks>
+        public static readonly ExpressionKind CreateArray                       = ExpressionKind.ExpansionRequiredSector.CreateArray;
+        /// <summary>
+        /// The expression represents a switch case
+        /// label which acts as a forward to the constant
+        /// expression the label represents.
+        /// </summary>
+        public static readonly ExpressionKind SwitchCaseLabel                   = ExpressionKind.ReferenceSector.SwitchCaseLabel;
     }
 }

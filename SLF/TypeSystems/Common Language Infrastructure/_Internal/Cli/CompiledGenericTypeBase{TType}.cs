@@ -213,7 +213,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             catch (ArgumentException e)
             {
                 result.Dispose();
-                this.genericCache.UnregisterGenericType(typeParameters);
+                if (typeParameters is LockedTypeCollection)
+                    this.genericCache.UnregisterGenericType((LockedTypeCollection)typeParameters);
+                else
+                    this.genericCache.UnregisterGenericType(new LockedTypeCollection(typeParameters));
                 throw e;
             }
             return result;
@@ -289,7 +292,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region _IGenericTypeRegistrar Members
 
-        public void RegisterGenericType(IGenericType targetType, ITypeCollectionBase typeParameters)
+        public void RegisterGenericType(IGenericType targetType, LockedTypeCollection typeParameters)
         {
             if (this.disposing || this.disposeSynch == null)
                 return;
@@ -298,7 +301,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.genericCache.RegisterGenericType(targetType, typeParameters);
         }
 
-        public void UnregisterGenericType(ITypeCollectionBase typeParameters)
+        public void UnregisterGenericType(LockedTypeCollection typeParameters)
         {
             if (this.genericCache == null || this.disposing || this.disposeSynch == null)
                 return;
@@ -323,6 +326,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             if (this.genericCache == null || this.disposing || this.disposeSynch == null)
                 return;
+            //Console.Write("Beginning exodus for {0}: ", this.ToString());
             this.genericCache.EndExodus();
         }
     }

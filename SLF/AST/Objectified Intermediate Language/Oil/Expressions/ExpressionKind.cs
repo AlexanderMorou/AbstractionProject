@@ -923,7 +923,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Returns whether the <see cref="ExpressionKind"/> values <paramref name="a"/>
-        /// and <paramref name="b"/> familliarSeries.
+        /// and <paramref name="b"/> match.
         /// </summary>
         /// <param name="a">The left-side of the equals operation.</param>
         /// <param name="b">The right-side of the equals operation.</param>
@@ -935,7 +935,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Returns whether the <see cref="ExpressionKind"/> values <paramref name="a"/>
-        /// and <paramref name="b"/> familliarSeries.
+        /// and <paramref name="b"/> match.
         /// </summary>
         /// <param name="a">The left-side of the equals operation.</param>
         /// <param name="b">The right-side of the equals operation.</param>
@@ -1323,15 +1323,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             /// <summary>
             /// The expression references a method parameter.
             /// </summary>
-            ParameterReference  = 0x0000000000001000,
+            ParameterReference = 0x0000000000001000,
             /// <summary>
             /// The expression references a specific constructor.
             /// </summary>
-            ConstructorReference= 0x0000000000002000,
+            ConstructorReference = 0x0000000000002000,
+            /// <summary>
+            /// The expression represents a switch case
+            /// label which acts as a forward to the constant
+            /// expression the label represents.
+            /// </summary>
+            SwitchCaseLabel =      0x0000000000004000,
             /// <summary>
             /// Represents every kind of reference.
             /// </summary>
-            All = 0x0000000000003FFF,
+            All = 0x0000000000007FFF,
         }
         /// <summary>
         /// The kinds of primitive value inserts possible.
@@ -1502,7 +1508,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         [Flags]
         public enum ExpansionRequiredSector
         {
-            None                                = 0x0000000000000000,
+            None = 0x0000000000000000,
             /// <summary>
             /// The expression is a lambda expression.
             /// </summary>
@@ -1511,34 +1517,35 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             ///         (Expression | StatementBlock)
             ///     VB: "Function" '(' TypedIdentifier (',' TypedIdentifier) ')' Expression
             /// </remarks>
-            LambdaExpression                    = 0x0000000000000001,
+            LambdaExpression = 0x0000000000000001,
             /// <summary>
             /// The expression is a ternary conditional operation.
             /// </summary>
-            ConditionalOperation                = 0x0000000000000002,
+            ConditionalOperation = 0x0000000000000002,
             /// <summary>
             /// An expression which is merely a forward from a conditional expression.
             /// </summary>
-            ConditionalForwardTerm              = 0x0000000000000004,
+            ConditionalForwardTerm = 0x0000000000000004,
             /// <summary>
             /// An series of expressions evaluated in verbatim order.
             /// </summary>
-            CommaExpression                     = 0x0000000000000008,
+            CommaExpression = 0x0000000000000008,
             /// <summary>
             /// An expression which is a language integrated query used to
             /// manipulate and build new sequenes.
             /// </summary>
-            LinqExpression                      = 0x0000000000000010,
+            LinqExpression = 0x0000000000000010,
             /// <summary>
             /// An expression which modifies a wrapped expression prior
             /// to being sent to the recipient of the wrapped expression.
             /// </summary>
-            WorkspaceExpression                 = 0x0000000000000020,
+            WorkspaceExpression = 0x0000000000000020,
+            CreateArray         = 0x0000000000000040,
             /// <summary>
             /// Represents all expressions which require precompiler
             /// expansion.
             /// </summary>
-            All                                 = 0x000000000000003F,
+            All = 0x000000000000007F,
         }
 
         /// <summary>

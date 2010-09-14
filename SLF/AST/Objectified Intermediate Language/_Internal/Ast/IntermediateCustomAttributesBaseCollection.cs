@@ -105,6 +105,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             return new List<ICustomAttributeInstance>(this).ToArray();
         }
 
+        public int IndexOf(ICustomAttributeInstance element)
+        {
+            return this.GetIndexOf(element);
+        }
+
         #endregion
 
         #region IEnumerable<ICustomAttributeInstance> Members
@@ -254,6 +259,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             }
         }
 
+        int IControlledStateCollection.IndexOf(object element)
+        {
+            if (element is ICustomAttributeInstance)
+                return this.IndexOf((ICustomAttributeInstance)element);
+            return -1;
+        }
+
         #endregion
 
         #region ICollection Members
@@ -297,5 +309,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         }
 
         #endregion
+
+
     }
 }

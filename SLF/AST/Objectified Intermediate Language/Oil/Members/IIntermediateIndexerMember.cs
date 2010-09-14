@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -38,6 +39,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TIndexerParent,
             IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
     {
+        /// <summary>
+        /// Obtains an indexer reference for the current <see cref="IIntermediateIndexerMember"/>.
+        /// </summary>
+        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
+        /// which leads up to the <see cref="IIntermediateIndexerMember"/>.</param>
+        /// <param name="parameters">The series of <see cref="IExpression"/> elements
+        /// needed to get or set an element of the indexer</param>
+        /// <returns>An indexer reference for the current <see cref="IIntermediateIndexerMember"/>.</returns>
+        new IIndexerReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> GetReference(IMemberParentReferenceExpression source, params IExpression[] parameters);
+        /// <summary>
+        /// Obtains an indexer reference for the current <see cref="IIntermediateIndexerMember"/>.
+        /// </summary>
+        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
+        /// which leads up to the <see cref="IIntermediateIndexerMember"/>.</param>
+        /// <param name="parameters">The <see cref="IEnumerable{T}"/> of <see cref="IExpression"/> elements
+        /// needed to get or set an element of the indexer</param>
+        /// <returns>An indexer reference for the current <see cref="IIntermediateIndexerMember"/>.</returns>
+        new IIndexerReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> GetReference(IMemberParentReferenceExpression source, IEnumerable<IExpression> parameters);
     }
 
     /// <summary>

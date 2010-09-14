@@ -13,7 +13,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
     internal interface _IGenericTypeRegistrar
     {
-        void RegisterGenericType(IGenericType targetType, ITypeCollectionBase typeParameters);
-        void UnregisterGenericType(ITypeCollectionBase typeParameters);
+        void RegisterGenericType(IGenericType targetType, LockedTypeCollection typeParameters);
+        void UnregisterGenericType(LockedTypeCollection typeParameters);
     }
 }

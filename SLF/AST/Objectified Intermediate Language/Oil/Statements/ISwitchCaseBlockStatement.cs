@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
     /// </summary>
     public interface ISwitchCaseBlockStatement :
         IBreakableBlockStatement,
-        ILabelStatement
+        IJumpTarget
     {
         /// <summary>
         /// Returns the <see cref="IMalleableExpressionCollection"/> that relates to the current 
@@ -32,5 +32,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <see cref="ISwitchCaseBlockStatement"/> exists within.
         /// </summary>
         new ISwitchStatement Parent { get; }
+        /// <summary>
+        /// Returns whether the current <see cref="ISwitchCaseBlockStatement"/>
+        /// represents the default case
+        /// </summary>
+        bool IsDefault { get; set; }
     }
 }

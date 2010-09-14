@@ -12,9 +12,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
     /// breakable section of code.
     /// </summary>
     public class BreakableConditionBlockStatement :
-        ConditionBlockStatement,
+        BreakableConditionContinuationStatement,
         IBreakableConditionBlockStatement
     {
+        private IBreakableConditionContinuationStatement next;
         /// <summary>
         /// Creates a new <see cref="BreakableConditionBlockStatement"/> with the
         /// <paramref name="parent"/> provided.
@@ -28,75 +29,76 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         #region IBreakableConditionBlockStatement Members
 
         /// <summary>
-        /// Returns the <see cref="IBreakableBlockStatement"/> which contains the 
-        /// <see cref="IBreakableConditionBlockStatement"/>.
-        /// </summary>
-        public new IBreakableBlockStatement Parent
-        {
-            get { return (IBreakableBlockStatement)base.Parent; }
-        }
-
-        /// <summary>
         /// Returns/sets the <see cref="IBreakableConditionContinuationStatement"/> which continues the
         /// code flow control conditioning.
         /// </summary>
-        public new IBreakableConditionContinuationStatement Next
+        public IBreakableConditionContinuationStatement Next
         {
             get
             {
-                return (IBreakableConditionContinuationStatement)base.Next;
+                if (this.next == null)
+                    this.CreateNext();
+                return this.next;
             }
             set
             {
-                base.Next = value;
+                this.next = value;
             }
         }
 
         #endregion
-
-        #region IBreakableBlockStatement Members
-
-        public IBreakExit AssociatedJumpLabel
-        {
-            get {
-                return this.Parent.AssociatedJumpLabel;
-            }
-        }
+        #region IConditionBlockStatement Members
 
         /// <summary>
-        /// Breaks the execution from its current point elsewhere.
+        /// Returns/sets the condition for the <see cref="ConditionBlockStatement"/> to execute.
         /// </summary>
-        /// <returns>A <see cref="IBreakStatement"/> which designates the <see cref="IJumpStatement.Target"/>
-        /// as necessary.</returns>
-        public IBreakStatement Break()
+        public IExpression Condition { get; set; }
+
+        IConditionContinuationStatement IConditionBlockStatement.Next
         {
-            var b = new BreakStatement(this, this.AssociatedJumpLabel);
-            this.baseCollection.Add(b);
-            return b;
+            get
+            {
+                return this.Next;
+            }
+            set
+            {
+                if (value is IBreakableConditionContinuationStatement)
+                    this.Next = (IBreakableConditionContinuationStatement)value;
+                else
+                    throw new ArgumentException("invalid value", "value");
+            }
+        }
+        #endregion
+
+        #region IConditionBlockStatement Members
+
+        public void CreateNext()
+        {
+            this.Next = new BreakableConditionContinuationStatement(this.Parent);
         }
 
-        public new IBreakableConditionBlockStatement If(IExpression condition)
+        public void CreateNext(IExpression condition)
         {
-            return (IBreakableConditionBlockStatement)(base.If(condition));
+            this.Next = new BreakableConditionBlockStatement(this.Parent) { Condition = condition };
         }
 
         #endregion
 
-        internal override IConditionBlockStatement OnIf(IExpression condition)
+        /// <summary>
+        /// Visits the <paramref name="visitor"/> based upon the type of the
+        /// <see cref="IStatement"/>.
+        /// </summary>
+        /// <param name="visitor">The <see cref="IIntermediateCodeVisitor"/> 
+        /// to visit.</param>
+        /// <remarks>In this instance visits the <paramref name="visitor"/>
+        /// through <see cref="IStatementVisitor.Visit(IConditionBlockStatement)"/>.</remarks>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="visitor"/>
+        /// is null.</exception>
+        public override void Visit(IStatementVisitor visitor)
         {
-            var result = new BreakableConditionBlockStatement(this.Parent)
-            {
-                Condition = condition
-            };
-            this.baseCollection.Add(result);
-            return result;
-        }
-
-        internal override void SetNext(IConditionContinuationStatement value)
-        {
-            if (!(value is IBreakableConditionContinuationStatement))
-                throw new ArgumentException("value");
-            base.SetNext(value);
+            if (visitor == null)
+                throw new ArgumentNullException("visitor");
+            visitor.Visit((IConditionBlockStatement)this);
         }
 
 

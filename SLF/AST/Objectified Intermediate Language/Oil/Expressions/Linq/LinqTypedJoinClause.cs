@@ -61,7 +61,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
                 return string.Format(CultureInfo.CurrentCulture, "join {1} in {2} on {3} equals {4} into {5}", RangeType, RangeVariableName, RangeSource, LeftSelector, RightSelector, IntoRangeVariableName);
             return string.Format(CultureInfo.CurrentCulture, "join {0} {1} in {2} on {3} equals {4}", RangeType, RangeVariableName, RangeSource, LeftSelector, RightSelector);
         }
-        public override void Visit(IIntermediateCodeVisitor visitor)
+        public override void Visit(ILinqVisitor visitor)
         {
             visitor.Visit(this);
         }

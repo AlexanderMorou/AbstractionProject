@@ -280,14 +280,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region _IGenericTypeRegistrar Members
 
-        public void RegisterGenericType(IGenericType targetType, ITypeCollectionBase typeParameters)
+        void _IGenericTypeRegistrar.RegisterGenericType(IGenericType targetType, LockedTypeCollection typeParameters)
         {
             if (this.genericCache == null)
                 this.genericCache = new GenericTypeCache<TType>();
             this.genericCache.RegisterGenericType(targetType, typeParameters);
         }
 
-        public void UnregisterGenericType(ITypeCollectionBase typeParameters)
+        void _IGenericTypeRegistrar.UnregisterGenericType(LockedTypeCollection typeParameters)
         {
             if (this.genericCache == null || this.disposing)
                 return;

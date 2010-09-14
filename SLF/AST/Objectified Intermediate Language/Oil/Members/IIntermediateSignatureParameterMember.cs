@@ -35,8 +35,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// in the intermediate abstract syntax tree.</typeparam>
     public interface IIntermediateSignatureParameterMember<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent> :
         IIntermediateParameterMember<TSignature, TIntermediateSignature>,
-        ISignatureParameterMember<TSignature, TSignatureParameter, TSignatureParent>,
-        IIntermediateSignatureParameterMember
+        IIntermediateSignatureParameterMember,
+        ISignatureParameterMember<TSignature, TSignatureParameter, TSignatureParent>
         where TSignature :
             ISignatureMember<TSignature, TSignatureParameter, TSignatureParent>
         where TIntermediateSignature :

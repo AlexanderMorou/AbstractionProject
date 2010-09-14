@@ -63,7 +63,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             return this.ReferenceType.CSharpToString();
         }
 
-        public override void Visit(IIntermediateCodeVisitor visitor)
+        public override void Visit(IExpressionVisitor visitor)
         {
             visitor.Visit(this);
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
@@ -204,5 +205,25 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <returns>A <typeparamref name="TMethodMember"/>
         /// instance which represents the get or set accessor of the property.</returns>
         protected abstract TMethodMember GetMethodSignatureMember(PropertyMethodType methodType);
+
+
+        #region IIntermediatePropertySignatureMember Members
+
+
+        IPropertyReferenceExpression IIntermediatePropertySignatureMember.GetReference(IMemberParentReferenceExpression source)
+        {
+            return this.GetReference(source);
+        }
+
+        #endregion
+    
+        #region IIntermediatePropertySignatureMember<TProperty,TIntermediateProperty,TPropertyParent,TIntermediatePropertyParent> Members
+
+        public IPropertySignatureReferenceExpression<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> GetReference(IMemberParentReferenceExpression source)
+        {
+            return new PropertySignatureReferenceExpression<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(source, ((TIntermediateProperty)(object)(this)));
+        }
+
+        #endregion
     }
 }

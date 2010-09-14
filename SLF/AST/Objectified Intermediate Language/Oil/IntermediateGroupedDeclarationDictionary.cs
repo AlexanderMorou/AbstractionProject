@@ -311,10 +311,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 if (this.Suspended)
                 {
-                    return this.suspendedMembers.Count + base.Count;
+                    return this.suspendedMembers.Count + BaseCount;
                 }
                 else
                     return base.Count;
+            }
+        }
+
+        private int BaseCount
+        {
+            get
+            {
+                return base.Count;
             }
         }
 

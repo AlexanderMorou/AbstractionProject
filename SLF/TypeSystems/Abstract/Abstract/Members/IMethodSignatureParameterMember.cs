@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// Defines properties and methods for working with the parameter of a method signature.
     /// </summary>
     public interface IMethodSignatureParameterMember :
-    ISignatureParameterMember
+        ISignatureParameterMember
     {
         /// <summary>
         /// Returns the parent of the <see cref="IMethodSignatureParameterMember"/>.

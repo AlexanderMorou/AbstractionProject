@@ -104,13 +104,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         */
         private static CSharpUnaryOperation BreakdownUnopFlags(CSharpUnaryOperation original)
         {
-            bool bitInvert;
-            bool boolInvert;
-            bool negate;
-            bool postOp;
-            bool preOp;
-            bool decrement;
-            bool increment;
+            bool bitInvert, boolInvert, negate, postOp, preOp, decrement, increment;
             DiscernOpFlags(original, out bitInvert, out boolInvert, out negate, out postOp, out preOp, out decrement, out increment);
             return 
                 (bitInvert  ? CSharpUnaryOperation.BitwiseInversion : CSharpUnaryOperation.None) | 
@@ -128,17 +122,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
              * Rediscern the flags based upon logic that cannot be expressed
              * in mere bits.
              * */
-            bitInvert =     ((original & CSharpUnaryOperation.BitwiseInversion) == CSharpUnaryOperation.BitwiseInversion);
-            boolInvert =    ((original & CSharpUnaryOperation.BooleanInversion) == CSharpUnaryOperation.BooleanInversion) 
+            bitInvert     = ((original & CSharpUnaryOperation.BitwiseInversion) == CSharpUnaryOperation.BitwiseInversion);
+            boolInvert    = ((original & CSharpUnaryOperation.BooleanInversion) == CSharpUnaryOperation.BooleanInversion) 
                                 && !bitInvert;
-            negate =        ((original & CSharpUnaryOperation.SignInversion)    == CSharpUnaryOperation.SignInversion) 
+            negate        =    ((original & CSharpUnaryOperation.SignInversion) == CSharpUnaryOperation.SignInversion) 
                                 && !boolInvert;
-            postOp =        ((original & CSharpUnaryOperation.PostAction)       == CSharpUnaryOperation.PostAction);
-            preOp =         ((original & CSharpUnaryOperation.PreAction)        == CSharpUnaryOperation.PreAction) 
+            postOp        =       ((original & CSharpUnaryOperation.PostAction) == CSharpUnaryOperation.PostAction);
+            preOp         =        ((original & CSharpUnaryOperation.PreAction) == CSharpUnaryOperation.PreAction) 
                                 && !postOp;
-            decrement =     ((original & CSharpUnaryOperation.Decrement)        == CSharpUnaryOperation.Decrement) 
+            decrement     =        ((original & CSharpUnaryOperation.Decrement) == CSharpUnaryOperation.Decrement) 
                                 && (preOp || postOp);
-            increment =     ((original & CSharpUnaryOperation.Increment)        == CSharpUnaryOperation.Increment) 
+            increment     =        ((original & CSharpUnaryOperation.Increment) == CSharpUnaryOperation.Increment) 
                                 && !decrement 
                                 && (preOp || postOp);
         }
@@ -272,10 +266,33 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         //    get { return CSharpOperatorPrecedences.UnaryOperation; }
         //}
 
-        public override void Visit(IIntermediateCodeVisitor visitor)
+        public override void Visit(IExpressionVisitor visitor)
         {
             visitor.Visit(this);
         }
 
+
+        #region IStatementExpression Members
+
+        public bool ValidAsStatement
+        {
+            get
+            {
+                bool bitInvert;
+                bool boolInvert;
+                bool negate;
+                bool postOp;
+                bool preOp;
+                bool decrement;
+                bool increment;
+                DiscernOpFlags(Operation, out bitInvert, out boolInvert, out negate, out postOp, out preOp, out decrement, out increment);
+                if (!(bitInvert || boolInvert || negate))
+                    if (increment || decrement)
+                        return true;
+                return false;
+            }
+        }
+
+        #endregion
     }
 }

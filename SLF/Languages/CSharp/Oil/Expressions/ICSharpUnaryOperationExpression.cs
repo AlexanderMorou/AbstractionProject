@@ -75,7 +75,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// </summary>
     public interface ICSharpUnaryOperationExpression :
         ICSharpExpression,
-        IUnaryOperationExpression
+        IUnaryOperationExpression,
+        IStatementExpression
     {
         /// <summary>
         /// Returns/sets the unary operation to be performed on the <see cref="Term"/>.

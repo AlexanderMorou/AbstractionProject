@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -39,6 +40,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TPropertyParent,
             IIntermediatePropertySignatureParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
     {
+        /// <summary>
+        /// Returns a <see cref="IPropertyReferenceExpression{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/>
+        /// associated to the current <see cref="IIntermediatePropertyMember{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/>.
+        /// </summary>
+        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/> which
+        /// leads to the property.</param>
+        /// <returns>A <see cref="IPropertyReferenceExpression{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/>
+        /// associated to the current <see cref="IIntermediatePropertyMember{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/>.</returns>
+        new IPropertySignatureReferenceExpression<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> GetReference(IMemberParentReferenceExpression source);
     }
     /// <summary>
     /// Defines properties and methods for working with an intermediate
@@ -81,5 +91,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// </summary>
         /// <remarks>Is null if <paramref name="CanWrite"/> is false.</remarks>
         new IIntermediatePropertySignatureMethodMember SetMethod { get; }
+        /// <summary>
+        /// Returns a <see cref="IPropertyReferenceExpression"/>
+        /// associated to the current <see cref="IIntermediatePropertyMember"/>.
+        /// </summary>
+        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/> which
+        /// leads to the property.</param>
+        /// <returns>A <see cref="IPropertyReferenceExpression"/>
+        /// associated to the current <see cref="IIntermediatePropertyMember"/>.</returns>
+        IPropertyReferenceExpression GetReference(IMemberParentReferenceExpression source = null);
     }
 }

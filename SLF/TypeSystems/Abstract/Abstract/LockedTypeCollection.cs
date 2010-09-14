@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// An empty series of types that is locked.
         /// </summary>
         public static readonly ILockedTypeCollection Empty = new LockedTypeCollection();
-        private List<IType> copy;
+        internal List<IType> copy;
 
         internal LockedTypeCollection() { this.copy = new List<IType>(); }
         internal LockedTypeCollection(params IType[] source)

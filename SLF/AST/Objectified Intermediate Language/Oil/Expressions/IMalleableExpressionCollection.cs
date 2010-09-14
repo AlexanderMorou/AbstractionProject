@@ -10,26 +10,24 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
-    /// <summary>
-    /// Defines properties and methods for working with a series of
-    /// expressions which can be modified.
-    /// </summary>
-    public interface IMalleableExpressionCollection :
-        IExpressionCollection
+    public interface IMalleableExpressionCollection<T> :
+        IExpressionCollection<T>
+        where T :
+            IExpression
     {
         /// <summary>
         /// Adds a <see cref="IExpression"/> to the <see cref="IMalleableExpressionCollection"/>.
         /// </summary>
         /// <param name="expression">The <see cref="IExpression"/> 
         /// to add to the <see cref="IMalleableExpressionCollection"/>.</param>
-        void Add(IExpression expression);
+        void Add(T expression);
         /// <summary>
         /// Inserts the <paramref name="expression"/> provided
         /// at the <paramref name="index"/> specified into the <see cref="IMalleableExpressionCollection"/>.
         /// </summary>
         /// <param name="expression">The <see cref="IExpression"/> to insert.</param>
         /// <param name="index">The zero-based <see cref="Int32"/> index to place the <paramref name="expression"/>.</param>
-        void Insert(IExpression expression, int index);
+        void Insert(T expression, int index);
         /// <summary>
         /// Removes an element of the <see cref="IMalleableExpressionCollection"/> at the
         /// <paramref name="index"/> specified.
@@ -43,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         /// <param name="expression">The <see cref="IExpression"/> to add to the 
         /// <see cref="IMalleableExpressionCollection"/>.</param>
-        void Remove(IExpression expression);
+        void Remove(T expression);
         /// <summary>
         /// Clears the <see cref="IMalleableExpressionCollection"/> of all
         /// its elements.
@@ -57,6 +55,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// of the element to retrieve/store.</param>
         /// <returns>A <see cref="IExpression"/> instance at the <paramref name="index"/>
         /// specified.</returns>
-        new IExpression this[int index] { get; set; }
+        new T this[int index] { get; set; }
+    }
+
+    /// <summary>
+    /// Defines properties and methods for working with a series of
+    /// expressions which can be modified.
+    /// </summary>
+    public interface IMalleableExpressionCollection :
+        IMalleableExpressionCollection<IExpression>
+    {
     }
 }

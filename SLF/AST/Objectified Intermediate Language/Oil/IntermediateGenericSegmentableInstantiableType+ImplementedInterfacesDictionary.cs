@@ -102,7 +102,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             #region ITypeCollectionBase Members
 
-            int ITypeCollectionBase.IndexOf(IType item)
+            public int IndexOf(IType item)
             {
                 return this.GetEnumerableFinal().GetIndexOf(item);
             }

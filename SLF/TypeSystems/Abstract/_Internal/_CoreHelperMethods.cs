@@ -103,10 +103,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal
             return null;
         }
 
-        internal static string EscapeStringCILAndCS(this string toEscape, int indentLevel)
+        internal static string EscapeStringOrCharCILAndCS(this string toEscape, bool isString = true)
         {
             StringBuilder sb = new StringBuilder((int)((float)(toEscape.Length + 8) * 1.1));
-            sb.Append(@"""");
+            if (isString)
+                sb.Append(@"""");
+            else
+                sb.Append("'");
             for (int i = 0; i < toEscape.Length; i++)
             {
                 char c = toEscape[i];
@@ -114,9 +117,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal
                 switch (c)
                 {
                     case '"':
+                        if (!isString)
+                            goto default;
                         sb.Append(@"\""");
                         break;
                     case '\'':
+                        if (isString)
+                            goto default;
                         sb.Append(@"\'");
                         break;
                     case '\\':
@@ -131,18 +138,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal
                     case '\0':
                         sb.Append(@"\0");
                         break;
-                    case '\u2028':
-                        sb.Append(@"\u2028");
-                        break;
-                    case '\u2029':
-                        sb.Append(@"\u2029");
+                    case '\x85':
+                        sb.Append("\\x85");
                         break;
                     default:
-                        sb.Append(c);
+                        if (c > 255)
+                        {
+                            var baseHexVal = string.Format("{0:x}", (int)(c));
+                            while (baseHexVal.Length < 4)
+                                baseHexVal = "0" + baseHexVal;
+                            sb.AppendFormat("\\u{0}", baseHexVal);
+                        }
+                        else
+                            sb.Append(c);
                         break;
                 }
             }
-            sb.Append(@"""");
+            if (isString)
+                sb.Append(@"""");
+            else
+                sb.Append("'");
             return sb.ToString();
         }
         /// <summary>

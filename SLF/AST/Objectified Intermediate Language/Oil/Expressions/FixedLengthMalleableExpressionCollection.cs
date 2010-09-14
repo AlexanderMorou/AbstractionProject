@@ -108,5 +108,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         #endregion
+
+        #region IControlledStateCollection<IExpression> Members
+
+        public int IndexOf(IExpression element)
+        {
+            int index = 0;
+            if (this.data == null)
+                return -1;
+            foreach (var datum in data)
+                if (datum == element)
+                    return index;
+                else
+                    index++;
+            return -1;
+        }
+
+        #endregion
     }
 }

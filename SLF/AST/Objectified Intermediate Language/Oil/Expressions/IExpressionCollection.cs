@@ -19,14 +19,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// instances.
     /// </summary>
     public interface IExpressionCollection :
-        IControlledStateCollection<IExpression>
+        IExpressionCollection<IExpression>
     {
-        /// <summary>
-        /// Returns a <see cref="IExpression"/> at the given <paramref name="index"/>.
-        /// </summary>
-        /// <param name="index">The <see cref="System.Int32"/> 
-        /// of the <see cref="IExpression"/> element to retrieve.</param>
-        /// <returns>An <see cref="IExpression"/> relative to <paramref name="index"/>.</returns>
-        new IExpression this[int index] { get; }
+    }
+
+    public interface IExpressionCollection<T> :
+        IControlledStateCollection<T>
+        where T :
+            IExpression
+    {
     }
 }

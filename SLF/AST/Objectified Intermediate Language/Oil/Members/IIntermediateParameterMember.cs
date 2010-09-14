@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
     /// <summary>
     /// Defines properties and methods for working with an intermediate parameter
-    /// with the <paramref name="TIntermediateParent"/> as its owner.
+    /// with the <typeparamref name="TIntermediateParent"/> as its owner.
     /// </summary>
     /// <typeparam name="TParent">The <see cref="IParameterParent"/>
     /// type which owns the abstract definition of the current 

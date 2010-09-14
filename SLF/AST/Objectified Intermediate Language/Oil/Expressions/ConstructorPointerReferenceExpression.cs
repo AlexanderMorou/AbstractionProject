@@ -82,7 +82,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// to which the <see cref="ConstructorPointerReferenceExpression"/> 
         /// needs to repay the visit to.</param>
         /// <remarks></remarks>
-        public void Visit(IIntermediateCodeVisitor visitor)
+        public void Visit(IExpressionVisitor visitor)
         {
             visitor.Visit(this);
         }

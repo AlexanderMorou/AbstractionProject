@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     public abstract class DeclarationBase :
         IDeclaration
     {
-
+        private object synchObject  = new object();
         /// <summary>
         /// Creates a new <see cref="DeclarationBase"/> initialized to a default state.
         /// </summary>
@@ -65,10 +65,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         protected void OnDisposed()
         {
-            if (this.Disposed != null)
+            lock (this.synchObject)
             {
-                this.Disposed(this, EventArgs.Empty);
-                this.Disposed = null;
+                if (this.Disposed != null)
+                {
+                    this.Disposed(this, EventArgs.Empty);
+                    this.Disposed = null;
+                }
             }
         }
 

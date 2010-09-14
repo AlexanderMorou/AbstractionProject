@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         public TItem this[int index]
         {
-            get 
+            get
             {
                 for (
                         int i = 0,
@@ -74,6 +74,17 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             }
         }
 
+        public int IndexOf(TItem element)
+        {
+            for (int i = 0, offset = 0; i < this.collections.Count; offset += this.collections[i++].Count)
+            {
+                int index = this.collections[i].IndexOf(element);
+                if (index == -1)
+                    continue;
+                return offset + index;
+            }
+            return -1;
+        }
         #endregion
 
         #region IEnumerable<TItem> Members
@@ -99,7 +110,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         public TItem[] ToArray()
         {
-            throw new NotSupportedException();
+            TItem[] result = new TItem[this.Count];
+            for (int i = 0, offset = 0; i < this.collections.Count; offset += this.collections[i++].Count)
+                this.collections[i].CopyTo(result, offset);
+            return result;
         }
+
     }
 }

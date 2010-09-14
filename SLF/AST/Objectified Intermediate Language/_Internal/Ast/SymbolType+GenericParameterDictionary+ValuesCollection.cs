@@ -65,6 +65,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     get { return this[index]; }
                 }
 
+                int IControlledStateCollection.IndexOf(object element)
+                {
+                    if (element is TValueMember)
+                        return this.IndexOf((TValueMember)element);
+                    return -1;
+                }
+
                 #endregion
 
                 #region ICollection Members
@@ -105,7 +112,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
                 public bool Contains(TValueMember item)
                 {
-                    throw new NotImplementedException();
+                    for (int i = 0; i < this.Count; i++)
+                        if (this.container.elements[i] == null)
+                            continue;
+                        else if (this.container.elements[i] == item)
+                            return true;
+                    return false;
                 }
 
                 public void CopyTo(TValueMember[] array, int arrayIndex)
@@ -142,6 +154,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     return result;
                 }
 
+                public int IndexOf(TValueMember element)
+                {
+                    for (int i = 0; i < this.Count; i++)
+                        if (this.container.elements[i] == null)
+                            continue;
+                        else if (this.container.elements[i] == element)
+                            return i;
+                    return -1;
+                }
+
                 #endregion
 
                 #region IEnumerable<IGenericTypeParameter<ISymbolType>> Members
@@ -156,6 +178,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 }
 
                 #endregion
+
             }
         }
     }

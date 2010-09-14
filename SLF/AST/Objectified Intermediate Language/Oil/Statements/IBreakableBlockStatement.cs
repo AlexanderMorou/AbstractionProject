@@ -17,17 +17,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
     /// break statements are allowed.
     /// </summary>
     public interface IBreakableBlockStatement :
-        IBlockStatement
+        IBlockStatement,
+        IBreakableStatement
     {
-        /// <summary>
-        /// Returns the <see cref="IBreakExit"/> for the <see cref="IBreakableBlockStatement"/>.
-        /// </summary>
-        /// <remarks>In languages that natively support the break statement
-        /// this is unnecessary; however in using this in the code, 
-        /// the label will be emitted in the associated supporting 
-        /// language as well.</remarks>
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        IBreakExit AssociatedJumpLabel { get; }
 
         /// <summary>
         /// Breaks the execution from its current point elsewhere.

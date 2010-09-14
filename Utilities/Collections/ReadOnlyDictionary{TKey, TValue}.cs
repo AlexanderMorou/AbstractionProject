@@ -41,6 +41,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             : base(sibling)
         {
         }
+
+        public ReadOnlyDictionary(IEnumerable<KeyValuePair<TKey, TValue>> toLock)
+        {
+            foreach (var item in toLock)
+                base._AddRange(toLock);
+        }
         /// <summary>
         /// Removes the item at the provided <paramref name="index"/>.
         /// </summary>

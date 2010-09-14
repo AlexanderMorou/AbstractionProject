@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -38,6 +39,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TPropertyParent,
             IIntermediatePropertyParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
     {
+        /// <summary>
+        /// Returns a <see cref="IPropertyReferenceExpression{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/>
+        /// associated to the current <see cref="IIntermediatePropertyMember{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/>.
+        /// </summary>
+        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/> which
+        /// leads to the property.</param>
+        /// <returns>A <see cref="IPropertyReferenceExpression{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/>
+        /// associated to the current <see cref="IIntermediatePropertyMember{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/>.</returns>
+        new IPropertyReferenceExpression<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> GetReference(IMemberParentReferenceExpression parent);
     }
     /// <summary>
     /// Defines properties and methods for working with a property member.
