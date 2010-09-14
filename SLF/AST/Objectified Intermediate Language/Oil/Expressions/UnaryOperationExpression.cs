@@ -16,9 +16,9 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
-    public class CSharpUnaryOperationExpression :
+    public class UnaryOperationExpression :
         ExpressionBase,
-        ICSharpUnaryOperationExpression
+        IUnaryOperationExpression
     {
 
         /// <summary>
@@ -28,9 +28,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Data member for <see cref="Operation"/>.
         /// </summary>
-        private CSharpUnaryOperation operation = CSharpUnaryOperation.None;
+        private UnaryOperation operation = UnaryOperation.None;
         /// <summary>
-        /// Returns the type of expression the <see cref="CSharpUnaryOperationExpression"/> is.
+        /// Returns the type of expression the <see cref="UnaryOperationExpression"/> is.
         /// </summary>
         public override ExpressionKind Type
         {
@@ -67,24 +67,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             }
         }
 
-        public CSharpUnaryOperationExpression(IUnaryOperationPrimaryTerm term)
+        public UnaryOperationExpression(IUnaryOperationPrimaryTerm term)
         {
-            this.operation = CSharpUnaryOperation.None;
+            this.operation = UnaryOperation.None;
             this.term = term;
         }
 
-        public CSharpUnaryOperationExpression(IUnaryOperationPrimaryTerm term, CSharpUnaryOperation operation)
+        public UnaryOperationExpression(IUnaryOperationPrimaryTerm term, UnaryOperation operation)
             : this(term)
         {
             this.operation = BreakdownUnopFlags(operation);
         }
 
-        #region ICSharpUnaryOperationExpression Members
+        #region IUnaryOperationExpression Members
 
         /// <summary>
         /// Returns/sets the unary operation to be performed on the <see cref="Term"/>.
         /// </summary>
-        public CSharpUnaryOperation Operation
+        public UnaryOperation Operation
         {
             get {
                 return BreakdownUnopFlags(this.operation);
@@ -95,50 +95,43 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 //this.RemoveLinkStatus();
             }
         }
-        /*
-        private void RemoveLinkStatus()
-        {
-            if (this.IsLinked)
-                base.Unlink();
-        }
-        */
-        private static CSharpUnaryOperation BreakdownUnopFlags(CSharpUnaryOperation original)
+        private static UnaryOperation BreakdownUnopFlags(UnaryOperation original)
         {
             bool bitInvert, boolInvert, negate, postOp, preOp, decrement, increment;
             DiscernOpFlags(original, out bitInvert, out boolInvert, out negate, out postOp, out preOp, out decrement, out increment);
             return 
-                (bitInvert  ? CSharpUnaryOperation.BitwiseInversion : CSharpUnaryOperation.None) | 
-                (boolInvert ? CSharpUnaryOperation.BooleanInversion : CSharpUnaryOperation.None) | 
-                (negate     ? CSharpUnaryOperation.SignInversion    : CSharpUnaryOperation.None) | 
-                (postOp     ? CSharpUnaryOperation.PostAction       : CSharpUnaryOperation.None) | 
-                (preOp      ? CSharpUnaryOperation.PreAction        : CSharpUnaryOperation.None) |
-                (decrement  ? CSharpUnaryOperation.Decrement        : CSharpUnaryOperation.None) | 
-                (increment  ? CSharpUnaryOperation.Increment        : CSharpUnaryOperation.None) ;
+                (bitInvert  ? UnaryOperation.BitwiseInversion : UnaryOperation.None) | 
+                (boolInvert ? UnaryOperation.BooleanInversion : UnaryOperation.None) | 
+                (negate     ? UnaryOperation.SignInversion    : UnaryOperation.None) | 
+                (postOp     ? UnaryOperation.PostAction       : UnaryOperation.None) | 
+                (preOp      ? UnaryOperation.PreAction        : UnaryOperation.None) |
+                (decrement  ? UnaryOperation.Decrement        : UnaryOperation.None) | 
+                (increment  ? UnaryOperation.Increment        : UnaryOperation.None) ;
         }
 
-        private static void DiscernOpFlags(CSharpUnaryOperation original, out bool bitInvert, out bool boolInvert, out bool negate, out bool postOp, out bool preOp, out bool decrement, out bool increment)
+        private static void DiscernOpFlags(UnaryOperation original, out bool bitInvert, out bool boolInvert, out bool negate, out bool postOp, out bool preOp, out bool decrement, out bool increment)
         {
             /* *
              * Rediscern the flags based upon logic that cannot be expressed
              * in mere bits.
              * */
-            bitInvert     = ((original & CSharpUnaryOperation.BitwiseInversion) == CSharpUnaryOperation.BitwiseInversion);
-            boolInvert    = ((original & CSharpUnaryOperation.BooleanInversion) == CSharpUnaryOperation.BooleanInversion) 
+            bitInvert     = ((original & UnaryOperation.BitwiseInversion) == UnaryOperation.BitwiseInversion);
+            boolInvert    = ((original & UnaryOperation.BooleanInversion) == UnaryOperation.BooleanInversion) 
                                 && !bitInvert;
-            negate        =    ((original & CSharpUnaryOperation.SignInversion) == CSharpUnaryOperation.SignInversion) 
+            negate        =    ((original & UnaryOperation.SignInversion) == UnaryOperation.SignInversion) 
                                 && !boolInvert;
-            postOp        =       ((original & CSharpUnaryOperation.PostAction) == CSharpUnaryOperation.PostAction);
-            preOp         =        ((original & CSharpUnaryOperation.PreAction) == CSharpUnaryOperation.PreAction) 
+            postOp        =       ((original & UnaryOperation.PostAction) == UnaryOperation.PostAction);
+            preOp         =        ((original & UnaryOperation.PreAction) == UnaryOperation.PreAction) 
                                 && !postOp;
-            decrement     =        ((original & CSharpUnaryOperation.Decrement) == CSharpUnaryOperation.Decrement) 
+            decrement     =        ((original & UnaryOperation.Decrement) == UnaryOperation.Decrement) 
                                 && (preOp || postOp);
-            increment     =        ((original & CSharpUnaryOperation.Increment) == CSharpUnaryOperation.Increment) 
+            increment     =        ((original & UnaryOperation.Increment) == UnaryOperation.Increment) 
                                 && !decrement 
                                 && (preOp || postOp);
         }
 
         /// <summary>
-        /// Returns/sets the <see cref="IUnaryOperationPrimaryTerm"/> that the <see cref="CSharpUnaryOperationExpression"/>
+        /// Returns/sets the <see cref="IUnaryOperationPrimaryTerm"/> that the <see cref="UnaryOperationExpression"/>
         /// operates on.
         /// </summary>
         public IUnaryOperationPrimaryTerm Term
@@ -186,91 +179,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                     result += "++";
             return result;
         }
-        /*
-        public override IType ForwardType
-        {
-            get {
-                if (!this.IsLinked)
-                    this.Link();
-                return this.forwardType;
-            }
-        }
 
-        protected override void OnLink()
-        {
-            IType t = this.Term.GetEvaluationType();
-            bool isOverride = false;
-            if (this.Operation == CSharpUnaryOperation.None)
-            {
-                this.SetNonUnaryOpOverloadState();
-            }
-            else
-            {
-                if (t.IsPrimitive())
-                {
-                    switch (t.GetTypeCode())
-                    {
-                        case TypeCode.Boolean:
-                            if (((operation & CSharpUnaryOperation.Increment) != CSharpUnaryOperation.None) ||
-                                ((operation & CSharpUnaryOperation.Decrement) != CSharpUnaryOperation.None) ||
-                                ((operation & CSharpUnaryOperation.Negate) != CSharpUnaryOperation.None))
-                            {
-                            }
-                            goto case TypeCode.Byte;
-                        case TypeCode.Byte:
-                        case TypeCode.Char:
-                        case TypeCode.DateTime:
-                        case TypeCode.Double:
-                        case TypeCode.Int16:
-                        case TypeCode.Int32:
-                        case TypeCode.Int64:
-                        case TypeCode.SByte:
-                        case TypeCode.Single:
-                        case TypeCode.String:
-                        case TypeCode.UInt16:
-                        case TypeCode.UInt32:
-                        case TypeCode.UInt64:
-                            isOverride = false;
-                            break;
-                        default:
-                            isOverride = true;
-                            break;
-                    }
-                }
-                else
-                    isOverride = true;
-                if (isOverride)
-                {
-                    //Start looking for the unary operation.
-                    ICoercibleType ict = null;
-                    if (t is IStructType)
-                        ict = ((IStructType)(t));
-                    else if (t is IClassType)
-                        ict = ((IClassType)(t));
-                    //First: Crement operation
-
-                    //Second: Negate operation
-                    //Third: BooleanInversion operation
-
-                    this.isUnaryOpOverride = true;
-                }
-                else
-                    this.SetNonUnaryOpOverloadState();
-            }
-            this.forwardType = t;
-        }
-        */
-
-        //public override CSharpOperatorPrecedences Precedence
+        //public override OperatorPrecedences Precedence
         //{
-        //    get { return CSharpOperatorPrecedences.UnaryOperation; }
+        //    get { return OperatorPrecedences.UnaryOperation; }
         //}
 
         public override void Visit(IExpressionVisitor visitor)
         {
             visitor.Visit(this);
         }
-
 
         #region IStatementExpression Members
 

@@ -9,60 +9,60 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 {
     partial class BlockStatementScopeLabelDictionary
     {
-        private class KeysCollection :
-            IControlledStateCollection<string>
+        private class ValuesCollection :
+            IControlledStateCollection<ILabelStatement>
         {
             private BlockStatementScopeLabelDictionary owner;
-            public KeysCollection(BlockStatementScopeLabelDictionary owner)
+            public ValuesCollection(BlockStatementScopeLabelDictionary owner)
             {
                 this.owner = owner;
             }
-            #region IControlledStateCollection<string> Members
+
+            #region IControlledStateCollection<ILabelStatement> Members
 
             public int Count
             {
                 get { return this.owner.Count; }
             }
-            private IEnumerable<string> GetLabelNames()
-            {
-                return from label in this.owner.GetLabels()
-                       select label.Name;
-            }
-            public bool Contains(string item)
+
+            public bool Contains(ILabelStatement item)
             {
                 foreach (var element in this.owner.GetLabels())
-                    if (element.Name == item)
+                    if (element == item)
                         return true;
                 return false;
             }
 
-            public void CopyTo(string[] array, int arrayIndex = 0)
+            public void CopyTo(ILabelStatement[] array, int arrayIndex = 0)
             {
-                GetLabelNames().ToArray().CopyTo(array, arrayIndex);
+                this.owner.GetLabels().ToArray().CopyTo(array, arrayIndex);
             }
 
-            public string this[int index]
+            public ILabelStatement this[int index]
             {
-                get { return this.GetLabelNames().ElementAt(index); }
+                get
+                {
+                    return this.owner.GetLabels().ElementAt(index);
+                }
             }
 
-            public string[] ToArray()
+            public ILabelStatement[] ToArray()
             {
-                return GetLabelNames().ToArray();
+                return this.owner.GetLabels().ToArray();
             }
 
-            public int IndexOf(string element)
+            public int IndexOf(ILabelStatement element)
             {
-                return GetLabelNames().GetIndexOf(element);
+                return this.owner.GetLabels().GetIndexOf(element);
             }
 
             #endregion
 
-            #region IEnumerable<string> Members
+            #region IEnumerable<ILabelStatement> Members
 
-            public IEnumerator<string> GetEnumerator()
+            public IEnumerator<ILabelStatement> GetEnumerator()
             {
-                return this.GetLabelNames().GetEnumerator();
+                return this.owner.GetLabels().GetEnumerator();
             }
 
             #endregion

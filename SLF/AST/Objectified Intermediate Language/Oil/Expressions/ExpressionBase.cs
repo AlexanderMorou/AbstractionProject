@@ -144,42 +144,42 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         public static CSharpMulDivExpression operator *(ExpressionBase left, ExpressionBase right)
         {
             ICSharpMulDivExpression leftSide = (ICSharpMulDivExpression)left.AffixTo(OperatorPrecedences.CSharpMulDivOperation);
-            ICSharpUnaryOperationExpression rightSide = (ICSharpUnaryOperationExpression)right.AffixTo(OperatorPrecedences.UnaryOperation);
+            IUnaryOperationExpression rightSide = (IUnaryOperationExpression)right.AffixTo(OperatorPrecedences.UnaryOperation);
             return new CSharpMulDivExpression(leftSide, CSharpMulDivOperation.Multiplication, rightSide);
         }
 
         public static CSharpMulDivExpression operator *(ExpressionBase left, CSharpIExpression right)
         {
             ICSharpMulDivExpression leftSide = (ICSharpMulDivExpression)left.AffixTo(OperatorPrecedences.CSharpMulDivOperation);
-            ICSharpUnaryOperationExpression rightSide = (ICSharpUnaryOperationExpression)right.AffixTo(OperatorPrecedences.UnaryOperation);
+            IUnaryOperationExpression rightSide = (IUnaryOperationExpression)right.AffixTo(OperatorPrecedences.UnaryOperation);
             return new CSharpMulDivExpression(leftSide, CSharpMulDivOperation.Multiplication, rightSide);
         }
 
         public static CSharpMulDivExpression operator /(ExpressionBase left, ExpressionBase right)
         {
             ICSharpMulDivExpression leftSide = (ICSharpMulDivExpression)left.AffixTo(OperatorPrecedences.CSharpMulDivOperation);
-            ICSharpUnaryOperationExpression rightSide = (ICSharpUnaryOperationExpression)right.AffixTo(OperatorPrecedences.UnaryOperation);
+            IUnaryOperationExpression rightSide = (IUnaryOperationExpression)right.AffixTo(OperatorPrecedences.UnaryOperation);
             return new CSharpMulDivExpression(leftSide, CSharpMulDivOperation.Division, rightSide);
         }
 
         public static CSharpMulDivExpression operator /(ExpressionBase left, CSharpIExpression right)
         {
             ICSharpMulDivExpression leftSide = (ICSharpMulDivExpression)left.AffixTo(OperatorPrecedences.CSharpMulDivOperation);
-            ICSharpUnaryOperationExpression rightSide = (ICSharpUnaryOperationExpression)right.AffixTo(OperatorPrecedences.UnaryOperation);
+            IUnaryOperationExpression rightSide = (IUnaryOperationExpression)right.AffixTo(OperatorPrecedences.UnaryOperation);
             return new CSharpMulDivExpression(leftSide, CSharpMulDivOperation.Division, rightSide);
         }
 
         public static CSharpMulDivExpression operator %(ExpressionBase left, ExpressionBase right)
         {
             ICSharpMulDivExpression leftSide = (ICSharpMulDivExpression)left.AffixTo(OperatorPrecedences.CSharpMulDivOperation);
-            ICSharpUnaryOperationExpression rightSide = (ICSharpUnaryOperationExpression)right.AffixTo(OperatorPrecedences.UnaryOperation);
+            IUnaryOperationExpression rightSide = (IUnaryOperationExpression)right.AffixTo(OperatorPrecedences.UnaryOperation);
             return new CSharpMulDivExpression(leftSide, CSharpMulDivOperation.Remainder, rightSide);
         }
 
         public static CSharpMulDivExpression operator %(ExpressionBase left, CSharpIExpression right)
         {
             ICSharpMulDivExpression leftSide = (ICSharpMulDivExpression)left.AffixTo(OperatorPrecedences.CSharpMulDivOperation);
-            ICSharpUnaryOperationExpression rightSide = (ICSharpUnaryOperationExpression)right.AffixTo(OperatorPrecedences.UnaryOperation);
+            IUnaryOperationExpression rightSide = (IUnaryOperationExpression)right.AffixTo(OperatorPrecedences.UnaryOperation);
             return new CSharpMulDivExpression(leftSide, CSharpMulDivOperation.Remainder, rightSide);
         }
 
@@ -349,13 +349,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             }
         }
 
-        public static CSharpUnaryOperationExpression operator !(ExpressionBase left)
+        public static UnaryOperationExpression operator !(ExpressionBase left)
         {
-            return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)(left.AffixTo(OperatorPrecedences.UnaryTerm)), CSharpUnaryOperationFlags.Invert);
+            return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)(left.AffixTo(OperatorPrecedences.UnaryTerm)), CSharpUnaryOperationFlags.Invert);
         }
-        public static CSharpUnaryOperationExpression operator -(ExpressionBase left)
+        public static UnaryOperationExpression operator -(ExpressionBase left)
         {
-            return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)(left.AffixTo(OperatorPrecedences.UnaryTerm)), CSharpUnaryOperationFlags.Negate);
+            return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)(left.AffixTo(OperatorPrecedences.UnaryTerm)), CSharpUnaryOperationFlags.Negate);
         }
 #endif
         public static implicit operator ExpressionBase(int value)

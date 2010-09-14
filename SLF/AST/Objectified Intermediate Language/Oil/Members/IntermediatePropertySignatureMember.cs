@@ -212,18 +212,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         IPropertyReferenceExpression IIntermediatePropertySignatureMember.GetReference(IMemberParentReferenceExpression source)
         {
-            return this.GetReference(source);
+            return IntermediateGateway.GetPropertySignatureReference<TProperty, TPropertyParent>(((TProperty)(object)(this)), source);
         }
 
         #endregion
     
-        #region IIntermediatePropertySignatureMember<TProperty,TIntermediateProperty,TPropertyParent,TIntermediatePropertyParent> Members
-
-        public IPropertySignatureReferenceExpression<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> GetReference(IMemberParentReferenceExpression source)
-        {
-            return new PropertySignatureReferenceExpression<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(source, ((TIntermediateProperty)(object)(this)));
-        }
-
-        #endregion
     }
 }

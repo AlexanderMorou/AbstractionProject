@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
 using System.Runtime.Serialization;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Utilities.Events;
 
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
@@ -170,7 +171,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private void CheckParameters()
         {
             if (this.parameters == null)
+            {
                 this.parameters = new ParameterDictionary(this);
+                this.parameters.ItemAdded += new EventHandler<EventArgsR1<IIntermediateDelegateTypeParameterMember>>(parameters_ItemAdded);
+                this.parameters.ItemRemoved += new EventHandler<EventArgsR1<IIntermediateDelegateTypeParameterMember>>(parameters_ItemRemoved);
+            }
         }
 
 
@@ -242,5 +247,78 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.members = new IntermediateFullMemberDictionary();
         }
 
+        void parameters_ItemRemoved(object sender, EventArgsR1<IIntermediateDelegateTypeParameterMember> e)
+        {
+            this.OnParameterRemoved(e);
+        }
+
+        protected virtual void OnParameterAdded(EventArgsR1<IIntermediateDelegateTypeParameterMember> e)
+        {
+            if (this._ParameterAdded != null)
+                this._ParameterAdded(this, new EventArgsR1<IIntermediateParameterMember>(e.Arg1));
+            if (this.ParameterAdded != null)
+                this.ParameterAdded(this, new EventArgsR1<IIntermediateDelegateTypeParameterMember>(e.Arg1));
+        }
+
+        void parameters_ItemAdded(object sender, EventArgsR1<IIntermediateDelegateTypeParameterMember> e)
+        {
+            this.OnParameterAdded(e);
+        }
+
+        protected virtual void OnParameterRemoved(EventArgsR1<IIntermediateDelegateTypeParameterMember> e)
+        {
+            if (this._ParameterRemoved != null)
+                this._ParameterRemoved(this, new EventArgsR1<IIntermediateParameterMember>(e.Arg1));
+            if (this.ParameterRemoved != null)
+                this.ParameterRemoved(this, new EventArgsR1<IIntermediateDelegateTypeParameterMember>(e.Arg1));
+        }
+
+
+        #region IIntermediateParameterParent<TParent,TIntermediateParent,TParameter,IIntermediateDelegateTypeParameterMember> Members
+
+
+        public event EventHandler<EventArgsR1<IIntermediateDelegateTypeParameterMember>> ParameterAdded;
+
+        public event EventHandler<EventArgsR1<IIntermediateDelegateTypeParameterMember>> ParameterRemoved;
+
+        #endregion
+
+        #region IIntermediateParameterParent Members
+        private EventHandler<EventArgsR1<IIntermediateParameterMember>> _ParameterAdded;
+        private EventHandler<EventArgsR1<IIntermediateParameterMember>> _ParameterRemoved;
+
+        event EventHandler<EventArgsR1<IIntermediateParameterMember>> IIntermediateParameterParent.ParameterAdded
+        {
+            add { this._ParameterAdded += value; }
+            remove { this._ParameterAdded -= value; }
+        }
+
+        event EventHandler<EventArgsR1<IIntermediateParameterMember>> IIntermediateParameterParent.ParameterRemoved
+        {
+            add { this._ParameterRemoved += value; }
+            remove { this._ParameterRemoved -= value; }
+        }
+
+        #endregion
+        protected override void Dispose(bool dispose)
+        {
+            try
+            {
+                if (dispose)
+                {
+                    if (this.parameters != null)
+                    {
+                        this.parameters.ItemAdded -= new EventHandler<EventArgsR1<IIntermediateDelegateTypeParameterMember>>(parameters_ItemAdded);
+                        this.parameters.ItemRemoved -= new EventHandler<EventArgsR1<IIntermediateDelegateTypeParameterMember>>(parameters_ItemRemoved);
+                        this.parameters.Dispose();
+                        this.parameters = null;
+                    }
+                }
+            }
+            finally
+            {
+                base.Dispose(dispose);
+            }
+        }
     }
 }

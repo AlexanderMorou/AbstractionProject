@@ -80,7 +80,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             //So it isn't declared in the main body.
             iLocal.AutoDeclare = false;
             //i++
-            var increment = new CSharpUnaryOperationExpression(iLocal.GetReference(), CSharpUnaryOperation.Increment | CSharpUnaryOperation.PostAction);
+
+            var increment = iLocal.Increment();
             //for (int i = 0; i < this.actualSize; i++)
 
             var loop = toStringOverride.Iterate(iLocal.GetDeclarationStatement(), iLocal.LessThan(charBufferSize), new IStatementExpression[] { increment });
@@ -179,11 +180,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             //int i = 0;
             var iLocal = pushStringMethod.Locals.Add(new TypedName("i", typeof(int).GetTypeReference()));
             //So it isn't declared in the main body.
+            iLocal.InitializationExpression = IntermediateGateway.NumberZero;
             iLocal.AutoDeclare = false;
             //i++
 //          for (int i = 0; i < s.Length; i++)
 //          {
-            var sToBufferIterate = pushStringMethod.Iterate(iLocal.GetDeclarationStatement(), IntermediateGateway.NumberZero, sParameter.GetReference().GetProperty("Length"));
+            var sToBufferIterate = pushStringMethod.Iterate(iLocal.GetDeclarationStatement(), iLocal.LessThan(sParameter.GetReference().GetProperty("Length")), new IStatementExpression[] { iLocal.Increment() });
+            //var sToBufferIterate = pushStringMethod.Iterate(iLocal.GetDeclarationStatement(), IntermediateGateway.NumberZero, sParameter.GetReference().GetProperty("Length"));
 //              buffer[actualSize++] = s[i];
             sToBufferIterate.Assign(charBuffer.GetReference().GetIndexer(charBufferSize.Increment()), sParameter.GetReference().GetIndexer(iLocal.GetReference()));
 //          }
@@ -214,17 +217,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             pushMethod.AccessLevel = AccessLevelModifiers.Public;
             var cParameter = pushMethod.Parameters.Add(new TypedName("c", typeof(char).GetTypeReference()));
 //          if (buffer == null)
-            var nullCheck = pushMethod.If(charBuffer.GetReference().EqualTo(IntermediateGateway.NullValue));
+            var nullCheck = pushMethod.If(charBuffer.EqualTo(IntermediateGateway.NullValue));
 //              GrowBuffer(2);
             nullCheck.Call(growBufferMethod.GetReference().Invoke(2.ToPrimitive()));
 //          else if (buffer.Length < actualSize + 1)
             var rangeCheck = nullCheck.Next.If(charBuffer.GetReference().GetProperty("Length").LessThan(charBufferSize.GetReference().Add(1.ToPrimitive())));
 //              GrowBuffer(actualSize + 1);
             rangeCheck.Call(growBufferMethod.GetReference().Invoke(charBufferSize.GetReference().Add(1.ToPrimitive())));
-//          buffer[actualSize] = c;
-            pushMethod.Assign(charBuffer.GetReference().GetIndexer(charBufferSize.GetReference()), cParameter.GetReference());
-//          actualSize++;
-            pushMethod.Increment(charBufferSize.GetReference());
+//          buffer[actualSize++] = c;
+            pushMethod.Assign(charBuffer.GetReference().GetIndexer(charBufferSize.Increment()), cParameter.GetReference());
             return pushMethod;
         }
 

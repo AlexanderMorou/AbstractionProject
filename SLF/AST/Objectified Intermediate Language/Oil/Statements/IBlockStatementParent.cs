@@ -338,9 +338,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         IExpressionStatement Assign(IMemberReferenceExpression target, INaryOperandExpression value);
 
         IExpressionStatement Increment(IAssignTargetExpression target);
-        IExpressionStatement Increment(IAssignTargetExpression target, IExpression incrementBy);
+        IExpressionStatement Increment(IAssignTargetExpression target, INaryOperandExpression incrementBy);
         IExpressionStatement Decrement(IAssignTargetExpression target);
-        IExpressionStatement Decrement(IAssignTargetExpression target, IExpression decrementBy);
+        IExpressionStatement Decrement(IAssignTargetExpression target, INaryOperandExpression decrementBy);
 
         IJumpStatement Jump(IJumpTarget target);
         IGoToStatement GoTo(ILabelStatement target);

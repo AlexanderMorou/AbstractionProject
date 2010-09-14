@@ -49,6 +49,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// Data member for <see cref="Locals"/>.
         /// </summary>
         ILocalMemberDictionary locals;
+        private BlockStatementScopeLabelDictionary scopeLabels;
+        private BlockStatementLabelDictionary labels;
         #endregion
 
         internal BlockStatementParentContainer()
@@ -436,12 +438,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         public IIterationBlockStatement Iterate(IEnumerable<IStatementExpression> initializers, IExpression condition, IEnumerable<IStatementExpression> iterations)
         {
-            return new IterationBlockStatement(this.Owner, initializers, condition, iterations);
+            var result = new IterationBlockStatement(this.Owner, initializers, condition, iterations);
+            this.baseCollection.Add(result);
+            return result;
         }
 
         public IIterationDeclarationBlockStatement Iterate(ILocalDeclarationStatement localDeclaration, IExpression condition, IEnumerable<IStatementExpression> iterations)
         {
-            throw new NotImplementedException();
+            var result = new IterationDeclarationBlockStatement(this.owner, localDeclaration, condition, iterations);
+            this.baseCollection.Add(result);
+            return result;
         }
 
         public ISimpleIterationBlockStatement Iterate(ILocalDeclarationStatement target, IExpression start, IExpression end, bool endExclusive = true, IExpression incremental = null)
@@ -458,22 +464,41 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         public ILabelStatement DefineLabel(string name)
         {
-            throw new NotImplementedException();
+            var label = this.Labels.Add(name);
+            this.baseCollection.Add(label);
+            return label;
         }
 
         public void DefineLabel(ILabelStatement label)
         {
-            throw new NotImplementedException();
+            if (!this.Labels.Values.Contains(label))
+                this.Labels.Add(label);
+            this.baseCollection.Add(label);
         }
 
-        public IBlockStatementLabelDictionary Labels
+        public BlockStatementLabelDictionary Labels
         {
-            get { throw new NotImplementedException(); }
+            get {
+                if (this.labels == null)
+                    this.labels = new BlockStatementLabelDictionary(this.owner);
+                return this.labels;
+            }
+        }
+
+        IBlockStatementLabelDictionary IBlockStatementParent.Labels
+        {
+            get {
+                return this.Labels;
+            }
         }
 
         public IBlockStatementLabelDictionary ScopeLabels
         {
-            get { throw new NotImplementedException(); }
+            get {
+                if (this.scopeLabels == null)
+                    this.scopeLabels = new BlockStatementScopeLabelDictionary(this);
+                return this.scopeLabels;
+            }
         }
 
         public IExpressionStatement Assign(IMemberReferenceExpression target, AssignmentOperation operation, INaryOperandExpression value)
@@ -490,32 +515,44 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         public IExpressionStatement Increment(IAssignTargetExpression target)
         {
-            throw new NotImplementedException();
+            var result = new ExpressionStatement(this.owner, new UnaryOperationExpression(target, UnaryOperation.Increment | UnaryOperation.PostAction));
+            this.baseCollection.Add(result);
+            return result;
         }
 
-        public IExpressionStatement Increment(IAssignTargetExpression target, IExpression incrementBy)
+        public IExpressionStatement Increment(IAssignTargetExpression target, INaryOperandExpression incrementBy)
         {
-            throw new NotImplementedException();
+            var result = new ExpressionStatement(this.owner, new AssignmentExpression(target, AssignmentOperation.AddAssign, incrementBy));
+            this.baseCollection.Add(result);
+            return result;
         }
 
         public IExpressionStatement Decrement(IAssignTargetExpression target)
         {
-            throw new NotImplementedException();
+            var result = new ExpressionStatement(this.owner, new UnaryOperationExpression(target, UnaryOperation.Decrement | UnaryOperation.PostAction));
+            this.baseCollection.Add(result);
+            return result;
         }
 
-        public IExpressionStatement Decrement(IAssignTargetExpression target, IExpression decrementBy)
+        public IExpressionStatement Decrement(IAssignTargetExpression target, INaryOperandExpression decrementBy)
         {
-            throw new NotImplementedException();
+            var result = new ExpressionStatement(this.owner, new AssignmentExpression(target, AssignmentOperation.SubtractionAssign, decrementBy));
+            this.baseCollection.Add(result);
+            return result;
         }
 
         public IJumpStatement Jump(IJumpTarget target)
         {
-            throw new NotImplementedException();
+            var jumpStatement = new JumpStatement(this.owner, target);
+            this.baseCollection.Add(jumpStatement);
+            return jumpStatement;
         }
 
         public IGoToStatement GoTo(ILabelStatement target)
         {
-            throw new NotImplementedException();
+            var gotoStatement = target.GetGoTo(this.owner);
+            this.baseCollection.Add(gotoStatement);
+            return gotoStatement;
         }
 
         #endregion

@@ -28,26 +28,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediatePropertyParent">The type which owns the properties
     /// in the intermediate abstract syntax tree.</typeparam>
-    public class PropertyReferenceExpression<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> :
+    public class PropertyReferenceExpression<TProperty, TPropertyParent> :
         MemberParentReferenceExpressionBase,
-        IPropertyReferenceExpression<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+        IPropertyReferenceExpression<TProperty, TPropertyParent>
         where TProperty :
             IPropertyMember<TProperty, TPropertyParent>
-        where TIntermediateProperty :
-            TProperty,
-            IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
         where TPropertyParent :
             IPropertyParentType<TProperty, TPropertyParent>
-        where TIntermediatePropertyParent :
-            TPropertyParent,
-            IIntermediatePropertyParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> 
     {
         /// <summary>
         /// Data member for <see cref="ReferenceType"/>.
         /// </summary>
         private MethodReferenceType referenceType;
 
-        public PropertyReferenceExpression(IMemberParentReferenceExpression source, TIntermediateProperty member)
+        public PropertyReferenceExpression(IMemberParentReferenceExpression source, TProperty member)
         {
             this.Source = source;
             this.Member = member;
@@ -59,7 +53,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns the <typeparamref name="TIntermediateProperty"/> member to which the 
         /// <see cref="IPropertyReferenceExpression{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/> refers.
         /// </summary>
-        public TIntermediateProperty Member { get; private set; }
+        public TProperty Member { get; private set; }
 
         #endregion
 
@@ -93,9 +87,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             }
             set
             {
-                this.Member.Name = value;
+                if (this.Member is IIntermediateMember)
+                    ((IIntermediateMember)(this.Member)).Name = value;
+                else
+                    this.Rebind(value);
             }
         }
+
+        private void Rebind(string value)
+        {
+            throw new NotImplementedException();
+        }
+
 
         #endregion
 
@@ -135,6 +138,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             visitor.Visit(this);
         }
 
+        protected override IType TypeLookupAid
+        {
+            get
+            {
+                if (this.Member == null)
+                    return base.TypeLookupAid;
+                return this.Member.PropertyType;
+            }
+        }
+
     }
 
     /// <summary>
@@ -149,38 +162,32 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediatePropertyParent">The type which owns the properties
     /// in the intermediate abstract syntax tree.</typeparam>
-    public class PropertySignatureReferenceExpression<TPropertySignature, TIntermediatePropertySignature, TPropertySignatureParent, TIntermediatePropertySignatureParent> :
+    public class PropertySignatureReferenceExpression<TPropertySignature, TPropertySignatureParent> :
         MemberParentReferenceExpressionBase,
-        IPropertySignatureReferenceExpression<TPropertySignature, TIntermediatePropertySignature, TPropertySignatureParent, TIntermediatePropertySignatureParent>
+        IPropertySignatureReferenceExpression<TPropertySignature, TPropertySignatureParent>
         where TPropertySignature :
             IPropertySignatureMember<TPropertySignature, TPropertySignatureParent>
-        where TIntermediatePropertySignature :
-            TPropertySignature,
-            IIntermediatePropertySignatureMember<TPropertySignature, TIntermediatePropertySignature, TPropertySignatureParent, TIntermediatePropertySignatureParent>
         where TPropertySignatureParent :
             IPropertySignatureParentType<TPropertySignature, TPropertySignatureParent>
-        where TIntermediatePropertySignatureParent :
-            TPropertySignatureParent,
-            IIntermediatePropertySignatureParentType<TPropertySignature, TIntermediatePropertySignature, TPropertySignatureParent, TIntermediatePropertySignatureParent> 
     {
         /// <summary>
         /// Data member for <see cref="ReferenceType"/>.
         /// </summary>
         private MethodReferenceType referenceType;
 
-        public PropertySignatureReferenceExpression(IMemberParentReferenceExpression source, TIntermediatePropertySignature member)
+        public PropertySignatureReferenceExpression(IMemberParentReferenceExpression source, TPropertySignature member)
         {
             this.Source = source;
             this.Member = member;
         }
 
-        #region IPropertySignatureReferenceExpression<TPropertySignature,TIntermediatePropertySignature,TPropertySignatureParent,TIntermediatePropertySignatureParent> Members
+        #region IPropertySignatureReferenceExpression<TPropertySignature,TPropertySignatureParent> Members
 
         /// <summary>
-        /// Returns the <see cref="TIntermediatePropertySignature"/> member to which the 
-        /// <see cref="IPropertySignatureReferenceExpression{TPropertySignature, TIntermediatePropertySignature, TPropertySignatureParent, TIntermediatePropertySignatureParent}"/> refers.
+        /// Returns the <see cref="TProperty"/> member to which the 
+        /// <see cref="IPropertySignatureReferenceExpression{TPropertySignature, TPropertySignatureParent}"/> refers.
         /// </summary>
-        public TIntermediatePropertySignature Member { get; private set; }
+        public TPropertySignature Member { get; private set; }
 
         #endregion
 
@@ -214,8 +221,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             }
             set
             {
-                this.Member.Name = value;
+                if (this.Member is IIntermediateMember)
+                    ((IIntermediateMember)(this.Member)).Name = value;
+                else
+                    this.Rebind(value);
             }
+        }
+
+        private void Rebind(string value)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -254,6 +269,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         public override void Visit(IExpressionVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        protected override IType TypeLookupAid
+        {
+            get
+            {
+                if (this.Member == null)
+                    return base.TypeLookupAid;
+                return this.Member.PropertyType;
+            }
         }
     }
 

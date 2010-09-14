@@ -26,5 +26,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         public string Name { get; set; }
 
         #endregion
+
+        #region ILabelStatement Members
+
+        public IGoToStatement GetGoTo(IStatementParent gotoContainer)
+        {
+            return new GoToStatement(gotoContainer, this);
+        }
+
+        #endregion
     }
 }

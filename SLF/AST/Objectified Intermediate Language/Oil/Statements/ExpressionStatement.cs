@@ -26,5 +26,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         public IStatementExpression Expression { get; set; }
 
         #endregion
+
+        public override string ToString()
+        {
+            return string.Format("{0};", this.Expression);
+        }
     }
 }

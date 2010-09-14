@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         Remainder,
         /// <summary>
         /// The <see cref="ICSharpMulDivExpression"/> represents a non-operational term as a pointer to a 
-        /// <see cref="ICSharpUnaryOperationExpression"/>
+        /// <see cref="IUnaryOperationExpression"/>
         /// </summary>
         Term,
     }
@@ -42,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// operation expression.
     /// </summary>
     public interface ICSharpMulDivExpression :
-        IBinaryOperationExpression<ICSharpMulDivExpression, ICSharpUnaryOperationExpression>,
+        IBinaryOperationExpression<ICSharpMulDivExpression, IUnaryOperationExpression>,
         ICSharpExpression
     {
         /// <summary>

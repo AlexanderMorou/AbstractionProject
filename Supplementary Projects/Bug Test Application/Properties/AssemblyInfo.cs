@@ -11,7 +11,7 @@ using System;
            AssemblyConfiguration(""),
            AssemblyCompany(""),
            AssemblyProduct("Bug Test Application"),
-           AssemblyCopyright("Copyright © Allen Copeland Jr. 2008"),
+           AssemblyCopyright("Copyright © Allen Copeland Jr. 2010"),
            AssemblyTrademark(""),
            AssemblyCulture("")]
 

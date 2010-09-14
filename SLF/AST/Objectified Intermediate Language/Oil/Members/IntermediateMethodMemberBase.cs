@@ -475,7 +475,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return this.StatementContainer.Increment(target);
         }
 
-        public IExpressionStatement Increment(IAssignTargetExpression target, IExpression incrementBy)
+        public IExpressionStatement Increment(IAssignTargetExpression target, INaryOperandExpression incrementBy)
         {
             return this.StatementContainer.Increment(target, incrementBy);
         }
@@ -485,7 +485,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return this.StatementContainer.Decrement(target);
         }
 
-        public IExpressionStatement Decrement(IAssignTargetExpression target, IExpression decrementBy)
+        public IExpressionStatement Decrement(IAssignTargetExpression target, INaryOperandExpression decrementBy)
         {
             return this.StatementContainer.Decrement(target, decrementBy);
         }

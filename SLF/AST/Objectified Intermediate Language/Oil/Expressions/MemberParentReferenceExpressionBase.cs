@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -129,6 +130,26 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// to the property described by <paramref name="name"/>.</returns>
         public virtual IPropertyReferenceExpression GetProperty(string name)
         {
+            var typeLookupAid = this.TypeLookupAid;
+            if (typeLookupAid != null)
+            {
+                var currentParent = typeLookupAid;
+            repeat:
+                var propertyParent = currentParent as IPropertyParentType;
+                if (propertyParent != null)
+                    foreach (IPropertySignatureMember property in propertyParent.Properties.Values)
+                        if (property.Name == name)
+                            if (property is IPropertyMember)
+                                return ((IPropertyMember)(property)).GetPropertyReference(this);
+                            else
+                                return property.GetPropertyReference(this);
+                if (currentParent != null)
+                {
+                    currentParent = currentParent.BaseType;
+                    goto repeat;
+                }
+
+            }
             return new PropertyReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
         }
 
@@ -159,7 +180,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// that needs retrieved.</returns>
         public virtual IFieldReferenceExpression GetField(string name)
         {
-            throw new NotImplementedException();
+            var typeLookupAid = this.TypeLookupAid;
+            if (typeLookupAid != null)
+            {
+                var currentParent = typeLookupAid;
+            repeat:
+                var fieldParent = currentParent as IFieldParent;
+                if (fieldParent != null)
+                    foreach (IFieldMember field in fieldParent.Fields.Values)
+                        if (field.Name == name)
+                            return ((IFieldMember)(field)).GetFieldReference(this);
+                if (currentParent != null)
+                {
+                    currentParent = currentParent.BaseType;
+                    goto repeat;
+                }
+            }
+            return new FieldReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
         }
         /*
         /// <summary>
@@ -224,6 +261,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         public abstract void Visit(IExpressionVisitor visitor);
+
+        protected virtual IType TypeLookupAid
+        {
+            get
+            {
+                return null;
+            }
+        }
 
     }
 }

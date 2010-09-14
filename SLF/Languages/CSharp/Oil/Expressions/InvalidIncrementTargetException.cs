@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <remarks><see cref="Exception.Message"/> defaults to: "Expression exception".</remarks>
         /// <param name="CSharpoffendingExpression">The <see cref="IExpression"/> that caused the 
         /// <see cref="InvalidIncrementTargetException"/>.</param>
-        public InvalidIncrementTargetException(ICSharpUnaryOperationExpression offendingExpression)
+        public InvalidIncrementTargetException(IUnaryOperationExpression offendingExpression)
             : base("Expression exception", offendingExpression)
         {
         }
@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <param name="message">The <see cref="System.String"/> describing the error.</param>
         /// <param name="CSharpoffendingExpression">The <see cref="IExpression"/> that caused the 
         /// <see cref="InvalidIncrementTargetException"/>.</param>
-        public InvalidIncrementTargetException(string message, ICSharpUnaryOperationExpression offendingExpression)
+        public InvalidIncrementTargetException(string message, IUnaryOperationExpression offendingExpression)
             : base(message, offendingExpression)
         {
         }
@@ -59,16 +59,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <see cref="InvalidIncrementTargetException"/>, or a null reference if none is specified.</param>
         /// <param name="CSharpoffendingExpression">The <see cref="IExpression"/> that caused the 
         /// <see cref="InvalidIncrementTargetException"/>.</param>
-        public InvalidIncrementTargetException(string message, Exception innerException, ICSharpUnaryOperationExpression offendingExpression)
+        public InvalidIncrementTargetException(string message, Exception innerException, IUnaryOperationExpression offendingExpression)
             : base(message, innerException, offendingExpression)
         {
         }
 
-        public new ICSharpUnaryOperationExpression OffendingExpression
+        public new IUnaryOperationExpression OffendingExpression
         {
             get
             {
-                return (ICSharpUnaryOperationExpression)base.OffendingExpression;
+                return (IUnaryOperationExpression)base.OffendingExpression;
             }
         }
     }

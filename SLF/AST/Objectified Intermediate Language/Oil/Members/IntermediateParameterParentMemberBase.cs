@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -86,7 +87,37 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         private void CheckParameters()
         {
             if (this.parameters == null)
+            {
                 this.parameters = this.InitializeParameters();
+                this.parameters.ItemAdded += new EventHandler<EventArgsR1<TIntermediateParameter>>(parameters_ItemAdded);
+                this.parameters.ItemRemoved += new EventHandler<EventArgsR1<TIntermediateParameter>>(parameters_ItemRemoved);
+            }
+        }
+
+        void parameters_ItemRemoved(object sender, EventArgsR1<TIntermediateParameter> e)
+        {
+            this.OnParameterRemoved(e);
+        }
+
+        protected virtual void OnParameterAdded(EventArgsR1<TIntermediateParameter> e)
+        {
+            if (this._ParameterAdded != null)
+                this._ParameterAdded(this, new EventArgsR1<IIntermediateParameterMember>(e.Arg1));
+            if (this.ParameterAdded != null)
+                this.ParameterAdded(this, new EventArgsR1<TIntermediateParameter>(e.Arg1));
+        }
+
+        void parameters_ItemAdded(object sender, EventArgsR1<TIntermediateParameter> e)
+        {
+            this.OnParameterAdded(e);
+        }
+
+        protected virtual void OnParameterRemoved(EventArgsR1<TIntermediateParameter> e)
+        {
+            if (this._ParameterRemoved != null)
+                this._ParameterRemoved(this, new EventArgsR1<IIntermediateParameterMember>(e.Arg1));
+            if (this.ParameterRemoved != null)
+                this.ParameterRemoved(this, new EventArgsR1<TIntermediateParameter>(e.Arg1));
         }
 
         /// <summary>
@@ -150,6 +181,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 {
                     if (this.parameters != null)
                     {
+                        this.parameters.ItemAdded -= new EventHandler<EventArgsR1<TIntermediateParameter>>(parameters_ItemAdded);
+                        this.parameters.ItemRemoved -= new EventHandler<EventArgsR1<TIntermediateParameter>>(parameters_ItemRemoved);
                         this.parameters.Dispose();
                         this.parameters = null;
                     }
@@ -161,5 +194,32 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
+
+        #region IIntermediateParameterParent<TParent,TIntermediateParent,TParameter,TIntermediateParameter> Members
+
+
+        public event EventHandler<EventArgsR1<TIntermediateParameter>> ParameterAdded;
+
+        public event EventHandler<EventArgsR1<TIntermediateParameter>> ParameterRemoved;
+
+        #endregion
+
+        #region IIntermediateParameterParent Members
+        private EventHandler<EventArgsR1<IIntermediateParameterMember>> _ParameterAdded;
+        private EventHandler<EventArgsR1<IIntermediateParameterMember>> _ParameterRemoved;
+
+        event EventHandler<EventArgsR1<IIntermediateParameterMember>> IIntermediateParameterParent.ParameterAdded
+        {
+            add { this._ParameterAdded += value; }
+            remove { this._ParameterAdded -= value; }
+        }
+
+        event EventHandler<EventArgsR1<IIntermediateParameterMember>> IIntermediateParameterParent.ParameterRemoved
+        {
+            add { this._ParameterRemoved += value; }
+            remove { this._ParameterRemoved -= value; }
+        }
+
+        #endregion
     }
 }

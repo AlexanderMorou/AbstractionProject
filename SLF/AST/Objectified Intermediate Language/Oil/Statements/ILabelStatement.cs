@@ -23,5 +23,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <see cref="ILabelStatement"/>.
         /// </summary>
         string Name { get; set; }
+        /// <summary>
+        /// Obtains a <see cref="IGoTo"/> statement for the
+        /// <see cref="ILabelStatement"/> which allows a jump
+        /// to the label to occur.
+        /// </summary>
+        /// <param name="gotoContainer">The <see cref="IStatementParent"/>
+        /// which contains the <see cref="IGoToStatement"/>
+        /// created.</param>
+        /// <returns>A new <see cref="IGoToStatement"/>
+        /// associated to the current <see cref="ILabelStatement"/>.</returns>
+        IGoToStatement GetGoTo(IStatementParent gotoContainer);
     }
 }

@@ -44,18 +44,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <see cref="IIntermediateFieldMember{TField, TIntermediateField, TFieldParent, TIntermediateFieldParent}"/>.
         /// </summary>
         IExpression InitializationExpression { get; set; }
-        /// <summary>
-        /// Obtains a reference expression which refers to the current
-        /// <see cref="IIntermediateFieldMember{TField, TIntermediateField, TFieldParent, TIntermediateFieldParent}"/> with the <paramref name="source"/>
-        /// which leads up to it.
-        /// </summary>
-        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
-        /// which leads up to the field.</param>
-        /// <returns>A <see cref="IFieldReferenceExpression{TField, TIntermediateField, TFieldParent, TIntermediateFieldParent}"/>
-        /// which refers to the current
-        /// <see cref="IIntermediateFieldMember{TField, TIntermediateField, TFieldParent, TIntermediateFieldParent}"/>
-        /// with the <paramref name="source"/> which leads up to it.</returns>
-        new IFieldReferenceExpression<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent> GetReference(IMemberParentReferenceExpression source = null);
     }
 
     /// <summary>
