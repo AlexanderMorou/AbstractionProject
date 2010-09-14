@@ -121,14 +121,12 @@
     <Compile Include="Oil\Expressions\InvalidInvertTargetException.cs" />
     <Compile Include="Oil\Expressions\ICSharpRelationalExpression.cs" />
     <Compile Include="Oil\Expressions\ICSharpShiftExpression.cs" />
-    <Compile Include="Oil\Expressions\ICSharpUnaryOperationExpression.cs" />
     <Compile Include="Oil\Expressions\CSharpLogicalAndExpression.cs" />
     <Compile Include="Oil\Expressions\CSharpLogicalOrExpression.cs" />
     <Compile Include="Oil\Expressions\CSharpMulDivExpression.cs" />
     <Compile Include="Oil\Expressions\OperatorPrecedences.cs" />
     <Compile Include="Oil\Expressions\CSharpRelationalExpression.cs" />
     <Compile Include="Oil\Expressions\CSharpShiftExpression.cs" />
-    <Compile Include="Oil\Expressions\CSharpUnaryOperationExpression.cs" />
     <Compile Include="Oil\ICSharpAssembly.cs" />
     <Compile Include="Oil\Expressions\ICSharpBinaryOperator.cs" />
     <Compile Include="Compilers\CSharpCompiler.cs" />

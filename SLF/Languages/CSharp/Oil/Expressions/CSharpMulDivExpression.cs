@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// a multiplication, division or division remainder operation expression.
     /// </summary>
     public sealed class CSharpMulDivExpression :
-        CSharpBinaryOperationExpressionBase<ICSharpMulDivExpression, ICSharpUnaryOperationExpression>,
+        CSharpBinaryOperationExpressionBase<ICSharpMulDivExpression, IUnaryOperationExpression>,
         ICSharpMulDivExpression
     {
         /// <summary>
@@ -49,13 +49,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             }
         }
 
-        public CSharpMulDivExpression(ICSharpMulDivExpression leftSide, CSharpMulDivOperation operation, ICSharpUnaryOperationExpression rightSide)
+        public CSharpMulDivExpression(ICSharpMulDivExpression leftSide, CSharpMulDivOperation operation, IUnaryOperationExpression rightSide)
             : base(leftSide, rightSide)
         {
             this.operation = operation;
         }
 
-        public CSharpMulDivExpression(ICSharpUnaryOperationExpression term)
+        public CSharpMulDivExpression(IUnaryOperationExpression term)
             : base(term)
         {
             this.operation = CSharpMulDivOperation.Term;
@@ -90,7 +90,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         #endregion
-        public static implicit operator CSharpMulDivExpression(CSharpUnaryOperationExpression term)
+        public static implicit operator CSharpMulDivExpression(UnaryOperationExpression term)
         {
             return new CSharpMulDivExpression(term);
         }

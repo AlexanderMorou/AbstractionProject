@@ -19,21 +19,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateFieldParent">The type which owns the fields
     /// in the intermediate abstract syntax tree.</typeparam>
-    public class FieldReferenceExpression<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent> :
+    public class FieldReferenceExpression<TField, TFieldParent> :
         MemberParentReferenceExpressionBase,
-        IFieldReferenceExpression<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>
+        IFieldReferenceExpression<TField, TFieldParent>
         where TField :
             IFieldMember<TField, TFieldParent>
-        where TIntermediateField :
-            TField,
-            IIntermediateFieldMember<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>
         where TFieldParent :
             IFieldParent<TField, TFieldParent>
-        where TIntermediateFieldParent :
-            TFieldParent,
-            IIntermediateFieldParent<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>
     {
-        public FieldReferenceExpression(TIntermediateField member, IMemberParentReferenceExpression source)
+        private string nameCopy;
+        public FieldReferenceExpression(TField member, IMemberParentReferenceExpression source)
         {
             this.Member = member;
             this.Source = source;
@@ -56,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns the <typeparamref name="TIntermediateField"/> associated to the
         /// <see cref="FieldReferenceExpression{TField, TIntermediateField, TFieldParent, TIntermediateFieldParent}"/>.
         /// </summary>
-        public TIntermediateField Member { get; private set; }
+        public TField Member { get; private set; }
 
         #endregion
 
@@ -80,12 +75,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             get
             {
+                if (this.Member == null)
+                    return nameCopy;
                 return this.Member.Name;
             }
             set
             {
-                this.Member.Name = value;
+                if (this.Member is IIntermediateFieldMember)
+                    ((IIntermediateFieldMember)this.Member).Name = value;
+                else
+                    this.Rebind(value);
             }
+        }
+
+        private void Rebind(string value)
+        {
+            this.nameCopy = value;
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -103,7 +109,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             else
                 return this.Name;
         }
+
+        protected override IType TypeLookupAid
+        {
+            get
+            {
+                if (this.Member == null)
+                    return base.TypeLookupAid;
+                return this.Member.FieldType;
+            }
+        }
     }
+
 
     public class FieldReferenceExpression :
         MemberParentReferenceExpressionBase,

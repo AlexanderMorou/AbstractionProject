@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright � 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -15,153 +15,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
     public static class CSharpExpressionExtensions
     {
-        /// <summary>
-        /// Returns a <see cref="CSharpUnaryOperationExpression"/> with the <paramref name="target"/>'s
-        /// sign inverted.
-        /// </summary>
-        /// <param name="target">The <see cref="IExpression"/> to negate.</param>
-        /// <returns>A new <see cref="UnaryOperationExpression"/> instance with
-        /// the <paramref name="target"/> as a <see cref="CSharpOperatorPrecedences.UnaryTerm"/>
-        /// with the <see cref="CSharpUnaryOperation.Negate"/> applied.</returns>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="target"/> is null.</exception>
-        public static CSharpUnaryOperationExpression Negate(this IExpression target)
-        {
-            if (target == null)
-                throw new ArgumentNullException("target cannot be null.", "target");
-            return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.SignInversion);
-        }
-
-        public static CSharpUnaryOperationExpression Decrement(this IExpression target, bool postIncrement = true)
-        {
-            if (target == null)
-                throw new ArgumentNullException("target cannot be null.", "target");
-            if (postIncrement)
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Decrement | CSharpUnaryOperation.PostAction);
-            else
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Decrement | CSharpUnaryOperation.PreAction);
-        }
-
-        public static CSharpUnaryOperationExpression Decrement(this ILocalMember target, bool postIncrement = true)
-        {
-            if (target == null)
-                throw new ArgumentNullException("target cannot be null.", "target");
-            if (postIncrement)
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Decrement | CSharpUnaryOperation.PostAction);
-            else
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Decrement | CSharpUnaryOperation.PreAction);
-        }
-
-        public static CSharpUnaryOperationExpression Decrement(this IIntermediateParameterMember target, bool postIncrement = true)
-        {
-            if (target == null)
-                throw new ArgumentNullException("target cannot be null.", "target");
-            if (postIncrement)
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Decrement | CSharpUnaryOperation.PostAction);
-            else
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Decrement | CSharpUnaryOperation.PreAction);
-        }
-
-        public static CSharpUnaryOperationExpression Decrement(this IIntermediateFieldMember target, bool postIncrement = true)
-        {
-            if (target == null)
-                throw new ArgumentNullException("target cannot be null.", "target");
-            if (postIncrement)
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Decrement | CSharpUnaryOperation.PostAction);
-            else
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Decrement | CSharpUnaryOperation.PreAction);
-        }
-
-        public static CSharpUnaryOperationExpression Decrement(this IIntermediatePropertySignatureMember target, bool postIncrement = true)
-        {
-            if (target == null)
-                throw new ArgumentNullException("target cannot be null.", "target");
-            if (postIncrement)
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Decrement | CSharpUnaryOperation.PostAction);
-            else
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Decrement | CSharpUnaryOperation.PreAction);
-        }
-        public static CSharpUnaryOperationExpression Increment(this IExpression target, bool postIncrement = true)
-        {
-            if (target == null)
-                throw new ArgumentNullException("target cannot be null.", "target");
-            if (postIncrement)
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Increment | CSharpUnaryOperation.PostAction);
-            else
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Increment | CSharpUnaryOperation.PreAction);
-        }
-
-        public static CSharpUnaryOperationExpression Increment(this ILocalMember target, bool postIncrement = true)
-        {
-            if (target == null)
-                throw new ArgumentNullException("target cannot be null.", "target");
-            if (postIncrement)
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Increment | CSharpUnaryOperation.PostAction);
-            else
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Increment | CSharpUnaryOperation.PreAction);
-        }
-
-        public static CSharpUnaryOperationExpression Increment(this IIntermediateParameterMember target, bool postIncrement = true)
-        {
-            if (target == null)
-                throw new ArgumentNullException("target cannot be null.", "target");
-            if (postIncrement)
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Increment | CSharpUnaryOperation.PostAction);
-            else
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Increment | CSharpUnaryOperation.PreAction);
-        }
-
-        public static CSharpUnaryOperationExpression Increment(this IIntermediateFieldMember target, bool postIncrement = true)
-        {
-            if (target == null)
-                throw new ArgumentNullException("target cannot be null.", "target");
-            if (postIncrement)
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Increment | CSharpUnaryOperation.PostAction);
-            else
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Increment | CSharpUnaryOperation.PreAction);
-        }
-
-        public static CSharpUnaryOperationExpression Increment(this IIntermediatePropertySignatureMember target, bool postIncrement = true)
-        {
-            if (target == null)
-                throw new ArgumentNullException("target cannot be null.", "target");
-            if (postIncrement)
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Increment | CSharpUnaryOperation.PostAction);
-            else
-                return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.Increment | CSharpUnaryOperation.PreAction);
-        }
-        /// <summary>
-        /// Returns a <see cref="CSharpUnaryOperationExpression"/> with the
-        /// <paramref name="target"/> to setup to be logically inverted.
-        /// </summary>
-        /// <param name="target">The <see cref="IExpression"/> to boolInvert.</param>
-        /// <returns>A new <see cref="UnaryOperationExpression"/> instance with
-        /// the <paramref name="target"/> as a <see cref="CSharpOperatorPrecedences.UnaryTerm"/>
-        /// with the <see cref="CSharpUnaryOperation.BooleanInversion"/> applied.</returns>
-        /// <exception cref="System.ArgumentNullException">
-        /// <paramref name="target"/> is null.</exception>
-        public static CSharpUnaryOperationExpression Not(this IExpression target)
-        {
-            if (target == null)
-                throw new ArgumentNullException("target cannot be null.", "target");
-            return new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)target.AffixTo(CSharpOperatorPrecedences.UnaryTerm), CSharpUnaryOperation.BooleanInversion);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="CSharpUnaryOperationExpression"/> with the
-        /// <paramref name="target"/> to be setup for the runtime value's
-        /// bits to be inverted.
-        /// </summary>
-        /// <param name="target">The <see cref="Boolean"/> <see cref="IExpression"/> to
-        /// invert the bits of.</param>
-        /// <returns>A <see cref="CSharpUnaryOperationExpression"/> instance 
-        /// with the <paramref name="target"/>'s bits set to be inverted.</returns>
-        public static CSharpUnaryOperationExpression Invert(this IExpression target)
-        {
-            if (target == null)
-                throw new ArgumentNullException("target cannot be null", "target");
-            return new CSharpUnaryOperationExpression(((IUnaryOperationPrimaryTerm)(target.AffixTo(CSharpOperatorPrecedences.UnaryTerm))), CSharpUnaryOperation.BitwiseInversion);
-        }
 
         public static ICSharpRelationalExpression As(this IExpression target, IReferenceType type)
         {
@@ -357,7 +210,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <returns>A new <see cref="IExpression"/> affixed to the 
         /// <paramref name="targetPrecedence"/> for use in a binary 
         /// operation.</returns>
-        public static IExpression AffixTo(this IExpression target, CSharpOperatorPrecedences targetPrecedence)
+        private static IExpression AffixTo(this IExpression target, CSharpOperatorPrecedences targetPrecedence)
         {
             CSharpOperatorPrecedences currentPrecedence = target.GetPrecedence();
             if (currentPrecedence == targetPrecedence)
@@ -415,7 +268,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// called on it.</param>
         /// <returns>The <see cref="IExpression"/> instance as it was 
         /// before the <see cref="AffixTo"/> was called on it..</returns>
-        public static IExpression Disfix(this ICSharpExpression target)
+        internal static IExpression Disfix(this IExpression target)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
@@ -449,8 +302,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             }
             else if ((((activeSectors & ExpressionKind.ActiveSectorFlags.UnaryOperationExpression) == ExpressionKind.ActiveSectorFlags.UnaryOperationExpression)) &&
                       ((targetKind.UnaryOperators & ExpressionKind.UnaryOperationSector.UnaryForwardTerm) == ExpressionKind.UnaryOperationSector.UnaryForwardTerm) &&
-                       (target is ICSharpUnaryOperationExpression))
-                return ((ICSharpUnaryOperationExpression)(target)).Term;
+                       (target is IUnaryOperationExpression))
+                return ((IUnaryOperationExpression)(target)).Term;
             return target;
         }
 
@@ -484,9 +337,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 case CSharpOperatorPrecedences.MulDivOperation:
                     return WrapFull(new CSharpAddSubtExpression((ICSharpMulDivExpression)exprB), targetPrecedence);
                 case CSharpOperatorPrecedences.UnaryOperation:
-                    return WrapFull(new CSharpMulDivExpression((ICSharpUnaryOperationExpression)exprB), targetPrecedence);
+                    return WrapFull(new CSharpMulDivExpression((IUnaryOperationExpression)exprB), targetPrecedence);
                 case CSharpOperatorPrecedences.UnaryTerm:
-                    return WrapFull(new CSharpUnaryOperationExpression((IUnaryOperationPrimaryTerm)exprB), targetPrecedence);
+                    return WrapFull(new UnaryOperationExpression((IUnaryOperationPrimaryTerm)exprB), targetPrecedence);
                 case CSharpOperatorPrecedences.AssignmentOperation:
                 default:
                     throw new ArgumentException("Cannot have a precedence level below Assign.", "exprB");
@@ -34842,7 +34695,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -34861,7 +34714,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -34880,7 +34733,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -34899,7 +34752,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -34918,7 +34771,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -34940,7 +34793,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -34959,7 +34812,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -34978,7 +34831,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -34997,7 +34850,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35016,7 +34869,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -35038,7 +34891,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35057,7 +34910,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35076,7 +34929,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35095,7 +34948,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35114,7 +34967,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -35136,7 +34989,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35155,7 +35008,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35174,7 +35027,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35195,7 +35048,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35216,7 +35069,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35237,7 +35090,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35258,7 +35111,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35279,7 +35132,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35298,7 +35151,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35317,7 +35170,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35336,7 +35189,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35355,7 +35208,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35374,7 +35227,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35393,7 +35246,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35412,7 +35265,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35431,7 +35284,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -35453,7 +35306,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35472,7 +35325,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35491,7 +35344,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35512,7 +35365,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35533,7 +35386,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35554,7 +35407,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35575,7 +35428,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35596,7 +35449,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35615,7 +35468,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35634,7 +35487,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35653,7 +35506,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35672,7 +35525,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35691,7 +35544,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35710,7 +35563,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35729,7 +35582,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35748,7 +35601,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -35770,7 +35623,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35789,7 +35642,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35808,7 +35661,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35829,7 +35682,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35850,7 +35703,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35871,7 +35724,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35892,7 +35745,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35913,7 +35766,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35932,7 +35785,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35951,7 +35804,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35970,7 +35823,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -35989,7 +35842,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36008,7 +35861,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36027,7 +35880,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36046,7 +35899,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36065,7 +35918,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -36087,7 +35940,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36106,7 +35959,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36125,7 +35978,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36146,7 +35999,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36167,7 +36020,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36188,7 +36041,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36209,7 +36062,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36230,7 +36083,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36249,7 +36102,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36268,7 +36121,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36287,7 +36140,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36306,7 +36159,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36325,7 +36178,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36344,7 +36197,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36363,7 +36216,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36382,7 +36235,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -36404,7 +36257,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36423,7 +36276,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36442,7 +36295,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36463,7 +36316,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36484,7 +36337,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36505,7 +36358,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36526,7 +36379,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36547,7 +36400,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36566,7 +36419,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36585,7 +36438,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36604,7 +36457,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36623,7 +36476,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36642,7 +36495,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36661,7 +36514,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36680,7 +36533,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36699,7 +36552,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -36721,7 +36574,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36740,7 +36593,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36759,7 +36612,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36778,7 +36631,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36797,7 +36650,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -36819,7 +36672,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36838,7 +36691,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36857,7 +36710,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36876,7 +36729,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36895,7 +36748,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -36917,7 +36770,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36936,7 +36789,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36955,7 +36808,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36974,7 +36827,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -36993,7 +36846,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -37015,7 +36868,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37034,7 +36887,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37053,7 +36906,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37072,7 +36925,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37091,7 +36944,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -37113,7 +36966,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37132,7 +36985,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37151,7 +37004,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37170,7 +37023,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37189,7 +37042,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -37211,7 +37064,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37230,7 +37083,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37249,7 +37102,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37268,7 +37121,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37287,7 +37140,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -37309,7 +37162,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37328,7 +37181,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37347,7 +37200,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37366,7 +37219,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37385,7 +37238,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -37407,7 +37260,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37426,7 +37279,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37445,7 +37298,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37464,7 +37317,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37483,7 +37336,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (denominator == null)
                 throw new ArgumentNullException("denominator");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((ICSharpUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Division, ((IUnaryOperationExpression)(denominator.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -37509,7 +37362,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37528,7 +37381,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37547,7 +37400,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37566,7 +37419,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37585,7 +37438,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -37607,7 +37460,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37626,7 +37479,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37645,7 +37498,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37664,7 +37517,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37683,7 +37536,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -37705,7 +37558,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37724,7 +37577,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37743,7 +37596,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37762,7 +37615,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37781,7 +37634,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -37803,7 +37656,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37822,7 +37675,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37841,7 +37694,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37862,7 +37715,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37883,7 +37736,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37904,7 +37757,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37925,7 +37778,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37946,7 +37799,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37965,7 +37818,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -37984,7 +37837,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38003,7 +37856,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38022,7 +37875,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38041,7 +37894,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38060,7 +37913,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38079,7 +37932,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38098,7 +37951,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -38120,7 +37973,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38139,7 +37992,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38158,7 +38011,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38179,7 +38032,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38200,7 +38053,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38221,7 +38074,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38242,7 +38095,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38263,7 +38116,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38282,7 +38135,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38301,7 +38154,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38320,7 +38173,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38339,7 +38192,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38358,7 +38211,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38377,7 +38230,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38396,7 +38249,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38415,7 +38268,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -38437,7 +38290,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38456,7 +38309,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38475,7 +38328,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38496,7 +38349,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38517,7 +38370,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38538,7 +38391,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38559,7 +38412,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38580,7 +38433,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38599,7 +38452,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38618,7 +38471,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38637,7 +38490,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38656,7 +38509,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38675,7 +38528,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38694,7 +38547,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38713,7 +38566,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38732,7 +38585,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -38754,7 +38607,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38773,7 +38626,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38792,7 +38645,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38813,7 +38666,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38834,7 +38687,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38855,7 +38708,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38876,7 +38729,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38897,7 +38750,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38916,7 +38769,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38935,7 +38788,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38954,7 +38807,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38973,7 +38826,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -38992,7 +38845,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39011,7 +38864,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39030,7 +38883,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39049,7 +38902,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -39071,7 +38924,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39090,7 +38943,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39109,7 +38962,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39130,7 +38983,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39151,7 +39004,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39172,7 +39025,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39193,7 +39046,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39214,7 +39067,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39233,7 +39086,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39252,7 +39105,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39271,7 +39124,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39290,7 +39143,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39309,7 +39162,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39328,7 +39181,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39347,7 +39200,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39366,7 +39219,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -39388,7 +39241,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39407,7 +39260,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39426,7 +39279,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39445,7 +39298,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39464,7 +39317,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -39486,7 +39339,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39505,7 +39358,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39524,7 +39377,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39543,7 +39396,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39562,7 +39415,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -39584,7 +39437,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39603,7 +39456,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39622,7 +39475,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39641,7 +39494,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39660,7 +39513,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -39682,7 +39535,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39701,7 +39554,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39720,7 +39573,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39739,7 +39592,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39758,7 +39611,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -39780,7 +39633,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39799,7 +39652,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39818,7 +39671,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39837,7 +39690,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39856,7 +39709,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -39878,7 +39731,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39897,7 +39750,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39916,7 +39769,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39935,7 +39788,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39954,7 +39807,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -39976,7 +39829,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -39995,7 +39848,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40014,7 +39867,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40033,7 +39886,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40052,7 +39905,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -40074,7 +39927,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40093,7 +39946,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40112,7 +39965,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40131,7 +39984,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40150,7 +40003,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (multiplier == null)
                 throw new ArgumentNullException("multiplier");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((ICSharpUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Multiplication, ((IUnaryOperationExpression)(multiplier.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -40176,7 +40029,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40195,7 +40048,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40214,7 +40067,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40233,7 +40086,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40252,7 +40105,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -40274,7 +40127,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40293,7 +40146,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40312,7 +40165,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40331,7 +40184,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40350,7 +40203,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -40372,7 +40225,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40391,7 +40244,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40410,7 +40263,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40429,7 +40282,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40448,7 +40301,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -40470,7 +40323,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40489,7 +40342,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40508,7 +40361,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40529,7 +40382,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40550,7 +40403,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40571,7 +40424,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40592,7 +40445,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40613,7 +40466,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40632,7 +40485,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40651,7 +40504,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40670,7 +40523,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40689,7 +40542,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40708,7 +40561,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40727,7 +40580,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40746,7 +40599,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40765,7 +40618,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -40787,7 +40640,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40806,7 +40659,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40825,7 +40678,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40846,7 +40699,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40867,7 +40720,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40888,7 +40741,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40909,7 +40762,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40930,7 +40783,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40949,7 +40802,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40968,7 +40821,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -40987,7 +40840,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41006,7 +40859,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41025,7 +40878,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41044,7 +40897,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41063,7 +40916,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41082,7 +40935,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -41104,7 +40957,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41123,7 +40976,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41142,7 +40995,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41163,7 +41016,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41184,7 +41037,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41205,7 +41058,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41226,7 +41079,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41247,7 +41100,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41266,7 +41119,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41285,7 +41138,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41304,7 +41157,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41323,7 +41176,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41342,7 +41195,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41361,7 +41214,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41380,7 +41233,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41399,7 +41252,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -41421,7 +41274,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41440,7 +41293,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41459,7 +41312,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41480,7 +41333,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41501,7 +41354,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41522,7 +41375,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41543,7 +41396,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41564,7 +41417,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41583,7 +41436,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41602,7 +41455,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41621,7 +41474,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41640,7 +41493,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41659,7 +41512,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41678,7 +41531,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41697,7 +41550,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41716,7 +41569,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -41738,7 +41591,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41757,7 +41610,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41776,7 +41629,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41797,7 +41650,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41818,7 +41671,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41839,7 +41692,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41860,7 +41713,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41881,7 +41734,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41900,7 +41753,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41919,7 +41772,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41938,7 +41791,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41957,7 +41810,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41976,7 +41829,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -41995,7 +41848,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42014,7 +41867,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42033,7 +41886,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.ToPrimitive().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -42055,7 +41908,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42074,7 +41927,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42093,7 +41946,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42112,7 +41965,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42131,7 +41984,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -42153,7 +42006,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42172,7 +42025,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42191,7 +42044,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42210,7 +42063,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42229,7 +42082,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -42251,7 +42104,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42270,7 +42123,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42289,7 +42142,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42308,7 +42161,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42327,7 +42180,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -42349,7 +42202,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42368,7 +42221,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42387,7 +42240,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42406,7 +42259,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42425,7 +42278,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -42447,7 +42300,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42466,7 +42319,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42485,7 +42338,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42504,7 +42357,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42523,7 +42376,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -42545,7 +42398,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42564,7 +42417,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42583,7 +42436,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42602,7 +42455,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42621,7 +42474,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -42643,7 +42496,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42662,7 +42515,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42681,7 +42534,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42700,7 +42553,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42719,7 +42572,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion
@@ -42741,7 +42594,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42760,7 +42613,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42779,7 +42632,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42798,7 +42651,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         /// <summary>
@@ -42817,7 +42670,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (moduloPair == null)
                 throw new ArgumentNullException("moduloPair");
-            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((ICSharpUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
+            return new CSharpMulDivExpression(((ICSharpMulDivExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.MulDivOperation))), CSharpMulDivOperation.Remainder, ((IUnaryOperationExpression)(moduloPair.GetReference().AffixTo(CSharpOperatorPrecedences.UnaryOperation))));
         }
 
         #endregion

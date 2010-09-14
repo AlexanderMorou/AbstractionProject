@@ -464,29 +464,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
-        #region IIntermediatePropertyMember<TProperty,TIntermediateProperty,TPropertyParent,TIntermediatePropertyParent> Members
-
-        /// <summary>
-        /// Returns a <see cref="IPropertyReferenceExpression{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/>
-        /// associated to the current <see cref="IntermediatePropertyMember{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/>.
-        /// </summary>
-        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/> which
-        /// leads to the property.</param>
-        /// <returns>A <see cref="IPropertyReferenceExpression{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/>
-        /// associated to the current <see cref="IntermediatePropertyMember{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/>.</returns>
-        public IPropertyReferenceExpression<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> GetReference(IMemberParentReferenceExpression source)
-        {
-            return new PropertyReferenceExpression<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(source, ((TIntermediateProperty)(object)(this)));
-        }
-
-        #endregion
-
         #region IIntermediatePropertySignatureMember Members
 
 
         IPropertyReferenceExpression IIntermediatePropertySignatureMember.GetReference(IMemberParentReferenceExpression source)
         {
-            return this.GetReference(source);
+            return IntermediateGateway.GetPropertyReference(this, source);
         }
 
         #endregion

@@ -12,6 +12,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
     {
         private IBlockStatementParent initialPoint;
         private KeysCollection keys;
+        private ValuesCollection values;
+
+        public BlockStatementScopeLabelDictionary(IBlockStatementParent initialPoint)
+        {
+            this.initialPoint = initialPoint;
+        }
+
         private IEnumerable<ILabelStatement> GetLabels()
         {
             var current = initialPoint;
@@ -44,7 +51,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         public IControlledStateCollection<ILabelStatement> Values
         {
-            get { throw new NotImplementedException(); }
+            get {
+                if (this.values == null)
+                    this.values = new ValuesCollection(this);
+                return this.values;
+            }
         }
 
         public ILabelStatement this[string key]

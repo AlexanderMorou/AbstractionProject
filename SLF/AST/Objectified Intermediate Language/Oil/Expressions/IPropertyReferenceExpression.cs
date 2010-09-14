@@ -27,25 +27,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediatePropertyParent">The type which owns the properties
     /// in the intermediate abstract syntax tree.</typeparam>
-    public interface IPropertySignatureReferenceExpression<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> :
+    public interface IPropertySignatureReferenceExpression<TProperty, TPropertyParent> :
         ITypedMemberReferenceExpression,
         IPropertyReferenceExpression
         where TProperty :
             IPropertySignatureMember<TProperty, TPropertyParent>
-        where TIntermediateProperty :
-            TProperty,
-            IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
         where TPropertyParent :
             IPropertySignatureParentType<TProperty, TPropertyParent>
-        where TIntermediatePropertyParent :
-            TPropertyParent,
-            IIntermediatePropertySignatureParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
     {
         /// <summary>
-        /// Returns the <see cref="TIntermediateProperty{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/> member to which the 
+        /// Returns the <typeparamref name="TProperty"/> member to which the 
         /// <see cref="IPropertySignatureReferenceExpression"/> refers.
         /// </summary>
-        new TIntermediateProperty Member { get; }
+        new TProperty Member { get; }
     }
     /// <summary>
     /// Defines generic properties and methods for working with an expression
@@ -59,25 +53,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediatePropertyParent">The type which owns the properties
     /// in the intermediate abstract syntax tree.</typeparam>
-    public interface IPropertyReferenceExpression<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> :
+    public interface IPropertyReferenceExpression<TProperty, TPropertyParent> :
         ITypedMemberReferenceExpression,
         IPropertyReferenceExpression
         where TProperty :
             IPropertyMember<TProperty, TPropertyParent>
-        where TIntermediateProperty :
-            TProperty,
-            IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
         where TPropertyParent :
             IPropertyParentType<TProperty, TPropertyParent>
-        where TIntermediatePropertyParent :
-            TPropertyParent,
-            IIntermediatePropertyParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
     {
         /// <summary>
-        /// Returns the <see cref="TIntermediateProperty"/> member to which the 
-        /// <see cref="IPropertyReferenceExpression{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/> refers.
+        /// Returns the <typeparamref name="TIntermediateProperty"/> member to which the 
+        /// <see cref="IPropertyReferenceExpression{TProperty, TPropertyParent}"/> refers.
         /// </summary>
-        new TIntermediateProperty Member { get; }
+        new TProperty Member { get; }
     }
 
     /// <summary>

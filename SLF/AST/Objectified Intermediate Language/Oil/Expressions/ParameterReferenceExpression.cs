@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
@@ -21,10 +22,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             TParameterParent,
             IIntermediateParameterParent<TParameterParent, TIntermediateParameterParent, TParameter, TIntermediateParameter>
     {
-        private TIntermediateParameter parameter;
 
         public ParameterReferenceExpression(TIntermediateParameter parameter)
         {
+
             this.ReferenceTarget = parameter;
         }
         public override ExpressionKind Type
@@ -60,6 +61,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         public override string ToString()
         {
             return this.ReferenceTarget.Name;
+        }
+
+        protected override IType TypeLookupAid
+        {
+            get
+            {
+                return this.ReferenceTarget.ParameterType;
+            }
         }
     }
 }

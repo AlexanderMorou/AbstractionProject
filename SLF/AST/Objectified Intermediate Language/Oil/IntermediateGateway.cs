@@ -585,6 +585,81 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        internal static IPropertySignatureReferenceExpression<TProperty, TPropertyParent> GetPropertySignatureReference<TProperty, TPropertyParent>(this TProperty target, IMemberParentReferenceExpression source)
+            where TProperty :
+                IPropertySignatureMember<TProperty, TPropertyParent>
+            where TPropertyParent :
+                IPropertySignatureParentType<TProperty, TPropertyParent>
+        {
+            return new PropertySignatureReferenceExpression<TProperty, TPropertyParent>(source, target);
+        }
+
+        internal static IPropertyReferenceExpression<TProperty, TPropertyParent> GetPropertyReference<TProperty, TPropertyParent>(this TProperty target, IMemberParentReferenceExpression source)
+            where TProperty :
+                IPropertyMember<TProperty, TPropertyParent>
+            where TPropertyParent :
+                IPropertyParentType<TProperty, TPropertyParent>
+        {
+            return new PropertyReferenceExpression<TProperty, TPropertyParent>(source, target);
+        }
+
+        internal static IPropertyReferenceExpression GetPropertyReference(this IPropertySignatureMember target, IMemberParentReferenceExpression source)
+        {
+            var targetParent = target.Parent;
+            if (targetParent is IInterfaceType)
+                return ((IInterfacePropertyMember)target).GetPropertySignatureReference<IInterfacePropertyMember, IInterfaceType>(source);
+            else
+                return new PropertyReferenceExpression(target.Name, source);
+        }
+
+        internal static IPropertyReferenceExpression GetPropertyReference(this IPropertyMember target, IMemberParentReferenceExpression source)
+        {
+            var targetParent = target.Parent;
+            if (targetParent is IClassType)
+                return ((IClassPropertyMember)target).GetPropertyReference<IClassPropertyMember, IClassType>(source);
+            else if (targetParent is IStructType)
+                return ((IStructPropertyMember)target).GetPropertyReference<IStructPropertyMember, IStructType>(source);
+            else if (targetParent is IInterfaceType)
+                return ((IInterfacePropertyMember)target).GetPropertySignatureReference<IInterfacePropertyMember, IInterfaceType>(source);
+            else
+                return new PropertyReferenceExpression(target.Name, source);
+        }
+
+        internal static IPropertyReferenceExpression GetPropertyReference(this IIntermediatePropertyMember target, IMemberParentReferenceExpression source = null)
+        {
+            if (source == null)
+                source = new AutoContextMemberSource(target);
+            return GetPropertyReference((IPropertyMember)target, source);
+        }
+
+        internal static IFieldReferenceExpression<TField, TFieldParent> GetFieldReference<TField, TFieldParent>(this TField target, IMemberParentReferenceExpression source)
+            where TField :
+                IFieldMember<TField, TFieldParent>
+            where TFieldParent :
+                IFieldParent<TField, TFieldParent>
+        {
+            return new FieldReferenceExpression<TField, TFieldParent>(target, source);
+        }
+
+        internal static IFieldReferenceExpression GetFieldReference(this IFieldMember target, IMemberParentReferenceExpression source)
+        {
+            var targetParent = target.Parent;
+            if (targetParent is IClassType)
+                return ((IClassFieldMember)target).GetFieldReference<IClassFieldMember, IClassType>(source);
+            else if (targetParent is IStructType)
+                return ((IStructFieldMember)target).GetFieldReference<IStructFieldMember, IStructType>(source);
+            else
+                return new FieldReferenceExpression(target.Name, source);
+        }
+
+        internal static IFieldReferenceExpression GetFieldReference(this IIntermediateFieldMember target, IMemberParentReferenceExpression source = null)
+        {
+            if (source == null)
+                if (target is IIntermediateInstanceMember)
+                    source = new AutoContextMemberSource((IIntermediateInstanceMember)target);
+            return GetFieldReference((IFieldMember)target, source);
+        }
+
         public static ICreateInstanceExpression NewExpression(this IType target, params IExpression[] parameters)
         {
             var result = new CreateInstanceExpression(new ConstructorPointerReferenceExpression(new ConstructorReferenceStub(target)), parameters);

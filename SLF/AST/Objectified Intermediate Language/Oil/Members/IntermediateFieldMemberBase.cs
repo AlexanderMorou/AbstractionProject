@@ -60,34 +60,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
-        #region IIntermediateFieldMember<TField,TIntermediateField,TFieldParent,TIntermediateFieldParent> Members
-
-        /// <summary>
-        /// Obtains a reference expression which refers to the current
-        /// <see cref="IntermediateFieldMemberBase{TField, TIntermediateField, TFieldParent, TIntermediateFieldParent}"/> with the <paramref name="source"/>
-        /// which leads up to it.
-        /// </summary>
-        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
-        /// which leads up to the field.</param>
-        /// <returns>A <see cref="IFieldReferenceExpression{TField, TIntermediateField, TFieldParent, TIntermediateFieldParent}"/>
-        /// which refers to the current
-        /// <see cref="IntermediateFieldMemberBase{TField, TIntermediateField, TFieldParent, TIntermediateFieldParent}"/>
-        /// with the <paramref name="source"/> which leads up to it.</returns>
-        public IFieldReferenceExpression<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent> GetReference(IMemberParentReferenceExpression source = null)
-        {
-            if (source == null && this is IIntermediateInstanceMember)
-                    source = new AutoContextMemberSource((IIntermediateInstanceMember)this);
-            return new FieldReferenceExpression<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>((TIntermediateField)(object)(this), source);
-        }
-
-        #endregion
-
         #region IIntermediateFieldMember Members
 
 
         IFieldReferenceExpression IIntermediateFieldMember.GetReference(IMemberParentReferenceExpression source)
         {
-            return this.GetReference(source);
+            return IntermediateGateway.GetFieldReference(this, source);
         }
 
         #endregion

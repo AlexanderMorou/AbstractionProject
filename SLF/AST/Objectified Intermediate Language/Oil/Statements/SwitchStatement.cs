@@ -49,12 +49,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         public ISwitchCaseBlockStatement Case(params IExpression[] conditions)
         {
-            throw new NotImplementedException();
+            var result = new SwitchCaseBlockStatement(this, conditions);
+            this.AddImpl(result);
+            return result;
         }
 
         public ISwitchCaseBlockStatement Case(bool isDefault, params IExpression[] conditions)
         {
-            throw new NotImplementedException();
+            var result = new SwitchCaseBlockStatement(this, conditions);
+            result.IsDefault = isDefault;
+            this.AddImpl(result);
+            return result;
         }
 
         /// <summary>
@@ -78,7 +83,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <param name="visitor">The <see cref="IIntermediateCodeVisitor"/> 
         /// to visit.</param>
         /// <remarks>In this instance visits the <paramref name="visitor"/>
-        /// through <see cref="IIntermediateCodeVisitor.Visit(ISwitchStatement)"/>.</remarks>
+        /// through <see cref="IStatementVisitor.Visit(ISwitchStatement)"/>.</remarks>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="visitor"/>
         /// is null.</exception>
         public void Visit(IStatementVisitor visitor)

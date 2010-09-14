@@ -7,9 +7,33 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 {
     public class BlockStatementLabelDictionary :
-        ReadOnlyDictionary<string, ILabelStatement>,
+        ControlledStateDictionary<string, ILabelStatement>,
         IBlockStatementLabelDictionary
     {
+        private IBlockStatementParent parent;
 
+        public BlockStatementLabelDictionary(IBlockStatementParent parent)
+        {
+            this.parent = parent;
+        }
+
+        internal ILabelStatement Add(string name)
+        {
+            ILabelStatement result;
+            if (parent.ScopeLabels.TryGetValue(name, out result))
+                return result;
+            result = new LabelStatement(parent, name);
+            base._Add(name, result);
+            return result;
+        }
+
+        internal void Add(ILabelStatement label)
+        {
+            ILabelStatement attemptLabel ;
+            if (parent.ScopeLabels.TryGetValue(label.Name, out attemptLabel))
+                if (attemptLabel != label)
+                    throw new ArgumentException("Label exists!");
+            this._Add(label.Name, label);
+        }
     }
 }

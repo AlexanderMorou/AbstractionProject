@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -41,6 +42,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// implementation.
         /// </summary>
         new IIntermediateParameterMemberDictionary<TParent, TIntermediateParent, TParameter, TIntermediateParameter> Parameters { get; }
+        new event EventHandler<EventArgsR1<TIntermediateParameter>> ParameterAdded;
+        new event EventHandler<EventArgsR1<TIntermediateParameter>> ParameterRemoved;
     }
 
     /// <summary>
@@ -56,5 +59,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// implementation.
         /// </summary>
         new IIntermediateParameterMemberDictionary Parameters { get; }
+        event EventHandler<EventArgsR1<IIntermediateParameterMember>> ParameterAdded;
+        event EventHandler<EventArgsR1<IIntermediateParameterMember>> ParameterRemoved;
     }
 }

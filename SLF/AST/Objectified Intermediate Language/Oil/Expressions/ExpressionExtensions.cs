@@ -629,6 +629,161 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             return new NamedParameterExpression(name, (Symbol)target);
         }
         #endregion 
+        /// <summary>
+        /// Returns a <see cref="UnaryOperationExpression"/> with the <paramref name="target"/>'s
+        /// sign inverted.
+        /// </summary>
+        /// <param name="target">The <see cref="IExpression"/> to negate.</param>
+        /// <returns>A new <see cref="UnaryOperationExpression"/> instance with
+        /// the <paramref name="target"/> as a <see cref="OperatorPrecedences.UnaryTerm"/>
+        /// with the <see cref="UnaryOperation.Negate"/> applied.</returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="target"/> is null.</exception>
+        public static UnaryOperationExpression Negate(this IExpression target)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target cannot be null.", "target");
+            return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.AffixToUnaryTerm(), UnaryOperation.SignInversion);
+        }
+
+        public static UnaryOperationExpression Decrement(this IExpression target, bool postIncrement = true)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target cannot be null.", "target");
+            if (postIncrement)
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.AffixToUnaryTerm(), UnaryOperation.Decrement | UnaryOperation.PostAction);
+            else
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.AffixToUnaryTerm(), UnaryOperation.Decrement | UnaryOperation.PreAction);
+        }
+
+        public static UnaryOperationExpression Decrement(this ILocalMember target, bool postIncrement = true)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target cannot be null.", "target");
+            if (postIncrement)
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixToUnaryTerm(), UnaryOperation.Decrement | UnaryOperation.PostAction);
+            else
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixToUnaryTerm(), UnaryOperation.Decrement | UnaryOperation.PreAction);
+        }
+
+        public static UnaryOperationExpression Decrement(this IIntermediateParameterMember target, bool postIncrement = true)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target cannot be null.", "target");
+            if (postIncrement)
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixToUnaryTerm(), UnaryOperation.Decrement | UnaryOperation.PostAction);
+            else
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixToUnaryTerm(), UnaryOperation.Decrement | UnaryOperation.PreAction);
+        }
+
+        public static UnaryOperationExpression Decrement(this IIntermediateFieldMember target, bool postIncrement = true)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target cannot be null.", "target");
+            if (postIncrement)
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixToUnaryTerm(), UnaryOperation.Decrement | UnaryOperation.PostAction);
+            else
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixToUnaryTerm(), UnaryOperation.Decrement | UnaryOperation.PreAction);
+        }
+
+        public static UnaryOperationExpression Decrement(this IIntermediatePropertySignatureMember target, bool postIncrement = true)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target cannot be null.", "target");
+            if (postIncrement)
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixToUnaryTerm(), UnaryOperation.Decrement | UnaryOperation.PostAction);
+            else
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixToUnaryTerm(), UnaryOperation.Decrement | UnaryOperation.PreAction);
+        }
+        public static UnaryOperationExpression Increment(this IExpression target, bool postIncrement = true)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target cannot be null.", "target");
+            if (postIncrement)
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.AffixToUnaryTerm(), UnaryOperation.Increment | UnaryOperation.PostAction);
+            else
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.AffixToUnaryTerm(), UnaryOperation.Increment | UnaryOperation.PreAction);
+        }
+
+        public static UnaryOperationExpression Increment(this ILocalMember target, bool postIncrement = true)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target cannot be null.", "target");
+            if (postIncrement)
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixToUnaryTerm(), UnaryOperation.Increment | UnaryOperation.PostAction);
+            else
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixToUnaryTerm(), UnaryOperation.Increment | UnaryOperation.PreAction);
+        }
+
+        public static UnaryOperationExpression Increment(this IIntermediateParameterMember target, bool postIncrement = true)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target cannot be null.", "target");
+            if (postIncrement)
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixToUnaryTerm(), UnaryOperation.Increment | UnaryOperation.PostAction);
+            else
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixToUnaryTerm(), UnaryOperation.Increment | UnaryOperation.PreAction);
+        }
+
+        public static UnaryOperationExpression Increment(this IIntermediateFieldMember target, bool postIncrement = true)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target cannot be null.", "target");
+            if (postIncrement)
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixToUnaryTerm(), UnaryOperation.Increment | UnaryOperation.PostAction);
+            else
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixToUnaryTerm(), UnaryOperation.Increment | UnaryOperation.PreAction);
+        }
+
+        public static UnaryOperationExpression Increment(this IIntermediatePropertySignatureMember target, bool postIncrement = true)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target cannot be null.", "target");
+            if (postIncrement)
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixToUnaryTerm(), UnaryOperation.Increment | UnaryOperation.PostAction);
+            else
+                return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.GetReference().AffixToUnaryTerm(), UnaryOperation.Increment | UnaryOperation.PreAction);
+        }
+        /// <summary>
+        /// Returns a <see cref="UnaryOperationExpression"/> with the
+        /// <paramref name="target"/> to setup to be logically inverted.
+        /// </summary>
+        /// <param name="target">The <see cref="IExpression"/> to boolInvert.</param>
+        /// <returns>A new <see cref="UnaryOperationExpression"/> instance with
+        /// the <paramref name="target"/> as a <see cref="OperatorPrecedences.UnaryTerm"/>
+        /// with the <see cref="UnaryOperation.BooleanInversion"/> applied.</returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="target"/> is null.</exception>
+        public static UnaryOperationExpression Not(this IExpression target)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target cannot be null.", "target");
+            return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)target.AffixToUnaryTerm(), UnaryOperation.BooleanInversion);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="UnaryOperationExpression"/> with the
+        /// <paramref name="target"/> to be setup for the runtime value's
+        /// bits to be inverted.
+        /// </summary>
+        /// <param name="target">The <see cref="Boolean"/> <see cref="IExpression"/> to
+        /// invert the bits of.</param>
+        /// <returns>A <see cref="UnaryOperationExpression"/> instance 
+        /// with the <paramref name="target"/>'s bits set to be inverted.</returns>
+        public static UnaryOperationExpression Invert(this IExpression target)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target cannot be null", "target");
+            return new UnaryOperationExpression(((IUnaryOperationPrimaryTerm)(target.AffixToUnaryTerm())), UnaryOperation.BitwiseInversion);
+        }
+
+        private static IUnaryOperationPrimaryTerm AffixToUnaryTerm(this IExpression target)
+        {
+            if (target is IUnaryOperationPrimaryTerm)
+                return (IUnaryOperationPrimaryTerm)target;
+            else
+                return new ParenthesizedExpression(target);
+        }
 
     }
 }

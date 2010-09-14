@@ -263,6 +263,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return new TypeParameterDictionary(this);
         }
 
+        protected override void OnParameterAdded(EventArgsR1<TIntermediateSignatureParameter> e)
+        {
+            base.OnParameterAdded(e);
+        }
+
         public IType ReturnType
         {
             get

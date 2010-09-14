@@ -9,6 +9,5 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
     public interface IBlockStatementLabelDictionary :
         IReadOnlyDictionary<string, ILabelStatement>
     {
-
     }
 }
