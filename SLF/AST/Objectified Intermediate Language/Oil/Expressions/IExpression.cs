@@ -28,6 +28,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <param name="visitor">The <see cref="IIntermediateCodeVisitor"/>
         /// to which the <see cref="IExpression"/> needs to repay the visit
         /// to.</param>
-        void Visit(IIntermediateCodeVisitor visitor);
+        void Visit(IExpressionVisitor visitor);
     }
 }

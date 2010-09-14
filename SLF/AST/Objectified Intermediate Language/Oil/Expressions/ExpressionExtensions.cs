@@ -347,7 +347,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentNullException("target");
             if (indexerName == string.Empty)
                 throw new ArgumentOutOfRangeException("indexerName", "May be null, but not empty.");
-            return target.GetTypeExpression().GetIndexer(indexerName, parameters.ToCollection());
+            return target.GetTypeExpression().GetIndexer(indexerName, parameters);
         }
 
         /// <summary>
@@ -457,12 +457,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         public static IIndexerReferenceExpression GetIndexer(this string symbol, string indexerName, params IExpression[] parameters)
         {
-            return new SymbolExpression(symbol).GetIndexer(indexerName, new ExpressionCollection(parameters));
+            return new SymbolExpression(symbol).GetIndexer(indexerName, parameters);
         }
 
         public static IIndexerReferenceExpression GetIndexer(this string symbol, params IExpression[] parameters)
         {
-            return new SymbolExpression(symbol).GetIndexer(new ExpressionCollection(parameters));
+            return new SymbolExpression(symbol).GetIndexer(parameters);
         }
 
         public static IFieldReferenceExpression GetField(this string symbol, string fieldName)

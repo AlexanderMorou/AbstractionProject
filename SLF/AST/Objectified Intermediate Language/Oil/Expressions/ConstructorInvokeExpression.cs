@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             get { return ExpressionKinds.ConstructorInvoke; }
         }
 
-        public override void Visit(IIntermediateCodeVisitor visitor)
+        public override void Visit(IExpressionVisitor visitor)
         {
             visitor.Visit(this);
         }
@@ -43,6 +43,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         public IConstructorPointerReferenceExpression Reference { get; private set; }
 
         public ICallParameterSet Parameters { get; private set; }
+
+        #endregion
+
+        #region IStatementExpression Members
+
+        public bool ValidAsStatement
+        {
+            get { return true; }
+        }
 
         #endregion
     }

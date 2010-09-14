@@ -64,6 +64,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             /// Data member for <see cref="Enum"/>.
             /// </summary>
             private static IType @enum;
+
+            /// <summary>
+            /// Data member for <see cref="String"/>.
+            /// </summary>
+            private static IType @string;
             #endregion
 
             #region IType Dispose section
@@ -119,6 +124,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 CommonlyUsedTypeReferences.multicastDelegate.Disposed -= new EventHandler(multicastDelegate_Disposed);
                 CommonlyUsedTypeReferences.multicastDelegate = null;
+            }
+
+            static void string_Disposed(object sender, EventArgs e)
+            {
+                CommonlyUsedTypeReferences.@string.Disposed -= new EventHandler(string_Disposed);
+                CommonlyUsedTypeReferences.@string = null;
             }
             #endregion
 
@@ -278,6 +289,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
             }
 
+
+            /// <summary>
+            /// Returns the <see cref="IType"/> reference wrapper for the <see cref="System.String"/>
+            /// system type.
+            /// </summary>
+            public static IType String
+            {
+                get
+                {
+                    if (CommonlyUsedTypeReferences.@string == null)
+                    {
+                        CommonlyUsedTypeReferences.@string = typeof(string).GetTypeReference();
+                        CommonlyUsedTypeReferences.@string.Disposed += new EventHandler(string_Disposed);
+                    }
+                    return CommonlyUsedTypeReferences.@string;
+                }
+            }
 
         }
 

@@ -68,6 +68,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     return result;
                 }
 
+                public int IndexOf(string key)
+                {
+                    for (int i = 0; i < this.Count; i++)
+                        if (this.container.tParamNames[i] == key)
+                            return i;
+                    return -1;
+                }
+
                 #endregion
 
                 #region IEnumerable<string> Members
@@ -123,6 +131,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     get { return this[index]; }
                 }
 
+                int IControlledStateCollection.IndexOf(object element)
+                {
+                    if (element is string)
+                        return this.IndexOf((string)element);
+                    return -1;
+                }
                 #endregion
 
                 #region ICollection Members
@@ -143,6 +157,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 }
 
                 #endregion
+
             }
         }
     }

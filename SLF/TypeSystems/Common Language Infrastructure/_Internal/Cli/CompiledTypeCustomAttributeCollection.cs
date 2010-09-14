@@ -329,5 +329,30 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
 
         #endregion
+
+        #region IControlledStateCollection Members
+
+
+        int IControlledStateCollection.IndexOf(object element)
+        {
+            if (element is ICustomAttributeInstance)
+                return this.IndexOf((ICustomAttributeInstance)element);
+            return -1;
+        }
+
+        #endregion
+
+        #region IControlledStateCollection<ICustomAttributeInstance> Members
+
+
+        public int IndexOf(ICustomAttributeInstance element)
+        {
+            for (int i = 0; i < this.Count; i++)
+                if (this.attributeWrappers[i] == element)
+                    return i;
+            return -1;
+        }
+
+        #endregion
     }
 }

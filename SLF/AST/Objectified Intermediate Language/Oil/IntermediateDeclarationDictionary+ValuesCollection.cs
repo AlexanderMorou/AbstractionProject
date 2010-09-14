@@ -46,7 +46,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public bool Contains(TIntermediateDeclaration item)
             {
-                return this.owner.Values.Contains(item);
+                return ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values.Contains(item);
             }
 
             public void CopyTo(TIntermediateDeclaration[] array, int arrayIndex)
@@ -74,6 +74,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 while (valueEnum.MoveNext())
                     result[index++] = (TIntermediateDeclaration)valueEnum.Current;
                 return result;
+            }
+
+            public int IndexOf(TIntermediateDeclaration element)
+            {
+                return ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values.IndexOf(element);
             }
 
             #endregion
@@ -120,6 +125,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 get { return this[index]; }
             }
 
+            int IControlledStateCollection.IndexOf(object element)
+            {
+                if (element is TIntermediateDeclaration)
+                    return this.IndexOf((TIntermediateDeclaration)element);
+                return -1;
+            }
             #endregion
 
             #region ICollection Members
@@ -143,6 +154,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
 
             #endregion
+
         }
     }
 }

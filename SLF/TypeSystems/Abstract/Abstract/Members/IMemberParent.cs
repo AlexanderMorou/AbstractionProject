@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <summary>
     /// Defines properties and methods for working with the parent of an <see cref="IMember"/>.
     /// </summary>
-    public interface IMemberParent
+    public interface IMemberParent 
     {
     }
 }

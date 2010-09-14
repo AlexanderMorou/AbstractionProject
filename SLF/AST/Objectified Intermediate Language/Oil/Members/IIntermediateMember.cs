@@ -42,5 +42,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IIntermediateDeclaration,
         IMember
     {
+        /// <summary>
+        /// Returns the parent of the <see cref="IIntermediateMember"/>.
+        /// </summary>
+        new IIntermediateMemberParent Parent { get; }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -45,6 +46,47 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         #region IIntermediateFieldMember Members
 
         public virtual IType FieldType { get; set; }
+
+        #endregion
+
+        #region IIntermediateFieldMember<TField,TIntermediateField,TFieldParent,TIntermediateFieldParent> Members
+
+        /// <summary>
+        /// Returns/sets the <see cref="IExpression"/>
+        /// used to initialize the 
+        /// <see cref="IntermediateFieldMemberBase{TField, TIntermediateField, TFieldParent, TIntermediateFieldParent}"/>.
+        /// </summary>
+        public IExpression InitializationExpression { get; set; }
+
+        #endregion
+
+        #region IIntermediateFieldMember<TField,TIntermediateField,TFieldParent,TIntermediateFieldParent> Members
+
+        /// <summary>
+        /// Obtains a reference expression which refers to the current
+        /// <see cref="IntermediateFieldMemberBase{TField, TIntermediateField, TFieldParent, TIntermediateFieldParent}"/> with the <paramref name="source"/>
+        /// which leads up to it.
+        /// </summary>
+        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
+        /// which leads up to the field.</param>
+        /// <returns>A <see cref="IFieldReferenceExpression{TField, TIntermediateField, TFieldParent, TIntermediateFieldParent}"/>
+        /// which refers to the current
+        /// <see cref="IntermediateFieldMemberBase{TField, TIntermediateField, TFieldParent, TIntermediateFieldParent}"/>
+        /// with the <paramref name="source"/> which leads up to it.</returns>
+        public IFieldReferenceExpression<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent> GetReference(IMemberParentReferenceExpression source = null)
+        {
+            return new FieldReferenceExpression<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>((TIntermediateField)(object)(this), source);
+        }
+
+        #endregion
+
+        #region IIntermediateFieldMember Members
+
+
+        IFieldReferenceExpression IIntermediateFieldMember.GetReference(IMemberParentReferenceExpression source)
+        {
+            return this.GetReference(source);
+        }
 
         #endregion
     }

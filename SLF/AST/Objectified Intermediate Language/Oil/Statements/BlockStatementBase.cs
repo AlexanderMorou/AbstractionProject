@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// through <see cref="IIntermediateCodeVisitor.Visit(IBlockStatement)"/>.</remarks>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="visitor"/>
         /// is null.</exception>
-        public virtual void Visit(IIntermediateCodeVisitor visitor)
+        public virtual void Visit(IStatementVisitor visitor)
         {
             if (visitor == null)
                 throw new ArgumentNullException("visitor");

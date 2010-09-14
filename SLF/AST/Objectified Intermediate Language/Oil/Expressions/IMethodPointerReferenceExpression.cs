@@ -1,10 +1,11 @@
-﻿using System;
+﻿using System; 
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -15,6 +16,32 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
+    public interface IMethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> :
+        IMethodPointerReferenceExpression
+        where TSignatureParameter :
+            IMethodSignatureParameterMember<TSignatureParameter, TSignature, TParent>
+        where TIntermediateSignatureParameter :
+            TSignatureParameter,
+            IIntermediateMethodSignatureParameterMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>
+        where TSignature :
+            IMethodSignatureMember<TSignatureParameter, TSignature, TParent>
+        where TIntermediateSignature :
+            TSignature,
+            IIntermediateMethodSignatureMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>
+        where TParent :
+            ISignatureParent<TSignature, TSignatureParameter, TParent>
+        where TIntermediateParent :
+            TParent,
+            IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TParent, TIntermediateParent>
+    {
+        /// <summary>
+        /// Returns the <see cref="IMethodReferenceStub{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
+        /// associated to the <see cref="IMethodPointerReferenceExpression{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.
+        /// </summary>
+        /// <remarks>Used to provide initial context data 
+        /// for the lookup.</remarks>
+        new IMethodReferenceStub<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> Reference { get; }
+    }
     /// <summary>
     /// Defines properties and methods for working with a 
     /// pointer to a method.
@@ -59,7 +86,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// relative to the signature and data of 
         /// the <paramref name="parameters"/> 
         /// provided.</returns>
-        IMethodInvokeExpression Invoke(IExpressionCollection parameters);
+        IMethodInvokeExpression Invoke(IExpressionCollection<IExpression> parameters);
         /// <summary>
         /// Obtains a <see cref="IMethodInvokeExpression"/>
         /// by evaluating the <paramref name="parameters"/>

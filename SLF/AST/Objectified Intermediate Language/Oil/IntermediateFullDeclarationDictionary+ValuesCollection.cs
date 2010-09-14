@@ -72,6 +72,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return result;
             }
 
+            public int IndexOf(MasterDictionaryEntry<TIntermediateDeclaration> element)
+            {
+                return ((MasterDictionaryBase<string, TDeclaration>)(this.owner)).Values.IndexOf(new MasterDictionaryEntry<TDeclaration>(element.Subordinate, element.Entry));
+            }
             #endregion
 
             #region IEnumerable<MasterDictionaryEntry<TIntermediateDeclaration>> Members
@@ -116,6 +120,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 get { return this[index]; }
             }
 
+            int IControlledStateCollection.IndexOf(object element)
+            {
+                if (element is MasterDictionaryEntry<TIntermediateDeclaration>)
+                    return this.IndexOf((MasterDictionaryEntry<TIntermediateDeclaration>)element);
+                return -1;
+            }
+
             #endregion
 
             #region ICollection Members
@@ -140,6 +151,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
 
             #endregion
+
         }
     }
 }

@@ -46,7 +46,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// the method when calling it.</param>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="reference"/> 
         /// or <paramref name="parameters"/> is null.</exception>
-        public MethodInvokeExpression(IMethodPointerReferenceExpression reference, IExpressionCollection parameters)
+        public MethodInvokeExpression(IMethodPointerReferenceExpression reference, IExpressionCollection<IExpression> parameters)
         {
             if (reference == null)
                 throw new ArgumentNullException("reference");
@@ -71,7 +71,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// the method when calling it.</param>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="reference"/> 
         /// or <paramref name="parameters"/> is null.</exception>
-        public MethodInvokeExpression(IMethodReferenceStub reference, IExpressionCollection parameters)
+        public MethodInvokeExpression(IMethodReferenceStub reference, IExpressionCollection<IExpression> parameters)
         {
             if (reference == null)
                 throw new ArgumentNullException("reference");
@@ -206,9 +206,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
 
-        public override void Visit(IIntermediateCodeVisitor visitor)
+        public override void Visit(IExpressionVisitor visitor)
         {
             visitor.Visit(this);
         }
+
+        #region IStatementExpression Members
+
+        public bool ValidAsStatement
+        {
+            get { return true; }
+        }
+
+        #endregion
     }
 }

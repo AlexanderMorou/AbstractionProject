@@ -13,6 +13,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     public enum SpecialReferenceKind
     {
         /// <summary>
+        /// The special reference doesn't refer
+        /// to any of the specified reference kinds.
+        /// </summary>
+        /// <remarks>Used to aid auto context switching 
+        /// expression for intermediate members.</remarks>
+        None,
+        /// <summary>
         /// The special reference refers to the type
         /// at the current hierarchy level.
         /// </summary>

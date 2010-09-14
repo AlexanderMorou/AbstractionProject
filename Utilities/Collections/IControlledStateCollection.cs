@@ -75,5 +75,16 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// </exception>
         object this[int index] { get; }
 
+        /// <summary>
+        /// Returns the <see cref="Int32"/> ordinal index of the 
+        /// <paramref name="element"/> provided.
+        /// </summary>
+        /// <param name="element">The <see cref="Object"/>
+        /// instance to find within the <see cref="IControlledStateCollection"/>.</param>
+        /// <returns>-1 if the <paramref name="element"/> was not found within
+        /// the <see cref="IControlledStateCollection"/>; a positive <see cref="Int32"/>
+        /// value indicating the ordinal index of <paramref name="element"/>
+        /// otherwise.</returns>
+        int IndexOf(object element);
     }
 }

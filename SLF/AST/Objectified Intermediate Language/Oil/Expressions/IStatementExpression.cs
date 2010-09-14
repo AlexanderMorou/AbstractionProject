@@ -12,5 +12,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     public interface IStatementExpression :
         IExpression
     {
+        /// <summary>
+        /// Returns whether the <see cref="IStatementExpression"/> is valid as a statement in its 
+        /// current form.
+        /// </summary>
+        bool ValidAsStatement { get; }
     }
 }

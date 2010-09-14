@@ -285,7 +285,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 case PrimitiveType.Char:
                     return string.Format("'{0}'", this.value);
                 case PrimitiveType.String:
-                    return ((string)(object)(this.value)).EscapeStringCILAndCS(0);
+                    return ((string)(object)(this.value)).EscapeStringOrCharCILAndCS();
                 case PrimitiveType.Null:
                     return "<null>";
                 default:
@@ -308,7 +308,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
         */
 
-        public override void Visit(IIntermediateCodeVisitor visitor)
+        public override void Visit(IExpressionVisitor visitor)
+        {
+            this.Visit((IIntermediatePrimitiveVisitor)visitor);
+        }
+
+        #region IPrimitiveExpression Members
+
+
+        public void Visit(IIntermediatePrimitiveVisitor visitor)
         {
             switch (this.PrimitiveType)
             {
@@ -361,5 +369,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                     return;
             }
         }
+
+        #endregion
     }
 }

@@ -21,17 +21,38 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
     /// <para>Used in Visual Basic for 
     ///     'For TARGET = START To END [Step INCREMENTAL]'.</para>
     /// <para>Simplest implementation in C&#9839;: 
-    ///     'for (TYPEREF TARGET = START; TARGET &lt;= START; TARGET+[+ | =INCREMENTAL])'.</para>
+    ///     'for (TYPEREF TARGET = START; TARGET &lt;=? START; TARGET+[+ | =INCREMENTAL])'.</para>
     /// </remarks>
     public interface ISimpleIterationBlockStatement :
         IBreakableBlockStatement
     {
-        ILocalVariableDeclarationStatement Target { get; set; }
+        /// <summary>
+        /// Returns/sets the <see cref="ILocalDeclarationStatement"/> which
+        /// denotes what local is referred to by the iteration block.
+        /// </summary>
+        ILocalDeclarationStatement Target { get; set; }
 
+        /// <summary>
+        /// Returns/sets the <see cref="IExpression"/> which denotes the start of the
+        /// <see cref="ISimpleIterationBlockStatement"/>.
+        /// </summary>
         IExpression Start { get; set; }
 
+        /// <summary>
+        /// Returns/sets the <see cref="IExpression"/> which denotes the end of the
+        /// <see cref="ISimpleIterationBlockStatement"/>.
+        /// </summary>
         IExpression End { get; set; }
 
+        /// <summary>
+        /// Returns/sets whether the <see cref="End"/> is exclusive, that is
+        /// not included as a step in the iteration.
+        /// </summary>
+        bool EndExclusive { get; set; }
+        /// <summary>
+        /// Returns/sets the <see cref="IExpression"/> which denotes how large
+        /// the span is between each iteration.
+        /// </summary>
         IExpression Incremental { get; set; }
     }
 }

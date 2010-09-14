@@ -128,7 +128,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
             get { return ClauseType.JoinClause; }
         }
 
-        public override void Visit(IIntermediateCodeVisitor visitor)
+        public override void Visit(ILinqVisitor visitor)
         {
             visitor.Visit(this);
         }

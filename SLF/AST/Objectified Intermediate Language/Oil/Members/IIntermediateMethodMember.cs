@@ -4,6 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -54,5 +55,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// Returns the parent of the <see cref="IIntermediateMethodMember"/>.
         /// </summary>
         new IIntermediateMethodParent Parent { get; }
+        /// <summary>
+        /// Obtains a reference to the current <see cref="IIntermediateMethodMember"/> 
+        /// with the <paramref name="source"/> provided.
+        /// </summary>
+        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/> which
+        /// leads to the <see cref="IIntermediateMethodMember"/>.</param>
+        /// <returns>A new <see cref="IMethodPointerReferenceExpression"/>
+        /// associated to the current <see cref="IIntermediateMethodMember"/></returns>
+        new IMethodPointerReferenceExpression GetReference(IMemberParentReferenceExpression source = null);
     }
 }

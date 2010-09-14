@@ -55,6 +55,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// <param name="visitor">The <see cref="IIntermediateCodeVisitor"/>
         /// to which the <see cref="ILinqClause"/> needs to repay the visit
         /// to.</param>
-        void Visit(IIntermediateCodeVisitor visitor);
+        void Visit(ILinqVisitor visitor);
     }
 }

@@ -40,7 +40,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
             return string.Format(CultureInfo.CurrentCulture, "{0} by {1}", base.ToString(), Key);
         }
 
-        public override void Visit(IIntermediateCodeVisitor visitor)
+        public override void Visit(ILinqVisitor visitor)
         {
             visitor.Visit(this);
         }

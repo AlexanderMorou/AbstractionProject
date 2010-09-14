@@ -21,7 +21,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     {
         /// <summary>:
         /// Gets the number of elements contained in the <see cref="IControlledStateCollection{T}"/>.</summary>
-        ///
         /// <returns>
         /// The number of elements contained in the <see cref="IControlledStateCollection{T}"/>.</returns>
         int Count { get; }
@@ -36,6 +35,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// otherwise, false.
         /// </returns>
         bool Contains(T item);
+
         /// <summary>
         /// Copies the elements of the <see cref="IControlledStateCollection{T}"/> to an
         /// <see cref="System.Array"/>, starting at a particular <see cref="System.Array"/> 
@@ -57,9 +57,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// is equal to or greater than the length of <paramref name="array"/>.-or-The 
         /// number of elements in the source <see cref="IControlledStateCollection{T}"/> is greater 
         /// than the available space from <paramref name="arrayIndex"/> to the 
-        /// end of the destination <paramref name="array"/>.-or-Type <typeparamref name="T"/> 
-        /// cannot be cast automatically to the type of the destination
-        /// <paramref name="array"/>.</exception>
+        /// end of the destination <paramref name="array"/>.</exception>
         void CopyTo(T[] array, int arrayIndex = 0);
 
         /// <summary>
@@ -79,5 +77,17 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// </summary>
         /// <returns>A new <see cref="System.Array"/> of <typeparamref name="T"/> instances.</returns>
         T[] ToArray();
+
+        /// <summary>
+        /// Returns the <see cref="Int32"/> ordinal index of the 
+        /// <paramref name="element"/> provided.
+        /// </summary>
+        /// <param name="element">The <typeparamref name="T"/>
+        /// instance to find within the <see cref="IControlledStateCollection{T}"/>.</param>
+        /// <returns>-1 if the <paramref name="element"/> was not found within
+        /// the <see cref="IControlledStateCollection{T}"/>; a positive <see cref="Int32"/>
+        /// value indicating the ordinal index of <paramref name="element"/>
+        /// otherwise.</returns>
+        int IndexOf(T element);
     }
 }

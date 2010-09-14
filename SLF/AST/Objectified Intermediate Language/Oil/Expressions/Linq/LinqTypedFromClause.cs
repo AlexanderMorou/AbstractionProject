@@ -61,7 +61,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
             return string.Format(CultureInfo.CurrentCulture, "from {0} {1} in {2}", this.RangeType.FullName, this.RangeVariableName, this.RangeSource);
         }
 
-        public override void Visit(IIntermediateCodeVisitor visitor)
+        public override void Visit(ILinqVisitor visitor)
         {
             visitor.Visit(this);
         }

@@ -92,6 +92,9 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
@@ -115,7 +118,7 @@
     <Compile Include="Compilers\CompilerOptions.cs" />
     <Compile Include="Compilers\CompilerSupport.cs" />
     <Compile Include="Compilers\DebugSupport.cs" />
-    <Compile Include="Compilers\ICompileOptions.cs" />
+    <Compile Include="Compilers\ICompilerOptions.cs" />
     <Compile Include="Compilers\ICompiler.cs" />
     <Compile Include="Compilers\ICompilerAid.cs" />
     <Compile Include="Compilers\ICompilerResults.cs" />
@@ -136,6 +139,7 @@
       <DependentUpon>AnonymousType.cs</DependentUpon>
     </Compile>
     <Compile Include="Oil\AnonymousType.cs" />
+    <Compile Include="Oil\Expressions\AutoContextMemberSource.cs" />
     <Compile Include="Oil\Expressions\CallParameterSet+IndexedParameterCollection.cs" />
     <Compile Include="Oil\Expressions\ConstructorReferenceStub.cs" />
     <Compile Include="Oil\Expressions\CallParameterSet+NamedParametersDictionary.cs" />
@@ -166,6 +170,8 @@
     <Compile Include="Oil\Expressions\CallNamedParameterDictionary.cs" />
     <Compile Include="Oil\Expressions\CallParameterSet.cs" />
     <Compile Include="Oil\Expressions\ConstructorInvokeExpression.cs" />
+    <Compile Include="Oil\Expressions\CreateArrayDetailExpression.cs" />
+    <Compile Include="Oil\Expressions\CreateArrayExpression.cs" />
     <Compile Include="Oil\Expressions\CreateInstanceExpression.cs" />
     <Compile Include="Oil\Expressions\CreateInstanceMemberAssignment.cs" />
     <Compile Include="Oil\Expressions\CreateInstanceMemberAssignmentDictionary.cs" />
@@ -178,6 +184,7 @@
     <Compile Include="Oil\Expressions\ExpressionKinds.cs" />
     <Compile Include="Oil\Expressions\ExpressionToCommaFusionExpression.cs" />
     <Compile Include="Oil\Expressions\ExpressionToCommaTypeReferenceFusionExpression.cs" />
+    <Compile Include="Oil\Expressions\FieldReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\FixedLengthMalleableExpressionCollection.cs" />
     <Compile Include="Oil\Expressions\IAnonymousMethodExpression.cs" />
     <Compile Include="Oil\Expressions\IArrayDimensionDetailExpression.cs" />
@@ -213,8 +220,10 @@
     <Compile Include="Oil\Expressions\IFusionTermExpression.cs" />
     <Compile Include="Oil\Expressions\IFusionTypeCollectionTargetExpression.cs" />
     <Compile Include="Oil\Expressions\IIndexerReferenceExpression.cs" />
+    <Compile Include="Oil\Expressions\IExpressionVisitor.cs" />
     <Compile Include="Oil\Expressions\ILocalReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\IMalleableExpressionCollection.cs" />
+    <Compile Include="Oil\Expressions\IMalleableStatementExpressionCollection.cs" />
     <Compile Include="Oil\Expressions\IMemberParentReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\IMemberReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\IMethodInvokeExpression.cs" />
@@ -231,7 +240,17 @@
     <Compile Include="Oil\Expressions\IStatementExpression.cs" />
     <Compile Include="Oil\Expressions\IStaticGetMemberHandleExpression.cs" />
     <Compile Include="Oil\Expressions\ISymbolExpression.cs" />
+    <Compile Include="Oil\Statements\BlockStatementLabelDictionary.cs" />
+    <Compile Include="Oil\Statements\BlockStatementScopeLabelDictionary+KeysCollection.cs" />
+    <Compile Include="Oil\Statements\BlockStatementScopeLabelDictionary.cs" />
+    <Compile Include="Oil\Statements\BreakableConditionContinuationStatement.cs" />
+    <Compile Include="Oil\Statements\BreakExit.cs" />
+    <Compile Include="Oil\Statements\ConditionContinuationStatement.cs" />
+    <Compile Include="Oil\Statements\IBlockStatementLabelDictionary.cs" />
+    <Compile Include="Oil\Statements\IBreakableStatement.cs" />
+    <Compile Include="Oil\Statements\IterationBlockBaseStatement.cs" />
     <Compile Include="Oil\Expressions\ITypeCastExpression.cs" />
+    <Compile Include="Oil\Expressions\ITypedMemberReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\ITypeOfExpression.cs" />
     <Compile Include="Oil\Expressions\ITypeReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\IUnaryOperationExpression.cs" />
@@ -258,6 +277,7 @@
     <Compile Include="Oil\Expressions\Lambda\LambdaExpression.cs" />
     <Compile Include="Oil\Expressions\Lambda\LambdaExpressionKind.cs" />
     <Compile Include="Oil\Expressions\Lambda\LambdaExtensions.cs" />
+    <Compile Include="Oil\Expressions\Linq\IIntermediateLinqVisitor.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqBody.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqBodyBuilder.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqClause.cs" />
@@ -301,7 +321,9 @@
     <Compile Include="Oil\Expressions\Linq\LinqTypedFromClause.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqTypedJoinClause.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqWhereClause.cs" />
+    <Compile Include="Oil\Expressions\LocalReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\MalleableExpressionCollection.cs" />
+    <Compile Include="Oil\Expressions\MalleableStatementExpressionCollection.cs" />
     <Compile Include="Oil\Expressions\MemberParentReferenceExpressionBase.cs" />
     <Compile Include="Oil\Expressions\MethodInvokeExpression.cs" />
     <Compile Include="Oil\Expressions\MethodPointerReferenceExpression.cs" />
@@ -542,6 +564,7 @@
     <Compile Include="Oil\Members\IIntermediateInterfaceIndexerMember.cs" />
     <Compile Include="Oil\Members\IIntermediateInterfaceMethodMember.cs" />
     <Compile Include="Oil\Members\IIntermediateInterfacePropertyMember.cs" />
+    <Compile Include="Oil\Members\ILocalMember.cs" />
     <Compile Include="Oil\Members\IIntermediateMember.cs" />
     <Compile Include="Oil\Members\IIntermediateMemberDictionary.cs" />
     <Compile Include="Oil\Members\IIntermediateMemberParent.cs" />
@@ -577,6 +600,7 @@
     <Compile Include="Oil\Members\IIntermediateTypeCoercionMemberDictionary.cs" />
     <Compile Include="Oil\Members\IIntermediateUnaryOperatorCoercionMember.cs" />
     <Compile Include="Oil\Members\IIntermediateUnaryOperatorCoercionMemberDictionary.cs" />
+    <Compile Include="Oil\Members\ILocalMemberDictionary.cs" />
     <Compile Include="Oil\Members\IntermediateCoercionMemberBase.cs" />
     <Compile Include="Oil\Members\IntermediateConstructorMemberBase.cs" />
     <Compile Include="Oil\Members\IntermediateConstructorMemberDictionary.cs" />
@@ -589,6 +613,7 @@
     <Compile Include="Oil\Members\IntermediateConstructorSignatureMemberBase.cs" />
     <Compile Include="Oil\Members\IntermediateConstructorSignatureMemberDictionary.cs" />
     <Compile Include="Oil\Members\IntermediateEnumFieldAutomaticValue.cs" />
+    <Compile Include="Oil\IntermediateEnumType+FieldMember+ReferenceExpression.cs" />
     <Compile Include="Oil\Members\IntermediateEventMember+ParameterDictionary.cs">
       <DependentUpon>IntermediateEventMember.cs</DependentUpon>
     </Compile>
@@ -663,6 +688,10 @@
     <Compile Include="Oil\Members\IntermediateSignatureMemberBase.cs" />
     <Compile Include="Oil\Members\IntermediateSignatureMemberDictionary.cs" />
     <Compile Include="Oil\Members\IntermediateSignatureParameterMemberBase.cs" />
+    <Compile Include="Oil\Members\LocalMember+ReferenceExpression.cs" />
+    <Compile Include="Oil\Members\LocalMember.cs" />
+    <Compile Include="Oil\Members\LocalMemberDictionary.cs" />
+    <Compile Include="Oil\Members\TypedLocalMember.cs" />
     <Compile Include="Oil\Modules\IIntermediateModule.cs" />
     <Compile Include="Oil\Modules\IIntermediateModuleDictionary.cs" />
     <Compile Include="Oil\Modules\IIntermediateModuleGlobalField.cs" />
@@ -699,23 +728,31 @@
     <Compile Include="Oil\Statements\IExpressionStatement.cs" />
     <Compile Include="Oil\Statements\IGoToStatement.cs" />
     <Compile Include="Oil\Statements\IIterationBlockStatement.cs" />
+    <Compile Include="Oil\Statements\IIterationDeclarationBlockStatement.cs" />
     <Compile Include="Oil\Statements\IJumpStatement.cs" />
     <Compile Include="Oil\Statements\IJumpTarget.cs" />
     <Compile Include="Oil\Statements\ILabelStatement.cs" />
-    <Compile Include="Oil\Statements\ILocalVariableDeclarationStatement.cs" />
+    <Compile Include="Oil\Statements\ILocalDeclarationStatement.cs" />
     <Compile Include="Oil\Statements\IReturnStatement.cs" />
     <Compile Include="Oil\Statements\ISimpleIterationBlockStatement.cs" />
     <Compile Include="Oil\Statements\IStatement.cs" />
     <Compile Include="Oil\Statements\IStatementParent.cs" />
     <Compile Include="Oil\Statements\IStatements.cs" />
+    <Compile Include="Oil\Statements\IStatementVisitor.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Oil\Statements\ISwitchCaseBlockStatement.cs" />
     <Compile Include="Oil\Statements\ISwitchStatement.cs" />
+    <Compile Include="Oil\Statements\IterationBlockStatement.cs" />
     <Compile Include="Oil\Statements\ITopBlockStatement.cs" />
     <Compile Include="Oil\Statements\ITryCatchStatement.cs" />
     <Compile Include="Oil\Statements\ITryStatement.cs" />
+    <Compile Include="Oil\Statements\LabelStatement.cs" />
+    <Compile Include="Oil\Statements\LocalDeclarationStatement.cs" />
     <Compile Include="Oil\Statements\ReturnStatement.cs" />
     <Compile Include="Oil\Statements\StatementBase.cs" />
     <Compile Include="Oil\Statements\StatementKind.cs" />
+    <Compile Include="Oil\Statements\SwitchCaseBlockStatement.cs" />
     <Compile Include="Oil\Statements\SwitchStatement.cs" />
     <Compile Include="Oil\_ICustomAttributeDefinitionParameterCollection.cs" />
     <Compile Include="Preprocessors\IIntermediatePreprocessor.cs" />
@@ -731,6 +768,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Translation\IIntermediateCodeTranslator.cs" />
+    <Compile Include="Translation\IIntermediateCodeTranslatorOptions.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\ILinqBodyBuilderParent.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqBodyBuilderBase.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqDirectedOrderByBodyBuilder.cs" />
@@ -745,6 +783,7 @@
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqTypedFromBodyBuilder.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqTypedJoinBodyBuilder.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqWhereBodyBuilder.cs" />
+    <Compile Include="Oil\Expressions\IIntermediatePrimitiveVisitor.cs" />
     <Compile Include="_Internal\Ast\IntermediateCustomAttributesBaseCollection.cs" />
     <Compile Include="_Internal\Ast\IntermediateImplementedInterfaces.cs" />
     <Compile Include="_Internal\Ast\SymbolType+CustomAttributeCollection.cs">
@@ -808,6 +847,12 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>$(SolutionDir)BuildAssistant.bat $(PlatformName) "$(TargetDir)$(TargetFileName)" "$(ProjectName)" uninstall</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>$(SolutionDir)BuildAssistant.bat $(PlatformName) "$(TargetDir)$(TargetFileName)" "$(ProjectName)"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

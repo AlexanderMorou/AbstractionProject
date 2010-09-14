@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -16,6 +17,322 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
+    internal class MethodReferenceStub<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> :
+        MethodReferenceStubBase,
+        IMethodReferenceStub<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>
+        where TSignatureParameter :
+            IMethodSignatureParameterMember<TSignatureParameter, TSignature, TParent>
+        where TIntermediateSignatureParameter :
+            TSignatureParameter,
+            IIntermediateMethodSignatureParameterMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>
+        where TSignature :
+            IMethodSignatureMember<TSignatureParameter, TSignature, TParent>
+        where TIntermediateSignature :
+            TSignature,
+            IIntermediateMethodSignatureMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>
+        where TParent :
+            ISignatureParent<TSignature, TSignatureParameter, TParent>
+        where TIntermediateParent :
+            TParent,
+            IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TParent, TIntermediateParent>
+    {
+        private Func<MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.SignatureTypes> signatureTypesObtainer;
+
+        public TIntermediateSignature Member { get; private set; }
+        /// <summary>
+        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// <paramref name="source"/>, <paramref name="name"/>, 
+        /// <paramref name="genericParameters"/> and 
+        /// <paramref name="referenceType"/> provdied.
+        /// </summary>
+        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
+        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
+        /// <param name="name">A <see cref="System.String"/>
+        /// relative to the name of the method.</param>
+        /// <param name="genericParameters">The <see cref="ITypeCollection"/>
+        /// of generic parameter replacements for the signature.</param>
+        /// <param name="referenceType">The means to refer to
+        /// the method.</param>
+        public MethodReferenceStub(IMemberParentReferenceExpression source, TIntermediateSignature member, ITypeCollectionBase genericParameters, MethodReferenceType referenceType, Func<MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.SignatureTypes> signatureTypesObtainer)
+            : base(source, genericParameters, referenceType)
+        {
+            this.Member = member;
+            this.signatureTypesObtainer = signatureTypesObtainer;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// <paramref name="source"/>, <paramref name="name"/>, and
+        /// <paramref name="genericParameters"/> provdied.
+        /// </summary>
+        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
+        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
+        /// <param name="name">A <see cref="System.String"/>
+        /// relative to the name of the method.</param>
+        /// <param name="genericParameters">The <see cref="ITypeCollection"/>
+        /// of generic parameter replacements for the signature.</param>
+        public MethodReferenceStub(IMemberParentReferenceExpression source, TIntermediateSignature member, ITypeCollectionBase genericParameters, Func<MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.SignatureTypes> signatureTypesObtainer)
+            : base(source, genericParameters)
+        {
+            this.Member = member;
+            this.signatureTypesObtainer = signatureTypesObtainer;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// <paramref name="source"/>, <paramref name="name"/>, and 
+        /// <paramref name="referenceType"/> provdied.
+        /// </summary>
+        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
+        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
+        /// <param name="name">A <see cref="System.String"/>
+        /// relative to the name of the method.</param>
+        /// <param name="referenceType">The means to refer to
+        /// the method.</param>
+        public MethodReferenceStub(IMemberParentReferenceExpression source, TIntermediateSignature member, MethodReferenceType referenceType, Func<MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.SignatureTypes> signatureTypesObtainer)
+            : base(source, referenceType)
+        {
+            this.Member = member;
+            this.signatureTypesObtainer = signatureTypesObtainer;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="MethodReferenceStub"/> with
+        /// the <paramref name="source"/>, and <paramref name="name"/> 
+        /// provided.
+        /// </summary>
+        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
+        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
+        /// <param name="name">A <see cref="System.String"/>
+        /// relative to the name of the method.</param>
+        public MethodReferenceStub(IMemberParentReferenceExpression source, TIntermediateSignature member, Func<MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.SignatureTypes> signatureTypesObtainer)
+            : base(source)
+        {
+            this.Member = member;
+            this.signatureTypesObtainer = signatureTypesObtainer;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// <paramref name="name"/>, <paramref name="genericParameters"/> 
+        /// and <paramref name="referenceType"/> provdied.
+        /// </summary>
+        /// <param name="name">A <see cref="System.String"/>
+        /// relative to the name of the method.</param>
+        /// <param name="genericParameters">The <see cref="ITypeCollection"/>
+        /// of generic parameter replacements for the signature.</param>
+        /// <param name="referenceType">The means to refer to
+        /// the method.</param>
+        public MethodReferenceStub(TIntermediateSignature member, ITypeCollectionBase genericParameters, MethodReferenceType referenceType, Func<MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.SignatureTypes> signatureTypesObtainer)
+            : base(genericParameters, referenceType)
+        {
+            this.Member = member;
+            this.signatureTypesObtainer = signatureTypesObtainer;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// <paramref name="name"/>, and <paramref name="genericParameters"/> 
+        /// provdied.
+        /// </summary>
+        /// <param name="name">A <see cref="System.String"/>
+        /// relative to the name of the method.</param>
+        /// <param name="genericParameters">The <see cref="ITypeCollection"/>
+        /// of generic parameter replacements for the signature.</param>
+        public MethodReferenceStub(TIntermediateSignature member, ITypeCollectionBase genericParameters, Func<MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.SignatureTypes> signatureTypesObtainer)
+            : base(genericParameters)
+        {
+            this.Member = member;
+            this.signatureTypesObtainer = signatureTypesObtainer;
+        }
+        public override string Name
+        {
+            get
+            {
+                return this.Member.Name;
+            }
+            set
+            {
+                this.Member.Name = value;
+            }
+        }
+
+        protected override MethodPointerReferenceExpression GetPointerReference()
+        {
+            return new MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>(this, this.signatureTypesObtainer());
+        }
+
+        protected override MethodPointerReferenceExpression GetPointerReference(ITypeCollection signature)
+        {
+            return new MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>(this, signature);
+        }
+
+
+        #region IMethodReferenceStub<TSignatureParameter,TIntermediateSignatureParameter,TSignature,TIntermediateSignature,TParent,TIntermediateParent> Members
+
+
+        public new IMethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetPointer(ITypeCollection signature)
+        {
+            return (IMethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>)base.GetPointer(signature);
+        }
+
+        public new IMethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetPointer(params IType[] signature)
+        {
+            return (IMethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>)base.GetPointer(signature);
+        }
+
+        #endregion
+    }
+
+    public class MethodReferenceStub :
+        MethodReferenceStubBase
+    {
+        /// <summary>
+        /// Data member for <see cref="Name"/>.
+        /// </summary>
+        private string name;
+
+        /// <summary>
+        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// <paramref name="source"/>, <paramref name="name"/>, 
+        /// <paramref name="genericParameters"/> and 
+        /// <paramref name="referenceType"/> provdied.
+        /// </summary>
+        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
+        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
+        /// <param name="name">A <see cref="System.String"/>
+        /// relative to the name of the method.</param>
+        /// <param name="genericParameters">The <see cref="ITypeCollection"/>
+        /// of generic parameter replacements for the signature.</param>
+        /// <param name="referenceType">The means to refer to
+        /// the method.</param>
+        public MethodReferenceStub(IMemberParentReferenceExpression source, string name, ITypeCollectionBase genericParameters, MethodReferenceType referenceType)
+            : base(source, genericParameters, referenceType)
+        {
+            this.name = name;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// <paramref name="source"/>, <paramref name="name"/>, and
+        /// <paramref name="genericParameters"/> provdied.
+        /// </summary>
+        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
+        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
+        /// <param name="name">A <see cref="System.String"/>
+        /// relative to the name of the method.</param>
+        /// <param name="genericParameters">The <see cref="ITypeCollection"/>
+        /// of generic parameter replacements for the signature.</param>
+        public MethodReferenceStub(IMemberParentReferenceExpression source, string name, ITypeCollectionBase genericParameters)
+            : base(source, genericParameters)
+        {
+            this.name = name;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// <paramref name="source"/>, <paramref name="name"/>, and 
+        /// <paramref name="referenceType"/> provdied.
+        /// </summary>
+        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
+        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
+        /// <param name="name">A <see cref="System.String"/>
+        /// relative to the name of the method.</param>
+        /// <param name="referenceType">The means to refer to
+        /// the method.</param>
+        public MethodReferenceStub(IMemberParentReferenceExpression source, string name, MethodReferenceType referenceType)
+            : base(source, referenceType)
+        {
+            this.name = name;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="MethodReferenceStub"/> with
+        /// the <paramref name="source"/>, and <paramref name="name"/> 
+        /// provided.
+        /// </summary>
+        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
+        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
+        /// <param name="name">A <see cref="System.String"/>
+        /// relative to the name of the method.</param>
+        public MethodReferenceStub(IMemberParentReferenceExpression source, string name)
+            : base(source)
+        {
+            this.name = name;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// <paramref name="name"/>, <paramref name="genericParameters"/> 
+        /// and <paramref name="referenceType"/> provdied.
+        /// </summary>
+        /// <param name="name">A <see cref="System.String"/>
+        /// relative to the name of the method.</param>
+        /// <param name="genericParameters">The <see cref="ITypeCollection"/>
+        /// of generic parameter replacements for the signature.</param>
+        /// <param name="referenceType">The means to refer to
+        /// the method.</param>
+        public MethodReferenceStub(string name, ITypeCollectionBase genericParameters, MethodReferenceType referenceType)
+            : base(genericParameters, referenceType)
+        {
+            this.name = name;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// <paramref name="name"/>, and <paramref name="genericParameters"/> 
+        /// provdied.
+        /// </summary>
+        /// <param name="name">A <see cref="System.String"/>
+        /// relative to the name of the method.</param>
+        /// <param name="genericParameters">The <see cref="ITypeCollection"/>
+        /// of generic parameter replacements for the signature.</param>
+        public MethodReferenceStub(string name, ITypeCollectionBase genericParameters)
+            : base(genericParameters)
+        {
+            this.name = name;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// <paramref name="source"/>, <paramref name="name"/>, and 
+        /// <paramref name="referenceType"/> provdied.
+        /// </summary>
+        /// <param name="name">A <see cref="System.String"/>
+        /// relative to the name of the method.</param>
+        /// <param name="referenceType">The means to refer to
+        /// the method.</param>
+        public MethodReferenceStub(string name, MethodReferenceType referenceType)
+            : base(referenceType)
+        {
+            this.name = name;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="MethodReferenceStub"/> with
+        /// the  <paramref name="name"/> 
+        /// provided.
+        /// </summary>
+        /// <param name="name">A <see cref="System.String"/>
+        /// relative to the name of the method.</param>
+        public MethodReferenceStub(string name)
+        {
+            this.name = name;
+        }
+
+        public override string Name
+        {
+            get
+            {
+                return this.name;
+            }
+            set
+            {
+                this.name = value;
+            }
+        }
+    }
+
     /// <summary>
     /// Provides a base implementation for <see cref="IMethodReferenceStub"/>
     /// </summary>
@@ -23,7 +340,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// <see cref="IMethodPointerReferenceExpression"/>,
     /// used to obtain initial context data
     /// used to make a lookup.</remarks>
-    public class MethodReferenceStub :
+    public abstract class MethodReferenceStubBase :
         IMethodReferenceStub
     {
         /// <summary>
@@ -35,11 +352,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Data member for <see cref="GenericParameters"/>.
         /// </summary>
         private ILockedTypeCollection genericParameters;
-
-        /// <summary>
-        /// Data member for <see cref="Name"/>.
-        /// </summary>
-        private string name;
 
         /// <summary>
         /// Data member for <see cref="Source"/>.
@@ -60,9 +372,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// of generic parameter replacements for the signature.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
-        public MethodReferenceStub(IMemberParentReferenceExpression source, string name, ITypeCollectionBase genericParameters, MethodReferenceType referenceType)
+        public MethodReferenceStubBase(IMemberParentReferenceExpression source, ITypeCollectionBase genericParameters, MethodReferenceType referenceType)
         {
-            this.name = name;
             this.genericParameters = genericParameters is ILockedTypeCollection ? ((ILockedTypeCollection)(genericParameters)) : genericParameters.ToLockedCollection();
             this.referenceType = referenceType;
             this.source = source;
@@ -79,9 +390,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// relative to the name of the method.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
-        public MethodReferenceStub(IMemberParentReferenceExpression source, string name, ITypeCollectionBase genericParameters)
+        public MethodReferenceStubBase(IMemberParentReferenceExpression source, ITypeCollectionBase genericParameters)
         {
-            this.name = name;
             this.genericParameters = genericParameters is ILockedTypeCollection ? ((ILockedTypeCollection)(genericParameters)) : genericParameters.ToLockedCollection();
             this.source = source;
         }
@@ -97,9 +407,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// relative to the name of the method.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
-        public MethodReferenceStub(IMemberParentReferenceExpression source, string name, MethodReferenceType referenceType)
+        public MethodReferenceStubBase(IMemberParentReferenceExpression source, MethodReferenceType referenceType)
         {
-            this.name = name;
             this.referenceType = referenceType;
             this.source = source;
         }
@@ -113,9 +422,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
         /// <param name="name">A <see cref="System.String"/>
         /// relative to the name of the method.</param>
-        public MethodReferenceStub(IMemberParentReferenceExpression source, string name)
+        public MethodReferenceStubBase(IMemberParentReferenceExpression source)
         {
-            this.name = name;
             this.source = source;
         }
 
@@ -130,49 +438,43 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// of generic parameter replacements for the signature.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
-        public MethodReferenceStub(string name, ITypeCollectionBase genericParameters, MethodReferenceType referenceType)
-            : this(null, name, genericParameters, referenceType)
+        public MethodReferenceStubBase(ITypeCollectionBase genericParameters, MethodReferenceType referenceType)
+            : this(null, genericParameters, referenceType)
         {
         }
 
         /// <summary>
         /// Creates a new <see cref="MethodReferenceStub"/> with the 
-        /// <paramref name="name"/>, and <paramref name="genericParameters"/> 
+        /// <paramref name="genericParameters"/> 
         /// provdied.
         /// </summary>
         /// <param name="name">A <see cref="System.String"/>
         /// relative to the name of the method.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
-        public MethodReferenceStub(string name, ITypeCollectionBase genericParameters)
-            : this(null, name, genericParameters)
+        public MethodReferenceStubBase(ITypeCollectionBase genericParameters)
+            : this(null, genericParameters)
         {
         }
 
         /// <summary>
         /// Creates a new <see cref="MethodReferenceStub"/> with the 
-        /// <paramref name="source"/>, <paramref name="name"/>, and 
+        /// <paramref name="source"/>, and 
         /// <paramref name="referenceType"/> provdied.
         /// </summary>
-        /// <param name="name">A <see cref="System.String"/>
-        /// relative to the name of the method.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
-        public MethodReferenceStub(string name, MethodReferenceType referenceType)
-            : this(null, name, referenceType)
+        public MethodReferenceStubBase(MethodReferenceType referenceType)
+            : this((IMemberParentReferenceExpression)null, referenceType)
         {
         }
 
         /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with
-        /// the  <paramref name="name"/> 
-        /// provided.
+        /// Creates a new <see cref="MethodReferenceStub"/> 
+        /// initialized to its default state.
         /// </summary>
-        /// <param name="name">A <see cref="System.String"/>
-        /// relative to the name of the method.</param>
-        public MethodReferenceStub(string name)
+        public MethodReferenceStubBase()
         {
-            this.name = name;
         }
 
         #region IMethodReferenceStub Members
@@ -216,17 +518,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns/sets the name of the method associated
         /// to the <see cref="IMethodReferenceStub"/>.
         /// </summary>
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                this.name = value;
-            }
-        }
+        public abstract string Name { get; set; }
 
         /// <summary>
         /// Obtains a <see cref="IMethodInvokeExpression"/>
@@ -242,9 +534,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// relative to the signature and data of 
         /// the <paramref name="parameters"/> 
         /// provided.</returns>
-        public IMethodInvokeExpression Invoke(IExpressionCollection parameters)
+        public IMethodInvokeExpression Invoke(IExpressionCollection<IExpression> parameters)
         {
-            return new MethodPointerReferenceExpression(this).Invoke(parameters);
+            return GetPointerReference().Invoke(parameters);
+        }
+
+        protected virtual MethodPointerReferenceExpression GetPointerReference()
+        {
+            return new MethodPointerReferenceExpression(this);
+        }
+
+        protected virtual MethodPointerReferenceExpression GetPointerReference(ITypeCollection signature)
+        {
+            return new MethodPointerReferenceExpression(this, signature);
         }
 
         /// <summary>
@@ -277,7 +579,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// provided.</returns>
         public IMethodPointerReferenceExpression GetPointer(ITypeCollection signature)
         {
-            return new MethodPointerReferenceExpression(this, signature);
+            return this.GetPointerReference(signature);
         }
 
         /// <summary>

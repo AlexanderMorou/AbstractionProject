@@ -53,7 +53,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// through <see cref="IIntermediateCodeVisitor.Visit(ICallMethodStatement)"/>.</remarks>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="visitor"/>
         /// is null.</exception>
-        public override void Visit(IIntermediateCodeVisitor visitor)
+        public override void Visit(IStatementVisitor visitor)
         {
             if (visitor == null)
                 throw new ArgumentNullException("visitor");

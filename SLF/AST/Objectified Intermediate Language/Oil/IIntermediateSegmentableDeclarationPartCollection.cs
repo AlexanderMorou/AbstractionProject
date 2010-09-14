@@ -80,7 +80,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// instance as a part of the <see cref="Root"/> 
         /// <see cref="IIntermediateSegmentableDeclaration"/>.</param>
         /// <exception cref="System.ArgumentException">the type of <paramref name="part"/> does not
-        /// familliarSeries the underlying type of the segmentable declaration; -or- the 
+        /// match the underlying type of the segmentable declaration; -or- the 
         /// <paramref name="part"/> provided is its own root or is not a part of the
         /// <see cref="Root"/> instance.</exception>
         void Add(IIntermediateSegmentableDeclaration part);

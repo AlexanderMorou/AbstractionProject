@@ -31,6 +31,13 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             this.locals = sibling.locals;
         }
 
+        public ControlledStateDictionary(IEnumerable<KeyValuePair<TKey, TValue>> entries)
+        {
+            if (entries == null)
+                throw new ArgumentNullException("entries");
+            this.locals._AddRange(entries);
+        }
+
         public KeysCollection Keys
         {
             get
@@ -117,6 +124,17 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         #endregion
 
         #region IControlledStateCollection<KeyValuePair<TKey,TValue>> Members
+
+        public int IndexOf(KeyValuePair<TKey, TValue> element)
+        {
+            int index;
+            if (this.locals.orderings.TryGetValue(element.Key, out index))
+            {
+                if (this.locals.entries[index].Equals(element.Value))
+                    return index;
+            }
+            return -1;
+        }
 
         public virtual int Count
         {
@@ -252,11 +270,19 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         object IControlledStateCollection.this[int index]
         {
-            get {
+            get
+            {
                 if (index < 0 || index >= this.Count)
                     throw new ArgumentOutOfRangeException("index");
                 return this.locals.entries[index];
             }
+        }
+
+        int IControlledStateCollection.IndexOf(object element)
+        {
+            if (element is KeyValuePair<TKey, TValue>)
+                return this.IndexOf((KeyValuePair<TKey, TValue>)element);
+            return -1;
         }
 
         #endregion
@@ -337,5 +363,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 this.locals.valuesInstance = value;
             }
         }
+
     }
 }

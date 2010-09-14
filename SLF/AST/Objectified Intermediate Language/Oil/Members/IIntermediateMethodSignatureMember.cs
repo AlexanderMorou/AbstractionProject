@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -32,6 +33,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TParent,
             IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TParent, TIntermediateParent>
     {
+        new IMethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetReference(IMemberParentReferenceExpression source);
+        new IMethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetReference(IMemberParentReferenceExpression source, IEnumerable<IType> typeParameters);
+        new IMethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetReference(IMemberParentReferenceExpression source, params IType[] typeParameters);
     }
     /// <summary>
     /// Defines generic properties and methods for working with an intermediate
@@ -76,5 +80,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// yields upon return.
         /// </summary>
         new IType ReturnType { get; set; }
+
+        IMethodPointerReferenceExpression GetReference(IMemberParentReferenceExpression source);
+        IMethodPointerReferenceExpression GetReference(IMemberParentReferenceExpression source, IEnumerable<IType> typeParameters);
+        IMethodPointerReferenceExpression GetReference(IMemberParentReferenceExpression source, params IType[] typeParameters);
     }
 }

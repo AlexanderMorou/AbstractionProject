@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -37,6 +38,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TFieldParent,
             IIntermediateFieldParent<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>
     {
+        /// <summary>
+        /// Returns/sets the <see cref="IExpression"/>
+        /// used to initialize the 
+        /// <see cref="IIntermediateFieldMember{TField, TIntermediateField, TFieldParent, TIntermediateFieldParent}"/>.
+        /// </summary>
+        IExpression InitializationExpression { get; set; }
+        /// <summary>
+        /// Obtains a reference expression which refers to the current
+        /// <see cref="IIntermediateFieldMember{TField, TIntermediateField, TFieldParent, TIntermediateFieldParent}"/> with the <paramref name="source"/>
+        /// which leads up to it.
+        /// </summary>
+        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
+        /// which leads up to the field.</param>
+        /// <returns>A <see cref="IFieldReferenceExpression{TField, TIntermediateField, TFieldParent, TIntermediateFieldParent}"/>
+        /// which refers to the current
+        /// <see cref="IIntermediateFieldMember{TField, TIntermediateField, TFieldParent, TIntermediateFieldParent}"/>
+        /// with the <paramref name="source"/> which leads up to it.</returns>
+        new IFieldReferenceExpression<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent> GetReference(IMemberParentReferenceExpression source = null);
     }
 
     /// <summary>
@@ -51,5 +70,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// Returns the type of data stored in the field.
         /// </summary>
         new IType FieldType { get; set; }
+        /// <summary>
+        /// Obtains a reference expression which refers to the current
+        /// <see cref="IIntermediateFieldMember"/> with the <paramref name="source"/>
+        /// which leads up to it.
+        /// </summary>
+        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
+        /// which leads up to the field.</param>
+        /// <returns>A <see cref="IFieldReferenceExpression"/> which refers to the current
+        /// <see cref="IIntermediateFieldMember"/> with the <paramref name="source"/>
+        /// which leads up to it.</returns>
+        IFieldReferenceExpression GetReference(IMemberParentReferenceExpression source = null);
     }
 }

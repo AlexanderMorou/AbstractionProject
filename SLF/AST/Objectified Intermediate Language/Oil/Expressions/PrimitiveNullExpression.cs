@@ -65,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             throw new NotSupportedException();
         }
 
-        public override IIndexerReferenceExpression GetIndexer(string name, IExpressionCollection parameters)
+        public override IIndexerReferenceExpression GetIndexer(string name, params IExpression[] parameters)
         {
             throw new NotSupportedException();
         }
@@ -75,7 +75,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             throw new NotSupportedException();
         }
 
-        public override IIndexerReferenceExpression GetIndexer(IExpressionCollection parameters)
+        public override IIndexerReferenceExpression GetIndexer(params IExpression[] parameters)
         {
             throw new NotSupportedException();
         }
@@ -101,7 +101,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             return "null";
         }
 
-        public override void Visit(IIntermediateCodeVisitor visitor)
+        public override void Visit(IExpressionVisitor visitor)
+        {
+            visitor.VisitNull();
+        }
+
+        public void Visit(IIntermediatePrimitiveVisitor visitor)
         {
             visitor.VisitNull();
         }

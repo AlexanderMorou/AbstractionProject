@@ -115,7 +115,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <remarks>C&#9839; does not allow indexers of any other
         /// name than 'Item', because its language semantics
         /// do not have named indexers.</remarks>
-        public virtual IIndexerReferenceExpression GetIndexer(string name, IExpressionCollection parameters)
+        public virtual IIndexerReferenceExpression GetIndexer(string name, params IExpression[] parameters)
         {
             return new IndexerReferenceExpression(name, parameters, this.ObtainRelativeGetMemberTarget());
         }
@@ -143,7 +143,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// returns an array indexer where all parameter types
         /// must be a number; otherwise it returns
         /// an indexer with the default name 'Item'.</remarks>
-        public virtual IIndexerReferenceExpression GetIndexer(IExpressionCollection parameters)
+        public virtual IIndexerReferenceExpression GetIndexer(params IExpression[] parameters)
         {
             return GetIndexer(null, parameters);
         }
@@ -223,7 +223,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             }
         }
 
-        public abstract void Visit(IIntermediateCodeVisitor visitor);
+        public abstract void Visit(IExpressionVisitor visitor);
 
     }
 }

@@ -13,7 +13,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
     public class MalleableExpressionCollection :
-        ExpressionCollection,
+        MalleableExpressionCollection<IExpression>,
         IMalleableExpressionCollection
     {
         public MalleableExpressionCollection()
@@ -36,6 +36,34 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             : base(expressions)
         {
         }
+    }
+
+    public class MalleableExpressionCollection<T> :
+        ExpressionCollection<T>,
+        IMalleableExpressionCollection<T>
+        where T :
+            IExpression
+    {
+        public MalleableExpressionCollection()
+            : base()
+        {
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="MalleableExpressionCollection{T}"/> with the <paramref name="expressions"/>
+        /// provided.
+        /// </summary>
+        /// <param name="expressions">An array of <typeparamref name="T"/> instances
+        /// which are to be inserted into the <see cref="MalleableExpressionCollection{T}"/>.</param>
+        public MalleableExpressionCollection(params T[] expressions)
+            : base(expressions)
+        {
+        }
+
+        public MalleableExpressionCollection(IEnumerable<T> expressions)
+            : base(expressions)
+        {
+        }
 
         #region IMalleableExpressionCollection Members
 
@@ -45,7 +73,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         /// <param name="expression">The <see cref="IExpression"/> 
         /// to add to the <see cref="IMalleableExpressionCollection"/>.</param>
-        public void Add(IExpression expression)
+        public void Add(T expression)
         {
             this.AddImpl(expression);
         }
@@ -57,7 +85,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         /// <param name="expression">The <see cref="IExpression"/> to insert.</param>
         /// <param name="index">The zero-based <see cref="Int32"/> index to place the <paramref name="expression"/>.</param>
-        public void Insert(IExpression expression, int index)
+        public void Insert(T expression, int index)
         {
             this.InsertItem(index, expression);
         }
@@ -75,7 +103,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                     i++;
         }
 
-        public void Remove(IExpression expression)
+        public void Remove(T expression)
         {
             this.baseCollection.Remove(expression);
         }
@@ -85,28 +113,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             this.baseCollection.Clear();
         }
 
-        public IExpression this[int index]
+        public T this[int index]
         {
             get
             {
-                if (index < 0 || index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
-                int i = 0;
-                foreach (var item in this)
-                    if (i == index)
-                    {
-                        return item;
-                    }
-                    else
-                        i++;
-                return null;
+                return base[index];
             }
             set
             {
                 if (index < 0 || index >= this.Count)
                     throw new ArgumentOutOfRangeException("index");
                 var item = this[index];
-                if (item == value)
+                if (item.Equals(value))
                     return;
                 base.InsertItem(index, value);
                 this.RemoveAt(index + 1);

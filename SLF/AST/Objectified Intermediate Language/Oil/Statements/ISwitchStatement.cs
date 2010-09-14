@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -33,6 +35,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         IStatement
     {
         /// <summary>
+        /// Returns the <see cref="ILocalMemberDictionary"/> associated
+        /// to the <see cref="ISwitchStatement"/> which is shared
+        /// across all <see cref="ISwitchCaseBlockStatement"/>
+        /// instances.
+        /// </summary>
+        ILocalMemberDictionary Locals { get; }
+        /// <summary>
         /// Returns the <see cref="ISwitchCaseBlockStatement"/> which
         /// represents the default target for the switch statement.
         /// </summary>
@@ -42,5 +51,40 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// exit point of the current <see cref="ISwitchStatement"/>.
         /// </summary>
         IBreakExit BreakExit { get; }
+        new IBlockStatementParent Parent { get; }
+        /// <summary>
+        /// The <see cref="IExpression"/> which selects the target
+        /// for the constant jump table.
+        /// </summary>
+        IExpression Selection { get; set; }
+        /// <summary>
+        /// Returns a new <see cref="ISwitchCaseBlockStatement"/>
+        /// which activates when one of the the <paramref name="conditions"/>
+        /// are true.
+        /// </summary>
+        /// <param name="conditions">The <see cref="IExpression"/>
+        /// series which represents the constant series of values relative
+        /// to the current switch case block statement.</param>
+        /// <returns>A new <see cref="ISwitchCaseBlockStatement"/>
+        /// from the <paramref name="conditions"/>
+        /// provided.</returns>
+        ISwitchCaseBlockStatement Case(params IExpression[] conditions);
+        /// <summary>
+        /// Returns a new <see cref="ISwitchCaseBlockStatement"/>
+        /// which activates when one of the the <paramref name="conditions"/>
+        /// are true and designates whether the resulted
+        /// <see cref="ISwitchCaseBlockStatement"/> is the default case.
+        /// </summary>
+        /// <param name="isDefault">Whether the resulted
+        /// <see cref="ISwitchCaseBlockStatement"/> is the default case
+        /// or not.</param>
+        /// <param name="conditions">The <see cref="IExpression"/>
+        /// series which represents the constant series of values relative
+        /// to the current switch case block statement.</param>
+        /// <returns>A new <see cref="ISwitchCaseBlockStatement"/>
+        /// from the <paramref name="conditions"/>
+        /// provided.</returns>
+        ISwitchCaseBlockStatement Case(bool isDefault, params IExpression[] conditions);
+        
     }
 }

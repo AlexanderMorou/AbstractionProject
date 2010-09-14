@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -37,15 +38,47 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         InferredIndexer,
     }
+    public interface IIndexerReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> :
+        ITypedMemberReferenceExpression,
+        IIndexerReferenceExpression
+        where TIndexer :
+            IIndexerMember<TIndexer, TIndexerParent>
+        where TIntermediateIndexer :
+            TIndexer,
+            IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+        where TIndexerParent :
+            IIndexerParent<TIndexer, TIndexerParent>
+        where TIntermediateIndexerParent :
+            TIndexerParent,
+            IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+    {
+        new TIntermediateIndexer Member { get; }
+    }
+
+    public interface IIndexerSignatureReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> :
+        ITypedMemberReferenceExpression,
+        IIndexerReferenceExpression
+        where TIndexer :
+            IIndexerSignatureMember<TIndexer, TIndexerParent>
+        where TIntermediateIndexer :
+            TIndexer,
+            IIntermediateIndexerSignatureMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+        where TIndexerParent :
+            IIndexerSignatureParent<TIndexer, TIndexerParent>
+        where TIntermediateIndexerParent :
+            TIndexerParent,
+            IIntermediateIndexerSignatureParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+    {
+        new TIntermediateIndexer Member { get; }
+    }
+
     /// <summary>
     /// Defines properties and methods 
     /// for working with an indexer 
     /// reference.
     /// </summary>
     public interface IIndexerReferenceExpression :
-        IMemberParentReferenceExpression,
-        IMemberReferenceExpression,
-        /*ILinkableExpression,*/
+        IPropertyReferenceExpression,
         IAssignTargetExpression
     {
         /// <summary>
@@ -54,23 +87,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         IndexerReferenceType IndexerType { get; set; }
         /// <summary>
-        /// Returns/sets the type of reference to the 
-        /// <see cref="IIndexerReferenceExpression"/>,
-        /// get/set methods, is.
-        /// </summary>
-        /// <remarks>Always <see cref="MethodReferenceType.StandardMethodReference"/>
-        /// when <see cref="IndexerType"/> is 
-        /// <see cref="IndexerReferenceType.ArrayIndexer"/>.</remarks>
-        MethodReferenceType ReferenceType { get; set; }
-        /// <summary>
         /// The <see cref="IExpressionCollection"/> used
         /// to refer to the indexer.
         /// </summary>
         IMalleableExpressionCollection Parameters { get; }
-        /// <summary>
-        /// Returns the <see cref="IMemberParentReferenceExpression"/>
-        /// that sourced the <see cref="IIndexerReferenceExpression"/>.
-        /// </summary>
-        IMemberParentReferenceExpression Source { get; }
     }
 }

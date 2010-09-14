@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
 
         #endregion
 
-        public override void Visit(IIntermediateCodeVisitor visitor)
+        public override void Visit(ILinqVisitor visitor)
         {
             visitor.Visit(this);
         }

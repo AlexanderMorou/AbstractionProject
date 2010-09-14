@@ -68,6 +68,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
+        #region IIntermediateMember
+        IIntermediateMemberParent IIntermediateMember.Parent
+        {
+            get
+            {
+                return this.Parent;
+            }
+        }
+        #endregion
+
         /// <summary>
         /// Returns/sets the parent locally.
         /// </summary>

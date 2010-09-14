@@ -18,6 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// </summary>
     public interface ILocalReferenceExpression :
         IMemberParentReferenceExpression,
+        IUnaryOperationPrimaryTerm,
         IMemberReferenceExpression,
         IAssignTargetExpression
     {

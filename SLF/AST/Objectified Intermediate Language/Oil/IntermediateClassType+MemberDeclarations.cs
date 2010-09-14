@@ -482,7 +482,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                              * *
                              * If the signature matches, it's a valid override;
                              * however, if the constraints upon the type-parameter
-                             * don't familliarSeries, then that's the compiler's domain to
+                             * don't match, then that's the compiler's domain to
                              * notify.
                              * */
                             for (int i = 0; i < this.Parameters.Count; i++)
@@ -541,7 +541,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                             if (match)
                                 return methodMember;
                         }
-                throw new InvalidOperationException("familliarSeries not found");
+                throw new InvalidOperationException("match not found");
             }
         }
 

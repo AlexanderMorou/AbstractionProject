@@ -25,8 +25,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// in the intermediate abstract syntax tree.</typeparam>
     public interface IIntermediateMethodParameterMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent> :
         IIntermediateMethodSignatureParameterMember<IMethodParameterMember<TMethod, TMethodParent>, IIntermediateMethodParameterMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>, TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>,
-        IMethodParameterMember<TMethod, TMethodParent>,
-        IIntermediateMethodParameterMember
+        IIntermediateMethodParameterMember,
+        IMethodParameterMember<TMethod, TMethodParent>
         where TMethod :
             IMethodMember<TMethod, TMethodParent>
         where TIntermediateMethod :
@@ -44,6 +44,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// method parameter member.
     /// </summary>
     public interface IIntermediateMethodParameterMember :
+        IIntermediateSignatureParameterMember,
         IMethodParameterMember
     {
     }

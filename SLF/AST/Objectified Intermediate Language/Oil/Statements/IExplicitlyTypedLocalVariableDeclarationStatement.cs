@@ -16,12 +16,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
     /// declaration statement.
     /// </summary>
     public interface IExplicitlyTypedLocalVariableDeclarationStatement :
-        ILocalVariableDeclarationStatement
+        ILocalDeclarationStatement
     {
         /// <summary>
         /// Returns/sets the <see cref="IType"/> representing the 
         /// kind of values that are defined by the 
-        /// <see cref="ILocalVariableDeclarationStatement"/>.
+        /// <see cref="ILocalDeclarationStatement"/>.
         /// </summary>
         IType LocalType { get; set; }
     }

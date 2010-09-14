@@ -60,6 +60,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return false;
             }
 
+            public int IndexOf(ICustomAttributeInstance element)
+            {
+                int index = 0;
+                foreach (var _item in Parent.CustomAttributes.Flatten())
+                    if (_item == element)
+                        return index;
+                    else
+                        index++;
+                return -1;
+            }
+
             public void CopyTo(ICustomAttributeInstance[] array, int arrayIndex)
             {
                 this.ToArray().CopyTo(array, arrayIndex);
@@ -131,6 +142,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
 
             #endregion
+
         }
     }
 }

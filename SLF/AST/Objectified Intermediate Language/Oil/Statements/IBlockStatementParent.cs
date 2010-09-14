@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Oil.Members;
 
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
@@ -23,8 +24,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
     public interface IBlockStatementParent :
         IControlledStateCollection<IStatement>,
         IStatementParent,
-        IIntermediateTypeParent
+        IIntermediateTypeParent,
+        IIntermediateMemberParent
     {
+        
         /// <summary>
         /// Inserts and returns a new <see cref="IReturnStatement"/>
         /// with no value as its result.
@@ -286,6 +289,61 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         ICallMethodStatement Call(MethodReferenceType callType, string methodName, ITypeCollection typeParameters, IExpressionCollection parameters);
         #endregion
 
+        /// <summary>
+        /// Returns the <see cref="ILocalMemberDictionary"/> associated to the current
+        /// <see cref="IBlockStatementParent"/>.
+        /// </summary>
+        ILocalMemberDictionary Locals { get; }
+        /// <summary>
+        /// Returns the <see cref="IBlockStatementLabelDictionary"/> of the labels associated to the current
+        /// <see cref="IBlockStatementParent"/>.
+        /// </summary>
+        IBlockStatementLabelDictionary Labels { get; }
+        /// <summary>
+        /// Returns the <see cref="IBlockStatementLabelDictionary"/> which
+        /// is a unioned dictionary of those contained within the current
+        /// <see cref="IBlockStatementParent"/> and those above.
+        /// </summary>
+        IBlockStatementLabelDictionary ScopeLabels { get; }
+
+        IIterationBlockStatement Iterate(IEnumerable<IStatementExpression> initializers, IExpression condition, IEnumerable<IStatementExpression> iterations);
+        IIterationDeclarationBlockStatement Iterate(ILocalDeclarationStatement localDeclaration, IExpression condition, IEnumerable<IStatementExpression> iterations);
+        ISimpleIterationBlockStatement Iterate(ILocalDeclarationStatement target, IExpression start, IExpression end, bool endExclusive = true, IExpression incremental = null);
+
+        /// <summary>
+        /// Creates an inserts a <see cref="ILocalDeclarationStatement"/> with the
+        /// <paramref name="local"/> provided.
+        /// </summary>
+        /// <param name="local">The <see cref="ILocalMember"/> to declare.</param>
+        /// <returns>A new <see cref="ILocalDeclarationStatement"/>
+        /// which aims to declare the <paramref name="local"/> provided.</returns>
+        ILocalDeclarationStatement DefineLocal(ILocalMember local);
+        /// <summary>
+        /// Defines a <see cref="ILabelStatement"/> with the 
+        /// <paramref name="name"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/>
+        /// value associated to the label to create.</param>
+        /// <returns>A new <see cref="ILabelStatement"/> relative to the 
+        /// <paramref name="name"/> provided.</returns>
+        ILabelStatement DefineLabel(string name);
+        /// <summary>
+        /// Defines the provided <paramref name="label"/>.
+        /// </summary>
+        /// <param name="label">The <see cref="ILabelStatement"/>
+        /// to declare</param>
+        void DefineLabel(ILabelStatement label);
+
+        IExpressionStatement Assign(IMemberReferenceExpression target, AssignmentOperation operation, IExpression value);
+        IExpressionStatement Assign(IMemberReferenceExpression target, IExpression value);
+
+        IExpressionStatement Increment(IAssignTargetExpression target);
+        IExpressionStatement Increment(IAssignTargetExpression target, IExpression incrementBy);
+        IExpressionStatement Decrement(IAssignTargetExpression target);
+        IExpressionStatement Decrement(IAssignTargetExpression target, IExpression decrementBy);
+
+        IJumpStatement Jump(IJumpTarget target);
+        IGoToStatement GoTo(ILabelStatement target);
 
     }
 }

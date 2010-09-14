@@ -59,5 +59,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             else
                 return string.Format("new {0}({1}) {{ {2} }}", this.Reference.Reference.InstanceType.BuildTypeName(true, typeParameterDisplayMode: TypeParameterDisplayMode.DebuggerStandard), string.Join(", ", this.Parameters), string.Join(", ", this.PropertyAssignments.Values));
         }
+
     }
 }

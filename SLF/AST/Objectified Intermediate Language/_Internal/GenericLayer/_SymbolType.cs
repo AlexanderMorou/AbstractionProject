@@ -47,7 +47,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         #region IExpression Members
 
 
-        public void Visit(IIntermediateCodeVisitor visitor)
+        public void Visit(IExpressionVisitor visitor)
         {
             //ToDo: Fix.
             throw new NotSupportedException();

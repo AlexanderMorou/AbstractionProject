@@ -11,7 +11,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
     /// </summary>
     public interface IConditionContinuationStatement :
         IStatement,
-        IBlockStatementParent
+        IBlockStatement
     {
     }
 }

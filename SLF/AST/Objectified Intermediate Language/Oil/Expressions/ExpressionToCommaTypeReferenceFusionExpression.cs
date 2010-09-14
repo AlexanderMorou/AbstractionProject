@@ -71,7 +71,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             return string.Format("{0}<{1}>", this.Left, Right.ToString());
         }
 
-        public override void Visit(IIntermediateCodeVisitor visitor)
+        public override void Visit(IExpressionVisitor visitor)
         {
             visitor.Visit(this);
         }
