@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// targets that can be assigned to.
     /// </summary>
     public interface IAssignTargetExpression :
-        IExpression
+        INaryOperandExpression
     {
     }
 }

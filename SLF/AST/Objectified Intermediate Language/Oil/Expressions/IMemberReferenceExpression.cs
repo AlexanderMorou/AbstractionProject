@@ -18,7 +18,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// expression that refers to a <see cref="IMember"/>.
     /// </summary>
     public interface IMemberReferenceExpression :
-        IExpression
+        INaryOperandExpression,
+        IUnaryOperationPrimaryTerm
     {
         /*
         /// <summary>

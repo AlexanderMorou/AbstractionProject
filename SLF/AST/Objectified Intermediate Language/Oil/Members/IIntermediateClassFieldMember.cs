@@ -18,6 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// </summary>
     public interface IIntermediateClassFieldMember :
         IIntermediateFieldMember<IClassFieldMember, IIntermediateClassFieldMember, IClassType, IIntermediateClassType>,
+        IIntermediateInstanceMember,
         IIntermediateScopedDeclaration,
         IClassFieldMember
     {

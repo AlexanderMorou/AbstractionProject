@@ -67,7 +67,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IInstanceMember
         where TIntermediateField :
             TField,
-            IIntermediateFieldMember<TField, TIntermediateField, TType, TIntermediateType>
+            IIntermediateFieldMember<TField, TIntermediateField, TType, TIntermediateType>,
+            IIntermediateInstanceMember
         where TIndexer :
             IIndexerMember<TIndexer, TType>
         where TIntermediateIndexer :
@@ -690,6 +691,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <returns>A new <see cref="EventMember"/>.</returns>
         protected abstract EventMember GetNewEvent(string name, TypedNameSeries eventSignature);
 
+        /// <summary>
+        /// Obtains a new <see cref="FieldMember"/> with the 
+        /// <see cref="nameAndType"/> of the member to create.
+        /// </summary>
+        /// <param name="nameAndType">The <see cref="TypedName"/>
+        /// which provides the <see cref="String"/>
+        /// name and the <see cref="IType"/> field type.</param>
+        /// <returns>A new <see cref="FieldMember"/> instance.</returns>
+        protected abstract FieldMember GetNewField(TypedName nameAndType);
         #region Member Check Methods
         private static void SuspendCheck<TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember>(IntermediateGroupedMemberDictionary<TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember> target, int suspendLevel)
             where TMemberParent :
@@ -821,7 +831,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         protected virtual IntermediateFieldMemberDictionary<TField, TIntermediateField, TType, TIntermediateType> InitializeFields()
         {
-            throw new NotImplementedException();
+            if (this.IsRoot)
+                return new FieldDictionary(this._Members, (TInstanceIntermediateType)this);
+            else
+                return new FieldDictionary(this._Members, (TInstanceIntermediateType)this, (FieldDictionary)this.GetRoot().Fields);
         }
 
         protected virtual IntermediateIndexerMemberDictionary<TIndexer, TIntermediateIndexer, TType, TIntermediateType> InitializeIndexers()

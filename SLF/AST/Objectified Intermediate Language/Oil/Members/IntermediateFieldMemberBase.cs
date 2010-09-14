@@ -75,6 +75,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// with the <paramref name="source"/> which leads up to it.</returns>
         public IFieldReferenceExpression<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent> GetReference(IMemberParentReferenceExpression source = null)
         {
+            if (source == null && this is IIntermediateInstanceMember)
+                    source = new AutoContextMemberSource((IIntermediateInstanceMember)this);
             return new FieldReferenceExpression<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>((TIntermediateField)(object)(this), source);
         }
 

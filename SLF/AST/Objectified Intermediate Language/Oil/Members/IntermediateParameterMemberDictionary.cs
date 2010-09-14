@@ -87,10 +87,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public new TIntermediateParameter Add(TypedName parameterInfo)
         {
-            if (parameterInfo.Source == TypedNameSource.SymbolReference)
-                return this.Add(parameterInfo.Name, parameterInfo.Reference, parameterInfo.Direction);
-            else
-                return this.Add(parameterInfo.Name, parameterInfo.SymbolReference.GetSymbolType(), parameterInfo.Direction);
+            if (this.Parent is IIntermediateType)
+                return this.Add(parameterInfo.Name, parameterInfo.AscertainType((IIntermediateType)this.Parent), parameterInfo.Direction);
+            else if (this.Parent is IIntermediateMember)
+                return this.Add(parameterInfo.Name, parameterInfo.AscertainType((IIntermediateMember)this.Parent), parameterInfo.Direction);
+            return this.Add(parameterInfo.Name, parameterInfo.GetTypeRef(), parameterInfo.Direction);
         }
 
         public new TIntermediateParameter[] AddRange(params TypedName[] parameterInfo)

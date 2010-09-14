@@ -218,6 +218,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
     }
 
+    public class IntermediateClassFieldMember<TInstanceIntermediateType> :
+        IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<TInstanceIntermediateType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IClassType, IIntermediateClassType, TInstanceIntermediateType>.FieldMember,
+        IIntermediateClassFieldMember
+        where TInstanceIntermediateType :
+            IntermediateClassType<TInstanceIntermediateType>
+    {
+        public IntermediateClassFieldMember(string name, TInstanceIntermediateType parent)
+            : base(name, parent)
+        {
+        }
+    }
+
     /// <summary>
     /// Provides a base class for methods of a class type.
     /// </summary>

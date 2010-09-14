@@ -124,7 +124,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="PropertyReferenceExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionType.PropertyReference"/>.</remarks>
+        /// <remarks>Returns <see cref="ExpressionKinds.PropertyReference"/>.</remarks>
         public override ExpressionKind Type 
         {
             get { return ExpressionKinds.PropertyReference; }
@@ -134,6 +134,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             visitor.Visit(this);
         }
+
     }
 
     /// <summary>
@@ -244,7 +245,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="PropertyReferenceExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionType.PropertyReference"/>.</remarks>
+        /// <remarks>Returns <see cref="ExpressionKinds.PropertyReference"/>.</remarks>
         public override ExpressionKind Type
         {
             get { return ExpressionKinds.PropertyReference; }

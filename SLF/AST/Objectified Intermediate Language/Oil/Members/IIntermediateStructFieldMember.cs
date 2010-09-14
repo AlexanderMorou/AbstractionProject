@@ -18,6 +18,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// </summary>
     public interface IIntermediateStructFieldMember :
         IIntermediateFieldMember<IStructFieldMember, IIntermediateStructFieldMember, IStructType, IIntermediateStructType>,
+        IIntermediateInstanceMember,
+        IIntermediateScopedDeclaration,
         IStructFieldMember
     {
     }

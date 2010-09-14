@@ -12,23 +12,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         ILinqVisitor,
         IIntermediatePrimitiveVisitor
     {
+        void Visit<TLeft, TRight>(IBinaryOperationExpression<TLeft, TRight> expression)
+            where TLeft :
+                INaryOperandExpression
+            where TRight :
+                INaryOperandExpression;
         void Visit(IIndexerReferenceExpression expression);
         /// <summary>
         /// Visits a conditional expression.
         /// </summary>
         /// <param name="expression">The <see cref="IConditionalExpression"/> to visit.</param>
         void Visit(IConditionalExpression expression);
-        /// <summary>
-        /// Visits a binary operation expression.
-        /// </summary>
-        /// <typeparam name="TLeft">The type of the left operand of the expression.</typeparam>
-        /// <typeparam name="TRight">The type of the right operand of the expression.</typeparam>
-        /// <param name="expression">The <see cref="IBinaryOperationExpression{TLeft, TRight}"/> to visit.</param>
-        void Visit<TLeft, TRight>(IBinaryOperationExpression<TLeft, TRight> expression)
-            where TLeft :
-                INaryOperandExpression
-            where TRight :
-                INaryOperandExpression;
         /// <summary>
         /// Visits a unary operation expression.
         /// </summary>
@@ -132,5 +126,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         void Visit(IConstructorInvokeExpression expression);
         void Visit(IConstructorPointerReferenceExpression constructorPointerReferenceExpression);
         void Visit(ILinqExpression expression);
+        void Visit(IAssignmentExpression expression);
     }
 }

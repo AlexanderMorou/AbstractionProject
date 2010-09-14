@@ -415,5 +415,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return this.implementedInterfaces;
             }
         }
+
+        protected override FieldMember GetNewField(TypedName nameAndType)
+        {
+            var member = new IntermediateClassFieldMember<TInstanceIntermediateType>(nameAndType.Name, (TInstanceIntermediateType)this);
+            member.FieldType = nameAndType.AscertainType(member);
+            return member;
+        }
     }
 }

@@ -193,8 +193,39 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         public override void Visit(IExpressionVisitor visitor)
         {
-            visitor.Visit(this);
+            visitor.Visit<ICSharpConditionalExpression, ICSharpAssignExpression>(this);
         }
 
+        #region IStatementExpression Members
+
+        public bool ValidAsStatement
+        {
+            get
+            {
+                switch (this.operation)
+                {
+                    case AssignmentOperation.SimpleAssign:
+                    case AssignmentOperation.MultiplicationAssign:
+                    case AssignmentOperation.DivisionAssign:
+                    case AssignmentOperation.ModulusAssign:
+                    case AssignmentOperation.AddAssign:
+                    case AssignmentOperation.SubtractionAssign:
+                    case AssignmentOperation.LeftShiftAssign:
+                    case AssignmentOperation.RightShiftAssign:
+                    case AssignmentOperation.BitwiseAndAssign:
+                    case AssignmentOperation.BitwiseOrAssign:
+                    case AssignmentOperation.BitwiseExclusiveOrAssign:
+                        return true;
+                    case AssignmentOperation.Term:
+                        if (this.LeftSide is IStatementExpression)
+                            return ((IStatementExpression)this.LeftSide).ValidAsStatement;
+                        return false;
+                    default:
+                        return false;
+                }
+            }
+        }
+
+        #endregion
     }
 }

@@ -81,11 +81,5 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         BinaryOperationAssociativity Associativity { get; }
 
-        /// <summary>
-        /// Returns whether the
-        /// <see cref="IBinaryOperationExpression{TLeft, TRight}"/> 
-        /// is a binary operator overload.
-        /// </summary>
-        bool IsBinaryOpOverride { get; }
     }
 }
