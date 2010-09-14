@@ -21,7 +21,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// to a parent of members.
     /// </summary>
     public interface IMemberParentReferenceExpression :
-        IExpression/* :
+        INaryOperandExpression,
+        IUnaryOperationPrimaryTerm/* :
         ILinkableExpression*/
     {
         /// <summary>

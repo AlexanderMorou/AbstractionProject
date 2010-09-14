@@ -92,14 +92,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #endregion
 
-        #region IBinaryOperationExpression<TLeft,TRight> Members
-
-        public bool IsBinaryOpOverride
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        #endregion
 
         protected override MemberParentReferenceExpressionBase ObtainRelativeGetMemberTarget()
         {

@@ -35,6 +35,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             if (entries == null)
                 throw new ArgumentNullException("entries");
+            this.locals = new SharedLocals(InitializeKeysCollection, InitializeValuesCollection);
             this.locals._AddRange(entries);
         }
 

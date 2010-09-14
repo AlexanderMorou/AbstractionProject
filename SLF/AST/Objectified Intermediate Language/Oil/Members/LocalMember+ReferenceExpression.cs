@@ -45,6 +45,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
 
             #endregion
+
+            public override string ToString()
+            {
+                return this.Name;
+            }
         }
     }
 }

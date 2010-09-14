@@ -53,6 +53,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             : base(master, parent)
         {
         }
+        public IntermediateFieldMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateFieldParent parent, IntermediateFieldMemberDictionary<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent> sibling)
+            : base(master, parent, sibling)
+        {
+        }
 
         #region IFieldMemberDictionary Members
 
@@ -76,21 +80,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public TIntermediateField Add(TypedName nameAndType)
         {
-            return this.Add(AccessLevelModifiers.Private, nameAndType, null);
+            return this.Add(nameAndType, null);
         }
 
         public TIntermediateField Add(TypedName nameAndType, IExpression initializationExpression)
         {
-            return this.Add(AccessLevelModifiers.Private, nameAndType, initializationExpression);
+            var result = this.GetField(nameAndType);
+            result.InitializationExpression = initializationExpression;
+            base.AddDeclaration(result);
+            return result;
         }
 
-        public TIntermediateField Add(AccessLevelModifiers modifiers, TypedName nameAndType)
-        {
-            return this.Add(modifiers, nameAndType, null);
-        }
-
-        public abstract TIntermediateField Add(AccessLevelModifiers modifiers, TypedName nameAndType, IExpression initializationExpression);
-
+        protected abstract TIntermediateField GetField(TypedName nameAndType);
         #endregion
 
         #region IIntermediateFieldMemberDictionary Members
@@ -103,16 +104,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IIntermediateFieldMember IIntermediateFieldMemberDictionary.Add(TypedName nameAndType, IExpression initializationExpression)
         {
             return this.Add(nameAndType, initializationExpression);
-        }
-
-        IIntermediateFieldMember IIntermediateFieldMemberDictionary.Add(AccessLevelModifiers modifiers, TypedName nameAndType)
-        {
-            return this.Add(modifiers, nameAndType);
-        }
-
-        IIntermediateFieldMember IIntermediateFieldMemberDictionary.Add(AccessLevelModifiers modifiers, TypedName nameAndType, IExpression initializationExpression)
-        {
-            return this.Add(modifiers, nameAndType, initializationExpression);
         }
 
         #endregion

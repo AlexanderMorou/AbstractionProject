@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Globalization;
+using System.IO;
 
 namespace AllenCopeland.Abstraction.Utilities.Common
 {
@@ -57,6 +58,14 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             }
         }
 
+        public static string Repeat(this string s, int length)
+        {
+            char[] result = new char[s.Length * length];
+            for (int j = 0, k = 0; j < length; j++)
+                for (int i = 0; i < s.Length; i++)
+                    result[k++] = s[i];
+            return new string(result);
+        }
         /// <summary>
         /// Formats a <paramref name="number"/> in hexadecimal format with the 
         /// <paramref name="minPlaces"/> specified.
@@ -92,6 +101,39 @@ namespace AllenCopeland.Abstraction.Utilities.Common
                 b[i2 + 1] = (byte)(cur & lb);
             }
             return b;
+        }
+        public static string GetRelativeRoot(this IEnumerable<string> files)
+        {
+            var parts = (from f in files
+                         let ePath = Path.GetDirectoryName(f)
+                         orderby ePath.Length descending
+                         select ePath).First().Split(new string[] { @"\" }, StringSplitOptions.RemoveEmptyEntries);
+
+            string relativeRoot = null;
+            for (int i = 0; i < parts.Length; i++)
+            {
+                string currentRoot = string.Join(@"\", parts, 0, parts.Length - i);
+                if (files.All(p => p.Contains(currentRoot)))
+                {
+                    relativeRoot = currentRoot;
+                    break;
+                }
+            }
+            return relativeRoot;
+        }
+        public static string GetExtensionFromRelativeRoot(string path, string relativeRoot, string uptrail = @".\")
+        {
+            string rPath = null;
+            if (relativeRoot != null)
+            {
+                if (path == relativeRoot)
+                    rPath = uptrail;
+                else
+                    rPath = uptrail + path.Substring(relativeRoot.Length + 1);
+            }
+            else
+                rPath = path;
+            return rPath;
         }
 
     }

@@ -105,12 +105,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// Defines properties and methods for working with an assignment operation expression.
     /// </summary>
     public interface IAssignmentExpression :
-        IBinaryOperationExpression
+        IBinaryOperationExpression,
+        IStatementExpression
     {
         /// <summary>
         /// Returns/sets the kind of assignment associated to the 
         /// <see cref="IAssignmentExpression"/>.
         /// </summary>
-        AssignmentOperation Operation { get; }
+        AssignmentOperation Operation { get; set; }
     }
 }

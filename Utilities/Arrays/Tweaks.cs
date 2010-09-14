@@ -308,6 +308,15 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             }
             yield break;
         }
+        public static T[] GetArray<T>(this T element, params T[] followers)
+        {
+            if (followers == null)
+                throw new ArgumentNullException("followers");
+            T[] result = new T[followers.Length + 1];
+            result[0] = element;
+            followers.CopyTo(result, 1);
+            return result;
+        }
 
     }
 }

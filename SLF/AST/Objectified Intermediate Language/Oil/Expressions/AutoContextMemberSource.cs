@@ -79,5 +79,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            if (member.IsStatic)
+            {
+                var refType = this.ReferenceType;
+                if (refType == null)
+                    return string.Empty;
+                return refType.BuildTypeName(true, false, TypeParameterDisplayMode.DebuggerStandard);
+            }
+            else
+                return "this";
+        }
     }
 }

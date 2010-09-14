@@ -36,7 +36,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IInstanceMember
         where TIntermediateField :
             TField,
-            IIntermediateFieldMember<TField, TIntermediateField, TType, TIntermediateType>
+            IIntermediateFieldMember<TField, TIntermediateField, TType, TIntermediateType>,
+            IIntermediateInstanceMember
         where TIndexer :
             IIndexerMember<TIndexer, TType>
         where TIntermediateIndexer :

@@ -38,7 +38,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IInstanceMember
         where TIntermediateField :
             TField,
-            IIntermediateFieldMember<TField, TIntermediateField, TType, TIntermediateType>
+            IIntermediateFieldMember<TField, TIntermediateField, TType, TIntermediateType>,
+            IIntermediateInstanceMember
         where TIndexer :
             IIndexerMember<TIndexer, TType>
         where TIntermediateIndexer :
@@ -547,6 +548,97 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 : base(name, parent)
             {
             }
+        }
+
+        public abstract class FieldMember :
+            IntermediateFieldMemberBase<TField, TIntermediateField, TType, TIntermediateType>,
+            IIntermediateFieldMember<TField, TIntermediateField, TType, TIntermediateType>,
+            IIntermediateInstanceMember,
+            IIntermediateScopedDeclaration
+        {
+            private InstanceMemberFlags instanceFlags;
+
+            protected FieldMember(string name, TInstanceIntermediateType parent)
+                : base(name, parent)
+            {
+
+            }
+
+            #region IIntermediateInstanceMember Members
+
+            /// <summary>
+            /// Returns/sets whether the <see cref="IntermediateClassMethodMember{TInstanceIntermediateType}"/>
+            /// hides the original definition completely.
+            /// </summary>
+            public bool IsHideBySignature
+            {
+                get
+                {
+                    return ((this.instanceFlags & InstanceMemberFlags.HideBySignature) == InstanceMemberFlags.HideBySignature);
+                }
+                set
+                {
+                    if (this.IsHideBySignature == value)
+                        return;
+                    if (value)
+                        this.instanceFlags |= InstanceMemberFlags.HideBySignature;
+                    else
+                        this.instanceFlags &= ~InstanceMemberFlags.HideBySignature;
+                }
+            }
+
+            /// <summary>
+            /// Returns/sets whether the <see cref="IntermediateClassMethodMember{TInstanceIntermediateType}"/> is
+            /// static.
+            /// </summary>
+            public bool IsStatic
+            {
+                get
+                {
+                    if (Parent is IIntermediateClassType)
+                    {
+                        var intermediateParent = Parent as IIntermediateClassType;
+                        if (intermediateParent.SpecialModifier != SpecialClassModifier.None)
+                            return true;
+                    }
+                    return IsExplicitStatic;
+                }
+                set
+                {
+                    if (value)
+                    {
+                        this.instanceFlags |= InstanceMemberFlags.Static;
+                    }
+                    else
+                        this.instanceFlags &= ~InstanceMemberFlags.Static;
+                }
+            }
+
+            public bool IsExplicitStatic
+            {
+                get
+                {
+                    return ((this.instanceFlags & InstanceMemberFlags.Static) == InstanceMemberFlags.Static);
+                }
+            }
+
+            #endregion
+
+            #region IInstanceMember Members
+
+            public InstanceMemberFlags InstanceFlags
+            {
+                get { return this.instanceFlags; }
+            }
+
+            #endregion
+
+
+            #region IIntermediateScopedDeclaration Members
+
+            public AccessLevelModifiers AccessLevel { get; set; }
+
+            #endregion
         }
     }
 }

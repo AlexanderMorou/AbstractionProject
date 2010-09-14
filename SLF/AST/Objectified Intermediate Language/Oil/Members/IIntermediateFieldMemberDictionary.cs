@@ -61,39 +61,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <returns>A new <typeparamref name="TIntermediateField"/>
         /// which represents the field added.</returns>
         TIntermediateField Add(TypedName nameAndType, IExpression initializationExpression);
-
-        /// <summary>
-        /// Adds a new <typeparamref name="TIntermediateField"/> with the
-        /// <paramref name="modifiers"/> and 
-        /// <paramref name="nameAndType"/> provided.
-        /// </summary>
-        /// <param name="modifiers">The <see cref="AccessLevelModifiers"/>
-        /// which specify the scope of the <typeparamref name="TIntermediateField"/>
-        /// to add.</param>
-        /// <param name="nameAndType">The <see cref="TypedName"/>
-        /// which specifies the type of the field and its name.</param>
-        /// <returns>A new <typeparamref name="TIntermediateField"/>
-        /// which represents the field added.</returns>
-        TIntermediateField Add(AccessLevelModifiers modifiers, TypedName nameAndType);
-
-        /// <summary>
-        /// Adds a new <typeparamref name="TIntermediateField"/> with the
-        /// <paramref name="modifiers"/>, <paramref name="nameAndType"/>
-        /// and <paramref name="initializationExpression"/> provided.
-        /// </summary>
-        /// <param name="modifiers">The <see cref="AccessLevelModifiers"/>
-        /// which specify the scope of the <typeparamref name="TIntermediateField"/>
-        /// to add.</param>
-        /// <param name="nameAndType">The <see cref="TypedName"/>
-        /// which specifies the type of the field and its name.</param>
-        /// <param name="initializationExpression">The <see cref="IExpression"/>
-        /// to which the <typeparamref name="TIntermediateField"/> 
-        /// is initialized to.</param>
-        /// <returns>A new <typeparamref name="TIntermediateField"/>
-        /// which represents the field added.</returns>
-        TIntermediateField Add(AccessLevelModifiers modifiers, TypedName nameAndType, IExpression initializationExpression);
-
-
     }
     /// <summary>
     /// Defines properties and methods for working with a dictionary of field
@@ -126,37 +93,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <returns>A new <see cref="IIntermediateFieldMember"/>
         /// which represents the field added.</returns>
         IIntermediateFieldMember Add(TypedName nameAndType, IExpression initializationExpression);
-
-        /// <summary>
-        /// Adds a new <see cref="IIntermediateFieldMember"/> with the
-        /// <paramref name="modifiers"/> and 
-        /// <paramref name="nameAndType"/> provided.
-        /// </summary>
-        /// <param name="modifiers">The <see cref="AccessLevelModifiers"/>
-        /// which specify the scope of the <see cref="IIntermediateFieldMember"/>
-        /// to add.</param>
-        /// <param name="nameAndType">The <see cref="TypedName"/>
-        /// which specifies the type of the field and its name.</param>
-        /// <returns>A new <see cref="IIntermediateFieldMember"/>
-        /// which represents the field added.</returns>
-        IIntermediateFieldMember Add(AccessLevelModifiers modifiers, TypedName nameAndType);
-
-        /// <summary>
-        /// Adds a new <see cref="IIntermediateFieldMember"/> with the
-        /// <paramref name="modifiers"/>, <paramref name="nameAndType"/>
-        /// and <paramref name="initializationExpression"/> provided.
-        /// </summary>
-        /// <param name="modifiers">The <see cref="AccessLevelModifiers"/>
-        /// which specify the scope of the <see cref="IIntermediateFieldMember"/>
-        /// to add.</param>
-        /// <param name="nameAndType">The <see cref="TypedName"/>
-        /// which specifies the type of the field and its name.</param>
-        /// <param name="initializationExpression">The <see cref="IExpression"/>
-        /// to which the <see cref="IIntermediateFieldMember"/> 
-        /// is initialized to.</param>
-        /// <returns>A new <see cref="IIntermediateFieldMember"/>
-        /// which represents the field added.</returns>
-        IIntermediateFieldMember Add(AccessLevelModifiers modifiers, TypedName nameAndType, IExpression initializationExpression);
         /// <summary>
         /// Returns the <see cref="IIntermediateFieldParent"/> which
         /// owns the <see cref="IIntermediateFieldMemberDictionary"/>.

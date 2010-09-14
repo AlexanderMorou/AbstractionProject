@@ -301,6 +301,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             {
                 switch (kind.ReferenceKinds)
                 {
+                    case ExpressionKind.ReferenceSector.ParameterReference:
                     case ExpressionKind.ReferenceSector.LocalReference:
                     case ExpressionKind.ReferenceSector.EventReference:
                     case ExpressionKind.ReferenceSector.TypeReference:
@@ -11539,6 +11540,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// The target <see cref="IExpression"/> on which the equality operation occurs.
         /// </param>
         /// <param name="potentialEquivalent">
+        /// The potentially equivalent <see cref="String"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialEquivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression EqualTo(this IExpression target, String potentialEquivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (potentialEquivalent == null)
+                throw new ArgumentNullException("potentialEquivalent");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.AffixTo(CSharpOperatorPrecedences.InequalityOperation))), true, ((ICSharpRelationalExpression)(potentialEquivalent.ToPrimitive().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialEquivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="IExpression"/> on which the equality operation occurs.
+        /// </param>
+        /// <param name="potentialEquivalent">
         /// The potentially equivalent <see cref="UInt16"/> value to compare to <paramref name="target"/>.
         /// </param>
         /// <exception cref="System.ArgumentNullException">
@@ -11884,6 +11906,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), true, ((ICSharpRelationalExpression)(potentialEquivalent.ToPrimitive().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialEquivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="IIntermediateFieldMember"/> on which the equality operation occurs.
+        /// </param>
+        /// <param name="potentialEquivalent">
+        /// The potentially equivalent <see cref="String"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialEquivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression EqualTo(this IIntermediateFieldMember target, String potentialEquivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (potentialEquivalent == null)
+                throw new ArgumentNullException("potentialEquivalent");
             return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), true, ((ICSharpRelationalExpression)(potentialEquivalent.ToPrimitive().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
         }
 
@@ -12249,6 +12292,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// The target <see cref="IIntermediateParameterMember"/> on which the equality operation occurs.
         /// </param>
         /// <param name="potentialEquivalent">
+        /// The potentially equivalent <see cref="String"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialEquivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression EqualTo(this IIntermediateParameterMember target, String potentialEquivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (potentialEquivalent == null)
+                throw new ArgumentNullException("potentialEquivalent");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), true, ((ICSharpRelationalExpression)(potentialEquivalent.ToPrimitive().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialEquivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="IIntermediateParameterMember"/> on which the equality operation occurs.
+        /// </param>
+        /// <param name="potentialEquivalent">
         /// The potentially equivalent <see cref="UInt16"/> value to compare to <paramref name="target"/>.
         /// </param>
         /// <exception cref="System.ArgumentNullException">
@@ -12604,6 +12668,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// The target <see cref="IIntermediatePropertySignatureMember"/> on which the equality operation occurs.
         /// </param>
         /// <param name="potentialEquivalent">
+        /// The potentially equivalent <see cref="String"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialEquivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression EqualTo(this IIntermediatePropertySignatureMember target, String potentialEquivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (potentialEquivalent == null)
+                throw new ArgumentNullException("potentialEquivalent");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), true, ((ICSharpRelationalExpression)(potentialEquivalent.ToPrimitive().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialEquivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="IIntermediatePropertySignatureMember"/> on which the equality operation occurs.
+        /// </param>
+        /// <param name="potentialEquivalent">
         /// The potentially equivalent <see cref="UInt16"/> value to compare to <paramref name="target"/>.
         /// </param>
         /// <exception cref="System.ArgumentNullException">
@@ -12949,6 +13034,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), true, ((ICSharpRelationalExpression)(potentialEquivalent.ToPrimitive().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialEquivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="ILocalMember"/> on which the equality operation occurs.
+        /// </param>
+        /// <param name="potentialEquivalent">
+        /// The potentially equivalent <see cref="String"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialEquivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression EqualTo(this ILocalMember target, String potentialEquivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (potentialEquivalent == null)
+                throw new ArgumentNullException("potentialEquivalent");
             return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), true, ((ICSharpRelationalExpression)(potentialEquivalent.ToPrimitive().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
         }
 
@@ -13494,6 +13600,114 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </exception>
         public static ICSharpInequalityExpression EqualTo(this Single target, ILocalMember potentialEquivalent)
         {
+            if (potentialEquivalent == null)
+                throw new ArgumentNullException("potentialEquivalent");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), true, ((ICSharpRelationalExpression)(potentialEquivalent.GetReference().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        #endregion
+
+        #region EqualTo for String
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialEquivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="String"/> on which the equality operation occurs.
+        /// </param>
+        /// <param name="potentialEquivalent">
+        /// The potentially equivalent <see cref="IExpression"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialEquivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression EqualTo(this String target, IExpression potentialEquivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (potentialEquivalent == null)
+                throw new ArgumentNullException("potentialEquivalent");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), true, ((ICSharpRelationalExpression)(potentialEquivalent.AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialEquivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="String"/> on which the equality operation occurs.
+        /// </param>
+        /// <param name="potentialEquivalent">
+        /// The potentially equivalent <see cref="IIntermediateFieldMember"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialEquivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression EqualTo(this String target, IIntermediateFieldMember potentialEquivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (potentialEquivalent == null)
+                throw new ArgumentNullException("potentialEquivalent");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), true, ((ICSharpRelationalExpression)(potentialEquivalent.GetReference().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialEquivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="String"/> on which the equality operation occurs.
+        /// </param>
+        /// <param name="potentialEquivalent">
+        /// The potentially equivalent <see cref="IIntermediateParameterMember"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialEquivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression EqualTo(this String target, IIntermediateParameterMember potentialEquivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (potentialEquivalent == null)
+                throw new ArgumentNullException("potentialEquivalent");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), true, ((ICSharpRelationalExpression)(potentialEquivalent.GetReference().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialEquivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="String"/> on which the equality operation occurs.
+        /// </param>
+        /// <param name="potentialEquivalent">
+        /// The potentially equivalent <see cref="IIntermediatePropertySignatureMember"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialEquivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression EqualTo(this String target, IIntermediatePropertySignatureMember potentialEquivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (potentialEquivalent == null)
+                throw new ArgumentNullException("potentialEquivalent");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), true, ((ICSharpRelationalExpression)(potentialEquivalent.GetReference().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialEquivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="String"/> on which the equality operation occurs.
+        /// </param>
+        /// <param name="potentialEquivalent">
+        /// The potentially equivalent <see cref="ILocalMember"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialEquivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression EqualTo(this String target, ILocalMember potentialEquivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
             if (potentialEquivalent == null)
                 throw new ArgumentNullException("potentialEquivalent");
             return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), true, ((ICSharpRelationalExpression)(potentialEquivalent.GetReference().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
@@ -14592,6 +14806,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// The target <see cref="IExpression"/> on which the inequality operation occurs.
         /// </param>
         /// <param name="potentialInequivalent">
+        /// The potentially inequivalent <see cref="String"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialInequivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression InequalTo(this IExpression target, String potentialInequivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (potentialInequivalent == null)
+                throw new ArgumentNullException("potentialInequivalent");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.AffixTo(CSharpOperatorPrecedences.InequalityOperation))), false, ((ICSharpRelationalExpression)(potentialInequivalent.ToPrimitive().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialInequivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="IExpression"/> on which the inequality operation occurs.
+        /// </param>
+        /// <param name="potentialInequivalent">
         /// The potentially inequivalent <see cref="UInt16"/> value to compare to <paramref name="target"/>.
         /// </param>
         /// <exception cref="System.ArgumentNullException">
@@ -14937,6 +15172,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), false, ((ICSharpRelationalExpression)(potentialInequivalent.ToPrimitive().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialInequivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="IIntermediateFieldMember"/> on which the inequality operation occurs.
+        /// </param>
+        /// <param name="potentialInequivalent">
+        /// The potentially inequivalent <see cref="String"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialInequivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression InequalTo(this IIntermediateFieldMember target, String potentialInequivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (potentialInequivalent == null)
+                throw new ArgumentNullException("potentialInequivalent");
             return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), false, ((ICSharpRelationalExpression)(potentialInequivalent.ToPrimitive().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
         }
 
@@ -15302,6 +15558,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// The target <see cref="IIntermediateParameterMember"/> on which the inequality operation occurs.
         /// </param>
         /// <param name="potentialInequivalent">
+        /// The potentially inequivalent <see cref="String"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialInequivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression InequalTo(this IIntermediateParameterMember target, String potentialInequivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (potentialInequivalent == null)
+                throw new ArgumentNullException("potentialInequivalent");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), false, ((ICSharpRelationalExpression)(potentialInequivalent.ToPrimitive().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialInequivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="IIntermediateParameterMember"/> on which the inequality operation occurs.
+        /// </param>
+        /// <param name="potentialInequivalent">
         /// The potentially inequivalent <see cref="UInt16"/> value to compare to <paramref name="target"/>.
         /// </param>
         /// <exception cref="System.ArgumentNullException">
@@ -15657,6 +15934,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// The target <see cref="IIntermediatePropertySignatureMember"/> on which the inequality operation occurs.
         /// </param>
         /// <param name="potentialInequivalent">
+        /// The potentially inequivalent <see cref="String"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialInequivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression InequalTo(this IIntermediatePropertySignatureMember target, String potentialInequivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (potentialInequivalent == null)
+                throw new ArgumentNullException("potentialInequivalent");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), false, ((ICSharpRelationalExpression)(potentialInequivalent.ToPrimitive().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialInequivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="IIntermediatePropertySignatureMember"/> on which the inequality operation occurs.
+        /// </param>
+        /// <param name="potentialInequivalent">
         /// The potentially inequivalent <see cref="UInt16"/> value to compare to <paramref name="target"/>.
         /// </param>
         /// <exception cref="System.ArgumentNullException">
@@ -16002,6 +16300,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             if (target == null)
                 throw new ArgumentNullException("target");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), false, ((ICSharpRelationalExpression)(potentialInequivalent.ToPrimitive().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialInequivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="ILocalMember"/> on which the inequality operation occurs.
+        /// </param>
+        /// <param name="potentialInequivalent">
+        /// The potentially inequivalent <see cref="String"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialInequivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression InequalTo(this ILocalMember target, String potentialInequivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (potentialInequivalent == null)
+                throw new ArgumentNullException("potentialInequivalent");
             return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.GetReference().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), false, ((ICSharpRelationalExpression)(potentialInequivalent.ToPrimitive().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
         }
 
@@ -16547,6 +16866,114 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </exception>
         public static ICSharpInequalityExpression InequalTo(this Single target, ILocalMember potentialInequivalent)
         {
+            if (potentialInequivalent == null)
+                throw new ArgumentNullException("potentialInequivalent");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), false, ((ICSharpRelationalExpression)(potentialInequivalent.GetReference().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        #endregion
+
+        #region InequalTo for String
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialInequivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="String"/> on which the inequality operation occurs.
+        /// </param>
+        /// <param name="potentialInequivalent">
+        /// The potentially inequivalent <see cref="IExpression"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialInequivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression InequalTo(this String target, IExpression potentialInequivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (potentialInequivalent == null)
+                throw new ArgumentNullException("potentialInequivalent");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), false, ((ICSharpRelationalExpression)(potentialInequivalent.AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialInequivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="String"/> on which the inequality operation occurs.
+        /// </param>
+        /// <param name="potentialInequivalent">
+        /// The potentially inequivalent <see cref="IIntermediateFieldMember"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialInequivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression InequalTo(this String target, IIntermediateFieldMember potentialInequivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (potentialInequivalent == null)
+                throw new ArgumentNullException("potentialInequivalent");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), false, ((ICSharpRelationalExpression)(potentialInequivalent.GetReference().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialInequivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="String"/> on which the inequality operation occurs.
+        /// </param>
+        /// <param name="potentialInequivalent">
+        /// The potentially inequivalent <see cref="IIntermediateParameterMember"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialInequivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression InequalTo(this String target, IIntermediateParameterMember potentialInequivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (potentialInequivalent == null)
+                throw new ArgumentNullException("potentialInequivalent");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), false, ((ICSharpRelationalExpression)(potentialInequivalent.GetReference().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialInequivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="String"/> on which the inequality operation occurs.
+        /// </param>
+        /// <param name="potentialInequivalent">
+        /// The potentially inequivalent <see cref="IIntermediatePropertySignatureMember"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialInequivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression InequalTo(this String target, IIntermediatePropertySignatureMember potentialInequivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (potentialInequivalent == null)
+                throw new ArgumentNullException("potentialInequivalent");
+            return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), false, ((ICSharpRelationalExpression)(potentialInequivalent.GetReference().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
+        }
+
+        /// <summary>
+        /// Compares the <paramref name="target"/> to the <paramref name="potentialInequivalent"/> provided as an expression.
+        /// </summary>
+        /// <param name="target">
+        /// The target <see cref="String"/> on which the inequality operation occurs.
+        /// </param>
+        /// <param name="potentialInequivalent">
+        /// The potentially inequivalent <see cref="ILocalMember"/> value to compare to <paramref name="target"/>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// thrown when <paramref name="target"/> or <paramref name="potentialInequivalent"/> is null.
+        /// </exception>
+        public static ICSharpInequalityExpression InequalTo(this String target, ILocalMember potentialInequivalent)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
             if (potentialInequivalent == null)
                 throw new ArgumentNullException("potentialInequivalent");
             return new CSharpInequalityExpression(((ICSharpInequalityExpression)(target.ToPrimitive().AffixTo(CSharpOperatorPrecedences.InequalityOperation))), false, ((ICSharpRelationalExpression)(potentialInequivalent.GetReference().AffixTo(CSharpOperatorPrecedences.RelationalOperation))));
@@ -42396,7 +42823,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         #endregion
 
         #endregion
-
 
     }
 }

@@ -139,6 +139,7 @@
       <DependentUpon>AnonymousType.cs</DependentUpon>
     </Compile>
     <Compile Include="Oil\AnonymousType.cs" />
+    <Compile Include="Oil\Expressions\AssignmentExpression.cs" />
     <Compile Include="Oil\Expressions\AutoContextMemberSource.cs" />
     <Compile Include="Oil\Expressions\CallParameterSet+IndexedParameterCollection.cs" />
     <Compile Include="Oil\Expressions\ConstructorReferenceStub.cs" />
@@ -246,6 +247,7 @@
     <Compile Include="Oil\Statements\BreakableConditionContinuationStatement.cs" />
     <Compile Include="Oil\Statements\BreakExit.cs" />
     <Compile Include="Oil\Statements\ConditionContinuationStatement.cs" />
+    <Compile Include="Oil\Statements\ExpressionStatement.cs" />
     <Compile Include="Oil\Statements\IBlockStatementLabelDictionary.cs" />
     <Compile Include="Oil\Statements\IBreakableStatement.cs" />
     <Compile Include="Oil\Statements\IterationBlockBaseStatement.cs" />

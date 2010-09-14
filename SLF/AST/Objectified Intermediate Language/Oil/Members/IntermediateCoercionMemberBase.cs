@@ -492,12 +492,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return this.StatementContainer.DefineLocal(local);
         }
 
-        public IExpressionStatement Assign(IMemberReferenceExpression target, AssignmentOperation operation, IExpression value)
+        public IExpressionStatement Assign(IMemberReferenceExpression target, AssignmentOperation operation, INaryOperandExpression value)
         {
             return this.StatementContainer.Assign(target, operation, value);
         }
 
-        public IExpressionStatement Assign(IMemberReferenceExpression target, IExpression value)
+        public IExpressionStatement Assign(IMemberReferenceExpression target, INaryOperandExpression value)
         {
             return this.StatementContainer.Assign(target, value);
         }

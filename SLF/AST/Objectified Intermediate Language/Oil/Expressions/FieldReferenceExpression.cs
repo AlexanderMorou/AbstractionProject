@@ -95,6 +95,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         public IMemberParentReferenceExpression Source { get; private set; }
 
         #endregion
+
+        public override string ToString()
+        {
+            if (this.Source != null)
+                return string.Format("{0}.{1}", this.Source, this.Name);
+            else
+                return this.Name;
+        }
     }
 
     public class FieldReferenceExpression :
@@ -130,6 +138,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             if (visitor == null)
                 throw new ArgumentNullException("visitor");
             visitor.Visit(this);
+        }
+
+        public override string ToString()
+        {
+            if (this.Source != null)
+                return string.Format("{0}.{1}", this.Source, this.Name);
+            else
+                return this.Name;
         }
     }
 }

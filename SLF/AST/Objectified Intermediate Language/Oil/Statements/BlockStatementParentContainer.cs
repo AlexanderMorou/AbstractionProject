@@ -476,14 +476,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
             get { throw new NotImplementedException(); }
         }
 
-        public IExpressionStatement Assign(IMemberReferenceExpression target, AssignmentOperation operation, IExpression value)
+        public IExpressionStatement Assign(IMemberReferenceExpression target, AssignmentOperation operation, INaryOperandExpression value)
         {
-            throw new NotImplementedException();
+            var result = new ExpressionStatement(this.owner, new AssignmentExpression(target, operation, value));
+            base.baseCollection.Add(result);
+            return result;
         }
 
-        public IExpressionStatement Assign(IMemberReferenceExpression target, IExpression value)
+        public IExpressionStatement Assign(IMemberReferenceExpression target, INaryOperandExpression value)
         {
-            throw new NotImplementedException();
+            return this.Assign(target,  AssignmentOperation.SimpleAssign, value);
         }
 
         public IExpressionStatement Increment(IAssignTargetExpression target)

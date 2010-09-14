@@ -35,7 +35,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IInstanceMember
         where TIntermediateField :
             TField,
-            IIntermediateFieldMember<TField, TIntermediateField, TType, TIntermediateType>
+            IIntermediateFieldMember<TField, TIntermediateField, TType, TIntermediateType>,
+            IIntermediateInstanceMember
         where TIndexer :
             IIndexerMember<TIndexer, TType>
         where TIntermediateIndexer :
@@ -707,5 +708,32 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return (TIntermediateProperty)(object)this.Parent.GetNewProperty(nameAndType);
             }
         }
+
+        protected class FieldDictionary :
+            IntermediateFieldMemberDictionary<TField, TIntermediateField, TType, TIntermediateType>
+        {
+            internal protected FieldDictionary(IntermediateFullMemberDictionary master, TInstanceIntermediateType parent)
+                : base(master, parent)
+            {
+            }
+            internal protected FieldDictionary(IntermediateFullMemberDictionary master, TInstanceIntermediateType parent, FieldDictionary root)
+                : base(master, parent, root)
+            {
+            }
+            private new IntermediateGenericSegmentableInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType> Parent
+            {
+                get
+                {
+                    return (IntermediateGenericSegmentableInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType>)(object)base.Parent;
+                }
+            }
+
+
+            protected override TIntermediateField GetField(TypedName nameAndType)
+            {
+                return (TIntermediateField)(object)this.Parent.GetNewField(nameAndType);
+            }
+        }
+
     }
 }

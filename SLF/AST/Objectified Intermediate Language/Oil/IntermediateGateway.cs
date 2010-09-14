@@ -602,6 +602,73 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             var result = new CreateInstanceExpression(new ConstructorPointerReferenceExpression(new ConstructorReferenceStub(target)), parameters.ToArray());
             return result;
         }
+        internal static IType AscertainType(this TypedName typedName, IIntermediateType containingType)
+        {
+            switch (typedName.Source)
+            {
+                case TypedNameSource.TypeReference:
+                    /* *
+                     * A type is explicitly provided.
+                     * */
+                    return typedName.Reference;
+                case TypedNameSource.SymbolReference:
+                    /* *
+                     * Evaluate the member hierarchy and determine whether
+                     * there are type-parameters that are available.
+                     * */
+                    while (containingType != null)
+                    {
+                        /* *
+                            * In cases where the containing type is a generic capable type.
+                            * */
+                        if (containingType is IIntermediateGenericType)
+                        {
+                            var topScopeGenericType = (IIntermediateGenericType)containingType;
+                            if (topScopeGenericType.TypeParameters.ContainsKey(typedName.SymbolReference))
+                                return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[typedName.SymbolReference];
+                        }
+                        if (containingType.Parent is IIntermediateType)
+                            containingType = (IIntermediateType)containingType.Parent;
+                        else if (containingType.Parent is IIntermediateMember)
+                        {
+                            var containingMember = (IIntermediateMember)containingType.Parent;
+                            while (containingMember != null)
+                            {
+                                /* *
+                                 * In cases where the member itself contains type-parameters,
+                                 * i.e. methods.
+                                 * */
+                                if (containingMember is IIntermediateGenericParameterParent)
+                                {
+                                    var topScopeGenericMember = (IIntermediateGenericParameterParent)containingMember;
+                                    if (topScopeGenericMember.TypeParameters.ContainsKey(typedName.SymbolReference))
+                                        return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[typedName.SymbolReference];
+                                }
+                                if (containingMember.Parent == null)
+                                    break;
+                                else if (containingMember.Parent is IIntermediateMember)
+                                    containingMember = (IIntermediateMember)containingMember.Parent;
+                                else if (containingMember.Parent is IIntermediateType)
+                                {
+                                    /* *
+                                     * When the parent is a type, obtain the type variant of the
+                                     * current member's parent.
+                                     * */
+                                    containingType = (IIntermediateType)containingMember.Parent;
+                                    break;
+                                }
+                                else
+                                    goto breakBoth;
+                            }
+                        }
+                        else
+                            break;
+                    }
+                breakBoth:
+                    return typedName.SymbolReference.GetSymbolType();
+            }
+            return null;
+        }
 
         internal static IType AscertainType(this TypedName typedName, IIntermediateMember containingMember)
         {
@@ -659,12 +726,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                                     break;
                                 }
                                 else
-                                    break;
+                                    goto breakBoth;
                             }
                         }
                         else
                             break;
                     }
+            breakBoth:
                     return typedName.SymbolReference.GetSymbolType();
             }
             return null;

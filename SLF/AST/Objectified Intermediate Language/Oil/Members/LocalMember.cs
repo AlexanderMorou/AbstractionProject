@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         private ILocalReferenceExpression singletonLocal = null;
         private ILocalDeclarationStatement singletonDeclaration = null;
         public LocalMember(string name, IBlockStatementParent parent, LocalTypingKind typingMethod)
-            : base(parent)
+            : base(name, parent)
         {
             this.TypingMethod = typingMethod;
             this.AutoDeclare = true;

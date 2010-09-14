@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         /// which represents the field added.</returns>
         public IIntermediateModuleGlobalField Add(TypedName nameAndType)
         {
-            return this.Add(AccessLevelModifiers.Private, nameAndType, null);
+            return this.Add(nameAndType, null);
         }
 
         /// <summary>
@@ -68,44 +68,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         /// which represents the field added.</returns>
         public IIntermediateModuleGlobalField Add(TypedName nameAndType, IExpression initializationExpression)
         {
-            return this.Add(AccessLevelModifiers.Private, nameAndType, initializationExpression);
-        }
-
-        /// <summary>
-        /// Adds a new <see cref="IIntermediateModuleGlobalField"/> with the
-        /// <paramref name="modifiers"/> and 
-        /// <paramref name="nameAndType"/> provided.
-        /// </summary>
-        /// <param name="modifiers">The <see cref="AccessLevelModifiers"/>
-        /// which specify the scope of the <see cref="IIntermediateModuleGlobalField"/>
-        /// to add.</param>
-        /// <param name="nameAndType">The <see cref="TypedName"/>
-        /// which specifies the type of the field and its name.</param>
-        /// <returns>A new <see cref="IIntermediateModuleGlobalField"/>
-        /// which represents the field added.</returns>
-        public IIntermediateModuleGlobalField Add(AccessLevelModifiers modifiers, TypedName nameAndType)
-        {
-            return this.Add(modifiers, nameAndType, null);
-        }
-
-        /// <summary>
-        /// Adds a new <see cref="IIntermediateModuleGlobalField"/> with the
-        /// <paramref name="modifiers"/>, <paramref name="nameAndType"/>
-        /// and <paramref name="initializationExpression"/> provided.
-        /// </summary>
-        /// <param name="modifiers">The <see cref="AccessLevelModifiers"/>
-        /// which specify the scope of the <see cref="IIntermediateModuleGlobalField"/>
-        /// to add.</param>
-        /// <param name="nameAndType">The <see cref="TypedName"/>
-        /// which specifies the type of the field and its name.</param>
-        /// <param name="initializationExpression">The <see cref="IExpression"/>
-        /// to which the <see cref="IIntermediateModuleGlobalField"/> 
-        /// is initialized to.</param>
-        /// <returns>A new <see cref="IIntermediateModuleGlobalField"/>
-        /// which represents the field added.</returns>
-        public IIntermediateModuleGlobalField Add(AccessLevelModifiers modifiers, TypedName nameAndType, IExpression initializationExpression)
-        {
             IntermediateModuleGlobalField result = new IntermediateModuleGlobalField(nameAndType.Name, base.Parent);
+            result.InitializationExpression = initializationExpression;
             this.AddDeclaration(result);
             return result;
         }

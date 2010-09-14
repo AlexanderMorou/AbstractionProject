@@ -334,8 +334,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// to declare</param>
         void DefineLabel(ILabelStatement label);
 
-        IExpressionStatement Assign(IMemberReferenceExpression target, AssignmentOperation operation, IExpression value);
-        IExpressionStatement Assign(IMemberReferenceExpression target, IExpression value);
+        IExpressionStatement Assign(IMemberReferenceExpression target, AssignmentOperation operation, INaryOperandExpression value);
+        IExpressionStatement Assign(IMemberReferenceExpression target, INaryOperandExpression value);
 
         IExpressionStatement Increment(IAssignTargetExpression target);
         IExpressionStatement Increment(IAssignTargetExpression target, IExpression incrementBy);
