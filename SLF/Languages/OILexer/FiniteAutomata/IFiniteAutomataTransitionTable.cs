@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Utilities.Collections;
 
-namespace Oilexer.FiniteAutomata
+namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
 
     public interface IFiniteAutomataTransitionTable<TCheck, TState, TNodeTarget> :

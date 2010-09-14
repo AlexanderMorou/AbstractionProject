@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections;
 using AllenCopeland.Abstraction.Utilities.Collections;
 
-namespace Oilexer.FiniteAutomata
+namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
     partial class FiniteAutomataTransitionTable<TCheck, TState, TNodeTarget>
         where TCheck :

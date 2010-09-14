@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
-using Oilexer._Internal;
-namespace Oilexer.FiniteAutomata
+using AllenCopeland.Abstraction.Slf._Internal.Oilexer;
+namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
     public abstract class FiniteAutomataState<TCheck, TState, TForwardNodeTarget, TSourceElement> :
         IFiniteAutomataState<TCheck, TState, TForwardNodeTarget, TSourceElement>

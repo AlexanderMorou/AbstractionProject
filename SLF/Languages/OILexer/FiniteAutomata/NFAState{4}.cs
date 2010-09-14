@@ -5,8 +5,8 @@ using System.Linq;
 using System.IO;
 using System.CodeDom.Compiler;
 using System.Diagnostics;
-using Oilexer.FiniteAutomata.Tokens;
-namespace Oilexer.FiniteAutomata
+using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
+namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
     /// <summary>
     /// Provides a basic non-deterministic finite automation.

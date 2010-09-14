@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Collections;
-using Oilexer._Internal;
+using AllenCopeland.Abstraction.Slf._Internal.Oilexer;
 using System.Diagnostics;
 using AllenCopeland.Abstraction.Utilities.Collections;
 
-namespace Oilexer.FiniteAutomata
+namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
     [DebuggerDisplay("Count = {Count}")]
     public abstract partial class FiniteAutomataTransitionTable<TCheck, TState, TNodeTarget> :

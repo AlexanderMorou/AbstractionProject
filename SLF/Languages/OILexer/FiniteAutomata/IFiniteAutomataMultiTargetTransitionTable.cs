@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Oilexer.FiniteAutomata
+namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
     public interface IFiniteAutomataMultiTargetTransitionTable<TCheck, TState> : 
         IFiniteAutomataTransitionTable<TCheck, TState, List<TState>>

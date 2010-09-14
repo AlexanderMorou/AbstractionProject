@@ -10,7 +10,7 @@ using SlotType = System.UInt64;
 using SlotType = System.UInt32;
 #endif
 
-namespace Oilexer.FiniteAutomata
+namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
     using OperationSignature = Action<uint, uint, uint, uint, uint, uint, bool, bool, SlotType[], SlotType[], SlotType[]>;
 
