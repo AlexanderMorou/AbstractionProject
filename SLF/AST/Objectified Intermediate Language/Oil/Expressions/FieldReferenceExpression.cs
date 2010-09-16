@@ -91,7 +91,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         private void Rebind(string value)
         {
             this.nameCopy = value;
-            throw new NotImplementedException();
+            var trueSource = this.Source as MemberParentReferenceExpressionBase;
+            if (trueSource != null)
+            {
+                var reboundElement = trueSource.LooselyBindField(value);
+                if (reboundElement == null)
+                    this.Member = default(TField);
+                else
+                    this.Member = (TField)reboundElement;
+            }
         }
 
         #endregion

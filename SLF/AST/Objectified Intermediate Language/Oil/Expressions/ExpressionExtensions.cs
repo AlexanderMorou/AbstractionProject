@@ -275,7 +275,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <remarks>Used to obtain a type as an expression for linking a type as the
         /// origin of a primary expression.</remarks>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="target"/> is null.</exception>
-        public static TypeReferenceExpression GetTypeExpression(this Type target)
+        public static ITypeReferenceExpression GetTypeExpression(this Type target)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
@@ -359,7 +359,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <returns>A new <see cref="TypeReferenceExpression"/> which wraps the <paramref name="target"/>
         /// in a <see cref="SymbolType"/>.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="target"/> is null.</exception>
-        public static TypeReferenceExpression GetTypeExpression(this IExpressionFusionExpression target)
+        public static ITypeReferenceExpression GetTypeExpression(this IExpressionFusionExpression target)
         {
             if (target == null)
                 throw new ArgumentNullException("target");

@@ -40,6 +40,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Data member for <see cref="ReferenceType"/>.
         /// </summary>
         private MethodReferenceType referenceType;
+        private string nameCopy;
 
         public PropertyReferenceExpression(IMemberParentReferenceExpression source, TProperty member)
         {
@@ -83,6 +84,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             get
             {
+                if (this.Member == null)
+                    return nameCopy;
                 return this.Member.Name;
             }
             set
@@ -96,9 +99,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         private void Rebind(string value)
         {
-            throw new NotImplementedException();
+            this.nameCopy = value;
+            var trueSource = this.Source as MemberParentReferenceExpressionBase;
+            if (trueSource != null)
+            {
+                var reboundElement = trueSource.LooselyBindProperty(value);
+                if (reboundElement == null)
+                    this.Member = default(TProperty);
+                else
+                    this.Member = (TProperty)reboundElement;
+            }
         }
-
 
         #endregion
 
@@ -162,32 +173,33 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediatePropertyParent">The type which owns the properties
     /// in the intermediate abstract syntax tree.</typeparam>
-    public class PropertySignatureReferenceExpression<TPropertySignature, TPropertySignatureParent> :
+    public class PropertySignatureReferenceExpression<TProperty, TPropertyParent> :
         MemberParentReferenceExpressionBase,
-        IPropertySignatureReferenceExpression<TPropertySignature, TPropertySignatureParent>
-        where TPropertySignature :
-            IPropertySignatureMember<TPropertySignature, TPropertySignatureParent>
-        where TPropertySignatureParent :
-            IPropertySignatureParentType<TPropertySignature, TPropertySignatureParent>
+        IPropertySignatureReferenceExpression<TProperty, TPropertyParent>
+        where TProperty :
+            IPropertySignatureMember<TProperty, TPropertyParent>
+        where TPropertyParent :
+            IPropertySignatureParentType<TProperty, TPropertyParent>
     {
         /// <summary>
         /// Data member for <see cref="ReferenceType"/>.
         /// </summary>
         private MethodReferenceType referenceType;
+        private string nameCopy;
 
-        public PropertySignatureReferenceExpression(IMemberParentReferenceExpression source, TPropertySignature member)
+        public PropertySignatureReferenceExpression(IMemberParentReferenceExpression source, TProperty member)
         {
             this.Source = source;
             this.Member = member;
         }
 
-        #region IPropertySignatureReferenceExpression<TPropertySignature,TPropertySignatureParent> Members
+        #region IPropertySignatureReferenceExpression<TProperty,TPropertyParent> Members
 
         /// <summary>
         /// Returns the <see cref="TProperty"/> member to which the 
-        /// <see cref="IPropertySignatureReferenceExpression{TPropertySignature, TPropertySignatureParent}"/> refers.
+        /// <see cref="IPropertySignatureReferenceExpression{TProperty, TPropertyParent}"/> refers.
         /// </summary>
-        public TPropertySignature Member { get; private set; }
+        public TProperty Member { get; private set; }
 
         #endregion
 
@@ -230,8 +242,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         private void Rebind(string value)
         {
-            throw new NotImplementedException();
+            this.nameCopy = value;
+            var trueSource = this.Source as MemberParentReferenceExpressionBase;
+            if (trueSource != null)
+            {
+                var reboundElement = trueSource.LooselyBindProperty(value);
+                if (reboundElement == null)
+                    this.Member = default(TProperty);
+                else
+                    this.Member = (TProperty)reboundElement;
+            }
         }
+
 
         #endregion
 

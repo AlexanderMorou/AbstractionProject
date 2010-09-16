@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
                 IParameterParent IParameterMember.Parent
                 {
-                    get { throw new NotImplementedException(); }
+                    get { return this.Parent; }
                 }
 
                 #endregion
@@ -44,7 +44,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
                 ISignatureMember ISignatureParameterMember.Parent
                 {
-                    get { throw new NotImplementedException(); }
+                    get { return this.Parent; }
                 }
 
                 #endregion

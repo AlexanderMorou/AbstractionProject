@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// </summary>
     public interface ISymbolType :
         IGenericType<ISymbolType>,
-        IFusionCommaTargetExpression
+        ITypeReferenceExpression
     {
     }
 }

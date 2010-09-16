@@ -431,7 +431,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         ITypeCoercionMemberDictionary ICoercibleType.TypeCoercions
         {
-            get { throw new NotImplementedException(); }
+            get { return (ITypeCoercionMemberDictionary)this.TypeCoercions; }
         }
 
         IUnaryOperatorCoercionMemberDictionary ICoercibleType.UnaryOperatorCoercions
@@ -450,7 +450,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         IIntermediateTypeCoercionMemberDictionary IIntermediateCoercibleType.TypeCoercions
         {
-            get { throw new NotImplementedException(); }
+            get { return (IIntermediateTypeCoercionMemberDictionary)this.TypeCoercions; }
         }
 
         IIntermediateUnaryOperatorCoercionMemberDictionary IIntermediateCoercibleType.UnaryOperatorCoercions
@@ -839,7 +839,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         protected virtual IntermediateIndexerMemberDictionary<TIndexer, TIntermediateIndexer, TType, TIntermediateType> InitializeIndexers()
         {
-            throw new NotImplementedException();
+            if (this.IsRoot)
+                return new IndexerDictionary(this._Members, (TInstanceIntermediateType)this);
+            else
+                return new IndexerDictionary(this._Members, (TInstanceIntermediateType)this, (IndexerDictionary)(this.GetRoot().Indexers));
         }
 
         protected virtual MethodDictionary InitializeMethods()

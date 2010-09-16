@@ -131,7 +131,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="ns"/> is null.</exception>
         public void Add(IIntermediateNamespaceDeclaration ns)
         {
-            throw new NotImplementedException();
+            if (ns.Parent == this.Parent)
+                this._Add(ns.UniqueIdentifier, ns);
+            else
+                throw new ArgumentException("namespace parent must be equal to the namespace dictionary parent.", "ns");
         }
 
         #endregion

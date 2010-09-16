@@ -35,5 +35,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
                 throw new ArgumentException("value must be a label statement", "value");
             base.OnSetTarget(value);
         }
+
+        public override string ToString()
+        {
+            if (this.Target == null)
+                return string.Empty;
+            return string.Format("goto {0};", this.Target.Name);
+        }
     }
 }

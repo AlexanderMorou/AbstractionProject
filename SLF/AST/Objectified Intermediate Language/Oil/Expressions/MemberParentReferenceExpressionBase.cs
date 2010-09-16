@@ -130,8 +130,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// to the property described by <paramref name="name"/>.</returns>
         public virtual IPropertyReferenceExpression GetProperty(string name)
         {
+            var binding = LooselyBindProperty(name);
+            if (binding == null)
+                return new PropertyReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
+            else
+                return binding.GetPropertyReference(this);
+        }
+
+        internal IPropertySignatureMember LooselyBindProperty(string name)
+        {
             var typeLookupAid = this.TypeLookupAid;
-            if (typeLookupAid != null)
+            if (typeLookupAid != null && !(typeLookupAid is ISymbolType))
             {
                 var currentParent = typeLookupAid;
             repeat:
@@ -140,9 +149,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                     foreach (IPropertySignatureMember property in propertyParent.Properties.Values)
                         if (property.Name == name)
                             if (property is IPropertyMember)
-                                return ((IPropertyMember)(property)).GetPropertyReference(this);
+                                return property;
                             else
-                                return property.GetPropertyReference(this);
+                                return property;
                 if (currentParent != null)
                 {
                     currentParent = currentParent.BaseType;
@@ -150,7 +159,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 }
 
             }
-            return new PropertyReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
+            return null;
         }
 
         /// <summary>
@@ -180,8 +189,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// that needs retrieved.</returns>
         public virtual IFieldReferenceExpression GetField(string name)
         {
+            var looseBind = LooselyBindField(name);
+            if (looseBind != null)
+                return looseBind.GetFieldReference(this);
+            else
+                return new FieldReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
+        }
+
+        internal IFieldMember LooselyBindField(string name)
+        {
             var typeLookupAid = this.TypeLookupAid;
-            if (typeLookupAid != null)
+            if (typeLookupAid != null && !(typeLookupAid is ISymbolType))
             {
                 var currentParent = typeLookupAid;
             repeat:
@@ -189,15 +207,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 if (fieldParent != null)
                     foreach (IFieldMember field in fieldParent.Fields.Values)
                         if (field.Name == name)
-                            return ((IFieldMember)(field)).GetFieldReference(this);
+                            return field;
                 if (currentParent != null)
                 {
                     currentParent = currentParent.BaseType;
                     goto repeat;
                 }
             }
-            return new FieldReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
+            return null;
         }
+
         /*
         /// <summary>
         /// Returns the type which is used as a spring

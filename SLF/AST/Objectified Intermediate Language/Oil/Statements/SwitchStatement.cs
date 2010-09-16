@@ -94,5 +94,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return string.Format("switch ({0}) {{...", this.Selection);
+        }
     }
 }

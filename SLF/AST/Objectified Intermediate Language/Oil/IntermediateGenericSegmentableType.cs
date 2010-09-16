@@ -126,10 +126,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        public TIntermediateType GetRoot()
+        TIntermediateType IIntermediateSegmentableDeclaration<TIntermediateType>.GetRoot()
+        {
+            return this.GetRoot();
+        }
+
+        public TInstanceIntermediateType GetRoot()
         {
             if (this.IsRoot)
-                return ((TIntermediateType)((object)(this)));
+                return (TInstanceIntermediateType)this;
             else
                 return this.rootType;
         }

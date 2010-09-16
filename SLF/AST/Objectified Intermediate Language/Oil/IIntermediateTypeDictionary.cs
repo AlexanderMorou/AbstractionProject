@@ -29,6 +29,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             TType
     {
         /// <summary>
+        /// Adds the <typeparamref name="TIntermediateType"/>
+        /// <paramref name="type"/> provided.
+        /// </summary>
+        /// <param name="type">The <typeparamref name="TIntermediateType"/>
+        /// instance to insert.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="type"/> is null.</exception>
+        /// <exception cref="System.ArgumentException"><paramref name="type"/>'s <see cref="IIntermediateType.Parent"/> is invalid.</exception>
+        void Add(TIntermediateType type);
+        /// <summary>
         /// Creates and adds a new <typeparamref name="TIntermediateType"/> 
         /// instance with the <paramref name="name"/> provided.
         /// </summary>

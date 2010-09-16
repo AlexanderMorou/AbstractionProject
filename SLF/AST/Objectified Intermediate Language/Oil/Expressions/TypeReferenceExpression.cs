@@ -67,5 +67,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             visitor.Visit(this);
         }
+
+        protected override IType TypeLookupAid
+        {
+            get
+            {
+                return this.ReferenceType;
+            }
+        }
     }
 }

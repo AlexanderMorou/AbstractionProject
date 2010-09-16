@@ -17,6 +17,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         _Types<IInterfaceType, IInterfaceTypeDictionary>,
         IInterfaceTypeDictionary
     {
+        private IGenericType _Parent
+        {
+            get
+            {
+                return base.Parent as IGenericType;
+            }
+        }
+
         internal _InterfaceTypesBase(_FullTypesBase master, IInterfaceTypeDictionary originalSet, IGenericType parent)
             : base(master, originalSet, parent)
         {
@@ -33,7 +41,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         protected override IInterfaceType ObtainWrapper(IInterfaceType item)
         {
-            throw new NotImplementedException();
+            if (this._Parent.GenericParameters.Count != item.GenericParameters.Count)
+                return item;
+            else
+                return new _InterfaceTypeBase(item, _Parent.GenericParameters);
         }
     }
 }

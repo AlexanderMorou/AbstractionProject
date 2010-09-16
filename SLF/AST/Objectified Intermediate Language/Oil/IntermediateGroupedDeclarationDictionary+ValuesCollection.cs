@@ -181,7 +181,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             int IControlledStateCollection.IndexOf(object element)
             {
-                throw new NotImplementedException();
+                if (element is TIntermediateDeclaration)
+                    return this.IndexOf((TIntermediateDeclaration)(element));
+                return -1;
             }
 
             #endregion

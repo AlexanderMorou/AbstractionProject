@@ -4,6 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using System.Threading.Tasks;
+using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -38,6 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TParameter,
             IIntermediateParameterMember<TParent, TIntermediateParent>
     {
+        private bool locked;
         /// <summary>
         /// Creates a new <see cref="IntermediateParameterMemberDictionary{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>
         /// with the <paramref name="parent"/> provided.
@@ -80,6 +82,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// as it exists in the <see cref="IIntermediateParameterMemberDictionary{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>.</returns>
         public TIntermediateParameter Add(string name, IType parameterType, ParameterDirection direction)
         {
+            if (this.locked)
+                throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+            return AddInternal(name, parameterType, direction);
+        }
+
+        private TIntermediateParameter AddInternal(string name, IType parameterType, ParameterDirection direction)
+        {
             TIntermediateParameter item = this.GetNewParameter(name, parameterType, direction);
             this._Add(item.UniqueIdentifier, item);
             return item;
@@ -94,8 +103,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return this.Add(parameterInfo.Name, parameterInfo.GetTypeRef(), parameterInfo.Direction);
         }
 
+        internal TIntermediateParameter _Add(TypedName parameterInfo)
+        {
+            if (this.Parent is IIntermediateMember)
+                return this.AddInternal(parameterInfo.Name, parameterInfo.AscertainType((IIntermediateMember)this.Parent), parameterInfo.Direction);
+            else if (Parent is IIntermediateType)
+                return this.AddInternal(parameterInfo.Name, parameterInfo.AscertainType((IIntermediateType)this.Parent), parameterInfo.Direction);
+            else
+                return this.AddInternal(parameterInfo.Name, parameterInfo.GetTypeRef(), parameterInfo.Direction);
+        }
+
         public new TIntermediateParameter[] AddRange(params TypedName[] parameterInfo)
         {
+            if (this.locked)
+                throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
             if (parameterInfo == null)
                 throw new ArgumentNullException("parameterInfo");
             TIntermediateParameter[] result = new TIntermediateParameter[parameterInfo.Length];
@@ -192,7 +213,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             this.Changed = true;
             base._Clear();
-        }
+        }
 
+        internal void Lock()
+        {
+            this.locked = true;
+        }
     }
 }

@@ -50,7 +50,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// <summary>
         /// Data member for the generic parameters cache.
         /// </summary>
-        private GenericTypeCache<TType> genericCache;
+        private GenericTypeCache genericCache;
 
         /// <summary>
         /// Creates a new <see cref="CompiledGenericTypeBase{TType}"/> with the 
@@ -184,9 +184,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 throw new System.InvalidOperationException();
             if (this.genericCache != null)
             {
-                TType r;
+                IGenericType r;
                 if (this.genericCache.ContainsGenericType(typeParameters, out r))
-                    return r;
+                    return (TType)r;
             }
             /* *
              * Make the generic type *before* verifying the 
@@ -263,13 +263,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IGenericType MakeVerifiedGenericType(ITypeCollectionBase typeParameters)
         {
-            TType r = null;
             if (!this.IsGenericTypeDefinition)
                 throw new System.InvalidOperationException();
             if (typeParameters.Count != this.GenericParameters.Count)
                 throw new ArgumentException("typeParameters");
             if (this.genericCache != null)
             {
+                IGenericType r = null;
                 if (this.genericCache.ContainsGenericType(typeParameters, out r))
                     return (TType)r;
             }
@@ -297,7 +297,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (this.disposing || this.disposeSynch == null)
                 return;
             if (this.genericCache == null)
-                this.genericCache = new GenericTypeCache<TType>();
+                this.genericCache = new GenericTypeCache();
             this.genericCache.RegisterGenericType(targetType, typeParameters);
         }
 

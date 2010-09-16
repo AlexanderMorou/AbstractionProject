@@ -64,22 +64,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public IFilteredSignatureMemberDictionary<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>> Find(bool strict, ITypeCollection search)
         {
-            throw new NotImplementedException();
+            return CLIGateway.FindCache<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>(this.Values, search, strict);
         }
 
         public IFilteredSignatureMemberDictionary<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>> Find(ITypeCollection search)
         {
-            throw new NotImplementedException();
+            return this.Find(true, search);
         }
 
         public IFilteredSignatureMemberDictionary<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>> Find(bool strict, params IType[] search)
         {
-            throw new NotImplementedException();
+            return CLIGateway.FindCache<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>(this.Values, search, strict);
         }
 
         public IFilteredSignatureMemberDictionary<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>> Find(params IType[] search)
         {
-            throw new NotImplementedException();
+            return this.Find(true, search);
         }
 
         #endregion

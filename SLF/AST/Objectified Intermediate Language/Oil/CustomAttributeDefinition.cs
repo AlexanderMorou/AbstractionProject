@@ -206,17 +206,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     List<object> ctorParamValues = new List<object>();
                     Dictionary<string, object> ctorParamNamedValues = new Dictionary<string, object>();
                     foreach (var item in this.Parameters)
-                    {
                         if (!(item is ICustomAttributeDefinitionNamedParameter))
                         {
                             ctorParamTypes.Add(item.Value.GetType().GetTypeReference());
                             ctorParamValues.Add(item.Value);
                         }
                         else
-                        {
                             ctorParamNamedValues.Add(((ICustomAttributeDefinitionNamedParameter)(item)).Name, item.Value);
-                        }
-                    }
                     if (this.Type is ICreatableType)
                     {
                         ICreatableType creatableType = (ICreatableType)this.Type;
