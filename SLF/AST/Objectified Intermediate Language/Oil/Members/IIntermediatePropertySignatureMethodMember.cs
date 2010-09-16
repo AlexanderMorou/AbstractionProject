@@ -15,4 +15,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IPropertySignatureMethodMember
     {
     }
+
+    public interface IIntermediatePropertySignatureSetMethodMember :
+        IIntermediatePropertySignatureMethodMember
+    {
+        /// <summary>
+        /// Returns the <see cref="IIntermediateSignatureParameterMember"/>
+        /// which is associated to the <see cref="IIntermediatePropertySignatureSetMethodMember"/>.
+        /// </summary>
+        IIntermediateSignatureParameterMember ValueParameter { get; }
+    }
 }

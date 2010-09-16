@@ -165,7 +165,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <see cref="IntermediatePropertySignatureMember{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent, TMethodMember}"/>.
         /// </summary>
         /// <remarks>Is null if <paramref name="CanWrite"/> is false.</remarks>
-        public IIntermediatePropertySignatureMethodMember SetMethod
+        public IIntermediatePropertySignatureSetMethodMember SetMethod
         {
             get
             {
@@ -173,7 +173,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 {
                     if (this.setMethod == null)
                         this.setMethod = this.GetMethodSignatureMember(PropertyMethodType.SetMethod);
-                    return this.setMethod;
+                    return (IIntermediatePropertySignatureSetMethodMember)this.setMethod;
                 }
                 else
                     return null;

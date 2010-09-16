@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region ILocalMember Members
 
-        public ILocalReferenceExpression GetReference()
+        public virtual ILocalReferenceExpression GetReference()
         {
             if (singletonLocal == null)
                 singletonLocal = new ReferenceExpression(this);

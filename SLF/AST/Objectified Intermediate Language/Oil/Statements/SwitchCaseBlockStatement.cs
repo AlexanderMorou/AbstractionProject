@@ -72,5 +72,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return string.Format("cases {0}:", string.Join(", ", this.Cases));
+        }
     }
 }

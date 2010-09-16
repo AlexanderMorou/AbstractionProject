@@ -44,21 +44,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         public static readonly IPrimitiveExpression<int> NumberZero = 0.ToPrimitive();
 
-        /* *
-         * Anonymous type cache works like so:
-         * First key is the base-type.
-         * Second key is the hash list of all 
-         * the members of the anonymous type.
-         * */
-        private static IDictionary<IClassType, IDictionary<HashList<AnonymousTypeMember>, IAnonymousType>> AnonymousTypeCache = new Dictionary<IClassType, IDictionary<HashList<AnonymousTypeMember>, IAnonymousType>>();
-        /// <summary>
-        /// The index used for anonymous types for name indexing.
-        /// </summary>
-        private static int anonymousTypeIndex = 0;
-        /// <summary>
-        /// The display style of the anonymous types.
-        /// </summary>
-        private static AnonymousTypeDisplayStyles anonymousDisplayStyle = AnonymousTypeDisplayStyles.CSharp;
+        private static AnonymousTypeDisplayStyles anonymousDisplayStyle = AnonymousTypeDisplayStyles.Clean | AnonymousTypeDisplayStyles.CSharp;
         /// <summary>
         /// The pattern aid used to adjust an anonymous type's 
         /// member name patterns.
@@ -80,10 +66,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <returns>An <see cref="ITypeReferenceExpression"/> 
         /// pertinent to the current <see cref="IType"/>.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="target"/> is null.</exception>
-        public static TypeReferenceExpression GetTypeExpression(this IType target)
+        public static ITypeReferenceExpression GetTypeExpression(this IType target)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
+            if (target is ISymbolType)
+                return (ISymbolType)target;
             if (!typeReferenceCache.ContainsKey(target))
             {
                 target.Disposed += typeExpressionTarget_Disposed;
@@ -108,19 +96,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
             }
         }
-#if !NO_ANONYMOUS
-        internal static void AnonymousType_Disposal(AnonymousType target)
-        {
-            IClassType baseType = ((IClassType)(target.BaseType));
-            if (AnonymousTypeCache.ContainsKey(baseType) &&
-                AnonymousTypeCache[baseType].ContainsKey(target.members))
-            {
-                AnonymousTypeCache[baseType].Remove(target.members);
-                if (AnonymousTypeCache[baseType].Count == 0)
-                    AnonymousTypeCache.Remove(baseType);
-            }
-        }
-#endif
 
         /// <summary>
         /// Creates a new <see cref="IntermediateAssembly"/> instance
@@ -158,221 +133,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return ((TAssembly)(CreateAssemblyBridgeCache<TAssembly>.Bridge.ctor(name).Parts.Add()));
         }
 
-        /// <summary>
-        /// Creates a new <see cref="IIntermediateType"/>
-        /// instance unbound to a specific parent/assembly.
-        /// </summary>
-        /// <param name="name">The <see cref="String"/> name 
-        /// of the <see cref="IIntermediateType"/>.</param>
-        /// <param name="kind">The <see cref="TypeKind"/> 
-        /// that determines the kind of type to create.</param>
-        /// <returns></returns>
-        public static IIntermediateType CreateType(string name, TypeKind kind)
-        {
-            switch (kind)
-            {
-                case TypeKind.Class:
-                    return new IntermediateClassType(name, null);
-                case TypeKind.Delegate:
-                    return new IntermediateDelegateType(name, null);
-                case TypeKind.Enumerator:
-                    return new IntermediateEnumType(name, null);
-                case TypeKind.Interface:
-                    return new IntermediateInterfaceType(name, null);
-                case TypeKind.Struct:
-                    return new IntermediateStructType(name, null);
-                case TypeKind.Other:
-                case TypeKind.Ambiguity:
-                case TypeKind.Dynamic:
-                    throw new NotSupportedException();
-                default:
-                    break;
-            }
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="IIntermediateType"/>
-        /// instance unbound to a specific parent/assembly.
-        /// </summary>
-        /// <param name="name">The <see cref="String"/> name 
-        /// of the <see cref="IIntermediateType"/>.</param>
-        /// <param name="kind">The <see cref="TypeKind"/> 
-        /// that determines the kind of type to create.</param>
-        /// <param name="module">The <see cref="IIntermediateModule"/>
-        /// to which the <see cref="IIntermediateType"/> will belong.</param>
-        /// <returns>A new <see cref="IIntermediateType"/> contained within
-        /// the <paramref name="module"/> provided.</returns>
-        public static IIntermediateType CreateType(string name, IIntermediateModule module, TypeKind kind)
-        {
-            if (name == null)
-                throw new ArgumentNullException("name");
-            if (name == string.Empty)
-                throw new ArgumentOutOfRangeException("name");
-            if (module == null)
-                throw new ArgumentNullException("module");
-            IIntermediateAssembly assembly = module.Parent;
-            switch (kind)
-            {
-                case TypeKind.Class:
-                    return assembly.Classes.Add(name, module);
-                case TypeKind.Delegate:
-                    return assembly.Delegates.Add(name, module);
-                case TypeKind.Enumerator:
-                    return assembly.Enums.Add(name, module);
-                case TypeKind.Interface:
-                    return assembly.Interfaces.Add(name, module);
-                case TypeKind.Struct:
-                    return assembly.Structs.Add(name, module);
-                default:
-                case TypeKind.Other:
-                case TypeKind.Ambiguity:
-                    break;
-            }
-            throw new NotSupportedException(string.Format("Type {0} not supported", kind));
-        }
-
-        public static IIntermediateClassType CreateClassType(string name)
-        {
-            return (IIntermediateClassType)CreateType(name, TypeKind.Class);
-        }
-
-        public static IIntermediateClassType CreateClassType(string name, IIntermediateModule module)
-        {
-            throw new NotImplementedException();
-            //return new IntermediateClassType(name, null, module);
-        }
-
-        public static IIntermediateClassType CreateClassType(string name, params GenericParameterData[] genParamData)
-        {
-            var result = CreateClassType(name);
-            /*//
-            if (result != null)
-                foreach (var gpData in genParamData)
-                    result.TypeParameters.Add(gpData);
-            //*/
-            return result;
-        }
-
-        public static IIntermediateClassType CreateClassType(string name, IIntermediateModule module, params GenericParameterData[] genParamData)
-        {
-            var result = CreateClassType(name, module);
-            /*//
-            if (result != null)
-                foreach (var gpData in genParamData)
-                    result.TypeParameters.Add(gpData);
-            //*/
-            return result;
-        }
-
-        /// <summary>
-        /// Creates a new generic type of the proper <paramref name="kind"/>
-        /// given the <paramref name="genParamData"/> to define the 
-        /// generic's type parameters.
-        /// </summary>
-        /// <param name="name">The <see cref="String"/> that defines
-        /// the name of the new type.</param>
-        /// <param name="kind">The <see cref="TypeKindGeneric"/>
-        /// which defines the kind of type to create.</param>
-        /// <param name="genParamData">
-        /// The <see cref="GenericParameterData"/> series which
-        /// defines the type-parameters on the generic type.</param>
-        /// <returns>A new <see cref="IIntermediateGenericType"/>
-        /// of the proper <paramref name="kind"/> with the 
-        /// <paramref name="genParamData"/> as provided.</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">thrown when
-        /// <paramref name="kind"/> is any other value not defined in
-        /// <see cref="TypeKindGeneric"/>.</exception>
-        /// <exception cref="System.ArgumentNullException">
-        /// thrown when <paramref name="name"/> is <see cref="String.Empty"/>
-        /// or null, or when <paramref name="genParamData"/> is null.</exception>
-        public static IIntermediateGenericType CreateType(string name, TypeKindGeneric kind, params GenericParameterData[] genParamData)
-        {
-            if (name.IsEmptyOrNull())
-                throw new ArgumentNullException("name");
-            if (genParamData == null)
-                throw new ArgumentNullException("genParamData");
-            var result = (IIntermediateGenericType)null;
-            switch (kind)
-            {
-                case TypeKindGeneric.Class:
-                    //result = new IntermediateClassType(name, null);
-                    break;
-                case TypeKindGeneric.Struct:
-                    //result = new IntermediateStructType(name, null);
-                    break;
-                case TypeKindGeneric.Interface:
-                    break;
-                case TypeKindGeneric.Delegate:
-                    //result = new IntermediateDelegateType(name, null);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("kind");
-            }
-            //if (result != null)
-                /*
-                foreach (var gpData in genParamData)
-                    result.TypeParameters.AddNew(gpData);
-                //*/
-            return result;
-        }
-
         public static IMember CreateMember(MemberKind kind)
         {
             throw new NotImplementedException();
         }
-#if !NO_ANONYMOUS
-        /// <summary>
-        /// Obtains a new <see cref="IAnonymmousType"/> with the 
-        /// <paramref name="members"/> provided.
-        /// </summary>
-        /// <param name="members">The <see cref="AnonymousTypeMembers"/>
-        /// which describe the layout of the anonymous type.</param>
-        /// <returns>An <see cref="IAnonymousType"/> instance.</returns>
-        public static IAnonymousType GetAnonymousType(params AnonymousTypeMember[] members)
-        {
-#if TYPESYSTEM_CLI
-            return GetAnonymousType((IClassType)typeof(object).GetTypeReference(), members);
-#endif
-        }
-#endif
 
-#if TYPESYSTEM_CLI
-        public static IAnonymousType GetAnonymousType(Type baseType, params AnonymousTypeMember[] members)
-        {
-            if (!baseType.IsClass)
-                throw new ArgumentException("baseType");
-            return GetAnonymousType(((IClassType)(baseType.GetTypeReference())), members);
-        }
-#endif
-#if !NO_ANONYMOUS
-        /// <summary>
-        /// Obtains a <see cref="IAnonymousType"/> for the 
-        /// <paramref name="baseType"/> and <paramref name="members"/>
-        /// provided.
-        /// </summary>
-        /// <param name="baseType">The <see cref="IClassType"/> with a public
-        /// empty constructor that acts as the root type of the <see cref="IAnonymousType"/>.</param>
-        /// <param name="members">The <see cref="AnonymousTypeMember"/> array which
-        /// defines the names and immutability status of the elements within the 
-        /// <see cref="IAnonymousType"/>.</param>
-        /// <returns>A <see cref="IAnonymousType"/> instance with the 
-        /// <paramref name="baseType"/> and <paramref name="members"/>
-        /// provided.</returns>
-        public static IAnonymousType GetAnonymousType(IClassType baseType, params AnonymousTypeMember[] members)
-        {
-            if (!AnonymousTypeCache.ContainsKey(baseType))
-                AnonymousTypeCache.Add(baseType, new Dictionary<HashList<AnonymousTypeMember>, IAnonymousType>());
-            if (baseType.Constructors.Find().Count == 0)
-                throw new ArgumentException("Base type must have public empty constructor.");
-            if (baseType.IsGenericType && baseType.IsGenericTypeDefinition)
-                throw new ArgumentException(string.Format("baseType {0} cannot be a generic definition.", baseType.Name), "baseType");
-            HashList<AnonymousTypeMember> key = new HashList<AnonymousTypeMember>(members);
-            if (!AnonymousTypeCache[baseType].ContainsKey(key))
-                AnonymousTypeCache[baseType].Add(key, new AnonymousType(anonymousTypeIndex++, baseType, key));
-            return AnonymousTypeCache[baseType][key];
-        }
-#endif
         /// <summary>
         /// Returns/sets the <see cref="AnonymousTypeDisplayStyles"/>
         /// associated to anonymous types and how they present their values.
@@ -549,12 +314,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return typeSymbol.GetSymbolType().GetTypeExpression();
         }
 
-        public static IType GetSymbolType(this string typeSymbol, params string[] typeParameters)
+        public static ISymbolType GetSymbolType(this string typeSymbol, params string[] typeParameters)
         {
             return typeSymbol.GetSymbolType(new TypeCollection(typeParameters.OnAll<string, ISymbolType>(GetSymbolType).Cast<IType>().ToArray()));
         }
 
-        public static IType GetSymbolType(this string typeSymbol, string @namespace, string[] typeParameters)
+        public static IMethodReferenceStub GetMethod(this ISymbolType symbolType, string methodName, params string[] typeParameterNames)
+        {
+            return symbolType.GetMethod(methodName, typeParameterNames.ToTypeCollection());
+        }
+
+        public static ISymbolType GetSymbolType(this string typeSymbol, string @namespace, string[] typeParameters)
         {
             return typeSymbol.GetSymbolType(@namespace, new TypeCollection(typeParameters.OnAll<string, ISymbolType>(GetSymbolType).Cast<IType>().ToArray()));
         }
@@ -585,6 +355,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        public static ITypeCollection ToTypeCollection(this string[] target)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            IType[] result = new IType[target.Length];
+            for (int i = 0; i < target.Length; i++)
+                result[i] = target[i].GetSymbolType();
+            return result.ToCollection();
+        }
+
         internal static IPropertySignatureReferenceExpression<TProperty, TPropertyParent> GetPropertySignatureReference<TProperty, TPropertyParent>(this TProperty target, IMemberParentReferenceExpression source)
             where TProperty :
                 IPropertySignatureMember<TProperty, TPropertyParent>
@@ -606,7 +386,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         internal static IPropertyReferenceExpression GetPropertyReference(this IPropertySignatureMember target, IMemberParentReferenceExpression source)
         {
             var targetParent = target.Parent;
-            if (targetParent is IInterfaceType)
+            if (target is IPropertyMember)
+                return ((IPropertyMember)target).GetPropertyReference(source);
+            else if (targetParent is IInterfaceType)
                 return ((IInterfacePropertyMember)target).GetPropertySignatureReference<IInterfacePropertyMember, IInterfaceType>(source);
             else
                 return new PropertyReferenceExpression(target.Name, source);
@@ -619,8 +401,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return ((IClassPropertyMember)target).GetPropertyReference<IClassPropertyMember, IClassType>(source);
             else if (targetParent is IStructType)
                 return ((IStructPropertyMember)target).GetPropertyReference<IStructPropertyMember, IStructType>(source);
-            else if (targetParent is IInterfaceType)
-                return ((IInterfacePropertyMember)target).GetPropertySignatureReference<IInterfacePropertyMember, IInterfaceType>(source);
             else
                 return new PropertyReferenceExpression(target.Name, source);
         }

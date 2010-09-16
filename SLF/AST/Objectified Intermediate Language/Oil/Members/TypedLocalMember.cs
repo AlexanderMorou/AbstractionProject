@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Statements;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
-    public class TypedLocalMember :
+    public partial class TypedLocalMember :
         LocalMember,
         ITypedLocalMember
     {
@@ -30,5 +30,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
+        public override Expressions.ILocalReferenceExpression GetReference()
+        {
+            return new ReferenceExpression(this);
+        }
     }
 }

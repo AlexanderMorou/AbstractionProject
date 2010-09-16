@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
         protected override string FetchKey(Type item)
         {
-            throw new NotImplementedException();
+            return item.Name;
         }
 
 

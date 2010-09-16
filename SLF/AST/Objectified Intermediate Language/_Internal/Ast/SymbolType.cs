@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
     internal partial class SymbolType :
         TypeBase<ISymbolType>,
         ISymbolType,
-        IExpression,
+        ITypeReferenceExpression,
         _IGenericTypeRegistrar,
         IMassTargetHandler
     {
@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         private IExpression sourceExpression;
         private string name;
         private GenericParameterDictionary typeParameters;
-        private GenericTypeCache<ISymbolType> genericCache = null;
+        private GenericTypeCache genericCache = null;
         private string _namespace;
         private IClassType baseType;
 
@@ -108,9 +108,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 throw new ArgumentException("typeParameters");
             if (this.genericCache != null)
             {
-                ISymbolType r = null;
+                IGenericType r = null;
                 if (this.genericCache.ContainsGenericType(typeParameters, out r))
-                    return r;
+                    return (ISymbolType)r;
             }
             ISymbolType result = this.OnMakeGenericType(typeParameters);
             return result;
@@ -328,7 +328,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         public void Visit(IExpressionVisitor visitor)
         {
             //ToDo: Fix #2.
-            throw new NotImplementedException();
+            visitor.Visit(this);
         }
 
         #endregion
@@ -343,7 +343,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         public void RegisterGenericType(IGenericType targetType, LockedTypeCollection typeParameters)
         {
             if (this.genericCache == null)
-                this.genericCache = new GenericTypeCache<ISymbolType>();
+                this.genericCache = new GenericTypeCache();
             this.genericCache.RegisterGenericType(targetType, typeParameters);
         }
 
@@ -368,6 +368,59 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         {
             if (this.genericCache != null)
                 this.genericCache.EndExodus();
+        }
+
+        #endregion
+
+        #region ITypeReferenceExpression Members
+
+        public IType ReferenceType
+        {
+            get { return this; }
+        }
+
+        #endregion
+
+        #region IMemberParentReferenceExpression Members
+
+        public IMethodReferenceStub GetMethod(string name)
+        {
+            return new MethodReferenceStub(this, name);
+        }
+
+        public IMethodReferenceStub GetMethod(string name, ITypeCollection genericParameters)
+        {
+            return new MethodReferenceStub(this, name, genericParameters);
+        }
+
+        public IMethodPointerReferenceExpression GetMethodPointer(string name, ITypeCollection signature)
+        {
+            return this.GetMethod(name).GetPointer(signature);
+        }
+
+        public IMethodPointerReferenceExpression GetMethodPointer(string name, ITypeCollection signature, ITypeCollection genericParameters)
+        {
+            return this.GetMethod(name, genericParameters).GetPointer(signature);
+        }
+
+        public IIndexerReferenceExpression GetIndexer(string name, params IExpression[] parameters)
+        {
+            return new IndexerReferenceExpression(name, parameters, this);
+        }
+
+        public IPropertyReferenceExpression GetProperty(string name)
+        {
+            return new PropertyReferenceExpression(name, this);
+        }
+
+        public IIndexerReferenceExpression GetIndexer(params IExpression[] parameters)
+        {
+            return GetIndexer(null, parameters);
+        }
+
+        public IFieldReferenceExpression GetField(string name)
+        {
+            return new FieldReferenceExpression(name, this);
         }
 
         #endregion

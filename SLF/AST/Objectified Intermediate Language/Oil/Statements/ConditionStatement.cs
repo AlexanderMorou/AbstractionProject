@@ -79,6 +79,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
                 throw new ArgumentNullException("visitor");
             visitor.Visit((IConditionBlockStatement)this);
         }
-
+        public override string ToString()
+        {
+            return string.Format("if ({0}) {{ ...", this.Condition);
+        }
     }
 }

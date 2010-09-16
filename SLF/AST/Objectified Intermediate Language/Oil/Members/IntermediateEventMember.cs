@@ -374,17 +374,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region IIntermediateScopedDeclaration Members
 
-        public AccessLevelModifiers AccessLevel
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public AccessLevelModifiers AccessLevel { get; set; }
 
         #endregion
 

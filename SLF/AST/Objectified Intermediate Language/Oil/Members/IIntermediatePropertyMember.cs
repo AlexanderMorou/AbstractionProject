@@ -60,6 +60,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// which represents the set method of the 
         /// <see cref="IIntermediatePropertyMember"/>.
         /// </summary>
-        new IIntermediatePropertyMethodMember SetMethod { get; }
+        new IIntermediatePropertySetMethodMember SetMethod { get; }
     }
 }

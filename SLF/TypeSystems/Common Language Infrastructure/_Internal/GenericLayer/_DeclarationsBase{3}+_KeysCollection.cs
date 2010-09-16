@@ -29,11 +29,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             KeysCollection
         {
             private _DeclarationsBase<TDeclaration, TDeclarationSpecific, TOriginalContainer, TDictionary> ParentTypes { get; set; }
-            private Dictionary<TDeclarationSpecific, string> values;
+            private ControlledStateDictionary<TDeclarationSpecific, string> values;
             internal _KeysCollection(_DeclarationsBase<TDeclaration, TDeclarationSpecific, TOriginalContainer, TDictionary> parentTypes)
                 : base(parentTypes)
             {
-                this.values = new Dictionary<TDeclarationSpecific, string>();
+                this.values = new ControlledStateDictionary<TDeclarationSpecific, string>();
                 this.ParentTypes = parentTypes;
             }
 
@@ -57,7 +57,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 else
                 {
                     item.Disposed += item_Disposed;
-                    this.values.Add(item, this.ParentTypes.Values[this.values.Count].UniqueIdentifier);
+                    this.values._Add(item, this.ParentTypes.Values[this.values.Count].UniqueIdentifier);
                     return true;
                 }
             }
@@ -69,7 +69,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 if (this.values.ContainsKey(((TDeclarationSpecific)(sender))))
                 {
                     ((TDeclarationSpecific)(sender)).Disposed -= item_Disposed;
-                    this.values.Remove(((TDeclarationSpecific)(sender)));
+                    this.values._Remove(((TDeclarationSpecific)(sender)));
                 }
             }
 
@@ -98,7 +98,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                         for (int i = oldCount; i <= index; i++)
                             this.CheckItemAt(this.ParentTypes.Original.Values[i]);
                     }
-                    return this.values.Values.Take(index, 1).First();
+                    return this.values.Values[index];
                 }
             }
 
@@ -119,7 +119,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
             internal void Dispose()
             {
-                this.values.Clear();
+                this.values._Clear();
             }
         }
 

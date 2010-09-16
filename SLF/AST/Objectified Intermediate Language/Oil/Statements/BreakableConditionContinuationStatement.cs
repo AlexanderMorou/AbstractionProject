@@ -55,11 +55,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         internal override IConditionBlockStatement OnIf(IExpression condition)
         {
-            var result = new BreakableConditionBlockStatement(this)
-            {
-                Condition = condition
-            };
-            this.baseCollection.Add(result);
+            var result = new BreakableConditionBlockStatement(this) { Condition = condition };
             return result;
         }
 

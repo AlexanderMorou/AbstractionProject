@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer.Inlining
         LiteralCharTokenItem,
         IInlinedTokenItem
     {
-
+        private RegularLanguageNFAState state;
         public InlinedLiteralCharReferenceTokenItem(ILiteralCharReferenceTokenItem source, ITokenEntry sourceRoot, InlinedTokenEntry root)
             : base(source.Literal.Value, source.Literal.CaseInsensitive, source.Column, source.Line, source.Position)
         {
@@ -40,10 +40,28 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer.Inlining
 
         public RegularLanguageNFAState State
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (this.state == null)
+                {
+                    this.state = this.BuildNFAState();
+                    this.state.HandleRepeatCycle<RegularLanguageSet, RegularLanguageNFAState, RegularLanguageDFAState, ITokenSource, RegularLanguageNFARootState, IInlinedTokenItem>(this, InliningCore.TokenRootStateClonerCache, InliningCore.TokenStateClonerCache);
+                }
+                return this.state;
+            }
         }
 
         #endregion
+
+        private RegularLanguageNFAState BuildNFAState()
+        {
+            RegularLanguageNFAState rootState = new RegularLanguageNFAState();
+            RegularLanguageNFAState endState = new RegularLanguageNFAState();
+            rootState.MoveTo(new RegularLanguageSet(!this.CaseInsensitive, this.Value), endState);
+            rootState.SetInitial(this);
+            endState.SetFinal(this);
+            return rootState;
+        }
 
         public override string ToString()
         {

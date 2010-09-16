@@ -576,17 +576,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         IGenericParameterIndexerMemberDictionary<TGenericParameter> IGenericParameter<TGenericParameter>.Indexers
         {
-            get { throw new NotImplementedException(); }
+            get { return this.Indexers; }
         }
 
         IGenericParameterMethodMemberDictionary<TGenericParameter> IGenericParameter<TGenericParameter>.Methods
         {
-            get { throw new NotImplementedException(); }
+            get { return this.Methods; }
         }
 
         IGenericParameterPropertyMemberDictionary<TGenericParameter> IGenericParameter<TGenericParameter>.Properties
         {
-            get { throw new NotImplementedException(); }
+            get { return this.Properties; }
         }
 
         #endregion
@@ -595,7 +595,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         TParent IGenericParameter<TGenericParameter, TParent>.Parent
         {
-            get { throw new NotImplementedException(); }
+            get { return this.Parent; }
         }
 
         #endregion

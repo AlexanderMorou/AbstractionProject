@@ -95,12 +95,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         public void Remove(TIntermediateType type)
         {
-            throw new NotImplementedException();
+            if (this.Values.Contains(type))
+            {
+                int index = this.Values.IndexOf(type);
+                type.Dispose();
+                this._Remove(index);
+            }
         }
 
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            if (index < 0 || index >= this.Count)
+                throw new ArgumentOutOfRangeException("index");
+            this._Remove(index);
         }
 
         public IIntermediateTypeParent Parent
@@ -110,10 +117,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         public void RemoveSoft(TIntermediateType type)
         {
-            throw new NotImplementedException();
+            if (this.Values.Contains(type))
+            {
+                int index = this.Values.IndexOf(type);
+                this._Remove(index);
+            }
         }
 
-
+        public void Add(TIntermediateType type)
+        {
+            if (this.Values.Contains(type))
+                throw new InvalidOperationException("type already exists.");
+            if (type.Parent != this.Parent)
+                throw new ArgumentException("type's parent must be equal to dictionary parent.", "type");
+            this._Add(new KeyValuePair<string, TType>(type.UniqueIdentifier, type));
+        }
         #endregion
     }
 }

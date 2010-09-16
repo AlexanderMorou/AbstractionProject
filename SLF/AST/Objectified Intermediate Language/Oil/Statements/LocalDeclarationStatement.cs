@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 {
@@ -31,6 +33,26 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
             if (visitor == null)
                 throw new ArgumentNullException("visitor");
             visitor.Visit(this);
+        }
+
+        public override string ToString()
+        {
+            if (this.DeclaredLocal == null)
+                return string.Empty;
+            switch (DeclaredLocal.TypingMethod)
+            {
+                case LocalTypingKind.Dynamic:
+                    return string.Format("dynamic {0};", this.DeclaredLocal.Name);
+                case LocalTypingKind.Implicit:
+                    return string.Format("var {0};", this.DeclaredLocal.Name);
+                case LocalTypingKind.Explicit:
+                    if (this.DeclaredLocal is ITypedLocalMember)
+                        return string.Format("{0} {1};", ((ITypedLocalMember)(this.DeclaredLocal)).LocalType.BuildTypeName(), this.DeclaredLocal.Name);
+                    else
+                        return string.Format("? {0};", this.DeclaredLocal.Name);
+                default:
+                    return string.Empty;
+            }
         }
     }
 }

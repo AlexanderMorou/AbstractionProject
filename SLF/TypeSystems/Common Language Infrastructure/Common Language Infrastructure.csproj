@@ -444,6 +444,9 @@
     </Compile>
     <Compile Include="_Internal\GenericLayer\_DelegateTypeBase.cs" />
     <Compile Include="_Internal\GenericLayer\_DelegateTypesBase.cs" />
+    <Compile Include="_Internal\GenericLayer\_DummyEnumType.cs" />
+    <Compile Include="_Internal\GenericLayer\_EnumTypeBase+FieldMemberDictionary[+_FieldMember].cs" />
+    <Compile Include="_Internal\GenericLayer\_EnumTypeBase.cs" />
     <Compile Include="_Internal\GenericLayer\_EnumTypesBase.cs" />
     <Compile Include="_Internal\GenericLayer\_FullTypesBase.cs" />
     <Compile Include="_Internal\GenericLayer\_GenericInstantiableTypeBase{7}+_BinaryOperatorsBase[+_BinaryOperator].cs">

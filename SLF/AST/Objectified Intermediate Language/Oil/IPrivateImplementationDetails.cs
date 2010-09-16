@@ -19,10 +19,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IIntermediateClassType
     {
         /// <summary>
-        /// Returns the <see cref="IAnonymousTypeCollection"/> which enables
+        /// Returns the <see cref="IAnonymousTypeDictionary"/> which enables
         /// declaration and management of anonymous types within the 
         /// <see cref="IPrivateImplementationDetails"/>.
         /// </summary>
-        IAnonymousTypeCollection AnonymousTypes { get; }
+        IAnonymousTypeDictionary AnonymousTypes { get; }
+        Guid DetailGuid { get; set; }
     }
 }

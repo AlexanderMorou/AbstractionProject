@@ -215,7 +215,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection search)
         {
-            throw new NotImplementedException();
+            return this.Find(name, null, true, search);
         }
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, bool strict, params IType[] search)
@@ -502,7 +502,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection search)
         {
-            throw new NotImplementedException();
+            return this.Find(name, null, true, search);
         }
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, bool strict, params IType[] search)

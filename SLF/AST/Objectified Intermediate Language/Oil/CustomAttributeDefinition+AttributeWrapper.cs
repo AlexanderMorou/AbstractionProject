@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
+using System.Dynamic;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -14,77 +15,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     partial class CustomAttributeDefinition
     {
         private partial class AttributeWrapper :
-            Attribute,
-            ICustomTypeDescriptor
+            Attribute
         {
             public AttributeWrapper()
             {
-
             }
 
-            #region ICustomTypeDescriptor Members
+            //#region IDynamicMetaObjectProvider Members
 
-            public AttributeCollection GetAttributes()
-            {
-                throw new NotImplementedException();
-            }
+            //public DynamicMetaObject GetMetaObject(System.Linq.Expressions.Expression parameter)
+            //{
+            //    throw new NotImplementedException();
+            //}
 
-            public string GetClassName()
-            {
-                throw new NotImplementedException();
-            }
-
-            public string GetComponentName()
-            {
-                throw new NotImplementedException();
-            }
-
-            public TypeConverter GetConverter()
-            {
-                throw new NotImplementedException();
-            }
-
-            public EventDescriptor GetDefaultEvent()
-            {
-                throw new NotImplementedException();
-            }
-
-            public PropertyDescriptor GetDefaultProperty()
-            {
-                throw new NotImplementedException();
-            }
-
-            public object GetEditor(Type editorBaseType)
-            {
-                throw new NotImplementedException();
-            }
-
-            public EventDescriptorCollection GetEvents(Attribute[] attributes)
-            {
-                throw new NotImplementedException();
-            }
-
-            public EventDescriptorCollection GetEvents()
-            {
-                throw new NotImplementedException();
-            }
-
-            public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
-            {
-                throw new NotImplementedException();
-            }
-
-            public PropertyDescriptorCollection GetProperties()
-            {
-                throw new NotImplementedException();
-            }
-
-            public object GetPropertyOwner(PropertyDescriptor pd)
-            {
-                throw new NotImplementedException();
-            }
-
-            #endregion
+            //#endregion
         }
     }
 }

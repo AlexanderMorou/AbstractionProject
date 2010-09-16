@@ -166,11 +166,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
-        IIntermediatePropertySignatureMethodMember IIntermediatePropertySignatureMember.SetMethod
+        IIntermediatePropertySignatureSetMethodMember IIntermediatePropertySignatureMember.SetMethod
         {
             get
             {
-                return this.SetMethod;
+                return (IIntermediatePropertySignatureSetMethodMember)this.SetMethod;
             }
         }
 
@@ -201,11 +201,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
-        IIntermediatePropertyMethodMember IIntermediatePropertyMember.SetMethod
+        IIntermediatePropertySetMethodMember IIntermediatePropertyMember.SetMethod
         {
             get
             {
-                return this.SetMethod;
+                return (IIntermediatePropertySetMethodMember)this.SetMethod;
             }
         }
         /// <summary>

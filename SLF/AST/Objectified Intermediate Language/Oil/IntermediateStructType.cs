@@ -54,12 +54,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
         protected override IntermediateGenericSegmentableInstantiableType<IStructCtorMember, IIntermediateStructCtorMember, IStructEventMember, IIntermediateStructEventMember, IntermediateStructEventMember<TInstanceIntermediateType>.EventMethodMember, IStructFieldMember, IIntermediateStructFieldMember, IStructIndexerMember, IIntermediateStructIndexerMember, IntermediateStructIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IStructMethodMember, IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember, IntermediateStructPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IStructType, IIntermediateStructType, TInstanceIntermediateType>.ConstructorMember GetNewConstructor(TypedNameSeries parameters)
         {
-            throw new NotImplementedException();
+            return new IntermediateStructCtorMember<TInstanceIntermediateType>((TInstanceIntermediateType)this);
         }
 
         protected override IntermediateGenericSegmentableInstantiableType<IStructCtorMember, IIntermediateStructCtorMember, IStructEventMember, IIntermediateStructEventMember, IntermediateStructEventMember<TInstanceIntermediateType>.EventMethodMember, IStructFieldMember, IIntermediateStructFieldMember, IStructIndexerMember, IIntermediateStructIndexerMember, IntermediateStructIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IStructMethodMember, IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember, IntermediateStructPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IStructType, IIntermediateStructType, TInstanceIntermediateType>.EventMember GetNewEvent(TypedName nameAndDelegateType)
         {
-            throw new NotImplementedException();
+            var result = new IntermediateStructEventMember<TInstanceIntermediateType>((TInstanceIntermediateType)this);
+            result.Name = nameAndDelegateType.Name;
+            var signatureType = nameAndDelegateType.AscertainType(this);
+            result.SignatureSource = EventSignatureSource.Delegate;
+            if (signatureType is IDelegateType)
+                result.SignatureType = (IDelegateType)nameAndDelegateType.AscertainType(this);
+            return result;
         }
 
         protected override IntermediateGenericSegmentableInstantiableType<IStructCtorMember, IIntermediateStructCtorMember, IStructEventMember, IIntermediateStructEventMember, IntermediateStructEventMember<TInstanceIntermediateType>.EventMethodMember, IStructFieldMember, IIntermediateStructFieldMember, IStructIndexerMember, IIntermediateStructIndexerMember, IntermediateStructIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IStructMethodMember, IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember, IntermediateStructPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IStructType, IIntermediateStructType, TInstanceIntermediateType>.MethodMember GetNewMethod(string name)
@@ -69,7 +75,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         protected override IntermediateGenericSegmentableInstantiableType<IStructCtorMember, IIntermediateStructCtorMember, IStructEventMember, IIntermediateStructEventMember, IntermediateStructEventMember<TInstanceIntermediateType>.EventMethodMember, IStructFieldMember, IIntermediateStructFieldMember, IStructIndexerMember, IIntermediateStructIndexerMember, IntermediateStructIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IStructMethodMember, IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember, IntermediateStructPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IStructType, IIntermediateStructType, TInstanceIntermediateType>.EventMember GetNewEvent(string name, TypedNameSeries eventSignature)
         {
-            throw new NotImplementedException();
+            var result = new IntermediateStructEventMember<TInstanceIntermediateType>((TInstanceIntermediateType)this);
+            result.Name = name;
+            result.Parameters.AddRange(eventSignature.ToArray());
+            return result;
         }
 
         protected override IStructType OnMakeGenericType(ITypeCollectionBase typeParameters)

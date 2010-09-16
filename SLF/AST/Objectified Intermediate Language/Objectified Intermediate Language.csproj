@@ -70,7 +70,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NO_ANONYMOUS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;TYPESYSTEM_CLI</DefineConstants>
     <DocumentationFile>bin\Debug\_abs.slf.ast.oil.xml</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -176,6 +176,8 @@
     <Compile Include="Oil\Expressions\CreateInstanceExpression.cs" />
     <Compile Include="Oil\Expressions\CreateInstanceMemberAssignment.cs" />
     <Compile Include="Oil\Expressions\CreateInstanceMemberAssignmentDictionary.cs" />
+    <Compile Include="Oil\Expressions\IReferenceExpression.cs" />
+    <Compile Include="Oil\Expressions\SpecialReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\UnaryOperationExpression.cs" />
     <Compile Include="Oil\Expressions\ExpressionBase.cs" />
     <Compile Include="Oil\Expressions\ExpressionCollection.cs" />
@@ -314,7 +316,6 @@
     <Compile Include="Oil\Expressions\Linq\LinqTypedFromClause.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqTypedJoinClause.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqWhereClause.cs" />
-    <Compile Include="Oil\Expressions\LocalReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\MalleableExpressionCollection.cs" />
     <Compile Include="Oil\Expressions\MalleableStatementExpressionCollection.cs" />
     <Compile Include="Oil\Expressions\MemberParentReferenceExpressionBase.cs" />
@@ -683,6 +684,7 @@
     <Compile Include="Oil\Members\LocalMember+ReferenceExpression.cs" />
     <Compile Include="Oil\Members\LocalMember.cs" />
     <Compile Include="Oil\Members\LocalMemberDictionary.cs" />
+    <Compile Include="Oil\Members\TypedLocalMember+ReferenceExpression.cs" />
     <Compile Include="Oil\Members\TypedLocalMember.cs" />
     <Compile Include="Oil\Modules\IIntermediateModule.cs" />
     <Compile Include="Oil\Modules\IIntermediateModuleDictionary.cs" />

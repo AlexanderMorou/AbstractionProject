@@ -9,15 +9,13 @@ using System.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
-    public class GenericTypeCache<TType> :
+    public class GenericTypeCache :
         _IGenericTypeRegistrar,
         IDisposable,
-        IEnumerable<TType>,
+        IEnumerable<IGenericType>,
         IMassTargetHandler
-        where TType :
-            IGenericType<TType>
     {
-        private Dictionary<LockedTypeCollection, TType> genericCache = null;
+        private Dictionary<LockedTypeCollection, IGenericType> genericCache = null;
         private HashSet<LockedTypeCollection> exodusCache;
         private object syncObject = new object();
         private bool disposing;
@@ -28,44 +26,44 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         /// <param name="targetType">The <see cref="IGenericType"/>
         /// which represents the specific generic instance of the user of the 
-        /// <see cref="GenericTypeCache{TType}"/>.</param>
+        /// <see cref="GenericTypeCache"/>.</param>
         /// <param name="typeParameters">The series of <see cref="IType"/>
         /// instances which replace the type-parameters of the type the 
-        /// <see cref="GenericTypeCache{TType}"/> is used by.</param>
+        /// <see cref="GenericTypeCache"/> is used by.</param>
         internal void RegisterGenericType(IGenericType targetType, LockedTypeCollection typeParameters)
         {
             if (this.genericCache == null)
-                this.genericCache = new Dictionary<LockedTypeCollection, TType>();
-            TType required;
+                this.genericCache = new Dictionary<LockedTypeCollection, IGenericType>();
+            IGenericType required;
             if (this.ContainsGenericType(typeParameters, out required))
                 return;
             lock (syncObject)
-                genericCache.Add(new LockedTypeCollection(typeParameters), (TType)targetType);
+                genericCache.Add(new LockedTypeCollection(typeParameters), (IGenericType)targetType);
         }
 
         /// <summary>
-        /// Returns whether the current <see cref="GenericTypeCache{TType}"/>
+        /// Returns whether the current <see cref="GenericTypeCache"/>
         /// contains a generic instance for the <see cref="typeParameters"/>
         /// provided.
         /// </summary>
         /// <param name="typeParameters">The <see cref="ITypeCollectionBase"/>
         /// which represents the generic parameter replacements to search for.</param>
-        /// <param name="r">The output <typeparamref name="TType"/>
+        /// <param name="r">The output <typeparamref name="IGenericType"/>
         /// instance represented by the <paramref name="typeParameters"/> provided.</param>
-        /// <returns>true if the <see cref="GenericTypeCache{TType}"/> contains
+        /// <returns>true if the <see cref="GenericTypeCache"/> contains
         /// a generic instance with the <paramref name="typeParameters"/>
         /// provided; false, otherwise.</returns>
-        public bool ContainsGenericType(ITypeCollectionBase typeParameters, out TType r)
+        public bool ContainsGenericType(ITypeCollectionBase typeParameters, out IGenericType r)
         {
             if (this.genericCache == null || typeParameters == null)
             {
-                r = default(TType);
+                r = default(IGenericType);
                 return false;
             }
             LockedTypeCollection familliarSeries = ObtainGenericFamilliar(typeParameters);
             if (familliarSeries == null)
             {
-                r = default(TType);
+                r = default(IGenericType);
                 return false;
             }
             r = this.genericCache[familliarSeries];
@@ -129,7 +127,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             {
                 if (dispose)
                 {
-                    TType[] genericCacheCopy;
+                    IGenericType[] genericCacheCopy;
                     lock (this.syncObject)
                         genericCacheCopy = this.genericCache.Values.ToArray();
                     Parallel.ForEach(genericCacheCopy, genericEntity =>
@@ -263,7 +261,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #region IEnumerable<IType> Members
 
-        public IEnumerator<TType> GetEnumerator()
+        public IEnumerator<IGenericType> GetEnumerator()
         {
             foreach (var element in this.genericCache.Values)
                 yield return element;

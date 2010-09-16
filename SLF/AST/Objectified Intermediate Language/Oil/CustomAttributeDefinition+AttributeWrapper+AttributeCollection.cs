@@ -24,7 +24,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     : base(attributes)
                 {
                     this.attr = attr;
-                    
                 }
             }
         }

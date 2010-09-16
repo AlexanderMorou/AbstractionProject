@@ -12,8 +12,8 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
-    public interface IAnonymousTypeCollection :
-        IControlledStateCollection<IAnonymousType>
+    public interface IAnonymousTypeDictionary :
+        IControlledStateDictionary<HashList<AnonymousTypeMember>, IAnonymousType>
     {
 
     }

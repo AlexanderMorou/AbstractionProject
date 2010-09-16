@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             TType,
             IIntermediateGenericType<TType, TIntermediateType>
     {
-        private GenericTypeCache<TType> genericCache = null;
+        private GenericTypeCache genericCache = null;
         private GenericParameterCollection genericParameters;
         private IIntermediateGenericParameterDictionary<IGenericTypeParameter<TType>, IIntermediateGenericTypeParameter<TType, TIntermediateType>, TType, TIntermediateType> typeParameters;
         private bool disposing;
@@ -133,9 +133,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.genericCache != null)
             {
-                TType r;
+                IGenericType r;
                 if (this.genericCache.ContainsGenericType(typeParameters, out r))
-                    return r;
+                    return (TType)r;
             }
             return this.OnMakeGenericType(typeParameters);
         }
@@ -187,7 +187,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 throw new ArgumentException("typeParameters");
             if (this.genericCache != null)
             {
-                TType r = null;
+                IGenericType r = null;
                 if (this.genericCache.ContainsGenericType(typeParameters, out r))
                     return r;
             }
@@ -283,7 +283,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         void _IGenericTypeRegistrar.RegisterGenericType(IGenericType targetType, LockedTypeCollection typeParameters)
         {
             if (this.genericCache == null)
-                this.genericCache = new GenericTypeCache<TType>();
+                this.genericCache = new GenericTypeCache();
             this.genericCache.RegisterGenericType(targetType, typeParameters);
         }
 

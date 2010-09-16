@@ -17,10 +17,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// A generic collection which is tightly controlled.
     /// </summary>
     /// <typeparam name="T">The type of elements in the <see cref="ControlledStateCollection{T}"/></typeparam>
-    [DebuggerDisplay("Count: {Count}")]
+    //[DebuggerDisplay("Count: {Count}")]
     public class ControlledStateCollection<T> :
         IControlledStateCollection<T>,
-        IControlledStateCollection
+        IControlledStateCollection,
+        IEnumerable<T>
     {
         /// <summary>
         /// The collection to wrap.

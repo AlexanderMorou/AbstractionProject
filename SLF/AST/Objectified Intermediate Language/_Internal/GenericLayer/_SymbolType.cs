@@ -42,15 +42,73 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get { return ExpressionKinds.TypeReference; }
         }
 
-        #endregion
-
-        #region IExpression Members
-
-
+        /// <summary>
+        /// Visits the <paramref name="visitor"/> based upon the type of the
+        /// <see cref="IExpression"/>.
+        /// </summary>
+        /// <param name="visitor">The <see cref="IIntermediateCodeVisitor"/> 
+        /// to visit.</param>
+        /// <remarks>In this instance visits the <paramref name="visitor"/>
+        /// through <see cref="IIntermediateCodeVisitor.Visit(ICallFusionStatement)"/>.</remarks>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="visitor"/>
+        /// is null.</exception>
         public void Visit(IExpressionVisitor visitor)
         {
-            //ToDo: Fix.
-            throw new NotSupportedException();
+            //ToDo: Fix #2.
+            visitor.Visit(this);
+        }
+
+        #endregion
+
+        #region ITypeReferenceExpression Members
+
+        public IType ReferenceType
+        {
+            get { return this; }
+        }
+
+        #endregion
+
+        #region IMemberParentReferenceExpression Members
+
+        public IMethodReferenceStub GetMethod(string name)
+        {
+            return new MethodReferenceStub(this, name);
+        }
+
+        public IMethodReferenceStub GetMethod(string name, ITypeCollection genericParameters)
+        {
+            return new MethodReferenceStub(this, name, genericParameters);
+        }
+
+        public IMethodPointerReferenceExpression GetMethodPointer(string name, ITypeCollection signature)
+        {
+            return this.GetMethod(name).GetPointer(signature);
+        }
+
+        public IMethodPointerReferenceExpression GetMethodPointer(string name, ITypeCollection signature, ITypeCollection genericParameters)
+        {
+            return this.GetMethod(name, genericParameters).GetPointer(signature);
+        }
+
+        public IIndexerReferenceExpression GetIndexer(string name, params IExpression[] parameters)
+        {
+            return new IndexerReferenceExpression(name, parameters, this);
+        }
+
+        public IPropertyReferenceExpression GetProperty(string name)
+        {
+            return new PropertyReferenceExpression(name, this);
+        }
+
+        public IIndexerReferenceExpression GetIndexer(params IExpression[] parameters)
+        {
+            return GetIndexer(null, parameters);
+        }
+
+        public IFieldReferenceExpression GetField(string name)
+        {
+            return new FieldReferenceExpression(name, this);
         }
 
         #endregion

@@ -101,6 +101,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
             visitor.Visit((IConditionBlockStatement)this);
         }
 
-
+        public override string ToString()
+        {
+            return string.Format("if ({0}) {{ ...", this.Condition);
+        }
     }
 }

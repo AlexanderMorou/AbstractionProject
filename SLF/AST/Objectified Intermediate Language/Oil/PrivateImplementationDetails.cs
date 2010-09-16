@@ -16,6 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IntermediateClassType<PrivateImplementationDetails>,
         IPrivateImplementationDetails
     {
+        private Guid detailGuid;
         internal PrivateImplementationDetails(IIntermediateAssembly parent)
             : base(parent)
         {
@@ -26,7 +27,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
         }
 
-        public Guid DetailGuid { get; set; }
+        public Guid DetailGuid
+        {
+            get
+            {
+                if (this.IsRoot)
+                    return this.detailGuid;
+                else
+                    return this.GetRoot().DetailGuid;
+            }
+            set
+            {
+                if (this.IsRoot)
+                    this.detailGuid = value;
+                else
+                    this.GetRoot().DetailGuid = value;
+            }
+        }
 
         protected override string OnGetName()
         {
@@ -35,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IPrivateImplementationDetails Members
 
-        public IAnonymousTypeCollection AnonymousTypes
+        public IAnonymousTypeDictionary AnonymousTypes
         {
             get { throw new NotImplementedException(); }
         }

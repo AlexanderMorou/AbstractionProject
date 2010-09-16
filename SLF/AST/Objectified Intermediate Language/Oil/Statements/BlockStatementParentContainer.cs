@@ -120,7 +120,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <see cref="IExpression"/> <paramref name="condition"/> provided.</returns>
         public IConditionBlockStatement If(IExpression condition)
         {
-            return OnIf(condition);
+            var ifResult = OnIf(condition);
+            this.baseCollection.Add(ifResult);
+            return ifResult;
         }
 
         /// <summary>
@@ -134,7 +136,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <paramref name="caseCondition"/> provided.</returns>
         public ISwitchStatement Switch(IExpression caseCondition)
         {
-            var result = new SwitchStatement(this.Owner);
+            var result = new SwitchStatement(this.Owner) { Selection = caseCondition };
             base.baseCollection.Add(result);
             return result;
         }
@@ -559,11 +561,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         internal virtual IConditionBlockStatement OnIf(IExpression condition)
         {
-            var result = new ConditionBlockStatement(this.Owner)
-            {
-                Condition = condition
-            };
-            this.baseCollection.Add(result);
+            var result = new ConditionBlockStatement(this.Owner) { Condition = condition };
             return result;
         }
 

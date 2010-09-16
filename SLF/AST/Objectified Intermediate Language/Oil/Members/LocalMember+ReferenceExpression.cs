@@ -8,7 +8,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
     partial class LocalMember
     {
-        private class ReferenceExpression :
+        protected class ReferenceExpression :
             MemberParentReferenceExpressionBase,
             ILocalReferenceExpression
         {
@@ -16,6 +16,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             public ReferenceExpression(LocalMember owner)
             {
                 this.owner = owner;
+            }
+
+            protected LocalMember Owner
+            {
+                get
+                {
+                    return this.owner;
+                }
             }
 
             public override ExpressionKind Type

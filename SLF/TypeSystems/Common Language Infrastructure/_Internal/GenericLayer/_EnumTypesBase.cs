@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         protected override IEnumType ObtainWrapper(IEnumType item)
         {
-            throw new NotImplementedException();
+            return new _EnumTypeBase(item, Parent.GenericParameters);
         }
     }
 }

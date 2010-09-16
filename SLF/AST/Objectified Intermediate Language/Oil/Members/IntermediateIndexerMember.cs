@@ -101,7 +101,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <see cref="IntermediateIndexerMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>.
         /// </summary>
         /// <remarks>Is null if <paramref name="CanRead"/> is false.</remarks>
-        public IIntermediatePropertyMethodMember GetMethod
+        public TMethodMember GetMethod
         {
             get
             {
@@ -124,7 +124,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <see cref="IntermediateIndexerMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>.
         /// </summary>
         /// <remarks>Is null if <paramref name="CanWrite"/> is false.</remarks>
-        public IIntermediatePropertyMethodMember SetMethod
+        public TMethodMember SetMethod
         {
             get
             {
@@ -136,6 +136,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 }
                 else
                     return null;
+            }
+        }
+
+        IIntermediatePropertyMethodMember IIntermediatePropertyMember.GetMethod
+        {
+            get
+            {
+                return this.GetMethod;
+            }
+        }
+
+        IIntermediatePropertySetMethodMember IIntermediatePropertyMember.SetMethod
+        {
+            get
+            {
+                return (IIntermediatePropertySetMethodMember)this.SetMethod;
             }
         }
 
@@ -225,11 +241,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <see cref="IntermediateIndexerMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>.
         /// </summary>
         /// <remarks>Is null if <paramref name="CanWrite"/> is false.</remarks>
-        IIntermediatePropertySignatureMethodMember IIntermediatePropertySignatureMember.SetMethod
+        IIntermediatePropertySignatureSetMethodMember IIntermediatePropertySignatureMember.SetMethod
         {
             get
             {
-                return this.SetMethod;
+                return (IIntermediatePropertySignatureSetMethodMember)this.SetMethod;
             }
         }
 

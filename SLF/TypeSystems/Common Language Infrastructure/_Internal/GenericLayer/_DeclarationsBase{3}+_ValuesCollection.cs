@@ -28,13 +28,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         private class _ValuesCollection :
             ValuesCollection
         {
-            internal Dictionary<TDeclarationSpecific, TDeclarationSpecific> values;
+            internal ControlledStateDictionary<TDeclarationSpecific, TDeclarationSpecific> values;
             private _DeclarationsBase<TDeclaration, TDeclarationSpecific, TOriginalContainer, TDictionary> ParentTypes { get; set; }
             internal _ValuesCollection(_DeclarationsBase<TDeclaration, TDeclarationSpecific, TOriginalContainer, TDictionary> parentTypes)
                 : base(parentTypes)
             {
                 this.ParentTypes = parentTypes;
-                this.values = new Dictionary<TDeclarationSpecific, TDeclarationSpecific>();
+                this.values = new ControlledStateDictionary<TDeclarationSpecific, TDeclarationSpecific>();
             }
 
             public override bool Contains(TDeclarationSpecific value)
@@ -55,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                     return false;
                 else
                 {
-                    this.values.Add(item,this.ParentTypes.GetWrapper(item, this.ParentTypes.Parent));
+                    this.values._Add(item,this.ParentTypes.GetWrapper(item, this.ParentTypes.Parent));
                     item.Disposed += item_Disposed;
                     return true;
                 }
@@ -69,7 +69,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 {
                     ((TDeclarationSpecific)(sender)).Disposed -= item_Disposed;
                     this.values[(TDeclarationSpecific)sender].Dispose();
-                    this.values.Remove(((TDeclarationSpecific)(sender)));
+                    this.values._Remove(((TDeclarationSpecific)(sender)));
                 }
             }
 
@@ -96,7 +96,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                     for (int i = oldCount; i <= index; i++)
                         this.CheckItemAt(this.ParentTypes.Original.Values[i]);
                 }
-                return this.values.Values.Take(index, 1).First();
+                return this.values.Values[index];
             }
 
             public override TDeclarationSpecific[] ToArray()
@@ -116,7 +116,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
             internal void Dispose()
             {
-                this.values.Clear();
+                this.values._Clear();
             }
         }
     }

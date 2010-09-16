@@ -81,7 +81,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <see cref="IIntermediatePropertySignatureMember"/>.
         /// </summary>
         /// <remarks>Is null if <paramref name="CanWrite"/> is false.</remarks>
-        new IIntermediatePropertySignatureMethodMember SetMethod { get; }
+        new IIntermediatePropertySignatureSetMethodMember SetMethod { get; }
         /// <summary>
         /// Returns a <see cref="IPropertyReferenceExpression"/>
         /// associated to the current <see cref="IIntermediatePropertyMember"/>.
