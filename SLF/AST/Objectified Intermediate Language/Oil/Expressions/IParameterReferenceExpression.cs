@@ -12,10 +12,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         IAssignTargetExpression
     {
         /// <summary>
-        /// Returns/sets the <see cref="IIntermediateParameterMember"/> to which the
-        /// <see cref="IParameterReferenceExpression"/> refers.
+        /// Returns/sets the <see cref="String"/> associated to the unique
+        /// identifier of the parameter referred to by the 
+        /// <see cref="IParameterReferenceExpression"/>.
         /// </summary>
-        IIntermediateParameterMember ReferenceTarget { get; set; }
+        string Name { get; set; }
+
     }
 
     public interface IParameterReferenceExpression<TParameterParent, TIntermediateParameterParent,TParameter, TIntermediateParameter> :

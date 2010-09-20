@@ -40,20 +40,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region IParameterReferenceExpression Members
 
-        IIntermediateParameterMember IParameterReferenceExpression.ReferenceTarget
-        {
-            get
-            {
-                return this.ReferenceTarget;
-            }
-            set
-            {
-                if (!(value is TIntermediateParameter))
-                    throw new ArgumentException("value");
-                this.ReferenceTarget = (TIntermediateParameter)value;
-            }
-        }
-
         public TIntermediateParameter ReferenceTarget { get; set; }
 
         #endregion
@@ -70,5 +56,41 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 return this.ReferenceTarget.ParameterType;
             }
         }
+
+        #region IParameterReferenceExpression Members
+
+        public string Name
+        {
+            get
+            {
+                return this.ReferenceTarget.Name;
+            }
+            set
+            {
+                this.ReferenceTarget.Name = value;
+            }
+        }
+
+        #endregion
+    }
+
+    public class ParameterReferenceExpression :
+        MemberParentReferenceExpressionBase,
+        IParameterReferenceExpression
+    {
+        public ParameterReferenceExpression(string name)
+        {
+            this.Name = name;
+        }
+        public override ExpressionKind Type
+        {
+            get { return ExpressionKinds.ParameterReference; }
+        }
+
+        public override void Visit(IExpressionVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+        public string Name { get; set; }
     }
 }

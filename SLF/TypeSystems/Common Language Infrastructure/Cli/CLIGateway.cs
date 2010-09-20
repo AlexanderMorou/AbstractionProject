@@ -177,8 +177,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
              * */
             Type t = type;
             //lock (CLIGateway.CompiledTypeCache)
-            if (CLIGateway.CompiledTypeCache.ContainsKey(t))
-                return CLIGateway.CompiledTypeCache[t];
+            IType result;
+            lock (CLIGateway.CompiledTypeCache)
+                if (CLIGateway.CompiledTypeCache.TryGetValue(t, out result))
+                    return result;
             Type byRefType = null;
             #region Type breakdown
 
@@ -254,7 +256,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             #endregion
 
-            IType result = null;
             #region Initial type instantiation/retrieval.
 
             if (CompiledTypeCache.ContainsKey(t))

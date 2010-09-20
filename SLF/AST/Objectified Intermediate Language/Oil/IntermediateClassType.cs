@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <see cref="IntermediateClassType"/>'s name.</param>
         /// <param name="parent">The <see cref="IIntermediateTypeParent"/> which contains the 
         /// <see cref="IntermediateClassType"/>.</param>
-        internal IntermediateClassType(string name, IIntermediateTypeParent parent)
+        public IntermediateClassType(string name, IIntermediateTypeParent parent)
             : base(name, parent)
         {
         }
@@ -143,12 +143,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <returns>A new <see cref="IntermediateClassCtorMember{TInstanceIntermediateType}"/>, if successful.</returns>
         /// <remarks>Required by design, due to further inheritance on constructors being necessary.</remarks>
         protected override IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<TInstanceIntermediateType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IClassType, IIntermediateClassType, TInstanceIntermediateType>.
-                           ConstructorMember GetNewConstructor(TypedNameSeries parameters)
+                           ConstructorMember GetNewConstructor()
         {
-            var result = new IntermediateClassCtorMember<TInstanceIntermediateType>((TInstanceIntermediateType)(object)this);
-            foreach (var param in parameters)
-                result.Parameters.Add(param.Name, param.GetTypeRef(), param.Direction);
-            return result;
+            return new IntermediateClassCtorMember<TInstanceIntermediateType>((TInstanceIntermediateType)(object)this);
         }
 
         /// <summary>

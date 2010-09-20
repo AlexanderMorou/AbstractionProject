@@ -88,9 +88,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 if (newSet.Length == 0)
                     return;
                 EnsureSpaceExists(this.Count + newSet.Length);
-                int startingCount = this.Count;
                 lock (this.syncObject)
                 {
+                    int startingCount = this.Count;
                     for (int i = 0; i < newSet.Length; i++)
                     {
                         var newitem = newSet[i];
@@ -121,8 +121,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
             internal void Clear()
             {
-                this.orderings.Clear();
-                this.entries = null;
+                lock (this.syncObject)
+                {
+                    this.orderings.Clear();
+                    this.entries = null;
+                }
             }
 
             internal KeysCollection keysInstance

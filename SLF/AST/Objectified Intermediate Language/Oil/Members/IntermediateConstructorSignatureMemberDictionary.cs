@@ -79,7 +79,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// exists already, or a name of one of the parameters is null.</exception>
         public TIntermediateCtor Add(TypedNameSeries parameters)
         {
-            TIntermediateCtor item = this.GetConstructor(parameters);
+            TIntermediateCtor item = this.GetConstructor();
             if (this.ContainsKey(item.UniqueIdentifier))
                 throw new ArgumentException("parameters");
             this.AddDeclaration(item);
@@ -107,7 +107,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        protected abstract TIntermediateCtor GetConstructor(TypedNameSeries parameters);
+        protected abstract TIntermediateCtor GetConstructor();
 
         #region IIntermediateConstructorSignatureMemberDictionary Members
 
