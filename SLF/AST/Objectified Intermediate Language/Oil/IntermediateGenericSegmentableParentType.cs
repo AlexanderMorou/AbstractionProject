@@ -209,7 +209,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             if (this.classes == null)
             {
                 this.classes = this.InitializeClasses();
-                SuspendCheck(classes, this.suspendLevel);
+                SuspendCheck(this.classes, this.suspendLevel);
             }
         }
 
@@ -218,7 +218,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             if (this.delegates == null)
             {
                 this.delegates = this.InitializeDelegates();
-                SuspendCheck(delegates, this.suspendLevel);
+                SuspendCheck(this.delegates, this.suspendLevel);
             }
         }
 

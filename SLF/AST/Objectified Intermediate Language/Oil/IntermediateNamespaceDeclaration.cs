@@ -22,23 +22,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Data member fro <see cref="Classes"/>.
         /// </summary>
-        private IIntermediateClassTypeDictionary classes;
+        private IntermediateClassTypeDictionary classes;
         /// <summary>
         /// Data member for <see cref="Delegates"/>.
         /// </summary>
-        private IIntermediateDelegateTypeDictionary delegates;
+        private IntermediateDelegateTypeDictionary delegates;
         /// <summary>
         /// Data member for <see cref="Enums"/>.
         /// </summary>
-        private IIntermediateEnumTypeDictionary enums;
+        private IntermediateEnumTypeDictionary enums;
         /// <summary>
         /// Data member for <see cref="Interfaces"/>.
         /// </summary>
-        private IIntermediateInterfaceTypeDictionary interfaces;
+        private IntermediateInterfaceTypeDictionary interfaces;
         /// <summary>
         /// Data member for <see cref="Structs"/>.
         /// </summary>
-        private IIntermediateStructTypeDictionary structs;
+        private IntermediateStructTypeDictionary structs;
         /// <summary>
         /// Data member for <see cref="Types"/>.
         /// </summary>
@@ -308,7 +308,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new IntermediateNamespaceDictionary(this, (IntermediateNamespaceDictionary)this.GetRoot().Namespaces);
         }
 
-        protected virtual IIntermediateClassTypeDictionary InitializeClasses()
+        protected virtual IntermediateClassTypeDictionary InitializeClasses()
         {
             if (this.IsRoot)
                 return new IntermediateClassTypeDictionary(this, this._Types);
@@ -316,7 +316,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new IntermediateClassTypeDictionary(this, this._Types, (IntermediateClassTypeDictionary)this.GetRoot().Classes);
         }
 
-        protected virtual IIntermediateDelegateTypeDictionary InitializeDelegates()
+        protected virtual IntermediateDelegateTypeDictionary InitializeDelegates()
         {
             if (this.IsRoot)
                 return new IntermediateDelegateTypeDictionary(this, this._Types);
@@ -324,7 +324,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new IntermediateDelegateTypeDictionary(this, this._Types, (IntermediateDelegateTypeDictionary)this.GetRoot().Delegates);
         }
 
-        protected virtual IIntermediateEnumTypeDictionary InitializeEnums()
+        protected virtual IntermediateEnumTypeDictionary InitializeEnums()
         {
             if (this.IsRoot)
                 return new IntermediateEnumTypeDictionary(this, this._Types);
@@ -332,7 +332,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new IntermediateEnumTypeDictionary(this, this._Types, (IntermediateEnumTypeDictionary)this.GetRoot().Enums);
         }
 
-        protected virtual IIntermediateInterfaceTypeDictionary InitializeInterfaces()
+        protected virtual IntermediateInterfaceTypeDictionary InitializeInterfaces()
         {
             if (this.IsRoot)
                 return new IntermediateInterfaceTypeDictionary(this, this._Types);
@@ -340,7 +340,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new IntermediateInterfaceTypeDictionary(this, this._Types, (IntermediateInterfaceTypeDictionary)this.GetRoot().Interfaces);
         }
 
-        protected virtual IIntermediateStructTypeDictionary InitializeStructs()
+        protected virtual IntermediateStructTypeDictionary InitializeStructs()
         {
             if (this.IsRoot)
                 return new IntermediateStructTypeDictionary(this, this._Types);
@@ -372,36 +372,67 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.GetRoot().Name = value;
         }
 
+        private static void SuspendCheck<TType, TIntermediateType>(IntermediateTypeDictionary<TType, TIntermediateType> dictionary, int suspendLevel)
+            where TType :
+                IType<TType>
+            where TIntermediateType :
+                class,
+                IIntermediateType,
+                TType
+        {
+            if (suspendLevel <= 0)
+                return;
+            if (dictionary == null)
+                throw new ArgumentNullException("dictionary");
+            for (int i = 0; i < suspendLevel; i++)
+                dictionary.Suspend();
+        }
+
         #region Member Check Methods
 
         private void CheckClasses()
         {
             if (this.classes == null)
+            {
                 this.classes = this.InitializeClasses();
+                SuspendCheck(this.classes, this.suspendLevel);
+            }
         }
 
         private void CheckDelegates()
         {
             if (this.delegates == null)
+            {
                 this.delegates = this.InitializeDelegates();
+                SuspendCheck(this.delegates, this.suspendLevel);
+            }
         }
 
         private void CheckEnums()
         {
             if (this.enums == null)
+            {
                 this.enums = this.InitializeEnums();
+                SuspendCheck(this.enums, this.suspendLevel);
+            }
         }
 
         private void CheckInterfaces()
         {
             if (this.interfaces == null)
+            {
                 this.interfaces = this.InitializeInterfaces();
+                SuspendCheck(this.interfaces, this.suspendLevel);
+            }
         }
 
         private void CheckStructs()
         {
             if (this.structs == null)
+            {
                 this.structs = this.InitializeStructs();
+                SuspendCheck(this.structs, this.suspendLevel);
+            }
         }
 
         private void Check_Types()
@@ -483,5 +514,39 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             var pParent = (sParent == null ? this.Parent : (sParent as IIntermediateNamespaceParent) ?? this.Parent);
             return new IntermediateNamespaceDeclaration(this, pParent);
         }
+        private int suspendLevel = 0;
+
+        public void SuspendDualLayout()
+        {
+            this.suspendLevel++;
+            if (this.classes != null)
+                this.classes.Suspend();
+            if (this.delegates != null)
+                this.delegates.Suspend();
+            if (this.enums != null)
+                this.enums.Suspend();
+            if (this.interfaces != null)
+                this.interfaces.Suspend();
+            if (this.structs != null)
+                this.structs.Suspend();
+        }
+
+        public void ResumeDualLayout()
+        {
+            if (this.suspendLevel == 0)
+                return;
+            this.suspendLevel--;
+            if (this.classes != null)
+                this.classes.Resume();
+            if (this.delegates != null)
+                this.delegates.Resume();
+            if (this.enums != null)
+                this.enums.Resume();
+            if (this.interfaces != null)
+                this.interfaces.Resume();
+            if (this.structs != null)
+                this.structs.Resume();
+        }
+
     }
 }

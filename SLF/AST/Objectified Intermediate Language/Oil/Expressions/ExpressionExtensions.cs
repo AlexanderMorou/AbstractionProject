@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf._Internal.Ast;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -783,6 +784,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 return (IUnaryOperationPrimaryTerm)target;
             else
                 return new ParenthesizedExpression(target);
+        }
+
+        public static void AddRange(this IMalleableExpressionCollection<IExpression> target, IEnumerable<IIntermediateParameterMember> parameters)
+        {
+            foreach (var parameter in parameters)
+                target.Add(parameter.GetReference());
         }
 
     }

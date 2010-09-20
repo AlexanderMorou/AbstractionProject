@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using System.Threading.Tasks;
  /*---------------------------------------------------------------------\
  | Copyright © 2009 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -79,7 +80,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// exists already, or a name of one of the parameters is null.</exception>
         public new TIntermediateCtor Add(TypedNameSeries parameters)
         {
-            TIntermediateCtor item = this.GetConstructor(parameters);
+            TIntermediateCtor item = this.GetConstructor();
+            TypedName[] adjustedParameters = new TypedName[parameters.Count];
+            Parallel.For(0, adjustedParameters.Length, i =>
+            {
+                var currentParam = parameters[i];
+                adjustedParameters[i] = new TypedName(currentParam.Name, currentParam.AscertainType(item), currentParam.Direction);
+            });
+            item.Parameters.AddRange(adjustedParameters);
             if (this.ContainsKey(item.UniqueIdentifier))
                 throw new ArgumentException("parameters");
             this.AddDeclaration(item);

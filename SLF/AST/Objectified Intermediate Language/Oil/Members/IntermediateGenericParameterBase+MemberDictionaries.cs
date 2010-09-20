@@ -65,12 +65,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
             #endregion
 
-            protected override IIntermediateGenericParameterConstructorMember<TGenericParameter, TIntermediateGenericParameter> GetConstructor(TypedNameSeries parameters)
+            protected override IIntermediateGenericParameterConstructorMember<TGenericParameter, TIntermediateGenericParameter> GetConstructor()
             {
-                ConstructorMember k = new IntermediateGenericParameterBase<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>.ConstructorMember(this.Parent);
-                foreach (TypedName u in parameters)
-                    k.Parameters.Add(u.Name, u.Reference, u.Direction);
-                return k;
+                return new IntermediateGenericParameterBase<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>.ConstructorMember(this.Parent);
             }
         }
 

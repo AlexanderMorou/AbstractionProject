@@ -656,7 +656,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <typeparamref name="TIntermediateCtor"/> to be created.</param>
         /// <returns>A new <see cref="ConstructorMember"/>, if successful.</returns>
         /// <remarks>Required by design, due to further inheritance on constructors being necessary.</remarks>
-        protected abstract ConstructorMember GetNewConstructor(TypedNameSeries parameters);
+        protected abstract ConstructorMember GetNewConstructor();
         /// <summary>
         /// Obtains a new <see cref="EventMember"/> which designates the 
         /// name and delegate type of the new event to add.

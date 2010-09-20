@@ -459,18 +459,29 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
         internal static IType AscertainType(this TypedName typedName, IIntermediateType containingType)
         {
+            string symbolReference;
+            IType referenceType = null;
             switch (typedName.Source)
             {
                 case TypedNameSource.TypeReference:
                     /* *
                      * A type is explicitly provided.
                      * */
+                    referenceType = typedName.Reference;
+                    if (!referenceType.IsGenericType && referenceType is ISymbolType &&
+                        referenceType.Namespace == null)
+                    {
+                        symbolReference = referenceType.Name;
+                        goto ObtainSymbol;
+                    }
                     return typedName.Reference;
                 case TypedNameSource.SymbolReference:
                     /* *
                      * Evaluate the member hierarchy and determine whether
                      * there are type-parameters that are available.
                      * */
+                    symbolReference = typedName.SymbolReference;
+            ObtainSymbol:
                     while (containingType != null)
                     {
                         /* *
@@ -479,8 +490,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         if (containingType is IIntermediateGenericType)
                         {
                             var topScopeGenericType = (IIntermediateGenericType)containingType;
-                            if (topScopeGenericType.TypeParameters.ContainsKey(typedName.SymbolReference))
-                                return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[typedName.SymbolReference];
+                            if (topScopeGenericType.TypeParameters.ContainsKey(symbolReference))
+                                return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[symbolReference];
                         }
                         if (containingType.Parent is IIntermediateType)
                             containingType = (IIntermediateType)containingType.Parent;
@@ -496,8 +507,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                                 if (containingMember is IIntermediateGenericParameterParent)
                                 {
                                     var topScopeGenericMember = (IIntermediateGenericParameterParent)containingMember;
-                                    if (topScopeGenericMember.TypeParameters.ContainsKey(typedName.SymbolReference))
-                                        return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[typedName.SymbolReference];
+                                    if (topScopeGenericMember.TypeParameters.ContainsKey(symbolReference))
+                                        return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[symbolReference];
                                 }
                                 if (containingMember.Parent == null)
                                     break;
@@ -520,21 +531,38 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                             break;
                     }
                 breakBoth:
-                    return typedName.SymbolReference.GetSymbolType();
+                    if (referenceType != null)
+                        return referenceType;
+                    return symbolReference.GetSymbolType();
             }
             return null;
         }
 
         internal static IType AscertainType(this TypedName typedName, IIntermediateMember containingMember)
         {
+            string symbolReference;
+            IType referenceType = null;
             switch (typedName.Source)
             {
                 case TypedNameSource.TypeReference:
                     /* *
                      * A type is explicitly provided.
                      * */
+                    referenceType = typedName.Reference;
+                    if (!referenceType.IsGenericType && referenceType is ISymbolType &&
+                        referenceType.Namespace == null)
+                    {
+                        symbolReference = referenceType.Name;
+                        goto ObtainSymbol;
+                    }
                     return typedName.Reference;
                 case TypedNameSource.SymbolReference:
+                    /* *
+                     * Evaluate the member hierarchy and determine whether
+                     * there are type-parameters that are available.
+                     * */
+                    symbolReference = typedName.SymbolReference;
+                ObtainSymbol:
                     /* *
                      * Evaluate the member hierarchy and determine whether
                      * there are type-parameters that are available.
@@ -548,8 +576,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         if (containingMember is IIntermediateGenericParameterParent)
                         {
                             var topScopeGenericMember = (IIntermediateGenericParameterParent)containingMember;
-                            if (topScopeGenericMember.TypeParameters.ContainsKey(typedName.SymbolReference))
-                                return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[typedName.SymbolReference];
+                            if (topScopeGenericMember.TypeParameters.ContainsKey(symbolReference))
+                                return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[symbolReference];
                         }
                         if (containingMember.Parent == null)
                             break;
@@ -570,8 +598,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                                 if (topScopeType is IIntermediateGenericType)
                                 {
                                     var topScopeGenericType = (IIntermediateGenericType)topScopeType;
-                                    if (topScopeGenericType.TypeParameters.ContainsKey(typedName.SymbolReference))
-                                        return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[typedName.SymbolReference];
+                                    if (topScopeGenericType.TypeParameters.ContainsKey(symbolReference))
+                                        return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[symbolReference];
                                 }
                                 if (topScopeType.Parent is IIntermediateType)
                                     topScopeType = (IIntermediateType)topScopeType.Parent;
@@ -588,10 +616,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                             break;
                     }
             breakBoth:
-                    return typedName.SymbolReference.GetSymbolType();
+                    if (referenceType != null)
+                        return referenceType;
+                    return symbolReference.GetSymbolType();
             }
             return null;
         }
+
 
     }
 }
