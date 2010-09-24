@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -36,13 +36,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         private ExtendedSignaturesData indexers;
         private TypedNameSeries properties;
         private TypedNameSeries events;
+        private ITypeCollection constraints;
         /// <summary>
         /// Data member for <see cref="RequiresBlankConstructor"/>.
         /// </summary>
         private bool requiresBlankConstructor;
 
-        public GenericParameterData(string name)
-            : this(name, false, SignaturesData.Empty) { }
+        public GenericParameterData(string name, IType[] constraints = null)
+            : this(name, false, SignaturesData.Empty, constraints) { }
 
         /// <summary>
         /// Creates a new <see cref="GenericParameterData"/>
@@ -64,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// that represents the name of the generic parameter.</param>
         /// <param name="constructors">The <see cref="SignaturesData"/>
         /// which defines the constructor information on the parameter.</param>
-        public GenericParameterData(string name, SignaturesData constructors) : this(name, false, constructors) { }
+        public GenericParameterData(string name, SignaturesData constructors, IType[] constraints = null) : this(name, false, constructors, constraints) { }
 
         /// <summary>
         /// Creates a new <see cref="GenericParameterData"/>
@@ -93,8 +94,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// a public no-parameter constructor.</param>
         /// <param name="constructors">The <see cref="SignaturesData"/>
         /// which defines the constructor information on the parameter.</param>
-        public GenericParameterData(string name, bool requiresBlankConstructor, SignaturesData constructors)
-            : this(name, requiresBlankConstructor, constructors, ExtendedSignaturesData.Empty, ExtendedSignaturesData.Empty, TypedNameSeries.Empty, TypedNameSeries.Empty) { }
+        public GenericParameterData(string name, bool requiresBlankConstructor, SignaturesData constructors, IType[] constraints = null)
+            : this(name, requiresBlankConstructor, constructors, ExtendedSignaturesData.Empty, ExtendedSignaturesData.Empty, TypedNameSeries.Empty, TypedNameSeries.Empty, constraints) { }
 
         /// <summary>
         /// Creates a new <see cref="GenericParameterData"/> with the
@@ -110,7 +111,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <param name="indexers">The <see cref="ExtendedSignaturesData"/> associated to the indexers to add.</param>
         /// <param name="properties">The <see cref="TypedNameSeries"/> associated to the properties to add.</param>
         /// <param name="events">The <see cref="TypedNameSeries"/> associated to the events to add.</param>
-        public GenericParameterData(string name, bool requiresBlankConstructor, SignaturesData constructors, ExtendedSignaturesData methods, ExtendedSignaturesData indexers, TypedNameSeries properties, TypedNameSeries events)
+        public GenericParameterData(string name, bool requiresBlankConstructor, SignaturesData constructors, ExtendedSignaturesData methods, ExtendedSignaturesData indexers, TypedNameSeries properties, TypedNameSeries events, IType[] constraints = null)
         {
             this.name = name;
             this.requiresBlankConstructor = requiresBlankConstructor;
@@ -119,31 +120,35 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             this.properties = properties;
             this.events = events;
             this.ctors = constructors;
+            if (constraints == null)
+                this.constraints = null;
+            else
+                this.constraints = constraints.ToCollection();
         }
 
-        public GenericParameterData(string name, SignaturesData constructors, ExtendedSignaturesData methods, ExtendedSignaturesData indexers, TypedNameSeries properties, TypedNameSeries events) 
-            : this(name, false, constructors, methods, indexers, properties, events) { }
+        public GenericParameterData(string name, SignaturesData constructors, ExtendedSignaturesData methods, ExtendedSignaturesData indexers, TypedNameSeries properties, TypedNameSeries events, IType[] constraints = null)
+            : this(name, false, constructors, methods, indexers, properties, events, constraints) { }
 
-        public GenericParameterData(string name, ExtendedSignaturesData methods, ExtendedSignaturesData indexers, TypedNameSeries properties, TypedNameSeries events)
-            : this(name, false, SignaturesData.Empty, methods, indexers, properties, events) { }
+        public GenericParameterData(string name, ExtendedSignaturesData methods, ExtendedSignaturesData indexers, TypedNameSeries properties, TypedNameSeries events, IType[] constraints = null)
+            : this(name, false, SignaturesData.Empty, methods, indexers, properties, events, constraints) { }
 
-        public GenericParameterData(string name, ExtendedSignaturesData indexers, TypedNameSeries properties, TypedNameSeries events)
-            : this(name, false, SignaturesData.Empty, ExtendedSignaturesData.Empty, indexers, properties, events)
+        public GenericParameterData(string name, ExtendedSignaturesData indexers, TypedNameSeries properties, TypedNameSeries events, IType[] constraints = null)
+            : this(name, false, SignaturesData.Empty, ExtendedSignaturesData.Empty, indexers, properties, events, constraints)
         {
         }
 
-        public GenericParameterData(string name, TypedNameSeries properties, TypedNameSeries events)
-            : this(name, false, SignaturesData.Empty, ExtendedSignaturesData.Empty, ExtendedSignaturesData.Empty, properties, events)
+        public GenericParameterData(string name, TypedNameSeries properties, TypedNameSeries events, IType[] constraints = null)
+            : this(name, false, SignaturesData.Empty, ExtendedSignaturesData.Empty, ExtendedSignaturesData.Empty, properties, events, constraints)
         {
         }
 
-        public GenericParameterData(string name, bool requiresBlankConstructor, ExtendedSignaturesData indexers, TypedNameSeries properties, TypedNameSeries events)
-            : this(name, requiresBlankConstructor, SignaturesData.Empty, ExtendedSignaturesData.Empty, indexers, properties, events)
+        public GenericParameterData(string name, bool requiresBlankConstructor, ExtendedSignaturesData indexers, TypedNameSeries properties, TypedNameSeries events, IType[] constraints = null)
+            : this(name, requiresBlankConstructor, SignaturesData.Empty, ExtendedSignaturesData.Empty, indexers, properties, events, constraints)
         {
         }
 
-        public GenericParameterData(string name, bool requiresBlankConstructor, TypedNameSeries properties, TypedNameSeries events)
-            : this(name, requiresBlankConstructor, SignaturesData.Empty, ExtendedSignaturesData.Empty, ExtendedSignaturesData.Empty, properties, events)
+        public GenericParameterData(string name, bool requiresBlankConstructor, TypedNameSeries properties, TypedNameSeries events, IType[] constraints = null)
+            : this(name, requiresBlankConstructor, SignaturesData.Empty, ExtendedSignaturesData.Empty, ExtendedSignaturesData.Empty, properties, events, constraints)
         {
         }
         /// <summary>
@@ -235,6 +240,16 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             get
             {
                 return this.requiresBlankConstructor;
+            }
+        }
+
+        public ITypeCollection Constraints
+        {
+            get
+            {
+                if (this.constraints == null)
+                    this.constraints = new TypeCollection();
+                return this.constraints;
             }
         }
     }

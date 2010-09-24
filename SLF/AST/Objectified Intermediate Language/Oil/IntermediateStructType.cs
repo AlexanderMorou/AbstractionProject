@@ -61,10 +61,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             var result = new IntermediateStructEventMember<TInstanceIntermediateType>((TInstanceIntermediateType)this);
             result.Name = nameAndDelegateType.Name;
-            var signatureType = nameAndDelegateType.AscertainType(this);
+            
+            var signatureType = nameAndDelegateType.GetTypeRef();
+            if (signatureType.ContainsSymbols())
+                signatureType = signatureType.AttemptToDisambiguateSymbols(result);
+
             result.SignatureSource = EventSignatureSource.Delegate;
             if (signatureType is IDelegateType)
-                result.SignatureType = (IDelegateType)nameAndDelegateType.AscertainType(this);
+                result.SignatureType = (IDelegateType)signatureType;
             return result;
         }
 
@@ -156,7 +160,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         protected override FieldMember GetNewField(TypedName nameAndType)
         {
             var member = new IntermediateStructFieldMember<TInstanceIntermediateType>(nameAndType.Name, (TInstanceIntermediateType)this);
-            member.FieldType = nameAndType.AscertainType(member);
+            var kind = nameAndType.GetTypeRef();
+            if (kind.ContainsSymbols())
+                member.FieldType = kind.AttemptToDisambiguateSymbols(member);
+            else
+                member.FieldType = kind;
             return member;
         }
     }

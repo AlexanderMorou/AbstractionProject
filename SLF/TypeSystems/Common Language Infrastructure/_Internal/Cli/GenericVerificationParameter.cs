@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -136,7 +136,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         protected override string OnGetName()
         {
-            return string.Format("__TestParam::{0}", original.Name);
+            return original.Name;
         }
 
         #region IGenericTestCaseParameter Members

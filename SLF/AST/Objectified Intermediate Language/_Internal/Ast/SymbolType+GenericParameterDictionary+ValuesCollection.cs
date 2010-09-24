@@ -7,7 +7,7 @@ using TValueMember = AllenCopeland.Abstraction.Slf.Abstract.IGenericTypeParamete
 using System.Collections;
 using AllenCopeland.Abstraction.Slf.Oil;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |

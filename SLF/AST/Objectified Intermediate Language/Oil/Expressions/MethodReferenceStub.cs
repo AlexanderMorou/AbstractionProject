@@ -8,7 +8,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -17,28 +17,19 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
-    internal class MethodReferenceStub<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> :
+    internal class MethodReferenceStub<TSignatureParameter, TSignature, TParent> :
         MethodReferenceStubBase,
-        IMethodReferenceStub<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>
+        IMethodReferenceStub<TSignatureParameter, TSignature, TParent>
         where TSignatureParameter :
             IMethodSignatureParameterMember<TSignatureParameter, TSignature, TParent>
-        where TIntermediateSignatureParameter :
-            TSignatureParameter,
-            IIntermediateMethodSignatureParameterMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>
         where TSignature :
             IMethodSignatureMember<TSignatureParameter, TSignature, TParent>
-        where TIntermediateSignature :
-            TSignature,
-            IIntermediateMethodSignatureMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>
         where TParent :
             ISignatureParent<TSignature, TSignatureParameter, TParent>
-        where TIntermediateParent :
-            TParent,
-            IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TParent, TIntermediateParent>
     {
-        private Func<MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.SignatureTypes> signatureTypesObtainer;
+        private Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer;
 
-        public TIntermediateSignature Member { get; private set; }
+        public TSignature Member { get; private set; }
         /// <summary>
         /// Creates a new <see cref="MethodReferenceStub"/> with the 
         /// <paramref name="source"/>, <paramref name="name"/>, 
@@ -53,7 +44,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// of generic parameter replacements for the signature.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
-        public MethodReferenceStub(IMemberParentReferenceExpression source, TIntermediateSignature member, ITypeCollectionBase genericParameters, MethodReferenceType referenceType, Func<MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.SignatureTypes> signatureTypesObtainer)
+        public MethodReferenceStub(IMemberParentReferenceExpression source, TSignature member, ITypeCollectionBase genericParameters, MethodReferenceType referenceType, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
             : base(source, genericParameters, referenceType)
         {
             this.Member = member;
@@ -71,7 +62,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// relative to the name of the method.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
-        public MethodReferenceStub(IMemberParentReferenceExpression source, TIntermediateSignature member, ITypeCollectionBase genericParameters, Func<MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.SignatureTypes> signatureTypesObtainer)
+        public MethodReferenceStub(IMemberParentReferenceExpression source, TSignature member, ITypeCollectionBase genericParameters, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
             : base(source, genericParameters)
         {
             this.Member = member;
@@ -89,7 +80,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// relative to the name of the method.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
-        public MethodReferenceStub(IMemberParentReferenceExpression source, TIntermediateSignature member, MethodReferenceType referenceType, Func<MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.SignatureTypes> signatureTypesObtainer)
+        public MethodReferenceStub(IMemberParentReferenceExpression source, TSignature member, MethodReferenceType referenceType, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
             : base(source, referenceType)
         {
             this.Member = member;
@@ -105,7 +96,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
         /// <param name="name">A <see cref="System.String"/>
         /// relative to the name of the method.</param>
-        public MethodReferenceStub(IMemberParentReferenceExpression source, TIntermediateSignature member, Func<MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.SignatureTypes> signatureTypesObtainer)
+        public MethodReferenceStub(IMemberParentReferenceExpression source, TSignature member, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
             : base(source)
         {
             this.Member = member;
@@ -123,7 +114,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// of generic parameter replacements for the signature.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
-        public MethodReferenceStub(TIntermediateSignature member, ITypeCollectionBase genericParameters, MethodReferenceType referenceType, Func<MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.SignatureTypes> signatureTypesObtainer)
+        public MethodReferenceStub(TSignature member, ITypeCollectionBase genericParameters, MethodReferenceType referenceType, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
             : base(genericParameters, referenceType)
         {
             this.Member = member;
@@ -139,12 +130,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// relative to the name of the method.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
-        public MethodReferenceStub(TIntermediateSignature member, ITypeCollectionBase genericParameters, Func<MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.SignatureTypes> signatureTypesObtainer)
+        public MethodReferenceStub(TSignature member, ITypeCollectionBase genericParameters, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
             : base(genericParameters)
         {
             this.Member = member;
             this.signatureTypesObtainer = signatureTypesObtainer;
         }
+
         public override string Name
         {
             get
@@ -153,32 +145,32 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             }
             set
             {
-                this.Member.Name = value;
+                if (this.Member is IIntermediateMember)
+                    (this.Member as IIntermediateMember).Name = value;
             }
         }
 
         protected override MethodPointerReferenceExpression GetPointerReference()
         {
-            return new MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>(this, this.signatureTypesObtainer());
+            return new MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>(this, this.signatureTypesObtainer());
         }
 
         protected override MethodPointerReferenceExpression GetPointerReference(ITypeCollection signature)
         {
-            return new MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>(this, signature);
+            return new MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>(this, signature);
         }
 
+        #region IMethodReferenceStub<TSignatureParameter,TSignatureParameter,TSignature,TSignature,TParent,TIntermediateParent> Members
 
-        #region IMethodReferenceStub<TSignatureParameter,TIntermediateSignatureParameter,TSignature,TIntermediateSignature,TParent,TIntermediateParent> Members
 
-
-        public new IMethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetPointer(ITypeCollection signature)
+        public new IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> GetPointer(ITypeCollection signature)
         {
-            return (IMethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>)base.GetPointer(signature);
+            return (IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>)base.GetPointer(signature);
         }
 
-        public new IMethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetPointer(params IType[] signature)
+        public new IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> GetPointer(params IType[] signature)
         {
-            return (IMethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>)base.GetPointer(signature);
+            return (IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>)base.GetPointer(signature);
         }
 
         #endregion

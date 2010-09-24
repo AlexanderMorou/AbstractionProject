@@ -14,7 +14,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Threading.Tasks;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -199,6 +199,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             for (Type j = t; j.IsArray; j = j.GetElementType())
                 arrayDepth++;
             int[] ranks = new int[arrayDepth];
+            int rankCount = arrayDepth;
             arrayDepth = 0;
             /* *
              * Fill in the array ranks.
@@ -209,13 +210,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             Stack<Type> arrayTypes = new Stack<Type>();
             for (; t.IsArray; t = t.GetElementType())
             {
-                ranks[arrayDepth++] = t.GetArrayRank();
+                ranks[rankCount - ++arrayDepth] = t.GetArrayRank();
                 arrayTypes.Push(t);
             }
-            //Reverse the order to go along with the reversed final.
-            if (arrayTypes.Count > 0)
-                ranks = ranks.Reverse().ToArray();
-            else if (arrayTypes.Count == 0)
+            if (arrayTypes.Count == 0)
                 arrayTypes = null;
             #endregion
 
@@ -339,7 +337,24 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             if (arrayTypes != null)
             {
                 for (int i = 0; i < arrayDepth; i++)
-                    CacheAdd(arrayTypes.Pop(), result = result.MakeArray(ranks[i]));
+                {
+                    var arrayType = arrayTypes.Pop();
+                    if (ranks[i] == 1)
+                    {
+                        //Make sure it's a vector array.
+                        if (arrayType.GetElementType().MakeArrayType() == arrayType)
+                            CacheAdd(arrayType, result = result.MakeArray(ranks[i]));
+                        else
+                            /* *
+                             * Single-dimensional arrays which are not equivalent to the 
+                             * above 'make vector array' result are not supported
+                             * as actual types of elements.
+                             * */
+                            CacheAdd(arrayType, result = result.MakeArray(new int[] { 0 }));
+                    }
+                    else
+                        CacheAdd(arrayType, result = result.MakeArray(ranks[i]));
+                }
             }
             if (byRef)
                 CacheAdd(byRefType, result = result.MakeByReference());

@@ -8,7 +8,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -17,24 +17,15 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
-    internal class MethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> :
+    internal class MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> :
         MethodPointerReferenceExpression,
-        IMethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>
+        IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>
         where TSignatureParameter :
             IMethodSignatureParameterMember<TSignatureParameter, TSignature, TParent>
-        where TIntermediateSignatureParameter :
-            TSignatureParameter,
-            IIntermediateMethodSignatureParameterMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>
         where TSignature :
             IMethodSignatureMember<TSignatureParameter, TSignature, TParent>
-        where TIntermediateSignature :
-            TSignature,
-            IIntermediateMethodSignatureMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>
         where TParent :
             ISignatureParent<TSignature, TSignatureParameter, TParent>
-        where TIntermediateParent :
-            TParent,
-            IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TParent, TIntermediateParent>
     {
         /// <summary>
         /// Creates a new <see cref="MethodPointerReferenceExpression"/>
@@ -47,12 +38,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <param name="signature">The <see cref="ITypeCollection"/>
         /// of <paramref name="IType"/> elements relative to the
         /// method's signature.</param>
-        internal MethodPointerReferenceExpression(IMethodReferenceStub<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> reference, SignatureTypes signatureTypes)
+        internal MethodPointerReferenceExpression(IMethodReferenceStub<TSignatureParameter, TSignature, TParent> reference, SignatureTypes signatureTypes)
             : base(reference, signatureTypes)
         {
         }
 
-        internal MethodPointerReferenceExpression(IMethodReferenceStub<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> reference, ITypeCollection signatureTypes)
+        internal MethodPointerReferenceExpression(IMethodReferenceStub<TSignatureParameter, TSignature, TParent> reference, ITypeCollection signatureTypes)
             : base(reference, signatureTypes)
         {
 
@@ -61,8 +52,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         internal class SignatureTypes :
             ITypeCollection
         {
-            private TIntermediateSignature source;
-            public SignatureTypes(TIntermediateSignature source)
+            private TSignature source;
+            public SignatureTypes(TSignature source)
             {
 
             }
@@ -87,7 +78,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 }
                 set
                 {
-                    this.source.Parameters[index].Value.ParameterType = value;
+                    if (this.source is IIntermediateMethodMember)
+                        ((this.source as IIntermediateMethodMember).Parameters.Values[index] as IIntermediateParameterMember).ParameterType = value;
                 }
             }
 
@@ -192,12 +184,28 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region IMethodPointerReferenceExpression<TSignatureParameter,TIntermediateSignatureParameter,TSignature,TIntermediateSignature,TParent,TIntermediateParent> Members
 
-        public new IMethodReferenceStub<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> Reference
+        public new IMethodReferenceStub<TSignatureParameter, TSignature, TParent> Reference
         {
-            get { return (IMethodReferenceStub<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>)base.Reference; }
+            get { return (IMethodReferenceStub<TSignatureParameter, TSignature, TParent>)base.Reference; }
         }
 
         #endregion
+
+        protected override IType TypeLookupAid
+        {
+            get
+            {
+                if (this.Reference != null && this.Reference.Member != null)
+                    return this.Reference.Member.ReturnType;
+                return base.TypeLookupAid;
+            }
+        }
+
+        public override IMethodInvokeExpression Invoke(IExpressionCollection<IExpression> parameters)
+        {
+            return new MethodInvokeExpression<TSignatureParameter, TSignature, TParent>(this, parameters);
+        }
+
     }
 
     public class MethodPointerReferenceExpression :
@@ -283,7 +291,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             get { return this.signature; }
         }
 
-        public IMethodInvokeExpression Invoke(IExpressionCollection<IExpression> parameters)
+        public virtual IMethodInvokeExpression Invoke(IExpressionCollection<IExpression> parameters)
         {
             return new MethodInvokeExpression(this, parameters);
         }

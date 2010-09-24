@@ -11,7 +11,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using System.Runtime.CompilerServices;
 using AllenCopeland.Abstraction.Slf.Oil;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -416,7 +416,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         protected override FieldMember GetNewField(TypedName nameAndType)
         {
             var member = new IntermediateClassFieldMember<TInstanceIntermediateType>(nameAndType.Name, (TInstanceIntermediateType)this);
-            member.FieldType = nameAndType.AscertainType(member);
+            var kind = nameAndType.GetTypeRef();
+            if (kind.ContainsSymbols())
+                member.FieldType = kind.AttemptToDisambiguateSymbols(member);
+            else
+                member.FieldType = kind;
             return member;
         }
     }

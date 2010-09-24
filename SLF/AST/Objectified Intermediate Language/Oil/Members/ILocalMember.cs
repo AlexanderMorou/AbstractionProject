@@ -59,7 +59,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// Returns/sets whether the <see cref="ILocalMember"/> should be automatically declared.
         /// </summary>
         bool AutoDeclare { get; set; }
-
+        /// <summary>
+        /// Returns a <see cref="ILocalDeclarationStatement"/> relative to the
+        /// current <see cref="ILocalMember"/>.
+        /// </summary>
+        /// <remarks>The instance returned is a single-ton
+        /// object per local.  Subsequent calls to this method
+        /// yield the same instance.</remarks>
+        /// <returns>A <see cref="ILocalDeclarationStatement"/>
+        /// relative to the current <see cref="ILocalMember"/>.</returns>
         ILocalDeclarationStatement GetDeclarationStatement();
     }
     /// <summary>

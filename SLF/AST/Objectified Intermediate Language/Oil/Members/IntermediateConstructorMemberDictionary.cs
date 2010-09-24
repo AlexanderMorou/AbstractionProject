@@ -5,7 +5,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using System.Threading.Tasks;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -85,7 +85,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             Parallel.For(0, adjustedParameters.Length, i =>
             {
                 var currentParam = parameters[i];
-                adjustedParameters[i] = new TypedName(currentParam.Name, currentParam.AscertainType(item), currentParam.Direction);
+                var kind = currentParam.GetTypeRef();
+                if (kind.ContainsSymbols())
+                    kind = kind.AttemptToDisambiguateSymbols(this.Parent);
+
+                adjustedParameters[i] = new TypedName(currentParam.Name, kind, currentParam.Direction);
             });
             item.Parameters.AddRange(adjustedParameters);
             if (this.ContainsKey(item.UniqueIdentifier))

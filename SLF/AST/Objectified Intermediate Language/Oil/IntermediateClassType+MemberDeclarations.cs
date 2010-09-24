@@ -11,7 +11,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Statements;
 using System.Collections;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -469,7 +469,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (value)
                 {
                     this.instanceFlags &= ~(ExtendedInstanceMemberFlags.Virtual | ExtendedInstanceMemberFlags.Abstract | ExtendedInstanceMemberFlags.Static);
-                    this.instanceFlags |= ExtendedInstanceMemberFlags.Final;
+                    this.instanceFlags |= (ExtendedInstanceMemberFlags.Final | ExtendedInstanceMemberFlags.Override);
                 }
                 else
                     this.instanceFlags &= ~ExtendedInstanceMemberFlags.Final;
@@ -494,7 +494,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     this.instanceFlags |= ExtendedInstanceMemberFlags.Override;
                 }
                 else
-                    this.instanceFlags ^= ExtendedInstanceMemberFlags.Override;
+                    this.instanceFlags &= (ExtendedInstanceMemberFlags.Override | ExtendedInstanceMemberFlags.Final);
             }
         }
 

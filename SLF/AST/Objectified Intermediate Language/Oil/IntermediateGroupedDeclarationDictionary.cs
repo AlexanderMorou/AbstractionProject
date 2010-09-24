@@ -8,7 +8,7 @@ using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Utilities.Events;
 using System.Threading.Tasks;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -36,7 +36,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             TDeclaration
     {
         private int suspensionLevel = 0;
-        private IList<TDeclaration> suspendedMembers = new List<TDeclaration>();
+        private List<TDeclaration> suspendedMembers = new List<TDeclaration>();
         //private IDictionary<string, TDeclaration> suspendedMembers = new Dictionary<string,TDeclaration>();
         
         private new ValuesCollection valuesCollection;
@@ -338,6 +338,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             base._Clear();
         }
 
+        protected void AddDeclarations(TIntermediateDeclaration[] declarations)
+        {
+            if (declarations == null)
+                throw new ArgumentNullException("declarations");
+            if (this.Suspended)
+                lock (suspendedMembers)
+                    suspendedMembers.AddRange(declarations.Cast<TDeclaration>());
+            else
+            {
+                KeyValuePair<string, TDeclaration>[] insertionElements = new KeyValuePair<string, TDeclaration>[declarations.Length];
+                Parallel.For(0, declarations.Length, i =>
+                {
+                    var declaration = declarations[i];
+                    insertionElements[i] = new KeyValuePair<string, TDeclaration>(declaration.UniqueIdentifier, declaration);
+                });
+                base._AddRange(insertionElements);
+            }
+        }
 
         protected void AddDeclaration(TIntermediateDeclaration declaration)
         {

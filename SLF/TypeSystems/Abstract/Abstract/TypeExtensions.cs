@@ -4,7 +4,7 @@ using System.Linq;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Common;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -39,7 +39,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// type and the method's generic parameters.
         /// </summary>
         Both = Method | Type,
+
     }
+
     /// <summary>
     /// Provides a series of extensions for <see cref="IType"/> instances.
     /// </summary>
@@ -186,10 +188,20 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                         return targetName;
                 case TypeElementClassification.Array:
                     if (target is IArrayType)
-                        if (((IArrayType)(target)).IsZeroBased)
-                            return string.Format("{0}[{1}]", target.ElementType.BuildTypeName(shortFormGeneric, numericTypeParams), ','.Repeat(((IArrayType)(target)).ArrayRank - 1));
+                    {
+                        var arrayVariant = target as IArrayType;
+                        if (arrayVariant.IsZeroBased)
+                            if (arrayVariant.ArrayRank == 1)
+                                if (arrayVariant.IsVectorArray)
+
+                                    return string.Format("{0}[]", target.ElementType.BuildTypeName(shortFormGeneric, numericTypeParams));
+                                else
+                                    return string.Format("{0}[*]", target.ElementType.BuildTypeName(shortFormGeneric, numericTypeParams));
+                            else
+                                return string.Format("{0}[{1}]", target.ElementType.BuildTypeName(shortFormGeneric, numericTypeParams), ','.Repeat(arrayVariant.ArrayRank - 1));
                         else
-                            return string.Format("{0}[{1}]", target.ElementType.BuildTypeName(shortFormGeneric, numericTypeParams), string.Join(",", ((IArrayType)(target)).LowerBounds.OnAll(q => q == 0 ? string.Empty : string.Format("{0}...", q)).ToArray()));
+                            return string.Format("{0}[{1}]", target.ElementType.BuildTypeName(shortFormGeneric, numericTypeParams), string.Join(",", arrayVariant.LowerBounds.OnAll(q => q == 0 ? string.Empty : string.Format("{0}...", q)).ToArray()));
+                    }
                     else
                         return string.Format("{0}[?,...]", target.ElementType.BuildTypeName(shortFormGeneric, numericTypeParams));
                 case TypeElementClassification.Nullable:
@@ -404,6 +416,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                         if (target is IGenericType &&
                            (parameterSource == TypeParameterSources.Type && ((IGenericType)(target)).GenericParameters.Count == typeReplacements.Count))
                             return ((IGenericType)(target)).MakeGenericType(typeReplacements);
+
                         break;
                 }
             }

@@ -100,6 +100,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\CultureIdentifier.cs" />
+    <Compile Include="Abstract\CultureIdentifiers+CountryRegions.cs">
+      <DependentUpon>CultureIdentifiers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\CultureIdentifiers+CultureCodes.cs">
+      <DependentUpon>CultureIdentifiers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\CultureIdentifiers+IDs.cs">
+      <DependentUpon>CultureIdentifiers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\CultureIdentifiers+LocalizedNames.cs">
+      <DependentUpon>CultureIdentifiers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\CultureIdentifiers.cs" />
+    <Compile Include="Abstract\CultureIdentifierTypeConverter.cs" />
     <Compile Include="Cli\ArrayType.cs" />
     <Compile Include="Cli\AssemblyInformation.cs" />
     <Compile Include="Cli\ByRefType.cs" />

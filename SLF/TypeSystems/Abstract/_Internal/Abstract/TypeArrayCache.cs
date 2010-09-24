@@ -6,7 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -121,8 +121,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
              * Can't define a non-zero vector array.  The CLI doesn't provide innate support
              * for their declaration, but you can create them, just not pass them to anything.
              * */
-            if (lowerBounds.Length == 1)
-                throw new ArgumentException(Resources.MakeArrayError_VectorLowerBounds);
             bool found = false;
             IArrayType result = null;
             if (this.nonstandardArrayCache == null)

@@ -14,7 +14,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         ITypeReferenceExpression
     {
         private IIntermediateInstanceMember member;
-        private ExpressionKind type;
         public AutoContextMemberSource(IIntermediateInstanceMember member)
         {
             this.member = member;
@@ -91,6 +90,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             }
             else
                 return "this";
+        }
+        protected override IType TypeLookupAid
+        {
+            get
+            {
+                if (this.member != null)
+                {
+                    var memberParent = member.Parent as IType;
+                    if (memberParent != null)
+                        return memberParent;
+                }
+                return base.TypeLookupAid;
+            }
         }
     }
 }

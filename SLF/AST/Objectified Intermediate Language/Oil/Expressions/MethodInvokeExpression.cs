@@ -4,16 +4,120 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
- /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
+/*---------------------------------------------------------------------\
+| Copyright © 2010 Allen Copeland Jr.                                  |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
+    internal class MethodInvokeExpression<TSignatureParameter, TSignature, TParent> :
+        MethodInvokeExpression
+        where TSignatureParameter :
+            IMethodSignatureParameterMember<TSignatureParameter, TSignature, TParent>
+        where TSignature :
+            IMethodSignatureMember<TSignatureParameter, TSignature, TParent>
+        where TParent :
+            ISignatureParent<TSignature, TSignatureParameter, TParent>
+    {
+        /// <summary>
+        /// Creates a new <see cref="MethodInvokeExpression{TSignatureParameter, TSignature, TParent}"/> with 
+        /// the <paramref name="parameters"/>, and <paramref name="reference"/>
+        /// provided.
+        /// </summary>
+        /// <param name="reference">A <see cref="IMethodPointerReferenceExpression{TSignatureParameter, TSignature, TParent}"/>
+        /// which created the <see cref="MethodInvokeExpression{TSignatureParameter, TSignature, TParent}"/> and designates
+        /// the method target.</param>
+        /// <param name="parameters">The series of <see cref="IExpression"/>
+        /// elements which relate to the values to send
+        /// the method when calling it.</param>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="reference"/> 
+        /// or <paramref name="parameters"/> is null.</exception>
+        public MethodInvokeExpression(IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> reference, IExpressionCollection<IExpression> parameters)
+            : base(reference, parameters)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="MethodInvokeExpression{TSignatureParameter, TSignature, TParent}"/> with 
+        /// the <paramref name="parameters"/>, and <paramref name="reference"/>
+        /// provided.
+        /// </summary>
+        /// <param name="reference">A <see cref="IMethodReferenceStub"/>
+        /// which created the <see cref="MethodInvokeExpression{TSignatureParameter, TSignature, TParent}"/> and designates
+        /// the method target whose signature is inferred by the framework
+        /// if needed.</param>
+        /// <param name="parameters">The series of <see cref="IExpression"/>
+        /// elements which relate to the values to send
+        /// the method when calling it.</param>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="reference"/> 
+        /// or <paramref name="parameters"/> is null.</exception>
+        public MethodInvokeExpression(IMethodReferenceStub<TSignatureParameter, TSignature, TParent> reference, IExpressionCollection<IExpression> parameters)
+            : base(reference, parameters)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="MethodInvokeExpression{TSignatureParameter, TSignature, TParent}"/> with 
+        /// the <paramref name="parameters"/>, and <paramref name="reference"/>
+        /// provided.
+        /// </summary>
+        /// <param name="reference">A <see cref="IMethodReferenceStub"/>
+        /// which created the <see cref="MethodInvokeExpression{TSignatureParameter, TSignature, TParent}"/> and designates
+        /// the method target, whose signature is inferred by the framework
+        /// if needed.</param>
+        /// <param name="parameters">The series of <see cref="IExpression"/>
+        /// elements which relate to the values to send
+        /// the method when calling it.</param>
+        public MethodInvokeExpression(IMethodReferenceStub<TSignatureParameter, TSignature, TParent> reference, params IExpression[] parameters)
+            : base(reference, parameters)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="MethodInvokeExpression{TSignatureParameter, TSignature, TParent}"/> with 
+        /// the <paramref name="parameters"/>, and <paramref name="reference"/>
+        /// provided.
+        /// </summary>
+        /// <param name="reference">A <see cref="IMethodPointerReferenceExpression{TSignatureParameter, TSignature, TParent}"/>
+        /// which created the <see cref="MethodInvokeExpression{TSignatureParameter, TSignature, TParent}"/> and designates
+        /// the method target.</param>
+        /// <param name="parameters">The series of <see cref="IExpression"/>
+        /// elements which relate to the values to send
+        /// the method when calling it.</param>
+        public MethodInvokeExpression(IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> reference, params IExpression[] parameters)
+            : base(reference, parameters)
+        {
+        }
+
+        /// <summary>
+        /// Returns the <see cref="IMethodPointerReferenceExpression{TSignatureParameter, TSignature, TParent}"/>
+        /// which identifies the name and 
+        /// type-parameters of the method 
+        /// to use as well as the type-signature
+        /// used for the parameters.
+        /// </summary>
+        public new IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> Reference
+        {
+            get { return (IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>)base.Reference; }
+        }
+        protected override IType TypeLookupAid
+        {
+            get
+            {
+                if (this.Reference != null && this.Reference.Reference != null &&
+                    this.Reference.Reference.Member != null)
+                    return this.Reference.Reference.Member.ReturnType;
+                return base.TypeLookupAid;
+            }
+        }
+    }
+
     /// <summary>
     /// Provides a base implementation of a method invocation expression.
     /// </summary>
@@ -150,29 +254,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         #endregion
-        /*
-        /// <summary>
-        /// Returns the type which is used as a spring
-        /// point for obtaining and linking the members.
-        /// </summary>
-        /// <remarks>Necessary for every 
-        /// <see cref="IMemberParentReferenceExpression"/>
-        /// to have in order to properly link.</remarks>
-        public override IType ForwardType
-        {
-            get { return this.Reference.AssociatedMember.ReturnType; }
-        }
-        /// <summary>
-        /// Invoked when <see cref="Link"/> is called.
-        /// </summary>
-        /// <remarks>Used in case <see cref="Link"/> needs 
-        /// hidden and overridden.</remarks>
-        protected override void OnLink()
-        {
-            if (!this.Reference.IsLinked)
-                this.Reference.Link();
-        }
-        */
 
         /// <summary>
         /// Returns the type of expression the <see cref="MethodInvokeExpression"/> is.

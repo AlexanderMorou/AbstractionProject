@@ -6,7 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Linq;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -607,7 +607,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         protected override ILockedTypeCollection OnGetImplementedInterfaces()
         {
-            throw new NotImplementedException();
+            return ((IGenericParameter)(this)).Constraints;
         }
 
         protected override IIntermediateFullMemberDictionary OnGetIntermediateMembers()
@@ -627,12 +627,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         protected override bool IsSubclassOfImpl(IType other)
         {
-            throw new NotImplementedException();
+            return other.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Object);            
         }
 
         protected override IType BaseTypeImpl
         {
-            get { throw new NotImplementedException(); }
+            get { return IntermediateGateway.CommonlyUsedTypeReferences.Object; }
         }
 
         private IntermediateFullMemberDictionary _Members

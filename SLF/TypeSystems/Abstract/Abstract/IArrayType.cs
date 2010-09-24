@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.CompilerServices;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -46,5 +46,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Returns whether every dimension has a zero-based index.
         /// </summary>
         bool IsZeroBased { get; }
+        /// <summary>
+        /// Returns whether the <see cref="IArrayType"/>
+        /// is a single-dimensional zero-based indexing array.
+        /// </summary>
+        bool IsVectorArray { get; }
     }
 }

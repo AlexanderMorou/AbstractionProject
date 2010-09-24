@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("The Abstraction Project - Scripting Language Foundation - T*y++")]
-[assembly: AssemblyCopyright("Copyright © Allen C. Copeland Jr. 2009")]
+[assembly: AssemblyCopyright("Copyright © Allen C. Copeland Jr. 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -16,7 +16,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf._Internal.Ast;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -29,6 +29,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// </summary>
     public static partial class IntermediateGateway
     {
+        private delegate IType DisambiguateFromSelector(IIntermediateDeclaration target, string symbolReference, IType referenceType);
         private const string nullNamespace = ".<NULL>.";
         /// <summary>
         /// Contains the <see cref="ISymbolType"/> lookup table that
@@ -405,6 +406,45 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new PropertyReferenceExpression(target.Name, source);
         }
 
+        public static IMethodReferenceStub GetReference(this IMethodSignatureMember target, IMemberParentReferenceExpression source)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (target is IInterfaceMethodMember)
+                return GetMethodReference<IMethodSignatureParameterMember<IInterfaceMethodMember, IInterfaceType>, IInterfaceMethodMember, IInterfaceType>((IInterfaceMethodMember)target, source);
+            return new MethodReferenceStub(source, target.Name);
+        }
+
+        public static IMethodReferenceStub GetReference(this IMethodMember target, IMemberParentReferenceExpression source = null)
+        {
+            if (target is IIntermediateInstanceMember)
+            {
+                if (source == null)
+                    source = new AutoContextMemberSource((IIntermediateInstanceMember)target);
+            }
+            else if (source == null)
+                throw new ArgumentNullException("source");
+            if (target is IClassMethodMember)
+                return GetMethodReference<IMethodParameterMember<IClassMethodMember, IClassType>, IClassMethodMember, IClassType>(target as IClassMethodMember, source);
+            else if (target is IStructMethodMember)
+                return GetMethodReference<IMethodParameterMember<IStructMethodMember, IStructType>, IStructMethodMember, IStructType>(target as IStructMethodMember, source);
+            else
+                return new MethodReferenceStub(source, target.Name);
+        }
+
+        public static IMethodReferenceStub<TSignatureParameter, TSignature, TParent> GetMethodReference<TSignatureParameter, TSignature, TParent>(this TSignature target, IMemberParentReferenceExpression source)
+            where TSignatureParameter :
+                IMethodSignatureParameterMember<TSignatureParameter, TSignature, TParent>
+            where TSignature :
+                IMethodSignatureMember<TSignatureParameter, TSignature, TParent>
+            where TParent :
+                ISignatureParent<TSignature, TSignatureParameter, TParent>
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            return new MethodReferenceStub<TSignatureParameter, TSignature, TParent>(source, target, () => new MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes(target));
+        }
+
         internal static IPropertyReferenceExpression GetPropertyReference(this IIntermediatePropertyMember target, IMemberParentReferenceExpression source = null)
         {
             if (source == null)
@@ -482,58 +522,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                      * */
                     symbolReference = typedName.SymbolReference;
             ObtainSymbol:
-                    while (containingType != null)
-                    {
-                        /* *
-                            * In cases where the containing type is a generic capable type.
-                            * */
-                        if (containingType is IIntermediateGenericType)
-                        {
-                            var topScopeGenericType = (IIntermediateGenericType)containingType;
-                            if (topScopeGenericType.TypeParameters.ContainsKey(symbolReference))
-                                return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[symbolReference];
-                        }
-                        if (containingType.Parent is IIntermediateType)
-                            containingType = (IIntermediateType)containingType.Parent;
-                        else if (containingType.Parent is IIntermediateMember)
-                        {
-                            var containingMember = (IIntermediateMember)containingType.Parent;
-                            while (containingMember != null)
-                            {
-                                /* *
-                                 * In cases where the member itself contains type-parameters,
-                                 * i.e. methods.
-                                 * */
-                                if (containingMember is IIntermediateGenericParameterParent)
-                                {
-                                    var topScopeGenericMember = (IIntermediateGenericParameterParent)containingMember;
-                                    if (topScopeGenericMember.TypeParameters.ContainsKey(symbolReference))
-                                        return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[symbolReference];
-                                }
-                                if (containingMember.Parent == null)
-                                    break;
-                                else if (containingMember.Parent is IIntermediateMember)
-                                    containingMember = (IIntermediateMember)containingMember.Parent;
-                                else if (containingMember.Parent is IIntermediateType)
-                                {
-                                    /* *
-                                     * When the parent is a type, obtain the type variant of the
-                                     * current member's parent.
-                                     * */
-                                    containingType = (IIntermediateType)containingMember.Parent;
-                                    break;
-                                }
-                                else
-                                    goto breakBoth;
-                            }
-                        }
-                        else
-                            break;
-                    }
-                breakBoth:
-                    if (referenceType != null)
-                        return referenceType;
-                    return symbolReference.GetSymbolType();
+                    return DisambiguateFromType(containingType, symbolReference, referenceType);
             }
             return null;
         }
@@ -563,10 +552,29 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                      * */
                     symbolReference = typedName.SymbolReference;
                 ObtainSymbol:
-                    /* *
-                     * Evaluate the member hierarchy and determine whether
-                     * there are type-parameters that are available.
-                     * */
+                    return DisambiguateFromMember(containingMember, symbolReference, referenceType);
+            }
+            return null;
+        }
+
+        private static IType DisambiguateFromType(IIntermediateType containingType, string symbolReference, IType referenceType)
+        {
+            while (containingType != null)
+            {
+                /* *
+                    * In cases where the containing type is a generic capable type.
+                    * */
+                if (containingType is IIntermediateGenericType)
+                {
+                    var topScopeGenericType = (IIntermediateGenericType)containingType;
+                    if (topScopeGenericType.TypeParameters.ContainsKey(symbolReference))
+                        return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[symbolReference];
+                }
+                if (containingType.Parent is IIntermediateType)
+                    containingType = (IIntermediateType)containingType.Parent;
+                else if (containingType.Parent is IIntermediateMember)
+                {
+                    var containingMember = (IIntermediateMember)containingType.Parent;
                     while (containingMember != null)
                     {
                         /* *
@@ -589,40 +597,156 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                              * When the parent is a type, obtain the type variant of the
                              * current member's parent.
                              * */
-                            var topScopeType = (IIntermediateType)containingMember.Parent;
-                            while (topScopeType != null)
-                            {
-                                /* *
-                                 * In cases where the containing type is a generic capable type.
-                                 * */
-                                if (topScopeType is IIntermediateGenericType)
-                                {
-                                    var topScopeGenericType = (IIntermediateGenericType)topScopeType;
-                                    if (topScopeGenericType.TypeParameters.ContainsKey(symbolReference))
-                                        return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[symbolReference];
-                                }
-                                if (topScopeType.Parent is IIntermediateType)
-                                    topScopeType = (IIntermediateType)topScopeType.Parent;
-                                else if (topScopeType.Parent is IIntermediateMember)
-                                {
-                                    containingMember = (IIntermediateMember)topScopeType.Parent;
-                                    break;
-                                }
-                                else
-                                    goto breakBoth;
-                            }
+                            containingType = (IIntermediateType)containingMember.Parent;
+                            break;
                         }
                         else
-                            break;
+                            goto breakBoth;
                     }
-            breakBoth:
-                    if (referenceType != null)
-                        return referenceType;
-                    return symbolReference.GetSymbolType();
+                }
+                else
+                    break;
             }
-            return null;
+        breakBoth:
+            if (referenceType != null)
+                return referenceType;
+            return symbolReference.GetSymbolType();
         }
 
+        private static IType DisambiguateFromMember(IIntermediateMember containingMember, string symbolReference, IType referenceType)
+        {
+            /* *
+             * Evaluate the member hierarchy and determine whether
+             * there are type-parameters that are available.
+             * */
+            while (containingMember != null)
+            {
+                /* *
+                 * In cases where the member itself contains type-parameters,
+                 * i.e. methods.
+                 * */
+                if (containingMember is IIntermediateGenericParameterParent)
+                {
+                    var topScopeGenericMember = (IIntermediateGenericParameterParent)containingMember;
+                    if (topScopeGenericMember.TypeParameters.ContainsKey(symbolReference))
+                        return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[symbolReference];
+                }
+                if (containingMember.Parent == null)
+                    break;
+                else if (containingMember.Parent is IIntermediateMember)
+                    containingMember = (IIntermediateMember)containingMember.Parent;
+                else if (containingMember.Parent is IIntermediateType)
+                {
+                    /* *
+                     * When the parent is a type, obtain the type variant of the
+                     * current member's parent.
+                     * */
+                    var topScopeType = (IIntermediateType)containingMember.Parent;
+                    while (topScopeType != null)
+                    {
+                        /* *
+                         * In cases where the containing type is a generic capable type.
+                         * */
+                        if (topScopeType is IIntermediateGenericType)
+                        {
+                            var topScopeGenericType = (IIntermediateGenericType)topScopeType;
+                            if (topScopeGenericType.TypeParameters.ContainsKey(symbolReference))
+                                return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[symbolReference];
+                        }
+                        if (topScopeType.Parent is IIntermediateType)
+                            topScopeType = (IIntermediateType)topScopeType.Parent;
+                        else if (topScopeType.Parent is IIntermediateMember)
+                        {
+                            containingMember = (IIntermediateMember)topScopeType.Parent;
+                            break;
+                        }
+                        else
+                            goto breakBoth;
+                    }
+                }
+                else
+                    break;
+            }
+        breakBoth:
+            if (referenceType != null)
+                return referenceType;
+            return symbolReference.GetSymbolType();
+        }
 
+        private static DisambiguateFromSelector GetSelector(this IIntermediateDeclaration declaration)
+        {
+            if (declaration is IIntermediateType)
+                return TypeSelector;
+            else if (declaration is IIntermediateMember)
+                return MemberSelector;
+            else
+                return OtherSelector;
+        }
+
+        private static DisambiguateFromSelector TypeSelector = (target, symbolReference, referenceType)=> DisambiguateFromType((IIntermediateType)target, symbolReference, referenceType);
+        private static DisambiguateFromSelector MemberSelector = (target, symbolReference, referenceType)=> DisambiguateFromMember((IIntermediateMember)target, symbolReference, referenceType);
+        private static DisambiguateFromSelector OtherSelector = (target, symbolReference, referenceType) => referenceType;
+
+        internal static IType AttemptToDisambiguateSymbols(this IType sourceType, IIntermediateDeclaration originPoint)
+        {
+            var selector = originPoint.GetSelector();
+            switch (sourceType.ElementClassification)
+            {
+                case TypeElementClassification.None:
+                    if (sourceType is ISymbolType && !sourceType.IsGenericType)
+                        return selector(originPoint, sourceType.Name, sourceType);
+                    break;
+                case TypeElementClassification.Array:
+                    var arrayType = sourceType as IArrayType;
+                    if (arrayType != null)
+                        return sourceType.ElementType.AttemptToDisambiguateSymbols(originPoint).MakeArray(arrayType.LowerBounds);
+                    else
+                        break;
+                case TypeElementClassification.Nullable:
+                    return sourceType.ElementType.AttemptToDisambiguateSymbols(originPoint).MakeNullable();
+                case TypeElementClassification.Pointer:
+                    return sourceType.ElementType.AttemptToDisambiguateSymbols(originPoint).MakePointer();
+                case TypeElementClassification.Reference:
+                    return sourceType.ElementType.AttemptToDisambiguateSymbols(originPoint).MakeByReference();
+                case TypeElementClassification.GenericTypeDefinition:
+                    var genericSource = sourceType as IGenericType;
+
+                    IType[] gParamCopy = genericSource.GenericParameters.ToArray();
+                    bool varies = false;
+                    for (int i = 0; i < gParamCopy.Length; i++)
+                    {
+                        var recent = gParamCopy[i];
+                        var current = recent.AttemptToDisambiguateSymbols(originPoint);
+                        if (current != recent)
+                            varies = true;
+                        gParamCopy[i] = current;
+                    }
+                    if (varies)
+                        return ((IGenericType)(genericSource.ElementType)).MakeVerifiedGenericType(gParamCopy.ToCollection());
+                    else
+                        break;
+            }
+            return sourceType;
+        }
+
+        public static bool ContainsSymbols(this IType type)
+        {
+            if (type is ISymbolType)
+                return true;
+            else if (type is IGenericType)
+            {
+                var genericVariant = type as IGenericType;
+                if (genericVariant.IsGenericType && !genericVariant.IsGenericTypeDefinition)
+                {
+                    foreach (var genericParam in genericVariant.GenericParameters)
+                        if (genericParam.ContainsSymbols())
+                            return true;
+                }
+                else if (genericVariant.ElementClassification != TypeElementClassification.None && genericVariant.ElementClassification != TypeElementClassification.GenericTypeDefinition)
+                    if (genericVariant.ElementType.ContainsSymbols())
+                        return true;
+            }
+            return false;
+        }
     }
 }
