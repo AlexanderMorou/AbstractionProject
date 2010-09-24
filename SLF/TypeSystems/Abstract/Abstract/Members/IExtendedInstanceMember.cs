@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -58,6 +58,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// Member is a virtual (overridable) member.
         /// </summary>
         /* 0001110010000010 */
+        /* *
+         * virtual methods declare 'virtual' and 'newslot'.
+         * */
         Virtual   = 0x1c82,
         /// <summary>
         /// Member is an abstract member.
@@ -68,11 +71,21 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// Member is an overridden member.
         /// </summary>
         /* 0010101000001000 */
+        /* *
+         * overridden members declare 'virtual' and no
+         * 'newslot'.
+         * */
         Override  = 0x2a08,
         /// <summary>
         /// Member hides base's definition.
         /// </summary>
         /* 1000000000010000 */
+        /* *
+         * Hides the previous definition by signature.
+         * Default value for instance/static members;
+         * neither virtual nor newslot attributes are used
+         * by default.
+         * */
         HideBySignature = InstanceMemberFlags.HideBySignature,
         /* 1000000000100000 */
         HideByName = InstanceMemberFlags.HideByName,
@@ -81,6 +94,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// inheritors to override).
         /// </summary>
         /* 0101000001000000 */
+        /* *
+         * As the name implies, final specifies the final 
+         * attribute along with virtual, to indicate
+         * that it's a sealed override.
+         * */
         Final     = 0x5040,
     }
     /// <summary>

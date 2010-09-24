@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Drawing;
  /*----------------------------------------\
- | Copyright © 2008 Allen Copeland Jr.     |
+ | Copyright © 2010 Allen Copeland Jr.     |
  |-----------------------------------------|
  | The Abstraction Project's code is prov- |
  | -ided under a contract-release basis.   |

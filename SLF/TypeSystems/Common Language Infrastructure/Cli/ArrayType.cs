@@ -8,7 +8,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Utilities.Common;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Data member for <see cref="ArrayRank"/>.
         /// </summary>
         private int rank;
-
+        private bool isVectorArray = true;
         /// <summary>
         /// Data member for <see cref="MakeArray(Int32)"/>.
         /// </summary>
@@ -63,6 +63,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             this.rank = rank;
             this.elementType = elementType;
             this.lowerBounds = new int[this.rank];
+            if (rank > 1)
+                isVectorArray = false;
         }
 
         internal ArrayType(IType elementType)
@@ -78,6 +80,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             this.elementType = elementType;
             this.lowerBounds = lowerBounds;
             this.rank = lowerBounds.Length;
+            isVectorArray = false;
         }
 
         #region IArrayType Members
@@ -378,6 +381,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         #endregion
 
-
+        public bool IsVectorArray
+        {
+            get
+            {
+                return this.isVectorArray;
+            }
+        }
     }
 }

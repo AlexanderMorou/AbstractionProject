@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using System.Diagnostics;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -271,8 +271,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// had zero elements.</exception>
         public IArrayType MakeArray(params int[] lowerBounds)
         {
-            if (lowerBounds.Length == 1)
-                throw new ArgumentException(Resources.MakeArrayError_VectorLowerBounds);
             CacheCheck();
             return this.arrayCache.CreateArray(lowerBounds);
         }

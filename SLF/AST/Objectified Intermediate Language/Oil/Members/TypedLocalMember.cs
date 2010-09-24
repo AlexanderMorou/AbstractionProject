@@ -34,5 +34,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             return new ReferenceExpression(this);
         }
+
+        public override string ToString()
+        {
+            if (this.InitializationExpression != null)
+                if (this.LocalType != null)
+                    return string.Format("{0} {1} = {2}", this.LocalType, this.Name == null ? "?" : this.Name, this.InitializationExpression);
+                else
+                    return string.Format("? {0} = {1}", this.Name == null ? "?" : this.Name, this.InitializationExpression);
+            else
+                if (this.LocalType != null)
+                    return string.Format("{0} {1}", this.LocalType, this.Name == null ? "?" : this.Name);
+                else
+                    return string.Format("? {0}", this.Name == null ? "?" : this.Name);
+        }
     }
 }

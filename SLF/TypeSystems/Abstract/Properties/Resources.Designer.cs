@@ -134,7 +134,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to The type {0} does not meet the constraints placed upon {1}.
-        ///
         ///Reason: {2}.
         /// </summary>
         internal static string TypeConstraintFailure {

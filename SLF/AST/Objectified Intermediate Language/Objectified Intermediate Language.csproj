@@ -114,7 +114,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compilers\AssemblyOutputType.cs" />
-    <Compile Include="Compilers\CommandLineCompilerState.cs" />
     <Compile Include="Compilers\CompilerOptions.cs" />
     <Compile Include="Compilers\CompilerSupport.cs" />
     <Compile Include="Compilers\DebugSupport.cs" />
@@ -393,9 +392,17 @@
     <Compile Include="Oil\IIntermediateTypeDictionary.cs" />
     <Compile Include="Oil\IIntermediateTypeParent.cs" />
     <Compile Include="Oil\ILambdaSignatureType.cs" />
+    <Compile Include="Oil\INamedInclusionRenameScopeCoercion.cs" />
+    <Compile Include="Oil\INamedInclusionScopeCoercion.cs" />
+    <Compile Include="Oil\INamespaceInclusionRenameScopeCoercion.cs" />
+    <Compile Include="Oil\INamespaceInclusionScopeCoercion.cs" />
     <Compile Include="Oil\IntermediateGenericTypeDictionary.cs" />
     <Compile Include="Oil\IPrivateImplementationDetails.cs" />
+    <Compile Include="Oil\IRenameScopeCoercion.cs" />
+    <Compile Include="Oil\IScopeCoercion.cs" />
+    <Compile Include="Oil\IScopeCoercionCollection.cs" />
     <Compile Include="Oil\ISourceElement.cs" />
+    <Compile Include="Oil\IStaticInclusionScopeCoercion.cs" />
     <Compile Include="Oil\ISymbolType.cs" />
     <Compile Include="Oil\Instructions\IStackInstruction.cs" />
     <Compile Include="Oil\IntermediateAssembly+PartsCollection.cs">
@@ -498,6 +505,8 @@
     <Compile Include="Oil\IntermediateStructTypeDictionary.cs" />
     <Compile Include="Oil\IntermediateTypeBase.cs" />
     <Compile Include="Oil\IntermediateTypeDictionary.cs" />
+    <Compile Include="Oil\ITypeInclusionRenameScopeCoercion.cs" />
+    <Compile Include="Oil\ITypeInclusionScopeCoercion.cs" />
     <Compile Include="Oil\LineColumnPair.cs" />
     <Compile Include="Oil\Members\GenericParameterMovedEventArgs.cs" />
     <Compile Include="Oil\Members\IIntermediateBinaryOperatorCoercionMember.cs" />

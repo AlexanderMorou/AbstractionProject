@@ -4,7 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Modules;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -37,6 +37,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <exception cref="System.ArgumentNullException"><paramref name="type"/> is null.</exception>
         /// <exception cref="System.ArgumentException"><paramref name="type"/>'s <see cref="IIntermediateType.Parent"/> is invalid.</exception>
         void Add(TIntermediateType type);
+        /// <summary>
+        /// Adds a series of <typeparamref name="TIntermediateType"/> instances
+        /// through the <paramref name="types"/> provided.
+        /// </summary>
+        /// <param name="types">The <see cref="IEnumerable{T}"/>
+        /// of <typeparamref name="TIntermediateType"/> elements
+        /// to insert.</param>
+        void AddRange(IEnumerable<TIntermediateType> types);
+        /// <summary>
+        /// Adds a series of <typeparamref name="TIntermediateType"/> instances
+        /// through the <paramref name="types"/> provided.
+        /// </summary>
+        /// <param name="types">The <typeparamref name="TIntermediateType"/>
+        /// array to insert into the 
+        /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}"/>.</param>
+        void AddRange(params TIntermediateType[] types);
         /// <summary>
         /// Creates and adds a new <typeparamref name="TIntermediateType"/> 
         /// instance with the <paramref name="name"/> provided.

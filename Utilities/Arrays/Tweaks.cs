@@ -6,8 +6,9 @@ using System.Text;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Common;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -308,6 +309,156 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             }
             yield break;
         }
+
+        /// <summary>
+        /// Copies data from the <paramref name="source"/> two-dimensional array to the
+        /// <paramref name="destination"/> two-dimensional array.
+        /// </summary>
+        /// <typeparam name="T">The kind of element used within the arrays
+        /// copied.</typeparam>
+        /// <param name="source">The two-dimensional array from which copying occurs.</param>
+        /// <param name="destination">The two-dimensional array of <typeparamref name="T"/>
+        /// elements in which the elements are received.</param>
+        /// <param name="lengthA">The <see cref="Int32"/>
+        /// value representing the lower-order dimension's size.</param>
+        /// <param name="lengthB">The <see cref="Int32"/>
+        /// value representing the higher-order dimension's size.</param>
+        public static void BlockCopy<T>(this T[,] source, T[,] destination, int lengthA, int lengthB)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            int upperSA = source.GetUpperBound(0),
+                upperSB = source.GetUpperBound(1);
+            int upperDA = destination.GetUpperBound(0),
+                upperDB = destination.GetUpperBound(1);
+            int lowerSA = source.GetLowerBound(0),
+                lowerSB = source.GetLowerBound(1);
+            int lowerDA = destination.GetLowerBound(0),
+                lowerDB = destination.GetLowerBound(1);
+            int lengthSA = upperSA + 1 - lowerSA,
+                lengthSB = upperSB + 1 - lowerSB;
+            int lengthDA = upperDA + 1 - lowerDA,
+                lengthDB = upperDB + 1 - lowerDB;
+            if (lengthA > lengthSA || lengthA > lengthDA)
+                throw new ArgumentOutOfRangeException("lengthA");
+            if (lengthB > lengthSB || lengthB > lengthDB)
+                throw new ArgumentOutOfRangeException("lengthB");
+            lock (source)
+            {
+                Parallel.For(0, lengthA, outterIndex =>
+                {
+                    /* *
+                     * Point of diminishing returns, the innermost 
+                     * array is best served to be given a normal loop as the 
+                     * tasking of the parallel elements takes a greater
+                     * overhead than the loop itself does.
+                     * */
+                    for (int innerIndex = 0; innerIndex < lengthB; innerIndex++)
+                        destination[lowerDA + outterIndex, lowerDB + innerIndex] = source[lowerSA + outterIndex, lowerSB + innerIndex];
+                });
+            }
+        }
+
+        /// <summary>
+        /// Copies data from the <paramref name="source"/> three-dimensional array
+        /// to the <paramref name="destination"/> three-dimensional array.
+        /// </summary>
+        /// <typeparam name="T">The kind of element used within the arrays
+        /// copied.</typeparam>
+        /// <param name="source">The three-dimensional array from which copying occurs.</param>
+        /// <param name="destination">The three-dimensional array of <typeparamref name="T"/>
+        /// elements in which the elements are received.</param>
+        /// <param name="lengthA">The <see cref="Int32"/>
+        /// value representing the size of the lowest order dimension
+        /// of the copy operation.</param>
+        /// <param name="lengthB">The <see cref="Int32"/>
+        /// value representing the size of the middle order dimension
+        /// of the copy operation.</param>
+        /// <param name="lengthC">The <see cref="Int32"/>
+        /// value representing the size of the highest order dimension
+        /// of the copy operation.</param>
+        public static void CubicCopy<T>(this T[, ,] source, T[, ,] destination, int lengthA, int lengthB, int lengthC)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            int upperSA = source.GetUpperBound(0),
+                upperSB = source.GetUpperBound(1),
+                upperSC = source.GetUpperBound(2);
+            int upperDA = destination.GetUpperBound(0),
+                upperDB = destination.GetUpperBound(1),
+                upperDC = destination.GetUpperBound(2);
+            int lowerSA = source.GetLowerBound(0),
+                lowerSB = source.GetLowerBound(1),
+                lowerSC = source.GetLowerBound(2);
+            int lowerDA = destination.GetLowerBound(0),
+                lowerDB = destination.GetLowerBound(1),
+                lowerDC = destination.GetLowerBound(2);
+            int lengthSA = upperSA + 1 - lowerSA,
+                lengthSB = upperSB + 1 - lowerSB,
+                lengthSC = upperSC + 1 - lowerSC;
+            int lengthDA = upperDA + 1 - lowerDA,
+                lengthDB = upperDB + 1 - lowerDB,
+                lengthDC = upperDC + 1 - lowerDC;
+            if (lengthA > lengthSA || lengthA > lengthDA)
+                throw new ArgumentOutOfRangeException("lengthA");
+            if (lengthB > lengthSB || lengthB > lengthDB)
+                throw new ArgumentOutOfRangeException("lengthB");
+            if (lengthC > lengthSC || lengthC > lengthDC)
+                throw new ArgumentOutOfRangeException("lengthC");
+            lock (source)
+            {
+                Parallel.For(0, lengthA, outterIndex =>
+                {
+                    Parallel.For(0, lengthB, middleIndex =>
+                    {
+                        for (int innerIndex = 0; innerIndex < lengthC; innerIndex++)
+                            destination[lowerDA + outterIndex, lowerDB + middleIndex, lowerDC + innerIndex] = source[lowerSA + outterIndex, lowerSB + middleIndex, lowerSC + innerIndex];
+                    });
+                });
+            }
+
+        }
+
+        public static T[,] Resize<T>(this T[,] source, int newLengthA, int newLengthB)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            int upperSA = source.GetUpperBound(0),
+                upperSB = source.GetUpperBound(1);
+            int lowerSA = source.GetLowerBound(0),
+                lowerSB = source.GetLowerBound(1);
+
+            T[,] result = (T[,])(Array.CreateInstance(typeof(T), new int[] { newLengthA, newLengthB }, new int[] { lowerSA, lowerSB }));
+            int lengthSA = upperSA + 1 - lowerSA,
+                lengthSB = upperSB + 1 - lowerSB;
+            int copyMaxA = Math.Min(newLengthA, lengthSA),
+                copyMaxB = Math.Min(newLengthB, lengthSB);
+            source.BlockCopy(result, copyMaxA, copyMaxB);
+            return result;
+        }
+
+        public static T[, ,] Resize<T>(this T[, ,] source, int newLengthA, int newLengthB, int newLengthC)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            int upperSA = source.GetUpperBound(0),
+                upperSB = source.GetUpperBound(1),
+                upperSC = source.GetUpperBound(2);
+            int lowerSA = source.GetLowerBound(0),
+                lowerSB = source.GetLowerBound(1),
+                lowerSC = source.GetLowerBound(2);
+
+            T[, ,] result = (T[, ,])(Array.CreateInstance(typeof(T), new int[] { newLengthA, newLengthB, newLengthC }, new int[] { lowerSA, lowerSB, lowerSC }));
+            int lengthSA = upperSA + 1 - lowerSA,
+                lengthSB = upperSB + 1 - lowerSB,
+                lengthSC = upperSC + 1 - lowerSC;
+            int copyMaxA = Math.Min(newLengthA, lengthSA),
+                copyMaxB = Math.Min(newLengthB, lengthSB),
+                copyMaxC = Math.Min(newLengthC, lengthSC);
+            source.CubicCopy(result, copyMaxA, copyMaxB, copyMaxC);
+            return result;
+        }
+
         public static T[] GetArray<T>(this T element, params T[] followers)
         {
             if (followers == null)

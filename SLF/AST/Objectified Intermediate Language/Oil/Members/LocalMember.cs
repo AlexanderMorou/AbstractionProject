@@ -48,5 +48,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            switch (this.TypingMethod)
+            {
+                case LocalTypingKind.Dynamic:
+                    return string.Format("dynamic {0} = {1}", this.Name == null ? "?" : this.Name, this.InitializationExpression);
+                case LocalTypingKind.Implicit:
+                    return string.Format("var {0} = {1}", this.Name == null ? "?" : this.Name, this.InitializationExpression);
+                case LocalTypingKind.Explicit:
+                    return string.Format("? {0} = {1}", this.Name == null ? "?" : this.Name, this.InitializationExpression);
+            }
+            return this.Name;
+        }
     }
 }

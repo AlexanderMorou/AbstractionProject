@@ -313,7 +313,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 if (value)
                 {
                     this.instanceFlags &= ~(ExtendedInstanceMemberFlags.Virtual | ExtendedInstanceMemberFlags.Abstract | ExtendedInstanceMemberFlags.Static);
-                    this.instanceFlags |= ExtendedInstanceMemberFlags.Final;
+                    this.instanceFlags |= (ExtendedInstanceMemberFlags.Final | ExtendedInstanceMemberFlags.Override);
                 }
                 else
                     this.instanceFlags &= ~ExtendedInstanceMemberFlags.Final;
@@ -334,11 +334,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (value)
                 {
-                    this.instanceFlags &= ~(ExtendedInstanceMemberFlags.Static | ExtendedInstanceMemberFlags.Abstract |  ExtendedInstanceMemberFlags.Virtual);
+                    this.instanceFlags &= ~(ExtendedInstanceMemberFlags.Static | ExtendedInstanceMemberFlags.Abstract | ExtendedInstanceMemberFlags.Virtual);
                     this.instanceFlags |= ExtendedInstanceMemberFlags.Override;
                 }
                 else
-                    this.instanceFlags ^= ExtendedInstanceMemberFlags.Override;
+                    this.instanceFlags &= (ExtendedInstanceMemberFlags.Override | ExtendedInstanceMemberFlags.Final);
             }
         }
 

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
+using AllenCopeland.Abstraction.Slf.CompilerServices;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -64,6 +66,38 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
             set
             {
+                if (value == parameterType)
+                    return;
+                if (value is IArrayType)
+                {
+                    var arrayValue = value as IArrayType;
+                    var lowerBoundsTargetType = typeof(LowerBoundTargetAttribute).GetTypeReference();
+                    if (!arrayValue.IsVectorArray)
+                    {
+                        if (this.CustomAttributes.Contains(lowerBoundsTargetType))
+                        {
+                            var customAttribute = this.CustomAttributes[lowerBoundsTargetType];
+                            customAttribute.Parameters.Clear();
+                            foreach (var element in arrayValue.LowerBounds)
+                                customAttribute.Parameters.Add(element);
+                        }
+                        else
+                        {
+                            var customAttribute = new CustomAttributeDefinition.ParameterValueCollection(lowerBoundsTargetType);
+                            foreach (var element in arrayValue.LowerBounds)
+                                customAttribute.Add(element);
+                            this.CustomAttributes.Add(customAttribute);
+                        }
+                    }
+                    else if (this.CustomAttributes.Contains(lowerBoundsTargetType))
+                        this.CustomAttributes.Remove(this.CustomAttributes[lowerBoundsTargetType]);
+                }
+                else
+                {
+                    var lowerBoundsTargetType = typeof(LowerBoundTargetAttribute).GetTypeReference();
+                    if (this.CustomAttributes.Contains(lowerBoundsTargetType))
+                        this.CustomAttributes.Remove(this.CustomAttributes[lowerBoundsTargetType]);
+                }
                 this.parameterType = value;
             }
         }

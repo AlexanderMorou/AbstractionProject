@@ -5,7 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -43,12 +43,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <param name="target">The <see cref="IExpression"/> the 
         /// <see cref="TypeCastExpression"/> casts to
         /// <paramref name="castType"/>.</param>
-        internal TypeCastExpression(IType castType, IExpression target)
+        public TypeCastExpression(IType castType, IExpression target)
         {
             this.castType = castType;
             this.target = target;
         }
 
+        public override string ToString()
+        {
+            return string.Format("({0}){1}", this.CastType, this.Target);
+        }
         #region ITypeCastExpression Members
 
         /// <summary>

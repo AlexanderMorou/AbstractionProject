@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -142,22 +142,42 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             var typeLookupAid = this.TypeLookupAid;
             if (typeLookupAid != null && !(typeLookupAid is ISymbolType))
             {
-                var currentParent = typeLookupAid;
-            repeat:
-                var propertyParent = currentParent as IPropertyParentType;
-                if (propertyParent != null)
-                    foreach (IPropertySignatureMember property in propertyParent.Properties.Values)
-                        if (property.Name == name)
-                            if (property is IPropertyMember)
-                                return property;
-                            else
-                                return property;
-                if (currentParent != null)
+                if (typeLookupAid is IPropertyParentType)
                 {
-                    currentParent = currentParent.BaseType;
-                    goto repeat;
+                    var currentParent = typeLookupAid;
+                repeat:
+                    var propertyParent = currentParent as IPropertyParentType;
+                    if (propertyParent != null)
+                        foreach (IPropertySignatureMember property in propertyParent.Properties.Values)
+                            if (property.Name == name)
+                                if (property is IPropertyMember)
+                                    return property;
+                                else
+                                    return property;
+                    if (currentParent != null)
+                    {
+                        currentParent = currentParent.BaseType;
+                        goto repeat;
+                    }
                 }
-
+                else if (typeLookupAid is IInterfaceType)
+                {
+                    var currentParent = typeLookupAid as IInterfaceType;
+                    Queue<IInterfaceType> implementedInterfaces = new Queue<IInterfaceType>(currentParent.ImplementedInterfaces.Cast<IInterfaceType>());
+                    var propertyParent = currentParent;
+                repeat:
+                    if (propertyParent != null)
+                        foreach (IPropertySignatureMember property in propertyParent.Properties.Values)
+                            if (property.Name == name)
+                                if (property is IPropertyMember)
+                                    return property;
+                                else
+                                    return property;
+                    if (implementedInterfaces.Count > 0){
+                        propertyParent = implementedInterfaces.Dequeue();
+                        goto repeat;
+                    }
+                }
             }
             return null;
         }

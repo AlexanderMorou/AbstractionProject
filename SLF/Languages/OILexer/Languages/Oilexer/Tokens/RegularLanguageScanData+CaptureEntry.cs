@@ -59,7 +59,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens
 }
  /* ------------------------------------------------------------\
  |  This file took 00:00:00.0007006 to generate.                |
- |  Date generated: 8/26/2009 4:13:06 PM                        |
+ |  Date generated: 8/26/2010 4:13:06 PM                        |
  |  There were 4 types used by this file                        |
  |  System.String, System.Int32, RegularLanguageReaderTokens,   |
  |  RegularLanguageScanData+Entry                         |

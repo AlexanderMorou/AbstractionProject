@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
  /*----------------------------------------\
- | Copyright © 2008 Allen Copeland Jr.     |
+ | Copyright © 2010 Allen Copeland Jr.     |
  |-----------------------------------------|
  | The Abstraction Project's code is prov- |
  | -ided under a contract-release basis.   |

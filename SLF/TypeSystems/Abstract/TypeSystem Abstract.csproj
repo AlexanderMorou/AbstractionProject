@@ -120,21 +120,6 @@
     <Compile Include="Abstract\AnonymousTypeMember.cs" />
     <Compile Include="Abstract\AnonymousTypePatternAid.cs" />
     <Compile Include="Abstract\AssemblyBase.cs" />
-    <Compile Include="Abstract\CultureIdentifier.cs" />
-    <Compile Include="Abstract\CultureIdentifierTypeConverter.cs" />
-    <Compile Include="Abstract\CultureIdentifiers+CountryRegions.cs">
-      <DependentUpon>CultureIdentifiers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abstract\CultureIdentifiers+CultureCodes.cs">
-      <DependentUpon>CultureIdentifiers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abstract\CultureIdentifiers+IDs.cs">
-      <DependentUpon>CultureIdentifiers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abstract\CultureIdentifiers+LocalizedNames.cs">
-      <DependentUpon>CultureIdentifiers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abstract\CultureIdentifiers.cs" />
     <Compile Include="Abstract\DeclarationBase.cs" />
     <Compile Include="Abstract\DeclarationDictionaryBase{TItem}.cs" />
     <Compile Include="Abstract\FullDeclarationDictionaryBase{TMItem}.cs" />

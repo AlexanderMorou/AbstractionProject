@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -16,29 +16,20 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
-    public interface IMethodReferenceStub<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> :
+    public interface IMethodReferenceStub<TSignatureParameter, TSignature, TParent> :
         IMethodReferenceStub
         where TSignatureParameter :
             IMethodSignatureParameterMember<TSignatureParameter, TSignature, TParent>
-        where TIntermediateSignatureParameter :
-            TSignatureParameter,
-            IIntermediateMethodSignatureParameterMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>
         where TSignature :
             IMethodSignatureMember<TSignatureParameter, TSignature, TParent>
-        where TIntermediateSignature :
-            TSignature,
-            IIntermediateMethodSignatureMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>
         where TParent :
             ISignatureParent<TSignature, TSignatureParameter, TParent>
-        where TIntermediateParent :
-            TParent,
-            IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TParent, TIntermediateParent>
     {
         /// <summary>
         /// Returns the <typeparamref name="TIntermediateSignature"/>
         /// associated to the current <see cref="IMethodPointerReferenceExpression{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
         /// </summary>
-        TIntermediateSignature Member { get; }
+        TSignature Member { get; }
         /// <summary>
         /// Obtains a <see cref="IMethodPointerRefernceExpression{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
         /// with the <paramref name="signature"/> provided.
@@ -49,19 +40,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <returns>A new <see cref="IMethodPointerReferenceExpression{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
         /// relative to the <paramref name="signature"/>
         /// provided.</returns>
-        new IMethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetPointer(ITypeCollection signature);
+        new IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> GetPointer(ITypeCollection signature);
         /// <summary>
         /// Obtains a <see cref="IMethodPointerRefernceExpression{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
         /// with the <paramref name="signature"/> provided.
         /// </summary>
         /// <param name="signature">The series if <see cref="IType"/>
         /// elements relative to the type-signature of the 
-        /// <see cref="IMethodPointerReferenceExpression{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
+        /// <see cref="IMethodPointerReferenceExpression{TSignatureParameter, TSignature, TParent}"/>
         /// to obtain.</param>
-        /// <returns>A new <see cref="IMethodPointerReferenceExpression{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
+        /// <returns>A new <see cref="IMethodPointerReferenceExpression{TSignatureParameter, TSignature, TParent}"/>
         /// relative to the <paramref name="signature"/>
         /// provided.</returns>
-        new IMethodPointerReferenceExpression<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetPointer(params IType[] signature);
+        new IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> GetPointer(params IType[] signature);
     }
     /// <summary>
     /// Defines properties and methods for working 

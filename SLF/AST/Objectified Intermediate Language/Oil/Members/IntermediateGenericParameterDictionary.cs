@@ -5,9 +5,10 @@ using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf._Internal;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
+using AllenCopeland.Abstraction.Slf.Oil;
 using System.Threading.Tasks;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -105,6 +106,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 result.Constructors.Add(ctorSig.Parameters.ToSeries());
             foreach (var eventGroup in genericParameterData.Events)
                 result.Events.Add(eventGroup);
+            ITypeCollectionBase typeParameters = null;
+            ITypeCollectionBase methodTypeParameters = null;
+            foreach (var constraint in genericParameterData.Constraints)
+                if (constraint.ContainsSymbols())
+                    result.Constraints.Add(constraint.AttemptToDisambiguateSymbols(result));
+                else
+                    result.Constraints.Add(constraint);
             //foreach (var propertyGroup in genericParameterData.Properties)
                 //result.Properties.Add
             foreach (var method in genericParameterData.Methods.Signatures)
@@ -215,15 +223,25 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                     current.Constructors.Add(ctorSig.Parameters.ToSeries());
                 foreach (var eventGroup in currentParameterData.Events)
                     current.Events.Add(eventGroup);
-                //foreach (var propertyGroup in genericParameterData.Properties)
                 //result.Properties.Add
                 foreach (var method in currentParameterData.Methods.Signatures)
                     current.Methods.Add(new TypedName(method.Name, method.ReturnType), method.Parameters.ToSeries());
                 currentKeys[i] = currentUniqueId;
                 result[i] = current;
             });
+            //Parallel.For(0, genericParameterData.Length, i =>
             for (int i = 0; i < genericParameterData.Length; i++)
                 this._Add(currentKeys[i], result[i]);
+            for (int i = 0; i < genericParameterData.Length; i++)
+            {
+                var currentParameterData = genericParameterData[i];
+                var current = result[i];
+                foreach (var constraint in currentParameterData.Constraints)
+                    if (constraint.ContainsSymbols())
+                        current.Constraints.Add(constraint.AttemptToDisambiguateSymbols(current));
+                    else
+                        current.Constraints.Add(constraint);
+            }//);
             return result;
         }
 

@@ -6,7 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using System.Threading.Tasks;
 using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -32,7 +32,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             IParameterParent<TParent, TParameter>
         where TIntermediateParent :
             TParent,
-            IIntermediateParameterParent<TParent, TIntermediateParent, TParameter, TIntermediateParameter>
+            IIntermediateParameterParent<TParent, TIntermediateParent, TParameter, TIntermediateParameter>,
+            IIntermediateDeclaration
         where TParameter :
             IParameterMember<TParent>
         where TIntermediateParameter :
@@ -96,21 +97,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public new TIntermediateParameter Add(TypedName parameterInfo)
         {
-            if (this.Parent is IIntermediateType)
-                return this.Add(parameterInfo.Name, parameterInfo.AscertainType((IIntermediateType)this.Parent), parameterInfo.Direction);
-            else if (this.Parent is IIntermediateMember)
-                return this.Add(parameterInfo.Name, parameterInfo.AscertainType((IIntermediateMember)this.Parent), parameterInfo.Direction);
-            return this.Add(parameterInfo.Name, parameterInfo.GetTypeRef(), parameterInfo.Direction);
+            var paramKind = parameterInfo.GetTypeRef();
+            if (paramKind.ContainsSymbols())
+                paramKind = paramKind.AttemptToDisambiguateSymbols(this.Parent);
+            return this.Add(parameterInfo.Name, paramKind, parameterInfo.Direction);
         }
 
         internal TIntermediateParameter _Add(TypedName parameterInfo)
         {
-            if (this.Parent is IIntermediateMember)
-                return this.AddInternal(parameterInfo.Name, parameterInfo.AscertainType((IIntermediateMember)this.Parent), parameterInfo.Direction);
-            else if (Parent is IIntermediateType)
-                return this.AddInternal(parameterInfo.Name, parameterInfo.AscertainType((IIntermediateType)this.Parent), parameterInfo.Direction);
-            else
-                return this.AddInternal(parameterInfo.Name, parameterInfo.GetTypeRef(), parameterInfo.Direction);
+            var paramKind = parameterInfo.GetTypeRef();
+            if (paramKind.ContainsSymbols())
+                paramKind = paramKind.AttemptToDisambiguateSymbols(this.Parent);
+            return this.AddInternal(parameterInfo.Name, paramKind, parameterInfo.Direction);
         }
 
         public new TIntermediateParameter[] AddRange(params TypedName[] parameterInfo)
@@ -123,18 +121,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             Parallel.For(0, parameterInfo.Length, i =>
                 {
                     var currentParamInfo = parameterInfo[i];
-                    switch (currentParamInfo.Source)
-                    {
-                        case TypedNameSource.TypeReference:
-                            result[i] = this.GetNewParameter(currentParamInfo.Name, currentParamInfo.Reference, currentParamInfo.Direction);
-                            break;
-                        case TypedNameSource.SymbolReference:
-                            result[i] = this.GetNewParameter(currentParamInfo.Name, currentParamInfo.SymbolReference.GetSymbolType(), currentParamInfo.Direction);
-                            break;
-                        case TypedNameSource.InvalidReference:
-                        default:
-                            throw new ArgumentException("parameterInfo");
-                    }
+                    var currentParamType = currentParamInfo.GetTypeRef();
+                    if (currentParamType.ContainsSymbols())
+                        currentParamType = currentParamType.AttemptToDisambiguateSymbols(this.Parent);
+                    result[i] = this.GetNewParameter(currentParamInfo.Name, currentParamType, currentParamInfo.Direction);
                 });
             foreach (var element in result)
                 this._Add(element.Name, element);

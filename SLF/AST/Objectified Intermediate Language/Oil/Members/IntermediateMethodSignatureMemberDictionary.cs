@@ -8,7 +8,7 @@ using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Utilities.Events;
 using System.Threading.Tasks;
 /*----------------------------------------\
-| Copyright © 2009 Allen Copeland Jr.     |
+| Copyright © 2010 Allen Copeland Jr.     |
 |-----------------------------------------|
 | The Abstraction Project's code is prov- |
 | -ided under a contract-release basis.   |
@@ -30,7 +30,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             IMethodSignatureParent<TSignature, TSignatureParent>
         where TIntermediateSignatureParent :
             IIntermediateMethodSignatureParent<TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
-            TSignatureParent
+            TSignatureParent,
+            IIntermediateDeclaration
     {
         protected IntermediateMethodSignatureMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateSignatureParent parent)
             : base(master, parent)
@@ -60,7 +61,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
         where TIntermediateSignatureParent :
             TSignatureParent,
-            IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
+            IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>,
+            IIntermediateDeclaration
     {
         protected IntermediateGroupedMethodSignatureMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateSignatureParent parent)
             : base(master, parent)
@@ -104,7 +106,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 Parallel.For(0, parameters.Count, i =>
                     {
                         TypedName currentItem = parameters[i];
-                        IType paramType = currentItem.AscertainType(method);
+                        IType paramType = currentItem.GetTypeRef();
+                        if (paramType.ContainsSymbols())
+                            paramType = paramType.AttemptToDisambiguateSymbols(method);
                         paramType = AdjustTypeReference(paramType, currentItem.Direction);
                         adjustedParameters[i] = new TypedName(currentItem.Name, paramType);
                     });
@@ -186,21 +190,33 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public TIntermediateSignature Add(TypedName nameAndReturn)
         {
             TIntermediateSignature method = this.Add(nameAndReturn.Name);
-            method.ReturnType = nameAndReturn.AscertainType(method);
+            var returnType = nameAndReturn.GetTypeRef();
+            if (returnType.ContainsSymbols())
+                method.ReturnType = returnType.AttemptToDisambiguateSymbols(method);
+            else
+                method.ReturnType = returnType;
             return method;
         }
 
         public TIntermediateSignature Add(TypedName nameAndReturn, TypedNameSeries parameters)
         {
             TIntermediateSignature method = this.Add(nameAndReturn.Name, parameters);
-            method.ReturnType = nameAndReturn.AscertainType(method);
+            var returnType = nameAndReturn.GetTypeRef();
+            if (returnType.ContainsSymbols())
+                method.ReturnType = returnType.AttemptToDisambiguateSymbols(method);
+            else
+                method.ReturnType = returnType;
             return method;
         }
 
         public TIntermediateSignature Add(TypedName nameAndReturn, TypedNameSeries parameters, params GenericParameterData[] typeParameters)
         {
             TIntermediateSignature method = this.Add(nameAndReturn.Name, parameters, typeParameters);
-            method.ReturnType = nameAndReturn.AscertainType(method);
+            var returnType = nameAndReturn.GetTypeRef();
+            if (returnType.ContainsSymbols())
+                method.ReturnType = returnType.AttemptToDisambiguateSymbols(method);
+            else
+                method.ReturnType = returnType;
             return method;
         }
 

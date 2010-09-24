@@ -87,16 +87,17 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 KeyValuePair<TKey, TValue>[] newSet = elements.ToArray();
                 if (newSet.Length == 0)
                     return;
-                EnsureSpaceExists(this.Count + newSet.Length);
                 lock (this.syncObject)
                 {
+                    EnsureSpaceExists(this.Count + newSet.Length);
                     int startingCount = this.Count;
-                    for (int i = 0; i < newSet.Length; i++)
+                    Parallel.For(0, newSet.Length, i =>
                     {
                         var newitem = newSet[i];
-                        this.entries[startingCount] = newitem;
-                        this.orderings.Add(newitem.Key, startingCount++);
-                    }
+                        this.entries[startingCount + i] = newitem;
+                        lock (orderings)
+                            this.orderings.Add(newitem.Key, startingCount + i);
+                    });
                 }
             }
 

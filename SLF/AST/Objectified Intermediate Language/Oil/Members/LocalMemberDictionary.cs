@@ -86,7 +86,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             Parallel.For(0, seriesElements.Length, i =>
             {
                 var current = seriesElements[i];
-                locals[i] = new TypedLocalMember(current.Name, this.Parent, current.AscertainType(parentMember));
+                var localType = current.GetTypeRef();
+                if (localType.ContainsSymbols())
+                    localType = localType.AttemptToDisambiguateSymbols(parentMember);
+                locals[i] = new TypedLocalMember(current.Name, this.Parent, localType);
             });
             this._AddRange(from local in locals
                            select new KeyValuePair<string, ILocalMember>(local.Name, local));
@@ -139,13 +142,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public ILocalMember Add(string name, IExpression initializationExpression, LocalTypingKind typingMethod = LocalTypingKind.Implicit)
         {
+            if (typingMethod != LocalTypingKind.Implicit && typingMethod != LocalTypingKind.Dynamic)
+                throw new ArgumentOutOfRangeException("typingMethod");
+            if (name == null)
+                throw new ArgumentNullException("name");
+            if (initializationExpression == null)
+                throw new ArgumentNullException("initializationExpression");
             var result = new LocalMember(name, this.Parent, typingMethod) { InitializationExpression = initializationExpression };
+            this._Add(result.UniqueIdentifier, result);
             return result;
         }
         public ITypedLocalMember Add(TypedName nameAndType, IExpression initializationExpression)
         {
             var result = this.Add(nameAndType);
             result.InitializationExpression = initializationExpression;
+            this._Add(result.UniqueIdentifier, result);
             return result;
         }
 

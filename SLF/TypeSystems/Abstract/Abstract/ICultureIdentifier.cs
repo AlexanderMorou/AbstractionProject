@@ -4,7 +4,7 @@ using System.Text;
 using System.Globalization;
 using System.ComponentModel;
  /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
+ | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// a culture identifier which denotes the neutral 
     /// language of an assembly.
     /// </summary>
-    [TypeConverter(typeof(CultureIdentifierTypeConverter))]
+    //[TypeConverter(typeof(CultureIdentifierTypeConverter))]
     public interface ICultureIdentifier
     {
         /// <summary>
