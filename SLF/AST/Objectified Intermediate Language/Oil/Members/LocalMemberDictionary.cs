@@ -156,7 +156,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             var result = this.Add(nameAndType);
             result.InitializationExpression = initializationExpression;
-            this._Add(result.UniqueIdentifier, result);
             return result;
         }
 

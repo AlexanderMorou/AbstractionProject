@@ -1515,9 +1515,9 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
                 return null;
             }
             IGDToken igdt = PopAhead();
-            ICollection<IProductionRule> icipr = new System.Collections.ObjectModel.Collection<IProductionRule>();
+            List<IProductionRule> icipr = new List<IProductionRule>();
             ParseProductionRule(icipr, PreprocessorContainer.Template);
-            result = new PreprocessorConditionalReturnDirective(new List<IProductionRule>(icipr).ToArray(), igdt.Column, igdt.Line, igdt.Position);
+            result = new PreprocessorConditionalReturnDirective(icipr.ToArray(), igdt.Column, igdt.Line, igdt.Position);
             this.SetMultiLineMode(mlm);
             return result;
         }
@@ -2457,12 +2457,12 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
         {
             if (ExpectOperator(LookAhead(0), GDTokens.OperatorType.LessThan, true))
             {
-                List<ICollection<IProductionRule>> serii = new List<ICollection<IProductionRule>>();
+                List<IList<IProductionRule>> serii = new List<IList<IProductionRule>>();
                 PopAhead();
                 templateDepth++;
                 while (true)
                 {
-                    ICollection<IProductionRule> current = new Collection<IProductionRule>();
+                    IList<IProductionRule> current = new List<IProductionRule>();
                     ParseProductionRule(current, container);
                     ClearAhead();
                     serii.Add(current);

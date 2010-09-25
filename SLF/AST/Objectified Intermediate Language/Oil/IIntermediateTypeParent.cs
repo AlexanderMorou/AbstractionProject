@@ -20,6 +20,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         ITypeParent
     {
         /// <summary>
+        /// Returns a <see cref="IScopeCoercionCollection"/>
+        /// </summary>
+        IScopeCoercionCollection ScopeCoercions { get; }
+        /// <summary>
         /// Returns the classes associated
         /// to the <see cref="IIntermediateTypeParent"/>.
         /// </summary>

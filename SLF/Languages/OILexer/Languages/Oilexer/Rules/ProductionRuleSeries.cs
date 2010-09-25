@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules
         public ProductionRuleSeries(ICollection<IProductionRule> series)
         {
             foreach (var expression in series)
-                this.baseCollection.Add(expression);
+                this.baseList.Add(expression);
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules
         {
             foreach (var set in serii)
                 foreach (var expression in set)
-                    this.baseCollection.Add(expression);
+                    this.baseList.Add(expression);
         }
 
         public override string ToString()

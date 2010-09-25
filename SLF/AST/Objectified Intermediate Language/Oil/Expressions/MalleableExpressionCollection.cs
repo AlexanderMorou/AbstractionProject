@@ -105,12 +105,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         public void Remove(T expression)
         {
-            this.baseCollection.Remove(expression);
+            this.baseList.Remove(expression);
         }
 
         public void Clear()
         {
-            this.baseCollection.Clear();
+            this.baseList.Clear();
         }
 
         public T this[int index]

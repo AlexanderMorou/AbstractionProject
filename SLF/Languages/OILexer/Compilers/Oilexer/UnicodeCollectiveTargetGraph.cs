@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
 
         public void Add(IUnicodeTargetGraph graph)
         {
-            base.baseCollection.Add(graph);
+            base.baseList.Add(graph);
         }
 
         public IUnicodeTargetGraph Find(IUnicodeTargetGraph duplicate)

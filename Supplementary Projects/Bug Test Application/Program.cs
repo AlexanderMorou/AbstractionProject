@@ -1,84 +1,266 @@
-﻿ /*---------------------------------------------------------------------\
- | Copyright © 2009 Allen Copeland Jr.                                  |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
-
-using System;
-using System.Linq;
-using System.CodeDom;
-using AllenCopeland.Abstraction.Slf.Oil.Expressions;
-using AllenCopeland.Abstraction.Slf.Oil;
-using AllenCopeland.Abstraction.Slf.Cli;
-using AllenCopeland.Abstraction.Slf.Abstract;
-using AllenCopeland.Abstraction.Slf.CompilerServices;
-using AllenCopeland.Abstraction.Slf._Internal;
-using AllenCopeland.Abstraction.Utilities.Collections;
-using AllenCopeland.Abstraction.Utilities.Common;
-using AllenCopeland.Abstraction.Utilities.Arrays;
+﻿using System;
+using System.CodeDom.Compiler;
+using System.Collections;
 using System.Collections.Generic;
-using AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq;
-using System.Linq.Expressions;
 using System.Diagnostics;
-using System.Windows.Forms;
-using AllenCopeland.Abstraction.Utilities.Common;
-using AllenCopeland.Abstraction.Slf.Oil.Members;
-using AllenCopeland.Abstraction.Slf.Abstract.Members;
-using Microsoft.VisualBasic.CompilerServices;
-using AllenCopeland.Abstraction.Slf.Cli.Members;
-using System.Reflection.Emit;
+using System.IO;
+using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using AllenCopeland.Abstraction.Utilities.Tuples;
 using System.Threading.Tasks;
-
-namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Compilers.Oilexer;
+using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
+using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
+using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
+using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
+using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Slf.Parsers.Oilexer;
+using AllenCopeland.Abstraction.Utilities.Common;
+using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Utilities.Arrays;
+using AllenCopeland.Abstraction.Slf._Internal.Oilexer;
+using AllenCopeland.Abstraction.Slf._Internal.Oilexer.Inlining;
+/* *
+ * Old Release Post-build command:
+ * "$(ProjectDir)PostBuild.bat" "$(ConfigurationName)" "$(TargetPath)"
+ * */
+namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
 {
-    internal static partial class Program
+    /// <summary>
+    /// Provides an entrypoint and initial decision logic
+    /// for the application.
+    /// </summary>
+    internal static class Program
     {
-        private static int test = 0;
-
-        private static void Extraction04()
+        private static int longestLineLength = 0;
+        private const string Syntax = "-s";
+        private const string NoSyntax = "-ns";
+        private const string NoLogo = "-nl";
+        private const string Quiet = "-q";
+        private const string Verbose = "-v";
+        private const string StreamAnalysis = "-a:";
+        private const string StreamAnalysisExtension = "-ae:";
+        private const string Export = "-ex:";
+        private const string ExportKind_TraversalHTML = "t-html";
+        private const string ExportKind_DLL = "dll";
+        private const string ExportKind_EXE = "exe";
+        private const string ExportKind_CSharp = "cs";
+        private const string Export_TraversalHTML = Export + ExportKind_TraversalHTML;
+        private const string Export_DLL = Export + ExportKind_DLL;
+        private const string Export_EXE = Export + ExportKind_EXE;
+        private const string Export_CSharp = Export + ExportKind_CSharp;
+        private const string TitleSequence_CharacterSetCache        = "Character set cache size";
+        private const string TitleSequence_CharacterSetComputations = "Character set computations";
+        private const string TitleSequence_VocabularyCache          = "Vocabulary set computations";
+        private const string TitleSequence_VocabularyComputations   = "Vocabulary cache size";
+        private const string TitleSequence_NumberOfRules            = "Number of rules";
+        private const string TitleSequence_NumberOfTokens           = "Number of tokens";
+        private const string PhaseName_Linking                      = "Linking";
+        private const string PhaseName_ExpandingTemplates           = "Expanding templates";
+        private const string PhaseName_Deliteralization             = "Deliteralization";
+        private const string PhaseName_InliningTokens               = "Inlining tokens";
+        private const string PhaseName_TokenNFAConstruction         = "Token NFA Construction";
+        private const string PhaseName_TokenDFAConstruction         = "Token DFA Construction";
+        private const string PhaseName_TokenDFAReduction            = "Token DFA Reduction";
+        private const string PhaseName_RuleNFAConstruction          = "Rule NFA Construction";
+        private const string PhaseName_RuleDFAConstruction          = "Rule DFA Construction";
+        private const string PhaseName_CallTreeAnalysis             = "Call Tree Analysis";
+        private const string PhaseName_ObjectModelConstruction      = "Object Model Construction";
+        private const string PhaseName_TokenCaptureConstruction     = "Token Capture Construction";
+        private const string PhaseName_TokenEnumConstruction        = "Token Enum Construction";
+        private const string PhaseName_RuleStructureConstruction    = "Rule Structure Construction";
+        //TitleSequence_CharacterSetCache.Length, TitleSequence_CharacterSetComputations.Length, TitleSequence_VocabularyCache.Length, TitleSequence_VocabularyComputations.Length, TitleSequence_NumberOfRules.Length, TitleSequence_NumberOfTokens.Length, PhaseName_Linking.Length, PhaseName_ExpandingTemplates.Length, PhaseName_Deliteralization.Length, PhaseName_InliningTokens.Length, PhaseName_TokenNFAConstruction.Length , PhaseName_TokenDFAConstruction.Length , PhaseName_TokenDFAReduction.Length, PhaseName_RuleNFAConstruction.Length  , PhaseName_RuleDFAConstruction.Length  , PhaseName_CallTreeAnalysis.Length , PhaseName_ObjectModelConstruction.Length  , PhaseName_TokenCaptureConstruction.Length , PhaseName_TokenEnumConstruction.Length, PhaseName_RuleStructureConstruction.Length
+        /// <summary>
+        /// Defines the valid options for the <see cref="Program"/>.
+        /// </summary>
+        [Flags]
+        public enum ValidOptions
         {
-            var assemblyName = new AssemblyName("prog");
-            var assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Save, @"C:\Projects\Code\C#\Abstraction\Supplementary Projects\Bug Test Application\");
-            var rootModule = assemblyBuilder.DefineDynamicModule("TestAssembly", "prog.dll");
-            var classTest = rootModule.DefineType("testClass1", TypeAttributes.NotPublic | TypeAttributes.Class | TypeAttributes.AutoClass | TypeAttributes.AnsiClass | TypeAttributes.Sealed | TypeAttributes.Abstract | TypeAttributes.BeforeFieldInit);
-            var testField = classTest.DefineField("testField", typeof(int), FieldAttributes.Static | FieldAttributes.Public);
-            testField.SetConstant((int)3);
-
-            var u = classTest.CreateType();
-            rootModule.CreateGlobalFunctions();
-
-            var secondAssemblyName = new AssemblyName("prog2");
-            var secondAssemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(secondAssemblyName, AssemblyBuilderAccess.Save, @"C:\Projects\Code\C#\Abstraction\Supplementary Projects\Bug Test Application\");
-            var secondRootModule = secondAssemblyBuilder.DefineDynamicModule("TestAssembly2", "prog2.dll");
-            var secondClassTest = secondRootModule.DefineType("testClass2", TypeAttributes.Class | TypeAttributes.AutoClass | TypeAttributes.AnsiClass | TypeAttributes.Sealed | TypeAttributes.Public | TypeAttributes.Abstract | TypeAttributes.BeforeFieldInit);
-            var secondTestField = secondClassTest.DefineField("testField2", typeof(int), FieldAttributes.Public | FieldAttributes.Static);
-            var secondStaticCtor = secondClassTest.DefineTypeInitializer();
-            var secondStaticGen = secondStaticCtor.GetILGenerator();
-            assemblyBuilder.SetCustomAttribute(new CustomAttributeBuilder(typeof(InternalsVisibleToAttribute).GetConstructor(BindingFlags.Public | BindingFlags.Instance, Type.DefaultBinder, new Type[] { typeof(string) }, null), new object[] { secondAssemblyName.FullName }));
-            secondStaticGen.Emit(OpCodes.Ldsfld, testField);
-            secondStaticGen.Emit(OpCodes.Stsfld, secondTestField);
-            secondStaticGen.Emit(OpCodes.Ret);
-            secondClassTest.CreateType();
-            assemblyBuilder.Save(@"prog.dll");
-            secondAssemblyBuilder.Save(@"prog2.dll");
+            /// <summary>
+            /// No options were specified.
+            /// </summary>
+            None,
+            /// <summary>
+            /// Displays the language's sytnax at the end.
+            /// </summary>
+            ShowSyntax              = 0x0001,
+            /// <summary>
+            /// Instructs the <see cref="Program"/> to not emit 
+            /// the syntax at the end.
+            /// </summary>
+            DoNotEmitSyntax         = 0x0002,
+            /// <summary>
+            /// Instructs the <see cref="Program"/> to not
+            /// display a logo to the console.
+            /// </summary>
+            NoLogo                  = 0x0014,
+            /// <summary>
+            /// Instructs the <see cref="Program"/> to emit as little
+            /// as possible to the console.
+            /// </summary>
+            QuietMode               = 0x0018,
+            /// <summary>
+            /// Instructs the <see cref="Program"/> to 
+            /// display extra information to the console.
+            /// </summary>
+            VerboseMode             = 0x0030,
+            /// <summary>
+            /// Instructs the <see cref="Program"/> to emit
+            /// a series of hypertext mark-up language (HTML)
+            /// files associated to the current grammar.
+            /// </summary>
+            ExportTraversalHTML     = 0x0240,
+            /// <summary>
+            /// Instructs the <see cref="Program"/> to emit
+            /// a dynamic link library (DLL) which can parse
+            /// strings of the described language.
+            /// </summary>
+            ExportDLL               = 0x0280,
+            /// <summary>
+            /// Instructs the <see cref="Program"/> to emit
+            /// a simple executable (EXE) which can parse
+            /// strings of the described language by accepting
+            /// a series of strings which represent file(s) to 
+            /// parse.
+            /// </summary>
+            ExportEXE               = 0x0300,
+            /// <summary>
+            /// Instructs the <see cref="Program"/> to emit
+            /// a series of C&#9839; files.
+            /// </summary>
+            ExportCSharp            = 0x0600,
+        }
+        public static List<string> StreamAnalysisFiles = new List<string>();
+        public static string baseTitle;
+        public static ValidOptions options = ValidOptions.DoNotEmitSyntax;
+        /// <summary>
+        /// The entrypoint.
+        /// </summary>
+        /// <param name="args">The string parameters sent in by the
+        /// call site.</param>
+        private static void Main(string[] args)
+        {
+            var consoleTitle = Console.Title;
+            try
+            {
+                try
+                {
+                    Console.Clear();
+                    Console.Title = string.Format("{0}", Path.GetFileNameWithoutExtension(typeof(Program).Assembly.Location));
+                }
+                catch (IOException)
+                {
+                }
+                if (args.Length <= 0)
+                {
+                    if ((options & ValidOptions.NoLogo) != ValidOptions.NoLogo)
+                        DisplayLogo();
+                    Program.DisplayUsage();
+                    return;
+                }
+                bool exists = false;
+                string file = null;
+                string extension = null;
+                foreach (string s in args)
+                    if (s.ToLower() == NoSyntax)
+                        options = (options & ~ValidOptions.ShowSyntax) | ValidOptions.DoNotEmitSyntax;
+                    else if (s.ToLower() == Syntax)
+                        options = (options & ~ValidOptions.DoNotEmitSyntax) | ValidOptions.ShowSyntax;
+                    else if (s.ToLower() == NoLogo)
+                        options = options | ValidOptions.NoLogo;
+                    else if (s.ToLower() == Export_TraversalHTML)
+                    {
+                        options &= ~(ValidOptions.ExportEXE | ValidOptions.ExportDLL | ValidOptions.ExportCSharp);
+                        options |= ValidOptions.ExportTraversalHTML;
+                    }
+                    else if (s.ToLower() == Export_DLL)
+                    {
+                        options &= ~(ValidOptions.ExportEXE | ValidOptions.ExportTraversalHTML | ValidOptions.ExportCSharp);
+                        options |= ValidOptions.ExportDLL;
+                    }
+                    else if (s.ToLower() == Export_EXE)
+                    {
+                        options &= ~(ValidOptions.ExportTraversalHTML | ValidOptions.ExportDLL | ValidOptions.ExportCSharp);
+                        options |= ValidOptions.ExportEXE;
+                    }
+                    else if (s.ToLower() == Export_CSharp)
+                    {
+                        options &= ~(ValidOptions.ExportEXE | ValidOptions.ExportDLL | ValidOptions.ExportTraversalHTML);
+                        options |= ValidOptions.ExportCSharp;
+                    }
+                    else if (s.ToLower() == Quiet)
+                        options = (options & ~ValidOptions.VerboseMode) | ValidOptions.QuietMode;
+                    else if (s.ToLower() == Verbose)
+                        options = (options & ~ValidOptions.QuietMode) | ValidOptions.VerboseMode;
+                    else if (s.ToLower().Substring(0, StreamAnalysis.Length) == StreamAnalysis)
+                    {
+                        var streamFile = s.ToLower().Substring(StreamAnalysis.Length);
+                        if (File.Exists(streamFile))
+                        {
+                            FileInfo fi = new FileInfo(streamFile);
+                            StreamAnalysisFiles.Add(fi.FullName);
+                        }
+                        else if (Directory.Exists(streamFile))
+                        {
+                            DirectoryInfo di = new DirectoryInfo(streamFile);
+                            foreach (var fileInfo in di.EnumerateFiles())
+                                StreamAnalysisFiles.Add(fileInfo.FullName);
+                            di = null;
+                        }
+                    }
+                    else if (s.ToLower().Substring(0, StreamAnalysisExtension.Length) == StreamAnalysisExtension)
+                        extension = s.ToLower().Substring(StreamAnalysisExtension.Length);
+                    else if (!File.Exists(s))
+                        Console.WriteLine("File {0} does not exist.", s);
+                    else if (file == null)
+                    {
+                        exists = true;
+                        file = s;
+                    }
+                if (!string.IsNullOrEmpty(extension))
+                    StreamAnalysisFiles = (from analysisFile in StreamAnalysisFiles
+                                           where analysisFile.EndsWith(extension)
+                                           select analysisFile).ToList();
+                if (!exists)
+                {
+                    if ((options & ValidOptions.NoLogo) != ValidOptions.NoLogo)
+                        DisplayLogo();
+                    Program.DisplayUsage();
+                    return;
+                }
+                Program.ParseFile(file);
+            }
+            finally
+            {
+                try
+                {
+                    Console.Title = consoleTitle;
+                }
+                catch (IOException)
+                {
+                }
+            }
         }
 
-        private static void Extraction03()
+        private static void Extraction05()
         {
-            Console.WriteLine("Took {0} to process initially.", Time(Test1));
-            Console.ReadKey();
-            Console.WriteLine();
-            Console.WriteLine("Took {0} to clear cache and wait for pending finalizers", Time(CLIGateway.ClearCache));
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("Took {0} to process secondarily.", Time(Test1));
-            Console.WriteLine();
-            Console.WriteLine("Took {0} to to clear and wait (again)", Time(CLIGateway.ClearCache));
+            BuildTupleSamples();
+            var cacheClearing = Time(CLIGateway.ClearCache);
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            Console.WriteLine("Press any key to re-run test.");
             Console.ReadKey(true);
+            Console.WriteLine();
+            Console.WriteLine("Re-running test...");
+            BuildTupleSamples();
+            var secondCacheClearing = Time(CLIGateway.ClearCache);
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            Console.WriteLine();
+            Console.WriteLine("Clearing cache took (first/second): {0}/{1}", cacheClearing, secondCacheClearing);
+            //Console.ReadKey(true);
         }
 
         private static TimeSpan Time(Action a)
@@ -90,177 +272,10 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             return sw.Elapsed;
         }
 
-        private static void Test1()
-        {
-            Console.WriteLine("test".ToPrimitive().GetIndexer(0.ToPrimitive()));
-            ILinqExpression queryTestA = new LinqExpression();
-            queryTestA.From = new LinqFromClause(/* rangeVariableName: */"person", /* rangeSource: */"people".GetSymbolExpression());
-            var queryTestABody = new LinqSelectBody();
-            queryTestA.Body = queryTestABody;
-            queryTestABody.Clauses.Join(/* rangeVariableName: */"pet",    /* rangeSelector: */"pets".GetSymbolExpression(), /* leftSelector: */"person".GetSymbolExpression(), /* rightSelector: */"pet".Fuse("Owner"), /* intoRangeName: */"gj");
-            queryTestABody.Clauses.From(/* rangeVariableName: */"subPet", /* rangeSelector: */"gj".Fuse("DefaultIfEmpty").Fuse(new IExpression[0]));
-            queryTestABody.Selection = "string".Fuse("Format").Fuse(((Symbol)"subPet").EqualTo(IntermediateGateway.NullValue).IIf("string".Fuse("Empty"), "subPet".Fuse("Name")).AsNamedParameter("arg1"), "{0,-15}{1}".ToPrimitive().AsNamedParameter("format"), "person".Fuse("FirstName").AsNamedParameter("arg0"));
-            ILinqExpression queryTestB =
-                LinqHelper
-                    .From(/*     rangeVariable: */ "person", /* rangeSource: */"people")
-                    .Join(/* rangeVariableName: */    "pet", /* rangeSource: */"pets", /* conditionLeft: */(Symbol)"person", /* conditionRight: */"pet".Fuse("Owner"), /* intoRangeName: */"gj")
-                    .From(/* rangeVariableName: */ "subPet", /* rangeSource: */"gj".Fuse("DefaultIfEmpty").Fuse(ExpressionCollection.EmptyExpressionArray))
-                    .Select(/*       selection: */ "string".Fuse("Format").Fuse(((Symbol)"subPet").EqualTo(IntermediateGateway.NullValue).IIf("string".Fuse("Empty"), "subPet".Fuse("Name")).AsNamedParameter("arg1"), "{0,-15}{1}".ToPrimitive().AsNamedParameter("format"), "person".Fuse("FirstName").AsNamedParameter("arg0"))).Build();
-            Console.WriteLine(queryTestA);
-            Console.WriteLine(" - ");
-            Console.WriteLine(queryTestB);
-            //LeftOuterJoinExample();
-            //var ww = ExpressionKinds.AddOperation.ToString();
-            IIntermediateNamespaceDeclaration defaultNamespace = null;
-            Action OILVersion = () =>
-                defaultNamespace = OilVersion();
-            Console.WriteLine("OIL version takes {0}.", Time(OILVersion));
-            Console.WriteLine("CodeDOM version takes {0}.", Time(CodeDomVersion));
-            Console.WriteLine("Extraction01 takes {0}.", Time(() => Extraction01(defaultNamespace)));
-        }
-
-        private static IIntermediateNamespaceDeclaration OilVersion()
-        {
-            var project = IntermediateGateway.CreateAssembly("TestAssembly");
-
-            var dNameSpace = project.DefaultNamespace = project.Namespaces.Add("AllenCopeland.Abstraction.Slf.Examples.TestAssembly");
-            var programClass = dNameSpace.Classes.Add("Program");
-            programClass.AccessLevel = AccessLevelModifiers.Internal;
-            programClass.SpecialModifier = SpecialClassModifier.Module;
-            var mainMethod = programClass.Methods.Add("Main");
-            mainMethod.AccessLevel = AccessLevelModifiers.Internal;
-            mainMethod.IsStatic = true;
-            mainMethod.Call(
-                typeof(Console).GetInvokeMethodExpression("WriteLine", "It is now {0}.".ToPrimitive(), typeof(DateTime).GetPropertyExpression("Now")));
-            var p = mainMethod.If("Test".ToPrimitive().EqualTo((Symbol)"test"));
-            var innerClass1 = p.Classes.Add("TestInnerClass");
-            return dNameSpace;
-        }
-
-        private static void CodeDomVersion()
-        {
-            var project = new CodeCompileUnit();
-            var dNameSpace = new CodeNamespace("AllenCopeland.Abstraction.Slf.Examples.TestAssembly");
-            project.Namespaces.Add(dNameSpace);
-
-            CodeTypeDeclaration programClass = new CodeTypeDeclaration("Program");
-            dNameSpace.Types.Add(programClass);
-            programClass.IsClass = true;
-            programClass.Attributes = MemberAttributes.Final | MemberAttributes.Assembly;
-            programClass.CustomAttributes.Add(new CodeAttributeDeclaration(new CodeTypeReference(typeof(StandardModuleAttribute))));
-            
-            CodeMemberMethod mainMethod = new CodeMemberMethod();
-            programClass.Members.Add(mainMethod);
-            mainMethod.Name = "Main";
-            mainMethod.Attributes = MemberAttributes.Static | MemberAttributes.Assembly;
-            mainMethod.Statements.Add(
-                new CodeMethodInvokeExpression(
-                    new CodeTypeReferenceExpression(
-                        typeof(Console)), 
-                        "WriteLine", 
-                            new CodeExpression[] { 
-                                new CodePrimitiveExpression("It is now {0}."), 
-                                new CodePropertyReferenceExpression(
-                                    new CodeTypeReferenceExpression(typeof(DateTime)), 
-                                    "Now") }));
-
-        }
-        /// <summary>
-        /// The entrypoint for the application.
-        /// </summary>
-        private static void Main()
-        {
-            Extraction05();
-            //GetTypeRefTest();
-            //var test1 = Time(GetTypeRefTest);
-            //CLIGateway.ClearCache();
-            //var test2 = Time(GetTypeRefTest);
-            //Console.WriteLine("Without clearing: {0}", test1);
-            //Console.WriteLine("With clearing   : {0}", test2);
-            //First time's skewed due to JIT compilation.
-            //Extraction05();
-        }
-
-        private static void GetTypeRefTest()
-        {
-            for (int i = 0; i < 100; i++)
-                typeof(Tuple<,,,,,,,>).GetTypeReference();
-        }
-
-        private static void Extraction05()
-        {
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("Press Ctrl+C to end testing...");
-                BuildTupleSamples();// CodeDOM();
-                CLIGateway.ClearCache();
-                //GC.Collect();
-                //GC.WaitForPendingFinalizers();
-                Console.WriteLine("Press any key to continue. . .");
-                Console.ReadKey(true);
-            }
-            //var cacheClearing = Time(CLIGateway.ClearCache);
-            //Console.WriteLine();
-            //Console.WriteLine("Re-running test...");
-            //BuildTupleSamples();
-            ////var secondCacheClearing = Time(CLIGateway.ClearCache);
-            //Console.WriteLine();
-            //Console.WriteLine("Clearing cache took (first/second): {0}/{1}", cacheClearing, secondCacheClearing);
-            //Console.ReadKey(true);
-        }
-
-
-        private static void Extraction01(IIntermediateNamespaceDeclaration dNameSpace)
-        {
-            var testGeneric = dNameSpace.Classes.Add("GenericType");
-            var testGenericParam = testGeneric.TypeParameters.Add("TTypeParam");
-            testGenericParam.SpecialConstraint = GenericTypeParameterSpecialConstraint.Struct;
-            var testNestGeneric = testGeneric.Classes.Add("TestNestGenericType");
-            var testNestGenericParam = testNestGeneric.TypeParameters.Add("TestGenericParameter");
-            var testNestGenericMethod = testNestGeneric.Methods.Add("TestNestGenericMethod", new TypedNameSeries() { { "p1", testNestGenericParam }, { "p2", testGenericParam }, { "p3", "TTestNestGenericMethodTypeParam" } }, new GenericParameterData("TTestNestGenericMethodTypeParam"));
-            testNestGenericParam.SpecialConstraint = GenericTypeParameterSpecialConstraint.Struct;
-            var testNestInstance = testNestGeneric.MakeGenericType(typeof(long), typeof(double));
-            var testNestGenericMethodInstance = testNestInstance.Methods[0].Value.MakeGenericMethod(new TypeCollection(typeof(int).GetTypeReference()));
-
-            //IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<IntermediateClassType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<IntermediateClassType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<IntermediateClassType>.PropertyMethodMember, IClassType, IIntermediateClassType, IntermediateClassType>
-            var dType = typeof(ControlledStateDictionary<,>);
-            var fType = dType.GetTypeReference();
-
-            Console.WriteLine(fType.Members.Count);
-            foreach (var declaration in fType.Declarations)
-                Console.WriteLine(declaration);
-        }
-
-        private static void Extraction02(Type dType, IType fType)
-        {
-            var iMap = dType.GetInterfaceMap(dType.GetInterfaces().First(p =>
-            {
-                if (p.IsInterface && p.IsGenericType && !p.IsGenericTypeDefinition)
-                    if (p.GetGenericTypeDefinition() == typeof(IIntermediateDeclarationDictionary<,>))
-                        return true;
-                return false;
-            }));
-            var valuesProp = fType.Members.First(p => p.Value.Entry.Name == "Values").Value.Entry as ICompiledPropertyMember;
-            var valuesPropGetMethod = valuesProp.GetMethod as ICompiledMethodMember;
-            if (valuesPropGetMethod.MemberInfo == iMap.TargetMethods[0])
-                Console.WriteLine("??");
-        }
-
         private static void BuildTupleSamples()
         {
             int minTuple = 9;
-            int maxTuple = 309;
-            /* *
-             * The time difference between CodeDOM and the Abstraction framework is to be
-             * expected.  CodeDOM is loosely coupled with the concepts parameter,
-             * reference, and so on, abstraction is quite the opposite, it tends to bind
-             * as strictly as a higher-level implementation of the CIL would.
-             * *
-             * Thus insertions of parameters, and references to parameters require a higher
-             * overhead; however, because of thise overhead, there's a greater chance of
-             * valid code coming out of Abstraction versus CodeDOM.
-             * */
+            int maxTuple = 108;
             var disposalAid = new MassDisposalAid();
             /* *
              * The system tuple implementation maxes out at eight
@@ -285,33 +300,49 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             tupleHelperClass.SuspendDualLayout();
             GenericParameterData[] nameCopy = new GenericParameterData[maxTuple];
             TypedName[] parameterInfoCopy = new TypedName[maxTuple];
-            IParameterReferenceExpression[] parametersMain = new IParameterReferenceExpression[maxTuple];
-            Parallel.For(0, maxTuple, j =>
-            //for (int j = 0; j < maxTuple; j++)
+            for (int j = 0; j < maxTuple; j++)
             {
                 string currentTypeParamName = string.Format("TItem{0}", j + 1);
-                string currentParamName = string.Format("item{0}", j + 1);
                 nameCopy[j] = new GenericParameterData(currentTypeParamName);
-                parameterInfoCopy[j] = new TypedName(currentParamName, currentTypeParamName);
-                parametersMain[j] = new ParameterReferenceExpression(currentParamName);
-            });
+                parameterInfoCopy[j] = new TypedName(string.Format("item{0}", j + 1), currentTypeParamName);
+            }
             var getTupleName = new TypedName("GetTuple", IntermediateGateway.CommonlyUsedTypeReferences.Void);
             IClassType[] tupleBaseTypes = new IClassType[7];
             /* *
              * Unrealistic example, but need to verify ability to obtain multiple 
              * type references in a thread safe manner.
              * */
-            tupleBaseTypes[0] = typeof(Tuple<>).GetTypeReference<IClassType>();
-            tupleBaseTypes[1] = typeof(Tuple<,>).GetTypeReference<IClassType>();
-            tupleBaseTypes[2] = typeof(Tuple<,,>).GetTypeReference<IClassType>();
-            tupleBaseTypes[3] = typeof(Tuple<,,,>).GetTypeReference<IClassType>();
-            tupleBaseTypes[4] = typeof(Tuple<,,,,>).GetTypeReference<IClassType>();
-            tupleBaseTypes[5] = typeof(Tuple<,,,,,>).GetTypeReference<IClassType>();
-            tupleBaseTypes[6] = typeof(Tuple<,,,,,,>).GetTypeReference<IClassType>();
+            Parallel.For(0, 8, i =>
+            {
+                switch (i)
+                {
+                    case 0:
+                        tupleBaseTypes[i] = typeof(Tuple<>).GetTypeReference<IClassType>();
+                        break;
+                    case 1:
+                        tupleBaseTypes[i] = typeof(Tuple<,>).GetTypeReference<IClassType>();
+                        break;
+                    case 2:
+                        tupleBaseTypes[i] = typeof(Tuple<,,>).GetTypeReference<IClassType>();
+                        break;
+                    case 3:
+                        tupleBaseTypes[i] = typeof(Tuple<,,,>).GetTypeReference<IClassType>();
+                        break;
+                    case 4:
+                        tupleBaseTypes[i] = typeof(Tuple<,,,,>).GetTypeReference<IClassType>();
+                        break;
+                    case 5:
+                        tupleBaseTypes[i] = typeof(Tuple<,,,,,>).GetTypeReference<IClassType>();
+                        break;
+                    case 6:
+                        tupleBaseTypes[i] = typeof(Tuple<,,,,,,>).GetTypeReference<IClassType>();
+                        break;
+
+                }
+            });
             disposalAid.AddRange(tupleBaseTypes);
             var unused = tupleHelperClass.Methods;
             var unused2 = result.DefaultNamespace.Types;
-            IIntermediateClassType[] tupleTypes = new IIntermediateClassType[passTimes.Length];
             Parallel.For(minTuple, maxTuple + 1, i =>
             //for (int i = minTuple; i <= maxTuple; i++)
             {
@@ -329,18 +360,17 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
                 var parameterInfo = new TypedName[i];
                 Array.Copy(nameCopy, names, i);
                 Array.Copy(parameterInfoCopy, parameterInfo, i);
-                var currentType = new IntermediateClassType("Tuple", result.DefaultNamespace);
-                currentType.TypeParameters.AddRange(names);
-                tupleTypes[i - minTuple] = currentType;
-                //currentType.SuspendDualLayout();
+                var dNSParts = result.DefaultNamespace.Parts;
+                var currentType = dNSParts.Add().Classes.Add("Tuple", names);
+                currentType.SuspendDualLayout();
 
                 var currentTupleHelper = tupleHelperClass.Methods.Add(getTupleName, parameterInfo, names);
 
                 var mainConstructor = currentType.Constructors.Add(parameterInfo);
 
                 currentTupleHelper.ReturnType = currentType.MakeVerifiedGenericType(currentTupleHelper.GenericParameters);
-                var sevenTupleSets = new LinkedList<ITypeCollection>();
-                var sevenParameterSets = new LinkedList<IExpression[]>();
+                LinkedList<ITypeCollection> sevenTupleSets = new LinkedList<ITypeCollection>();
+                LinkedList<IExpression[]> sevenParameterSets = new LinkedList<IExpression[]>();
                 int sevenTupleSetCount = (int)Math.Ceiling(((double)(i)) / 7);
                 /* *
                  * Since the final eight-type tuple represents a tuple whose last type-parameter
@@ -353,25 +383,32 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
                  * */
                 var typeParams = currentType.TypeParameters.Values.ToArray();
                 IExpression[] parameters = new IExpression[i];
-                Array.Copy(parametersMain, parameters, i);
-                IExpression[] currentParamReferences = new IExpression[7];
-                IType[] currentTupleTypes = new IType[7];
+                var parametersEnum = mainConstructor.Parameters.Values.GetEnumerator();
+                int parameterIndex = 0;
 
-                //List<IType> currentTupleTypes = new List<IType>();
-                for (int k = 0; k < sevenTupleSetCount; k++)
+                while (parametersEnum.MoveNext())
+                    parameters[parameterIndex++] = parametersEnum.Current.GetReference();
+                List<IExpression> currentParamReferences = new List<IExpression>();
+                List<IType> currentTupleTypes = new List<IType>();
+                for (int k = 0, j = 0; k < i; k++, j++)
                 {
-                    int min = k * 7;
-                    int max = Math.Min((k + 1) * 7 - 1, i - 1);
-                    int count = max - min + 1;
-                    if (count != 7)
+                    currentTupleTypes.Add(typeParams[k]);
+                    currentParamReferences.Add(parameters[k]);
+                    if (j >= 6)
                     {
-                        currentParamReferences = new IExpression[count];
-                        currentTupleTypes = new IType[count];
+                        sevenParameterSets.AddLast(currentParamReferences.ToArray());
+                        sevenTupleSets.AddLast((LockedTypeCollection)currentTupleTypes.ToLockedCollection());
+                        j = -1;
+                        currentParamReferences.Clear();
+                        currentTupleTypes.Clear();
                     }
-                    Array.ConstrainedCopy(parameters, min, currentParamReferences, 0, count);
-                    Array.ConstrainedCopy(typeParams, min, currentTupleTypes, 0, count);
-                    sevenParameterSets.AddLast(currentParamReferences);
+                }
+                if (currentParamReferences.Count > 0)
+                {
+                    sevenParameterSets.AddLast(currentParamReferences.ToArray());
                     sevenTupleSets.AddLast((LockedTypeCollection)currentTupleTypes.ToLockedCollection());
+                    currentParamReferences.Clear();
+                    currentTupleTypes.Clear();
                 }
                 /* *
                  * We start with the last type in the tuple groups,
@@ -453,7 +490,9 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
                 //Obtain a series of references to the parameters.
 
                 //for use with the constructor of the type.
-                var createNewTupleInst = currentTupleHelper.ReturnType.NewExpression(parameters);
+                var createNewTupleInst = currentTupleHelper.ReturnType.NewExpression();
+                foreach (var param in currentTupleHelper.Parameters.Values)
+                    createNewTupleInst.Parameters.IndexedParameters.Add(param.GetReference());
                 currentTupleHelper.Return(createNewTupleInst);
 
                 //Make the method accessible and static.
@@ -461,20 +500,17 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
                 currentTupleHelper.IsStatic = true;
                 //Make the main constructor accessible.
                 mainConstructor.AccessLevel = AccessLevelModifiers.Public;
+                currentType.ResumeDualLayout();
                 //Obtain the current pass' time and reset the timer.
                 innerStopwatch.Stop();
                 passTimes[i - minTuple] = innerStopwatch.Elapsed;
 
             } /**/);
-            result.DefaultNamespace.SuspendDualLayout();
-            for (int i = 0; i < tupleTypes.Length; i++)
-                result.DefaultNamespace.Classes.Add(tupleTypes[i]);
             mainStopwatch.Stop();
             TimeSpan actualTimeTaken = mainStopwatch.Elapsed;
             TimeSpan fullTimeTaken = TimeSpan.Zero;
             mainStopwatch.Reset();
             mainStopwatch.Start();
-            result.DefaultNamespace.ResumeDualLayout();
             tupleHelperClass.ResumeDualLayout();
             mainStopwatch.Stop();
             var dualResume = mainStopwatch.Elapsed;
@@ -511,6 +547,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             Console.WriteLine("Resuming dual layout on TupleHelper took {0}", dualResume);
             mainStopwatch.Start();
             disposalAid.BeginExodus();
+            //CLIGateway.ClearCache();
             result.Dispose();
             disposalAid.EndExodus();
             mainStopwatch.Stop();
@@ -518,171 +555,1178 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             Console.WriteLine("Disposal took {0}", mainStopwatch.Elapsed);
         }
 
-        private static void BuildTupleSamplesCodeDOM()
+        private static void ParseFile(string file)
         {
-            Stopwatch mainStopwatch = new Stopwatch();
-            int minTuple = 9;
-            int maxTuple = 309;
-            var voidRef = new CodeTypeReference(typeof(void));
-            mainStopwatch.Start();
-            CodeCompileUnit result = new CodeCompileUnit();
-            var tupleHelperClass = new CodeTypeDeclaration("TupleHelper");
-            tupleHelperClass.TypeAttributes = TypeAttributes.Class | TypeAttributes.AutoClass | TypeAttributes.Abstract | TypeAttributes.Sealed;
-            var typeParameterMain = new CodeTypeParameter[maxTuple];
-            var typeParameterRefsMain = new CodeTypeReference[maxTuple];
-            CodeParameterDeclarationExpression[] parametersMain = new CodeParameterDeclarationExpression[maxTuple];
-            CodeVariableReferenceExpression[] parameterRefsMain = new CodeVariableReferenceExpression[maxTuple];
-            Type[] tupleBaseTypes = new Type[7];
-            for (int i = 0; i < maxTuple; i++)
+            int maxLength = new int[] { TitleSequence_CharacterSetCache.Length, TitleSequence_CharacterSetComputations.Length, TitleSequence_VocabularyCache.Length, TitleSequence_VocabularyComputations.Length, TitleSequence_NumberOfRules.Length, TitleSequence_NumberOfTokens.Length, PhaseName_Linking.Length, PhaseName_ExpandingTemplates.Length, PhaseName_Deliteralization.Length, PhaseName_InliningTokens.Length, PhaseName_TokenNFAConstruction.Length, PhaseName_TokenDFAConstruction.Length, PhaseName_TokenDFAReduction.Length, PhaseName_RuleNFAConstruction.Length, PhaseName_RuleDFAConstruction.Length, PhaseName_CallTreeAnalysis.Length, PhaseName_ObjectModelConstruction.Length, PhaseName_TokenCaptureConstruction.Length, PhaseName_TokenEnumConstruction.Length, PhaseName_RuleStructureConstruction.Length }.Max();
+            baseTitle = string.Format("{0}: {1}", Path.GetFileNameWithoutExtension(typeof(Program).Assembly.Location), Path.GetFileName(file));
+            Console.Title = baseTitle;
+            GDParser gp = new GDParser();
+            //GDBuilder igdb = new GDBuilder();
+            Stopwatch sw = new Stopwatch();
+            IParserResults<IGDFile> resultsOfParse = null;
+            try
             {
-                typeParameterMain[i] = new CodeTypeParameter(string.Format("TItem{0}", i + 1));
-                typeParameterRefsMain[i] = new CodeTypeReference(typeParameterMain[i]);
-                parametersMain[i] = new CodeParameterDeclarationExpression(typeParameterRefsMain[i], string.Format("item{0}", i + 1));
-                parameterRefsMain[i] = new CodeVariableReferenceExpression(parametersMain[i].Name);
+                Console.Clear();
+                Console.Title = string.Format("{0} Parsing...", baseTitle);
             }
-            tupleBaseTypes[0] = typeof(Tuple<>);
-            tupleBaseTypes[1] = typeof(Tuple<,>);
-            tupleBaseTypes[2] = typeof(Tuple<,,>);
-            tupleBaseTypes[3] = typeof(Tuple<,,,>);
-            tupleBaseTypes[4] = typeof(Tuple<,,,,>);
-            tupleBaseTypes[5] = typeof(Tuple<,,,,,>);
-            tupleBaseTypes[6] = typeof(Tuple<,,,,,,>);
-
-            CodeNamespace mainNamespace = new CodeNamespace("AllenCopeland.Abstraction.Utilities.Tuples");
-            for (int i = minTuple; i <= maxTuple; i++)
+            catch (IOException) 
             {
-                CodeTypeParameter[] typeParameters = new CodeTypeParameter[i];
-                CodeTypeReference[] typeParameterRefs = new CodeTypeReference[i];
-                Array.Copy(typeParameterMain, typeParameters, i);
-                Array.Copy(typeParameterRefsMain, typeParameterRefs, i);
-                CodeTypeDeclaration currentTuple = new CodeTypeDeclaration("Tuple");
-                currentTuple.TypeParameters.AddRange(typeParameters);
-
-                CodeMemberMethod currentTupleHelper = new CodeMemberMethod() { Name = "GetTuple", ReturnType = voidRef };
-                currentTupleHelper.TypeParameters.AddRange(typeParameters);
-
-                CodeParameterDeclarationExpression[] parameters = new CodeParameterDeclarationExpression[i];
-                Array.Copy(parametersMain, parameters, i);
-                var mainConstructor = new CodeConstructor();
-                mainConstructor.Parameters.AddRange(parameters);
                 /* *
-                 * Point of possible inconsistency. Relies on strings
-                 * which can be misspelled or consistency relies on 
-                 * constants which can be a maintenance issue.
+                 * Clear not available.
+                 * Cases: Application type changed.
+                 *        Console output redirected to something else, eg. file.
                  * */
-                currentTupleHelper.ReturnType = new CodeTypeReference("Tuple"); 
-                currentTupleHelper.ReturnType.TypeArguments.AddRange(typeParameterRefs);
+            }
+            if ((options & ValidOptions.NoLogo) != ValidOptions.NoLogo)
+                DisplayLogo();
+            sw.Start();
+            resultsOfParse = gp.Parse(file);
+            sw.Stop();
+            var tLenMax = (from e in resultsOfParse.Result
+                           let scannableEntry = e as IScannableEntry
+                           where scannableEntry != null
+                           select scannableEntry.Name.Length).Max();
 
-                CodeVariableReferenceExpression[] parameterReferences = new CodeVariableReferenceExpression[i];
-                LinkedList<CodeTypeReferenceCollection> sevenTupleSets = new LinkedList<CodeTypeReferenceCollection>();
-                LinkedList<CodeExpression[]> sevenParameterSets = new LinkedList<CodeExpression[]>();
-                List<CodeVariableReferenceExpression> currentParamReferences = new List<CodeVariableReferenceExpression>();
-                List<CodeTypeReference> currentTupleTypes = new List<CodeTypeReference>();
-                Array.Copy(parameterRefsMain, parameterReferences, i);
-                for (int k = 0, j = 0; k < i; k++, j++)
+            if ((options & ValidOptions.VerboseMode) == ValidOptions.VerboseMode)
+                maxLength = Math.Max(maxLength, tLenMax);
+            int oldestLongest = longestLineLength;
+            longestLineLength = Math.Max(longestLineLength, maxLength + 19);
+            if ((options & ValidOptions.NoLogo) != ValidOptions.NoLogo)
+                FinishLogo(oldestLongest, Console.CursorTop, Console.CursorLeft);
+            else if ((options & ValidOptions.QuietMode) != ValidOptions.QuietMode)
+                Console.WriteLine("╒═{0}═╕", '═'.Repeat(longestLineLength));
+            if (resultsOfParse.Successful)
+                baseTitle = string.Format("{0}: {1}", Path.GetFileNameWithoutExtension(typeof(Program).Assembly.Location), Path.GetFileName(string.IsNullOrEmpty(resultsOfParse.Result.Options.AssemblyName) ? resultsOfParse.Result.Options.ParserName : resultsOfParse.Result.Options.AssemblyName));
+            try
+            {
+                Console.Title = baseTitle;
+            }
+            catch (IOException)
+            {
+
+            }
+
+            /* *
+             * If the parser succeeds, build the project and check 
+             * potential errors again.
+             * */
+            if (resultsOfParse.Successful)
+            {
+                try
                 {
-                    currentTupleTypes.Add(typeParameterRefs[k]);
-                    currentParamReferences.Add(parameterRefsMain[k]);
-                    if (j >= 6)
+                    Console.Title = string.Format("{0} Linking project...", baseTitle);
+                }
+                catch (IOException) { }
+                ParserBuilderResults resultsOfBuild = Build(resultsOfParse);
+                if (resultsOfBuild == null)
+                    goto errorChecker;
+                
+                if ((options & ValidOptions.VerboseMode) == ValidOptions.VerboseMode)
+                {
+                    const string stateMachineCounts = "State machine state counts:";
+                    /* *
+                     * Display the number of state machine states for both rules and tokens.
+                     * */
+                    Console.WriteLine("│ {0}{1} │", stateMachineCounts, ' '.Repeat(longestLineLength - stateMachineCounts.Length));
+                    /* *
+                     * Obtain a series of elements which indicate the name, state count, and token status of 
+                     * the entries in the parsed file.
+                     * */
+                    var toks = (from t in resultsOfParse.Result.GetTokens()
+                                let state = t.DFAState
+                                where state != null
+                                let stateCount = t.DFAState.CountStates()
+                                select new { Name = t.Name, StateCount = stateCount, IsToken = true}).ToArray();
+                    var rules = (from rule in resultsOfParse.Result.GetRules()
+                                 let state = resultsOfBuild.RuleStateMachines.ContainsKey(rule) ? resultsOfBuild.RuleStateMachines[rule] : null
+                                 where state != null
+                                 let stateCount = state.CountStates()
+                                 select new { Name = rule.Name, StateCount = stateCount, IsToken=false}).ToArray();
+                    //Combine the tokens and rules into one array.
+                    var combined = toks.Add(rules);
+                    //Group the elements by the number of states.
+                    var grouped = (from entry in combined
+                                   orderby entry.StateCount descending,
+                                           entry.Name ascending
+                                   group entry by entry.StateCount).ToDictionary(key => key.Key, value => value.ToList());
+                    
+                    int longestMinusComma = longestLineLength - 2;
+                    var consoleForeColor = Console.ForegroundColor;
+                    /* *
+                     * Iterate through the elements and print the names
+                     * of each entry being cautious to not fill past the edge
+                     * of the allotted space.
+                     * */
+                    foreach (var count in grouped.Keys)
                     {
-                        sevenParameterSets.AddLast(currentParamReferences.ToArray());
-                        sevenTupleSets.AddLast(new CodeTypeReferenceCollection(currentTupleTypes.ToArray()));
-                        j = -1;
-                        currentParamReferences.Clear();
-                        currentTupleTypes.Clear();
+                        string countStr = string.Format(" {0} ", count);
+                        Console.WriteLine("├─{1}{0}─┤", '─'.Repeat(longestLineLength - countStr.Length), countStr);
+                        int currentLength = 0;
+                        bool first = true;
+                        Console.Write("│ ");
+                        foreach (var element in grouped[count])
+                        {
+                            if (first)
+                                first = false;
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.DarkGray;
+                                Console.Write(", ");
+                                Console.ForegroundColor = consoleForeColor;
+                                currentLength += 2;
+                            }
+                            int newLength = currentLength + element.Name.Length;
+                            /* *
+                             * In the event of spill-over, cap the edge of the
+                             * current line and start the next.
+                             * */
+                            if (newLength >= longestMinusComma)
+                            {
+                                Console.WriteLine("{0} │", ' '.Repeat(longestLineLength - currentLength));
+                                currentLength = element.Name.Length;
+                                Console.Write("│ ");
+                            }
+                            else
+                                currentLength = newLength;
+
+                            if (element.IsToken)
+                                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                            else
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.Write(element.Name);
+                            Console.ForegroundColor = consoleForeColor;
+                        }
+                        //Cap the last element.
+                        Console.WriteLine("{0} │", ' '.Repeat(longestLineLength - currentLength));
+                        
                     }
+                    Console.ForegroundColor = consoleForeColor;
+                    /* *
+                     * Separate the state machine counts from the next section.
+                     * */
+                    Console.WriteLine("├─{0}─┤", '─'.Repeat(longestLineLength));
+
                 }
-                if (currentParamReferences.Count > 0)
-                {
-                    sevenParameterSets.AddLast(currentParamReferences.ToArray());
-                    sevenTupleSets.AddLast(new CodeTypeReferenceCollection(currentTupleTypes.ToArray()));
-                    currentParamReferences.Clear();
-                    currentTupleTypes.Clear();
-                }
-                var current = sevenTupleSets.Last;
-                CodeTypeReference currentTypeBase = null;
-                CodeObjectCreateExpression trailingCascadeParameter = null;
-                var currentParamSet = sevenParameterSets.Last;
-                while (current != null)
+                if ((options & ValidOptions.QuietMode) != ValidOptions.QuietMode)
+                    DisplayBuildBreakdown(resultsOfBuild, maxLength);
+            errorChecker:
+                if (resultsOfBuild == null || resultsOfBuild.Project == null)
                 {
                     /* *
-                     * Since we start with the last element, it's only
-                     * null on the last element, or the first pass.
+                     * The builder encountered an error not immediately obvious by linking.
                      * */
-                    if (currentTypeBase == null)
+                    try
                     {
-                        /* *
-                         * The last set will always have no more than seven types.
-                         * *
-                         * So create a reference to a tuple grouping with the appropriate
-                         * number of type-parameters.
-                         * */
-                        currentTypeBase = new CodeTypeReference(tupleBaseTypes[current.Value.Count - 1]);
-                        currentTypeBase.TypeArguments.AddRange(current.Value);
-                        /* *
-                         * The trailing cascade parameter instantiates the final tuple on all
-                         * versions of the type-parameter, except for the last, which has no more
-                         * than seven elements.
-                         * */
-                        trailingCascadeParameter = new CodeObjectCreateExpression(currentTypeBase, currentParamSet.Value);
+                        Console.Title = string.Format("{0} could not build project...", baseTitle);
+                    }
+                    catch (IOException)
+                    {
+                    }
+                    goto __CheckErrorAgain;
+                }
+                if ((options & ValidOptions.ExportTraversalHTML) == ValidOptions.ExportTraversalHTML)
+                {
+                    SetAttributes(resultsOfParse, resultsOfBuild);
+                    //WriteProject(resultsOfBuild.Project, ProjectTranslator.GetRelativeRoot(resultsOfParse.Result.Files), ".html", "&nbsp;".Repeat(4), true);
+                }
+                else if ((options & ValidOptions.ExportCSharp) == ValidOptions.ExportCSharp)
+                {
+                    SetAttributes(resultsOfParse, resultsOfBuild);
+                    //WriteProject(resultsOfBuild.Project, ProjectTranslator.GetRelativeRoot(resultsOfParse.Result.Files));
+                }
+                else if ((options & ValidOptions.ExportDLL) == ValidOptions.ExportDLL ||
+                    (options & ValidOptions.ExportEXE) == ValidOptions.ExportEXE)
+                {
+                    try
+                    {
+                        Console.Title = string.Format("{0} Compiling project...", baseTitle);
+                    }
+                    catch (IOException) { }
+                    string rootPath = string.Empty;
+                    foreach (var cFile in resultsOfParse.Result.Files)
+                    {
+                        string bPath = Path.GetDirectoryName(cFile);
+                        if (bPath.Length < rootPath.Length)
+                            rootPath = bPath;
+                    }
+                    SetAttributes(resultsOfParse, resultsOfBuild);
+                    rootPath += string.Format("{0}.dll", resultsOfParse.Result.Options.AssemblyName);
+                    //IIntermediateCompiler intermediateCompiler = new CSharpIntermediateCompiler(resultsOfBuild.Project, new IntermediateCompilerOptions(rootPath, true, generateXMLDocs: true, debugSupport: DebugSupport.None));
+                    //intermediateCompiler.Translator.Options.AutoResolveReferences = true;
+                    //intermediateCompiler.Translator.Options.AllowPartials = true;
+                    //intermediateCompiler.Translator.Options.AutoComments = true;
+                    //Stopwatch compileTimer = new Stopwatch();
+                    //compileTimer.Start();
+                    //IIntermediateCompilerResults compileResults = intermediateCompiler.Compile();
+                    //compileTimer.Stop();
+
+                    //if ((options & ValidOptions.QuietMode) != ValidOptions.QuietMode)
+                    //{
+                    //    const string compile = "Compile";
+                    //    const string compileTime = compile + " time";
+                    //    const string compileSuccessful = "Successful";
+                    //    const string compileFailure = "Failed";
+                    //    Console.WriteLine("│ {1}{2} : {0} │", compileTimer.Elapsed, ' '.Repeat(maxLength - compileTime.Length), compileTime);
+                    //    string compileSuccess = string.Format("{0}{1}", ' '.Repeat(maxLength - compile.Length), compile);
+                    //    if (compileResults.NativeReturnValue == 0)
+                    //        compileSuccess = string.Format("{0} : {1}", compileSuccess, compileSuccessful);
+                    //    else
+                    //        compileSuccess = string.Format("{0} : {1}", compileSuccess, compileFailure);
+                    //    compileSuccess = string.Format("{0}{1}", compileSuccess, ' '.Repeat(longestLineLength - compileSuccess.Length));
+                    //    Console.WriteLine("│ {0} │", compileSuccess);
+                    //}
+                    //compileResults.TemporaryFiles.KeepFiles = true;
+                }
+                goto ShowParseTime;
+            __CheckErrorAgain:
+                if (resultsOfParse.Errors.HasErrors)
+                    Program.ShowErrors(resultsOfParse);
+            }
+            else
+                Program.ShowErrors(resultsOfParse);
+        ShowParseTime:
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            if ((options & ValidOptions.QuietMode) != ValidOptions.QuietMode)
+            {
+                Console.WriteLine("├─{0}─┤", '─'.Repeat(longestLineLength));
+                DisplayTailInformation(maxLength, resultsOfParse);
+                Console.WriteLine("╘═{0}═╛", '═'.Repeat(longestLineLength));
+            }
+            if ((options & ValidOptions.ShowSyntax) == ValidOptions.ShowSyntax)
+            {
+                try
+                {
+                    Console.Title = string.Format("{0} - Expanded grammar.", baseTitle);
+                }
+                catch (IOException) { }
+                ShowSyntax(resultsOfParse);
+            
+            }
+            try
+            {
+                Console.Title = string.Format("{0} - {1}", baseTitle, "Finished");
+            }
+            catch (IOException) { }
+            Console.ReadKey(true);
+        }
+
+        /*
+        public static void WriteProject(IIntermediateAssembly project, string targetDirectory, string fileExtension = ".cs", string tabString = "    ", bool htmlExportMode = false)
+        {
+            //Create the translator to use.
+            CSharpCodeTranslator translator = new CSharpCodeTranslator();
+
+            if (htmlExportMode)
+            {
+                var projectLineCounts = new Dictionary<IIntermediateAssembly, int>();
+                translator.Options = new IntermediateCodeTranslatorOptions(true, IntermediateCodeTranslator.HTMLFormatter)
+                {
+                    GetFileNameOf =
+                        (type) => ProjectTranslator.GetFileNameFor((IDeclaredType)type, targetDirectory, project, fileExtension, translator.Options, true),
+                    GetLineNumber = p =>{
+                        if (!projectLineCounts.ContainsKey(p))
+                            projectLineCounts.Add(p, 0);
+                        return ++projectLineCounts[p];
+                    }
+                };
+            }
+            else
+                translator.Options = new IntermediateCodeTranslatorOptions(true);
+            translator.Options.AutoComments = true;
+            TemporaryDirectory td;
+            TempFileCollection tfc;
+            List<string> files;
+            Stack<IIntermediateAssembly> partialCompletions;
+            Dictionary<IIntermediateModule, List<string>> moduleFiles;
+            ProjectTranslator.WriteProject(project, translator, targetDirectory, out td, out tfc, out files, out partialCompletions, out moduleFiles, true, true, fileExtension, true, tabString);
+        }
+        */
+        private static void SetAttributes(IParserResults<IGDFile> iprs, ParserBuilderResults resultsOfBuild)
+        {
+            resultsOfBuild.Project.AssemblyInformation.Company = "None";
+            resultsOfBuild.Project.AssemblyInformation.AssemblyName = iprs.Result.Options.AssemblyName;
+            /* *
+             * Culture specifier here.
+             * */
+            resultsOfBuild.Project.AssemblyInformation.Culture = CultureIdentifiers.English_UnitedStates;
+            resultsOfBuild.Project.AssemblyInformation.Description = string.Format("Language parser for {0}.", iprs.Result.Options.GrammarName);
+            resultsOfBuild.Project.CustomAttributes.Add(new CustomAttributeDefinition.ParameterValueCollection(typeof(AssemblyVersionAttribute).GetTypeReference()) { "1.0.0.*" });
+            //resultsOfBuild.Project.Attributes.AddNew(typeof(AssemblyVersionAttribute).GetTypeReference(), new AttributeConstructorParameter(new PrimitiveExpression("1.0.0.*")));
+        }
+
+        private static void DisplayTailInformation(int maxLength, IParserResults<IGDFile> iprs)
+        {
+            var sequence = (
+                new
+                {
+                    Title = TitleSequence_CharacterSetComputations,
+                    Value = RegularLanguageSet.CountComputations()
+                }).GetArray(
+                new
+                {
+                    Title = TitleSequence_CharacterSetCache,
+                    Value = RegularLanguageSet.CountComputationCaches()
+                },
+                new
+                {
+                    Title = TitleSequence_VocabularyCache,
+                    Value = GrammarVocabulary.CountComputations()
+                },
+                new
+                {
+                    Title = TitleSequence_VocabularyComputations,
+                    Value = GrammarVocabulary.CountComputationCaches()
+                });
+            if ((options & ValidOptions.VerboseMode) == ValidOptions.VerboseMode)
+            {
+                sequence = sequence.AddBefore(
+                new
+                {
+                    Title = TitleSequence_NumberOfRules,
+                    Value = iprs.Result.GetRules().Count()
+                }, new
+                {
+                    Title = TitleSequence_NumberOfTokens,
+                    Value = iprs.Result.GetTokens().Count()
+                },
+                null);
+            }
+            foreach (var element in sequence)
+                if (element == null)
+                    Console.WriteLine("├─{0}─┤", '─'.Repeat(longestLineLength));
+                else
+                {
+                    var s = string.Format("{0}{1} : {2}", ' '.Repeat(maxLength - element.Title.Length), element.Title, element.Value);
+                    Console.WriteLine("│ {0}{1} │", s, ' '.Repeat(longestLineLength - s.Length));
+                }
+        }
+
+        private static void FinishLogo(int oldestLongest, int cy, int cx)
+        {
+            bool canAdjustConsoleLocale = true;
+            try
+            {
+                Console.CursorTop = cy - 3;
+            }
+            catch (ArgumentOutOfRangeException) { canAdjustConsoleLocale = false; }
+            if (canAdjustConsoleLocale)
+            {
+                Console.CursorLeft = cx;
+                Console.WriteLine("{0}═╕", '═'.Repeat(longestLineLength - oldestLongest));
+                Console.CursorTop = cy - 2;
+                Console.CursorLeft = cx;
+                Console.WriteLine("{0} │", ' '.Repeat(longestLineLength - oldestLongest));
+                Console.CursorTop = cy - 1;
+                Console.CursorLeft = cx;
+                Console.WriteLine("{0} │", ' '.Repeat(longestLineLength - oldestLongest));
+                if ((options & ValidOptions.QuietMode) != ValidOptions.QuietMode)
+                {
+                    Console.CursorTop = cy;
+                    Console.CursorLeft = cx;
+                    Console.WriteLine("{0}─┤", '─'.Repeat(longestLineLength - oldestLongest));
+                }
+                else
+                {
+                    Console.CursorTop = cy;
+                    Console.CursorLeft = cx;
+                    Console.WriteLine("{0}═╛", '═'.Repeat(longestLineLength - oldestLongest));
+                }
+            }
+        }
+
+        private static void DisplayBuildBreakdown(ParserBuilderResults resultsOfBuild, int maxLength)
+        {
+            var phaseIdentifiers = resultsOfBuild.PhaseTimes.Keys.ToDictionary(key => key, value => new { Title = GetPhaseSubString(value), Time = resultsOfBuild.PhaseTimes[value] });
+            foreach (ParserBuilderPhase phase in from phase in phaseIdentifiers.Keys
+                                                 orderby phaseIdentifiers[phase].Time descending
+                                                 select phase)
+            {
+                var currentPhaseData = phaseIdentifiers[phase];
+                var s = string.Format("{2}{0} : {1}", currentPhaseData.Title, currentPhaseData.Time, ' '.Repeat(maxLength - currentPhaseData.Title.Length));
+                Console.WriteLine("│ {0}{1} │", s, ' '.Repeat(longestLineLength - s.Length));
+            }
+        }
+
+        private static void ShowSyntax(IParserResults<IGDFile> iprs)
+        {
+            var files = iprs.Result.Files.ToArray();
+            string relativeRoot = files.GetRelativeRoot();
+
+            var folderQuery = (from file in files
+                               select Path.GetDirectoryName(file)).Distinct();
+            var folderEntryQuery =
+                (from file in files
+                 join IEntry entry in iprs.Result on file equals entry.FileName into fileEntries
+                 let fileEntriesArray = (from entry in fileEntries
+                                         orderby entry.Line
+                                         select entry).ToArray()
+                 select new { File = Path.GetFileName(file), Path = Path.GetDirectoryName(file), Entries = fileEntriesArray }).ToArray();
+            var folderEntries =
+                (from folder in folderQuery
+                 join file in folderEntryQuery on folder equals file.Path into folderFileEntries
+                 let folderFiles = folderFileEntries.ToArray()
+                 orderby folder ascending
+                 select new { Path = folder, Files = folderFiles, FileCount = folderFiles.Length, EntryCount = folderFiles.Sum(fileData => fileData.Entries.Length) }).ToArray();
+
+            var consoleOriginal = Console.ForegroundColor;
+            int longestName = ((from entry in iprs.Result
+                                let tokenEntry = entry as ITokenEntry
+                                let ruleEntry = entry as IProductionRuleEntry
+                                where tokenEntry != null || ruleEntry != null
+                                let nameLength = tokenEntry == null ? ruleEntry.Name.Length : tokenEntry.Name.Length
+                                orderby nameLength descending
+                                select nameLength).FirstOrDefault());
+            foreach (var folder in folderEntries)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                string rPath = StringHandling.GetExtensionFromRelativeRoot(folder.Path, relativeRoot);
+                var entryTerm = folder.EntryCount == 1 ? "entry" : "entries";
+                var fileTerm = folder.FileCount == 1 ? "file" : "files";
+                Console.WriteLine("//{2} {3} within {1} {4} in {0}", rPath, folder.FileCount, folder.EntryCount, entryTerm, fileTerm);
+                Console.ForegroundColor = consoleOriginal;
+                foreach (var file in folder.Files)
+                {
+                    if (file.Entries.Length == 0)
+                        continue;
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    if (file.Entries.Length == 1)
+                        Console.WriteLine("//1 entry in {0}", file.File);
+                    else
+                        Console.WriteLine("//{1} entries in {0}", file.File, file.Entries.Length);
+                    Console.ForegroundColor = consoleOriginal;
+                    foreach (var entry in file.Entries)
+                        DisplaySyntax(entry, longestName);
+                }
+            }
+        }
+
+        private static void DisplaySyntax(IEntry entry, int longestName)
+        {
+            if (entry is IProductionRuleEntry)
+                DisplaySyntax((IProductionRuleEntry)entry, longestName);
+            else if (entry is ITokenEntry)
+                DisplaySyntax((ITokenEntry)entry, longestName);
+            Console.WriteLine();
+        }
+
+        private static void DisplaySyntax(IProductionRuleEntry nonTerminal, int longestName)
+        {
+            var consoleColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.Write("{0} ", nonTerminal.Name);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            //Show all of the rule start symbols aligned to the same point.
+            Console.WriteLine("{1}::={0}", nonTerminal.ElementsAreChildren ? ">" : string.Empty, ' '.Repeat((longestName + (nonTerminal.ElementsAreChildren ? 0 : 1)) - nonTerminal.Name.Length));
+            Console.ForegroundColor = consoleColor;
+            bool startingLine = true;
+            DisplaySeriesSyntax<IProductionRuleItem, IProductionRule, IProductionRuleSeries>(nonTerminal, ref startingLine);
+
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            //If the cursor position is changeable, move it back one.
+            if (!startingLine)
+            {
+                try
+                {
+                    Console.CursorLeft--;
+                }
+                catch (ArgumentOutOfRangeException) { }
+            }
+            //Insert an ending ';'
+            Console.WriteLine(";");
+            Console.ForegroundColor = consoleColor;
+        }
+
+
+        private static void DisplaySyntax<T>(T item, ref bool startingLine, int depth)
+            where T :
+                IScannableEntryItem
+        {
+            if (item is IProductionRuleGroupItem)
+                DisplayGroupSyntax<IProductionRuleItem, IProductionRule, IProductionRuleSeries>((IProductionRuleGroupItem)item, ref startingLine, depth);
+            else if (item is ILiteralCharReferenceProductionRuleItem)
+                DisplaySyntax((ILiteralCharReferenceProductionRuleItem)item, ref startingLine, depth);
+            else if (item is ILiteralStringReferenceProductionRuleItem)
+                DisplaySyntax((ILiteralStringReferenceProductionRuleItem)item, ref startingLine, depth);
+            else if (item is IRuleReferenceProductionRuleItem)
+                DisplaySyntax((IRuleReferenceProductionRuleItem)item, ref startingLine, depth);
+            else if (item is ITokenReferenceProductionRuleItem)
+                DisplaySyntax((ITokenReferenceProductionRuleItem)item, ref startingLine, depth);
+            else if (item is InlinedTokenReferenceTokenItem)
+                DisplaySyntax((InlinedTokenReferenceTokenItem)(object)item, ref startingLine, depth);
+            else if (item is ILiteralCharTokenItem)
+                DisplaySyntax((ILiteralCharTokenItem)item, ref startingLine, depth);
+            else if (item is ILiteralStringTokenItem)
+                DisplaySyntax((ILiteralStringTokenItem)item, ref startingLine, depth);
+            else if (item is ITokenGroupItem)
+                DisplayGroupSyntax<ITokenItem, ITokenExpression, ITokenExpressionSeries>((ITokenGroupItem)item, ref startingLine, depth);
+            else if (item is ICharRangeTokenItem)
+                DisplaySyntax((ICharRangeTokenItem)item, ref startingLine, depth);
+            else if (item is ICommandTokenItem)
+                DisplaySyntax((ICommandTokenItem)item, ref startingLine, depth);
+            DisplayItemInfo(item, ref startingLine, depth);
+        }
+
+        private static void DisplayItemInfo(IScannableEntryItem item, ref bool startingLine, int depth)
+        {
+            var consoleColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            if (!string.IsNullOrEmpty(item.Name))
+            {
+                Console.Write(':');
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.Write(item.Name);
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write(';');
+            }
+            if (item.RepeatOptions == ScannableEntryItemRepeatInfo.OneOrMore)
+                Console.Write("+");
+            else if (item.RepeatOptions == ScannableEntryItemRepeatInfo.ZeroOrMore)
+                Console.Write("*");
+            else if (item.RepeatOptions == ScannableEntryItemRepeatInfo.ZeroOrOne)
+                Console.Write("?");
+            else if (item.RepeatOptions != ScannableEntryItemRepeatInfo.None)
+            {
+                Console.Write("{");
+                if (item.RepeatOptions.Min != null && item.RepeatOptions.Max != null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write(item.RepeatOptions.Min.Value);
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.Write(", ");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write(item.RepeatOptions.Max.Value);
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                }
+                else if (item.RepeatOptions.Max != null)
+                {
+                    Console.Write(" ,");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write(item.RepeatOptions.Max.Value);
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                }
+                else if (item.RepeatOptions.Min != null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write(item.RepeatOptions.Min.Value);
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                }
+                Console.Write("}");
+            }
+            if (item is ILiteralStringTokenItem)
+            {
+                var stringItem = (ILiteralStringTokenItem)item;
+                if (stringItem.SiblingAmbiguity)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.Write("**");
+                }
+            }
+            Console.ForegroundColor = consoleColor;
+
+            Console.Write(" ");
+            if (startingLine)
+                startingLine = false;
+        }
+
+        private static void DisplaySyntax(IRuleReferenceProductionRuleItem item, ref bool startingLine, int depth)
+        {
+            var consoleColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            if (startingLine)
+            {
+                Console.Write(' '.Repeat((depth + 1) * 4));
+                startingLine = false;
+            }
+            Console.Write(item.Reference.Name);
+            Console.ForegroundColor = consoleColor;
+        }
+
+        private static void DisplaySyntax(ITokenReferenceProductionRuleItem item, ref bool startingLine, int depth)
+        {
+            var consoleColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            if (startingLine)
+            {
+                Console.Write(' '.Repeat((depth + 1) * 4));
+                startingLine = false;
+            }
+            Console.Write(item.Reference.Name);
+            Console.ForegroundColor = consoleColor;
+        }
+
+        /**
+         *  <summary>
+         *  Displays the syntax of a group, from either a token
+         *  or a production rule.
+         *  </summary>
+         *  <typeparam name="TItem">The kind of scannable entry item.</typeparam>
+         *  <typeparam name="TExpression">The kind of expression.</typeparam>
+         *  <typeparam name="TSeries">The kind of expression series.</typeparam>
+         *  <param name="series">The <typeparamref name="TSeries"/> instance which represents the group.</param>
+         *  <param name="startingLine">Whether the next element written starts the line.</param>
+         *  <param name="depth">The tabbing depth threshold.</param>
+         **/
+        private static void DisplayGroupSyntax<TItem, TExpression, TSeries>(TSeries series, ref bool startingLine, int depth)
+            where TItem :
+                IScannableEntryItem
+            where TExpression :
+                IReadOnlyCollection<TItem>
+            where TSeries :
+                IReadOnlyCollection<TExpression>
+        {
+            var consoleColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            bool needLine = series.Count > 1;
+            if (!startingLine && needLine)
+            {
+                Console.WriteLine();
+                startingLine = true;
+            }
+            if (needLine)
+                Console.WriteLine("{0}(", ' '.Repeat((depth + 1) * 4));
+            else
+                if (startingLine)
+                    Console.Write("{0}(", ' '.Repeat((depth + 1) * 4));
+                else
+                    Console.Write("(");
+            if (!needLine && startingLine)
+                startingLine = false;
+            Console.ForegroundColor = consoleColor;
+            DisplaySeriesSyntax<TItem, TExpression, TSeries>(series, ref startingLine, depth + 1);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            if (!startingLine && needLine)
+                Console.WriteLine();
+            else if (startingLine)
+                startingLine = false;
+            if (needLine)
+                Console.Write("{0})", ' '.Repeat((depth + 1) * 4));
+            else
+            {
+                try
+                {
+                    if (!startingLine)
+                        Console.CursorLeft--;
+                }
+                catch (System.ArgumentOutOfRangeException) { }
+                Console.Write(")");
+            }
+            Console.ForegroundColor = consoleColor;
+        }
+
+        /**
+         *  <summary>
+         *  Displays the syntax of a series of unified expressions.
+         *  </summary>
+         *  <typeparam name="TItem">The kind of scannable entry item.</typeparam>
+         *  <typeparam name="TExpression">The kind of expression.</typeparam>
+         *  <typeparam name="TSeries">The kind of expression series.</typeparam>
+         *  <param name="series">The <typeparamref name="TSeries"/> instance which represents the series.</param>
+         *  <param name="startingLine">Whether the next element written starts the line.</param>
+         *  <param name="depth">The tabbing depth threshold.</param>
+         * */
+        private static void DisplaySeriesSyntax<TItem, TExpression, TSeries>(TSeries series, ref bool startingLine, int depth = 0)
+            where TItem :
+                IScannableEntryItem
+            where TExpression :
+                IReadOnlyCollection<TItem>
+            where TSeries :
+                IReadOnlyCollection<TExpression>
+        {
+            bool first = true;
+            foreach (var expression in series)
+            {
+                if (first)
+                    first = false;
+                else
+                {
+                    var consoleColor = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    if (!startingLine)
+                    {
+                        Console.WriteLine("|");
+                        startingLine = true;
                     }
                     else
-                    {
-                        /* *
-                         * Every element after the first processed (or last in line)
-                         * has exactly eight types.
-                         * */
-                        current.Value.Add(currentTypeBase);
-                        var tempTypeBase = new CodeTypeReference(typeof(Tuple<,,,,,,,>));
-                        tempTypeBase.TypeArguments.AddRange(current.Value);
+                        Console.WriteLine("{0}|", ' '.Repeat((depth + 1) * 4));
 
-                        if (currentParamSet != sevenParameterSets.First)
-                        {
-                            /* *
-                             * Rebuild the trailing cascade parameter to new up an instance of
-                             * the current temp base type, its final parameter is the current
-                             * cascade parameter, thereby making the final cascade member
-                             * the results of this action.
-                             * */
-                            var tempCascadeParameter = new CodeObjectCreateExpression(tempTypeBase, currentParamSet.Value);
-                            tempCascadeParameter.Parameters.Add(trailingCascadeParameter);
-                            trailingCascadeParameter = tempCascadeParameter;
-                        }
-                        else
-                        {
-                            /* *
-                             * In cases where it's the last set to be processed, or the
-                             * first set of tuple types, instead of newing up the base type,
-                             * redirect them to the main constructor's cascade parameters
-                             * targeted at the base 8-type tuple.
-                             * */
-                            mainConstructor.BaseConstructorArgs.AddRange(currentParamSet.Value);
-                            mainConstructor.BaseConstructorArgs.Add(trailingCascadeParameter);
-                        }
-                        currentTypeBase = tempTypeBase;
-                    }
-                    current = current.Previous;
-                    currentParamSet = currentParamSet.Previous;
+                    Console.ForegroundColor = consoleColor;
                 }
-                /* *
-                 * Assign the current type's base type.
-                 * */
-                currentTuple.BaseTypes.Add(currentTypeBase);
-                //Denote the cascade target.
-                currentTuple.Members.Add(mainConstructor);
-                var returnStatement = new CodeMethodReturnStatement();
-                var currentTupleRef = new CodeTypeReference(currentTuple.Name);
-                currentTupleRef.TypeArguments.AddRange(typeParameterRefs);
-                var createTupleExpression = new CodeObjectCreateExpression(currentTupleRef, parameterReferences);
-                returnStatement.Expression = createTupleExpression;
-                currentTupleHelper.Statements.Add(returnStatement);
-                tupleHelperClass.Members.Add(currentTupleHelper);
-                mainNamespace.Types.Add(currentTuple);
+
+                DisplaySyntax<TItem, TExpression>(expression, ref startingLine, depth);
             }
-            mainNamespace.Types.Add(tupleHelperClass);
-            mainStopwatch.Stop();
-            Console.WriteLine("Time taken {0}", mainStopwatch.Elapsed);
-            
+        }
+
+        private static void DisplaySyntax<T, U>(U expression, ref bool startingLine, int depth)
+            where T :
+                IScannableEntryItem
+            where U :
+                IReadOnlyCollection<T>
+        {
+            foreach (var item in expression)
+                DisplaySyntax<T>(item, ref startingLine, depth);
+        }
+
+        private static void DisplaySyntax(ILiteralCharReferenceProductionRuleItem charItem, ref bool startingLine, int depth)
+        {
+            var consoleColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Gray;
+            if (startingLine)
+            {
+                Console.Write(' '.Repeat((depth + 1) * 4));
+                startingLine = false;
+            }
+            Console.Write(charItem.Literal.Value.ToString().Encode());
+            Console.ForegroundColor = consoleColor;
+        }
+
+        private static void DisplaySyntax(ILiteralStringReferenceProductionRuleItem charItem, ref bool startingLine, int depth)
+        {
+            var consoleColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Gray;
+            if (startingLine)
+            {
+                Console.Write(' '.Repeat((depth + 1) * 4));
+                startingLine = false;
+            }
+            Console.Write(charItem.Literal.Value.Encode());
+            Console.ForegroundColor = consoleColor;
+        }
+
+        private static void DisplaySyntax(ITokenEntry terminal, int longestName)
+        {
+            var consoleColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            Console.Write("{0} ", terminal.Name);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("{0}:=", ' '.Repeat((longestName + 2) - terminal.Name.Length));
+            Console.ForegroundColor = consoleColor;
+            bool startingLine = true;
+            DisplaySeriesSyntax<ITokenItem, ITokenExpression, ITokenExpressionSeries>(terminal.Branches, ref startingLine);
+
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            if (!startingLine)
+            {
+                try
+                {
+                    Console.CursorLeft--;
+                }
+                catch (ArgumentOutOfRangeException) { }
+            }
+            Console.WriteLine(";");
+            Console.ForegroundColor = consoleColor;
+        }
+
+
+        private static void DisplaySyntax(ICommandTokenItem commandItem, ref bool startingLine, int depth)
+        {
+            if (commandItem is IScanCommandTokenItem)
+                DisplaySyntax((IScanCommandTokenItem)commandItem, ref startingLine, depth);
+            else if (commandItem is ISubtractionCommandTokenItem)
+                DisplaySyntax((ISubtractionCommandTokenItem)commandItem, ref startingLine, depth);
+        }
+
+        private static void DisplaySyntax(ISubtractionCommandTokenItem subtractCommand, ref bool startingLine, int depth)
+        {
+            var consoleColor = Console.ForegroundColor;
+            if (startingLine)
+            {
+                Console.Write(' '.Repeat((depth + 1) * 4));
+                startingLine = false;
+            }
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("Subtract");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("(");
+            Console.ForegroundColor = consoleColor;
+            DisplaySeriesSyntax<ITokenItem, ITokenExpression, ITokenExpressionSeries>(subtractCommand.Left, ref startingLine, depth + 1);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(",");
+            Console.ForegroundColor = consoleColor;
+            DisplaySeriesSyntax<ITokenItem, ITokenExpression, ITokenExpressionSeries>(subtractCommand.Right, ref startingLine, depth + 1);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            if (startingLine)
+            {
+                Console.Write(' '.Repeat((depth + 1) * 4));
+                startingLine = false;
+            }
+            Console.Write(")");
+            Console.ForegroundColor = consoleColor;
+        }
+
+        private static void DisplaySyntax(IScanCommandTokenItem scanCommand, ref bool startingLine, int depth)
+        {
+            var consoleColor = Console.ForegroundColor;
+            if (startingLine)
+            {
+                Console.Write(' '.Repeat((depth + 1) * 4));
+                startingLine = false;
+            }
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("Scan");
+            DisplayCommandArguments(scanCommand, ref startingLine, depth, consoleColor);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(", ");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write(scanCommand.SeekPast);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            if (startingLine)
+            {
+                Console.Write(' '.Repeat((depth + 1) * 4));
+                startingLine = false;
+            }
+            Console.Write(")");
+            Console.ForegroundColor = consoleColor;
+        }
+
+        private static void DisplayCommandArguments(IScanCommandTokenItem scanCommand, ref bool startingLine, int depth, ConsoleColor consoleColor)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("(");
+            bool first = true;
+            foreach (var arg in scanCommand.Arguments)
+            {
+                if (first)
+                    first = false;
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.Write(", ");
+                    Console.ForegroundColor = consoleColor;
+                }
+                DisplaySeriesSyntax<ITokenItem, ITokenExpression, ITokenExpressionSeries>(arg, ref startingLine, depth + 1);
+            }
+        }
+
+        private static void DisplaySyntax(ICharRangeTokenItem charRange, ref bool startingLine, int depth)
+        {
+            if (startingLine)
+            {
+                Console.Write(' '.Repeat((depth + 1) * 4));
+                startingLine = false;
+            }
+            var consoleColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.Write(charRange.Range);
+            Console.ForegroundColor = consoleColor;
+        }
+
+        private static void DisplaySyntax(InlinedTokenReferenceTokenItem item, ref bool startingLine, int depth)
+        {
+            var consoleColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            if (startingLine)
+            {
+                Console.Write(' '.Repeat((depth + 1) * 4));
+                startingLine = false;
+            }
+            Console.Write(item.Source.Reference.Name);
+            Console.ForegroundColor = consoleColor;
+        }
+
+        private static void DisplaySyntax(ILiteralStringTokenItem stringItem, ref bool startingLine, int depth)
+        {
+            var consoleColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Gray;
+            if (startingLine)
+            {
+                Console.Write(' '.Repeat((depth + 1) * 4));
+                startingLine = false;
+            }
+            Console.Write(stringItem.Value.Encode());
+            Console.ForegroundColor = consoleColor;
+        }
+
+        private static void DisplaySyntax(ILiteralCharTokenItem charItem, ref bool startingLine, int depth)
+        {
+            var consoleColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Gray;
+            if (startingLine)
+            {
+                Console.Write(' '.Repeat((depth + 1) * 4));
+                startingLine = false;
+            }
+            Console.Write(charItem.Value.ToString().Encode());
+            Console.ForegroundColor = consoleColor;
+        }
+
+
+
+        private static void DisplayLogo()
+        {
+            var assembly = typeof(Program).Assembly;
+            var name = assembly.GetName();
+            var copyright = assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), true).Cast<AssemblyCopyrightAttribute>().First();
+            string ProjectOpenLine = string.Format("OILexer Parser Compiler version {0}", name.Version);
+            longestLineLength = ProjectOpenLine.Length;
+            if (copyright.Copyright.Length > longestLineLength)
+                longestLineLength = copyright.Copyright.Length;
+            Console.WriteLine("╒═{0}", '═'.Repeat(longestLineLength));
+            Console.WriteLine("│ {0}", ProjectOpenLine);
+            Console.WriteLine("│ {0}", copyright.Copyright);
+            if ((options & ValidOptions.QuietMode) != ValidOptions.QuietMode)
+                Console.Write("├─{0}", '─'.Repeat(longestLineLength));
+            else
+                Console.Write("╘═{0}", '═'.Repeat(longestLineLength));
+        }
+
+        private static string GetPhaseSubString(ParserBuilderPhase phase)
+        {
+            string op = null;
+
+            switch (phase)
+            {
+                case ParserBuilderPhase.Linking:
+                    op = PhaseName_Linking;
+                    break;
+                case ParserBuilderPhase.ExpandingTemplates:
+                    op = PhaseName_ExpandingTemplates;
+                    break;
+                case ParserBuilderPhase.LiteralLookup:
+                    op = PhaseName_Deliteralization;
+                    break;
+                case ParserBuilderPhase.InliningTokens:
+                    op = PhaseName_InliningTokens;
+                    break;
+                case ParserBuilderPhase.TokenNFAConstruction:
+                    op = PhaseName_TokenNFAConstruction;
+                    break;
+                case ParserBuilderPhase.TokenDFAConstruction:
+                    op = PhaseName_TokenDFAConstruction;
+                    break;
+                case ParserBuilderPhase.TokenDFAReduction:
+                    op = PhaseName_TokenDFAReduction;
+                    break;
+                case ParserBuilderPhase.RuleNFAConstruction:
+                    op = PhaseName_RuleNFAConstruction;
+                    break;
+                case ParserBuilderPhase.RuleDFAConstruction:
+                    op = PhaseName_RuleDFAConstruction;
+                    break;
+                case ParserBuilderPhase.CallTreeAnalysis:
+                    op = PhaseName_CallTreeAnalysis;
+                    break;
+                case ParserBuilderPhase.ObjectModelRootTypesConstruction:
+                    op = PhaseName_ObjectModelConstruction;
+                    break;
+                case ParserBuilderPhase.ObjectModelTokenCaptureConstruction:
+                    op = PhaseName_TokenCaptureConstruction;
+                    break;
+                case ParserBuilderPhase.ObjectModelTokenEnumConstruction:
+                    op = PhaseName_TokenEnumConstruction;
+                    break;
+                case ParserBuilderPhase.ObjectModelRuleStructureConstruction:
+                    op = PhaseName_RuleStructureConstruction;
+                    break;
+            }
+            return op;
+        }
+
+        private static ParserBuilderResults Build(IParserResults<IGDFile> iprs)
+        {
+            ParserBuilderResults resultsOfBuild = iprs.Result.Build(StreamAnalysisFiles, iprs.Errors, 
+                phase =>
+                    Console.Title = string.Format("{0} - {1}...", Program.baseTitle, GetPhaseSubString(phase)));
+            return resultsOfBuild;
+        }
+
+        private static void ShowErrors(IParserResults<IGDFile> iprs)
+        {
+            long size = (from s in iprs.Result.Files
+                         select new FileInfo(s).Length).Sum();
+
+            var iprsSorted =
+                (from CompilerError ce in iprs.Errors
+                 orderby ce.Line,
+                         ce.ErrorText
+                 select ce).ToArray();
+            int largestColumn = iprsSorted.Max(p => p.Column).ToString().Length;
+            int furthestLine = iprsSorted.Max(p => p.Line).ToString().Length;
+
+            string[] parts = (from CompilerError e in iprs.Errors
+                              let ePath = Path.GetDirectoryName(e.FileName)
+                              orderby ePath.Length descending
+                              select ePath).First().Split(new string[] { @"\" }, StringSplitOptions.RemoveEmptyEntries);
+
+            /* *
+             * Breakdown the longest filename and rebuild it part by part,
+             * where all elements from the error set contain the current path,
+             * select that path, then select the longest common path.
+             * *
+             * If the longest file doesn't contain anything in common, then there
+             * is no group relative path and the paths will be shown in full.
+             * */
+            string relativeRoot = null;
+            for (int i = 0; i < parts.Length; i++)
+            {
+                string currentRoot = string.Join(@"\", parts, 0, parts.Length - i);
+                if (iprsSorted.All(p => p.FileName.Contains(currentRoot)))
+                {
+                    relativeRoot = currentRoot;
+                    break;
+                }
+            }
+            /* *
+             * Change was made to the sequence of LINQ expressions due to their
+             * readability versus traditional methods of a myriad of dictionaries.
+             * */
+            var fileQuery =
+                (from CompilerError error in iprsSorted
+                 select error.FileName).Distinct();
+
+            var folderQuery =
+                (from file in fileQuery
+                 select Path.GetDirectoryName(file)).Distinct();
+
+            var fileErrorQuery =
+                (from file in fileQuery
+                 join CompilerError error in iprsSorted on file equals error.FileName into fileErrors
+                 let fileErrorsArray = fileErrors.ToArray()
+                 orderby fileErrorsArray.Length descending,
+                         file ascending
+                 select new { File = Path.GetFileName(file), Path = Path.GetDirectoryName(file), Errors = fileErrorsArray }).ToArray();
+
+            var folderErrors =
+                (from folder in folderQuery
+                 join file in fileErrorQuery on folder equals file.Path into folderFileErrors
+                 let folderFileArray = folderFileErrors.ToArray()
+                 orderby folderFileArray.Length descending,
+                         folder ascending
+                 select new { Path = folder, ErroredFiles = folderFileArray, FileCount = folderFileArray.Length, ErrorCount = folderFileArray.Sum(fileData => fileData.Errors.Length) }).ToArray();
+                 
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            List<string> erroredFiles = new List<string>();
+            var color = Console.ForegroundColor;
+            if (relativeRoot != null)
+                Console.WriteLine("All folders relative to: {0}", relativeRoot);
+            foreach (var folder in folderErrors)
+            {
+                //Error color used for denoting the specific error.
+                const ConsoleColor errorColor = ConsoleColor.DarkRed;
+                //Used for the string noting there were errors.
+                const ConsoleColor errorMColor = ConsoleColor.Red;
+                //Warning color.
+                const ConsoleColor warnColor = ConsoleColor.DarkBlue;
+                //Position Color.
+                const ConsoleColor posColor = ConsoleColor.Gray;
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+
+                string flError = (folder.ErrorCount > 1) ? "errors" : "error";
+                string rPath = null;
+                if (relativeRoot != null)
+                {
+                    if (folder.Path == relativeRoot)
+                        rPath = @".\";
+                    else
+                        rPath = folder.Path.Substring(relativeRoot.Length);// Console.WriteLine("{0} {2} in folder .{1}", folder.ErrorCount, folder.Path.Substring(relativeRoot.Length), flError);
+                }
+                else
+                    rPath = folder.Path;// Console.WriteLine("{0} {2} in folder {1}", folder.ErrorCount, folder.Path, flError);
+                Console.WriteLine("{0} {2} in folder {1}", folder.ErrorCount, rPath, flError);
+                foreach (var fileErrorSet in folder.ErroredFiles)
+                {
+                    Console.ForegroundColor = errorMColor;
+                    string fError = (fileErrorSet.Errors.Length > 1) ? "errors" : "error";
+                    Console.WriteLine("\t{0} {2} in file {1}:", fileErrorSet.Errors.Length, fileErrorSet.File, fError);
+                    foreach (var ce in fileErrorSet.Errors)
+                    {
+                        if (!ce.IsWarning)
+                            Console.ForegroundColor = errorColor;
+                        else
+                            Console.ForegroundColor = warnColor;
+                        Console.Write("\t\t{0} - {{", ce.ErrorNumber);
+                        Console.ForegroundColor = posColor;
+                        int l = ce.Line, c = ce.Column;
+                        l = furthestLine - l.ToString().Length;
+                        c = largestColumn - c.ToString().Length;
+                        Console.Write("{2}{0}:{1}{3}", ce.Line, ce.Column, ' '.Repeat(l), ' '.Repeat(c));
+                        if (!ce.IsWarning)
+                            Console.ForegroundColor = errorColor;
+                        else
+                            Console.ForegroundColor = warnColor;
+                        Console.Write("}} - {0}", ce.ErrorText);
+                        Console.WriteLine();
+                    }
+                    Console.WriteLine();
+                }
+                Console.WriteLine();
+            }
+            Console.ForegroundColor = color;
+            int totalErrorCount = iprs.Errors.Count,
+                totalFileCount  = folderErrors.Sum(folderData => folderData.FileCount);
+            Console.WriteLine("There were {0} {2} in {1} {3}.", totalErrorCount, totalFileCount, totalErrorCount == 1 ? "error" : "errors", totalFileCount == 1 ? "file" : "files");
+            Console.WriteLine("A total of {0:#,#} bytes were parsed from {1} files.", size, iprs.Result.Files.Count);
+        }
+
+        private static void DisplayUsage()
+        {
+            const string Usage_Options = "options:";
+            const string Usage_Export = "    " + Export + "kind; Export, where kind is:";
+            //const string Usage_ExportKindIs = "      Kind is: │       ";
+            const string Usage_Export_Exe = "           " + ExportKind_EXE + " │ Executable";
+            const string Usage_Export_Dll = "           " + ExportKind_DLL + " │ Dynamic link library";
+            const string Usage_Export_CSharp = "            " + ExportKind_CSharp + " │ CSharp Code";
+            const string Usage_Export_TraversalHTML = "        " + ExportKind_TraversalHTML + " │ Traversable HTML";
+            const string Usage_Syntax = "    " + Syntax + "         │ Show syntax.";
+            const string Usage_NoSyntax = "    " + NoSyntax + "*       │ Don't show syntax";
+            const string Usage_NoLogo = "    " + NoLogo + "        │ Do not show logo";
+            const string Usage_Verbose = "    " + Verbose + "         │ Verbose mode";
+            const string Usage_QuietMode = "    " + Quiet + "         │ Quiet mode";
+            const string Usage_LineCenter = "───────────────┼";
+            const string Usage_LineDown = "───────────────┬";
+            const string Usage_LineUp = "───────────────┴";
+            const string Usage_End = "═══════════════╧";
+            const string Usage_Default = "     *         │ default";
+            const string Usage_Usage = "Usage:";
+            string Usage_TagLine = string.Format("    {0} [options] File [options]", Path.GetFileNameWithoutExtension(typeof(Program).Assembly.Location));
+            string[] usageLines = new string[] {
+                Usage_Usage,
+                Usage_TagLine,
+                "-",
+                Usage_Options,
+                Usage_Export,
+                Usage_LineDown,
+                Usage_Export_Exe,
+                Usage_Export_Dll,
+                Usage_Export_CSharp,
+                Usage_Export_TraversalHTML,
+                Usage_LineCenter,
+                Usage_Verbose,
+                Usage_NoLogo,
+                Usage_QuietMode,
+                Usage_LineCenter,
+                Usage_Syntax,
+                Usage_NoSyntax,
+                Usage_LineCenter,
+                Usage_Default
+            };
+            int oldMaxLongestLength = longestLineLength;
+            longestLineLength = Math.Max(usageLines.Max(p => p.Length), oldMaxLongestLength);
+            if ((options & ValidOptions.NoLogo) != ValidOptions.NoLogo)
+                FinishLogo(oldMaxLongestLength, Console.CursorTop, Console.CursorLeft);
+            else if ((options & ValidOptions.QuietMode) != ValidOptions.QuietMode)
+                Console.WriteLine("╒═{0}═╕", '═'.Repeat(longestLineLength));
+            foreach (string s in usageLines)
+            {
+                if (s == "-")
+                    Console.WriteLine("├─{0}─┤", '─'.Repeat(longestLineLength));
+                else if (s == Usage_LineDown || 
+                         s == Usage_LineUp || 
+                         s == Usage_LineCenter)
+                    Console.WriteLine("├─{0}{1}─┤", s, '─'.Repeat(longestLineLength - s.Length));
+                else
+                    Console.WriteLine("│ {0}{1} │", s, ' '.Repeat(longestLineLength - s.Length));
+
+            }
+            Console.WriteLine("╘═{1}{0}═╛", '═'.Repeat(longestLineLength - Usage_End.Length), Usage_End);
+            Console.ReadKey(true);
         }
     }
 }
+
+//FARP: Failed Assertion Return Point.

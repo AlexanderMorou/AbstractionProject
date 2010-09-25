@@ -38,7 +38,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
             }
 
-            private new _IIntermediateGenericType _Parent
+            private _IIntermediateGenericType _Parent
             {
                 get
                 {

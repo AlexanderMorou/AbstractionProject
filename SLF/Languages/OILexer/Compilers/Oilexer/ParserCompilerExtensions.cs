@@ -403,7 +403,7 @@ using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
                     terminalList.Add(expression);
             }
             foreach (var expression in terminalList)
-                ((ReadOnlyCollection<IProductionRule>)series).baseCollection.Remove(expression);
+                ((ReadOnlyCollection<IProductionRule>)series).baseList.Remove(expression);
         }
 
         private static void CleanupRule(IProductionRule expression)
@@ -421,7 +421,7 @@ using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
                 }
             }
             foreach (var item in terminalList)
-                ((ProductionRule)(expression)).baseCollection.Remove(item);
+                ((ProductionRule)(expression)).baseList.Remove(item);
         }
 
         public static bool InlineTokens(IGDFile file, CompilerErrorCollection errors)

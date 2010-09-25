@@ -36,7 +36,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public ICustomAttributeDefinitionCollection Add()
         {
             CustomAttributeDefinitionCollection target = new CustomAttributeDefinitionCollection(this);
-            base.baseCollection.Add(target);
+            base.baseList.Add(target);
             return target;
         }
 
@@ -45,7 +45,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             CustomAttributeDefinitionCollection target = new CustomAttributeDefinitionCollection(this);
             foreach (var item in attributeData)
                 target.Add(item);
-            base.baseCollection.Add(target);
+            base.baseList.Add(target);
             return target;
         }
 
@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             CustomAttributeDefinitionCollection target = new CustomAttributeDefinitionCollection(this);
             foreach (var item in attributes)
                 target.Add(item);
-            base.baseCollection.Add(target);
+            base.baseList.Add(target);
             return target;
         }
 
@@ -83,7 +83,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public ICustomAttributeDefinition[] Flatten()
         {
             int count = 0;
-            foreach (var set in this.baseCollection)
+            foreach (var set in this.baseList)
                 count += set.Count;
             ICustomAttributeDefinition[] result = new ICustomAttributeDefinition[count];
             int k = 0;
@@ -144,7 +144,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public void Remove(ICustomAttributeDefinition customAttribute)
         {
             bool found = false;
-            foreach (var item in this.baseCollection)
+            foreach (var item in this.baseList)
                 if (item.Contains(customAttribute))
                 {
                     item.Remove(customAttribute);

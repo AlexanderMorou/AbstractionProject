@@ -84,7 +84,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (!(value is TAssembly))
                     throw new ArgumentException("value");
                 int c = this.Count;
-                this.baseCollection.Add((TAssembly)value);
+                this.baseList.Add((TAssembly)value);
                 return c;
             }
 
@@ -92,7 +92,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 foreach (var item in this)
                     item.Dispose();
-                this.baseCollection.Clear();
+                this.baseList.Clear();
             }
 
             bool IList.Contains(object value)
@@ -120,7 +120,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (!(value is TAssembly))
                     throw new ArgumentException("value");
                 TAssembly v = (TAssembly)value;
-                List<IIntermediateAssembly> k = (List<IIntermediateAssembly>)(this.baseCollection);
+                List<IIntermediateAssembly> k = (List<IIntermediateAssembly>)(this.baseList);
                 k.Insert(index, v);
             }
 
@@ -149,14 +149,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (!(value is TAssembly))
                     throw new ArgumentException("value");
                 TAssembly v = (TAssembly)value;
-                this.baseCollection.Remove(v);
+                this.baseList.Remove(v);
             }
 
             void IList.RemoveAt(int index)
             {
                 if (index < 0 || index >= this.Count)
                     throw new ArgumentOutOfRangeException("index");
-                List<IIntermediateAssembly> k = (List<IIntermediateAssembly>)(this.baseCollection);
+                List<IIntermediateAssembly> k = (List<IIntermediateAssembly>)(this.baseList);
                 k.RemoveAt(index);
             }
 
@@ -164,7 +164,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 get
                 {
-                    return ((List<IIntermediateAssembly>)this.baseCollection)[index];
+                    return ((List<IIntermediateAssembly>)this.baseList)[index];
                 }
                 set
                 {
@@ -175,7 +175,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         throw new InvalidOperationException();
                     if (v.GetRoot().Equals(this.Root))
                     {
-                        ((List<IIntermediateAssembly>)(this.baseCollection))[index] = v;
+                        ((List<IIntermediateAssembly>)(this.baseList))[index] = v;
                         return;
                     }
                     throw new ArgumentException("value");

@@ -26,11 +26,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules
         /// <param name="position">The byte in the file at which the <see cref="SoftTemplateReferenceProductionRuleItem"/> was declared.</param>
         /// <remarks><paramref name="secondaryName"/> does not relate to errors because
         /// errors have no members.</remarks>
-        public SoftTemplateReferenceProductionRuleItem(ICollection<IProductionRule>[] serii, string primaryName, int line, int column, long position)
+        public SoftTemplateReferenceProductionRuleItem(IList<IProductionRule>[] serii, string primaryName, int line, int column, long position)
             : base(primaryName, null, line, column, position, false, false)
         {
-            ICollection<IProductionRuleSeries> parts = new System.Collections.ObjectModel.Collection<IProductionRuleSeries>();
-            foreach (ICollection<IProductionRule> c in serii)
+            IList<IProductionRuleSeries> parts = new List<IProductionRuleSeries>();
+            foreach (IList<IProductionRule> c in serii)
                 parts.Add(new SeriesEntry(c));
 
             this.parts = new AllenCopeland.Abstraction.Utilities.Collections.ReadOnlyCollection<IProductionRuleSeries>(parts);
@@ -78,7 +78,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules
             AllenCopeland.Abstraction.Utilities.Collections.ReadOnlyCollection<IProductionRule>,
             IProductionRuleSeries
         {
-            public SeriesEntry(ICollection<IProductionRule> baseCollection)
+            public SeriesEntry(IList<IProductionRule> baseCollection)
                 : base(baseCollection)
             {
 
@@ -87,7 +87,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules
             {
                 bool first = true;
                 StringBuilder sb = new StringBuilder();
-                foreach (IProductionRule ipr in this.baseCollection)
+                foreach (IProductionRule ipr in this.baseList)
                 {
                     if (first)
                         first = false;

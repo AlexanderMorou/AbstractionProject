@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             TIntermediateType
     {
         #region IntermediateGenericSegmentableParentType data members
-
+        private IScopeCoercionCollection scopeCoercions;
         #region Nested Type Data Members
         /// <summary>
         /// Data member fro <see cref="Classes"/>.
@@ -65,16 +65,38 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
+        /// <summary>
+        /// Creates a new <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// instance with the <paramref name="name"/> and <paramref name="parent"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value representing the unique name
+        /// of the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
+        /// <param name="parent">The <see cref="IIntermediateTypeParent"/>
+        /// which contains the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
         protected IntermediateGenericSegmentableParentType(string name, IIntermediateTypeParent parent)
             : base(name, parent)
         {
         }
 
+        /// <summary>
+        /// Creates a new <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// instance with the <paramref name="parent"/> provided.
+        /// </summary>
+        /// <param name="parent">The <see cref="IIntermediateTypeParent"/>
+        /// which contains the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
         protected IntermediateGenericSegmentableParentType(IIntermediateTypeParent parent)
             : base(parent)
         {
 
         }
+        /// <summary>
+        /// Creates a new <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// with the <paramref name="rootType"/> and <paramref name="parent"/> provided.
+        /// </summary>
+        /// <param name="rootType">The <typeparamref name="TInstanceIntermediateType"/> which
+        /// represents the root instance of the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
+        /// <param name="parent">The <see cref="IIntermediateTypeParent"/>
+        /// which contains the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
         protected IntermediateGenericSegmentableParentType(TInstanceIntermediateType rootType, IIntermediateTypeParent parent)
             : base(rootType, parent)
         {
@@ -83,6 +105,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateTypeParent Members
 
+        /// <summary>
+        /// Returns the classes associated
+        /// to the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.
+        /// </summary>
         public IIntermediateClassTypeDictionary Classes
         {
             get
@@ -92,6 +118,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        /// <summary>
+        /// Returns the delegates associated
+        /// to the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.
+        /// </summary>
         public IIntermediateDelegateTypeDictionary Delegates
         {
             get
@@ -101,6 +131,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        /// <summary>
+        /// Returns the enumerations associated
+        /// to the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.
+        /// </summary>
         public IIntermediateEnumTypeDictionary Enums
         {
             get
@@ -110,6 +144,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        /// <summary>
+        /// Returns the interfaces associated
+        /// to the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.
+        /// </summary>
         public IIntermediateInterfaceTypeDictionary Interfaces
         {
             get
@@ -119,6 +157,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        /// <summary>
+        /// Returns the data structures associated
+        /// to the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.
+        /// </summary>
         public IIntermediateStructTypeDictionary Structs
         {
             get
@@ -128,7 +170,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        private IntermediateFullTypeDictionary _Types
+        /// <summary>
+        /// Returns the full set of types associated to the 
+        /// <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// which doesn't check the individual sub-type dictionaries
+        /// prior to retrieval.
+        /// </summary>
+        protected IntermediateFullTypeDictionary _Types
         {
             get
             {
@@ -137,6 +185,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        /// <summary>
+        /// Returns the full set of types associated to
+        /// the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.
+        /// </summary>
         public IIntermediateFullTypeDictionary Types
         {
             get
@@ -269,7 +321,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// partial instances.  Parent target discernment is provided by the 
         /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
         /// of the dictionary for the current instance.  Add methods called upon the
-        /// instance provided here report the proper partial instance as the parent.</remarks>
+        /// instance provided here report the current partial instance as the parent.</remarks>
         protected virtual IntermediateClassTypeDictionary InitializeClasses()
         {
             if (this.IsRoot)
@@ -289,7 +341,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// partial instances.  Parent target discernment is provided by the 
         /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
         /// of the dictionary for the current instance.  Add methods called upon the
-        /// instance provided here report the proper partial instance as the parent.</remarks>
+        /// instance provided here report the current partial instance as the parent.</remarks>
         protected virtual IntermediateDelegateTypeDictionary InitializeDelegates()
         {
             if (this.IsRoot)
@@ -309,7 +361,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// partial instances.  Parent target discernment is provided by the 
         /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
         /// of the dictionary for the current instance.  Add methods called upon the
-        /// instance provided here report the proper partial instance as the parent.</remarks>
+        /// instance provided here report the current partial instance as the parent.</remarks>
         protected virtual IntermediateEnumTypeDictionary InitializeEnums()
         {
             if (this.IsRoot)
@@ -329,7 +381,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// partial instances.  Parent target discernment is provided by the 
         /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
         /// of the dictionary for the current instance.  Add methods called upon the
-        /// instance provided here report the proper partial instance as the parent.</remarks>
+        /// instance provided here report the current partial instance as the parent.</remarks>
         protected virtual IntermediateInterfaceTypeDictionary InitializeInterfaces()
         {
             if (this.IsRoot)
@@ -349,7 +401,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// partial instances.  Parent target discernment is provided by the 
         /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
         /// of the dictionary for the current instance.  Add methods called upon the
-        /// instance provided here report the proper partial instance as the parent.</remarks>
+        /// instance provided here report the current partial instance as the parent.</remarks>
         protected virtual IntermediateStructTypeDictionary InitializeStructs()
         {
             if (this.IsRoot)
@@ -361,7 +413,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Initializes the full types container to a default state if the 
         /// current <see cref="IntermediateNamespaceDeclaration"/> is 
-        /// the root instance; otherwise, 
+        /// the root instance; otherwise, initializes the full types
+        /// container as a sibling to the root instance's full types.
         /// </summary>
         /// <returns>A new <see cref="IntermediateFullTypeDictionary"/> instance</returns>
         protected virtual IntermediateFullTypeDictionary InitializeTypes()
@@ -429,6 +482,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return GetTypeParentDeclarations(this);
         }
         private int suspendLevel = 0;
+
         internal void SuspendTypeContainers()
         {
             this.suspendLevel++;
@@ -459,6 +513,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.interfaces.Resume();
             if (this.structs != null)
                 this.structs.Resume();
+        }
+
+        public IScopeCoercionCollection ScopeCoercions
+        {
+            get
+            {
+                if (this.scopeCoercions == null)
+                    this.scopeCoercions = new ScopeCoercionCollection();
+                return this.scopeCoercions;
+            }
         }
     }
 }

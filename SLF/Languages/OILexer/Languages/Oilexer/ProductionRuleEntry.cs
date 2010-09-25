@@ -52,11 +52,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer
 
         internal void Add(IProductionRule rule)
         {
-            this.baseCollection.Add(rule);
+            this.baseList.Add(rule);
         }
         internal void Clear()
         {
-            this.baseCollection.Clear();
+            this.baseList.Clear();
         }
 
         #region IScannableEntry Members
@@ -127,7 +127,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer
         {
             get
             {
-                return this.baseCollection;
+                return this.baseList;
             }
         }
         public override string ToString()
@@ -140,7 +140,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer
         {
             StringBuilder sb = new StringBuilder();
             bool first = true;
-            foreach (IProductionRule ite in this.baseCollection)
+            foreach (IProductionRule ite in this.baseList)
             {
                 if (first)
                     first = false;

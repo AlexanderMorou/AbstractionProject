@@ -44,7 +44,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private ICustomAttributeDefinitionParameter<T> AddInternal<T>(T value)
         {
             CustomAttributeDefinitionParameter<T> parameter = new CustomAttributeDefinitionParameter<T>(value, this);
-            base.baseCollection.Add(parameter);
+            base.baseList.Add(parameter);
             namelessParamCount++;
             return parameter;
         }
@@ -53,7 +53,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             if (namedParameterNames.Contains(name))
                 throw new ArgumentException("name");
             CustomAttributeDefinitionNamedParameter<T> parameter = new CustomAttributeDefinitionNamedParameter<T>(name, value, this);
-            base.baseCollection.Add(parameter);
+            base.baseList.Add(parameter);
             this.namedParameterNames.Add(name);
             return parameter;
         }
@@ -564,7 +564,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (!(item is ICustomAttributeDefinitionNamedParameter))
                     if (_index == index)
                     {
-                        base.baseCollection.Remove(item);
+                        base.baseList.Remove(item);
                         break;
                     }
                     else
@@ -590,7 +590,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (item is ICustomAttributeDefinitionNamedParameter && ((ICustomAttributeDefinitionNamedParameter)(item)).Name == name)
                 {
                     this.namedParameterNames.Remove(name);
-                    base.baseCollection.Remove(item);
+                    base.baseList.Remove(item);
                     return;
                 }
             //If this occurs, someone's modified the list, the name is there in our cache

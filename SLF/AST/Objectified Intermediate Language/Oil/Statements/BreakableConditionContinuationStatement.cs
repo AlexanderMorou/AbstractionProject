@@ -42,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         public IBreakStatement Break()
         {
             var b = new BreakStatement(this, this.AssociatedJumpLabel);
-            this.baseCollection.Add(b);
+            this.baseList.Add(b);
             return b;
         }
 

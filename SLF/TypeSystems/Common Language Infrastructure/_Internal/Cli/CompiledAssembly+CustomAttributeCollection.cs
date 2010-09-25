@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 this.assembly = assembly;
                 object[] customAttrs = assembly.UnderlyingAssembly.GetCustomAttributes(false);
                 foreach (Attribute attr in customAttrs)
-                    this.baseCollection.Add(new CustomAttributeInstance(attr, this.assembly));
+                    this.baseList.Add(new CustomAttributeInstance(attr, this.assembly));
             }
 
             #region IDisposable Members
@@ -47,7 +47,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 for (int i = 0; i < this.Count; i++)
                     this[i].Dispose();
-                this.baseCollection.Clear();
+                this.baseList.Clear();
             }
 
             #endregion
@@ -56,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             public bool Contains(IType attributeType)
             {
-                foreach (var item in this.baseCollection)
+                foreach (var item in this.baseList)
                     if (item.Type.Equals(attributeType))
                         return true;
                 return false;

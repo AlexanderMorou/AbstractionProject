@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer
             internal PartCollection()
             {
             }
-            internal PartCollection(ICollection<IProductionRuleTemplatePart> prtp)
+            internal PartCollection(IList<IProductionRuleTemplatePart> prtp)
                 : base(prtp)
             {
                 

@@ -675,15 +675,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         #endregion
+
+
         #endregion
 
         #region IIntermediateTypeParent Members
+        public IScopeCoercionCollection ScopeCoercions
+        {
+            get
+            {
+                return this.StatementContainer.ScopeCoercions;
+            }
+        }
 
         public IIntermediateClassTypeDictionary Classes
         {
             get
             {
-                return this.statementContainer.Classes;
+                return this.StatementContainer.Classes;
             }
         }
 
@@ -691,7 +700,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             get
             {
-                return this.statementContainer.Delegates;
+                return this.StatementContainer.Delegates;
             }
         }
 
@@ -699,7 +708,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             get
             {
-                return this.statementContainer.Enums;
+                return this.StatementContainer.Enums;
             }
         }
 
@@ -707,7 +716,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             get
             {
-                return this.statementContainer.Interfaces;
+                return this.StatementContainer.Interfaces;
             }
         }
 
@@ -715,7 +724,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             get
             {
-                return this.statementContainer.Structs;
+                return this.StatementContainer.Structs;
             }
         }
 
@@ -723,7 +732,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             get
             {
-                return this.statementContainer.Types;
+                return this.StatementContainer.Types;
             }
         }
 

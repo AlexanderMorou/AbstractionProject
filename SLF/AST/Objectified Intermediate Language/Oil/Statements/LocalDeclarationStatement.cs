@@ -39,20 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         {
             if (this.DeclaredLocal == null)
                 return string.Empty;
-            switch (DeclaredLocal.TypingMethod)
-            {
-                case LocalTypingKind.Dynamic:
-                    return string.Format("dynamic {0};", this.DeclaredLocal.Name);
-                case LocalTypingKind.Implicit:
-                    return string.Format("var {0};", this.DeclaredLocal.Name);
-                case LocalTypingKind.Explicit:
-                    if (this.DeclaredLocal is ITypedLocalMember)
-                        return string.Format("{0} {1};", ((ITypedLocalMember)(this.DeclaredLocal)).LocalType.BuildTypeName(), this.DeclaredLocal.Name);
-                    else
-                        return string.Format("? {0};", this.DeclaredLocal.Name);
-                default:
-                    return string.Empty;
-            }
+            return this.DeclaredLocal.ToString();
         }
     }
 }

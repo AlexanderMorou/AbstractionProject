@@ -51,6 +51,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Data member for <see cref="Namespaces"/>.
         /// </summary>
         private IIntermediateNamespaceDictionary namespaces;
+
+        private IScopeCoercionCollection scopeCoercions;
+
         public IntermediateNamespaceDeclaration(string name, IIntermediateNamespaceParent parent)
             : base()
         {
@@ -129,6 +132,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateTypeParent Members
 
+        public IScopeCoercionCollection ScopeCoercions
+        {
+            get
+            {
+                if (this.scopeCoercions == null)
+                    this.scopeCoercions = new ScopeCoercionCollection();
+                return this.scopeCoercions;
+            }
+        }
         public IIntermediateClassTypeDictionary Classes
         {
             get

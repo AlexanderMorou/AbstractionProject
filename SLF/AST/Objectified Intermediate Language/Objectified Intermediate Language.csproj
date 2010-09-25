@@ -707,7 +707,12 @@
     <Compile Include="Oil\Modules\IntermediateModuleGlobalFieldDictionary.cs" />
     <Compile Include="Oil\Modules\IntermediateModuleGlobalMethod.cs" />
     <Compile Include="Oil\Modules\IntermediateModuleGlobalMethodDictionary.cs" />
+    <Compile Include="Oil\NamedInclusionRenameScopeCoercion.cs" />
+    <Compile Include="Oil\NamedInclusionScopeCoercion.cs" />
+    <Compile Include="Oil\NamespaceInclusionRenameScopeCoercion.cs" />
+    <Compile Include="Oil\NamespaceInclusionScopeCoercion.cs" />
     <Compile Include="Oil\PrivateImplementationDetails.cs" />
+    <Compile Include="Oil\ScopeCoercionCollection.cs" />
     <Compile Include="Oil\Statements\BlockStatementBase.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -883,6 +888,9 @@
     <Compile Include="Oil\Statements\SwitchStatement.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Oil\StaticInclusionScopeCoercion.cs" />
+    <Compile Include="Oil\TypeInclusionRenameScopeCoercion.cs" />
+    <Compile Include="Oil\TypeInclusionScopeCoercion.cs" />
     <Compile Include="Oil\_ICustomAttributeDefinitionParameterCollection.cs" />
     <Compile Include="Preprocessors\IIntermediatePreprocessor.cs" />
     <Compile Include="Preprocessors\IPreprocessorAggregateTask.cs" />

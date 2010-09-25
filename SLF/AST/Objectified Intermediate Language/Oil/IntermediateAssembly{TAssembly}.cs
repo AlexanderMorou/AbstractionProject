@@ -65,6 +65,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         private new IntermediateFullTypeDictionary types;
         private IIntermediateModuleDictionary modules;
+        private IScopeCoercionCollection scopeCoercions;
+        /* *
+         * Placeholders for ensuring that only the root instance contains 
+         * references to the event.
+         * */
+        private event EventHandler<DeclarationNameChangedEventArgs> _Renamed;
+        private event EventHandler<DeclarationRenamingEventArgs> _Renaming;
         /// <summary>
         /// Creates a new <see cref="IntermediateAssembly{TAssembly}"/> with the 
         /// <paramref name="rootAssembly"/> provided.
@@ -483,12 +490,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             else
                 ((TAssembly)(this.GetRoot())).OnRenamed(e);
         }
-        /* *
-         * Placeholders for ensuring that only the root instance contains 
-         * references to the event.
-         * */
-        private event EventHandler<DeclarationNameChangedEventArgs> _Renamed;
-        private event EventHandler<DeclarationRenamingEventArgs> _Renaming;
 
         /// <summary>
         /// Occurs when the name of the <see cref="IntermediateAssembly{TAssembly}"/>
@@ -670,6 +671,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        IIntermediateAssembly IIntermediateAssembly.Assembly
+        {
+            get
+            {
+                return this;
+            }
+        }
+
         /// <summary>
         /// Returns/sets the filename associated to the present 
         /// assembly partial instance.
@@ -677,5 +686,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <remarks>Used to specify the filename associated to a specific
         /// instance of an assembly.</remarks>
         public string FileName { get; set; }
+
+        public IScopeCoercionCollection ScopeCoercions
+        {
+            get
+            {
+                if (this.scopeCoercions == null)
+                    this.scopeCoercions = new ScopeCoercionCollection();
+                return this.scopeCoercions;
+            }
+        }
     }
 }
