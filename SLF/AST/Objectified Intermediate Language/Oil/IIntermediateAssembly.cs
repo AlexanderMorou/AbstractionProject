@@ -4,6 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Slf.Oil.Modules;
+using System.ComponentModel;
  /*---------------------------------------------------------------------\
  | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -23,6 +24,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IIntermediateCustomAttributedDeclaration,
         IAssembly
     {
+        /// <summary>
+        /// Returns itself.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        new IIntermediateAssembly Assembly { get; }
         /// <summary>
         /// Returns the <see cref="IIntermediateAssemblyInformation"/> about 
         /// the current <see cref="IIntermediateAssembly"/> instance.

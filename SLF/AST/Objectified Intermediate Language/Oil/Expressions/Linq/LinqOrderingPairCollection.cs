@@ -36,7 +36,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// when <paramref name="orderingKey"/> is null.</exception>
         public void Add(IExpression orderingKey)
         {
-            base.baseCollection.Add(new LinqOrderingPair(orderingKey));
+            base.baseList.Add(new LinqOrderingPair(orderingKey));
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// <see cref="LinqOrderByDirection.Descending"/>.</exception>
         public void Add(IExpression orderingKey, LinqOrderByDirection direction)
         {
-            base.baseCollection.Add(new LinqOrderingPair(orderingKey, direction));
+            base.baseList.Add(new LinqOrderingPair(orderingKey, direction));
         }
 
         #endregion

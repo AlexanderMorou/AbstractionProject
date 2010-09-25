@@ -48,8 +48,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public TDeclaration Add()
         {
             TDeclaration t = creator();
-            lock (this.baseCollection)
-                this.baseCollection.Add(t);
+            lock (this.baseList)
+                this.baseList.Add(t);
             return t;
         }
 
@@ -58,8 +58,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             if (!this.Contains(part))
                 throw new ArgumentException("part");
             part.Dispose();
-            lock (this.baseCollection)
-                this.baseCollection.Remove(part);
+            lock (this.baseList)
+                this.baseList.Remove(part);
         }
 
         public void Remove(int index)
@@ -75,12 +75,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         public void Dispose()
         {
-            if (this.baseCollection == null)
+            if (this.baseList == null)
                 return;
             foreach (var t in this)
                 t.Dispose();
-            this.baseCollection.Clear();
-            this.baseCollection = null;
+            this.baseList.Clear();
+            this.baseList = null;
         }
 
         #endregion
@@ -123,7 +123,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     if (!this.Contains(v))
                     {
                         int c = this.Count;
-                        this.baseCollection.Add(v);
+                        this.baseList.Add(v);
                         return c;
                     }
                     else
@@ -147,14 +147,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             for (int i = 0; i < this.Count; i++)
                 this[i].Dispose();
-            this.baseCollection.Clear();
+            this.baseList.Clear();
         }
 
         bool IList.Contains(object value)
         {
             if (!(value is TDeclaration))
                 return false;
-            return this.baseCollection.Contains(((TDeclaration)(value)));
+            return this.baseList.Contains(((TDeclaration)(value)));
         }
 
         int IList.IndexOf(object value)
@@ -178,7 +178,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             if (!(value is TDeclaration))
                 throw new ArgumentException("value");
             TDeclaration v = (TDeclaration)value;
-            List<TDeclaration> k = (List<TDeclaration>)(this.baseCollection);
+            List<TDeclaration> k = (List<TDeclaration>)(this.baseList);
             k.Insert(index, v);
         }
 
@@ -197,14 +197,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             if (!(value is TDeclaration))
                 throw new ArgumentException("value");
             TDeclaration v = (TDeclaration)value;
-            this.baseCollection.Remove(v);
+            this.baseList.Remove(v);
         }
 
         void IList.RemoveAt(int index)
         {
             if (index < 0 || index >= this.Count)
                 throw new ArgumentOutOfRangeException("index");
-            List<TDeclaration> k = (List<TDeclaration>)(this.baseCollection);
+            List<TDeclaration> k = (List<TDeclaration>)(this.baseList);
             k.RemoveAt(index);
         }
 
@@ -212,7 +212,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get
             {
-                return ((List<TDeclaration>)this.baseCollection)[index];
+                return ((List<TDeclaration>)this.baseList)[index];
             }
             set
             {
@@ -223,7 +223,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     throw new InvalidOperationException();
                 if (v.GetRoot().Equals(this.rootDeclaration))
                 {
-                    ((List<TDeclaration>)(this.baseCollection))[index] = v;
+                    ((List<TDeclaration>)(this.baseList))[index] = v;
                     return;
                 }
                 throw new ArgumentException("value");
@@ -251,7 +251,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (part.IsRoot || part.GetRoot() != this.Root)
                 throw new ArgumentException("root");
-            this.baseCollection.Add(part);
+            this.baseList.Add(part);
         }
 
         #endregion

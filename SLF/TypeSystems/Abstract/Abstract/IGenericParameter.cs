@@ -167,6 +167,5 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// associated to the current <see cref="IGenericParameter"/>.
         /// </summary>
         new IGenericParameterPropertyMemberDictionary Properties { get; }
-
     }
 }

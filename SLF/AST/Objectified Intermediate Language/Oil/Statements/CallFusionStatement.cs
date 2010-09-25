@@ -52,5 +52,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         public IExpressionToCommaFusionExpression Target { get; set; }
 
         #endregion
+
+        public override string ToString()
+        {
+            return Target.ToString();
+        }
     }
 }

@@ -38,7 +38,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules
         /// <param name="line">The line index the <see cref="ProductionRule"/> was declared at.</param>
         /// <param name="position">The position in the file the <see cref="ProductionRule"/> 
         /// was declared at.</param>
-        public ProductionRule(ICollection<IProductionRuleItem> items, string fileName, int column, int line, long position)
+        public ProductionRule(IList<IProductionRuleItem> items, string fileName, int column, int line, long position)
             : base(items)
         {
             this.column = column;
@@ -100,7 +100,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules
         {
             bool first = true;
             StringBuilder sb = new StringBuilder();
-            foreach (IProductionRuleItem ipri in this.baseCollection)
+            foreach (IProductionRuleItem ipri in this.baseList)
             {
                 if (first)
                     first = false;
@@ -115,7 +115,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules
         {
             get
             {
-                return base.baseCollection;
+                return base.baseList;
             }
         }
 
@@ -135,11 +135,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules
         internal void SetItemAt(int index, IProductionRuleItem value)
         {
             IProductionRuleItem[] j = new IProductionRuleItem[this.Count];
-            this.baseCollection.CopyTo(j,0);
+            this.baseList.CopyTo(j,0);
             j[index] = value;
-            this.baseCollection.Clear();
+            this.baseList.Clear();
             foreach (IProductionRuleItem item in j)
-                this.baseCollection.Add(item);
+                this.baseList.Add(item);
         }
 
         

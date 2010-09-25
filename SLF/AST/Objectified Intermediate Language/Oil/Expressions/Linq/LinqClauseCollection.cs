@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         public ILinqFromClause From(string rangeVariableName, IExpression rangeSelector)
         {
             var result = new LinqFromClause(rangeVariableName, rangeSelector);
-            base.baseCollection.Add(result);
+            base.baseList.Add(result);
             return result;
         }
 
@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         public ILinqTypedFromClause From(TypedName rangeVariable, IExpression rangeSelector)
         {
             var result = new LinqTypedFromClause(rangeVariable, rangeSelector);
-            base.baseCollection.Add(result);
+            base.baseList.Add(result);
             return result;
         }
 
@@ -69,7 +69,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         public ILinqLetClause Let(string rangeVariableName, IExpression rangeSelector)
         {
             var result = new LinqLetClause(rangeVariableName, rangeSelector);
-            base.baseCollection.Add(result);
+            base.baseList.Add(result);
             return result;
         }
 
@@ -84,21 +84,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         public ILinqWhereClause Where(IExpression condition)
         {
             var result = new LinqWhereClause(condition);
-            base.baseCollection.Add(result);
+            base.baseList.Add(result);
             return result;
         }
 
         public ILinqOrderByClause OrderBy(IExpression orderKey)
         {
             var result = new LinqOrderByClause(orderKey);
-            base.baseCollection.Add(result);
+            base.baseList.Add(result);
             return result;
         }
 
         public ILinqDirectedOrderByClause OrderBy(IExpression orderKey, LinqOrderByDirection direction)
         {
             var result = new LinqDirectedOrderByClause(orderKey, direction);
-            base.baseCollection.Add(result);
+            base.baseList.Add(result);
             return result;
         }
 
@@ -122,7 +122,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         public ILinqJoinClause Join(string rangeVariableName, IExpression rangeSelector, IExpression leftCondition, IExpression rightCondition)
         {
             var result = new LinqJoinClause(rangeVariableName, rangeSelector, leftCondition, rightCondition);
-            base.baseCollection.Add(result);
+            base.baseList.Add(result);
             return result;
         }
 
@@ -146,7 +146,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         public ILinqTypedJoinClause Join(TypedName rangeVariable, IExpression rangeSelector, IExpression leftCondition, IExpression rightCondition)
         {
             var result = new LinqTypedJoinClause(rangeVariable, rangeSelector, leftCondition, rightCondition);
-            base.baseCollection.Add(result);
+            base.baseList.Add(result);
             return result;
         }
 
@@ -174,7 +174,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         public ILinqJoinClause Join(string rangeVariableName, IExpression rangeSelector, IExpression leftCondition, IExpression rightCondition, string intoRangeVariableName)
         {
             var result = new LinqJoinClause(rangeVariableName, rangeSelector, leftCondition, rightCondition, intoRangeVariableName);
-            base.baseCollection.Add(result);
+            base.baseList.Add(result);
             return result;
         }
 
@@ -202,7 +202,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         public ILinqTypedJoinClause Join(TypedName rangeVariable, IExpression rangeSelector, IExpression leftCondition, IExpression rightCondition, string intoRangeVariableName)
         {
             var result = new LinqTypedJoinClause(rangeVariable, rangeSelector, leftCondition, rightCondition, intoRangeVariableName);
-            base.baseCollection.Add(result);
+            base.baseList.Add(result);
             return result;
         }
 

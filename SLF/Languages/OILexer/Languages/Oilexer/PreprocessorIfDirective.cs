@@ -169,7 +169,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer
 
             internal void Add(IPreprocessorDirective directive)
             {
-                baseCollection.Add(directive);
+                baseList.Add(directive);
             }
         }
 

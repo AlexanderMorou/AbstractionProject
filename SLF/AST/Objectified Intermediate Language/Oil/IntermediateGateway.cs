@@ -238,6 +238,26 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        public static ISymbolType GetSymbolType(this string typeSymbol, int genericParameterCount)
+        {
+            if (typeSymbol == null)
+                throw new ArgumentNullException("typeSymbol");
+            lock (SymbolTypeCache)
+            {
+                if (!SymbolTypeCache.ContainsKey(typeSymbol))
+                    SymbolTypeCache.Add(typeSymbol, new Dictionary<string, IDictionary<int, ISymbolType>>());
+                if (!SymbolTypeCache[typeSymbol].ContainsKey(nullNamespace))
+                    SymbolTypeCache[typeSymbol].Add(nullNamespace, new Dictionary<int, ISymbolType>());
+                if (!SymbolTypeCache[typeSymbol][nullNamespace].ContainsKey(genericParameterCount))
+                    SymbolTypeCache[typeSymbol][nullNamespace].Add(genericParameterCount, new SymbolType(typeSymbol, genericParameterCount));
+                return SymbolTypeCache[typeSymbol][nullNamespace][genericParameterCount];
+            }
+        }
+
+        public static ISymbolType GetSymbolType(this string typeSymbol, params IType[] genericParameters)
+        {
+            return typeSymbol.GetSymbolType(genericParameters.ToCollection());
+        }
         public static ISymbolType GetSymbolType(this string typeSymbol, ITypeCollection genericParameters)
         {
             if (typeSymbol == null)

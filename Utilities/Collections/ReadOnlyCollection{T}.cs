@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
 
         }
-        public ReadOnlyCollection(ICollection<T> baseCollection)
+        public ReadOnlyCollection(IList<T> baseCollection)
             : base(baseCollection)
         {
 

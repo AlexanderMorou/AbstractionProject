@@ -49,7 +49,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens
             this.line = line;
             this.position = position;
             foreach (ITokenItem iti in items)
-                this.baseCollection.Add(iti);
+                this.baseList.Add(iti);
         }
         #region IScannableEntryItem Members
 
@@ -104,7 +104,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens
         {
             StringBuilder sb = new StringBuilder();
             bool first = true;
-            foreach (ITokenItem ite in this.baseCollection)
+            foreach (ITokenItem ite in this.baseList)
             {
                 if (first)
                     first = false;
@@ -119,7 +119,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens
         {
             get
             {
-                return base.baseCollection;
+                return base.baseList;
             }
         }
     }

@@ -24,20 +24,20 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         IEnumerable<T>
     {
         /// <summary>
-        /// The collection to wrap.
+        /// The list to wrap.
         /// </summary>
-        internal protected ICollection<T> baseCollection;
+        internal protected IList<T> baseList;
 
         #region ControlledStateCollection Constructors
 
         /// <summary>
         /// Creates a new instance of <see cref="ControlledStateCollection{T}"/> with the 
-        /// <paramref name="baseCollection"/> to wrap provided.
+        /// <paramref name="baseList"/> to wrap provided.
         /// </summary>
-        /// <param name="baseCollection">The Collection to wrap.</param>
-        public ControlledStateCollection(ICollection<T> baseCollection)
+        /// <param name="baseList">The list to wrap.</param>
+        public ControlledStateCollection(IList<T> baseCollection)
         {
-            this.baseCollection = baseCollection;
+            this.baseList = baseCollection;
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// </returns>
         public virtual int Count
         {
-            get { return this.baseCollection.Count; }
+            get { return this.baseList.Count; }
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// </returns>
         public virtual bool Contains(T item)
         {
-            return baseCollection.Contains(item);
+            return baseList.Contains(item);
         }
 
         /// <summary>
@@ -104,15 +104,15 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <paramref name="array"/>.</exception>
         public virtual void CopyTo(T[] array, int arrayIndex)
         {
-            this.baseCollection.CopyTo(array, arrayIndex);
+            this.baseList.CopyTo(array, arrayIndex);
         }
 
         public int IndexOf(T element)
         {
-            if (this.baseCollection is IList<T>)
-                return ((IList<T>)(this.baseCollection)).IndexOf(element);
+            if (this.baseList is IList<T>)
+                return ((IList<T>)(this.baseList)).IndexOf(element);
             int index = 0;
-            foreach (var currentEntry in this.baseCollection)
+            foreach (var currentEntry in this.baseList)
                 if (currentEntry.Equals(element))
                     return index;
                 else 
@@ -130,7 +130,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// the <see cref="ControlledStateCollection{T}"/>.</returns>
         public virtual IEnumerator<T> GetEnumerator()
         {
-            return this.baseCollection.GetEnumerator();
+            return this.baseList.GetEnumerator();
         }
 
         #endregion
@@ -194,16 +194,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             get
             {
-                if (index < 0 || index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
-                int i = 0;
-                foreach (T t in this)
-                    if (i == index)
-                        return t;
-                    else
-                        i++;
-                //...?
-                return default(T);
+                return this.baseList[index];
             }
         }
         #endregion
@@ -234,20 +225,15 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         protected virtual void AddImpl(T expression)
         {
-            lock (baseCollection)
-                this.baseCollection.Add(expression);
+            lock (baseList)
+                this.baseList.Add(expression);
         }
 
         protected virtual void InsertItem(int index, T item)
         {
-            lock (baseCollection)
+            lock (baseList)
             {
-                if (this.baseCollection is IList<T>)
-                    ((IList<T>)(this.baseCollection)).Insert(index, item);
-                else if (this.baseCollection is IList)
-                    ((IList)(this.baseCollection)).Insert(index, item);
-                else
-                    throw new NotSupportedException("The baseCollection associated to the current ControlledStateCollection does not support insertion by index.");
+                this.baseList.Insert(index, item);
             }
         }
 

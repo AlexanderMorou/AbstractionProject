@@ -17,7 +17,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
     /// <summary>
-    /// Provides an intermediate type base for intermediate types.
+    /// Provides a base class for intermediate types.
     /// </summary>
     public abstract class IntermediateTypeBase<TType, TIntermediateType> :
         TypeBase<TType>,

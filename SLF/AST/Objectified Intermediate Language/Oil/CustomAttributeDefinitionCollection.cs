@@ -43,7 +43,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public ICustomAttributeDefinition Add(CustomAttributeDefinition.ParameterValueCollection values)
         {
             CustomAttributeDefinition definition = new CustomAttributeDefinition(this.parent.Parent, values);
-            this.baseCollection.Add(definition);
+            this.baseList.Add(definition);
             return definition;
         }
 
@@ -75,16 +75,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// to remove.</param>
         public void Remove(ICustomAttributeDefinition customAttribute)
         {
-            if (!this.baseCollection.Contains(customAttribute))
+            if (!this.baseList.Contains(customAttribute))
                 throw new ArgumentException("customAttribute");
-            this.baseCollection.Remove(customAttribute);
+            this.baseList.Remove(customAttribute);
         }
 
         #endregion
 
         internal void Add(ICustomAttributeDefinition definition)
         {
-            this.baseCollection.Add(definition);
+            this.baseList.Add(definition);
         }
 
         #region IDisposable Members
@@ -93,8 +93,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             foreach (var item in this)
                 item.Dispose();
-            this.baseCollection.Clear();
-            this.baseCollection = null;
+            this.baseList.Clear();
+            this.baseList = null;
         }
 
         #endregion

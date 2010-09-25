@@ -51,6 +51,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         ILocalMemberDictionary locals;
         private BlockStatementScopeLabelDictionary scopeLabels;
         private BlockStatementLabelDictionary labels;
+        private IScopeCoercionCollection scopeCoercions;
         #endregion
 
         internal BlockStatementParentContainer()
@@ -89,7 +90,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         public IReturnStatement Return()
         {
             ReturnStatement r = new ReturnStatement(this.Owner);
-            this.baseCollection.Add(r);
+            this.baseList.Add(r);
             return r;
         }
 
@@ -106,7 +107,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         public IReturnStatement Return(IExpression value)
         {
             ReturnStatement r = new ReturnStatement(this.Owner, value);
-            this.baseCollection.Add(r);
+            this.baseList.Add(r);
             return r;
         }
 
@@ -121,7 +122,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         public IConditionBlockStatement If(IExpression condition)
         {
             var ifResult = OnIf(condition);
-            this.baseCollection.Add(ifResult);
+            this.baseList.Add(ifResult);
             return ifResult;
         }
 
@@ -137,7 +138,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         public ISwitchStatement Switch(IExpression caseCondition)
         {
             var result = new SwitchStatement(this.Owner) { Selection = caseCondition };
-            base.baseCollection.Add(result);
+            base.baseList.Add(result);
             return result;
         }
 
@@ -156,7 +157,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         public ICallFusionStatement Call(IExpressionToCommaFusionExpression target)
         {
             var result = new CallFusionStatement(this.Owner) { Target = target };
-            this.baseCollection.Add(result);
+            this.baseList.Add(result);
             return result;
         }
 
@@ -172,7 +173,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         public ICallMethodStatement Call(IMethodInvokeExpression target)
         {
             var result = new CallMethodStatement(this.Owner) { Target = target };
-            this.baseCollection.Add(result);
+            this.baseList.Add(result);
             return result;
         }
 
@@ -441,14 +442,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         public IIterationBlockStatement Iterate(IEnumerable<IStatementExpression> initializers, IExpression condition, IEnumerable<IStatementExpression> iterations)
         {
             var result = new IterationBlockStatement(this.Owner, initializers, condition, iterations);
-            this.baseCollection.Add(result);
+            this.baseList.Add(result);
             return result;
         }
 
         public IIterationDeclarationBlockStatement Iterate(ILocalDeclarationStatement localDeclaration, IExpression condition, IEnumerable<IStatementExpression> iterations)
         {
             var result = new IterationDeclarationBlockStatement(this.owner, localDeclaration, condition, iterations);
-            this.baseCollection.Add(result);
+            this.baseList.Add(result);
             return result;
         }
 
@@ -460,14 +461,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         public ILocalDeclarationStatement DefineLocal(ILocalMember local)
         {
             var result = local.GetDeclarationStatement();
-            base.baseCollection.Add(result);
+            base.baseList.Add(result);
             return result;
         }
 
         public ILabelStatement DefineLabel(string name)
         {
             var label = this.Labels.Add(name);
-            this.baseCollection.Add(label);
+            this.baseList.Add(label);
             return label;
         }
 
@@ -475,7 +476,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         {
             if (!this.Labels.Values.Contains(label))
                 this.Labels.Add(label);
-            this.baseCollection.Add(label);
+            this.baseList.Add(label);
         }
 
         public BlockStatementLabelDictionary Labels
@@ -506,7 +507,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         public IExpressionStatement Assign(IMemberReferenceExpression target, AssignmentOperation operation, INaryOperandExpression value)
         {
             var result = new ExpressionStatement(this.owner, new AssignmentExpression(target, operation, value));
-            base.baseCollection.Add(result);
+            base.baseList.Add(result);
             return result;
         }
 
@@ -518,42 +519,42 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         public IExpressionStatement Increment(IAssignTargetExpression target)
         {
             var result = new ExpressionStatement(this.owner, new UnaryOperationExpression(target, UnaryOperation.Increment | UnaryOperation.PostAction));
-            this.baseCollection.Add(result);
+            this.baseList.Add(result);
             return result;
         }
 
         public IExpressionStatement Increment(IAssignTargetExpression target, INaryOperandExpression incrementBy)
         {
             var result = new ExpressionStatement(this.owner, new AssignmentExpression(target, AssignmentOperation.AddAssign, incrementBy));
-            this.baseCollection.Add(result);
+            this.baseList.Add(result);
             return result;
         }
 
         public IExpressionStatement Decrement(IAssignTargetExpression target)
         {
             var result = new ExpressionStatement(this.owner, new UnaryOperationExpression(target, UnaryOperation.Decrement | UnaryOperation.PostAction));
-            this.baseCollection.Add(result);
+            this.baseList.Add(result);
             return result;
         }
 
         public IExpressionStatement Decrement(IAssignTargetExpression target, INaryOperandExpression decrementBy)
         {
             var result = new ExpressionStatement(this.owner, new AssignmentExpression(target, AssignmentOperation.SubtractionAssign, decrementBy));
-            this.baseCollection.Add(result);
+            this.baseList.Add(result);
             return result;
         }
 
         public IJumpStatement Jump(IJumpTarget target)
         {
             var jumpStatement = new JumpStatement(this.owner, target);
-            this.baseCollection.Add(jumpStatement);
+            this.baseList.Add(jumpStatement);
             return jumpStatement;
         }
 
         public IGoToStatement GoTo(ILabelStatement target)
         {
             var gotoStatement = target.GetGoTo(this.owner);
-            this.baseCollection.Add(gotoStatement);
+            this.baseList.Add(gotoStatement);
             return gotoStatement;
         }
 
@@ -750,14 +751,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// Initializes the <see cref="Classes"/> property.
         /// </summary>
         /// <returns>A new <see cref="IntermediateClassTypeDictionary"/> instance.</returns>
-        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
-        /// is true, this creates a new standalone class type dictionary linked to the master
-        /// <see cref="Types"/> dictionary; however, if false, it creates a dependent 
-        /// class type dictionary which mirrors the members of the root declaration and all other
-        /// partial instances.  Parent target discernment is provided by the 
-        /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
-        /// of the dictionary for the current instance.  Add methods called upon the
-        /// instance provided here report the proper partial instance as the parent.</remarks>
         protected virtual IntermediateClassTypeDictionary InitializeClasses()
         {
             return new IntermediateClassTypeDictionary(this, this._Types);
@@ -767,14 +760,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// Initializes the <see cref="Delegates"/> property.
         /// </summary>
         /// <returns>A new <see cref="IntermediateDelegateTypeDictionary"/> instance</returns>
-        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
-        /// is true, this creates a new standalone delegate type dictionary linked to the master
-        /// <see cref="Types"/> dictionary; however, if false, it creates a dependent 
-        /// delegate type dictionary which mirrors the members of the root declaration and all other
-        /// partial instances.  Parent target discernment is provided by the 
-        /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
-        /// of the dictionary for the current instance.  Add methods called upon the
-        /// instance provided here report the proper partial instance as the parent.</remarks>
         protected virtual IntermediateDelegateTypeDictionary InitializeDelegates()
         {
             return new IntermediateDelegateTypeDictionary(this, this._Types);
@@ -784,14 +769,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// Initializes the <see cref="Enums"/> property.
         /// </summary>
         /// <returns>A new <see cref="IntermediateEnumTypeDictionary"/> instance</returns>
-        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
-        /// is true, this creates a new standalone enum type dictionary linked to the master
-        /// <see cref="Types"/> dictionary; however, if false, it creates a dependent 
-        /// enum type dictionary which mirrors the members of the root declaration and all other
-        /// partial instances.  Parent target discernment is provided by the 
-        /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
-        /// of the dictionary for the current instance.  Add methods called upon the
-        /// instance provided here report the proper partial instance as the parent.</remarks>
         protected virtual IntermediateEnumTypeDictionary InitializeEnums()
         {
             return new IntermediateEnumTypeDictionary(this, this._Types);
@@ -801,14 +778,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// Initializes the <see cref="Interfaces"/> property.
         /// </summary>
         /// <returns>A new <see cref="IntermediateInterfaceTypeDictionary"/> instance</returns>
-        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
-        /// is true, this creates a new standalone interface type dictionary linked to the master
-        /// <see cref="Types"/> dictionary; however, if false, it creates a dependent 
-        /// interface type dictionary which mirrors the members of the root declaration and all other
-        /// partial instances.  Parent target discernment is provided by the 
-        /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
-        /// of the dictionary for the current instance.  Add methods called upon the
-        /// instance provided here report the proper partial instance as the parent.</remarks>
         protected virtual IntermediateInterfaceTypeDictionary InitializeInterfaces()
         {
             return new IntermediateInterfaceTypeDictionary(this, this._Types);
@@ -818,14 +787,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// Initializes the <see cref="Structs"/> property.
         /// </summary>
         /// <returns>A new <see cref="IntermediateStructTypeDictionary"/> instance</returns>
-        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
-        /// is true, this creates a new standalone struct type dictionary linked to the master
-        /// <see cref="Types"/> dictionary; however, if false, it creates a dependent 
-        /// struct type dictionary which mirrors the members of the root declaration and all other
-        /// partial instances.  Parent target discernment is provided by the 
-        /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
-        /// of the dictionary for the current instance.  Add methods called upon the
-        /// instance provided here report the proper partial instance as the parent.</remarks>
         protected virtual IntermediateStructTypeDictionary InitializeStructs()
         {
             return new IntermediateStructTypeDictionary(this, this._Types);
@@ -843,6 +804,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         }
 
         #endregion
+
+        public IScopeCoercionCollection ScopeCoercions
+        {
+            get
+            {
+                if (this.scopeCoercions == null)
+                    this.scopeCoercions = new ScopeCoercionCollection();
+                return this.scopeCoercions;
+            }
+        }
 
     }
 }

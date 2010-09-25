@@ -14,9 +14,9 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
         public TokenStream(T[] tokens)
         {
             foreach (T t in tokens)
-                this.baseCollection.Add(t);
+                this.baseList.Add(t);
         }
-        internal TokenStream(ICollection<T> baseCopy)
+        internal TokenStream(IList<T> baseCopy)
             : base(baseCopy)
         {
         }

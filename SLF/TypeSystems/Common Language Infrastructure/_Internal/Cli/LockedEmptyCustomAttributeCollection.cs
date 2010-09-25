@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public void Dispose()
         {
             this.Parent = null;
-            this.baseCollection = null;
+            this.baseList = null;
             GC.SuppressFinalize(this);
         }
 

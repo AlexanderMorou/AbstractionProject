@@ -13,7 +13,9 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
     public interface IParenthesizedExpression :
-        IUnaryOperationPrimaryTerm
+        IUnaryOperationPrimaryTerm,
+        IFusionTermExpression,
+        IFusionCommaTargetExpression
     {
         /// <summary>
         /// Returns/sets the expression that's surrounded by parenthesis.

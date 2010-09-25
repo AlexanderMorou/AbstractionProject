@@ -708,12 +708,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region IIntermediateTypeParent Members
 
+        public IScopeCoercionCollection ScopeCoercions
+        {
+            get
+            {
+                return this.StatementContainer.ScopeCoercions;
+            }
+        }
+
         public IIntermediateClassTypeDictionary Classes
         {
             get
             {
-                this.CheckClasses();
-                return this.classes;
+                return this.StatementContainer.Classes;
             }
         }
 
@@ -721,8 +728,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             get
             {
-                this.CheckDelegates();
-                return this.delegates;
+                return this.StatementContainer.Delegates;
             }
         }
 
@@ -730,8 +736,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             get
             {
-                this.CheckEnums();
-                return this.enums;
+                return this.StatementContainer.Enums;
             }
         }
 
@@ -739,8 +744,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             get
             {
-                this.CheckInterfaces();
-                return this.interfaces;
+                return this.StatementContainer.Interfaces;
             }
         }
 
@@ -748,17 +752,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             get
             {
-                this.CheckStructs();
-                return this.structs;
-            }
-        }
-
-        private IntermediateFullTypeDictionary _Types
-        {
-            get
-            {
-                this.Check_Types();
-                return this.types;
+                return this.StatementContainer.Structs;
             }
         }
 
@@ -766,155 +760,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             get
             {
-                this.CheckClasses();
-                this.CheckDelegates();
-                this.CheckEnums();
-                this.CheckInterfaces();
-                this.CheckStructs();
-                return this._Types;
+                return this.StatementContainer.Types;
             }
         }
 
         public abstract IIntermediateAssembly Assembly { get; }
-
-        #endregion
-
-        #region Member Check Methods
-
-        private void CheckClasses()
-        {
-            if (this.classes == null)
-                this.classes = this.InitializeClasses();
-        }
-
-        private void CheckDelegates()
-        {
-            if (this.delegates == null)
-                this.delegates = this.InitializeDelegates();
-        }
-
-        private void CheckEnums()
-        {
-            if (this.enums == null)
-                this.enums = this.InitializeEnums();
-        }
-
-        private void CheckInterfaces()
-        {
-            if (this.interfaces == null)
-                this.interfaces = this.InitializeInterfaces();
-        }
-
-        private void CheckStructs()
-        {
-            if (this.structs == null)
-                this.structs = this.InitializeStructs();
-        }
-
-        private void Check_Types()
-        {
-            if (this.types == null)
-                this.types = this.InitializeTypes();
-        }
-        #endregion
-
-        #region Initializers
-
-        /// <summary>
-        /// Initializes the <see cref="Classes"/> property.
-        /// </summary>
-        /// <returns>A new <see cref="IntermediateClassTypeDictionary"/> instance.</returns>
-        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
-        /// is true, this creates a new standalone class type dictionary linked to the master
-        /// <see cref="Types"/> dictionary; however, if false, it creates a dependent 
-        /// class type dictionary which mirrors the members of the root declaration and all other
-        /// partial instances.  Parent target discernment is provided by the 
-        /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
-        /// of the dictionary for the current instance.  Add methods called upon the
-        /// instance provided here report the proper partial instance as the parent.</remarks>
-        protected virtual IntermediateClassTypeDictionary InitializeClasses()
-        {
-            return new IntermediateClassTypeDictionary(this, this._Types);
-        }
-
-        /// <summary>
-        /// Initializes the <see cref="Delegates"/> property.
-        /// </summary>
-        /// <returns>A new <see cref="IntermediateDelegateTypeDictionary"/> instance</returns>
-        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
-        /// is true, this creates a new standalone delegate type dictionary linked to the master
-        /// <see cref="Types"/> dictionary; however, if false, it creates a dependent 
-        /// delegate type dictionary which mirrors the members of the root declaration and all other
-        /// partial instances.  Parent target discernment is provided by the 
-        /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
-        /// of the dictionary for the current instance.  Add methods called upon the
-        /// instance provided here report the proper partial instance as the parent.</remarks>
-        protected virtual IntermediateDelegateTypeDictionary InitializeDelegates()
-        {
-            return new IntermediateDelegateTypeDictionary(this, this._Types);
-        }
-
-        /// <summary>
-        /// Initializes the <see cref="Enums"/> property.
-        /// </summary>
-        /// <returns>A new <see cref="IntermediateEnumTypeDictionary"/> instance</returns>
-        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
-        /// is true, this creates a new standalone enum type dictionary linked to the master
-        /// <see cref="Types"/> dictionary; however, if false, it creates a dependent 
-        /// enum type dictionary which mirrors the members of the root declaration and all other
-        /// partial instances.  Parent target discernment is provided by the 
-        /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
-        /// of the dictionary for the current instance.  Add methods called upon the
-        /// instance provided here report the proper partial instance as the parent.</remarks>
-        protected virtual IntermediateEnumTypeDictionary InitializeEnums()
-        {
-            return new IntermediateEnumTypeDictionary(this, this._Types);
-        }
-
-        /// <summary>
-        /// Initializes the <see cref="Interfaces"/> property.
-        /// </summary>
-        /// <returns>A new <see cref="IntermediateInterfaceTypeDictionary"/> instance</returns>
-        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
-        /// is true, this creates a new standalone interface type dictionary linked to the master
-        /// <see cref="Types"/> dictionary; however, if false, it creates a dependent 
-        /// interface type dictionary which mirrors the members of the root declaration and all other
-        /// partial instances.  Parent target discernment is provided by the 
-        /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
-        /// of the dictionary for the current instance.  Add methods called upon the
-        /// instance provided here report the proper partial instance as the parent.</remarks>
-        protected virtual IntermediateInterfaceTypeDictionary InitializeInterfaces()
-        {
-            return new IntermediateInterfaceTypeDictionary(this, this._Types);
-        }
-
-        /// <summary>
-        /// Initializes the <see cref="Structs"/> property.
-        /// </summary>
-        /// <returns>A new <see cref="IntermediateStructTypeDictionary"/> instance</returns>
-        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
-        /// is true, this creates a new standalone struct type dictionary linked to the master
-        /// <see cref="Types"/> dictionary; however, if false, it creates a dependent 
-        /// struct type dictionary which mirrors the members of the root declaration and all other
-        /// partial instances.  Parent target discernment is provided by the 
-        /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
-        /// of the dictionary for the current instance.  Add methods called upon the
-        /// instance provided here report the proper partial instance as the parent.</remarks>
-        protected virtual IntermediateStructTypeDictionary InitializeStructs()
-        {
-            return new IntermediateStructTypeDictionary(this, this._Types);
-        }
-
-        /// <summary>
-        /// Initializes the full types container to a default state if the 
-        /// current <see cref="IntermediateNamespaceDeclaration"/> is 
-        /// the root instance; otherwise, 
-        /// </summary>
-        /// <returns>A new <see cref="IntermediateFullTypeDictionary"/> instance</returns>
-        protected virtual IntermediateFullTypeDictionary InitializeTypes()
-        {
-            return new IntermediateFullTypeDictionary(this);
-        }
 
         #endregion
 

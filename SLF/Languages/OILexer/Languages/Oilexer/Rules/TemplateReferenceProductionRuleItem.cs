@@ -49,10 +49,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules
         /// defined.</param>
         /// <param name="line">The line at which the <see cref="TemplateReferenceProductionRuleItem"/> was defined.</param>
         /// <param name="position">The byte in the file at which the <see cref="TemplateReferenceProductionRuleItem"/> was declared.</param>
-        public TemplateReferenceProductionRuleItem(IProductionRuleTemplateEntry reference, ICollection<IProductionRuleSeries> parts, int column, int line, long position)
+        public TemplateReferenceProductionRuleItem(IProductionRuleTemplateEntry reference, IList<IProductionRuleSeries> parts, int column, int line, long position)
+            : base(parts)
         {
-            foreach (IProductionRuleSeries iprs in parts)
-                baseCollection.Add(iprs);
             this.column = column;
             this.line = line;
             this.position = position;
@@ -64,7 +63,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules
             this.ConditionalConstraints = new ReadOnlyDictionary<string, string>(constraints);
             
             foreach (IProductionRuleSeries iprs in parts)
-                baseCollection.Add(iprs);
+                baseList.Add(iprs);
             this.column = column;
             this.line = line;
             this.position = position;
@@ -94,7 +93,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules
         /// members of the current <see cref="TemplateReferenceProductionRuleItem"/>.</returns>
         public ITemplateReferenceProductionRuleItem Clone()
         {
-            ICollection<IProductionRuleSeries> r = new System.Collections.ObjectModel.Collection<IProductionRuleSeries>();
+            IList<IProductionRuleSeries> r = new List<IProductionRuleSeries>();
             foreach (IProductionRuleSeries iprs in this)
                 r.Add(iprs);
             TemplateReferenceProductionRuleItem trpri = new TemplateReferenceProductionRuleItem(this.Reference, r, this.Column, this.Line, this.Position);
