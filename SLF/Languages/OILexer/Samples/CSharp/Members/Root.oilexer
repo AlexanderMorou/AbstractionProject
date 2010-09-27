@@ -65,7 +65,7 @@ InterfaceMemberDeclaration               ::=>
 
 AbstractGet                               ::=
     Attributes:Attributes;? "get" ';'       ;
-    
+
 AbstractSet                               ::=
     Attributes:Attributes;? "set" ';'       ;
 

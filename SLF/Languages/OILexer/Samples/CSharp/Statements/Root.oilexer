@@ -26,7 +26,7 @@ Block                                     ::=
 
 EmptyStatement                            ::=
 	';'                                     ;
-	
+
 LabeledStatement                          ::=
 	Identifier:LabelName; ':'
 	Statement:LabelTarget;                  ;
@@ -67,7 +67,7 @@ ForStatement                              ::=
 ForInitializer                           ::=>
 	LocalVariableDeclaration                |
 	ForStatementExpressionList              ;
-	
+
 ForStatementExpressionList                ::=
 	DelimitedList<ExpressionStatement:Initializers;, ','>;
 
