@@ -91,7 +91,7 @@ InvocationExpression                      ::=
 ElementAccess                             ::=
    PrimaryNoArrayCreationExpression:CallSite; 
    EnclosedExpressionList<'[', ']'>         ;
-   
+
 ThisAccess                                ::=
     "this"                                  ;
 
@@ -120,7 +120,7 @@ ObjectInitializer                         ::=
             ','?
         )?
     '}';
-    
+
 MemberInitializer                         ::=
     Identifier:Target; '=' 
     InitializerValue:Value;                 ;
@@ -171,7 +171,7 @@ UnboundGenericPart                        ::=
 
 GenericDimensionSpecifier                 ::=
     '<' ',':Commas;* '>'                    ;
-    
+
 CheckedExpression                         ::=
     "checked" '(' Expression:Target; ')'    ;
 

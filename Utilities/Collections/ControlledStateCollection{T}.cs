@@ -109,15 +109,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         public int IndexOf(T element)
         {
-            if (this.baseList is IList<T>)
-                return ((IList<T>)(this.baseList)).IndexOf(element);
-            int index = 0;
-            foreach (var currentEntry in this.baseList)
-                if (currentEntry.Equals(element))
-                    return index;
-                else 
-                    index++;
-            return -1;
+            return baseList.IndexOf(element);
         }
         #endregion
 

@@ -1453,8 +1453,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             Console.ForegroundColor = consoleColor;
         }
 
-
-
         private static void DisplayLogo()
         {
             var assembly = typeof(Program).Assembly;
@@ -1551,14 +1549,14 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                               orderby ePath.Length descending
                               select ePath).First().Split(new string[] { @"\" }, StringSplitOptions.RemoveEmptyEntries);
 
-            /* *
-             * Breakdown the longest filename and rebuild it part by part,
-             * where all elements from the error set contain the current path,
-             * select that path, then select the longest common path.
-             * *
-             * If the longest file doesn't contain anything in common, then there
-             * is no group relative path and the paths will be shown in full.
-             * */
+            /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+             * Breakdown the longest filename and rebuild it part by part,         *
+             * where all elements from the error set contain the current path,     *
+             * select that path, then select the longest common path.              *
+             * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+             * If the longest file doesn't contain anything in common, then there  *
+             * is no group relative path and the paths will be shown in full.      *
+             * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
             string relativeRoot = null;
             for (int i = 0; i < parts.Length; i++)
             {
@@ -1569,10 +1567,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     break;
                 }
             }
-            /* *
-             * Change was made to the sequence of LINQ expressions due to their
-             * readability versus traditional methods of a myriad of dictionaries.
-             * */
+
+            /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+             * Change was made to the sequence of LINQ expressions due to their    *
+             * readability versus traditional methods of a myriad of dictionaries. *
+             * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
             var fileQuery =
                 (from CompilerError error in iprsSorted
                  select error.FileName).Distinct();
@@ -1665,24 +1664,25 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
 
         private static void DisplayUsage()
         {
-            const string Usage_Options = "options:";
-            const string Usage_Export = "    " + Export + "kind; Export, where kind is:";
-            //const string Usage_ExportKindIs = "      Kind is: │       ";
-            const string Usage_Export_Exe = "           " + ExportKind_EXE + " │ Executable";
-            const string Usage_Export_Dll = "           " + ExportKind_DLL + " │ Dynamic link library";
+            const string Usage_Options       = "options:";
+            const string Usage_Export        = "    " + Export + "kind; Export, where kind is:";
+            const string Usage_Export_Exe    = "           " + ExportKind_EXE + " │ Executable";
+            const string Usage_Export_Dll    = "           " + ExportKind_DLL + " │ Dynamic link library";
             const string Usage_Export_CSharp = "            " + ExportKind_CSharp + " │ CSharp Code";
-            const string Usage_Export_TraversalHTML = "        " + ExportKind_TraversalHTML + " │ Traversable HTML";
-            const string Usage_Syntax = "    " + Syntax + "         │ Show syntax.";
-            const string Usage_NoSyntax = "    " + NoSyntax + "*       │ Don't show syntax";
-            const string Usage_NoLogo = "    " + NoLogo + "        │ Do not show logo";
-            const string Usage_Verbose = "    " + Verbose + "         │ Verbose mode";
-            const string Usage_QuietMode = "    " + Quiet + "         │ Quiet mode";
+            const string Usage_Export_THTML  = "        " + ExportKind_TraversalHTML + " │ Traversable HTML";
+            const string Usage_Syntax        = "    " + Syntax + "         │ Show syntax.";
+            const string Usage_NoSyntax      = "    " + NoSyntax + "*       │ Don't show syntax";
+            const string Usage_NoLogo        = "    " + NoLogo + "        │ Do not show logo";
+            const string Usage_Verbose       = "    " + Verbose + "         │ Verbose mode";
+            const string Usage_QuietMode     = "    " + Quiet + "         │ Quiet mode";
+            const string Usage_Default       = "     *         │ default";
+            const string Usage_Usage         = "Usage:";
+
             const string Usage_LineCenter = "───────────────┼";
-            const string Usage_LineDown = "───────────────┬";
-            const string Usage_LineUp = "───────────────┴";
-            const string Usage_End = "═══════════════╧";
-            const string Usage_Default = "     *         │ default";
-            const string Usage_Usage = "Usage:";
+            const string Usage_LineDown   = "───────────────┬";
+            const string Usage_LineUp     = "───────────────┴";
+            const string Usage_End        = "═══════════════╧";
+
             string Usage_TagLine = string.Format("    {0} [options] File [options]", Path.GetFileNameWithoutExtension(typeof(Program).Assembly.Location));
             string[] usageLines = new string[] {
                 Usage_Usage,
@@ -1694,7 +1694,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 Usage_Export_Exe,
                 Usage_Export_Dll,
                 Usage_Export_CSharp,
-                Usage_Export_TraversalHTML,
+                Usage_Export_THTML,
                 Usage_LineCenter,
                 Usage_Verbose,
                 Usage_NoLogo,
@@ -1728,5 +1728,3 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
         }
     }
 }
-
-//FARP: Failed Assertion Return Point.
