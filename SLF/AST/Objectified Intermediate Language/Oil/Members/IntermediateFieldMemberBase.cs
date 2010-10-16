@@ -68,6 +68,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return IntermediateGateway.GetFieldReference(this, source);
         }
 
+        public string Summary { get; set; }
+
         #endregion
     }
 }

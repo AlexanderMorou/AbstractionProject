@@ -69,5 +69,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <see cref="IIntermediateFieldMember"/> with the <paramref name="source"/>
         /// which leads up to it.</returns>
         IFieldReferenceExpression GetReference(IMemberParentReferenceExpression source = null);
+        /// <summary>
+        /// Returns/sets the <see cref="String"/> associated to the
+        /// documentation summary related to the current 
+        /// <see cref="IIntermediateEnumFieldMember"/>.
+        /// </summary>
+        string Summary { get; set; }
     }
 }

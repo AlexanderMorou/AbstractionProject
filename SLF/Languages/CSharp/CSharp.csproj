@@ -134,22 +134,7 @@
     <Compile Include="Compilers\CSharpCompiler.cs" />
     <Compile Include="Cst\ICSharpCompilationUnit.cs" />
     <Compile Include="Languages\ICSharpLanguage.cs" />
-    <Compile Include="Parsers\CSharpParser.cs" />
-    <Compile Include="Parsers\CSharpTokenizer.cs" />
     <Compile Include="Parsers\ICSharpParser.cs" />
-    <Compile Include="Parsers\ICSharpTokenizer.cs" />
-    <Compile Include="Parsers\StateMachines\CSharpAttributeTargetStateMachine.cs" />
-    <Compile Include="Parsers\StateMachines\CSharpKeywordStateMachine.cs" />
-    <Compile Include="Parsers\StateMachines\CSharpLiteralStateMachine.cs" />
-    <Compile Include="Parsers\StateMachines\CSharpOperatorStateMachine.cs" />
-    <Compile Include="Parsers\Tokens\CSharpAttributeTargetToken.cs" />
-    <Compile Include="Parsers\Tokens\CSharpKeywordToken.cs" />
-    <Compile Include="Parsers\Tokens\CSharpOperatorToken.cs" />
-    <Compile Include="Parsers\Tokens\ICSharpAttributeTargetToken.cs" />
-    <Compile Include="Parsers\Tokens\ICSharpKeywordToken.cs" />
-    <Compile Include="Parsers\Tokens\ICSharpLiteralToken.cs" />
-    <Compile Include="Parsers\Tokens\ICSharpOperatorToken.cs" />
-    <Compile Include="Parsers\Tokens\Token.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -160,10 +145,6 @@
     <ProjectReference Include="..\..\AST\Objectified Intermediate Language\Objectified Intermediate Language.csproj">
       <Project>{02607DC2-E98B-43AE-B906-FE151A70A68D}</Project>
       <Name>Objectified Intermediate Language</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Parsers\Parser Abstract\Parser Abstract.csproj">
-      <Project>{54DBB205-D8B4-42ED-ADA3-50004FAFE708}</Project>
-      <Name>Parser Abstract</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\TypeSystems\Abstract\TypeSystem Abstract.csproj">
       <Project>{161EAA8C-20C6-4B82-925A-4B8B112910AB}</Project>

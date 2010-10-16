@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-//using AllenCopeland.Abstraction.Utilities.Tuples;
+using System.Runtime.CompilerServices;
  /*---------------------------------------------------------------------\
  | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -21,13 +21,14 @@ namespace AllenCopeland.Abstraction.Utilities.Common
     {
         /// <summary>
         /// Obtains the caller information relative to the method that called
-        /// the method calling this function.
+        /// this function.
         /// </summary>
         /// <returns>A <see cref="Tuple{T1, T2}"/> with the <see cref="Type"/> and
         /// <see cref="MethodBase"/> specific to the caller; or null if the 
         /// caller cannot be identified.</returns>
         /// <remarks>See: http://haacked.com/archive/2006/08/11/HowToGetTheCallingMethodAndType.aspx
         /// </remarks>
+        [MethodImpl(MethodImplOptions.NoInlining)]
         public static Tuple<Type, MethodBase> GetCallerInfo()
         {
             var sf = new StackFrame(2, false);

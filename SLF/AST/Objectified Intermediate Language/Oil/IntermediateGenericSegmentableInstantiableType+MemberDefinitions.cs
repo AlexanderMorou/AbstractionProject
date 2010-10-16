@@ -434,6 +434,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     case CoercibleUnaryOperators.Complement:
                         p = "~";
                         break;
+                    case CoercibleUnaryOperators.Increment:
+                        p = "++";
+                        break;
+                    case CoercibleUnaryOperators.Decrement:
+                        p = "--";
+                        break;
                     default:
                         return null;
                 }
@@ -461,6 +467,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         case CoercibleUnaryOperators.EvaluatesToTrue:
                         case CoercibleUnaryOperators.LogicalInvert:
                         case CoercibleUnaryOperators.Complement:
+                        case CoercibleUnaryOperators.Increment:
+                        case CoercibleUnaryOperators.Decrement:
                             this._operator = value;
                             break;
                         default:

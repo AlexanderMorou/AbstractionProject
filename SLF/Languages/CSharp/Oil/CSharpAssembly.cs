@@ -15,15 +15,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         ICSharpAssembly
     {
         /// <summary>
-        /// Creates a new <see cref="CSharpAssembly"/> that is ready
-        /// to parse.
-        /// </summary>
-        public CSharpAssembly()
-            : base("parsingAssembly")
-        {
-        }
-
-        /// <summary>
         /// Creates a new <see cref="CSharpAssembly"/> which is linked to another
         /// <paramref name="root"/> <see cref="CSharpAssembly"/>.
         /// </summary>
@@ -34,16 +25,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
         }
 
-        #region IParserResults Members
+        internal protected CSharpAssembly(string name)
+            : base(name)
+        {
 
-        /// <summary>
-        /// Returns whether the parse process on the
-        /// <see cref="CSharpAssembly"/> was successful.
-        /// </summary>
-        public bool Successful { get; internal set; }
-
-        #endregion
-
+        }
         protected override CSharpAssembly GetNewPart()
         {
             return new CSharpAssembly(this);

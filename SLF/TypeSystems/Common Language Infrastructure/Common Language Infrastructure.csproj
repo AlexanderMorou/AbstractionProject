@@ -155,6 +155,8 @@
     <Compile Include="_Internal\Cli\CompiledAssembly+CustomAttributeCollection.cs">
       <DependentUpon>CompiledAssembly.cs</DependentUpon>
     </Compile>
+    <Compile Include="_Internal\Cli\CompiledAssembly+ModuleDictionary+KVCollections.cs" />
+    <Compile Include="_Internal\Cli\CompiledAssembly+ModuleDictionary.cs" />
     <Compile Include="_Internal\Cli\CompiledAssembly.cs" />
     <Compile Include="_Internal\Cli\CompiledClassType+ConstructorMember.cs">
       <DependentUpon>CompiledClassType.cs</DependentUpon>

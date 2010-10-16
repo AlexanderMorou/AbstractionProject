@@ -202,7 +202,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IBinaryOperatorCoercionMemberDictionary<TType> InitializeBinaryOperatorCoercions()
         {
-            List<string> opNames = new List<string>() { "op_Addition", "op_Subtraction", "op_Multiply", "op_Division", "op_Modulus", "op_BitwiseAnd", "op_BitwiseOr", "op_ExclusiveOr", "op_LeftShift", "op_RightShift", "op_Equality", "op_Inequality", "op_LessThan", "op_GreaterThan", "op_LessThanOrEqual", "op_GreaterThanOrEqual" };
+            List<string> opNames = new List<string>() { 
+                "op_Addition", "op_Subtraction", "op_Multiply", "op_Division", "op_Modulus", "op_BitwiseAnd", "op_BitwiseOr", 
+                "op_ExclusiveOr", "op_LeftShift", "op_RightShift", "op_Equality", "op_Inequality", "op_LessThan", "op_GreaterThan",
+                "op_LessThanOrEqual", "op_GreaterThanOrEqual" };
             return new LockedBinaryOperatorCoercionMembers<TType>(this._Members, ((TType)(object)(this)),
                 UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledBinaryOperatorCoercionMemberBase<TType>(methInfo, ((TType)(object)(this))));
         }
@@ -224,7 +227,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
              *  !       - op_LogicalNot
              *  ~       - op_OnesComplement
              * */
-            List<string> opNames = new List<string>() { "op_UnaryPlus", "op_UnaryNegation", "op_False", "op_True", "op_LogicalNot", "op_OnesComplement" };
+            List<string> opNames = new List<string>() { "op_UnaryPlus", "op_UnaryNegation", "op_False", "op_True", "op_LogicalNot", "op_OnesComplement", "op_Increment", "op_Decrement" };
             return new LockedUnaryOperatorCoercionMembers<TType>(this._Members, ((TType)(object)(this)),
                 UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledUnaryOperatorCoercionMemberBase<TType>(methInfo, ((TType)(object)(this))));
         }

@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     /// Defines properties and methods for working with a compiler aid translating
     /// intermediate code via Reflection.Emit.
     /// </summary>
-    public interface IIntermediateCodeDynamicCompilerAid<TRootNode> :
+    public interface IIntermediateCompilerAid<TRootNode> :
         ICompilerAid<IIntermediateCompiler<TRootNode>>
         where TRootNode :
             IConcreteNode

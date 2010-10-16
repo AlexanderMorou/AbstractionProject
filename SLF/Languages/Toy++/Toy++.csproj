@@ -95,13 +95,13 @@
   <ItemGroup>
     <Compile Include="Ast\Expressions\ITPPExpression.cs" />
     <Compile Include="Ast\Expressions\ITPPMulDivExpression.cs" />
-    <Compile Include="Ast\Expressions\ITPPUnaryOperationExpression.cs" />
     <Compile Include="Ast\ITPProject.cs" />
     <Compile Include="Ast\TPProject.cs" />
     <Compile Include="Ast\Types\ILanguageDeclaration.cs" />
     <Compile Include="Ast\Types\ILanguageDictionary.cs" />
     <Compile Include="Ast\Types\ILanguageParent.cs" />
     <Compile Include="Ast\Types\LanguageDeclaration.cs" />
+    <Compile Include="Cst\ITPPFile.cs" />
     <Compile Include="Languages\TPPLanguageProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

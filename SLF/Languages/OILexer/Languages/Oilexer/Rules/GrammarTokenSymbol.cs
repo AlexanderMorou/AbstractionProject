@@ -35,5 +35,14 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules
         {
             return this.Source.Name;
         }
+
+        #region IGrammarSymbol Members
+
+        public virtual string ElementName
+        {
+            get { return this.Source.Name; }
+        }
+
+        #endregion
     }
 }

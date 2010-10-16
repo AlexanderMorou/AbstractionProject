@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Cst;
 
 namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
 {
@@ -10,7 +11,8 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
     /// Defines properties and methods for working with a grammar description file.
     /// </summary>
     public interface IGDFile :
-        ICollection<IEntry>
+        ICollection<IEntry>,
+        IConcreteNode
     {
         /// <summary>
         /// Returns the <see cref="IReadOnlyCollection"/> of files that the <see cref="IGDFile"/>

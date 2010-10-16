@@ -133,33 +133,16 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FiniteAutomata\DFAState.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataBitSet+RangeData.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataBitSet.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataMultiTargetTransitionTable{2}.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataSection.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataSingleTargetTransitionTable.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataState{4}.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataTransitionNode{TCheck, TTarget}.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataTransitionTable+KeysCollection.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataTransitionTable+ValuesCollection.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataTransitionTable{3}.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomationSourceKind.cs" />
-    <Compile Include="FiniteAutomata\IDFAState.cs" />
-    <Compile Include="FiniteAutomata\IFiniteAutomataMultiTargetTransitionTable.cs" />
-    <Compile Include="FiniteAutomata\IFiniteAutomataSection.cs" />
-    <Compile Include="FiniteAutomata\IFiniteAutomataSet.cs" />
-    <Compile Include="FiniteAutomata\IFiniteAutomataSingleTargetTransitionTable.cs" />
-    <Compile Include="FiniteAutomata\IFiniteAutomataSource.cs" />
-    <Compile Include="FiniteAutomata\IFiniteAutomataState.cs" />
-    <Compile Include="FiniteAutomata\IFiniteAutomataTransitionNode.cs" />
-    <Compile Include="FiniteAutomata\IFiniteAutomataTransitionTable.cs" />
-    <Compile Include="FiniteAutomata\INFAState.cs" />
-    <Compile Include="FiniteAutomata\MinimalBitArray.cs" />
-    <Compile Include="FiniteAutomata\NFAState+DFAEntry.cs" />
-    <Compile Include="FiniteAutomata\NFAState+DFAEntrySet.cs" />
-    <Compile Include="FiniteAutomata\NFAState+DFAEntryTable.cs" />
-    <Compile Include="FiniteAutomata\NFAState{4}.cs" />
+    <Compile Include="Compilers\Oilexer\OilexerCompiler.cs" />
+    <Compile Include="Languages\OilexerLanguage.cs" />
+    <Compile Include="Languages\OilexerProvider+AltParser.cs" />
+    <Compile Include="Languages\OilexerProvider.cs" />
+    <Compile Include="Languages\Oilexer\GDFileObjectRelationalMap.cs" />
+    <Compile Include="Languages\Oilexer\IEntryObjectRelationalMap.cs" />
+    <Compile Include="Languages\Oilexer\IGDFileObjectRelationalMap.cs" />
+    <Compile Include="Languages\Oilexer\IRuleEntryObjectRelationalMap.cs" />
+    <Compile Include="Languages\Oilexer\ITokenEntryObjectRelationalMap.cs" />
+    <Compile Include="Languages\Oilexer\RuleEntryObjectRelationalMap.cs" />
     <Compile Include="Languages\Oilexer\Rules\GrammarBreakdown.cs" />
     <Compile Include="Languages\Oilexer\Rules\GrammarConstantEntrySymbol.cs" />
     <Compile Include="Languages\Oilexer\Rules\GrammarConstantItemSymbol.cs" />

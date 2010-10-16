@@ -22,7 +22,7 @@ using AllenCopeland.Abstraction.Slf.Cst;
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
     public sealed class IntermediateCompilerAid<TRootNode> :
-        IIntermediateCodeDynamicCompilerAid<TRootNode>
+        IIntermediateCompilerAid<TRootNode>
         where TRootNode :
             IConcreteNode
     {
@@ -32,7 +32,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             this.Compiler = compiler;
         }
 
-        #region IIntermediateCodeDynamicCompilerAid Members
+        #region IIntermediateCompilerAid Members
 
         /// <summary>
         /// Creates an <see cref="AssemblyBuilder"/> for the provided

@@ -206,5 +206,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer.Inlining
                 return this.dfaState;
             }
         }
+
+        public Languages.Oilexer.Tokens.RegularCaptureType CaptureKind
+        {
+            get
+            {
+                if (this.captureType.HasValue)
+                    return this.captureType.Value;
+                else
+                    return Languages.Oilexer.Tokens.RegularCaptureType.Undecided;
+            }
+        }
     }
 }

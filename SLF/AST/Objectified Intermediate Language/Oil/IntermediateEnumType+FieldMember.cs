@@ -148,6 +148,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             #endregion
 
+
+            #region IIntermediateFieldMember Members
+
+            public string Summary { get; set; }
+
+            #endregion
         }
     }
 }

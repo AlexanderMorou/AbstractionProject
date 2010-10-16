@@ -48,5 +48,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         {
             get { return CSharpGateway.Language; }
         }
+
+        public override IHighLevelLanguageProvider<ICSharpCompilationUnit> Provider
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }
