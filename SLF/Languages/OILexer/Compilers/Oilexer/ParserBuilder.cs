@@ -83,6 +83,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
 
         public IReadOnlyCollection<string> StreamAnalysisFiles { get; private set; }
 
+        private IGDFileObjectRelationalMap fileRelationalMap;
+
         private CharStreamClass bitStream;
 
         public ParserBuilder(IGDFile source, CompilerErrorCollection errors, List<string> streamAnalysisFiles)
@@ -122,13 +124,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             this.Source.GetTokens().AsParallel()
               .ForAll(token =>
                 token.BuildDFA());
-            var idToken = this.Source.GetTokens().FirstOrDefault(t => t.Name == "Identifier");
-            if (idToken != null)
-            {
-                var second = idToken.DFAState.OutTransitions.Checks.Skip(1).First();
-                var secondCount = second.CountTrue();
-                var unicodeRanges = Breakdown(second, RegularLanguageSet.CompleteSet);
-            }
         }
 
         private void ReduceTokenDFA()
@@ -189,6 +184,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
         private void BuildCodeModel()
         {
             this.bitStream = BitStreamCreator.CreateBitStream(this.Project.DefaultNamespace);
+            this.fileRelationalMap = new GDFileObjectRelationalMap(this.Source, this.RuleDFAStates, this.Project);
         }
 
         private void BuildStateMachine(InlinedTokenEntry token, IIntermediateAssembly project, CharStreamClass charStream)
@@ -197,16 +193,34 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             var tokenName = token.Name;
             if (tokenDFA == null)
                 return;
-            BuildStateMachine(project, charStream, tokenDFA, tokenName);
+
+            switch (token.CaptureKind)
+            {
+                case RegularCaptureType.Recognizer:
+                    BuildRecognizerMachine(project, charStream, tokenDFA, tokenName);
+                    break;
+                case RegularCaptureType.Capturer:
+                    BuildRecognizerMachine(project, charStream, tokenDFA, tokenName);
+                    break;
+                case RegularCaptureType.Transducer:
+                    BuildTransducerMachine(project, tokenDFA, tokenName);
+                    break;
+                case RegularCaptureType.Undecided:
+                    break;
+            }
         }
 
-        private void BuildStateMachine(IIntermediateAssembly project, CharStreamClass charStream, RegularLanguageDFAState tokenDFA, string tokenName)
+        private void BuildTransducerMachine(IIntermediateAssembly project, Languages.Oilexer.Tokens.RegularLanguageDFARootState tokenDFA, string tokenName)
+        {
+            
+        }
+
+        private void BuildRecognizerMachine(IIntermediateAssembly project, CharStreamClass charStream, RegularLanguageDFAState tokenDFA, string tokenName)
         {
             //Setup the basic class, access level, and base-type.
             IIntermediateNamespaceDeclaration targetNamespace = project.DefaultNamespace.Parts.Add();
             IIntermediateClassType targetType;
-            lock (targetNamespace.Classes)
-                targetType = targetNamespace.Classes.Add(string.Format("{0}StateMachine", tokenName));
+            targetType = targetNamespace.Classes.Add(string.Format("{0}StateMachine", tokenName));
             if (this.Project.Modules.ContainsKey("Lexer"))
                 targetType.DeclaringModule = this.Project.Modules["Lexer"];
             else
@@ -370,14 +384,15 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 else
                     graph = null;
                 stateCase = stateSwitch.Case(state.StateValue.ToPrimitive());
-                //if (activeNamedSources.Count > 0)
-                //{
-                //    stateCase.Statements.Add(new CommentStatement("Sources: "));
-                //    foreach (var source in activeNamedSources)
-                //        stateCase.Statements.Add(new CommentStatement(source.Key.Name));
-                //}
             skipGraph:
                 if (state.InTransitions.Count > 0)
+                    /* *
+                     * No need to provide a move-to label if the state,
+                     * which designates the origin, is the state itself.
+                     * *
+                     * Such a case uses a common move or nominal exit depending
+                     * on whether the state is an edge.
+                     * */
                     if (!(state.InTransitions.Count == 1 && state.InTransitions[0].Value.Count == 1 && state.InTransitions[0].Value[0] == state))
                         label = new LabelStatement(nextMethod, string.Format("MoveToState_{0}", state.StateValue));
                 stateCodeData.Add(state,
@@ -390,6 +405,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                         TransitionTable = finalTransitionTable,
                     });
             }
+            /* *
+             * Build the individual functional areas relative to the
+             * information provided within their transition data.
+             * */
             foreach (var state in stateCodeData.Keys)
             {
                 var stateData = stateCodeData[state];
@@ -398,6 +417,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 var graphLabel = stateData.GraphLabel;
                 var transitionTable = stateData.TransitionTable;
                 var currentTarget = (IBlockStatementParent)stateCase;
+                /* *
+                 * Assuming the entire transition table wasn't consumed by 
+                 * the unicode graph translation, emit the necessary
+                 * transitional logic for those remaining.
+                 * */
                 if (transitionTable != null)
                     foreach (var check in transitionTable.Keys)
                     {
@@ -416,7 +440,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                                 case RegularLanguageSet.ABSelect.B:
                                     var start = rangeElement.B.Value.Start;
                                     var end = rangeElement.B.Value.End;
-                                    currentExpression = start.GreaterThanOrEqualTo(nextChar).LogicalAnd(nextChar.LessThanOrEqualTo(end));
+                                    /* *
+                                     * 'start' <= nextChar && nextChar <= 'end'
+                                     * */
+                                    currentExpression = start.LessThanOrEqualTo(nextChar).LogicalAnd(nextChar.LessThanOrEqualTo(end));
                                     break;
                                 default:
                                     break;
@@ -555,16 +582,39 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 switch (rangeElement.Which)
                 {
                     case RegularLanguageSet.ABSelect.A:
-                        currentExpression = nextChar.InequalTo(rangeElement.A.Value);
+                        var value = rangeElement.A.Value;
+                        //nextChar != 'value'
+                        currentExpression = nextChar.InequalTo(value);
+                        /* *
+                         * Old version:
+                         * *
+                         * new BinaryOperationExpression(
+                         *     nextChar.GetReference(), 
+                         *     CodeBinaryOperatorType.IdentityInequality, 
+                         *     new PrimitiveExpression(value));
+                         * */
                         break;
                     case RegularLanguageSet.ABSelect.B:
                         var start = rangeElement.B.Value.Start;
                         var end = rangeElement.B.Value.End;
-                        currentExpression = nextChar.LessThan(start).LogicalOr(nextChar.GreaterThan(end));
                         /* *
-                         * Old variant below...
+                         * 'start' > nextChar || nextChar > 'end'
                          * */
-                            //new BinaryOperationExpression(new BinaryOperationExpression(nextChar.GetReference(), CodeBinaryOperatorType.LessThan, new PrimitiveExpression(rangeElement.B.Value.Start)), CodeBinaryOperatorType.BooleanOr, new BinaryOperationExpression(nextChar.GetReference(), CodeBinaryOperatorType.GreaterThan, new PrimitiveExpression(rangeElement.B.Value.End)));
+                        currentExpression = start.GreaterThan(nextChar).LogicalOr(nextChar.GreaterThan(end));
+                        /* *
+                         * Old variant below makes less sense due to the 'type verbosity'.
+                         * *
+                         * new BinaryOperationExpression(
+                         *     new BinaryOperationExpression(
+                         *         nextChar.GetReference(), 
+                         *         CodeBinaryOperatorType.LessThan, 
+                         *         new PrimitiveExpression(start)), 
+                         *      CodeBinaryOperatorType.BooleanOr, 
+                         *      new BinaryOperationExpression(
+                         *          nextChar.GetReference(), 
+                         *          CodeBinaryOperatorType.GreaterThan, 
+                         *          new PrimitiveExpression(end)));
+                         * */
                         break;
                     default:
                         break;
@@ -573,7 +623,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     finalExpression = currentExpression;
                 else
                     finalExpression = finalExpression.LogicalAnd(currentExpression);
-                    //finalExpression = new BinaryOperationExpression(finalExpression, CodeBinaryOperatorType.BooleanAnd, currentExpression);
             }
             return finalExpression;
         }
@@ -901,6 +950,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
         {
             return this.GetEnumerator();
         }
+
 
     }
 }

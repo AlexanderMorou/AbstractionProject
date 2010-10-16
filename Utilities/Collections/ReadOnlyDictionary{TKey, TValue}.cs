@@ -68,5 +68,10 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             throw new ReadOnlyException(string.Format("ReadOnlyCollection<{0}, {1}> is read-only", typeof(TKey).Name, typeof(TValue).Name));
         }
+
+        internal void _AddInternal(TKey key, TValue value)
+        {
+            base._Add(key, value);
+        }
     }
 }

@@ -16,7 +16,7 @@ using AllenCopeland.Abstraction.Slf.Languages;
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
     public interface IIntermediateCompiler<TRootNode> :
-        ICompiler<IIntermediateCodeDynamicCompilerAid<TRootNode>>
+        ICompiler<IIntermediateCompilerAid<TRootNode>>
         where TRootNode :
             IConcreteNode
     {
@@ -45,5 +45,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <see cref="IIntermediateCompiler{TRootNode}"/>.
         /// </summary>
         new IHighLevelLanguage<TRootNode> Language { get; }
+        /// <summary>
+        /// Returns the <see cref="IHighLevelLanguageProvider{TRootNode}"/> associated to the 
+        /// <see cref="IIntermediateCompiler{TRootNode}"/>.
+        /// </summary>
+        new IHighLevelLanguageProvider<TRootNode> Provider { get; }
     }
 }

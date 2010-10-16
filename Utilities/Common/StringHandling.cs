@@ -9,22 +9,57 @@ namespace AllenCopeland.Abstraction.Utilities.Common
 {
     internal static class StringHandling
     {
-        public static string FixedJoinSeries(this string[] series, string jointElement, int maxWidth = 80)
+        /// <summary>
+        /// Joins a <paramref name="series"/> of <see cref="String"/> values with the 
+        /// <paramref name="separator"/> provided, appending a new line prior to the 
+        /// <paramref name="maxWidth"/> being reached.
+        /// </summary>
+        /// <param name="series">A series of <see cref="String"/> values to be 
+        /// joined together delimited by the <paramref name="separator"/>
+        /// provided.</param>
+        /// <param name="separator">The <see cref="String"/> value which
+        /// should delimit the elements within <paramref name="series"/>.</param>
+        /// <param name="maxWidth">The <see cref="Int32"/> value which denotes how 
+        /// many characters should be allowed, at maximum, per line.</param>
+        /// <returns>A <see cref="String"/> value which represents the elements of the 
+        /// <paramref name="series"/> delimited by the <paramref name="separator"/>
+        /// provided with a <paramref name="maxWidth"/> specified per line.</returns>
+        /// <remarks>If the length of an element of the <paramref name="series"/>
+        /// provided is greater than <paramref name="maxWidth"/>, the maximum width
+        /// is adjusted.</remarks>
+        /// <exception cref="System.ArgumentNullException">thrown when an element of <paramref name="series"/>
+        /// is null; or <paramref name="series"/>, or <paramref name="separator"/> is null.</exception>
+        public static string FixedJoin(this string[] series, string separator, int maxWidth = 80)
         {
-            int jointElementLength = jointElement.Length;
-            int maxLengthAllowed = Math.Max(series.Max(element => element.Length), maxWidth) + jointElementLength;
+            if (series == null)
+                throw new ArgumentNullException("series");
+            if (separator == null)
+                throw new ArgumentNullException("separator");
+            int separatorLength = separator.Length;
+            int maxElementLength = 0;
+            for (int i = 0; i < series.Length; i++)
+            {
+                var element = series[i];
+                if (element == null)
+                    throw new ArgumentNullException("series");
+                int elementLen = element.Length;
+                if (elementLen > maxElementLength)
+                    maxElementLength = elementLen;
+            }
+
+            int maxLengthAllowed = Math.Max(maxElementLength, maxWidth) + separatorLength;
             StringBuilder resultBuilder = new StringBuilder();
             bool firstElement = true;
             int currentLength = 0;
-            int maxActual = maxLengthAllowed - jointElement.Length;
+            int maxActual = maxLengthAllowed - separator.Length;
             foreach (var element in series)
             {
                 if (firstElement)
                     firstElement = false;
                 else
                 {
-                    resultBuilder.Append(jointElement);
-                    currentLength += jointElementLength;
+                    resultBuilder.Append(separator);
+                    currentLength += separatorLength;
                 }
                 int newLength = currentLength + element.Length;
                 if (newLength >= maxActual)

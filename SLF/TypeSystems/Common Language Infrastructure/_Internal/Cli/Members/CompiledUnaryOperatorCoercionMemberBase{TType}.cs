@@ -60,6 +60,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 case "op_OnesComplement":
                     this._operator = CoercibleUnaryOperators.Complement;
                     break;
+                case "op_Increment":
+                    this._operator = CoercibleUnaryOperators.Increment;
+                    break;
+                case "op_Decrement":
+                    this._operator = CoercibleUnaryOperators.Decrement;
+                    break;
                 default:
                     throw new InvalidOperationException(string.Format("object in invalid state, unary operation ({0}) not supported.", memberInfo.Name.Substring(3)));
             }

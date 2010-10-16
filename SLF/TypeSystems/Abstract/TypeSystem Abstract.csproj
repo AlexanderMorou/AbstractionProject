@@ -297,7 +297,7 @@
     <Compile Include="Abstract\Modules\IModuleGlobalFields.cs" />
     <Compile Include="Abstract\Modules\IModuleGlobalMethod.cs" />
     <Compile Include="Abstract\Modules\IModuleGlobalMethods.cs" />
-    <Compile Include="Abstract\Modules\IModules.cs" />
+    <Compile Include="Abstract\Modules\IModuleDictionary.cs" />
     <Compile Include="Abstract\Modules\ModuleBase.cs" />
     <Compile Include="Abstract\TypeBase.cs" />
     <Compile Include="Abstract\TypeBase{TType}.cs" />

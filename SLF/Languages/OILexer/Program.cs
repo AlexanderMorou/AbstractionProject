@@ -35,22 +35,22 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
     internal static class Program
     {
         private static int longestLineLength = 0;
-        private const string Syntax = "-s";
-        private const string NoSyntax = "-ns";
-        private const string NoLogo = "-nl";
-        private const string Quiet = "-q";
-        private const string Verbose = "-v";
-        private const string StreamAnalysis = "-a:";
-        private const string StreamAnalysisExtension = "-ae:";
-        private const string Export = "-ex:";
-        private const string ExportKind_TraversalHTML = "t-html";
-        private const string ExportKind_DLL = "dll";
-        private const string ExportKind_EXE = "exe";
-        private const string ExportKind_CSharp = "cs";
-        private const string Export_TraversalHTML = Export + ExportKind_TraversalHTML;
-        private const string Export_DLL = Export + ExportKind_DLL;
-        private const string Export_EXE = Export + ExportKind_EXE;
-        private const string Export_CSharp = Export + ExportKind_CSharp;
+        private const string Syntax                                 = "-s";
+        private const string NoSyntax                               = "-ns";
+        private const string NoLogo                                 = "-nl";
+        private const string Quiet                                  = "-q";
+        private const string Verbose                                = "-v";
+        private const string StreamAnalysis                         = "-a:";
+        private const string StreamAnalysisExtension                = "-ae:";
+        private const string Export                                 = "-ex:";
+        private const string ExportKind_TraversalHTML               = "t-html";
+        private const string ExportKind_DLL                         = "dll";
+        private const string ExportKind_EXE                         = "exe";
+        private const string ExportKind_CSharp                      = "cs";
+        private const string Export_TraversalHTML                   = Export + ExportKind_TraversalHTML;
+        private const string Export_DLL                             = Export + ExportKind_DLL;
+        private const string Export_EXE                             = Export + ExportKind_EXE;
+        private const string Export_CSharp                          = Export + ExportKind_CSharp;
         private const string TitleSequence_CharacterSetCache        = "Character set cache size";
         private const string TitleSequence_CharacterSetComputations = "Character set computations";
         private const string TitleSequence_VocabularyCache          = "Vocabulary set computations";
@@ -71,6 +71,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
         private const string PhaseName_TokenCaptureConstruction     = "Token Capture Construction";
         private const string PhaseName_TokenEnumConstruction        = "Token Enum Construction";
         private const string PhaseName_RuleStructureConstruction    = "Rule Structure Construction";
+        private const string PhaseName_Parsing                      = "Parsing";
         //TitleSequence_CharacterSetCache.Length, TitleSequence_CharacterSetComputations.Length, TitleSequence_VocabularyCache.Length, TitleSequence_VocabularyComputations.Length, TitleSequence_NumberOfRules.Length, TitleSequence_NumberOfTokens.Length, PhaseName_Linking.Length, PhaseName_ExpandingTemplates.Length, PhaseName_Deliteralization.Length, PhaseName_InliningTokens.Length, PhaseName_TokenNFAConstruction.Length , PhaseName_TokenDFAConstruction.Length , PhaseName_TokenDFAReduction.Length, PhaseName_RuleNFAConstruction.Length  , PhaseName_RuleDFAConstruction.Length  , PhaseName_CallTreeAnalysis.Length , PhaseName_ObjectModelConstruction.Length  , PhaseName_TokenCaptureConstruction.Length , PhaseName_TokenEnumConstruction.Length, PhaseName_RuleStructureConstruction.Length
         /// <summary>
         /// Defines the valid options for the <see cref="Program"/>.
@@ -133,8 +134,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             ExportCSharp            = 0x0600,
         }
         public static List<string> StreamAnalysisFiles = new List<string>();
+        public static ValidOptions options             = ValidOptions.DoNotEmitSyntax;
         public static string baseTitle;
-        public static ValidOptions options = ValidOptions.DoNotEmitSyntax;
         /// <summary>
         /// The entrypoint.
         /// </summary>
@@ -582,6 +583,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             sw.Start();
             resultsOfParse = gp.Parse(file);
             sw.Stop();
+            var parseTime = sw.Elapsed;
             var tLenMax = (from e in resultsOfParse.Result
                            let scannableEntry = e as IScannableEntry
                            where scannableEntry != null
@@ -618,6 +620,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 }
                 catch (IOException) { }
                 ParserBuilderResults resultsOfBuild = Build(resultsOfParse);
+                resultsOfBuild.PhaseTimes._AddInternal(ParserBuilderPhase.Parsing, parseTime);
                 if (resultsOfBuild == null)
                     goto errorChecker;
                 
@@ -656,7 +659,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                      * Iterate through the elements and print the names
                      * of each entry being cautious to not fill past the edge
                      * of the allotted space.
+                     * *
+                     * Utilities.Common.StringHandling.FixedJoin could work here;
+                     * however, color-coding elements would be out.
                      * */
+
                     foreach (var count in grouped.Keys)
                     {
                         string countStr = string.Format(" {0} ", count);
@@ -751,31 +758,33 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     }
                     SetAttributes(resultsOfParse, resultsOfBuild);
                     rootPath += string.Format("{0}.dll", resultsOfParse.Result.Options.AssemblyName);
-                    //IIntermediateCompiler intermediateCompiler = new CSharpIntermediateCompiler(resultsOfBuild.Project, new IntermediateCompilerOptions(rootPath, true, generateXMLDocs: true, debugSupport: DebugSupport.None));
-                    //intermediateCompiler.Translator.Options.AutoResolveReferences = true;
-                    //intermediateCompiler.Translator.Options.AllowPartials = true;
-                    //intermediateCompiler.Translator.Options.AutoComments = true;
-                    //Stopwatch compileTimer = new Stopwatch();
-                    //compileTimer.Start();
-                    //IIntermediateCompilerResults compileResults = intermediateCompiler.Compile();
-                    //compileTimer.Stop();
+                    /*
+                    IIntermediateCompiler intermediateCompiler = new CSharpIntermediateCompiler(resultsOfBuild.Project, new IntermediateCompilerOptions(rootPath, true, generateXMLDocs: true, debugSupport: DebugSupport.None));
+                    intermediateCompiler.Translator.Options.AutoResolveReferences = true;
+                    intermediateCompiler.Translator.Options.AllowPartials = true;
+                    intermediateCompiler.Translator.Options.AutoComments = true;
+                    Stopwatch compileTimer = new Stopwatch();
+                    compileTimer.Start();
+                    IIntermediateCompilerResults compileResults = intermediateCompiler.Compile();
+                    compileTimer.Stop();
 
-                    //if ((options & ValidOptions.QuietMode) != ValidOptions.QuietMode)
-                    //{
-                    //    const string compile = "Compile";
-                    //    const string compileTime = compile + " time";
-                    //    const string compileSuccessful = "Successful";
-                    //    const string compileFailure = "Failed";
-                    //    Console.WriteLine("│ {1}{2} : {0} │", compileTimer.Elapsed, ' '.Repeat(maxLength - compileTime.Length), compileTime);
-                    //    string compileSuccess = string.Format("{0}{1}", ' '.Repeat(maxLength - compile.Length), compile);
-                    //    if (compileResults.NativeReturnValue == 0)
-                    //        compileSuccess = string.Format("{0} : {1}", compileSuccess, compileSuccessful);
-                    //    else
-                    //        compileSuccess = string.Format("{0} : {1}", compileSuccess, compileFailure);
-                    //    compileSuccess = string.Format("{0}{1}", compileSuccess, ' '.Repeat(longestLineLength - compileSuccess.Length));
-                    //    Console.WriteLine("│ {0} │", compileSuccess);
-                    //}
-                    //compileResults.TemporaryFiles.KeepFiles = true;
+                    if ((options & ValidOptions.QuietMode) != ValidOptions.QuietMode)
+                    {
+                        const string compile = "Compile";
+                        const string compileTime = compile + " time";
+                        const string compileSuccessful = "Successful";
+                        const string compileFailure = "Failed";
+                        Console.WriteLine("│ {1}{2} : {0} │", compileTimer.Elapsed, ' '.Repeat(maxLength - compileTime.Length), compileTime);
+                        string compileSuccess = string.Format("{0}{1}", ' '.Repeat(maxLength - compile.Length), compile);
+                        if (compileResults.NativeReturnValue == 0)
+                            compileSuccess = string.Format("{0} : {1}", compileSuccess, compileSuccessful);
+                        else
+                            compileSuccess = string.Format("{0} : {1}", compileSuccess, compileFailure);
+                        compileSuccess = string.Format("{0}{1}", compileSuccess, ' '.Repeat(longestLineLength - compileSuccess.Length));
+                        Console.WriteLine("│ {0} │", compileSuccess);
+                    }
+                    compileResults.TemporaryFiles.KeepFiles = true;
+                    */
                 }
                 goto ShowParseTime;
             __CheckErrorAgain:
@@ -1518,6 +1527,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     break;
                 case ParserBuilderPhase.ObjectModelRuleStructureConstruction:
                     op = PhaseName_RuleStructureConstruction;
+                    break;
+                case ParserBuilderPhase.Parsing:
+                    op = PhaseName_Parsing;
                     break;
             }
             return op;

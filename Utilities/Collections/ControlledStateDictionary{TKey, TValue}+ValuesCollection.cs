@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             /// the <see cref="ValuesCollection"/>; a positive <see cref="Int32"/>
             /// value indicating the ordinal index of <paramref name="element"/>
             /// otherwise.</returns>
-            public int IndexOf(TValue element)
+            public virtual int IndexOf(TValue element)
             {
                 for (int i = 0; i < this.Count; i++)
                     if (this.locals.entries[i].Value.Equals(element))
@@ -96,7 +96,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                     throw new ArgumentNullException("array");
                 if (arrayIndex < 0 || arrayIndex >= array.Length)
                     throw new ArgumentException("arrayIndex");
-                if (this.Count + arrayIndex >= array.Length)
+                if (this.Count + arrayIndex > array.Length)
                     throw new ArgumentException("array");
                 lock (this.locals.syncObject)
                     for (int i = 0; i < this.Count; i++)
@@ -188,7 +188,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             {
                 if (arrayIndex < 0 || arrayIndex >= array.Length)
                     throw new ArgumentException("arrayIndex");
-                if (this.Count + arrayIndex >= array.Length)
+                if (this.Count + arrayIndex > array.Length)
                     throw new ArgumentException("array");
                 lock (this.locals.syncObject)
                     for (int i = 0; i < this.Count; i++)

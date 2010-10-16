@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 using SlotType = System.UInt64;
 #elif x86
 using SlotType = System.UInt32;
-using AllenCopeland.Abstraction.Slf.FiniteAutomata;
 #endif
+using AllenCopeland.Abstraction.Slf.FiniteAutomata;
 
 namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens
 {
@@ -172,13 +172,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens
             return this[(uint)character];
         }
 
-        internal override void Reduce()
-        {
-            //if (this.AllFalse && this.Offset == 0 && this.Length == FullSetLength && this.IsNegativeSet)
-            //    base.Mirror(CompleteSet.Complement());
-            //else
-                base.Reduce();
-        }
         public override string ToString()
         {
             var ranges = this.GetRange();

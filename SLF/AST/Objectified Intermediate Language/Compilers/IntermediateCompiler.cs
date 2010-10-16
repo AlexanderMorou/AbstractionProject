@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     {
         
         private ICompilerOptions options;
-        private IIntermediateCodeDynamicCompilerAid<TRootNode> aid;
+        private IIntermediateCompilerAid<TRootNode> aid;
 
         public IntermediateCompiler()
         {
@@ -59,9 +59,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
 
         #endregion
 
-        #region ICompiler<IIntermediateCodeDynamicCompilerAid,IIntermediateCodeDynamicCompilerOptions> Members
+        #region ICompiler<IIntermediateCompilerAid,IIntermediateCodeDynamicCompilerOptions> Members
 
-        public IIntermediateCodeDynamicCompilerAid<TRootNode> Aid
+        public IIntermediateCompilerAid<TRootNode> Aid
         {
             get
             {
@@ -95,16 +95,25 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
 
         public abstract IHighLevelLanguage<TRootNode> Language { get; }
 
+
+        public abstract IHighLevelLanguageProvider<TRootNode> Provider { get; }
+
         #endregion
 
         #region ICompiler Members
-
 
         ILanguage ICompiler.Language
         {
             get { return this.Language; }
         }
 
+        ILanguageProvider ICompiler.Provider
+        {
+            get { return this.Provider; }
+        }
+
         #endregion
+
+
     }
 }

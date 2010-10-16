@@ -149,7 +149,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             /// the <see cref="KeysCollection"/>; a positive <see cref="Int32"/>
             /// value indicating the ordinal index of <paramref name="element"/>
             /// otherwise.</returns>
-            public int IndexOf(TKey key)
+            public virtual int IndexOf(TKey key)
             {
                 int index;
                 if (this.locals.orderings.TryGetValue(key, out index))
@@ -196,7 +196,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             {
                 if (arrayIndex < 0 || arrayIndex >= array.Length)
                     throw new ArgumentException("arrayIndex");
-                if (this.Count + arrayIndex >= array.Length)
+                if (this.Count + arrayIndex > array.Length)
                     throw new ArgumentException("array");
                 lock (this.locals.syncObject)
                     for (int i = 0; i < this.Count; i++)
@@ -220,7 +220,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
             void ICollection.CopyTo(Array array, int arrayIndex)
             {
-                ((IControlledStateCollection)this).CopyTo(array, arrayIndex);
+                ICollection_CopyTo(array, arrayIndex);
             }
 
 

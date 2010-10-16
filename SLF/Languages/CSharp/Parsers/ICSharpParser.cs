@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil;
 using System.IO;
+using AllenCopeland.Abstraction.Slf.Languages;
+using AllenCopeland.Abstraction.Slf.Cst;
  /*---------------------------------------------------------------------\
  | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -17,20 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
     /// which parses a C&#9839; source file.
     /// </summary>
     public interface ICSharpParser :
-        IParser<ICSharpAssembly, ICSharpTokenizer>
+        ILanguageParser<ICSharpCompilationUnit>
     {
-        /// <summary>
-        /// Returns the <see cref="ICSharpAssembly"/> of a parse operation as a partial
-        /// to the <paramref name="root"/> provided.
-        /// </summary>
-        /// <param name="filename">The name of the file to parse.</param>
-        ICSharpAssembly Parse(string filename, ICSharpAssembly root);
-        /// <summary>
-        /// Returns the <see cref="ICSharpAssembly"/> of a parse operation on the
-        /// <paramref name="source"/> <see cref="Stream"/> as a partial
-        /// to the <paramref name="root"/> provided.
-        /// </summary>
-        /// <param name="source">The <see cref="Stream"/> from which to read bytes from.</param>
-        ICSharpAssembly Parse(Stream source, ICSharpAssembly root);
     }
 }

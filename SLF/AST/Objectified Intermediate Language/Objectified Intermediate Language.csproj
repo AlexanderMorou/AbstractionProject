@@ -117,14 +117,19 @@
     <Compile Include="Compilers\CompilerOptions.cs" />
     <Compile Include="Compilers\CompilerSupport.cs" />
     <Compile Include="Compilers\DebugSupport.cs" />
+    <Compile Include="Oil\Modules\IntermediateModuleDictionary+AbstractValueCollection.cs" />
+    <Compile Include="Parsers\IParserSyntaxErrorCollection.cs" />
+    <Compile Include="Parsers\IParserSyntaxError.cs" />
+    <Compile Include="Parsers\ISourceRelatedError.cs" />
+    <Compile Include="Parsers\ISourceRelatedMessage.cs" />
     <Compile Include="Compilers\ICompilerOptions.cs" />
     <Compile Include="Compilers\ICompiler.cs" />
     <Compile Include="Compilers\ICompilerAid.cs" />
     <Compile Include="Compilers\ICompilerResults.cs" />
     <Compile Include="Compilers\IIntermediateCompiler.cs" />
-    <Compile Include="Compilers\IIntermediateCodeDynamicCompilerAid.cs" />
+    <Compile Include="Compilers\IIntermediateCompilerAid.cs" />
     <Compile Include="Compilers\IntermediateCompiler.cs" />
-    <Compile Include="Compilers\IntermediateCodeDynamicCompilerAid.cs" />
+    <Compile Include="Compilers\IntermediateCompilerAid.cs" />
     <Compile Include="Compilers\WarningLevel.cs" />
     <Compile Include="Cst\IConcreteNode.cs" />
     <Compile Include="Languages\IHighLevelLanguage.cs" />
@@ -892,6 +897,8 @@
     <Compile Include="Oil\TypeInclusionRenameScopeCoercion.cs" />
     <Compile Include="Oil\TypeInclusionScopeCoercion.cs" />
     <Compile Include="Oil\_ICustomAttributeDefinitionParameterCollection.cs" />
+    <Compile Include="Parsers\IParserResults{T}.cs" />
+    <Compile Include="Parsers\ISourceRelatedWarning.cs" />
     <Compile Include="Preprocessors\IIntermediatePreprocessor.cs" />
     <Compile Include="Preprocessors\IPreprocessorAggregateTask.cs" />
     <Compile Include="Preprocessors\IPreprocessorGenerationTask.cs" />
@@ -951,10 +958,6 @@
     <ProjectReference Include="..\..\Languages\Language Metadata Library\Language Services.csproj">
       <Project>{41C87F7B-840B-4237-AEED-A471955AB3D7}</Project>
       <Name>Language Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Parsers\Parser Abstract\Parser Abstract.csproj">
-      <Project>{54DBB205-D8B4-42ED-ADA3-50004FAFE708}</Project>
-      <Name>Parser Abstract</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\TypeSystems\Abstract\TypeSystem Abstract.csproj">
       <Project>{161EAA8C-20C6-4B82-925A-4B8B112910AB}</Project>

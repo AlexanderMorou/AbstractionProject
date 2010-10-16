@@ -21,19 +21,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 this.dataCopy = new string[this.parent.parent.UnderlyingSystemTypes.Length];
             }
 
-            #region ICollection<string> Members
 
-            public void Add(string item)
-            {
-                throw new NotSupportedException();
-            }
-
-            public void Clear()
-            {
-                throw new NotSupportedException();
-            }
-
-            public bool Contains(string item)
+            public override bool Contains(string item)
             {
                 bool containsUnloaded = false;
                 for (int i = 0; i < this.dataCopy.Length; i++)
@@ -62,9 +51,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     throw new ArgumentOutOfRangeException("index");
                 this.dataCopy[index] = this.parent.parent.UnderlyingSystemTypes[index].Name;
             }
-
-            public void CopyTo(string[] array, int arrayIndex)
+            public override void CopyTo(string[] array, int arrayIndex = 0)
             {
+                if (this.Count == 0)
+                    return;
+                if (arrayIndex < 0 || arrayIndex >= array.Length)
+                    throw new ArgumentOutOfRangeException("arrayIndex");
+                if (this.Count + arrayIndex > array.Length)
+                    throw new ArgumentException("array");
                 for (int i = 0; i < this.Count; i++)
                 {
                     CheckItemAt(i);
@@ -72,26 +66,51 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
             }
 
-            public int Count
+            protected override void ICollection_CopyTo(Array array, int arrayIndex)
+            {
+                if (this.Count == 0)
+                    return;
+                if (arrayIndex < 0 || arrayIndex >= array.Length)
+                    throw new ArgumentOutOfRangeException("arrayIndex");
+                if (this.Count + arrayIndex > array.Length)
+                    throw new ArgumentException("array");
+                for (int i = 0; i < this.Count; i++)
+                {
+                    CheckItemAt(i);
+                    array.SetValue(this.dataCopy[i], i + arrayIndex);
+                }
+            }
+
+            public override int Count
             {
                 get { return this.dataCopy.Length; }
             }
 
-            public bool IsReadOnly
+            public override string[] ToArray()
             {
-                get { return true; }
+                var result = new string[this.Count];
+                this.CopyTo(result);
+                return result;
             }
 
-            public bool Remove(string item)
+            public override int IndexOf(string key)
             {
-                throw new NotSupportedException();
+                for (int i = 0; i < this.Count; i++)
+                    if (this.dataCopy[i] == key)
+                        return i;
+                return -1;
             }
 
-            #endregion
+            protected override string OnGetKey(int index)
+            {
+                if (index < 0 || index >= this.Count)
+                    throw new ArgumentOutOfRangeException("index");
+                return this.dataCopy[index];
+            }
 
             #region IEnumerable<string> Members
 
-            public IEnumerator<string> GetEnumerator()
+            public override IEnumerator<string> GetEnumerator()
             {
                 for (int i = 0; i < this.dataCopy.Length; i++)
                 {
@@ -114,6 +133,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
 
             #endregion
+            
         }
     }
 }

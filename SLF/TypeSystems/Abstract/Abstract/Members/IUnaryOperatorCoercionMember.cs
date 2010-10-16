@@ -53,6 +53,16 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// </summary>
         /// <remarks>CLI Method: op_OnesComplement</remarks>
         Complement,
+        /// <summary>
+        /// Increment unary operator, often '++'.
+        /// </summary>
+        /// <remarks>CLI method: op_Increment</remarks>
+        Increment,
+        /// <summary>
+        /// Decrement unary operator, often '--'.
+        /// </summary>
+        /// <remarks>CLI method: op_Decrement</remarks>
+        Decrement,
     }
 
     /// <summary>

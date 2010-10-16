@@ -14,7 +14,15 @@ Argument                                  ::=
     (
         "ref"                               | 
         "out"
-    ):Direction;? Expression:Value;         ;
+    ):Direction;? ArgumentExpression:Value; ;
+
+ArgumentExpression                       ::=>
+    Expression                              |
+    NamedExpression                         ;
+
+NamedExpression                           ::=
+    Identifier:ParameterName; 
+    Expression:NamedExpression;             ;
 
 ExpressionList                            ::=
     DelimitedList<Expression:Items;, ','>   ;
@@ -47,7 +55,7 @@ PrimaryNoArrayCreationExpression         ::=>
 
 SimpleName ::=
     Identifier:Name; TypeArgumentList:TypeParameters;?;
-    
+
 ParenthesizedExpression ::=
     '(' Expression:Inner; ')';
 
@@ -143,7 +151,7 @@ ElementInitializer                       ::=>
     
 CurlyExpressionList                       ::=
     EnclosedExpressionList<'{', '}'>        ;
-    
+
 BracketExpressionList                     ::=
     EnclosedExpressionList<'[', ']'>        ;
 

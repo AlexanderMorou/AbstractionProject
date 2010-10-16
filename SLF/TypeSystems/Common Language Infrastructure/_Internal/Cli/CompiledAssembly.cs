@@ -115,6 +115,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return GetCompiledModule(this.UnderlyingAssembly.ManifestModule);
         }
 
+        protected override IModuleDictionary InitializeModules()
+        {
+            return new ModuleDictionary(this);
+        }
+
         protected override bool CanCacheManifestModule
         {
             get { return true; }

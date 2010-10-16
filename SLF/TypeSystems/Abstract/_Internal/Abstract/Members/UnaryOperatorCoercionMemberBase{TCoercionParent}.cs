@@ -79,6 +79,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
                 case CoercibleUnaryOperators.Complement:
                     p = "~";
                     break;
+                case CoercibleUnaryOperators.Increment:
+                    p = "++";
+                    break;
+                case CoercibleUnaryOperators.Decrement:
+                    p = "--";
+                    break;
                 default:
                     return null;
             }

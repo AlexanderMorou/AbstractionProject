@@ -33,6 +33,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <see cref="ICompiler"/>.
         /// </summary>
         ILanguage Language { get; }
+        /// <summary>
+        /// Returns the <see cref="ILanguageProvider"/> associated to the 
+        /// <see cref="ICompiler"/>.
+        /// </summary>
+        ILanguageProvider Provider { get; }
     }
 
     public interface ICompiler<TAid> :

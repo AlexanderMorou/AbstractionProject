@@ -358,5 +358,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                            shuffleRandomSecond.Next() ascending
                    select t;
         }
+
+        public static IReadOnlyCollection<TLower> GetCovariant<TLower, THigher>(this IReadOnlyCollection<THigher> source)
+            where THigher :
+                TLower
+        {
+            return new CovariantReadOnlyCollection<TLower, THigher>(source);
+        }
     }
 }

@@ -17,5 +17,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         ILanguageASTTranslator<TRootNode> ASTTranslator { get; }
         IIntermediateCompiler<TRootNode> Compiler { get; }
         IIntermediateCodeTranslator Translator { get; }
+        IHighLevelLanguage<TRootNode> Language { get; }
     }
 }

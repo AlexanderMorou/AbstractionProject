@@ -18,11 +18,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Modules
     /// Defines properties and methods for working with a series of <see cref="IModule"/>
     /// instances for an <see cref="IAssembly"/>.
     /// </summary>
-    public interface IModules :
+    public interface IModuleDictionary :
         IControlledStateDictionary<string, IModule>
     {
         /// <summary>
-        /// Returns the <see cref="IAssembly"/> that contains the <see cref="IModules"/>.
+        /// Returns the <see cref="IAssembly"/> that contains the <see cref="IModuleDictionary"/>.
         /// </summary>
         IAssembly Parent { get; }
     }

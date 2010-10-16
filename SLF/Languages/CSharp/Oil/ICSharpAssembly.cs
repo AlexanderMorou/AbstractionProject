@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Parsers;
+using AllenCopeland.Abstraction.Slf.Cst;
  /*---------------------------------------------------------------------\
  | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -12,12 +13,10 @@ using AllenCopeland.Abstraction.Slf.Parsers;
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
     /// <summary>
-    /// Defines properties and methods for working with a C&#9839; Assembly parsed
-    /// from a C&#9839; source file.
+    /// Defines properties and methods for working with a C&#9839; Assembly.
     /// </summary>
     public interface ICSharpAssembly :
-        IIntermediateAssembly,
-        IParserResults
+        IIntermediateAssembly
     {
 
     }

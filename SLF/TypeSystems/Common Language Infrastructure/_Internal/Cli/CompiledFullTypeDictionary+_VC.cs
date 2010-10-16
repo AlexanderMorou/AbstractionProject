@@ -24,18 +24,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
 
             #region ICollection<MasterDictionaryEntry<IType>> Members
-
-            public void Add(MasterDictionaryEntry<IType> item)
+            public override MasterDictionaryEntry<IType>[] ToArray()
             {
-                throw new NotSupportedException();
+                MasterDictionaryEntry<IType>[] result = new MasterDictionaryEntry<IType>[this.Count];
+                for (int i = 0; i < this.Count; i++)
+                {
+                    this.CheckItemAt(i);
+                    if (this.dataCopy[i].HasValue)
+                        result[i] = this.dataCopy[i].Value;
+                }
+                return result;
             }
 
-            public void Clear()
-            {
-                throw new NotSupportedException();
-            }
 
-            public bool Contains(MasterDictionaryEntry<IType> item)
+            public override bool Contains(MasterDictionaryEntry<IType> item)
             {
                 bool containsUnloaded = false;
                 for (int i = 0; i < this.dataCopy.Length; i++)
@@ -57,7 +59,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
                 return false;
             }
-
             private void CheckItemAt(int index)
             {
                 if (index < 0 || index >= this.Count)
@@ -70,49 +71,54 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             this.dataCopy[index] = new MasterDictionaryEntry<IType>(isd, t.GetTypeReference());
                 }
             }
-
-            public void CopyTo(MasterDictionaryEntry<IType>[] array, int arrayIndex)
+            public override void CopyTo(MasterDictionaryEntry<IType>[] array, int arrayIndex = 0)
             {
+                if (arrayIndex < 0 || arrayIndex >= array.Length)
+                    throw new ArgumentException("arrayIndex");
+                if (this.Count + arrayIndex >= array.Length)
+                    throw new ArgumentException("array");
                 for (int i = 0; i < this.Count; i++)
                 {
                     CheckItemAt(i);
-                    if (this.dataCopy[i] != null)
+                    if (this.dataCopy[i].HasValue)
                         array[i + arrayIndex] = this.dataCopy[i].Value;
+                } 
+            }
+
+            protected override void ICollection_CopyTo(Array array, int arrayIndex)
+            {
+                if (arrayIndex < 0 || arrayIndex >= array.Length)
+                    throw new ArgumentException("arrayIndex");
+                if (this.Count + arrayIndex >= array.Length)
+                    throw new ArgumentException("array");
+                for (int i = 0; i < this.Count; i++)
+                {
+                    CheckItemAt(i);
+                    if (this.dataCopy[i].HasValue)
+                        array.SetValue(this.dataCopy[i].Value, i + arrayIndex);
                 }
             }
 
-            public int Count
+            public override int Count
             {
                 get { return this.dataCopy.Length; }
             }
-
-            public bool IsReadOnly
+            protected override MasterDictionaryEntry<IType> OnGetThis(int index)
             {
-                get { return true; }
-            }
-            public MasterDictionaryEntry<IType> this[int index]
-            {
-                get
-                {
-                    CheckItemAt(index);
-                    return this.dataCopy[index].Value;
-                }
-            }
-            public bool Remove(MasterDictionaryEntry<IType> item)
-            {
-                throw new NotSupportedException();
+                CheckItemAt(index);
+                return this.dataCopy[index].Value;
             }
 
             #endregion
 
             #region IEnumerable<MasterDictionaryEntry<IType>> Members
 
-            public IEnumerator<MasterDictionaryEntry<IType>> GetEnumerator()
+            public override IEnumerator<MasterDictionaryEntry<IType>> GetEnumerator()
             {
                 for (int i = 0; i < this.Count; i++)
                 {
                     this.CheckItemAt(i);
-                    if (this.dataCopy[i] != null)
+                    if (this.dataCopy[i].HasValue)
                         yield return this.dataCopy[i].Value;
                 }
                 yield break;

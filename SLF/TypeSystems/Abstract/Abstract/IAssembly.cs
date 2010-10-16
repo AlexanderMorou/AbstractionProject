@@ -44,6 +44,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// the manifest data for the current <see cref="IAssembly"/>.
         /// </summary>
         IModule ManifestModule { get; }
-
+        /// <summary>
+        /// Returns the <see cref="IModuleDictionary"/> which denotes
+        /// the individual modules the <see cref="IAssembly"/>
+        /// consists of.
+        /// </summary>
+        IModuleDictionary Modules { get; }
     }
 }

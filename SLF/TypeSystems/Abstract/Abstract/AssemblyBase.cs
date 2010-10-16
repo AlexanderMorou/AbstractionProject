@@ -56,6 +56,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Data member for <see cref="CustomAttributes"/>.
         /// </summary>
         private ICustomAttributeCollection attributes;
+        /// <summary>
+        /// Data member for <see cref="Modules"/>.
+        /// </summary>
+        private IModuleDictionary modules;
+
         #endregion
         
         #region Protected Members
@@ -278,7 +283,24 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
 
+        public IModuleDictionary Modules
+        {
+            get
+            {
+                this.CheckModules();
+                return this.modules;
+            }
+        }
+
+        private void CheckModules()
+        {
+            if (this.modules == null)
+                this.modules = this.InitializeModules();
+        }
+
         #endregion
+
+        protected abstract IModuleDictionary InitializeModules();
 
         #region IDisposable Members
 

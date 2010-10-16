@@ -45,5 +45,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// the <see cref="IIntermediateClassType"/> is declared
         /// </summary>
         new IIntermediateAssembly Assembly { get; }
+
+        new ITypeCollection ImplementedInterfaces { get; }
     }
 }

@@ -7,13 +7,14 @@ using AllenCopeland.Abstraction.Slf._Internal.Oilexer;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
 using AllenCopeland.Abstraction.Slf.Compilers.Oilexer;
+using AllenCopeland.Abstraction.Slf.FiniteAutomata;
 
 #if x64
 using SlotType = System.UInt64;
 #elif x86
 using SlotType = System.UInt32;
-using AllenCopeland.Abstraction.Slf.FiniteAutomata;
 #endif
+
 namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules
 {
     /// <summary>

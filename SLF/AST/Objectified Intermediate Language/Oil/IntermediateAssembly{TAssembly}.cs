@@ -64,7 +64,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Data member for <see cref="Types"/>.
         /// </summary>
         private new IntermediateFullTypeDictionary types;
-        private IIntermediateModuleDictionary modules;
         private IScopeCoercionCollection scopeCoercions;
         /* *
          * Placeholders for ensuring that only the root instance contains 
@@ -133,13 +132,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.types = this.Initialize_Types();
         }
 
-        private void CheckModules()
-        {
-            if (this.modules == null)
-                this.modules = InitializeModules();
-        }
-        
-        private IntermediateModuleDictionary InitializeModules()
+        protected override IModuleDictionary InitializeModules()
         {
             if (this.IsRoot)
                 return new IntermediateModuleDictionary(this);
@@ -253,11 +246,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateAssembly Members
 
-        public IIntermediateModuleDictionary Modules
+        public new IIntermediateModuleDictionary Modules
         {
             get {
-                CheckModules();
-                return this.modules;
+                return (IIntermediateModuleDictionary)base.Modules;
             }
         }
 

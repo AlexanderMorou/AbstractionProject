@@ -168,7 +168,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                                                            typeName
                                         orderby nameSpace ascending,
                                                 realTypeName ascending
-                                        select realTypeName).ToArray().FixedJoinSeries(", ");
+                                        select realTypeName).ToArray().FixedJoin(", ");
                 typesUsed.Append(typesUsedListing);
                 if (pdr.CompiledAssemblyReferences.Count > 0)
                 {
@@ -178,7 +178,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                     var compiledAssembliesUsedListing = (from assembly in pdr.CompiledAssemblyReferences
                                                          let name = assembly.GetName().Name
                                                          orderby name
-                                                         select name).ToArray().FixedJoinSeries(", ");
+                                                         select name).ToArray().FixedJoin(", ");
                     typesUsed.Append(compiledAssembliesUsedListing);
                 }
                 return typesUsed;

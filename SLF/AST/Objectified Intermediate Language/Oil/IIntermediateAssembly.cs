@@ -61,7 +61,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// which contains the modules associated to the
         /// <see cref="IIntermediateAssembly"/>.
         /// </summary>
-        IIntermediateModuleDictionary Modules { get; }
+        new IIntermediateModuleDictionary Modules { get; }
 
         /// <summary>
         /// Returns/sets the filename associated to the present 

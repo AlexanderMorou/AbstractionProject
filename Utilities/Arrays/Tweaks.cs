@@ -237,10 +237,10 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
         /// <paramref name="array"/> provided.</para>
         /// <para>Due to the nature this method was intended to be used,
         /// the array retrieved per iteration is the same so it is not
-        /// guaranteed to be the same on a much later acces
+        /// guaranteed to be the same on a much later access
         /// should its reference be stored, and the iteration
         /// continued.</para></remarks>
-        public static IEnumerable<int[]> IterateArray(this Array array)
+        public static IEnumerable<int[]> Iterate(this Array array)
         {
             int[] indices;
             int rank = array.Rank;
@@ -256,21 +256,28 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             else
             {
                 /* *
-                 * Multi-dimensional arrays are a bit different.
+                 * Multi-dimensional, or non-vector, arrays are a bit different.
                  * */
-                var rankRange = rank.Range().ToArray();
-                indices = rankRange.OnAll(p => array.GetLowerBound(p)).ToArray();
+                indices = new int[array.Rank];
                 /* *
                  * Obtain the upper/lower bounds..
                  * */
+                int[] upperBounds = new int[array.Rank];
+                
+                for (int i = 0; i < rank; i++)
+                {
+                    indices[i] = array.GetLowerBound(i);
+                    upperBounds[i] = array.GetUpperBound(i);
+                }
+
                 int[] lowerBounds = (int[])indices.Clone();
-                int[] upperBounds = rankRange.OnAll(p => array.GetUpperBound(p)).ToArray();
+
             Repeater:
                 {
                     /* *
                      * Nifty thing is... it's always the same array,
                      * which means there's no performance hit for
-                     * creating and returning new arrays.
+                     * creating and returning new arrays, because we don't.
                      * */
                     yield return indices;
                     /* *
@@ -469,5 +476,20 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             return result;
         }
 
+        public static T[][] Chunk<T>(this T[] series, int chunkSize)
+        {
+            int chunkCount = (int)Math.Ceiling(((double)series.Length) / chunkSize);
+            T[][] result = new T[chunkCount][];
+            for (int i = 0; i < chunkCount; i++)
+            {
+                int min = i * chunkSize;
+                int max = Math.Min((i + 1) * chunkSize, series.Length);
+                int size = max - min;
+                T[] current = result[i] = new T[size];
+                for (int j = 0; j < size; j++)
+                    current[j] = series[min + j];
+            }
+            return result;
+        }
     }
 }
