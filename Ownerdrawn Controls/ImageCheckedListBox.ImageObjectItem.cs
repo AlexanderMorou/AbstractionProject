@@ -36,6 +36,12 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
             private System.Drawing.Bitmap looseImage = null;
             private System.Drawing.Bitmap looseCheckedImage = null;
 
+            public ImageObjectItem()
+                : this(null, null, -1)
+            {
+
+            }
+
             /// <summary>
             /// Creates a new <see cref="ImageObjectItem"/>
             /// </summary>

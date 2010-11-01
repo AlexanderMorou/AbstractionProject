@@ -109,6 +109,11 @@
     <Compile Include="Abstract\GenericTypeCache.cs" />
     <Compile Include="Abstract\IMassTargetHandler.cs" />
     <Compile Include="Abstract\MassDisposalAid.cs" />
+    <Compile Include="Compilers\GenericParamCtorFailureException.cs" />
+    <Compile Include="Compilers\GenericParamDataTargetAttribute.cs" />
+    <Compile Include="Compilers\InferredAttribute.cs" />
+    <Compile Include="Compilers\LanguageMetaHelper.cs" />
+    <Compile Include="Compilers\LowerBoundTargetAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -372,10 +377,6 @@
     <ProjectReference Include="..\..\..\Utilities\Common Utilities.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
       <Name>Common Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Languages\Language Metadata Library\Language Services.csproj">
-      <Project>{41C87F7B-840B-4237-AEED-A471955AB3D7}</Project>
-      <Name>Language Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

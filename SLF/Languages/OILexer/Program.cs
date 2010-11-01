@@ -7,21 +7,23 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using AllenCopeland.Abstraction.Slf._Internal.Oilexer;
+using AllenCopeland.Abstraction.Slf._Internal.Oilexer.Inlining;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Compilers.Oilexer;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
+using AllenCopeland.Abstraction.Slf.ModelViewer;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Parsers.Oilexer;
-using AllenCopeland.Abstraction.Utilities.Common;
-using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Arrays;
-using AllenCopeland.Abstraction.Slf._Internal.Oilexer;
-using AllenCopeland.Abstraction.Slf._Internal.Oilexer.Inlining;
+using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Utilities.Common;
+using System.Windows.Forms;
 /* *
  * Old Release Post-build command:
  * "$(ProjectDir)PostBuild.bat" "$(ConfigurationName)" "$(TargetPath)"
@@ -558,7 +560,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
 
         private static void ParseFile(string file)
         {
-            int maxLength = new int[] { TitleSequence_CharacterSetCache.Length, TitleSequence_CharacterSetComputations.Length, TitleSequence_VocabularyCache.Length, TitleSequence_VocabularyComputations.Length, TitleSequence_NumberOfRules.Length, TitleSequence_NumberOfTokens.Length, PhaseName_Linking.Length, PhaseName_ExpandingTemplates.Length, PhaseName_Deliteralization.Length, PhaseName_InliningTokens.Length, PhaseName_TokenNFAConstruction.Length, PhaseName_TokenDFAConstruction.Length, PhaseName_TokenDFAReduction.Length, PhaseName_RuleNFAConstruction.Length, PhaseName_RuleDFAConstruction.Length, PhaseName_CallTreeAnalysis.Length, PhaseName_ObjectModelConstruction.Length, PhaseName_TokenCaptureConstruction.Length, PhaseName_TokenEnumConstruction.Length, PhaseName_RuleStructureConstruction.Length }.Max();
+            int maxLength = new int[] { TitleSequence_CharacterSetCache.Length, TitleSequence_CharacterSetComputations.Length, TitleSequence_VocabularyCache.Length, TitleSequence_VocabularyComputations.Length, TitleSequence_NumberOfRules.Length, TitleSequence_NumberOfTokens.Length, PhaseName_Linking.Length, PhaseName_ExpandingTemplates.Length, PhaseName_Deliteralization.Length, PhaseName_InliningTokens.Length, PhaseName_TokenNFAConstruction.Length, PhaseName_TokenDFAConstruction.Length, PhaseName_TokenDFAReduction.Length, PhaseName_RuleNFAConstruction.Length, PhaseName_RuleDFAConstruction.Length, PhaseName_CallTreeAnalysis.Length, PhaseName_ObjectModelConstruction.Length, PhaseName_TokenCaptureConstruction.Length, PhaseName_TokenEnumConstruction.Length, PhaseName_RuleStructureConstruction.Length, PhaseName_Parsing.Length }.Max();
             baseTitle = string.Format("{0}: {1}", Path.GetFileNameWithoutExtension(typeof(Program).Assembly.Location), Path.GetFileName(file));
             Console.Title = baseTitle;
             GDParser gp = new GDParser();
@@ -731,6 +733,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     }
                     goto __CheckErrorAgain;
                 }
+                
                 if ((options & ValidOptions.ExportTraversalHTML) == ValidOptions.ExportTraversalHTML)
                 {
                     SetAttributes(resultsOfParse, resultsOfBuild);
@@ -786,6 +789,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     compileResults.TemporaryFiles.KeepFiles = true;
                     */
                 }
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(resultsOfBuild.Project.GetModelViewer());
                 goto ShowParseTime;
             __CheckErrorAgain:
                 if (resultsOfParse.Errors.HasErrors)
@@ -793,6 +799,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             }
             else
                 Program.ShowErrors(resultsOfParse);
+            
         ShowParseTime:
             GC.Collect();
             GC.WaitForPendingFinalizers();

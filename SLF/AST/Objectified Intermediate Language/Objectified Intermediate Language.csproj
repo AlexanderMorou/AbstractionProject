@@ -117,6 +117,10 @@
     <Compile Include="Compilers\CompilerOptions.cs" />
     <Compile Include="Compilers\CompilerSupport.cs" />
     <Compile Include="Compilers\DebugSupport.cs" />
+    <Compile Include="Oil\IIntermediateDeclarationVisitor.cs" />
+    <Compile Include="Oil\IIntermediateInclusionVisitor.cs" />
+    <Compile Include="Oil\IIntermediateTypeVisitor.cs" />
+    <Compile Include="Oil\Members\IIntermediateMemberVisitor.cs" />
     <Compile Include="Oil\Modules\IntermediateModuleDictionary+AbstractValueCollection.cs" />
     <Compile Include="Parsers\IParserSyntaxErrorCollection.cs" />
     <Compile Include="Parsers\IParserSyntaxError.cs" />
@@ -954,10 +958,6 @@
     <ProjectReference Include="..\..\..\Utilities\Common Utilities.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
       <Name>Common Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Languages\Language Metadata Library\Language Services.csproj">
-      <Project>{41C87F7B-840B-4237-AEED-A471955AB3D7}</Project>
-      <Name>Language Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\TypeSystems\Abstract\TypeSystem Abstract.csproj">
       <Project>{161EAA8C-20C6-4B82-925A-4B8B112910AB}</Project>

@@ -447,10 +447,6 @@
       <Project>{8B815295-30CD-4825-8634-155776DEEE14}</Project>
       <Name>CSharp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Language Metadata Library\Language Services.csproj">
-      <Project>{41C87F7B-840B-4237-AEED-A471955AB3D7}</Project>
-      <Name>Language Services</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Allen Copeland.pfx" />

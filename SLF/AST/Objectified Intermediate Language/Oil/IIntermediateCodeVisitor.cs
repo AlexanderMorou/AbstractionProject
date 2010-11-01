@@ -2,6 +2,7 @@
 using AllenCopeland.Abstraction.Slf.Oil.Expressions.Lambda;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
+using AllenCopeland.Abstraction.Slf.Oil.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
@@ -11,8 +12,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// </summary>
     public interface IIntermediateCodeVisitor :
         IExpressionVisitor,
-        IStatementVisitor
+        IStatementVisitor,
+        IIntermediateDeclarationVisitor,
+        IIntermediateTypeVisitor, 
+        IIntermediateMemberVisitor,
+        IIntermediateInclusionVisitor
     {
-
     }
 }

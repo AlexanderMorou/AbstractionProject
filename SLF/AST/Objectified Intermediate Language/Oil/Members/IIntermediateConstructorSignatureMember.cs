@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// that contains the <typeparamref name="TCtor"/> instances.</typeparam>
     /// <typeparam name="TIntermediateType">The type of 
     /// <see cref="IIntermediateCreatableSignatureType{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
-    /// which contains the <typeparamref name="TIntermediateType"/></typeparam>
+    /// which contains the <typeparamref name="TIntermediateCtor"/>.</typeparam>
     public interface IIntermediateConstructorSignatureMember<TCtor, TIntermediateCtor, TType, TIntermediateType> :
         IIntermediateSignatureMember<TCtor, TIntermediateCtor, IConstructorParameterMember<TCtor, TType>, IIntermediateConstructorSignatureParameterMember<TCtor, TIntermediateCtor, TType, TIntermediateType>, TType, TIntermediateType>,
         IIntermediateMember<TType, TIntermediateType>,
