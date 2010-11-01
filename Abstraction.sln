@@ -8,8 +8,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AST", "AST", "{460F9AF5-923
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Languages", "Languages", "{C125AC66-5C9E-4B81-80B2-C9D2D72F9DB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Language Services", "SLF\Languages\Language Metadata Library\Language Services.csproj", "{41C87F7B-840B-4237-AEED-A471955AB3D7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ownerdrawn Controls", "Ownerdrawn Controls\Ownerdrawn Controls.csproj", "{C39FCBDC-EDED-4327-95BA-3B494FA59A8E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common Utilities", "Utilities\Common Utilities.csproj", "{B449E1F5-149C-4F47-BBFC-A82EEE96471A}"
@@ -37,6 +35,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		To Do.txt = To Do.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelViewer", "ModelViewer\ModelViewer.csproj", "{245E3B08-5E7A-4DA8-B8ED-581D0C28C9C0}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 12
@@ -46,45 +46,45 @@ Global
 		SccProjectUniqueName1 = Ownerdrawn\u0020Controls\\Ownerdrawn\u0020Controls.csproj
 		SccProjectName1 = Ownerdrawn\u0020Controls
 		SccLocalPath1 = Ownerdrawn\u0020Controls
-		SccProjectUniqueName2 = SLF\\AST\\Objectified\u0020Intermediate\u0020Language\\Objectified\u0020Intermediate\u0020Language.csproj
-		SccProjectTopLevelParentUniqueName2 = Abstraction.sln
-		SccProjectName2 = SLF/AST/Objectified\u0020Intermediate\u0020Language
-		SccLocalPath2 = SLF\\AST\\Objectified\u0020Intermediate\u0020Language
-		SccProjectUniqueName3 = SLF\\Languages\\Common\u0020Intermediate\u0020Language\\Common\u0020Intermediate\u0020Language.csproj
+		SccProjectUniqueName2 = Utilities\\Common\u0020Utilities.csproj
+		SccProjectName2 = Utilities
+		SccLocalPath2 = Utilities
+		SccProjectUniqueName3 = SLF\\TypeSystems\\Abstract\\TypeSystem\u0020Abstract.csproj
 		SccProjectTopLevelParentUniqueName3 = Abstraction.sln
-		SccProjectName3 = SLF/Languages/Common\u0020Intermediate\u0020Language
-		SccLocalPath3 = SLF\\Languages\\Common\u0020Intermediate\u0020Language
-		SccProjectUniqueName4 = SLF\\Languages\\CSharp\\CSharp.csproj
+		SccProjectName3 = SLF/TypeSystems/Abstract
+		SccLocalPath3 = SLF\\TypeSystems\\Abstract
+		SccProjectUniqueName4 = SLF\\TypeSystems\\Common\u0020Language\u0020Infrastructure\\Common\u0020Language\u0020Infrastructure.csproj
 		SccProjectTopLevelParentUniqueName4 = Abstraction.sln
-		SccProjectName4 = SLF/Languages/CSharp
-		SccLocalPath4 = SLF\\Languages\\CSharp
-		SccProjectUniqueName5 = SLF\\Languages\\Language\u0020Metadata\u0020Library\\Language\u0020Services.csproj
+		SccProjectName4 = SLF/TypeSystems/Common\u0020Language\u0020Infrastructure
+		SccLocalPath4 = SLF\\TypeSystems\\Common\u0020Language\u0020Infrastructure
+		SccProjectUniqueName5 = SLF\\AST\\Objectified\u0020Intermediate\u0020Language\\Objectified\u0020Intermediate\u0020Language.csproj
 		SccProjectTopLevelParentUniqueName5 = Abstraction.sln
-		SccProjectName5 = SLF/Languages/Language\u0020Metadata\u0020Library
-		SccLocalPath5 = SLF\\Languages\\Language\u0020Metadata\u0020Library
+		SccProjectName5 = SLF/AST/Objectified\u0020Intermediate\u0020Language
+		SccLocalPath5 = SLF\\AST\\Objectified\u0020Intermediate\u0020Language
 		SccProjectUniqueName6 = SLF\\Languages\\Toy++\\Toy++.csproj
 		SccProjectTopLevelParentUniqueName6 = Abstraction.sln
 		SccProjectName6 = SLF/Languages/Toy++
 		SccLocalPath6 = SLF\\Languages\\Toy++
-		SccProjectUniqueName7 = SLF\\TypeSystems\\Abstract\\TypeSystem\u0020Abstract.csproj
+		SccProjectUniqueName7 = SLF\\Languages\\Common\u0020Intermediate\u0020Language\\Common\u0020Intermediate\u0020Language.csproj
 		SccProjectTopLevelParentUniqueName7 = Abstraction.sln
-		SccProjectName7 = SLF/TypeSystems/Abstract
-		SccLocalPath7 = SLF\\TypeSystems\\Abstract
-		SccProjectUniqueName8 = SLF\\TypeSystems\\Common\u0020Language\u0020Infrastructure\\Common\u0020Language\u0020Infrastructure.csproj
+		SccProjectName7 = SLF/Languages/Common\u0020Intermediate\u0020Language
+		SccLocalPath7 = SLF\\Languages\\Common\u0020Intermediate\u0020Language
+		SccProjectUniqueName8 = SLF\\Languages\\CSharp\\CSharp.csproj
 		SccProjectTopLevelParentUniqueName8 = Abstraction.sln
-		SccProjectName8 = SLF/TypeSystems/Common\u0020Language\u0020Infrastructure
-		SccLocalPath8 = SLF\\TypeSystems\\Common\u0020Language\u0020Infrastructure
-		SccProjectUniqueName9 = Utilities\\Common\u0020Utilities.csproj
-		SccProjectName9 = Utilities
-		SccLocalPath9 = Utilities
-		SccProjectUniqueName10 = SLF\\Languages\\OILexer\\OILexerParser.csproj
+		SccProjectName8 = SLF/Languages/CSharp
+		SccLocalPath8 = SLF\\Languages\\CSharp
+		SccProjectUniqueName9 = SLF\\Languages\\OILexer\\OILexerParser.csproj
+		SccProjectTopLevelParentUniqueName9 = Abstraction.sln
+		SccProjectName9 = SLF/Languages/OILexer
+		SccLocalPath9 = SLF\\Languages\\OILexer
+		SccProjectUniqueName10 = SLF\\Languages\\OILexer\\OILexer.csproj
 		SccProjectTopLevelParentUniqueName10 = Abstraction.sln
 		SccProjectName10 = SLF/Languages/OILexer
 		SccLocalPath10 = SLF\\Languages\\OILexer
-		SccProjectUniqueName11 = SLF\\Languages\\OILexer\\OILexer.csproj
+		SccProjectUniqueName11 = ModelViewer\\ModelViewer.csproj
 		SccProjectTopLevelParentUniqueName11 = Abstraction.sln
-		SccProjectName11 = SLF/Languages/OILexer
-		SccLocalPath11 = SLF\\Languages\\OILexer
+		SccProjectName11 = ModelViewer
+		SccLocalPath11 = ModelViewer
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,18 +95,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{41C87F7B-840B-4237-AEED-A471955AB3D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{41C87F7B-840B-4237-AEED-A471955AB3D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{41C87F7B-840B-4237-AEED-A471955AB3D7}.Debug|x64.ActiveCfg = Debug|x64
-		{41C87F7B-840B-4237-AEED-A471955AB3D7}.Debug|x64.Build.0 = Debug|x64
-		{41C87F7B-840B-4237-AEED-A471955AB3D7}.Debug|x86.ActiveCfg = Debug|x86
-		{41C87F7B-840B-4237-AEED-A471955AB3D7}.Debug|x86.Build.0 = Debug|x86
-		{41C87F7B-840B-4237-AEED-A471955AB3D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{41C87F7B-840B-4237-AEED-A471955AB3D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{41C87F7B-840B-4237-AEED-A471955AB3D7}.Release|x64.ActiveCfg = Release|x64
-		{41C87F7B-840B-4237-AEED-A471955AB3D7}.Release|x64.Build.0 = Release|x64
-		{41C87F7B-840B-4237-AEED-A471955AB3D7}.Release|x86.ActiveCfg = Release|x86
-		{41C87F7B-840B-4237-AEED-A471955AB3D7}.Release|x86.Build.0 = Release|x86
 		{C39FCBDC-EDED-4327-95BA-3B494FA59A8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C39FCBDC-EDED-4327-95BA-3B494FA59A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C39FCBDC-EDED-4327-95BA-3B494FA59A8E}.Debug|x64.ActiveCfg = Debug|x64
@@ -223,6 +211,14 @@ Global
 		{0D009988-DE0E-4362-830D-7980BEB41F6F}.Release|x64.Build.0 = Release|x64
 		{0D009988-DE0E-4362-830D-7980BEB41F6F}.Release|x86.ActiveCfg = Release|x86
 		{0D009988-DE0E-4362-830D-7980BEB41F6F}.Release|x86.Build.0 = Release|x86
+		{245E3B08-5E7A-4DA8-B8ED-581D0C28C9C0}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{245E3B08-5E7A-4DA8-B8ED-581D0C28C9C0}.Debug|x64.ActiveCfg = Debug|x86
+		{245E3B08-5E7A-4DA8-B8ED-581D0C28C9C0}.Debug|x86.ActiveCfg = Debug|x86
+		{245E3B08-5E7A-4DA8-B8ED-581D0C28C9C0}.Debug|x86.Build.0 = Debug|x86
+		{245E3B08-5E7A-4DA8-B8ED-581D0C28C9C0}.Release|Any CPU.ActiveCfg = Release|x86
+		{245E3B08-5E7A-4DA8-B8ED-581D0C28C9C0}.Release|x64.ActiveCfg = Release|x86
+		{245E3B08-5E7A-4DA8-B8ED-581D0C28C9C0}.Release|x86.ActiveCfg = Release|x86
+		{245E3B08-5E7A-4DA8-B8ED-581D0C28C9C0}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -231,10 +227,10 @@ Global
 		{C83E49F5-9884-4A95-BB30-E3138DC4FF86} = {0C80A341-45E9-4FD0-87F6-65976DEF71AB}
 		{460F9AF5-9236-4661-B1AD-42E5CB44CABD} = {0C80A341-45E9-4FD0-87F6-65976DEF71AB}
 		{C125AC66-5C9E-4B81-80B2-C9D2D72F9DB7} = {0C80A341-45E9-4FD0-87F6-65976DEF71AB}
-		{41C87F7B-840B-4237-AEED-A471955AB3D7} = {0C80A341-45E9-4FD0-87F6-65976DEF71AB}
 		{161EAA8C-20C6-4B82-925A-4B8B112910AB} = {C83E49F5-9884-4A95-BB30-E3138DC4FF86}
 		{4FF91A45-B361-4D8F-8C5B-03D11E5291E6} = {C83E49F5-9884-4A95-BB30-E3138DC4FF86}
 		{02607DC2-E98B-43AE-B906-FE151A70A68D} = {460F9AF5-9236-4661-B1AD-42E5CB44CABD}
+		{245E3B08-5E7A-4DA8-B8ED-581D0C28C9C0} = {460F9AF5-9236-4661-B1AD-42E5CB44CABD}
 		{DA55A92C-B4EE-4350-AC02-B6C25D795723} = {C125AC66-5C9E-4B81-80B2-C9D2D72F9DB7}
 		{DF059670-2803-4B58-BF97-A5322DAA8CC0} = {C125AC66-5C9E-4B81-80B2-C9D2D72F9DB7}
 		{8B815295-30CD-4825-8634-155776DEEE14} = {C125AC66-5C9E-4B81-80B2-C9D2D72F9DB7}

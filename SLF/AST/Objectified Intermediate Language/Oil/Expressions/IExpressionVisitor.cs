@@ -8,6 +8,10 @@ using AllenCopeland.Abstraction.Slf.Oil.Statements;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
+    /// <summary>
+    /// Defines properties and methods for working with an expression
+    /// visitor.
+    /// </summary>
     public interface IExpressionVisitor :
         ILinqVisitor,
         IIntermediatePrimitiveVisitor
@@ -100,32 +104,167 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         /// <param name="expression">The <see cref="IFusionTypeCollectionTargetExpression"/> to visit.</param>
         void Visit(IFusionTypeCollectionTargetExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IFieldReferenceExpression"/>
+        /// to visit.</param>
         void Visit(IFieldReferenceExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IExpressionToCommaTypeReferenceFusionExpression"/>
+        /// to visit.</param>
         void Visit(IExpressionToCommaTypeReferenceFusionExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IExpressionToCommaFusionExpression"/>
+        /// to visit.</param>
         void Visit(IExpressionToCommaFusionExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IExpressionFusionExpression"/>
+        /// to visit.</param>
         void Visit(IExpressionFusionExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IEventInvokeExpression"/>
+        /// to visit.</param>
         void Visit(IEventInvokeExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IDirectionExpression"/>
+        /// to visit.</param>
         void Visit(IDirectionExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IDelegateReferenceExpression"/>
+        /// to visit.</param>
         void Visit(IDelegateReferenceExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IDelegateMethodPointerReferenceExpression"/>
+        /// to visit.</param>
         void Visit(IDelegateMethodPointerReferenceExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IDelegateInvokeExpression"/>
+        /// to visit.</param>
         void Visit(IDelegateInvokeExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IDelegateHolderReferenceExpression"/>
+        /// to visit.</param>
         void Visit(IDelegateHolderReferenceExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ICreateInstanceMemberAssignment"/>
+        /// to visit.</param>
         void Visit(ICreateInstanceMemberAssignment expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ICreateInstanceExpression"/>
+        /// to visit.</param>
         void Visit(ICreateInstanceExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ICreateArrayExpression"/>
+        /// to visit.</param>
         void Visit(ICreateArrayExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ICreateArrayDetailExpression"/>
+        /// to visit.</param>
         void Visit(ICreateArrayDetailExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ICommaExpression"/>
+        /// to visit.</param>
         void Visit(ICommaExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IArrayDimensionDetailExpression"/>
+        /// to visit.</param>
         void Visit(IArrayDimensionDetailExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IAnonymousMethodWithParametersExpression"/>
+        /// to visit.</param>
         void Visit(IAnonymousMethodWithParametersExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IAnonymousMethodExpression"/>
+        /// to visit.</param>
         void Visit(IAnonymousMethodExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ILambdaTypedStatementExpression"/>
+        /// to visit.</param>
         void Visit(ILambdaTypedStatementExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ILambdaTypeInferredStatementExpression"/>
+        /// to visit.</param>
         void Visit(ILambdaTypeInferredStatementExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ILambdaTypedSimpleExpression"/>
+        /// to visit.</param>
         void Visit(ILambdaTypedSimpleExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ILambdaTypeInferredSimpleExpression"/>
+        /// to visit.</param>
         void Visit(ILambdaTypeInferredSimpleExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IParameterReferenceExpression"/>
+        /// to visit.</param>
         void Visit(IParameterReferenceExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IConstructorInvokeExpression"/>
+        /// to visit.</param>
         void Visit(IConstructorInvokeExpression expression);
-        void Visit(IConstructorPointerReferenceExpression constructorPointerReferenceExpression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IConstructorPointerReferenceExpression"/>
+        /// to visit.</param>
+        void Visit(IConstructorPointerReferenceExpression ctorPointerReference);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ILinqExpression"/>
+        /// to visit.</param>
         void Visit(ILinqExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IAssignmentExpression"/>
+        /// to visit.</param>
         void Visit(IAssignmentExpression expression);
     }
 }

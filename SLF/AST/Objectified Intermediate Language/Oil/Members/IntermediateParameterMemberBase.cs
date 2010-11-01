@@ -5,7 +5,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
-using AllenCopeland.Abstraction.Slf.CompilerServices;
+using AllenCopeland.Abstraction.Slf.Compilers;
  /*---------------------------------------------------------------------\
  | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// with the <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateParent"/>
-        /// which contains the <see cref="IntermediateParameterMemberBase"/></param>
+        /// which contains the <see cref="IntermediateParameterMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/></param>
         public IntermediateParameterMemberBase(TIntermediateParent parent)
             : base(parent)
         {
@@ -151,8 +151,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         ICustomAttributeCollection ICustomAttributedDeclaration.CustomAttributes
         {
-            get {
-                return ((CustomAttributeDefinitionCollectionSeries)(this.CustomAttributes)).GetWrapper();
+            get
+            {
+                if (this.customAttributesBack == null)
+                    this.customAttributesBack = ((CustomAttributeDefinitionCollectionSeries)(this.CustomAttributes)).GetWrapper();
+                return this.customAttributesBack;
             }
         }
 

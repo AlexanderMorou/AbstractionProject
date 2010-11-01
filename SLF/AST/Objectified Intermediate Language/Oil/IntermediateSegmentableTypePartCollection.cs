@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using AllenCopeland.Abstraction.Slf.Oil;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using AllenCopeland.Abstraction.Slf.CompilerServices;
+using AllenCopeland.Abstraction.Slf.Compilers;
  /*---------------------------------------------------------------------\
  | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|

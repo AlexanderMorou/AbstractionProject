@@ -9,7 +9,7 @@ using System.Text;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Slf.CompilerServices
+namespace AllenCopeland.Abstraction.Slf.Compilers
 {
     /// <summary>
     /// The exception is thrown when type-loading fails due to 

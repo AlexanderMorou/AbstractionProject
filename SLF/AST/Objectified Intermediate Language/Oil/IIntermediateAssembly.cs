@@ -62,7 +62,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <see cref="IIntermediateAssembly"/>.
         /// </summary>
         new IIntermediateModuleDictionary Modules { get; }
-
         /// <summary>
         /// Returns/sets the filename associated to the present 
         /// assembly partial instance.

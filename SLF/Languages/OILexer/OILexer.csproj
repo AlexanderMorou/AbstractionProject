@@ -92,6 +92,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -138,6 +139,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ModelViewer\ModelViewer.csproj">
+      <Project>{245E3B08-5E7A-4DA8-B8ED-581D0C28C9C0}</Project>
+      <Name>ModelViewer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Utilities\Common Utilities.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
       <Name>Common Utilities</Name>
@@ -157,10 +162,6 @@
     <ProjectReference Include="..\CSharp\CSharp.csproj">
       <Project>{8B815295-30CD-4825-8634-155776DEEE14}</Project>
       <Name>CSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Language Metadata Library\Language Services.csproj">
-      <Project>{41C87F7B-840B-4237-AEED-A471955AB3D7}</Project>
-      <Name>Language Services</Name>
     </ProjectReference>
     <ProjectReference Include="OILexerParser.csproj">
       <Project>{886B34E8-755F-420C-8725-767EADD92996}</Project>
