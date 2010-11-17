@@ -154,6 +154,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             public string Summary { get; set; }
 
             #endregion
+
+            public override void Visit(IIntermediateMemberVisitor visitor)
+            {
+                visitor.Visit(this);
+            }
         }
     }
 }

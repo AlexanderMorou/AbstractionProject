@@ -113,12 +113,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        public void ReadyAssemblyMetaData()
-        {
-            this.ReadyAssemblyMetaData(true);
-        }
-
-        internal void ReadyAssemblyMetaData(bool full)
+        public void ReadyAssemblyMetaData(bool full = true)
         {
             var fileVersion = full ? this.FileVersion : this.fileVersion;
             var assemblyVersion = full ? this.AssemblyVersion : this.assemblyVersion;
@@ -138,6 +133,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.owner._CustomAttributes.Add(toAdd.ToArray());
             }
         }
+
         private static void StandardAttributeCheck<T>(TAssembly owner, Type attributeType, T value, ref List<CustomAttributeDefinition.ParameterValueCollection> toAdd)
             where T :
                 class

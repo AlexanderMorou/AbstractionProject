@@ -69,5 +69,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <remarks>Used to specify the filename associated to a specific
         /// instance of an assembly.</remarks>
         string FileName { get; set; }
+        /// <summary>
+        /// Visits the <paramref name="visitor"/> provided.
+        /// </summary>
+        /// <param name="visitor">The <see cref="IIntermediateDeclarationVisitor"/>
+        /// which should receive the <see cref="IIntermediateAssembly"/> as a visitor.</param>
+        void Visit(IIntermediateDeclarationVisitor visitor);
     }
 }

@@ -47,6 +47,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             return new _Parameters((TIntermediateEvent)(object)this);
         }
+
+        public override void Visit(IIntermediateMemberVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 
     /// <summary>

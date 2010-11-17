@@ -450,5 +450,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
         #endregion
 
+        public override void Visit(IIntermediateTypeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

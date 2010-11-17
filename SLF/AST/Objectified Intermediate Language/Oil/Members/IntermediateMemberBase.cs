@@ -11,7 +11,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
-    public class IntermediateMemberBase<TParent, TIntermediateParent> :
+    public abstract class IntermediateMemberBase<TParent, TIntermediateParent> :
         IntermediateDeclarationBase,
         IIntermediateMember<TParent, TIntermediateParent>
         where TParent :
@@ -115,5 +115,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             get { return this.Name; }
         }
+
+        #region IIntermediateMember Members
+
+        public abstract void Visit(IIntermediateMemberVisitor visitor);
+
+        #endregion
     }
 }

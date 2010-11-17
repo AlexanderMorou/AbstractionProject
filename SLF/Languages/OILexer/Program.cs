@@ -15,7 +15,6 @@ using AllenCopeland.Abstraction.Slf.Compilers.Oilexer;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
-using AllenCopeland.Abstraction.Slf.ModelViewer;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
@@ -233,7 +232,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     Program.DisplayUsage();
                     return;
                 }
-                Program.ParseFile(file);
+                Program.ProcessFile(file);
             }
             finally
             {
@@ -558,7 +557,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             Console.WriteLine("Disposal took {0}", mainStopwatch.Elapsed);
         }
 
-        private static void ParseFile(string file)
+        private static void ProcessFile(string file)
         {
             int maxLength = new int[] { TitleSequence_CharacterSetCache.Length, TitleSequence_CharacterSetComputations.Length, TitleSequence_VocabularyCache.Length, TitleSequence_VocabularyComputations.Length, TitleSequence_NumberOfRules.Length, TitleSequence_NumberOfTokens.Length, PhaseName_Linking.Length, PhaseName_ExpandingTemplates.Length, PhaseName_Deliteralization.Length, PhaseName_InliningTokens.Length, PhaseName_TokenNFAConstruction.Length, PhaseName_TokenDFAConstruction.Length, PhaseName_TokenDFAReduction.Length, PhaseName_RuleNFAConstruction.Length, PhaseName_RuleDFAConstruction.Length, PhaseName_CallTreeAnalysis.Length, PhaseName_ObjectModelConstruction.Length, PhaseName_TokenCaptureConstruction.Length, PhaseName_TokenEnumConstruction.Length, PhaseName_RuleStructureConstruction.Length, PhaseName_Parsing.Length }.Max();
             baseTitle = string.Format("{0}: {1}", Path.GetFileNameWithoutExtension(typeof(Program).Assembly.Location), Path.GetFileName(file));
@@ -622,6 +621,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 }
                 catch (IOException) { }
                 ParserBuilderResults resultsOfBuild = Build(resultsOfParse);
+
                 resultsOfBuild.PhaseTimes._AddInternal(ParserBuilderPhase.Parsing, parseTime);
                 if (resultsOfBuild == null)
                     goto errorChecker;
@@ -789,9 +789,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     compileResults.TemporaryFiles.KeepFiles = true;
                     */
                 }
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(resultsOfBuild.Project.GetModelViewer());
                 goto ShowParseTime;
             __CheckErrorAgain:
                 if (resultsOfParse.Errors.HasErrors)

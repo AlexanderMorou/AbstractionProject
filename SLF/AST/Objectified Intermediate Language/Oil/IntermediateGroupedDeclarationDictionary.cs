@@ -231,11 +231,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        protected override string RekeyElement(KeyValuePair<string, TDeclaration> kvp)
-        {
-            return kvp.Value.UniqueIdentifier;
-        }
-
         protected internal override void _Add(string key, TDeclaration value)
         {
             if (!this.Suspended)

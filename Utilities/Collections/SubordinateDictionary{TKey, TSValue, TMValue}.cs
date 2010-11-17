@@ -107,7 +107,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// to insert.</param>
         protected internal override void _Add(TKey key, TSValue value)
         {
-            this.RefreshCheck();
             if (this.Master != null)
                 this.master.Subordinate_ItemAdded(this, key, value);
             base._Add(key, value);
@@ -121,7 +120,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <returns>true if the element was successfully removed; false otherwise.</returns>
         protected internal virtual bool Remove(TKey key)
         {
-            this.RefreshCheck();
             if (this.Master != null)
                 this.master.Subordinate_ItemRemoved(this, key);
             return base._Remove(key);
@@ -152,12 +150,10 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             get
             {
-                this.RefreshCheck();
                 return base[key];
             }
             protected set
             {
-                this.RefreshCheck();
                 if (this.Master != null)
                     this.master.Subordinate_ItemChanged(this, key, value);
                 base[key] = value;
@@ -188,7 +184,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         void _ISubordinateDictionaryMasterPass.Add(object key, object value)
         {
-            this.RefreshCheck();
             base._Add((TKey)key, (TSValue)value);
         }
 
@@ -201,7 +196,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         void _ISubordinateDictionaryMasterPass.Remove(object key)
         {
-            this.RefreshCheck();
             base._Remove((TKey)key);
         }
 
@@ -209,7 +203,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             set
             {
-                this.RefreshCheck();
                 base[(TKey)key] = (TSValue)value;
             }
         }
@@ -219,36 +212,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         protected override ControlledStateDictionary<TKey, TSValue>.KeysCollection InitializeKeysCollection()
         {
             return new KeysCollection(this);
-        }
-
-        protected void IncrementVersion()
-        {
-            this.version++;
-            this.needsRefresh = true;
-        }
-
-        protected void RefreshCheck()
-        {
-            if (this.needsRefresh)
-            {
-                int index = 0;
-                List<Tuple<TKey, TKey>> rekeyedElements = new List<Tuple<TKey, TKey>>();
-
-                foreach (var kvp in this)
-                {
-                    var newKey = this.RekeyElement(kvp);
-                    if (newKey.Equals(kvp.Key))
-                        index++;
-                    else
-                    {
-                        rekeyedElements.Add(new Tuple<TKey, TKey>(kvp.Key, newKey));
-                        this.Keys[index++] = newKey;
-                    }
-                }
-                master.Subordinate_ItemsRekeyed(this, rekeyedElements);
-
-                this.needsRefresh = false;
-            }
         }
 
         protected virtual TKey RekeyElement(KeyValuePair<TKey, TSValue> kvp)

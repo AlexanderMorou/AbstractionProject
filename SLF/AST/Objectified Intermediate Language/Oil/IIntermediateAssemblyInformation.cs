@@ -64,6 +64,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// emit the associated custom attributes onto the assembly.
         /// </summary>
         /// <remarks>Typically used by a compiler or code translator.</remarks>
-        void ReadyAssemblyMetaData();
+        void ReadyAssemblyMetaData(bool full = true);
     }
 }

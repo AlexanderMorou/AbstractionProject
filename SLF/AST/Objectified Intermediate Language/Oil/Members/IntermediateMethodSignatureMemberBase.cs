@@ -58,6 +58,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
 
         }
+
+        public override void Visit(IIntermediateMemberVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 
     /// <summary>
@@ -263,11 +268,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return new TypeParameterDictionary(this);
         }
 
-        protected override void OnParameterAdded(EventArgsR1<TIntermediateSignatureParameter> e)
-        {
-            base.OnParameterAdded(e);
-        }
-
         public IType ReturnType
         {
             get
@@ -334,7 +334,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
-        internal void OnTypeParameterAdded(IIntermediateMethodSignatureGenericTypeParameterMember arg1)
+        protected virtual void OnTypeParameterAdded(IIntermediateMethodSignatureGenericTypeParameterMember arg1)
         {
             if (this._TypeParameterAdded != null)
                 this._TypeParameterAdded(this, new EventArgsR1<IIntermediateGenericParameter>(arg1));
@@ -342,7 +342,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 this.TypeParameterAdded(this, new EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>(arg1));
         }
 
-        internal void OnTypeParameterRemoved(IIntermediateMethodSignatureGenericTypeParameterMember arg1)
+        protected virtual void OnTypeParameterRemoved(IIntermediateMethodSignatureGenericTypeParameterMember arg1)
         {
             if (this._TypeParameterRemoved != null)
                 this._TypeParameterRemoved(this, new EventArgsR1<IIntermediateGenericParameter>(arg1));

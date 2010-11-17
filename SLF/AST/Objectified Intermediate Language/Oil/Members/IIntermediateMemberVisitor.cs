@@ -7,8 +7,17 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
+    /// <summary>
+    /// Defines properties and methods for visiting the various kinds of members
+    /// definable in code.
+    /// </summary>
     public interface IIntermediateMemberVisitor
     {
+        /// <summary>
+        /// Visits the <paramref name="local"/> provided.
+        /// </summary>
+        /// <param name="local">The <see cref="ILocalMember"/> to visit.</param>
+        void Visit(ILocalMember local);
         #region Constructor coercion members
         /// <summary>
         /// Visits the <paramref name="ctor"/> provided.
@@ -137,6 +146,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             where TIntermediateFieldParent :
                 TFieldParent,
                 IIntermediateFieldParent<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>;
+        void Visit(IIntermediateEnumFieldMember field);
         #endregion
         #region Indexer members
         void Visit<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>(IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> indexer)
@@ -210,5 +220,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 TPropertyParent,
                 IIntermediatePropertyParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>;
         #endregion
+        /// <summary>
+        /// Visits the <paramref name="parameter"/> provided.
+        /// </summary>
+        /// <typeparam name="TParent">The <see cref="IParameterParent"/>
+        /// type which owns the abstract definition of the current 
+        /// <see cref="IIntermediateParameterMember{TParent, TIntermediateParent}"/>.</typeparam>
+        /// <typeparam name="TIntermediateParent">The <see cref="IIntermediateParameterParent"/>
+        /// which owns the current <see cref="IIntermediateParameterMember{TParent, TIntermediateParent}"/>.</typeparam>
+        /// <param name="parameter">The <see cref="IIntermediateParameterMember{TParent, TIntermediateParent}"/> to visit.</param>
+        void Visit<TParent, TIntermediateParent>(IIntermediateParameterMember<TParent, TIntermediateParent> parameter)
+            where TParent :
+                IParameterParent
+            where TIntermediateParent :
+                TParent,
+                IIntermediateParameterParent;
     }
 }

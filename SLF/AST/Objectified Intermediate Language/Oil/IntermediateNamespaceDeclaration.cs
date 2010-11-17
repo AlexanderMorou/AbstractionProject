@@ -75,6 +75,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateNamespaceDeclaration Members
 
+        public void Visit(IIntermediateDeclarationVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
         public IIntermediateAssembly Assembly
         {
             get

@@ -198,8 +198,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #endregion
         protected internal override void _Add(string key, TDeclaration value)
         {
-            this.OnItemAdded(new EventArgsR1<TIntermediateDeclaration>(((TIntermediateDeclaration)(value))));
             base._Add(key, value);
+            this.OnItemAdded(new EventArgsR1<TIntermediateDeclaration>(((TIntermediateDeclaration)(value))));
         }
 
         protected override void _AddRange(IEnumerable<KeyValuePair<string, TDeclaration>> elements)

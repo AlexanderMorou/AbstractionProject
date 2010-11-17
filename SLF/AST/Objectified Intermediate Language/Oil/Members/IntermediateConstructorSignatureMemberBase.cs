@@ -111,5 +111,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             base.OnRenaming(e);
         }
 
+
+        public override void Visit(IIntermediateMemberVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }
