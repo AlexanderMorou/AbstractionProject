@@ -147,5 +147,46 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
+
+        protected override void OnItemAdded(EventArgsR1<TIntermediateSignature> e)
+        {
+            if (e != null && e.Arg1 != null)
+            {
+                e.Arg1.Renamed += new EventHandler<DeclarationNameChangedEventArgs>(SignatureItem_Renamed);
+                e.Arg1.ParameterAdded += new EventHandler<EventArgsR1<TIntermediateSignatureParameter>>(SignatureItem_ParameterChange);
+                e.Arg1.ParameterRemoved += new EventHandler<EventArgsR1<TIntermediateSignatureParameter>>(SignatureItem_ParameterChange);
+            }
+            base.OnItemAdded(e);
+        }
+
+        protected void RekeyElement(TIntermediateSignature signature)
+        {
+            int valueIndex = this.Values.IndexOf(signature);
+            if (valueIndex != -1)
+                this.Keys[valueIndex] = signature.UniqueIdentifier;
+        }
+
+        void SignatureItem_Renamed(object sender, DeclarationNameChangedEventArgs e)
+        {
+            if (sender is TIntermediateSignature)
+                this.RekeyElement((TIntermediateSignature)sender);
+        }
+
+        void SignatureItem_ParameterChange(object sender, EventArgsR1<TIntermediateSignatureParameter> e)
+        {
+            if (sender is TIntermediateSignature)
+                this.RekeyElement((TIntermediateSignature)sender);
+        }
+
+        protected override void OnItemRemoved(EventArgsR1<TIntermediateSignature> e)
+        {
+            if (e != null && e.Arg1 != null)
+            {
+                e.Arg1.Renamed -= new EventHandler<DeclarationNameChangedEventArgs>(SignatureItem_Renamed);
+                e.Arg1.ParameterAdded -= new EventHandler<EventArgsR1<TIntermediateSignatureParameter>>(SignatureItem_ParameterChange);
+                e.Arg1.ParameterRemoved -= new EventHandler<EventArgsR1<TIntermediateSignatureParameter>>(SignatureItem_ParameterChange);
+            }
+            base.OnItemRemoved(e);
+        }
     }
 }

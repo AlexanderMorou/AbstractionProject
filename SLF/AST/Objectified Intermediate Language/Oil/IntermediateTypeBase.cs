@@ -438,5 +438,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return base.UniqueIdentifier;
             }
         }
+
+        #region IIntermediateType Members
+
+
+        public abstract void Visit(IIntermediateTypeVisitor visitor);
+
+        #endregion
     }
 }

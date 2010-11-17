@@ -1,0 +1,5 @@
+ToDo:
+Evaluate current completion level of project.
+Build design forecast
+Research appropriate identity resolution concepts
+Research dynamic language runtime and incorporate dynamics in full

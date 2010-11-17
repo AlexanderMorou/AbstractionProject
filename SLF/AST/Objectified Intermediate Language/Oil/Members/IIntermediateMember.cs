@@ -46,5 +46,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// Returns the parent of the <see cref="IIntermediateMember"/>.
         /// </summary>
         new IIntermediateMemberParent Parent { get; }
+        /// <summary>
+        /// Visits the <paramref name="visitor"/> provided.
+        /// </summary>
+        /// <param name="visitor">The <see cref="IIntermediateMemberVisitor"/> to
+        /// receive the <see cref="IIntermediateMember"/> as a visitor.</param>
+        void Visit(IIntermediateMemberVisitor visitor);
     }
 }

@@ -487,116 +487,116 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
 
-        public static ExpressionFusionExpression Fuse(this IFusionTargetExpression target, IFusionTermExpression term)
+        public static IExpressionFusionExpression Fuse(this IFusionTargetExpression target, IFusionTermExpression term)
         {
             return new ExpressionFusionExpression(target, term);
         }
 
-        public static ExpressionFusionExpression Fuse(this IFusionTargetExpression target, string term)
+        public static IExpressionFusionExpression Fuse(this IFusionTargetExpression target, string term)
         {
             return new ExpressionFusionExpression(target, term.GetSymbolExpression());
         }
 
-        public static ExpressionFusionExpression Fuse(this string target, string term)
+        public static IExpressionFusionExpression Fuse(this string target, string term)
         {
             return new ExpressionFusionExpression(target.GetSymbolExpression(), term.GetSymbolExpression());
         }
 
-        public static ExpressionFusionExpression Fuse(this IType target, string term)
+        public static IExpressionFusionExpression Fuse(this IType target, string term)
         {
             return new ExpressionFusionExpression(target.GetTypeExpression(), term.GetSymbolExpression());
         }
 
-        public static ExpressionFusionExpression Fuse(this Type target, string term)
+        public static IExpressionFusionExpression Fuse(this Type target, string term)
         {
             return target.GetTypeReference().Fuse(term);
         }
 
-        public static ExpressionFusionExpression Fuse(this IType target, IFusionTermExpression term)
+        public static IExpressionFusionExpression Fuse(this IType target, IFusionTermExpression term)
         {
             return ((IFusionTargetExpression)target.GetTypeExpression()).Fuse(term);
         }
 
-        public static ExpressionFusionExpression Fuse(this Type target, IFusionTermExpression term)
+        public static IExpressionFusionExpression Fuse(this Type target, IFusionTermExpression term)
         {
             return ((IFusionTargetExpression)target.GetTypeExpression()).Fuse(term);
         }
 
-        public static ExpressionToCommaFusionExpression Fuse(this IFusionCommaTargetExpression target, params IExpression[] terms)
+        public static IExpressionToCommaFusionExpression Fuse(this IFusionCommaTargetExpression target, params IExpression[] terms)
         {
             return new ExpressionToCommaFusionExpression(target, terms);
         }
 
-        public static ExpressionToCommaFusionExpression Fuse(this string target, params IExpression[] terms)
+        public static IExpressionToCommaFusionExpression Fuse(this string target, params IExpression[] terms)
         {
             return new ExpressionToCommaFusionExpression(target.GetSymbolExpression(), terms);
         }
 
-        public static ExpressionToCommaTypeReferenceFusionExpression Fuse(this IFusionTypeCollectionTargetExpression target, params IType[] terms)
+        public static IExpressionToCommaTypeReferenceFusionExpression Fuse(this IFusionTypeCollectionTargetExpression target, params IType[] terms)
         {
             return new ExpressionToCommaTypeReferenceFusionExpression(target, terms);
         }
-        public static ExpressionToCommaTypeReferenceFusionExpression Fuse(this IFusionTypeCollectionTargetExpression target, params Type[] terms)
+        public static IExpressionToCommaTypeReferenceFusionExpression Fuse(this IFusionTypeCollectionTargetExpression target, params Type[] terms)
         {
             return new ExpressionToCommaTypeReferenceFusionExpression(target, terms.ToCollection());
         }
 
-        public static ExpressionToCommaTypeReferenceFusionExpression Fuse(this string target, params IType[] terms)
+        public static IExpressionToCommaTypeReferenceFusionExpression Fuse(this string target, params IType[] terms)
         {
             return new ExpressionToCommaTypeReferenceFusionExpression(target.GetSymbolExpression(), terms);
         }
 
-        public static ExpressionToCommaFusionExpression Fuse(this byte target, string value, params IExpression[] parameters)
+        public static IExpressionToCommaFusionExpression Fuse(this byte target, string value, params IExpression[] parameters)
         {
             return target.ToPrimitive().Fuse(value).Fuse(parameters);
         }
 
-        public static ExpressionToCommaFusionExpression Fuse(this sbyte target, string value, params IExpression[] parameters)
+        public static IExpressionToCommaFusionExpression Fuse(this sbyte target, string value, params IExpression[] parameters)
         {
             return target.ToPrimitive().Fuse(value).Fuse(parameters);
         }
 
-        public static ExpressionToCommaFusionExpression Fuse(this ushort target, string value, params IExpression[] parameters)
+        public static IExpressionToCommaFusionExpression Fuse(this ushort target, string value, params IExpression[] parameters)
         {
             return target.ToPrimitive().Fuse(value).Fuse(parameters);
         }
 
-        public static ExpressionToCommaFusionExpression Fuse(this short target, string value, params IExpression[] parameters)
+        public static IExpressionToCommaFusionExpression Fuse(this short target, string value, params IExpression[] parameters)
         {
             return target.ToPrimitive().Fuse(value).Fuse(parameters);
         }
 
-        public static ExpressionToCommaFusionExpression Fuse(this uint target, string value, params IExpression[] parameters)
+        public static IExpressionToCommaFusionExpression Fuse(this uint target, string value, params IExpression[] parameters)
         {
             return target.ToPrimitive().Fuse(value).Fuse(parameters);
         }
 
-        public static ExpressionToCommaFusionExpression Fuse(this int target, string value, params IExpression[] parameters)
+        public static IExpressionToCommaFusionExpression Fuse(this int target, string value, params IExpression[] parameters)
         {
             return target.ToPrimitive().Fuse(value).Fuse(parameters);
         }
 
-        public static ExpressionToCommaFusionExpression Fuse(this ulong target, string value, params IExpression[] parameters)
+        public static IExpressionToCommaFusionExpression Fuse(this ulong target, string value, params IExpression[] parameters)
         {
             return target.ToPrimitive().Fuse(value).Fuse(parameters);
         }
 
-        public static ExpressionToCommaFusionExpression Fuse(this long target, string value, params IExpression[] parameters)
+        public static IExpressionToCommaFusionExpression Fuse(this long target, string value, params IExpression[] parameters)
         {
             return target.ToPrimitive().Fuse(value).Fuse(parameters);
         }
 
-        public static ExpressionToCommaFusionExpression Fuse(this float target, string value, params IExpression[] parameters)
+        public static IExpressionToCommaFusionExpression Fuse(this float target, string value, params IExpression[] parameters)
         {
             return target.ToPrimitive().Fuse(value).Fuse(parameters);
         }
 
-        public static ExpressionToCommaFusionExpression Fuse(this double target, string value, params IExpression[] parameters)
+        public static IExpressionToCommaFusionExpression Fuse(this double target, string value, params IExpression[] parameters)
         {
             return target.ToPrimitive().Fuse(value).Fuse(parameters);
         }
 
-        public static ExpressionToCommaFusionExpression Fuse(this decimal target, string value, params IExpression[] parameters)
+        public static IExpressionToCommaFusionExpression Fuse(this decimal target, string value, params IExpression[] parameters)
         {
             return target.ToPrimitive().Fuse(value).Fuse(parameters);
         }
@@ -792,5 +792,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 target.Add(parameter.GetReference());
         }
 
+        public static IAssignmentExpression Assign(this INaryOperandExpression assignmentTarget, AssignmentOperation assignmentType, INaryOperandExpression assignmentValue)
+        {
+            return new AssignmentExpression(assignmentTarget, assignmentType, assignmentValue);
+        }
+
+        public static IAssignmentExpression Assign(this INaryOperandExpression assignmentTarget, INaryOperandExpression assignmentValue)
+        {
+            return assignmentTarget.Assign(AssignmentOperation.SimpleAssign, assignmentValue);
+        }
     }
 }

@@ -87,7 +87,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <see cref="SymbolExpression"/>.</param>
         /// <returns>A new <see cref="ExpressionFusionExpression"/> which
         /// fuses the left and right elements in a left->right member access fusion.</returns>
-        public static ExpressionFusionExpression operator +(SymbolExpression left, string right)
+        public static IExpressionFusionExpression operator +(SymbolExpression left, string right)
         {
             return left.Fuse(right);
         }

@@ -139,10 +139,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ModelViewer\ModelViewer.csproj">
-      <Project>{245E3B08-5E7A-4DA8-B8ED-581D0C28C9C0}</Project>
-      <Name>ModelViewer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Utilities\Common Utilities.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
       <Name>Common Utilities</Name>

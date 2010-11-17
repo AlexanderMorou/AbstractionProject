@@ -25,30 +25,29 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             {
                 get
                 {
-                    this.owner.RefreshCheck();
                     return base[index];
                 }
                 internal protected set
                 {
+                    int masterIndex = this.owner.Master.Keys.IndexOf(base[index]);
+                    if (masterIndex > -1)
+                        this.owner.Master.Keys[masterIndex] = value;
                     base[index] = value;
                 }
             }
 
             public override IEnumerator<TKey> GetEnumerator()
             {
-                this.owner.RefreshCheck();
                 return base.GetEnumerator();
             }
 
             public override void CopyTo(TKey[] array, int arrayIndex)
             {
-                this.owner.RefreshCheck();
                 base.CopyTo(array, arrayIndex);
             }
 
             public override bool Contains(TKey item)
             {
-                this.owner.RefreshCheck();
                 return base.Contains(item);
             }
         }

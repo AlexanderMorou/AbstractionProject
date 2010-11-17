@@ -762,5 +762,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 return this.Name;
             }
         }
+
+        public override void Visit(IIntermediateTypeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
     }
 }

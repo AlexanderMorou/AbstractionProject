@@ -49,5 +49,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <remarks>Incremental function, all resumes must
         /// be invoked prior to resuming the duality.</remarks>
         void ResumeDualLayout();
+        /// <summary>
+        /// Visits the <paramref name="visitor"/> provided.
+        /// </summary>
+        /// <param name="visitor">The <see cref="IIntermediateDeclarationVisitor"/>
+        /// which should receive the <see cref="IIntermediateNamespaceDeclaration"/> as a visitor.</param>
+        void Visit(IIntermediateDeclarationVisitor visitor);
     }
 }

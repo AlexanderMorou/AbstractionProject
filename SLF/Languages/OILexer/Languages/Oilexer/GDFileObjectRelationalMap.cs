@@ -38,6 +38,18 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer
             this.Process(ruleStates, project);
         }
 
+        private IEnumerable<T> FilterScannable<T>(IGDFile target)
+            where T :
+                class,
+                IScannableEntry
+        {
+            return (from t in target
+                    let tItem = t as T
+                    where tItem != null
+                    orderby tItem.Name
+                    select tItem);
+        }
+
         private void Process(IControlledStateDictionary<IProductionRuleEntry, SyntacticalDFARootState> ruleStates, IIntermediateAssembly project)
         {
             var tokens = (from t in Source
@@ -75,6 +87,8 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer
             foreach (var rule in rules)
             {
                 RuleTreeNode startingNode = CheckRootVariant(project, ruleVariants, rule);
+                if (rule.ElementsAreChildren)
+                    continue;
                 foreach (var variation in (this[rule] as IRuleEntryObjectRelationalMap).Variations)
                 {
                     var currentNode = startingNode;

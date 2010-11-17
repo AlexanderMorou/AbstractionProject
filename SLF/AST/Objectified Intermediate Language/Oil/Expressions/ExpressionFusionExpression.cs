@@ -40,7 +40,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         public static ExpressionFusionExpression operator +(ExpressionFusionExpression left, IFusionTermExpression right)
         {
-            return ((IFusionTargetExpression)(left)).Fuse(right);
+            return (ExpressionFusionExpression)((IFusionTargetExpression)(left)).Fuse(right);
         }
 
         /// <summary>

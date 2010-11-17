@@ -320,5 +320,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 base.Dispose(dispose);
             }
         }
+
+        public override void Visit(IIntermediateTypeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

@@ -11,7 +11,8 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
     public interface IExpressionToCommaFusionExpression :
-        IFusionCommaTargetExpression
+        IFusionCommaTargetExpression,
+        IMemberParentReferenceExpression
     {
         IFusionCommaTargetExpression Left { get; set; }
         IMalleableExpressionCollection Right { get; }

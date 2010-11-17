@@ -423,5 +423,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 member.FieldType = kind;
             return member;
         }
+
+        public override void Visit(IIntermediateTypeVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

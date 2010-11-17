@@ -43,7 +43,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         void intermediateType_TypeParameterAddOrRemove(object sender, EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>> e)
         {
-            base.IncrementVersion();
+            if (sender is TIntermediateType)
+                this.RekeyElement((TIntermediateType)sender);
+        }
+
+        private void RekeyElement(TIntermediateType type)
+        {
+            int valueIndex = this.Values.IndexOf(type);
+            if (valueIndex != -1)
+                this.Keys[valueIndex] = type.UniqueIdentifier;
         }
 
         protected internal override bool _Remove(int index)

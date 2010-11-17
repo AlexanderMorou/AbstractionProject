@@ -71,5 +71,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public string Summary { get; set; }
 
         #endregion
+
+        public override void Visit(IIntermediateMemberVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

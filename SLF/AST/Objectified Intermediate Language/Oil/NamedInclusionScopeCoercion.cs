@@ -17,5 +17,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public string IncludedName { get; set; }
 
         #endregion
+
+        public override string ToString()
+        {
+            return string.Format("include {0};", IncludedName);
+        }
     }
 }

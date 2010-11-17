@@ -148,6 +148,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (names == null)
                 throw new ArgumentNullException("names");
+            names = (from name in names
+                     orderby name
+                     orderby name.Length < 6 ? 2 : name.Substring(0, 6) == "System" ? 0 : name.Length < 9 ? 2 : name.Substring(0, 9) == "Microsoft" ? 1 : 2
+                     select name).ToArray();
             INamedInclusionScopeCoercion[] result = new INamedInclusionScopeCoercion[names.Length];
             for (int i = 0; i < names.Length; i++)
             {

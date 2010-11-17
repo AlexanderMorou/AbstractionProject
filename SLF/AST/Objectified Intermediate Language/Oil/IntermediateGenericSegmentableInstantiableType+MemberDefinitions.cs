@@ -259,6 +259,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 get { return ((IIntermediateTypeParent)Parent).Assembly; }
             }
+
+            public override void Visit(IIntermediateMemberVisitor visitor)
+            {
+                visitor.Visit(this);
+            }
         }
 
         /// <summary>
@@ -394,6 +399,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 get { return ((IIntermediateType)this.Parent).Assembly; }
             }
 
+
+            public override void Visit(IIntermediateMemberVisitor visitor)
+            {
+                visitor.Visit(this);
+            }
         }
 
         /// <summary>
@@ -508,6 +518,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 get { return ((IIntermediateType)this.Parent).Assembly; }
             }
 
+            public override void Visit(IIntermediateMemberVisitor visitor)
+            {
+                visitor.Visit(this);
+            }
         }
 
         public abstract class PropertyMember :

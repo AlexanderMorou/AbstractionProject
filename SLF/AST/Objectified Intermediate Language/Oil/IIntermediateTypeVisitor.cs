@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Oil.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
@@ -37,5 +39,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <param name="struct">The <see cref="IIntermediateStructType"/>
         /// to visit.</param>
         void Visit(IIntermediateStructType @struct);
+
+        void Visit<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>(IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent> parameter)
+            where TGenericParameter :
+                IGenericParameter<TGenericParameter, TParent>
+            where TIntermediateGenericParameter :
+                TGenericParameter,
+                IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>
+            where TParent :
+                IGenericParamParent<TGenericParameter, TParent>
+            where TIntermediateParent :
+                TParent,
+                IIntermediateGenericParameterParent<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>;
     }
 }

@@ -62,5 +62,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <see cref="IIntermediateTypeParent"/> is defined.
         /// </summary>
         new IIntermediateAssembly Assembly { get; }
+        /// <summary>
+        /// Visits the <paramref name="visitor"/> provided.
+        /// </summary>
+        /// <param name="visitor">The <see cref="IIntermediateTypeVisitor"/> to
+        /// receive the <see cref="IIntermediateType"/> as a visitor.</param>
+        void Visit(IIntermediateTypeVisitor visitor);
     }
 }
