@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication.Properties {
+namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication.Pro
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication.Properties.Res" +
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Properties.Res" +
                             "ources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }

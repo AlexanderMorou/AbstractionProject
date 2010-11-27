@@ -30,8 +30,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             IMethodSignatureParent<TSignature, TSignatureParent>
         where TIntermediateSignatureParent :
             IIntermediateMethodSignatureParent<TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
-            TSignatureParent,
-            IIntermediateDeclaration
+            TSignatureParent
     {
         protected IntermediateMethodSignatureMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateSignatureParent parent)
             : base(master, parent)
@@ -61,8 +60,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
         where TIntermediateSignatureParent :
             TSignatureParent,
-            IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>,
-            IIntermediateDeclaration
+            IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
     {
         protected IntermediateGroupedMethodSignatureMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateSignatureParent parent)
             : base(master, parent)

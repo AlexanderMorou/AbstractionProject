@@ -41,14 +41,13 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         IControlledStateDictionary<IIntermediateType, TypeBuilder> ActiveTypes { get; }
 
         /// <summary>
-        /// Returns the <see cref="IHighLevelLanguage{TRootNode}"/> associated to the
-        /// <see cref="IIntermediateCompiler{TRootNode}"/>.
-        /// </summary>
-        new IHighLevelLanguage<TRootNode> Language { get; }
-        /// <summary>
         /// Returns the <see cref="IHighLevelLanguageProvider{TRootNode}"/> associated to the 
         /// <see cref="IIntermediateCompiler{TRootNode}"/>.
         /// </summary>
         new IHighLevelLanguageProvider<TRootNode> Provider { get; }
+
+        ICompilerResults Compile(TRootNode[] source, ICompilerContext context = null);
+
+        ICompilerResults Compile(IIntermediateAssembly source);
     }
 }

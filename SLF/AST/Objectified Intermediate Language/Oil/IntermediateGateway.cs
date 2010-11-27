@@ -768,5 +768,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
             return false;
         }
+
+        /// <summary>
+        /// Creates a new <see cref="IIntermediateDynamicHandler"/> which manages a series of 
+        /// intermediate dynamic methods and the potential containing assembly required to handle
+        /// statement and expression expansion.
+        /// </summary>
+        /// <param name="autoCollect">Determines whether the <see cref="IIntermediateDynamicHandler"/>
+        /// and associated intermediate assembly should be automatically unloaded when <see cref="IDisposable.Dispose"/>
+        /// is called on it.</param>
+        /// <returns>A new <see cref="IIntermediateDynamicHandler"/>.</returns>
+        public static IIntermediateDynamicHandler CreateDynamicHandler(bool autoCollect = false)
+        {
+            return new IntermediateDynamicHandler(autoCollect);
+        }
     }
 }

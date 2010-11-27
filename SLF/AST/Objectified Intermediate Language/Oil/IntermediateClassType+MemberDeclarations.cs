@@ -389,6 +389,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #region IIntermediateClassMethodMember Members
 
         /// <summary>
+        /// Returns/sets whether the <see cref="IntermediateClassMethodMember{TInstanceIntermediateType}"/> is asynchronous.
+        /// </summary>
+        public bool IsAsync { get; set; }
+
+        /// <summary>
         /// Returns/sets whether the current <see cref="IntermediateClassMethodMember{TInstanceIntermediateType}"/>
         /// is an extension method.
         /// </summary>

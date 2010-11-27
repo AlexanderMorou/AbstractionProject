@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Languages;
  /*---------------------------------------------------------------------\
  | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -45,5 +46,13 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// Returns/sets the level of warnings displayed by the compiler.
         /// </summary>
         WarningLevel WarnLevel { get; set; }
+        /// <summary>
+        /// Returns the <see cref="ILangauge"/> associated to the compilation process.
+        /// </summary>
+        ILanguage Language { get; }
+        /// <summary>
+        /// Returns/sets whether arithmetic overflow checks are on by default.
+        /// </summary>
+        bool ArithmeticOverflowChecks { get; set; }
     }
 }

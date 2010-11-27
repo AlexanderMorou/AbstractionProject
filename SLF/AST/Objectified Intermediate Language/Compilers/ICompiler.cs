@@ -29,11 +29,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// </summary>
         ICompilerOptions Options { get; }
         /// <summary>
-        /// Returns the <see cref="ILanguage"/> associated to the
-        /// <see cref="ICompiler"/>.
-        /// </summary>
-        ILanguage Language { get; }
-        /// <summary>
         /// Returns the <see cref="ILanguageProvider"/> associated to the 
         /// <see cref="ICompiler"/>.
         /// </summary>

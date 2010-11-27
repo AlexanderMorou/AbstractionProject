@@ -6,9 +6,8 @@ using AllenCopeland.Abstraction.Slf.Cst;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
-    public interface ICSharpLanguage :
-        IHighLevelLanguage<ICSharpCompilationUnit>
+    public interface ICSharpASTTranslator :
+        ILanguageASTTranslator<ICSharpCompilationUnit>
     {
-        new ICSharpProvider GetProvider();
     }
 }

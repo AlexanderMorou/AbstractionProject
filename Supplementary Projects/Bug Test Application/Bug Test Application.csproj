@@ -8,7 +8,7 @@
     <ProjectGuid>{6F404D32-4996-47B5-BADA-33BB8DD37160}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication</RootNamespace>
+    <RootNamespace>AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication</RootNamespace>
     <AssemblyName>Abstraction.BugTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -111,124 +111,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SimpleCompilerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Allen Copeland.pfx" />
-    <None Include="Samples\CSharp\Attributes.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Expressions\AnonymousExpressions.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Expressions\Array.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Expressions\LINQ.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Expressions\Math.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Expressions\Root.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Expressions\Templates.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\GeneralTemplates.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Lexical Grammar\Keywords.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Lexical Grammar\Operators.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Lexical Grammar\OtherTokens.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Lexical Grammar\Preprocessor.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Lexical Grammar\Root.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Members\Constructors.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Members\Events.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Members\Fields.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Members\Indexers.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Members\Locals.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Members\Methods.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Members\Operators.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Members\Parameters.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Members\Properties.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Members\Root.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Namespace.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Root.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Statements\Root.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Statements\Selection.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Statements\Templates.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Types\ClassDeclaration.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Types\DelegateDeclaration.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Types\EnumDeclaration.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Types\Generics.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Types\InterfaceDeclaration.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Types\Root.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Types\StructDeclaration.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Samples\CSharp\Types\Templates.oilexer">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -288,10 +180,6 @@
     <ProjectReference Include="..\..\SLF\Languages\Language Metadata Library\Language Services.csproj">
       <Project>{41C87F7B-840B-4237-AEED-A471955AB3D7}</Project>
       <Name>Language Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SLF\Languages\OILexer\OILexerParser.csproj">
-      <Project>{886B34E8-755F-420C-8725-767EADD92996}</Project>
-      <Name>OILexerParser</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SLF\Languages\Toy++\Toy++.csproj">
       <Project>{DA55A92C-B4EE-4350-AC02-B6C25D795723}</Project>
