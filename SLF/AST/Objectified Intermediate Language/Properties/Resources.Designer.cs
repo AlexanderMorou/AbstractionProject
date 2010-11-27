@@ -106,6 +106,33 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Parameter count must match..
+        /// </summary>
+        internal static string Exception_ParameterCount_Mismatch {
+            get {
+                return ResourceManager.GetString("Exception_ParameterCount_Mismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delegate already compiled, signature does not match..
+        /// </summary>
+        internal static string Exception_Precompiled_Mismatch {
+            get {
+                return ResourceManager.GetString("Exception_Precompiled_Mismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Result type does not match..
+        /// </summary>
+        internal static string Exception_ReturnType_Mismatch {
+            get {
+                return ResourceManager.GetString("Exception_ReturnType_Mismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to return.
         /// </summary>
         internal static string Statement_Return_Keyword {

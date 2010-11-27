@@ -96,6 +96,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compilers\ICSharpCompiler.cs" />
+    <Compile Include="Languages\CSharpLanguage.cs" />
+    <Compile Include="Languages\CSharpProvider.cs" />
+    <Compile Include="Languages\ICSharpProvider.cs" />
     <Compile Include="Oil\CSharpAssembly.cs" />
     <Compile Include="Oil\CSharpGateway.cs" />
     <Compile Include="Oil\Expressions\CSharpAddSubtExpression.cs" />
@@ -136,6 +140,8 @@
     <Compile Include="Languages\ICSharpLanguage.cs" />
     <Compile Include="Parsers\ICSharpParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Languages\ICSharpASTTranslator.cs" />
+    <Compile Include="Translation\ICSharpCodeTranslator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Common Utilities.csproj">

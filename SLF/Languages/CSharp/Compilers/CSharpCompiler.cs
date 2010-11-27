@@ -10,48 +10,23 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
     public class CSharpCompiler :
-        IntermediateCompiler<ICSharpCompilationUnit>
+        IntermediateCompiler<ICSharpCompilationUnit>,
+        ICSharpCompiler
     {
-
-        internal static readonly ReadOnlyCollection<Type> AutoFormTypes = new ReadOnlyCollection<Type>
-        (
-            new List<Type>
-            (
-                new Type[]
-                    {
-                        typeof(byte),
-                        typeof(sbyte),
-                        typeof(ushort),
-                        typeof(short),
-                        typeof(uint),
-                        typeof(int),
-                        typeof(ulong),
-                        typeof(long),
-                        typeof(void),
-                        typeof(bool),
-                        typeof(char),
-                        typeof(decimal),
-                        typeof(float),
-                        typeof(double),
-                        typeof(object),
-                        typeof(string)
-                    }
-            )
-        );
+        private ICSharpProvider provider;
+        internal CSharpCompiler (ICSharpProvider provider)
+        {
+            this.provider = provider;
+        }
 
         public CSharpCompiler()
             : base()
         {
         }
 
-        public override IHighLevelLanguage<ICSharpCompilationUnit> Language
-        {
-            get { return CSharpGateway.Language; }
-        }
-
         public override IHighLevelLanguageProvider<ICSharpCompilationUnit> Provider
         {
-            get { throw new NotImplementedException(); }
+            get { return this.provider; }
         }
     }
 }

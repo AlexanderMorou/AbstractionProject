@@ -5,6 +5,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Slf.Oil.Modules;
 using System.ComponentModel;
+using AllenCopeland.Abstraction.Slf.Cst;
  /*---------------------------------------------------------------------\
  | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -22,7 +23,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IIntermediateNamespaceParent,
         IIntermediateSegmentableDeclaration<IIntermediateAssembly>,
         IIntermediateCustomAttributedDeclaration,
-        IAssembly
+        IAssembly,
+        IConcreteNode
     {
         /// <summary>
         /// Returns itself.

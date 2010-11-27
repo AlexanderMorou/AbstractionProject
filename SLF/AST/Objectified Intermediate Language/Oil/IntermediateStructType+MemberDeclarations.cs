@@ -393,6 +393,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
+        /// <summary>
+        /// Returns/sets whether the <see cref="IntermediateStructMethodMember{TInstanceIntermediateType}"/> is asynchronous.
+        /// </summary>
+        public bool IsAsync { get; set; }
+
+
         #region IExtendedInstanceMember Members
 
         /// <summary>

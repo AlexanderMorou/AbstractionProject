@@ -61,6 +61,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <remarks>Applies to compilers that are accessed through a command-line
         /// only.</remarks>
         ResponseFile = 1024,
+        /// <summary>
+        /// Compiler supports embedding primary interop assembly meta-data pertinent
+        /// to scope of the assembly to compile.
+        /// </summary>
+        PrimaryInteropEmbedding = 2048,
         FullSupport = XMLDocumentation
                     | Optimization
                     | DebuggerSupport
@@ -71,5 +76,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                     | Signing
                     | MultiFileAssemblies
                     | ResponseFile
+                    | PrimaryInteropEmbedding
     }
 }

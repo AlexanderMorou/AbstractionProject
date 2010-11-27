@@ -12,7 +12,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         private static ICSharpLanguage InitializeCSharpLanguage()
         {
-            throw new NotImplementedException();
+            return new CSharpLanguage();
         }
 
         public static ICSharpLanguage Language

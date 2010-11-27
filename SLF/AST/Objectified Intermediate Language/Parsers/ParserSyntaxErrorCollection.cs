@@ -7,12 +7,15 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf.Parsers
 {
     /// <summary>
-    /// Defines properties and methods for working with a series of syntax error 
+    /// Provides a series of syntax error 
     /// messages.
     /// </summary>
-    public interface IParserSyntaxErrorCollection :
-        IControlledStateCollection<IParserSyntaxError>
+    internal class ParserSyntaxErrorCollection :
+        ControlledStateCollection<IParserSyntaxError>,
+        IParserSyntaxErrorCollection
     {
+        #region IParserSyntaxErrorCollection Members
+
         /// <summary>
         /// Creates, inserts, and returns a new <see cref="IParserSyntaxError"/>
         /// which denotes a point within the source which is syntactically invalid.
@@ -27,13 +30,24 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
         /// <returns>A new <see cref="IParserSyntaxError"/>
         /// which denotes the point within the source on which the 
         /// syntax error occurred.</returns>
-        IParserSyntaxError SyntaxError(string errorText, int line, int column, string fileName);
+        public IParserSyntaxError SyntaxError(string errorText, int line, int column, string fileName)
+        {
+            var result = new ParserSyntaxError(errorText, line, column, fileName);
+            base.AddImpl(result);
+            return result;
+        }
+
 
         /// <summary>
         /// Returns whether the <see cref="IParserSyntaxErrorCollection"/> 
         /// has an <see cref="ISourceRelatedError"/>.
         /// </summary>
-        bool HasErrors { get; }
+        public bool HasErrors
+        {
+            get { return this.Count > 0; }
+        }
+
+        #endregion
 
     }
 }
