@@ -10,6 +10,9 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
+    /// <summary>
+    /// The kinds of functionality the compiler supports.
+    /// </summary>
     [Flags]
     public enum CompilerSupport :
         short
@@ -19,6 +22,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// from documentation comments.
         /// </summary>
         XMLDocumentation = 1,
+        /// <summary>
+        /// Compiler supports generic parameter based duck typing.
+        /// </summary>
+        DuckTyping,
         /// <summary>
         /// Compiler supports optimization.
         /// </summary>
@@ -66,6 +73,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// to scope of the assembly to compile.
         /// </summary>
         PrimaryInteropEmbedding = 2048,
+        /// <summary>
+        /// The compiler supports all functionality.
+        /// </summary>
         FullSupport = XMLDocumentation
                     | Optimization
                     | DebuggerSupport

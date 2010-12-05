@@ -10,9 +10,73 @@ using AllenCopeland.Abstraction.Slf.Oil.Modules;
 using AllenCopeland.Abstraction.Slf.Cst;
 using AllenCopeland.Abstraction.Slf.Languages;
 using System.IO;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
+using AllenCopeland.Abstraction.Slf.Oil.Statements;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
+    public enum RewriteSectors
+    {
+        /// <summary>
+        /// The expression is a lambda expression.
+        /// </summary>
+        /// <remarks>
+        ///     C&#9839;: (Identifier | '(' Identifier (',' Identifier)* ')' | '(' TypedIdentifier (',' TypedIdentifier)* ')') "=>"
+        ///         (Expression | StatementBlock)
+        ///     VB: "Function" '(' TypedIdentifier (',' TypedIdentifier) ')' Expression
+        /// </remarks>
+        LambdaExpression = ExpressionKind.ExpansionRequiredSector.LambdaExpression,
+        /// <summary>
+        /// The expression is a ternary conditional operation.
+        /// </summary>
+        ConditionalOperation = ExpressionKind.ExpansionRequiredSector.ConditionalOperation,
+        /// <summary>
+        /// An expression which is merely a forward from a conditional expression.
+        /// </summary>
+        ConditionalForwardTerm = ExpressionKind.ExpansionRequiredSector.ConditionalForwardTerm,
+        /// <summary>
+        /// An series of expressions evaluated in verbatim order.
+        /// </summary>
+        CommaExpression = ExpressionKind.ExpansionRequiredSector.CommaExpression,
+        /// <summary>
+        /// An expression which is a language integrated query used to
+        /// manipulate and build new sequenes.
+        /// </summary>
+        LinqExpression = ExpressionKind.ExpansionRequiredSector.LinqExpression,
+        /// <summary>
+        /// An expression which modifies a wrapped expression prior
+        /// to being sent to the recipient of the wrapped expression.
+        /// </summary>
+        WorkspaceExpression = ExpressionKind.ExpansionRequiredSector.WorkspaceExpression,
+        /// <summary>
+        /// An expression which creates an array.
+        /// </summary>
+        /// <remarks>In the case of a rewrite, native numeric data-types
+        /// are enumerated and consolidated into a byte-array and cast into a
+        /// field for loading by the assembly.</remarks>
+        CreateArray = ExpressionKind.ExpansionRequiredSector.CreateArray,
+        /// <summary>
+        /// An expression which awaits the result of an asynchronous task.
+        /// </summary>
+        AwaitExpression = ExpressionKind.ExpansionRequiredSector.AwaitExpression,
+        /// <summary>
+        /// A statement which awaits the result of an asynchronous task.
+        /// </summary>
+        AwaitStatement = StatementKinds.AwaitStatement,
+        /// <summary>
+        /// A statement which yields a series of return values as a part of
+        /// an iterator state machine.
+        /// </summary>
+        YieldFunctionality = StatementKinds.YieldBreakStatement | StatementKinds.YieldReturnStatement,
+    }
+    internal class IntermediateCompiler :
+        IntermediateCompiler<IConcreteNode>
+    {
+        public override IHighLevelLanguageProvider<IConcreteNode> Provider
+        {
+            get { throw new NotSupportedException(); }
+        }
+    }
     public abstract partial class IntermediateCompiler<TRootNode> :
         IIntermediateCompiler<TRootNode>
         where TRootNode :
@@ -127,6 +191,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             }
             if (result == null)
                 throw new ArgumentException("source must contain at least one element to compile", "source");
+            else
+                result.References.AddRange(context.References);
             return this.Compile(source);
         }
 
@@ -136,5 +202,16 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
 
         #endregion
+
+        /// <summary>
+        /// Determines whether the <paramref name="expansionElement"/> needs rewritten
+        /// </summary>
+        /// <param name="expansionElement"></param>
+        /// <returns>true if the <paramref name="expansionElement"/> needs rewritten in the current
+        /// context.</returns>
+        protected virtual bool NeedsToRewrite(RewriteSectors expansionElement)
+        {
+            return true;
+        }
     }
 }

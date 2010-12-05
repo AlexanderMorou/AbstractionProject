@@ -1476,29 +1476,29 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         [Flags]
         public enum InvocationSector
         {
-            None = 0x0000000000000000,
+            None                                = 0x0000000000000000,
             /// <summary>
             /// The expression is the act of firing/raising an event.
             /// </summary>
-            EventFire = 0x0000000000000001,
+            EventFire                           = 0x0000000000000001,
             /// <summary>
             /// The expression is a method call.
             /// </summary>
-            MethodCall = 0x0000000000000002,
+            MethodCall                          = 0x0000000000000002,
             /// <summary>
             /// The expression is a call to a multicast delegate.
             /// </summary>
-            MultiCastDelegateCall = 0x0000000000000004,
+            MultiCastDelegateCall               = 0x0000000000000004,
             /// <summary>
             /// The expression invokes a constructor member, generally
             /// returning an instance to an object.
             /// </summary>
-            ConstructorInvoke     = 0x0000000000000008,
+            ConstructorInvoke                   = 0x0000000000000008,
             /// <summary>
             /// Represents all expressions which involve invocation
             /// targets.
             /// </summary>
-            All = 0x000000000000000F,
+            All                                 = 0x000000000000000F,
         }
 
         /// <summary>
@@ -1508,7 +1508,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         [Flags]
         public enum ExpansionRequiredSector
         {
-            None = 0x0000000000000000,
+            None                                = 0x0000000000000000,
             /// <summary>
             /// The expression is a lambda expression.
             /// </summary>
@@ -1517,35 +1517,45 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             ///         (Expression | StatementBlock)
             ///     VB: "Function" '(' TypedIdentifier (',' TypedIdentifier) ')' Expression
             /// </remarks>
-            LambdaExpression = 0x0000000000000001,
+            LambdaExpression                    = 0x0000000000000001,
             /// <summary>
             /// The expression is a ternary conditional operation.
             /// </summary>
-            ConditionalOperation = 0x0000000000000002,
+            ConditionalOperation                = 0x0000000000000002,
             /// <summary>
             /// An expression which is merely a forward from a conditional expression.
             /// </summary>
-            ConditionalForwardTerm = 0x0000000000000004,
+            ConditionalForwardTerm              = 0x0000000000000004,
             /// <summary>
             /// An series of expressions evaluated in verbatim order.
             /// </summary>
-            CommaExpression = 0x0000000000000008,
+            CommaExpression                     = 0x0000000000000008,
             /// <summary>
             /// An expression which is a language integrated query used to
             /// manipulate and build new sequenes.
             /// </summary>
-            LinqExpression = 0x0000000000000010,
+            LinqExpression                      = 0x0000000000000010,
             /// <summary>
             /// An expression which modifies a wrapped expression prior
             /// to being sent to the recipient of the wrapped expression.
             /// </summary>
-            WorkspaceExpression = 0x0000000000000020,
-            CreateArray         = 0x0000000000000040,
+            WorkspaceExpression                 = 0x0000000000000020,
+            /// <summary>
+            /// An expression which creates an array.
+            /// </summary>
+            /// <remarks>In the case of a rewrite, native numeric data-types
+            /// are enumerated and consolidated into a byte-array and cast into a
+            /// field for loading by the assembly.</remarks>
+            CreateArray                         = 0x0000000000000040,
+            /// <summary>
+            /// An expression which awaits the result of an asynchronous task.
+            /// </summary>
+            AwaitExpression                     = 0x0000000000000080,
             /// <summary>
             /// Represents all expressions which require precompiler
             /// expansion.
             /// </summary>
-            All = 0x000000000000007F,
+            All                                 = 0x00000000000000FF,
         }
 
         /// <summary>

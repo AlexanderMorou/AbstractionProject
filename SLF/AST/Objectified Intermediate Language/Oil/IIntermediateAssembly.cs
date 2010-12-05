@@ -43,12 +43,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         new IIntermediateModule ManifestModule { get; set; }
         /// <summary>
-        /// Returns the <see cref="IAssemblyWorkspace"/> which maintains 
-        /// a seamless integration of all the <see cref="IIntermediateAssembly"/>'s
-        /// references as a unified namespace model.
-        /// </summary>
-        IAssemblyWorkspace Workspace { get; }
-        /// <summary>
         /// Returns/sets the default namespace for the <see cref="IIntermediateAssembly"/>.
         /// </summary>
         IIntermediateNamespaceDeclaration DefaultNamespace { get; set; }
@@ -77,5 +71,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <param name="visitor">The <see cref="IIntermediateDeclarationVisitor"/>
         /// which should receive the <see cref="IIntermediateAssembly"/> as a visitor.</param>
         void Visit(IIntermediateDeclarationVisitor visitor);
+        /// <summary>
+        /// Returns the <see cref="IAssemblyReferenceCollection"/> associated
+        /// to the <see cref="IIntermediateAssembly"/>.
+        /// </summary>
+        IAssemblyReferenceCollection References { get; }
     }
 }

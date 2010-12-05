@@ -106,7 +106,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\AbstractGateway.cs" />
+    <Compile Include="Abstract\AssemblyReference.cs" />
+    <Compile Include="Abstract\AssemblyReferenceCollection.cs" />
     <Compile Include="Abstract\GenericTypeCache.cs" />
+    <Compile Include="Abstract\IAssemblyReference.cs" />
     <Compile Include="Abstract\IMassTargetHandler.cs" />
     <Compile Include="Abstract\MassDisposalAid.cs" />
     <Compile Include="Compilers\GenericParamCtorFailureException.cs" />
@@ -139,7 +142,6 @@
     <Compile Include="Abstract\IAssembly.cs" />
     <Compile Include="Abstract\IAssemblyInformation.cs" />
     <Compile Include="Abstract\IAssemblyReferences.cs" />
-    <Compile Include="Abstract\IAssemblyWorkspace.cs" />
     <Compile Include="Abstract\IClassType.cs" />
     <Compile Include="Abstract\IClassTypeDictionary.cs" />
     <Compile Include="Abstract\ICoercibleType.cs" />

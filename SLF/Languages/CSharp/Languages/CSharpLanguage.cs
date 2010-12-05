@@ -80,16 +80,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             get { return Compilers.CompilerSupport.FullSupport ^ Compilers.CompilerSupport.Win32Resources; }
         }
 
-        public ExpressionKind SupportedExpressions
-        {
-            get { return supportedExpressions; }
-        }
-
-        public StatementKinds SupportedStatements
-        {
-            get { throw new NotImplementedException(); }
-        }
-
         #endregion
     }
 }
