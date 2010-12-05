@@ -229,5 +229,16 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             }
         }
 
+
+        internal void AddRange(T[] target)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            lock (baseList)
+            {
+                for (int i = 0; i < target.Length; i++)
+                    this.baseList.Add(target[i]);
+            }
+        }
     }
 }

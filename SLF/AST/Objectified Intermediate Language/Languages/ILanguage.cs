@@ -27,15 +27,5 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// compiler contains.
         /// </summary>
         CompilerSupport CompilerSupport { get; }
-        /// <summary>
-        /// Returns the <see cref="ExpressionKind"/> representing the
-        /// kinds of expressions supported by the language.
-        /// </summary>
-        ExpressionKind SupportedExpressions { get; }
-        /// <summary>
-        /// Returns the <see cref="StatementKinds"/> representing the 
-        /// kinds of statements supported by the language.
-        /// </summary>
-        StatementKinds SupportedStatements { get; }
     }
 }

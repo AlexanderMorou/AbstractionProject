@@ -118,10 +118,9 @@
     <Compile Include="Compilers\CompilerSupport.cs" />
     <Compile Include="Compilers\DebugSupport.cs" />
     <Compile Include="Compilers\ICompilerContext.cs" />
-    <Compile Include="Compilers\IOilIntermediateCompiler.cs" />
-    <Compile Include="Languages\IOilIntermediateLanguage.cs" />
-    <Compile Include="Languages\IOilProvider.cs" />
-    <Compile Include="Languages\OilIntermediateLanguage.cs" />
+    <Compile Include="Compilers\ICompilerError.cs" />
+    <Compile Include="Compilers\ICompilerMessage.cs" />
+    <Compile Include="Compilers\ICompilerWarning.cs" />
     <Compile Include="Oil\IIntermediateDeclarationVisitor.cs" />
     <Compile Include="Oil\IIntermediateDynamicHandler.cs" />
     <Compile Include="Oil\IIntermediateInclusionVisitor.cs" />

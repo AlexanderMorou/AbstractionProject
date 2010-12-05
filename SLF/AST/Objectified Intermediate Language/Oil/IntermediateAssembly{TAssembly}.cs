@@ -57,10 +57,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         private IIntermediateModule manifestModule;
         /// <summary>
-        /// Data member for <see cref="Workspace"/>.
-        /// </summary>
-        private IAssemblyWorkspace workspace;
-        /// <summary>
         /// Data member for <see cref="Types"/>.
         /// </summary>
         private new IntermediateFullTypeDictionary types;
@@ -71,6 +67,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
          * */
         private event EventHandler<DeclarationNameChangedEventArgs> _Renamed;
         private event EventHandler<DeclarationRenamingEventArgs> _Renaming;
+        private IAssemblyReferenceCollection references;
         /// <summary>
         /// Creates a new <see cref="IntermediateAssembly{TAssembly}"/> with the 
         /// <paramref name="rootAssembly"/> provided.
@@ -310,26 +307,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Returns the <see cref="IAssemblyWorkspace"/> which maintains 
-        /// a seamless integration of all the <see cref="IntermediateAssembly{TAssembly}"/>'s
-        /// references as a unified namespace model.
-        /// </summary>
-        public IAssemblyWorkspace Workspace
-        {
-            get
-            {
-                if (this.workspace == null)
-                    this.workspace = InitializeWorkspace();
-                return this.workspace;
-            }
-        }
-
-        private IAssemblyWorkspace InitializeWorkspace()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Returns the <see cref="IPrivateImplementationDetails"/> part of the assembly
         /// which denotes specific features, such as defined anonymous types, 
         /// and so on.
@@ -346,6 +323,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         public IIntermediateNamespaceDeclaration DefaultNamespace { get; set; }
 
+        public IAssemblyReferenceCollection References
+        {
+            get
+            {
+                if (this.IsRoot)
+                {
+                    if (this.references == null)
+                        this.references = new AssemblyReferenceCollection();
+                    return this.references;
+                }
+                else
+                    return this.GetRoot().References;
+            }
+        }
 
         #endregion
 
