@@ -96,10 +96,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             return this.typeParameters;
         }
 
-        public override bool IsGenericMethod
+        public override bool IsGenericConstruct
         {
             get {
-                return this.original.IsGenericMethod;
+                return this.original.IsGenericConstruct;
             }
         }
 
@@ -123,18 +123,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             if (Parent is IGenericType)
             {
                 IGenericType parent = ((IGenericType)(this.Parent));
-                if (parent.IsGenericType)
+                if (parent.IsGenericConstruct)
                 {
-                    if (!parent.IsGenericTypeDefinition)
-                        if (this.IsGenericMethod && this.genericReplacements != null)
+                    if (!parent.IsGenericDefinition)
+                        if (this.IsGenericConstruct && this.genericReplacements != null)
                             return this.original.ReturnType.Disambiguify(parent.GenericParameters, this.genericReplacements, TypeParameterSources.Both);
                         else
                             return this.original.ReturnType.Disambiguify(parent.GenericParameters, null, TypeParameterSources.Type);
                 }
-                else if (this.IsGenericMethod && this.genericReplacements != null)
+                else if (this.IsGenericConstruct && this.genericReplacements != null)
                     return this.original.ReturnType.Disambiguify(null, this.genericReplacements, TypeParameterSources.Method);
             }
-            else if (this.IsGenericMethod && this.genericReplacements != null)
+            else if (this.IsGenericConstruct && this.genericReplacements != null)
                 return this.original.ReturnType.Disambiguify(null, this.genericReplacements, TypeParameterSources.Method);
             return this.original.ReturnType;
         }

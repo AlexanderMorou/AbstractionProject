@@ -60,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// replaced with the elements within 
         /// <paramref name="genericReplacements"/>.
         /// </returns>
-        new TSignature MakeGenericMethod(ITypeCollection genericReplacements);
+        new TSignature MakeGenericClosure(ITypeCollectionBase genericReplacements);
         /// <summary>
         /// Returns the original generic form of the current
         /// <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent}"/> 
@@ -83,15 +83,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         IGenericParamParent<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember>,
         IMember
     {
-        /// <summary>
-        /// Returns whether the <see cref="IMethodSignatureMember"/> is a generic method.
-        /// </summary>
-        bool IsGenericMethod { get; }
-        /// <summary>
-        /// Returns whether the current <see cref="IMethodSignatureMember"/> 
-        /// is in its generic form.
-        /// </summary>
-        bool IsGenericMethodDefinition { get; }
         /// <summary>
         /// Returns the <see cref="IType"/> that the <see cref="IMethodSignatureMember"/>
         /// yields upon return.
@@ -116,7 +107,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <exception cref="System.InvalidOperationException">
         /// Thrown when the <see cref="IMethodSignatureMember"/>
         /// is not a generic method.</exception>
-        IMethodSignatureMember MakeGenericMethod(ITypeCollection genericReplacements);
+        IMethodSignatureMember MakeGenericClosure(ITypeCollection genericReplacements);
         /// <summary>
         /// Returns the original generic form of the current
         /// <see cref="IMethodSignatureMember"/> generic variant.

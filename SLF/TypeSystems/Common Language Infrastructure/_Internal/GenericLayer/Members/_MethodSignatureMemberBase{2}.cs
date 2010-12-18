@@ -103,9 +103,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             r = this.genericCache[fd];
             return true;
         }
-        public override sealed TSignature MakeGenericMethod(ITypeCollection genericReplacements)
+        public override sealed TSignature MakeGenericClosure(ITypeCollectionBase genericReplacements)
         {
-            if (!this.IsGenericMethodDefinition)
+            if (!this.IsGenericDefinition)
                 throw new InvalidOperationException();
             IMethodSignatureMember k = null;
             if (this.ContainsGenericMethodSignature(genericReplacements, ref k))

@@ -179,7 +179,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
 
-        protected override IDelegateType OnMakeGenericType(ITypeCollectionBase typeParameters)
+        protected override IDelegateType OnMakeGenericClosure(ITypeCollectionBase typeParameters)
         {
             return new _DelegateTypeBase(this, typeParameters);
         }
@@ -206,7 +206,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return _ImplementedInterfaces;
         }
 
-        public override bool IsGenericType
+        public override bool IsGenericConstruct
         {
             get {
                 if (!base.TypeParametersInitialized)

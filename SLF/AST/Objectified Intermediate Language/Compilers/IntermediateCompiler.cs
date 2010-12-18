@@ -15,59 +15,53 @@ using AllenCopeland.Abstraction.Slf.Oil.Statements;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
-    public enum RewriteSectors
+    public enum RewriteSectors : ulong
     {
         /// <summary>
-        /// The expression is a lambda expression.
+        /// The rewrites associated to a lambda expression.
         /// </summary>
-        /// <remarks>
-        ///     C&#9839;: (Identifier | '(' Identifier (',' Identifier)* ')' | '(' TypedIdentifier (',' TypedIdentifier)* ')') "=>"
-        ///         (Expression | StatementBlock)
-        ///     VB: "Function" '(' TypedIdentifier (',' TypedIdentifier) ')' Expression
-        /// </remarks>
         LambdaExpression = ExpressionKind.ExpansionRequiredSector.LambdaExpression,
         /// <summary>
-        /// The expression is a ternary conditional operation.
+        /// The rewrites associated to a conditional operation.
         /// </summary>
         ConditionalOperation = ExpressionKind.ExpansionRequiredSector.ConditionalOperation,
         /// <summary>
-        /// An expression which is merely a forward from a conditional expression.
-        /// </summary>
-        ConditionalForwardTerm = ExpressionKind.ExpansionRequiredSector.ConditionalForwardTerm,
-        /// <summary>
-        /// An series of expressions evaluated in verbatim order.
+        /// The rewrite associated to a series of comma delimited expressions
+        /// when viewed as a group, as opposed to the arguments to a method.
         /// </summary>
         CommaExpression = ExpressionKind.ExpansionRequiredSector.CommaExpression,
         /// <summary>
-        /// An expression which is a language integrated query used to
-        /// manipulate and build new sequenes.
+        /// The rewrite associated to a language integrated query.
         /// </summary>
         LinqExpression = ExpressionKind.ExpansionRequiredSector.LinqExpression,
         /// <summary>
-        /// An expression which modifies a wrapped expression prior
-        /// to being sent to the recipient of the wrapped expression.
+        /// The rewrite associated to a workspace expression.
         /// </summary>
         WorkspaceExpression = ExpressionKind.ExpansionRequiredSector.WorkspaceExpression,
         /// <summary>
-        /// An expression which creates an array.
+        /// The rewrite associated to a primitive array initialization expression.
         /// </summary>
-        /// <remarks>In the case of a rewrite, native numeric data-types
-        /// are enumerated and consolidated into a byte-array and cast into a
-        /// field for loading by the assembly.</remarks>
         CreateArray = ExpressionKind.ExpansionRequiredSector.CreateArray,
         /// <summary>
-        /// An expression which awaits the result of an asynchronous task.
+        /// The rewrite associated to await functionality.
         /// </summary>
-        AwaitExpression = ExpressionKind.ExpansionRequiredSector.AwaitExpression,
+        AwaitFunctionality = StatementKinds.AwaitStatement | ExpressionKind.ExpansionRequiredSector.AwaitExpression,
         /// <summary>
-        /// A statement which awaits the result of an asynchronous task.
-        /// </summary>
-        AwaitStatement = StatementKinds.AwaitStatement,
-        /// <summary>
-        /// A statement which yields a series of return values as a part of
-        /// an iterator state machine.
+        /// The rewrite associated to yield state machine functionality.
         /// </summary>
         YieldFunctionality = StatementKinds.YieldBreakStatement | StatementKinds.YieldReturnStatement,
+        /// <summary>
+        /// The rewrite associated to duck typing on type-parameters.
+        /// </summary>
+        DuckTyping          = 0x0000000100000000,
+        /// <summary>
+        /// The rewrite associated to extension methods.
+        /// </summary>
+        ExtensionMethods    = 0x0000000200000000,
+        /// <summary>
+        /// The rewrite is associated to anonymous methods
+        /// </summary>
+        AnonymousMethods    = 0x0000000400000000,
     }
     internal class IntermediateCompiler :
         IntermediateCompiler<IConcreteNode>

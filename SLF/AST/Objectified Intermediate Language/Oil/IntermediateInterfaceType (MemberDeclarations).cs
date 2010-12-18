@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 : base(parent)
             {
             }
-            protected override IInterfaceMethodMember OnMakeGenericMethod(ITypeCollection genericReplacements)
+            protected override IInterfaceMethodMember OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
             {
                 return new _InterfaceTypeBase._MethodsBase._Method(this, genericReplacements);
             }

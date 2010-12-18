@@ -679,7 +679,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        protected override IClassMethodMember OnMakeGenericMethod(ITypeCollection genericReplacements)
+        protected override IClassMethodMember OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
         {
             return new _ClassTypeBase._MethodsBase._Method(this, genericReplacements);
         }

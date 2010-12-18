@@ -65,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Ambiguous types are not generic types.
         /// </summary>
-        public bool IsGenericType
+        public bool IsGenericConstruct
         {
             get { return false; }
         }

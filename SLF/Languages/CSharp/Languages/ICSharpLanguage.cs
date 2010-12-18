@@ -10,5 +10,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         IHighLevelLanguage<ICSharpCompilationUnit>
     {
         new ICSharpProvider GetProvider();
+        /// <summary>
+        /// Returns the <see cref="CSharpLanguageVersion"/> which denotes
+        /// which version of C&#9839; is represented by the <see cref="ICSharpLanguage"/>.
+        /// </summary>
+        CSharpLanguageVersion Version { get; }
     }
 }

@@ -101,7 +101,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     return new NullableType(this);
                 }
 
-                public override bool IsGenericType
+                public override bool IsGenericConstruct
                 {
                     get { return false; }
                 }

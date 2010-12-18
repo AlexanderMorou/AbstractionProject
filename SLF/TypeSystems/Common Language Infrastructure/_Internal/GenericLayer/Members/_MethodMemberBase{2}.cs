@@ -111,9 +111,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             return true;
         }
 
-        public override sealed TMethod MakeGenericMethod(ITypeCollection genericReplacements)
+        public override sealed TMethod MakeGenericClosure(ITypeCollectionBase genericReplacements)
         {
-            if (!this.IsGenericMethodDefinition)
+            if (!this.IsGenericDefinition)
                 throw new InvalidOperationException();
             IMethodMember k = null;
             if (this.ContainsGenericMethod(genericReplacements, ref k))

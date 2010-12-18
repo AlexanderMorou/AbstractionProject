@@ -149,7 +149,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <summary>
         /// Returns whether the <see cref="CompiledMethodMemberBase{TMethod, TMethodParent}"/> is a generic method.
         /// </summary>
-        public override bool IsGenericMethod
+        public override bool IsGenericConstruct
         {
             get {
                 return this.MemberInfo.IsGenericMethod;
@@ -252,26 +252,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             return true;
         }
 
-        public override sealed TMethod MakeGenericMethod(ITypeCollection genericReplacements)
+        public override sealed TMethod MakeGenericClosure(ITypeCollectionBase genericReplacements)
         {
-            if (!this.IsGenericMethod)
+            if (!this.IsGenericConstruct)
                 throw new InvalidOperationException("not a generic method");
             IMethodMember k = null;
             IGenericType genericParent = null;
-            if (this.Parent is IGenericType && (genericParent = ((IGenericType)(this.Parent))).IsGenericType &&
-                genericParent.IsGenericTypeDefinition)
+            if (this.Parent is IGenericType && (genericParent = ((IGenericType)(this.Parent))).IsGenericConstruct &&
+                genericParent.IsGenericDefinition)
                 throw new InvalidOperationException("Cannot obtain a closed generic method whose containing type is an open generic definition.");
             if (this.ContainsGenericMethod(genericReplacements, ref k))
                 return ((TMethod)(k));
             /* *
              * _IGenericMethodRegistrar handles cache.
              * */
-            var tK = this.OnMakeGenericMethod(genericReplacements);
+            var tK = this.OnMakeGenericClosure(genericReplacements);
             CLIGateway.VerifyTypeParameters<IMethodParameterMember<TMethod, TMethodParent>, TMethod, TMethodParent>(this, genericReplacements);
             return tK;
         }
 
-        protected abstract TMethod OnMakeGenericMethod(ITypeCollectionBase genericReplacements);
+        protected abstract TMethod OnMakeGenericClosure(ITypeCollectionBase genericReplacements);
 
         public override void Dispose()
         {

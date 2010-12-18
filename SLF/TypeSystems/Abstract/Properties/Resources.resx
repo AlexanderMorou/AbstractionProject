@@ -159,7 +159,7 @@ Reason: {2}</value>
   </data>
   <data name="MakeGenericTypeError_IsGenericTypeDefFalse" xml:space="preserve">
     <value>The type is not a generic type definition; operation only valid on generic type definitions.</value>
-    <comment>MakeGenericType was called on a fully closed generic type, this is not legal because it is not the generic definition.</comment>
+    <comment>MakeGenericClosure was called on a fully closed generic type, this is not legal because it is not the generic definition.</comment>
   </data>
   <data name="MustBeGenericType" xml:space="preserve">
     <value>The type must be a generic type to perform this action.</value>

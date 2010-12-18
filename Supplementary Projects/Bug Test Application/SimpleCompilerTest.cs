@@ -33,13 +33,12 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             //Console.WriteLine("{0,-25}: {1}", "To construct code graph", codeObjectConstruction);
             //Console.WriteLine("{0,-25}: {1}", "To dispose code graph", disposeGraph);
             IIntermediateDynamicHandler handler = IntermediateGateway.CreateDynamicHandler();
-            
             var u = handler.Builder;
             var method1 = handler.Methods.Add("Main", new TypedNameSeries(new TypedName("args", typeof(string[]).GetTypeReference())));
             var m1Args = method1.Parameters["args"];
-            method1.ScopeCoercions.AddNames("System");
+            method1.ScopeCoercions.AddStaticName("System.Console");
             
-            method1.Call("Console".Fuse("WriteLine").Fuse(new IExpression[] { m1Args.GetReference().GetProperty("Length") }));
+            method1.Call("WriteLine".Fuse(new IExpression[] { m1Args.GetReference().GetProperty("Length") }));
             var m1 = method1.Compile<string[]>();
             
             m1(args);

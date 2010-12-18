@@ -17,8 +17,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Modules
         _MethodMemberBase<IModuleGlobalMethod, IModule>,
         IModuleGlobalMethod
     {
-        public _GlobalMethodMember(IModule parent, IModuleGlobalMethod original)
-            : base(parent, original)
+        public _GlobalMethodMember(IModuleGlobalMethod original, ITypeCollectionBase genericReplacements)
+            : base(original, genericReplacements)
         {
         }
 
@@ -26,5 +26,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Modules
         {
             throw new NotSupportedException("Closed generic global methods are already generic methods.");
         }
+
     }
 }

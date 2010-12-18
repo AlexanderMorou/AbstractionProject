@@ -144,7 +144,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
                 if (Parent is IGenericType)
                 {
                     IGenericType parent = ((IGenericType)(this.Parent));
-                    if (parent.IsGenericType && !parent.IsGenericTypeDefinition)
+                    if (parent.IsGenericConstruct && !parent.IsGenericDefinition)
                         return this.Original.PropertyType.Disambiguify(parent.GenericParameters, null, TypeParameterSources.Type);
                 }
                 return this.Original.PropertyType;

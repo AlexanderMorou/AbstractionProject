@@ -14,6 +14,12 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         ICSharpProvider
     {
         private ICSharpCompiler compiler;
+        private CSharpLanguageVersion versionCompatability;
+        internal CSharpProvider(CSharpLanguageVersion versionCompatability)
+        {
+            this.versionCompatability = versionCompatability;
+        }
+
         #region ICSharpProvider Members
 
         public ICSharpParser Parser
@@ -43,7 +49,23 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
         public ICSharpLanguage Language
         {
-            get { return CSharpGateway.Language; }
+            get {
+                switch (versionCompatability)
+                {
+                    case CSharpLanguageVersion.CSharp_v2:
+                        return CSharpGateway.Language.Version2;
+                    case CSharpLanguageVersion.CSharp_v3:
+                        return CSharpGateway.Language.Version3;
+                    case CSharpLanguageVersion.CSharp_v3_5:
+                        return CSharpGateway.Language.Version3_5;
+                    case CSharpLanguageVersion.CSharp_v4:
+                        return CSharpGateway.Language.Version4;
+                    case CSharpLanguageVersion.CSharp_v5:
+                        return CSharpGateway.Language.Version5;
+                    default:
+                        throw new NotSupportedException("Version not supported.");
+                }
+            }
         }
 
         #endregion

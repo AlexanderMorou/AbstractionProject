@@ -82,9 +82,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         {
             get
             {
-                if (this.IsGenericMethod)
+                if (this.IsGenericConstruct)
                 {
-                    if (this.IsGenericMethodDefinition)
+                    if (this.IsGenericDefinition)
                     {
                         if (this.typeParameters == null)
                             this.typeParameters = this.InitializeTypeParameters();
@@ -113,6 +113,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
 
         #region IGenericParamParent Members
 
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        {
+            return this.MakeGenericClosure(typeParameters);
+        }
+
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(params IType[] typeParameters)
+        {
+            return this.MakeGenericClosure(typeParameters.ToLockedCollection());
+        }
+
         IGenericParameterDictionary IGenericParamParent.TypeParameters
         {
             get { return (IGenericParameterDictionary)this.TypeParameters; }
@@ -122,16 +132,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
 
         #region IMethodSignatureMember Members
 
-        public bool IsGenericMethodDefinition
+        public bool IsGenericDefinition
         {
             get {
-                return this.OnGetGenericDefinition() == null && this.IsGenericMethod;
+                return this.OnGetGenericDefinition() == null && this.IsGenericConstruct;
             }
         }
 
-        IMethodSignatureMember IMethodSignatureMember.MakeGenericMethod(ITypeCollection genericReplacements)
+        IMethodSignatureMember IMethodSignatureMember.MakeGenericClosure(ITypeCollection genericReplacements)
         {
-            return this.MakeGenericMethod(genericReplacements);
+            return this.MakeGenericClosure(genericReplacements);
         }
 
         IMethodSignatureMember IMethodSignatureMember.GetGenericDefinition()
@@ -157,7 +167,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         /// <summary>
         /// Returns whether the <see cref="MethodSignatureMemberBase{TSignatureParameter, TSignature, TSignatureParent}"/> is a generic method.
         /// </summary>
-        public abstract bool IsGenericMethod { get; }
+        public abstract bool IsGenericConstruct { get; }
 
         #endregion
 
@@ -213,8 +223,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         #region IMethodSignatureMember<TSignatureParameter,TSignature,TSignatureParent> Members
 
 
-        public abstract TSignature MakeGenericMethod(ITypeCollection genericReplacements);
+        public abstract TSignature MakeGenericClosure(ITypeCollectionBase genericReplacements);
 
+
+        IMethodSignatureMember IGenericParamParent<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember>.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        {
+            return this.MakeGenericClosure(typeParameters);
+        }
+
+        IMethodSignatureMember IGenericParamParent<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember>.MakeGenericClosure(params IType[] typeParameters)
+        {
+            return this.MakeGenericClosure(typeParameters.ToLockedCollection());
+        }
         /// <summary>
         /// Returns the original generic form of the current
         /// <see cref="MethodSignatureMemberBase{TSignatureParameter, TSignature, TSignatureParent}"/> 
@@ -229,15 +249,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         /// generic form.</exception>
         public TSignature GetGenericDefinition()
         {
-            if (!this.IsGenericMethod)
+            if (!this.IsGenericConstruct)
                 throw new InvalidOperationException("Cannot obtain the generic definition of a non-generic method.");
-            if (this.IsGenericMethodDefinition)
+            if (this.IsGenericDefinition)
                 throw new InvalidOperationException("Method is already in generic form.");
             return this.OnGetGenericDefinition();
         }
         #endregion
 
         protected abstract TSignature OnGetGenericDefinition();
+
+        public bool ContainsGenericParameters
+        {
+            get
+            {
+                return this.ContainsGenericParameters();
+            }
+        }
 
     }
 }

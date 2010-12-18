@@ -31,15 +31,15 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// closed generic form of the current <see cref="IGenericType{TType}"/>
         /// using the <paramref name="typeParameters"/> provided.
         /// </summary>
-        /// <param name="typeParameters">The <see cref="ILockedTypeCollection"/> 
+        /// <param name="typeParameters">The <see cref="ITypeCollectionBase"/> 
         /// used to fill in the type-parameters.</param>
         /// <returns>A new closed <typeparamref name="TType"/> instance with
         /// the <paramref name="typeParameters"/> provided.</returns>
         /// <exception cref="System.InvalidOperationException">
         /// The current <see cref="IGenericType{TType}"/>'s 
-        /// <seealso cref="IGenericType.IsGenericTypeDefinition"/>
+        /// <seealso cref="IGenericParamParent.IsGenericConstruct"/>
         /// is false.</exception>
-        new TType MakeGenericType(ITypeCollectionBase typeParameters);
+        new TType MakeGenericClosure(ITypeCollectionBase typeParameters);
         /// <summary>
         /// Returns a <typeparamref name="TType"/> instance that is the 
         /// closed generic form of the current <see cref="IGenericType{TType}"/> 
@@ -50,9 +50,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <returns>A new closed <typeparamref name="TType"/> instance with 
         /// the <paramref name="typeParameters"/> provided.</returns>
         /// <exception cref="System.InvalidOperationException">
-        /// The current <see cref="IGenericType{TType}"/>'s 
-        /// <seealso cref="IGenericType.IsGenericTypeDefinition"/>
-        /// is false.</exception>
-        new TType MakeGenericType(params IType[] typeParameters);
+        /// <seealso cref="IGenericParamParent.IsGenericConstruct"/> 
+        /// of the current instance is false.</exception>
+        new TType MakeGenericClosure(params IType[] typeParameters);
     }
 }

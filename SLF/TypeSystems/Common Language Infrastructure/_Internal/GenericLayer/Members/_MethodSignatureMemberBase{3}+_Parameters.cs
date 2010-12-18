@@ -56,21 +56,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
                         if (this.Parent.Parent is IGenericType)
                         {
                             IGenericType parent = ((IGenericType)(this.Parent.Parent));
-                            if (parent.IsGenericType)
+                            if (parent.IsGenericConstruct)
                             {
-                                if (!parent.IsGenericTypeDefinition)
-                                    if (this.Parent.IsGenericMethod)
-                                        if (!this.Parent.IsGenericMethodDefinition)
+                                if (!parent.IsGenericDefinition)
+                                    if (this.Parent.IsGenericConstruct)
+                                        if (!this.Parent.IsGenericDefinition)
                                             return this.Original.ParameterType.Disambiguify(parent.GenericParameters, this.Parent.GenericParameters, TypeParameterSources.Both);
                                         else
                                             return this.Original.ParameterType.Disambiguify(parent.GenericParameters, null, TypeParameterSources.Type);
                                     else
                                         return this.Original.ParameterType.Disambiguify(parent.GenericParameters, null, TypeParameterSources.Type);
                             }
-                            else if (this.Parent.IsGenericMethod && this.Parent.GenericParameters != null)
+                            else if (this.Parent.IsGenericConstruct && this.Parent.GenericParameters != null)
                                 return this.Original.ParameterType.Disambiguify(null, this.Parent.GenericParameters, TypeParameterSources.Method);
                         }
-                        else if (this.Parent.IsGenericMethod && this.Parent.GenericParameters != null)
+                        else if (this.Parent.IsGenericConstruct && this.Parent.GenericParameters != null)
                             return this.Original.ParameterType.Disambiguify(null, this.Parent.GenericParameters, TypeParameterSources.Method);
                         return this.Original.ParameterType;
                     }

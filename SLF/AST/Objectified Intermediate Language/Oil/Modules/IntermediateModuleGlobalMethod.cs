@@ -23,9 +23,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         {
         }
 
-        protected override IModuleGlobalMethod OnMakeGenericMethod(ITypeCollection genericReplacements)
+        protected override IModuleGlobalMethod OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
         {
-            return new _GlobalMethodMember(this.Parent, this);
+            return new _GlobalMethodMember(this, genericReplacements);
         }
 
         public override IIntermediateAssembly Assembly

@@ -103,7 +103,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
             #endregion
 
-            protected override IStructMethodMember OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
+            protected override IStructMethodMember OnMakeGenericClosure(ITypeCollectionBase genericReplacements)
             {
                 return new _StructTypeBase._MethodsBase._Method(this, genericReplacements);
             }

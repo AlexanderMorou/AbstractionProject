@@ -416,7 +416,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        protected override IStructMethodMember OnMakeGenericMethod(ITypeCollection genericReplacements)
+        protected override IStructMethodMember OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
         {
             return new _StructTypeBase._MethodsBase._Method(this, genericReplacements);
         }

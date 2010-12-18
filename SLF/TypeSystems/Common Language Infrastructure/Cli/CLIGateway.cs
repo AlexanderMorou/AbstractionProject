@@ -104,23 +104,17 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             return ((TType)ict);
         }
 
-        public static IType GetTypeReference(this Type type, ITypeCollection typeParameters, bool verify=true)
+        public static IType GetTypeReference(this Type type, ITypeCollection typeParameters)
         {
             if (type.IsGenericType && type.IsGenericTypeDefinition)
-                if (verify)
-                    return ((IGenericType)type.GetTypeReference()).MakeGenericType(typeParameters);
-                else
-                    return ((IGenericType)type.GetTypeReference()).MakeVerifiedGenericType(typeParameters);
+                return ((IGenericType)type.GetTypeReference()).MakeGenericClosure(typeParameters);
             throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
         }
 
-        public static IType GetTypeReference(this Type type, bool verify=true, params IType[] typeParameters)
+        public static IType GetTypeReference(this Type type, params IType[] typeParameters)
         {
             if (type.IsGenericType && type.IsGenericTypeDefinition)
-                if (verify)
-                    return ((IGenericType)type.GetTypeReference()).MakeGenericType(typeParameters);
-                else
-                    return ((IGenericType)type.GetTypeReference()).MakeVerifiedGenericType(typeParameters.ToCollection());
+                return ((IGenericType)type.GetTypeReference()).MakeGenericClosure(typeParameters);
             throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
         }
         public static TType GetTypeReference<TType>(this Type type, ITypeCollection typeParameters, bool verify=true)
@@ -128,22 +122,16 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 IGenericType<TType>
         {
             if (type.IsGenericType && type.IsGenericTypeDefinition)
-                if (verify)
-                    return type.GetTypeReference<TType>().MakeGenericType(typeParameters);
-                else
-                    return (TType)type.GetTypeReference<TType>().MakeVerifiedGenericType(typeParameters);
+                return type.GetTypeReference<TType>().MakeGenericClosure(typeParameters);
             throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
         }
 
-        public static TType GetTypeReference<TType>(this Type type, bool verify = true, params IType[] typeParameters)
+        public static TType GetTypeReference<TType>(this Type type, params IType[] typeParameters)
             where TType :
                 IGenericType<TType>
         {
             if (type.IsGenericType && type.IsGenericTypeDefinition)
-                if (verify)
-                    return type.GetTypeReference<TType>().MakeGenericType(typeParameters);
-                else
-                    return (TType)type.GetTypeReference<TType>().MakeVerifiedGenericType(typeParameters.ToCollection());
+                return type.GetTypeReference<TType>().MakeGenericClosure(typeParameters);
             throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
         }
 
@@ -324,9 +312,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             #region Type production
 
-            if (typeParameters != null && result.IsGenericType && result is IGenericType && ((IGenericType)(result)).IsGenericTypeDefinition)
+            if (typeParameters != null && result.IsGenericConstruct && result is IGenericType && ((IGenericType)(result)).IsGenericDefinition)
             {
-                result = ((IGenericType)(result)).MakeVerifiedGenericType(typeParameters);
+                result = ((IGenericType)(result)).MakeGenericClosure(typeParameters);
                 CacheAdd(closedGenericType, result);
             }
             if (nullable)
@@ -403,15 +391,15 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             return new TypedName(name, type.GetTypeReference());
         }
 
-        public static TType MakeGenericType<TType>(this IGenericType<TType> target, params Type[] typeParameters)
+        public static TType MakeGenericClosure<TType>(this IGenericType<TType> target, params Type[] typeParameters)
             where TType :
                 IGenericType<TType>
         {
-            if (!target.IsGenericType)
+            if (!target.IsGenericConstruct)
                 throw new InvalidOperationException(Resources.MustBeGenericType);
-            else if (!target.IsGenericTypeDefinition)
+            else if (!target.IsGenericDefinition)
                 throw new InvalidOperationException(Resources.MakeGenericTypeError_IsGenericTypeDefFalse);
-            return target.MakeGenericType(typeParameters.ToCollection());
+            return target.MakeGenericClosure(typeParameters.ToCollection());
         }
 
         /// <summary>
@@ -594,7 +582,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
              * */
             var parentTypeReplacements = LockedTypeCollection.Empty;
             TypeParameterSources source = TypeParameterSources.Method;
-            if (signature.Parent is IGenericType && ((IGenericType)(signature.Parent)).IsGenericType)
+            if (signature.Parent is IGenericType && ((IGenericType)(signature.Parent)).IsGenericConstruct)
             {
                 IGenericType parent = ((IGenericType)(signature.Parent));
                 /* *
@@ -605,7 +593,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                  * *
                  * Obtain the replacements 
                  * */
-                if (parent.IsGenericTypeDefinition)
+                if (parent.IsGenericDefinition)
                     if (typeReplacements.Count == parent.GenericParameters.Count + signature.GenericParameters.Count)
                     {
                         parentTypeReplacements = typeReplacements.Take(parent.GenericParameters.Count).ToLockedCollection();
@@ -954,7 +942,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                     if (genericParameters != null && genericParameters.Count > 0)
                     {
                         //Obvious mismatch.
-                        if (!method.IsGenericMethod)
+                        if (!method.IsGenericConstruct)
                             return false;
                         //...same.
                         else if (method.TypeParameters.Count != genericParameters.Count)
@@ -963,7 +951,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                         try { method.VerifyTypeParameters(genericParameters); }
                         catch (ArgumentException) { return false; }
                     }
-                    else if (method.IsGenericMethod)
+                    else if (method.IsGenericConstruct)
                         //Strict mode requires type-parameters to be present.
                         return false;
 
@@ -1003,7 +991,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                          * Generic parameters being present automatically
                          * eliminate non-generic methods.
                          * */
-                        if (!method.IsGenericMethod)
+                        if (!method.IsGenericConstruct)
                             return false;
 
                         //if (!method.TypeParameters.Values.All(gP => gP.VerifyTypeParameter(genericParameters[gP.Position])))
@@ -1036,12 +1024,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                     {
                         if (genericParameters != null && genericParameters.Count > 0)
                         {
-                            if (t.IsGenericMethod && t.GenericParameters.Count != genericParameters.Count)
+                            if (t.IsGenericConstruct && t.GenericParameters.Count != genericParameters.Count)
                                 return false;
                             //Generic variant test...
                             try
                             {
-                                TSignature gVar = t.MakeGenericMethod(genericParameters);
+                                TSignature gVar = t.MakeGenericClosure(genericParameters);
                             }
                             catch (ArgumentException)
                             {
@@ -1050,7 +1038,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                             return true;
                         }
                         else
-                            if (t.IsGenericMethod)
+                            if (t.IsGenericConstruct)
                                 return false;
 
                         if (t.Name != name)
@@ -1059,9 +1047,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                     }).OnAll(e =>
                     {
                         //Transform the methods if they're generics.
-                        if (e.IsGenericMethod)
+                        if (e.IsGenericConstruct)
                         {
-                            return e.MakeGenericMethod(genericParameters);
+                            return e.MakeGenericClosure(genericParameters);
                         }
                         return e;
                     }).ToArray());
@@ -1075,7 +1063,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                     values.Filter(t =>
                     {
                         Tuple<ITypeCollection, ITypeCollection> methodGenericParameters = null;
-                        if (t.IsGenericMethod && t.IsGenericMethodDefinition)
+                        if (t.IsGenericConstruct && t.IsGenericDefinition)
                         {
                             methodGenericParameters = new Tuple<ITypeCollection, ITypeCollection>(new TypeCollection(), new TypeCollection());
                             t.TypeParameters.Values.ToArray().OnAll(tgp =>
@@ -1110,7 +1098,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             where TSignatureParent :
                 ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
         {
-            if (method.IsGenericMethod && method.IsGenericMethodDefinition && parameterType.ContainsGenericParameters() &&
+            if (method.IsGenericConstruct && method.IsGenericDefinition && parameterType.ContainsGenericParameters() &&
                 !((genericParameters == null) || (genericParameters.Count == 0)))
             {
                 /* *
@@ -1133,7 +1121,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             if (method.Parent is IGenericType)
             {
                 var pParent = (IGenericType)method.Parent;
-                if (pParent.IsGenericType)
+                if (pParent.IsGenericConstruct)
                     return TypeToParamCheck<TSignature>(deviations, method, parameterType.Disambiguify(pParent.GenericParameters, methodGenericParameters.Item2, TypeParameterSources.Both), sourceType);
             }
             return TypeToParamCheck<TSignature>(deviations, method, parameterType.Disambiguify(null, methodGenericParameters.Item2, TypeParameterSources.Method), sourceType);

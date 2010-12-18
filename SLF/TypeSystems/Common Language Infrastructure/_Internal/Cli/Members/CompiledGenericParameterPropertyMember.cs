@@ -27,6 +27,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// </summary>
         /// <param name="parent">The <typeparamref name="TGenericParameter"/> which owns the
         /// <see cref="CompiledGenericParameterPropertyMember{TGenericParameter}"/>.</param>
+        /// <param name="memberInfo">The <see cref="MethodInfo"/> which contains the
+        /// meta-data pertinent to the <see cref="MethodMember"/>.</param>
         internal CompiledGenericParameterPropertyMember(TGenericParameter parent, PropertyInfo memberInfo)
             : base(parent, memberInfo)
         {
@@ -36,6 +38,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             CompiledGenericParameterMethodMember<TGenericParameter>,
             IGenericParameterPropertyMethodMember<TGenericParameter>
         {
+            /// <summary>
+            /// Creates a new <see cref="MethodMember"/> with the <paramref name="methodType"/>,
+            /// <paramref name="parent"/> and <paramref name="memberInfo"/> provided.
+            /// </summary>
+            /// <param name="methodType">Whether the method of the property represents the 
+            /// get or set aspect of the property.</param>
+            /// <param name="parent">The <typeparamref name="TGenericParameter">TGenericParameter</typeparamref>
+            /// to which the <see cref="MethodMember"/> belongs.</param>
+            /// <param name="memberInfo">The <see cref="MethodInfo"/> which contains the
+            /// meta-data pertinent to the <see cref="MethodMember"/>.</param>
             internal MethodMember(PropertyMethodType methodType, TGenericParameter parent, MethodInfo memberInfo)
                 : base(parent, memberInfo)
             {

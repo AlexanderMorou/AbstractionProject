@@ -70,7 +70,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
         }
 
-        protected override IInterfaceType OnMakeGenericType(ITypeCollectionBase typeParameters)
+        protected override IInterfaceType OnMakeGenericClosure(ITypeCollectionBase typeParameters)
         {
             return new _InterfaceTypeBase(this, typeParameters);
         }

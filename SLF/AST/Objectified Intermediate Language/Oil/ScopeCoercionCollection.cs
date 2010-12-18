@@ -134,6 +134,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return result;
         }
 
+        public IStaticInclusionScopeCoercion AddStaticName(string name)
+        {
+            var result = new StaticInclusionScopeCoercion() { IncludedType = name.GetSymbolType() };
+            this.baseList.Add(result);
+            return result;
+        }
 
         /// <summary>
         /// Adds a series of <see cref="INamedInclusionScopeCoercion"/> elements

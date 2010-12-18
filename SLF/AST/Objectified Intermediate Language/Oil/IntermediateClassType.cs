@@ -239,7 +239,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// to construct the generic type.</param>
         /// <returns>A new <see cref="IClassType"/> instance as a generic instance of the <see cref="IntermediateClassType"/>.
         /// </returns>
-        protected override IClassType OnMakeGenericType(ITypeCollectionBase typeParameters)
+        protected override IClassType OnMakeGenericClosure(ITypeCollectionBase typeParameters)
         {
             return new _ClassTypeBase(this, typeParameters);
         }

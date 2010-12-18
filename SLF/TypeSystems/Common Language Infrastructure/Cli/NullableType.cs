@@ -81,12 +81,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             get { return this.ContainsGenericParameters(); }
         }
 
-        public bool IsGenericType
+        public bool IsGenericConstruct
         {
             get { return false; }
         }
 
-        public bool IsGenericTypeDefinition
+        public bool IsGenericDefinition
         {
             get { throw new InvalidOperationException("Not a generic type."); }
         }
@@ -106,17 +106,17 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             get { return null; }
         }
 
-        public IType MakeGenericType(ITypeCollection typeParameters)
+        public IType MakeGenericClosure(ITypeCollection typeParameters)
         {
             throw new InvalidOperationException("Not a generic type.");
         }
 
-        public IType MakeGenericType(params IType[] typeParameters)
+        public IType MakeGenericClosure(params IType[] typeParameters)
         {
             throw new InvalidOperationException("Not a generic type.");
         }
 
-        public IType MakeGenericType(params Type[] typeParameters)
+        public IType MakeGenericClosure(params Type[] typeParameters)
         {
             throw new InvalidOperationException("Not a generic type.");
         }
@@ -262,7 +262,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         private IFullMemberDictionary InitializeMembers()
         {
             IGenericType u = (IGenericType)typeof(Nullable<>).GetTypeReference();
-            u = u.MakeGenericType(this.elementType);
+            u = u.MakeGenericClosure(this.elementType);
             return u.Members;
         }
         #endregion
