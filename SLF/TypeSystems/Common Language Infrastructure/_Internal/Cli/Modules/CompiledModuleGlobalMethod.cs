@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
             
         }
 
-        protected override IModuleGlobalMethod OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
+        protected override IModuleGlobalMethod OnMakeGenericClosure(ITypeCollectionBase genericReplacements)
         {
             return new _GenericMethod(this, genericReplacements);
         }

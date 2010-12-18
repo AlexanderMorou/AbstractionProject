@@ -113,14 +113,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 return null;
             else
             {
-                if (this.Original.IsGenericType && declType is IGenericType)
+                if (this.Original.IsGenericConstruct && declType is IGenericType)
                 {
                     IGenericType genericParent = ((IGenericType)(declType));
-                    if (genericParent.IsGenericType)
+                    if (genericParent.IsGenericConstruct)
                     {
-                        if (!genericParent.IsGenericTypeDefinition)
+                        if (!genericParent.IsGenericDefinition)
                             genericParent = (IGenericType)genericParent.ElementType;
-                        return genericParent.MakeGenericType(this.GenericParameters.Take(genericParent.GenericParameters.Count).ToCollection());
+                        return genericParent.MakeGenericClosure(this.GenericParameters.Take(genericParent.GenericParameters.Count).ToCollection());
                     }
                     else
                         return genericParent;
@@ -132,7 +132,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #region IGenericType Members
 
-        public bool IsGenericTypeDefinition
+        public bool IsGenericDefinition
         {
             get { return false; }
         }
@@ -147,29 +147,24 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get { return this.genericParameters; }
         }
 
-        IGenericType IGenericType.MakeGenericType(ITypeCollectionBase typeParameters)
+        IGenericType IGenericType.MakeGenericClosure(ITypeCollectionBase typeParameters)
         {
-            return this.MakeGenericType(typeParameters);
+            return this.MakeGenericClosure(typeParameters);
         }
 
-        IGenericType IGenericType.MakeGenericType(params IType[] typeParameters)
+        IGenericType IGenericType.MakeGenericClosure(params IType[] typeParameters)
         {
-            return this.MakeGenericType(typeParameters);
-        }
-
-        public IGenericType MakeVerifiedGenericType(ITypeCollectionBase typeParameters)
-        {
-            throw new InvalidOperationException(Resources.MakeGenericTypeError_IsGenericTypeDefFalse);
+            return this.MakeGenericClosure(typeParameters);
         }
 
         #endregion
 
-        public _DummyEnumType MakeGenericType(ITypeCollectionBase typeParameters)
+        public _DummyEnumType MakeGenericClosure(ITypeCollectionBase typeParameters)
         {
             throw new InvalidOperationException(Resources.MakeGenericTypeError_IsGenericTypeDefFalse);
         }
 
-        public _DummyEnumType MakeGenericType(params IType[] typeParameters)
+        public _DummyEnumType MakeGenericClosure(params IType[] typeParameters)
         {
             throw new InvalidOperationException(Resources.MakeGenericTypeError_IsGenericTypeDefFalse);
         }
@@ -317,7 +312,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return Original.Assembly;
         }
 
-        public override bool IsGenericType
+        public override bool IsGenericConstruct
         {
             get { return true; }
         }
@@ -408,5 +403,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 return this.members;
             }
         }
+
+        #region IGenericParamParent Members
+
+
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        {
+            throw new InvalidOperationException(Resources.MakeGenericTypeError_IsGenericTypeDefFalse);
+        }
+
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(params IType[] typeParameters)
+        {
+            throw new InvalidOperationException(Resources.MakeGenericTypeError_IsGenericTypeDefFalse);
+        }
+
+        #endregion
     }
 }

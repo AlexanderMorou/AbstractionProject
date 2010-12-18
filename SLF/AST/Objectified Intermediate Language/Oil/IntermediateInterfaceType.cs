@@ -109,7 +109,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// instance which replaces the type-parameters
         /// contained within the <see cref="IntermediateInterfaceType{TInstanceType}"/>.</returns>
         /// <remarks>Performs no type-parameter check.</remarks>
-        protected override IInterfaceType OnMakeGenericType(ITypeCollectionBase typeParameters)
+        protected override IInterfaceType OnMakeGenericClosure(ITypeCollectionBase typeParameters)
         {
             return new _InterfaceTypeBase(this, typeParameters);
         }

@@ -112,6 +112,7 @@
     <Compile Include="Abstract\IAssemblyReference.cs" />
     <Compile Include="Abstract\IMassTargetHandler.cs" />
     <Compile Include="Abstract\MassDisposalAid.cs" />
+    <Compile Include="Abstract\Members\IGenericParameterPropertyMethodMember{1}.cs" />
     <Compile Include="Compilers\GenericParamCtorFailureException.cs" />
     <Compile Include="Compilers\GenericParamDataTargetAttribute.cs" />
     <Compile Include="Compilers\InferredAttribute.cs" />

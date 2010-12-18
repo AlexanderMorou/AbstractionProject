@@ -72,13 +72,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Returns whether the current type is a generic type with <see cref="GenericParameters"/>.
         /// </summary>
-        public override bool IsGenericType
+        public override bool IsGenericConstruct
         {
             get
             {
                 if (this.typeParameters == null || this.TypeParameters.Count == 0)
                     if (this.Parent is IGenericType)
-                        return ((IGenericType)(this.Parent)).IsGenericType;
+                        return ((IGenericType)(this.Parent)).IsGenericConstruct;
                     else
                         return false;
                 else
@@ -127,6 +127,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IGenericParamParent Members
 
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        {
+            return this.MakeGenericClosure(typeParameters);
+        }
+
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(params IType[] typeParameters)
+        {
+            return this.MakeGenericClosure(typeParameters);
+        }
+
         IGenericParameterDictionary IGenericParamParent.TypeParameters
         {
             get { return (IGenericParameterDictionary)this.TypeParameters; }
@@ -156,9 +166,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// the <paramref name="typeParameters"/> provided.</returns>
         /// <exception cref="System.InvalidOperationException">
         /// The current <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>'s 
-        /// <seealso cref="IsGenericTypeDefinition"/>
+        /// <seealso cref="IsGenericDefinition"/>
         /// is false.</exception>
-        public TType MakeGenericType(ITypeCollectionBase typeParameters)
+        public TType MakeGenericClosure(ITypeCollectionBase typeParameters)
         {
             if (this.genericCache != null)
             {
@@ -166,7 +176,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (this.genericCache.ContainsGenericType(typeParameters, out r))
                     return (TType)r;
             }
-            return this.OnMakeGenericType(typeParameters);
+            return this.OnMakeGenericClosure(typeParameters);
         }
 
         /// <summary>
@@ -180,11 +190,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// the <paramref name="typeParameters"/> provided.</returns>
         /// <exception cref="System.InvalidOperationException">
         /// The current <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>'s 
-        /// <seealso cref="IsGenericTypeDefinition"/>
+        /// <seealso cref="IsGenericDefinition"/>
         /// is false.</exception>
-        public TType MakeGenericType(params IType[] typeParameters)
+        public TType MakeGenericClosure(params IType[] typeParameters)
         {
-            return this.MakeGenericType(typeParameters.ToCollection());
+            return this.MakeGenericClosure(typeParameters.ToCollection());
         }
 
         #endregion
@@ -196,9 +206,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// type that can be made into other closed generic type 
         /// instances.
         /// </summary>
-        public bool IsGenericTypeDefinition
+        public bool IsGenericDefinition
         {
-            get { return this.IsGenericType; }
+            get { return this.IsGenericConstruct; }
         }
 
         /// <summary>
@@ -207,7 +217,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         public bool ContainsGenericParameters
         {
-            get { return this.ContainsGenericParameters(); }
+            get { return ((IType)this).ContainsGenericParameters(); }
         }
 
         /// <summary>
@@ -227,43 +237,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        IGenericType IGenericType.MakeGenericType(ITypeCollectionBase typeParameters)
+        IGenericType IGenericType.MakeGenericClosure(ITypeCollectionBase typeParameters)
         {
-            return this.MakeGenericType(typeParameters);
+            return this.MakeGenericClosure(typeParameters);
         }
 
-        IGenericType IGenericType.MakeGenericType(params IType[] typeParameters)
+        IGenericType IGenericType.MakeGenericClosure(params IType[] typeParameters)
         {
-            return this.MakeGenericType(typeParameters);
-        }
-
-        /// <summary>
-        /// Makes a verified generic type instance that bypasses
-        /// the type-parameter constraint check for testing purposes.
-        /// </summary>
-        /// <param name="typeParameters">The <see cref="ITypeCollection"/>
-        /// which contains the series of <see cref="IType"/>
-        /// instances to instantiate the closed generic type with.</param>
-        /// <returns>A <see cref="IType"/> instance that represents the 
-        /// current generic <see cref="IType"/></returns>
-        /// <remarks>Improper use of this method can result in translator 
-        /// producing bad code.  Primarily intended for internal use.</remarks>
-        /// <exception cref="System.InvalidOperationException">
-        /// The current <see cref="IGenericType"/>'s
-        /// <seealso cref="IsGenericTypeDefinition"/> is false.</exception>
-        public IGenericType MakeVerifiedGenericType(ITypeCollectionBase typeParameters)
-        {
-            if (!this.IsGenericTypeDefinition)
-                throw new System.InvalidOperationException();
-            if (typeParameters.Count != this.GenericParameters.Count)
-                throw new ArgumentException("typeParameters");
-            if (this.genericCache != null)
-            {
-                IGenericType r = null;
-                if (this.genericCache.ContainsGenericType(typeParameters, out r))
-                    return r;
-            }
-            return this.OnMakeGenericType(typeParameters);
+            return this.MakeGenericClosure(typeParameters);
         }
 
         public void ReverifyTypeParameters()
@@ -288,7 +269,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// instance which replaces the type-parameters
         /// contained within the <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>.</returns>
         /// <remarks>Performs no type-parameter check.</remarks>
-        protected abstract TType OnMakeGenericType(ITypeCollectionBase typeParameters);
+        protected abstract TType OnMakeGenericClosure(ITypeCollectionBase typeParameters);
 
         /// <summary>
         /// Disposes the <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>

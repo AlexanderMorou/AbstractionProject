@@ -33,19 +33,39 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get { return this.provider; }
         }
 
+        private ICSharpProvider _Provider
+        {
+            get
+            {
+                return (ICSharpProvider)this.Provider;
+            }
+        }
+
         protected override bool NeedsToRewrite(RewriteSectors expansionElement)
         {
             switch (expansionElement)
             {
-                case RewriteSectors.LambdaExpression:
-                case RewriteSectors.ConditionalOperation:
-                case RewriteSectors.ConditionalForwardTerm:
-                case RewriteSectors.CreateArray:
                 case RewriteSectors.LinqExpression:
+                case RewriteSectors.LambdaExpression:
+                    switch (this._Provider.Language.Version)
+                    {
+                        case CSharpLanguageVersion.CSharp_v2:
+                        case CSharpLanguageVersion.CSharp_v3:
+                        case CSharpLanguageVersion.CSharp_v3_5:
+                            break;
+                        case CSharpLanguageVersion.CSharp_v4:
+                        case CSharpLanguageVersion.CSharp_v5:
+                        default:
+                            return false;
+                    }
+                    goto default;
+                case RewriteSectors.ConditionalOperation:
                 case RewriteSectors.YieldFunctionality:
+                case RewriteSectors.CreateArray:
                     return false;
                 case RewriteSectors.CommaExpression:
                 case RewriteSectors.WorkspaceExpression:
+                case RewriteSectors.DuckTyping:
                 default:
                     return base.NeedsToRewrite(expansionElement);
             }

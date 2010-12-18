@@ -85,7 +85,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return result;
         }
 
-        protected override IStructType OnMakeGenericType(ITypeCollectionBase typeParameters)
+        protected override IStructType OnMakeGenericClosure(ITypeCollectionBase typeParameters)
         {
             return new _StructTypeBase(this, typeParameters);
         }

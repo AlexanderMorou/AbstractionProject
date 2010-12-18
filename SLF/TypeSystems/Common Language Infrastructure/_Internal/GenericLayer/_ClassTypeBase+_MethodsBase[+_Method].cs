@@ -131,17 +131,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                         for (; parentA != baseDefinition.Parent;
                             parentA = parentA.BaseType, parentB = parentB.BaseType) ;
                         var current = parentB.Methods.Values[parentA.Methods.IndexOf(baseDefinition)];
-                        if (this.IsGenericMethod && !this.IsGenericMethodDefinition)
-                            return current.MakeGenericMethod(this.GenericParameters.ToCollection());
+                        if (this.IsGenericConstruct && !this.IsGenericDefinition)
+                            return current.MakeGenericClosure(this.GenericParameters.ToCollection());
                         else
                             return current;
                         /* 
                         //A product of over-thought.
                         if (parentA == parentB)
                         {
-                            if (this.IsGenericMethod)
+                            if (this.IsGenericConstruct)
                             {
-                                if (this.IsGenericMethodDefinition)
+                                if (this.IsGenericDefinition)
                                     return baseDefinition;
                                 else
                                     /* *
@@ -149,7 +149,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                                      * resulting in a base definition that must also be 
                                      * a closed generic method.
                                      * * /
-                                    return this.BaseDefinition.MakeGenericMethod(this.GenericParameters.ToCollection());
+                                    return this.BaseDefinition.MakeGenericClosure(this.GenericParameters.ToCollection());
                             }
                             else
                                 return baseDefinition;
@@ -162,7 +162,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                              * *
                              * This complicates things a little.
                              * * /
-                            if (this.IsGenericMethod)
+                            if (this.IsGenericConstruct)
                             {
                                 /* *
                                  * Only consider the type-parameters when necessary.

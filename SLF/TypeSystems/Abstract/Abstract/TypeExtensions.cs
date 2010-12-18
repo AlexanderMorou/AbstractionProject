@@ -96,12 +96,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 throw new ArgumentNullException("typeParameters");
             if (name == string.Empty)
                 throw new ArgumentException("name");
-            if (type.IsGenericType && type is IGenericType)
+            if (type.IsGenericConstruct && type is IGenericType)
             {
-                if (type.IsGenericType && !((IGenericType)(type)).IsGenericTypeDefinition)
-                    type = ((IGenericType)(type.ElementType)).MakeGenericType(typeParameters.ToCollection());
-                else if (type.IsGenericType && ((IGenericType)(type)).IsGenericTypeDefinition)
-                    type = ((IGenericType)(type)).MakeGenericType(typeParameters.ToCollection());
+                if (type.IsGenericConstruct && !((IGenericType)(type)).IsGenericDefinition)
+                    type = ((IGenericType)(type.ElementType)).MakeGenericClosure(typeParameters.ToCollection());
+                else if (type.IsGenericConstruct && ((IGenericType)(type)).IsGenericDefinition)
+                    type = ((IGenericType)(type)).MakeGenericClosure(typeParameters.ToCollection());
             }
             else if (typeParameters.Length == 0)
             {
@@ -160,7 +160,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                             return ((IGenericParameter)(target)).Name;
                     string targetName = target.Name;
                     var genericTarget = target as IGenericType;
-                    if (typeParameterDisplayMode == TypeParameterDisplayMode.SystemStandard && genericTarget != null && genericTarget.IsGenericType)
+                    if (typeParameterDisplayMode == TypeParameterDisplayMode.SystemStandard && genericTarget != null && genericTarget.IsGenericConstruct)
                     {
                         int count = 0;
                         if (genericTarget.ElementClassification == TypeElementClassification.None)
@@ -286,11 +286,27 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             return null;
         }
 
+        internal static bool ContainsGenericParameters<TGenericParameter, TParent>(this IGenericParamParent<TGenericParameter, TParent> target)
+            where TParent :
+                IGenericParamParent<TGenericParameter, TParent>
+            where TGenericParameter :
+                IGenericParameter<TGenericParameter, TParent>
+        {
+            if (target.IsGenericConstruct)
+            {
+                if (target.IsGenericDefinition)
+                    return true;
+                else
+                    return target.GenericParameters.ContainsGenericParameters();
+            }
+            return false;
+        }
+
         internal static bool ContainsGenericParameters(this IType type)
         {
-            if (type.IsGenericType && type is IGenericType)
+            if (type.IsGenericConstruct && type is IGenericType)
             {
-                if (((IGenericType)(type)).IsGenericTypeDefinition)
+                if (((IGenericType)(type)).IsGenericDefinition)
                     return true;
                 else
                 {
@@ -410,12 +426,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                         return target.ElementType.Disambiguify(typeReplacements, methodReplacements, parameterSource).MakeByReference();
                     case TypeElementClassification.GenericTypeDefinition:
                         if (target.ElementType is IGenericType)
-                            return ((IGenericType)target.ElementType).MakeVerifiedGenericType(((IGenericType)target).GenericParameters.OnAll(gP => gP.Disambiguify(typeReplacements, methodReplacements, parameterSource)).ToCollection());
+                            return ((IGenericType)target.ElementType).MakeGenericClosure(((IGenericType)target).GenericParameters.OnAll(gP => gP.Disambiguify(typeReplacements, methodReplacements, parameterSource)).ToCollection());
                         break;
                     case TypeElementClassification.None:
                         if (target is IGenericType &&
                            (parameterSource == TypeParameterSources.Type && ((IGenericType)(target)).GenericParameters.Count == typeReplacements.Count))
-                            return ((IGenericType)(target)).MakeGenericType(typeReplacements);
+                            return ((IGenericType)(target)).MakeGenericClosure(typeReplacements);
 
                         break;
                 }

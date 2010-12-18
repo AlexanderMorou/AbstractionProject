@@ -56,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// of type-replacements.
         /// </param>
         /// <returns>A new <see cref="IClassType"/> as a closed generic type.</returns>
-        protected override IClassType OnMakeGenericType(ITypeCollectionBase typeParameters)
+        protected override IClassType OnMakeGenericClosure(ITypeCollectionBase typeParameters)
         {
             return new _ClassTypeBase(this, typeParameters);
         }

@@ -65,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.declaringType;
         }
 
-        public override sealed bool IsGenericType
+        public override sealed bool IsGenericConstruct
         {
             get
             {

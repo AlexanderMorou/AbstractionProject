@@ -99,7 +99,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// to replace the generic parameters contained within the current <see cref="CompiledDelegateType"/>.
         /// </param>
         /// <returns>A new <see cref="IDelegateType"/> as a closed generic type.</returns>
-        protected override IDelegateType OnMakeGenericType(ITypeCollectionBase typeParameters)
+        protected override IDelegateType OnMakeGenericClosure(ITypeCollectionBase typeParameters)
         {
             return new _DelegateTypeBase(this, typeParameters);
         }

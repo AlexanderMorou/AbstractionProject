@@ -69,12 +69,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             get { return this.ContainsGenericParameters(); }
         }
 
-        public bool IsGenericType
+        public bool IsGenericConstruct
         {
             get { return false; }
         }
 
-        public bool IsGenericTypeDefinition
+        public bool IsGenericDefinition
         {
             get { return false; }
         }

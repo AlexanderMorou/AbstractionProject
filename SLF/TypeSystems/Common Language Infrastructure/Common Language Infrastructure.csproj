@@ -358,7 +358,6 @@
     <Compile Include="_Internal\Cli\Members\CompiledUnaryOperatorCoercionMemberBase{TType}.cs" />
     <Compile Include="_Internal\Cli\Members\ConstructorMembers`2.cs" />
     <Compile Include="_Internal\Cli\Members\FilteredSignatureMembers.cs" />
-    <Compile Include="_Internal\Cli\Members\IGenericParameterPropertyMethodMember{1}.cs" />
     <Compile Include="_Internal\Cli\Members\LockedGenericParameterConstructorMembers.cs" />
     <Compile Include="_Internal\Cli\Members\LockedGenericParameterMethodMembers.cs" />
     <Compile Include="_Internal\Cli\Members\LockedGenericParameterPropertyMembers.cs" />

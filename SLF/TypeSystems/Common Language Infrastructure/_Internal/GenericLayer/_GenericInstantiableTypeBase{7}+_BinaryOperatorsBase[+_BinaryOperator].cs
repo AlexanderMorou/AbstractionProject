@@ -132,7 +132,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 {
                     get
                     {
-                        if (Parent.IsGenericType && !Parent.IsGenericTypeDefinition)
+                        if (Parent.IsGenericConstruct && !Parent.IsGenericDefinition)
                             return Original.OtherSide.Disambiguify(Parent.GenericParameters, null, TypeParameterSources.Type);
                         return Original.OtherSide;
                     }
@@ -142,7 +142,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 {
                     get
                     {
-                        if (Parent.IsGenericType && !Parent.IsGenericTypeDefinition)
+                        if (Parent.IsGenericConstruct && !Parent.IsGenericDefinition)
                             return Original.ReturnType.Disambiguify(Parent.GenericParameters, null, TypeParameterSources.Type);
                         return Original.ReturnType;
                     }

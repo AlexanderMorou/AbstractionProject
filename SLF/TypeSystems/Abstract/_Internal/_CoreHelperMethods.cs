@@ -45,9 +45,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal
                         sb.Append(".");
                     }
                     sb.Append(refType.Name);
-                    if (refType.IsGenericType && refType is IGenericType)
+                    if (refType.IsGenericConstruct && refType is IGenericType)
                     {
-                        int declTGenParamCount = ((refType.DeclaringType == null) || (!(refType.DeclaringType.IsGenericType)) || (!(refType.DeclaringType is IGenericType))) ? 0 : ((IGenericType)(refType.DeclaringType)).GenericParameters.Count,
+                        int declTGenParamCount = ((refType.DeclaringType == null) || (!(refType.DeclaringType.IsGenericConstruct)) || (!(refType.DeclaringType is IGenericType))) ? 0 : ((IGenericType)(refType.DeclaringType)).GenericParameters.Count,
                             gPIndex = 0;
                         if (declTGenParamCount != ((IGenericType)(refType)).GenericParameters.Count)
                         {
@@ -299,9 +299,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal
             var q = target.ReturnType;
             var r = target.Parameters.Values.OnAll(t => t.ParameterType).ToCollection();
             ITypeCollectionBase s = null;
-            if (target.IsGenericMethod)
+            if (target.IsGenericConstruct)
                 s = target.GenericParameters;
-            return string.Format("{0} {1}{2}({3})", q.FullName, target.Name, target.IsGenericMethod ? string.Format(CultureInfo.CurrentCulture, "<{0}>",String.Join(", ", s.OnAll(t => t.Name).ToArray())) : string.Empty, string.Join(", ", r.OnAll(t => t.IsGenericTypeParameter ? t.Name : t.FullName).ToArray()));
+            return string.Format("{0} {1}{2}({3})", q.FullName, target.Name, target.IsGenericConstruct ? string.Format(CultureInfo.CurrentCulture, "<{0}>",String.Join(", ", s.OnAll(t => t.Name).ToArray())) : string.Empty, string.Join(", ", r.OnAll(t => t.IsGenericTypeParameter ? t.Name : t.FullName).ToArray()));
         }
 
         public static TypedNameSeries ToSeries(this IEnumerable<TypedName> target)

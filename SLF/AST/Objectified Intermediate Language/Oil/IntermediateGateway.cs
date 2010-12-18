@@ -272,7 +272,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (!SymbolTypeCache[typeSymbol].ContainsKey(nullNamespace))
                     SymbolTypeCache[typeSymbol].Add(nullNamespace, new Dictionary<int, ISymbolType>());
                 if (!SymbolTypeCache[typeSymbol][nullNamespace].ContainsKey(count))
-                    SymbolTypeCache[typeSymbol][nullNamespace].Add(count, new SymbolType(typeSymbol, genericParameters.Count).MakeGenericType(genericParameters));
+                    SymbolTypeCache[typeSymbol][nullNamespace].Add(count, new SymbolType(typeSymbol, genericParameters.Count).MakeGenericClosure(genericParameters));
                 return SymbolTypeCache[typeSymbol][nullNamespace][count];
             }
         }
@@ -310,7 +310,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (!SymbolTypeCache[typeSymbol].ContainsKey(@namespace))
                     SymbolTypeCache[typeSymbol].Add(@namespace, new Dictionary<int, ISymbolType>());
                 if (!SymbolTypeCache[typeSymbol][@namespace].ContainsKey(count))
-                    SymbolTypeCache[typeSymbol][@namespace].Add(count, new SymbolType(typeSymbol, genericParameters.Count, @namespace).MakeGenericType(genericParameters));
+                    SymbolTypeCache[typeSymbol][@namespace].Add(count, new SymbolType(typeSymbol, genericParameters.Count, @namespace).MakeGenericClosure(genericParameters));
                 return SymbolTypeCache[typeSymbol][@namespace][count];
             }
         }
@@ -528,7 +528,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                      * A type is explicitly provided.
                      * */
                     referenceType = typedName.Reference;
-                    if (!referenceType.IsGenericType && referenceType is ISymbolType &&
+                    if (!referenceType.IsGenericConstruct && referenceType is ISymbolType &&
                         referenceType.Namespace == null)
                     {
                         symbolReference = referenceType.Name;
@@ -558,7 +558,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                      * A type is explicitly provided.
                      * */
                     referenceType = typedName.Reference;
-                    if (!referenceType.IsGenericType && referenceType is ISymbolType &&
+                    if (!referenceType.IsGenericConstruct && referenceType is ISymbolType &&
                         referenceType.Namespace == null)
                     {
                         symbolReference = referenceType.Name;
@@ -713,7 +713,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             switch (sourceType.ElementClassification)
             {
                 case TypeElementClassification.None:
-                    if (sourceType is ISymbolType && !sourceType.IsGenericType)
+                    if (sourceType is ISymbolType && !sourceType.IsGenericConstruct)
                         return selector(originPoint, sourceType.Name, sourceType);
                     break;
                 case TypeElementClassification.Array:
@@ -742,7 +742,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         gParamCopy[i] = current;
                     }
                     if (varies)
-                        return ((IGenericType)(genericSource.ElementType)).MakeVerifiedGenericType(gParamCopy.ToCollection());
+                        return ((IGenericType)(genericSource.ElementType)).MakeGenericClosure(gParamCopy.ToCollection());
                     else
                         break;
             }
@@ -756,7 +756,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             else if (type is IGenericType)
             {
                 var genericVariant = type as IGenericType;
-                if (genericVariant.IsGenericType && !genericVariant.IsGenericTypeDefinition)
+                if (genericVariant.IsGenericConstruct && !genericVariant.IsGenericDefinition)
                 {
                     foreach (var genericParam in genericVariant.GenericParameters)
                         if (genericParam.ContainsSymbols())

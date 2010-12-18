@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     if (this.owner.Parent is IGenericType)
                     {
                         var genericParent = ((IGenericType)(this.owner.Parent));
-                        if (genericParent.IsGenericType)
+                        if (genericParent.IsGenericConstruct)
                             return genericParent.GenericParameters.Count + this.owner.TypeParameters.Count;
                     }
                     return this.owner.TypeParameters.Count;
@@ -79,7 +79,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     if (this.owner.Parent is IGenericType)
                     {
                         var genericParent = ((IGenericType)(this.owner.Parent));
-                        if (genericParent.IsGenericType)
+                        if (genericParent.IsGenericConstruct)
                         {
                             var baseLine = genericParent.GenericParameters.Count;
                             if (index > baseLine)
@@ -98,7 +98,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (this.owner.Parent is IGenericType)
                 {
                     var genericParent = ((IGenericType)(this.owner.Parent));
-                    if (genericParent.IsGenericType)
+                    if (genericParent.IsGenericConstruct)
                     {
                         var baseLine = genericParent.GenericParameters.Count;
                         this.owner.GenericParameters.CopyTo(result, 0);
@@ -122,7 +122,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (this.owner.Parent is IGenericType)
                 {
                     var genericParent = ((IGenericType)(this.owner.Parent));
-                    if (genericParent.IsGenericType)
+                    if (genericParent.IsGenericConstruct)
                         foreach (var gParam in genericParent.GenericParameters)
                             yield return gParam;
                 }

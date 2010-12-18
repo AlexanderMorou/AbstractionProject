@@ -620,7 +620,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return this._Members;
         }
 
-        public override bool IsGenericType
+        public override bool IsGenericConstruct
         {
             get { return false; }
         }

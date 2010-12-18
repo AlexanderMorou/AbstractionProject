@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             get { return this.elementType; }
         }
 
-        public bool IsGenericType
+        public bool IsGenericConstruct
         {
             get { return false; }
         }

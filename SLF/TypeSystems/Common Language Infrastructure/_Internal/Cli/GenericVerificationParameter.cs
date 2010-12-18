@@ -148,7 +148,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         #endregion
 
-        public override bool IsGenericType
+        public override bool IsGenericConstruct
         {
             get { return false; }
         }

@@ -10,7 +10,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
+namespace AllenCopeland.Abstraction.Slf.Abstract.Members
 {
     /// <summary>
     /// Defines generic properties and methods for working with the method of a 

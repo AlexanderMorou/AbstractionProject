@@ -204,7 +204,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Returns whether the current type is a generic type with generic parameters.
         /// </summary>
-        public abstract bool IsGenericType { get; }
+        public abstract bool IsGenericConstruct { get; }
 
         /// <summary>
         /// Returns the <see cref="IType"/> in which the current <see cref="TypeBase"/> is declared.

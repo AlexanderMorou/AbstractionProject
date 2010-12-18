@@ -112,12 +112,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return LockedTypeCollection.Empty;
         }
 
-        public override bool IsGenericType
+        public override bool IsGenericConstruct
         {
             get
             {
                 if (this.Parent is IIntermediateType)
-                    return ((IIntermediateType)(this.Parent)).IsGenericType;
+                    return ((IIntermediateType)(this.Parent)).IsGenericConstruct;
                 return false;
             }
         }

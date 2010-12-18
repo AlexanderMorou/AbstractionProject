@@ -56,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             return this.TypeParameters.Values.ToLockedCollection();
         }
 
-        public override bool IsGenericMethod
+        public override bool IsGenericConstruct
         {
             get { return this.MemberInfo.IsGenericMethod; }
         }
@@ -87,7 +87,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             return true;
         }
         
-        public override IGenericParameterMethodMember<TGenericParameter> MakeGenericMethod(ITypeCollection genericReplacements)
+        public override IGenericParameterMethodMember<TGenericParameter> MakeGenericClosure(ITypeCollectionBase genericReplacements)
         {
             //*//
             _GenericParameterMethodMemberBase<TGenericParameter> k = null;

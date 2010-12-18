@@ -78,7 +78,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private IEnumerable<IGenericTypeParameter<TType>> OnGetGenericParameters()
         {
             ITypeCollection itc = GenericParameters.ToArray().ToCollection();
-            if (this.DeclaringType != null && this.DeclaringType.IsGenericType && this.DeclaringType is IGenericType)
+            if (this.DeclaringType != null && this.DeclaringType.IsGenericConstruct && this.DeclaringType is IGenericType)
             {
                 IGenericType genericDeclaringType = ((IGenericType)(this.DeclaringType));
                 int parentCollectionCount = genericDeclaringType.GenericParameters.Count;
@@ -93,6 +93,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         #endregion
 
         #region IGenericParamParent Members
+
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        {
+            return this.MakeGenericClosure(typeParameters);
+        }
+
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(params IType[] typeParameters)
+        {
+            return this.MakeGenericClosure(typeParameters);
+        }
 
         IGenericParameterDictionary IGenericParamParent.TypeParameters
         {
@@ -115,7 +125,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     typeParams._AddInternal(param.Name, param);
                 }
                 int parentParamCount = 0;
-                if (this.DeclaringType != null && this.DeclaringType.IsGenericType && this.DeclaringType is IGenericType)
+                if (this.DeclaringType != null && this.DeclaringType.IsGenericConstruct && this.DeclaringType is IGenericType)
                     parentParamCount = ((IGenericType)(this.DeclaringType)).GenericParameters.Count;
                 if (this is IGenericType)
                 {
@@ -176,11 +186,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region IGenericType<TType> Members
 
-        public TType MakeGenericType(ITypeCollectionBase typeParameters)
+        public TType MakeGenericClosure(ITypeCollectionBase typeParameters)
         {
             if (typeParameters == null)
                 throw new ArgumentNullException("typeParameters");
-            if (!this.IsGenericTypeDefinition)
+            if (!this.IsGenericDefinition)
                 throw new System.InvalidOperationException();
             if (this.genericCache != null)
             {
@@ -205,7 +215,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
              * and thereby making IsAssignableFrom validate 
              * properly.
              * */
-            TType result = this.OnMakeGenericType(typeParameters);
+            TType result = this.OnMakeGenericClosure(typeParameters);
             try
             {
                 this.VerifyTypeParameters(typeParameters);
@@ -222,23 +232,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return result;
         }
 
-        public TType MakeGenericType(params IType[] typeParameters)
+        public TType MakeGenericClosure(params IType[] typeParameters)
         {
-            return MakeGenericType(typeParameters.ToCollection());
+            return MakeGenericClosure(typeParameters.ToCollection());
         }
 
         #endregion
 
         #region IGenericType Members
 
-        public bool IsGenericTypeDefinition
+        public bool IsGenericDefinition
         {
-            get { return this.IsGenericType; }
+            get { return this.IsGenericConstruct; }
         }
 
         public bool ContainsGenericParameters
         {
-            get { return this.ContainsGenericParameters(); }
+            get { return ((IType)this).ContainsGenericParameters(); }
         }
 
         public ILockedTypeCollection GenericParameters
@@ -251,29 +261,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        IGenericType IGenericType.MakeGenericType(ITypeCollectionBase typeParameters)
+        IGenericType IGenericType.MakeGenericClosure(ITypeCollectionBase typeParameters)
         {
-            return this.MakeGenericType(typeParameters);
+            return this.MakeGenericClosure(typeParameters);
         }
 
-        IGenericType IGenericType.MakeGenericType(params IType[] typeParameters)
+        IGenericType IGenericType.MakeGenericClosure(params IType[] typeParameters)
         {
-            return this.MakeGenericType(typeParameters.ToCollection());
-        }
-
-        public IGenericType MakeVerifiedGenericType(ITypeCollectionBase typeParameters)
-        {
-            if (!this.IsGenericTypeDefinition)
-                throw new System.InvalidOperationException();
-            if (typeParameters.Count != this.GenericParameters.Count)
-                throw new ArgumentException("typeParameters");
-            if (this.genericCache != null)
-            {
-                IGenericType r = null;
-                if (this.genericCache.ContainsGenericType(typeParameters, out r))
-                    return (TType)r;
-            }
-            return this.OnMakeGenericType(typeParameters);
+            return this.MakeGenericClosure(typeParameters.ToCollection());
         }
 
         #endregion
@@ -288,7 +283,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// instance which replaces the type-parameters
         /// contained within the <see cref="CompiledGenericTypeBase{TType}"/>.</returns>
         /// <remarks>Performs no type-parameter check.</remarks>
-        protected abstract TType OnMakeGenericType(ITypeCollectionBase typeParameters);
+        protected abstract TType OnMakeGenericClosure(ITypeCollectionBase typeParameters);
 
         #region _IGenericTypeRegistrar Members
 

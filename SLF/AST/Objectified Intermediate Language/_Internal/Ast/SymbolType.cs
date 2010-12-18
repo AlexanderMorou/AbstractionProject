@@ -98,11 +98,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         #region IGenericType<ISymbolType> Members
 
-        public ISymbolType MakeGenericType(ITypeCollectionBase typeParameters)
+        public ISymbolType MakeGenericClosure(ITypeCollectionBase typeParameters)
         {
             if (typeParameters == null)
                 throw new ArgumentNullException("typeParameters");
-            if (!this.IsGenericTypeDefinition)
+            if (!this.IsGenericDefinition)
                 throw new System.InvalidOperationException();
             if (typeParameters.Count != this.GenericParameters.Count)
                 throw new ArgumentException("typeParameters");
@@ -112,18 +112,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 if (this.genericCache.ContainsGenericType(typeParameters, out r))
                     return (ISymbolType)r;
             }
-            ISymbolType result = this.OnMakeGenericType(typeParameters);
+            ISymbolType result = this.OnMakeGenericClosure(typeParameters);
             return result;
         }
 
-        public ISymbolType MakeGenericType(params IType[] typeParameters)
+        public ISymbolType MakeGenericClosure(params IType[] typeParameters)
         {
-            return MakeGenericType(typeParameters.ToCollection());
+            return MakeGenericClosure(typeParameters.ToCollection());
         }
 
         #endregion
 
-        protected ISymbolType OnMakeGenericType(ITypeCollectionBase typeParameters)
+        protected ISymbolType OnMakeGenericClosure(ITypeCollectionBase typeParameters)
         {
             return new _SymbolType(this, typeParameters);
         }
@@ -158,14 +158,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         #region IGenericType Members
 
-        public bool IsGenericTypeDefinition
+        public bool IsGenericDefinition
         {
-            get { return this.IsGenericType; }
+            get { return this.IsGenericConstruct; }
         }
 
         public bool ContainsGenericParameters
         {
-            get { return this.IsGenericType; }
+            get { return this.IsGenericConstruct; }
         }
 
         public ILockedTypeCollection GenericParameters
@@ -173,19 +173,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             get { return new LockedTypeCollection(this.TypeParameters.Values.Cast<IType>().ToArray()); }
         }
 
-        IGenericType IGenericType.MakeGenericType(ITypeCollectionBase typeParameters)
+        IGenericType IGenericType.MakeGenericClosure(ITypeCollectionBase typeParameters)
         {
-            return this.MakeGenericType(typeParameters);
+            return this.MakeGenericClosure(typeParameters);
         }
 
-        IGenericType IGenericType.MakeGenericType(params IType[] typeParameters)
+        IGenericType IGenericType.MakeGenericClosure(params IType[] typeParameters)
         {
-            return this.MakeGenericType(typeParameters);
-        }
-
-        public IGenericType MakeVerifiedGenericType(ITypeCollectionBase typeParameters)
-        {
-            return this.MakeGenericType(typeParameters);
+            return this.MakeGenericClosure(typeParameters);
         }
 
         public void ReverifyTypeParameters()
@@ -265,7 +260,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             return new NullableType(this);
         }
 
-        public override bool IsGenericType
+        public override bool IsGenericConstruct
         {
             get { return this.typeParameters == null ? false : this.TypeParameters.Count > 0; }
         }
@@ -421,6 +416,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         public IFieldReferenceExpression GetField(string name)
         {
             return new FieldReferenceExpression(name, this);
+        }
+
+        #endregion
+
+        #region IGenericParamParent Members
+
+
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        {
+            return this.MakeGenericClosure(typeParameters);
+        }
+
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(params IType[] typeParameters)
+        {
+            return this.MakeGenericClosure(typeParameters);
         }
 
         #endregion

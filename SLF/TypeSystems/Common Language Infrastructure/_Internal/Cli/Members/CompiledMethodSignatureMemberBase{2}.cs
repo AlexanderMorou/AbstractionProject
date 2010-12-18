@@ -137,7 +137,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <summary>
         /// Returns whether the <see cref="CompiledMethodSignatureMemberBase{TMethod, TMethodParent}"/> is a generic method.
         /// </summary>
-        public override bool IsGenericMethod
+        public override bool IsGenericConstruct
         {
             get {
                 return this.MemberInfo.IsGenericMethod;
@@ -240,14 +240,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             return true;
         }
 
-        public override sealed TMethod MakeGenericMethod(ITypeCollection genericReplacements)
+        public override sealed TMethod MakeGenericClosure(ITypeCollectionBase genericReplacements)
         {
-            if (!this.IsGenericMethod)
+            if (!this.IsGenericConstruct)
                 throw new InvalidOperationException("not a generic method");
             IMethodSignatureMember k = null;
             IGenericType genericParent = null;
-            if (this.Parent is IGenericType && (genericParent = ((IGenericType)(this.Parent))).IsGenericType &&
-                genericParent.IsGenericTypeDefinition)
+            if (this.Parent is IGenericType && (genericParent = ((IGenericType)(this.Parent))).IsGenericConstruct &&
+                genericParent.IsGenericDefinition)
                 throw new InvalidOperationException("Cannot obtain a closed generic method whose containing type is an open generic definition.");
             if (this.ContainsGenericMethod(genericReplacements, ref k))
                 return ((TMethod)(k));

@@ -65,13 +65,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 /* *
                  * Just to be sure.
                  * */
-                if (this.Parent.IsGenericType)
+                if (this.Parent.IsGenericConstruct)
                     return base.Position + this.Parent.GenericParameters.Count - this.Parent.TypeParameters.Count;
                 return base.Position;
             }
             set
             {
-                if (this.Parent.IsGenericType)
+                if (this.Parent.IsGenericConstruct)
                 {
                     int gpC = this.Parent.GenericParameters.Count;
                     int baseLine = (gpC - this.Parent.TypeParameters.Count);

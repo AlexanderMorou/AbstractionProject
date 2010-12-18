@@ -112,7 +112,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 public IType CoercionType
                 {
                     get {
-                        if (Parent.IsGenericType && !Parent.IsGenericTypeDefinition)
+                        if (Parent.IsGenericConstruct && !Parent.IsGenericDefinition)
                             return Original.CoercionType.Disambiguify(Parent.GenericParameters, null, TypeParameterSources.Type);
                         return Original.CoercionType;
                     }

@@ -74,9 +74,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         /// <param name="name">The <see cref="String"/> value representing the
         /// name to merge into the active scope during identity resolution.</param>
+        /// <param name="staticInclude">If <paramref name="name"/> is a type, then add it as
+        /// a symbolic type for later resolution and include its scope statically.</param>
         /// <returns>A <see cref="INamedInclusionScopeCoercion"/> which denotes
         /// the details of the scope coercion.</returns>
         INamedInclusionScopeCoercion AddName(string name);
+        /// <summary>
+        /// Adds a <see cref="IStaticInclusionScopeCoercion"/> via the type's <see cref="String"/> name.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> name representing the identity of the type
+        /// to include.</param>
+        /// <returns></returns>
+        IStaticInclusionScopeCoercion AddStaticName(string name);
         /// <summary>
         /// Adds a <see cref="INamedInclusionScopeCoercion"/> which details the 
         /// <paramref name="name"/> of a namespace or a type whose identity needs 

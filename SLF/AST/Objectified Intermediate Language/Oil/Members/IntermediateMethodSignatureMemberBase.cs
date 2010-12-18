@@ -167,7 +167,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region IMethodSignatureMember Members
 
-        public bool IsGenericMethod
+        public bool IsGenericConstruct
         {
             get
             {
@@ -177,11 +177,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
-        public bool IsGenericMethodDefinition
+        public bool IsGenericDefinition
         {
             get
             {
-                return this.IsGenericMethod;
+                return this.IsGenericConstruct;
             }
         }
 
@@ -190,9 +190,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             get { return this.ReturnType; }
         }
 
-        IMethodSignatureMember IMethodSignatureMember.MakeGenericMethod(ITypeCollection genericReplacements)
+        IMethodSignatureMember IMethodSignatureMember.MakeGenericClosure(ITypeCollection genericReplacements)
         {
-            return this.MakeGenericMethod(genericReplacements);
+            return this.MakeGenericClosure(genericReplacements);
         }
 
         IMethodSignatureMember IMethodSignatureMember.GetGenericDefinition()
@@ -214,14 +214,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region IMethodSignatureMember<TSignatureParameter,TSignature,TParent> Members
 
-        public TSignature MakeGenericMethod(ITypeCollection genericReplacements)
+        public TSignature MakeGenericClosure(ITypeCollectionBase genericReplacements)
         {
-            if (!this.IsGenericMethod)
+            if (!this.IsGenericConstruct)
                 throw new InvalidOperationException("not a generic method");
             TSignature k = null;
             IGenericType genericParent = null;
-            if (this.Parent is IGenericType && (genericParent = ((IGenericType)(this.Parent))).IsGenericType &&
-                genericParent.IsGenericTypeDefinition)
+            if (this.Parent is IGenericType && (genericParent = ((IGenericType)(this.Parent))).IsGenericConstruct &&
+                genericParent.IsGenericDefinition)
                 throw new InvalidOperationException("Cannot obtain a closed generic method whose containing type is an open generic definition.");
             if (this.ContainsGenericMethod(genericReplacements, ref k))
                 return k;
@@ -244,7 +244,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return true;
         }
 
-        protected abstract TSignature OnMakeGenericMethod(ITypeCollection genericReplacements);
+        protected abstract TSignature OnMakeGenericMethod(ITypeCollectionBase genericReplacements);
 
         public TSignature GetGenericDefinition()
         {
@@ -405,7 +405,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> GetReference(IMemberParentReferenceExpression source, params IType[] typeParameters)
         {
 
-            if (!this.IsGenericMethod)
+            if (!this.IsGenericConstruct)
                 throw new InvalidOperationException("Not valid on a non-generic method.");
             if (this is IIntermediateInstanceMember)
             {
@@ -440,5 +440,41 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         #endregion
+
+        #region IGenericParamParent<IMethodSignatureGenericTypeParameterMember,IMethodSignatureMember> Members
+
+
+        IMethodSignatureMember IGenericParamParent<IMethodSignatureGenericTypeParameterMember,IMethodSignatureMember>.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        {
+            return this.MakeGenericClosure(typeParameters);
+        }
+
+        IMethodSignatureMember IGenericParamParent<IMethodSignatureGenericTypeParameterMember,IMethodSignatureMember>.MakeGenericClosure(params IType[] typeParameters)
+        {
+            return this.MakeGenericClosure(typeParameters.ToLockedCollection());
+        }
+
+        #endregion
+
+        #region IGenericParamParent Members
+
+
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        {
+            return this.MakeGenericClosure(typeParameters);
+        }
+
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(params IType[] typeParameters)
+        {
+            return this.MakeGenericClosure(typeParameters.ToLockedCollection());
+        }
+
+        public bool ContainsGenericParameters
+        {
+            get { return this.ContainsGenericParameters(); }
+        }
+
+        #endregion
+
     }
 }

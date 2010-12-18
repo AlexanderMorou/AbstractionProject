@@ -43,7 +43,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// instance which replaces the type-parameters
         /// contained within the <see cref="IStructType"/>.</returns>
         /// <remarks>Performs no type-parameter check.</remarks>
-        protected override IStructType OnMakeGenericType(ITypeCollectionBase typeParameters)
+        protected override IStructType OnMakeGenericClosure(ITypeCollectionBase typeParameters)
         {
             return new _StructTypeBase(this, typeParameters);
         }

@@ -135,12 +135,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             get { return this.ContainsGenericParameters(); }
         }
 
-        public bool IsGenericType
+        public bool IsGenericConstruct
         {
             get { return false; }
         }
 
-        public bool IsGenericTypeDefinition
+        public bool IsGenericDefinition
         {
             get { throw new InvalidOperationException("Not a generic type."); }
         }
@@ -254,11 +254,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                         typeof(ICollection).GetTypeReference(),
                         typeof(IEnumerable).GetTypeReference(),
                         ((IGenericType)(typeof(IList<>).GetTypeReference()))
-                            .MakeGenericType(this.ElementType),
+                            .MakeGenericClosure(this.ElementType),
                         ((IGenericType)(typeof(ICollection<>).GetTypeReference()))
-                            .MakeGenericType(this.ElementType),
+                            .MakeGenericClosure(this.ElementType),
                         ((IGenericType)(typeof(IEnumerable<>).GetTypeReference()))
-                            .MakeGenericType(this.ElementType));
+                            .MakeGenericClosure(this.ElementType));
             else
                 return new LockedTypeCollection(
                         typeof(ICloneable).GetTypeReference(),

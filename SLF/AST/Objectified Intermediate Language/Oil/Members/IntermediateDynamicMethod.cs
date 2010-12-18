@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             get { return null; }
         }
 
-        protected override IIntermediateDynamicMethod OnMakeGenericMethod(ITypeCollection genericReplacements)
+        protected override IIntermediateDynamicMethod OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
         {
             throw new NotImplementedException();
         }
