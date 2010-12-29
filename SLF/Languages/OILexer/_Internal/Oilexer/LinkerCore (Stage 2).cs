@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
 using AllenCopeland.Abstraction.Slf.Parsers.Oilexer;
+using AllenCopeland.Abstraction.Slf.Compilers;
 namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
 {
     partial class LinkerCore
@@ -50,22 +51,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return false;
         }
 
-        internal static void ExpandTemplates(this IProductionRuleEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static void ExpandTemplates(this IProductionRuleEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
-            if (!entry.NeedsExpansion())
-                return;
-            reexpand:
-            //Avoid un-necessary rebuilding work.
-            ProductionRuleEntry e = ((ProductionRuleEntry)(entry));
-            IProductionRuleSeries iprs = entry.ExpandTemplates(entry, file, errors);
-            e.Clear();
-            foreach (IProductionRule ipr in iprs)
-                e.Add(ipr);
-            if (entry.NeedsExpansion())
-                goto reexpand;
+            while (entry.NeedsExpansion())
+            {
+                ProductionRuleEntry e = ((ProductionRuleEntry)(entry));
+                IProductionRuleSeries iprs = entry.ExpandTemplates(entry, file, errors);
+                e.Clear();
+                foreach (IProductionRule ipr in iprs)
+                    e.Add(ipr);
+            }
         }
 
-        internal static IProductionRuleSeries ExpandTemplates(this IProductionRuleSeries series, IProductionRuleEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static IProductionRuleSeries ExpandTemplates(this IProductionRuleSeries series, IProductionRuleEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             List<IProductionRule> result = new List<IProductionRule>();
             foreach (IProductionRule rule in series.ToArray())
@@ -78,14 +76,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return new ProductionRuleSeries(result);
         }
 
-        internal static IProductionRuleGroupItem ExpandTemplates(this IProductionRuleGroupItem groupItem, IProductionRuleEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static IProductionRuleGroupItem ExpandTemplates(this IProductionRuleGroupItem groupItem, IProductionRuleEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             ProductionRuleGroupItem result = new ProductionRuleGroupItem(((IProductionRuleSeries)(groupItem)).ExpandTemplates(entry, file, errors).ToArray(), groupItem.Column, groupItem.Line, groupItem.Position);
             result.RepeatOptions = groupItem.RepeatOptions;
             result.Name = groupItem.Name;
             return result;
         }
-        internal static IProductionRule ExpandTemplates(this IProductionRule rule, IProductionRuleEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static IProductionRule ExpandTemplates(this IProductionRule rule, IProductionRuleEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             List<IProductionRuleItem> result = new List<IProductionRuleItem>();
             foreach (IProductionRuleItem ruleItem in rule)
@@ -121,7 +119,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return new ProductionRule(rebuiltResult, rule.FileName, rule.Column, rule.Line, rule.Position);
         }
 
-        internal static IProductionRuleGroupItem Expand(this ITemplateReferenceProductionRuleItem ruleItem, IProductionRuleEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static IProductionRuleGroupItem Expand(this ITemplateReferenceProductionRuleItem ruleItem, IProductionRuleEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             IProductionRuleGroupItem result = new ProductionRuleGroupItem(ruleItem.Reference.Expand(ruleItem, file, errors).ToArray(), ruleItem.Column, ruleItem.Line, ruleItem.Position);
             result.RepeatOptions = ruleItem.RepeatOptions;
@@ -158,7 +156,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return false;
         }
 
-        internal static IProductionRuleSeries Expand(this IProductionRuleTemplateEntry entry, ITemplateReferenceProductionRuleItem dataSource, GDFile file, CompilerErrorCollection errors)
+        internal static IProductionRuleSeries Expand(this IProductionRuleTemplateEntry entry, ITemplateReferenceProductionRuleItem dataSource, GDFile file, ICompilerErrorCollection errors)
         {
             List<IProductionRuleSeries> result = new List<IProductionRuleSeries>();
             foreach (ProductionRuleTemplateArgumentSeries prtas in new ProductionRuleTemplateArgumentSeries(entry, dataSource))
@@ -184,7 +182,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             }
         }
 
-        internal static IProductionRuleSeries Expand(this IProductionRuleSeries series, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static IProductionRuleSeries Expand(this IProductionRuleSeries series, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             List<IProductionRule> result = new List<IProductionRule>();
             foreach (IProductionRule ipr in series)
@@ -203,7 +201,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return new ProductionRuleSeries(result);
         }
 
-        internal static IProductionRule Expand(this IProductionRule rule, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static IProductionRule Expand(this IProductionRule rule, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             if (rule.HasExpansion())
             {
@@ -240,7 +238,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 return rule;
         }
 
-        internal static IProductionRuleItem Expand(this IProductionRuleItem ruleItem, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static IProductionRuleItem Expand(this IProductionRuleItem ruleItem, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             if (ruleItem is IProductionRulePreprocessorDirective)
                 return ((IProductionRulePreprocessorDirective)(ruleItem)).Expand(argumentLookup, entry, file, errors);
@@ -295,12 +293,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 return ruleItem.Clone();
         }
 
-        internal static IProductionRuleItem Expand(this IProductionRulePreprocessorDirective directive, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static IProductionRuleItem Expand(this IProductionRulePreprocessorDirective directive, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             return directive.Directive.Expand(argumentLookup, entry, file, errors);
         }
 
-        internal static IProductionRuleItem Expand(this IPreprocessorIfDirective directive, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static IProductionRuleItem Expand(this IPreprocessorIfDirective directive, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             bool process = true;
             if (directive.Type != EntryPreprocessorType.Else)
@@ -345,7 +343,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return null;
         }
 
-        internal static bool Evaluate(this IPreprocessorCLogicalOrConditionExp expression, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static bool Evaluate(this IPreprocessorCLogicalOrConditionExp expression, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             //rule 2.
             if (expression.Left == null)
@@ -359,7 +357,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             }
         }
 
-        internal static bool Evaluate(this IPreprocessorCLogicalAndConditionExp expression, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static bool Evaluate(this IPreprocessorCLogicalAndConditionExp expression, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             //rule 2.
             if (expression.Left == null)
@@ -370,7 +368,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 }
                 catch
                 {
-                    errors.Add(new CompilerError(entry.FileName, expression.Line, expression.Column, "OiLexP901", "Invalid preprocessor condition, evaluation failed."));
+                    errors.Error(GrammarCore.CompilerErrors.InvalidPreprocessorCondition, expression.Column, expression.Line, entry.FileName, expression.ToString());
                 }
             }
             //rule 1.
@@ -381,7 +379,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return false;
         }
 
-        internal static object Evaluate(this IPreprocessorCEqualityExp expression, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static object Evaluate(this IPreprocessorCEqualityExp expression, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             ITokenEntry lookup;
             ILiteralTokenItem reference = null;
@@ -470,7 +468,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return false;
         }
 
-        internal static object Evaluate(this IPreprocessorCPrimary expression, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static object Evaluate(this IPreprocessorCPrimary expression, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             switch (expression.Rule)
             {
@@ -488,7 +486,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return null;
         }
 
-        internal static bool IsDefined(this IPreprocessorCLogicalOrConditionExp expression, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static bool IsDefined(this IPreprocessorCLogicalOrConditionExp expression, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             if (expression.Left == null && expression.Right.Left == null && expression.Right.Right.Rule == 3 && expression.Right.Right.PreCPrimary.Rule == 4)
             {
@@ -515,7 +513,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                         }
                     }
                     else
-                        errors.Add(new CompilerError(entry.FileName, expression.Line, expression.Column, "OiLexP900", "Invalid preprocessor defined target, must have special expectancy of Rule."));
+                        errors.Error(GrammarCore.CompilerErrors.IsDefinedTemplateParameterMustExpectRule, expression.Column, expression.Line, entry.FileName, name);
                 }
                 foreach (IEntry ientry in file)
                     if (ientry is IProductionRuleEntry && (!(ientry is IProductionRuleTemplateEntry)))
@@ -523,11 +521,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                             return true;
                 return false;
             }
-            errors.Add(new CompilerError(entry.FileName, expression.Line, expression.Column, "OiLexP900", "Invalid preprocessor 'defined' target."));
+            errors.Error(GrammarCore.CompilerErrors.InvalidDefinedTarget, expression.Line, expression.Column, entry.FileName, expression.ToString());
             return false;
         }
 
-        internal static IProductionRuleItem Expand(this IPreprocessorDirective directive, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static IProductionRuleItem Expand(this IPreprocessorDirective directive, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             switch (directive.Type)
             {
@@ -553,7 +551,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return null;
         }
 
-        internal static void Expand(this IPreprocessorThrowDirective directive, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static void Expand(this IPreprocessorThrowDirective directive, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             string[] errorData = new string[directive.Arguments.Length];
             int index = 0;
@@ -596,12 +594,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             }
             if (errorLocations.Count > 0)
                 foreach (var errorLocation in errorLocations)
-                    errors.Add(new CompilerError(errorLocation.Item1, errorLocation.Item2, errorLocation.Item3, string.Format(GrammarCore.GrammarParserErrorFormat, (int)GDParserErrors.LanguageDefinedError), string.Format("Language defined error ({0}):\r\n{1}", directive.Reference.Number, string.Format(directive.Reference.Message, errorData))));
+                    errors.Error(GrammarCore.CompilerErrors.LanguageDefinedError, errorLocation.Item3, errorLocation.Item2, errorLocation.Item1, directive.Reference.Number.ToString(), string.Format(directive.Reference.Message, errorData));
             else
-                errors.Add(new CompilerError(entry.FileName, directive.Line, directive.Column, string.Format(GrammarCore.GrammarParserErrorFormat, (int)GDParserErrors.LanguageDefinedError), string.Format("Language defined error ({0}):\r\n{1}", directive.Reference.Number, string.Format(directive.Reference.Message, errorData))));
+                errors.Error(GrammarCore.CompilerErrors.LanguageDefinedError, directive.Column, directive.Line, entry.FileName, directive.Reference.Number.ToString(), string.Format(directive.Reference.Message, errorData));
         }
 
-        internal static IProductionRuleItem Expand(this IPreprocessorConditionalReturnDirective directive, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static IProductionRuleItem Expand(this IPreprocessorConditionalReturnDirective directive, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             IProductionRule[] result = new IProductionRule[directive.Result.Length];
             for (int i = 0; i < directive.Result.Length; i++)
@@ -609,7 +607,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             var resultG = new ProductionRuleGroupItem(result, directive.Column, directive.Line, directive.Position);
             return resultG;
         }
-        internal static void Expand(this IPreprocessorAddRuleDirective directive, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static void Expand(this IPreprocessorAddRuleDirective directive, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             string search = directive.InsertTarget;
             if (search != null && search != string.Empty)
@@ -640,14 +638,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                         }
                 if (foundItem == null)
                 {
-                    errors.Add(new CompilerError(entry.FileName, directive.Line, directive.Column, "OiLexP903", "AddRule cannot insert an expression into a nonexistant rule."));
+                    errors.Error(GrammarCore.CompilerErrors.UndefinedAddRuleTarget, directive.Column, directive.Line, entry.FileName, string.Join<IProductionRule>(" | ", directive.Rules), search);
                     return;
                 }
                 foreach (IProductionRule ipr in directive.Rules)
                     foundItem.Add(ipr.Expand(argumentLookup, entry, file, errors));
             }
         }
-        internal static void Expand(this IPreprocessorDefineRuleDirective directive, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, CompilerErrorCollection errors)
+        internal static void Expand(this IPreprocessorDefineRuleDirective directive, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             string search = directive.DeclareTarget;
             if (search != null && search != string.Empty)
@@ -669,7 +667,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 foreach (IEntry ie in file)
                     if (ie is INamedEntry && ((INamedEntry)ie).Name == search)
                     {
-                        errors.Add(new CompilerError(entry.FileName, directive.Line, directive.Column, "OiLexP902", "Define directive cannot define what is already defined."));
+                        errors.Error(GrammarCore.CompilerErrors.DuplicateTermDefined, directive.Line, directive.Column, entry.FileName, search);
                         return;
                     }
                 ProductionRuleEntry insertedItem = new ProductionRuleEntry(search, entry.ScanMode, entry.FileName, directive.Column, directive.Line, directive.Position);
@@ -682,7 +680,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             }
         }
         private static int threshold = 0;
-        public static void ExpandTemplates(this GDFile file, CompilerErrorCollection errors)
+        public static void ExpandTemplates(this GDFile file, ICompilerErrorCollection errors)
         {
             List<IProductionRuleEntry> rules = new List<IProductionRuleEntry>(ruleEntries);
             /* *

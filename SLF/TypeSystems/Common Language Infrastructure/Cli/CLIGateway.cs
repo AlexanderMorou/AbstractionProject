@@ -13,6 +13,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Threading.Tasks;
+using System.Reflection.Emit;
  /*---------------------------------------------------------------------\
  | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -117,7 +118,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 return ((IGenericType)type.GetTypeReference()).MakeGenericClosure(typeParameters);
             throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
         }
-        public static TType GetTypeReference<TType>(this Type type, ITypeCollection typeParameters, bool verify=true)
+        public static TType GetTypeReference<TType>(this Type type, ITypeCollection typeParameters)
             where TType :
                 IGenericType<TType>
         {
@@ -266,7 +267,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                     {
                         IMethodParent lookupAid2 = (IMethodParent)lookupAid;
                         foreach (ICompiledMethodMember icmm in lookupAid2.Methods.Values)
-                        {
                             if (icmm.MemberInfo == t.DeclaringMethod)
                                 foreach (ICompiledGenericParameter icgp in icmm.TypeParameters.Values)
                                     if (icgp.UnderlyingSystemType == t)
@@ -274,13 +274,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                                         result = icgp;
                                         positiveMatch = true;
                                     }
-                        }
                     }
                     else if (lookupAid is IMethodSignatureParent)
                     {
                         IMethodSignatureParent lookupAid2 = (IMethodSignatureParent)lookupAid;
                         foreach (ICompiledMethodSignatureMember icmm in lookupAid2.Methods.Values)
-                        {
                             if (icmm.MemberInfo == t.DeclaringMethod)
                                 foreach (ICompiledGenericParameter icgp in icmm.TypeParameters.Values)
                                     if (icgp.UnderlyingSystemType == t)
@@ -288,7 +286,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                                         result = icgp;
                                         positiveMatch = true;
                                     }
-                        }
                     }
                 }
                 #endregion
@@ -311,10 +308,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             CacheAdd(t, result);
 
             #region Type production
-
-            if (typeParameters != null && result.IsGenericConstruct && result is IGenericType && ((IGenericType)(result)).IsGenericDefinition)
+            IGenericType gType;
+            if (typeParameters != null && result.IsGenericConstruct && result is IGenericType && (gType = ((IGenericType)(result))).IsGenericDefinition)
             {
-                result = ((IGenericType)(result)).MakeGenericClosure(typeParameters);
+                result = gType.MakeGenericClosure(typeParameters);
                 CacheAdd(closedGenericType, result);
             }
             if (nullable)
@@ -533,7 +530,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 return false;
             }
         }
-
         //*/
 
         /// <summary>
@@ -542,16 +538,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// provided.
         /// </summary>
         /// <typeparam name="TSignatureParameter">The type of parameter used in the <typeparamref name="TSignature"/>.</typeparam>
-        /// <typeparam name="TGenericParameter">The type of generic type-parameter used in the <typeparamref name="TSignature"/></typeparam>
-        /// <typeparam name="TGenericParameterConstructor">The type used to signify the constructors used on the
-        /// generic parameter.</typeparam>
-        /// <typeparam name="TGenericParameterConstructorParameter">The type used to signify
-        /// the parameters on the constructors of the generic parameters.</typeparam>
-        /// <typeparam name="TSignature">The type of signature used as a parent of <typeparamref name="TSignatureParameter"/> and
-        /// <typeparamref name="TGenericParameter"/> instances.</typeparam>
+        /// <typeparam name="TSignature">The type of signature used as a parent of <typeparamref name="TSignatureParameter"/>
+        /// and a child of <typeparamref name="TSignatureParent"/>.</typeparam>
         /// <typeparam name="TSignatureParent">The parent that contains the <typeparamref name="TSignature"/> 
         /// instances.</typeparam>
-        /// <param name="signature">The <see cref="IMethodSignatureMember{TSignatureParameter, TGenericParameter, TGenericParameterConstructor, TGenericParameterConstructorParameter, TSignature, TSignatureParent}"/>
+        /// <param name="signature">The <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent}"/>
         /// to verify the <paramref name="typeReplacements"/> against.</param>
         /// <param name="typeReplacements">The <see cref="ITypeCollection"/> that defines
         /// the replacement types to verify.</param>

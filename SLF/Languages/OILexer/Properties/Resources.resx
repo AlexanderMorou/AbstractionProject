@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="IndexerName" xml:space="preserve">
     <value>Item</value>
@@ -506,7 +506,7 @@
     <value>must also be dynamic in length ('+').</value>
   </data>
   <data name="GrammarParserErrors_InvalidStartDefined" xml:space="preserve">
-    <value>The grammar '{0}' has an invalid start point defined.</value>
+    <value>{0} in grammar {1} is not a valid starting rule.</value>
   </data>
   <data name="GrammarParserErrors_NoStartDefined" xml:space="preserve">
     <value>The grammar '{0}' has no start point defined.</value>
@@ -541,5 +541,30 @@
   <data name="ResourcesAutoClassName1" xml:space="preserve">
     <value>__Resources__</value>
     <comment>The name of the resources auto-class.</comment>
+  </data>
+  <data name="GrammarErrors_DuplicateTermDefined" xml:space="preserve">
+    <value>Term '{0}' is already defined.</value>
+  </data>
+  <data name="GrammarErrors_AddRuleTargetUndefined" xml:space="preserve">
+    <value>Cannot add expression ({0}) to rule {1}.  {1} has not been defined.</value>
+  </data>
+  <data name="GrammarCompilerErrors_UnexpectedLiteralEntry" xml:space="preserve">
+    <value>A literal ({0}) was encountered of an unexpected or unknown type.</value>
+  </data>
+  <data name="GrammarCompilerErrors_InvalidPreprocessorCondition" xml:space="preserve">
+    <value>Invalid preprocessor condition ({0}), evaluation failed.</value>
+  </data>
+  <data name="IsDefinedTemplateParameterMustExpectRule" xml:space="preserve">
+    <value>Invalid IsDefined target {0}: must have special expectancy of Rule.</value>
+  </data>
+  <data name="GrammarCompilerErrors_InvalidIsDefinedTarget" xml:space="preserve">
+    <value>Invalid preprocessor 'defined' target ({0}).</value>
+  </data>
+  <data name="GrammarCompilerErrors_LanguageDefinedError" xml:space="preserve">
+    <value>Language defined error ({0}):
+{1}</value>
+  </data>
+  <data name="GrammarCompilerErrors_UnexpectedUndefinedEntry" xml:space="preserve">
+    <value>An unknown reference was discovered. Identity references of type {0} are not supported.</value>
   </data>
 </root>

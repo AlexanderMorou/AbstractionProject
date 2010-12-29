@@ -114,12 +114,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compilers\AssemblyOutputType.cs" />
+    <Compile Include="Compilers\CompilerError.cs" />
+    <Compile Include="Compilers\CompilerErrorCollection.cs" />
     <Compile Include="Compilers\CompilerOptions.cs" />
+    <Compile Include="Compilers\CompilerReferenceError.cs" />
+    <Compile Include="Compilers\CompilerReferenceWarning.cs" />
     <Compile Include="Compilers\CompilerSupport.cs" />
+    <Compile Include="Compilers\CompilerWarning.cs" />
     <Compile Include="Compilers\DebugSupport.cs" />
     <Compile Include="Compilers\ICompilerContext.cs" />
     <Compile Include="Compilers\ICompilerError.cs" />
     <Compile Include="Compilers\ICompilerMessage.cs" />
+    <Compile Include="Compilers\ICompilerMessageCollection.cs" />
+    <Compile Include="Compilers\ICompilerReferenceError.cs" />
+    <Compile Include="Compilers\ICompilerReferenceMessage.cs" />
+    <Compile Include="Compilers\ICompilerReferenceWarning.cs" />
     <Compile Include="Compilers\ICompilerWarning.cs" />
     <Compile Include="Oil\IIntermediateDeclarationVisitor.cs" />
     <Compile Include="Oil\IIntermediateDynamicHandler.cs" />

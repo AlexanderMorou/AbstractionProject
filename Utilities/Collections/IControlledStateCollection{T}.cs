@@ -16,8 +16,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// </summary>
     /// <typeparam name="T">The type of elements in the <see cref="IControlledStateCollection{T}"/></typeparam>
     public interface IControlledStateCollection<T> :
-        IEnumerable<T>, 
-        IEnumerable
+        IEnumerable<T>
     {
         /// <summary>:
         /// Gets the number of elements contained in the <see cref="IControlledStateCollection{T}"/>.</summary>

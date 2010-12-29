@@ -7,6 +7,8 @@ using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
 using AllenCopeland.Abstraction.Slf.Parsers.Oilexer;
+using AllenCopeland.Abstraction.Slf.Parsers;
+using AllenCopeland.Abstraction.Slf.Compilers;
 namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
 {
     partial class LinkerCore
@@ -60,7 +62,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 { "\0", "NullChar"           },
             };
         private static IProductionRuleEntry currentEntry = null;
-        public static void FinalLink(this GDFile file, CompilerErrorCollection errors)
+        public static void FinalLink(this GDFile file, ICompilerErrorCollection errors)
         {
             currentEntry = null;
             IList<IProductionRuleEntry> original = ruleEntries.ToList();
@@ -158,7 +160,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return false;
         }
 
-        public static void Deliteralize(this IProductionRuleEntry entry, IList<ITokenEntry> availableStock, GDFile file, CompilerErrorCollection errors)
+        public static void Deliteralize(this IProductionRuleEntry entry, IList<ITokenEntry> availableStock, GDFile file, ICompilerErrorCollection errors)
         {
             if (entry.NeedsDeliteralized())
             {
@@ -182,7 +184,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             }
         }
 
-        public static IProductionRuleSeries Deliteralize(this IProductionRuleSeries series, IList<ITokenEntry> availableStock, GDFile file, CompilerErrorCollection errors)
+        public static IProductionRuleSeries Deliteralize(this IProductionRuleSeries series, IList<ITokenEntry> availableStock, GDFile file, ICompilerErrorCollection errors)
         {
             if (series.NeedsDeliteralized())
             {
@@ -204,7 +206,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return series;
         }
 
-        public static IProductionRule Deliteralize(this IProductionRule rule, IList<ITokenEntry> availableStock, GDFile file, CompilerErrorCollection errors)
+        public static IProductionRule Deliteralize(this IProductionRule rule, IList<ITokenEntry> availableStock, GDFile file, ICompilerErrorCollection errors)
         {
             if (rule.NeedsDeliteralized())
             {
@@ -228,7 +230,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 return rule;
         }
 
-        public static IProductionRuleItem Deliteralize(this IProductionRuleItem ruleItem, IList<ITokenEntry> availableStock, GDFile file, CompilerErrorCollection errors)
+        public static IProductionRuleItem Deliteralize(this IProductionRuleItem ruleItem, IList<ITokenEntry> availableStock, GDFile file, ICompilerErrorCollection errors)
         {
             if (ruleItem.NeedsDeliteralized())
             {
@@ -238,7 +240,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                     return ((ILiteralProductionRuleItem)(ruleItem)).Deliteralize(availableStock, file, errors);
                 else
                 {
-                    errors.Add(GrammarCore.GetParserError(currentEntry.FileName, ruleItem.Line, ruleItem.Column, GDParserErrors.Unexpected, ruleItem.GetType().Name));
+                    errors.Error(GrammarCore.CompilerErrors.UnexpectedLiteralEntry, ruleItem.Column, ruleItem.Line, currentEntry.FileName, ruleItem.GetType().Name);
                     return null;
                 }
             }
@@ -246,7 +248,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 return ruleItem;
         }
 
-        public static IProductionRuleGroupItem Deliteralize(this IProductionRuleGroupItem ruleGroupItem, IList<ITokenEntry> availableStock, GDFile file, CompilerErrorCollection errors)
+        public static IProductionRuleGroupItem Deliteralize(this IProductionRuleGroupItem ruleGroupItem, IList<ITokenEntry> availableStock, GDFile file, ICompilerErrorCollection errors)
         {
             if (((IProductionRuleSeries)(ruleGroupItem)).NeedsDeliteralized())
             {
@@ -260,7 +262,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 return ruleGroupItem;
         }
 
-        public static IProductionRuleItem Deliteralize(this ILiteralProductionRuleItem ruleItem, IList<ITokenEntry> availableStock, GDFile file, CompilerErrorCollection errors)
+        public static IProductionRuleItem Deliteralize(this ILiteralProductionRuleItem ruleItem, IList<ITokenEntry> availableStock, GDFile file, ICompilerErrorCollection errors)
         {
             if (ruleItem is ILiteralCharProductionRuleItem)
             {
@@ -334,7 +336,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return ExtractName(original.ToString());
         }
 
-        private static IProductionRuleItem Deliteralize<T, TLiteral>(this ILiteralProductionRuleItem<T> literal, IList<ITokenEntry> availableStock, GDFile file, Func<ILiteralProductionRuleItem<T>, TLiteral> createNewLiteral, Func<TLiteral, ITokenEntry, IProductionRuleItem> createLiteralReference, CompilerErrorCollection errors)
+        private static IProductionRuleItem Deliteralize<T, TLiteral>(this ILiteralProductionRuleItem<T> literal, IList<ITokenEntry> availableStock, GDFile file, Func<ILiteralProductionRuleItem<T>, TLiteral> createNewLiteral, Func<TLiteral, ITokenEntry, IProductionRuleItem> createLiteralReference, ICompilerErrorCollection errors)
             where TLiteral :
                 ILiteralTokenItem<T>
         {
@@ -454,7 +456,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return false;
         }
 
-        public static void FinalLink(this IProductionRuleEntry entry, GDFile file, CompilerErrorCollection errors)
+        public static void FinalLink(this IProductionRuleEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             if (entry.NeedsFinalLinking())
             {
@@ -476,7 +478,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             }
         }
 
-        public static IProductionRuleSeries FinalLink(this IProductionRuleSeries series, GDFile file, CompilerErrorCollection errors)
+        public static IProductionRuleSeries FinalLink(this IProductionRuleSeries series, GDFile file, ICompilerErrorCollection errors)
         {
             if (series.NeedsFinalLinking())
             {
@@ -505,7 +507,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return series;
         }
 
-        public static IProductionRule FinalLink(this IProductionRule rule, GDFile file, CompilerErrorCollection errors)
+        public static IProductionRule FinalLink(this IProductionRule rule, GDFile file, ICompilerErrorCollection errors)
         {
             if (rule.NeedsFinalLinking())
             {
@@ -533,7 +535,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 return rule;
         }
 
-        public static IProductionRuleItem FinalLink(this IProductionRuleItem ruleItem, GDFile file, CompilerErrorCollection errors)
+        public static IProductionRuleItem FinalLink(this IProductionRuleItem ruleItem, GDFile file, ICompilerErrorCollection errors)
         {
             if (ruleItem.NeedsFinalLinking())
             {
@@ -543,7 +545,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                     return ((ISoftReferenceProductionRuleItem)(ruleItem)).FinalLink(file, errors);
                 else
                 {
-                    errors.Add(GrammarCore.GetParserError(currentEntry.FileName, ruleItem.Line, ruleItem.Column, GDParserErrors.Unexpected, ruleItem.GetType().Name));
+                    errors.Error(GrammarCore.CompilerErrors.UnexpectedUndefinedEntry, ruleItem.Column, ruleItem.Column, currentEntry.FileName, ruleItem.GetType().Name);
                     return null;
                 }
             }
@@ -551,7 +553,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 return ruleItem;
         }
 
-        public static IProductionRuleGroupItem FinalLink(this IProductionRuleGroupItem ruleGroupItem, GDFile file, CompilerErrorCollection errors)
+        public static IProductionRuleGroupItem FinalLink(this IProductionRuleGroupItem ruleGroupItem, GDFile file, ICompilerErrorCollection errors)
         {
             if (((IProductionRuleSeries)(ruleGroupItem)).NeedsFinalLinking())
             {
@@ -567,11 +569,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 return ruleGroupItem;
         }
 
-        public static IRuleReferenceProductionRuleItem FinalLink(this ISoftReferenceProductionRuleItem softReference, GDFile file, CompilerErrorCollection errors)
+        public static IRuleReferenceProductionRuleItem FinalLink(this ISoftReferenceProductionRuleItem softReference, GDFile file, ICompilerErrorCollection errors)
         {
             IProductionRuleEntry ipre = ruleEntries.FindScannableEntry(softReference.PrimaryName);
             if (ipre == null)
-                errors.Add(GrammarCore.GetParserError(currentEntry.FileName, softReference.Line, softReference.Column, GDParserErrors.UndefinedTokenReference, softReference.PrimaryName));
+                errors.Error(GrammarCore.CompilerErrors.UndefinedTokenReference, softReference.Column, softReference.Line, currentEntry.FileName, softReference.PrimaryName);
             else
             {
                 IRuleReferenceProductionRuleItem ipri = new RuleReferenceProductionRuleItem(ipre, softReference.Column, softReference.Line, softReference.Position); ;

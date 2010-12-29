@@ -13,6 +13,7 @@ using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using Microsoft.VisualBasic;
+using System.Reflection;
 namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 {
     public static class SimpleCompilerTest 
@@ -34,13 +35,17 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             //Console.WriteLine("{0,-25}: {1}", "To dispose code graph", disposeGraph);
             IIntermediateDynamicHandler handler = IntermediateGateway.CreateDynamicHandler();
             var u = handler.Builder;
-            var method1 = handler.Methods.Add("Main", new TypedNameSeries(new TypedName("args", typeof(string[]).GetTypeReference())));
-            var m1Args = method1.Parameters["args"];
+            const string argsName = "args";
+            var method1 = handler.Methods.Add("Main", new TypedNameSeries(new TypedName(argsName, typeof(string[]).GetTypeReference())));
             method1.ScopeCoercions.AddStaticName("System.Console");
-            
-            method1.Call("WriteLine".Fuse(new IExpression[] { m1Args.GetReference().GetProperty("Length") }));
+            method1.Call("WriteLine".Fuse("There are {0} arguments.".ToPrimitive(), argsName.Fuse("Length")));
+            const string local1Name = "i";
+            var local1NameSymbol = local1Name.GetSymbolExpression();
+            var local1 = method1.Locals.Add(new TypedName(local1Name, typeof(int).GetTypeReference()));
+            local1.AutoDeclare=false;
+            var iteration = method1.Iterate(local1.GetDeclarationStatement(), local1NameSymbol.LessThan(argsName.Fuse("Length")), new IStatementExpression[] { local1.Increment() });
+            iteration.Call("WriteLine", "Arg {0}: {1}".ToPrimitive(), local1NameSymbol, argsName.GetIndexer(local1NameSymbol));
             var m1 = method1.Compile<string[]>();
-            
             m1(args);
             //IIntermediateDynamicMethod u = null;
             //var p = u.Compile<string[]>();
@@ -60,6 +65,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             disposeGraphTime = timer.Elapsed;
             timer.Reset();
         }
+
         private static IIntermediateAssembly BuildTestGraph1()
         {
             if (AddTestMethod == null)

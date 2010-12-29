@@ -20,10 +20,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             this.provider = provider;
         }
 
-        public override IHighLevelLanguage<IGDFile> Language
-        {
-            get { return this.Provider.Language; }
-        }
 
         public override IHighLevelLanguageProvider<IGDFile> Provider
         {

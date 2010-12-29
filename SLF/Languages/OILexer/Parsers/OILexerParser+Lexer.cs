@@ -6,10 +6,11 @@ using System.IO;
 using AllenCopeland.Abstraction.Slf._Internal.Oilexer;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
 using System.Globalization;
+using AllenCopeland.Abstraction.Slf.Parsers.Oilexer;
 
-namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
+namespace AllenCopeland.Abstraction.Slf.Parsers
 {
-    partial class GDParser
+    partial class OILexerParser
     {
         public sealed class Lexer :
             Tokenizer<IGDToken>,
@@ -109,7 +110,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
                 while ((c = LookAhead(lookAhead)) != ']')
                 {
                     if (lookAhead == start && c == '-')
-                        return new NextTokenResults(GrammarCore.GetParserError(this.FileName, this.GetLineIndex(this.Position + lookAhead), this.GetColumnIndex(this.Position + lookAhead), GDParserErrors.Unexpected, "-"));
+                        return new NextTokenResults(GrammarCore.GetSyntaxError(this.FileName, this.GetLineIndex(this.Position + lookAhead), this.GetColumnIndex(this.Position + lookAhead), GDParserErrors.Unexpected, "-"));
                     else if (c == '\r' || c == '\n')
                         return new NextTokenResults(GrammarCore.GetParserError(this.FileName, this.GetLineIndex(this.Position + lookAhead), this.GetColumnIndex(this.Position + lookAhead), GDParserErrors.UnexpectedEndOfLine));
                     else if (c == char.MinValue)
@@ -576,20 +577,38 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
                 return new NextTokenResults(new GDTokens.CharacterRangeToken(invert, singleTons.ToArray(), ranges.ToArray(), categories.Distinct().ToArray(), lookAhead + 1, this.GetLineIndex(), this.GetColumnIndex(), this.Position));
             }
 
+            /// <summary>
+            /// Parses a character literal and returns the token results of the scan.
+            /// </summary>
+            /// <returns>A <see cref="NextTokenResults"/> which identifies the character literal
+            /// if valid, or an error if invalid.</returns>
             private NextTokenResults ParseCharacterLiteral()
             {
                 int index = 0;
                 bool caseInsensitive = false;
+                /* *
+                 * Case insensitivy flag.
+                 * */
                 if (LookAhead(index) == '@')
                 {
                     caseInsensitive = true;
                     index++;
                 }
+                /* *
+                 * If it starts with a single quote.
+                 * */
                 if (LookAhead(index) == '\'')
                 {
+                    /* *
+                     * To start, obtain the locale information.
+                     * */
                     int l = GetLineIndex();
                     int ci = GetColumnIndex();
                     long p = Position;
+                    /* *
+                     * Given that character literals only contain a single character, there's
+                     * no need for loops.  Straight forward hard-coded indices.
+                     * */
                     if (LookAhead(index + 1) == '\\')
                     {
                         switch (LookAhead(index + 2))
@@ -615,7 +634,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
                                 if (LookAhead(index + 3) == '\'')
                                     return new NextTokenResults(new GDTokens.CharLiteralToken(new string(Flush(index + 4)), caseInsensitive, ci, l, p));
                                 else
-                                    return new NextTokenResults(GrammarCore.GetParserError(FileName, l, ci + index + 3, GDParserErrors.Expected, "\\'"));
+                                    return new NextTokenResults(GrammarCore.GetSyntaxError(FileName, l, ci + index + 3, GDParserErrors.Expected, "\\'"));
                         }
                     }
                     else if (LookAhead(index + 2) == '\'')
@@ -628,6 +647,9 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
 
             private NextTokenResults ParseNumber()
             {
+                /* *
+                 * Parse either a decimal or hexadecimal number.
+                 * */
                 char c = LookAhead(0);
                 bool isHex = false;
                 if (char.IsNumber(c))
@@ -635,16 +657,25 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
                     int ci = this.GetColumnIndex(), l = this.GetLineIndex();
                     long p = this.Position;
                     int lookAhead = 1;
-                    if (LookAhead(0) == '0' && LookAhead(1) == 'x')
+                    if (c == '0' && LookAhead(1) == 'x')
                     {
                         isHex = true;
                         lookAhead++;
                     }
+                    /* *
+                     * So long as there's more characters to parse, continue accepting
+                     * characters.  Accept hexadecimal characters if the number started
+                     * with '0x' via local isHex.
+                     * */
                     while (((c = LookAhead(lookAhead)) != char.MinValue) &&
                              c != '\r' &&
                              c != '\n' &&
                              c >= '0' && c <= '9' || isHex && (c >= 'A' && c <= 'F' || c >= 'a' && c <= 'f'))
                         lookAhead++;
+                    /* *
+                     * The last character out won't match the pattern, so lookAhead's value is effectively the 
+                     * length of the matched string.
+                     * */
                     string number = new string(Flush(lookAhead));
                     return new NextTokenResults(new GDTokens.NumberLiteral(number, ci, l, p));
                 }
@@ -655,10 +686,10 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
             {
                 char c = LookAhead(0);
                 if (c != '/')
-                    return new NextTokenResults(GrammarCore.GetParserError(this.FileName, this.GetLineIndex(), this.GetColumnIndex(), GDParserErrors.Expected, "/"));
+                    return new NextTokenResults(GrammarCore.GetSyntaxError(this.FileName, this.GetLineIndex(), this.GetColumnIndex(), GDParserErrors.Expected, "/"));
                 c = LookAhead(1);
                 if (!(c == '/' || c == '*'))
-                    return new NextTokenResults(GrammarCore.GetParserError(this.FileName, this.GetLineIndex(), this.GetColumnIndex(), GDParserErrors.Expected, "/ or *"));
+                    return new NextTokenResults(GrammarCore.GetSyntaxError(this.FileName, this.GetLineIndex(), this.GetColumnIndex(), GDParserErrors.Expected, "/ or *"));
                 int ci = this.GetColumnIndex(), l = this.GetLineIndex();
                 long p = this.Position;
                 string commentHeader = new string(this.Flush(2));

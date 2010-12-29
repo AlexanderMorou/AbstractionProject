@@ -27,5 +27,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
         /// </summary>
         public ReadOnlyDictionary<ParserBuilderPhase, TimeSpan> PhaseTimes { get; internal set; }
         public ReadOnlyDictionary<IProductionRuleEntry, SyntacticalDFARootState> RuleStateMachines { get; internal set; }
+        public ICompilerErrorCollection CompilationErrors { get; internal set; }
     }
 }
