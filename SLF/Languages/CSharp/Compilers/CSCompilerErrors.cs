@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
@@ -12,7 +13,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0028 == null)
-                    _CS0028 = new CompilerReferenceWarning(@"{0} has the wrong signature to be an entry point ", 4, 28);
+                    _CS0028 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0028, 4, 28);
                 return _CS0028;
             }
         }
@@ -22,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0067 == null)
-                    _CS0067 = new CompilerReferenceWarning(@"The event {0} is never used", 3, 67);
+                    _CS0067 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0067, 3, 67);
                 return _CS0067;
             }
         }
@@ -32,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0078 == null)
-                    _CS0078 = new CompilerReferenceWarning(@"The 'l' suffix is easily confused with the digit '1' -- use 'L' for clarity", 4, 78);
+                    _CS0078 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0078, 4, 78);
                 return _CS0078;
             }
         }
@@ -42,7 +43,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0105 == null)
-                    _CS0105 = new CompilerReferenceWarning(@"The using directive for {0} appeared previously in this namespace", 3, 105);
+                    _CS0105 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0105, 3, 105);
                 return _CS0105;
             }
         }
@@ -52,7 +53,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0108 == null)
-                    _CS0108 = new CompilerReferenceWarning(@"{0} hides inherited member {1}. Use the new keyword if hiding was intended.", 2, 108);
+                    _CS0108 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0108, 2, 108);
                 return _CS0108;
             }
         }
@@ -62,7 +63,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0109 == null)
-                    _CS0109 = new CompilerReferenceWarning(@"The member {0} does not hide an inherited member. The new keyword is not required", 4, 109);
+                    _CS0109 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0109, 4, 109);
                 return _CS0109;
             }
         }
@@ -72,7 +73,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0114 == null)
-                    _CS0114 = new CompilerReferenceWarning(@"{0} hides inherited member {1}. To make the current method override that implementation, add the override keyword. Otherwise add the new keyword.", 2, 114);
+                    _CS0114 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0114, 2, 114);
                 return _CS0114;
             }
         }
@@ -82,7 +83,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0162 == null)
-                    _CS0162 = new CompilerReferenceWarning(@"Unreachable code detected", 2, 162);
+                    _CS0162 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0162, 2, 162);
                 return _CS0162;
             }
         }
@@ -92,7 +93,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0164 == null)
-                    _CS0164 = new CompilerReferenceWarning(@"This label has not been referenced", 2, 164);
+                    _CS0164 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0164, 2, 164);
                 return _CS0164;
             }
         }
@@ -102,7 +103,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0168 == null)
-                    _CS0168 = new CompilerReferenceWarning(@"The variable {0} is assigned but its value is never used", 3, 168);
+                    _CS0168 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0168, 3, 168);
                 return _CS0168;
             }
         }
@@ -112,7 +113,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0169 == null)
-                    _CS0169 = new CompilerReferenceWarning(@"The private field {0} is never used", 3, 169);
+                    _CS0169 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0169, 3, 169);
                 return _CS0169;
             }
         }
@@ -122,7 +123,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0183 == null)
-                    _CS0183 = new CompilerReferenceWarning(@"The given expression is always of the provided ({0}) type", 1, 183);
+                    _CS0183 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0183, 1, 183);
                 return _CS0183;
             }
         }
@@ -132,7 +133,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0184 == null)
-                    _CS0184 = new CompilerReferenceWarning(@"The given expression is never of the provided ({0}) type", 1, 184);
+                    _CS0184 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0184, 1, 184);
                 return _CS0184;
             }
         }
@@ -142,7 +143,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0197 == null)
-                    _CS0197 = new CompilerReferenceWarning(@"Passing {0} as ref or out or taking its address may cause a runtime exception because it is a field of a marshal-by-reference class", 1, 197);
+                    _CS0197 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0197, 1, 197);
                 return _CS0197;
             }
         }
@@ -152,7 +153,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0219 == null)
-                    _CS0219 = new CompilerReferenceWarning(@"The variable {0} is assigned but its value is never used", 3, 219);
+                    _CS0219 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0219, 3, 219);
                 return _CS0219;
             }
         }
@@ -162,7 +163,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0251 == null)
-                    _CS0251 = new CompilerReferenceWarning(@"Indexing an array with a negative index (array indices always start at zero)", 2, 251);
+                    _CS0251 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0251, 2, 251);
                 return _CS0251;
             }
         }
@@ -172,7 +173,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0252 == null)
-                    _CS0252 = new CompilerReferenceWarning(@"Possible unintended reference comparison; to get a value comparison, cast the left hand side to type {0}", 2, 252);
+                    _CS0252 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0252, 2, 252);
                 return _CS0252;
             }
         }
@@ -182,7 +183,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0253 == null)
-                    _CS0253 = new CompilerReferenceWarning(@"Possible unintended reference comparison; to get a value comparison, cast the right hand side to type {0}", 2, 253);
+                    _CS0253 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0253, 2, 253);
                 return _CS0253;
             }
         }
@@ -192,7 +193,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0278 == null)
-                    _CS0278 = new CompilerReferenceWarning(@"{0} does not implement the {1} pattern. {2} is ambiguous with {2}.", 2, 278);
+                    _CS0278 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0278, 2, 278);
                 return _CS0278;
             }
         }
@@ -202,7 +203,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0279 == null)
-                    _CS0279 = new CompilerReferenceWarning(@"{0} does not implement the {1} pattern. {2} is either static or not public.", 2, 279);
+                    _CS0279 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0279, 2, 279);
                 return _CS0279;
             }
         }
@@ -212,7 +213,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0280 == null)
-                    _CS0280 = new CompilerReferenceWarning(@"{0} does not implement the {1} pattern. {2} has the wrong signature.", 2, 280);
+                    _CS0280 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0280, 2, 280);
                 return _CS0280;
             }
         }
@@ -222,7 +223,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0282 == null)
-                    _CS0282 = new CompilerReferenceWarning(@"There is no defined ordering between fields in multiple declarations of partial class or struct {0}. To specify an ordering, all instance fields must be in the same declaration.", 3, 282);
+                    _CS0282 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0282, 3, 282);
                 return _CS0282;
             }
         }
@@ -232,7 +233,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0402 == null)
-                    _CS0402 = new CompilerReferenceWarning(@"{0} : an entry point cannot be generic or in a generic type", 4, 402);
+                    _CS0402 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0402, 4, 402);
                 return _CS0402;
             }
         }
@@ -242,7 +243,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0414 == null)
-                    _CS0414 = new CompilerReferenceWarning(@"The private field {0} is assigned but its value is never used", 3, 414);
+                    _CS0414 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0414, 3, 414);
                 return _CS0414;
             }
         }
@@ -252,7 +253,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0419 == null)
-                    _CS0419 = new CompilerReferenceWarning(@"Ambiguous reference in cref attribute: {0}. Assuming {1}, but could have also matched other overloads including {2}.", 3, 419);
+                    _CS0419 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0419, 3, 419);
                 return _CS0419;
             }
         }
@@ -262,7 +263,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0420 == null)
-                    _CS0420 = new CompilerReferenceWarning(@"{0}: a reference to a volatile field will not be treated as volatile", 1, 420);
+                    _CS0420 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0420, 1, 420);
                 return _CS0420;
             }
         }
@@ -272,7 +273,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0422 == null)
-                    _CS0422 = new CompilerReferenceWarning(@"The /incremental option is no longer supported", 4, 422);
+                    _CS0422 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0422, 4, 422);
                 return _CS0422;
             }
         }
@@ -282,7 +283,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0429 == null)
-                    _CS0429 = new CompilerReferenceWarning(@"Unreachable expression code detected ", 4, 429);
+                    _CS0429 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0429, 4, 429);
                 return _CS0429;
             }
         }
@@ -292,7 +293,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0435 == null)
-                    _CS0435 = new CompilerReferenceWarning(@"The namespace {0} in {1} conflicts with the imported type {2} in {3}. Using the namespace defined in {1}..", 2, 435);
+                    _CS0435 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0435, 2, 435);
                 return _CS0435;
             }
         }
@@ -302,7 +303,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0436 == null)
-                    _CS0436 = new CompilerReferenceWarning(@"The type {0} in {1} conflicts with the imported type {2} in {3}. Using the type defined in {1}.", 2, 436);
+                    _CS0436 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0436, 2, 436);
                 return _CS0436;
             }
         }
@@ -312,7 +313,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0437 == null)
-                    _CS0437 = new CompilerReferenceWarning(@"The type {0} in {1} conflicts with the imported namespace {2} in {3}. Using the type defined in {1}.", 2, 437);
+                    _CS0437 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0437, 2, 437);
                 return _CS0437;
             }
         }
@@ -322,7 +323,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0440 == null)
-                    _CS0440 = new CompilerReferenceWarning(@"Defining an alias named 'global' is ill-advised since 'global::' always references the global namespace and not an alias", 2, 440);
+                    _CS0440 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0440, 2, 440);
                 return _CS0440;
             }
         }
@@ -332,7 +333,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0444 == null)
-                    _CS0444 = new CompilerReferenceWarning(@"Predefined type {0} was not found in {1} but was found in {2}", 2, 444);
+                    _CS0444 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0444, 2, 444);
                 return _CS0444;
             }
         }
@@ -342,7 +343,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0458 == null)
-                    _CS0458 = new CompilerReferenceWarning(@"The result of the expression is always 'null' of type {0}", 2, 458);
+                    _CS0458 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0458, 2, 458);
                 return _CS0458;
             }
         }
@@ -352,7 +353,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0464 == null)
-                    _CS0464 = new CompilerReferenceWarning(@"Comparing with null of type {0} always produces 'false'", 2, 464);
+                    _CS0464 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0464, 2, 464);
                 return _CS0464;
             }
         }
@@ -362,7 +363,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0465 == null)
-                    _CS0465 = new CompilerReferenceWarning(@"Introducing a 'Finalize' method can interfere with destructor invocation. Did you intend to declare a destructor?", 1, 465);
+                    _CS0465 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0465, 1, 465);
                 return _CS0465;
             }
         }
@@ -372,7 +373,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0467 == null)
-                    _CS0467 = new CompilerReferenceWarning(@"Ambiguity between method {0} and non-method {1}. Using method group.", 2, 467);
+                    _CS0467 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0467, 2, 467);
                 return _CS0467;
             }
         }
@@ -382,7 +383,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0469 == null)
-                    _CS0469 = new CompilerReferenceWarning(@"The {0} value is not implicitly convertible to type {1}", 2, 469);
+                    _CS0469 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0469, 2, 469);
                 return _CS0469;
             }
         }
@@ -392,7 +393,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0472 == null)
-                    _CS0472 = new CompilerReferenceWarning(@"The result of the expression is always {0} since a value of type {1} is never equal to 'null' of type {1}", 2, 472);
+                    _CS0472 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0472, 2, 472);
                 return _CS0472;
             }
         }
@@ -402,7 +403,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0602 == null)
-                    _CS0602 = new CompilerReferenceWarning(@"The feature {0} is deprecated. Please use {1} instead", 1, 602);
+                    _CS0602 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0602, 1, 602);
                 return _CS0602;
             }
         }
@@ -412,7 +413,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0612 == null)
-                    _CS0612 = new CompilerReferenceWarning(@"{0} is obsolete", 1, 612);
+                    _CS0612 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0612, 1, 612);
                 return _CS0612;
             }
         }
@@ -422,7 +423,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0618 == null)
-                    _CS0618 = new CompilerReferenceWarning(@"{0} is obsolete: {1}", 2, 618);
+                    _CS0618 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0618, 2, 618);
                 return _CS0618;
             }
         }
@@ -432,7 +433,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0626 == null)
-                    _CS0626 = new CompilerReferenceWarning(@"Method, operator, or accessor {0} is marked external and has no attributes on it. Consider adding a DllImport attribute to specify the external implementation", 1, 626);
+                    _CS0626 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0626, 1, 626);
                 return _CS0626;
             }
         }
@@ -442,7 +443,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0628 == null)
-                    _CS0628 = new CompilerReferenceWarning(@"{0} : new protected member declared in sealed class", 4, 628);
+                    _CS0628 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0628, 4, 628);
                 return _CS0628;
             }
         }
@@ -452,7 +453,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0642 == null)
-                    _CS0642 = new CompilerReferenceWarning(@"Possible mistaken empty statement", 3, 642);
+                    _CS0642 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0642, 3, 642);
                 return _CS0642;
             }
         }
@@ -462,7 +463,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0649 == null)
-                    _CS0649 = new CompilerReferenceWarning(@"Field {0} is never assigned to, and will always have its default value {1}", 4, 649);
+                    _CS0649 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0649, 4, 649);
                 return _CS0649;
             }
         }
@@ -472,7 +473,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0652 == null)
-                    _CS0652 = new CompilerReferenceWarning(@"Comparison to integral constant is useless; the constant is outside the range of type {0}", 2, 652);
+                    _CS0652 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0652, 2, 652);
                 return _CS0652;
             }
         }
@@ -482,7 +483,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0657 == null)
-                    _CS0657 = new CompilerReferenceWarning(@"{0} is not a valid attribute location for this declaration. Valid attribute locations for this declaration are {1}. All attributes in this block will be ignored.", 1, 657);
+                    _CS0657 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0657, 1, 657);
                 return _CS0657;
             }
         }
@@ -492,7 +493,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0658 == null)
-                    _CS0658 = new CompilerReferenceWarning(@"{0} is not a recognized attribute location. All attributes in this block will be ignored.", 1, 658);
+                    _CS0658 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0658, 1, 658);
                 return _CS0658;
             }
         }
@@ -502,7 +503,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0659 == null)
-                    _CS0659 = new CompilerReferenceWarning(@"{0} overrides Object.Equals(object o) but does not override Object.GetHashCode()", 3, 659);
+                    _CS0659 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0659, 3, 659);
                 return _CS0659;
             }
         }
@@ -512,7 +513,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0660 == null)
-                    _CS0660 = new CompilerReferenceWarning(@"{0} defines operator == or operator != but does not override Object.Equals(object o)", 3, 660);
+                    _CS0660 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0660, 3, 660);
                 return _CS0660;
             }
         }
@@ -522,7 +523,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0661 == null)
-                    _CS0661 = new CompilerReferenceWarning(@"{0} defines operator == or operator != but does not override Object.GetHashCode()", 3, 661);
+                    _CS0661 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0661, 3, 661);
                 return _CS0661;
             }
         }
@@ -532,7 +533,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0665 == null)
-                    _CS0665 = new CompilerReferenceWarning(@"Assignment in conditional expression is always constant; did you mean to use '==' instead of '='?", 3, 665);
+                    _CS0665 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0665, 3, 665);
                 return _CS0665;
             }
         }
@@ -542,7 +543,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0672 == null)
-                    _CS0672 = new CompilerReferenceWarning(@"Member {0} overrides obsolete member '{1}. Add the Obsolete attribute to {0}", 1, 672);
+                    _CS0672 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0672, 1, 672);
                 return _CS0672;
             }
         }
@@ -552,7 +553,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0675 == null)
-                    _CS0675 = new CompilerReferenceWarning(@"Bitwise-or operator used on a sign-extended operand; consider casting to a smaller unsigned type first", 3, 675);
+                    _CS0675 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0675, 3, 675);
                 return _CS0675;
             }
         }
@@ -562,7 +563,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0693 == null)
-                    _CS0693 = new CompilerReferenceWarning(@"Type parameter {0} has the same name as the type parameter from outer type {1}", 3, 693);
+                    _CS0693 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0693, 3, 693);
                 return _CS0693;
             }
         }
@@ -572,7 +573,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0728 == null)
-                    _CS0728 = new CompilerReferenceWarning(@"Possibly incorrect assignment to local {0} which is the argument to a using or lock statement. The Dispose call or unlocking will happen on the original value of the local.", 2, 728);
+                    _CS0728 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0728, 2, 728);
                 return _CS0728;
             }
         }
@@ -582,7 +583,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0809 == null)
-                    _CS0809 = new CompilerReferenceWarning(@"Obsolete member {0} overrides non-obsolete member {1}.", 1, 809);
+                    _CS0809 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0809, 1, 809);
                 return _CS0809;
             }
         }
@@ -592,7 +593,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0824 == null)
-                    _CS0824 = new CompilerReferenceWarning(@"Constructor {0} is marked external.", 1, 824);
+                    _CS0824 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS0824, 1, 824);
                 return _CS0824;
             }
         }
@@ -602,7 +603,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1030 == null)
-                    _CS1030 = new CompilerReferenceWarning(@"#warning: {0}", 1, 1030);
+                    _CS1030 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1030, 1, 1030);
                 return _CS1030;
             }
         }
@@ -612,7 +613,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1058 == null)
-                    _CS1058 = new CompilerReferenceWarning(@"A previous catch clause already catches all exceptions. All exceptions thrown will be wrapped in a System.Runtime.CompilerServices.RuntimeWrappedException", 1, 1058);
+                    _CS1058 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1058, 1, 1058);
                 return _CS1058;
             }
         }
@@ -622,7 +623,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1060 == null)
-                    _CS1060 = new CompilerReferenceWarning(@"Use of possibly unassigned field 'name'. Struct instance variables are initially unassigned if struct is unassigned.", 1, 1060);
+                    _CS1060 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1060, 1, 1060);
                 return _CS1060;
             }
         }
@@ -632,7 +633,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1522 == null)
-                    _CS1522 = new CompilerReferenceWarning(@"Empty switch block", 1, 1522);
+                    _CS1522 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1522, 1, 1522);
                 return _CS1522;
             }
         }
@@ -642,7 +643,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1570 == null)
-                    _CS1570 = new CompilerReferenceWarning(@"XML comment on {0} has badly formed XML — {1}", 1, 1570);
+                    _CS1570 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1570, 1, 1570);
                 return _CS1570;
             }
         }
@@ -652,7 +653,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1571 == null)
-                    _CS1571 = new CompilerReferenceWarning(@"XML comment on {0} has a duplicate param tag for {1}", 2, 1571);
+                    _CS1571 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1571, 2, 1571);
                 return _CS1571;
             }
         }
@@ -662,7 +663,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1572 == null)
-                    _CS1572 = new CompilerReferenceWarning(@"XML comment on {0} has a param tag for {1}, but there is no parameter by that name", 2, 1572);
+                    _CS1572 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1572, 2, 1572);
                 return _CS1572;
             }
         }
@@ -672,7 +673,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1573 == null)
-                    _CS1573 = new CompilerReferenceWarning(@"Parameter {0} has no matching param tag in the XML comment for {0} (but other parameters do)", 4, 1573);
+                    _CS1573 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1573, 4, 1573);
                 return _CS1573;
             }
         }
@@ -682,7 +683,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1574 == null)
-                    _CS1574 = new CompilerReferenceWarning(@"XML comment on {0} has syntactically incorrect cref attribute {1}", 1, 1574);
+                    _CS1574 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1574, 1, 1574);
                 return _CS1574;
             }
         }
@@ -692,7 +693,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1580 == null)
-                    _CS1580 = new CompilerReferenceWarning(@"Invalid type for parameter {0} in XML comment cref attribute", 1, 1580);
+                    _CS1580 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1580, 1, 1580);
                 return _CS1580;
             }
         }
@@ -702,7 +703,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1581 == null)
-                    _CS1581 = new CompilerReferenceWarning(@"Invalid return type in XML comment cref attribute", 1, 1581);
+                    _CS1581 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1581, 1, 1581);
                 return _CS1581;
             }
         }
@@ -712,7 +713,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1584 == null)
-                    _CS1584 = new CompilerReferenceWarning(@"XML comment on {0} has syntactically incorrect cref attribute {1}", 1, 1584);
+                    _CS1584 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1584, 1, 1584);
                 return _CS1584;
             }
         }
@@ -722,7 +723,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1587 == null)
-                    _CS1587 = new CompilerReferenceWarning(@"XML comment is not placed on a valid language element", 2, 1587);
+                    _CS1587 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1587, 2, 1587);
                 return _CS1587;
             }
         }
@@ -732,7 +733,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1589 == null)
-                    _CS1589 = new CompilerReferenceWarning(@"Unable to include XML fragment {0} of file {1} -- {1}", 1, 1589);
+                    _CS1589 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1589, 1, 1589);
                 return _CS1589;
             }
         }
@@ -742,7 +743,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1590 == null)
-                    _CS1590 = new CompilerReferenceWarning(@"Invalid XML include element -- Missing file attribute", 1, 1590);
+                    _CS1590 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1590, 1, 1590);
                 return _CS1590;
             }
         }
@@ -752,7 +753,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1591 == null)
-                    _CS1591 = new CompilerReferenceWarning(@"Missing XML comment for publicly visible type or member {0}", 4, 1591);
+                    _CS1591 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1591, 4, 1591);
                 return _CS1591;
             }
         }
@@ -762,7 +763,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1592 == null)
-                    _CS1592 = new CompilerReferenceWarning(@"Badly formed XML in included comments file -- {0}", 1, 1592);
+                    _CS1592 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1592, 1, 1592);
                 return _CS1592;
             }
         }
@@ -772,7 +773,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1598 == null)
-                    _CS1598 = new CompilerReferenceWarning(@"XML parser could not be loaded for the following reason: {0}. The XML documentation file {1} will not be generated.", 1, 1598);
+                    _CS1598 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1598, 1, 1598);
                 return _CS1598;
             }
         }
@@ -782,7 +783,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1607 == null)
-                    _CS1607 = new CompilerReferenceWarning(@"Assembly generation -- {0}", 1, 1607);
+                    _CS1607 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1607, 1, 1607);
                 return _CS1607;
             }
         }
@@ -792,7 +793,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1610 == null)
-                    _CS1610 = new CompilerReferenceWarning(@"Unable to delete temporary file {0} used for default Win32 resource -- {1}", 4, 1610);
+                    _CS1610 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1610, 4, 1610);
                 return _CS1610;
             }
         }
@@ -802,7 +803,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1616 == null)
-                    _CS1616 = new CompilerReferenceWarning(@"Option {0} overrides attribute {1} given in a source file or added module", 1, 1616);
+                    _CS1616 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1616, 1, 1616);
                 return _CS1616;
             }
         }
@@ -812,7 +813,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1633 == null)
-                    _CS1633 = new CompilerReferenceWarning(@"Unrecognized #pragma directive", 1, 1633);
+                    _CS1633 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1633, 1, 1633);
                 return _CS1633;
             }
         }
@@ -822,7 +823,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1634 == null)
-                    _CS1634 = new CompilerReferenceWarning(@"Expected disable or restore", 1, 1634);
+                    _CS1634 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1634, 1, 1634);
                 return _CS1634;
             }
         }
@@ -832,7 +833,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1635 == null)
-                    _CS1635 = new CompilerReferenceWarning(@"Cannot restore warning {0} because it was disabled globally", 1, 1635);
+                    _CS1635 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1635, 1, 1635);
                 return _CS1635;
             }
         }
@@ -842,7 +843,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1645 == null)
-                    _CS1645 = new CompilerReferenceWarning(@"Feature {0} is not part of the standardized ISO C# language specification, and may not be accepted by other compilers", 1, 1645);
+                    _CS1645 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1645, 1, 1645);
                 return _CS1645;
             }
         }
@@ -852,7 +853,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1658 == null)
-                    _CS1658 = new CompilerReferenceWarning(@"{0}. See also error: {1}", 1, 1658);
+                    _CS1658 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1658, 1, 1658);
                 return _CS1658;
             }
         }
@@ -862,7 +863,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1668 == null)
-                    _CS1668 = new CompilerReferenceWarning(@"Invalid search path 'path' specified in {0} -- {1}", 2, 1668);
+                    _CS1668 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1668, 2, 1668);
                 return _CS1668;
             }
         }
@@ -872,7 +873,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1682 == null)
-                    _CS1682 = new CompilerReferenceWarning(@"Reference to type {0} claims it is nested within {1}, but it could not be found", 1, 1682);
+                    _CS1682 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1682, 1, 1682);
                 return _CS1682;
             }
         }
@@ -882,7 +883,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1683 == null)
-                    _CS1683 = new CompilerReferenceWarning(@"Reference to type {0} claims it is defined in this assembly, but it is not defined in source or any added modules", 1, 1683);
+                    _CS1683 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1683, 1, 1683);
                 return _CS1683;
             }
         }
@@ -892,7 +893,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1684 == null)
-                    _CS1684 = new CompilerReferenceWarning(@"Reference to type {0} claims it is defined in {1}, but it could not be found", 1, 1684);
+                    _CS1684 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1684, 1, 1684);
                 return _CS1684;
             }
         }
@@ -903,7 +904,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1685 == null)
-                    _CS1685 = new CompilerReferenceWarning(@"The predefined type {0} is defined in multiple assemblies in the global alias; using definition from {1}", 1, 1685);
+                    _CS1685 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1685, 1, 1685);
                 return _CS1685;
             }
         }
@@ -913,7 +914,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1687 == null)
-                    _CS1687 = new CompilerReferenceWarning(@"Source file has exceeded the limit of 16,707,565 lines representable in the PDB, debug information will be incorrect", 1, 1687);
+                    _CS1687 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1687, 1, 1687);
                 return _CS1687;
             }
         }
@@ -923,7 +924,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1690 == null)
-                    _CS1690 = new CompilerReferenceWarning(@"Accessing a member on {0} may cause a runtime exception because it is a field of a marshal-by-reference class", 1, 1690);
+                    _CS1690 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1690, 1, 1690);
                 return _CS1690;
             }
         }
@@ -933,7 +934,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1691 == null)
-                    _CS1691 = new CompilerReferenceWarning(@"{0} is not a valid warning number", 1, 1691);
+                    _CS1691 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1691, 1, 1691);
                 return _CS1691;
             }
         }
@@ -943,7 +944,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1692 == null)
-                    _CS1692 = new CompilerReferenceWarning(@"Invalid number", 1, 1692);
+                    _CS1692 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1692, 1, 1692);
                 return _CS1692;
             }
         }
@@ -953,7 +954,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1694 == null)
-                    _CS1694 = new CompilerReferenceWarning(@"Invalid filename specified for preprocessor directive. Filename is too long or not a valid filename.", 1, 1694);
+                    _CS1694 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1694, 1, 1694);
                 return _CS1694;
             }
         }
@@ -963,7 +964,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1695 == null)
-                    _CS1695 = new CompilerReferenceWarning(@"Invalid #pragma checksum syntax; should be #pragma checksum ""filename"" ""{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}"" ""XXXX...""", 1, 1695);
+                    _CS1695 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1695, 1, 1695);
                 return _CS1695;
             }
         }
@@ -973,7 +974,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1696 == null)
-                    _CS1696 = new CompilerReferenceWarning(@"Single-line comment or end-of-line expected", 1, 1696);
+                    _CS1696 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1696, 1, 1696);
                 return _CS1696;
             }
         }
@@ -983,7 +984,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1697 == null)
-                    _CS1697 = new CompilerReferenceWarning(@"Different checksum values given for {0}", 1, 1697);
+                    _CS1697 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1697, 1, 1697);
                 return _CS1697;
             }
         }
@@ -993,7 +994,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1698 == null)
-                    _CS1698 = new CompilerReferenceWarning(@"Circular assembly reference {0} does not match the output assembly name {1}. Try adding a reference to {0} or changing the output assembly name to match.", 2, 1698);
+                    _CS1698 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1698, 2, 1698);
                 return _CS1698;
             }
         }
@@ -1003,7 +1004,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1699 == null)
-                    _CS1699 = new CompilerReferenceWarning(@"Use command line option {0} or appropriate project settings instead of {1}", 1, 1699);
+                    _CS1699 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1699, 1, 1699);
                 return _CS1699;
             }
         }
@@ -1013,7 +1014,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1700 == null)
-                    _CS1700 = new CompilerReferenceWarning(@"Assembly reference Assembly Name is invalid and cannot be resolved", 3, 1700);
+                    _CS1700 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1700, 3, 1700);
                 return _CS1700;
             }
         }
@@ -1023,7 +1024,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1701 == null)
-                    _CS1701 = new CompilerReferenceWarning(@"Assuming assembly reference {0} matches {1}, you may need to supply runtime policy ", 2, 1701);
+                    _CS1701 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1701, 2, 1701);
                 return _CS1701;
             }
         }
@@ -1033,7 +1034,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1702 == null)
-                    _CS1702 = new CompilerReferenceWarning(@"Assuming assembly reference {0} matches {1}, you may need to supply runtime policy", 3, 1702);
+                    _CS1702 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1702, 3, 1702);
                 return _CS1702;
             }
         }
@@ -1043,7 +1044,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1707 == null)
-                    _CS1707 = new CompilerReferenceWarning(@"Delegate {0} bound to {1} instead of {2} because of new language rules", 1, 1707);
+                    _CS1707 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1707, 1, 1707);
                 return _CS1707;
             }
         }
@@ -1053,7 +1054,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1709 == null)
-                    _CS1709 = new CompilerReferenceWarning(@"Filename specified for preprocessor directive is empty", 1, 1709);
+                    _CS1709 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1709, 1, 1709);
                 return _CS1709;
             }
         }
@@ -1063,7 +1064,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1710 == null)
-                    _CS1710 = new CompilerReferenceWarning(@"XML comment on {0} has a duplicate typeparam tag for {1}", 2, 1710);
+                    _CS1710 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1710, 2, 1710);
                 return _CS1710;
             }
         }
@@ -1073,7 +1074,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1711 == null)
-                    _CS1711 = new CompilerReferenceWarning(@"XML comment on {0} has a typeparam tag for {1}, but there is no type parameter by that name", 2, 1711);
+                    _CS1711 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1711, 2, 1711);
                 return _CS1711;
             }
         }
@@ -1083,7 +1084,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1712 == null)
-                    _CS1712 = new CompilerReferenceWarning(@"Type parameter {0} has no matching typeparam tag in the XML comment on {1} (but other type parameters do)", 4, 1712);
+                    _CS1712 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1712, 4, 1712);
                 return _CS1712;
             }
         }
@@ -1093,7 +1094,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1717 == null)
-                    _CS1717 = new CompilerReferenceWarning(@"Assignment made to same variable; did you mean to assign something else?", 3, 1717);
+                    _CS1717 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1717, 3, 1717);
                 return _CS1717;
             }
         }
@@ -1103,7 +1104,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1718 == null)
-                    _CS1718 = new CompilerReferenceWarning(@"Comparison made to same variable; did you mean to compare something else?", 3, 1718);
+                    _CS1718 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1718, 3, 1718);
                 return _CS1718;
             }
         }
@@ -1113,7 +1114,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1720 == null)
-                    _CS1720 = new CompilerReferenceWarning(@"Expression will always cause a System.NullReferenceException because the default value of {0} is null", 1, 1720);
+                    _CS1720 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1720, 1, 1720);
                 return _CS1720;
             }
         }
@@ -1123,7 +1124,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1723 == null)
-                    _CS1723 = new CompilerReferenceWarning(@"XML comment on {0} has cref attribute {1} that refers to a type parameter", 1, 1723);
+                    _CS1723 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1723, 1, 1723);
                 return _CS1723;
             }
         }
@@ -1133,7 +1134,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1911 == null)
-                    _CS1911 = new CompilerReferenceWarning(@"Access to member {0} through a 'base' keyword from an anonymous method, lambda expression, query expression, or iterator results in unverifiable code. Consider moving the access into a helper method on the containing type.", 1, 1911);
+                    _CS1911 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1911, 1, 1911);
                 return _CS1911;
             }
         }
@@ -1143,7 +1144,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1927 == null)
-                    _CS1927 = new CompilerReferenceWarning(@"Ignoring /win32manifest for module because it only applies to assemblies.", 2, 1927);
+                    _CS1927 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1927, 2, 1927);
                 return _CS1927;
             }
         }
@@ -1153,7 +1154,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1956 == null)
-                    _CS1956 = new CompilerReferenceWarning(@"Member {0} implements interface member {0} in type {1}. There are multiple matches for the interface member at run-time. It is implementation dependent which method will be called.", 1, 1956);
+                    _CS1956 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1956, 1, 1956);
                 return _CS1956;
             }
         }
@@ -1163,7 +1164,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1957 == null)
-                    _CS1957 = new CompilerReferenceWarning(@"Member {0} overrides {1}. There are multiple override candidates at run-time. It is implementation dependent which method will be called.", 1, 1957);
+                    _CS1957 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS1957, 1, 1957);
                 return _CS1957;
             }
         }
@@ -1173,7 +1174,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2002 == null)
-                    _CS2002 = new CompilerReferenceWarning(@"Source file {0} specified multiple times", 1, 2002);
+                    _CS2002 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS2002, 1, 2002);
                 return _CS2002;
             }
         }
@@ -1183,7 +1184,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2014 == null)
-                    _CS2014 = new CompilerReferenceWarning(@"Compiler option {0} is obsolete, please use {1} instead", 1, 2014);
+                    _CS2014 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS2014, 1, 2014);
                 return _CS2014;
             }
         }
@@ -1193,7 +1194,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2023 == null)
-                    _CS2023 = new CompilerReferenceWarning(@"Ignoring /noconfig option because it was specified in a response file", 1, 2023);
+                    _CS2023 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS2023, 1, 2023);
                 return _CS2023;
             }
         }
@@ -1203,7 +1204,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2029 == null)
-                    _CS2029 = new CompilerReferenceWarning(@"Invalid value for '/define'; {0} is not a valid identifier", 1, 2029);
+                    _CS2029 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS2029, 1, 2029);
                 return _CS2029;
             }
         }
@@ -1213,7 +1214,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3000 == null)
-                    _CS3000 = new CompilerReferenceWarning(@"Methods with variable arguments are not CLS-compliant", 1, 3000);
+                    _CS3000 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3000, 1, 3000);
                 return _CS3000;
             }
         }
@@ -1223,7 +1224,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3001 == null)
-                    _CS3001 = new CompilerReferenceWarning(@"Argument type {0} is not CLS-compliant", 1, 3001);
+                    _CS3001 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3001, 1, 3001);
                 return _CS3001;
             }
         }
@@ -1233,7 +1234,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3002 == null)
-                    _CS3002 = new CompilerReferenceWarning(@"Return type of {0} is not CLS-compliant", 1, 3002);
+                    _CS3002 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3002, 1, 3002);
                 return _CS3002;
             }
         }
@@ -1243,7 +1244,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3003 == null)
-                    _CS3003 = new CompilerReferenceWarning(@"Type of {0} is not CLS-compliant", 1, 3003);
+                    _CS3003 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3003, 1, 3003);
                 return _CS3003;
             }
         }
@@ -1253,7 +1254,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3004 == null)
-                    _CS3004 = new CompilerReferenceWarning(@"Mixed and decomposed Unicode characters are not CLS-compliant", 1, 3004);
+                    _CS3004 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3004, 1, 3004);
                 return _CS3004;
             }
         }
@@ -1263,7 +1264,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3005 == null)
-                    _CS3005 = new CompilerReferenceWarning(@"Identifier {0} differing only in case is not CLS-compliant", 1, 3005);
+                    _CS3005 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3005, 1, 3005);
                 return _CS3005;
             }
         }
@@ -1273,7 +1274,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3006 == null)
-                    _CS3006 = new CompilerReferenceWarning(@"Overloaded method {0} differing only in ref or out, or in array rank, is not CLS-compliant", 1, 3006);
+                    _CS3006 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3006, 1, 3006);
                 return _CS3006;
             }
         }
@@ -1283,7 +1284,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3007 == null)
-                    _CS3007 = new CompilerReferenceWarning(@"Overloaded method {0} differing only by unnamed array types is not CLS-compliant", 1, 3007);
+                    _CS3007 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3007, 1, 3007);
                 return _CS3007;
             }
         }
@@ -1293,7 +1294,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3008 == null)
-                    _CS3008 = new CompilerReferenceWarning(@"Identifier {0} differing only in case is not CLS-compliant", 1, 3008);
+                    _CS3008 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3008, 1, 3008);
                 return _CS3008;
             }
         }
@@ -1303,7 +1304,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3009 == null)
-                    _CS3009 = new CompilerReferenceWarning(@"{0}: base type {0} is not CLS-compliant", 1, 3009);
+                    _CS3009 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3009, 1, 3009);
                 return _CS3009;
             }
         }
@@ -1313,7 +1314,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3010 == null)
-                    _CS3010 = new CompilerReferenceWarning(@"{0}: CLS-compliant interfaces must have only CLS-compliant members", 1, 3010);
+                    _CS3010 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3010, 1, 3010);
                 return _CS3010;
             }
         }
@@ -1323,7 +1324,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3011 == null)
-                    _CS3011 = new CompilerReferenceWarning(@"{0}: only CLS-compliant members can be abstract", 1, 3011);
+                    _CS3011 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3011, 1, 3011);
                 return _CS3011;
             }
         }
@@ -1333,7 +1334,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3012 == null)
-                    _CS3012 = new CompilerReferenceWarning(@"You cannot specify the CLSCompliant attribute on a module that differs from the CLSCompliant attribute on the assembly", 1, 3012);
+                    _CS3012 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3012, 1, 3012);
                 return _CS3012;
             }
         }
@@ -1343,7 +1344,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3013 == null)
-                    _CS3013 = new CompilerReferenceWarning(@"Added modules must be marked with the CLSCompliant attribute to match the assembly", 1, 3013);
+                    _CS3013 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3013, 1, 3013);
                 return _CS3013;
             }
         }
@@ -1353,7 +1354,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3014 == null)
-                    _CS3014 = new CompilerReferenceWarning(@"{0} does not need a CLSCompliant attribute because the assembly does not have a CLSCompliant attribute", 1, 3014);
+                    _CS3014 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3014, 1, 3014);
                 return _CS3014;
             }
         }
@@ -1363,7 +1364,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3015 == null)
-                    _CS3015 = new CompilerReferenceWarning(@"{0} has no accessible constructors which use only CLS-compliant types", 1, 3015);
+                    _CS3015 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3015, 1, 3015);
                 return _CS3015;
             }
         }
@@ -1373,7 +1374,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3016 == null)
-                    _CS3016 = new CompilerReferenceWarning(@"Arrays as attribute arguments is not CLS-compliant", 1, 3016);
+                    _CS3016 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3016, 1, 3016);
                 return _CS3016;
             }
         }
@@ -1383,7 +1384,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3017 == null)
-                    _CS3017 = new CompilerReferenceWarning(@"You cannot specify the CLSCompliant attribute on a module that differs from the CLSCompliant attribute on the assembly", 1, 3017);
+                    _CS3017 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3017, 1, 3017);
                 return _CS3017;
             }
         }
@@ -1393,7 +1394,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3018 == null)
-                    _CS3018 = new CompilerReferenceWarning(@"{0} cannot be marked as CLS-Compliant because it is a member of non CLS-compliant type {1}", 1, 3018);
+                    _CS3018 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3018, 1, 3018);
                 return _CS3018;
             }
         }
@@ -1403,7 +1404,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3019 == null)
-                    _CS3019 = new CompilerReferenceWarning(@"CLS compliance checking will not be performed on {0} because it is not visible from outside this assembly.", 2, 3019);
+                    _CS3019 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3019, 2, 3019);
                 return _CS3019;
             }
         }
@@ -1413,7 +1414,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3021 == null)
-                    _CS3021 = new CompilerReferenceWarning(@"{0} does not need a CLSCompliant attribute because the assembly does not have a CLSCompliant attribute", 2, 3021);
+                    _CS3021 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3021, 2, 3021);
                 return _CS3021;
             }
         }
@@ -1423,7 +1424,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3022 == null)
-                    _CS3022 = new CompilerReferenceWarning(@"CLSCompliant attribute has no meaning when applied to parameters. Try putting it on the method instead.", 1, 3022);
+                    _CS3022 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3022, 1, 3022);
                 return _CS3022;
             }
         }
@@ -1433,7 +1434,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3023 == null)
-                    _CS3023 = new CompilerReferenceWarning(@"CLSCompliant attribute has no meaning when applied to return types. Try putting it on the method instead.", 1, 3023);
+                    _CS3023 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3023, 1, 3023);
                 return _CS3023;
             }
         }
@@ -1443,7 +1444,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3026 == null)
-                    _CS3026 = new CompilerReferenceWarning(@"CLS-compliant field {0} cannot be volatile", 1, 3026);
+                    _CS3026 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3026, 1, 3026);
                 return _CS3026;
             }
         }
@@ -1453,7 +1454,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS3027 == null)
-                    _CS3027 = new CompilerReferenceWarning(@"{0} is not CLS-compliant because base interface {1} is not CLS-compliant", 1, 3027);
+                    _CS3027 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS3027, 1, 3027);
                 return _CS3027;
             }
         }
@@ -1463,7 +1464,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS5000 == null)
-                    _CS5000 = new CompilerReferenceWarning(@"Unknown compiler option {0}", 1, 5000);
+                    _CS5000 = new CompilerReferenceWarning(Resources.CSharpWarnings_CS5000, 1, 5000);
                 return _CS5000;
             }
         }
@@ -1473,7 +1474,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0001 == null)
-                    _CS0001 = new CompilerReferenceError(@"Internal compiler error", 1);
+                    _CS0001 = new CompilerReferenceError(Resources.CSharpErrors_CS0001, 1);
                 return _CS0001;
             }
         }
@@ -1483,7 +1484,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0003 == null)
-                    _CS0003 = new CompilerReferenceError(@"Out of memory", 3);
+                    _CS0003 = new CompilerReferenceError(Resources.CSharpErrors_CS0003, 3);
                 return _CS0003;
             }
         }
@@ -1493,7 +1494,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0004 == null)
-                    _CS0004 = new CompilerReferenceError(@"Warning treated as error", 4);
+                    _CS0004 = new CompilerReferenceError(Resources.CSharpErrors_CS0004, 4);
                 return _CS0004;
             }
         }
@@ -1503,7 +1504,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0005 == null)
-                    _CS0005 = new CompilerReferenceError(@"Compiler option {0} must be followed by an argument", 5);
+                    _CS0005 = new CompilerReferenceError(Resources.CSharpErrors_CS0005, 5);
                 return _CS0005;
             }
         }
@@ -1513,7 +1514,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0006 == null)
-                    _CS0006 = new CompilerReferenceError(@"Metadata file {0} could not be found", 6);
+                    _CS0006 = new CompilerReferenceError(Resources.CSharpErrors_CS0006, 6);
                 return _CS0006;
             }
         }
@@ -1523,7 +1524,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0007 == null)
-                    _CS0007 = new CompilerReferenceError(@"Unexpected common language runtime initialization error — {0}", 7);
+                    _CS0007 = new CompilerReferenceError(Resources.CSharpErrors_CS0007, 7);
                 return _CS0007;
             }
         }
@@ -1533,7 +1534,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0008 == null)
-                    _CS0008 = new CompilerReferenceError(@"Unexpected error reading metadata from file 'file' — {0}", 8);
+                    _CS0008 = new CompilerReferenceError(Resources.CSharpErrors_CS0008, 8);
                 return _CS0008;
             }
         }
@@ -1543,7 +1544,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0009 == null)
-                    _CS0009 = new CompilerReferenceError(@"Metadata file {0} could not be opened — {1}", 9);
+                    _CS0009 = new CompilerReferenceError(Resources.CSharpErrors_CS0009, 9);
                 return _CS0009;
             }
         }
@@ -1553,7 +1554,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0010 == null)
-                    _CS0010 = new CompilerReferenceError(@"Unexpected fatal error -- {0}.", 10);
+                    _CS0010 = new CompilerReferenceError(Resources.CSharpErrors_CS0010, 10);
                 return _CS0010;
             }
         }
@@ -1563,7 +1564,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0011 == null)
-                    _CS0011 = new CompilerReferenceError(@"The base class or interface {0} in assembly {1} referenced by type {2} could not be resolved", 11);
+                    _CS0011 = new CompilerReferenceError(Resources.CSharpErrors_CS0011, 11);
                 return _CS0011;
             }
         }
@@ -1573,7 +1574,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0012 == null)
-                    _CS0012 = new CompilerReferenceError(@"The type {0} is defined in an assembly that is not referenced. You must add a reference to assembly {1}.", 12);
+                    _CS0012 = new CompilerReferenceError(Resources.CSharpErrors_CS0012, 12);
                 return _CS0012;
             }
         }
@@ -1583,7 +1584,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0013 == null)
-                    _CS0013 = new CompilerReferenceError(@"Unexpected error writing metadata to file {0} -- {1}", 13);
+                    _CS0013 = new CompilerReferenceError(Resources.CSharpErrors_CS0013, 13);
                 return _CS0013;
             }
         }
@@ -1593,7 +1594,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0014 == null)
-                    _CS0014 = new CompilerReferenceError(@"Required file {0} could not be found", 14);
+                    _CS0014 = new CompilerReferenceError(Resources.CSharpErrors_CS0014, 14);
                 return _CS0014;
             }
         }
@@ -1603,7 +1604,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0015 == null)
-                    _CS0015 = new CompilerReferenceError(@"The name of type {0} is too long", 15);
+                    _CS0015 = new CompilerReferenceError(Resources.CSharpErrors_CS0015, 15);
                 return _CS0015;
             }
         }
@@ -1613,7 +1614,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0016 == null)
-                    _CS0016 = new CompilerReferenceError(@"Could not write to output file {0} — {1}", 16);
+                    _CS0016 = new CompilerReferenceError(Resources.CSharpErrors_CS0016, 16);
                 return _CS0016;
             }
         }
@@ -1623,7 +1624,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0017 == null)
-                    _CS0017 = new CompilerReferenceError(@"Program {0} has more than one entry point defined. Compile with /main to specify the type that contains the entry point.", 17);
+                    _CS0017 = new CompilerReferenceError(Resources.CSharpErrors_CS0017, 17);
                 return _CS0017;
             }
         }
@@ -1633,7 +1634,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0019 == null)
-                    _CS0019 = new CompilerReferenceError(@"Operator {0} cannot be applied to operands of type {1} and {2}", 19);
+                    _CS0019 = new CompilerReferenceError(Resources.CSharpErrors_CS0019, 19);
                 return _CS0019;
             }
         }
@@ -1643,7 +1644,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0020 == null)
-                    _CS0020 = new CompilerReferenceError(@"Division by constant zero", 20);
+                    _CS0020 = new CompilerReferenceError(Resources.CSharpErrors_CS0020, 20);
                 return _CS0020;
             }
         }
@@ -1653,7 +1654,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0021 == null)
-                    _CS0021 = new CompilerReferenceError(@"Cannot apply indexing with [] to an expression of type {0}", 21);
+                    _CS0021 = new CompilerReferenceError(Resources.CSharpErrors_CS0021, 21);
                 return _CS0021;
             }
         }
@@ -1663,7 +1664,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0022 == null)
-                    _CS0022 = new CompilerReferenceError(@"Wrong number of indices inside [], expected {0}", 22);
+                    _CS0022 = new CompilerReferenceError(Resources.CSharpErrors_CS0022, 22);
                 return _CS0022;
             }
         }
@@ -1673,7 +1674,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0023 == null)
-                    _CS0023 = new CompilerReferenceError(@"Operator {0} cannot be applied to operand of type {1}", 23);
+                    _CS0023 = new CompilerReferenceError(Resources.CSharpErrors_CS0023, 23);
                 return _CS0023;
             }
         }
@@ -1683,7 +1684,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0025 == null)
-                    _CS0025 = new CompilerReferenceError(@"Standard library file {0} could not be found", 25);
+                    _CS0025 = new CompilerReferenceError(Resources.CSharpErrors_CS0025, 25);
                 return _CS0025;
             }
         }
@@ -1693,7 +1694,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0026 == null)
-                    _CS0026 = new CompilerReferenceError(@"Keyword 'this' is not valid in a static property, static method, or static field initializer", 26);
+                    _CS0026 = new CompilerReferenceError(Resources.CSharpErrors_CS0026, 26);
                 return _CS0026;
             }
         }
@@ -1703,7 +1704,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0027 == null)
-                    _CS0027 = new CompilerReferenceError(@"Keyword 'this' is not available in the current context", 27);
+                    _CS0027 = new CompilerReferenceError(Resources.CSharpErrors_CS0027, 27);
                 return _CS0027;
             }
         }
@@ -1713,7 +1714,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0029 == null)
-                    _CS0029 = new CompilerReferenceError(@"Cannot implicitly convert type {0} to {1}", 29);
+                    _CS0029 = new CompilerReferenceError(Resources.CSharpErrors_CS0029, 29);
                 return _CS0029;
             }
         }
@@ -1723,7 +1724,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0030 == null)
-                    _CS0030 = new CompilerReferenceError(@"Cannot convert type {0} to {1}", 30);
+                    _CS0030 = new CompilerReferenceError(Resources.CSharpErrors_CS0030, 30);
                 return _CS0030;
             }
         }
@@ -1733,7 +1734,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0031 == null)
-                    _CS0031 = new CompilerReferenceError(@"Constant value {0} cannot be converted to a {1}. (use 'unchecked' syntax to override)", 31);
+                    _CS0031 = new CompilerReferenceError(Resources.CSharpErrors_CS0031, 31);
                 return _CS0031;
             }
         }
@@ -1743,7 +1744,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0034 == null)
-                    _CS0034 = new CompilerReferenceError(@"Operator {0} is ambiguous on operands of type {1} and {2}", 34);
+                    _CS0034 = new CompilerReferenceError(Resources.CSharpErrors_CS0034, 34);
                 return _CS0034;
             }
         }
@@ -1753,7 +1754,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0035 == null)
-                    _CS0035 = new CompilerReferenceError(@"Operator {0} is ambiguous on an operand of type {1}", 35);
+                    _CS0035 = new CompilerReferenceError(Resources.CSharpErrors_CS0035, 35);
                 return _CS0035;
             }
         }
@@ -1763,7 +1764,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0036 == null)
-                    _CS0036 = new CompilerReferenceError(@"An out parameter cannot have the '[In]' attribute", 36);
+                    _CS0036 = new CompilerReferenceError(Resources.CSharpErrors_CS0036, 36);
                 return _CS0036;
             }
         }
@@ -1773,7 +1774,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0037 == null)
-                    _CS0037 = new CompilerReferenceError(@"Cannot convert null to {0} because it is a non-nullable value type", 37);
+                    _CS0037 = new CompilerReferenceError(Resources.CSharpErrors_CS0037, 37);
                 return _CS0037;
             }
         }
@@ -1783,7 +1784,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0038 == null)
-                    _CS0038 = new CompilerReferenceError(@"Cannot access a nonstatic member of outer type {0} via nested type {1}", 38);
+                    _CS0038 = new CompilerReferenceError(Resources.CSharpErrors_CS0038, 38);
                 return _CS0038;
             }
         }
@@ -1793,7 +1794,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0039 == null)
-                    _CS0039 = new CompilerReferenceError(@"Cannot convert type {0} to {1} via a reference conversion, boxing conversion, unboxing conversion, wrapping conversion, or null type conversion", 39);
+                    _CS0039 = new CompilerReferenceError(Resources.CSharpErrors_CS0039, 39);
                 return _CS0039;
             }
         }
@@ -1803,7 +1804,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0040 == null)
-                    _CS0040 = new CompilerReferenceError(@"Unexpected error creating debug information file — {0}", 40);
+                    _CS0040 = new CompilerReferenceError(Resources.CSharpErrors_CS0040, 40);
                 return _CS0040;
             }
         }
@@ -1813,7 +1814,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0041 == null)
-                    _CS0041 = new CompilerReferenceError(@"The fully qualified name for {0} is too long for debug information. Compile without '/debug' option.", 41);
+                    _CS0041 = new CompilerReferenceError(Resources.CSharpErrors_CS0041, 41);
                 return _CS0041;
             }
         }
@@ -1823,7 +1824,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0042 == null)
-                    _CS0042 = new CompilerReferenceError(@"Unexpected error creating debug information file {0} — {1}", 42);
+                    _CS0042 = new CompilerReferenceError(Resources.CSharpErrors_CS0042, 42);
                 return _CS0042;
             }
         }
@@ -1833,7 +1834,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0043 == null)
-                    _CS0043 = new CompilerReferenceError(@"PDB file {0} has an incorrect or out-of-date format. Delete it and rebuild.", 43);
+                    _CS0043 = new CompilerReferenceError(Resources.CSharpErrors_CS0043, 43);
                 return _CS0043;
             }
         }
@@ -1843,7 +1844,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0050 == null)
-                    _CS0050 = new CompilerReferenceError(@"Inconsistent accessibility: return type {0} is less accessible than method {1}", 50);
+                    _CS0050 = new CompilerReferenceError(Resources.CSharpErrors_CS0050, 50);
                 return _CS0050;
             }
         }
@@ -1853,7 +1854,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0051 == null)
-                    _CS0051 = new CompilerReferenceError(@"Inconsistent accessibility: parameter type {0} is less accessible than method {1}", 51);
+                    _CS0051 = new CompilerReferenceError(Resources.CSharpErrors_CS0051, 51);
                 return _CS0051;
             }
         }
@@ -1863,7 +1864,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0052 == null)
-                    _CS0052 = new CompilerReferenceError(@"Inconsistent accessibility: field type {0} is less accessible than field {1}", 52);
+                    _CS0052 = new CompilerReferenceError(Resources.CSharpErrors_CS0052, 52);
                 return _CS0052;
             }
         }
@@ -1873,7 +1874,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0053 == null)
-                    _CS0053 = new CompilerReferenceError(@"Inconsistent accessibility: property type {0} is less accessible than property {1}", 53);
+                    _CS0053 = new CompilerReferenceError(Resources.CSharpErrors_CS0053, 53);
                 return _CS0053;
             }
         }
@@ -1883,7 +1884,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0054 == null)
-                    _CS0054 = new CompilerReferenceError(@"Inconsistent accessibility: indexer return type {0} is less accessible than indexer {1}", 54);
+                    _CS0054 = new CompilerReferenceError(Resources.CSharpErrors_CS0054, 54);
                 return _CS0054;
             }
         }
@@ -1893,7 +1894,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0055 == null)
-                    _CS0055 = new CompilerReferenceError(@"Inconsistent accessibility: parameter type {0} is less accessible than indexer {1}", 55);
+                    _CS0055 = new CompilerReferenceError(Resources.CSharpErrors_CS0055, 55);
                 return _CS0055;
             }
         }
@@ -1903,7 +1904,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0056 == null)
-                    _CS0056 = new CompilerReferenceError(@"Inconsistent accessibility: return type {0} is less accessible than operator {1}", 56);
+                    _CS0056 = new CompilerReferenceError(Resources.CSharpErrors_CS0056, 56);
                 return _CS0056;
             }
         }
@@ -1913,7 +1914,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0057 == null)
-                    _CS0057 = new CompilerReferenceError(@"Inconsistent accessibility: parameter type {0} is less accessible than operator {1}", 57);
+                    _CS0057 = new CompilerReferenceError(Resources.CSharpErrors_CS0057, 57);
                 return _CS0057;
             }
         }
@@ -1923,7 +1924,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0058 == null)
-                    _CS0058 = new CompilerReferenceError(@"Inconsistent accessibility: return type {0} is less accessible than delegate {1}", 58);
+                    _CS0058 = new CompilerReferenceError(Resources.CSharpErrors_CS0058, 58);
                 return _CS0058;
             }
         }
@@ -1933,7 +1934,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0059 == null)
-                    _CS0059 = new CompilerReferenceError(@"Inconsistent accessibility: parameter type {0} is less accessible than delegate {1}", 59);
+                    _CS0059 = new CompilerReferenceError(Resources.CSharpErrors_CS0059, 59);
                 return _CS0059;
             }
         }
@@ -1943,7 +1944,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0060 == null)
-                    _CS0060 = new CompilerReferenceError(@"Inconsistent accessibility: base class {0} is less accessible than class {1}", 60);
+                    _CS0060 = new CompilerReferenceError(Resources.CSharpErrors_CS0060, 60);
                 return _CS0060;
             }
         }
@@ -1953,7 +1954,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0061 == null)
-                    _CS0061 = new CompilerReferenceError(@"Inconsistent accessibility: base interface {0} is less accessible than interface {1}", 61);
+                    _CS0061 = new CompilerReferenceError(Resources.CSharpErrors_CS0061, 61);
                 return _CS0061;
             }
         }
@@ -1963,7 +1964,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0065 == null)
-                    _CS0065 = new CompilerReferenceError(@"{0}: event property must have both add and remove accessors", 65);
+                    _CS0065 = new CompilerReferenceError(Resources.CSharpErrors_CS0065, 65);
                 return _CS0065;
             }
         }
@@ -1973,7 +1974,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0066 == null)
-                    _CS0066 = new CompilerReferenceError(@"{0}: event must be of a delegate type", 66);
+                    _CS0066 = new CompilerReferenceError(Resources.CSharpErrors_CS0066, 66);
                 return _CS0066;
             }
         }
@@ -1983,7 +1984,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0068 == null)
-                    _CS0068 = new CompilerReferenceError(@"{0}: event in interface cannot have initializer", 68);
+                    _CS0068 = new CompilerReferenceError(Resources.CSharpErrors_CS0068, 68);
                 return _CS0068;
             }
         }
@@ -1993,7 +1994,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0069 == null)
-                    _CS0069 = new CompilerReferenceError(@"An event in an interface cannot have add or remove accessors", 69);
+                    _CS0069 = new CompilerReferenceError(Resources.CSharpErrors_CS0069, 69);
                 return _CS0069;
             }
         }
@@ -2003,7 +2004,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0070 == null)
-                    _CS0070 = new CompilerReferenceError(@"The event {0} can only appear on the left hand side of += or -= (except when used from within the type {1})", 70);
+                    _CS0070 = new CompilerReferenceError(Resources.CSharpErrors_CS0070, 70);
                 return _CS0070;
             }
         }
@@ -2013,7 +2014,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0071 == null)
-                    _CS0071 = new CompilerReferenceError(@"An explicit interface implementation of an event must use event accessor syntax", 71);
+                    _CS0071 = new CompilerReferenceError(Resources.CSharpErrors_CS0071, 71);
                 return _CS0071;
             }
         }
@@ -2023,7 +2024,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0072 == null)
-                    _CS0072 = new CompilerReferenceError(@"{0} : cannot override; {1} is not an event", 72);
+                    _CS0072 = new CompilerReferenceError(Resources.CSharpErrors_CS0072, 72);
                 return _CS0072;
             }
         }
@@ -2033,7 +2034,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0073 == null)
-                    _CS0073 = new CompilerReferenceError(@"An add or remove accessor must have a body", 73);
+                    _CS0073 = new CompilerReferenceError(Resources.CSharpErrors_CS0073, 73);
                 return _CS0073;
             }
         }
@@ -2043,7 +2044,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0074 == null)
-                    _CS0074 = new CompilerReferenceError(@"{0}: abstract event cannot have initializer", 74);
+                    _CS0074 = new CompilerReferenceError(Resources.CSharpErrors_CS0074, 74);
                 return _CS0074;
             }
         }
@@ -2053,7 +2054,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0075 == null)
-                    _CS0075 = new CompilerReferenceError(@"To cast a negative value, you must enclose the value in parentheses", 75);
+                    _CS0075 = new CompilerReferenceError(Resources.CSharpErrors_CS0075, 75);
                 return _CS0075;
             }
         }
@@ -2063,7 +2064,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0076 == null)
-                    _CS0076 = new CompilerReferenceError(@"The enumerator name 'value__' is reserved and cannot be used", 76);
+                    _CS0076 = new CompilerReferenceError(Resources.CSharpErrors_CS0076, 76);
                 return _CS0076;
             }
         }
@@ -2073,7 +2074,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0077 == null)
-                    _CS0077 = new CompilerReferenceError(@"The as operator must be used with a reference type or nullable type ({0} is a non-nullable value type).", 77);
+                    _CS0077 = new CompilerReferenceError(Resources.CSharpErrors_CS0077, 77);
                 return _CS0077;
             }
         }
@@ -2083,7 +2084,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0079 == null)
-                    _CS0079 = new CompilerReferenceError(@"The event {0} can only appear on the left hand side of += or -=", 79);
+                    _CS0079 = new CompilerReferenceError(Resources.CSharpErrors_CS0079, 79);
                 return _CS0079;
             }
         }
@@ -2093,7 +2094,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0080 == null)
-                    _CS0080 = new CompilerReferenceError(@"Constraints are not allowed on non-generic declarations", 80);
+                    _CS0080 = new CompilerReferenceError(Resources.CSharpErrors_CS0080, 80);
                 return _CS0080;
             }
         }
@@ -2103,7 +2104,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0081 == null)
-                    _CS0081 = new CompilerReferenceError(@"Type parameter declaration must be an identifier not a type", 81);
+                    _CS0081 = new CompilerReferenceError(Resources.CSharpErrors_CS0081, 81);
                 return _CS0081;
             }
         }
@@ -2113,7 +2114,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0082 == null)
-                    _CS0082 = new CompilerReferenceError(@"Type {0} already reserves a member called {1} with the same parameter types", 82);
+                    _CS0082 = new CompilerReferenceError(Resources.CSharpErrors_CS0082, 82);
                 return _CS0082;
             }
         }
@@ -2123,7 +2124,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0100 == null)
-                    _CS0100 = new CompilerReferenceError(@"The parameter name {0} is a duplicate", 100);
+                    _CS0100 = new CompilerReferenceError(Resources.CSharpErrors_CS0100, 100);
                 return _CS0100;
             }
         }
@@ -2133,7 +2134,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0101 == null)
-                    _CS0101 = new CompilerReferenceError(@"The namespace {0} already contains a definition for {1}", 101);
+                    _CS0101 = new CompilerReferenceError(Resources.CSharpErrors_CS0101, 101);
                 return _CS0101;
             }
         }
@@ -2143,7 +2144,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0102 == null)
-                    _CS0102 = new CompilerReferenceError(@"The type {0} already contains a definition for {1}", 102);
+                    _CS0102 = new CompilerReferenceError(Resources.CSharpErrors_CS0102, 102);
                 return _CS0102;
             }
         }
@@ -2153,7 +2154,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0103 == null)
-                    _CS0103 = new CompilerReferenceError(@"The name {0} does not exist in the current context", 103);
+                    _CS0103 = new CompilerReferenceError(Resources.CSharpErrors_CS0103, 103);
                 return _CS0103;
             }
         }
@@ -2163,7 +2164,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0104 == null)
-                    _CS0104 = new CompilerReferenceError(@"{0} is an ambiguous reference between {1} and {2}", 104);
+                    _CS0104 = new CompilerReferenceError(Resources.CSharpErrors_CS0104, 104);
                 return _CS0104;
             }
         }
@@ -2173,7 +2174,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0106 == null)
-                    _CS0106 = new CompilerReferenceError(@"The modifier {0} is not valid for this item", 106);
+                    _CS0106 = new CompilerReferenceError(Resources.CSharpErrors_CS0106, 106);
                 return _CS0106;
             }
         }
@@ -2183,7 +2184,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0107 == null)
-                    _CS0107 = new CompilerReferenceError(@"More than one protection modifier", 107);
+                    _CS0107 = new CompilerReferenceError(Resources.CSharpErrors_CS0107, 107);
                 return _CS0107;
             }
         }
@@ -2193,7 +2194,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0110 == null)
-                    _CS0110 = new CompilerReferenceError(@"The evaluation of the constant value for {0} involves a circular definition", 110);
+                    _CS0110 = new CompilerReferenceError(Resources.CSharpErrors_CS0110, 110);
                 return _CS0110;
             }
         }
@@ -2203,7 +2204,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0111 == null)
-                    _CS0111 = new CompilerReferenceError(@"Type {0} already defines a member called {1} with the same parameter types", 111);
+                    _CS0111 = new CompilerReferenceError(Resources.CSharpErrors_CS0111, 111);
                 return _CS0111;
             }
         }
@@ -2213,7 +2214,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0112 == null)
-                    _CS0112 = new CompilerReferenceError(@"A static member {0} cannot be marked as override, virtual or abstract", 112);
+                    _CS0112 = new CompilerReferenceError(Resources.CSharpErrors_CS0112, 112);
                 return _CS0112;
             }
         }
@@ -2223,7 +2224,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0113 == null)
-                    _CS0113 = new CompilerReferenceError(@"A member {0} marked as override cannot be marked as new or virtual", 113);
+                    _CS0113 = new CompilerReferenceError(Resources.CSharpErrors_CS0113, 113);
                 return _CS0113;
             }
         }
@@ -2233,7 +2234,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0115 == null)
-                    _CS0115 = new CompilerReferenceError(@"{0} : no suitable method found to override", 115);
+                    _CS0115 = new CompilerReferenceError(Resources.CSharpErrors_CS0115, 115);
                 return _CS0115;
             }
         }
@@ -2243,7 +2244,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0116 == null)
-                    _CS0116 = new CompilerReferenceError(@"A namespace does not directly contain members such as fields or methods", 116);
+                    _CS0116 = new CompilerReferenceError(Resources.CSharpErrors_CS0116, 116);
                 return _CS0116;
             }
         }
@@ -2253,7 +2254,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0117 == null)
-                    _CS0117 = new CompilerReferenceError(@"{0} does not contain a definition for 'identifier'", 117);
+                    _CS0117 = new CompilerReferenceError(Resources.CSharpErrors_CS0117, 117);
                 return _CS0117;
             }
         }
@@ -2263,7 +2264,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0118 == null)
-                    _CS0118 = new CompilerReferenceError(@"{0} is a {1} but is used like a {2}", 118);
+                    _CS0118 = new CompilerReferenceError(Resources.CSharpErrors_CS0118, 118);
                 return _CS0118;
             }
         }
@@ -2273,7 +2274,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0119 == null)
-                    _CS0119 = new CompilerReferenceError(@"{0} is a {1}, which is not valid in the given context.", 119);
+                    _CS0119 = new CompilerReferenceError(Resources.CSharpErrors_CS0119, 119);
                 return _CS0119;
             }
         }
@@ -2283,7 +2284,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0120 == null)
-                    _CS0120 = new CompilerReferenceError(@"An object reference is required for the nonstatic field, method, or property {0}", 120);
+                    _CS0120 = new CompilerReferenceError(Resources.CSharpErrors_CS0120, 120);
                 return _CS0120;
             }
         }
@@ -2293,7 +2294,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0121 == null)
-                    _CS0121 = new CompilerReferenceError(@"The call is ambiguous between the following methods or properties: {0} and {1}", 121);
+                    _CS0121 = new CompilerReferenceError(Resources.CSharpErrors_CS0121, 121);
                 return _CS0121;
             }
         }
@@ -2303,7 +2304,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0122 == null)
-                    _CS0122 = new CompilerReferenceError(@"{0} is inaccessible due to its protection level", 122);
+                    _CS0122 = new CompilerReferenceError(Resources.CSharpErrors_CS0122, 122);
                 return _CS0122;
             }
         }
@@ -2313,7 +2314,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0123 == null)
-                    _CS0123 = new CompilerReferenceError(@"No overload for {0} matches delegate {1}", 123);
+                    _CS0123 = new CompilerReferenceError(Resources.CSharpErrors_CS0123, 123);
                 return _CS0123;
             }
         }
@@ -2323,7 +2324,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0126 == null)
-                    _CS0126 = new CompilerReferenceError(@"An object of a type convertible to {0} is required", 126);
+                    _CS0126 = new CompilerReferenceError(Resources.CSharpErrors_CS0126, 126);
                 return _CS0126;
             }
         }
@@ -2333,7 +2334,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0127 == null)
-                    _CS0127 = new CompilerReferenceError(@"Since {0} returns void, a return keyword must not be followed by an object expression", 127);
+                    _CS0127 = new CompilerReferenceError(Resources.CSharpErrors_CS0127, 127);
                 return _CS0127;
             }
         }
@@ -2343,7 +2344,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0128 == null)
-                    _CS0128 = new CompilerReferenceError(@"A local variable named {0} is already defined in this scope", 128);
+                    _CS0128 = new CompilerReferenceError(Resources.CSharpErrors_CS0128, 128);
                 return _CS0128;
             }
         }
@@ -2353,7 +2354,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0131 == null)
-                    _CS0131 = new CompilerReferenceError(@"The left-hand side of an assignment must be a variable, property or indexer", 131);
+                    _CS0131 = new CompilerReferenceError(Resources.CSharpErrors_CS0131, 131);
                 return _CS0131;
             }
         }
@@ -2363,7 +2364,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0132 == null)
-                    _CS0132 = new CompilerReferenceError(@"{0} : a static constructor must be parameterless", 132);
+                    _CS0132 = new CompilerReferenceError(Resources.CSharpErrors_CS0132, 132);
                 return _CS0132;
             }
         }
@@ -2373,7 +2374,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0133 == null)
-                    _CS0133 = new CompilerReferenceError(@"The expression being assigned to {0} must be constant", 133);
+                    _CS0133 = new CompilerReferenceError(Resources.CSharpErrors_CS0133, 133);
                 return _CS0133;
             }
         }
@@ -2383,7 +2384,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0134 == null)
-                    _CS0134 = new CompilerReferenceError(@"{0} is of type {1}. A const field of a reference type other than string can only be initialized with null.", 134);
+                    _CS0134 = new CompilerReferenceError(Resources.CSharpErrors_CS0134, 134);
                 return _CS0134;
             }
         }
@@ -2393,7 +2394,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0135 == null)
-                    _CS0135 = new CompilerReferenceError(@"{0} conflicts with the declaration {1}", 135);
+                    _CS0135 = new CompilerReferenceError(Resources.CSharpErrors_CS0135, 135);
                 return _CS0135;
             }
         }
@@ -2403,7 +2404,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0136 == null)
-                    _CS0136 = new CompilerReferenceError(@"A local variable named {0} cannot be declared in this scope because it would give a different meaning to {0}, which is already used in a 'parent or current/child' scope to denote something else", 136);
+                    _CS0136 = new CompilerReferenceError(Resources.CSharpErrors_CS0136, 136);
                 return _CS0136;
             }
         }
@@ -2413,7 +2414,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0138 == null)
-                    _CS0138 = new CompilerReferenceError(@"A using namespace directive can only be applied to namespaces; {0} is a type not a namespace", 138);
+                    _CS0138 = new CompilerReferenceError(Resources.CSharpErrors_CS0138, 138);
                 return _CS0138;
             }
         }
@@ -2423,7 +2424,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0139 == null)
-                    _CS0139 = new CompilerReferenceError(@"No enclosing loop out of which to break or continue", 139);
+                    _CS0139 = new CompilerReferenceError(Resources.CSharpErrors_CS0139, 139);
                 return _CS0139;
             }
         }
@@ -2433,7 +2434,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0140 == null)
-                    _CS0140 = new CompilerReferenceError(@"The label {0} is a duplicate", 140);
+                    _CS0140 = new CompilerReferenceError(Resources.CSharpErrors_CS0140, 140);
                 return _CS0140;
             }
         }
@@ -2443,7 +2444,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0143 == null)
-                    _CS0143 = new CompilerReferenceError(@"The type {0} has no constructors defined", 143);
+                    _CS0143 = new CompilerReferenceError(Resources.CSharpErrors_CS0143, 143);
                 return _CS0143;
             }
         }
@@ -2453,7 +2454,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0144 == null)
-                    _CS0144 = new CompilerReferenceError(@"Cannot create an instance of the abstract class or interface {0}", 144);
+                    _CS0144 = new CompilerReferenceError(Resources.CSharpErrors_CS0144, 144);
                 return _CS0144;
             }
         }
@@ -2463,7 +2464,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0145 == null)
-                    _CS0145 = new CompilerReferenceError(@"A const field requires a value to be provided", 145);
+                    _CS0145 = new CompilerReferenceError(Resources.CSharpErrors_CS0145, 145);
                 return _CS0145;
             }
         }
@@ -2473,7 +2474,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0146 == null)
-                    _CS0146 = new CompilerReferenceError(@"Circular base class dependency involving {0} and {1}", 146);
+                    _CS0146 = new CompilerReferenceError(Resources.CSharpErrors_CS0146, 146);
                 return _CS0146;
             }
         }
@@ -2483,7 +2484,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0148 == null)
-                    _CS0148 = new CompilerReferenceError(@"The delegate {0} does not have a valid constructor", 148);
+                    _CS0148 = new CompilerReferenceError(Resources.CSharpErrors_CS0148, 148);
                 return _CS0148;
             }
         }
@@ -2493,7 +2494,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0149 == null)
-                    _CS0149 = new CompilerReferenceError(@"Method name expected", 149);
+                    _CS0149 = new CompilerReferenceError(Resources.CSharpErrors_CS0149, 149);
                 return _CS0149;
             }
         }
@@ -2503,7 +2504,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0150 == null)
-                    _CS0150 = new CompilerReferenceError(@"A constant value is expected", 150);
+                    _CS0150 = new CompilerReferenceError(Resources.CSharpErrors_CS0150, 150);
                 return _CS0150;
             }
         }
@@ -2513,7 +2514,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0151 == null)
-                    _CS0151 = new CompilerReferenceError(@"A value of an integral type expected", 151);
+                    _CS0151 = new CompilerReferenceError(Resources.CSharpErrors_CS0151, 151);
                 return _CS0151;
             }
         }
@@ -2523,7 +2524,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0152 == null)
-                    _CS0152 = new CompilerReferenceError(@"The label {0} already occurs in this switch statement", 152);
+                    _CS0152 = new CompilerReferenceError(Resources.CSharpErrors_CS0152, 152);
                 return _CS0152;
             }
         }
@@ -2533,7 +2534,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0153 == null)
-                    _CS0153 = new CompilerReferenceError(@"A goto case is only valid inside a switch statement", 153);
+                    _CS0153 = new CompilerReferenceError(Resources.CSharpErrors_CS0153, 153);
                 return _CS0153;
             }
         }
@@ -2543,7 +2544,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0154 == null)
-                    _CS0154 = new CompilerReferenceError(@"The property or indexer 'property' cannot be used in this context because it lacks the get accessor", 154);
+                    _CS0154 = new CompilerReferenceError(Resources.CSharpErrors_CS0154, 154);
                 return _CS0154;
             }
         }
@@ -2553,7 +2554,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0155 == null)
-                    _CS0155 = new CompilerReferenceError(@"The type caught or thrown must be derived from System.Exception", 155);
+                    _CS0155 = new CompilerReferenceError(Resources.CSharpErrors_CS0155, 155);
                 return _CS0155;
             }
         }
@@ -2563,7 +2564,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0156 == null)
-                    _CS0156 = new CompilerReferenceError(@"A throw statement with no arguments is not allowed in a finally clause that is nested inside the nearest enclosing catch clause", 156);
+                    _CS0156 = new CompilerReferenceError(Resources.CSharpErrors_CS0156, 156);
                 return _CS0156;
             }
         }
@@ -2573,7 +2574,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0157 == null)
-                    _CS0157 = new CompilerReferenceError(@"Control cannot leave the body of a finally clause", 157);
+                    _CS0157 = new CompilerReferenceError(Resources.CSharpErrors_CS0157, 157);
                 return _CS0157;
             }
         }
@@ -2583,7 +2584,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0158 == null)
-                    _CS0158 = new CompilerReferenceError(@"The label {0} shadows another label by the same name in a contained scope", 158);
+                    _CS0158 = new CompilerReferenceError(Resources.CSharpErrors_CS0158, 158);
                 return _CS0158;
             }
         }
@@ -2593,7 +2594,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0159 == null)
-                    _CS0159 = new CompilerReferenceError(@"No such label {0} within the scope of the goto statement", 159);
+                    _CS0159 = new CompilerReferenceError(Resources.CSharpErrors_CS0159, 159);
                 return _CS0159;
             }
         }
@@ -2603,7 +2604,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0160 == null)
-                    _CS0160 = new CompilerReferenceError(@"A previous catch clause already catches all exceptions of this or of a super type ({0})", 160);
+                    _CS0160 = new CompilerReferenceError(Resources.CSharpErrors_CS0160, 160);
                 return _CS0160;
             }
         }
@@ -2613,7 +2614,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0161 == null)
-                    _CS0161 = new CompilerReferenceError(@"{0}: not all code paths return a value", 161);
+                    _CS0161 = new CompilerReferenceError(Resources.CSharpErrors_CS0161, 161);
                 return _CS0161;
             }
         }
@@ -2623,7 +2624,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0163 == null)
-                    _CS0163 = new CompilerReferenceError(@"Control cannot fall through from one case label ({0}) to another", 163);
+                    _CS0163 = new CompilerReferenceError(Resources.CSharpErrors_CS0163, 163);
                 return _CS0163;
             }
         }
@@ -2633,7 +2634,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0165 == null)
-                    _CS0165 = new CompilerReferenceError(@"Use of unassigned local variable {0}", 165);
+                    _CS0165 = new CompilerReferenceError(Resources.CSharpErrors_CS0165, 165);
                 return _CS0165;
             }
         }
@@ -2643,7 +2644,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0167 == null)
-                    _CS0167 = new CompilerReferenceError(@"The delegate {0} is missing the Invoke method", 167);
+                    _CS0167 = new CompilerReferenceError(Resources.CSharpErrors_CS0167, 167);
                 return _CS0167;
             }
         }
@@ -2653,7 +2654,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0170 == null)
-                    _CS0170 = new CompilerReferenceError(@"Use of possibly unassigned field {0}", 170);
+                    _CS0170 = new CompilerReferenceError(Resources.CSharpErrors_CS0170, 170);
                 return _CS0170;
             }
         }
@@ -2663,7 +2664,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0171 == null)
-                    _CS0171 = new CompilerReferenceError(@"Backing field for automatically implemented property {0} must be fully assigned before control is returned to the caller. Consider calling the default constructor from a constructor initializer.", 171);
+                    _CS0171 = new CompilerReferenceError(Resources.CSharpErrors_CS0171, 171);
                 return _CS0171;
             }
         }
@@ -2673,7 +2674,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0172 == null)
-                    _CS0172 = new CompilerReferenceError(@"Type of conditional expression cannot be determined because {0} and {1} implicitly convert to one another", 172);
+                    _CS0172 = new CompilerReferenceError(Resources.CSharpErrors_CS0172, 172);
                 return _CS0172;
             }
         }
@@ -2683,7 +2684,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0173 == null)
-                    _CS0173 = new CompilerReferenceError(@"Type of conditional expression cannot be determined because there is no implicit conversion between {0} and {1}", 173);
+                    _CS0173 = new CompilerReferenceError(Resources.CSharpErrors_CS0173, 173);
                 return _CS0173;
             }
         }
@@ -2693,7 +2694,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0174 == null)
-                    _CS0174 = new CompilerReferenceError(@"A base class is required for a 'base' reference", 174);
+                    _CS0174 = new CompilerReferenceError(Resources.CSharpErrors_CS0174, 174);
                 return _CS0174;
             }
         }
@@ -2703,7 +2704,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0175 == null)
-                    _CS0175 = new CompilerReferenceError(@"Use of keyword 'base' is not valid in this context", 175);
+                    _CS0175 = new CompilerReferenceError(Resources.CSharpErrors_CS0175, 175);
                 return _CS0175;
             }
         }
@@ -2713,7 +2714,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0176 == null)
-                    _CS0176 = new CompilerReferenceError(@"Static member {0} cannot be accessed with an instance reference; qualify it with a type name instead", 176);
+                    _CS0176 = new CompilerReferenceError(Resources.CSharpErrors_CS0176, 176);
                 return _CS0176;
             }
         }
@@ -2723,7 +2724,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0177 == null)
-                    _CS0177 = new CompilerReferenceError(@"The out parameter {0} must be assigned to before control leaves the current method", 177);
+                    _CS0177 = new CompilerReferenceError(Resources.CSharpErrors_CS0177, 177);
                 return _CS0177;
             }
         }
@@ -2733,7 +2734,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0178 == null)
-                    _CS0178 = new CompilerReferenceError(@"Invalid rank specifier: expected ',' or ']'", 178);
+                    _CS0178 = new CompilerReferenceError(Resources.CSharpErrors_CS0178, 178);
                 return _CS0178;
             }
         }
@@ -2743,7 +2744,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0179 == null)
-                    _CS0179 = new CompilerReferenceError(@"{0} cannot be extern and declare a body", 179);
+                    _CS0179 = new CompilerReferenceError(Resources.CSharpErrors_CS0179, 179);
                 return _CS0179;
             }
         }
@@ -2753,7 +2754,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0180 == null)
-                    _CS0180 = new CompilerReferenceError(@"{0} cannot be both extern and abstract", 180);
+                    _CS0180 = new CompilerReferenceError(Resources.CSharpErrors_CS0180, 180);
                 return _CS0180;
             }
         }
@@ -2763,7 +2764,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0182 == null)
-                    _CS0182 = new CompilerReferenceError(@"An attribute argument must be a constant expression, typeof expression or array creation expression of an attribute parameter type", 182);
+                    _CS0182 = new CompilerReferenceError(Resources.CSharpErrors_CS0182, 182);
                 return _CS0182;
             }
         }
@@ -2773,7 +2774,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0185 == null)
-                    _CS0185 = new CompilerReferenceError(@"{0} is not a reference type as required by the lock statement", 185);
+                    _CS0185 = new CompilerReferenceError(Resources.CSharpErrors_CS0185, 185);
                 return _CS0185;
             }
         }
@@ -2783,7 +2784,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0186 == null)
-                    _CS0186 = new CompilerReferenceError(@"Use of null is not valid in this context ", 186);
+                    _CS0186 = new CompilerReferenceError(Resources.CSharpErrors_CS0186, 186);
                 return _CS0186;
             }
         }
@@ -2793,7 +2794,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0188 == null)
-                    _CS0188 = new CompilerReferenceError(@"The 'this' object cannot be used before all of its fields are assigned to", 188);
+                    _CS0188 = new CompilerReferenceError(Resources.CSharpErrors_CS0188, 188);
                 return _CS0188;
             }
         }
@@ -2803,7 +2804,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0191 == null)
-                    _CS0191 = new CompilerReferenceError(@"Property or indexer {0} cannot be assigned to -- it is read only", 191);
+                    _CS0191 = new CompilerReferenceError(Resources.CSharpErrors_CS0191, 191);
                 return _CS0191;
             }
         }
@@ -2813,7 +2814,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0192 == null)
-                    _CS0192 = new CompilerReferenceError(@"Fields of static readonly field {0} cannot be passed ref or out (except in a static constructor)", 192);
+                    _CS0192 = new CompilerReferenceError(Resources.CSharpErrors_CS0192, 192);
                 return _CS0192;
             }
         }
@@ -2823,7 +2824,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0193 == null)
-                    _CS0193 = new CompilerReferenceError(@"The * or -> operator must be applied to a pointer", 193);
+                    _CS0193 = new CompilerReferenceError(Resources.CSharpErrors_CS0193, 193);
                 return _CS0193;
             }
         }
@@ -2833,7 +2834,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0196 == null)
-                    _CS0196 = new CompilerReferenceError(@"A pointer must be indexed by only one value", 196);
+                    _CS0196 = new CompilerReferenceError(Resources.CSharpErrors_CS0196, 196);
                 return _CS0196;
             }
         }
@@ -2843,7 +2844,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0198 == null)
-                    _CS0198 = new CompilerReferenceError(@"Fields of static readonly field {0} cannot be assigned to (except in a static constructor or a variable initializer)", 198);
+                    _CS0198 = new CompilerReferenceError(Resources.CSharpErrors_CS0198, 198);
                 return _CS0198;
             }
         }
@@ -2853,7 +2854,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0199 == null)
-                    _CS0199 = new CompilerReferenceError(@"Fields of static readonly field {0} cannot be passed ref or out (except in a static constructor)", 199);
+                    _CS0199 = new CompilerReferenceError(Resources.CSharpErrors_CS0199, 199);
                 return _CS0199;
             }
         }
@@ -2863,7 +2864,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0200 == null)
-                    _CS0200 = new CompilerReferenceError(@"Property or indexer {0} cannot be assigned to — it is read only", 200);
+                    _CS0200 = new CompilerReferenceError(Resources.CSharpErrors_CS0200, 200);
                 return _CS0200;
             }
         }
@@ -2873,7 +2874,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0201 == null)
-                    _CS0201 = new CompilerReferenceError(@"Only assignment, call, increment, decrement, and new object expressions can be used as a statement", 201);
+                    _CS0201 = new CompilerReferenceError(Resources.CSharpErrors_CS0201, 201);
                 return _CS0201;
             }
         }
@@ -2883,7 +2884,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0202 == null)
-                    _CS0202 = new CompilerReferenceError(@"foreach requires that the return type {0} of '{1}.GetEnumerator()' must have a suitable public MoveNext method and public Current property", 202);
+                    _CS0202 = new CompilerReferenceError(Resources.CSharpErrors_CS0202, 202);
                 return _CS0202;
             }
         }
@@ -2893,7 +2894,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0204 == null)
-                    _CS0204 = new CompilerReferenceError(@"Only 65534 locals are allowed", 204);
+                    _CS0204 = new CompilerReferenceError(Resources.CSharpErrors_CS0204, 204);
                 return _CS0204;
             }
         }
@@ -2903,7 +2904,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0205 == null)
-                    _CS0205 = new CompilerReferenceError(@"Cannot call an abstract base member: {0}", 205);
+                    _CS0205 = new CompilerReferenceError(Resources.CSharpErrors_CS0205, 205);
                 return _CS0205;
             }
         }
@@ -2913,7 +2914,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0206 == null)
-                    _CS0206 = new CompilerReferenceError(@"A property or indexer may not be passed as an out or ref parameter", 206);
+                    _CS0206 = new CompilerReferenceError(Resources.CSharpErrors_CS0206, 206);
                 return _CS0206;
             }
         }
@@ -2923,7 +2924,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0208 == null)
-                    _CS0208 = new CompilerReferenceError(@"Cannot take the address of, get the size of, or declare a pointer to a managed type ({0})", 208);
+                    _CS0208 = new CompilerReferenceError(Resources.CSharpErrors_CS0208, 208);
                 return _CS0208;
             }
         }
@@ -2933,7 +2934,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0209 == null)
-                    _CS0209 = new CompilerReferenceError(@"The type of local declared in a fixed statement must be a pointer type", 209);
+                    _CS0209 = new CompilerReferenceError(Resources.CSharpErrors_CS0209, 209);
                 return _CS0209;
             }
         }
@@ -2943,7 +2944,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0210 == null)
-                    _CS0210 = new CompilerReferenceError(@"You must provide an initializer in a fixed or using statement declaration", 210);
+                    _CS0210 = new CompilerReferenceError(Resources.CSharpErrors_CS0210, 210);
                 return _CS0210;
             }
         }
@@ -2953,7 +2954,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0211 == null)
-                    _CS0211 = new CompilerReferenceError(@"Cannot take the address of the given expression", 211);
+                    _CS0211 = new CompilerReferenceError(Resources.CSharpErrors_CS0211, 211);
                 return _CS0211;
             }
         }
@@ -2963,7 +2964,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0212 == null)
-                    _CS0212 = new CompilerReferenceError(@"You can only take the address of an unfixed expression inside of a fixed statement initializer", 212);
+                    _CS0212 = new CompilerReferenceError(Resources.CSharpErrors_CS0212, 212);
                 return _CS0212;
             }
         }
@@ -2973,7 +2974,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0213 == null)
-                    _CS0213 = new CompilerReferenceError(@"You cannot use the fixed statement to take the address of an already fixed expression", 213);
+                    _CS0213 = new CompilerReferenceError(Resources.CSharpErrors_CS0213, 213);
                 return _CS0213;
             }
         }
@@ -2983,7 +2984,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0214 == null)
-                    _CS0214 = new CompilerReferenceError(@"Pointers and fixed size buffers may only be used in an unsafe context", 214);
+                    _CS0214 = new CompilerReferenceError(Resources.CSharpErrors_CS0214, 214);
                 return _CS0214;
             }
         }
@@ -2993,7 +2994,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0215 == null)
-                    _CS0215 = new CompilerReferenceError(@"The return type of operator True or False must be bool", 215);
+                    _CS0215 = new CompilerReferenceError(Resources.CSharpErrors_CS0215, 215);
                 return _CS0215;
             }
         }
@@ -3003,7 +3004,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0216 == null)
-                    _CS0216 = new CompilerReferenceError(@"The operator {0} requires a matching operator {1} to also be defined", 216);
+                    _CS0216 = new CompilerReferenceError(Resources.CSharpErrors_CS0216, 216);
                 return _CS0216;
             }
         }
@@ -3013,7 +3014,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0217 == null)
-                    _CS0217 = new CompilerReferenceError(@"In order to be applicable as a short circuit operator a user-defined logical operator ({0}) must have the same return type as the type of its 2 parameters.", 217);
+                    _CS0217 = new CompilerReferenceError(Resources.CSharpErrors_CS0217, 217);
                 return _CS0217;
             }
         }
@@ -3023,7 +3024,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0218 == null)
-                    _CS0218 = new CompilerReferenceError(@"The type ({0}) must contain declarations of operator true and operator false", 218);
+                    _CS0218 = new CompilerReferenceError(Resources.CSharpErrors_CS0218, 218);
                 return _CS0218;
             }
         }
@@ -3033,7 +3034,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0220 == null)
-                    _CS0220 = new CompilerReferenceError(@"The operation overflows at compile time in checked mode", 220);
+                    _CS0220 = new CompilerReferenceError(Resources.CSharpErrors_CS0220, 220);
                 return _CS0220;
             }
         }
@@ -3043,7 +3044,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0221 == null)
-                    _CS0221 = new CompilerReferenceError(@"Constant value {0} cannot be converted to a {1} (use 'unchecked' syntax to override)", 221);
+                    _CS0221 = new CompilerReferenceError(Resources.CSharpErrors_CS0221, 221);
                 return _CS0221;
             }
         }
@@ -3053,7 +3054,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0225 == null)
-                    _CS0225 = new CompilerReferenceError(@"The params parameter must be a single dimensional array", 225);
+                    _CS0225 = new CompilerReferenceError(Resources.CSharpErrors_CS0225, 225);
                 return _CS0225;
             }
         }
@@ -3063,7 +3064,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0226 == null)
-                    _CS0226 = new CompilerReferenceError(@"An __arglist expression may only appear inside of a call or new expression.", 226);
+                    _CS0226 = new CompilerReferenceError(Resources.CSharpErrors_CS0226, 226);
                 return _CS0226;
             }
         }
@@ -3073,7 +3074,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0227 == null)
-                    _CS0227 = new CompilerReferenceError(@"Unsafe code may only appear if compiling with /unsafe", 227);
+                    _CS0227 = new CompilerReferenceError(Resources.CSharpErrors_CS0227, 227);
                 return _CS0227;
             }
         }
@@ -3083,7 +3084,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0228 == null)
-                    _CS0228 = new CompilerReferenceError(@"{0} does not contain a definition for {1}, or it is not accessible", 228);
+                    _CS0228 = new CompilerReferenceError(Resources.CSharpErrors_CS0228, 228);
                 return _CS0228;
             }
         }
@@ -3093,7 +3094,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0229 == null)
-                    _CS0229 = new CompilerReferenceError(@"Ambiguity between {0} and {1}", 229);
+                    _CS0229 = new CompilerReferenceError(Resources.CSharpErrors_CS0229, 229);
                 return _CS0229;
             }
         }
@@ -3103,7 +3104,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0230 == null)
-                    _CS0230 = new CompilerReferenceError(@"Type and identifier are both required in a foreach statement", 230);
+                    _CS0230 = new CompilerReferenceError(Resources.CSharpErrors_CS0230, 230);
                 return _CS0230;
             }
         }
@@ -3113,7 +3114,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0231 == null)
-                    _CS0231 = new CompilerReferenceError(@"A params parameter must be the last parameter in a formal parameter list.", 231);
+                    _CS0231 = new CompilerReferenceError(Resources.CSharpErrors_CS0231, 231);
                 return _CS0231;
             }
         }
@@ -3123,7 +3124,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0233 == null)
-                    _CS0233 = new CompilerReferenceError(@"{0} does not have a predefined size, therefore sizeof can only be used in an unsafe context (consider using System.Runtime.InteropServices.Marshal.SizeOf)", 233);
+                    _CS0233 = new CompilerReferenceError(Resources.CSharpErrors_CS0233, 233);
                 return _CS0233;
             }
         }
@@ -3133,7 +3134,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0234 == null)
-                    _CS0234 = new CompilerReferenceError(@"The type or namespace name {0} does not exist in the namespace {1} (are you missing an assembly reference?)", 234);
+                    _CS0234 = new CompilerReferenceError(Resources.CSharpErrors_CS0234, 234);
                 return _CS0234;
             }
         }
@@ -3143,7 +3144,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0236 == null)
-                    _CS0236 = new CompilerReferenceError(@"A field initializer cannot reference the nonstatic field, method, or property {0}", 236);
+                    _CS0236 = new CompilerReferenceError(Resources.CSharpErrors_CS0236, 236);
                 return _CS0236;
             }
         }
@@ -3153,7 +3154,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0238 == null)
-                    _CS0238 = new CompilerReferenceError(@"{0} cannot be sealed because it is not an override", 238);
+                    _CS0238 = new CompilerReferenceError(Resources.CSharpErrors_CS0238, 238);
                 return _CS0238;
             }
         }
@@ -3163,7 +3164,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0239 == null)
-                    _CS0239 = new CompilerReferenceError(@"{0} : cannot override inherited member {1} because it is sealed", 239);
+                    _CS0239 = new CompilerReferenceError(Resources.CSharpErrors_CS0239, 239);
                 return _CS0239;
             }
         }
@@ -3173,7 +3174,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0241 == null)
-                    _CS0241 = new CompilerReferenceError(@"Default parameter specifiers are not permitted", 241);
+                    _CS0241 = new CompilerReferenceError(Resources.CSharpErrors_CS0241, 241);
                 return _CS0241;
             }
         }
@@ -3183,7 +3184,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0242 == null)
-                    _CS0242 = new CompilerReferenceError(@"The operation in question is undefined on void pointers", 242);
+                    _CS0242 = new CompilerReferenceError(Resources.CSharpErrors_CS0242, 242);
                 return _CS0242;
             }
         }
@@ -3193,7 +3194,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0243 == null)
-                    _CS0243 = new CompilerReferenceError(@"The Conditional attribute is not valid on 'method' because it is an override method", 243);
+                    _CS0243 = new CompilerReferenceError(Resources.CSharpErrors_CS0243, 243);
                 return _CS0243;
             }
         }
@@ -3203,7 +3204,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0244 == null)
-                    _CS0244 = new CompilerReferenceError(@"Neither 'is' nor 'as' is valid on pointer types", 244);
+                    _CS0244 = new CompilerReferenceError(Resources.CSharpErrors_CS0244, 244);
                 return _CS0244;
             }
         }
@@ -3213,7 +3214,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0245 == null)
-                    _CS0245 = new CompilerReferenceError(@"Destructors and object.Finalize cannot be called directly. Consider calling IDisposable.Dispose if available.", 245);
+                    _CS0245 = new CompilerReferenceError(Resources.CSharpErrors_CS0245, 245);
                 return _CS0245;
             }
         }
@@ -3223,7 +3224,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0246 == null)
-                    _CS0246 = new CompilerReferenceError(@"The type or namespace name {0} could not be found (are you missing a using directive or an assembly reference?)", 246);
+                    _CS0246 = new CompilerReferenceError(Resources.CSharpErrors_CS0246, 246);
                 return _CS0246;
             }
         }
@@ -3233,7 +3234,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0247 == null)
-                    _CS0247 = new CompilerReferenceError(@"Cannot use a negative size with stackalloc", 247);
+                    _CS0247 = new CompilerReferenceError(Resources.CSharpErrors_CS0247, 247);
                 return _CS0247;
             }
         }
@@ -3243,7 +3244,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0248 == null)
-                    _CS0248 = new CompilerReferenceError(@"Cannot create an array with a negative size", 248);
+                    _CS0248 = new CompilerReferenceError(Resources.CSharpErrors_CS0248, 248);
                 return _CS0248;
             }
         }
@@ -3253,7 +3254,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0249 == null)
-                    _CS0249 = new CompilerReferenceError(@"Do not override object.Finalize. Instead, provide a destructor.", 249);
+                    _CS0249 = new CompilerReferenceError(Resources.CSharpErrors_CS0249, 249);
                 return _CS0249;
             }
         }
@@ -3263,7 +3264,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0250 == null)
-                    _CS0250 = new CompilerReferenceError(@"Do not directly call your base class Finalize method. It is called automatically from your destructor.", 250);
+                    _CS0250 = new CompilerReferenceError(Resources.CSharpErrors_CS0250, 250);
                 return _CS0250;
             }
         }
@@ -3273,7 +3274,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0254 == null)
-                    _CS0254 = new CompilerReferenceError(@"The right hand side of a fixed statement assignment may not be a cast expression", 254);
+                    _CS0254 = new CompilerReferenceError(Resources.CSharpErrors_CS0254, 254);
                 return _CS0254;
             }
         }
@@ -3283,7 +3284,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0255 == null)
-                    _CS0255 = new CompilerReferenceError(@"stackalloc may not be used in a catch or finally block", 255);
+                    _CS0255 = new CompilerReferenceError(Resources.CSharpErrors_CS0255, 255);
                 return _CS0255;
             }
         }
@@ -3293,7 +3294,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0260 == null)
-                    _CS0260 = new CompilerReferenceError(@"Missing partial modifier on declaration of type {0}; another partial declaration of this type exists", 260);
+                    _CS0260 = new CompilerReferenceError(Resources.CSharpErrors_CS0260, 260);
                 return _CS0260;
             }
         }
@@ -3303,7 +3304,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0261 == null)
-                    _CS0261 = new CompilerReferenceError(@"Partial declarations of {0} must be all classes, all structs, or all interfaces", 261);
+                    _CS0261 = new CompilerReferenceError(Resources.CSharpErrors_CS0261, 261);
                 return _CS0261;
             }
         }
@@ -3313,7 +3314,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0262 == null)
-                    _CS0262 = new CompilerReferenceError(@"Partial declarations of {0} have conflicting accessibility modifiers", 262);
+                    _CS0262 = new CompilerReferenceError(Resources.CSharpErrors_CS0262, 262);
                 return _CS0262;
             }
         }
@@ -3323,7 +3324,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0263 == null)
-                    _CS0263 = new CompilerReferenceError(@"Partial declarations of {0} must not specify different base classes", 263);
+                    _CS0263 = new CompilerReferenceError(Resources.CSharpErrors_CS0263, 263);
                 return _CS0263;
             }
         }
@@ -3333,7 +3334,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0264 == null)
-                    _CS0264 = new CompilerReferenceError(@"Partial declarations of {0} must have the same type parameter names in the same order", 264);
+                    _CS0264 = new CompilerReferenceError(Resources.CSharpErrors_CS0264, 264);
                 return _CS0264;
             }
         }
@@ -3343,7 +3344,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0265 == null)
-                    _CS0265 = new CompilerReferenceError(@"Partial declarations of {0} have inconsistent constraints for type parameter {1}", 265);
+                    _CS0265 = new CompilerReferenceError(Resources.CSharpErrors_CS0265, 265);
                 return _CS0265;
             }
         }
@@ -3353,7 +3354,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0266 == null)
-                    _CS0266 = new CompilerReferenceError(@"Cannot implicitly convert type {0} to {1}. An explicit conversion exists (are you missing a cast?)", 266);
+                    _CS0266 = new CompilerReferenceError(Resources.CSharpErrors_CS0266, 266);
                 return _CS0266;
             }
         }
@@ -3363,7 +3364,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0267 == null)
-                    _CS0267 = new CompilerReferenceError(@"The partial modifier can only appear immediately before 'class', 'struct', or 'interface'", 267);
+                    _CS0267 = new CompilerReferenceError(Resources.CSharpErrors_CS0267, 267);
                 return _CS0267;
             }
         }
@@ -3373,7 +3374,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0268 == null)
-                    _CS0268 = new CompilerReferenceError(@"Imported type {0} is invalid. It contains a circular base class dependency.", 268);
+                    _CS0268 = new CompilerReferenceError(Resources.CSharpErrors_CS0268, 268);
                 return _CS0268;
             }
         }
@@ -3383,7 +3384,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0269 == null)
-                    _CS0269 = new CompilerReferenceError(@"Use of unassigned out parameter {0}", 269);
+                    _CS0269 = new CompilerReferenceError(Resources.CSharpErrors_CS0269, 269);
                 return _CS0269;
             }
         }
@@ -3393,7 +3394,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0270 == null)
-                    _CS0270 = new CompilerReferenceError(@"Array size cannot be specified in a variable declaration (try initializing with a 'new' expression)", 270);
+                    _CS0270 = new CompilerReferenceError(Resources.CSharpErrors_CS0270, 270);
                 return _CS0270;
             }
         }
@@ -3403,7 +3404,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0271 == null)
-                    _CS0271 = new CompilerReferenceError(@"The property or indexer {0} cannot be used in this context because the get accessor is inaccessible", 271);
+                    _CS0271 = new CompilerReferenceError(Resources.CSharpErrors_CS0271, 271);
                 return _CS0271;
             }
         }
@@ -3413,7 +3414,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0272 == null)
-                    _CS0272 = new CompilerReferenceError(@"The property or indexer {0} cannot be used in this context because the set accessor is inaccessible", 272);
+                    _CS0272 = new CompilerReferenceError(Resources.CSharpErrors_CS0272, 272);
                 return _CS0272;
             }
         }
@@ -3423,7 +3424,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0273 == null)
-                    _CS0273 = new CompilerReferenceError(@"The accessibility modifier of the {0} accessor must be more restrictive than the property or indexer {1}", 273);
+                    _CS0273 = new CompilerReferenceError(Resources.CSharpErrors_CS0273, 273);
                 return _CS0273;
             }
         }
@@ -3433,7 +3434,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0274 == null)
-                    _CS0274 = new CompilerReferenceError(@"Cannot specify accessibility modifiers for both accessors of the property or indexer {0}", 274);
+                    _CS0274 = new CompilerReferenceError(Resources.CSharpErrors_CS0274, 274);
                 return _CS0274;
             }
         }
@@ -3443,7 +3444,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0275 == null)
-                    _CS0275 = new CompilerReferenceError(@"{0}: accessibility modifiers may not be used on accessors in an interface", 275);
+                    _CS0275 = new CompilerReferenceError(Resources.CSharpErrors_CS0275, 275);
                 return _CS0275;
             }
         }
@@ -3453,7 +3454,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0276 == null)
-                    _CS0276 = new CompilerReferenceError(@"{0}: accessibility modifiers on accessors may only be used if the property or indexer has both a get and a set accessor", 276);
+                    _CS0276 = new CompilerReferenceError(Resources.CSharpErrors_CS0276, 276);
                 return _CS0276;
             }
         }
@@ -3463,7 +3464,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0277 == null)
-                    _CS0277 = new CompilerReferenceError(@"{0} does not implement interface member {1}. {2} is not public", 277);
+                    _CS0277 = new CompilerReferenceError(Resources.CSharpErrors_CS0277, 277);
                 return _CS0277;
             }
         }
@@ -3473,7 +3474,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0281 == null)
-                    _CS0281 = new CompilerReferenceError(@"Friend access was granted to {0}, but the output assembly is named {1}. Try adding a reference to {0} or changing the output assembly name to match.", 281);
+                    _CS0281 = new CompilerReferenceError(Resources.CSharpErrors_CS0281, 281);
                 return _CS0281;
             }
         }
@@ -3483,7 +3484,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0283 == null)
-                    _CS0283 = new CompilerReferenceError(@"The type {0} cannot be declared const", 283);
+                    _CS0283 = new CompilerReferenceError(Resources.CSharpErrors_CS0283, 283);
                 return _CS0283;
             }
         }
@@ -3493,7 +3494,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0304 == null)
-                    _CS0304 = new CompilerReferenceError(@"Cannot create an instance of the variable type {0} because it does not have the new() constraint", 304);
+                    _CS0304 = new CompilerReferenceError(Resources.CSharpErrors_CS0304, 304);
                 return _CS0304;
             }
         }
@@ -3503,7 +3504,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0305 == null)
-                    _CS0305 = new CompilerReferenceError(@"Using the generic type {0} requires {1} type arguments", 305);
+                    _CS0305 = new CompilerReferenceError(Resources.CSharpErrors_CS0305, 305);
                 return _CS0305;
             }
         }
@@ -3513,7 +3514,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0306 == null)
-                    _CS0306 = new CompilerReferenceError(@"The type {0} may not be used as a type argument", 306);
+                    _CS0306 = new CompilerReferenceError(Resources.CSharpErrors_CS0306, 306);
                 return _CS0306;
             }
         }
@@ -3523,7 +3524,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0307 == null)
-                    _CS0307 = new CompilerReferenceError(@"The {0} {1} is not a generic method. If you intended an expression list, use parentheses around the < expression.", 307);
+                    _CS0307 = new CompilerReferenceError(Resources.CSharpErrors_CS0307, 307);
                 return _CS0307;
             }
         }
@@ -3533,7 +3534,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0308 == null)
-                    _CS0308 = new CompilerReferenceError(@"The non-generic type-or-method {0} cannot be used with type arguments.", 308);
+                    _CS0308 = new CompilerReferenceError(Resources.CSharpErrors_CS0308, 308);
                 return _CS0308;
             }
         }
@@ -3543,7 +3544,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0310 == null)
-                    _CS0310 = new CompilerReferenceError(@"The type {0} must be a non-abstract type with a public parameterless constructor in order to use it as parameter {1} in the generic type or method {2}", 310);
+                    _CS0310 = new CompilerReferenceError(Resources.CSharpErrors_CS0310, 310);
                 return _CS0310;
             }
         }
@@ -3553,7 +3554,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0311 == null)
-                    _CS0311 = new CompilerReferenceError(@"The type {0} cannot be used as type parameter {2} in the generic type or method {3}. There is no implicit reference conversion from {0} to {1}.", 311);
+                    _CS0311 = new CompilerReferenceError(Resources.CSharpErrors_CS0311, 311);
                 return _CS0311;
             }
         }
@@ -3563,7 +3564,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0312 == null)
-                    _CS0312 = new CompilerReferenceError(@"The type {0} cannot be used as type parameter 'name' in the generic type or method 'name'. The nullable type 'type1' does not satisfy the constraint of 'type2'.", 312);
+                    _CS0312 = new CompilerReferenceError(Resources.CSharpErrors_CS0312, 312);
                 return _CS0312;
             }
         }
@@ -3573,7 +3574,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0313 == null)
-                    _CS0313 = new CompilerReferenceError(@"The type {0} cannot be used as type parameter 'parameter name' in the generic type or method 'type2'. The nullable type 'type1' does not satisfy the constraint of 'type2'. Nullable types cannot satisfy any interface constraints.", 313);
+                    _CS0313 = new CompilerReferenceError(Resources.CSharpErrors_CS0313, 313);
                 return _CS0313;
             }
         }
@@ -3583,7 +3584,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0314 == null)
-                    _CS0314 = new CompilerReferenceError(@"The type {0} cannot be used as type parameter 'name' in the generic type or method 'name'. There is no boxing conversion or type parameter conversion from 'type1' to 'type2'.", 314);
+                    _CS0314 = new CompilerReferenceError(Resources.CSharpErrors_CS0314, 314);
                 return _CS0314;
             }
         }
@@ -3593,7 +3594,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0315 == null)
-                    _CS0315 = new CompilerReferenceError(@"The type {0} cannot be used as type parameter 'T' in the generic type or method 'TypeorMethod<T>'. There is no boxing conversion from 'valueType' to 'referenceType'.", 315);
+                    _CS0315 = new CompilerReferenceError(Resources.CSharpErrors_CS0315, 315);
                 return _CS0315;
             }
         }
@@ -3603,7 +3604,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0316 == null)
-                    _CS0316 = new CompilerReferenceError(@"The parameter name {0} conflicts with an automatically-generated parameter name.", 316);
+                    _CS0316 = new CompilerReferenceError(Resources.CSharpErrors_CS0316, 316);
                 return _CS0316;
             }
         }
@@ -3613,7 +3614,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0400 == null)
-                    _CS0400 = new CompilerReferenceError(@"The type or namespace name {0} could not be found in the global namespace (are you missing an assembly reference?)", 400);
+                    _CS0400 = new CompilerReferenceError(Resources.CSharpErrors_CS0400, 400);
                 return _CS0400;
             }
         }
@@ -3623,7 +3624,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0401 == null)
-                    _CS0401 = new CompilerReferenceError(@"The new() constraint must be the last constraint specified", 401);
+                    _CS0401 = new CompilerReferenceError(Resources.CSharpErrors_CS0401, 401);
                 return _CS0401;
             }
         }
@@ -3633,7 +3634,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0403 == null)
-                    _CS0403 = new CompilerReferenceError(@"Cannot convert null to type parameter {0} because it could be a non-nullable value type. Consider using default({0}) instead.", 403);
+                    _CS0403 = new CompilerReferenceError(Resources.CSharpErrors_CS0403, 403);
                 return _CS0403;
             }
         }
@@ -3643,7 +3644,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0404 == null)
-                    _CS0404 = new CompilerReferenceError(@"'<' unexpected : attributes cannot be generic", 404);
+                    _CS0404 = new CompilerReferenceError(Resources.CSharpErrors_CS0404, 404);
                 return _CS0404;
             }
         }
@@ -3653,7 +3654,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0405 == null)
-                    _CS0405 = new CompilerReferenceError(@"Duplicate constraint {0} for type parameter {1}", 405);
+                    _CS0405 = new CompilerReferenceError(Resources.CSharpErrors_CS0405, 405);
                 return _CS0405;
             }
         }
@@ -3663,7 +3664,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0406 == null)
-                    _CS0406 = new CompilerReferenceError(@"The class type constraint 'constraint' must come before any other constraints", 406);
+                    _CS0406 = new CompilerReferenceError(Resources.CSharpErrors_CS0406, 406);
                 return _CS0406;
             }
         }
@@ -3673,7 +3674,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0407 == null)
-                    _CS0407 = new CompilerReferenceError(@"'return-type method' has the wrong return type", 407);
+                    _CS0407 = new CompilerReferenceError(Resources.CSharpErrors_CS0407, 407);
                 return _CS0407;
             }
         }
@@ -3683,7 +3684,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0409 == null)
-                    _CS0409 = new CompilerReferenceError(@"A constraint clause has already been specified for type parameter 'type parameter'. All of the constraints for a type parameter must be specified in a single where clause.", 409);
+                    _CS0409 = new CompilerReferenceError(Resources.CSharpErrors_CS0409, 409);
                 return _CS0409;
             }
         }
@@ -3693,7 +3694,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0410 == null)
-                    _CS0410 = new CompilerReferenceError(@"No overload for 'method' has the correct parameter and return types", 410);
+                    _CS0410 = new CompilerReferenceError(Resources.CSharpErrors_CS0410, 410);
                 return _CS0410;
             }
         }
@@ -3703,7 +3704,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0411 == null)
-                    _CS0411 = new CompilerReferenceError(@"The type arguments for method 'method' cannot be inferred from the usage. Try specifying the type arguments explicitly.", 411);
+                    _CS0411 = new CompilerReferenceError(Resources.CSharpErrors_CS0411, 411);
                 return _CS0411;
             }
         }
@@ -3713,7 +3714,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0412 == null)
-                    _CS0412 = new CompilerReferenceError(@"'generic': a parameter or local variable cannot have the same name as a method type parameter", 412);
+                    _CS0412 = new CompilerReferenceError(Resources.CSharpErrors_CS0412, 412);
                 return _CS0412;
             }
         }
@@ -3723,7 +3724,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0413 == null)
-                    _CS0413 = new CompilerReferenceError(@"The type parameter 'type parameter' cannot be used with the 'as' operator because it does not have a class type constraint nor a 'class' constraint", 413);
+                    _CS0413 = new CompilerReferenceError(Resources.CSharpErrors_CS0413, 413);
                 return _CS0413;
             }
         }
@@ -3733,7 +3734,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0415 == null)
-                    _CS0415 = new CompilerReferenceError(@"The 'IndexerName' attribute is valid only on an indexer that is not an explicit interface member declaration", 415);
+                    _CS0415 = new CompilerReferenceError(Resources.CSharpErrors_CS0415, 415);
                 return _CS0415;
             }
         }
@@ -3743,7 +3744,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0416 == null)
-                    _CS0416 = new CompilerReferenceError(@"'type parameter': an attribute argument cannot use type parameters", 416);
+                    _CS0416 = new CompilerReferenceError(Resources.CSharpErrors_CS0416, 416);
                 return _CS0416;
             }
         }
@@ -3753,7 +3754,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0417 == null)
-                    _CS0417 = new CompilerReferenceError(@"'identifier': cannot provide arguments when creating an instance of a variable type", 417);
+                    _CS0417 = new CompilerReferenceError(Resources.CSharpErrors_CS0417, 417);
                 return _CS0417;
             }
         }
@@ -3763,7 +3764,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0418 == null)
-                    _CS0418 = new CompilerReferenceError(@"'class name': an abstract class cannot be sealed or static", 418);
+                    _CS0418 = new CompilerReferenceError(Resources.CSharpErrors_CS0418, 418);
                 return _CS0418;
             }
         }
@@ -3773,7 +3774,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0423 == null)
-                    _CS0423 = new CompilerReferenceError(@"Since 'class' has the ComImport attribute, 'method' must be extern or abstract", 423);
+                    _CS0423 = new CompilerReferenceError(Resources.CSharpErrors_CS0423, 423);
                 return _CS0423;
             }
         }
@@ -3783,7 +3784,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0424 == null)
-                    _CS0424 = new CompilerReferenceError(@"'class': a class with the ComImport attribute cannot specify a base class", 424);
+                    _CS0424 = new CompilerReferenceError(Resources.CSharpErrors_CS0424, 424);
                 return _CS0424;
             }
         }
@@ -3793,7 +3794,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0425 == null)
-                    _CS0425 = new CompilerReferenceError(@"The constraints for type parameter 'type parameter' of method 'method' must match the constraints for type parameter 'type parameter' of interface method 'method'. Consider using an explicit interface implementation instead.", 425);
+                    _CS0425 = new CompilerReferenceError(Resources.CSharpErrors_CS0425, 425);
                 return _CS0425;
             }
         }
@@ -3803,7 +3804,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0426 == null)
-                    _CS0426 = new CompilerReferenceError(@"The type name 'identifier' does not exist in the type 'type'", 426);
+                    _CS0426 = new CompilerReferenceError(Resources.CSharpErrors_CS0426, 426);
                 return _CS0426;
             }
         }
@@ -3813,7 +3814,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0428 == null)
-                    _CS0428 = new CompilerReferenceError(@"Cannot convert method group 'Identifier' to non-delegate type 'type'. Did you intend to invoke the method?", 428);
+                    _CS0428 = new CompilerReferenceError(Resources.CSharpErrors_CS0428, 428);
                 return _CS0428;
             }
         }
@@ -3823,7 +3824,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0430 == null)
-                    _CS0430 = new CompilerReferenceError(@"The extern alias 'alias' was not specified in a /reference option", 430);
+                    _CS0430 = new CompilerReferenceError(Resources.CSharpErrors_CS0430, 430);
                 return _CS0430;
             }
         }
@@ -3833,7 +3834,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0431 == null)
-                    _CS0431 = new CompilerReferenceError(@"Cannot use alias 'identifier' with '::' since the alias references a type. Use '.' instead.", 431);
+                    _CS0431 = new CompilerReferenceError(Resources.CSharpErrors_CS0431, 431);
                 return _CS0431;
             }
         }
@@ -3843,7 +3844,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0432 == null)
-                    _CS0432 = new CompilerReferenceError(@"Alias 'identifier' not found", 432);
+                    _CS0432 = new CompilerReferenceError(Resources.CSharpErrors_CS0432, 432);
                 return _CS0432;
             }
         }
@@ -3853,7 +3854,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0433 == null)
-                    _CS0433 = new CompilerReferenceError(@"The type TypeName1 exists in both TypeName2 and TypeName3", 433);
+                    _CS0433 = new CompilerReferenceError(Resources.CSharpErrors_CS0433, 433);
                 return _CS0433;
             }
         }
@@ -3863,7 +3864,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0434 == null)
-                    _CS0434 = new CompilerReferenceError(@"The namespace NamespaceName1 in NamespaceName2 conflicts with the type TypeName1 in NamespaceName3", 434);
+                    _CS0434 = new CompilerReferenceError(Resources.CSharpErrors_CS0434, 434);
                 return _CS0434;
             }
         }
@@ -3873,7 +3874,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0438 == null)
-                    _CS0438 = new CompilerReferenceError(@"The type 'type' in 'module_1' conflicts with the namespace 'namespace' in 'module_2'.", 438);
+                    _CS0438 = new CompilerReferenceError(Resources.CSharpErrors_CS0438, 438);
                 return _CS0438;
             }
         }
@@ -3883,7 +3884,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0439 == null)
-                    _CS0439 = new CompilerReferenceError(@"An extern alias declaration must precede all other elements defined in the namespace", 439);
+                    _CS0439 = new CompilerReferenceError(Resources.CSharpErrors_CS0439, 439);
                 return _CS0439;
             }
         }
@@ -3893,7 +3894,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0441 == null)
-                    _CS0441 = new CompilerReferenceError(@"'class': a class cannot be both static and sealed", 441);
+                    _CS0441 = new CompilerReferenceError(Resources.CSharpErrors_CS0441, 441);
                 return _CS0441;
             }
         }
@@ -3903,7 +3904,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0442 == null)
-                    _CS0442 = new CompilerReferenceError(@"'Property': abstract properties cannot have private accessors", 442);
+                    _CS0442 = new CompilerReferenceError(Resources.CSharpErrors_CS0442, 442);
                 return _CS0442;
             }
         }
@@ -3913,7 +3914,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0443 == null)
-                    _CS0443 = new CompilerReferenceError(@"Syntax error, value expected", 443);
+                    _CS0443 = new CompilerReferenceError(Resources.CSharpErrors_CS0443, 443);
                 return _CS0443;
             }
         }
@@ -3923,7 +3924,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0445 == null)
-                    _CS0445 = new CompilerReferenceError(@"Cannot modify the result of an unboxing conversion", 445);
+                    _CS0445 = new CompilerReferenceError(Resources.CSharpErrors_CS0445, 445);
                 return _CS0445;
             }
         }
@@ -3933,7 +3934,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0446 == null)
-                    _CS0446 = new CompilerReferenceError(@"Foreach cannot operate on a 'Method or Delegate'. Did you intend to invoke the 'Method or Delegate'?", 446);
+                    _CS0446 = new CompilerReferenceError(Resources.CSharpErrors_CS0446, 446);
                 return _CS0446;
             }
         }
@@ -3943,7 +3944,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0447 == null)
-                    _CS0447 = new CompilerReferenceError(@"Attributes cannot be used on type arguments, only on type parameters", 447);
+                    _CS0447 = new CompilerReferenceError(Resources.CSharpErrors_CS0447, 447);
                 return _CS0447;
             }
         }
@@ -3953,7 +3954,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0448 == null)
-                    _CS0448 = new CompilerReferenceError(@"The return type for ++ or -- operator must be the containing type or derived from the containing type", 448);
+                    _CS0448 = new CompilerReferenceError(Resources.CSharpErrors_CS0448, 448);
                 return _CS0448;
             }
         }
@@ -3963,7 +3964,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0449 == null)
-                    _CS0449 = new CompilerReferenceError(@"The 'class' or 'struct' constraint must come before any other constraints", 449);
+                    _CS0449 = new CompilerReferenceError(Resources.CSharpErrors_CS0449, 449);
                 return _CS0449;
             }
         }
@@ -3973,7 +3974,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0450 == null)
-                    _CS0450 = new CompilerReferenceError(@"'Type Parameter Name': cannot specify both a constraint class and the 'class' or 'struct' constraint", 450);
+                    _CS0450 = new CompilerReferenceError(Resources.CSharpErrors_CS0450, 450);
                 return _CS0450;
             }
         }
@@ -3983,7 +3984,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0451 == null)
-                    _CS0451 = new CompilerReferenceError(@"The 'new()' constraint cannot be used with the 'struct' constraint", 451);
+                    _CS0451 = new CompilerReferenceError(Resources.CSharpErrors_CS0451, 451);
                 return _CS0451;
             }
         }
@@ -3993,7 +3994,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0452 == null)
-                    _CS0452 = new CompilerReferenceError(@"The type 'type name' must be a reference type in order to use it as parameter 'parameter name' in the generic type or method 'identifier of generic'", 452);
+                    _CS0452 = new CompilerReferenceError(Resources.CSharpErrors_CS0452, 452);
                 return _CS0452;
             }
         }
@@ -4003,7 +4004,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0453 == null)
-                    _CS0453 = new CompilerReferenceError(@"The type 'Type Name' must be a non-nullable value type in order to use it as parameter 'Parameter Name' in the generic type or method 'Generic Identifier'", 453);
+                    _CS0453 = new CompilerReferenceError(Resources.CSharpErrors_CS0453, 453);
                 return _CS0453;
             }
         }
@@ -4013,7 +4014,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0454 == null)
-                    _CS0454 = new CompilerReferenceError(@"Circular constraint dependency involving 'Type Parameter 1' and 'Type Parameter 2'", 454);
+                    _CS0454 = new CompilerReferenceError(Resources.CSharpErrors_CS0454, 454);
                 return _CS0454;
             }
         }
@@ -4023,7 +4024,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0455 == null)
-                    _CS0455 = new CompilerReferenceError(@"Type parameter 'Type Parameter Name' inherits conflicting constraints 'Constraint Name 1' and 'Constraint Name 2'", 455);
+                    _CS0455 = new CompilerReferenceError(Resources.CSharpErrors_CS0455, 455);
                 return _CS0455;
             }
         }
@@ -4033,7 +4034,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0456 == null)
-                    _CS0456 = new CompilerReferenceError(@"Type parameter 'Type Parameter Name 1' has the 'struct' constraint so 'Type Parameter Name 1' cannot be used as a constraint for 'Type Parameter Name 2'", 456);
+                    _CS0456 = new CompilerReferenceError(Resources.CSharpErrors_CS0456, 456);
                 return _CS0456;
             }
         }
@@ -4043,7 +4044,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0457 == null)
-                    _CS0457 = new CompilerReferenceError(@"Ambiguous user defined conversions 'Conversion method name 1' and 'Conversion method name 2' when converting from 'type name 1' to 'type name 2'", 457);
+                    _CS0457 = new CompilerReferenceError(Resources.CSharpErrors_CS0457, 457);
                 return _CS0457;
             }
         }
@@ -4053,7 +4054,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0459 == null)
-                    _CS0459 = new CompilerReferenceError(@"Cannot take the address of a read-only local variable", 459);
+                    _CS0459 = new CompilerReferenceError(Resources.CSharpErrors_CS0459, 459);
                 return _CS0459;
             }
         }
@@ -4063,7 +4064,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0460 == null)
-                    _CS0460 = new CompilerReferenceError(@"Constraints for override and explicit interface implementation methods are inherited from the base method, so they cannot be specified directly", 460);
+                    _CS0460 = new CompilerReferenceError(Resources.CSharpErrors_CS0460, 460);
                 return _CS0460;
             }
         }
@@ -4073,7 +4074,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0462 == null)
-                    _CS0462 = new CompilerReferenceError(@"The inherited members 'member1' and 'member2' have the same signature in type 'type', so they cannot be overridden", 462);
+                    _CS0462 = new CompilerReferenceError(Resources.CSharpErrors_CS0462, 462);
                 return _CS0462;
             }
         }
@@ -4083,7 +4084,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0463 == null)
-                    _CS0463 = new CompilerReferenceError(@"Evaluation of the decimal constant expression failed with error: 'error'", 463);
+                    _CS0463 = new CompilerReferenceError(Resources.CSharpErrors_CS0463, 463);
                 return _CS0463;
             }
         }
@@ -4093,7 +4094,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0466 == null)
-                    _CS0466 = new CompilerReferenceError(@"'method1' should not have a params parameter since 'method2' does not", 466);
+                    _CS0466 = new CompilerReferenceError(Resources.CSharpErrors_CS0466, 466);
                 return _CS0466;
             }
         }
@@ -4103,7 +4104,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0468 == null)
-                    _CS0468 = new CompilerReferenceError(@"Ambiguity between type 'type1' and type 'type2'", 468);
+                    _CS0468 = new CompilerReferenceError(Resources.CSharpErrors_CS0468, 468);
                 return _CS0468;
             }
         }
@@ -4113,7 +4114,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0470 == null)
-                    _CS0470 = new CompilerReferenceError(@"Method 'method' cannot implement interface accessor 'accessor' for type 'type'. Use an explicit interface implementation.", 470);
+                    _CS0470 = new CompilerReferenceError(Resources.CSharpErrors_CS0470, 470);
                 return _CS0470;
             }
         }
@@ -4123,7 +4124,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0471 == null)
-                    _CS0471 = new CompilerReferenceError(@"The method 'name' is not a generic method. If you intended an expression list, use parentheses around the < expression.", 471);
+                    _CS0471 = new CompilerReferenceError(Resources.CSharpErrors_CS0471, 471);
                 return _CS0471;
             }
         }
@@ -4133,7 +4134,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0473 == null)
-                    _CS0473 = new CompilerReferenceError(@"Explicit interface implementation 'method name' matches more than one interface member. Which interface member is actually chosen is implementation-dependent. Consider using a non-explicit implementation instead.", 473);
+                    _CS0473 = new CompilerReferenceError(Resources.CSharpErrors_CS0473, 473);
                 return _CS0473;
             }
         }
@@ -4143,7 +4144,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0500 == null)
-                    _CS0500 = new CompilerReferenceError(@"'class member' cannot declare a body because it is marked abstract", 500);
+                    _CS0500 = new CompilerReferenceError(Resources.CSharpErrors_CS0500, 500);
                 return _CS0500;
             }
         }
@@ -4153,7 +4154,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0501 == null)
-                    _CS0501 = new CompilerReferenceError(@"'member function' must declare a body because it is not marked abstract, extern, or partial", 501);
+                    _CS0501 = new CompilerReferenceError(Resources.CSharpErrors_CS0501, 501);
                 return _CS0501;
             }
         }
@@ -4163,7 +4164,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0502 == null)
-                    _CS0502 = new CompilerReferenceError(@"'member' cannot be both abstract and sealed", 502);
+                    _CS0502 = new CompilerReferenceError(Resources.CSharpErrors_CS0502, 502);
                 return _CS0502;
             }
         }
@@ -4173,7 +4174,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0503 == null)
-                    _CS0503 = new CompilerReferenceError(@"The abstract method 'method' cannot be marked virtual", 503);
+                    _CS0503 = new CompilerReferenceError(Resources.CSharpErrors_CS0503, 503);
                 return _CS0503;
             }
         }
@@ -4183,7 +4184,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0504 == null)
-                    _CS0504 = new CompilerReferenceError(@"The constant 'variable' cannot be marked static", 504);
+                    _CS0504 = new CompilerReferenceError(Resources.CSharpErrors_CS0504, 504);
                 return _CS0504;
             }
         }
@@ -4193,7 +4194,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0505 == null)
-                    _CS0505 = new CompilerReferenceError(@"'member1': cannot override because 'member2' is not a function", 505);
+                    _CS0505 = new CompilerReferenceError(Resources.CSharpErrors_CS0505, 505);
                 return _CS0505;
             }
         }
@@ -4203,7 +4204,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0506 == null)
-                    _CS0506 = new CompilerReferenceError(@"'function1' : cannot override inherited member 'function2' because it is not marked ""virtual"", ""abstract"", or ""override""", 506);
+                    _CS0506 = new CompilerReferenceError(Resources.CSharpErrors_CS0506, 506);
                 return _CS0506;
             }
         }
@@ -4213,7 +4214,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0507 == null)
-                    _CS0507 = new CompilerReferenceError(@"'function1' : cannot change access modifiers when overriding 'access' inherited member 'function2'", 507);
+                    _CS0507 = new CompilerReferenceError(Resources.CSharpErrors_CS0507, 507);
                 return _CS0507;
             }
         }
@@ -4223,7 +4224,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0508 == null)
-                    _CS0508 = new CompilerReferenceError(@"'Type 1': return type must be 'Type 2' to match overridden member 'Member Name'", 508);
+                    _CS0508 = new CompilerReferenceError(Resources.CSharpErrors_CS0508, 508);
                 return _CS0508;
             }
         }
@@ -4233,7 +4234,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0509 == null)
-                    _CS0509 = new CompilerReferenceError(@"'class1' : cannot derive from sealed type 'class2'", 509);
+                    _CS0509 = new CompilerReferenceError(Resources.CSharpErrors_CS0509, 509);
                 return _CS0509;
             }
         }
@@ -4243,7 +4244,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0513 == null)
-                    _CS0513 = new CompilerReferenceError(@"'function' is abstract but it is contained in nonabstract class 'class'", 513);
+                    _CS0513 = new CompilerReferenceError(Resources.CSharpErrors_CS0513, 513);
                 return _CS0513;
             }
         }
@@ -4253,7 +4254,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0514 == null)
-                    _CS0514 = new CompilerReferenceError(@"'constructor' : static constructor cannot have an explicit 'this' or 'base' constructor call", 514);
+                    _CS0514 = new CompilerReferenceError(Resources.CSharpErrors_CS0514, 514);
                 return _CS0514;
             }
         }
@@ -4263,7 +4264,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0515 == null)
-                    _CS0515 = new CompilerReferenceError(@"'function' : access modifiers are not allowed on static constructors", 515);
+                    _CS0515 = new CompilerReferenceError(Resources.CSharpErrors_CS0515, 515);
                 return _CS0515;
             }
         }
@@ -4273,7 +4274,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0516 == null)
-                    _CS0516 = new CompilerReferenceError(@"Constructor 'constructor' can not call itself", 516);
+                    _CS0516 = new CompilerReferenceError(Resources.CSharpErrors_CS0516, 516);
                 return _CS0516;
             }
         }
@@ -4283,7 +4284,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0517 == null)
-                    _CS0517 = new CompilerReferenceError(@"'class' has no base class and cannot call a base constructor", 517);
+                    _CS0517 = new CompilerReferenceError(Resources.CSharpErrors_CS0517, 517);
                 return _CS0517;
             }
         }
@@ -4293,7 +4294,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0518 == null)
-                    _CS0518 = new CompilerReferenceError(@"Predefined type 'type' is not defined or imported", 518);
+                    _CS0518 = new CompilerReferenceError(Resources.CSharpErrors_CS0518, 518);
                 return _CS0518;
             }
         }
@@ -4303,7 +4304,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0520 == null)
-                    _CS0520 = new CompilerReferenceError(@"Predefined type 'name' is declared incorrectly", 520);
+                    _CS0520 = new CompilerReferenceError(Resources.CSharpErrors_CS0520, 520);
                 return _CS0520;
             }
         }
@@ -4313,7 +4314,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0522 == null)
-                    _CS0522 = new CompilerReferenceError(@"'constructor' : structs cannot call base class constructors", 522);
+                    _CS0522 = new CompilerReferenceError(Resources.CSharpErrors_CS0522, 522);
                 return _CS0522;
             }
         }
@@ -4323,7 +4324,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0523 == null)
-                    _CS0523 = new CompilerReferenceError(@"Struct member 'struct2 field' of type 'struct1' causes a cycle in the struct layout", 523);
+                    _CS0523 = new CompilerReferenceError(Resources.CSharpErrors_CS0523, 523);
                 return _CS0523;
             }
         }
@@ -4333,7 +4334,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0524 == null)
-                    _CS0524 = new CompilerReferenceError(@"'type' : interfaces cannot declare types", 524);
+                    _CS0524 = new CompilerReferenceError(Resources.CSharpErrors_CS0524, 524);
                 return _CS0524;
             }
         }
@@ -4343,7 +4344,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0525 == null)
-                    _CS0525 = new CompilerReferenceError(@"Interfaces cannot contain fields", 525);
+                    _CS0525 = new CompilerReferenceError(Resources.CSharpErrors_CS0525, 525);
                 return _CS0525;
             }
         }
@@ -4353,7 +4354,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0526 == null)
-                    _CS0526 = new CompilerReferenceError(@"Interfaces cannot contain constructors", 526);
+                    _CS0526 = new CompilerReferenceError(Resources.CSharpErrors_CS0526, 526);
                 return _CS0526;
             }
         }
@@ -4363,7 +4364,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0527 == null)
-                    _CS0527 = new CompilerReferenceError(@"Type 'type' in interface list is not an interface", 527);
+                    _CS0527 = new CompilerReferenceError(Resources.CSharpErrors_CS0527, 527);
                 return _CS0527;
             }
         }
@@ -4373,7 +4374,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0528 == null)
-                    _CS0528 = new CompilerReferenceError(@"'interface' is already listed in interface list", 528);
+                    _CS0528 = new CompilerReferenceError(Resources.CSharpErrors_CS0528, 528);
                 return _CS0528;
             }
         }
@@ -4383,7 +4384,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0529 == null)
-                    _CS0529 = new CompilerReferenceError(@"Inherited interface 'interface1' causes a cycle in the interface hierarchy of 'interface2'", 529);
+                    _CS0529 = new CompilerReferenceError(Resources.CSharpErrors_CS0529, 529);
                 return _CS0529;
             }
         }
@@ -4393,7 +4394,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0531 == null)
-                    _CS0531 = new CompilerReferenceError(@"'member' : interface members cannot have a definition", 531);
+                    _CS0531 = new CompilerReferenceError(Resources.CSharpErrors_CS0531, 531);
                 return _CS0531;
             }
         }
@@ -4403,7 +4404,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0533 == null)
-                    _CS0533 = new CompilerReferenceError(@"'derived-class member' hides inherited abstract member 'base-class member'", 533);
+                    _CS0533 = new CompilerReferenceError(Resources.CSharpErrors_CS0533, 533);
                 return _CS0533;
             }
         }
@@ -4413,7 +4414,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0534 == null)
-                    _CS0534 = new CompilerReferenceError(@"'function1' does not implement inherited abstract member 'function2'", 534);
+                    _CS0534 = new CompilerReferenceError(Resources.CSharpErrors_CS0534, 534);
                 return _CS0534;
             }
         }
@@ -4423,7 +4424,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0535 == null)
-                    _CS0535 = new CompilerReferenceError(@"'class' does not implement interface member 'member'", 535);
+                    _CS0535 = new CompilerReferenceError(Resources.CSharpErrors_CS0535, 535);
                 return _CS0535;
             }
         }
@@ -4433,7 +4434,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0537 == null)
-                    _CS0537 = new CompilerReferenceError(@"The class System.Object cannot have a base class or implement an interface", 537);
+                    _CS0537 = new CompilerReferenceError(Resources.CSharpErrors_CS0537, 537);
                 return _CS0537;
             }
         }
@@ -4443,7 +4444,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0538 == null)
-                    _CS0538 = new CompilerReferenceError(@"'name' in explicit interface declaration is not an interface", 538);
+                    _CS0538 = new CompilerReferenceError(Resources.CSharpErrors_CS0538, 538);
                 return _CS0538;
             }
         }
@@ -4453,7 +4454,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0539 == null)
-                    _CS0539 = new CompilerReferenceError(@"'member' in explicit interface declaration is not a member of interface", 539);
+                    _CS0539 = new CompilerReferenceError(Resources.CSharpErrors_CS0539, 539);
                 return _CS0539;
             }
         }
@@ -4463,7 +4464,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0540 == null)
-                    _CS0540 = new CompilerReferenceError(@"'interface member' : containing type does not implement interface 'interface'", 540);
+                    _CS0540 = new CompilerReferenceError(Resources.CSharpErrors_CS0540, 540);
                 return _CS0540;
             }
         }
@@ -4473,7 +4474,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0541 == null)
-                    _CS0541 = new CompilerReferenceError(@"'declaration' : explicit interface declaration can only be declared in a class or struct", 541);
+                    _CS0541 = new CompilerReferenceError(Resources.CSharpErrors_CS0541, 541);
                 return _CS0541;
             }
         }
@@ -4483,7 +4484,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0542 == null)
-                    _CS0542 = new CompilerReferenceError(@"'user-defined type' : member names cannot be the same as their enclosing type", 542);
+                    _CS0542 = new CompilerReferenceError(Resources.CSharpErrors_CS0542, 542);
                 return _CS0542;
             }
         }
@@ -4493,7 +4494,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0543 == null)
-                    _CS0543 = new CompilerReferenceError(@"'enumeration' : the enumerator value is too large to fit in its type", 543);
+                    _CS0543 = new CompilerReferenceError(Resources.CSharpErrors_CS0543, 543);
                 return _CS0543;
             }
         }
@@ -4503,7 +4504,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0544 == null)
-                    _CS0544 = new CompilerReferenceError(@"'property override': cannot override because 'non-property' is not a property", 544);
+                    _CS0544 = new CompilerReferenceError(Resources.CSharpErrors_CS0544, 544);
                 return _CS0544;
             }
         }
@@ -4513,7 +4514,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0545 == null)
-                    _CS0545 = new CompilerReferenceError(@"'function' : cannot override because 'property' does not have an overridable get accessor", 545);
+                    _CS0545 = new CompilerReferenceError(Resources.CSharpErrors_CS0545, 545);
                 return _CS0545;
             }
         }
@@ -4523,7 +4524,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0546 == null)
-                    _CS0546 = new CompilerReferenceError(@"'accessor' : cannot override because 'property' does not have an overridable set accessor", 546);
+                    _CS0546 = new CompilerReferenceError(Resources.CSharpErrors_CS0546, 546);
                 return _CS0546;
             }
         }
@@ -4533,7 +4534,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0547 == null)
-                    _CS0547 = new CompilerReferenceError(@"'property' : property or indexer cannot have void type", 547);
+                    _CS0547 = new CompilerReferenceError(Resources.CSharpErrors_CS0547, 547);
                 return _CS0547;
             }
         }
@@ -4543,7 +4544,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0548 == null)
-                    _CS0548 = new CompilerReferenceError(@"'property' : property or indexer must have at least one accessor", 548);
+                    _CS0548 = new CompilerReferenceError(Resources.CSharpErrors_CS0548, 548);
                 return _CS0548;
             }
         }
@@ -4553,7 +4554,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0549 == null)
-                    _CS0549 = new CompilerReferenceError(@"'function' is a new virtual member in sealed class 'class'", 549);
+                    _CS0549 = new CompilerReferenceError(Resources.CSharpErrors_CS0549, 549);
                 return _CS0549;
             }
         }
@@ -4563,7 +4564,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0550 == null)
-                    _CS0550 = new CompilerReferenceError(@"'accessor' adds an accessor not found in interface member 'property'", 550);
+                    _CS0550 = new CompilerReferenceError(Resources.CSharpErrors_CS0550, 550);
                 return _CS0550;
             }
         }
@@ -4573,7 +4574,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0551 == null)
-                    _CS0551 = new CompilerReferenceError(@"Explicit interface implementation 'implementation' is missing accessor 'accessor'", 551);
+                    _CS0551 = new CompilerReferenceError(Resources.CSharpErrors_CS0551, 551);
                 return _CS0551;
             }
         }
@@ -4583,7 +4584,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0552 == null)
-                    _CS0552 = new CompilerReferenceError(@"'conversion routine' : user defined conversion to/from interface", 552);
+                    _CS0552 = new CompilerReferenceError(Resources.CSharpErrors_CS0552, 552);
                 return _CS0552;
             }
         }
@@ -4593,7 +4594,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0553 == null)
-                    _CS0553 = new CompilerReferenceError(@"'conversion routine' : user defined conversion to/from base class", 553);
+                    _CS0553 = new CompilerReferenceError(Resources.CSharpErrors_CS0553, 553);
                 return _CS0553;
             }
         }
@@ -4603,7 +4604,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0554 == null)
-                    _CS0554 = new CompilerReferenceError(@"'conversion routine' : user defined conversion to/from derived class", 554);
+                    _CS0554 = new CompilerReferenceError(Resources.CSharpErrors_CS0554, 554);
                 return _CS0554;
             }
         }
@@ -4613,7 +4614,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0555 == null)
-                    _CS0555 = new CompilerReferenceError(@"User-defined operator cannot take an object of the enclosing type and convert to an object of the enclosing type", 555);
+                    _CS0555 = new CompilerReferenceError(Resources.CSharpErrors_CS0555, 555);
                 return _CS0555;
             }
         }
@@ -4623,7 +4624,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0556 == null)
-                    _CS0556 = new CompilerReferenceError(@"User-defined conversion must convert to or from the enclosing type", 556);
+                    _CS0556 = new CompilerReferenceError(Resources.CSharpErrors_CS0556, 556);
                 return _CS0556;
             }
         }
@@ -4633,7 +4634,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0557 == null)
-                    _CS0557 = new CompilerReferenceError(@"Duplicate user-defined conversion in type 'class'", 557);
+                    _CS0557 = new CompilerReferenceError(Resources.CSharpErrors_CS0557, 557);
                 return _CS0557;
             }
         }
@@ -4643,7 +4644,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0558 == null)
-                    _CS0558 = new CompilerReferenceError(@"User-defined operator 'operator' must be declared static and public", 558);
+                    _CS0558 = new CompilerReferenceError(Resources.CSharpErrors_CS0558, 558);
                 return _CS0558;
             }
         }
@@ -4653,7 +4654,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0559 == null)
-                    _CS0559 = new CompilerReferenceError(@"The parameter type for ++ or -- operator must be the containing type", 559);
+                    _CS0559 = new CompilerReferenceError(Resources.CSharpErrors_CS0559, 559);
                 return _CS0559;
             }
         }
@@ -4663,7 +4664,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0562 == null)
-                    _CS0562 = new CompilerReferenceError(@"The parameter of a unary operator must be the containing type", 562);
+                    _CS0562 = new CompilerReferenceError(Resources.CSharpErrors_CS0562, 562);
                 return _CS0562;
             }
         }
@@ -4673,7 +4674,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0563 == null)
-                    _CS0563 = new CompilerReferenceError(@"One of the parameters of a binary operator must be the containing type", 563);
+                    _CS0563 = new CompilerReferenceError(Resources.CSharpErrors_CS0563, 563);
                 return _CS0563;
             }
         }
@@ -4683,7 +4684,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0564 == null)
-                    _CS0564 = new CompilerReferenceError(@"The first operand of an overloaded shift operator must have the same type as the containing type, and the type of the second operand must be int", 564);
+                    _CS0564 = new CompilerReferenceError(Resources.CSharpErrors_CS0564, 564);
                 return _CS0564;
             }
         }
@@ -4693,7 +4694,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0567 == null)
-                    _CS0567 = new CompilerReferenceError(@"Interfaces cannot contain operators", 567);
+                    _CS0567 = new CompilerReferenceError(Resources.CSharpErrors_CS0567, 567);
                 return _CS0567;
             }
         }
@@ -4703,7 +4704,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0568 == null)
-                    _CS0568 = new CompilerReferenceError(@"Structs cannot contain explicit parameterless constructors", 568);
+                    _CS0568 = new CompilerReferenceError(Resources.CSharpErrors_CS0568, 568);
                 return _CS0568;
             }
         }
@@ -4713,7 +4714,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0569 == null)
-                    _CS0569 = new CompilerReferenceError(@"'method2' : cannot override 'method1' because it is not supported by the language", 569);
+                    _CS0569 = new CompilerReferenceError(Resources.CSharpErrors_CS0569, 569);
                 return _CS0569;
             }
         }
@@ -4723,7 +4724,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0570 == null)
-                    _CS0570 = new CompilerReferenceError(@"Property, indexer, or event 'name' is not supported by the language; try directly calling accessor method 'name!'", 570);
+                    _CS0570 = new CompilerReferenceError(Resources.CSharpErrors_CS0570, 570);
                 return _CS0570;
             }
         }
@@ -4733,7 +4734,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0571 == null)
-                    _CS0571 = new CompilerReferenceError(@"'function' : cannot explicitly call operator or accessor", 571);
+                    _CS0571 = new CompilerReferenceError(Resources.CSharpErrors_CS0571, 571);
                 return _CS0571;
             }
         }
@@ -4743,7 +4744,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0572 == null)
-                    _CS0572 = new CompilerReferenceError(@"'type' : cannot reference a type through an expression; try 'path_to_type' instead", 572);
+                    _CS0572 = new CompilerReferenceError(Resources.CSharpErrors_CS0572, 572);
                 return _CS0572;
             }
         }
@@ -4753,7 +4754,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0573 == null)
-                    _CS0573 = new CompilerReferenceError(@"'field declaration' : cannot have instance field initializers in structs", 573);
+                    _CS0573 = new CompilerReferenceError(Resources.CSharpErrors_CS0573, 573);
                 return _CS0573;
             }
         }
@@ -4763,7 +4764,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0574 == null)
-                    _CS0574 = new CompilerReferenceError(@"Name of destructor must match name of class", 574);
+                    _CS0574 = new CompilerReferenceError(Resources.CSharpErrors_CS0574, 574);
                 return _CS0574;
             }
         }
@@ -4773,7 +4774,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0575 == null)
-                    _CS0575 = new CompilerReferenceError(@"Only class types can contain destructors", 575);
+                    _CS0575 = new CompilerReferenceError(Resources.CSharpErrors_CS0575, 575);
                 return _CS0575;
             }
         }
@@ -4783,7 +4784,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0576 == null)
-                    _CS0576 = new CompilerReferenceError(@"Namespace 'namespace' contains a definition conflicting with alias 'identifier'", 576);
+                    _CS0576 = new CompilerReferenceError(Resources.CSharpErrors_CS0576, 576);
                 return _CS0576;
             }
         }
@@ -4793,7 +4794,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0577 == null)
-                    _CS0577 = new CompilerReferenceError(@"The Conditional attribute is not valid on 'function' because it is a constructor, destructor, operator, or explicit interface implementation", 577);
+                    _CS0577 = new CompilerReferenceError(Resources.CSharpErrors_CS0577, 577);
                 return _CS0577;
             }
         }
@@ -4803,7 +4804,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0578 == null)
-                    _CS0578 = new CompilerReferenceError(@"The Conditional attribute is not valid on 'function' because its return type is not void", 578);
+                    _CS0578 = new CompilerReferenceError(Resources.CSharpErrors_CS0578, 578);
                 return _CS0578;
             }
         }
@@ -4813,7 +4814,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0579 == null)
-                    _CS0579 = new CompilerReferenceError(@"Duplicate 'attribute' attribute", 579);
+                    _CS0579 = new CompilerReferenceError(Resources.CSharpErrors_CS0579, 579);
                 return _CS0579;
             }
         }
@@ -4823,7 +4824,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0582 == null)
-                    _CS0582 = new CompilerReferenceError(@"The Conditional not valid on interface members", 582);
+                    _CS0582 = new CompilerReferenceError(Resources.CSharpErrors_CS0582, 582);
                 return _CS0582;
             }
         }
@@ -4833,7 +4834,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0583 == null)
-                    _CS0583 = new CompilerReferenceError(@"Internal Compiler Error. An internal error has occurred in the compiler. To work around this problem, try simplifying or changing the program near the locations listed below. Locations at the top of the list are closer to the point at which the internal error occurred. Errors such as this can be reported to Microsoft by using the /errorreport option.", 583);
+                    _CS0583 = new CompilerReferenceError(Resources.CSharpErrors_CS0583, 583);
                 return _CS0583;
             }
         }
@@ -4843,7 +4844,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0584 == null)
-                    _CS0584 = new CompilerReferenceError(@"Internal Compiler Error: stage 'stage' symbol 'symbol'", 584);
+                    _CS0584 = new CompilerReferenceError(Resources.CSharpErrors_CS0584, 584);
                 return _CS0584;
             }
         }
@@ -4853,7 +4854,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0585 == null)
-                    _CS0585 = new CompilerReferenceError(@"Internal Compiler Error: stage 'stage'", 585);
+                    _CS0585 = new CompilerReferenceError(Resources.CSharpErrors_CS0585, 585);
                 return _CS0585;
             }
         }
@@ -4863,7 +4864,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0586 == null)
-                    _CS0586 = new CompilerReferenceError(@"Internal Compiler Error: stage 'stage'", 586);
+                    _CS0586 = new CompilerReferenceError(Resources.CSharpErrors_CS0586, 586);
                 return _CS0586;
             }
         }
@@ -4873,7 +4874,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0587 == null)
-                    _CS0587 = new CompilerReferenceError(@"Internal Compiler Error: stage 'stage'", 587);
+                    _CS0587 = new CompilerReferenceError(Resources.CSharpErrors_CS0587, 587);
                 return _CS0587;
             }
         }
@@ -4883,7 +4884,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0588 == null)
-                    _CS0588 = new CompilerReferenceError(@"Internal Compiler Error: stage 'LEX'", 588);
+                    _CS0588 = new CompilerReferenceError(Resources.CSharpErrors_CS0588, 588);
                 return _CS0588;
             }
         }
@@ -4893,7 +4894,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0589 == null)
-                    _CS0589 = new CompilerReferenceError(@"Internal Compiler Error: stage 'PARSE'", 589);
+                    _CS0589 = new CompilerReferenceError(Resources.CSharpErrors_CS0589, 589);
                 return _CS0589;
             }
         }
@@ -4903,7 +4904,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0590 == null)
-                    _CS0590 = new CompilerReferenceError(@"User-defined operators cannot return void", 590);
+                    _CS0590 = new CompilerReferenceError(Resources.CSharpErrors_CS0590, 590);
                 return _CS0590;
             }
         }
@@ -4913,7 +4914,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0591 == null)
-                    _CS0591 = new CompilerReferenceError(@"Invalid value for argument to 'attribute' attribute", 591);
+                    _CS0591 = new CompilerReferenceError(Resources.CSharpErrors_CS0591, 591);
                 return _CS0591;
             }
         }
@@ -4923,7 +4924,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0592 == null)
-                    _CS0592 = new CompilerReferenceError(@"Attribute 'attribute' is not valid on this declaration type. It is valid on 'type' declarations only.", 592);
+                    _CS0592 = new CompilerReferenceError(Resources.CSharpErrors_CS0592, 592);
                 return _CS0592;
             }
         }
@@ -4933,7 +4934,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0594 == null)
-                    _CS0594 = new CompilerReferenceError(@"Floating-point constant is outside the range of type 'type'", 594);
+                    _CS0594 = new CompilerReferenceError(Resources.CSharpErrors_CS0594, 594);
                 return _CS0594;
             }
         }
@@ -4943,7 +4944,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0596 == null)
-                    _CS0596 = new CompilerReferenceError(@"The Guid attribute must be specified with the ComImport attribute", 596);
+                    _CS0596 = new CompilerReferenceError(Resources.CSharpErrors_CS0596, 596);
                 return _CS0596;
             }
         }
@@ -4953,7 +4954,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0599 == null)
-                    _CS0599 = new CompilerReferenceError(@"Invalid value for named attribute argument 'argument'", 599);
+                    _CS0599 = new CompilerReferenceError(Resources.CSharpErrors_CS0599, 599);
                 return _CS0599;
             }
         }
@@ -4963,7 +4964,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0601 == null)
-                    _CS0601 = new CompilerReferenceError(@"The DllImport attribute must be specified on a method marked 'static' and 'extern'", 601);
+                    _CS0601 = new CompilerReferenceError(Resources.CSharpErrors_CS0601, 601);
                 return _CS0601;
             }
         }
@@ -4973,7 +4974,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0609 == null)
-                    _CS0609 = new CompilerReferenceError(@"Cannot set the IndexerName attribute on an indexer marked override", 609);
+                    _CS0609 = new CompilerReferenceError(Resources.CSharpErrors_CS0609, 609);
                 return _CS0609;
             }
         }
@@ -4983,7 +4984,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0610 == null)
-                    _CS0610 = new CompilerReferenceError(@"Field or property cannot be of type 'type'", 610);
+                    _CS0610 = new CompilerReferenceError(Resources.CSharpErrors_CS0610, 610);
                 return _CS0610;
             }
         }
@@ -4993,7 +4994,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0611 == null)
-                    _CS0611 = new CompilerReferenceError(@"Array elements cannot be of type 'type'", 611);
+                    _CS0611 = new CompilerReferenceError(Resources.CSharpErrors_CS0611, 611);
                 return _CS0611;
             }
         }
@@ -5003,7 +5004,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0616 == null)
-                    _CS0616 = new CompilerReferenceError(@"'class' is not an attribute class", 616);
+                    _CS0616 = new CompilerReferenceError(Resources.CSharpErrors_CS0616, 616);
                 return _CS0616;
             }
         }
@@ -5013,7 +5014,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0617 == null)
-                    _CS0617 = new CompilerReferenceError(@"'reference' is not a valid named attribute argument because it is not a valid attribute parameter type", 617);
+                    _CS0617 = new CompilerReferenceError(Resources.CSharpErrors_CS0617, 617);
                 return _CS0617;
             }
         }
@@ -5023,7 +5024,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0619 == null)
-                    _CS0619 = new CompilerReferenceError(@"'member' is obsolete: 'text'", 619);
+                    _CS0619 = new CompilerReferenceError(Resources.CSharpErrors_CS0619, 619);
                 return _CS0619;
             }
         }
@@ -5033,7 +5034,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0620 == null)
-                    _CS0620 = new CompilerReferenceError(@"Indexers cannot have void type", 620);
+                    _CS0620 = new CompilerReferenceError(Resources.CSharpErrors_CS0620, 620);
                 return _CS0620;
             }
         }
@@ -5043,7 +5044,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0621 == null)
-                    _CS0621 = new CompilerReferenceError(@"'member' : virtual or abstract members cannot be private", 621);
+                    _CS0621 = new CompilerReferenceError(Resources.CSharpErrors_CS0621, 621);
                 return _CS0621;
             }
         }
@@ -5053,7 +5054,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0622 == null)
-                    _CS0622 = new CompilerReferenceError(@"Can only use array initializer expressions to assign to array types. Try using a new expression instead.", 622);
+                    _CS0622 = new CompilerReferenceError(Resources.CSharpErrors_CS0622, 622);
                 return _CS0622;
             }
         }
@@ -5063,7 +5064,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0623 == null)
-                    _CS0623 = new CompilerReferenceError(@"Array initializers can only be used in a variable or field initializer. Try using a new expression instead.", 623);
+                    _CS0623 = new CompilerReferenceError(Resources.CSharpErrors_CS0623, 623);
                 return _CS0623;
             }
         }
@@ -5073,7 +5074,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0625 == null)
-                    _CS0625 = new CompilerReferenceError(@"'field': instance field types marked with StructLayout(LayoutKind.Explicit) must have a FieldOffset attribute", 625);
+                    _CS0625 = new CompilerReferenceError(Resources.CSharpErrors_CS0625, 625);
                 return _CS0625;
             }
         }
@@ -5083,7 +5084,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0629 == null)
-                    _CS0629 = new CompilerReferenceError(@"Conditional member 'member' cannot implement interface member 'base class member' in type 'Type Name'", 629);
+                    _CS0629 = new CompilerReferenceError(Resources.CSharpErrors_CS0629, 629);
                 return _CS0629;
             }
         }
@@ -5093,7 +5094,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0631 == null)
-                    _CS0631 = new CompilerReferenceError(@"ref and out are not valid in this context", 631);
+                    _CS0631 = new CompilerReferenceError(Resources.CSharpErrors_CS0631, 631);
                 return _CS0631;
             }
         }
@@ -5103,7 +5104,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0633 == null)
-                    _CS0633 = new CompilerReferenceError(@"The argument to the 'attribute' attribute must be a valid identifier", 633);
+                    _CS0633 = new CompilerReferenceError(Resources.CSharpErrors_CS0633, 633);
                 return _CS0633;
             }
         }
@@ -5113,7 +5114,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0635 == null)
-                    _CS0635 = new CompilerReferenceError(@"'attribute' : System.Interop.UnmanagedType.CustomMarshaller requires named arguments ComType and Marshal", 635);
+                    _CS0635 = new CompilerReferenceError(Resources.CSharpErrors_CS0635, 635);
                 return _CS0635;
             }
         }
@@ -5123,7 +5124,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0636 == null)
-                    _CS0636 = new CompilerReferenceError(@"The FieldOffset attribute can only be placed on members of types marked with the StructLayout(LayoutKind.Explicit)", 636);
+                    _CS0636 = new CompilerReferenceError(Resources.CSharpErrors_CS0636, 636);
                 return _CS0636;
             }
         }
@@ -5133,7 +5134,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0637 == null)
-                    _CS0637 = new CompilerReferenceError(@"The FieldOffset attribute is not allowed on static or const fields", 637);
+                    _CS0637 = new CompilerReferenceError(Resources.CSharpErrors_CS0637, 637);
                 return _CS0637;
             }
         }
@@ -5143,7 +5144,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0641 == null)
-                    _CS0641 = new CompilerReferenceError(@"'attribute' : attribute is only valid on classes derived from System.Attribute", 641);
+                    _CS0641 = new CompilerReferenceError(Resources.CSharpErrors_CS0641, 641);
                 return _CS0641;
             }
         }
@@ -5153,7 +5154,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0643 == null)
-                    _CS0643 = new CompilerReferenceError(@"'arg' duplicate named attribute argument", 643);
+                    _CS0643 = new CompilerReferenceError(Resources.CSharpErrors_CS0643, 643);
                 return _CS0643;
             }
         }
@@ -5163,7 +5164,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0644 == null)
-                    _CS0644 = new CompilerReferenceError(@"'class1' cannot derive from special class 'class2'", 644);
+                    _CS0644 = new CompilerReferenceError(Resources.CSharpErrors_CS0644, 644);
                 return _CS0644;
             }
         }
@@ -5173,7 +5174,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0645 == null)
-                    _CS0645 = new CompilerReferenceError(@"Identifier too long", 645);
+                    _CS0645 = new CompilerReferenceError(Resources.CSharpErrors_CS0645, 645);
                 return _CS0645;
             }
         }
@@ -5183,7 +5184,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0646 == null)
-                    _CS0646 = new CompilerReferenceError(@"Cannot specify the DefaultMember attribute on a type containing an indexer", 646);
+                    _CS0646 = new CompilerReferenceError(Resources.CSharpErrors_CS0646, 646);
                 return _CS0646;
             }
         }
@@ -5193,7 +5194,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0647 == null)
-                    _CS0647 = new CompilerReferenceError(@"Error emitting 'attribute' attribute -- 'reason'", 647);
+                    _CS0647 = new CompilerReferenceError(Resources.CSharpErrors_CS0647, 647);
                 return _CS0647;
             }
         }
@@ -5203,7 +5204,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0648 == null)
-                    _CS0648 = new CompilerReferenceError(@"'type' is a type not supported by the language", 648);
+                    _CS0648 = new CompilerReferenceError(Resources.CSharpErrors_CS0648, 648);
                 return _CS0648;
             }
         }
@@ -5213,7 +5214,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0650 == null)
-                    _CS0650 = new CompilerReferenceError(@"Bad array declarator: To declare a managed array the rank specifier precedes the variable's identifier. To declare a fixed size buffer field, use the fixed keyword before the field type.", 650);
+                    _CS0650 = new CompilerReferenceError(Resources.CSharpErrors_CS0650, 650);
                 return _CS0650;
             }
         }
@@ -5223,7 +5224,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0653 == null)
-                    _CS0653 = new CompilerReferenceError(@"Cannot apply attribute class 'class' because it is abstract", 653);
+                    _CS0653 = new CompilerReferenceError(Resources.CSharpErrors_CS0653, 653);
                 return _CS0653;
             }
         }
@@ -5233,7 +5234,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0655 == null)
-                    _CS0655 = new CompilerReferenceError(@"'parameter' is not a valid named attribute argument because it is not a valid attribute parameter type", 655);
+                    _CS0655 = new CompilerReferenceError(Resources.CSharpErrors_CS0655, 655);
                 return _CS0655;
             }
         }
@@ -5243,7 +5244,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0656 == null)
-                    _CS0656 = new CompilerReferenceError(@"Missing compiler required member 'object.member'", 656);
+                    _CS0656 = new CompilerReferenceError(Resources.CSharpErrors_CS0656, 656);
                 return _CS0656;
             }
         }
@@ -5253,7 +5254,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0662 == null)
-                    _CS0662 = new CompilerReferenceError(@"'method' cannot specify only Out attribute on a ref parameter. Use both In and Out attributes, or neither.", 662);
+                    _CS0662 = new CompilerReferenceError(Resources.CSharpErrors_CS0662, 662);
                 return _CS0662;
             }
         }
@@ -5263,7 +5264,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0663 == null)
-                    _CS0663 = new CompilerReferenceError(@"Cannot define overloaded methods that differ only on ref and out.", 663);
+                    _CS0663 = new CompilerReferenceError(Resources.CSharpErrors_CS0663, 663);
                 return _CS0663;
             }
         }
@@ -5273,7 +5274,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0664 == null)
-                    _CS0664 = new CompilerReferenceError(@"Literal of type double cannot be implicitly converted to type 'type'; use an 'suffix' suffix to create a literal of this type", 664);
+                    _CS0664 = new CompilerReferenceError(Resources.CSharpErrors_CS0664, 664);
                 return _CS0664;
             }
         }
@@ -5283,7 +5284,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0666 == null)
-                    _CS0666 = new CompilerReferenceError(@"'member' : new protected member declared in struct", 666);
+                    _CS0666 = new CompilerReferenceError(Resources.CSharpErrors_CS0666, 666);
                 return _CS0666;
             }
         }
@@ -5293,7 +5294,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0667 == null)
-                    _CS0667 = new CompilerReferenceError(@"The feature 'invalid feature' is deprecated. Please use 'valid feature' instead'.", 667);
+                    _CS0667 = new CompilerReferenceError(Resources.CSharpErrors_CS0667, 667);
                 return _CS0667;
             }
         }
@@ -5303,7 +5304,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0668 == null)
-                    _CS0668 = new CompilerReferenceError(@"Two indexers have different names; the IndexerName attribute must be used with the same name on every indexer within a type", 668);
+                    _CS0668 = new CompilerReferenceError(Resources.CSharpErrors_CS0668, 668);
                 return _CS0668;
             }
         }
@@ -5313,7 +5314,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0669 == null)
-                    _CS0669 = new CompilerReferenceError(@"A class with the ComImport attribute cannot have a user-defined constructor", 669);
+                    _CS0669 = new CompilerReferenceError(Resources.CSharpErrors_CS0669, 669);
                 return _CS0669;
             }
         }
@@ -5323,7 +5324,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0670 == null)
-                    _CS0670 = new CompilerReferenceError(@"Field cannot have void type", 670);
+                    _CS0670 = new CompilerReferenceError(Resources.CSharpErrors_CS0670, 670);
                 return _CS0670;
             }
         }
@@ -5333,7 +5334,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0673 == null)
-                    _CS0673 = new CompilerReferenceError(@"System.Void cannot be used from C# -- use typeof(void) to get the void type object.", 673);
+                    _CS0673 = new CompilerReferenceError(Resources.CSharpErrors_CS0673, 673);
                 return _CS0673;
             }
         }
@@ -5343,7 +5344,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0674 == null)
-                    _CS0674 = new CompilerReferenceError(@"Do not use 'System.ParamArrayAttribute'. Use the 'params' keyword instead.", 674);
+                    _CS0674 = new CompilerReferenceError(Resources.CSharpErrors_CS0674, 674);
                 return _CS0674;
             }
         }
@@ -5353,7 +5354,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0677 == null)
-                    _CS0677 = new CompilerReferenceError(@"'variable': a volatile field cannot be of the type 'type'", 677);
+                    _CS0677 = new CompilerReferenceError(Resources.CSharpErrors_CS0677, 677);
                 return _CS0677;
             }
         }
@@ -5363,7 +5364,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0678 == null)
-                    _CS0678 = new CompilerReferenceError(@"'variable': a field can not be both volatile and readonly", 678);
+                    _CS0678 = new CompilerReferenceError(Resources.CSharpErrors_CS0678, 678);
                 return _CS0678;
             }
         }
@@ -5373,7 +5374,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0681 == null)
-                    _CS0681 = new CompilerReferenceError(@"The modifier 'abstract' is not valid on fields. Try using a property instead", 681);
+                    _CS0681 = new CompilerReferenceError(Resources.CSharpErrors_CS0681, 681);
                 return _CS0681;
             }
         }
@@ -5383,7 +5384,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0682 == null)
-                    _CS0682 = new CompilerReferenceError(@"'type1' cannot implement 'type2' because it is not supported by the language", 682);
+                    _CS0682 = new CompilerReferenceError(Resources.CSharpErrors_CS0682, 682);
                 return _CS0682;
             }
         }
@@ -5393,7 +5394,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0683 == null)
-                    _CS0683 = new CompilerReferenceError(@"'explicitmethod' explicit method implementation cannot implement 'method' because it is an accessor", 683);
+                    _CS0683 = new CompilerReferenceError(Resources.CSharpErrors_CS0683, 683);
                 return _CS0683;
             }
         }
@@ -5403,7 +5404,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0685 == null)
-                    _CS0685 = new CompilerReferenceError(@"Conditional member 'member' cannot have an out parameter", 685);
+                    _CS0685 = new CompilerReferenceError(Resources.CSharpErrors_CS0685, 685);
                 return _CS0685;
             }
         }
@@ -5413,7 +5414,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0686 == null)
-                    _CS0686 = new CompilerReferenceError(@"Accessor 'accessor' cannot implement interface member 'member' for type 'type'. Use an explicit interface implementation.", 686);
+                    _CS0686 = new CompilerReferenceError(Resources.CSharpErrors_CS0686, 686);
                 return _CS0686;
             }
         }
@@ -5423,7 +5424,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0687 == null)
-                    _CS0687 = new CompilerReferenceError(@"The namespace alias qualifier '::' always resolves to a type or namespace so is illegal here. Consider using '.' instead.", 687);
+                    _CS0687 = new CompilerReferenceError(Resources.CSharpErrors_CS0687, 687);
                 return _CS0687;
             }
         }
@@ -5433,7 +5434,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0689 == null)
-                    _CS0689 = new CompilerReferenceError(@"Cannot derive from 'identifier' because it is a type parameter", 689);
+                    _CS0689 = new CompilerReferenceError(Resources.CSharpErrors_CS0689, 689);
                 return _CS0689;
             }
         }
@@ -5443,7 +5444,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0690 == null)
-                    _CS0690 = new CompilerReferenceError(@"Input file 'file' contains invalid metadata.", 690);
+                    _CS0690 = new CompilerReferenceError(Resources.CSharpErrors_CS0690, 690);
                 return _CS0690;
             }
         }
@@ -5453,7 +5454,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0692 == null)
-                    _CS0692 = new CompilerReferenceError(@"Duplicate type parameter 'identifier'", 692);
+                    _CS0692 = new CompilerReferenceError(Resources.CSharpErrors_CS0692, 692);
                 return _CS0692;
             }
         }
@@ -5463,7 +5464,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0694 == null)
-                    _CS0694 = new CompilerReferenceError(@"Type parameter 'identifier' has the same name as the containing type, or method", 694);
+                    _CS0694 = new CompilerReferenceError(Resources.CSharpErrors_CS0694, 694);
                 return _CS0694;
             }
         }
@@ -5473,7 +5474,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0695 == null)
-                    _CS0695 = new CompilerReferenceError(@"'generic type' cannot implement both 'generic interface' and 'generic interface' because they may unify for some type parameter substitutions", 695);
+                    _CS0695 = new CompilerReferenceError(Resources.CSharpErrors_CS0695, 695);
                 return _CS0695;
             }
         }
@@ -5483,7 +5484,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0698 == null)
-                    _CS0698 = new CompilerReferenceError(@"A generic type cannot derive from 'class' because it is an attribute class", 698);
+                    _CS0698 = new CompilerReferenceError(Resources.CSharpErrors_CS0698, 698);
                 return _CS0698;
             }
         }
@@ -5493,7 +5494,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0699 == null)
-                    _CS0699 = new CompilerReferenceError(@"'generic' does not define type parameter 'identifier'", 699);
+                    _CS0699 = new CompilerReferenceError(Resources.CSharpErrors_CS0699, 699);
                 return _CS0699;
             }
         }
@@ -5503,7 +5504,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0701 == null)
-                    _CS0701 = new CompilerReferenceError(@"'identifier' is not a valid constraint. A type used as a constraint must be an interface, a non-sealed class or a type parameter.", 701);
+                    _CS0701 = new CompilerReferenceError(Resources.CSharpErrors_CS0701, 701);
                 return _CS0701;
             }
         }
@@ -5513,7 +5514,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0702 == null)
-                    _CS0702 = new CompilerReferenceError(@"Constraint cannot be special class 'identifier'", 702);
+                    _CS0702 = new CompilerReferenceError(Resources.CSharpErrors_CS0702, 702);
                 return _CS0702;
             }
         }
@@ -5523,7 +5524,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0703 == null)
-                    _CS0703 = new CompilerReferenceError(@"Inconsistent accessibility: constraint type 'identifier' is less accessible than 'identifier'", 703);
+                    _CS0703 = new CompilerReferenceError(Resources.CSharpErrors_CS0703, 703);
                 return _CS0703;
             }
         }
@@ -5533,7 +5534,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0704 == null)
-                    _CS0704 = new CompilerReferenceError(@"Cannot do member lookup in 'type' because it is a type parameter", 704);
+                    _CS0704 = new CompilerReferenceError(Resources.CSharpErrors_CS0704, 704);
                 return _CS0704;
             }
         }
@@ -5543,7 +5544,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0706 == null)
-                    _CS0706 = new CompilerReferenceError(@"Invalid constraint type. A type used as a constraint must be an interface, a non-sealed class or a type parameter.", 706);
+                    _CS0706 = new CompilerReferenceError(Resources.CSharpErrors_CS0706, 706);
                 return _CS0706;
             }
         }
@@ -5553,7 +5554,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0708 == null)
-                    _CS0708 = new CompilerReferenceError(@"'field': cannot declare instance members in a static class", 708);
+                    _CS0708 = new CompilerReferenceError(Resources.CSharpErrors_CS0708, 708);
                 return _CS0708;
             }
         }
@@ -5563,7 +5564,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0709 == null)
-                    _CS0709 = new CompilerReferenceError(@"'derived class': cannot derive from static class 'base class'", 709);
+                    _CS0709 = new CompilerReferenceError(Resources.CSharpErrors_CS0709, 709);
                 return _CS0709;
             }
         }
@@ -5573,7 +5574,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0710 == null)
-                    _CS0710 = new CompilerReferenceError(@"Static classes cannot have instance constructors", 710);
+                    _CS0710 = new CompilerReferenceError(Resources.CSharpErrors_CS0710, 710);
                 return _CS0710;
             }
         }
@@ -5583,7 +5584,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0711 == null)
-                    _CS0711 = new CompilerReferenceError(@"Static classes cannot contain destructors", 711);
+                    _CS0711 = new CompilerReferenceError(Resources.CSharpErrors_CS0711, 711);
                 return _CS0711;
             }
         }
@@ -5593,7 +5594,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0712 == null)
-                    _CS0712 = new CompilerReferenceError(@"Cannot create an instance of the static class 'static class'", 712);
+                    _CS0712 = new CompilerReferenceError(Resources.CSharpErrors_CS0712, 712);
                 return _CS0712;
             }
         }
@@ -5603,7 +5604,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0713 == null)
-                    _CS0713 = new CompilerReferenceError(@"Static class 'static type' cannot derive from type 'type'. Static classes must derive from object.", 713);
+                    _CS0713 = new CompilerReferenceError(Resources.CSharpErrors_CS0713, 713);
                 return _CS0713;
             }
         }
@@ -5613,7 +5614,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0714 == null)
-                    _CS0714 = new CompilerReferenceError(@"'static type' : static classes cannot implement interfaces", 714);
+                    _CS0714 = new CompilerReferenceError(Resources.CSharpErrors_CS0714, 714);
                 return _CS0714;
             }
         }
@@ -5623,7 +5624,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0715 == null)
-                    _CS0715 = new CompilerReferenceError(@"'static class' : static classes cannot contain user defined operators", 715);
+                    _CS0715 = new CompilerReferenceError(Resources.CSharpErrors_CS0715, 715);
                 return _CS0715;
             }
         }
@@ -5633,7 +5634,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0716 == null)
-                    _CS0716 = new CompilerReferenceError(@"Cannot convert to static type 'type'", 716);
+                    _CS0716 = new CompilerReferenceError(Resources.CSharpErrors_CS0716, 716);
                 return _CS0716;
             }
         }
@@ -5643,7 +5644,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0717 == null)
-                    _CS0717 = new CompilerReferenceError(@"'static class': static classes cannot be used as constraints", 717);
+                    _CS0717 = new CompilerReferenceError(Resources.CSharpErrors_CS0717, 717);
                 return _CS0717;
             }
         }
@@ -5653,7 +5654,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0718 == null)
-                    _CS0718 = new CompilerReferenceError(@"'type': static types cannot be used as type arguments", 718);
+                    _CS0718 = new CompilerReferenceError(Resources.CSharpErrors_CS0718, 718);
                 return _CS0718;
             }
         }
@@ -5663,7 +5664,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0719 == null)
-                    _CS0719 = new CompilerReferenceError(@"'type': array elements cannot be of static type", 719);
+                    _CS0719 = new CompilerReferenceError(Resources.CSharpErrors_CS0719, 719);
                 return _CS0719;
             }
         }
@@ -5673,7 +5674,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0720 == null)
-                    _CS0720 = new CompilerReferenceError(@"'static class': cannot declare indexers in a static class", 720);
+                    _CS0720 = new CompilerReferenceError(Resources.CSharpErrors_CS0720, 720);
                 return _CS0720;
             }
         }
@@ -5683,7 +5684,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0721 == null)
-                    _CS0721 = new CompilerReferenceError(@"'type': static types cannot be used as parameters", 721);
+                    _CS0721 = new CompilerReferenceError(Resources.CSharpErrors_CS0721, 721);
                 return _CS0721;
             }
         }
@@ -5693,7 +5694,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0722 == null)
-                    _CS0722 = new CompilerReferenceError(@"'type': static types cannot be used as return types", 722);
+                    _CS0722 = new CompilerReferenceError(Resources.CSharpErrors_CS0722, 722);
                 return _CS0722;
             }
         }
@@ -5703,7 +5704,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0723 == null)
-                    _CS0723 = new CompilerReferenceError(@"Cannot declare variable of static type 'type'", 723);
+                    _CS0723 = new CompilerReferenceError(Resources.CSharpErrors_CS0723, 723);
                 return _CS0723;
             }
         }
@@ -5713,7 +5714,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0724 == null)
-                    _CS0724 = new CompilerReferenceError(@"does not need a CLSCompliant attribute because the assembly does not have a CLSCompliant attribute", 724);
+                    _CS0724 = new CompilerReferenceError(Resources.CSharpErrors_CS0724, 724);
                 return _CS0724;
             }
         }
@@ -5723,7 +5724,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0726 == null)
-                    _CS0726 = new CompilerReferenceError(@"'format specifier' is not a valid format specifier", 726);
+                    _CS0726 = new CompilerReferenceError(Resources.CSharpErrors_CS0726, 726);
                 return _CS0726;
             }
         }
@@ -5733,7 +5734,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0727 == null)
-                    _CS0727 = new CompilerReferenceError(@"Invalid format specifier", 727);
+                    _CS0727 = new CompilerReferenceError(Resources.CSharpErrors_CS0727, 727);
                 return _CS0727;
             }
         }
@@ -5743,7 +5744,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0729 == null)
-                    _CS0729 = new CompilerReferenceError(@"Type 'type' is defined in this assembly, but a type forwarder is specified for it", 729);
+                    _CS0729 = new CompilerReferenceError(Resources.CSharpErrors_CS0729, 729);
                 return _CS0729;
             }
         }
@@ -5753,7 +5754,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0730 == null)
-                    _CS0730 = new CompilerReferenceError(@"Cannot forward type 'type' because it is a nested type of 'type'", 730);
+                    _CS0730 = new CompilerReferenceError(Resources.CSharpErrors_CS0730, 730);
                 return _CS0730;
             }
         }
@@ -5763,7 +5764,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0731 == null)
-                    _CS0731 = new CompilerReferenceError(@"The type forwarder for type 'type' in assembly 'assembly' causes a cycle", 731);
+                    _CS0731 = new CompilerReferenceError(Resources.CSharpErrors_CS0731, 731);
                 return _CS0731;
             }
         }
@@ -5773,7 +5774,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0733 == null)
-                    _CS0733 = new CompilerReferenceError(@"Cannot forward generic type, 'GenericType<>'", 733);
+                    _CS0733 = new CompilerReferenceError(Resources.CSharpErrors_CS0733, 733);
                 return _CS0733;
             }
         }
@@ -5783,7 +5784,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0734 == null)
-                    _CS0734 = new CompilerReferenceError(@"The /moduleassemblyname option may only be specified when building a target type of 'module'", 734);
+                    _CS0734 = new CompilerReferenceError(Resources.CSharpErrors_CS0734, 734);
                 return _CS0734;
             }
         }
@@ -5793,7 +5794,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0735 == null)
-                    _CS0735 = new CompilerReferenceError(@"Invalid type specified as an argument for TypeForwardedTo attribute", 735);
+                    _CS0735 = new CompilerReferenceError(Resources.CSharpErrors_CS0735, 735);
                 return _CS0735;
             }
         }
@@ -5803,7 +5804,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0736 == null)
-                    _CS0736 = new CompilerReferenceError(@"'type name' does not implement interface member 'member name'. 'method name' cannot implement an interface member because it is static.", 736);
+                    _CS0736 = new CompilerReferenceError(Resources.CSharpErrors_CS0736, 736);
                 return _CS0736;
             }
         }
@@ -5813,7 +5814,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0737 == null)
-                    _CS0737 = new CompilerReferenceError(@"'type name' does not implement interface member 'member name'. 'method name' cannot implement an interface member because it is not public.", 737);
+                    _CS0737 = new CompilerReferenceError(Resources.CSharpErrors_CS0737, 737);
                 return _CS0737;
             }
         }
@@ -5823,7 +5824,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0738 == null)
-                    _CS0738 = new CompilerReferenceError(@"'type name' does not implement interface member 'member name'. 'method name' cannot implement 'interface member' because it does not have the matching return type of ' type name'.", 738);
+                    _CS0738 = new CompilerReferenceError(Resources.CSharpErrors_CS0738, 738);
                 return _CS0738;
             }
         }
@@ -5833,7 +5834,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0739 == null)
-                    _CS0739 = new CompilerReferenceError(@"'type name' duplicate TypeForwardedToAttribute.", 739);
+                    _CS0739 = new CompilerReferenceError(Resources.CSharpErrors_CS0739, 739);
                 return _CS0739;
             }
         }
@@ -5843,7 +5844,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0742 == null)
-                    _CS0742 = new CompilerReferenceError(@"A query body must end with a select clause or a group clause", 742);
+                    _CS0742 = new CompilerReferenceError(Resources.CSharpErrors_CS0742, 742);
                 return _CS0742;
             }
         }
@@ -5853,7 +5854,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0743 == null)
-                    _CS0743 = new CompilerReferenceError(@"Expected contextual keyword 'on'", 743);
+                    _CS0743 = new CompilerReferenceError(Resources.CSharpErrors_CS0743, 743);
                 return _CS0743;
             }
         }
@@ -5863,7 +5864,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0744 == null)
-                    _CS0744 = new CompilerReferenceError(@"Expected contextual keyword 'equals'", 744);
+                    _CS0744 = new CompilerReferenceError(Resources.CSharpErrors_CS0744, 744);
                 return _CS0744;
             }
         }
@@ -5873,7 +5874,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0745 == null)
-                    _CS0745 = new CompilerReferenceError(@"Expected contextual keyword 'by'", 745);
+                    _CS0745 = new CompilerReferenceError(Resources.CSharpErrors_CS0745, 745);
                 return _CS0745;
             }
         }
@@ -5883,7 +5884,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0746 == null)
-                    _CS0746 = new CompilerReferenceError(@"Invalid anonymous type member declarator. Anonymous type members must be declared with a member assignment, simple name or member access.", 746);
+                    _CS0746 = new CompilerReferenceError(Resources.CSharpErrors_CS0746, 746);
                 return _CS0746;
             }
         }
@@ -5893,7 +5894,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0747 == null)
-                    _CS0747 = new CompilerReferenceError(@"Invalid initializer member declarator.", 747);
+                    _CS0747 = new CompilerReferenceError(Resources.CSharpErrors_CS0747, 747);
                 return _CS0747;
             }
         }
@@ -5903,7 +5904,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0748 == null)
-                    _CS0748 = new CompilerReferenceError(@"Inconsistent lambda parameter usage; all parameter types must either be explicit or implicit.", 748);
+                    _CS0748 = new CompilerReferenceError(Resources.CSharpErrors_CS0748, 748);
                 return _CS0748;
             }
         }
@@ -5913,7 +5914,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0750 == null)
-                    _CS0750 = new CompilerReferenceError(@"A partial method cannot have access modifiers or the virtual, abstract, override, new, sealed, or extern modifiers.", 750);
+                    _CS0750 = new CompilerReferenceError(Resources.CSharpErrors_CS0750, 750);
                 return _CS0750;
             }
         }
@@ -5923,7 +5924,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0751 == null)
-                    _CS0751 = new CompilerReferenceError(@"A partial method must be declared in a partial class or partial struct", 751);
+                    _CS0751 = new CompilerReferenceError(Resources.CSharpErrors_CS0751, 751);
                 return _CS0751;
             }
         }
@@ -5933,7 +5934,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0752 == null)
-                    _CS0752 = new CompilerReferenceError(@"A partial method cannot have out parameters", 752);
+                    _CS0752 = new CompilerReferenceError(Resources.CSharpErrors_CS0752, 752);
                 return _CS0752;
             }
         }
@@ -5943,7 +5944,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0753 == null)
-                    _CS0753 = new CompilerReferenceError(@"Only methods, classes, structs, or interfaces may be partial.", 753);
+                    _CS0753 = new CompilerReferenceError(Resources.CSharpErrors_CS0753, 753);
                 return _CS0753;
             }
         }
@@ -5953,7 +5954,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0754 == null)
-                    _CS0754 = new CompilerReferenceError(@"A partial method may not explicitly implement an interface method.", 754);
+                    _CS0754 = new CompilerReferenceError(Resources.CSharpErrors_CS0754, 754);
                 return _CS0754;
             }
         }
@@ -5963,7 +5964,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0755 == null)
-                    _CS0755 = new CompilerReferenceError(@"Both partial method declarations must be extension methods or neither may be an extension method.", 755);
+                    _CS0755 = new CompilerReferenceError(Resources.CSharpErrors_CS0755, 755);
                 return _CS0755;
             }
         }
@@ -5973,7 +5974,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0756 == null)
-                    _CS0756 = new CompilerReferenceError(@"A partial method may not have multiple defining declarations.", 756);
+                    _CS0756 = new CompilerReferenceError(Resources.CSharpErrors_CS0756, 756);
                 return _CS0756;
             }
         }
@@ -5983,7 +5984,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0757 == null)
-                    _CS0757 = new CompilerReferenceError(@"A partial method may not have multiple implementing declarations.", 757);
+                    _CS0757 = new CompilerReferenceError(Resources.CSharpErrors_CS0757, 757);
                 return _CS0757;
             }
         }
@@ -5993,7 +5994,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0758 == null)
-                    _CS0758 = new CompilerReferenceError(@"Both partial method declarations must use a params parameter or neither may use a params parameter", 758);
+                    _CS0758 = new CompilerReferenceError(Resources.CSharpErrors_CS0758, 758);
                 return _CS0758;
             }
         }
@@ -6003,7 +6004,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0759 == null)
-                    _CS0759 = new CompilerReferenceError(@"No defining declaration found for implementing declaration of partial method 'method'.", 759);
+                    _CS0759 = new CompilerReferenceError(Resources.CSharpErrors_CS0759, 759);
                 return _CS0759;
             }
         }
@@ -6013,7 +6014,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0761 == null)
-                    _CS0761 = new CompilerReferenceError(@"Partial method declarations of 'method<T>' have inconsistent type parameter constraints.", 761);
+                    _CS0761 = new CompilerReferenceError(Resources.CSharpErrors_CS0761, 761);
                 return _CS0761;
             }
         }
@@ -6023,7 +6024,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0762 == null)
-                    _CS0762 = new CompilerReferenceError(@"Cannot create delegate from method 'method' because it is a partial method without an implementing declaration", 762);
+                    _CS0762 = new CompilerReferenceError(Resources.CSharpErrors_CS0762, 762);
                 return _CS0762;
             }
         }
@@ -6033,7 +6034,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0763 == null)
-                    _CS0763 = new CompilerReferenceError(@"Both partial method declarations must be static or neither may be static.", 763);
+                    _CS0763 = new CompilerReferenceError(Resources.CSharpErrors_CS0763, 763);
                 return _CS0763;
             }
         }
@@ -6043,7 +6044,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0764 == null)
-                    _CS0764 = new CompilerReferenceError(@"Both partial method declarations must be unsafe or neither may be unsafe", 764);
+                    _CS0764 = new CompilerReferenceError(Resources.CSharpErrors_CS0764, 764);
                 return _CS0764;
             }
         }
@@ -6053,7 +6054,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0765 == null)
-                    _CS0765 = new CompilerReferenceError(@"Partial methods with only a defining declaration or removed conditional methods cannot be used in expression trees", 765);
+                    _CS0765 = new CompilerReferenceError(Resources.CSharpErrors_CS0765, 765);
                 return _CS0765;
             }
         }
@@ -6063,7 +6064,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0766 == null)
-                    _CS0766 = new CompilerReferenceError(@"Partial methods must have a void return type.", 766);
+                    _CS0766 = new CompilerReferenceError(Resources.CSharpErrors_CS0766, 766);
                 return _CS0766;
             }
         }
@@ -6073,7 +6074,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0811 == null)
-                    _CS0811 = new CompilerReferenceError(@"The fully qualified name for 'name' is too long for debug information. Compile without '/debug' option.", 811);
+                    _CS0811 = new CompilerReferenceError(Resources.CSharpErrors_CS0811, 811);
                 return _CS0811;
             }
         }
@@ -6083,7 +6084,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0815 == null)
-                    _CS0815 = new CompilerReferenceError(@"Cannot assign 'expression' to an implicitly typed local", 815);
+                    _CS0815 = new CompilerReferenceError(Resources.CSharpErrors_CS0815, 815);
                 return _CS0815;
             }
         }
@@ -6093,7 +6094,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0818 == null)
-                    _CS0818 = new CompilerReferenceError(@"Implicitly typed locals must be initialized", 818);
+                    _CS0818 = new CompilerReferenceError(Resources.CSharpErrors_CS0818, 818);
                 return _CS0818;
             }
         }
@@ -6103,7 +6104,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0819 == null)
-                    _CS0819 = new CompilerReferenceError(@"Implicitly typed locals cannot have multiple declarators.", 819);
+                    _CS0819 = new CompilerReferenceError(Resources.CSharpErrors_CS0819, 819);
                 return _CS0819;
             }
         }
@@ -6113,7 +6114,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0820 == null)
-                    _CS0820 = new CompilerReferenceError(@"Cannot assign array initializer to an implicitly typed local", 820);
+                    _CS0820 = new CompilerReferenceError(Resources.CSharpErrors_CS0820, 820);
                 return _CS0820;
             }
         }
@@ -6123,7 +6124,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0821 == null)
-                    _CS0821 = new CompilerReferenceError(@"Implicitly typed locals cannot be fixed", 821);
+                    _CS0821 = new CompilerReferenceError(Resources.CSharpErrors_CS0821, 821);
                 return _CS0821;
             }
         }
@@ -6133,7 +6134,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0822 == null)
-                    _CS0822 = new CompilerReferenceError(@"Implicitly typed locals cannot be const", 822);
+                    _CS0822 = new CompilerReferenceError(Resources.CSharpErrors_CS0822, 822);
                 return _CS0822;
             }
         }
@@ -6143,7 +6144,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0825 == null)
-                    _CS0825 = new CompilerReferenceError(@"The contextual keyword 'var' may only appear within a local variable declaration.", 825);
+                    _CS0825 = new CompilerReferenceError(Resources.CSharpErrors_CS0825, 825);
                 return _CS0825;
             }
         }
@@ -6153,7 +6154,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0826 == null)
-                    _CS0826 = new CompilerReferenceError(@"No best type found for implicitly typed array.", 826);
+                    _CS0826 = new CompilerReferenceError(Resources.CSharpErrors_CS0826, 826);
                 return _CS0826;
             }
         }
@@ -6163,7 +6164,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0828 == null)
-                    _CS0828 = new CompilerReferenceError(@"Cannot assign 'expression' to anonymous type property.", 828);
+                    _CS0828 = new CompilerReferenceError(Resources.CSharpErrors_CS0828, 828);
                 return _CS0828;
             }
         }
@@ -6173,7 +6174,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0831 == null)
-                    _CS0831 = new CompilerReferenceError(@"An expression tree may not contain a base access.", 831);
+                    _CS0831 = new CompilerReferenceError(Resources.CSharpErrors_CS0831, 831);
                 return _CS0831;
             }
         }
@@ -6183,7 +6184,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0832 == null)
-                    _CS0832 = new CompilerReferenceError(@"An expression tree may not contain an assignment operator.", 832);
+                    _CS0832 = new CompilerReferenceError(Resources.CSharpErrors_CS0832, 832);
                 return _CS0832;
             }
         }
@@ -6193,7 +6194,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0833 == null)
-                    _CS0833 = new CompilerReferenceError(@"An anonymous type cannot have multiple properties with the same name.", 833);
+                    _CS0833 = new CompilerReferenceError(Resources.CSharpErrors_CS0833, 833);
                 return _CS0833;
             }
         }
@@ -6203,7 +6204,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0834 == null)
-                    _CS0834 = new CompilerReferenceError(@"A lambda expression must have an expression body to be converted to an expression tree.", 834);
+                    _CS0834 = new CompilerReferenceError(Resources.CSharpErrors_CS0834, 834);
                 return _CS0834;
             }
         }
@@ -6213,7 +6214,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0835 == null)
-                    _CS0835 = new CompilerReferenceError(@"Cannot convert lambda to an expression tree whose type argument 'type' is not a delegate type.", 835);
+                    _CS0835 = new CompilerReferenceError(Resources.CSharpErrors_CS0835, 835);
                 return _CS0835;
             }
         }
@@ -6223,7 +6224,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0836 == null)
-                    _CS0836 = new CompilerReferenceError(@"Cannot use anonymous type in a constant expression.", 836);
+                    _CS0836 = new CompilerReferenceError(Resources.CSharpErrors_CS0836, 836);
                 return _CS0836;
             }
         }
@@ -6233,7 +6234,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0837 == null)
-                    _CS0837 = new CompilerReferenceError(@"The first operand of an ""is"" or ""as"" operator may not be a lambda expression or anonymous method.", 837);
+                    _CS0837 = new CompilerReferenceError(Resources.CSharpErrors_CS0837, 837);
                 return _CS0837;
             }
         }
@@ -6243,7 +6244,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0838 == null)
-                    _CS0838 = new CompilerReferenceError(@"An expression tree may not contain a multidimensional array initializer.", 838);
+                    _CS0838 = new CompilerReferenceError(Resources.CSharpErrors_CS0838, 838);
                 return _CS0838;
             }
         }
@@ -6253,7 +6254,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0839 == null)
-                    _CS0839 = new CompilerReferenceError(@"Argument missing.", 839);
+                    _CS0839 = new CompilerReferenceError(Resources.CSharpErrors_CS0839, 839);
                 return _CS0839;
             }
         }
@@ -6263,7 +6264,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0840 == null)
-                    _CS0840 = new CompilerReferenceError(@"'Property name' must declare a body because it is not marked abstract or extern. Automatically implemented properties must define both get and set accessors.", 840);
+                    _CS0840 = new CompilerReferenceError(Resources.CSharpErrors_CS0840, 840);
                 return _CS0840;
             }
         }
@@ -6273,7 +6274,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0841 == null)
-                    _CS0841 = new CompilerReferenceError(@"Cannot use variable 'name' before it is declared.", 841);
+                    _CS0841 = new CompilerReferenceError(Resources.CSharpErrors_CS0841, 841);
                 return _CS0841;
             }
         }
@@ -6283,7 +6284,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0842 == null)
-                    _CS0842 = new CompilerReferenceError(@"Automatically implemented properties cannot be used inside a type marked with StructLayout(LayoutKind.Explicit).", 842);
+                    _CS0842 = new CompilerReferenceError(Resources.CSharpErrors_CS0842, 842);
                 return _CS0842;
             }
         }
@@ -6293,7 +6294,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0843 == null)
-                    _CS0843 = new CompilerReferenceError(@"Backing field for automatically implemented property 'name' must be fully assigned before control is returned to the caller. Consider calling the default constructor from a constructor initializer.", 843);
+                    _CS0843 = new CompilerReferenceError(Resources.CSharpErrors_CS0843, 843);
                 return _CS0843;
             }
         }
@@ -6303,7 +6304,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0844 == null)
-                    _CS0844 = new CompilerReferenceError(@"Cannot use local variable 'name' before it is declared. The declaration of the local variable hides the field 'name'.", 844);
+                    _CS0844 = new CompilerReferenceError(Resources.CSharpErrors_CS0844, 844);
                 return _CS0844;
             }
         }
@@ -6313,7 +6314,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS0845 == null)
-                    _CS0845 = new CompilerReferenceError(@"An expression tree lambda may not contain a coalescing operator with a null literal left-hand side.", 845);
+                    _CS0845 = new CompilerReferenceError(Resources.CSharpErrors_CS0845, 845);
                 return _CS0845;
             }
         }
@@ -6323,7 +6324,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1001 == null)
-                    _CS1001 = new CompilerReferenceError(@"Identifier expected", 1001);
+                    _CS1001 = new CompilerReferenceError(Resources.CSharpErrors_CS1001, 1001);
                 return _CS1001;
             }
         }
@@ -6333,7 +6334,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1002 == null)
-                    _CS1002 = new CompilerReferenceError(@"; expected", 1002);
+                    _CS1002 = new CompilerReferenceError(Resources.CSharpErrors_CS1002, 1002);
                 return _CS1002;
             }
         }
@@ -6343,7 +6344,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1003 == null)
-                    _CS1003 = new CompilerReferenceError(@"Syntax error, 'char' expected", 1003);
+                    _CS1003 = new CompilerReferenceError(Resources.CSharpErrors_CS1003, 1003);
                 return _CS1003;
             }
         }
@@ -6353,7 +6354,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1004 == null)
-                    _CS1004 = new CompilerReferenceError(@"Duplicate 'modifier' modifier", 1004);
+                    _CS1004 = new CompilerReferenceError(Resources.CSharpErrors_CS1004, 1004);
                 return _CS1004;
             }
         }
@@ -6363,7 +6364,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1007 == null)
-                    _CS1007 = new CompilerReferenceError(@"Property accessor already defined", 1007);
+                    _CS1007 = new CompilerReferenceError(Resources.CSharpErrors_CS1007, 1007);
                 return _CS1007;
             }
         }
@@ -6373,7 +6374,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1008 == null)
-                    _CS1008 = new CompilerReferenceError(@"Type byte, sbyte, short, ushort, int, uint, long, or ulong expected", 1008);
+                    _CS1008 = new CompilerReferenceError(Resources.CSharpErrors_CS1008, 1008);
                 return _CS1008;
             }
         }
@@ -6383,7 +6384,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1009 == null)
-                    _CS1009 = new CompilerReferenceError(@"Unrecognized escape sequence", 1009);
+                    _CS1009 = new CompilerReferenceError(Resources.CSharpErrors_CS1009, 1009);
                 return _CS1009;
             }
         }
@@ -6393,7 +6394,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1010 == null)
-                    _CS1010 = new CompilerReferenceError(@"Newline in constant", 1010);
+                    _CS1010 = new CompilerReferenceError(Resources.CSharpErrors_CS1010, 1010);
                 return _CS1010;
             }
         }
@@ -6403,7 +6404,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1011 == null)
-                    _CS1011 = new CompilerReferenceError(@"Empty character literal", 1011);
+                    _CS1011 = new CompilerReferenceError(Resources.CSharpErrors_CS1011, 1011);
                 return _CS1011;
             }
         }
@@ -6413,7 +6414,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1012 == null)
-                    _CS1012 = new CompilerReferenceError(@"Too many characters in character literal", 1012);
+                    _CS1012 = new CompilerReferenceError(Resources.CSharpErrors_CS1012, 1012);
                 return _CS1012;
             }
         }
@@ -6423,7 +6424,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1013 == null)
-                    _CS1013 = new CompilerReferenceError(@"Invalid number", 1013);
+                    _CS1013 = new CompilerReferenceError(Resources.CSharpErrors_CS1013, 1013);
                 return _CS1013;
             }
         }
@@ -6433,7 +6434,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1014 == null)
-                    _CS1014 = new CompilerReferenceError(@"A get or set accessor expected", 1014);
+                    _CS1014 = new CompilerReferenceError(Resources.CSharpErrors_CS1014, 1014);
                 return _CS1014;
             }
         }
@@ -6443,7 +6444,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1015 == null)
-                    _CS1015 = new CompilerReferenceError(@"An object, string, or class type expected", 1015);
+                    _CS1015 = new CompilerReferenceError(Resources.CSharpErrors_CS1015, 1015);
                 return _CS1015;
             }
         }
@@ -6453,7 +6454,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1016 == null)
-                    _CS1016 = new CompilerReferenceError(@"Named attribute argument expected", 1016);
+                    _CS1016 = new CompilerReferenceError(Resources.CSharpErrors_CS1016, 1016);
                 return _CS1016;
             }
         }
@@ -6463,7 +6464,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1017 == null)
-                    _CS1017 = new CompilerReferenceError(@"Catch clauses cannot follow the general catch clause of a try statement", 1017);
+                    _CS1017 = new CompilerReferenceError(Resources.CSharpErrors_CS1017, 1017);
                 return _CS1017;
             }
         }
@@ -6473,7 +6474,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1018 == null)
-                    _CS1018 = new CompilerReferenceError(@"Keyword 'this' or 'base' expected", 1018);
+                    _CS1018 = new CompilerReferenceError(Resources.CSharpErrors_CS1018, 1018);
                 return _CS1018;
             }
         }
@@ -6483,7 +6484,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1019 == null)
-                    _CS1019 = new CompilerReferenceError(@"Overloadable unary operator expected", 1019);
+                    _CS1019 = new CompilerReferenceError(Resources.CSharpErrors_CS1019, 1019);
                 return _CS1019;
             }
         }
@@ -6493,7 +6494,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1020 == null)
-                    _CS1020 = new CompilerReferenceError(@"Overloadable binary operator expected", 1020);
+                    _CS1020 = new CompilerReferenceError(Resources.CSharpErrors_CS1020, 1020);
                 return _CS1020;
             }
         }
@@ -6503,7 +6504,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1021 == null)
-                    _CS1021 = new CompilerReferenceError(@"Integral constant is too large", 1021);
+                    _CS1021 = new CompilerReferenceError(Resources.CSharpErrors_CS1021, 1021);
                 return _CS1021;
             }
         }
@@ -6513,7 +6514,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1022 == null)
-                    _CS1022 = new CompilerReferenceError(@"Type or namespace definition, or end-of-file expected", 1022);
+                    _CS1022 = new CompilerReferenceError(Resources.CSharpErrors_CS1022, 1022);
                 return _CS1022;
             }
         }
@@ -6523,7 +6524,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1023 == null)
-                    _CS1023 = new CompilerReferenceError(@"Embedded statement cannot be a declaration or labeled statement", 1023);
+                    _CS1023 = new CompilerReferenceError(Resources.CSharpErrors_CS1023, 1023);
                 return _CS1023;
             }
         }
@@ -6533,7 +6534,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1024 == null)
-                    _CS1024 = new CompilerReferenceError(@"Preprocessor directive expected", 1024);
+                    _CS1024 = new CompilerReferenceError(Resources.CSharpErrors_CS1024, 1024);
                 return _CS1024;
             }
         }
@@ -6543,7 +6544,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1025 == null)
-                    _CS1025 = new CompilerReferenceError(@"Single-line comment or end-of-line expected", 1025);
+                    _CS1025 = new CompilerReferenceError(Resources.CSharpErrors_CS1025, 1025);
                 return _CS1025;
             }
         }
@@ -6553,7 +6554,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1026 == null)
-                    _CS1026 = new CompilerReferenceError(@") expected", 1026);
+                    _CS1026 = new CompilerReferenceError(Resources.CSharpErrors_CS1026, 1026);
                 return _CS1026;
             }
         }
@@ -6563,7 +6564,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1027 == null)
-                    _CS1027 = new CompilerReferenceError(@"#endif directive expected", 1027);
+                    _CS1027 = new CompilerReferenceError(Resources.CSharpErrors_CS1027, 1027);
                 return _CS1027;
             }
         }
@@ -6573,7 +6574,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1028 == null)
-                    _CS1028 = new CompilerReferenceError(@"Unexpected preprocessor directive", 1028);
+                    _CS1028 = new CompilerReferenceError(Resources.CSharpErrors_CS1028, 1028);
                 return _CS1028;
             }
         }
@@ -6583,7 +6584,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1029 == null)
-                    _CS1029 = new CompilerReferenceError(@"#error: 'text'", 1029);
+                    _CS1029 = new CompilerReferenceError(Resources.CSharpErrors_CS1029, 1029);
                 return _CS1029;
             }
         }
@@ -6593,7 +6594,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1031 == null)
-                    _CS1031 = new CompilerReferenceError(@"Type expected", 1031);
+                    _CS1031 = new CompilerReferenceError(Resources.CSharpErrors_CS1031, 1031);
                 return _CS1031;
             }
         }
@@ -6603,7 +6604,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1032 == null)
-                    _CS1032 = new CompilerReferenceError(@"Cannot define/undefine preprocessor symbols after first token in file", 1032);
+                    _CS1032 = new CompilerReferenceError(Resources.CSharpErrors_CS1032, 1032);
                 return _CS1032;
             }
         }
@@ -6613,7 +6614,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1033 == null)
-                    _CS1033 = new CompilerReferenceError(@"Source file has exceeded the limit of 16,707,565 lines representable in the PDB; debug information will be incorrect", 1033);
+                    _CS1033 = new CompilerReferenceError(Resources.CSharpErrors_CS1033, 1033);
                 return _CS1033;
             }
         }
@@ -6623,7 +6624,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1034 == null)
-                    _CS1034 = new CompilerReferenceError(@"Compiler limit exceeded: Line cannot exceed 'number' characters", 1034);
+                    _CS1034 = new CompilerReferenceError(Resources.CSharpErrors_CS1034, 1034);
                 return _CS1034;
             }
         }
@@ -6633,7 +6634,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1035 == null)
-                    _CS1035 = new CompilerReferenceError(@"End-of-file found, '*/' expected", 1035);
+                    _CS1035 = new CompilerReferenceError(Resources.CSharpErrors_CS1035, 1035);
                 return _CS1035;
             }
         }
@@ -6643,7 +6644,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1036 == null)
-                    _CS1036 = new CompilerReferenceError(@"( or . expected", 1036);
+                    _CS1036 = new CompilerReferenceError(Resources.CSharpErrors_CS1036, 1036);
                 return _CS1036;
             }
         }
@@ -6653,7 +6654,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1037 == null)
-                    _CS1037 = new CompilerReferenceError(@"Overloadable operator expected", 1037);
+                    _CS1037 = new CompilerReferenceError(Resources.CSharpErrors_CS1037, 1037);
                 return _CS1037;
             }
         }
@@ -6663,7 +6664,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1038 == null)
-                    _CS1038 = new CompilerReferenceError(@"#endregion directive expected", 1038);
+                    _CS1038 = new CompilerReferenceError(Resources.CSharpErrors_CS1038, 1038);
                 return _CS1038;
             }
         }
@@ -6673,7 +6674,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1039 == null)
-                    _CS1039 = new CompilerReferenceError(@"Unterminated string literal", 1039);
+                    _CS1039 = new CompilerReferenceError(Resources.CSharpErrors_CS1039, 1039);
                 return _CS1039;
             }
         }
@@ -6683,7 +6684,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1040 == null)
-                    _CS1040 = new CompilerReferenceError(@"Preprocessor directives must appear as the first non-whitespace character on a line", 1040);
+                    _CS1040 = new CompilerReferenceError(Resources.CSharpErrors_CS1040, 1040);
                 return _CS1040;
             }
         }
@@ -6693,7 +6694,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1041 == null)
-                    _CS1041 = new CompilerReferenceError(@"Identifier expected, 'keyword' is a keyword", 1041);
+                    _CS1041 = new CompilerReferenceError(Resources.CSharpErrors_CS1041, 1041);
                 return _CS1041;
             }
         }
@@ -6703,7 +6704,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1043 == null)
-                    _CS1043 = new CompilerReferenceError(@"{ or ; expected", 1043);
+                    _CS1043 = new CompilerReferenceError(Resources.CSharpErrors_CS1043, 1043);
                 return _CS1043;
             }
         }
@@ -6713,7 +6714,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1044 == null)
-                    _CS1044 = new CompilerReferenceError(@"Cannot use more than one type in a for, using, fixed, or declaration statement", 1044);
+                    _CS1044 = new CompilerReferenceError(Resources.CSharpErrors_CS1044, 1044);
                 return _CS1044;
             }
         }
@@ -6723,7 +6724,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1055 == null)
-                    _CS1055 = new CompilerReferenceError(@"An add or remove accessor expected", 1055);
+                    _CS1055 = new CompilerReferenceError(Resources.CSharpErrors_CS1055, 1055);
                 return _CS1055;
             }
         }
@@ -6733,7 +6734,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1056 == null)
-                    _CS1056 = new CompilerReferenceError(@"Unexpected character 'character'", 1056);
+                    _CS1056 = new CompilerReferenceError(Resources.CSharpErrors_CS1056, 1056);
                 return _CS1056;
             }
         }
@@ -6743,7 +6744,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1057 == null)
-                    _CS1057 = new CompilerReferenceError(@"'member': static classes cannot contain protected members", 1057);
+                    _CS1057 = new CompilerReferenceError(Resources.CSharpErrors_CS1057, 1057);
                 return _CS1057;
             }
         }
@@ -6753,7 +6754,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1059 == null)
-                    _CS1059 = new CompilerReferenceError(@"The operand of an increment or decrement operator must be a variable, property or indexer.", 1059);
+                    _CS1059 = new CompilerReferenceError(Resources.CSharpErrors_CS1059, 1059);
                 return _CS1059;
             }
         }
@@ -6763,7 +6764,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1061 == null)
-                    _CS1061 = new CompilerReferenceError(@"'type' does not contain a definition for 'member' and no extension method 'name' accepting a first argument of type 'type' could be found (are you missing a using directive or an assembly reference?).", 1061);
+                    _CS1061 = new CompilerReferenceError(Resources.CSharpErrors_CS1061, 1061);
                 return _CS1061;
             }
         }
@@ -6773,7 +6774,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1100 == null)
-                    _CS1100 = new CompilerReferenceError(@"Method 'name' has a parameter modifier 'this' which is not on the first parameter.", 1100);
+                    _CS1100 = new CompilerReferenceError(Resources.CSharpErrors_CS1100, 1100);
                 return _CS1100;
             }
         }
@@ -6783,7 +6784,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1101 == null)
-                    _CS1101 = new CompilerReferenceError(@"The parameter modifier 'ref' cannot be used with 'this'.", 1101);
+                    _CS1101 = new CompilerReferenceError(Resources.CSharpErrors_CS1101, 1101);
                 return _CS1101;
             }
         }
@@ -6793,7 +6794,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1102 == null)
-                    _CS1102 = new CompilerReferenceError(@"The parameter modifier 'out' cannot be used with 'this'.", 1102);
+                    _CS1102 = new CompilerReferenceError(Resources.CSharpErrors_CS1102, 1102);
                 return _CS1102;
             }
         }
@@ -6803,7 +6804,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1103 == null)
-                    _CS1103 = new CompilerReferenceError(@"The first parameter of an extension method cannot be of type 'type'.", 1103);
+                    _CS1103 = new CompilerReferenceError(Resources.CSharpErrors_CS1103, 1103);
                 return _CS1103;
             }
         }
@@ -6813,7 +6814,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1104 == null)
-                    _CS1104 = new CompilerReferenceError(@"A parameter array cannot be used with 'this' modifier on an extension method.", 1104);
+                    _CS1104 = new CompilerReferenceError(Resources.CSharpErrors_CS1104, 1104);
                 return _CS1104;
             }
         }
@@ -6823,7 +6824,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1105 == null)
-                    _CS1105 = new CompilerReferenceError(@"Extension methods must be static.", 1105);
+                    _CS1105 = new CompilerReferenceError(Resources.CSharpErrors_CS1105, 1105);
                 return _CS1105;
             }
         }
@@ -6833,7 +6834,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1106 == null)
-                    _CS1106 = new CompilerReferenceError(@"Extension methods must be defined in a non generic static class.", 1106);
+                    _CS1106 = new CompilerReferenceError(Resources.CSharpErrors_CS1106, 1106);
                 return _CS1106;
             }
         }
@@ -6843,7 +6844,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1107 == null)
-                    _CS1107 = new CompilerReferenceError(@"A parameter can only have one 'modifier name' modifier.", 1107);
+                    _CS1107 = new CompilerReferenceError(Resources.CSharpErrors_CS1107, 1107);
                 return _CS1107;
             }
         }
@@ -6853,7 +6854,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1108 == null)
-                    _CS1108 = new CompilerReferenceError(@"A parameter cannot have all the specified modifiers; there are too many modifiers on the parameter.", 1108);
+                    _CS1108 = new CompilerReferenceError(Resources.CSharpErrors_CS1108, 1108);
                 return _CS1108;
             }
         }
@@ -6863,7 +6864,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1109 == null)
-                    _CS1109 = new CompilerReferenceError(@"Extension Methods must be defined on top level static classes, 'name' is a nested class.", 1109);
+                    _CS1109 = new CompilerReferenceError(Resources.CSharpErrors_CS1109, 1109);
                 return _CS1109;
             }
         }
@@ -6873,7 +6874,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1110 == null)
-                    _CS1110 = new CompilerReferenceError(@"Cannot use 'this' modifier on first parameter of method declaration without a reference to System.Core.dll. Add a reference to System.Core.dll or remove 'this' modifier from the method declaration.", 1110);
+                    _CS1110 = new CompilerReferenceError(Resources.CSharpErrors_CS1110, 1110);
                 return _CS1110;
             }
         }
@@ -6883,7 +6884,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1112 == null)
-                    _CS1112 = new CompilerReferenceError(@"Do not use 'System.Runtime.CompilerServices.ExtensionAttribute'. Use the 'this' keyword instead.", 1112);
+                    _CS1112 = new CompilerReferenceError(Resources.CSharpErrors_CS1112, 1112);
                 return _CS1112;
             }
         }
@@ -6893,7 +6894,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1113 == null)
-                    _CS1113 = new CompilerReferenceError(@"Extension methods 'name' defined on value type 'name' cannot be used to create delegates.", 1113);
+                    _CS1113 = new CompilerReferenceError(Resources.CSharpErrors_CS1113, 1113);
                 return _CS1113;
             }
         }
@@ -6903,7 +6904,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1501 == null)
-                    _CS1501 = new CompilerReferenceError(@"No overload for method 'method' takes 'number' arguments", 1501);
+                    _CS1501 = new CompilerReferenceError(Resources.CSharpErrors_CS1501, 1501);
                 return _CS1501;
             }
         }
@@ -6913,7 +6914,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1502 == null)
-                    _CS1502 = new CompilerReferenceError(@"The best overloaded Add method 'name' for the collection initializer has some invalid arguments", 1502);
+                    _CS1502 = new CompilerReferenceError(Resources.CSharpErrors_CS1502, 1502);
                 return _CS1502;
             }
         }
@@ -6923,7 +6924,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1503 == null)
-                    _CS1503 = new CompilerReferenceError(@"The best overloaded Add method 'name for the collection initializer has some invalid arguments", 1503);
+                    _CS1503 = new CompilerReferenceError(Resources.CSharpErrors_CS1503, 1503);
                 return _CS1503;
             }
         }
@@ -6933,7 +6934,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1504 == null)
-                    _CS1504 = new CompilerReferenceError(@"Source file 'file' could not be opened ('reason')", 1504);
+                    _CS1504 = new CompilerReferenceError(Resources.CSharpErrors_CS1504, 1504);
                 return _CS1504;
             }
         }
@@ -6943,7 +6944,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1507 == null)
-                    _CS1507 = new CompilerReferenceError(@"Cannot link resource file 'file' when building a module", 1507);
+                    _CS1507 = new CompilerReferenceError(Resources.CSharpErrors_CS1507, 1507);
                 return _CS1507;
             }
         }
@@ -6953,7 +6954,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1508 == null)
-                    _CS1508 = new CompilerReferenceError(@"Resource identifier 'identifier' has already been used in this assembly", 1508);
+                    _CS1508 = new CompilerReferenceError(Resources.CSharpErrors_CS1508, 1508);
                 return _CS1508;
             }
         }
@@ -6963,7 +6964,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1509 == null)
-                    _CS1509 = new CompilerReferenceError(@"Referenced file 'file' is not an assembly; use '/addmodule' option instead", 1509);
+                    _CS1509 = new CompilerReferenceError(Resources.CSharpErrors_CS1509, 1509);
                 return _CS1509;
             }
         }
@@ -6973,7 +6974,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1510 == null)
-                    _CS1510 = new CompilerReferenceError(@"A ref or out argument must be an assignable variable", 1510);
+                    _CS1510 = new CompilerReferenceError(Resources.CSharpErrors_CS1510, 1510);
                 return _CS1510;
             }
         }
@@ -6983,7 +6984,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1511 == null)
-                    _CS1511 = new CompilerReferenceError(@"Keyword 'base' is not available in a static method", 1511);
+                    _CS1511 = new CompilerReferenceError(Resources.CSharpErrors_CS1511, 1511);
                 return _CS1511;
             }
         }
@@ -6993,7 +6994,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1512 == null)
-                    _CS1512 = new CompilerReferenceError(@"Keyword 'base' is not available in the current context", 1512);
+                    _CS1512 = new CompilerReferenceError(Resources.CSharpErrors_CS1512, 1512);
                 return _CS1512;
             }
         }
@@ -7003,7 +7004,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1513 == null)
-                    _CS1513 = new CompilerReferenceError(@"} expected", 1513);
+                    _CS1513 = new CompilerReferenceError(Resources.CSharpErrors_CS1513, 1513);
                 return _CS1513;
             }
         }
@@ -7013,7 +7014,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1514 == null)
-                    _CS1514 = new CompilerReferenceError(@"{ expected", 1514);
+                    _CS1514 = new CompilerReferenceError(Resources.CSharpErrors_CS1514, 1514);
                 return _CS1514;
             }
         }
@@ -7023,7 +7024,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1515 == null)
-                    _CS1515 = new CompilerReferenceError(@"'in' expected", 1515);
+                    _CS1515 = new CompilerReferenceError(Resources.CSharpErrors_CS1515, 1515);
                 return _CS1515;
             }
         }
@@ -7033,7 +7034,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1517 == null)
-                    _CS1517 = new CompilerReferenceError(@"Invalid preprocessor expression", 1517);
+                    _CS1517 = new CompilerReferenceError(Resources.CSharpErrors_CS1517, 1517);
                 return _CS1517;
             }
         }
@@ -7043,7 +7044,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1518 == null)
-                    _CS1518 = new CompilerReferenceError(@"Expected class, delegate, enum, interface, or struct", 1518);
+                    _CS1518 = new CompilerReferenceError(Resources.CSharpErrors_CS1518, 1518);
                 return _CS1518;
             }
         }
@@ -7053,7 +7054,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1519 == null)
-                    _CS1519 = new CompilerReferenceError(@"Invalid token 'token' in class, struct, or interface member declaration", 1519);
+                    _CS1519 = new CompilerReferenceError(Resources.CSharpErrors_CS1519, 1519);
                 return _CS1519;
             }
         }
@@ -7063,7 +7064,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1520 == null)
-                    _CS1520 = new CompilerReferenceError(@"Method must have a return type", 1520);
+                    _CS1520 = new CompilerReferenceError(Resources.CSharpErrors_CS1520, 1520);
                 return _CS1520;
             }
         }
@@ -7073,7 +7074,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1521 == null)
-                    _CS1521 = new CompilerReferenceError(@"Invalid base type", 1521);
+                    _CS1521 = new CompilerReferenceError(Resources.CSharpErrors_CS1521, 1521);
                 return _CS1521;
             }
         }
@@ -7083,7 +7084,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1524 == null)
-                    _CS1524 = new CompilerReferenceError(@"Expected catch or finally", 1524);
+                    _CS1524 = new CompilerReferenceError(Resources.CSharpErrors_CS1524, 1524);
                 return _CS1524;
             }
         }
@@ -7093,7 +7094,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1525 == null)
-                    _CS1525 = new CompilerReferenceError(@"Invalid expression term 'character'", 1525);
+                    _CS1525 = new CompilerReferenceError(Resources.CSharpErrors_CS1525, 1525);
                 return _CS1525;
             }
         }
@@ -7103,7 +7104,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1526 == null)
-                    _CS1526 = new CompilerReferenceError(@"A new expression requires (), [], or {} after type", 1526);
+                    _CS1526 = new CompilerReferenceError(Resources.CSharpErrors_CS1526, 1526);
                 return _CS1526;
             }
         }
@@ -7113,7 +7114,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1527 == null)
-                    _CS1527 = new CompilerReferenceError(@"Elements defined in a namespace cannot be explicitly declared as private, protected, or protected internal", 1527);
+                    _CS1527 = new CompilerReferenceError(Resources.CSharpErrors_CS1527, 1527);
                 return _CS1527;
             }
         }
@@ -7123,7 +7124,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1528 == null)
-                    _CS1528 = new CompilerReferenceError(@"Expected ; or = (cannot specify constructor arguments in declaration)", 1528);
+                    _CS1528 = new CompilerReferenceError(Resources.CSharpErrors_CS1528, 1528);
                 return _CS1528;
             }
         }
@@ -7133,7 +7134,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1529 == null)
-                    _CS1529 = new CompilerReferenceError(@"A using clause must precede all other elements defined in the namespace except extern alias declarations", 1529);
+                    _CS1529 = new CompilerReferenceError(Resources.CSharpErrors_CS1529, 1529);
                 return _CS1529;
             }
         }
@@ -7143,7 +7144,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1530 == null)
-                    _CS1530 = new CompilerReferenceError(@"Keyword 'new' is not allowed on elements defined in a namespace", 1530);
+                    _CS1530 = new CompilerReferenceError(Resources.CSharpErrors_CS1530, 1530);
                 return _CS1530;
             }
         }
@@ -7153,7 +7154,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1534 == null)
-                    _CS1534 = new CompilerReferenceError(@"Overloaded binary operator 'operator' takes two parameters", 1534);
+                    _CS1534 = new CompilerReferenceError(Resources.CSharpErrors_CS1534, 1534);
                 return _CS1534;
             }
         }
@@ -7163,7 +7164,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1535 == null)
-                    _CS1535 = new CompilerReferenceError(@"Overloaded unary operator 'operator' takes one parameter", 1535);
+                    _CS1535 = new CompilerReferenceError(Resources.CSharpErrors_CS1535, 1535);
                 return _CS1535;
             }
         }
@@ -7173,7 +7174,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1536 == null)
-                    _CS1536 = new CompilerReferenceError(@"Invalid parameter type void", 1536);
+                    _CS1536 = new CompilerReferenceError(Resources.CSharpErrors_CS1536, 1536);
                 return _CS1536;
             }
         }
@@ -7183,7 +7184,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1537 == null)
-                    _CS1537 = new CompilerReferenceError(@"The using alias 'alias' appeared previously in this namespace", 1537);
+                    _CS1537 = new CompilerReferenceError(Resources.CSharpErrors_CS1537, 1537);
                 return _CS1537;
             }
         }
@@ -7193,7 +7194,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1540 == null)
-                    _CS1540 = new CompilerReferenceError(@"Cannot access protected member 'member' via a qualifier of type 'type1'; the qualifier must be of type 'type2' (or derived from it)", 1540);
+                    _CS1540 = new CompilerReferenceError(Resources.CSharpErrors_CS1540, 1540);
                 return _CS1540;
             }
         }
@@ -7203,7 +7204,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1541 == null)
-                    _CS1541 = new CompilerReferenceError(@"Invalid reference option: 'symbol' — cannot reference directories", 1541);
+                    _CS1541 = new CompilerReferenceError(Resources.CSharpErrors_CS1541, 1541);
                 return _CS1541;
             }
         }
@@ -7213,7 +7214,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1542 == null)
-                    _CS1542 = new CompilerReferenceError(@"'dll' cannot be added to this assembly because it already is an assembly; use '/R' option instead", 1542);
+                    _CS1542 = new CompilerReferenceError(Resources.CSharpErrors_CS1542, 1542);
                 return _CS1542;
             }
         }
@@ -7223,7 +7224,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1545 == null)
-                    _CS1545 = new CompilerReferenceError(@"Property, indexer, or event 'property' is not supported by the language; try directly calling accessor methods 'set accessor' or 'get accessor'", 1545);
+                    _CS1545 = new CompilerReferenceError(Resources.CSharpErrors_CS1545, 1545);
                 return _CS1545;
             }
         }
@@ -7233,7 +7234,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1546 == null)
-                    _CS1546 = new CompilerReferenceError(@"Property, indexer, or event 'property' is not supported by the language; try directly calling accessor method 'accessor'", 1546);
+                    _CS1546 = new CompilerReferenceError(Resources.CSharpErrors_CS1546, 1546);
                 return _CS1546;
             }
         }
@@ -7243,7 +7244,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1547 == null)
-                    _CS1547 = new CompilerReferenceError(@"Keyword 'void' cannot be used in this context", 1547);
+                    _CS1547 = new CompilerReferenceError(Resources.CSharpErrors_CS1547, 1547);
                 return _CS1547;
             }
         }
@@ -7253,7 +7254,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1548 == null)
-                    _CS1548 = new CompilerReferenceError(@"Cryptographic failure while signing assembly 'assembly' — 'reason'", 1548);
+                    _CS1548 = new CompilerReferenceError(Resources.CSharpErrors_CS1548, 1548);
                 return _CS1548;
             }
         }
@@ -7263,7 +7264,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1549 == null)
-                    _CS1549 = new CompilerReferenceError(@"Appropriate cryptographic service not found", 1549);
+                    _CS1549 = new CompilerReferenceError(Resources.CSharpErrors_CS1549, 1549);
                 return _CS1549;
             }
         }
@@ -7273,7 +7274,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1551 == null)
-                    _CS1551 = new CompilerReferenceError(@"Indexers must have at least one parameter", 1551);
+                    _CS1551 = new CompilerReferenceError(Resources.CSharpErrors_CS1551, 1551);
                 return _CS1551;
             }
         }
@@ -7283,7 +7284,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1552 == null)
-                    _CS1552 = new CompilerReferenceError(@"Array type specifier, [], must appear before parameter name", 1552);
+                    _CS1552 = new CompilerReferenceError(Resources.CSharpErrors_CS1552, 1552);
                 return _CS1552;
             }
         }
@@ -7293,7 +7294,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1553 == null)
-                    _CS1553 = new CompilerReferenceError(@"Declaration is not valid; use 'modifier operator <dest-type> (...' instead", 1553);
+                    _CS1553 = new CompilerReferenceError(Resources.CSharpErrors_CS1553, 1553);
                 return _CS1553;
             }
         }
@@ -7303,7 +7304,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1554 == null)
-                    _CS1554 = new CompilerReferenceError(@"Declaration is not valid; use '<type> operator op (...' instead", 1554);
+                    _CS1554 = new CompilerReferenceError(Resources.CSharpErrors_CS1554, 1554);
                 return _CS1554;
             }
         }
@@ -7313,7 +7314,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1555 == null)
-                    _CS1555 = new CompilerReferenceError(@"Could not find 'class' specified for Main method", 1555);
+                    _CS1555 = new CompilerReferenceError(Resources.CSharpErrors_CS1555, 1555);
                 return _CS1555;
             }
         }
@@ -7323,7 +7324,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1556 == null)
-                    _CS1556 = new CompilerReferenceError(@"'construct' specified for Main method must be a valid class or struct", 1556);
+                    _CS1556 = new CompilerReferenceError(Resources.CSharpErrors_CS1556, 1556);
                 return _CS1556;
             }
         }
@@ -7333,7 +7334,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1557 == null)
-                    _CS1557 = new CompilerReferenceError(@"Cannot use 'class' for Main method because it is in a different output file", 1557);
+                    _CS1557 = new CompilerReferenceError(Resources.CSharpErrors_CS1557, 1557);
                 return _CS1557;
             }
         }
@@ -7343,7 +7344,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1558 == null)
-                    _CS1558 = new CompilerReferenceError(@"'class' does not have a suitable static Main method", 1558);
+                    _CS1558 = new CompilerReferenceError(Resources.CSharpErrors_CS1558, 1558);
                 return _CS1558;
             }
         }
@@ -7353,7 +7354,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1559 == null)
-                    _CS1559 = new CompilerReferenceError(@"Cannot use 'object' for Main method because it is imported", 1559);
+                    _CS1559 = new CompilerReferenceError(Resources.CSharpErrors_CS1559, 1559);
                 return _CS1559;
             }
         }
@@ -7363,7 +7364,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1560 == null)
-                    _CS1560 = new CompilerReferenceError(@"Invalid filename specified for preprocessor directive. Filename is too long or not a valid filename", 1560);
+                    _CS1560 = new CompilerReferenceError(Resources.CSharpErrors_CS1560, 1560);
                 return _CS1560;
             }
         }
@@ -7373,7 +7374,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1561 == null)
-                    _CS1561 = new CompilerReferenceError(@"Output filename is too long or invalid", 1561);
+                    _CS1561 = new CompilerReferenceError(Resources.CSharpErrors_CS1561, 1561);
                 return _CS1561;
             }
         }
@@ -7383,7 +7384,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1562 == null)
-                    _CS1562 = new CompilerReferenceError(@"Outputs without source must have the /out option specified", 1562);
+                    _CS1562 = new CompilerReferenceError(Resources.CSharpErrors_CS1562, 1562);
                 return _CS1562;
             }
         }
@@ -7393,7 +7394,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1563 == null)
-                    _CS1563 = new CompilerReferenceError(@"Output 'output file' does not have any source files", 1563);
+                    _CS1563 = new CompilerReferenceError(Resources.CSharpErrors_CS1563, 1563);
                 return _CS1563;
             }
         }
@@ -7403,7 +7404,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1564 == null)
-                    _CS1564 = new CompilerReferenceError(@"Conflicting options specified: Win32 resource file; Win32 manifest.", 1564);
+                    _CS1564 = new CompilerReferenceError(Resources.CSharpErrors_CS1564, 1564);
                 return _CS1564;
             }
         }
@@ -7413,7 +7414,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1565 == null)
-                    _CS1565 = new CompilerReferenceError(@"Conflicting options specified: Win32 resource file; Win32 icon", 1565);
+                    _CS1565 = new CompilerReferenceError(Resources.CSharpErrors_CS1565, 1565);
                 return _CS1565;
             }
         }
@@ -7423,7 +7424,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1566 == null)
-                    _CS1566 = new CompilerReferenceError(@"Error reading resource file 'file' — 'reason'", 1566);
+                    _CS1566 = new CompilerReferenceError(Resources.CSharpErrors_CS1566, 1566);
                 return _CS1566;
             }
         }
@@ -7433,7 +7434,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1567 == null)
-                    _CS1567 = new CompilerReferenceError(@"Error generating Win32 resource: 'file'", 1567);
+                    _CS1567 = new CompilerReferenceError(Resources.CSharpErrors_CS1567, 1567);
                 return _CS1567;
             }
         }
@@ -7443,7 +7444,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1569 == null)
-                    _CS1569 = new CompilerReferenceError(@"Error generating XML documentation file 'Filename' ('reason')", 1569);
+                    _CS1569 = new CompilerReferenceError(Resources.CSharpErrors_CS1569, 1569);
                 return _CS1569;
             }
         }
@@ -7453,7 +7454,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1575 == null)
-                    _CS1575 = new CompilerReferenceError(@"A stackalloc expression requires [] after type", 1575);
+                    _CS1575 = new CompilerReferenceError(Resources.CSharpErrors_CS1575, 1575);
                 return _CS1575;
             }
         }
@@ -7463,7 +7464,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1576 == null)
-                    _CS1576 = new CompilerReferenceError(@"The line number specified for #line directive is missing or invalid", 1576);
+                    _CS1576 = new CompilerReferenceError(Resources.CSharpErrors_CS1576, 1576);
                 return _CS1576;
             }
         }
@@ -7473,7 +7474,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1577 == null)
-                    _CS1577 = new CompilerReferenceError(@"Assembly generation failed — reason", 1577);
+                    _CS1577 = new CompilerReferenceError(Resources.CSharpErrors_CS1577, 1577);
                 return _CS1577;
             }
         }
@@ -7483,7 +7484,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1578 == null)
-                    _CS1578 = new CompilerReferenceError(@"Filename, single-line comment or end-of-line expected", 1578);
+                    _CS1578 = new CompilerReferenceError(Resources.CSharpErrors_CS1578, 1578);
                 return _CS1578;
             }
         }
@@ -7493,7 +7494,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1579 == null)
-                    _CS1579 = new CompilerReferenceError(@"foreach statement cannot operate on variables of type 'type1' because 'type2' does not contain a public definition for 'identifier'", 1579);
+                    _CS1579 = new CompilerReferenceError(Resources.CSharpErrors_CS1579, 1579);
                 return _CS1579;
             }
         }
@@ -7503,7 +7504,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1583 == null)
-                    _CS1583 = new CompilerReferenceError(@"'file' is not a valid Win32 resource file", 1583);
+                    _CS1583 = new CompilerReferenceError(Resources.CSharpErrors_CS1583, 1583);
                 return _CS1583;
             }
         }
@@ -7513,7 +7514,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1585 == null)
-                    _CS1585 = new CompilerReferenceError(@"Member modifier 'keyword' must precede the member type and name", 1585);
+                    _CS1585 = new CompilerReferenceError(Resources.CSharpErrors_CS1585, 1585);
                 return _CS1585;
             }
         }
@@ -7523,7 +7524,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1586 == null)
-                    _CS1586 = new CompilerReferenceError(@"Array creation must have array size or array initializer", 1586);
+                    _CS1586 = new CompilerReferenceError(Resources.CSharpErrors_CS1586, 1586);
                 return _CS1586;
             }
         }
@@ -7533,7 +7534,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1588 == null)
-                    _CS1588 = new CompilerReferenceError(@"Cannot determine common language runtime directory -- 'reason'", 1588);
+                    _CS1588 = new CompilerReferenceError(Resources.CSharpErrors_CS1588, 1588);
                 return _CS1588;
             }
         }
@@ -7543,7 +7544,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1593 == null)
-                    _CS1593 = new CompilerReferenceError(@"Delegate 'del' does not take 'number' arguments", 1593);
+                    _CS1593 = new CompilerReferenceError(Resources.CSharpErrors_CS1593, 1593);
                 return _CS1593;
             }
         }
@@ -7553,7 +7554,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1594 == null)
-                    _CS1594 = new CompilerReferenceError(@"Delegate 'delegate' has some invalid arguments", 1594);
+                    _CS1594 = new CompilerReferenceError(Resources.CSharpErrors_CS1594, 1594);
                 return _CS1594;
             }
         }
@@ -7563,7 +7564,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1597 == null)
-                    _CS1597 = new CompilerReferenceError(@"Semicolon after method or accessor block is not valid", 1597);
+                    _CS1597 = new CompilerReferenceError(Resources.CSharpErrors_CS1597, 1597);
                 return _CS1597;
             }
         }
@@ -7573,7 +7574,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1599 == null)
-                    _CS1599 = new CompilerReferenceError(@"Method or delegate cannot return type 'type'", 1599);
+                    _CS1599 = new CompilerReferenceError(Resources.CSharpErrors_CS1599, 1599);
                 return _CS1599;
             }
         }
@@ -7583,7 +7584,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1600 == null)
-                    _CS1600 = new CompilerReferenceError(@"Compilation cancelled by user", 1600);
+                    _CS1600 = new CompilerReferenceError(Resources.CSharpErrors_CS1600, 1600);
                 return _CS1600;
             }
         }
@@ -7593,7 +7594,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1601 == null)
-                    _CS1601 = new CompilerReferenceError(@"Method or delegate parameter cannot be of type 'type'", 1601);
+                    _CS1601 = new CompilerReferenceError(Resources.CSharpErrors_CS1601, 1601);
                 return _CS1601;
             }
         }
@@ -7603,7 +7604,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1604 == null)
-                    _CS1604 = new CompilerReferenceError(@"Cannot assign to 'variable' because it is read-only", 1604);
+                    _CS1604 = new CompilerReferenceError(Resources.CSharpErrors_CS1604, 1604);
                 return _CS1604;
             }
         }
@@ -7613,7 +7614,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1605 == null)
-                    _CS1605 = new CompilerReferenceError(@"Cannot pass 'var' as a ref or out argument because it is read-only", 1605);
+                    _CS1605 = new CompilerReferenceError(Resources.CSharpErrors_CS1605, 1605);
                 return _CS1605;
             }
         }
@@ -7623,7 +7624,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1606 == null)
-                    _CS1606 = new CompilerReferenceError(@"Assembly signing failed; output may not be signed -- reason", 1606);
+                    _CS1606 = new CompilerReferenceError(Resources.CSharpErrors_CS1606, 1606);
                 return _CS1606;
             }
         }
@@ -7633,7 +7634,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1608 == null)
-                    _CS1608 = new CompilerReferenceError(@"The Required attribute is not permitted on C# types", 1608);
+                    _CS1608 = new CompilerReferenceError(Resources.CSharpErrors_CS1608, 1608);
                 return _CS1608;
             }
         }
@@ -7643,7 +7644,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1609 == null)
-                    _CS1609 = new CompilerReferenceError(@"Modifiers cannot be placed on event accessor declarations", 1609);
+                    _CS1609 = new CompilerReferenceError(Resources.CSharpErrors_CS1609, 1609);
                 return _CS1609;
             }
         }
@@ -7653,7 +7654,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1611 == null)
-                    _CS1611 = new CompilerReferenceError(@"The params parameter cannot be declared as ref or out", 1611);
+                    _CS1611 = new CompilerReferenceError(Resources.CSharpErrors_CS1611, 1611);
                 return _CS1611;
             }
         }
@@ -7663,7 +7664,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1612 == null)
-                    _CS1612 = new CompilerReferenceError(@"Cannot modify the return value of 'expression' because it is not a variable", 1612);
+                    _CS1612 = new CompilerReferenceError(Resources.CSharpErrors_CS1612, 1612);
                 return _CS1612;
             }
         }
@@ -7673,7 +7674,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1613 == null)
-                    _CS1613 = new CompilerReferenceError(@"The managed coclass wrapper class 'class' for interface 'interface' cannot be found (are you missing an assembly reference?)", 1613);
+                    _CS1613 = new CompilerReferenceError(Resources.CSharpErrors_CS1613, 1613);
                 return _CS1613;
             }
         }
@@ -7683,7 +7684,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1614 == null)
-                    _CS1614 = new CompilerReferenceError(@"'name' is ambiguous; between 'attribute1' and 'attribute2'. use either '@attribute' or 'attributeAttribute'", 1614);
+                    _CS1614 = new CompilerReferenceError(Resources.CSharpErrors_CS1614, 1614);
                 return _CS1614;
             }
         }
@@ -7693,7 +7694,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1615 == null)
-                    _CS1615 = new CompilerReferenceError(@"Argument 'number' should not be passed with the 'keyword' keyword", 1615);
+                    _CS1615 = new CompilerReferenceError(Resources.CSharpErrors_CS1615, 1615);
                 return _CS1615;
             }
         }
@@ -7703,7 +7704,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1617 == null)
-                    _CS1617 = new CompilerReferenceError(@"Invalid option 'option' for /langversion; must be ISO-1, ISO-2 or Default", 1617);
+                    _CS1617 = new CompilerReferenceError(Resources.CSharpErrors_CS1617, 1617);
                 return _CS1617;
             }
         }
@@ -7713,7 +7714,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1618 == null)
-                    _CS1618 = new CompilerReferenceError(@"Cannot create delegate with 'method' because it has a Conditional attribute", 1618);
+                    _CS1618 = new CompilerReferenceError(Resources.CSharpErrors_CS1618, 1618);
                 return _CS1618;
             }
         }
@@ -7723,7 +7724,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1619 == null)
-                    _CS1619 = new CompilerReferenceError(@"Cannot create temporary file 'filename' -- reason", 1619);
+                    _CS1619 = new CompilerReferenceError(Resources.CSharpErrors_CS1619, 1619);
                 return _CS1619;
             }
         }
@@ -7733,7 +7734,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1620 == null)
-                    _CS1620 = new CompilerReferenceError(@"Argument 'number' must be passed with the 'keyword' keyword", 1620);
+                    _CS1620 = new CompilerReferenceError(Resources.CSharpErrors_CS1620, 1620);
                 return _CS1620;
             }
         }
@@ -7743,7 +7744,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1621 == null)
-                    _CS1621 = new CompilerReferenceError(@"The yield statement cannot be used inside an anonymous method or lambda expression", 1621);
+                    _CS1621 = new CompilerReferenceError(Resources.CSharpErrors_CS1621, 1621);
                 return _CS1621;
             }
         }
@@ -7753,7 +7754,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1622 == null)
-                    _CS1622 = new CompilerReferenceError(@"Cannot return a value from an iterator. Use the yield return statement to return a value, or yield break to end the iteration.", 1622);
+                    _CS1622 = new CompilerReferenceError(Resources.CSharpErrors_CS1622, 1622);
                 return _CS1622;
             }
         }
@@ -7763,7 +7764,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1623 == null)
-                    _CS1623 = new CompilerReferenceError(@"Iterators cannot have ref or out parameters", 1623);
+                    _CS1623 = new CompilerReferenceError(Resources.CSharpErrors_CS1623, 1623);
                 return _CS1623;
             }
         }
@@ -7773,7 +7774,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1624 == null)
-                    _CS1624 = new CompilerReferenceError(@"The body of 'accessor' cannot be an iterator block because 'type' is not an iterator interface type", 1624);
+                    _CS1624 = new CompilerReferenceError(Resources.CSharpErrors_CS1624, 1624);
                 return _CS1624;
             }
         }
@@ -7783,7 +7784,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1625 == null)
-                    _CS1625 = new CompilerReferenceError(@"Cannot yield in the body of a finally clause", 1625);
+                    _CS1625 = new CompilerReferenceError(Resources.CSharpErrors_CS1625, 1625);
                 return _CS1625;
             }
         }
@@ -7793,7 +7794,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1626 == null)
-                    _CS1626 = new CompilerReferenceError(@"Cannot yield a value in the body of a try block with a catch clause", 1626);
+                    _CS1626 = new CompilerReferenceError(Resources.CSharpErrors_CS1626, 1626);
                 return _CS1626;
             }
         }
@@ -7803,7 +7804,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1627 == null)
-                    _CS1627 = new CompilerReferenceError(@"Expression expected after yield return", 1627);
+                    _CS1627 = new CompilerReferenceError(Resources.CSharpErrors_CS1627, 1627);
                 return _CS1627;
             }
         }
@@ -7813,7 +7814,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1628 == null)
-                    _CS1628 = new CompilerReferenceError(@"Cannot use ref or out parameter 'parameter' inside an anonymous method, lambda expression, or query expression", 1628);
+                    _CS1628 = new CompilerReferenceError(Resources.CSharpErrors_CS1628, 1628);
                 return _CS1628;
             }
         }
@@ -7823,7 +7824,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1629 == null)
-                    _CS1629 = new CompilerReferenceError(@"Unsafe code may not appear in iterators", 1629);
+                    _CS1629 = new CompilerReferenceError(Resources.CSharpErrors_CS1629, 1629);
                 return _CS1629;
             }
         }
@@ -7833,7 +7834,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1630 == null)
-                    _CS1630 = new CompilerReferenceError(@"Invalid option 'option' for /errorreport; must be prompt, send, queue, or none", 1630);
+                    _CS1630 = new CompilerReferenceError(Resources.CSharpErrors_CS1630, 1630);
                 return _CS1630;
             }
         }
@@ -7843,7 +7844,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1631 == null)
-                    _CS1631 = new CompilerReferenceError(@"Cannot yield a value in the body of a catch clause", 1631);
+                    _CS1631 = new CompilerReferenceError(Resources.CSharpErrors_CS1631, 1631);
                 return _CS1631;
             }
         }
@@ -7853,7 +7854,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1632 == null)
-                    _CS1632 = new CompilerReferenceError(@"Control cannot leave the body of an anonymous method or lambda expression", 1632);
+                    _CS1632 = new CompilerReferenceError(Resources.CSharpErrors_CS1632, 1632);
                 return _CS1632;
             }
         }
@@ -7863,7 +7864,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1637 == null)
-                    _CS1637 = new CompilerReferenceError(@"Iterators cannot have unsafe parameters or yield types", 1637);
+                    _CS1637 = new CompilerReferenceError(Resources.CSharpErrors_CS1637, 1637);
                 return _CS1637;
             }
         }
@@ -7873,7 +7874,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1638 == null)
-                    _CS1638 = new CompilerReferenceError(@"'identifier' is a reserved identifier and cannot be used when ISO language version mode is used", 1638);
+                    _CS1638 = new CompilerReferenceError(Resources.CSharpErrors_CS1638, 1638);
                 return _CS1638;
             }
         }
@@ -7883,7 +7884,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1639 == null)
-                    _CS1639 = new CompilerReferenceError(@"The managed coclass wrapper class signature 'signature' for interface 'interface' is not a valid class name signature", 1639);
+                    _CS1639 = new CompilerReferenceError(Resources.CSharpErrors_CS1639, 1639);
                 return _CS1639;
             }
         }
@@ -7893,7 +7894,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1640 == null)
-                    _CS1640 = new CompilerReferenceError(@"foreach statement cannot operate on variables of type 'type' because it implements multiple instantiations of 'interface', try casting to a specific interface instantiation", 1640);
+                    _CS1640 = new CompilerReferenceError(Resources.CSharpErrors_CS1640, 1640);
                 return _CS1640;
             }
         }
@@ -7903,7 +7904,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1641 == null)
-                    _CS1641 = new CompilerReferenceError(@"A fixed size buffer field must have the array size specifier after the field name", 1641);
+                    _CS1641 = new CompilerReferenceError(Resources.CSharpErrors_CS1641, 1641);
                 return _CS1641;
             }
         }
@@ -7913,7 +7914,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1642 == null)
-                    _CS1642 = new CompilerReferenceError(@"Fixed size buffer fields may only be members of structs.", 1642);
+                    _CS1642 = new CompilerReferenceError(Resources.CSharpErrors_CS1642, 1642);
                 return _CS1642;
             }
         }
@@ -7923,7 +7924,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1643 == null)
-                    _CS1643 = new CompilerReferenceError(@"Not all code paths return a value in method of type 'type!'", 1643);
+                    _CS1643 = new CompilerReferenceError(Resources.CSharpErrors_CS1643, 1643);
                 return _CS1643;
             }
         }
@@ -7933,7 +7934,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1644 == null)
-                    _CS1644 = new CompilerReferenceError(@"Feature 'feature' is not part of the standardized ISO C# language specification, and may not be accepted by other compilers", 1644);
+                    _CS1644 = new CompilerReferenceError(Resources.CSharpErrors_CS1644, 1644);
                 return _CS1644;
             }
         }
@@ -7943,7 +7944,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1646 == null)
-                    _CS1646 = new CompilerReferenceError(@"Keyword, identifier, or string expected after verbatim specifier: @", 1646);
+                    _CS1646 = new CompilerReferenceError(Resources.CSharpErrors_CS1646, 1646);
                 return _CS1646;
             }
         }
@@ -7953,7 +7954,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1647 == null)
-                    _CS1647 = new CompilerReferenceError(@"An expression is too long or complex to compile near 'code'", 1647);
+                    _CS1647 = new CompilerReferenceError(Resources.CSharpErrors_CS1647, 1647);
                 return _CS1647;
             }
         }
@@ -7963,7 +7964,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1648 == null)
-                    _CS1648 = new CompilerReferenceError(@"Members of readonly field 'identifier' cannot be modified (except in a constructor or a variable initializer)", 1648);
+                    _CS1648 = new CompilerReferenceError(Resources.CSharpErrors_CS1648, 1648);
                 return _CS1648;
             }
         }
@@ -7973,7 +7974,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1649 == null)
-                    _CS1649 = new CompilerReferenceError(@"Members of readonly field 'identifier' cannot be passed ref or out (except in a constructor)", 1649);
+                    _CS1649 = new CompilerReferenceError(Resources.CSharpErrors_CS1649, 1649);
                 return _CS1649;
             }
         }
@@ -7983,7 +7984,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1650 == null)
-                    _CS1650 = new CompilerReferenceError(@"Fields of static readonly field 'identifier' cannot be assigned to (except in a static constructor or a variable initializer)", 1650);
+                    _CS1650 = new CompilerReferenceError(Resources.CSharpErrors_CS1650, 1650);
                 return _CS1650;
             }
         }
@@ -7993,7 +7994,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1651 == null)
-                    _CS1651 = new CompilerReferenceError(@"Fields of static readonly field 'identifier' cannot be passed ref or out (except in a static constructor)", 1651);
+                    _CS1651 = new CompilerReferenceError(Resources.CSharpErrors_CS1651, 1651);
                 return _CS1651;
             }
         }
@@ -8003,7 +8004,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1654 == null)
-                    _CS1654 = new CompilerReferenceError(@"Cannot modify members of 'variable' because it is a 'read-only variable type'", 1654);
+                    _CS1654 = new CompilerReferenceError(Resources.CSharpErrors_CS1654, 1654);
                 return _CS1654;
             }
         }
@@ -8013,7 +8014,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1655 == null)
-                    _CS1655 = new CompilerReferenceError(@"Cannot pass fields of 'variable' as a ref or out argument because it is a 'readonly variable type'", 1655);
+                    _CS1655 = new CompilerReferenceError(Resources.CSharpErrors_CS1655, 1655);
                 return _CS1655;
             }
         }
@@ -8023,7 +8024,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1656 == null)
-                    _CS1656 = new CompilerReferenceError(@"Cannot assign to 'variable' because it is a 'read-only variable type'", 1656);
+                    _CS1656 = new CompilerReferenceError(Resources.CSharpErrors_CS1656, 1656);
                 return _CS1656;
             }
         }
@@ -8033,7 +8034,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1657 == null)
-                    _CS1657 = new CompilerReferenceError(@"Cannot pass 'parameter' as a ref or out argument because 'reason''", 1657);
+                    _CS1657 = new CompilerReferenceError(Resources.CSharpErrors_CS1657, 1657);
                 return _CS1657;
             }
         }
@@ -8043,7 +8044,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1660 == null)
-                    _CS1660 = new CompilerReferenceError(@"Cannot convert anonymous method block to type 'type' because it is not a delegate type", 1660);
+                    _CS1660 = new CompilerReferenceError(Resources.CSharpErrors_CS1660, 1660);
                 return _CS1660;
             }
         }
@@ -8053,7 +8054,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1661 == null)
-                    _CS1661 = new CompilerReferenceError(@"Cannot convert anonymous method block to delegate type 'delegate type' because the specified block's parameter types do not match the delegate parameter types", 1661);
+                    _CS1661 = new CompilerReferenceError(Resources.CSharpErrors_CS1661, 1661);
                 return _CS1661;
             }
         }
@@ -8063,7 +8064,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1662 == null)
-                    _CS1662 = new CompilerReferenceError(@"Cannot convert anonymous method block to delegate type 'delegate type' because some of the return types in the block are not implicitly convertible to the delegate return type", 1662);
+                    _CS1662 = new CompilerReferenceError(Resources.CSharpErrors_CS1662, 1662);
                 return _CS1662;
             }
         }
@@ -8073,7 +8074,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1663 == null)
-                    _CS1663 = new CompilerReferenceError(@"Fixed size buffer type must be one of the following: bool, byte, short, int, long, char, sbyte, ushort, uint, ulong, float or double", 1663);
+                    _CS1663 = new CompilerReferenceError(Resources.CSharpErrors_CS1663, 1663);
                 return _CS1663;
             }
         }
@@ -8083,7 +8084,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1664 == null)
-                    _CS1664 = new CompilerReferenceError(@"Fixed size buffer of length 'length' and type 'type' is too big", 1664);
+                    _CS1664 = new CompilerReferenceError(Resources.CSharpErrors_CS1664, 1664);
                 return _CS1664;
             }
         }
@@ -8093,7 +8094,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1665 == null)
-                    _CS1665 = new CompilerReferenceError(@"Fixed size buffers must have a length greater than zero", 1665);
+                    _CS1665 = new CompilerReferenceError(Resources.CSharpErrors_CS1665, 1665);
                 return _CS1665;
             }
         }
@@ -8103,7 +8104,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1666 == null)
-                    _CS1666 = new CompilerReferenceError(@"You cannot use fixed size buffers contained in unfixed expressions. Try using the fixed statement.", 1666);
+                    _CS1666 = new CompilerReferenceError(Resources.CSharpErrors_CS1666, 1666);
                 return _CS1666;
             }
         }
@@ -8113,7 +8114,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1667 == null)
-                    _CS1667 = new CompilerReferenceError(@"Attribute 'attribute' is not valid on property or event accessors. It is valid on 'declaration type' declarations only.", 1667);
+                    _CS1667 = new CompilerReferenceError(Resources.CSharpErrors_CS1667, 1667);
                 return _CS1667;
             }
         }
@@ -8123,7 +8124,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1670 == null)
-                    _CS1670 = new CompilerReferenceError(@"params is not valid in this context", 1670);
+                    _CS1670 = new CompilerReferenceError(Resources.CSharpErrors_CS1670, 1670);
                 return _CS1670;
             }
         }
@@ -8133,7 +8134,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1671 == null)
-                    _CS1671 = new CompilerReferenceError(@"A namespace declaration cannot have modifiers or attributes", 1671);
+                    _CS1671 = new CompilerReferenceError(Resources.CSharpErrors_CS1671, 1671);
                 return _CS1671;
             }
         }
@@ -8143,7 +8144,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1672 == null)
-                    _CS1672 = new CompilerReferenceError(@"Invalid option 'option' for /platform; must be anycpu, x86, Itanium or x64", 1672);
+                    _CS1672 = new CompilerReferenceError(Resources.CSharpErrors_CS1672, 1672);
                 return _CS1672;
             }
         }
@@ -8153,7 +8154,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1673 == null)
-                    _CS1673 = new CompilerReferenceError(@"Anonymous methods, lambda expressions, and query expressions inside structs cannot access instance members of 'this'. Consider copying 'this' to a local variable outside the anonymous method, lambda expression or query expression and using the local instead.", 1673);
+                    _CS1673 = new CompilerReferenceError(Resources.CSharpErrors_CS1673, 1673);
                 return _CS1673;
             }
         }
@@ -8163,7 +8164,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1674 == null)
-                    _CS1674 = new CompilerReferenceError(@"'T': type used in a using statement must be implicitly convertible to 'System.IDisposable'", 1674);
+                    _CS1674 = new CompilerReferenceError(Resources.CSharpErrors_CS1674, 1674);
                 return _CS1674;
             }
         }
@@ -8173,7 +8174,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1675 == null)
-                    _CS1675 = new CompilerReferenceError(@"Enums cannot have type parameters", 1675);
+                    _CS1675 = new CompilerReferenceError(Resources.CSharpErrors_CS1675, 1675);
                 return _CS1675;
             }
         }
@@ -8183,7 +8184,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1676 == null)
-                    _CS1676 = new CompilerReferenceError(@"Parameter 'number' must be declared with the 'keyword' keyword", 1676);
+                    _CS1676 = new CompilerReferenceError(Resources.CSharpErrors_CS1676, 1676);
                 return _CS1676;
             }
         }
@@ -8193,7 +8194,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1677 == null)
-                    _CS1677 = new CompilerReferenceError(@"Parameter 'number' should not be declared with the 'keyword' keyword", 1677);
+                    _CS1677 = new CompilerReferenceError(Resources.CSharpErrors_CS1677, 1677);
                 return _CS1677;
             }
         }
@@ -8203,7 +8204,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1678 == null)
-                    _CS1678 = new CompilerReferenceError(@"Parameter 'number' is declared as type 'type1' but should be 'type2'", 1678);
+                    _CS1678 = new CompilerReferenceError(Resources.CSharpErrors_CS1678, 1678);
                 return _CS1678;
             }
         }
@@ -8213,7 +8214,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1679 == null)
-                    _CS1679 = new CompilerReferenceError(@"Invalid extern alias for '/reference'; 'identifier' is not a valid identifier", 1679);
+                    _CS1679 = new CompilerReferenceError(Resources.CSharpErrors_CS1679, 1679);
                 return _CS1679;
             }
         }
@@ -8223,7 +8224,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1680 == null)
-                    _CS1680 = new CompilerReferenceError(@"Invalid reference alias option: 'alias=' -- missing filename.", 1680);
+                    _CS1680 = new CompilerReferenceError(Resources.CSharpErrors_CS1680, 1680);
                 return _CS1680;
             }
         }
@@ -8233,7 +8234,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1681 == null)
-                    _CS1681 = new CompilerReferenceError(@"You cannot redefine the global extern alias", 1681);
+                    _CS1681 = new CompilerReferenceError(Resources.CSharpErrors_CS1681, 1681);
                 return _CS1681;
             }
         }
@@ -8243,7 +8244,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1686 == null)
-                    _CS1686 = new CompilerReferenceError(@"Local 'variable' or its members cannot have their address taken and be used inside an anonymous method or lambda expression", 1686);
+                    _CS1686 = new CompilerReferenceError(Resources.CSharpErrors_CS1686, 1686);
                 return _CS1686;
             }
         }
@@ -8253,7 +8254,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1688 == null)
-                    _CS1688 = new CompilerReferenceError(@"Cannot convert anonymous method block without a parameter list to delegate type 'delegate' because it has one or more out parameters", 1688);
+                    _CS1688 = new CompilerReferenceError(Resources.CSharpErrors_CS1688, 1688);
                 return _CS1688;
             }
         }
@@ -8263,7 +8264,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1689 == null)
-                    _CS1689 = new CompilerReferenceError(@"Attribute 'Attribute Name' is only valid on methods or attribute classes", 1689);
+                    _CS1689 = new CompilerReferenceError(Resources.CSharpErrors_CS1689, 1689);
                 return _CS1689;
             }
         }
@@ -8273,7 +8274,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1703 == null)
-                    _CS1703 = new CompilerReferenceError(@"An assembly with the same simple name 'name' has already been imported. Try removing one of the references or sign them to enable side-by-side.", 1703);
+                    _CS1703 = new CompilerReferenceError(Resources.CSharpErrors_CS1703, 1703);
                 return _CS1703;
             }
         }
@@ -8283,7 +8284,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1704 == null)
-                    _CS1704 = new CompilerReferenceError(@"An assembly with the same simple name 'Assembly Name' has already been imported. Try removing one of the references or sign them to enable side-by-side.", 1704);
+                    _CS1704 = new CompilerReferenceError(Resources.CSharpErrors_CS1704, 1704);
                 return _CS1704;
             }
         }
@@ -8293,7 +8294,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1705 == null)
-                    _CS1705 = new CompilerReferenceError(@"Assembly 'AssemblyName1' uses 'TypeName' which has a higher version than referenced assembly 'AssemblyName2'", 1705);
+                    _CS1705 = new CompilerReferenceError(Resources.CSharpErrors_CS1705, 1705);
                 return _CS1705;
             }
         }
@@ -8303,7 +8304,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1706 == null)
-                    _CS1706 = new CompilerReferenceError(@"Expression cannot contain anonymous methods or lambda expressions", 1706);
+                    _CS1706 = new CompilerReferenceError(Resources.CSharpErrors_CS1706, 1706);
                 return _CS1706;
             }
         }
@@ -8313,7 +8314,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1708 == null)
-                    _CS1708 = new CompilerReferenceError(@"Fixed size buffers can only be accessed through locals or fields", 1708);
+                    _CS1708 = new CompilerReferenceError(Resources.CSharpErrors_CS1708, 1708);
                 return _CS1708;
             }
         }
@@ -8323,7 +8324,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1713 == null)
-                    _CS1713 = new CompilerReferenceError(@"Unexpected error building metadata name for type Typename1—'Reason'", 1713);
+                    _CS1713 = new CompilerReferenceError(Resources.CSharpErrors_CS1713, 1713);
                 return _CS1713;
             }
         }
@@ -8333,7 +8334,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1714 == null)
-                    _CS1714 = new CompilerReferenceError(@"The base class or interface of TypeName1 could not be resolved or is invalid", 1714);
+                    _CS1714 = new CompilerReferenceError(Resources.CSharpErrors_CS1714, 1714);
                 return _CS1714;
             }
         }
@@ -8343,7 +8344,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1715 == null)
-                    _CS1715 = new CompilerReferenceError(@"'Type1': type must be 'Type2' to match overridden member 'MemberName'", 1715);
+                    _CS1715 = new CompilerReferenceError(Resources.CSharpErrors_CS1715, 1715);
                 return _CS1715;
             }
         }
@@ -8353,7 +8354,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1716 == null)
-                    _CS1716 = new CompilerReferenceError(@"Do not use 'System.Runtime.CompilerServices.FixedBuffer' attribute. Use the 'fixed' field modifier instead.", 1716);
+                    _CS1716 = new CompilerReferenceError(Resources.CSharpErrors_CS1716, 1716);
                 return _CS1716;
             }
         }
@@ -8363,7 +8364,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1719 == null)
-                    _CS1719 = new CompilerReferenceError(@"Error reading Win32 resource file 'File Name' -- 'reason'", 1719);
+                    _CS1719 = new CompilerReferenceError(Resources.CSharpErrors_CS1719, 1719);
                 return _CS1719;
             }
         }
@@ -8373,7 +8374,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1721 == null)
-                    _CS1721 = new CompilerReferenceError(@"Class 'class' cannot have multiple base classes: 'class_1' and 'class_2'", 1721);
+                    _CS1721 = new CompilerReferenceError(Resources.CSharpErrors_CS1721, 1721);
                 return _CS1721;
             }
         }
@@ -8383,7 +8384,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1722 == null)
-                    _CS1722 = new CompilerReferenceError(@"Base class 'class' must come before any interfaces", 1722);
+                    _CS1722 = new CompilerReferenceError(Resources.CSharpErrors_CS1722, 1722);
                 return _CS1722;
             }
         }
@@ -8393,7 +8394,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1724 == null)
-                    _CS1724 = new CompilerReferenceError(@"Value specified for the argument to 'System.Runtime.InteropServices.DefaultCharSetAttribute' is not valid", 1724);
+                    _CS1724 = new CompilerReferenceError(Resources.CSharpErrors_CS1724, 1724);
                 return _CS1724;
             }
         }
@@ -8403,7 +8404,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1725 == null)
-                    _CS1725 = new CompilerReferenceError(@"Friend assembly reference 'reference' is invalid. InternalsVisibleTo declarations cannot have a version, culture, public key token, or processor architecture specified.", 1725);
+                    _CS1725 = new CompilerReferenceError(Resources.CSharpErrors_CS1725, 1725);
                 return _CS1725;
             }
         }
@@ -8413,7 +8414,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1726 == null)
-                    _CS1726 = new CompilerReferenceError(@"Friend assembly reference 'reference' is invalid. Strong-name signed assemblies must specify a public key in their InternalsVisibleTo declarations.", 1726);
+                    _CS1726 = new CompilerReferenceError(Resources.CSharpErrors_CS1726, 1726);
                 return _CS1726;
             }
         }
@@ -8423,7 +8424,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1727 == null)
-                    _CS1727 = new CompilerReferenceError(@"Cannot send error report automatically without authorization. Please visit '' to authorize sending error report.", 1727);
+                    _CS1727 = new CompilerReferenceError(Resources.CSharpErrors_CS1727, 1727);
                 return _CS1727;
             }
         }
@@ -8433,7 +8434,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1728 == null)
-                    _CS1728 = new CompilerReferenceError(@"Cannot bind delegate to 'member' because it is a member of 'type'", 1728);
+                    _CS1728 = new CompilerReferenceError(Resources.CSharpErrors_CS1728, 1728);
                 return _CS1728;
             }
         }
@@ -8443,7 +8444,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1729 == null)
-                    _CS1729 = new CompilerReferenceError(@"'type' does not contain a constructor that takes 'number' arguments.", 1729);
+                    _CS1729 = new CompilerReferenceError(Resources.CSharpErrors_CS1729, 1729);
                 return _CS1729;
             }
         }
@@ -8453,7 +8454,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1730 == null)
-                    _CS1730 = new CompilerReferenceError(@"Assembly and module attributes must precede all other elements defined in a file except using clauses and extern alias declarations.", 1730);
+                    _CS1730 = new CompilerReferenceError(Resources.CSharpErrors_CS1730, 1730);
                 return _CS1730;
             }
         }
@@ -8463,7 +8464,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1731 == null)
-                    _CS1731 = new CompilerReferenceError(@"Cannot convert 'expression' to delegate because some of the return types in the block are not implicitly convertible to the delegate return type.", 1731);
+                    _CS1731 = new CompilerReferenceError(Resources.CSharpErrors_CS1731, 1731);
                 return _CS1731;
             }
         }
@@ -8473,7 +8474,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1732 == null)
-                    _CS1732 = new CompilerReferenceError(@"Expected parameter.", 1732);
+                    _CS1732 = new CompilerReferenceError(Resources.CSharpErrors_CS1732, 1732);
                 return _CS1732;
             }
         }
@@ -8483,7 +8484,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1733 == null)
-                    _CS1733 = new CompilerReferenceError(@"Expected expression.", 1733);
+                    _CS1733 = new CompilerReferenceError(Resources.CSharpErrors_CS1733, 1733);
                 return _CS1733;
             }
         }
@@ -8493,7 +8494,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1900 == null)
-                    _CS1900 = new CompilerReferenceError(@"Warning level must be in the range 0-4", 1900);
+                    _CS1900 = new CompilerReferenceError(Resources.CSharpErrors_CS1900, 1900);
                 return _CS1900;
             }
         }
@@ -8503,7 +8504,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1902 == null)
-                    _CS1902 = new CompilerReferenceError(@"Invalid option 'option' for /debug; must be full or pdbonly", 1902);
+                    _CS1902 = new CompilerReferenceError(Resources.CSharpErrors_CS1902, 1902);
                 return _CS1902;
             }
         }
@@ -8513,7 +8514,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1906 == null)
-                    _CS1906 = new CompilerReferenceError(@"Invalid option 'option'; Resource visibility must be either 'public' or 'private'", 1906);
+                    _CS1906 = new CompilerReferenceError(Resources.CSharpErrors_CS1906, 1906);
                 return _CS1906;
             }
         }
@@ -8523,7 +8524,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1908 == null)
-                    _CS1908 = new CompilerReferenceError(@"The type of the argument to the DefaultValue attribute must match the parameter type", 1908);
+                    _CS1908 = new CompilerReferenceError(Resources.CSharpErrors_CS1908, 1908);
                 return _CS1908;
             }
         }
@@ -8533,7 +8534,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1909 == null)
-                    _CS1909 = new CompilerReferenceError(@"The DefaultValue attribute is not applicable on parameters of type 'type'", 1909);
+                    _CS1909 = new CompilerReferenceError(Resources.CSharpErrors_CS1909, 1909);
                 return _CS1909;
             }
         }
@@ -8543,7 +8544,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1910 == null)
-                    _CS1910 = new CompilerReferenceError(@"Argument of type 'type' is not applicable for the DefaultValue attribute", 1910);
+                    _CS1910 = new CompilerReferenceError(Resources.CSharpErrors_CS1910, 1910);
                 return _CS1910;
             }
         }
@@ -8553,7 +8554,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1912 == null)
-                    _CS1912 = new CompilerReferenceError(@"Duplicate initialization of member 'name'.", 1912);
+                    _CS1912 = new CompilerReferenceError(Resources.CSharpErrors_CS1912, 1912);
                 return _CS1912;
             }
         }
@@ -8563,7 +8564,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1913 == null)
-                    _CS1913 = new CompilerReferenceError(@"Member 'name' cannot be initialized. It is not a field or property.", 1913);
+                    _CS1913 = new CompilerReferenceError(Resources.CSharpErrors_CS1913, 1913);
                 return _CS1913;
             }
         }
@@ -8573,7 +8574,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1914 == null)
-                    _CS1914 = new CompilerReferenceError(@"Static field 'name' cannot be assigned in an object initializer", 1914);
+                    _CS1914 = new CompilerReferenceError(Resources.CSharpErrors_CS1914, 1914);
                 return _CS1914;
             }
         }
@@ -8583,7 +8584,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1917 == null)
-                    _CS1917 = new CompilerReferenceError(@"Members of read-only field 'name' of type 'struct name' cannot be assigned with an object initializer because it is of a value type.", 1917);
+                    _CS1917 = new CompilerReferenceError(Resources.CSharpErrors_CS1917, 1917);
                 return _CS1917;
             }
         }
@@ -8593,7 +8594,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1918 == null)
-                    _CS1918 = new CompilerReferenceError(@"Members of property 'name' of type 'type' cannot be assigned with an object initializer because it is of a value type.", 1918);
+                    _CS1918 = new CompilerReferenceError(Resources.CSharpErrors_CS1918, 1918);
                 return _CS1918;
             }
         }
@@ -8603,7 +8604,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1919 == null)
-                    _CS1919 = new CompilerReferenceError(@"Unsafe type 'type name' cannot be used in object creation.", 1919);
+                    _CS1919 = new CompilerReferenceError(Resources.CSharpErrors_CS1919, 1919);
                 return _CS1919;
             }
         }
@@ -8613,7 +8614,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1920 == null)
-                    _CS1920 = new CompilerReferenceError(@"Element initializer cannot be empty.", 1920);
+                    _CS1920 = new CompilerReferenceError(Resources.CSharpErrors_CS1920, 1920);
                 return _CS1920;
             }
         }
@@ -8623,7 +8624,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1921 == null)
-                    _CS1921 = new CompilerReferenceError(@"The best overloaded method match for 'method' has wrong signature for the initializer element. The initializable Add must be an accessible instance method.", 1921);
+                    _CS1921 = new CompilerReferenceError(Resources.CSharpErrors_CS1921, 1921);
                 return _CS1921;
             }
         }
@@ -8633,7 +8634,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1922 == null)
-                    _CS1922 = new CompilerReferenceError(@"Collection initializer requires its type 'type' to implement System.Collections.IEnumerable.", 1922);
+                    _CS1922 = new CompilerReferenceError(Resources.CSharpErrors_CS1922, 1922);
                 return _CS1922;
             }
         }
@@ -8643,7 +8644,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1925 == null)
-                    _CS1925 = new CompilerReferenceError(@"Cannot initialize object of type 'type' with a collection initializer.", 1925);
+                    _CS1925 = new CompilerReferenceError(Resources.CSharpErrors_CS1925, 1925);
                 return _CS1925;
             }
         }
@@ -8653,7 +8654,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1926 == null)
-                    _CS1926 = new CompilerReferenceError(@"Error reading Win32 manifest file 'filename' -- 'error'.", 1926);
+                    _CS1926 = new CompilerReferenceError(Resources.CSharpErrors_CS1926, 1926);
                 return _CS1926;
             }
         }
@@ -8663,7 +8664,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1928 == null)
-                    _CS1928 = new CompilerReferenceError(@"'Type' does not contain a definition for 'method' and the best extension method overload 'method' has some invalid arguments.", 1928);
+                    _CS1928 = new CompilerReferenceError(Resources.CSharpErrors_CS1928, 1928);
                 return _CS1928;
             }
         }
@@ -8673,7 +8674,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1929 == null)
-                    _CS1929 = new CompilerReferenceError(@"Instance argument: cannot convert from 'typeA' to 'typeB'.", 1929);
+                    _CS1929 = new CompilerReferenceError(Resources.CSharpErrors_CS1929, 1929);
                 return _CS1929;
             }
         }
@@ -8683,7 +8684,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1930 == null)
-                    _CS1930 = new CompilerReferenceError(@"The range variable 'name' has already been declared", 1930);
+                    _CS1930 = new CompilerReferenceError(Resources.CSharpErrors_CS1930, 1930);
                 return _CS1930;
             }
         }
@@ -8693,7 +8694,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1931 == null)
-                    _CS1931 = new CompilerReferenceError(@"The range variable 'variable' conflicts with a previous declaration of 'variable'.", 1931);
+                    _CS1931 = new CompilerReferenceError(Resources.CSharpErrors_CS1931, 1931);
                 return _CS1931;
             }
         }
@@ -8703,7 +8704,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1932 == null)
-                    _CS1932 = new CompilerReferenceError(@"Cannot assign 'expression' to a range variable.", 1932);
+                    _CS1932 = new CompilerReferenceError(Resources.CSharpErrors_CS1932, 1932);
                 return _CS1932;
             }
         }
@@ -8713,7 +8714,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1933 == null)
-                    _CS1933 = new CompilerReferenceError(@"Expression cannot contain query expressions", 1933);
+                    _CS1933 = new CompilerReferenceError(Resources.CSharpErrors_CS1933, 1933);
                 return _CS1933;
             }
         }
@@ -8723,7 +8724,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1934 == null)
-                    _CS1934 = new CompilerReferenceError(@"Could not find an implementation of the query pattern for source type 'type'. 'method' not found. Consider explicitly specifying the type of the range variable 'name'.", 1934);
+                    _CS1934 = new CompilerReferenceError(Resources.CSharpErrors_CS1934, 1934);
                 return _CS1934;
             }
         }
@@ -8733,7 +8734,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1935 == null)
-                    _CS1935 = new CompilerReferenceError(@"Could not find an implementation of the query pattern for source type 'type'. 'method' not found. Are you missing a reference to 'System.Core.dll' or a using directive for 'System.Linq'?", 1935);
+                    _CS1935 = new CompilerReferenceError(Resources.CSharpErrors_CS1935, 1935);
                 return _CS1935;
             }
         }
@@ -8743,7 +8744,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1936 == null)
-                    _CS1936 = new CompilerReferenceError(@"Could not find an implementation of the query pattern for source type 'type'. 'method' not found.", 1936);
+                    _CS1936 = new CompilerReferenceError(Resources.CSharpErrors_CS1936, 1936);
                 return _CS1936;
             }
         }
@@ -8753,7 +8754,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1937 == null)
-                    _CS1937 = new CompilerReferenceError(@"The name 'name' is not in scope on the left side of 'equals'. Consider swapping the expressions on either side of 'equals'.", 1937);
+                    _CS1937 = new CompilerReferenceError(Resources.CSharpErrors_CS1937, 1937);
                 return _CS1937;
             }
         }
@@ -8763,7 +8764,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1938 == null)
-                    _CS1938 = new CompilerReferenceError(@"The name 'name' is not in scope on the right side of 'equals'. Consider swapping the expressions on either side of 'equals'.", 1938);
+                    _CS1938 = new CompilerReferenceError(Resources.CSharpErrors_CS1938, 1938);
                 return _CS1938;
             }
         }
@@ -8773,7 +8774,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1939 == null)
-                    _CS1939 = new CompilerReferenceError(@"Cannot pass the range variable 'name' as an out or ref parameter.", 1939);
+                    _CS1939 = new CompilerReferenceError(Resources.CSharpErrors_CS1939, 1939);
                 return _CS1939;
             }
         }
@@ -8783,7 +8784,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1940 == null)
-                    _CS1940 = new CompilerReferenceError(@"Multiple implementations of the query pattern were found for source type 'type'. Ambiguous call to 'method'.", 1940);
+                    _CS1940 = new CompilerReferenceError(Resources.CSharpErrors_CS1940, 1940);
                 return _CS1940;
             }
         }
@@ -8793,7 +8794,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1941 == null)
-                    _CS1941 = new CompilerReferenceError(@"The type of one of the expressions in the 'clause' clause is incorrect. Type inference failed in the call to 'method'.", 1941);
+                    _CS1941 = new CompilerReferenceError(Resources.CSharpErrors_CS1941, 1941);
                 return _CS1941;
             }
         }
@@ -8803,7 +8804,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1942 == null)
-                    _CS1942 = new CompilerReferenceError(@"The type of the expression in the 'clause' clause is incorrect. Type inference failed in the call to 'method'.", 1942);
+                    _CS1942 = new CompilerReferenceError(Resources.CSharpErrors_CS1942, 1942);
                 return _CS1942;
             }
         }
@@ -8813,7 +8814,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1943 == null)
-                    _CS1943 = new CompilerReferenceError(@"An expression of type 'type' is not allowed in a subsequent from clause in a query expression with source type 'type'. Type inference failed in the call to 'method'.", 1943);
+                    _CS1943 = new CompilerReferenceError(Resources.CSharpErrors_CS1943, 1943);
                 return _CS1943;
             }
         }
@@ -8823,7 +8824,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1944 == null)
-                    _CS1944 = new CompilerReferenceError(@"An expression tree may not contain an unsafe pointer operation", 1944);
+                    _CS1944 = new CompilerReferenceError(Resources.CSharpErrors_CS1944, 1944);
                 return _CS1944;
             }
         }
@@ -8833,7 +8834,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1945 == null)
-                    _CS1945 = new CompilerReferenceError(@"An expression tree may not contain an anonymous method expression.", 1945);
+                    _CS1945 = new CompilerReferenceError(Resources.CSharpErrors_CS1945, 1945);
                 return _CS1945;
             }
         }
@@ -8843,7 +8844,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1946 == null)
-                    _CS1946 = new CompilerReferenceError(@"An anonymous method expression cannot be converted to an expression tree.", 1946);
+                    _CS1946 = new CompilerReferenceError(Resources.CSharpErrors_CS1946, 1946);
                 return _CS1946;
             }
         }
@@ -8853,7 +8854,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1947 == null)
-                    _CS1947 = new CompilerReferenceError(@"Range variable 'variable name' cannot be assigned to -- it is read only.", 1947);
+                    _CS1947 = new CompilerReferenceError(Resources.CSharpErrors_CS1947, 1947);
                 return _CS1947;
             }
         }
@@ -8863,7 +8864,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1948 == null)
-                    _CS1948 = new CompilerReferenceError(@"The range variable 'name' cannot have the same name as a method type parameter", 1948);
+                    _CS1948 = new CompilerReferenceError(Resources.CSharpErrors_CS1948, 1948);
                 return _CS1948;
             }
         }
@@ -8873,7 +8874,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1949 == null)
-                    _CS1949 = new CompilerReferenceError(@"The contextual keyword 'var' cannot be used in a range variable declaration.", 1949);
+                    _CS1949 = new CompilerReferenceError(Resources.CSharpErrors_CS1949, 1949);
                 return _CS1949;
             }
         }
@@ -8883,7 +8884,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1950 == null)
-                    _CS1950 = new CompilerReferenceError(@"The best overloaded Add method 'name' for the collection initializer has some invalid arguments.", 1950);
+                    _CS1950 = new CompilerReferenceError(Resources.CSharpErrors_CS1950, 1950);
                 return _CS1950;
             }
         }
@@ -8893,7 +8894,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1951 == null)
-                    _CS1951 = new CompilerReferenceError(@"An expression tree lambda may not contain an out or ref parameter.", 1951);
+                    _CS1951 = new CompilerReferenceError(Resources.CSharpErrors_CS1951, 1951);
                 return _CS1951;
             }
         }
@@ -8903,7 +8904,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1952 == null)
-                    _CS1952 = new CompilerReferenceError(@"An expression tree lambda may not contain a method with variable arguments", 1952);
+                    _CS1952 = new CompilerReferenceError(Resources.CSharpErrors_CS1952, 1952);
                 return _CS1952;
             }
         }
@@ -8913,7 +8914,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1953 == null)
-                    _CS1953 = new CompilerReferenceError(@"An expression tree lambda may not contain a method group.", 1953);
+                    _CS1953 = new CompilerReferenceError(Resources.CSharpErrors_CS1953, 1953);
                 return _CS1953;
             }
         }
@@ -8923,7 +8924,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1954 == null)
-                    _CS1954 = new CompilerReferenceError(@"The best overloaded method match 'method' for the collection initializer element cannot be used. Collection initializer 'Add' methods cannot have ref or out parameters.", 1954);
+                    _CS1954 = new CompilerReferenceError(Resources.CSharpErrors_CS1954, 1954);
                 return _CS1954;
             }
         }
@@ -8933,7 +8934,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1955 == null)
-                    _CS1955 = new CompilerReferenceError(@"Non-invocable member 'name' cannot be used like a method.", 1955);
+                    _CS1955 = new CompilerReferenceError(Resources.CSharpErrors_CS1955, 1955);
                 return _CS1955;
             }
         }
@@ -8943,7 +8944,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1958 == null)
-                    _CS1958 = new CompilerReferenceError(@"Object and collection initializer expressions may not be applied to a delegate creation expression,", 1958);
+                    _CS1958 = new CompilerReferenceError(Resources.CSharpErrors_CS1958, 1958);
                 return _CS1958;
             }
         }
@@ -8953,7 +8954,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS1959 == null)
-                    _CS1959 = new CompilerReferenceError(@"'name' is of type 'type'. The type specified in a constant declaration must be sbyte, byte, short, ushort, int, uint, long, ulong, char, float, double, decimal, bool, string, an enum-type, or a reference-type.", 1959);
+                    _CS1959 = new CompilerReferenceError(Resources.CSharpErrors_CS1959, 1959);
                 return _CS1959;
             }
         }
@@ -8963,7 +8964,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2001 == null)
-                    _CS2001 = new CompilerReferenceError(@"Source file 'file' could not be found", 2001);
+                    _CS2001 = new CompilerReferenceError(Resources.CSharpErrors_CS2001, 2001);
                 return _CS2001;
             }
         }
@@ -8973,7 +8974,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2003 == null)
-                    _CS2003 = new CompilerReferenceError(@"Response file 'file' included multiple times", 2003);
+                    _CS2003 = new CompilerReferenceError(Resources.CSharpErrors_CS2003, 2003);
                 return _CS2003;
             }
         }
@@ -8983,7 +8984,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2005 == null)
-                    _CS2005 = new CompilerReferenceError(@"Missing file specification for 'option' option", 2005);
+                    _CS2005 = new CompilerReferenceError(Resources.CSharpErrors_CS2005, 2005);
                 return _CS2005;
             }
         }
@@ -8993,7 +8994,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2006 == null)
-                    _CS2006 = new CompilerReferenceError(@"Command-line syntax error: Missing 'text' for 'option' option", 2006);
+                    _CS2006 = new CompilerReferenceError(Resources.CSharpErrors_CS2006, 2006);
                 return _CS2006;
             }
         }
@@ -9003,7 +9004,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2007 == null)
-                    _CS2007 = new CompilerReferenceError(@"Unrecognized command-line option: 'option'", 2007);
+                    _CS2007 = new CompilerReferenceError(Resources.CSharpErrors_CS2007, 2007);
                 return _CS2007;
             }
         }
@@ -9013,7 +9014,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2008 == null)
-                    _CS2008 = new CompilerReferenceError(@"No inputs specified", 2008);
+                    _CS2008 = new CompilerReferenceError(Resources.CSharpErrors_CS2008, 2008);
                 return _CS2008;
             }
         }
@@ -9023,7 +9024,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2011 == null)
-                    _CS2011 = new CompilerReferenceError(@"Unable to open response file 'file'", 2011);
+                    _CS2011 = new CompilerReferenceError(Resources.CSharpErrors_CS2011, 2011);
                 return _CS2011;
             }
         }
@@ -9033,7 +9034,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2012 == null)
-                    _CS2012 = new CompilerReferenceError(@"Cannot open 'file' for writing", 2012);
+                    _CS2012 = new CompilerReferenceError(Resources.CSharpErrors_CS2012, 2012);
                 return _CS2012;
             }
         }
@@ -9043,7 +9044,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2013 == null)
-                    _CS2013 = new CompilerReferenceError(@"Invalid image base number 'value'", 2013);
+                    _CS2013 = new CompilerReferenceError(Resources.CSharpErrors_CS2013, 2013);
                 return _CS2013;
             }
         }
@@ -9053,7 +9054,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2015 == null)
-                    _CS2015 = new CompilerReferenceError(@"'file' is a binary file instead of a text file", 2015);
+                    _CS2015 = new CompilerReferenceError(Resources.CSharpErrors_CS2015, 2015);
                 return _CS2015;
             }
         }
@@ -9063,7 +9064,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2016 == null)
-                    _CS2016 = new CompilerReferenceError(@"Code page 'codepage' is invalid or not installed", 2016);
+                    _CS2016 = new CompilerReferenceError(Resources.CSharpErrors_CS2016, 2016);
                 return _CS2016;
             }
         }
@@ -9073,7 +9074,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2017 == null)
-                    _CS2017 = new CompilerReferenceError(@"Cannot specify /main if building a module or library", 2017);
+                    _CS2017 = new CompilerReferenceError(Resources.CSharpErrors_CS2017, 2017);
                 return _CS2017;
             }
         }
@@ -9083,7 +9084,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2018 == null)
-                    _CS2018 = new CompilerReferenceError(@"Unable to find messages file 'cscmsgs.dll'", 2018);
+                    _CS2018 = new CompilerReferenceError(Resources.CSharpErrors_CS2018, 2018);
                 return _CS2018;
             }
         }
@@ -9093,7 +9094,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2019 == null)
-                    _CS2019 = new CompilerReferenceError(@"Invalid target type for /target: must specify 'exe', 'winexe', 'library', or 'module'", 2019);
+                    _CS2019 = new CompilerReferenceError(Resources.CSharpErrors_CS2019, 2019);
                 return _CS2019;
             }
         }
@@ -9103,7 +9104,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2020 == null)
-                    _CS2020 = new CompilerReferenceError(@"Only the first set of input files can build a target other than 'module'", 2020);
+                    _CS2020 = new CompilerReferenceError(Resources.CSharpErrors_CS2020, 2020);
                 return _CS2020;
             }
         }
@@ -9113,7 +9114,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2021 == null)
-                    _CS2021 = new CompilerReferenceError(@"File name 'file' is too long or invalid", 2021);
+                    _CS2021 = new CompilerReferenceError(Resources.CSharpErrors_CS2021, 2021);
                 return _CS2021;
             }
         }
@@ -9123,7 +9124,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2022 == null)
-                    _CS2022 = new CompilerReferenceError(@"Options '/out' and '/target' must appear before source file names", 2022);
+                    _CS2022 = new CompilerReferenceError(Resources.CSharpErrors_CS2022, 2022);
                 return _CS2022;
             }
         }
@@ -9133,7 +9134,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2024 == null)
-                    _CS2024 = new CompilerReferenceError(@"Invalid file section alignment number '#'", 2024);
+                    _CS2024 = new CompilerReferenceError(Resources.CSharpErrors_CS2024, 2024);
                 return _CS2024;
             }
         }
@@ -9143,7 +9144,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2032 == null)
-                    _CS2032 = new CompilerReferenceError(@"Character 'character' is not allowed on the command-line or in response files", 2032);
+                    _CS2032 = new CompilerReferenceError(Resources.CSharpErrors_CS2032, 2032);
                 return _CS2032;
             }
         }
@@ -9153,7 +9154,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2033 == null)
-                    _CS2033 = new CompilerReferenceError(@"Cannot create short filename 'filename' when a long filename with the same short filename already exists ", 2033);
+                    _CS2033 = new CompilerReferenceError(Resources.CSharpErrors_CS2033, 2033);
                 return _CS2033;
             }
         }
@@ -9163,7 +9164,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2034 == null)
-                    _CS2034 = new CompilerReferenceError(@"A /reference option that declares an extern alias can only have one filename. To specify multiple aliases or filenames, use multiple /reference options.", 2034);
+                    _CS2034 = new CompilerReferenceError(Resources.CSharpErrors_CS2034, 2034);
                 return _CS2034;
             }
         }
@@ -9173,7 +9174,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2035 == null)
-                    _CS2035 = new CompilerReferenceError(@"Command-line syntax error: Missing ':<number>' for 'compiler_option' option", 2035);
+                    _CS2035 = new CompilerReferenceError(Resources.CSharpErrors_CS2035, 2035);
                 return _CS2035;
             }
         }
@@ -9183,7 +9184,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS2036 == null)
-                    _CS2036 = new CompilerReferenceError(@"The /pdb option requires that the /debug option also be used.", 2036);
+                    _CS2036 = new CompilerReferenceError(Resources.CSharpErrors_CS2036, 2036);
                 return _CS2036;
             }
         }
@@ -9193,7 +9194,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             get
             {
                 if (_CS5001 == null)
-                    _CS5001 = new CompilerReferenceError(@"Program 'program' does not contain a static 'Main' method suitable for an entry point", 5001);
+                    _CS5001 = new CompilerReferenceError(Resources.CSharpErrors_CS5001, 5001);
                 return _CS5001;
             }
         }
