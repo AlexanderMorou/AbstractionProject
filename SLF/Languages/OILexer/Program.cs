@@ -23,6 +23,7 @@ using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Common;
 using System.Windows.Forms;
+using AllenCopeland.Abstraction.Slf.Parsers;
 /* *
  * Old Release Post-build command:
  * "$(ProjectDir)PostBuild.bat" "$(ConfigurationName)" "$(TargetPath)"
@@ -144,17 +145,22 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
         /// call site.</param>
         private static void Main(string[] args)
         {
+            for (int i = 0; i < 1000; i++)
+            {
+                for (int j = 0; j < 1000; j++)
+                {
+                    if (j % 3==0)
+                        goto breaki;
+                }
+                if (i == 9)
+                    goto breaki;
+            }
+            breaki:
+                ;
             var consoleTitle = Console.Title;
             try
             {
-                try
-                {
-                    Console.Clear();
-                    Console.Title = string.Format("{0}", Path.GetFileNameWithoutExtension(typeof(Program).Assembly.Location));
-                }
-                catch (IOException)
-                {
-                }
+                Console.Title = string.Format("{0}", Path.GetFileNameWithoutExtension(typeof(Program).Assembly.Location));
                 if (args.Length <= 0)
                 {
                     if ((options & ValidOptions.NoLogo) != ValidOptions.NoLogo)
@@ -178,20 +184,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                         options |= ValidOptions.ExportTraversalHTML;
                     }
                     else if (s.ToLower() == Export_DLL)
-                    {
-                        options &= ~(ValidOptions.ExportEXE | ValidOptions.ExportTraversalHTML | ValidOptions.ExportCSharp);
-                        options |= ValidOptions.ExportDLL;
-                    }
+                        options = (options & ~(ValidOptions.ExportEXE | ValidOptions.ExportTraversalHTML | ValidOptions.ExportCSharp)) | ValidOptions.ExportDLL;
                     else if (s.ToLower() == Export_EXE)
-                    {
-                        options &= ~(ValidOptions.ExportTraversalHTML | ValidOptions.ExportDLL | ValidOptions.ExportCSharp);
-                        options |= ValidOptions.ExportEXE;
-                    }
+                        options = (options & ~(ValidOptions.ExportTraversalHTML | ValidOptions.ExportDLL | ValidOptions.ExportCSharp)) | ValidOptions.ExportEXE;
                     else if (s.ToLower() == Export_CSharp)
-                    {
-                        options &= ~(ValidOptions.ExportEXE | ValidOptions.ExportDLL | ValidOptions.ExportTraversalHTML);
-                        options |= ValidOptions.ExportCSharp;
-                    }
+                        options = (options & ~(ValidOptions.ExportEXE | ValidOptions.ExportDLL | ValidOptions.ExportTraversalHTML)) | ValidOptions.ExportCSharp;
                     else if (s.ToLower() == Quiet)
                         options = (options & ~ValidOptions.VerboseMode) | ValidOptions.QuietMode;
                     else if (s.ToLower() == Verbose)
@@ -236,13 +233,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             }
             finally
             {
-                try
-                {
-                    Console.Title = consoleTitle;
-                }
-                catch (IOException)
-                {
-                }
+                Console.Title = consoleTitle;
             }
         }
 
@@ -272,6 +263,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             a();
             sw.Stop();
             return sw.Elapsed;
+        }
+
+        private static void T<T1>()
+        {
+            Console.WriteLine(typeof(T1));
         }
 
         private static void BuildTupleSamples()
@@ -370,7 +366,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
 
                 var mainConstructor = currentType.Constructors.Add(parameterInfo);
 
-                currentTupleHelper.ReturnType = currentType.MakeVerifiedGenericType(currentTupleHelper.GenericParameters);
+                currentTupleHelper.ReturnType = currentType.MakeGenericClosure(currentTupleHelper.GenericParameters);
                 LinkedList<ITypeCollection> sevenTupleSets = new LinkedList<ITypeCollection>();
                 LinkedList<IExpression[]> sevenParameterSets = new LinkedList<IExpression[]>();
                 int sevenTupleSetCount = (int)Math.Ceiling(((double)(i)) / 7);
@@ -436,7 +432,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                          * So create a reference to a tuple grouping with the appropriate
                          * number of type-parameters.
                          * */
-                        currentTypeBase = (IClassType)tupleBaseTypes[current.Value.Count - 1].MakeVerifiedGenericType(current.Value);
+                        currentTypeBase = (IClassType)tupleBaseTypes[current.Value.Count - 1].MakeGenericClosure(current.Value);
                         /* *
                          * The trailing cascade parameter instantiates the final tuple on all
                          * versions of the type-parameter, except for the last, which has no more
@@ -452,7 +448,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                          * */
                         var lockedTypes = (LockedTypeCollection)(current.Value);
                         lockedTypes._Add(currentTypeBase);
-                        var tempTypeBase = (IClassType)eightTupleType.MakeVerifiedGenericType(lockedTypes);
+                        var tempTypeBase = (IClassType)eightTupleType.MakeGenericClosure(lockedTypes);
 
                         if (currentParamSet != sevenParameterSets.First)
                         {
@@ -562,27 +558,12 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             int maxLength = new int[] { TitleSequence_CharacterSetCache.Length, TitleSequence_CharacterSetComputations.Length, TitleSequence_VocabularyCache.Length, TitleSequence_VocabularyComputations.Length, TitleSequence_NumberOfRules.Length, TitleSequence_NumberOfTokens.Length, PhaseName_Linking.Length, PhaseName_ExpandingTemplates.Length, PhaseName_Deliteralization.Length, PhaseName_InliningTokens.Length, PhaseName_TokenNFAConstruction.Length, PhaseName_TokenDFAConstruction.Length, PhaseName_TokenDFAReduction.Length, PhaseName_RuleNFAConstruction.Length, PhaseName_RuleDFAConstruction.Length, PhaseName_CallTreeAnalysis.Length, PhaseName_ObjectModelConstruction.Length, PhaseName_TokenCaptureConstruction.Length, PhaseName_TokenEnumConstruction.Length, PhaseName_RuleStructureConstruction.Length, PhaseName_Parsing.Length }.Max();
             baseTitle = string.Format("{0}: {1}", Path.GetFileNameWithoutExtension(typeof(Program).Assembly.Location), Path.GetFileName(file));
             Console.Title = baseTitle;
-            GDParser gp = new GDParser();
-            //GDBuilder igdb = new GDBuilder();
             Stopwatch sw = new Stopwatch();
             IParserResults<IGDFile> resultsOfParse = null;
-            try
-            {
-                Console.Clear();
-                Console.Title = string.Format("{0} Parsing...", baseTitle);
-            }
-            catch (IOException) 
-            {
-                /* *
-                 * Clear not available.
-                 * Cases: Application type changed.
-                 *        Console output redirected to something else, eg. file.
-                 * */
-            }
             if ((options & ValidOptions.NoLogo) != ValidOptions.NoLogo)
                 DisplayLogo();
             sw.Start();
-            resultsOfParse = gp.Parse(file);
+            resultsOfParse = file.Parse<IGDToken, IGDTokenizer, IGDFile, OILexerParser>();
             sw.Stop();
             var parseTime = sw.Elapsed;
             var tLenMax = (from e in resultsOfParse.Result
@@ -665,7 +646,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                      * Utilities.Common.StringHandling.FixedJoin could work here;
                      * however, color-coding elements would be out.
                      * */
-
+                    
                     foreach (var count in grouped.Keys)
                     {
                         string countStr = string.Format(" {0} ", count);
@@ -719,7 +700,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 if ((options & ValidOptions.QuietMode) != ValidOptions.QuietMode)
                     DisplayBuildBreakdown(resultsOfBuild, maxLength);
             errorChecker:
-                if (resultsOfBuild == null || resultsOfBuild.Project == null)
+                if (resultsOfBuild == null || resultsOfBuild.Project == null || resultsOfBuild.CompilationErrors.HasErrors)
                 {
                     /* *
                      * The builder encountered an error not immediately obvious by linking.
@@ -790,9 +771,13 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     */
                 }
                 goto ShowParseTime;
+                
             __CheckErrorAgain:
-                if (resultsOfParse.Errors.HasErrors)
+                if (resultsOfParse.SyntaxErrors.HasErrors)
                     Program.ShowErrors(resultsOfParse);
+                else if (resultsOfBuild.CompilationErrors.HasErrors)
+                    Program.ShowErrors(resultsOfParse, resultsOfBuild.CompilationErrors);
+
             }
             else
                 Program.ShowErrors(resultsOfParse);
@@ -823,6 +808,138 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             }
             catch (IOException) { }
             Console.ReadKey(true);
+        }
+
+        private static void ShowErrors(IParserResults<IGDFile> parserResults, ICompilerErrorCollection errors)
+        {
+            long size = (from s in parserResults.Result.Files
+                         select new FileInfo(s).Length).Sum();
+
+            var sortedMessages =
+                (from ICompilerMessage ce in errors
+                 orderby ce.Location.Line,
+                         ce.Message
+                 select ce).ToArray();
+            int largestColumn = sortedMessages.Max(p => p.Location.Column).ToString().Length;
+            int furthestLine = sortedMessages.Max(p => p.Location.Line).ToString().Length;
+
+            string[] parts = (from ICompilerMessage e in errors
+                              let ePath = Path.GetDirectoryName(e.FileName)
+                              orderby ePath.Length descending
+                              select ePath).First().Split(new string[] { @"\" }, StringSplitOptions.RemoveEmptyEntries);
+
+            /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+             * Breakdown the longest filename and rebuild it part by part,         *
+             * where all elements from the error set contain the current path,     *
+             * select that path, then select the longest common path.              *
+             * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+             * If the longest file doesn't contain anything in common, then there  *
+             * is no group relative path and the paths will be shown in full.      *
+             * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+            string relativeRoot = null;
+            for (int i = 0; i < parts.Length; i++)
+            {
+                string currentRoot = string.Join(@"\", parts, 0, parts.Length - i);
+                if (sortedMessages.All(p => p.FileName.Contains(currentRoot)))
+                {
+                    relativeRoot = currentRoot;
+                    break;
+                }
+            }
+
+            /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+             * Change was made to the sequence of LINQ expressions due to their    *
+             * readability versus traditional methods of a myriad of dictionaries. *
+             * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+            var fileQuery =
+                (from error in sortedMessages
+                 select error.FileName).Distinct();
+
+            var folderQuery =
+                (from file in fileQuery
+                 select Path.GetDirectoryName(file)).Distinct();
+
+            var fileErrorQuery =
+                (from file in fileQuery
+                 join error in sortedMessages on file equals error.FileName into fileErrors
+                 let fileErrorsArray = fileErrors.ToArray()
+                 orderby fileErrorsArray.Length descending,
+                         file ascending
+                 select new { File = Path.GetFileName(file), Path = Path.GetDirectoryName(file), Errors = fileErrorsArray }).ToArray();
+
+            var folderErrors =
+                (from folder in folderQuery
+                 join file in fileErrorQuery on folder equals file.Path into folderFileErrors
+                 let folderFileArray = folderFileErrors.ToArray()
+                 orderby folderFileArray.Length descending,
+                         folder ascending
+                 select new { Path = folder, ErroredFiles = folderFileArray, FileCount = folderFileArray.Length, ErrorCount = folderFileArray.Sum(fileData => fileData.Errors.Length) }).ToArray();
+
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            List<string> erroredFiles = new List<string>();
+            var color = Console.ForegroundColor;
+            if (relativeRoot != null)
+                Console.WriteLine("All folders relative to: {0}", relativeRoot);
+            foreach (var folder in folderErrors)
+            {
+                //Error color used for denoting the specific error.
+                const ConsoleColor errorColor = ConsoleColor.DarkRed;
+                //Used for the string noting there were errors.
+                const ConsoleColor errorMColor = ConsoleColor.Red;
+                //Warning color.
+                const ConsoleColor warnColor = ConsoleColor.DarkBlue;
+                //Position Color.
+                const ConsoleColor posColor = ConsoleColor.Gray;
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+
+                string flError = (folder.ErrorCount > 1) ? "errors" : "error";
+                string rPath = null;
+                if (relativeRoot != null)
+                {
+                    if (folder.Path == relativeRoot)
+                        rPath = @".\";
+                    else
+                        rPath = folder.Path.Substring(relativeRoot.Length);// Console.WriteLine("{0} {2} in folder .{1}", folder.ErrorCount, folder.Path.Substring(relativeRoot.Length), flError);
+                }
+                else
+                    rPath = folder.Path;// Console.WriteLine("{0} {2} in folder {1}", folder.ErrorCount, folder.Path, flError);
+                Console.WriteLine("{0} {2} in folder {1}", folder.ErrorCount, rPath, flError);
+                foreach (var fileErrorSet in folder.ErroredFiles)
+                {
+                    Console.ForegroundColor = errorMColor;
+                    string fError = (fileErrorSet.Errors.Length > 1) ? "errors" : "error";
+                    Console.WriteLine("\t{0} {2} in file {1}:", fileErrorSet.Errors.Length, fileErrorSet.File, fError);
+                    foreach (var ce in fileErrorSet.Errors)
+                    {
+                        bool isWarning = ce is ICompilerWarning;
+                        if (!isWarning)
+                            Console.ForegroundColor = errorColor;
+                        else
+                            Console.ForegroundColor = warnColor;
+                        Console.Write("\t\t{0} - {{", ce.MessageIdentifier);
+                        Console.ForegroundColor = posColor;
+                        int l = ce.Location.Line, c = ce.Location.Column;
+                        l = furthestLine - l.ToString().Length;
+                        c = largestColumn - c.ToString().Length;
+                        Console.Write("{2}{0}:{1}{3}", ce.Location.Line, ce.Location.Column, ' '.Repeat(l), ' '.Repeat(c));
+                        if (!isWarning)
+                            Console.ForegroundColor = errorColor;
+                        else
+                            Console.ForegroundColor = warnColor;
+                        Console.Write("}} - {0}", ce.Message);
+                        Console.WriteLine();
+                    }
+                    Console.WriteLine();
+                }
+                Console.WriteLine();
+            }
+            Console.ForegroundColor = color;
+            int totalErrorCount = errors.Count,
+                totalFileCount = folderErrors.Sum(folderData => folderData.FileCount);
+            Console.WriteLine("There were {0} {2} in {1} {3}.", totalErrorCount, totalFileCount, totalErrorCount == 1 ? "error" : "errors", totalFileCount == 1 ? "file" : "files");
+            Console.WriteLine("A total of {0:#,#} bytes were parsed from {1} files.", size, parserResults.Result.Files.Count);
         }
 
         /*
@@ -1284,26 +1401,26 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
         private static void DisplaySyntax(ILiteralCharReferenceProductionRuleItem charItem, ref bool startingLine, int depth)
         {
             var consoleColor = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
             if (startingLine)
             {
                 Console.Write(' '.Repeat((depth + 1) * 4));
                 startingLine = false;
             }
-            Console.Write(charItem.Literal.Value.ToString().Encode());
+            Console.Write(charItem.Literal.Value);
             Console.ForegroundColor = consoleColor;
         }
 
-        private static void DisplaySyntax(ILiteralStringReferenceProductionRuleItem charItem, ref bool startingLine, int depth)
+        private static void DisplaySyntax(ILiteralStringReferenceProductionRuleItem stringItem, ref bool startingLine, int depth)
         {
             var consoleColor = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.Blue;
             if (startingLine)
             {
                 Console.Write(' '.Repeat((depth + 1) * 4));
                 startingLine = false;
             }
-            Console.Write(charItem.Literal.Value.Encode());
+            Console.Write(stringItem.Literal.Value);
             Console.ForegroundColor = consoleColor;
         }
 
@@ -1541,7 +1658,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
 
         private static ParserBuilderResults Build(IParserResults<IGDFile> iprs)
         {
-            ParserBuilderResults resultsOfBuild = iprs.Result.Build(StreamAnalysisFiles, iprs.Errors, 
+            ParserBuilderResults resultsOfBuild = iprs.Result.Build(StreamAnalysisFiles, 
                 phase =>
                     Console.Title = string.Format("{0} - {1}...", Program.baseTitle, GetPhaseSubString(phase)));
             return resultsOfBuild;
@@ -1553,14 +1670,14 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                          select new FileInfo(s).Length).Sum();
 
             var iprsSorted =
-                (from CompilerError ce in iprs.Errors
-                 orderby ce.Line,
-                         ce.ErrorText
+                (from CompilerError ce in iprs.SyntaxErrors
+                 orderby ce.Location.Line,
+                         ce.Message
                  select ce).ToArray();
-            int largestColumn = iprsSorted.Max(p => p.Column).ToString().Length;
-            int furthestLine = iprsSorted.Max(p => p.Line).ToString().Length;
+            int largestColumn = iprsSorted.Max(p => p.Location.Column).ToString().Length;
+            int furthestLine = iprsSorted.Max(p => p.Location.Line).ToString().Length;
 
-            string[] parts = (from CompilerError e in iprs.Errors
+            string[] parts = (from e in iprs.SyntaxErrors
                               let ePath = Path.GetDirectoryName(e.FileName)
                               orderby ePath.Length descending
                               select ePath).First().Split(new string[] { @"\" }, StringSplitOptions.RemoveEmptyEntries);
@@ -1625,8 +1742,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 const ConsoleColor errorColor = ConsoleColor.DarkRed;
                 //Used for the string noting there were errors.
                 const ConsoleColor errorMColor = ConsoleColor.Red;
-                //Warning color.
-                const ConsoleColor warnColor = ConsoleColor.DarkBlue;
                 //Position Color.
                 const ConsoleColor posColor = ConsoleColor.Gray;
                 Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -1650,21 +1765,15 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     Console.WriteLine("\t{0} {2} in file {1}:", fileErrorSet.Errors.Length, fileErrorSet.File, fError);
                     foreach (var ce in fileErrorSet.Errors)
                     {
-                        if (!ce.IsWarning)
-                            Console.ForegroundColor = errorColor;
-                        else
-                            Console.ForegroundColor = warnColor;
-                        Console.Write("\t\t{0} - {{", ce.ErrorNumber);
+                        Console.ForegroundColor = errorColor;
+                        Console.Write("\t\t{0} - {{", ce.MessageIdentifier);
                         Console.ForegroundColor = posColor;
-                        int l = ce.Line, c = ce.Column;
+                        int l = ce.Location.Line, c = ce.Location.Column;
                         l = furthestLine - l.ToString().Length;
                         c = largestColumn - c.ToString().Length;
-                        Console.Write("{2}{0}:{1}{3}", ce.Line, ce.Column, ' '.Repeat(l), ' '.Repeat(c));
-                        if (!ce.IsWarning)
-                            Console.ForegroundColor = errorColor;
-                        else
-                            Console.ForegroundColor = warnColor;
-                        Console.Write("}} - {0}", ce.ErrorText);
+                        Console.Write("{2}{0}:{1}{3}", ce.Location.Line, ce.Location.Column, ' '.Repeat(l), ' '.Repeat(c));
+                        Console.ForegroundColor = errorColor;
+                        Console.Write("}} - {0}", ce.Message);
                         Console.WriteLine();
                     }
                     Console.WriteLine();
@@ -1672,7 +1781,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 Console.WriteLine();
             }
             Console.ForegroundColor = color;
-            int totalErrorCount = iprs.Errors.Count,
+            int totalErrorCount = iprs.SyntaxErrors.Count,
                 totalFileCount  = folderErrors.Sum(folderData => folderData.FileCount);
             Console.WriteLine("There were {0} {2} in {1} {3}.", totalErrorCount, totalFileCount, totalErrorCount == 1 ? "error" : "errors", totalFileCount == 1 ? "file" : "files");
             Console.WriteLine("A total of {0:#,#} bytes were parsed from {1} files.", size, iprs.Result.Files.Count);

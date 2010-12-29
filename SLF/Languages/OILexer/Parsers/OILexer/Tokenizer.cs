@@ -34,10 +34,10 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
         /// </summary>
         private List<long> lineStarts = new List<long>();
         /// <summary>
-        /// The current <see cref="CompilerError"/> resulted from the last <see cref="NextToken(int)"/>
+        /// The current <see cref="IParserSyntaxError"/> resulted from the last <see cref="NextToken(int)"/>
         /// call.
         /// </summary>
-        private CompilerError currentError = null;
+        private IParserSyntaxError currentError = null;
         /// <summary>
         /// The current <see cref="IToken"/> resulted from the last <see cref="NextToken(int)"/> 
         /// call.
@@ -69,7 +69,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
             /// <summary>
             /// Data member for <see cref="Error"/>.
             /// </summary>
-            CompilerError error;
+            IParserSyntaxError error;
 
             /// <summary>
             /// Creates a new <see cref="NextTokenResults"/> instance with the 
@@ -87,7 +87,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
             /// <paramref name="error"/> provided.
             /// </summary>
             /// <param name="error">The error of an unsuccessful operation.</param>
-            public NextTokenResults(CompilerError error)
+            public NextTokenResults(IParserSyntaxError error)
             {
                 this.error = error;
                 this.token = null;
@@ -120,7 +120,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
             /// Returns the error that resulted from the operation.
             /// </summary>
             /// <remarks>Null if <see cref="Successful"/> is true.</remarks>
-            public CompilerError Error
+            public IParserSyntaxError Error
             {
                 get
                 {
@@ -416,7 +416,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
         /// <summary>
         /// Returns the current error that is present instead of the current token.
         /// </summary>
-        public CompilerError CurrentError
+        public IParserSyntaxError CurrentError
         {
             get
             {

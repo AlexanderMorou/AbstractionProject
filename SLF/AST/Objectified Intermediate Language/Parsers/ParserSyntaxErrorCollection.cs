@@ -38,6 +38,11 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
         }
 
 
+        public void SyntaxError(IParserSyntaxError error)
+        {
+            base.AddImpl(error);
+        }
+
         /// <summary>
         /// Returns whether the <see cref="IParserSyntaxErrorCollection"/> 
         /// has an <see cref="ISourceRelatedError"/>.
@@ -48,6 +53,5 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
         }
 
         #endregion
-
     }
 }

@@ -21,6 +21,9 @@ using AllenCopeland.Abstraction.Slf._Internal.Oilexer.Inlining;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using AllenCopeland.Abstraction.Slf.Parsers.Oilexer;
+using AllenCopeland.Abstraction.Slf.Parsers;
+using AllenCopeland.Abstraction.Slf.Cst;
 
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
@@ -226,5 +229,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return target.Match(text).AsEnumerable();
         }
 
+        public static IParserResults<TResult> Parse<TToken, TTokenizer, TResult, TParser>(this string fileName)
+            where TParser :
+                IParser<TToken, TTokenizer, TResult>,
+                new()
+            where TToken :
+                IToken
+            where TTokenizer :
+                ITokenizer<TToken>
+            where TResult :
+                IConcreteNode
+        {
+            var parser = new TParser();
+            return parser.Parse(fileName);
+        }
     }
 }

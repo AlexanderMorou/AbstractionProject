@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Oil;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
@@ -16,16 +17,12 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// <see cref="ISourceRelatedMessage"/>.
         /// </summary>
         string Message { get; }
+
         /// <summary>
-        /// Gets the <see cref="Int32"/> value associated to the 
-        /// column the message pertains to.
+        /// Returns the <see cref="LineColumnPair"/> which denotes the position within <see cref="FileName"/>
+        /// the <see cref="ISourceRelatedMessage"/> refers to.
         /// </summary>
-        int Column { get; }
-        /// <summary>
-        /// Gets the <see cref="Int32"/> value associated to the line
-        /// the message pertains to.
-        /// </summary>
-        int Line { get; }
+        LineColumnPair Location { get; }
         
         /// <summary>
         /// Returns the <see cref="String"/> which denotes the specific file

@@ -424,7 +424,7 @@ using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
                 ((ProductionRule)(expression)).baseList.Remove(item);
         }
 
-        public static bool InlineTokens(IGDFile file, CompilerErrorCollection errors)
+        public static bool InlineTokens(IGDFile file)
         {
             ITokenEntry[] originals = LinkerCore.tokenEntries.ToArray();
             InlinedTokenEntry[] result = new InlinedTokenEntry[originals.Length];
@@ -539,14 +539,14 @@ using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
                    select iE;
         }
 
-        public static ParserBuilderResults Build(this IGDFile file, List<string> streamAnalysisFiles, CompilerErrorCollection errors, Action<ParserBuilderPhase> phaseShifter)
+        public static ParserBuilderResults Build(this IGDFile file, List<string> streamAnalysisFiles, Action<ParserBuilderPhase> phaseShifter)
         {
-            ParserBuilder builder = new ParserBuilder(file, errors, streamAnalysisFiles);
+            ParserBuilder builder = new ParserBuilder(file, streamAnalysisFiles);
 
             foreach (ParserBuilderPhase phase in builder)
                 phaseShifter(phase);
 
-            return new ParserBuilderResults() { Project = builder.Project, PhaseTimes = new ReadOnlyDictionary<ParserBuilderPhase, TimeSpan>(builder.PhaseTimes), RuleStateMachines= builder.RuleDFAStates };
+            return new ParserBuilderResults() { Project = builder.Project, CompilationErrors = builder.CompilationErrors, PhaseTimes = new ReadOnlyDictionary<ParserBuilderPhase, TimeSpan>(builder.PhaseTimes), RuleStateMachines= builder.RuleDFAStates };
         }
 
         public static SyntacticalNFAState BuildNFA(this IProductionRuleSeries series, IGrammarSymbolSet symbols, ParserBuilder builder)

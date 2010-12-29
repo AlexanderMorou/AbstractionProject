@@ -8,6 +8,8 @@ using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
 using AllenCopeland.Abstraction.Slf.Parsers.Oilexer;
 using AllenCopeland.Abstraction.Slf.Compilers.Oilexer;
+using AllenCopeland.Abstraction.Slf.Parsers;
+using AllenCopeland.Abstraction.Slf.Compilers;
 namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
 {
     internal static partial class LinkerCore
@@ -21,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
         internal static IEnumerable<IErrorEntry> errorEntries;
         internal static _GDResolutionAssistant resolutionAid;
         
-        private static void ResolveToken(this ITokenEntry entry, GDFile file, CompilerErrorCollection errors)
+        private static void ResolveToken(this ITokenEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             List<ITokenEntry> lowerTokens = new List<ITokenEntry>();
             if (entry.LowerPrecedenceTokens == null)
@@ -35,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                                  select tokenEntry).FirstOrDefault();
                     if (match == null)
                     {
-                        GrammarCore.GetParserError(entry.FileName, entry.Line, entry.Column, GDParserErrors.UndefinedTokenReference, string.Format("Lower precedence token {0}", s));
+                        errors.Error(GrammarCore.CompilerErrors.UndefinedTokenReference, entry.Column, entry.Line, entry.FileName, string.Format("lower precedence {0}", s));
                         break;
                     }
                     lowerTokens.Add(match);
@@ -45,13 +47,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             entry.Branches.ResolveTokenExpressionSeries(entry, file, errors);
         }
 
-        private static void ResolveTokenExpressionSeries(this ITokenExpressionSeries series, ITokenEntry entry, GDFile file, CompilerErrorCollection errors)
+        private static void ResolveTokenExpressionSeries(this ITokenExpressionSeries series, ITokenEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             foreach (ITokenExpression ite in series)
                 ite.ResolveTokenExpression(entry, file, errors);
         }
 
-        private static void ResolveTokenExpression(this ITokenExpression expression, ITokenEntry entry, GDFile file, CompilerErrorCollection errors)
+        private static void ResolveTokenExpression(this ITokenExpression expression, ITokenEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             IList<ITokenItem> rCopy = (from item in expression
                                        select item).ToList();
@@ -63,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 te.BaseCollection.Add(iti);
         }
 
-        private static ITokenItem ResolveTokenExpressionItem(this ITokenItem item, ITokenEntry entry, GDFile file, CompilerErrorCollection errors)
+        private static ITokenItem ResolveTokenExpressionItem(this ITokenItem item, ITokenEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             if (item is ITokenGroupItem)
             {
@@ -92,7 +94,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return item;
         }
 
-        private static void ResolveSoftReference(this ICommandTokenItem source, ITokenEntry entry, GDFile file, System.CodeDom.Compiler.CompilerErrorCollection errors)
+        private static void ResolveSoftReference(this ICommandTokenItem source, ITokenEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             if (source is IScanCommandTokenItem)
             {
@@ -107,7 +109,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             }
         }
 
-        private static ITokenItem ResolveSoftReference(this ISoftReferenceTokenItem item, ITokenEntry entry, GDFile file, CompilerErrorCollection errors)
+        private static ITokenItem ResolveSoftReference(this ISoftReferenceTokenItem item, ITokenEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             ITokenEntry tokenE = tokenEntries.FindScannableEntry(item.PrimaryName);
             if (tokenE != null)
@@ -153,11 +155,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 }
             }
             else
-                errors.Add(GrammarCore.GetParserError(entry.FileName, item.Line, item.Column, GDParserErrors.UndefinedTokenReference, item.PrimaryName));
+                errors.Error(GrammarCore.CompilerErrors.UndefinedTokenReference, item.Column, item.Line, entry.FileName, item.PrimaryName);
             return item;
         }
 
-        private static void ResolveProductionRule<T>(this T entry, GDFile file, CompilerErrorCollection errors)
+        private static void ResolveProductionRule<T>(this T entry, GDFile file, ICompilerErrorCollection errors)
             where T :
                 IProductionRuleEntry 
         {
@@ -166,7 +168,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             entry.ResolveProductionRuleSeries(entry, file, errors); 
         }
 
-        private static void ResolveProductionRuleTemplate(this IProductionRuleTemplateEntry entry, GDFile file, CompilerErrorCollection errors)
+        private static void ResolveProductionRuleTemplate(this IProductionRuleTemplateEntry entry, GDFile file, ICompilerErrorCollection errors)
         {
             foreach (ProductionRuleTemplatePart part in entry.Parts)
             {
@@ -181,13 +183,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                             resolutionAid.ResolvedSinglePartToToken(softExpect, reference);
                     }
                     else
-                        errors.Add(GrammarCore.GetParserError(entry.FileName, part.ExpectedSpecific.Line, part.ExpectedSpecific.Column, GDParserErrors.UndefinedTokenReference, softExpect.PrimaryName));
+                        errors.Error(GrammarCore.CompilerErrors.UndefinedTokenReference, part.ExpectedSpecific.Line, part.ExpectedSpecific.Column, entry.FileName, softExpect.PrimaryName);
                     return;
                 }
             }
         }
 
-        private static void ResolveProductionRuleSeries<T>(this IProductionRuleSeries series, T entry, GDFile file, CompilerErrorCollection errors)
+        private static void ResolveProductionRuleSeries<T>(this IProductionRuleSeries series, T entry, GDFile file, ICompilerErrorCollection errors)
             where T :
                 IProductionRuleEntry
         {
@@ -195,7 +197,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 ite.ResolveProductionRule(entry, file, errors);
         }
 
-        private static void ResolveProductionRule<T>(this IProductionRule rule, T entry, GDFile file, CompilerErrorCollection errors)
+        private static void ResolveProductionRule<T>(this IProductionRule rule, T entry, GDFile file, ICompilerErrorCollection errors)
             where T :
                 IProductionRuleEntry
         {
@@ -214,7 +216,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 pr.BaseCollection.Add(iti);
         }
 
-        private static IProductionRuleItem ResolveProductionRuleItem<T>(this IProductionRuleItem item, T entry, GDFile file, CompilerErrorCollection errors)
+        private static IProductionRuleItem ResolveProductionRuleItem<T>(this IProductionRuleItem item, T entry, GDFile file, ICompilerErrorCollection errors)
             where T :
                 IProductionRuleEntry
         {
@@ -234,13 +236,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             else
                 return item;
         }
-        public static IProductionRulePreprocessorDirective ResolveProductionRuleItem<T>(this IProductionRulePreprocessorDirective item, T entry, GDFile file, CompilerErrorCollection errors)
+        public static IProductionRulePreprocessorDirective ResolveProductionRuleItem<T>(this IProductionRulePreprocessorDirective item, T entry, GDFile file, ICompilerErrorCollection errors)
             where T :
                 IProductionRuleEntry
         {
             return new ProductionRulePreprocessorDirective(item.Directive.ResolveProductionRuleItem(entry, file, errors), item.Column, item.Line, item.Position);
         }
-        public static IPreprocessorDirective ResolveProductionRuleItem<T>(this IPreprocessorDirective item, T entry, GDFile file, CompilerErrorCollection errors)
+        public static IPreprocessorDirective ResolveProductionRuleItem<T>(this IPreprocessorDirective item, T entry, GDFile file, ICompilerErrorCollection errors)
             where T :
                 IProductionRuleEntry
         {
@@ -292,7 +294,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return item;
         }
 
-        public static IProductionRuleItem ResolveTemplateSoftReference<T>(this ISoftTemplateReferenceProductionRuleItem item, T entry, GDFile file, CompilerErrorCollection errors)
+        public static IProductionRuleItem ResolveTemplateSoftReference<T>(this ISoftTemplateReferenceProductionRuleItem item, T entry, GDFile file, ICompilerErrorCollection errors)
             where T :
                 IProductionRuleEntry
         {
@@ -321,7 +323,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                                      * Regardless of the match, according to the template, it has
                                      * invalid argument repeat options.
                                      * */
-                                    errors.Add(GrammarCore.GetParserError(template.FileName, template.Line, template.Column, GDParserErrors.InvalidRepeatOptions));
+                                    errors.Error(GrammarCore.CompilerErrors.InvalidRepeatOptions, template.Column, template.Line, template.FileName);
                             }
                         }
                         else if (tai.InvalidArguments == 0)
@@ -331,7 +333,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                             break;
                         }
                         else
-                            errors.Add(GrammarCore.GetParserError(template.FileName, template.Line, template.Column, GDParserErrors.InvalidRepeatOptions));
+                            errors.Error(GrammarCore.CompilerErrors.InvalidRepeatOptions, template.Column, template.Line, template.FileName);
                     }
                     else
                     {
@@ -354,14 +356,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 return rResult;
             }
             else if (closeMatches.Count > 0)
-                errors.Add(GrammarCore.GetParserError(entry.FileName, item.Line, item.Column, GDParserErrors.DynamicArgumentCountError));
+                errors.Error(GrammarCore.CompilerErrors.DynamicArgumentCountError, item.Column, item.Line, entry.FileName);
             else
                 if (ruleEntries.FindScannableEntry(item.PrimaryName) != null)
-                    errors.Add(GrammarCore.GetParserError(entry.FileName, item.Line, item.Column, GDParserErrors.RuleNotTemplate, item.PrimaryName));
+                    errors.Error(GrammarCore.CompilerErrors.RuleNotTemplate, item.Column, item.Line, entry.FileName, item.PrimaryName);
             return item;
         }
 
-        public static IProductionRuleItem ResolveSoftReference<T>(this ISoftReferenceProductionRuleItem item, T entry, GDFile file, CompilerErrorCollection errors)
+        public static IProductionRuleItem ResolveSoftReference<T>(this ISoftReferenceProductionRuleItem item, T entry, GDFile file, ICompilerErrorCollection errors)
             where T :
                 IProductionRuleEntry
         {
@@ -392,7 +394,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 return rrpri;
             }
             else if (ruleTemplEntries.FindScannableEntry(item.PrimaryName) != null)
-                errors.Add(GrammarCore.GetParserError(entry.FileName, item.Line, item.Column, GDParserErrors.RuleIsTemplate, item.PrimaryName));
+                errors.Error(GrammarCore.CompilerErrors.RuleIsTemplate, item.Column, item.Line, entry.FileName, item.PrimaryName);
             else
             {
                 ITokenEntry tokenE = tokenEntries.FindScannableEntry(item.PrimaryName);
@@ -452,7 +454,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return default(T);
         }
 
-        public static void ResolveTemplates(this GDFile file, CompilerErrorCollection errors)
+        public static void ResolveTemplates(this GDFile file, ICompilerErrorCollection errors)
         {
             if (file == null)
                 throw new ArgumentNullException("file");

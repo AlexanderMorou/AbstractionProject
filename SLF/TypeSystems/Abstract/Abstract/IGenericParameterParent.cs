@@ -31,6 +31,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Returns the <see cref="IGenericParameterDictionary{TGenericParameter, TParent}"/> used by the <see cref="IGenericParamParent{TGenericParameter, TParent}"/>.
         /// </summary>
         new IGenericParameterDictionary<TGenericParameter, TParent> TypeParameters { get; }
+
         /// <summary>
         /// Returns a <typeparamref name="TParent"/> instance that is the 
         /// closed generic form of the current <see cref="IGenericParamParent{TGenericParameter, TParent}"/>
@@ -45,6 +46,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <seealso cref="IGenericParamParent.IsGenericConstruct"/>
         /// is false.</exception>
         new TParent MakeGenericClosure(ITypeCollectionBase typeParameters);
+
         /// <summary>
         /// Returns a <typeparamref name="TParent"/> instance that is the 
         /// closed generic form of the current <see cref="IGenericParamParent{TGenericParameter, TParent}"/> 
@@ -59,6 +61,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// of the current instance is false.</exception>
         new TParent MakeGenericClosure(params IType[] typeParameters);
     }
+
     /// <summary>
     /// Defines properties and methods for working with a parent that contains
     /// generic parameters.
@@ -100,7 +103,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IGenericParamParent MakeGenericClosure(ITypeCollectionBase typeParameters);
 
         /// <summary>
-        /// Returns a <see cref="IGenericType"/> instance that is the 
+        /// Returns a <see cref="IGenericParamParent"/> instance that is the 
         /// closed generic form of the current <see cref="IGenericType"/> 
         /// using the <paramref name="typeParameters"/> provided.
         /// </summary>
@@ -121,11 +124,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         /// <summary>
         /// Returns a <see cref="ITypeCollection"/> which relates 
-        /// to the current generic type's type-parameters.
+        /// to the current generic parent's type-parameters.
         /// </summary>
         /// <remarks>Differs from <see cref="TypeParameters"/>
-        /// by containing a full series of type-parameters.</remarks>
+        /// by containing the full series of type-parameters within
+        /// a potentially layered hierarchy.</remarks>
         ILockedTypeCollection GenericParameters { get; }
-
     }
 }

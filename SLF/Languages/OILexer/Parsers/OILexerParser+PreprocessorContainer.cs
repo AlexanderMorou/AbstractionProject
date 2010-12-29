@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
+namespace AllenCopeland.Abstraction.Slf.Parsers
 {
-    partial class GDParser
+    partial class OILexerParser
     {
         private enum PreprocessorContainer
         {

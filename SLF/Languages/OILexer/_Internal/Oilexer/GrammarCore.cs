@@ -1,5 +1,4 @@
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,9 +9,11 @@ using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Properties;
 using AllenCopeland.Abstraction.Slf._Internal;
+using AllenCopeland.Abstraction.Slf.Parsers;
+using AllenCopeland.Abstraction.Slf.Compilers;
 namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
 {
-    internal static class GrammarCore
+    internal static partial class GrammarCore
     {
         internal const string GrammarParserErrorFormat = "OILexP{0}";
 
@@ -118,8 +119,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 return sb.ToString();
         }
 
+
         /// <summary>
-        /// Obtains a <see cref="CompmilerError"/> for the <paramref name="fileName"/>,
+        /// Obtains a <see cref="ParserSyntaxError"/> for the <paramref name="fileName"/>,
         /// <paramref name="line"/>, <paramref name="column"/>, with the <paramref name="error"/>
         /// type and message <paramref name="text"/> provided.
         /// </summary>
@@ -131,58 +133,42 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
         /// at which the error occurred.</param>
         /// <param name="error">The <see cref="GDParserErrors"/> value denoting the type of error.</param>
         /// <param name="text">The extra information text associated to the error message.</param>
-        /// <returns>A <see cref="CompilerError"/> associated to the error.</returns>
-        public static CompilerError GetParserError(string fileName, int line, int column, GDParserErrors error, string text)
+        /// <returns>A <see cref="ParserSyntaxError"/> associated to the error.</returns>
+        public static ParserSyntaxError GetSyntaxError(string fileName, int line, int column, GDParserErrors error, string text)
         {
             switch (error)
             {
                 case GDParserErrors.Expected:
-                    return new CompilerError(fileName, line, column, string.Format(GrammarParserErrorFormat, (int)error), string.Format(Resources.GrammarParserErrors_Expected, text));
+                    return new ParserSyntaxError(fileName:fileName, line:line, column:column, errorText:string.Format(Resources.GrammarParserErrors_Expected, text));
                 case GDParserErrors.ExpectedEndOfFile:
-                    return new CompilerError(fileName, line, column, string.Format(GrammarParserErrorFormat, (int)error), Resources.GrammarParserErrors_ExpectedEndOfFile);
+                    return new ParserSyntaxError(fileName:fileName, line:line, column:column, errorText:Resources.GrammarParserErrors_ExpectedEndOfFile);
                 case GDParserErrors.ExpectedEndOfLine:
-                    return new CompilerError(fileName, line, column, string.Format(GrammarParserErrorFormat, (int)error), Resources.GrammarParserErrors_ExpectedEndOfLine);
+                    return new ParserSyntaxError(fileName:fileName, line:line, column:column, errorText:Resources.GrammarParserErrors_ExpectedEndOfLine);
                 case GDParserErrors.Unexpected:
-                    return new CompilerError(fileName, line, column, string.Format(GrammarParserErrorFormat, (int)error), string.Format(Resources.GrammarParserErrors_Unexpected, text));
+                    return new ParserSyntaxError(fileName:fileName, line:line, column:column, errorText:string.Format(Resources.GrammarParserErrors_Unexpected, text));
                 case GDParserErrors.UnexpectedEndOfFile:
-                    return new CompilerError(fileName, line, column, string.Format(GrammarParserErrorFormat, (int)error), Resources.GrammarParserErrors_UnexpectedEndOfFile);
+                    return new ParserSyntaxError(fileName:fileName, line:line, column:column, errorText:Resources.GrammarParserErrors_UnexpectedEndOfFile);
                 case GDParserErrors.UnexpectedEndOfLine:
-                    return new CompilerError(fileName, line, column, string.Format(GrammarParserErrorFormat, (int)error), Resources.GrammarParserErrors_UnexpectedEndOfLine);
+                    return new ParserSyntaxError(fileName:fileName, line:line, column:column, errorText:Resources.GrammarParserErrors_UnexpectedEndOfLine);
                 case GDParserErrors.UnknownSymbol:
-                    return new CompilerError(fileName, line, column, string.Format(GrammarParserErrorFormat, (int)error), string.Format(Resources.GrammarParserErrors_UnknownSymbol, text));
+                    return new ParserSyntaxError(fileName:fileName, line:line, column:column, errorText:string.Format(Resources.GrammarParserErrors_UnknownSymbol, text));
                 case GDParserErrors.InvalidEscape:
-                    return new CompilerError(fileName, line, column, string.Format(GrammarParserErrorFormat, (int)error), Resources.GrammarParserErrors_InvalidEscape);
+                    return new ParserSyntaxError(fileName:fileName, line:line, column:column, errorText:Resources.GrammarParserErrors_InvalidEscape);
                 case GDParserErrors.IncludeFileNotFound:
-                    return new CompilerError(fileName, line, column, string.Format(GrammarParserErrorFormat, (int)error), string.Format(Resources.GrammarParserErrors_IncludeFileNotFound, text));
-                case GDParserErrors.InvalidRepeatOptions:
-                    return new CompilerError(fileName, line, column, string.Format(GrammarParserErrorFormat, (int)error), Resources.GrammarParserErrors_InvalidRepeatOptions);
-                case GDParserErrors.RuleNotTemplate:
-                    return new CompilerError(fileName, line, column, string.Format(GrammarParserErrorFormat, (int)error), string.Format(Resources.GrammarParserErrors_RuleNotTemplate, text));
-                case GDParserErrors.RuleIsTemplate:
-                    return new CompilerError(fileName, line, column, string.Format(GrammarParserErrorFormat, (int)error), string.Format(Resources.GrammarParserErrors_RuleIsTemplate, text));
-                case GDParserErrors.UndefinedTokenReference:
-                    return new CompilerError(fileName, line, column, string.Format(GrammarParserErrorFormat, (int)error), string.Format(Resources.GrammarParserErrors_UndefinedTokenReference, text));
-                case GDParserErrors.UndefinedRuleReference:
-                    return new CompilerError(fileName, line, column, string.Format(GrammarParserErrorFormat, (int)error), string.Format(Resources.GrammarParserErrors_UndefinedRuleReference, text));
-                case GDParserErrors.NoStartDefined:
-                    return new CompilerError(fileName, line, column, string.Format(GrammarParserErrorFormat, (int)error), string.Format(Resources.GrammarParserErrors_NoStartDefined, text));
-                case GDParserErrors.InvalidStartDefined:
-                    return new CompilerError(fileName, line, column, string.Format(GrammarParserErrorFormat, (int)error), string.Format(Resources.GrammarParserErrors_InvalidStartDefined, text));
-                case GDParserErrors.RuleNeverUsed:
-                    CompilerError ce = new CompilerError(fileName, line, column, string.Format(GrammarParserErrorFormat, (int)error), string.Format(Resources.GrammarParserErrors_RuleNeverUsed, text));
-                    ce.IsWarning = true;
-                    return ce;
-                case GDParserErrors.DynamicArgumentCountError:
-                    return new CompilerError(fileName, line, column, string.Format(GrammarParserErrorFormat, (int)error), string.Format(Resources.GrammarErrors_DynamicArgumentCountError, text));
+                    return new ParserSyntaxError(fileName:fileName, line:line, column:column, errorText:string.Format(Resources.GrammarParserErrors_IncludeFileNotFound, text));
+                case GDParserErrors.FixedArgumentCountError:
+                    return new ParserSyntaxError(fileName: fileName, line: line, column: column, errorText: string.Format(Resources.GrammarParserErrors_FixedArgumentCountError, text));
                 default:
                     break;
             }
             return null;
         }
 
-        public static CompilerError GetParserError(string fileName, int line, int column, GDParserErrors error)
+
+
+        public static ParserSyntaxError GetParserError(string fileName, int line, int column, GDParserErrors error)
         {
-            return GetParserError(fileName, line, column, error, string.Empty);
+            return GetSyntaxError(fileName, line, column, error, string.Empty);
         }
 
         public static string CombinePaths(string pathA, string pathB)

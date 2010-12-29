@@ -32,5 +32,14 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         }
 
         #endregion
+
+        #region ILanguage Members
+
+        public Compilers.CompilerSupport CompilerSupport
+        {
+            get { return Compilers.CompilerSupport.FullSupport ^ (Compilers.CompilerSupport.DebuggerSupport | Compilers.CompilerSupport.COMInterop | Compilers.CompilerSupport.Unsafe | Compilers.CompilerSupport.Win32Resources); }
+        }
+
+        #endregion
     }
 }

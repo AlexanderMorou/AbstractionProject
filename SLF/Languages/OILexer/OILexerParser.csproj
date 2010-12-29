@@ -339,9 +339,9 @@
     <Compile Include="Languages\Oilexer\Tokens\TokenItem.cs" />
     <Compile Include="Languages\Oilexer\Tokens\TokenReferenceTokenItem.cs" />
     <Compile Include="Parsers\OILexer\GDProductionRuleGroupRegion.cs" />
-    <Compile Include="Parsers\OILexer\GDParser+Lexer.cs" />
-    <Compile Include="Parsers\OILexer\GDParser+PreprocessorContainer.cs" />
-    <Compile Include="Parsers\OILexer\GDParser.cs" />
+    <Compile Include="Parsers\OILexerParser+Lexer.cs" />
+    <Compile Include="Parsers\OILexerParser+PreprocessorContainer.cs" />
+    <Compile Include="Parsers\OILexerParser.cs" />
     <Compile Include="Parsers\OILexer\GDParserErrors.cs" />
     <Compile Include="Parsers\OILexer\GDParserResults.cs" />
     <Compile Include="Parsers\OILexer\GDPreprocessorRegion.cs" />
@@ -366,8 +366,6 @@
     <Compile Include="Parsers\OILexer\IGDToken.cs" />
     <Compile Include="Parsers\OILexer\IGDTokenizer.cs" />
     <Compile Include="Parsers\OILexer\IParser.cs" />
-    <Compile Include="Parsers\OILexer\IParserResults.cs" />
-    <Compile Include="Parsers\OILexer\IParserResults{T}.cs" />
     <Compile Include="Parsers\OILexer\IParser{TToken, TTokenizer, TResult}.cs" />
     <Compile Include="Parsers\OILexer\IToken.cs" />
     <Compile Include="Parsers\OILexer\ITokenizer.cs" />
@@ -375,7 +373,6 @@
     <Compile Include="Parsers\OILexer\ITokenStream.cs" />
     <Compile Include="Parsers\OILexer\Parser.cs" />
     <Compile Include="Parsers\OILexer\ParserMode.cs" />
-    <Compile Include="Parsers\OILexer\ParserResults{T}.cs" />
     <Compile Include="Parsers\OILexer\Parser{TToken, TTokenizer, TResult}.cs" />
     <Compile Include="Parsers\OILexer\StringStream.cs" />
     <Compile Include="Parsers\OILexer\Token.cs" />
@@ -389,6 +386,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="_Internal\Oilexer\BitStreamCreator.cs" />
+    <Compile Include="_Internal\Oilexer\GrammarCore+CompilerErrors.cs" />
     <Compile Include="_Internal\Oilexer\GrammarCore.cs" />
     <Compile Include="_Internal\Oilexer\Inlining\IInlinedTokenItem.cs" />
     <Compile Include="_Internal\Oilexer\Inlining\InlinedCharRangeTokenItem.cs" />

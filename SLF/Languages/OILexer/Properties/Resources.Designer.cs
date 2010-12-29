@@ -871,6 +871,70 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid preprocessor &apos;defined&apos; target ({0})..
+        /// </summary>
+        internal static string GrammarCompilerErrors_InvalidIsDefinedTarget {
+            get {
+                return ResourceManager.GetString("GrammarCompilerErrors_InvalidIsDefinedTarget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid preprocessor condition ({0}), evaluation failed..
+        /// </summary>
+        internal static string GrammarCompilerErrors_InvalidPreprocessorCondition {
+            get {
+                return ResourceManager.GetString("GrammarCompilerErrors_InvalidPreprocessorCondition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language defined error ({0}):
+        ///{1}.
+        /// </summary>
+        internal static string GrammarCompilerErrors_LanguageDefinedError {
+            get {
+                return ResourceManager.GetString("GrammarCompilerErrors_LanguageDefinedError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A literal ({0}) was encountered of an unexpected or unknown type..
+        /// </summary>
+        internal static string GrammarCompilerErrors_UnexpectedLiteralEntry {
+            get {
+                return ResourceManager.GetString("GrammarCompilerErrors_UnexpectedLiteralEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An unknown reference was discovered. Identity references of type {0} are not supported..
+        /// </summary>
+        internal static string GrammarCompilerErrors_UnexpectedUndefinedEntry {
+            get {
+                return ResourceManager.GetString("GrammarCompilerErrors_UnexpectedUndefinedEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot add expression ({0}) to rule {1}.  {1} has not been defined..
+        /// </summary>
+        internal static string GrammarErrors_AddRuleTargetUndefined {
+            get {
+                return ResourceManager.GetString("GrammarErrors_AddRuleTargetUndefined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Term &apos;{0}&apos; is already defined..
+        /// </summary>
+        internal static string GrammarErrors_DuplicateTermDefined {
+            get {
+                return ResourceManager.GetString("GrammarErrors_DuplicateTermDefined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The number of dynamic arguments given did not group properly..
         /// </summary>
         internal static string GrammarErrors_DynamicArgumentCountError {
@@ -943,7 +1007,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The grammar &apos;{0}&apos; has an invalid start point defined..
+        ///   Looks up a localized string similar to {0} in grammar {1} is not a valid starting rule..
         /// </summary>
         internal static string GrammarParserErrors_InvalidStartDefined {
             get {
@@ -1047,6 +1111,15 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Properties {
         internal static string IndexerName {
             get {
                 return ResourceManager.GetString("IndexerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid IsDefined target {0}: must have special expectancy of Rule..
+        /// </summary>
+        internal static string IsDefinedTemplateParameterMustExpectRule {
+            get {
+                return ResourceManager.GetString("IsDefinedTemplateParameterMustExpectRule", resourceCulture);
             }
         }
         

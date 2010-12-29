@@ -8,10 +8,11 @@ using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
 using System.Collections.ObjectModel;
+using AllenCopeland.Abstraction.Slf.Parsers.Oilexer;
 
-namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
+namespace AllenCopeland.Abstraction.Slf.Parsers
 {
-    public partial class GDParser :
+    public partial class OILexerParser :
         Parser<IGDToken, IGDTokenizer, IGDFile>,
         IGDParser
     {
@@ -25,8 +26,12 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
         private delegate bool SimpleParseDelegate<T>(ref T target);
         private bool parseIncludes;
         private bool captureRegions;
-        
-        internal GDParser(bool parseIncludes = true, bool captureRegions = false, IList<IToken> originalFormTokens = null)
+        public OILexerParser()
+            : this(true)
+        {
+
+        }
+        public OILexerParser(bool parseIncludes, bool captureRegions = false, IList<IToken> originalFormTokens = null)
             : base(originalFormTokens)
         {
             this.parseIncludes = parseIncludes;
@@ -726,8 +731,8 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
                     IParserResults<IGDFile> includedFile = this.Parse(s);
                     currentTarget.SetResult(currentTarget.Result + (GDFile)includedFile.Result);
                     if (!includedFile.Successful)
-                        foreach (CompilerError ce in includedFile.Errors)
-                            currentTarget.Errors.Add(ce);
+                        foreach (var ce in includedFile.SyntaxErrors)
+                            currentTarget.SyntaxErrors.SyntaxError(ce.Message, ce.Location.Line, ce.Location.Column, ce.FileName);
                 }
             }
         }
@@ -946,7 +951,8 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
                 IGDToken igdt = LookAhead(0);
                 if (igdt == null && CurrentTokenizer.CurrentError != null)
                 {
-                    this.currentTarget.Errors.Add(CurrentTokenizer.CurrentError);
+                    var ce = CurrentTokenizer.CurrentError;
+                    this.currentTarget.SyntaxErrors.SyntaxError(ce.Message, ce.Location.Line, ce.Location.Column, ce.FileName);
                     return;
                 }
                 else if (igdt == null)
@@ -1377,7 +1383,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
                         Expect("#include, #AssemblyName, #LexerName, #ParserName, #GrammarName, #TokenPrefix, #TokenSuffix, #RulePrefix, or #RuleSuffix directive", pp.Position);
                         return null;
                 }
-                currentTarget.Errors.Add(GrammarCore.GetParserError(this.CurrentTokenizer.FileName, this.CurrentTokenizer.CurrentError.Line, this.CurrentTokenizer.CurrentError.Column, GDParserErrors.Expected, "string"));
+                currentTarget.SyntaxErrors.SyntaxError(GrammarCore.GetSyntaxError(this.CurrentTokenizer.FileName, this.CurrentTokenizer.CurrentError.Location.Line, this.CurrentTokenizer.CurrentError.Location.Column, GDParserErrors.Expected, "string"));
                 this.PopAhead();
                 return null;
             }
@@ -1410,7 +1416,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
                         this.PopAhead();
                         return null;
                 }
-                currentTarget.Errors.Add(GrammarCore.GetParserError(this.CurrentTokenizer.FileName, this.CurrentTokenizer.CurrentError.Line, this.CurrentTokenizer.CurrentError.Column, GDParserErrors.Expected, ";"));
+                currentTarget.SyntaxErrors.SyntaxError(GrammarCore.GetSyntaxError(this.CurrentTokenizer.FileName, this.CurrentTokenizer.CurrentError.Location.Line, this.CurrentTokenizer.CurrentError.Location.Column, GDParserErrors.Expected, ";"));
                 this.PopAhead();
                 this.PopAhead();
                 return null;
@@ -2347,8 +2353,8 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
                 PopAhead();
                 if (LookAhead(0) == null && CurrentTokenizer.CurrentError != null)
                 {
-                    if (!(currentTarget.Errors.Contains(CurrentTokenizer.CurrentError)))
-                        currentTarget.Errors.Add(CurrentTokenizer.CurrentError);
+                    if (!(currentTarget.SyntaxErrors.Contains(CurrentTokenizer.CurrentError)))
+                        currentTarget.SyntaxErrors.SyntaxError(CurrentTokenizer.CurrentError);
                     return null;
                 }
                 if (LookAhead(0).TokenType == GDTokenType.Operator &&
@@ -2996,6 +3002,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
                         DefineCommandIdentifier(id);
                         if (commandExpressionSets.Count != 2)
                         {
+
                             LogError(GDParserErrors.FixedArgumentCountError, "Scan command requires exactly two parameters.", id.Position);
                             if (commandExpressionSets.Count <= 0)
                                 return new ScanCommandTokenItem(null, false, id.Column, id.Line, id.Position);
@@ -3098,7 +3105,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
 
         private void LogError(GDParserErrors error, string text)
         {
-            currentTarget.Errors.Add(GrammarCore.GetParserError(this.CurrentTokenizer.FileName, this.CurrentTokenizer.GetLineIndex(this.StreamPosition), this.CurrentTokenizer.GetColumnIndex(this.StreamPosition), error, text));
+            currentTarget.SyntaxErrors.SyntaxError(GrammarCore.GetSyntaxError(this.CurrentTokenizer.FileName, this.CurrentTokenizer.GetLineIndex(this.StreamPosition), this.CurrentTokenizer.GetColumnIndex(this.StreamPosition), error, text));
         }
         private void Expect(string s, long position)
         {
@@ -3112,7 +3119,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
 
         private void LogError(GDParserErrors error, string text, long position)
         {
-            currentTarget.Errors.Add(GrammarCore.GetParserError(this.CurrentTokenizer.FileName, this.CurrentTokenizer.GetLineIndex(position), this.CurrentTokenizer.GetColumnIndex(position), error, text));
+            currentTarget.SyntaxErrors.SyntaxError(GrammarCore.GetSyntaxError(this.CurrentTokenizer.FileName, this.CurrentTokenizer.GetLineIndex(position), this.CurrentTokenizer.GetColumnIndex(position), error, text));
         }
 
         public T NextAhead<T>()

@@ -96,6 +96,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compilers\CSCompilerErrors.cs" />
     <Compile Include="Compilers\ICSharpCompiler.cs" />
     <Compile Include="Languages\CSharpLanguage.cs" />
     <Compile Include="Languages\CSharpProvider.cs" />

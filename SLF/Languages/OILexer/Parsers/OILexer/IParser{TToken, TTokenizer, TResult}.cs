@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using AllenCopeland.Abstraction.Slf.Cst;
 
 namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
 {
@@ -13,6 +14,8 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
     /// <typeparam name="TTokenizer">The type of tokenizer used by the parser.</typeparam>
     public interface IParser<TToken, TTokenizer, TResult> :
         IParser
+        where TResult :
+            IConcreteNode
         where TToken :
             IToken
         where TTokenizer :

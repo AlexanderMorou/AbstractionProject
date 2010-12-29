@@ -1,6 +1,4 @@
 ﻿using System;
-using System.CodeDom;
-using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,7 +10,6 @@ using AllenCopeland.Abstraction.Slf._Internal.Oilexer.Inlining;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
-using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Abstract;
@@ -22,6 +19,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Statements;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Parsers.Oilexer;
+using AllenCopeland.Abstraction.Slf.Parsers;
 namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
 {
     /// <summary>
@@ -43,10 +41,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
         public GDFile Source { get; private set; }
 
         /// <summary>
-        /// Returns a series of <see cref="CompilerError"/> instances
-        /// which denote where errors occur in the grammar description.
+        /// Returns a series of <see cref="ICompilerErrorCollection"/> instances
+        /// which denote where errors occur in identity resolution,
+        /// usage of templates, or other base compiler errors.
         /// </summary>
-        public CompilerErrorCollection Errors { get; private set; }
+        public ICompilerErrorCollection CompilationErrors { get; private set; }
 
         /// <summary>
         /// Returns the <see cref="IIntermediateAssembly"/> which represents
@@ -87,11 +86,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
 
         private CharStreamClass bitStream;
 
-        public ParserBuilder(IGDFile source, CompilerErrorCollection errors, List<string> streamAnalysisFiles)
+        public ParserBuilder(IGDFile source, List<string> streamAnalysisFiles)
         {
+            this.CompilationErrors = new CompilerErrorCollection();
             this.PhaseTimes = new Dictionary<ParserBuilderPhase, TimeSpan>();
             this.Source = (GDFile)source;
-            this.Errors = errors;
             this.StreamAnalysisFiles = new ReadOnlyCollection<string>(streamAnalysisFiles);
         }
 
@@ -779,40 +778,40 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     case ParserBuilderPhase.Linking:
                         yield return ParserBuilderPhase.Linking;
                         timer.Start();
-                        this.Source.ResolveTemplates(this.Errors);
+                        this.Source.ResolveTemplates(this.CompilationErrors);
                         timer.Stop();
                         PhaseTimes.Add(ParserBuilderPhase.Linking, timer.Elapsed);
                         timer.Reset();
-                        if (Errors.HasErrors)
+                        if (CompilationErrors.HasErrors)
                             goto finished;
                         Phase = ParserBuilderPhase.ExpandingTemplates;
                         break;
                     case ParserBuilderPhase.ExpandingTemplates:
                         yield return ParserBuilderPhase.ExpandingTemplates;
                         timer.Start();
-                        this.Source.ExpandTemplates(this.Errors);
+                        this.Source.ExpandTemplates(this.CompilationErrors);
                         timer.Stop();
                         PhaseTimes.Add(ParserBuilderPhase.ExpandingTemplates, timer.Elapsed);
                         timer.Reset();
-                        if (Errors.HasErrors)
+                        if (CompilationErrors.HasErrors)
                             goto finished;
                         Phase = ParserBuilderPhase.LiteralLookup;
                         break;
                     case ParserBuilderPhase.LiteralLookup:
                         yield return ParserBuilderPhase.LiteralLookup;
                         timer.Start();
-                        this.Source.FinalLink(this.Errors);
+                        this.Source.FinalLink(this.CompilationErrors);
                         timer.Stop();
                         PhaseTimes.Add(ParserBuilderPhase.LiteralLookup, timer.Elapsed);
                         timer.Reset();
-                        if (Errors.HasErrors)
+                        if (CompilationErrors.HasErrors)
                             goto finished;
                         Phase = ParserBuilderPhase.InliningTokens;
                         break;
                     case ParserBuilderPhase.InliningTokens:
                         yield return ParserBuilderPhase.InliningTokens;
                         timer.Start();
-                        bool inlineSuccess = ParserCompilerExtensions.InlineTokens(Source, Errors);
+                        bool inlineSuccess = ParserCompilerExtensions.InlineTokens(Source);
                         if (inlineSuccess)
                             this.Precedences = new TokenPrecedenceTable(this.Source.GetTokens());
                         timer.Stop();
@@ -925,12 +924,12 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             IProductionRuleEntry startRule;
             if (Source.Options.StartEntry == null || Source.Options.StartEntry == string.Empty)
             {
-                Errors.Add(GrammarCore.GetParserError(Source.Files[0], 0, 0, GDParserErrors.NoStartDefined, Source.Options.GrammarName));
+                CompilationErrors.Error(GrammarCore.CompilerErrors.NoStartDefined, 0, 0, Source.Files[0], Source.Options.GrammarName);
                 return;
             }
             if ((startRule = (this.Source.GetRules()).FindScannableEntry(Source.Options.StartEntry)) == null)
             {
-                Errors.Add(GrammarCore.GetParserError(Source.Files[0], 0, 0, GDParserErrors.InvalidStartDefined, Source.Options.StartEntry));
+                CompilationErrors.Error(GrammarCore.CompilerErrors.InvalidStartDefined, 0, 0, Source.Files[0], Source.Options.StartEntry, Source.Options.GrammarName);
                 return;
             }
             this.StartEntry = startRule;

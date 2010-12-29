@@ -13,5 +13,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     public interface ICompilerMessage :
         ISourceRelatedMessage
     {
+        int MessageIdentifier { get; }
     }
 }

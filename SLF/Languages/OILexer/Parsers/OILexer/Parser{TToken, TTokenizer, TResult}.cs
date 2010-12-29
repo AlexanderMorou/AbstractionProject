@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using AllenCopeland.Abstraction.Slf.Cst;
 
 namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
 {
@@ -12,6 +13,8 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
             IToken
         where TTokenizer :
             ITokenizer<TToken>
+        where TResult :
+            IConcreteNode
     {
         public Parser(IList<IToken> originalFormTokens = null)
             : base(originalFormTokens)

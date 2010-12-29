@@ -10,5 +10,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         ICompilerMessage,
         ISourceRelatedMessage
     {
+        /// <summary>
+        /// Returns the <see cref="Int32"/> value representing the warning 
+        /// level or severity of the warning.
+        /// </summary>
+        int Level { get; }
     }
 }

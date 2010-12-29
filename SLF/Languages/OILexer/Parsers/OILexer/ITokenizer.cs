@@ -107,7 +107,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
         /// <summary>
         /// Returns the current error that is present instead of the current token.
         /// </summary>
-        CompilerError CurrentError { get; }
+        IParserSyntaxError CurrentError { get; }
 
         /// <summary>
         /// Scans the input stream for a <paramref name="target"/> <see cref="System.String"/> and

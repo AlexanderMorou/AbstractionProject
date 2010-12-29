@@ -43,7 +43,7 @@ ClassDeclaration                          ::=
 		)? "internal"?                      |
 		"new" 
 		(
-			"sealed"                        |
+			"sealed"                        | 
 			"abstract"                      |
 			"static"
 		)? "public"?                        |

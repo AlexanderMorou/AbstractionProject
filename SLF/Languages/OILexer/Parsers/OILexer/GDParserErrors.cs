@@ -42,13 +42,21 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
         /// </summary>
         InvalidEscape = 400,
         /// <summary>
-        /// The repeat options defined on a template are invalid.
-        /// </summary>
-        InvalidRepeatOptions,
-        /// <summary>
         /// StringTerminal '{0}' not found.
         /// </summary>
         IncludeFileNotFound = 500,
+        /// <summary>
+        /// For known commands, this is also possible at a 
+        /// syntax level.
+        /// </summary>
+        FixedArgumentCountError = 600,
+    }
+    public enum GDLogicErrors
+    {
+        /// <summary>
+        /// The repeat options defined on a template are invalid.
+        /// </summary>
+        InvalidRepeatOptions = 501,
         FixedArgumentCountError = 600,
         DynamicArgumentCountError,
         RuleNotTemplate,
@@ -57,7 +65,13 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
         UndefinedRuleReference,
         NoStartDefined,
         InvalidStartDefined,
-        RuleNeverUsed,
+        InvalidPreprocessorCondition,
+        DuplicateTermDefined = 902,
+        UndefinedAddRuleTarget,
+        UnexpectedLiteralEntry,
+        UnexpectedUndefinedEntry,
+        ParameterMustExpectRule,
+        InvalidIsDefinedTarget,
         LanguageDefinedError = 0x1000,
         ReferenceError = 0x2000,
     }

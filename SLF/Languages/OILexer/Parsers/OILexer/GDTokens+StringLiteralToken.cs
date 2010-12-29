@@ -88,14 +88,14 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
                                     break;
                                 case 'x':
                                     i++;
-                                    if (GDParser.Lexer.IsHexadecimalChar(s[i]) && GDParser.Lexer.IsHexadecimalChar(s[i + 1]))
+                                    if (OILexerParser.Lexer.IsHexadecimalChar(s[i]) && OILexerParser.Lexer.IsHexadecimalChar(s[i + 1]))
                                         result.Append((char)Convert.ToInt32(string.Format("{0}{1}", s[i], s[i + 1]), 16));
                                     //only by one, the iteration will pick up the next.
                                     i++;
                                     break;
                                 case 'u':
                                     i++;
-                                    if (GDParser.Lexer.IsHexadecimalChar(s[i]) && GDParser.Lexer.IsHexadecimalChar(s[i + 1]) && GDParser.Lexer.IsHexadecimalChar(s[i + 2]) && GDParser.Lexer.IsHexadecimalChar(s[i + 3]))
+                                    if (OILexerParser.Lexer.IsHexadecimalChar(s[i]) && OILexerParser.Lexer.IsHexadecimalChar(s[i + 1]) && OILexerParser.Lexer.IsHexadecimalChar(s[i + 2]) && OILexerParser.Lexer.IsHexadecimalChar(s[i + 3]))
                                         result.Append((char)Convert.ToInt32(string.Format("{0}{1}{2}{3}", s[i], s[i + 1], s[i + 2], s[i + 3]), 16));
                                     //only by three, same reason as above.
                                     i += 3;

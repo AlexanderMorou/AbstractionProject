@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Parsers.Oilexer;
 using System.IO;
+using AllenCopeland.Abstraction.Slf.Parsers;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
     partial class OilexerProvider
     {
         private class AltParser :
-            GDParser,
+            OILexerParser,
             ILanguageParser<IGDFile>
         {
             internal AltParser(bool parseIncludes = true, bool captureRegions = false, IList<IToken> originalFormTokens = null)
