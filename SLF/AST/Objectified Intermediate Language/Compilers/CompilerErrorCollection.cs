@@ -12,16 +12,16 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     {
         #region ICompilerErrorCollection Members
 
-        public ICompilerWarning Warning(ICompilerReferenceWarning message, int column, int line, string fileName, params string[] replacements)
+        public ICompilerWarning Warning(ICompilerReferenceWarning message, string fileName, int line, int column, params string[] replacements)
         {
-            CompilerWarning warning = new CompilerWarning(message, column, line, fileName, replacements);
+            CompilerWarning warning = new CompilerWarning(message, fileName, line, column, replacements);
             base.AddImpl(warning);
             return warning;
         }
 
-        public ICompilerError Error(ICompilerReferenceError message, int column, int line, string fileName, params string[] replacements)
+        public ICompilerError Error(ICompilerReferenceError message, string fileName, int line, int column, params string[] replacements)
         {
-            CompilerError error = new CompilerError(message, column, line, fileName, replacements);
+            CompilerError error = new CompilerError(message, fileName, line, column, replacements);
             base.AddImpl(error);
             return error;
         }

@@ -12,7 +12,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         private string[] replacements;
         private ICompilerReferenceError message;
 
-        public CompilerError(ICompilerReferenceError message, int column, int line, string fileName, params string[] replacements) 
+        public CompilerError(ICompilerReferenceError message, string fileName, int line, int column, params string[] replacements) 
         {
             if (message == null)
                 throw new ArgumentNullException("message");

@@ -368,7 +368,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 }
                 catch
                 {
-                    errors.Error(GrammarCore.CompilerErrors.InvalidPreprocessorCondition, expression.Column, expression.Line, entry.FileName, expression.ToString());
+                    errors.Error(GrammarCore.CompilerErrors.InvalidPreprocessorCondition, entry.FileName, expression.Line, expression.Column, expression.ToString());
                 }
             }
             //rule 1.
@@ -513,7 +513,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                         }
                     }
                     else
-                        errors.Error(GrammarCore.CompilerErrors.IsDefinedTemplateParameterMustExpectRule, expression.Column, expression.Line, entry.FileName, name);
+                        errors.Error(GrammarCore.CompilerErrors.IsDefinedTemplateParameterMustExpectRule, entry.FileName, expression.Line, expression.Column, name);
                 }
                 foreach (IEntry ientry in file)
                     if (ientry is IProductionRuleEntry && (!(ientry is IProductionRuleTemplateEntry)))
@@ -521,7 +521,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                             return true;
                 return false;
             }
-            errors.Error(GrammarCore.CompilerErrors.InvalidDefinedTarget, expression.Line, expression.Column, entry.FileName, expression.ToString());
+            errors.Error(GrammarCore.CompilerErrors.InvalidDefinedTarget, entry.FileName, expression.Column, expression.Line, expression.ToString());
             return false;
         }
 
@@ -594,9 +594,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             }
             if (errorLocations.Count > 0)
                 foreach (var errorLocation in errorLocations)
-                    errors.Error(GrammarCore.CompilerErrors.LanguageDefinedError, errorLocation.Item3, errorLocation.Item2, errorLocation.Item1, directive.Reference.Number.ToString(), string.Format(directive.Reference.Message, errorData));
+                    errors.Error(GrammarCore.CompilerErrors.LanguageDefinedError, errorLocation.Item1, errorLocation.Item2, errorLocation.Item3, directive.Reference.Number.ToString(), string.Format(directive.Reference.Message, errorData));
             else
-                errors.Error(GrammarCore.CompilerErrors.LanguageDefinedError, directive.Column, directive.Line, entry.FileName, directive.Reference.Number.ToString(), string.Format(directive.Reference.Message, errorData));
+                errors.Error(GrammarCore.CompilerErrors.LanguageDefinedError, entry.FileName, directive.Line, directive.Column, directive.Reference.Number.ToString(), string.Format(directive.Reference.Message, errorData));
         }
 
         internal static IProductionRuleItem Expand(this IPreprocessorConditionalReturnDirective directive, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, ICompilerErrorCollection errors)
@@ -638,7 +638,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                         }
                 if (foundItem == null)
                 {
-                    errors.Error(GrammarCore.CompilerErrors.UndefinedAddRuleTarget, directive.Column, directive.Line, entry.FileName, string.Join<IProductionRule>(" | ", directive.Rules), search);
+                    errors.Error(GrammarCore.CompilerErrors.UndefinedAddRuleTarget, entry.FileName, directive.Line, directive.Column, string.Join<IProductionRule>(" | ", directive.Rules), search);
                     return;
                 }
                 foreach (IProductionRule ipr in directive.Rules)
@@ -667,7 +667,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 foreach (IEntry ie in file)
                     if (ie is INamedEntry && ((INamedEntry)ie).Name == search)
                     {
-                        errors.Error(GrammarCore.CompilerErrors.DuplicateTermDefined, directive.Line, directive.Column, entry.FileName, search);
+                        errors.Error(GrammarCore.CompilerErrors.DuplicateTermDefined, entry.FileName, directive.Column, directive.Line, search);
                         return;
                     }
                 ProductionRuleEntry insertedItem = new ProductionRuleEntry(search, entry.ScanMode, entry.FileName, directive.Column, directive.Line, directive.Position);

@@ -1969,7 +1969,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type {0} cannot be used as type parameter &apos;T&apos; in the generic type or method &apos;TypeorMethod&lt;T&gt;&apos;. There is no boxing conversion from &apos;valueType&apos; to &apos;referenceType&apos;..
+        ///   Looks up a localized string similar to The type {0} cannot be used as type parameter &apos;{1}&apos; in the generic type or method &apos;{2}&apos;. There is no boxing conversion from &apos;{3}&apos; to &apos;{4}&apos;..
         /// </summary>
         internal static string CSharpErrors_CS0315 {
             get {

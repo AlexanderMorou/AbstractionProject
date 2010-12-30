@@ -4,6 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
 using System.Reflection;
+using System.ComponentModel;
  /*---------------------------------------------------------------------\
  | Copyright © 2010 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
