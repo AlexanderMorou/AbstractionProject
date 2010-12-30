@@ -4305,7 +4305,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0314;
 
-        /// <summary><para>C&#9839; compiler error &#35;315:</para><para>The type {0} cannot be used as type parameter 'T' in the generic type or method 'TypeorMethod&lt;T&gt;'. There is no boxing conversion from 'valueType' to 'referenceType'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;315:</para><para>The type {0} cannot be used as type parameter '{1}' in the generic type or method '{2}'. There is no boxing conversion from '{3}' to '{4}'.</para></summary>
         public static ICompilerReferenceError CS0315
         {
             get

@@ -78,7 +78,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         private string path;
         public AssemblyInformation(Assembly assembly)
         {
-
             AttributeCollection attrC = new AttributeCollection(assembly.GetCustomAttributes(false).Cast<Attribute>());
             if (attrC[typeof(AssemblyTitleAttribute)] != null)
                 this.title = ((AssemblyTitleAttribute)attrC[typeof(AssemblyTitleAttribute)]).Title;

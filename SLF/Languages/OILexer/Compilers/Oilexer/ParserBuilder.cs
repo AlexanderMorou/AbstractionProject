@@ -924,12 +924,12 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             IProductionRuleEntry startRule;
             if (Source.Options.StartEntry == null || Source.Options.StartEntry == string.Empty)
             {
-                CompilationErrors.Error(GrammarCore.CompilerErrors.NoStartDefined, 0, 0, Source.Files[0], Source.Options.GrammarName);
+                CompilationErrors.Error(GrammarCore.CompilerErrors.NoStartDefined, Source.Files[0], 0, 0, Source.Options.GrammarName);
                 return;
             }
             if ((startRule = (this.Source.GetRules()).FindScannableEntry(Source.Options.StartEntry)) == null)
             {
-                CompilationErrors.Error(GrammarCore.CompilerErrors.InvalidStartDefined, 0, 0, Source.Files[0], Source.Options.StartEntry, Source.Options.GrammarName);
+                CompilationErrors.Error(GrammarCore.CompilerErrors.InvalidStartDefined, Source.Files[0], 0, 0, Source.Options.StartEntry, Source.Options.GrammarName);
                 return;
             }
             this.StartEntry = startRule;

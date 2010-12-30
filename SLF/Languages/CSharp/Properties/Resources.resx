@@ -961,7 +961,7 @@
     <value>Fields of static readonly field {0} cannot be passed ref or out (except in a static constructor)</value>
   </data>
   <data name="CSharpErrors_CS0193" xml:space="preserve">
-    <value>The * or -> operator must be applied to a pointer</value>
+    <value>The * or -&gt; operator must be applied to a pointer</value>
   </data>
   <data name="CSharpErrors_CS0196" xml:space="preserve">
     <value>A pointer must be indexed by only one value</value>
@@ -1192,7 +1192,7 @@
     <value>The type {0} cannot be used as type parameter 'name' in the generic type or method 'name'. There is no boxing conversion or type parameter conversion from 'type1' to 'type2'.</value>
   </data>
   <data name="CSharpErrors_CS0315" xml:space="preserve">
-    <value>The type {0} cannot be used as type parameter 'T' in the generic type or method 'TypeorMethod&lt;T&gt;'. There is no boxing conversion from 'valueType' to 'referenceType'.</value>
+    <value>The type {0} cannot be used as type parameter '{1}' in the generic type or method '{2}'. There is no boxing conversion from '{3}' to '{4}'.</value>
   </data>
   <data name="CSharpErrors_CS0316" xml:space="preserve">
     <value>The parameter name {0} conflicts with an automatically-generated parameter name.</value>
@@ -2874,5 +2874,4 @@
   <data name="CSharpErrors_CS5001" xml:space="preserve">
     <value>Program 'program' does not contain a static 'Main' method suitable for an entry point</value>
   </data>
-
 </root>
