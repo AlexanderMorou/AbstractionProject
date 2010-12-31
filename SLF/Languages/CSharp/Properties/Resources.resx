@@ -1183,13 +1183,13 @@
     <value>The type {0} cannot be used as type parameter {2} in the generic type or method {3}. There is no implicit reference conversion from {0} to {1}.</value>
   </data>
   <data name="CSharpErrors_CS0312" xml:space="preserve">
-    <value>The type {0} cannot be used as type parameter 'name' in the generic type or method 'name'. The nullable type 'type1' does not satisfy the constraint of 'type2'.</value>
+    <value>The type {0} cannot be used as type parameter {1} in the generic type or method {2}. The nullable type {0} does not satisfy the constraint of {3}.</value>
   </data>
   <data name="CSharpErrors_CS0313" xml:space="preserve">
-    <value>The type {0} cannot be used as type parameter 'parameter name' in the generic type or method 'type2'. The nullable type 'type1' does not satisfy the constraint of 'type2'. Nullable types cannot satisfy any interface constraints.</value>
+    <value>The type {0} cannot be used as type parameter {1} in the generic type or method {2}. The nullable type {0} does not satisfy the constraint of {2}. Nullable types cannot satisfy any interface constraints.</value>
   </data>
   <data name="CSharpErrors_CS0314" xml:space="preserve">
-    <value>The type {0} cannot be used as type parameter 'name' in the generic type or method 'name'. There is no boxing conversion or type parameter conversion from 'type1' to 'type2'.</value>
+    <value>The type {0} cannot be used as type parameter {1} in the generic type or method {2}. There is no boxing conversion or type parameter conversion from {3} to {4}.</value>
   </data>
   <data name="CSharpErrors_CS0315" xml:space="preserve">
     <value>The type {0} cannot be used as type parameter '{1}' in the generic type or method '{2}'. There is no boxing conversion from '{3}' to '{4}'.</value>
@@ -1213,79 +1213,79 @@
     <value>Duplicate constraint {0} for type parameter {1}</value>
   </data>
   <data name="CSharpErrors_CS0406" xml:space="preserve">
-    <value>The class type constraint 'constraint' must come before any other constraints</value>
+    <value>The class type constraint {0} must come before any other constraints</value>
   </data>
   <data name="CSharpErrors_CS0407" xml:space="preserve">
-    <value>'return-type method' has the wrong return type</value>
+    <value>{0} has the wrong return type</value>
   </data>
   <data name="CSharpErrors_CS0409" xml:space="preserve">
-    <value>A constraint clause has already been specified for type parameter 'type parameter'. All of the constraints for a type parameter must be specified in a single where clause.</value>
+    <value>A constraint clause has already been specified for type parameter {0}. All of the constraints for a type parameter must be specified in a single where clause.</value>
   </data>
   <data name="CSharpErrors_CS0410" xml:space="preserve">
-    <value>No overload for 'method' has the correct parameter and return types</value>
+    <value>No overload for {0} has the correct parameter and return types</value>
   </data>
   <data name="CSharpErrors_CS0411" xml:space="preserve">
-    <value>The type arguments for method 'method' cannot be inferred from the usage. Try specifying the type arguments explicitly.</value>
+    <value>The type arguments for method {0} cannot be inferred from the usage. Try specifying the type arguments explicitly.</value>
   </data>
   <data name="CSharpErrors_CS0412" xml:space="preserve">
-    <value>'generic': a parameter or local variable cannot have the same name as a method type parameter</value>
+    <value>{0}: a parameter or local variable cannot have the same name as a method type parameter</value>
   </data>
   <data name="CSharpErrors_CS0413" xml:space="preserve">
-    <value>The type parameter 'type parameter' cannot be used with the 'as' operator because it does not have a class type constraint nor a 'class' constraint</value>
+    <value>The type parameter {0} cannot be used with the 'as' operator because it does not have a class type constraint nor a constraint that is a class</value>
   </data>
   <data name="CSharpErrors_CS0415" xml:space="preserve">
-    <value>The 'IndexerName' attribute is valid only on an indexer that is not an explicit interface member declaration</value>
+    <value>The {0} attribute is valid only on an indexer that is not an explicit interface member declaration</value>
   </data>
   <data name="CSharpErrors_CS0416" xml:space="preserve">
-    <value>'type parameter': an attribute argument cannot use type parameters</value>
+    <value>{0}: an attribute argument cannot use type parameters</value>
   </data>
   <data name="CSharpErrors_CS0417" xml:space="preserve">
-    <value>'identifier': cannot provide arguments when creating an instance of a variable type</value>
+    <value>{0}: cannot provide arguments when creating an instance of a variable type</value>
   </data>
   <data name="CSharpErrors_CS0418" xml:space="preserve">
-    <value>'class name': an abstract class cannot be sealed or static</value>
+    <value>{0}: an abstract class cannot be sealed or static</value>
   </data>
   <data name="CSharpErrors_CS0423" xml:space="preserve">
-    <value>Since 'class' has the ComImport attribute, 'method' must be extern or abstract</value>
+    <value>Since {0} has the ComImport attribute, {1} must be extern or abstract</value>
   </data>
   <data name="CSharpErrors_CS0424" xml:space="preserve">
-    <value>'class': a class with the ComImport attribute cannot specify a base class</value>
+    <value>{0}: a class with the ComImport attribute cannot specify a base class</value>
   </data>
   <data name="CSharpErrors_CS0425" xml:space="preserve">
-    <value>The constraints for type parameter 'type parameter' of method 'method' must match the constraints for type parameter 'type parameter' of interface method 'method'. Consider using an explicit interface implementation instead.</value>
+    <value>The constraints for type parameter {0} of method {1} must match the constraints for type parameter {2} of interface method {3}. Consider using an explicit interface implementation instead.</value>
   </data>
   <data name="CSharpErrors_CS0426" xml:space="preserve">
-    <value>The type name 'identifier' does not exist in the type 'type'</value>
+    <value>The type name {0} does not exist in the type {1}</value>
   </data>
   <data name="CSharpErrors_CS0428" xml:space="preserve">
-    <value>Cannot convert method group 'Identifier' to non-delegate type 'type'. Did you intend to invoke the method?</value>
+    <value>Cannot convert method group {0} to non-delegate type {1}. Did you intend to invoke the method?</value>
   </data>
   <data name="CSharpErrors_CS0430" xml:space="preserve">
-    <value>The extern alias 'alias' was not specified in a /reference option</value>
+    <value>The extern alias {0} was not specified in a /reference option</value>
   </data>
   <data name="CSharpErrors_CS0431" xml:space="preserve">
-    <value>Cannot use alias 'identifier' with '::' since the alias references a type. Use '.' instead.</value>
+    <value>Cannot use alias {0} with '::' since the alias references a type. Use '.' instead.</value>
   </data>
   <data name="CSharpErrors_CS0432" xml:space="preserve">
-    <value>Alias 'identifier' not found</value>
+    <value>Alias {0} not found</value>
   </data>
   <data name="CSharpErrors_CS0433" xml:space="preserve">
-    <value>The type TypeName1 exists in both TypeName2 and TypeName3</value>
+    <value>The type {0} exists in both {1} and {2}</value>
   </data>
   <data name="CSharpErrors_CS0434" xml:space="preserve">
-    <value>The namespace NamespaceName1 in NamespaceName2 conflicts with the type TypeName1 in NamespaceName3</value>
+    <value>The namespace {0} in {1} conflicts with the type {2} in {3}</value>
   </data>
   <data name="CSharpErrors_CS0438" xml:space="preserve">
-    <value>The type 'type' in 'module_1' conflicts with the namespace 'namespace' in 'module_2'.</value>
+    <value>The type {0} in {1} conflicts with the namespace {2} in {3}.</value>
   </data>
   <data name="CSharpErrors_CS0439" xml:space="preserve">
     <value>An extern alias declaration must precede all other elements defined in the namespace</value>
   </data>
   <data name="CSharpErrors_CS0441" xml:space="preserve">
-    <value>'class': a class cannot be both static and sealed</value>
+    <value>{0}: a class cannot be both static and sealed</value>
   </data>
   <data name="CSharpErrors_CS0442" xml:space="preserve">
-    <value>'Property': abstract properties cannot have private accessors</value>
+    <value>{0}: abstract properties cannot have private accessors</value>
   </data>
   <data name="CSharpErrors_CS0443" xml:space="preserve">
     <value>Syntax error, value expected</value>
@@ -1294,7 +1294,7 @@
     <value>Cannot modify the result of an unboxing conversion</value>
   </data>
   <data name="CSharpErrors_CS0446" xml:space="preserve">
-    <value>Foreach cannot operate on a 'Method or Delegate'. Did you intend to invoke the 'Method or Delegate'?</value>
+    <value>Foreach cannot operate on a {0}. Did you intend to invoke the {0}?</value>
   </data>
   <data name="CSharpErrors_CS0447" xml:space="preserve">
     <value>Attributes cannot be used on type arguments, only on type parameters</value>
@@ -1306,28 +1306,28 @@
     <value>The 'class' or 'struct' constraint must come before any other constraints</value>
   </data>
   <data name="CSharpErrors_CS0450" xml:space="preserve">
-    <value>'Type Parameter Name': cannot specify both a constraint class and the 'class' or 'struct' constraint</value>
+    <value>{0}: cannot specify both a constraint class and the 'class' or 'struct' constraint</value>
   </data>
   <data name="CSharpErrors_CS0451" xml:space="preserve">
     <value>The 'new()' constraint cannot be used with the 'struct' constraint</value>
   </data>
   <data name="CSharpErrors_CS0452" xml:space="preserve">
-    <value>The type 'type name' must be a reference type in order to use it as parameter 'parameter name' in the generic type or method 'identifier of generic'</value>
+    <value>The type {0} must be a reference type in order to use it as parameter {1} in the generic type or method {2}.</value>
   </data>
   <data name="CSharpErrors_CS0453" xml:space="preserve">
-    <value>The type 'Type Name' must be a non-nullable value type in order to use it as parameter 'Parameter Name' in the generic type or method 'Generic Identifier'</value>
+    <value>The type {0} must be a non-nullable value type in order to use it as parameter {1} in the generic type or method {2}</value>
   </data>
   <data name="CSharpErrors_CS0454" xml:space="preserve">
-    <value>Circular constraint dependency involving 'Type Parameter 1' and 'Type Parameter 2'</value>
+    <value>Circular constraint dependency involving {0} and {1}</value>
   </data>
   <data name="CSharpErrors_CS0455" xml:space="preserve">
-    <value>Type parameter 'Type Parameter Name' inherits conflicting constraints 'Constraint Name 1' and 'Constraint Name 2'</value>
+    <value>Type parameter {0} inherits conflicting constraints {1} and {2}</value>
   </data>
   <data name="CSharpErrors_CS0456" xml:space="preserve">
-    <value>Type parameter 'Type Parameter Name 1' has the 'struct' constraint so 'Type Parameter Name 1' cannot be used as a constraint for 'Type Parameter Name 2'</value>
+    <value>Type parameter {0} has the 'struct' constraint so {0} cannot be used as a constraint for {1}</value>
   </data>
   <data name="CSharpErrors_CS0457" xml:space="preserve">
-    <value>Ambiguous user defined conversions 'Conversion method name 1' and 'Conversion method name 2' when converting from 'type name 1' to 'type name 2'</value>
+    <value>Ambiguous user defined conversions {0} and {1} when converting from {2} to {3}</value>
   </data>
   <data name="CSharpErrors_CS0459" xml:space="preserve">
     <value>Cannot take the address of a read-only local variable</value>
@@ -1336,85 +1336,85 @@
     <value>Constraints for override and explicit interface implementation methods are inherited from the base method, so they cannot be specified directly</value>
   </data>
   <data name="CSharpErrors_CS0462" xml:space="preserve">
-    <value>The inherited members 'member1' and 'member2' have the same signature in type 'type', so they cannot be overridden</value>
+    <value>The inherited members {0} and {1} have the same signature in type {1}, so they cannot be overridden</value>
   </data>
   <data name="CSharpErrors_CS0463" xml:space="preserve">
-    <value>Evaluation of the decimal constant expression failed with error: 'error'</value>
+    <value>Evaluation of the decimal constant expression failed with error: {0}</value>
   </data>
   <data name="CSharpErrors_CS0466" xml:space="preserve">
-    <value>'method1' should not have a params parameter since 'method2' does not</value>
+    <value>{0} should not have a params parameter since {1} does not</value>
   </data>
   <data name="CSharpErrors_CS0468" xml:space="preserve">
-    <value>Ambiguity between type 'type1' and type 'type2'</value>
+    <value>Ambiguity between type {0} and type {1}</value>
   </data>
   <data name="CSharpErrors_CS0470" xml:space="preserve">
-    <value>Method 'method' cannot implement interface accessor 'accessor' for type 'type'. Use an explicit interface implementation.</value>
+    <value>Method {0} cannot implement interface accessor {1} for type {2}. Use an explicit interface implementation.</value>
   </data>
   <data name="CSharpErrors_CS0471" xml:space="preserve">
-    <value>The method 'name' is not a generic method. If you intended an expression list, use parentheses around the &lt; expression.</value>
+    <value>The method [0} is not a generic method. If you intended an expression list, use parentheses around the &amp;lt; expression.</value>
   </data>
   <data name="CSharpErrors_CS0473" xml:space="preserve">
-    <value>Explicit interface implementation 'method name' matches more than one interface member. Which interface member is actually chosen is implementation-dependent. Consider using a non-explicit implementation instead.</value>
+    <value>Explicit interface implementation {0} matches more than one interface member. Which interface member is actually chosen is implementation-dependent. Consider using a non-explicit implementation instead.</value>
   </data>
   <data name="CSharpErrors_CS0500" xml:space="preserve">
-    <value>'class member' cannot declare a body because it is marked abstract</value>
+    <value>{0} cannot declare a body because it is marked abstract</value>
   </data>
   <data name="CSharpErrors_CS0501" xml:space="preserve">
-    <value>'member function' must declare a body because it is not marked abstract, extern, or partial</value>
+    <value>{0} must declare a body because it is not marked abstract, extern, or partial</value>
   </data>
   <data name="CSharpErrors_CS0502" xml:space="preserve">
-    <value>'member' cannot be both abstract and sealed</value>
+    <value>{0} cannot be both abstract and sealed</value>
   </data>
   <data name="CSharpErrors_CS0503" xml:space="preserve">
-    <value>The abstract method 'method' cannot be marked virtual</value>
+    <value>The abstract method {0} cannot be marked virtual</value>
   </data>
   <data name="CSharpErrors_CS0504" xml:space="preserve">
-    <value>The constant 'variable' cannot be marked static</value>
+    <value>The constant {0} cannot be marked static</value>
   </data>
   <data name="CSharpErrors_CS0505" xml:space="preserve">
-    <value>'member1': cannot override because 'member2' is not a function</value>
+    <value>{0}: cannot override because {1} is not a function</value>
   </data>
   <data name="CSharpErrors_CS0506" xml:space="preserve">
-    <value>'function1' : cannot override inherited member 'function2' because it is not marked ""virtual"", ""abstract"", or ""override""</value>
+    <value>{0} : cannot override inherited member {1} because it is not marked 'virtual', 'abstract', or 'override'</value>
   </data>
   <data name="CSharpErrors_CS0507" xml:space="preserve">
-    <value>'function1' : cannot change access modifiers when overriding 'access' inherited member 'function2'</value>
+    <value>{0} : cannot change access modifiers when overriding {1} inherited member {2}</value>
   </data>
   <data name="CSharpErrors_CS0508" xml:space="preserve">
-    <value>'Type 1': return type must be 'Type 2' to match overridden member 'Member Name'</value>
+    <value>{0}: return type must be {1} to match overridden member {2}</value>
   </data>
   <data name="CSharpErrors_CS0509" xml:space="preserve">
-    <value>'class1' : cannot derive from sealed type 'class2'</value>
+    <value>{0} : cannot derive from sealed type {1}</value>
   </data>
   <data name="CSharpErrors_CS0513" xml:space="preserve">
-    <value>'function' is abstract but it is contained in nonabstract class 'class'</value>
+    <value>{0} is abstract but it is contained in nonabstract class {1}</value>
   </data>
   <data name="CSharpErrors_CS0514" xml:space="preserve">
-    <value>'constructor' : static constructor cannot have an explicit 'this' or 'base' constructor call</value>
+    <value>{0} : static constructor cannot have an explicit 'this' or 'base' constructor call</value>
   </data>
   <data name="CSharpErrors_CS0515" xml:space="preserve">
-    <value>'function' : access modifiers are not allowed on static constructors</value>
+    <value>{0} : access modifiers are not allowed on static constructors</value>
   </data>
   <data name="CSharpErrors_CS0516" xml:space="preserve">
-    <value>Constructor 'constructor' can not call itself</value>
+    <value>Constructor {0} can not call itself</value>
   </data>
   <data name="CSharpErrors_CS0517" xml:space="preserve">
-    <value>'class' has no base class and cannot call a base constructor</value>
+    <value>{0} has no base class and cannot call a base constructor</value>
   </data>
   <data name="CSharpErrors_CS0518" xml:space="preserve">
-    <value>Predefined type 'type' is not defined or imported</value>
+    <value>Predefined type {0} is not defined or imported</value>
   </data>
   <data name="CSharpErrors_CS0520" xml:space="preserve">
-    <value>Predefined type 'name' is declared incorrectly</value>
+    <value>Predefined type {0} is declared incorrectly</value>
   </data>
   <data name="CSharpErrors_CS0522" xml:space="preserve">
-    <value>'constructor' : structs cannot call base class constructors</value>
+    <value>{0} : structs cannot call base class constructors</value>
   </data>
   <data name="CSharpErrors_CS0523" xml:space="preserve">
-    <value>Struct member 'struct2 field' of type 'struct1' causes a cycle in the struct layout</value>
+    <value>Struct member {0} of type {1} causes a cycle in the struct layout</value>
   </data>
   <data name="CSharpErrors_CS0524" xml:space="preserve">
-    <value>'type' : interfaces cannot declare types</value>
+    <value>{0} : interfaces cannot declare types</value>
   </data>
   <data name="CSharpErrors_CS0525" xml:space="preserve">
     <value>Interfaces cannot contain fields</value>
@@ -1423,79 +1423,79 @@
     <value>Interfaces cannot contain constructors</value>
   </data>
   <data name="CSharpErrors_CS0527" xml:space="preserve">
-    <value>Type 'type' in interface list is not an interface</value>
+    <value>Type {0} in interface list is not an interface</value>
   </data>
   <data name="CSharpErrors_CS0528" xml:space="preserve">
-    <value>'interface' is already listed in interface list</value>
+    <value>{0} is already listed in interface list</value>
   </data>
   <data name="CSharpErrors_CS0529" xml:space="preserve">
-    <value>Inherited interface 'interface1' causes a cycle in the interface hierarchy of 'interface2'</value>
+    <value>Inherited interface {0} causes a cycle in the interface hierarchy of {1}</value>
   </data>
   <data name="CSharpErrors_CS0531" xml:space="preserve">
-    <value>'member' : interface members cannot have a definition</value>
+    <value>{0} : interface members cannot have a definition</value>
   </data>
   <data name="CSharpErrors_CS0533" xml:space="preserve">
-    <value>'derived-class member' hides inherited abstract member 'base-class member'</value>
+    <value>{0} hides inherited abstract member {1}</value>
   </data>
   <data name="CSharpErrors_CS0534" xml:space="preserve">
-    <value>'function1' does not implement inherited abstract member 'function2'</value>
+    <value>{0} does not implement inherited abstract member {1}</value>
   </data>
   <data name="CSharpErrors_CS0535" xml:space="preserve">
-    <value>'class' does not implement interface member 'member'</value>
+    <value>{0} does not implement interface member {1}</value>
   </data>
   <data name="CSharpErrors_CS0537" xml:space="preserve">
     <value>The class System.Object cannot have a base class or implement an interface</value>
   </data>
   <data name="CSharpErrors_CS0538" xml:space="preserve">
-    <value>'name' in explicit interface declaration is not an interface</value>
+    <value>{0} in explicit interface declaration is not an interface</value>
   </data>
   <data name="CSharpErrors_CS0539" xml:space="preserve">
-    <value>'member' in explicit interface declaration is not a member of interface</value>
+    <value>{0} in explicit interface declaration is not a member of interface</value>
   </data>
   <data name="CSharpErrors_CS0540" xml:space="preserve">
-    <value>'interface member' : containing type does not implement interface 'interface'</value>
+    <value>{0} : containing type does not implement interface {1}</value>
   </data>
   <data name="CSharpErrors_CS0541" xml:space="preserve">
-    <value>'declaration' : explicit interface declaration can only be declared in a class or struct</value>
+    <value>{0} : explicit interface declaration can only be declared in a class or struct</value>
   </data>
   <data name="CSharpErrors_CS0542" xml:space="preserve">
-    <value>'user-defined type' : member names cannot be the same as their enclosing type</value>
+    <value>{0} : member names cannot be the same as their enclosing type</value>
   </data>
   <data name="CSharpErrors_CS0543" xml:space="preserve">
-    <value>'enumeration' : the enumerator value is too large to fit in its type</value>
+    <value>{0} : the enumerator value is too large to fit in its type</value>
   </data>
   <data name="CSharpErrors_CS0544" xml:space="preserve">
-    <value>'property override': cannot override because 'non-property' is not a property</value>
+    <value>{0}: cannot override because {1} is not a property</value>
   </data>
   <data name="CSharpErrors_CS0545" xml:space="preserve">
-    <value>'function' : cannot override because 'property' does not have an overridable get accessor</value>
+    <value>{0} : cannot override because {1} does not have an overridable get accessor</value>
   </data>
   <data name="CSharpErrors_CS0546" xml:space="preserve">
-    <value>'accessor' : cannot override because 'property' does not have an overridable set accessor</value>
+    <value>{0} : cannot override because {1} does not have an overridable set accessor</value>
   </data>
   <data name="CSharpErrors_CS0547" xml:space="preserve">
-    <value>'property' : property or indexer cannot have void type</value>
+    <value>{0} : property or indexer cannot have void type</value>
   </data>
   <data name="CSharpErrors_CS0548" xml:space="preserve">
-    <value>'property' : property or indexer must have at least one accessor</value>
+    <value>{0} : property or indexer must have at least one accessor</value>
   </data>
   <data name="CSharpErrors_CS0549" xml:space="preserve">
-    <value>'function' is a new virtual member in sealed class 'class'</value>
+    <value>{0} is a new virtual member in sealed class {1}</value>
   </data>
   <data name="CSharpErrors_CS0550" xml:space="preserve">
-    <value>'accessor' adds an accessor not found in interface member 'property'</value>
+    <value>{0} adds an accessor not found in interface member {1}</value>
   </data>
   <data name="CSharpErrors_CS0551" xml:space="preserve">
-    <value>Explicit interface implementation 'implementation' is missing accessor 'accessor'</value>
+    <value>Explicit interface implementation {0} is missing accessor {1}</value>
   </data>
   <data name="CSharpErrors_CS0552" xml:space="preserve">
-    <value>'conversion routine' : user defined conversion to/from interface</value>
+    <value>{0} : user defined conversion to/from interface</value>
   </data>
   <data name="CSharpErrors_CS0553" xml:space="preserve">
-    <value>'conversion routine' : user defined conversion to/from base class</value>
+    <value>{0} : user defined conversion to/from base class</value>
   </data>
   <data name="CSharpErrors_CS0554" xml:space="preserve">
-    <value>'conversion routine' : user defined conversion to/from derived class</value>
+    <value>{0} : user defined conversion to/from derived class</value>
   </data>
   <data name="CSharpErrors_CS0555" xml:space="preserve">
     <value>User-defined operator cannot take an object of the enclosing type and convert to an object of the enclosing type</value>
@@ -1504,10 +1504,10 @@
     <value>User-defined conversion must convert to or from the enclosing type</value>
   </data>
   <data name="CSharpErrors_CS0557" xml:space="preserve">
-    <value>Duplicate user-defined conversion in type 'class'</value>
+    <value>Duplicate user-defined conversion in type {0}</value>
   </data>
   <data name="CSharpErrors_CS0558" xml:space="preserve">
-    <value>User-defined operator 'operator' must be declared static and public</value>
+    <value>User-defined operator {0} must be declared static and public</value>
   </data>
   <data name="CSharpErrors_CS0559" xml:space="preserve">
     <value>The parameter type for ++ or -- operator must be the containing type</value>
@@ -1528,19 +1528,19 @@
     <value>Structs cannot contain explicit parameterless constructors</value>
   </data>
   <data name="CSharpErrors_CS0569" xml:space="preserve">
-    <value>'method2' : cannot override 'method1' because it is not supported by the language</value>
+    <value>{1} : cannot override {0} because it is not supported by the language</value>
   </data>
   <data name="CSharpErrors_CS0570" xml:space="preserve">
-    <value>Property, indexer, or event 'name' is not supported by the language; try directly calling accessor method 'name!'</value>
+    <value>Property, indexer, or event {0} is not supported by the language; try directly calling accessor method {1}!</value>
   </data>
   <data name="CSharpErrors_CS0571" xml:space="preserve">
-    <value>'function' : cannot explicitly call operator or accessor</value>
+    <value>{0} : cannot explicitly call operator or accessor</value>
   </data>
   <data name="CSharpErrors_CS0572" xml:space="preserve">
-    <value>'type' : cannot reference a type through an expression; try 'path_to_type' instead</value>
+    <value>{0} : cannot reference a type through an expression; try {1} instead</value>
   </data>
   <data name="CSharpErrors_CS0573" xml:space="preserve">
-    <value>'field declaration' : cannot have instance field initializers in structs</value>
+    <value>{0} : cannot have instance field initializers in structs</value>
   </data>
   <data name="CSharpErrors_CS0574" xml:space="preserve">
     <value>Name of destructor must match name of class</value>
@@ -1549,16 +1549,16 @@
     <value>Only class types can contain destructors</value>
   </data>
   <data name="CSharpErrors_CS0576" xml:space="preserve">
-    <value>Namespace 'namespace' contains a definition conflicting with alias 'identifier'</value>
+    <value>Namespace {0} contains a definition conflicting with alias {1}</value>
   </data>
   <data name="CSharpErrors_CS0577" xml:space="preserve">
-    <value>The Conditional attribute is not valid on 'function' because it is a constructor, destructor, operator, or explicit interface implementation</value>
+    <value>The Conditional attribute is not valid on {0} because it is a constructor, destructor, operator, or explicit interface implementation</value>
   </data>
   <data name="CSharpErrors_CS0578" xml:space="preserve">
-    <value>The Conditional attribute is not valid on 'function' because its return type is not void</value>
+    <value>The Conditional attribute is not valid on {0} because its return type is not void</value>
   </data>
   <data name="CSharpErrors_CS0579" xml:space="preserve">
-    <value>Duplicate 'attribute' attribute</value>
+    <value>Duplicate {0} attribute</value>
   </data>
   <data name="CSharpErrors_CS0582" xml:space="preserve">
     <value>The Conditional not valid on interface members</value>
@@ -1567,16 +1567,16 @@
     <value>Internal Compiler Error. An internal error has occurred in the compiler. To work around this problem, try simplifying or changing the program near the locations listed below. Locations at the top of the list are closer to the point at which the internal error occurred. Errors such as this can be reported to Microsoft by using the /errorreport option.</value>
   </data>
   <data name="CSharpErrors_CS0584" xml:space="preserve">
-    <value>Internal Compiler Error: stage 'stage' symbol 'symbol'</value>
+    <value>Internal Compiler Error: stage {0} symbol {1}</value>
   </data>
   <data name="CSharpErrors_CS0585" xml:space="preserve">
-    <value>Internal Compiler Error: stage 'stage'</value>
+    <value>Internal Compiler Error: stage {0}</value>
   </data>
   <data name="CSharpErrors_CS0586" xml:space="preserve">
-    <value>Internal Compiler Error: stage 'stage'</value>
+    <value>Internal Compiler Error: stage {0}</value>
   </data>
   <data name="CSharpErrors_CS0587" xml:space="preserve">
-    <value>Internal Compiler Error: stage 'stage'</value>
+    <value>Internal Compiler Error: stage {0}</value>
   </data>
   <data name="CSharpErrors_CS0588" xml:space="preserve">
     <value>Internal Compiler Error: stage 'LEX'</value>
@@ -1588,19 +1588,19 @@
     <value>User-defined operators cannot return void</value>
   </data>
   <data name="CSharpErrors_CS0591" xml:space="preserve">
-    <value>Invalid value for argument to 'attribute' attribute</value>
+    <value>Invalid value for argument to {0} attribute</value>
   </data>
   <data name="CSharpErrors_CS0592" xml:space="preserve">
-    <value>Attribute 'attribute' is not valid on this declaration type. It is valid on 'type' declarations only.</value>
+    <value>Attribute {0} is not valid on this declaration type. It is valid on {1} declarations only.</value>
   </data>
   <data name="CSharpErrors_CS0594" xml:space="preserve">
-    <value>Floating-point constant is outside the range of type 'type'</value>
+    <value>Floating-point constant is outside the range of type {0}</value>
   </data>
   <data name="CSharpErrors_CS0596" xml:space="preserve">
     <value>The Guid attribute must be specified with the ComImport attribute</value>
   </data>
   <data name="CSharpErrors_CS0599" xml:space="preserve">
-    <value>Invalid value for named attribute argument 'argument'</value>
+    <value>Invalid value for named attribute argument {0}</value>
   </data>
   <data name="CSharpErrors_CS0601" xml:space="preserve">
     <value>The DllImport attribute must be specified on a method marked 'static' and 'extern'</value>
@@ -1609,25 +1609,25 @@
     <value>Cannot set the IndexerName attribute on an indexer marked override</value>
   </data>
   <data name="CSharpErrors_CS0610" xml:space="preserve">
-    <value>Field or property cannot be of type 'type'</value>
+    <value>Field or property cannot be of type {0}</value>
   </data>
   <data name="CSharpErrors_CS0611" xml:space="preserve">
-    <value>Array elements cannot be of type 'type'</value>
+    <value>Array elements cannot be of type {0}</value>
   </data>
   <data name="CSharpErrors_CS0616" xml:space="preserve">
-    <value>'class' is not an attribute class</value>
+    <value>{0} is not an attribute class</value>
   </data>
   <data name="CSharpErrors_CS0617" xml:space="preserve">
-    <value>'reference' is not a valid named attribute argument because it is not a valid attribute parameter type</value>
+    <value>{0} is not a valid named attribute argument because it is not a valid attribute parameter type</value>
   </data>
   <data name="CSharpErrors_CS0619" xml:space="preserve">
-    <value>'member' is obsolete: 'text'</value>
+    <value>{0} is obsolete: {1}</value>
   </data>
   <data name="CSharpErrors_CS0620" xml:space="preserve">
     <value>Indexers cannot have void type</value>
   </data>
   <data name="CSharpErrors_CS0621" xml:space="preserve">
-    <value>'member' : virtual or abstract members cannot be private</value>
+    <value>{0} : virtual or abstract members cannot be private</value>
   </data>
   <data name="CSharpErrors_CS0622" xml:space="preserve">
     <value>Can only use array initializer expressions to assign to array types. Try using a new expression instead.</value>
@@ -1636,19 +1636,19 @@
     <value>Array initializers can only be used in a variable or field initializer. Try using a new expression instead.</value>
   </data>
   <data name="CSharpErrors_CS0625" xml:space="preserve">
-    <value>'field': instance field types marked with StructLayout(LayoutKind.Explicit) must have a FieldOffset attribute</value>
+    <value>{0}: instance field types marked with StructLayout(LayoutKind.Explicit) must have a FieldOffset attribute</value>
   </data>
   <data name="CSharpErrors_CS0629" xml:space="preserve">
-    <value>Conditional member 'member' cannot implement interface member 'base class member' in type 'Type Name'</value>
+    <value>Conditional member {0} cannot implement interface member {1} in type {2}</value>
   </data>
   <data name="CSharpErrors_CS0631" xml:space="preserve">
     <value>ref and out are not valid in this context</value>
   </data>
   <data name="CSharpErrors_CS0633" xml:space="preserve">
-    <value>The argument to the 'attribute' attribute must be a valid identifier</value>
+    <value>The argument to the {0} attribute must be a valid identifier</value>
   </data>
   <data name="CSharpErrors_CS0635" xml:space="preserve">
-    <value>'attribute' : System.Interop.UnmanagedType.CustomMarshaller requires named arguments ComType and Marshal</value>
+    <value>{0} : System.Interop.UnmanagedType.CustomMarshaller requires named arguments ComType and Marshal</value>
   </data>
   <data name="CSharpErrors_CS0636" xml:space="preserve">
     <value>The FieldOffset attribute can only be placed on members of types marked with the StructLayout(LayoutKind.Explicit)</value>
@@ -1657,13 +1657,13 @@
     <value>The FieldOffset attribute is not allowed on static or const fields</value>
   </data>
   <data name="CSharpErrors_CS0641" xml:space="preserve">
-    <value>'attribute' : attribute is only valid on classes derived from System.Attribute</value>
+    <value>{0} : attribute is only valid on classes derived from System.Attribute</value>
   </data>
   <data name="CSharpErrors_CS0643" xml:space="preserve">
-    <value>'arg' duplicate named attribute argument</value>
+    <value>{0} duplicate named attribute argument</value>
   </data>
   <data name="CSharpErrors_CS0644" xml:space="preserve">
-    <value>'class1' cannot derive from special class 'class2'</value>
+    <value>{0} cannot derive from special class {1}</value>
   </data>
   <data name="CSharpErrors_CS0645" xml:space="preserve">
     <value>Identifier too long</value>
@@ -1672,37 +1672,37 @@
     <value>Cannot specify the DefaultMember attribute on a type containing an indexer</value>
   </data>
   <data name="CSharpErrors_CS0647" xml:space="preserve">
-    <value>Error emitting 'attribute' attribute -- 'reason'</value>
+    <value>Error emitting {0} attribute -- {1}</value>
   </data>
   <data name="CSharpErrors_CS0648" xml:space="preserve">
-    <value>'type' is a type not supported by the language</value>
+    <value>{0} is a type not supported by the language</value>
   </data>
   <data name="CSharpErrors_CS0650" xml:space="preserve">
     <value>Bad array declarator: To declare a managed array the rank specifier precedes the variable's identifier. To declare a fixed size buffer field, use the fixed keyword before the field type.</value>
   </data>
   <data name="CSharpErrors_CS0653" xml:space="preserve">
-    <value>Cannot apply attribute class 'class' because it is abstract</value>
+    <value>Cannot apply attribute class {0} because it is abstract</value>
   </data>
   <data name="CSharpErrors_CS0655" xml:space="preserve">
-    <value>'parameter' is not a valid named attribute argument because it is not a valid attribute parameter type</value>
+    <value>{0} is not a valid named attribute argument because it is not a valid attribute parameter type</value>
   </data>
   <data name="CSharpErrors_CS0656" xml:space="preserve">
-    <value>Missing compiler required member 'object.member'</value>
+    <value>Missing compiler required member {0}</value>
   </data>
   <data name="CSharpErrors_CS0662" xml:space="preserve">
-    <value>'method' cannot specify only Out attribute on a ref parameter. Use both In and Out attributes, or neither.</value>
+    <value>{0} cannot specify only Out attribute on a ref parameter. Use both In and Out attributes, or neither.</value>
   </data>
   <data name="CSharpErrors_CS0663" xml:space="preserve">
     <value>Cannot define overloaded methods that differ only on ref and out.</value>
   </data>
   <data name="CSharpErrors_CS0664" xml:space="preserve">
-    <value>Literal of type double cannot be implicitly converted to type 'type'; use an 'suffix' suffix to create a literal of this type</value>
+    <value>Literal of type double cannot be implicitly converted to type {0}; use an {1} suffix to create a literal of this type</value>
   </data>
   <data name="CSharpErrors_CS0666" xml:space="preserve">
-    <value>'member' : new protected member declared in struct</value>
+    <value>{0} : new protected member declared in struct</value>
   </data>
   <data name="CSharpErrors_CS0667" xml:space="preserve">
-    <value>The feature 'invalid feature' is deprecated. Please use 'valid feature' instead'.</value>
+    <value>The feature {0} is deprecated. Please use {1} instead.</value>
   </data>
   <data name="CSharpErrors_CS0668" xml:space="preserve">
     <value>Two indexers have different names; the IndexerName attribute must be used with the same name on every indexer within a type</value>
@@ -1720,70 +1720,70 @@
     <value>Do not use 'System.ParamArrayAttribute'. Use the 'params' keyword instead.</value>
   </data>
   <data name="CSharpErrors_CS0677" xml:space="preserve">
-    <value>'variable': a volatile field cannot be of the type 'type'</value>
+    <value>{0}: a volatile field cannot be of the type {1}</value>
   </data>
   <data name="CSharpErrors_CS0678" xml:space="preserve">
-    <value>'variable': a field can not be both volatile and readonly</value>
+    <value>{0}: a field can not be both volatile and readonly</value>
   </data>
   <data name="CSharpErrors_CS0681" xml:space="preserve">
     <value>The modifier 'abstract' is not valid on fields. Try using a property instead</value>
   </data>
   <data name="CSharpErrors_CS0682" xml:space="preserve">
-    <value>'type1' cannot implement 'type2' because it is not supported by the language</value>
+    <value>{0} cannot implement {1} because it is not supported by the language</value>
   </data>
   <data name="CSharpErrors_CS0683" xml:space="preserve">
-    <value>'explicitmethod' explicit method implementation cannot implement 'method' because it is an accessor</value>
+    <value>{0} explicit method implementation cannot implement {1} because it is an accessor</value>
   </data>
   <data name="CSharpErrors_CS0685" xml:space="preserve">
-    <value>Conditional member 'member' cannot have an out parameter</value>
+    <value>Conditional member {0} cannot have an out parameter</value>
   </data>
   <data name="CSharpErrors_CS0686" xml:space="preserve">
-    <value>Accessor 'accessor' cannot implement interface member 'member' for type 'type'. Use an explicit interface implementation.</value>
+    <value>Accessor {0} cannot implement interface member {1} for type {2}. Use an explicit interface implementation.</value>
   </data>
   <data name="CSharpErrors_CS0687" xml:space="preserve">
     <value>The namespace alias qualifier '::' always resolves to a type or namespace so is illegal here. Consider using '.' instead.</value>
   </data>
   <data name="CSharpErrors_CS0689" xml:space="preserve">
-    <value>Cannot derive from 'identifier' because it is a type parameter</value>
+    <value>Cannot derive from {0} because it is a type parameter</value>
   </data>
   <data name="CSharpErrors_CS0690" xml:space="preserve">
-    <value>Input file 'file' contains invalid metadata.</value>
+    <value>Input file {0} contains invalid metadata.</value>
   </data>
   <data name="CSharpErrors_CS0692" xml:space="preserve">
-    <value>Duplicate type parameter 'identifier'</value>
+    <value>Duplicate type parameter {0}</value>
   </data>
   <data name="CSharpErrors_CS0694" xml:space="preserve">
-    <value>Type parameter 'identifier' has the same name as the containing type, or method</value>
+    <value>Type parameter {0} has the same name as the containing type, or method</value>
   </data>
   <data name="CSharpErrors_CS0695" xml:space="preserve">
-    <value>'generic type' cannot implement both 'generic interface' and 'generic interface' because they may unify for some type parameter substitutions</value>
+    <value>{0} cannot implement both {1} and {1} because they may unify for some type parameter substitutions</value>
   </data>
   <data name="CSharpErrors_CS0698" xml:space="preserve">
-    <value>A generic type cannot derive from 'class' because it is an attribute class</value>
+    <value>A generic type cannot derive from {0} because it is an attribute class</value>
   </data>
   <data name="CSharpErrors_CS0699" xml:space="preserve">
-    <value>'generic' does not define type parameter 'identifier'</value>
+    <value>{0} does not define type parameter {1}</value>
   </data>
   <data name="CSharpErrors_CS0701" xml:space="preserve">
-    <value>'identifier' is not a valid constraint. A type used as a constraint must be an interface, a non-sealed class or a type parameter.</value>
+    <value>{0} is not a valid constraint. A type used as a constraint must be an interface, a non-sealed class or a type parameter.</value>
   </data>
   <data name="CSharpErrors_CS0702" xml:space="preserve">
-    <value>Constraint cannot be special class 'identifier'</value>
+    <value>Constraint cannot be special class {0}</value>
   </data>
   <data name="CSharpErrors_CS0703" xml:space="preserve">
-    <value>Inconsistent accessibility: constraint type 'identifier' is less accessible than 'identifier'</value>
+    <value>Inconsistent accessibility: constraint type {0} is less accessible than {1}</value>
   </data>
   <data name="CSharpErrors_CS0704" xml:space="preserve">
-    <value>Cannot do member lookup in 'type' because it is a type parameter</value>
+    <value>Cannot do member lookup in {0} because it is a type parameter</value>
   </data>
   <data name="CSharpErrors_CS0706" xml:space="preserve">
     <value>Invalid constraint type. A type used as a constraint must be an interface, a non-sealed class or a type parameter.</value>
   </data>
   <data name="CSharpErrors_CS0708" xml:space="preserve">
-    <value>'field': cannot declare instance members in a static class</value>
+    <value>{0}: cannot declare instance members in a static class</value>
   </data>
   <data name="CSharpErrors_CS0709" xml:space="preserve">
-    <value>'derived class': cannot derive from static class 'base class'</value>
+    <value>{0}: cannot derive from static class {1}</value>
   </data>
   <data name="CSharpErrors_CS0710" xml:space="preserve">
     <value>Static classes cannot have instance constructors</value>
@@ -1792,61 +1792,55 @@
     <value>Static classes cannot contain destructors</value>
   </data>
   <data name="CSharpErrors_CS0712" xml:space="preserve">
-    <value>Cannot create an instance of the static class 'static class'</value>
+    <value>Cannot create an instance of the static class {0}</value>
   </data>
   <data name="CSharpErrors_CS0713" xml:space="preserve">
-    <value>Static class 'static type' cannot derive from type 'type'. Static classes must derive from object.</value>
+    <value>Static class {0} cannot derive from type {1}. Static classes must derive from object.</value>
   </data>
   <data name="CSharpErrors_CS0714" xml:space="preserve">
-    <value>'static type' : static classes cannot implement interfaces</value>
+    <value>{0} : static classes cannot implement interfaces</value>
   </data>
   <data name="CSharpErrors_CS0715" xml:space="preserve">
-    <value>'static class' : static classes cannot contain user defined operators</value>
+    <value>{0} : static classes cannot contain user defined operators</value>
   </data>
   <data name="CSharpErrors_CS0716" xml:space="preserve">
-    <value>Cannot convert to static type 'type'</value>
+    <value>Cannot convert to static type {0}</value>
   </data>
   <data name="CSharpErrors_CS0717" xml:space="preserve">
-    <value>'static class': static classes cannot be used as constraints</value>
+    <value>{0}: static classes cannot be used as constraints</value>
   </data>
   <data name="CSharpErrors_CS0718" xml:space="preserve">
-    <value>'type': static types cannot be used as type arguments</value>
+    <value>{0}: static types cannot be used as type arguments</value>
   </data>
   <data name="CSharpErrors_CS0719" xml:space="preserve">
-    <value>'type': array elements cannot be of static type</value>
+    <value>{0}: array elements cannot be of static type</value>
   </data>
   <data name="CSharpErrors_CS0720" xml:space="preserve">
-    <value>'static class': cannot declare indexers in a static class</value>
+    <value>{0}: cannot declare indexers in a static class</value>
   </data>
   <data name="CSharpErrors_CS0721" xml:space="preserve">
-    <value>'type': static types cannot be used as parameters</value>
+    <value>{0}: static types cannot be used as parameters</value>
   </data>
   <data name="CSharpErrors_CS0722" xml:space="preserve">
-    <value>'type': static types cannot be used as return types</value>
+    <value>{0}: static types cannot be used as return types</value>
   </data>
   <data name="CSharpErrors_CS0723" xml:space="preserve">
-    <value>Cannot declare variable of static type 'type'</value>
+    <value>Cannot declare variable of static type {0}</value>
   </data>
   <data name="CSharpErrors_CS0724" xml:space="preserve">
     <value>does not need a CLSCompliant attribute because the assembly does not have a CLSCompliant attribute</value>
   </data>
-  <data name="CSharpErrors_CS0726" xml:space="preserve">
-    <value>'format specifier' is not a valid format specifier</value>
-  </data>
-  <data name="CSharpErrors_CS0727" xml:space="preserve">
-    <value>Invalid format specifier</value>
-  </data>
   <data name="CSharpErrors_CS0729" xml:space="preserve">
-    <value>Type 'type' is defined in this assembly, but a type forwarder is specified for it</value>
+    <value>Type {0} is defined in this assembly, but a type forwarder is specified for it</value>
   </data>
   <data name="CSharpErrors_CS0730" xml:space="preserve">
-    <value>Cannot forward type 'type' because it is a nested type of 'type'</value>
+    <value>Cannot forward type {0} because it is a nested type of {1}</value>
   </data>
   <data name="CSharpErrors_CS0731" xml:space="preserve">
-    <value>The type forwarder for type 'type' in assembly 'assembly' causes a cycle</value>
+    <value>The type forwarder for type {0} in assembly {1} causes a cycle</value>
   </data>
   <data name="CSharpErrors_CS0733" xml:space="preserve">
-    <value>Cannot forward generic type, 'GenericType&lt;&gt;'</value>
+    <value>Cannot forward generic type, {0}</value>
   </data>
   <data name="CSharpErrors_CS0734" xml:space="preserve">
     <value>The /moduleassemblyname option may only be specified when building a target type of 'module'</value>
@@ -1855,28 +1849,16 @@
     <value>Invalid type specified as an argument for TypeForwardedTo attribute</value>
   </data>
   <data name="CSharpErrors_CS0736" xml:space="preserve">
-    <value>'type name' does not implement interface member 'member name'. 'method name' cannot implement an interface member because it is static.</value>
+    <value>{0} does not implement interface member {1}. {2} cannot implement an interface member because it is static.</value>
   </data>
   <data name="CSharpErrors_CS0737" xml:space="preserve">
-    <value>'type name' does not implement interface member 'member name'. 'method name' cannot implement an interface member because it is not public.</value>
+    <value>{0} does not implement interface member {1}. {2} cannot implement an interface member because it is not public.</value>
   </data>
   <data name="CSharpErrors_CS0738" xml:space="preserve">
-    <value>'type name' does not implement interface member 'member name'. 'method name' cannot implement 'interface member' because it does not have the matching return type of ' type name'.</value>
+    <value>{0} does not implement interface member {1}. {2} cannot implement {1} because it does not have the matching return type of {3}.</value>
   </data>
   <data name="CSharpErrors_CS0739" xml:space="preserve">
-    <value>'type name' duplicate TypeForwardedToAttribute.</value>
-  </data>
-  <data name="CSharpErrors_CS0742" xml:space="preserve">
-    <value>A query body must end with a select clause or a group clause</value>
-  </data>
-  <data name="CSharpErrors_CS0743" xml:space="preserve">
-    <value>Expected contextual keyword 'on'</value>
-  </data>
-  <data name="CSharpErrors_CS0744" xml:space="preserve">
-    <value>Expected contextual keyword 'equals'</value>
-  </data>
-  <data name="CSharpErrors_CS0745" xml:space="preserve">
-    <value>Expected contextual keyword 'by'</value>
+    <value>{0} duplicate TypeForwardedToAttribute.</value>
   </data>
   <data name="CSharpErrors_CS0746" xml:space="preserve">
     <value>Invalid anonymous type member declarator. Anonymous type members must be declared with a member assignment, simple name or member access.</value>
@@ -1915,13 +1897,13 @@
     <value>Both partial method declarations must use a params parameter or neither may use a params parameter</value>
   </data>
   <data name="CSharpErrors_CS0759" xml:space="preserve">
-    <value>No defining declaration found for implementing declaration of partial method 'method'.</value>
+    <value>No defining declaration found for implementing declaration of partial method {0}.</value>
   </data>
   <data name="CSharpErrors_CS0761" xml:space="preserve">
-    <value>Partial method declarations of 'method&lt;T&gt;' have inconsistent type parameter constraints.</value>
+    <value>Partial method declarations of {0} have inconsistent type parameter constraints.</value>
   </data>
   <data name="CSharpErrors_CS0762" xml:space="preserve">
-    <value>Cannot create delegate from method 'method' because it is a partial method without an implementing declaration</value>
+    <value>Cannot create delegate from method {0} because it is a partial method without an implementing declaration</value>
   </data>
   <data name="CSharpErrors_CS0763" xml:space="preserve">
     <value>Both partial method declarations must be static or neither may be static.</value>
@@ -1936,10 +1918,10 @@
     <value>Partial methods must have a void return type.</value>
   </data>
   <data name="CSharpErrors_CS0811" xml:space="preserve">
-    <value>The fully qualified name for 'name' is too long for debug information. Compile without '/debug' option.</value>
+    <value>The fully qualified name for {0} is too long for debug information. Compile without '/debug' option.</value>
   </data>
   <data name="CSharpErrors_CS0815" xml:space="preserve">
-    <value>Cannot assign 'expression' to an implicitly typed local</value>
+    <value>Cannot assign {0} to an implicitly typed local</value>
   </data>
   <data name="CSharpErrors_CS0818" xml:space="preserve">
     <value>Implicitly typed locals must be initialized</value>
@@ -1963,7 +1945,7 @@
     <value>No best type found for implicitly typed array.</value>
   </data>
   <data name="CSharpErrors_CS0828" xml:space="preserve">
-    <value>Cannot assign 'expression' to anonymous type property.</value>
+    <value>Cannot assign {0} to anonymous type property.</value>
   </data>
   <data name="CSharpErrors_CS0831" xml:space="preserve">
     <value>An expression tree may not contain a base access.</value>
@@ -1978,13 +1960,13 @@
     <value>A lambda expression must have an expression body to be converted to an expression tree.</value>
   </data>
   <data name="CSharpErrors_CS0835" xml:space="preserve">
-    <value>Cannot convert lambda to an expression tree whose type argument 'type' is not a delegate type.</value>
+    <value>Cannot convert lambda to an expression tree whose type argument {0} is not a delegate type.</value>
   </data>
   <data name="CSharpErrors_CS0836" xml:space="preserve">
     <value>Cannot use anonymous type in a constant expression.</value>
   </data>
   <data name="CSharpErrors_CS0837" xml:space="preserve">
-    <value>The first operand of an ""is"" or ""as"" operator may not be a lambda expression or anonymous method.</value>
+    <value>The first operand of an 'is' or 'as' operator may not be a lambda expression or anonymous method.</value>
   </data>
   <data name="CSharpErrors_CS0838" xml:space="preserve">
     <value>An expression tree may not contain a multidimensional array initializer.</value>
@@ -1993,19 +1975,19 @@
     <value>Argument missing.</value>
   </data>
   <data name="CSharpErrors_CS0840" xml:space="preserve">
-    <value>'Property name' must declare a body because it is not marked abstract or extern. Automatically implemented properties must define both get and set accessors.</value>
+    <value>{0} must declare a body because it is not marked abstract or extern. Automatically implemented properties must define both get and set accessors.</value>
   </data>
   <data name="CSharpErrors_CS0841" xml:space="preserve">
-    <value>Cannot use variable 'name' before it is declared.</value>
+    <value>Cannot use variable {0} before it is declared.</value>
   </data>
   <data name="CSharpErrors_CS0842" xml:space="preserve">
     <value>Automatically implemented properties cannot be used inside a type marked with StructLayout(LayoutKind.Explicit).</value>
   </data>
   <data name="CSharpErrors_CS0843" xml:space="preserve">
-    <value>Backing field for automatically implemented property 'name' must be fully assigned before control is returned to the caller. Consider calling the default constructor from a constructor initializer.</value>
+    <value>Backing field for automatically implemented property {0} must be fully assigned before control is returned to the caller. Consider calling the default constructor from a constructor initializer.</value>
   </data>
   <data name="CSharpErrors_CS0844" xml:space="preserve">
-    <value>Cannot use local variable 'name' before it is declared. The declaration of the local variable hides the field 'name'.</value>
+    <value>Cannot use local variable {0} before it is declared. The declaration of the local variable hides the field {0}.</value>
   </data>
   <data name="CSharpErrors_CS0845" xml:space="preserve">
     <value>An expression tree lambda may not contain a coalescing operator with a null literal left-hand side.</value>
@@ -2020,7 +2002,7 @@
     <value>Syntax error, 'char' expected</value>
   </data>
   <data name="CSharpErrors_CS1004" xml:space="preserve">
-    <value>Duplicate 'modifier' modifier</value>
+    <value>Duplicate {0} modifier</value>
   </data>
   <data name="CSharpErrors_CS1007" xml:space="preserve">
     <value>Property accessor already defined</value>
@@ -2089,7 +2071,7 @@
     <value>Unexpected preprocessor directive</value>
   </data>
   <data name="CSharpErrors_CS1029" xml:space="preserve">
-    <value>#error: 'text'</value>
+    <value>#error: {0}</value>
   </data>
   <data name="CSharpErrors_CS1031" xml:space="preserve">
     <value>Type expected</value>
@@ -2137,16 +2119,16 @@
     <value>Unexpected character 'character'</value>
   </data>
   <data name="CSharpErrors_CS1057" xml:space="preserve">
-    <value>'member': static classes cannot contain protected members</value>
+    <value>{0}: static classes cannot contain protected members</value>
   </data>
   <data name="CSharpErrors_CS1059" xml:space="preserve">
     <value>The operand of an increment or decrement operator must be a variable, property or indexer.</value>
   </data>
   <data name="CSharpErrors_CS1061" xml:space="preserve">
-    <value>'type' does not contain a definition for 'member' and no extension method 'name' accepting a first argument of type 'type' could be found (are you missing a using directive or an assembly reference?).</value>
+    <value>{0} does not contain a definition for {1} and no extension method {2} accepting a first argument of type {0} could be found (are you missing a using directive or an assembly reference?).</value>
   </data>
   <data name="CSharpErrors_CS1100" xml:space="preserve">
-    <value>Method 'name' has a parameter modifier 'this' which is not on the first parameter.</value>
+    <value>Method {0} has a parameter modifier 'this' which is not on the first parameter.</value>
   </data>
   <data name="CSharpErrors_CS1101" xml:space="preserve">
     <value>The parameter modifier 'ref' cannot be used with 'this'.</value>
@@ -2155,7 +2137,7 @@
     <value>The parameter modifier 'out' cannot be used with 'this'.</value>
   </data>
   <data name="CSharpErrors_CS1103" xml:space="preserve">
-    <value>The first parameter of an extension method cannot be of type 'type'.</value>
+    <value>The first parameter of an extension method cannot be of type {0}.</value>
   </data>
   <data name="CSharpErrors_CS1104" xml:space="preserve">
     <value>A parameter array cannot be used with 'this' modifier on an extension method.</value>
@@ -2167,13 +2149,13 @@
     <value>Extension methods must be defined in a non generic static class.</value>
   </data>
   <data name="CSharpErrors_CS1107" xml:space="preserve">
-    <value>A parameter can only have one 'modifier name' modifier.</value>
+    <value>A parameter can only have one {0} modifier.</value>
   </data>
   <data name="CSharpErrors_CS1108" xml:space="preserve">
     <value>A parameter cannot have all the specified modifiers; there are too many modifiers on the parameter.</value>
   </data>
   <data name="CSharpErrors_CS1109" xml:space="preserve">
-    <value>Extension Methods must be defined on top level static classes, 'name' is a nested class.</value>
+    <value>Extension Methods must be defined on top level static classes, {0} is a nested class.</value>
   </data>
   <data name="CSharpErrors_CS1110" xml:space="preserve">
     <value>Cannot use 'this' modifier on first parameter of method declaration without a reference to System.Core.dll. Add a reference to System.Core.dll or remove 'this' modifier from the method declaration.</value>
@@ -2182,28 +2164,28 @@
     <value>Do not use 'System.Runtime.CompilerServices.ExtensionAttribute'. Use the 'this' keyword instead.</value>
   </data>
   <data name="CSharpErrors_CS1113" xml:space="preserve">
-    <value>Extension methods 'name' defined on value type 'name' cannot be used to create delegates.</value>
+    <value>Extension methods {0} defined on value type {1} cannot be used to create delegates.</value>
   </data>
   <data name="CSharpErrors_CS1501" xml:space="preserve">
-    <value>No overload for method 'method' takes 'number' arguments</value>
+    <value>No overload for method {0} takes {1} arguments</value>
   </data>
   <data name="CSharpErrors_CS1502" xml:space="preserve">
-    <value>The best overloaded Add method 'name' for the collection initializer has some invalid arguments</value>
+    <value>The best overloaded Add method {0} for the collection initializer has some invalid arguments</value>
   </data>
   <data name="CSharpErrors_CS1503" xml:space="preserve">
-    <value>The best overloaded Add method 'name for the collection initializer has some invalid arguments</value>
+    <value>The best overloaded Add method {0} for the collection initializer has some invalid arguments</value>
   </data>
   <data name="CSharpErrors_CS1504" xml:space="preserve">
-    <value>Source file 'file' could not be opened ('reason')</value>
+    <value>Source file {0} could not be opened ({1})</value>
   </data>
   <data name="CSharpErrors_CS1507" xml:space="preserve">
-    <value>Cannot link resource file 'file' when building a module</value>
+    <value>Cannot link resource file {0} when building a module</value>
   </data>
   <data name="CSharpErrors_CS1508" xml:space="preserve">
-    <value>Resource identifier 'identifier' has already been used in this assembly</value>
+    <value>Resource identifier {0} has already been used in this assembly</value>
   </data>
   <data name="CSharpErrors_CS1509" xml:space="preserve">
-    <value>Referenced file 'file' is not an assembly; use '/addmodule' option instead</value>
+    <value>Referenced file {0} is not an assembly; use '/addmodule' option instead</value>
   </data>
   <data name="CSharpErrors_CS1510" xml:space="preserve">
     <value>A ref or out argument must be an assignable variable</value>
@@ -2230,7 +2212,7 @@
     <value>Expected class, delegate, enum, interface, or struct</value>
   </data>
   <data name="CSharpErrors_CS1519" xml:space="preserve">
-    <value>Invalid token 'token' in class, struct, or interface member declaration</value>
+    <value>Invalid token {0} in class, struct, or interface member declaration</value>
   </data>
   <data name="CSharpErrors_CS1520" xml:space="preserve">
     <value>Method must have a return type</value>
@@ -2242,7 +2224,7 @@
     <value>Expected catch or finally</value>
   </data>
   <data name="CSharpErrors_CS1525" xml:space="preserve">
-    <value>Invalid expression term 'character'</value>
+    <value>Invalid expression term {0}</value>
   </data>
   <data name="CSharpErrors_CS1526" xml:space="preserve">
     <value>A new expression requires (), [], or {} after type</value>
@@ -2260,37 +2242,37 @@
     <value>Keyword 'new' is not allowed on elements defined in a namespace</value>
   </data>
   <data name="CSharpErrors_CS1534" xml:space="preserve">
-    <value>Overloaded binary operator 'operator' takes two parameters</value>
+    <value>Overloaded binary operator {0} takes two parameters</value>
   </data>
   <data name="CSharpErrors_CS1535" xml:space="preserve">
-    <value>Overloaded unary operator 'operator' takes one parameter</value>
+    <value>Overloaded unary operator {0} takes one parameter</value>
   </data>
   <data name="CSharpErrors_CS1536" xml:space="preserve">
     <value>Invalid parameter type void</value>
   </data>
   <data name="CSharpErrors_CS1537" xml:space="preserve">
-    <value>The using alias 'alias' appeared previously in this namespace</value>
+    <value>The using alias {0} appeared previously in this namespace</value>
   </data>
   <data name="CSharpErrors_CS1540" xml:space="preserve">
-    <value>Cannot access protected member 'member' via a qualifier of type 'type1'; the qualifier must be of type 'type2' (or derived from it)</value>
+    <value>Cannot access protected member {0} via a qualifier of type {1}; the qualifier must be of type {2} (or derived from it)</value>
   </data>
   <data name="CSharpErrors_CS1541" xml:space="preserve">
-    <value>Invalid reference option: 'symbol' — cannot reference directories</value>
+    <value>Invalid reference option: {0} — cannot reference directories</value>
   </data>
   <data name="CSharpErrors_CS1542" xml:space="preserve">
-    <value>'dll' cannot be added to this assembly because it already is an assembly; use '/R' option instead</value>
+    <value>{0} cannot be added to this assembly because it already is an assembly; use '/R' option instead</value>
   </data>
   <data name="CSharpErrors_CS1545" xml:space="preserve">
-    <value>Property, indexer, or event 'property' is not supported by the language; try directly calling accessor methods 'set accessor' or 'get accessor'</value>
+    <value>Property, indexer, or event {0} is not supported by the language; try directly calling accessor methods {1} or {2}</value>
   </data>
   <data name="CSharpErrors_CS1546" xml:space="preserve">
-    <value>Property, indexer, or event 'property' is not supported by the language; try directly calling accessor method 'accessor'</value>
+    <value>Property, indexer, or event {0} is not supported by the language; try directly calling accessor method {1}</value>
   </data>
   <data name="CSharpErrors_CS1547" xml:space="preserve">
     <value>Keyword 'void' cannot be used in this context</value>
   </data>
   <data name="CSharpErrors_CS1548" xml:space="preserve">
-    <value>Cryptographic failure while signing assembly 'assembly' — 'reason'</value>
+    <value>Cryptographic failure while signing assembly {0} — {1}</value>
   </data>
   <data name="CSharpErrors_CS1549" xml:space="preserve">
     <value>Appropriate cryptographic service not found</value>
@@ -2302,25 +2284,25 @@
     <value>Array type specifier, [], must appear before parameter name</value>
   </data>
   <data name="CSharpErrors_CS1553" xml:space="preserve">
-    <value>Declaration is not valid; use 'modifier operator &lt;dest-type&gt; (...' instead</value>
+    <value>Declaration is not valid; use '{0} operator {1} (...' instead</value>
   </data>
   <data name="CSharpErrors_CS1554" xml:space="preserve">
-    <value>Declaration is not valid; use '&lt;type&gt; operator op (...' instead</value>
+    <value>Declaration is not valid; use '{0} operator {1} (...' instead</value>
   </data>
   <data name="CSharpErrors_CS1555" xml:space="preserve">
-    <value>Could not find 'class' specified for Main method</value>
+    <value>Could not find {0} specified for Main method</value>
   </data>
   <data name="CSharpErrors_CS1556" xml:space="preserve">
-    <value>'construct' specified for Main method must be a valid class or struct</value>
+    <value>{0} specified for Main method must be a valid class or struct</value>
   </data>
   <data name="CSharpErrors_CS1557" xml:space="preserve">
-    <value>Cannot use 'class' for Main method because it is in a different output file</value>
+    <value>Cannot use {0} for Main method because it is in a different output file</value>
   </data>
   <data name="CSharpErrors_CS1558" xml:space="preserve">
-    <value>'class' does not have a suitable static Main method</value>
+    <value>{0} does not have a suitable static Main method</value>
   </data>
   <data name="CSharpErrors_CS1559" xml:space="preserve">
-    <value>Cannot use 'object' for Main method because it is imported</value>
+    <value>Cannot use {0} for Main method because it is imported</value>
   </data>
   <data name="CSharpErrors_CS1560" xml:space="preserve">
     <value>Invalid filename specified for preprocessor directive. Filename is too long or not a valid filename</value>
@@ -2332,7 +2314,7 @@
     <value>Outputs without source must have the /out option specified</value>
   </data>
   <data name="CSharpErrors_CS1563" xml:space="preserve">
-    <value>Output 'output file' does not have any source files</value>
+    <value>Output {0} does not have any source files</value>
   </data>
   <data name="CSharpErrors_CS1564" xml:space="preserve">
     <value>Conflicting options specified: Win32 resource file; Win32 manifest.</value>
@@ -2341,13 +2323,13 @@
     <value>Conflicting options specified: Win32 resource file; Win32 icon</value>
   </data>
   <data name="CSharpErrors_CS1566" xml:space="preserve">
-    <value>Error reading resource file 'file' — 'reason'</value>
+    <value>Error reading resource file {0} — {1}</value>
   </data>
   <data name="CSharpErrors_CS1567" xml:space="preserve">
-    <value>Error generating Win32 resource: 'file'</value>
+    <value>Error generating Win32 resource: {0}</value>
   </data>
   <data name="CSharpErrors_CS1569" xml:space="preserve">
-    <value>Error generating XML documentation file 'Filename' ('reason')</value>
+    <value>Error generating XML documentation file {0} ({1})</value>
   </data>
   <data name="CSharpErrors_CS1575" xml:space="preserve">
     <value>A stackalloc expression requires [] after type</value>
@@ -2362,46 +2344,46 @@
     <value>Filename, single-line comment or end-of-line expected</value>
   </data>
   <data name="CSharpErrors_CS1579" xml:space="preserve">
-    <value>foreach statement cannot operate on variables of type 'type1' because 'type2' does not contain a public definition for 'identifier'</value>
+    <value>foreach statement cannot operate on variables of type {0} because {1} does not contain a public definition for {2}</value>
   </data>
   <data name="CSharpErrors_CS1583" xml:space="preserve">
-    <value>'file' is not a valid Win32 resource file</value>
+    <value>{0} is not a valid Win32 resource file</value>
   </data>
   <data name="CSharpErrors_CS1585" xml:space="preserve">
-    <value>Member modifier 'keyword' must precede the member type and name</value>
+    <value>Member modifier {0} must precede the member type and name</value>
   </data>
   <data name="CSharpErrors_CS1586" xml:space="preserve">
     <value>Array creation must have array size or array initializer</value>
   </data>
   <data name="CSharpErrors_CS1588" xml:space="preserve">
-    <value>Cannot determine common language runtime directory -- 'reason'</value>
+    <value>Cannot determine common language runtime directory -- {0}</value>
   </data>
   <data name="CSharpErrors_CS1593" xml:space="preserve">
-    <value>Delegate 'del' does not take 'number' arguments</value>
+    <value>Delegate {0} does not take {1} arguments</value>
   </data>
   <data name="CSharpErrors_CS1594" xml:space="preserve">
-    <value>Delegate 'delegate' has some invalid arguments</value>
+    <value>Delegate {0} has some invalid arguments</value>
   </data>
   <data name="CSharpErrors_CS1597" xml:space="preserve">
     <value>Semicolon after method or accessor block is not valid</value>
   </data>
   <data name="CSharpErrors_CS1599" xml:space="preserve">
-    <value>Method or delegate cannot return type 'type'</value>
+    <value>Method or delegate cannot return type {0}</value>
   </data>
   <data name="CSharpErrors_CS1600" xml:space="preserve">
     <value>Compilation cancelled by user</value>
   </data>
   <data name="CSharpErrors_CS1601" xml:space="preserve">
-    <value>Method or delegate parameter cannot be of type 'type'</value>
+    <value>Method or delegate parameter cannot be of type {0}</value>
   </data>
   <data name="CSharpErrors_CS1604" xml:space="preserve">
-    <value>Cannot assign to 'variable' because it is read-only</value>
+    <value>Cannot assign to {0} because it is read-only</value>
   </data>
   <data name="CSharpErrors_CS1605" xml:space="preserve">
-    <value>Cannot pass 'var' as a ref or out argument because it is read-only</value>
+    <value>Cannot pass {0} as a ref or out argument because it is read-only</value>
   </data>
   <data name="CSharpErrors_CS1606" xml:space="preserve">
-    <value>Assembly signing failed; output may not be signed -- reason</value>
+    <value>Assembly signing failed; output may not be signed -- {0}</value>
   </data>
   <data name="CSharpErrors_CS1608" xml:space="preserve">
     <value>The Required attribute is not permitted on C# types</value>
@@ -2413,28 +2395,28 @@
     <value>The params parameter cannot be declared as ref or out</value>
   </data>
   <data name="CSharpErrors_CS1612" xml:space="preserve">
-    <value>Cannot modify the return value of 'expression' because it is not a variable</value>
+    <value>Cannot modify the return value of {0} because it is not a variable</value>
   </data>
   <data name="CSharpErrors_CS1613" xml:space="preserve">
-    <value>The managed coclass wrapper class 'class' for interface 'interface' cannot be found (are you missing an assembly reference?)</value>
+    <value>The managed coclass wrapper class {0} for interface {1} cannot be found (are you missing an assembly reference?)</value>
   </data>
   <data name="CSharpErrors_CS1614" xml:space="preserve">
-    <value>'name' is ambiguous; between 'attribute1' and 'attribute2'. use either '@attribute' or 'attributeAttribute'</value>
+    <value>{0} is ambiguous; between {1} and {2}. use either '@{0}' or '{0}Attribute'</value>
   </data>
   <data name="CSharpErrors_CS1615" xml:space="preserve">
-    <value>Argument 'number' should not be passed with the 'keyword' keyword</value>
+    <value>Argument {0} should not be passed with the {1} keyword</value>
   </data>
   <data name="CSharpErrors_CS1617" xml:space="preserve">
-    <value>Invalid option 'option' for /langversion; must be ISO-1, ISO-2 or Default</value>
+    <value>Invalid option {0} for /langversion; must be ISO-1, ISO-2 or Default</value>
   </data>
   <data name="CSharpErrors_CS1618" xml:space="preserve">
-    <value>Cannot create delegate with 'method' because it has a Conditional attribute</value>
+    <value>Cannot create delegate with {0} because it has a Conditional attribute</value>
   </data>
   <data name="CSharpErrors_CS1619" xml:space="preserve">
-    <value>Cannot create temporary file 'filename' -- reason</value>
+    <value>Cannot create temporary file {0} -- {1}</value>
   </data>
   <data name="CSharpErrors_CS1620" xml:space="preserve">
-    <value>Argument 'number' must be passed with the 'keyword' keyword</value>
+    <value>Argument {0} must be passed with the {1} keyword</value>
   </data>
   <data name="CSharpErrors_CS1621" xml:space="preserve">
     <value>The yield statement cannot be used inside an anonymous method or lambda expression</value>
@@ -2446,7 +2428,7 @@
     <value>Iterators cannot have ref or out parameters</value>
   </data>
   <data name="CSharpErrors_CS1624" xml:space="preserve">
-    <value>The body of 'accessor' cannot be an iterator block because 'type' is not an iterator interface type</value>
+    <value>The body of {0} cannot be an iterator block because {1} is not an iterator interface type</value>
   </data>
   <data name="CSharpErrors_CS1625" xml:space="preserve">
     <value>Cannot yield in the body of a finally clause</value>
@@ -2458,13 +2440,13 @@
     <value>Expression expected after yield return</value>
   </data>
   <data name="CSharpErrors_CS1628" xml:space="preserve">
-    <value>Cannot use ref or out parameter 'parameter' inside an anonymous method, lambda expression, or query expression</value>
+    <value>Cannot use ref or out parameter {0} inside an anonymous method, lambda expression, or query expression</value>
   </data>
   <data name="CSharpErrors_CS1629" xml:space="preserve">
     <value>Unsafe code may not appear in iterators</value>
   </data>
   <data name="CSharpErrors_CS1630" xml:space="preserve">
-    <value>Invalid option 'option' for /errorreport; must be prompt, send, queue, or none</value>
+    <value>Invalid option {0} for /errorreport; must be prompt, send, queue, or none</value>
   </data>
   <data name="CSharpErrors_CS1631" xml:space="preserve">
     <value>Cannot yield a value in the body of a catch clause</value>
@@ -2476,13 +2458,13 @@
     <value>Iterators cannot have unsafe parameters or yield types</value>
   </data>
   <data name="CSharpErrors_CS1638" xml:space="preserve">
-    <value>'identifier' is a reserved identifier and cannot be used when ISO language version mode is used</value>
+    <value>{0} is a reserved identifier and cannot be used when ISO language version mode is used</value>
   </data>
   <data name="CSharpErrors_CS1639" xml:space="preserve">
-    <value>The managed coclass wrapper class signature 'signature' for interface 'interface' is not a valid class name signature</value>
+    <value>The managed coclass wrapper class signature {0} for interface {1} is not a valid class name signature</value>
   </data>
   <data name="CSharpErrors_CS1640" xml:space="preserve">
-    <value>foreach statement cannot operate on variables of type 'type' because it implements multiple instantiations of 'interface', try casting to a specific interface instantiation</value>
+    <value>foreach statement cannot operate on variables of type {0} because it implements multiple instantiations of {1}, try casting to a specific interface instantiation</value>
   </data>
   <data name="CSharpErrors_CS1641" xml:space="preserve">
     <value>A fixed size buffer field must have the array size specifier after the field name</value>
@@ -2491,55 +2473,55 @@
     <value>Fixed size buffer fields may only be members of structs.</value>
   </data>
   <data name="CSharpErrors_CS1643" xml:space="preserve">
-    <value>Not all code paths return a value in method of type 'type!'</value>
+    <value>Not all code paths return a value in method of type {0}</value>
   </data>
   <data name="CSharpErrors_CS1644" xml:space="preserve">
-    <value>Feature 'feature' is not part of the standardized ISO C# language specification, and may not be accepted by other compilers</value>
+    <value>Feature {0} is not part of the standardized ISO C# language specification, and may not be accepted by other compilers</value>
   </data>
   <data name="CSharpErrors_CS1646" xml:space="preserve">
     <value>Keyword, identifier, or string expected after verbatim specifier: </value>
   </data>
   <data name="CSharpErrors_CS1647" xml:space="preserve">
-    <value>An expression is too long or complex to compile near 'code'</value>
+    <value>An expression is too long or complex to compile near {0}</value>
   </data>
   <data name="CSharpErrors_CS1648" xml:space="preserve">
-    <value>Members of readonly field 'identifier' cannot be modified (except in a constructor or a variable initializer)</value>
+    <value>Members of readonly field {0} cannot be modified (except in a constructor or a variable initializer)</value>
   </data>
   <data name="CSharpErrors_CS1649" xml:space="preserve">
-    <value>Members of readonly field 'identifier' cannot be passed ref or out (except in a constructor)</value>
+    <value>Members of readonly field {0} cannot be passed ref or out (except in a constructor)</value>
   </data>
   <data name="CSharpErrors_CS1650" xml:space="preserve">
-    <value>Fields of static readonly field 'identifier' cannot be assigned to (except in a static constructor or a variable initializer)</value>
+    <value>Fields of static readonly field {0} cannot be assigned to (except in a static constructor or a variable initializer)</value>
   </data>
   <data name="CSharpErrors_CS1651" xml:space="preserve">
-    <value>Fields of static readonly field 'identifier' cannot be passed ref or out (except in a static constructor)</value>
+    <value>Fields of static readonly field {0} cannot be passed ref or out (except in a static constructor)</value>
   </data>
   <data name="CSharpErrors_CS1654" xml:space="preserve">
-    <value>Cannot modify members of 'variable' because it is a 'read-only variable type'</value>
+    <value>Cannot modify members of {0} because it is a {1}</value>
   </data>
   <data name="CSharpErrors_CS1655" xml:space="preserve">
-    <value>Cannot pass fields of 'variable' as a ref or out argument because it is a 'readonly variable type'</value>
+    <value>Cannot pass fields of {0} as a ref or out argument because it is a {1}</value>
   </data>
   <data name="CSharpErrors_CS1656" xml:space="preserve">
-    <value>Cannot assign to 'variable' because it is a 'read-only variable type'</value>
+    <value>Cannot assign to {0} because it is a {1}</value>
   </data>
   <data name="CSharpErrors_CS1657" xml:space="preserve">
-    <value>Cannot pass 'parameter' as a ref or out argument because 'reason''</value>
+    <value>Cannot pass {0} as a ref or out argument because {1}</value>
   </data>
   <data name="CSharpErrors_CS1660" xml:space="preserve">
-    <value>Cannot convert anonymous method block to type 'type' because it is not a delegate type</value>
+    <value>Cannot convert anonymous method block to type {0} because it is not a delegate type</value>
   </data>
   <data name="CSharpErrors_CS1661" xml:space="preserve">
-    <value>Cannot convert anonymous method block to delegate type 'delegate type' because the specified block's parameter types do not match the delegate parameter types</value>
+    <value>Cannot convert anonymous method block to delegate type {0} because the specified block's parameter types do not match the delegate parameter types</value>
   </data>
   <data name="CSharpErrors_CS1662" xml:space="preserve">
-    <value>Cannot convert anonymous method block to delegate type 'delegate type' because some of the return types in the block are not implicitly convertible to the delegate return type</value>
+    <value>Cannot convert anonymous method block to delegate type {0} because some of the return types in the block are not implicitly convertible to the delegate return type</value>
   </data>
   <data name="CSharpErrors_CS1663" xml:space="preserve">
     <value>Fixed size buffer type must be one of the following: bool, byte, short, int, long, char, sbyte, ushort, uint, ulong, float or double</value>
   </data>
   <data name="CSharpErrors_CS1664" xml:space="preserve">
-    <value>Fixed size buffer of length 'length' and type 'type' is too big</value>
+    <value>Fixed size buffer of length {0} and type {1} is too big</value>
   </data>
   <data name="CSharpErrors_CS1665" xml:space="preserve">
     <value>Fixed size buffers must have a length greater than zero</value>
@@ -2548,7 +2530,7 @@
     <value>You cannot use fixed size buffers contained in unfixed expressions. Try using the fixed statement.</value>
   </data>
   <data name="CSharpErrors_CS1667" xml:space="preserve">
-    <value>Attribute 'attribute' is not valid on property or event accessors. It is valid on 'declaration type' declarations only.</value>
+    <value>Attribute {0} is not valid on property or event accessors. It is valid on {1} declarations only.</value>
   </data>
   <data name="CSharpErrors_CS1670" xml:space="preserve">
     <value>params is not valid in this context</value>
@@ -2557,28 +2539,28 @@
     <value>A namespace declaration cannot have modifiers or attributes</value>
   </data>
   <data name="CSharpErrors_CS1672" xml:space="preserve">
-    <value>Invalid option 'option' for /platform; must be anycpu, x86, Itanium or x64</value>
+    <value>Invalid option {0} for /platform; must be anycpu, x86, Itanium or x64</value>
   </data>
   <data name="CSharpErrors_CS1673" xml:space="preserve">
     <value>Anonymous methods, lambda expressions, and query expressions inside structs cannot access instance members of 'this'. Consider copying 'this' to a local variable outside the anonymous method, lambda expression or query expression and using the local instead.</value>
   </data>
   <data name="CSharpErrors_CS1674" xml:space="preserve">
-    <value>'T': type used in a using statement must be implicitly convertible to 'System.IDisposable'</value>
+    <value>{0}: type used in a using statement must be implicitly convertible to 'System.IDisposable'</value>
   </data>
   <data name="CSharpErrors_CS1675" xml:space="preserve">
     <value>Enums cannot have type parameters</value>
   </data>
   <data name="CSharpErrors_CS1676" xml:space="preserve">
-    <value>Parameter 'number' must be declared with the 'keyword' keyword</value>
+    <value>Parameter {0} must be declared with the {1} keyword</value>
   </data>
   <data name="CSharpErrors_CS1677" xml:space="preserve">
-    <value>Parameter 'number' should not be declared with the 'keyword' keyword</value>
+    <value>Parameter {0} should not be declared with the {1} keyword</value>
   </data>
   <data name="CSharpErrors_CS1678" xml:space="preserve">
-    <value>Parameter 'number' is declared as type 'type1' but should be 'type2'</value>
+    <value>Parameter {0} is declared as type {1} but should be {2}</value>
   </data>
   <data name="CSharpErrors_CS1679" xml:space="preserve">
-    <value>Invalid extern alias for '/reference'; 'identifier' is not a valid identifier</value>
+    <value>Invalid extern alias for {0}; {1} is not a valid identifier</value>
   </data>
   <data name="CSharpErrors_CS1680" xml:space="preserve">
     <value>Invalid reference alias option: 'alias=' -- missing filename.</value>
@@ -2587,22 +2569,22 @@
     <value>You cannot redefine the global extern alias</value>
   </data>
   <data name="CSharpErrors_CS1686" xml:space="preserve">
-    <value>Local 'variable' or its members cannot have their address taken and be used inside an anonymous method or lambda expression</value>
+    <value>Local {0} or its members cannot have their address taken and be used inside an anonymous method or lambda expression</value>
   </data>
   <data name="CSharpErrors_CS1688" xml:space="preserve">
-    <value>Cannot convert anonymous method block without a parameter list to delegate type 'delegate' because it has one or more out parameters</value>
+    <value>Cannot convert anonymous method block without a parameter list to delegate type {0} because it has one or more out parameters</value>
   </data>
   <data name="CSharpErrors_CS1689" xml:space="preserve">
-    <value>Attribute 'Attribute Name' is only valid on methods or attribute classes</value>
+    <value>Attribute {0} is only valid on methods or attribute classes</value>
   </data>
   <data name="CSharpErrors_CS1703" xml:space="preserve">
-    <value>An assembly with the same simple name 'name' has already been imported. Try removing one of the references or sign them to enable side-by-side.</value>
+    <value>An assembly with the same simple name {0} has already been imported. Try removing one of the references or sign them to enable side-by-side.</value>
   </data>
   <data name="CSharpErrors_CS1704" xml:space="preserve">
-    <value>An assembly with the same simple name 'Assembly Name' has already been imported. Try removing one of the references or sign them to enable side-by-side.</value>
+    <value>An assembly with the same simple name {0} has already been imported. Try removing one of the references or sign them to enable side-by-side.</value>
   </data>
   <data name="CSharpErrors_CS1705" xml:space="preserve">
-    <value>Assembly 'AssemblyName1' uses 'TypeName' which has a higher version than referenced assembly 'AssemblyName2'</value>
+    <value>Assembly {0} uses {1} which has a higher version than referenced assembly {2}</value>
   </data>
   <data name="CSharpErrors_CS1706" xml:space="preserve">
     <value>Expression cannot contain anonymous methods or lambda expressions</value>
@@ -2611,49 +2593,49 @@
     <value>Fixed size buffers can only be accessed through locals or fields</value>
   </data>
   <data name="CSharpErrors_CS1713" xml:space="preserve">
-    <value>Unexpected error building metadata name for type Typename1—'Reason'</value>
+    <value>Unexpected error building metadata name for type {0} — {1}</value>
   </data>
   <data name="CSharpErrors_CS1714" xml:space="preserve">
-    <value>The base class or interface of TypeName1 could not be resolved or is invalid</value>
+    <value>The base class or interface of {0} could not be resolved or is invalid</value>
   </data>
   <data name="CSharpErrors_CS1715" xml:space="preserve">
-    <value>'Type1': type must be 'Type2' to match overridden member 'MemberName'</value>
+    <value>{0}: type must be {1} to match overridden member {2}</value>
   </data>
   <data name="CSharpErrors_CS1716" xml:space="preserve">
     <value>Do not use 'System.Runtime.CompilerServices.FixedBuffer' attribute. Use the 'fixed' field modifier instead.</value>
   </data>
   <data name="CSharpErrors_CS1719" xml:space="preserve">
-    <value>Error reading Win32 resource file 'File Name' -- 'reason'</value>
+    <value>Error reading Win32 resource file {0} -- {1}</value>
   </data>
   <data name="CSharpErrors_CS1721" xml:space="preserve">
-    <value>Class 'class' cannot have multiple base classes: 'class_1' and 'class_2'</value>
+    <value>Class {0} cannot have multiple base classes: {1} and {2}</value>
   </data>
   <data name="CSharpErrors_CS1722" xml:space="preserve">
-    <value>Base class 'class' must come before any interfaces</value>
+    <value>Base class {0} must come before any interfaces</value>
   </data>
   <data name="CSharpErrors_CS1724" xml:space="preserve">
     <value>Value specified for the argument to 'System.Runtime.InteropServices.DefaultCharSetAttribute' is not valid</value>
   </data>
   <data name="CSharpErrors_CS1725" xml:space="preserve">
-    <value>Friend assembly reference 'reference' is invalid. InternalsVisibleTo declarations cannot have a version, culture, public key token, or processor architecture specified.</value>
+    <value>Friend assembly reference {0} is invalid. InternalsVisibleTo declarations cannot have a version, culture, public key token, or processor architecture specified.</value>
   </data>
   <data name="CSharpErrors_CS1726" xml:space="preserve">
-    <value>Friend assembly reference 'reference' is invalid. Strong-name signed assemblies must specify a public key in their InternalsVisibleTo declarations.</value>
+    <value>Friend assembly reference {0} is invalid. Strong-name signed assemblies must specify a public key in their InternalsVisibleTo declarations.</value>
   </data>
   <data name="CSharpErrors_CS1727" xml:space="preserve">
-    <value>Cannot send error report automatically without authorization. Please visit '' to authorize sending error report.</value>
+    <value>Cannot send error report automatically without authorization. Please visit {0} to authorize sending error report.</value>
   </data>
   <data name="CSharpErrors_CS1728" xml:space="preserve">
-    <value>Cannot bind delegate to 'member' because it is a member of 'type'</value>
+    <value>Cannot bind delegate to {0} because it is a member of {1}</value>
   </data>
   <data name="CSharpErrors_CS1729" xml:space="preserve">
-    <value>'type' does not contain a constructor that takes 'number' arguments.</value>
+    <value>{0} does not contain a constructor that takes {1} arguments.</value>
   </data>
   <data name="CSharpErrors_CS1730" xml:space="preserve">
     <value>Assembly and module attributes must precede all other elements defined in a file except using clauses and extern alias declarations.</value>
   </data>
   <data name="CSharpErrors_CS1731" xml:space="preserve">
-    <value>Cannot convert 'expression' to delegate because some of the return types in the block are not implicitly convertible to the delegate return type.</value>
+    <value>Cannot convert {0} to delegate because some of the return types in the block are not implicitly convertible to the delegate return type.</value>
   </data>
   <data name="CSharpErrors_CS1732" xml:space="preserve">
     <value>Expected parameter.</value>
@@ -2665,100 +2647,100 @@
     <value>Warning level must be in the range 0-4</value>
   </data>
   <data name="CSharpErrors_CS1902" xml:space="preserve">
-    <value>Invalid option 'option' for /debug; must be full or pdbonly</value>
+    <value>Invalid option {0} for /debug; must be full or pdbonly</value>
   </data>
   <data name="CSharpErrors_CS1906" xml:space="preserve">
-    <value>Invalid option 'option'; Resource visibility must be either 'public' or 'private'</value>
+    <value>Invalid option {0}; Resource visibility must be either 'public' or 'private'</value>
   </data>
   <data name="CSharpErrors_CS1908" xml:space="preserve">
     <value>The type of the argument to the DefaultValue attribute must match the parameter type</value>
   </data>
   <data name="CSharpErrors_CS1909" xml:space="preserve">
-    <value>The DefaultValue attribute is not applicable on parameters of type 'type'</value>
+    <value>The DefaultValue attribute is not applicable on parameters of type {0}</value>
   </data>
   <data name="CSharpErrors_CS1910" xml:space="preserve">
-    <value>Argument of type 'type' is not applicable for the DefaultValue attribute</value>
+    <value>Argument of type {0} is not applicable for the DefaultValue attribute</value>
   </data>
   <data name="CSharpErrors_CS1912" xml:space="preserve">
-    <value>Duplicate initialization of member 'name'.</value>
+    <value>Duplicate initialization of member {0}</value>
   </data>
   <data name="CSharpErrors_CS1913" xml:space="preserve">
-    <value>Member 'name' cannot be initialized. It is not a field or property.</value>
+    <value>Member {0} cannot be initialized. It is not a field or property.</value>
   </data>
   <data name="CSharpErrors_CS1914" xml:space="preserve">
-    <value>Static field 'name' cannot be assigned in an object initializer</value>
+    <value>Static field {0} cannot be assigned in an object initializer</value>
   </data>
   <data name="CSharpErrors_CS1917" xml:space="preserve">
-    <value>Members of read-only field 'name' of type 'struct name' cannot be assigned with an object initializer because it is of a value type.</value>
+    <value>Members of read-only field {0} of type {1} cannot be assigned with an object initializer because it is of a value type.</value>
   </data>
   <data name="CSharpErrors_CS1918" xml:space="preserve">
-    <value>Members of property 'name' of type 'type' cannot be assigned with an object initializer because it is of a value type.</value>
+    <value>Members of property {0} of type {1} cannot be assigned with an object initializer because it is of a value type.</value>
   </data>
   <data name="CSharpErrors_CS1919" xml:space="preserve">
-    <value>Unsafe type 'type name' cannot be used in object creation.</value>
+    <value>Unsafe type {0} cannot be used in object creation.</value>
   </data>
   <data name="CSharpErrors_CS1920" xml:space="preserve">
     <value>Element initializer cannot be empty.</value>
   </data>
   <data name="CSharpErrors_CS1921" xml:space="preserve">
-    <value>The best overloaded method match for 'method' has wrong signature for the initializer element. The initializable Add must be an accessible instance method.</value>
+    <value>The best overloaded method match for {0} has wrong signature for the initializer element. The initializable Add must be an accessible instance method.</value>
   </data>
   <data name="CSharpErrors_CS1922" xml:space="preserve">
-    <value>Collection initializer requires its type 'type' to implement System.Collections.IEnumerable.</value>
+    <value>Collection initializer requires its type {0} to implement System.Collections.IEnumerable.</value>
   </data>
   <data name="CSharpErrors_CS1925" xml:space="preserve">
-    <value>Cannot initialize object of type 'type' with a collection initializer.</value>
+    <value>Cannot initialize object of type {0} with a collection initializer.</value>
   </data>
   <data name="CSharpErrors_CS1926" xml:space="preserve">
-    <value>Error reading Win32 manifest file 'filename' -- 'error'.</value>
+    <value>Error reading Win32 manifest file {0} -- {1}.</value>
   </data>
   <data name="CSharpErrors_CS1928" xml:space="preserve">
-    <value>'Type' does not contain a definition for 'method' and the best extension method overload 'method' has some invalid arguments.</value>
+    <value>{0} does not contain a definition for {1} and the best extension method overload {2} has some invalid arguments.</value>
   </data>
   <data name="CSharpErrors_CS1929" xml:space="preserve">
-    <value>Instance argument: cannot convert from 'typeA' to 'typeB'.</value>
+    <value>Instance argument: cannot convert from {0} to {1}.</value>
   </data>
   <data name="CSharpErrors_CS1930" xml:space="preserve">
-    <value>The range variable 'name' has already been declared</value>
+    <value>The range variable {0} has already been declared</value>
   </data>
   <data name="CSharpErrors_CS1931" xml:space="preserve">
-    <value>The range variable 'variable' conflicts with a previous declaration of 'variable'.</value>
+    <value>The range variable {0} conflicts with a previous declaration of {1}.</value>
   </data>
   <data name="CSharpErrors_CS1932" xml:space="preserve">
-    <value>Cannot assign 'expression' to a range variable.</value>
+    <value>Cannot assign {0} to a range variable.</value>
   </data>
   <data name="CSharpErrors_CS1933" xml:space="preserve">
     <value>Expression cannot contain query expressions</value>
   </data>
   <data name="CSharpErrors_CS1934" xml:space="preserve">
-    <value>Could not find an implementation of the query pattern for source type 'type'. 'method' not found. Consider explicitly specifying the type of the range variable 'name'.</value>
+    <value>Could not find an implementation of the query pattern for source type {0}. {1} not found. Consider explicitly specifying the type of the range variable {2}.</value>
   </data>
   <data name="CSharpErrors_CS1935" xml:space="preserve">
-    <value>Could not find an implementation of the query pattern for source type 'type'. 'method' not found. Are you missing a reference to 'System.Core.dll' or a using directive for 'System.Linq'?</value>
+    <value>Could not find an implementation of the query pattern for source type {0}. {1} not found. Are you missing a reference to 'System.Core.dll' or a using directive for 'System.Linq'?</value>
   </data>
   <data name="CSharpErrors_CS1936" xml:space="preserve">
-    <value>Could not find an implementation of the query pattern for source type 'type'. 'method' not found.</value>
+    <value>Could not find an implementation of the query pattern for source type {0}. {1} not found.</value>
   </data>
   <data name="CSharpErrors_CS1937" xml:space="preserve">
-    <value>The name 'name' is not in scope on the left side of 'equals'. Consider swapping the expressions on either side of 'equals'.</value>
+    <value>The name {0} is not in scope on the left side of 'equals'. Consider swapping the expressions on either side of 'equals'.</value>
   </data>
   <data name="CSharpErrors_CS1938" xml:space="preserve">
-    <value>The name 'name' is not in scope on the right side of 'equals'. Consider swapping the expressions on either side of 'equals'.</value>
+    <value>The name {0} is not in scope on the right side of 'equals'. Consider swapping the expressions on either side of 'equals'.</value>
   </data>
   <data name="CSharpErrors_CS1939" xml:space="preserve">
-    <value>Cannot pass the range variable 'name' as an out or ref parameter.</value>
+    <value>Cannot pass the range variable {0} as an out or ref parameter.</value>
   </data>
   <data name="CSharpErrors_CS1940" xml:space="preserve">
-    <value>Multiple implementations of the query pattern were found for source type 'type'. Ambiguous call to 'method'.</value>
+    <value>Multiple implementations of the query pattern were found for source type {0}. Ambiguous call to {1}.</value>
   </data>
   <data name="CSharpErrors_CS1941" xml:space="preserve">
-    <value>The type of one of the expressions in the 'clause' clause is incorrect. Type inference failed in the call to 'method'.</value>
+    <value>The type of one of the expressions in the {0} clause is incorrect. Type inference failed in the call to {1}.</value>
   </data>
   <data name="CSharpErrors_CS1942" xml:space="preserve">
-    <value>The type of the expression in the 'clause' clause is incorrect. Type inference failed in the call to 'method'.</value>
+    <value>The type of the expression in the {0} clause is incorrect. Type inference failed in the call to {1}.</value>
   </data>
   <data name="CSharpErrors_CS1943" xml:space="preserve">
-    <value>An expression of type 'type' is not allowed in a subsequent from clause in a query expression with source type 'type'. Type inference failed in the call to 'method'.</value>
+    <value>An expression of type {0} is not allowed in a subsequent from clause in a query expression with source type {1}. Type inference failed in the call to {2}.</value>
   </data>
   <data name="CSharpErrors_CS1944" xml:space="preserve">
     <value>An expression tree may not contain an unsafe pointer operation</value>
@@ -2770,16 +2752,16 @@
     <value>An anonymous method expression cannot be converted to an expression tree.</value>
   </data>
   <data name="CSharpErrors_CS1947" xml:space="preserve">
-    <value>Range variable 'variable name' cannot be assigned to -- it is read only.</value>
+    <value>Range variable {0} cannot be assigned to -- it is read only.</value>
   </data>
   <data name="CSharpErrors_CS1948" xml:space="preserve">
-    <value>The range variable 'name' cannot have the same name as a method type parameter</value>
+    <value>The range variable {0} cannot have the same name as a method type parameter</value>
   </data>
   <data name="CSharpErrors_CS1949" xml:space="preserve">
     <value>The contextual keyword 'var' cannot be used in a range variable declaration.</value>
   </data>
   <data name="CSharpErrors_CS1950" xml:space="preserve">
-    <value>The best overloaded Add method 'name' for the collection initializer has some invalid arguments.</value>
+    <value>The best overloaded Add method {0} for the collection initializer has some invalid arguments.</value>
   </data>
   <data name="CSharpErrors_CS1951" xml:space="preserve">
     <value>An expression tree lambda may not contain an out or ref parameter.</value>
@@ -2791,49 +2773,49 @@
     <value>An expression tree lambda may not contain a method group.</value>
   </data>
   <data name="CSharpErrors_CS1954" xml:space="preserve">
-    <value>The best overloaded method match 'method' for the collection initializer element cannot be used. Collection initializer 'Add' methods cannot have ref or out parameters.</value>
+    <value>The best overloaded method match {0} for the collection initializer element cannot be used. Collection initializer 'Add' methods cannot have ref or out parameters.</value>
   </data>
   <data name="CSharpErrors_CS1955" xml:space="preserve">
-    <value>Non-invocable member 'name' cannot be used like a method.</value>
+    <value>Non-invocable member {0} cannot be used like a method.</value>
   </data>
   <data name="CSharpErrors_CS1958" xml:space="preserve">
     <value>Object and collection initializer expressions may not be applied to a delegate creation expression,</value>
   </data>
   <data name="CSharpErrors_CS1959" xml:space="preserve">
-    <value>'name' is of type 'type'. The type specified in a constant declaration must be sbyte, byte, short, ushort, int, uint, long, ulong, char, float, double, decimal, bool, string, an enum-type, or a reference-type.</value>
+    <value>{0} is of type {1}. The type specified in a constant declaration must be sbyte, byte, short, ushort, int, uint, long, ulong, char, float, double, decimal, bool, string, an enum-type, or a reference-type.</value>
   </data>
   <data name="CSharpErrors_CS2001" xml:space="preserve">
-    <value>Source file 'file' could not be found</value>
+    <value>Source file {0} could not be found</value>
   </data>
   <data name="CSharpErrors_CS2003" xml:space="preserve">
-    <value>Response file 'file' included multiple times</value>
+    <value>Response file {0} included multiple times</value>
   </data>
   <data name="CSharpErrors_CS2005" xml:space="preserve">
-    <value>Missing file specification for 'option' option</value>
+    <value>Missing file specification for {0} option</value>
   </data>
   <data name="CSharpErrors_CS2006" xml:space="preserve">
-    <value>Command-line syntax error: Missing 'text' for 'option' option</value>
+    <value>Command-line syntax error: Missing {0} for {1} option</value>
   </data>
   <data name="CSharpErrors_CS2007" xml:space="preserve">
-    <value>Unrecognized command-line option: 'option'</value>
+    <value>Unrecognized command-line option: {0}</value>
   </data>
   <data name="CSharpErrors_CS2008" xml:space="preserve">
     <value>No inputs specified</value>
   </data>
   <data name="CSharpErrors_CS2011" xml:space="preserve">
-    <value>Unable to open response file 'file'</value>
+    <value>Unable to open response file {0}</value>
   </data>
   <data name="CSharpErrors_CS2012" xml:space="preserve">
-    <value>Cannot open 'file' for writing</value>
+    <value>Cannot open {0} for writing</value>
   </data>
   <data name="CSharpErrors_CS2013" xml:space="preserve">
-    <value>Invalid image base number 'value'</value>
+    <value>Invalid image base number {0}</value>
   </data>
   <data name="CSharpErrors_CS2015" xml:space="preserve">
-    <value>'file' is a binary file instead of a text file</value>
+    <value>{0} is a binary file instead of a text file</value>
   </data>
   <data name="CSharpErrors_CS2016" xml:space="preserve">
-    <value>Code page 'codepage' is invalid or not installed</value>
+    <value>Code page {0} is invalid or not installed</value>
   </data>
   <data name="CSharpErrors_CS2017" xml:space="preserve">
     <value>Cannot specify /main if building a module or library</value>
@@ -2848,7 +2830,7 @@
     <value>Only the first set of input files can build a target other than 'module'</value>
   </data>
   <data name="CSharpErrors_CS2021" xml:space="preserve">
-    <value>File name 'file' is too long or invalid</value>
+    <value>File name {0} is too long or invalid</value>
   </data>
   <data name="CSharpErrors_CS2022" xml:space="preserve">
     <value>Options '/out' and '/target' must appear before source file names</value>
@@ -2857,21 +2839,33 @@
     <value>Invalid file section alignment number '#'</value>
   </data>
   <data name="CSharpErrors_CS2032" xml:space="preserve">
-    <value>Character 'character' is not allowed on the command-line or in response files</value>
+    <value>Character {0} is not allowed on the command-line or in response files</value>
   </data>
   <data name="CSharpErrors_CS2033" xml:space="preserve">
-    <value>Cannot create short filename 'filename' when a long filename with the same short filename already exists </value>
+    <value>Cannot create short filename {0} when a long filename with the same short filename already exists</value>
   </data>
   <data name="CSharpErrors_CS2034" xml:space="preserve">
     <value>A /reference option that declares an extern alias can only have one filename. To specify multiple aliases or filenames, use multiple /reference options.</value>
   </data>
   <data name="CSharpErrors_CS2035" xml:space="preserve">
-    <value>Command-line syntax error: Missing ':&lt;number&gt;' for 'compiler_option' option</value>
+    <value>&gt;Command-line syntax error: Missing ':&amp;lt;number&amp;gt;' for {0} option</value>
   </data>
   <data name="CSharpErrors_CS2036" xml:space="preserve">
     <value>The /pdb option requires that the /debug option also be used.</value>
   </data>
   <data name="CSharpErrors_CS5001" xml:space="preserve">
-    <value>Program 'program' does not contain a static 'Main' method suitable for an entry point</value>
+    <value>Program {0} does not contain a static 'Main' method suitable for an entry point</value>
+  </data>
+  <data name="CSharpErrors_CS0742" xml:space="preserve">
+    <value>A query body must end with a select clause or a group clause</value>
+  </data>
+  <data name="CSharpErrors_CS0743" xml:space="preserve">
+    <value>Expected contextual keyword 'on'</value>
+  </data>
+  <data name="CSharpErrors_CS0744" xml:space="preserve">
+    <value>Expected contextual keyword 'equals'</value>
+  </data>
+  <data name="CSharpErrors_CS0745" xml:space="preserve">
+    <value>Expected contextual keyword 'by'</value>
   </data>
 </root>

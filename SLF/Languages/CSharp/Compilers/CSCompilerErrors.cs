@@ -4269,7 +4269,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0311;
 
-        /// <summary><para>C&#9839; compiler error &#35;312:</para><para>The type {0} cannot be used as type parameter 'name' in the generic type or method 'name'. The nullable type 'type1' does not satisfy the constraint of 'type2'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;312:</para><para>The type {0} cannot be used as type parameter {1} in the generic type or method {2}. The nullable type {0} does not satisfy the constraint of {3}.</para></summary>
         public static ICompilerReferenceError CS0312
         {
             get
@@ -4281,7 +4281,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0312;
 
-        /// <summary><para>C&#9839; compiler error &#35;313:</para><para>The type {0} cannot be used as type parameter 'parameter name' in the generic type or method 'type2'. The nullable type 'type1' does not satisfy the constraint of 'type2'. Nullable types cannot satisfy any interface constraints.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;313:</para><para>The type {0} cannot be used as type parameter {1} in the generic type or method {2}. The nullable type {0} does not satisfy the constraint of {2}. Nullable types cannot satisfy any interface constraints.</para></summary>
         public static ICompilerReferenceError CS0313
         {
             get
@@ -4293,7 +4293,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0313;
 
-        /// <summary><para>C&#9839; compiler error &#35;314:</para><para>The type {0} cannot be used as type parameter 'name' in the generic type or method 'name'. There is no boxing conversion or type parameter conversion from 'type1' to 'type2'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;314:</para><para>The type {0} cannot be used as type parameter {1} in the generic type or method {2}. There is no boxing conversion or type parameter conversion from {3} to {4}.</para></summary>
         public static ICompilerReferenceError CS0314
         {
             get
@@ -4305,7 +4305,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0314;
 
-        /// <summary><para>C&#9839; compiler error &#35;315:</para><para>The type {0} cannot be used as type parameter '{1}' in the generic type or method '{2}'. There is no boxing conversion from '{3}' to '{4}'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;315:</para><para>The type {0} cannot be used as type parameter {1} in the generic type or method {2}. There is no boxing conversion from {3} to {4}.</para></summary>
         public static ICompilerReferenceError CS0315
         {
             get
@@ -4389,7 +4389,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0405;
 
-        /// <summary><para>C&#9839; compiler error &#35;406:</para><para>The class type constraint 'constraint' must come before any other constraints</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;406:</para><para>The class type constraint {0} must come before any other constraints</para></summary>
         public static ICompilerReferenceError CS0406
         {
             get
@@ -4401,7 +4401,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0406;
 
-        /// <summary><para>C&#9839; compiler error &#35;407:</para><para>'return-type method' has the wrong return type</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;407:</para><para>{0} has the wrong return type</para></summary>
         public static ICompilerReferenceError CS0407
         {
             get
@@ -4413,7 +4413,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0407;
 
-        /// <summary><para>C&#9839; compiler error &#35;409:</para><para>A constraint clause has already been specified for type parameter 'type parameter'. All of the constraints for a type parameter must be specified in a single where clause.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;409:</para><para>A constraint clause has already been specified for type parameter {0}. All of the constraints for a type parameter must be specified in a single where clause.</para></summary>
         public static ICompilerReferenceError CS0409
         {
             get
@@ -4425,7 +4425,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0409;
 
-        /// <summary><para>C&#9839; compiler error &#35;410:</para><para>No overload for 'method' has the correct parameter and return types</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;410:</para><para>No overload for {0} has the correct parameter and return types</para></summary>
         public static ICompilerReferenceError CS0410
         {
             get
@@ -4437,7 +4437,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0410;
 
-        /// <summary><para>C&#9839; compiler error &#35;411:</para><para>The type arguments for method 'method' cannot be inferred from the usage. Try specifying the type arguments explicitly.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;411:</para><para>The type arguments for method {0} cannot be inferred from the usage. Try specifying the type arguments explicitly.</para></summary>
         public static ICompilerReferenceError CS0411
         {
             get
@@ -4449,7 +4449,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0411;
 
-        /// <summary><para>C&#9839; compiler error &#35;412:</para><para>'generic': a parameter or local variable cannot have the same name as a method type parameter</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;412:</para><para>{0}: a parameter or local variable cannot have the same name as a method type parameter</para></summary>
         public static ICompilerReferenceError CS0412
         {
             get
@@ -4461,7 +4461,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0412;
 
-        /// <summary><para>C&#9839; compiler error &#35;413:</para><para>The type parameter 'type parameter' cannot be used with the 'as' operator because it does not have a class type constraint nor a 'class' constraint</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;413:</para><para>The type parameter {0} cannot be used with the 'as' operator because it does not have a class type constraint nor a constraint that is a class</para></summary>
         public static ICompilerReferenceError CS0413
         {
             get
@@ -4473,7 +4473,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0413;
 
-        /// <summary><para>C&#9839; compiler error &#35;415:</para><para>The 'IndexerName' attribute is valid only on an indexer that is not an explicit interface member declaration</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;415:</para><para>The {0} attribute is valid only on an indexer that is not an explicit interface member declaration</para></summary>
         public static ICompilerReferenceError CS0415
         {
             get
@@ -4485,7 +4485,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0415;
 
-        /// <summary><para>C&#9839; compiler error &#35;416:</para><para>'type parameter': an attribute argument cannot use type parameters</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;416:</para><para>{0}: an attribute argument cannot use type parameters</para></summary>
         public static ICompilerReferenceError CS0416
         {
             get
@@ -4497,7 +4497,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0416;
 
-        /// <summary><para>C&#9839; compiler error &#35;417:</para><para>'identifier': cannot provide arguments when creating an instance of a variable type</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;417:</para><para>{0}: cannot provide arguments when creating an instance of a variable type</para></summary>
         public static ICompilerReferenceError CS0417
         {
             get
@@ -4509,7 +4509,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0417;
 
-        /// <summary><para>C&#9839; compiler error &#35;418:</para><para>'class name': an abstract class cannot be sealed or static</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;418:</para><para>{0}: an abstract class cannot be sealed or static</para></summary>
         public static ICompilerReferenceError CS0418
         {
             get
@@ -4521,7 +4521,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0418;
 
-        /// <summary><para>C&#9839; compiler error &#35;423:</para><para>Since 'class' has the ComImport attribute, 'method' must be extern or abstract</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;423:</para><para>Since {0} has the ComImport attribute, {1} must be extern or abstract</para></summary>
         public static ICompilerReferenceError CS0423
         {
             get
@@ -4533,7 +4533,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0423;
 
-        /// <summary><para>C&#9839; compiler error &#35;424:</para><para>'class': a class with the ComImport attribute cannot specify a base class</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;424:</para><para>{0}: a class with the ComImport attribute cannot specify a base class</para></summary>
         public static ICompilerReferenceError CS0424
         {
             get
@@ -4545,7 +4545,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0424;
 
-        /// <summary><para>C&#9839; compiler error &#35;425:</para><para>The constraints for type parameter 'type parameter' of method 'method' must match the constraints for type parameter 'type parameter' of interface method 'method'. Consider using an explicit interface implementation instead.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;425:</para><para>The constraints for type parameter {0} of method {1} must match the constraints for type parameter {2} of interface method {3}. Consider using an explicit interface implementation instead.</para></summary>
         public static ICompilerReferenceError CS0425
         {
             get
@@ -4557,7 +4557,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0425;
 
-        /// <summary><para>C&#9839; compiler error &#35;426:</para><para>The type name 'identifier' does not exist in the type 'type'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;426:</para><para>The type name {0} does not exist in the type {1}</para></summary>
         public static ICompilerReferenceError CS0426
         {
             get
@@ -4569,7 +4569,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0426;
 
-        /// <summary><para>C&#9839; compiler error &#35;428:</para><para>Cannot convert method group 'Identifier' to non-delegate type 'type'. Did you intend to invoke the method?</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;428:</para><para>Cannot convert method group {0} to non-delegate type {1}. Did you intend to invoke the method?</para></summary>
         public static ICompilerReferenceError CS0428
         {
             get
@@ -4581,7 +4581,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0428;
 
-        /// <summary><para>C&#9839; compiler error &#35;430:</para><para>The extern alias 'alias' was not specified in a /reference option</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;430:</para><para>The extern alias {0} was not specified in a /reference option</para></summary>
         public static ICompilerReferenceError CS0430
         {
             get
@@ -4593,7 +4593,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0430;
 
-        /// <summary><para>C&#9839; compiler error &#35;431:</para><para>Cannot use alias 'identifier' with '::' since the alias references a type. Use '.' instead.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;431:</para><para>Cannot use alias {0} with '::' since the alias references a type. Use '.' instead.</para></summary>
         public static ICompilerReferenceError CS0431
         {
             get
@@ -4605,7 +4605,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0431;
 
-        /// <summary><para>C&#9839; compiler error &#35;432:</para><para>Alias 'identifier' not found</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;432:</para><para>Alias {0} not found</para></summary>
         public static ICompilerReferenceError CS0432
         {
             get
@@ -4617,7 +4617,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0432;
 
-        /// <summary><para>C&#9839; compiler error &#35;433:</para><para>The type TypeName1 exists in both TypeName2 and TypeName3</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;433:</para><para>The type {0} exists in both {1} and {2}</para></summary>
         public static ICompilerReferenceError CS0433
         {
             get
@@ -4629,7 +4629,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0433;
 
-        /// <summary><para>C&#9839; compiler error &#35;434:</para><para>The namespace NamespaceName1 in NamespaceName2 conflicts with the type TypeName1 in NamespaceName3</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;434:</para><para>The namespace {0} in {1} conflicts with the type {2} in {3}</para></summary>
         public static ICompilerReferenceError CS0434
         {
             get
@@ -4641,7 +4641,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0434;
 
-        /// <summary><para>C&#9839; compiler error &#35;438:</para><para>The type 'type' in 'module_1' conflicts with the namespace 'namespace' in 'module_2'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;438:</para><para>The type {0} in {1} conflicts with the namespace {2} in {3}.</para></summary>
         public static ICompilerReferenceError CS0438
         {
             get
@@ -4665,7 +4665,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0439;
 
-        /// <summary><para>C&#9839; compiler error &#35;441:</para><para>'class': a class cannot be both static and sealed</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;441:</para><para>{0}: a class cannot be both static and sealed</para></summary>
         public static ICompilerReferenceError CS0441
         {
             get
@@ -4677,7 +4677,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0441;
 
-        /// <summary><para>C&#9839; compiler error &#35;442:</para><para>'Property': abstract properties cannot have private accessors</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;442:</para><para>{0}: abstract properties cannot have private accessors</para></summary>
         public static ICompilerReferenceError CS0442
         {
             get
@@ -4713,7 +4713,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0445;
 
-        /// <summary><para>C&#9839; compiler error &#35;446:</para><para>Foreach cannot operate on a 'Method or Delegate'. Did you intend to invoke the 'Method or Delegate'?</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;446:</para><para>Foreach cannot operate on a {0}. Did you intend to invoke the {0}?</para></summary>
         public static ICompilerReferenceError CS0446
         {
             get
@@ -4761,7 +4761,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0449;
 
-        /// <summary><para>C&#9839; compiler error &#35;450:</para><para>'Type Parameter Name': cannot specify both a constraint class and the 'class' or 'struct' constraint</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;450:</para><para>{0}: cannot specify both a constraint class and the 'class' or 'struct' constraint</para></summary>
         public static ICompilerReferenceError CS0450
         {
             get
@@ -4785,7 +4785,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0451;
 
-        /// <summary><para>C&#9839; compiler error &#35;452:</para><para>The type 'type name' must be a reference type in order to use it as parameter 'parameter name' in the generic type or method 'identifier of generic'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;452:</para><para>The type {0} must be a reference type in order to use it as parameter {1} in the generic type or method {2}.</para></summary>
         public static ICompilerReferenceError CS0452
         {
             get
@@ -4797,7 +4797,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0452;
 
-        /// <summary><para>C&#9839; compiler error &#35;453:</para><para>The type 'Type Name' must be a non-nullable value type in order to use it as parameter 'Parameter Name' in the generic type or method 'Generic Identifier'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;453:</para><para>The type {0} must be a non-nullable value type in order to use it as parameter {1} in the generic type or method {2}</para></summary>
         public static ICompilerReferenceError CS0453
         {
             get
@@ -4809,7 +4809,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0453;
 
-        /// <summary><para>C&#9839; compiler error &#35;454:</para><para>Circular constraint dependency involving 'Type Parameter 1' and 'Type Parameter 2'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;454:</para><para>Circular constraint dependency involving {0} and {1}</para></summary>
         public static ICompilerReferenceError CS0454
         {
             get
@@ -4821,7 +4821,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0454;
 
-        /// <summary><para>C&#9839; compiler error &#35;455:</para><para>Type parameter 'Type Parameter Name' inherits conflicting constraints 'Constraint Name 1' and 'Constraint Name 2'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;455:</para><para>Type parameter {0} inherits conflicting constraints {1} and {2}</para></summary>
         public static ICompilerReferenceError CS0455
         {
             get
@@ -4833,7 +4833,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0455;
 
-        /// <summary><para>C&#9839; compiler error &#35;456:</para><para>Type parameter 'Type Parameter Name 1' has the 'struct' constraint so 'Type Parameter Name 1' cannot be used as a constraint for 'Type Parameter Name 2'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;456:</para><para>Type parameter {0} has the 'struct' constraint so {0} cannot be used as a constraint for {1}</para></summary>
         public static ICompilerReferenceError CS0456
         {
             get
@@ -4845,7 +4845,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0456;
 
-        /// <summary><para>C&#9839; compiler error &#35;457:</para><para>Ambiguous user defined conversions 'Conversion method name 1' and 'Conversion method name 2' when converting from 'type name 1' to 'type name 2'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;457:</para><para>Ambiguous user defined conversions {0} and {1} when converting from {2} to {3}</para></summary>
         public static ICompilerReferenceError CS0457
         {
             get
@@ -4881,7 +4881,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0460;
 
-        /// <summary><para>C&#9839; compiler error &#35;462:</para><para>The inherited members 'member1' and 'member2' have the same signature in type 'type', so they cannot be overridden</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;462:</para><para>The inherited members {0} and {1} have the same signature in type {1}, so they cannot be overridden</para></summary>
         public static ICompilerReferenceError CS0462
         {
             get
@@ -4893,7 +4893,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0462;
 
-        /// <summary><para>C&#9839; compiler error &#35;463:</para><para>Evaluation of the decimal constant expression failed with error: 'error'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;463:</para><para>Evaluation of the decimal constant expression failed with error: {0}</para></summary>
         public static ICompilerReferenceError CS0463
         {
             get
@@ -4905,7 +4905,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0463;
 
-        /// <summary><para>C&#9839; compiler error &#35;466:</para><para>'method1' should not have a params parameter since 'method2' does not</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;466:</para><para>{0} should not have a params parameter since {1} does not</para></summary>
         public static ICompilerReferenceError CS0466
         {
             get
@@ -4917,7 +4917,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0466;
 
-        /// <summary><para>C&#9839; compiler error &#35;468:</para><para>Ambiguity between type 'type1' and type 'type2'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;468:</para><para>Ambiguity between type {0} and type {1}</para></summary>
         public static ICompilerReferenceError CS0468
         {
             get
@@ -4929,7 +4929,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0468;
 
-        /// <summary><para>C&#9839; compiler error &#35;470:</para><para>Method 'method' cannot implement interface accessor 'accessor' for type 'type'. Use an explicit interface implementation.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;470:</para><para>Method {0} cannot implement interface accessor {1} for type {2}. Use an explicit interface implementation.</para></summary>
         public static ICompilerReferenceError CS0470
         {
             get
@@ -4941,7 +4941,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0470;
 
-        /// <summary><para>C&#9839; compiler error &#35;471:</para><para>The method 'name' is not a generic method. If you intended an expression list, use parentheses around the &lt; expression.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;471:</para><para>The method [0} is not a generic method. If you intended an expression list, use parentheses around the &lt; expression.</para></summary>
         public static ICompilerReferenceError CS0471
         {
             get
@@ -4953,7 +4953,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0471;
 
-        /// <summary><para>C&#9839; compiler error &#35;473:</para><para>Explicit interface implementation 'method name' matches more than one interface member. Which interface member is actually chosen is implementation-dependent. Consider using a non-explicit implementation instead.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;473:</para><para>Explicit interface implementation {0} matches more than one interface member. Which interface member is actually chosen is implementation-dependent. Consider using a non-explicit implementation instead.</para></summary>
         public static ICompilerReferenceError CS0473
         {
             get
@@ -4965,7 +4965,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0473;
 
-        /// <summary><para>C&#9839; compiler error &#35;500:</para><para>'class member' cannot declare a body because it is marked abstract</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;500:</para><para>{0} cannot declare a body because it is marked abstract</para></summary>
         public static ICompilerReferenceError CS0500
         {
             get
@@ -4977,7 +4977,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0500;
 
-        /// <summary><para>C&#9839; compiler error &#35;501:</para><para>'member function' must declare a body because it is not marked abstract, extern, or partial</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;501:</para><para>{0} must declare a body because it is not marked abstract, extern, or partial</para></summary>
         public static ICompilerReferenceError CS0501
         {
             get
@@ -4989,7 +4989,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0501;
 
-        /// <summary><para>C&#9839; compiler error &#35;502:</para><para>'member' cannot be both abstract and sealed</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;502:</para><para>{0} cannot be both abstract and sealed</para></summary>
         public static ICompilerReferenceError CS0502
         {
             get
@@ -5001,7 +5001,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0502;
 
-        /// <summary><para>C&#9839; compiler error &#35;503:</para><para>The abstract method 'method' cannot be marked virtual</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;503:</para><para>The abstract method {0} cannot be marked virtual</para></summary>
         public static ICompilerReferenceError CS0503
         {
             get
@@ -5013,7 +5013,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0503;
 
-        /// <summary><para>C&#9839; compiler error &#35;504:</para><para>The constant 'variable' cannot be marked static</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;504:</para><para>The constant {0} cannot be marked static</para></summary>
         public static ICompilerReferenceError CS0504
         {
             get
@@ -5025,7 +5025,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0504;
 
-        /// <summary><para>C&#9839; compiler error &#35;505:</para><para>'member1': cannot override because 'member2' is not a function</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;505:</para><para>{0}: cannot override because {1} is not a function</para></summary>
         public static ICompilerReferenceError CS0505
         {
             get
@@ -5037,7 +5037,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0505;
 
-        /// <summary><para>C&#9839; compiler error &#35;506:</para><para>'function1' : cannot override inherited member 'function2' because it is not marked ""virtual"", ""abstract"", or ""override""</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;506:</para><para>{0} : cannot override inherited member {1} because it is not marked 'virtual', 'abstract', or 'override'</para></summary>
         public static ICompilerReferenceError CS0506
         {
             get
@@ -5049,7 +5049,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0506;
 
-        /// <summary><para>C&#9839; compiler error &#35;507:</para><para>'function1' : cannot change access modifiers when overriding 'access' inherited member 'function2'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;507:</para><para>{0} : cannot change access modifiers when overriding {1} inherited member {2}</para></summary>
         public static ICompilerReferenceError CS0507
         {
             get
@@ -5061,7 +5061,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0507;
 
-        /// <summary><para>C&#9839; compiler error &#35;508:</para><para>'Type 1': return type must be 'Type 2' to match overridden member 'Member Name'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;508:</para><para>{0}: return type must be {1} to match overridden member {2}</para></summary>
         public static ICompilerReferenceError CS0508
         {
             get
@@ -5073,7 +5073,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0508;
 
-        /// <summary><para>C&#9839; compiler error &#35;509:</para><para>'class1' : cannot derive from sealed type 'class2'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;509:</para><para>{0} : cannot derive from sealed type {1}</para></summary>
         public static ICompilerReferenceError CS0509
         {
             get
@@ -5085,7 +5085,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0509;
 
-        /// <summary><para>C&#9839; compiler error &#35;513:</para><para>'function' is abstract but it is contained in nonabstract class 'class'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;513:</para><para>{0} is abstract but it is contained in nonabstract class {1}</para></summary>
         public static ICompilerReferenceError CS0513
         {
             get
@@ -5097,7 +5097,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0513;
 
-        /// <summary><para>C&#9839; compiler error &#35;514:</para><para>'constructor' : static constructor cannot have an explicit 'this' or 'base' constructor call</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;514:</para><para>{0} : static constructor cannot have an explicit 'this' or 'base' constructor call</para></summary>
         public static ICompilerReferenceError CS0514
         {
             get
@@ -5109,7 +5109,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0514;
 
-        /// <summary><para>C&#9839; compiler error &#35;515:</para><para>'function' : access modifiers are not allowed on static constructors</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;515:</para><para>{0} : access modifiers are not allowed on static constructors</para></summary>
         public static ICompilerReferenceError CS0515
         {
             get
@@ -5121,7 +5121,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0515;
 
-        /// <summary><para>C&#9839; compiler error &#35;516:</para><para>Constructor 'constructor' can not call itself</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;516:</para><para>Constructor {0} can not call itself</para></summary>
         public static ICompilerReferenceError CS0516
         {
             get
@@ -5133,7 +5133,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0516;
 
-        /// <summary><para>C&#9839; compiler error &#35;517:</para><para>'class' has no base class and cannot call a base constructor</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;517:</para><para>{0} has no base class and cannot call a base constructor</para></summary>
         public static ICompilerReferenceError CS0517
         {
             get
@@ -5145,7 +5145,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0517;
 
-        /// <summary><para>C&#9839; compiler error &#35;518:</para><para>Predefined type 'type' is not defined or imported</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;518:</para><para>Predefined type {0} is not defined or imported</para></summary>
         public static ICompilerReferenceError CS0518
         {
             get
@@ -5157,7 +5157,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0518;
 
-        /// <summary><para>C&#9839; compiler error &#35;520:</para><para>Predefined type 'name' is declared incorrectly</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;520:</para><para>Predefined type {0} is declared incorrectly</para></summary>
         public static ICompilerReferenceError CS0520
         {
             get
@@ -5169,7 +5169,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0520;
 
-        /// <summary><para>C&#9839; compiler error &#35;522:</para><para>'constructor' : structs cannot call base class constructors</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;522:</para><para>{0} : structs cannot call base class constructors</para></summary>
         public static ICompilerReferenceError CS0522
         {
             get
@@ -5181,7 +5181,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0522;
 
-        /// <summary><para>C&#9839; compiler error &#35;523:</para><para>Struct member 'struct2 field' of type 'struct1' causes a cycle in the struct layout</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;523:</para><para>Struct member {0} of type {1} causes a cycle in the struct layout</para></summary>
         public static ICompilerReferenceError CS0523
         {
             get
@@ -5193,7 +5193,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0523;
 
-        /// <summary><para>C&#9839; compiler error &#35;524:</para><para>'type' : interfaces cannot declare types</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;524:</para><para>{0} : interfaces cannot declare types</para></summary>
         public static ICompilerReferenceError CS0524
         {
             get
@@ -5229,7 +5229,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0526;
 
-        /// <summary><para>C&#9839; compiler error &#35;527:</para><para>Type 'type' in interface list is not an interface</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;527:</para><para>Type {0} in interface list is not an interface</para></summary>
         public static ICompilerReferenceError CS0527
         {
             get
@@ -5241,7 +5241,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0527;
 
-        /// <summary><para>C&#9839; compiler error &#35;528:</para><para>'interface' is already listed in interface list</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;528:</para><para>{0} is already listed in interface list</para></summary>
         public static ICompilerReferenceError CS0528
         {
             get
@@ -5253,7 +5253,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0528;
 
-        /// <summary><para>C&#9839; compiler error &#35;529:</para><para>Inherited interface 'interface1' causes a cycle in the interface hierarchy of 'interface2'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;529:</para><para>Inherited interface {0} causes a cycle in the interface hierarchy of {1}</para></summary>
         public static ICompilerReferenceError CS0529
         {
             get
@@ -5265,7 +5265,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0529;
 
-        /// <summary><para>C&#9839; compiler error &#35;531:</para><para>'member' : interface members cannot have a definition</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;531:</para><para>{0} : interface members cannot have a definition</para></summary>
         public static ICompilerReferenceError CS0531
         {
             get
@@ -5277,7 +5277,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0531;
 
-        /// <summary><para>C&#9839; compiler error &#35;533:</para><para>'derived-class member' hides inherited abstract member 'base-class member'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;533:</para><para>{0} hides inherited abstract member {1}</para></summary>
         public static ICompilerReferenceError CS0533
         {
             get
@@ -5289,7 +5289,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0533;
 
-        /// <summary><para>C&#9839; compiler error &#35;534:</para><para>'function1' does not implement inherited abstract member 'function2'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;534:</para><para>{0} does not implement inherited abstract member {1}</para></summary>
         public static ICompilerReferenceError CS0534
         {
             get
@@ -5301,7 +5301,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0534;
 
-        /// <summary><para>C&#9839; compiler error &#35;535:</para><para>'class' does not implement interface member 'member'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;535:</para><para>{0} does not implement interface member {1}</para></summary>
         public static ICompilerReferenceError CS0535
         {
             get
@@ -5325,7 +5325,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0537;
 
-        /// <summary><para>C&#9839; compiler error &#35;538:</para><para>'name' in explicit interface declaration is not an interface</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;538:</para><para>{0} in explicit interface declaration is not an interface</para></summary>
         public static ICompilerReferenceError CS0538
         {
             get
@@ -5337,7 +5337,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0538;
 
-        /// <summary><para>C&#9839; compiler error &#35;539:</para><para>'member' in explicit interface declaration is not a member of interface</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;539:</para><para>{0} in explicit interface declaration is not a member of interface</para></summary>
         public static ICompilerReferenceError CS0539
         {
             get
@@ -5349,7 +5349,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0539;
 
-        /// <summary><para>C&#9839; compiler error &#35;540:</para><para>'interface member' : containing type does not implement interface 'interface'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;540:</para><para>{0} : containing type does not implement interface {1}</para></summary>
         public static ICompilerReferenceError CS0540
         {
             get
@@ -5361,7 +5361,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0540;
 
-        /// <summary><para>C&#9839; compiler error &#35;541:</para><para>'declaration' : explicit interface declaration can only be declared in a class or struct</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;541:</para><para>{0} : explicit interface declaration can only be declared in a class or struct</para></summary>
         public static ICompilerReferenceError CS0541
         {
             get
@@ -5373,7 +5373,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0541;
 
-        /// <summary><para>C&#9839; compiler error &#35;542:</para><para>'user-defined type' : member names cannot be the same as their enclosing type</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;542:</para><para>{0} : member names cannot be the same as their enclosing type</para></summary>
         public static ICompilerReferenceError CS0542
         {
             get
@@ -5385,7 +5385,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0542;
 
-        /// <summary><para>C&#9839; compiler error &#35;543:</para><para>'enumeration' : the enumerator value is too large to fit in its type</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;543:</para><para>{0} : the enumerator value is too large to fit in its type</para></summary>
         public static ICompilerReferenceError CS0543
         {
             get
@@ -5397,7 +5397,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0543;
 
-        /// <summary><para>C&#9839; compiler error &#35;544:</para><para>'property override': cannot override because 'non-property' is not a property</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;544:</para><para>{0}: cannot override because {1} is not a property</para></summary>
         public static ICompilerReferenceError CS0544
         {
             get
@@ -5409,7 +5409,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0544;
 
-        /// <summary><para>C&#9839; compiler error &#35;545:</para><para>'function' : cannot override because 'property' does not have an overridable get accessor</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;545:</para><para>{0} : cannot override because {1} does not have an overridable get accessor</para></summary>
         public static ICompilerReferenceError CS0545
         {
             get
@@ -5421,7 +5421,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0545;
 
-        /// <summary><para>C&#9839; compiler error &#35;546:</para><para>'accessor' : cannot override because 'property' does not have an overridable set accessor</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;546:</para><para>{0} : cannot override because {1} does not have an overridable set accessor</para></summary>
         public static ICompilerReferenceError CS0546
         {
             get
@@ -5433,7 +5433,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0546;
 
-        /// <summary><para>C&#9839; compiler error &#35;547:</para><para>'property' : property or indexer cannot have void type</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;547:</para><para>{0} : property or indexer cannot have void type</para></summary>
         public static ICompilerReferenceError CS0547
         {
             get
@@ -5445,7 +5445,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0547;
 
-        /// <summary><para>C&#9839; compiler error &#35;548:</para><para>'property' : property or indexer must have at least one accessor</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;548:</para><para>{0} : property or indexer must have at least one accessor</para></summary>
         public static ICompilerReferenceError CS0548
         {
             get
@@ -5457,7 +5457,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0548;
 
-        /// <summary><para>C&#9839; compiler error &#35;549:</para><para>'function' is a new virtual member in sealed class 'class'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;549:</para><para>{0} is a new virtual member in sealed class {1}</para></summary>
         public static ICompilerReferenceError CS0549
         {
             get
@@ -5469,7 +5469,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0549;
 
-        /// <summary><para>C&#9839; compiler error &#35;550:</para><para>'accessor' adds an accessor not found in interface member 'property'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;550:</para><para>{0} adds an accessor not found in interface member {1}</para></summary>
         public static ICompilerReferenceError CS0550
         {
             get
@@ -5481,7 +5481,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0550;
 
-        /// <summary><para>C&#9839; compiler error &#35;551:</para><para>Explicit interface implementation 'implementation' is missing accessor 'accessor'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;551:</para><para>Explicit interface implementation {0} is missing accessor {1}</para></summary>
         public static ICompilerReferenceError CS0551
         {
             get
@@ -5493,7 +5493,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0551;
 
-        /// <summary><para>C&#9839; compiler error &#35;552:</para><para>'conversion routine' : user defined conversion to/from interface</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;552:</para><para>{0} : user defined conversion to/from interface</para></summary>
         public static ICompilerReferenceError CS0552
         {
             get
@@ -5505,7 +5505,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0552;
 
-        /// <summary><para>C&#9839; compiler error &#35;553:</para><para>'conversion routine' : user defined conversion to/from base class</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;553:</para><para>{0} : user defined conversion to/from base class</para></summary>
         public static ICompilerReferenceError CS0553
         {
             get
@@ -5517,7 +5517,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0553;
 
-        /// <summary><para>C&#9839; compiler error &#35;554:</para><para>'conversion routine' : user defined conversion to/from derived class</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;554:</para><para>{0} : user defined conversion to/from derived class</para></summary>
         public static ICompilerReferenceError CS0554
         {
             get
@@ -5553,7 +5553,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0556;
 
-        /// <summary><para>C&#9839; compiler error &#35;557:</para><para>Duplicate user-defined conversion in type 'class'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;557:</para><para>Duplicate user-defined conversion in type {0}</para></summary>
         public static ICompilerReferenceError CS0557
         {
             get
@@ -5565,7 +5565,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0557;
 
-        /// <summary><para>C&#9839; compiler error &#35;558:</para><para>User-defined operator 'operator' must be declared static and public</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;558:</para><para>User-defined operator {0} must be declared static and public</para></summary>
         public static ICompilerReferenceError CS0558
         {
             get
@@ -5649,7 +5649,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0568;
 
-        /// <summary><para>C&#9839; compiler error &#35;569:</para><para>'method2' : cannot override 'method1' because it is not supported by the language</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;569:</para><para>{1} : cannot override {0} because it is not supported by the language</para></summary>
         public static ICompilerReferenceError CS0569
         {
             get
@@ -5661,7 +5661,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0569;
 
-        /// <summary><para>C&#9839; compiler error &#35;570:</para><para>Property, indexer, or event 'name' is not supported by the language; try directly calling accessor method 'name!'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;570:</para><para>Property, indexer, or event {0} is not supported by the language; try directly calling accessor method {1}!</para></summary>
         public static ICompilerReferenceError CS0570
         {
             get
@@ -5673,7 +5673,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0570;
 
-        /// <summary><para>C&#9839; compiler error &#35;571:</para><para>'function' : cannot explicitly call operator or accessor</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;571:</para><para>{0} : cannot explicitly call operator or accessor</para></summary>
         public static ICompilerReferenceError CS0571
         {
             get
@@ -5685,7 +5685,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0571;
 
-        /// <summary><para>C&#9839; compiler error &#35;572:</para><para>'type' : cannot reference a type through an expression; try 'path_to_type' instead</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;572:</para><para>{0} : cannot reference a type through an expression; try {1} instead</para></summary>
         public static ICompilerReferenceError CS0572
         {
             get
@@ -5697,7 +5697,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0572;
 
-        /// <summary><para>C&#9839; compiler error &#35;573:</para><para>'field declaration' : cannot have instance field initializers in structs</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;573:</para><para>{0} : cannot have instance field initializers in structs</para></summary>
         public static ICompilerReferenceError CS0573
         {
             get
@@ -5733,7 +5733,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0575;
 
-        /// <summary><para>C&#9839; compiler error &#35;576:</para><para>Namespace 'namespace' contains a definition conflicting with alias 'identifier'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;576:</para><para>Namespace {0} contains a definition conflicting with alias {1}</para></summary>
         public static ICompilerReferenceError CS0576
         {
             get
@@ -5745,7 +5745,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0576;
 
-        /// <summary><para>C&#9839; compiler error &#35;577:</para><para>The Conditional attribute is not valid on 'function' because it is a constructor, destructor, operator, or explicit interface implementation</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;577:</para><para>The Conditional attribute is not valid on {0} because it is a constructor, destructor, operator, or explicit interface implementation</para></summary>
         public static ICompilerReferenceError CS0577
         {
             get
@@ -5757,7 +5757,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0577;
 
-        /// <summary><para>C&#9839; compiler error &#35;578:</para><para>The Conditional attribute is not valid on 'function' because its return type is not void</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;578:</para><para>The Conditional attribute is not valid on {0} because its return type is not void</para></summary>
         public static ICompilerReferenceError CS0578
         {
             get
@@ -5769,7 +5769,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0578;
 
-        /// <summary><para>C&#9839; compiler error &#35;579:</para><para>Duplicate 'attribute' attribute</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;579:</para><para>Duplicate {0} attribute</para></summary>
         public static ICompilerReferenceError CS0579
         {
             get
@@ -5805,7 +5805,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0583;
 
-        /// <summary><para>C&#9839; compiler error &#35;584:</para><para>Internal Compiler Error: stage 'stage' symbol 'symbol'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;584:</para><para>Internal Compiler Error: stage {0} symbol {1}</para></summary>
         public static ICompilerReferenceError CS0584
         {
             get
@@ -5817,7 +5817,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0584;
 
-        /// <summary><para>C&#9839; compiler error &#35;585:</para><para>Internal Compiler Error: stage 'stage'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;585:</para><para>Internal Compiler Error: stage {0}</para></summary>
         public static ICompilerReferenceError CS0585
         {
             get
@@ -5829,7 +5829,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0585;
 
-        /// <summary><para>C&#9839; compiler error &#35;586:</para><para>Internal Compiler Error: stage 'stage'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;586:</para><para>Internal Compiler Error: stage {0}</para></summary>
         public static ICompilerReferenceError CS0586
         {
             get
@@ -5841,7 +5841,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0586;
 
-        /// <summary><para>C&#9839; compiler error &#35;587:</para><para>Internal Compiler Error: stage 'stage'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;587:</para><para>Internal Compiler Error: stage {0}</para></summary>
         public static ICompilerReferenceError CS0587
         {
             get
@@ -5889,7 +5889,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0590;
 
-        /// <summary><para>C&#9839; compiler error &#35;591:</para><para>Invalid value for argument to 'attribute' attribute</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;591:</para><para>Invalid value for argument to {0} attribute</para></summary>
         public static ICompilerReferenceError CS0591
         {
             get
@@ -5901,7 +5901,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0591;
 
-        /// <summary><para>C&#9839; compiler error &#35;592:</para><para>Attribute 'attribute' is not valid on this declaration type. It is valid on 'type' declarations only.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;592:</para><para>Attribute {0} is not valid on this declaration type. It is valid on {1} declarations only.</para></summary>
         public static ICompilerReferenceError CS0592
         {
             get
@@ -5913,7 +5913,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0592;
 
-        /// <summary><para>C&#9839; compiler error &#35;594:</para><para>Floating-point constant is outside the range of type 'type'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;594:</para><para>Floating-point constant is outside the range of type {0}</para></summary>
         public static ICompilerReferenceError CS0594
         {
             get
@@ -5937,7 +5937,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0596;
 
-        /// <summary><para>C&#9839; compiler error &#35;599:</para><para>Invalid value for named attribute argument 'argument'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;599:</para><para>Invalid value for named attribute argument {0}</para></summary>
         public static ICompilerReferenceError CS0599
         {
             get
@@ -5973,7 +5973,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0609;
 
-        /// <summary><para>C&#9839; compiler error &#35;610:</para><para>Field or property cannot be of type 'type'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;610:</para><para>Field or property cannot be of type {0}</para></summary>
         public static ICompilerReferenceError CS0610
         {
             get
@@ -5985,7 +5985,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0610;
 
-        /// <summary><para>C&#9839; compiler error &#35;611:</para><para>Array elements cannot be of type 'type'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;611:</para><para>Array elements cannot be of type {0}</para></summary>
         public static ICompilerReferenceError CS0611
         {
             get
@@ -5997,7 +5997,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0611;
 
-        /// <summary><para>C&#9839; compiler error &#35;616:</para><para>'class' is not an attribute class</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;616:</para><para>{0} is not an attribute class</para></summary>
         public static ICompilerReferenceError CS0616
         {
             get
@@ -6009,7 +6009,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0616;
 
-        /// <summary><para>C&#9839; compiler error &#35;617:</para><para>'reference' is not a valid named attribute argument because it is not a valid attribute parameter type</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;617:</para><para>{0} is not a valid named attribute argument because it is not a valid attribute parameter type</para></summary>
         public static ICompilerReferenceError CS0617
         {
             get
@@ -6021,7 +6021,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0617;
 
-        /// <summary><para>C&#9839; compiler error &#35;619:</para><para>'member' is obsolete: 'text'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;619:</para><para>{0} is obsolete: {1}</para></summary>
         public static ICompilerReferenceError CS0619
         {
             get
@@ -6045,7 +6045,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0620;
 
-        /// <summary><para>C&#9839; compiler error &#35;621:</para><para>'member' : virtual or abstract members cannot be private</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;621:</para><para>{0} : virtual or abstract members cannot be private</para></summary>
         public static ICompilerReferenceError CS0621
         {
             get
@@ -6081,7 +6081,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0623;
 
-        /// <summary><para>C&#9839; compiler error &#35;625:</para><para>'field': instance field types marked with StructLayout(LayoutKind.Explicit) must have a FieldOffset attribute</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;625:</para><para>{0}: instance field types marked with StructLayout(LayoutKind.Explicit) must have a FieldOffset attribute</para></summary>
         public static ICompilerReferenceError CS0625
         {
             get
@@ -6093,7 +6093,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0625;
 
-        /// <summary><para>C&#9839; compiler error &#35;629:</para><para>Conditional member 'member' cannot implement interface member 'base class member' in type 'Type Name'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;629:</para><para>Conditional member {0} cannot implement interface member {1} in type {2}</para></summary>
         public static ICompilerReferenceError CS0629
         {
             get
@@ -6117,7 +6117,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0631;
 
-        /// <summary><para>C&#9839; compiler error &#35;633:</para><para>The argument to the 'attribute' attribute must be a valid identifier</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;633:</para><para>The argument to the {0} attribute must be a valid identifier</para></summary>
         public static ICompilerReferenceError CS0633
         {
             get
@@ -6129,7 +6129,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0633;
 
-        /// <summary><para>C&#9839; compiler error &#35;635:</para><para>'attribute' : System.Interop.UnmanagedType.CustomMarshaller requires named arguments ComType and Marshal</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;635:</para><para>{0} : System.Interop.UnmanagedType.CustomMarshaller requires named arguments ComType and Marshal</para></summary>
         public static ICompilerReferenceError CS0635
         {
             get
@@ -6165,7 +6165,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0637;
 
-        /// <summary><para>C&#9839; compiler error &#35;641:</para><para>'attribute' : attribute is only valid on classes derived from System.Attribute</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;641:</para><para>{0} : attribute is only valid on classes derived from System.Attribute</para></summary>
         public static ICompilerReferenceError CS0641
         {
             get
@@ -6177,7 +6177,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0641;
 
-        /// <summary><para>C&#9839; compiler error &#35;643:</para><para>'arg' duplicate named attribute argument</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;643:</para><para>{0} duplicate named attribute argument</para></summary>
         public static ICompilerReferenceError CS0643
         {
             get
@@ -6189,7 +6189,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0643;
 
-        /// <summary><para>C&#9839; compiler error &#35;644:</para><para>'class1' cannot derive from special class 'class2'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;644:</para><para>{0} cannot derive from special class {1}</para></summary>
         public static ICompilerReferenceError CS0644
         {
             get
@@ -6225,7 +6225,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0646;
 
-        /// <summary><para>C&#9839; compiler error &#35;647:</para><para>Error emitting 'attribute' attribute -- 'reason'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;647:</para><para>Error emitting {0} attribute -- {1}</para></summary>
         public static ICompilerReferenceError CS0647
         {
             get
@@ -6237,7 +6237,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0647;
 
-        /// <summary><para>C&#9839; compiler error &#35;648:</para><para>'type' is a type not supported by the language</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;648:</para><para>{0} is a type not supported by the language</para></summary>
         public static ICompilerReferenceError CS0648
         {
             get
@@ -6261,7 +6261,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0650;
 
-        /// <summary><para>C&#9839; compiler error &#35;653:</para><para>Cannot apply attribute class 'class' because it is abstract</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;653:</para><para>Cannot apply attribute class {0} because it is abstract</para></summary>
         public static ICompilerReferenceError CS0653
         {
             get
@@ -6273,7 +6273,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0653;
 
-        /// <summary><para>C&#9839; compiler error &#35;655:</para><para>'parameter' is not a valid named attribute argument because it is not a valid attribute parameter type</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;655:</para><para>{0} is not a valid named attribute argument because it is not a valid attribute parameter type</para></summary>
         public static ICompilerReferenceError CS0655
         {
             get
@@ -6285,7 +6285,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0655;
 
-        /// <summary><para>C&#9839; compiler error &#35;656:</para><para>Missing compiler required member 'object.member'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;656:</para><para>Missing compiler required member {0}</para></summary>
         public static ICompilerReferenceError CS0656
         {
             get
@@ -6297,7 +6297,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0656;
 
-        /// <summary><para>C&#9839; compiler error &#35;662:</para><para>'method' cannot specify only Out attribute on a ref parameter. Use both In and Out attributes, or neither.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;662:</para><para>{0} cannot specify only Out attribute on a ref parameter. Use both In and Out attributes, or neither.</para></summary>
         public static ICompilerReferenceError CS0662
         {
             get
@@ -6321,7 +6321,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0663;
 
-        /// <summary><para>C&#9839; compiler error &#35;664:</para><para>Literal of type double cannot be implicitly converted to type 'type'; use an 'suffix' suffix to create a literal of this type</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;664:</para><para>Literal of type double cannot be implicitly converted to type {0}; use an {1} suffix to create a literal of this type</para></summary>
         public static ICompilerReferenceError CS0664
         {
             get
@@ -6333,7 +6333,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0664;
 
-        /// <summary><para>C&#9839; compiler error &#35;666:</para><para>'member' : new protected member declared in struct</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;666:</para><para>{0} : new protected member declared in struct</para></summary>
         public static ICompilerReferenceError CS0666
         {
             get
@@ -6345,7 +6345,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0666;
 
-        /// <summary><para>C&#9839; compiler error &#35;667:</para><para>The feature 'invalid feature' is deprecated. Please use 'valid feature' instead'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;667:</para><para>The feature {0} is deprecated. Please use {1} instead.</para></summary>
         public static ICompilerReferenceError CS0667
         {
             get
@@ -6417,7 +6417,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0674;
 
-        /// <summary><para>C&#9839; compiler error &#35;677:</para><para>'variable': a volatile field cannot be of the type 'type'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;677:</para><para>{0}: a volatile field cannot be of the type {1}</para></summary>
         public static ICompilerReferenceError CS0677
         {
             get
@@ -6429,7 +6429,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0677;
 
-        /// <summary><para>C&#9839; compiler error &#35;678:</para><para>'variable': a field can not be both volatile and readonly</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;678:</para><para>{0}: a field can not be both volatile and readonly</para></summary>
         public static ICompilerReferenceError CS0678
         {
             get
@@ -6453,7 +6453,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0681;
 
-        /// <summary><para>C&#9839; compiler error &#35;682:</para><para>'type1' cannot implement 'type2' because it is not supported by the language</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;682:</para><para>{0} cannot implement {1} because it is not supported by the language</para></summary>
         public static ICompilerReferenceError CS0682
         {
             get
@@ -6465,7 +6465,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0682;
 
-        /// <summary><para>C&#9839; compiler error &#35;683:</para><para>'explicitmethod' explicit method implementation cannot implement 'method' because it is an accessor</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;683:</para><para>{0} explicit method implementation cannot implement {1} because it is an accessor</para></summary>
         public static ICompilerReferenceError CS0683
         {
             get
@@ -6477,7 +6477,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0683;
 
-        /// <summary><para>C&#9839; compiler error &#35;685:</para><para>Conditional member 'member' cannot have an out parameter</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;685:</para><para>Conditional member {0} cannot have an out parameter</para></summary>
         public static ICompilerReferenceError CS0685
         {
             get
@@ -6489,7 +6489,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0685;
 
-        /// <summary><para>C&#9839; compiler error &#35;686:</para><para>Accessor 'accessor' cannot implement interface member 'member' for type 'type'. Use an explicit interface implementation.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;686:</para><para>Accessor {0} cannot implement interface member {1} for type {2}. Use an explicit interface implementation.</para></summary>
         public static ICompilerReferenceError CS0686
         {
             get
@@ -6513,7 +6513,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0687;
 
-        /// <summary><para>C&#9839; compiler error &#35;689:</para><para>Cannot derive from 'identifier' because it is a type parameter</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;689:</para><para>Cannot derive from {0} because it is a type parameter</para></summary>
         public static ICompilerReferenceError CS0689
         {
             get
@@ -6525,7 +6525,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0689;
 
-        /// <summary><para>C&#9839; compiler error &#35;690:</para><para>Input file 'file' contains invalid metadata.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;690:</para><para>Input file {0} contains invalid metadata.</para></summary>
         public static ICompilerReferenceError CS0690
         {
             get
@@ -6537,7 +6537,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0690;
 
-        /// <summary><para>C&#9839; compiler error &#35;692:</para><para>Duplicate type parameter 'identifier'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;692:</para><para>Duplicate type parameter {0}</para></summary>
         public static ICompilerReferenceError CS0692
         {
             get
@@ -6549,7 +6549,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0692;
 
-        /// <summary><para>C&#9839; compiler error &#35;694:</para><para>Type parameter 'identifier' has the same name as the containing type, or method</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;694:</para><para>Type parameter {0} has the same name as the containing type, or method</para></summary>
         public static ICompilerReferenceError CS0694
         {
             get
@@ -6561,7 +6561,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0694;
 
-        /// <summary><para>C&#9839; compiler error &#35;695:</para><para>'generic type' cannot implement both 'generic interface' and 'generic interface' because they may unify for some type parameter substitutions</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;695:</para><para>{0} cannot implement both {1} and {1} because they may unify for some type parameter substitutions</para></summary>
         public static ICompilerReferenceError CS0695
         {
             get
@@ -6573,7 +6573,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0695;
 
-        /// <summary><para>C&#9839; compiler error &#35;698:</para><para>A generic type cannot derive from 'class' because it is an attribute class</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;698:</para><para>A generic type cannot derive from {0} because it is an attribute class</para></summary>
         public static ICompilerReferenceError CS0698
         {
             get
@@ -6585,7 +6585,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0698;
 
-        /// <summary><para>C&#9839; compiler error &#35;699:</para><para>'generic' does not define type parameter 'identifier'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;699:</para><para>{0} does not define type parameter {1}</para></summary>
         public static ICompilerReferenceError CS0699
         {
             get
@@ -6597,7 +6597,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0699;
 
-        /// <summary><para>C&#9839; compiler error &#35;701:</para><para>'identifier' is not a valid constraint. A type used as a constraint must be an interface, a non-sealed class or a type parameter.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;701:</para><para>{0} is not a valid constraint. A type used as a constraint must be an interface, a non-sealed class or a type parameter.</para></summary>
         public static ICompilerReferenceError CS0701
         {
             get
@@ -6609,7 +6609,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0701;
 
-        /// <summary><para>C&#9839; compiler error &#35;702:</para><para>Constraint cannot be special class 'identifier'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;702:</para><para>Constraint cannot be special class {0}</para></summary>
         public static ICompilerReferenceError CS0702
         {
             get
@@ -6621,7 +6621,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0702;
 
-        /// <summary><para>C&#9839; compiler error &#35;703:</para><para>Inconsistent accessibility: constraint type 'identifier' is less accessible than 'identifier'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;703:</para><para>Inconsistent accessibility: constraint type {0} is less accessible than {1}</para></summary>
         public static ICompilerReferenceError CS0703
         {
             get
@@ -6633,7 +6633,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0703;
 
-        /// <summary><para>C&#9839; compiler error &#35;704:</para><para>Cannot do member lookup in 'type' because it is a type parameter</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;704:</para><para>Cannot do member lookup in {0} because it is a type parameter</para></summary>
         public static ICompilerReferenceError CS0704
         {
             get
@@ -6657,7 +6657,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0706;
 
-        /// <summary><para>C&#9839; compiler error &#35;708:</para><para>'field': cannot declare instance members in a static class</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;708:</para><para>{0}: cannot declare instance members in a static class</para></summary>
         public static ICompilerReferenceError CS0708
         {
             get
@@ -6669,7 +6669,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0708;
 
-        /// <summary><para>C&#9839; compiler error &#35;709:</para><para>'derived class': cannot derive from static class 'base class'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;709:</para><para>{0}: cannot derive from static class {1}</para></summary>
         public static ICompilerReferenceError CS0709
         {
             get
@@ -6705,7 +6705,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0711;
 
-        /// <summary><para>C&#9839; compiler error &#35;712:</para><para>Cannot create an instance of the static class 'static class'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;712:</para><para>Cannot create an instance of the static class {0}</para></summary>
         public static ICompilerReferenceError CS0712
         {
             get
@@ -6717,7 +6717,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0712;
 
-        /// <summary><para>C&#9839; compiler error &#35;713:</para><para>Static class 'static type' cannot derive from type 'type'. Static classes must derive from object.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;713:</para><para>Static class {0} cannot derive from type {1}. Static classes must derive from object.</para></summary>
         public static ICompilerReferenceError CS0713
         {
             get
@@ -6729,7 +6729,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0713;
 
-        /// <summary><para>C&#9839; compiler error &#35;714:</para><para>'static type' : static classes cannot implement interfaces</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;714:</para><para>{0} : static classes cannot implement interfaces</para></summary>
         public static ICompilerReferenceError CS0714
         {
             get
@@ -6741,7 +6741,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0714;
 
-        /// <summary><para>C&#9839; compiler error &#35;715:</para><para>'static class' : static classes cannot contain user defined operators</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;715:</para><para>{0} : static classes cannot contain user defined operators</para></summary>
         public static ICompilerReferenceError CS0715
         {
             get
@@ -6753,7 +6753,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0715;
 
-        /// <summary><para>C&#9839; compiler error &#35;716:</para><para>Cannot convert to static type 'type'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;716:</para><para>Cannot convert to static type {0}</para></summary>
         public static ICompilerReferenceError CS0716
         {
             get
@@ -6765,7 +6765,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0716;
 
-        /// <summary><para>C&#9839; compiler error &#35;717:</para><para>'static class': static classes cannot be used as constraints</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;717:</para><para>{0}: static classes cannot be used as constraints</para></summary>
         public static ICompilerReferenceError CS0717
         {
             get
@@ -6777,7 +6777,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0717;
 
-        /// <summary><para>C&#9839; compiler error &#35;718:</para><para>'type': static types cannot be used as type arguments</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;718:</para><para>{0}: static types cannot be used as type arguments</para></summary>
         public static ICompilerReferenceError CS0718
         {
             get
@@ -6789,7 +6789,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0718;
 
-        /// <summary><para>C&#9839; compiler error &#35;719:</para><para>'type': array elements cannot be of static type</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;719:</para><para>{0}: array elements cannot be of static type</para></summary>
         public static ICompilerReferenceError CS0719
         {
             get
@@ -6801,7 +6801,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0719;
 
-        /// <summary><para>C&#9839; compiler error &#35;720:</para><para>'static class': cannot declare indexers in a static class</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;720:</para><para>{0}: cannot declare indexers in a static class</para></summary>
         public static ICompilerReferenceError CS0720
         {
             get
@@ -6813,7 +6813,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0720;
 
-        /// <summary><para>C&#9839; compiler error &#35;721:</para><para>'type': static types cannot be used as parameters</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;721:</para><para>{0}: static types cannot be used as parameters</para></summary>
         public static ICompilerReferenceError CS0721
         {
             get
@@ -6825,7 +6825,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0721;
 
-        /// <summary><para>C&#9839; compiler error &#35;722:</para><para>'type': static types cannot be used as return types</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;722:</para><para>{0}: static types cannot be used as return types</para></summary>
         public static ICompilerReferenceError CS0722
         {
             get
@@ -6837,7 +6837,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0722;
 
-        /// <summary><para>C&#9839; compiler error &#35;723:</para><para>Cannot declare variable of static type 'type'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;723:</para><para>Cannot declare variable of static type {0}</para></summary>
         public static ICompilerReferenceError CS0723
         {
             get
@@ -6861,31 +6861,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0724;
 
-        /// <summary><para>C&#9839; compiler error &#35;726:</para><para>'format specifier' is not a valid format specifier</para></summary>
-        public static ICompilerReferenceError CS0726
-        {
-            get
-            {
-                if (_CS0726 == null)
-                    _CS0726 = new CompilerReferenceError(Resources.CSharpErrors_CS0726, 726);
-                return _CS0726;
-            }
-        }
-        private static ICompilerReferenceError _CS0726;
-
-        /// <summary><para>C&#9839; compiler error &#35;727:</para><para>Invalid format specifier</para></summary>
-        public static ICompilerReferenceError CS0727
-        {
-            get
-            {
-                if (_CS0727 == null)
-                    _CS0727 = new CompilerReferenceError(Resources.CSharpErrors_CS0727, 727);
-                return _CS0727;
-            }
-        }
-        private static ICompilerReferenceError _CS0727;
-
-        /// <summary><para>C&#9839; compiler error &#35;729:</para><para>Type 'type' is defined in this assembly, but a type forwarder is specified for it</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;729:</para><para>Type {0} is defined in this assembly, but a type forwarder is specified for it</para></summary>
         public static ICompilerReferenceError CS0729
         {
             get
@@ -6897,7 +6873,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0729;
 
-        /// <summary><para>C&#9839; compiler error &#35;730:</para><para>Cannot forward type 'type' because it is a nested type of 'type'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;730:</para><para>Cannot forward type {0} because it is a nested type of {1}</para></summary>
         public static ICompilerReferenceError CS0730
         {
             get
@@ -6909,7 +6885,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0730;
 
-        /// <summary><para>C&#9839; compiler error &#35;731:</para><para>The type forwarder for type 'type' in assembly 'assembly' causes a cycle</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;731:</para><para>The type forwarder for type {0} in assembly {1} causes a cycle</para></summary>
         public static ICompilerReferenceError CS0731
         {
             get
@@ -6921,7 +6897,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0731;
 
-        /// <summary><para>C&#9839; compiler error &#35;733:</para><para>Cannot forward generic type, 'GenericType<>'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;733:</para><para>Cannot forward generic type, {0}</para></summary>
         public static ICompilerReferenceError CS0733
         {
             get
@@ -6957,7 +6933,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0735;
 
-        /// <summary><para>C&#9839; compiler error &#35;736:</para><para>'type name' does not implement interface member 'member name'. 'method name' cannot implement an interface member because it is static.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;736:</para><para>{0} does not implement interface member {1}. {2} cannot implement an interface member because it is static.</para></summary>
         public static ICompilerReferenceError CS0736
         {
             get
@@ -6969,7 +6945,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0736;
 
-        /// <summary><para>C&#9839; compiler error &#35;737:</para><para>'type name' does not implement interface member 'member name'. 'method name' cannot implement an interface member because it is not public.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;737:</para><para>{0} does not implement interface member {1}. {2} cannot implement an interface member because it is not public.</para></summary>
         public static ICompilerReferenceError CS0737
         {
             get
@@ -6981,7 +6957,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0737;
 
-        /// <summary><para>C&#9839; compiler error &#35;738:</para><para>'type name' does not implement interface member 'member name'. 'method name' cannot implement 'interface member' because it does not have the matching return type of ' type name'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;738:</para><para>{0} does not implement interface member {1}. {2} cannot implement {1} because it does not have the matching return type of {3}.</para></summary>
         public static ICompilerReferenceError CS0738
         {
             get
@@ -6993,7 +6969,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0738;
 
-        /// <summary><para>C&#9839; compiler error &#35;739:</para><para>'type name' duplicate TypeForwardedToAttribute.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;739:</para><para>{0} duplicate TypeForwardedToAttribute.</para></summary>
         public static ICompilerReferenceError CS0739
         {
             get
@@ -7197,7 +7173,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0758;
 
-        /// <summary><para>C&#9839; compiler error &#35;759:</para><para>No defining declaration found for implementing declaration of partial method 'method'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;759:</para><para>No defining declaration found for implementing declaration of partial method {0}.</para></summary>
         public static ICompilerReferenceError CS0759
         {
             get
@@ -7209,7 +7185,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0759;
 
-        /// <summary><para>C&#9839; compiler error &#35;761:</para><para>Partial method declarations of 'method<T>' have inconsistent type parameter constraints.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;761:</para><para>Partial method declarations of {0} have inconsistent type parameter constraints.</para></summary>
         public static ICompilerReferenceError CS0761
         {
             get
@@ -7221,7 +7197,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0761;
 
-        /// <summary><para>C&#9839; compiler error &#35;762:</para><para>Cannot create delegate from method 'method' because it is a partial method without an implementing declaration</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;762:</para><para>Cannot create delegate from method {0} because it is a partial method without an implementing declaration</para></summary>
         public static ICompilerReferenceError CS0762
         {
             get
@@ -7281,7 +7257,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0766;
 
-        /// <summary><para>C&#9839; compiler error &#35;811:</para><para>The fully qualified name for 'name' is too long for debug information. Compile without '/debug' option.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;811:</para><para>The fully qualified name for {0} is too long for debug information. Compile without '/debug' option.</para></summary>
         public static ICompilerReferenceError CS0811
         {
             get
@@ -7293,7 +7269,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0811;
 
-        /// <summary><para>C&#9839; compiler error &#35;815:</para><para>Cannot assign 'expression' to an implicitly typed local</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;815:</para><para>Cannot assign {0} to an implicitly typed local</para></summary>
         public static ICompilerReferenceError CS0815
         {
             get
@@ -7389,7 +7365,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0826;
 
-        /// <summary><para>C&#9839; compiler error &#35;828:</para><para>Cannot assign 'expression' to anonymous type property.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;828:</para><para>Cannot assign {0} to anonymous type property.</para></summary>
         public static ICompilerReferenceError CS0828
         {
             get
@@ -7449,7 +7425,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0834;
 
-        /// <summary><para>C&#9839; compiler error &#35;835:</para><para>Cannot convert lambda to an expression tree whose type argument 'type' is not a delegate type.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;835:</para><para>Cannot convert lambda to an expression tree whose type argument {0} is not a delegate type.</para></summary>
         public static ICompilerReferenceError CS0835
         {
             get
@@ -7473,7 +7449,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0836;
 
-        /// <summary><para>C&#9839; compiler error &#35;837:</para><para>The first operand of an ""is"" or ""as"" operator may not be a lambda expression or anonymous method.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;837:</para><para>The first operand of an 'is' or 'as' operator may not be a lambda expression or anonymous method.</para></summary>
         public static ICompilerReferenceError CS0837
         {
             get
@@ -7509,7 +7485,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0839;
 
-        /// <summary><para>C&#9839; compiler error &#35;840:</para><para>'Property name' must declare a body because it is not marked abstract or extern. Automatically implemented properties must define both get and set accessors.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;840:</para><para>{0} must declare a body because it is not marked abstract or extern. Automatically implemented properties must define both get and set accessors.</para></summary>
         public static ICompilerReferenceError CS0840
         {
             get
@@ -7521,7 +7497,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0840;
 
-        /// <summary><para>C&#9839; compiler error &#35;841:</para><para>Cannot use variable 'name' before it is declared.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;841:</para><para>Cannot use variable {0} before it is declared.</para></summary>
         public static ICompilerReferenceError CS0841
         {
             get
@@ -7545,7 +7521,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0842;
 
-        /// <summary><para>C&#9839; compiler error &#35;843:</para><para>Backing field for automatically implemented property 'name' must be fully assigned before control is returned to the caller. Consider calling the default constructor from a constructor initializer.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;843:</para><para>Backing field for automatically implemented property {0} must be fully assigned before control is returned to the caller. Consider calling the default constructor from a constructor initializer.</para></summary>
         public static ICompilerReferenceError CS0843
         {
             get
@@ -7557,7 +7533,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0843;
 
-        /// <summary><para>C&#9839; compiler error &#35;844:</para><para>Cannot use local variable 'name' before it is declared. The declaration of the local variable hides the field 'name'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;844:</para><para>Cannot use local variable {0} before it is declared. The declaration of the local variable hides the field {1}.</para></summary>
         public static ICompilerReferenceError CS0844
         {
             get
@@ -7617,7 +7593,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1003;
 
-        /// <summary><para>C&#9839; compiler error &#35;1004:</para><para>Duplicate 'modifier' modifier</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1004:</para><para>Duplicate {0} modifier</para></summary>
         public static ICompilerReferenceError CS1004
         {
             get
@@ -7893,7 +7869,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1028;
 
-        /// <summary><para>C&#9839; compiler error &#35;1029:</para><para>#error: 'text'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1029:</para><para>#error: {0}</para></summary>
         public static ICompilerReferenceError CS1029
         {
             get
@@ -8085,7 +8061,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1056;
 
-        /// <summary><para>C&#9839; compiler error &#35;1057:</para><para>'member': static classes cannot contain protected members</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1057:</para><para>{0}: static classes cannot contain protected members</para></summary>
         public static ICompilerReferenceError CS1057
         {
             get
@@ -8109,7 +8085,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1059;
 
-        /// <summary><para>C&#9839; compiler error &#35;1061:</para><para>'type' does not contain a definition for 'member' and no extension method 'name' accepting a first argument of type 'type' could be found (are you missing a using directive or an assembly reference?).</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1061:</para><para>{0} does not contain a definition for {1} and no extension method {2} accepting a first argument of type {0} could be found (are you missing a using directive or an assembly reference?).</para></summary>
         public static ICompilerReferenceError CS1061
         {
             get
@@ -8121,7 +8097,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1061;
 
-        /// <summary><para>C&#9839; compiler error &#35;1100:</para><para>Method 'name' has a parameter modifier 'this' which is not on the first parameter.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1100:</para><para>Method {0} has a parameter modifier 'this' which is not on the first parameter.</para></summary>
         public static ICompilerReferenceError CS1100
         {
             get
@@ -8157,7 +8133,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1102;
 
-        /// <summary><para>C&#9839; compiler error &#35;1103:</para><para>The first parameter of an extension method cannot be of type 'type'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1103:</para><para>The first parameter of an extension method cannot be of type {0}.</para></summary>
         public static ICompilerReferenceError CS1103
         {
             get
@@ -8205,7 +8181,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1106;
 
-        /// <summary><para>C&#9839; compiler error &#35;1107:</para><para>A parameter can only have one 'modifier name' modifier.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1107:</para><para>A parameter can only have one {0} modifier.</para></summary>
         public static ICompilerReferenceError CS1107
         {
             get
@@ -8229,7 +8205,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1108;
 
-        /// <summary><para>C&#9839; compiler error &#35;1109:</para><para>Extension Methods must be defined on top level static classes, 'name' is a nested class.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1109:</para><para>Extension Methods must be defined on top level static classes, {0} is a nested class.</para></summary>
         public static ICompilerReferenceError CS1109
         {
             get
@@ -8265,7 +8241,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1112;
 
-        /// <summary><para>C&#9839; compiler error &#35;1113:</para><para>Extension methods 'name' defined on value type 'name' cannot be used to create delegates.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1113:</para><para>Extension methods {0} defined on value type {1} cannot be used to create delegates.</para></summary>
         public static ICompilerReferenceError CS1113
         {
             get
@@ -8277,7 +8253,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1113;
 
-        /// <summary><para>C&#9839; compiler error &#35;1501:</para><para>No overload for method 'method' takes 'number' arguments</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1501:</para><para>No overload for method {0} takes {1} arguments</para></summary>
         public static ICompilerReferenceError CS1501
         {
             get
@@ -8289,7 +8265,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1501;
 
-        /// <summary><para>C&#9839; compiler error &#35;1502:</para><para>The best overloaded Add method 'name' for the collection initializer has some invalid arguments</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1502:</para><para>The best overloaded Add method {0} for the collection initializer has some invalid arguments</para></summary>
         public static ICompilerReferenceError CS1502
         {
             get
@@ -8301,7 +8277,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1502;
 
-        /// <summary><para>C&#9839; compiler error &#35;1503:</para><para>The best overloaded Add method 'name for the collection initializer has some invalid arguments</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1503:</para><para>The best overloaded Add method {0} for the collection initializer has some invalid arguments</para></summary>
         public static ICompilerReferenceError CS1503
         {
             get
@@ -8313,7 +8289,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1503;
 
-        /// <summary><para>C&#9839; compiler error &#35;1504:</para><para>Source file 'file' could not be opened ('reason')</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1504:</para><para>Source file {0} could not be opened ({1})</para></summary>
         public static ICompilerReferenceError CS1504
         {
             get
@@ -8325,7 +8301,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1504;
 
-        /// <summary><para>C&#9839; compiler error &#35;1507:</para><para>Cannot link resource file 'file' when building a module</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1507:</para><para>Cannot link resource file {0} when building a module</para></summary>
         public static ICompilerReferenceError CS1507
         {
             get
@@ -8337,7 +8313,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1507;
 
-        /// <summary><para>C&#9839; compiler error &#35;1508:</para><para>Resource identifier 'identifier' has already been used in this assembly</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1508:</para><para>Resource identifier {0} has already been used in this assembly</para></summary>
         public static ICompilerReferenceError CS1508
         {
             get
@@ -8349,7 +8325,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1508;
 
-        /// <summary><para>C&#9839; compiler error &#35;1509:</para><para>Referenced file 'file' is not an assembly; use '/addmodule' option instead</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1509:</para><para>Referenced file {0} is not an assembly; use '/addmodule' option instead</para></summary>
         public static ICompilerReferenceError CS1509
         {
             get
@@ -8457,7 +8433,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1518;
 
-        /// <summary><para>C&#9839; compiler error &#35;1519:</para><para>Invalid token 'token' in class, struct, or interface member declaration</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1519:</para><para>Invalid token {0} in class, struct, or interface member declaration</para></summary>
         public static ICompilerReferenceError CS1519
         {
             get
@@ -8505,7 +8481,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1524;
 
-        /// <summary><para>C&#9839; compiler error &#35;1525:</para><para>Invalid expression term 'character'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1525:</para><para>Invalid expression term {0}</para></summary>
         public static ICompilerReferenceError CS1525
         {
             get
@@ -8577,7 +8553,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1530;
 
-        /// <summary><para>C&#9839; compiler error &#35;1534:</para><para>Overloaded binary operator 'operator' takes two parameters</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1534:</para><para>Overloaded binary operator {0} takes two parameters</para></summary>
         public static ICompilerReferenceError CS1534
         {
             get
@@ -8589,7 +8565,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1534;
 
-        /// <summary><para>C&#9839; compiler error &#35;1535:</para><para>Overloaded unary operator 'operator' takes one parameter</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1535:</para><para>Overloaded unary operator {0} takes one parameter</para></summary>
         public static ICompilerReferenceError CS1535
         {
             get
@@ -8613,7 +8589,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1536;
 
-        /// <summary><para>C&#9839; compiler error &#35;1537:</para><para>The using alias 'alias' appeared previously in this namespace</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1537:</para><para>The using alias {0} appeared previously in this namespace</para></summary>
         public static ICompilerReferenceError CS1537
         {
             get
@@ -8625,7 +8601,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1537;
 
-        /// <summary><para>C&#9839; compiler error &#35;1540:</para><para>Cannot access protected member 'member' via a qualifier of type 'type1'; the qualifier must be of type 'type2' (or derived from it)</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1540:</para><para>Cannot access protected member {0} via a qualifier of type {1}; the qualifier must be of type {2} (or derived from it)</para></summary>
         public static ICompilerReferenceError CS1540
         {
             get
@@ -8637,7 +8613,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1540;
 
-        /// <summary><para>C&#9839; compiler error &#35;1541:</para><para>Invalid reference option: 'symbol' — cannot reference directories</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1541:</para><para>Invalid reference option: {0} — cannot reference directories</para></summary>
         public static ICompilerReferenceError CS1541
         {
             get
@@ -8649,7 +8625,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1541;
 
-        /// <summary><para>C&#9839; compiler error &#35;1542:</para><para>'dll' cannot be added to this assembly because it already is an assembly; use '/R' option instead</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1542:</para><para>{0} cannot be added to this assembly because it already is an assembly; use '/R' option instead</para></summary>
         public static ICompilerReferenceError CS1542
         {
             get
@@ -8661,7 +8637,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1542;
 
-        /// <summary><para>C&#9839; compiler error &#35;1545:</para><para>Property, indexer, or event 'property' is not supported by the language; try directly calling accessor methods 'set accessor' or 'get accessor'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1545:</para><para>Property, indexer, or event {0} is not supported by the language; try directly calling accessor methods {1} or {2}</para></summary>
         public static ICompilerReferenceError CS1545
         {
             get
@@ -8673,7 +8649,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1545;
 
-        /// <summary><para>C&#9839; compiler error &#35;1546:</para><para>Property, indexer, or event 'property' is not supported by the language; try directly calling accessor method 'accessor'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1546:</para><para>Property, indexer, or event {0} is not supported by the language; try directly calling accessor method {1}</para></summary>
         public static ICompilerReferenceError CS1546
         {
             get
@@ -8697,7 +8673,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1547;
 
-        /// <summary><para>C&#9839; compiler error &#35;1548:</para><para>Cryptographic failure while signing assembly 'assembly' — 'reason'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1548:</para><para>Cryptographic failure while signing assembly {0} — {1}</para></summary>
         public static ICompilerReferenceError CS1548
         {
             get
@@ -8745,7 +8721,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1552;
 
-        /// <summary><para>C&#9839; compiler error &#35;1553:</para><para>Declaration is not valid; use 'modifier operator &lt;dest-type&gt; (...' instead</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1553:</para><para>Declaration is not valid; use '{0} operator {1} (...' instead</para></summary>
         public static ICompilerReferenceError CS1553
         {
             get
@@ -8757,7 +8733,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1553;
 
-        /// <summary><para>C&#9839; compiler error &#35;1554:</para><para>Declaration is not valid; use '&lt;type&gt; operator op (...' instead</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1554:</para><para>Declaration is not valid; use '{0} operator {1} (...' instead</para></summary>
         public static ICompilerReferenceError CS1554
         {
             get
@@ -8769,7 +8745,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1554;
 
-        /// <summary><para>C&#9839; compiler error &#35;1555:</para><para>Could not find 'class' specified for Main method</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1555:</para><para>Could not find {0} specified for Main method</para></summary>
         public static ICompilerReferenceError CS1555
         {
             get
@@ -8781,7 +8757,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1555;
 
-        /// <summary><para>C&#9839; compiler error &#35;1556:</para><para>'construct' specified for Main method must be a valid class or struct</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1556:</para><para>{0} specified for Main method must be a valid class or struct</para></summary>
         public static ICompilerReferenceError CS1556
         {
             get
@@ -8793,7 +8769,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1556;
 
-        /// <summary><para>C&#9839; compiler error &#35;1557:</para><para>Cannot use 'class' for Main method because it is in a different output file</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1557:</para><para>Cannot use {0} for Main method because it is in a different output file</para></summary>
         public static ICompilerReferenceError CS1557
         {
             get
@@ -8805,7 +8781,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1557;
 
-        /// <summary><para>C&#9839; compiler error &#35;1558:</para><para>'class' does not have a suitable static Main method</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1558:</para><para>{0} does not have a suitable static Main method</para></summary>
         public static ICompilerReferenceError CS1558
         {
             get
@@ -8817,7 +8793,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1558;
 
-        /// <summary><para>C&#9839; compiler error &#35;1559:</para><para>Cannot use 'object' for Main method because it is imported</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1559:</para><para>Cannot use {0} for Main method because it is imported</para></summary>
         public static ICompilerReferenceError CS1559
         {
             get
@@ -8865,7 +8841,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1562;
 
-        /// <summary><para>C&#9839; compiler error &#35;1563:</para><para>Output 'output file' does not have any source files</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1563:</para><para>Output {0} does not have any source files</para></summary>
         public static ICompilerReferenceError CS1563
         {
             get
@@ -8901,7 +8877,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1565;
 
-        /// <summary><para>C&#9839; compiler error &#35;1566:</para><para>Error reading resource file 'file' — 'reason'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1566:</para><para>Error reading resource file {0} — {1}</para></summary>
         public static ICompilerReferenceError CS1566
         {
             get
@@ -8913,7 +8889,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1566;
 
-        /// <summary><para>C&#9839; compiler error &#35;1567:</para><para>Error generating Win32 resource: 'file'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1567:</para><para>Error generating Win32 resource: {0}</para></summary>
         public static ICompilerReferenceError CS1567
         {
             get
@@ -8925,7 +8901,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1567;
 
-        /// <summary><para>C&#9839; compiler error &#35;1569:</para><para>Error generating XML documentation file 'Filename' ('reason')</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1569:</para><para>Error generating XML documentation file {0} ({1})</para></summary>
         public static ICompilerReferenceError CS1569
         {
             get
@@ -8985,7 +8961,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1578;
 
-        /// <summary><para>C&#9839; compiler error &#35;1579:</para><para>foreach statement cannot operate on variables of type 'type1' because 'type2' does not contain a public definition for 'identifier'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1579:</para><para>foreach statement cannot operate on variables of type {0} because {1} does not contain a public definition for {2}</para></summary>
         public static ICompilerReferenceError CS1579
         {
             get
@@ -8997,7 +8973,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1579;
 
-        /// <summary><para>C&#9839; compiler error &#35;1583:</para><para>'file' is not a valid Win32 resource file</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1583:</para><para>{0} is not a valid Win32 resource file</para></summary>
         public static ICompilerReferenceError CS1583
         {
             get
@@ -9009,7 +8985,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1583;
 
-        /// <summary><para>C&#9839; compiler error &#35;1585:</para><para>Member modifier 'keyword' must precede the member type and name</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1585:</para><para>Member modifier {0} must precede the member type and name</para></summary>
         public static ICompilerReferenceError CS1585
         {
             get
@@ -9033,7 +9009,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1586;
 
-        /// <summary><para>C&#9839; compiler error &#35;1588:</para><para>Cannot determine common language runtime directory -- 'reason'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1588:</para><para>Cannot determine common language runtime directory -- {0}</para></summary>
         public static ICompilerReferenceError CS1588
         {
             get
@@ -9045,7 +9021,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1588;
 
-        /// <summary><para>C&#9839; compiler error &#35;1593:</para><para>Delegate 'del' does not take 'number' arguments</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1593:</para><para>Delegate {0} does not take {1} arguments</para></summary>
         public static ICompilerReferenceError CS1593
         {
             get
@@ -9057,7 +9033,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1593;
 
-        /// <summary><para>C&#9839; compiler error &#35;1594:</para><para>Delegate 'delegate' has some invalid arguments</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1594:</para><para>Delegate {0} has some invalid arguments</para></summary>
         public static ICompilerReferenceError CS1594
         {
             get
@@ -9081,7 +9057,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1597;
 
-        /// <summary><para>C&#9839; compiler error &#35;1599:</para><para>Method or delegate cannot return type 'type'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1599:</para><para>Method or delegate cannot return type {0}</para></summary>
         public static ICompilerReferenceError CS1599
         {
             get
@@ -9105,7 +9081,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1600;
 
-        /// <summary><para>C&#9839; compiler error &#35;1601:</para><para>Method or delegate parameter cannot be of type 'type'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1601:</para><para>Method or delegate parameter cannot be of type {0}</para></summary>
         public static ICompilerReferenceError CS1601
         {
             get
@@ -9117,7 +9093,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1601;
 
-        /// <summary><para>C&#9839; compiler error &#35;1604:</para><para>Cannot assign to 'variable' because it is read-only</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1604:</para><para>Cannot assign to {0} because it is read-only</para></summary>
         public static ICompilerReferenceError CS1604
         {
             get
@@ -9129,7 +9105,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1604;
 
-        /// <summary><para>C&#9839; compiler error &#35;1605:</para><para>Cannot pass 'var' as a ref or out argument because it is read-only</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1605:</para><para>Cannot pass {0} as a ref or out argument because it is read-only</para></summary>
         public static ICompilerReferenceError CS1605
         {
             get
@@ -9141,7 +9117,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1605;
 
-        /// <summary><para>C&#9839; compiler error &#35;1606:</para><para>Assembly signing failed; output may not be signed -- reason</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1606:</para><para>Assembly signing failed; output may not be signed -- {0}</para></summary>
         public static ICompilerReferenceError CS1606
         {
             get
@@ -9189,7 +9165,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1611;
 
-        /// <summary><para>C&#9839; compiler error &#35;1612:</para><para>Cannot modify the return value of 'expression' because it is not a variable</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1612:</para><para>Cannot modify the return value of {0} because it is not a variable</para></summary>
         public static ICompilerReferenceError CS1612
         {
             get
@@ -9201,7 +9177,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1612;
 
-        /// <summary><para>C&#9839; compiler error &#35;1613:</para><para>The managed coclass wrapper class 'class' for interface 'interface' cannot be found (are you missing an assembly reference?)</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1613:</para><para>The managed coclass wrapper class {0} for interface {1} cannot be found (are you missing an assembly reference?)</para></summary>
         public static ICompilerReferenceError CS1613
         {
             get
@@ -9213,7 +9189,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1613;
 
-        /// <summary><para>C&#9839; compiler error &#35;1614:</para><para>'name' is ambiguous; between 'attribute1' and 'attribute2'. use either '@attribute' or 'attributeAttribute'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1614:</para><para>{0} is ambiguous; between {1} and {2}. use either '@{0}' or '{0}Attribute'</para></summary>
         public static ICompilerReferenceError CS1614
         {
             get
@@ -9225,7 +9201,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1614;
 
-        /// <summary><para>C&#9839; compiler error &#35;1615:</para><para>Argument 'number' should not be passed with the 'keyword' keyword</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1615:</para><para>Argument {0} should not be passed with the {1} keyword</para></summary>
         public static ICompilerReferenceError CS1615
         {
             get
@@ -9237,7 +9213,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1615;
 
-        /// <summary><para>C&#9839; compiler error &#35;1617:</para><para>Invalid option 'option' for /langversion; must be ISO-1, ISO-2 or Default</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1617:</para><para>Invalid option {0} for /langversion; must be ISO-1, ISO-2 or Default</para></summary>
         public static ICompilerReferenceError CS1617
         {
             get
@@ -9249,7 +9225,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1617;
 
-        /// <summary><para>C&#9839; compiler error &#35;1618:</para><para>Cannot create delegate with 'method' because it has a Conditional attribute</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1618:</para><para>Cannot create delegate with {0} because it has a Conditional attribute</para></summary>
         public static ICompilerReferenceError CS1618
         {
             get
@@ -9261,7 +9237,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1618;
 
-        /// <summary><para>C&#9839; compiler error &#35;1619:</para><para>Cannot create temporary file 'filename' -- reason</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1619:</para><para>Cannot create temporary file {0} -- {1}</para></summary>
         public static ICompilerReferenceError CS1619
         {
             get
@@ -9273,7 +9249,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1619;
 
-        /// <summary><para>C&#9839; compiler error &#35;1620:</para><para>Argument 'number' must be passed with the 'keyword' keyword</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1620:</para><para>Argument {0} must be passed with the {1} keyword</para></summary>
         public static ICompilerReferenceError CS1620
         {
             get
@@ -9321,7 +9297,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1623;
 
-        /// <summary><para>C&#9839; compiler error &#35;1624:</para><para>The body of 'accessor' cannot be an iterator block because 'type' is not an iterator interface type</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1624:</para><para>The body of {0} cannot be an iterator block because {1} is not an iterator interface type</para></summary>
         public static ICompilerReferenceError CS1624
         {
             get
@@ -9369,7 +9345,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1627;
 
-        /// <summary><para>C&#9839; compiler error &#35;1628:</para><para>Cannot use ref or out parameter 'parameter' inside an anonymous method, lambda expression, or query expression</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1628:</para><para>Cannot use ref or out parameter {0} inside an anonymous method, lambda expression, or query expression</para></summary>
         public static ICompilerReferenceError CS1628
         {
             get
@@ -9393,7 +9369,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1629;
 
-        /// <summary><para>C&#9839; compiler error &#35;1630:</para><para>Invalid option 'option' for /errorreport; must be prompt, send, queue, or none</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1630:</para><para>Invalid option {0} for /errorreport; must be prompt, send, queue, or none</para></summary>
         public static ICompilerReferenceError CS1630
         {
             get
@@ -9441,7 +9417,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1637;
 
-        /// <summary><para>C&#9839; compiler error &#35;1638:</para><para>'identifier' is a reserved identifier and cannot be used when ISO language version mode is used</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1638:</para><para>{0} is a reserved identifier and cannot be used when ISO language version mode is used</para></summary>
         public static ICompilerReferenceError CS1638
         {
             get
@@ -9453,7 +9429,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1638;
 
-        /// <summary><para>C&#9839; compiler error &#35;1639:</para><para>The managed coclass wrapper class signature 'signature' for interface 'interface' is not a valid class name signature</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1639:</para><para>The managed coclass wrapper class signature {0} for interface {1} is not a valid class name signature</para></summary>
         public static ICompilerReferenceError CS1639
         {
             get
@@ -9465,7 +9441,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1639;
 
-        /// <summary><para>C&#9839; compiler error &#35;1640:</para><para>foreach statement cannot operate on variables of type 'type' because it implements multiple instantiations of 'interface', try casting to a specific interface instantiation</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1640:</para><para>foreach statement cannot operate on variables of type {0} because it implements multiple instantiations of {1}, try casting to a specific interface instantiation</para></summary>
         public static ICompilerReferenceError CS1640
         {
             get
@@ -9501,7 +9477,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1642;
 
-        /// <summary><para>C&#9839; compiler error &#35;1643:</para><para>Not all code paths return a value in method of type 'type!'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1643:</para><para>Not all code paths return a value in method of type {0}</para></summary>
         public static ICompilerReferenceError CS1643
         {
             get
@@ -9513,7 +9489,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1643;
 
-        /// <summary><para>C&#9839; compiler error &#35;1644:</para><para>Feature 'feature' is not part of the standardized ISO C# language specification, and may not be accepted by other compilers</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1644:</para><para>Feature {0} is not part of the standardized ISO C# language specification, and may not be accepted by other compilers</para></summary>
         public static ICompilerReferenceError CS1644
         {
             get
@@ -9537,7 +9513,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1646;
 
-        /// <summary><para>C&#9839; compiler error &#35;1647:</para><para>An expression is too long or complex to compile near 'code'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1647:</para><para>An expression is too long or complex to compile near {0}</para></summary>
         public static ICompilerReferenceError CS1647
         {
             get
@@ -9549,7 +9525,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1647;
 
-        /// <summary><para>C&#9839; compiler error &#35;1648:</para><para>Members of readonly field 'identifier' cannot be modified (except in a constructor or a variable initializer)</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1648:</para><para>Members of readonly field {0} cannot be modified (except in a constructor or a variable initializer)</para></summary>
         public static ICompilerReferenceError CS1648
         {
             get
@@ -9561,7 +9537,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1648;
 
-        /// <summary><para>C&#9839; compiler error &#35;1649:</para><para>Members of readonly field 'identifier' cannot be passed ref or out (except in a constructor)</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1649:</para><para>Members of readonly field {0} cannot be passed ref or out (except in a constructor)</para></summary>
         public static ICompilerReferenceError CS1649
         {
             get
@@ -9573,7 +9549,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1649;
 
-        /// <summary><para>C&#9839; compiler error &#35;1650:</para><para>Fields of static readonly field 'identifier' cannot be assigned to (except in a static constructor or a variable initializer)</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1650:</para><para>Fields of static readonly field {0} cannot be assigned to (except in a static constructor or a variable initializer)</para></summary>
         public static ICompilerReferenceError CS1650
         {
             get
@@ -9585,7 +9561,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1650;
 
-        /// <summary><para>C&#9839; compiler error &#35;1651:</para><para>Fields of static readonly field 'identifier' cannot be passed ref or out (except in a static constructor)</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1651:</para><para>Fields of static readonly field {0} cannot be passed ref or out (except in a static constructor)</para></summary>
         public static ICompilerReferenceError CS1651
         {
             get
@@ -9597,7 +9573,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1651;
 
-        /// <summary><para>C&#9839; compiler error &#35;1654:</para><para>Cannot modify members of 'variable' because it is a 'read-only variable type'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1654:</para><para>Cannot modify members of {0} because it is a {1}</para></summary>
         public static ICompilerReferenceError CS1654
         {
             get
@@ -9609,7 +9585,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1654;
 
-        /// <summary><para>C&#9839; compiler error &#35;1655:</para><para>Cannot pass fields of 'variable' as a ref or out argument because it is a 'readonly variable type'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1655:</para><para>Cannot pass fields of {0} as a ref or out argument because it is a {1}</para></summary>
         public static ICompilerReferenceError CS1655
         {
             get
@@ -9621,7 +9597,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1655;
 
-        /// <summary><para>C&#9839; compiler error &#35;1656:</para><para>Cannot assign to 'variable' because it is a 'read-only variable type'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1656:</para><para>Cannot assign to {0} because it is a {1}</para></summary>
         public static ICompilerReferenceError CS1656
         {
             get
@@ -9633,7 +9609,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1656;
 
-        /// <summary><para>C&#9839; compiler error &#35;1657:</para><para>Cannot pass 'parameter' as a ref or out argument because 'reason''</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1657:</para><para>Cannot pass {0} as a ref or out argument because {1}</para></summary>
         public static ICompilerReferenceError CS1657
         {
             get
@@ -9645,7 +9621,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1657;
 
-        /// <summary><para>C&#9839; compiler error &#35;1660:</para><para>Cannot convert anonymous method block to type 'type' because it is not a delegate type</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1660:</para><para>Cannot convert anonymous method block to type {0} because it is not a delegate type</para></summary>
         public static ICompilerReferenceError CS1660
         {
             get
@@ -9657,7 +9633,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1660;
 
-        /// <summary><para>C&#9839; compiler error &#35;1661:</para><para>Cannot convert anonymous method block to delegate type 'delegate type' because the specified block's parameter types do not match the delegate parameter types</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1661:</para><para>Cannot convert anonymous method block to delegate type {0} because the specified block's parameter types do not match the delegate parameter types</para></summary>
         public static ICompilerReferenceError CS1661
         {
             get
@@ -9669,7 +9645,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1661;
 
-        /// <summary><para>C&#9839; compiler error &#35;1662:</para><para>Cannot convert anonymous method block to delegate type 'delegate type' because some of the return types in the block are not implicitly convertible to the delegate return type</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1662:</para><para>Cannot convert anonymous method block to delegate type {0} because some of the return types in the block are not implicitly convertible to the delegate return type</para></summary>
         public static ICompilerReferenceError CS1662
         {
             get
@@ -9693,7 +9669,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1663;
 
-        /// <summary><para>C&#9839; compiler error &#35;1664:</para><para>Fixed size buffer of length 'length' and type 'type' is too big</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1664:</para><para>Fixed size buffer of length {0} and type {1} is too big</para></summary>
         public static ICompilerReferenceError CS1664
         {
             get
@@ -9729,7 +9705,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1666;
 
-        /// <summary><para>C&#9839; compiler error &#35;1667:</para><para>Attribute 'attribute' is not valid on property or event accessors. It is valid on 'declaration type' declarations only.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1667:</para><para>Attribute {0} is not valid on property or event accessors. It is valid on {1} declarations only.</para></summary>
         public static ICompilerReferenceError CS1667
         {
             get
@@ -9765,7 +9741,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1671;
 
-        /// <summary><para>C&#9839; compiler error &#35;1672:</para><para>Invalid option 'option' for /platform; must be anycpu, x86, Itanium or x64</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1672:</para><para>Invalid option {0} for /platform; must be anycpu, x86, Itanium or x64</para></summary>
         public static ICompilerReferenceError CS1672
         {
             get
@@ -9789,7 +9765,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1673;
 
-        /// <summary><para>C&#9839; compiler error &#35;1674:</para><para>'T': type used in a using statement must be implicitly convertible to 'System.IDisposable'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1674:</para><para>{0}: type used in a using statement must be implicitly convertible to 'System.IDisposable'</para></summary>
         public static ICompilerReferenceError CS1674
         {
             get
@@ -9813,7 +9789,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1675;
 
-        /// <summary><para>C&#9839; compiler error &#35;1676:</para><para>Parameter 'number' must be declared with the 'keyword' keyword</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1676:</para><para>Parameter {0} must be declared with the {1} keyword</para></summary>
         public static ICompilerReferenceError CS1676
         {
             get
@@ -9825,7 +9801,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1676;
 
-        /// <summary><para>C&#9839; compiler error &#35;1677:</para><para>Parameter 'number' should not be declared with the 'keyword' keyword</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1677:</para><para>Parameter {0} should not be declared with the {1} keyword</para></summary>
         public static ICompilerReferenceError CS1677
         {
             get
@@ -9837,7 +9813,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1677;
 
-        /// <summary><para>C&#9839; compiler error &#35;1678:</para><para>Parameter 'number' is declared as type 'type1' but should be 'type2'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1678:</para><para>Parameter {0} is declared as type {1} but should be {2}</para></summary>
         public static ICompilerReferenceError CS1678
         {
             get
@@ -9849,7 +9825,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1678;
 
-        /// <summary><para>C&#9839; compiler error &#35;1679:</para><para>Invalid extern alias for '/reference'; 'identifier' is not a valid identifier</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1679:</para><para>Invalid extern alias for {0}; {1} is not a valid identifier</para></summary>
         public static ICompilerReferenceError CS1679
         {
             get
@@ -9885,7 +9861,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1681;
 
-        /// <summary><para>C&#9839; compiler error &#35;1686:</para><para>Local 'variable' or its members cannot have their address taken and be used inside an anonymous method or lambda expression</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1686:</para><para>Local {0} or its members cannot have their address taken and be used inside an anonymous method or lambda expression</para></summary>
         public static ICompilerReferenceError CS1686
         {
             get
@@ -9897,7 +9873,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1686;
 
-        /// <summary><para>C&#9839; compiler error &#35;1688:</para><para>Cannot convert anonymous method block without a parameter list to delegate type 'delegate' because it has one or more out parameters</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1688:</para><para>Cannot convert anonymous method block without a parameter list to delegate type {0} because it has one or more out parameters</para></summary>
         public static ICompilerReferenceError CS1688
         {
             get
@@ -9909,7 +9885,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1688;
 
-        /// <summary><para>C&#9839; compiler error &#35;1689:</para><para>Attribute 'Attribute Name' is only valid on methods or attribute classes</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1689:</para><para>Attribute {0} is only valid on methods or attribute classes</para></summary>
         public static ICompilerReferenceError CS1689
         {
             get
@@ -9921,7 +9897,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1689;
 
-        /// <summary><para>C&#9839; compiler error &#35;1703:</para><para>An assembly with the same simple name 'name' has already been imported. Try removing one of the references or sign them to enable side-by-side.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1703:</para><para>An assembly with the same simple name {0} has already been imported. Try removing one of the references or sign them to enable side-by-side.</para></summary>
         public static ICompilerReferenceError CS1703
         {
             get
@@ -9933,7 +9909,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1703;
 
-        /// <summary><para>C&#9839; compiler error &#35;1704:</para><para>An assembly with the same simple name 'Assembly Name' has already been imported. Try removing one of the references or sign them to enable side-by-side.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1704:</para><para>An assembly with the same simple name {0} has already been imported. Try removing one of the references or sign them to enable side-by-side.</para></summary>
         public static ICompilerReferenceError CS1704
         {
             get
@@ -9945,7 +9921,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1704;
 
-        /// <summary><para>C&#9839; compiler error &#35;1705:</para><para>Assembly 'AssemblyName1' uses 'TypeName' which has a higher version than referenced assembly 'AssemblyName2'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1705:</para><para>Assembly {0} uses {1} which has a higher version than referenced assembly {2}</para></summary>
         public static ICompilerReferenceError CS1705
         {
             get
@@ -9981,7 +9957,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1708;
 
-        /// <summary><para>C&#9839; compiler error &#35;1713:</para><para>Unexpected error building metadata name for type Typename1—'Reason'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1713:</para><para>Unexpected error building metadata name for type {0} — {1}</para></summary>
         public static ICompilerReferenceError CS1713
         {
             get
@@ -9993,7 +9969,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1713;
 
-        /// <summary><para>C&#9839; compiler error &#35;1714:</para><para>The base class or interface of TypeName1 could not be resolved or is invalid</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1714:</para><para>The base class or interface of {0} could not be resolved or is invalid</para></summary>
         public static ICompilerReferenceError CS1714
         {
             get
@@ -10005,7 +9981,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1714;
 
-        /// <summary><para>C&#9839; compiler error &#35;1715:</para><para>'Type1': type must be 'Type2' to match overridden member 'MemberName'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1715:</para><para>{0}: type must be {1} to match overridden member {2}</para></summary>
         public static ICompilerReferenceError CS1715
         {
             get
@@ -10029,7 +10005,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1716;
 
-        /// <summary><para>C&#9839; compiler error &#35;1719:</para><para>Error reading Win32 resource file 'File Name' -- 'reason'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1719:</para><para>Error reading Win32 resource file {0} -- {1}</para></summary>
         public static ICompilerReferenceError CS1719
         {
             get
@@ -10041,7 +10017,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1719;
 
-        /// <summary><para>C&#9839; compiler error &#35;1721:</para><para>Class 'class' cannot have multiple base classes: 'class_1' and 'class_2'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1721:</para><para>Class {0} cannot have multiple base classes: {1} and {2}</para></summary>
         public static ICompilerReferenceError CS1721
         {
             get
@@ -10053,7 +10029,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1721;
 
-        /// <summary><para>C&#9839; compiler error &#35;1722:</para><para>Base class 'class' must come before any interfaces</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1722:</para><para>Base class {0} must come before any interfaces</para></summary>
         public static ICompilerReferenceError CS1722
         {
             get
@@ -10077,7 +10053,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1724;
 
-        /// <summary><para>C&#9839; compiler error &#35;1725:</para><para>Friend assembly reference 'reference' is invalid. InternalsVisibleTo declarations cannot have a version, culture, public key token, or processor architecture specified.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1725:</para><para>Friend assembly reference {0} is invalid. InternalsVisibleTo declarations cannot have a version, culture, public key token, or processor architecture specified.</para></summary>
         public static ICompilerReferenceError CS1725
         {
             get
@@ -10089,7 +10065,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1725;
 
-        /// <summary><para>C&#9839; compiler error &#35;1726:</para><para>Friend assembly reference 'reference' is invalid. Strong-name signed assemblies must specify a public key in their InternalsVisibleTo declarations.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1726:</para><para>Friend assembly reference {0} is invalid. Strong-name signed assemblies must specify a public key in their InternalsVisibleTo declarations.</para></summary>
         public static ICompilerReferenceError CS1726
         {
             get
@@ -10101,7 +10077,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1726;
 
-        /// <summary><para>C&#9839; compiler error &#35;1727:</para><para>Cannot send error report automatically without authorization. Please visit '' to authorize sending error report.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1727:</para><para>Cannot send error report automatically without authorization. Please visit {0} to authorize sending error report.</para></summary>
         public static ICompilerReferenceError CS1727
         {
             get
@@ -10113,7 +10089,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1727;
 
-        /// <summary><para>C&#9839; compiler error &#35;1728:</para><para>Cannot bind delegate to 'member' because it is a member of 'type'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1728:</para><para>Cannot bind delegate to {0} because it is a member of {1}</para></summary>
         public static ICompilerReferenceError CS1728
         {
             get
@@ -10125,7 +10101,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1728;
 
-        /// <summary><para>C&#9839; compiler error &#35;1729:</para><para>'type' does not contain a constructor that takes 'number' arguments.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1729:</para><para>{0} does not contain a constructor that takes {1} arguments.</para></summary>
         public static ICompilerReferenceError CS1729
         {
             get
@@ -10149,7 +10125,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1730;
 
-        /// <summary><para>C&#9839; compiler error &#35;1731:</para><para>Cannot convert 'expression' to delegate because some of the return types in the block are not implicitly convertible to the delegate return type.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1731:</para><para>Cannot convert {0} to delegate because some of the return types in the block are not implicitly convertible to the delegate return type.</para></summary>
         public static ICompilerReferenceError CS1731
         {
             get
@@ -10197,7 +10173,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1900;
 
-        /// <summary><para>C&#9839; compiler error &#35;1902:</para><para>Invalid option 'option' for /debug; must be full or pdbonly</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1902:</para><para>Invalid option {0} for /debug; must be full or pdbonly</para></summary>
         public static ICompilerReferenceError CS1902
         {
             get
@@ -10209,7 +10185,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1902;
 
-        /// <summary><para>C&#9839; compiler error &#35;1906:</para><para>Invalid option 'option'; Resource visibility must be either 'public' or 'private'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1906:</para><para>Invalid option {0}; Resource visibility must be either 'public' or 'private'</para></summary>
         public static ICompilerReferenceError CS1906
         {
             get
@@ -10233,7 +10209,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1908;
 
-        /// <summary><para>C&#9839; compiler error &#35;1909:</para><para>The DefaultValue attribute is not applicable on parameters of type 'type'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1909:</para><para>The DefaultValue attribute is not applicable on parameters of type {0}</para></summary>
         public static ICompilerReferenceError CS1909
         {
             get
@@ -10245,7 +10221,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1909;
 
-        /// <summary><para>C&#9839; compiler error &#35;1910:</para><para>Argument of type 'type' is not applicable for the DefaultValue attribute</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1910:</para><para>Argument of type {0} is not applicable for the DefaultValue attribute</para></summary>
         public static ICompilerReferenceError CS1910
         {
             get
@@ -10257,7 +10233,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1910;
 
-        /// <summary><para>C&#9839; compiler error &#35;1912:</para><para>Duplicate initialization of member 'name'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1912:</para><para>Duplicate initialization of member {0}.</para></summary>
         public static ICompilerReferenceError CS1912
         {
             get
@@ -10269,7 +10245,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1912;
 
-        /// <summary><para>C&#9839; compiler error &#35;1913:</para><para>Member 'name' cannot be initialized. It is not a field or property.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1913:</para><para>Member {0} cannot be initialized. It is not a field or property.</para></summary>
         public static ICompilerReferenceError CS1913
         {
             get
@@ -10281,7 +10257,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1913;
 
-        /// <summary><para>C&#9839; compiler error &#35;1914:</para><para>Static field 'name' cannot be assigned in an object initializer</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1914:</para><para>Static field {0} cannot be assigned in an object initializer</para></summary>
         public static ICompilerReferenceError CS1914
         {
             get
@@ -10293,7 +10269,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1914;
 
-        /// <summary><para>C&#9839; compiler error &#35;1917:</para><para>Members of read-only field 'name' of type 'struct name' cannot be assigned with an object initializer because it is of a value type.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1917:</para><para>Members of read-only field {0} of type {1} cannot be assigned with an object initializer because it is of a value type.</para></summary>
         public static ICompilerReferenceError CS1917
         {
             get
@@ -10305,7 +10281,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1917;
 
-        /// <summary><para>C&#9839; compiler error &#35;1918:</para><para>Members of property 'name' of type 'type' cannot be assigned with an object initializer because it is of a value type.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1918:</para><para>Members of property {0} of type {1} cannot be assigned with an object initializer because it is of a value type.</para></summary>
         public static ICompilerReferenceError CS1918
         {
             get
@@ -10317,7 +10293,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1918;
 
-        /// <summary><para>C&#9839; compiler error &#35;1919:</para><para>Unsafe type 'type name' cannot be used in object creation.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1919:</para><para>Unsafe type {0} cannot be used in object creation.</para></summary>
         public static ICompilerReferenceError CS1919
         {
             get
@@ -10341,7 +10317,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1920;
 
-        /// <summary><para>C&#9839; compiler error &#35;1921:</para><para>The best overloaded method match for 'method' has wrong signature for the initializer element. The initializable Add must be an accessible instance method.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1921:</para><para>The best overloaded method match for {0} has wrong signature for the initializer element. The initializable Add must be an accessible instance method.</para></summary>
         public static ICompilerReferenceError CS1921
         {
             get
@@ -10353,7 +10329,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1921;
 
-        /// <summary><para>C&#9839; compiler error &#35;1922:</para><para>Collection initializer requires its type 'type' to implement System.Collections.IEnumerable.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1922:</para><para>Collection initializer requires its type {0} to implement System.Collections.IEnumerable.</para></summary>
         public static ICompilerReferenceError CS1922
         {
             get
@@ -10365,7 +10341,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1922;
 
-        /// <summary><para>C&#9839; compiler error &#35;1925:</para><para>Cannot initialize object of type 'type' with a collection initializer.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1925:</para><para>Cannot initialize object of type {0} with a collection initializer.</para></summary>
         public static ICompilerReferenceError CS1925
         {
             get
@@ -10377,7 +10353,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1925;
 
-        /// <summary><para>C&#9839; compiler error &#35;1926:</para><para>Error reading Win32 manifest file 'filename' -- 'error'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1926:</para><para>Error reading Win32 manifest file {0} -- {1}.</para></summary>
         public static ICompilerReferenceError CS1926
         {
             get
@@ -10389,7 +10365,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1926;
 
-        /// <summary><para>C&#9839; compiler error &#35;1928:</para><para>'Type' does not contain a definition for 'method' and the best extension method overload 'method' has some invalid arguments.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1928:</para><para>{0} does not contain a definition for {1} and the best extension method overload {2} has some invalid arguments.</para></summary>
         public static ICompilerReferenceError CS1928
         {
             get
@@ -10401,7 +10377,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1928;
 
-        /// <summary><para>C&#9839; compiler error &#35;1929:</para><para>Instance argument: cannot convert from 'typeA' to 'typeB'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1929:</para><para>Instance argument: cannot convert from {0} to {1}.</para></summary>
         public static ICompilerReferenceError CS1929
         {
             get
@@ -10413,7 +10389,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1929;
 
-        /// <summary><para>C&#9839; compiler error &#35;1930:</para><para>The range variable 'name' has already been declared</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1930:</para><para>The range variable {0} has already been declared</para></summary>
         public static ICompilerReferenceError CS1930
         {
             get
@@ -10425,7 +10401,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1930;
 
-        /// <summary><para>C&#9839; compiler error &#35;1931:</para><para>The range variable 'variable' conflicts with a previous declaration of 'variable'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1931:</para><para>The range variable {0} conflicts with a previous declaration of {1}.</para></summary>
         public static ICompilerReferenceError CS1931
         {
             get
@@ -10437,7 +10413,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1931;
 
-        /// <summary><para>C&#9839; compiler error &#35;1932:</para><para>Cannot assign 'expression' to a range variable.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1932:</para><para>Cannot assign {0} to a range variable.</para></summary>
         public static ICompilerReferenceError CS1932
         {
             get
@@ -10461,7 +10437,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1933;
 
-        /// <summary><para>C&#9839; compiler error &#35;1934:</para><para>Could not find an implementation of the query pattern for source type 'type'. 'method' not found. Consider explicitly specifying the type of the range variable 'name'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1934:</para><para>Could not find an implementation of the query pattern for source type {0}. {1} not found. Consider explicitly specifying the type of the range variable {2}.</para></summary>
         public static ICompilerReferenceError CS1934
         {
             get
@@ -10473,7 +10449,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1934;
 
-        /// <summary><para>C&#9839; compiler error &#35;1935:</para><para>Could not find an implementation of the query pattern for source type 'type'. 'method' not found. Are you missing a reference to 'System.Core.dll' or a using directive for 'System.Linq'?</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1935:</para><para>Could not find an implementation of the query pattern for source type {0}. {1} not found. Are you missing a reference to 'System.Core.dll' or a using directive for 'System.Linq'?</para></summary>
         public static ICompilerReferenceError CS1935
         {
             get
@@ -10485,7 +10461,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1935;
 
-        /// <summary><para>C&#9839; compiler error &#35;1936:</para><para>Could not find an implementation of the query pattern for source type 'type'. 'method' not found.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1936:</para><para>Could not find an implementation of the query pattern for source type {0}. {1} not found.</para></summary>
         public static ICompilerReferenceError CS1936
         {
             get
@@ -10497,7 +10473,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1936;
 
-        /// <summary><para>C&#9839; compiler error &#35;1937:</para><para>The name 'name' is not in scope on the left side of 'equals'. Consider swapping the expressions on either side of 'equals'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1937:</para><para>The name {0} is not in scope on the left side of 'equals'. Consider swapping the expressions on either side of 'equals'.</para></summary>
         public static ICompilerReferenceError CS1937
         {
             get
@@ -10509,7 +10485,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1937;
 
-        /// <summary><para>C&#9839; compiler error &#35;1938:</para><para>The name 'name' is not in scope on the right side of 'equals'. Consider swapping the expressions on either side of 'equals'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1938:</para><para>The name {0} is not in scope on the right side of 'equals'. Consider swapping the expressions on either side of 'equals'.</para></summary>
         public static ICompilerReferenceError CS1938
         {
             get
@@ -10521,7 +10497,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1938;
 
-        /// <summary><para>C&#9839; compiler error &#35;1939:</para><para>Cannot pass the range variable 'name' as an out or ref parameter.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1939:</para><para>Cannot pass the range variable {0} as an out or ref parameter.</para></summary>
         public static ICompilerReferenceError CS1939
         {
             get
@@ -10533,7 +10509,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1939;
 
-        /// <summary><para>C&#9839; compiler error &#35;1940:</para><para>Multiple implementations of the query pattern were found for source type 'type'. Ambiguous call to 'method'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1940:</para><para>Multiple implementations of the query pattern were found for source type {0}. Ambiguous call to {1}.</para></summary>
         public static ICompilerReferenceError CS1940
         {
             get
@@ -10545,7 +10521,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1940;
 
-        /// <summary><para>C&#9839; compiler error &#35;1941:</para><para>The type of one of the expressions in the 'clause' clause is incorrect. Type inference failed in the call to 'method'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1941:</para><para>The type of one of the expressions in the {0} clause is incorrect. Type inference failed in the call to {1}.</para></summary>
         public static ICompilerReferenceError CS1941
         {
             get
@@ -10557,7 +10533,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1941;
 
-        /// <summary><para>C&#9839; compiler error &#35;1942:</para><para>The type of the expression in the 'clause' clause is incorrect. Type inference failed in the call to 'method'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1942:</para><para>The type of the expression in the {0} clause is incorrect. Type inference failed in the call to {1}.</para></summary>
         public static ICompilerReferenceError CS1942
         {
             get
@@ -10569,7 +10545,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1942;
 
-        /// <summary><para>C&#9839; compiler error &#35;1943:</para><para>An expression of type 'type' is not allowed in a subsequent from clause in a query expression with source type 'type'. Type inference failed in the call to 'method'.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1943:</para><para>An expression of type {0} is not allowed in a subsequent from clause in a query expression with source type {1}. Type inference failed in the call to {2}.</para></summary>
         public static ICompilerReferenceError CS1943
         {
             get
@@ -10617,7 +10593,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1946;
 
-        /// <summary><para>C&#9839; compiler error &#35;1947:</para><para>Range variable 'variable name' cannot be assigned to -- it is read only.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1947:</para><para>Range variable {0} cannot be assigned to -- it is read only.</para></summary>
         public static ICompilerReferenceError CS1947
         {
             get
@@ -10629,7 +10605,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1947;
 
-        /// <summary><para>C&#9839; compiler error &#35;1948:</para><para>The range variable 'name' cannot have the same name as a method type parameter</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1948:</para><para>The range variable {0} cannot have the same name as a method type parameter</para></summary>
         public static ICompilerReferenceError CS1948
         {
             get
@@ -10653,7 +10629,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1949;
 
-        /// <summary><para>C&#9839; compiler error &#35;1950:</para><para>The best overloaded Add method 'name' for the collection initializer has some invalid arguments.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1950:</para><para>The best overloaded Add method {0} for the collection initializer has some invalid arguments.</para></summary>
         public static ICompilerReferenceError CS1950
         {
             get
@@ -10701,7 +10677,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1953;
 
-        /// <summary><para>C&#9839; compiler error &#35;1954:</para><para>The best overloaded method match 'method' for the collection initializer element cannot be used. Collection initializer 'Add' methods cannot have ref or out parameters.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1954:</para><para>The best overloaded method match {0} for the collection initializer element cannot be used. Collection initializer 'Add' methods cannot have ref or out parameters.</para></summary>
         public static ICompilerReferenceError CS1954
         {
             get
@@ -10713,7 +10689,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1954;
 
-        /// <summary><para>C&#9839; compiler error &#35;1955:</para><para>Non-invocable member 'name' cannot be used like a method.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1955:</para><para>Non-invocable member {0} cannot be used like a method.</para></summary>
         public static ICompilerReferenceError CS1955
         {
             get
@@ -10737,7 +10713,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1958;
 
-        /// <summary><para>C&#9839; compiler error &#35;1959:</para><para>'name' is of type 'type'. The type specified in a constant declaration must be sbyte, byte, short, ushort, int, uint, long, ulong, char, float, double, decimal, bool, string, an enum-type, or a reference-type.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1959:</para><para>{0} is of type {1}. The type specified in a constant declaration must be sbyte, byte, short, ushort, int, uint, long, ulong, char, float, double, decimal, bool, string, an enum-type, or a reference-type.</para></summary>
         public static ICompilerReferenceError CS1959
         {
             get
@@ -10749,7 +10725,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1959;
 
-        /// <summary><para>C&#9839; compiler error &#35;2001:</para><para>Source file 'file' could not be found</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;2001:</para><para>Source file {0} could not be found</para></summary>
         public static ICompilerReferenceError CS2001
         {
             get
@@ -10761,7 +10737,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS2001;
 
-        /// <summary><para>C&#9839; compiler error &#35;2003:</para><para>Response file 'file' included multiple times</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;2003:</para><para>Response file {0} included multiple times</para></summary>
         public static ICompilerReferenceError CS2003
         {
             get
@@ -10773,7 +10749,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS2003;
 
-        /// <summary><para>C&#9839; compiler error &#35;2005:</para><para>Missing file specification for 'option' option</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;2005:</para><para>Missing file specification for {0} option</para></summary>
         public static ICompilerReferenceError CS2005
         {
             get
@@ -10785,7 +10761,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS2005;
 
-        /// <summary><para>C&#9839; compiler error &#35;2006:</para><para>Command-line syntax error: Missing 'text' for 'option' option</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;2006:</para><para>Command-line syntax error: Missing {0} for {1} option</para></summary>
         public static ICompilerReferenceError CS2006
         {
             get
@@ -10797,7 +10773,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS2006;
 
-        /// <summary><para>C&#9839; compiler error &#35;2007:</para><para>Unrecognized command-line option: 'option'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;2007:</para><para>Unrecognized command-line option: {0}</para></summary>
         public static ICompilerReferenceError CS2007
         {
             get
@@ -10821,7 +10797,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS2008;
 
-        /// <summary><para>C&#9839; compiler error &#35;2011:</para><para>Unable to open response file 'file'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;2011:</para><para>Unable to open response file {0}</para></summary>
         public static ICompilerReferenceError CS2011
         {
             get
@@ -10833,7 +10809,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS2011;
 
-        /// <summary><para>C&#9839; compiler error &#35;2012:</para><para>Cannot open 'file' for writing</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;2012:</para><para>Cannot open {0} for writing</para></summary>
         public static ICompilerReferenceError CS2012
         {
             get
@@ -10845,7 +10821,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS2012;
 
-        /// <summary><para>C&#9839; compiler error &#35;2013:</para><para>Invalid image base number 'value'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;2013:</para><para>Invalid image base number {0}</para></summary>
         public static ICompilerReferenceError CS2013
         {
             get
@@ -10857,7 +10833,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS2013;
 
-        /// <summary><para>C&#9839; compiler error &#35;2015:</para><para>'file' is a binary file instead of a text file</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;2015:</para><para>{0} is a binary file instead of a text file</para></summary>
         public static ICompilerReferenceError CS2015
         {
             get
@@ -10869,7 +10845,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS2015;
 
-        /// <summary><para>C&#9839; compiler error &#35;2016:</para><para>Code page 'codepage' is invalid or not installed</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;2016:</para><para>Code page {0} is invalid or not installed</para></summary>
         public static ICompilerReferenceError CS2016
         {
             get
@@ -10929,7 +10905,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS2020;
 
-        /// <summary><para>C&#9839; compiler error &#35;2021:</para><para>File name 'file' is too long or invalid</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;2021:</para><para>File name {0} is too long or invalid</para></summary>
         public static ICompilerReferenceError CS2021
         {
             get
@@ -10965,7 +10941,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS2024;
 
-        /// <summary><para>C&#9839; compiler error &#35;2032:</para><para>Character 'character' is not allowed on the command-line or in response files</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;2032:</para><para>Character {0} is not allowed on the command-line or in response files</para></summary>
         public static ICompilerReferenceError CS2032
         {
             get
@@ -10977,7 +10953,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS2032;
 
-        /// <summary><para>C&#9839; compiler error &#35;2033:</para><para>Cannot create short filename 'filename' when a long filename with the same short filename already exists </para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;2033:</para><para>Cannot create short filename {0} when a long filename with the same short filename already exists </para></summary>
         public static ICompilerReferenceError CS2033
         {
             get
@@ -11001,7 +10977,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS2034;
 
-        /// <summary><para>C&#9839; compiler error &#35;2035:</para><para>Command-line syntax error: Missing ':&lt;number&gt;' for 'compiler_option' option</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;2035:</para><para>Command-line syntax error: Missing ':&lt;number&gt;' for {0} option</para></summary>
         public static ICompilerReferenceError CS2035
         {
             get
@@ -11025,7 +11001,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS2036;
 
-        /// <summary><para>C&#9839; compiler error &#35;5001:</para><para>Program 'program' does not contain a static 'Main' method suitable for an entry point</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;5001:</para><para>Program {0} does not contain a static 'Main' method suitable for an entry point</para></summary>
         public static ICompilerReferenceError CS5001
         {
             get
