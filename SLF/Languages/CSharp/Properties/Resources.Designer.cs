@@ -1942,7 +1942,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type {0} cannot be used as type parameter &apos;name&apos; in the generic type or method &apos;name&apos;. The nullable type &apos;type1&apos; does not satisfy the constraint of &apos;type2&apos;..
+        ///   Looks up a localized string similar to The type {0} cannot be used as type parameter {1} in the generic type or method {2}. The nullable type {0} does not satisfy the constraint of {3}..
         /// </summary>
         internal static string CSharpErrors_CS0312 {
             get {
@@ -1951,7 +1951,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type {0} cannot be used as type parameter &apos;parameter name&apos; in the generic type or method &apos;type2&apos;. The nullable type &apos;type1&apos; does not satisfy the constraint of &apos;type2&apos;. Nullable types cannot satisfy any interface constraints..
+        ///   Looks up a localized string similar to The type {0} cannot be used as type parameter {1} in the generic type or method {2}. The nullable type {0} does not satisfy the constraint of {2}. Nullable types cannot satisfy any interface constraints..
         /// </summary>
         internal static string CSharpErrors_CS0313 {
             get {
@@ -1960,7 +1960,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type {0} cannot be used as type parameter &apos;name&apos; in the generic type or method &apos;name&apos;. There is no boxing conversion or type parameter conversion from &apos;type1&apos; to &apos;type2&apos;..
+        ///   Looks up a localized string similar to The type {0} cannot be used as type parameter {1} in the generic type or method {2}. There is no boxing conversion or type parameter conversion from {3} to {4}..
         /// </summary>
         internal static string CSharpErrors_CS0314 {
             get {
@@ -2032,7 +2032,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The class type constraint &apos;constraint&apos; must come before any other constraints.
+        ///   Looks up a localized string similar to The class type constraint {0} must come before any other constraints.
         /// </summary>
         internal static string CSharpErrors_CS0406 {
             get {
@@ -2041,7 +2041,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;return-type method&apos; has the wrong return type.
+        ///   Looks up a localized string similar to {0} has the wrong return type.
         /// </summary>
         internal static string CSharpErrors_CS0407 {
             get {
@@ -2050,7 +2050,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A constraint clause has already been specified for type parameter &apos;type parameter&apos;. All of the constraints for a type parameter must be specified in a single where clause..
+        ///   Looks up a localized string similar to A constraint clause has already been specified for type parameter {0}. All of the constraints for a type parameter must be specified in a single where clause..
         /// </summary>
         internal static string CSharpErrors_CS0409 {
             get {
@@ -2059,7 +2059,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No overload for &apos;method&apos; has the correct parameter and return types.
+        ///   Looks up a localized string similar to No overload for {0} has the correct parameter and return types.
         /// </summary>
         internal static string CSharpErrors_CS0410 {
             get {
@@ -2068,7 +2068,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type arguments for method &apos;method&apos; cannot be inferred from the usage. Try specifying the type arguments explicitly..
+        ///   Looks up a localized string similar to The type arguments for method {0} cannot be inferred from the usage. Try specifying the type arguments explicitly..
         /// </summary>
         internal static string CSharpErrors_CS0411 {
             get {
@@ -2077,7 +2077,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;generic&apos;: a parameter or local variable cannot have the same name as a method type parameter.
+        ///   Looks up a localized string similar to {0}: a parameter or local variable cannot have the same name as a method type parameter.
         /// </summary>
         internal static string CSharpErrors_CS0412 {
             get {
@@ -2086,7 +2086,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type parameter &apos;type parameter&apos; cannot be used with the &apos;as&apos; operator because it does not have a class type constraint nor a &apos;class&apos; constraint.
+        ///   Looks up a localized string similar to The type parameter {0} cannot be used with the &apos;as&apos; operator because it does not have a class type constraint nor a constraint that is a class.
         /// </summary>
         internal static string CSharpErrors_CS0413 {
             get {
@@ -2095,7 +2095,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The &apos;IndexerName&apos; attribute is valid only on an indexer that is not an explicit interface member declaration.
+        ///   Looks up a localized string similar to The {0} attribute is valid only on an indexer that is not an explicit interface member declaration.
         /// </summary>
         internal static string CSharpErrors_CS0415 {
             get {
@@ -2104,7 +2104,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;type parameter&apos;: an attribute argument cannot use type parameters.
+        ///   Looks up a localized string similar to {0}: an attribute argument cannot use type parameters.
         /// </summary>
         internal static string CSharpErrors_CS0416 {
             get {
@@ -2113,7 +2113,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;identifier&apos;: cannot provide arguments when creating an instance of a variable type.
+        ///   Looks up a localized string similar to {0}: cannot provide arguments when creating an instance of a variable type.
         /// </summary>
         internal static string CSharpErrors_CS0417 {
             get {
@@ -2122,7 +2122,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;class name&apos;: an abstract class cannot be sealed or static.
+        ///   Looks up a localized string similar to {0}: an abstract class cannot be sealed or static.
         /// </summary>
         internal static string CSharpErrors_CS0418 {
             get {
@@ -2131,7 +2131,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Since &apos;class&apos; has the ComImport attribute, &apos;method&apos; must be extern or abstract.
+        ///   Looks up a localized string similar to Since {0} has the ComImport attribute, {1} must be extern or abstract.
         /// </summary>
         internal static string CSharpErrors_CS0423 {
             get {
@@ -2140,7 +2140,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;class&apos;: a class with the ComImport attribute cannot specify a base class.
+        ///   Looks up a localized string similar to {0}: a class with the ComImport attribute cannot specify a base class.
         /// </summary>
         internal static string CSharpErrors_CS0424 {
             get {
@@ -2149,7 +2149,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The constraints for type parameter &apos;type parameter&apos; of method &apos;method&apos; must match the constraints for type parameter &apos;type parameter&apos; of interface method &apos;method&apos;. Consider using an explicit interface implementation instead..
+        ///   Looks up a localized string similar to The constraints for type parameter {0} of method {1} must match the constraints for type parameter {2} of interface method {3}. Consider using an explicit interface implementation instead..
         /// </summary>
         internal static string CSharpErrors_CS0425 {
             get {
@@ -2158,7 +2158,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type name &apos;identifier&apos; does not exist in the type &apos;type&apos;.
+        ///   Looks up a localized string similar to The type name {0} does not exist in the type {1}.
         /// </summary>
         internal static string CSharpErrors_CS0426 {
             get {
@@ -2167,7 +2167,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot convert method group &apos;Identifier&apos; to non-delegate type &apos;type&apos;. Did you intend to invoke the method?.
+        ///   Looks up a localized string similar to Cannot convert method group {0} to non-delegate type {1}. Did you intend to invoke the method?.
         /// </summary>
         internal static string CSharpErrors_CS0428 {
             get {
@@ -2176,7 +2176,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The extern alias &apos;alias&apos; was not specified in a /reference option.
+        ///   Looks up a localized string similar to The extern alias {0} was not specified in a /reference option.
         /// </summary>
         internal static string CSharpErrors_CS0430 {
             get {
@@ -2185,7 +2185,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot use alias &apos;identifier&apos; with &apos;::&apos; since the alias references a type. Use &apos;.&apos; instead..
+        ///   Looks up a localized string similar to Cannot use alias {0} with &apos;::&apos; since the alias references a type. Use &apos;.&apos; instead..
         /// </summary>
         internal static string CSharpErrors_CS0431 {
             get {
@@ -2194,7 +2194,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Alias &apos;identifier&apos; not found.
+        ///   Looks up a localized string similar to Alias {0} not found.
         /// </summary>
         internal static string CSharpErrors_CS0432 {
             get {
@@ -2203,7 +2203,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type TypeName1 exists in both TypeName2 and TypeName3.
+        ///   Looks up a localized string similar to The type {0} exists in both {1} and {2}.
         /// </summary>
         internal static string CSharpErrors_CS0433 {
             get {
@@ -2212,7 +2212,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The namespace NamespaceName1 in NamespaceName2 conflicts with the type TypeName1 in NamespaceName3.
+        ///   Looks up a localized string similar to The namespace {0} in {1} conflicts with the type {2} in {3}.
         /// </summary>
         internal static string CSharpErrors_CS0434 {
             get {
@@ -2221,7 +2221,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type &apos;type&apos; in &apos;module_1&apos; conflicts with the namespace &apos;namespace&apos; in &apos;module_2&apos;..
+        ///   Looks up a localized string similar to The type {0} in {1} conflicts with the namespace {2} in {3}..
         /// </summary>
         internal static string CSharpErrors_CS0438 {
             get {
@@ -2239,7 +2239,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;class&apos;: a class cannot be both static and sealed.
+        ///   Looks up a localized string similar to {0}: a class cannot be both static and sealed.
         /// </summary>
         internal static string CSharpErrors_CS0441 {
             get {
@@ -2248,7 +2248,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;Property&apos;: abstract properties cannot have private accessors.
+        ///   Looks up a localized string similar to {0}: abstract properties cannot have private accessors.
         /// </summary>
         internal static string CSharpErrors_CS0442 {
             get {
@@ -2275,7 +2275,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Foreach cannot operate on a &apos;Method or Delegate&apos;. Did you intend to invoke the &apos;Method or Delegate&apos;?.
+        ///   Looks up a localized string similar to Foreach cannot operate on a {0}. Did you intend to invoke the {0}?.
         /// </summary>
         internal static string CSharpErrors_CS0446 {
             get {
@@ -2311,7 +2311,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;Type Parameter Name&apos;: cannot specify both a constraint class and the &apos;class&apos; or &apos;struct&apos; constraint.
+        ///   Looks up a localized string similar to {0}: cannot specify both a constraint class and the &apos;class&apos; or &apos;struct&apos; constraint.
         /// </summary>
         internal static string CSharpErrors_CS0450 {
             get {
@@ -2329,7 +2329,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type &apos;type name&apos; must be a reference type in order to use it as parameter &apos;parameter name&apos; in the generic type or method &apos;identifier of generic&apos;.
+        ///   Looks up a localized string similar to The type {0} must be a reference type in order to use it as parameter {1} in the generic type or method {2}..
         /// </summary>
         internal static string CSharpErrors_CS0452 {
             get {
@@ -2338,7 +2338,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type &apos;Type Name&apos; must be a non-nullable value type in order to use it as parameter &apos;Parameter Name&apos; in the generic type or method &apos;Generic Identifier&apos;.
+        ///   Looks up a localized string similar to The type {0} must be a non-nullable value type in order to use it as parameter {1} in the generic type or method {2}.
         /// </summary>
         internal static string CSharpErrors_CS0453 {
             get {
@@ -2347,7 +2347,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Circular constraint dependency involving &apos;Type Parameter 1&apos; and &apos;Type Parameter 2&apos;.
+        ///   Looks up a localized string similar to Circular constraint dependency involving {0} and {1}.
         /// </summary>
         internal static string CSharpErrors_CS0454 {
             get {
@@ -2356,7 +2356,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type parameter &apos;Type Parameter Name&apos; inherits conflicting constraints &apos;Constraint Name 1&apos; and &apos;Constraint Name 2&apos;.
+        ///   Looks up a localized string similar to Type parameter {0} inherits conflicting constraints {1} and {2}.
         /// </summary>
         internal static string CSharpErrors_CS0455 {
             get {
@@ -2365,7 +2365,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type parameter &apos;Type Parameter Name 1&apos; has the &apos;struct&apos; constraint so &apos;Type Parameter Name 1&apos; cannot be used as a constraint for &apos;Type Parameter Name 2&apos;.
+        ///   Looks up a localized string similar to Type parameter {0} has the &apos;struct&apos; constraint so {0} cannot be used as a constraint for {1}.
         /// </summary>
         internal static string CSharpErrors_CS0456 {
             get {
@@ -2374,7 +2374,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ambiguous user defined conversions &apos;Conversion method name 1&apos; and &apos;Conversion method name 2&apos; when converting from &apos;type name 1&apos; to &apos;type name 2&apos;.
+        ///   Looks up a localized string similar to Ambiguous user defined conversions {0} and {1} when converting from {2} to {3}.
         /// </summary>
         internal static string CSharpErrors_CS0457 {
             get {
@@ -2401,7 +2401,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The inherited members &apos;member1&apos; and &apos;member2&apos; have the same signature in type &apos;type&apos;, so they cannot be overridden.
+        ///   Looks up a localized string similar to The inherited members {0} and {1} have the same signature in type {1}, so they cannot be overridden.
         /// </summary>
         internal static string CSharpErrors_CS0462 {
             get {
@@ -2410,7 +2410,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Evaluation of the decimal constant expression failed with error: &apos;error&apos;.
+        ///   Looks up a localized string similar to Evaluation of the decimal constant expression failed with error: {0}.
         /// </summary>
         internal static string CSharpErrors_CS0463 {
             get {
@@ -2419,7 +2419,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;method1&apos; should not have a params parameter since &apos;method2&apos; does not.
+        ///   Looks up a localized string similar to {0} should not have a params parameter since {1} does not.
         /// </summary>
         internal static string CSharpErrors_CS0466 {
             get {
@@ -2428,7 +2428,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ambiguity between type &apos;type1&apos; and type &apos;type2&apos;.
+        ///   Looks up a localized string similar to Ambiguity between type {0} and type {1}.
         /// </summary>
         internal static string CSharpErrors_CS0468 {
             get {
@@ -2437,7 +2437,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Method &apos;method&apos; cannot implement interface accessor &apos;accessor&apos; for type &apos;type&apos;. Use an explicit interface implementation..
+        ///   Looks up a localized string similar to Method {0} cannot implement interface accessor {1} for type {2}. Use an explicit interface implementation..
         /// </summary>
         internal static string CSharpErrors_CS0470 {
             get {
@@ -2446,7 +2446,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The method &apos;name&apos; is not a generic method. If you intended an expression list, use parentheses around the &lt; expression..
+        ///   Looks up a localized string similar to The method [0} is not a generic method. If you intended an expression list, use parentheses around the &amp;lt; expression..
         /// </summary>
         internal static string CSharpErrors_CS0471 {
             get {
@@ -2455,7 +2455,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Explicit interface implementation &apos;method name&apos; matches more than one interface member. Which interface member is actually chosen is implementation-dependent. Consider using a non-explicit implementation instead..
+        ///   Looks up a localized string similar to Explicit interface implementation {0} matches more than one interface member. Which interface member is actually chosen is implementation-dependent. Consider using a non-explicit implementation instead..
         /// </summary>
         internal static string CSharpErrors_CS0473 {
             get {
@@ -2464,7 +2464,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;class member&apos; cannot declare a body because it is marked abstract.
+        ///   Looks up a localized string similar to {0} cannot declare a body because it is marked abstract.
         /// </summary>
         internal static string CSharpErrors_CS0500 {
             get {
@@ -2473,7 +2473,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;member function&apos; must declare a body because it is not marked abstract, extern, or partial.
+        ///   Looks up a localized string similar to {0} must declare a body because it is not marked abstract, extern, or partial.
         /// </summary>
         internal static string CSharpErrors_CS0501 {
             get {
@@ -2482,7 +2482,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;member&apos; cannot be both abstract and sealed.
+        ///   Looks up a localized string similar to {0} cannot be both abstract and sealed.
         /// </summary>
         internal static string CSharpErrors_CS0502 {
             get {
@@ -2491,7 +2491,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The abstract method &apos;method&apos; cannot be marked virtual.
+        ///   Looks up a localized string similar to The abstract method {0} cannot be marked virtual.
         /// </summary>
         internal static string CSharpErrors_CS0503 {
             get {
@@ -2500,7 +2500,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The constant &apos;variable&apos; cannot be marked static.
+        ///   Looks up a localized string similar to The constant {0} cannot be marked static.
         /// </summary>
         internal static string CSharpErrors_CS0504 {
             get {
@@ -2509,7 +2509,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;member1&apos;: cannot override because &apos;member2&apos; is not a function.
+        ///   Looks up a localized string similar to {0}: cannot override because {1} is not a function.
         /// </summary>
         internal static string CSharpErrors_CS0505 {
             get {
@@ -2518,7 +2518,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;function1&apos; : cannot override inherited member &apos;function2&apos; because it is not marked &quot;&quot;virtual&quot;&quot;, &quot;&quot;abstract&quot;&quot;, or &quot;&quot;override&quot;&quot;.
+        ///   Looks up a localized string similar to {0} : cannot override inherited member {1} because it is not marked &apos;virtual&apos;, &apos;abstract&apos;, or &apos;override&apos;.
         /// </summary>
         internal static string CSharpErrors_CS0506 {
             get {
@@ -2527,7 +2527,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;function1&apos; : cannot change access modifiers when overriding &apos;access&apos; inherited member &apos;function2&apos;.
+        ///   Looks up a localized string similar to {0} : cannot change access modifiers when overriding {1} inherited member {2}.
         /// </summary>
         internal static string CSharpErrors_CS0507 {
             get {
@@ -2536,7 +2536,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;Type 1&apos;: return type must be &apos;Type 2&apos; to match overridden member &apos;Member Name&apos;.
+        ///   Looks up a localized string similar to {0}: return type must be {1} to match overridden member {2}.
         /// </summary>
         internal static string CSharpErrors_CS0508 {
             get {
@@ -2545,7 +2545,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;class1&apos; : cannot derive from sealed type &apos;class2&apos;.
+        ///   Looks up a localized string similar to {0} : cannot derive from sealed type {1}.
         /// </summary>
         internal static string CSharpErrors_CS0509 {
             get {
@@ -2554,7 +2554,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;function&apos; is abstract but it is contained in nonabstract class &apos;class&apos;.
+        ///   Looks up a localized string similar to {0} is abstract but it is contained in nonabstract class {1}.
         /// </summary>
         internal static string CSharpErrors_CS0513 {
             get {
@@ -2563,7 +2563,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;constructor&apos; : static constructor cannot have an explicit &apos;this&apos; or &apos;base&apos; constructor call.
+        ///   Looks up a localized string similar to {0} : static constructor cannot have an explicit &apos;this&apos; or &apos;base&apos; constructor call.
         /// </summary>
         internal static string CSharpErrors_CS0514 {
             get {
@@ -2572,7 +2572,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;function&apos; : access modifiers are not allowed on static constructors.
+        ///   Looks up a localized string similar to {0} : access modifiers are not allowed on static constructors.
         /// </summary>
         internal static string CSharpErrors_CS0515 {
             get {
@@ -2581,7 +2581,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Constructor &apos;constructor&apos; can not call itself.
+        ///   Looks up a localized string similar to Constructor {0} can not call itself.
         /// </summary>
         internal static string CSharpErrors_CS0516 {
             get {
@@ -2590,7 +2590,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;class&apos; has no base class and cannot call a base constructor.
+        ///   Looks up a localized string similar to {0} has no base class and cannot call a base constructor.
         /// </summary>
         internal static string CSharpErrors_CS0517 {
             get {
@@ -2599,7 +2599,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Predefined type &apos;type&apos; is not defined or imported.
+        ///   Looks up a localized string similar to Predefined type {0} is not defined or imported.
         /// </summary>
         internal static string CSharpErrors_CS0518 {
             get {
@@ -2608,7 +2608,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Predefined type &apos;name&apos; is declared incorrectly.
+        ///   Looks up a localized string similar to Predefined type {0} is declared incorrectly.
         /// </summary>
         internal static string CSharpErrors_CS0520 {
             get {
@@ -2617,7 +2617,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;constructor&apos; : structs cannot call base class constructors.
+        ///   Looks up a localized string similar to {0} : structs cannot call base class constructors.
         /// </summary>
         internal static string CSharpErrors_CS0522 {
             get {
@@ -2626,7 +2626,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Struct member &apos;struct2 field&apos; of type &apos;struct1&apos; causes a cycle in the struct layout.
+        ///   Looks up a localized string similar to Struct member {0} of type {1} causes a cycle in the struct layout.
         /// </summary>
         internal static string CSharpErrors_CS0523 {
             get {
@@ -2635,7 +2635,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;type&apos; : interfaces cannot declare types.
+        ///   Looks up a localized string similar to {0} : interfaces cannot declare types.
         /// </summary>
         internal static string CSharpErrors_CS0524 {
             get {
@@ -2662,7 +2662,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type &apos;type&apos; in interface list is not an interface.
+        ///   Looks up a localized string similar to Type {0} in interface list is not an interface.
         /// </summary>
         internal static string CSharpErrors_CS0527 {
             get {
@@ -2671,7 +2671,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;interface&apos; is already listed in interface list.
+        ///   Looks up a localized string similar to {0} is already listed in interface list.
         /// </summary>
         internal static string CSharpErrors_CS0528 {
             get {
@@ -2680,7 +2680,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Inherited interface &apos;interface1&apos; causes a cycle in the interface hierarchy of &apos;interface2&apos;.
+        ///   Looks up a localized string similar to Inherited interface {0} causes a cycle in the interface hierarchy of {1}.
         /// </summary>
         internal static string CSharpErrors_CS0529 {
             get {
@@ -2689,7 +2689,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;member&apos; : interface members cannot have a definition.
+        ///   Looks up a localized string similar to {0} : interface members cannot have a definition.
         /// </summary>
         internal static string CSharpErrors_CS0531 {
             get {
@@ -2698,7 +2698,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;derived-class member&apos; hides inherited abstract member &apos;base-class member&apos;.
+        ///   Looks up a localized string similar to {0} hides inherited abstract member {1}.
         /// </summary>
         internal static string CSharpErrors_CS0533 {
             get {
@@ -2707,7 +2707,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;function1&apos; does not implement inherited abstract member &apos;function2&apos;.
+        ///   Looks up a localized string similar to {0} does not implement inherited abstract member {1}.
         /// </summary>
         internal static string CSharpErrors_CS0534 {
             get {
@@ -2716,7 +2716,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;class&apos; does not implement interface member &apos;member&apos;.
+        ///   Looks up a localized string similar to {0} does not implement interface member {1}.
         /// </summary>
         internal static string CSharpErrors_CS0535 {
             get {
@@ -2734,7 +2734,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;name&apos; in explicit interface declaration is not an interface.
+        ///   Looks up a localized string similar to {0} in explicit interface declaration is not an interface.
         /// </summary>
         internal static string CSharpErrors_CS0538 {
             get {
@@ -2743,7 +2743,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;member&apos; in explicit interface declaration is not a member of interface.
+        ///   Looks up a localized string similar to {0} in explicit interface declaration is not a member of interface.
         /// </summary>
         internal static string CSharpErrors_CS0539 {
             get {
@@ -2752,7 +2752,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;interface member&apos; : containing type does not implement interface &apos;interface&apos;.
+        ///   Looks up a localized string similar to {0} : containing type does not implement interface {1}.
         /// </summary>
         internal static string CSharpErrors_CS0540 {
             get {
@@ -2761,7 +2761,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;declaration&apos; : explicit interface declaration can only be declared in a class or struct.
+        ///   Looks up a localized string similar to {0} : explicit interface declaration can only be declared in a class or struct.
         /// </summary>
         internal static string CSharpErrors_CS0541 {
             get {
@@ -2770,7 +2770,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;user-defined type&apos; : member names cannot be the same as their enclosing type.
+        ///   Looks up a localized string similar to {0} : member names cannot be the same as their enclosing type.
         /// </summary>
         internal static string CSharpErrors_CS0542 {
             get {
@@ -2779,7 +2779,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;enumeration&apos; : the enumerator value is too large to fit in its type.
+        ///   Looks up a localized string similar to {0} : the enumerator value is too large to fit in its type.
         /// </summary>
         internal static string CSharpErrors_CS0543 {
             get {
@@ -2788,7 +2788,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;property override&apos;: cannot override because &apos;non-property&apos; is not a property.
+        ///   Looks up a localized string similar to {0}: cannot override because {1} is not a property.
         /// </summary>
         internal static string CSharpErrors_CS0544 {
             get {
@@ -2797,7 +2797,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;function&apos; : cannot override because &apos;property&apos; does not have an overridable get accessor.
+        ///   Looks up a localized string similar to {0} : cannot override because {1} does not have an overridable get accessor.
         /// </summary>
         internal static string CSharpErrors_CS0545 {
             get {
@@ -2806,7 +2806,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;accessor&apos; : cannot override because &apos;property&apos; does not have an overridable set accessor.
+        ///   Looks up a localized string similar to {0} : cannot override because {1} does not have an overridable set accessor.
         /// </summary>
         internal static string CSharpErrors_CS0546 {
             get {
@@ -2815,7 +2815,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;property&apos; : property or indexer cannot have void type.
+        ///   Looks up a localized string similar to {0} : property or indexer cannot have void type.
         /// </summary>
         internal static string CSharpErrors_CS0547 {
             get {
@@ -2824,7 +2824,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;property&apos; : property or indexer must have at least one accessor.
+        ///   Looks up a localized string similar to {0} : property or indexer must have at least one accessor.
         /// </summary>
         internal static string CSharpErrors_CS0548 {
             get {
@@ -2833,7 +2833,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;function&apos; is a new virtual member in sealed class &apos;class&apos;.
+        ///   Looks up a localized string similar to {0} is a new virtual member in sealed class {1}.
         /// </summary>
         internal static string CSharpErrors_CS0549 {
             get {
@@ -2842,7 +2842,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;accessor&apos; adds an accessor not found in interface member &apos;property&apos;.
+        ///   Looks up a localized string similar to {0} adds an accessor not found in interface member {1}.
         /// </summary>
         internal static string CSharpErrors_CS0550 {
             get {
@@ -2851,7 +2851,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Explicit interface implementation &apos;implementation&apos; is missing accessor &apos;accessor&apos;.
+        ///   Looks up a localized string similar to Explicit interface implementation {0} is missing accessor {1}.
         /// </summary>
         internal static string CSharpErrors_CS0551 {
             get {
@@ -2860,7 +2860,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;conversion routine&apos; : user defined conversion to/from interface.
+        ///   Looks up a localized string similar to {0} : user defined conversion to/from interface.
         /// </summary>
         internal static string CSharpErrors_CS0552 {
             get {
@@ -2869,7 +2869,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;conversion routine&apos; : user defined conversion to/from base class.
+        ///   Looks up a localized string similar to {0} : user defined conversion to/from base class.
         /// </summary>
         internal static string CSharpErrors_CS0553 {
             get {
@@ -2878,7 +2878,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;conversion routine&apos; : user defined conversion to/from derived class.
+        ///   Looks up a localized string similar to {0} : user defined conversion to/from derived class.
         /// </summary>
         internal static string CSharpErrors_CS0554 {
             get {
@@ -2905,7 +2905,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Duplicate user-defined conversion in type &apos;class&apos;.
+        ///   Looks up a localized string similar to Duplicate user-defined conversion in type {0}.
         /// </summary>
         internal static string CSharpErrors_CS0557 {
             get {
@@ -2914,7 +2914,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User-defined operator &apos;operator&apos; must be declared static and public.
+        ///   Looks up a localized string similar to User-defined operator {0} must be declared static and public.
         /// </summary>
         internal static string CSharpErrors_CS0558 {
             get {
@@ -2977,7 +2977,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;method2&apos; : cannot override &apos;method1&apos; because it is not supported by the language.
+        ///   Looks up a localized string similar to {1} : cannot override {0} because it is not supported by the language.
         /// </summary>
         internal static string CSharpErrors_CS0569 {
             get {
@@ -2986,7 +2986,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Property, indexer, or event &apos;name&apos; is not supported by the language; try directly calling accessor method &apos;name!&apos;.
+        ///   Looks up a localized string similar to Property, indexer, or event {0} is not supported by the language; try directly calling accessor method {1}!.
         /// </summary>
         internal static string CSharpErrors_CS0570 {
             get {
@@ -2995,7 +2995,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;function&apos; : cannot explicitly call operator or accessor.
+        ///   Looks up a localized string similar to {0} : cannot explicitly call operator or accessor.
         /// </summary>
         internal static string CSharpErrors_CS0571 {
             get {
@@ -3004,7 +3004,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;type&apos; : cannot reference a type through an expression; try &apos;path_to_type&apos; instead.
+        ///   Looks up a localized string similar to {0} : cannot reference a type through an expression; try {1} instead.
         /// </summary>
         internal static string CSharpErrors_CS0572 {
             get {
@@ -3013,7 +3013,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;field declaration&apos; : cannot have instance field initializers in structs.
+        ///   Looks up a localized string similar to {0} : cannot have instance field initializers in structs.
         /// </summary>
         internal static string CSharpErrors_CS0573 {
             get {
@@ -3040,7 +3040,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Namespace &apos;namespace&apos; contains a definition conflicting with alias &apos;identifier&apos;.
+        ///   Looks up a localized string similar to Namespace {0} contains a definition conflicting with alias {1}.
         /// </summary>
         internal static string CSharpErrors_CS0576 {
             get {
@@ -3049,7 +3049,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Conditional attribute is not valid on &apos;function&apos; because it is a constructor, destructor, operator, or explicit interface implementation.
+        ///   Looks up a localized string similar to The Conditional attribute is not valid on {0} because it is a constructor, destructor, operator, or explicit interface implementation.
         /// </summary>
         internal static string CSharpErrors_CS0577 {
             get {
@@ -3058,7 +3058,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Conditional attribute is not valid on &apos;function&apos; because its return type is not void.
+        ///   Looks up a localized string similar to The Conditional attribute is not valid on {0} because its return type is not void.
         /// </summary>
         internal static string CSharpErrors_CS0578 {
             get {
@@ -3067,7 +3067,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Duplicate &apos;attribute&apos; attribute.
+        ///   Looks up a localized string similar to Duplicate {0} attribute.
         /// </summary>
         internal static string CSharpErrors_CS0579 {
             get {
@@ -3094,7 +3094,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Internal Compiler Error: stage &apos;stage&apos; symbol &apos;symbol&apos;.
+        ///   Looks up a localized string similar to Internal Compiler Error: stage {0} symbol {1}.
         /// </summary>
         internal static string CSharpErrors_CS0584 {
             get {
@@ -3103,7 +3103,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Internal Compiler Error: stage &apos;stage&apos;.
+        ///   Looks up a localized string similar to Internal Compiler Error: stage {0}.
         /// </summary>
         internal static string CSharpErrors_CS0585 {
             get {
@@ -3112,7 +3112,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Internal Compiler Error: stage &apos;stage&apos;.
+        ///   Looks up a localized string similar to Internal Compiler Error: stage {0}.
         /// </summary>
         internal static string CSharpErrors_CS0586 {
             get {
@@ -3121,7 +3121,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Internal Compiler Error: stage &apos;stage&apos;.
+        ///   Looks up a localized string similar to Internal Compiler Error: stage {0}.
         /// </summary>
         internal static string CSharpErrors_CS0587 {
             get {
@@ -3157,7 +3157,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid value for argument to &apos;attribute&apos; attribute.
+        ///   Looks up a localized string similar to Invalid value for argument to {0} attribute.
         /// </summary>
         internal static string CSharpErrors_CS0591 {
             get {
@@ -3166,7 +3166,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attribute &apos;attribute&apos; is not valid on this declaration type. It is valid on &apos;type&apos; declarations only..
+        ///   Looks up a localized string similar to Attribute {0} is not valid on this declaration type. It is valid on {1} declarations only..
         /// </summary>
         internal static string CSharpErrors_CS0592 {
             get {
@@ -3175,7 +3175,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Floating-point constant is outside the range of type &apos;type&apos;.
+        ///   Looks up a localized string similar to Floating-point constant is outside the range of type {0}.
         /// </summary>
         internal static string CSharpErrors_CS0594 {
             get {
@@ -3193,7 +3193,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid value for named attribute argument &apos;argument&apos;.
+        ///   Looks up a localized string similar to Invalid value for named attribute argument {0}.
         /// </summary>
         internal static string CSharpErrors_CS0599 {
             get {
@@ -3220,7 +3220,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Field or property cannot be of type &apos;type&apos;.
+        ///   Looks up a localized string similar to Field or property cannot be of type {0}.
         /// </summary>
         internal static string CSharpErrors_CS0610 {
             get {
@@ -3229,7 +3229,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Array elements cannot be of type &apos;type&apos;.
+        ///   Looks up a localized string similar to Array elements cannot be of type {0}.
         /// </summary>
         internal static string CSharpErrors_CS0611 {
             get {
@@ -3238,7 +3238,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;class&apos; is not an attribute class.
+        ///   Looks up a localized string similar to {0} is not an attribute class.
         /// </summary>
         internal static string CSharpErrors_CS0616 {
             get {
@@ -3247,7 +3247,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;reference&apos; is not a valid named attribute argument because it is not a valid attribute parameter type.
+        ///   Looks up a localized string similar to {0} is not a valid named attribute argument because it is not a valid attribute parameter type.
         /// </summary>
         internal static string CSharpErrors_CS0617 {
             get {
@@ -3256,7 +3256,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;member&apos; is obsolete: &apos;text&apos;.
+        ///   Looks up a localized string similar to {0} is obsolete: {1}.
         /// </summary>
         internal static string CSharpErrors_CS0619 {
             get {
@@ -3274,7 +3274,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;member&apos; : virtual or abstract members cannot be private.
+        ///   Looks up a localized string similar to {0} : virtual or abstract members cannot be private.
         /// </summary>
         internal static string CSharpErrors_CS0621 {
             get {
@@ -3301,7 +3301,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;field&apos;: instance field types marked with StructLayout(LayoutKind.Explicit) must have a FieldOffset attribute.
+        ///   Looks up a localized string similar to {0}: instance field types marked with StructLayout(LayoutKind.Explicit) must have a FieldOffset attribute.
         /// </summary>
         internal static string CSharpErrors_CS0625 {
             get {
@@ -3310,7 +3310,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Conditional member &apos;member&apos; cannot implement interface member &apos;base class member&apos; in type &apos;Type Name&apos;.
+        ///   Looks up a localized string similar to Conditional member {0} cannot implement interface member {1} in type {2}.
         /// </summary>
         internal static string CSharpErrors_CS0629 {
             get {
@@ -3328,7 +3328,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The argument to the &apos;attribute&apos; attribute must be a valid identifier.
+        ///   Looks up a localized string similar to The argument to the {0} attribute must be a valid identifier.
         /// </summary>
         internal static string CSharpErrors_CS0633 {
             get {
@@ -3337,7 +3337,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;attribute&apos; : System.Interop.UnmanagedType.CustomMarshaller requires named arguments ComType and Marshal.
+        ///   Looks up a localized string similar to {0} : System.Interop.UnmanagedType.CustomMarshaller requires named arguments ComType and Marshal.
         /// </summary>
         internal static string CSharpErrors_CS0635 {
             get {
@@ -3364,7 +3364,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;attribute&apos; : attribute is only valid on classes derived from System.Attribute.
+        ///   Looks up a localized string similar to {0} : attribute is only valid on classes derived from System.Attribute.
         /// </summary>
         internal static string CSharpErrors_CS0641 {
             get {
@@ -3373,7 +3373,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;arg&apos; duplicate named attribute argument.
+        ///   Looks up a localized string similar to {0} duplicate named attribute argument.
         /// </summary>
         internal static string CSharpErrors_CS0643 {
             get {
@@ -3382,7 +3382,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;class1&apos; cannot derive from special class &apos;class2&apos;.
+        ///   Looks up a localized string similar to {0} cannot derive from special class {1}.
         /// </summary>
         internal static string CSharpErrors_CS0644 {
             get {
@@ -3409,7 +3409,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error emitting &apos;attribute&apos; attribute -- &apos;reason&apos;.
+        ///   Looks up a localized string similar to Error emitting {0} attribute -- {1}.
         /// </summary>
         internal static string CSharpErrors_CS0647 {
             get {
@@ -3418,7 +3418,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;type&apos; is a type not supported by the language.
+        ///   Looks up a localized string similar to {0} is a type not supported by the language.
         /// </summary>
         internal static string CSharpErrors_CS0648 {
             get {
@@ -3436,7 +3436,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot apply attribute class &apos;class&apos; because it is abstract.
+        ///   Looks up a localized string similar to Cannot apply attribute class {0} because it is abstract.
         /// </summary>
         internal static string CSharpErrors_CS0653 {
             get {
@@ -3445,7 +3445,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;parameter&apos; is not a valid named attribute argument because it is not a valid attribute parameter type.
+        ///   Looks up a localized string similar to {0} is not a valid named attribute argument because it is not a valid attribute parameter type.
         /// </summary>
         internal static string CSharpErrors_CS0655 {
             get {
@@ -3454,7 +3454,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Missing compiler required member &apos;object.member&apos;.
+        ///   Looks up a localized string similar to Missing compiler required member {0}.
         /// </summary>
         internal static string CSharpErrors_CS0656 {
             get {
@@ -3463,7 +3463,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;method&apos; cannot specify only Out attribute on a ref parameter. Use both In and Out attributes, or neither..
+        ///   Looks up a localized string similar to {0} cannot specify only Out attribute on a ref parameter. Use both In and Out attributes, or neither..
         /// </summary>
         internal static string CSharpErrors_CS0662 {
             get {
@@ -3481,7 +3481,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Literal of type double cannot be implicitly converted to type &apos;type&apos;; use an &apos;suffix&apos; suffix to create a literal of this type.
+        ///   Looks up a localized string similar to Literal of type double cannot be implicitly converted to type {0}; use an {1} suffix to create a literal of this type.
         /// </summary>
         internal static string CSharpErrors_CS0664 {
             get {
@@ -3490,7 +3490,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;member&apos; : new protected member declared in struct.
+        ///   Looks up a localized string similar to {0} : new protected member declared in struct.
         /// </summary>
         internal static string CSharpErrors_CS0666 {
             get {
@@ -3499,7 +3499,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The feature &apos;invalid feature&apos; is deprecated. Please use &apos;valid feature&apos; instead&apos;..
+        ///   Looks up a localized string similar to The feature {0} is deprecated. Please use {1} instead..
         /// </summary>
         internal static string CSharpErrors_CS0667 {
             get {
@@ -3553,7 +3553,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;variable&apos;: a volatile field cannot be of the type &apos;type&apos;.
+        ///   Looks up a localized string similar to {0}: a volatile field cannot be of the type {1}.
         /// </summary>
         internal static string CSharpErrors_CS0677 {
             get {
@@ -3562,7 +3562,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;variable&apos;: a field can not be both volatile and readonly.
+        ///   Looks up a localized string similar to {0}: a field can not be both volatile and readonly.
         /// </summary>
         internal static string CSharpErrors_CS0678 {
             get {
@@ -3580,7 +3580,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;type1&apos; cannot implement &apos;type2&apos; because it is not supported by the language.
+        ///   Looks up a localized string similar to {0} cannot implement {1} because it is not supported by the language.
         /// </summary>
         internal static string CSharpErrors_CS0682 {
             get {
@@ -3589,7 +3589,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;explicitmethod&apos; explicit method implementation cannot implement &apos;method&apos; because it is an accessor.
+        ///   Looks up a localized string similar to {0} explicit method implementation cannot implement {1} because it is an accessor.
         /// </summary>
         internal static string CSharpErrors_CS0683 {
             get {
@@ -3598,7 +3598,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Conditional member &apos;member&apos; cannot have an out parameter.
+        ///   Looks up a localized string similar to Conditional member {0} cannot have an out parameter.
         /// </summary>
         internal static string CSharpErrors_CS0685 {
             get {
@@ -3607,7 +3607,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessor &apos;accessor&apos; cannot implement interface member &apos;member&apos; for type &apos;type&apos;. Use an explicit interface implementation..
+        ///   Looks up a localized string similar to Accessor {0} cannot implement interface member {1} for type {2}. Use an explicit interface implementation..
         /// </summary>
         internal static string CSharpErrors_CS0686 {
             get {
@@ -3625,7 +3625,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot derive from &apos;identifier&apos; because it is a type parameter.
+        ///   Looks up a localized string similar to Cannot derive from {0} because it is a type parameter.
         /// </summary>
         internal static string CSharpErrors_CS0689 {
             get {
@@ -3634,7 +3634,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Input file &apos;file&apos; contains invalid metadata..
+        ///   Looks up a localized string similar to Input file {0} contains invalid metadata..
         /// </summary>
         internal static string CSharpErrors_CS0690 {
             get {
@@ -3643,7 +3643,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Duplicate type parameter &apos;identifier&apos;.
+        ///   Looks up a localized string similar to Duplicate type parameter {0}.
         /// </summary>
         internal static string CSharpErrors_CS0692 {
             get {
@@ -3652,7 +3652,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type parameter &apos;identifier&apos; has the same name as the containing type, or method.
+        ///   Looks up a localized string similar to Type parameter {0} has the same name as the containing type, or method.
         /// </summary>
         internal static string CSharpErrors_CS0694 {
             get {
@@ -3661,7 +3661,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;generic type&apos; cannot implement both &apos;generic interface&apos; and &apos;generic interface&apos; because they may unify for some type parameter substitutions.
+        ///   Looks up a localized string similar to {0} cannot implement both {1} and {1} because they may unify for some type parameter substitutions.
         /// </summary>
         internal static string CSharpErrors_CS0695 {
             get {
@@ -3670,7 +3670,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A generic type cannot derive from &apos;class&apos; because it is an attribute class.
+        ///   Looks up a localized string similar to A generic type cannot derive from {0} because it is an attribute class.
         /// </summary>
         internal static string CSharpErrors_CS0698 {
             get {
@@ -3679,7 +3679,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;generic&apos; does not define type parameter &apos;identifier&apos;.
+        ///   Looks up a localized string similar to {0} does not define type parameter {1}.
         /// </summary>
         internal static string CSharpErrors_CS0699 {
             get {
@@ -3688,7 +3688,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;identifier&apos; is not a valid constraint. A type used as a constraint must be an interface, a non-sealed class or a type parameter..
+        ///   Looks up a localized string similar to {0} is not a valid constraint. A type used as a constraint must be an interface, a non-sealed class or a type parameter..
         /// </summary>
         internal static string CSharpErrors_CS0701 {
             get {
@@ -3697,7 +3697,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Constraint cannot be special class &apos;identifier&apos;.
+        ///   Looks up a localized string similar to Constraint cannot be special class {0}.
         /// </summary>
         internal static string CSharpErrors_CS0702 {
             get {
@@ -3706,7 +3706,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Inconsistent accessibility: constraint type &apos;identifier&apos; is less accessible than &apos;identifier&apos;.
+        ///   Looks up a localized string similar to Inconsistent accessibility: constraint type {0} is less accessible than {1}.
         /// </summary>
         internal static string CSharpErrors_CS0703 {
             get {
@@ -3715,7 +3715,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot do member lookup in &apos;type&apos; because it is a type parameter.
+        ///   Looks up a localized string similar to Cannot do member lookup in {0} because it is a type parameter.
         /// </summary>
         internal static string CSharpErrors_CS0704 {
             get {
@@ -3733,7 +3733,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;field&apos;: cannot declare instance members in a static class.
+        ///   Looks up a localized string similar to {0}: cannot declare instance members in a static class.
         /// </summary>
         internal static string CSharpErrors_CS0708 {
             get {
@@ -3742,7 +3742,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;derived class&apos;: cannot derive from static class &apos;base class&apos;.
+        ///   Looks up a localized string similar to {0}: cannot derive from static class {1}.
         /// </summary>
         internal static string CSharpErrors_CS0709 {
             get {
@@ -3769,7 +3769,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot create an instance of the static class &apos;static class&apos;.
+        ///   Looks up a localized string similar to Cannot create an instance of the static class {0}.
         /// </summary>
         internal static string CSharpErrors_CS0712 {
             get {
@@ -3778,7 +3778,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Static class &apos;static type&apos; cannot derive from type &apos;type&apos;. Static classes must derive from object..
+        ///   Looks up a localized string similar to Static class {0} cannot derive from type {1}. Static classes must derive from object..
         /// </summary>
         internal static string CSharpErrors_CS0713 {
             get {
@@ -3787,7 +3787,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;static type&apos; : static classes cannot implement interfaces.
+        ///   Looks up a localized string similar to {0} : static classes cannot implement interfaces.
         /// </summary>
         internal static string CSharpErrors_CS0714 {
             get {
@@ -3796,7 +3796,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;static class&apos; : static classes cannot contain user defined operators.
+        ///   Looks up a localized string similar to {0} : static classes cannot contain user defined operators.
         /// </summary>
         internal static string CSharpErrors_CS0715 {
             get {
@@ -3805,7 +3805,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot convert to static type &apos;type&apos;.
+        ///   Looks up a localized string similar to Cannot convert to static type {0}.
         /// </summary>
         internal static string CSharpErrors_CS0716 {
             get {
@@ -3814,7 +3814,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;static class&apos;: static classes cannot be used as constraints.
+        ///   Looks up a localized string similar to {0}: static classes cannot be used as constraints.
         /// </summary>
         internal static string CSharpErrors_CS0717 {
             get {
@@ -3823,7 +3823,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;type&apos;: static types cannot be used as type arguments.
+        ///   Looks up a localized string similar to {0}: static types cannot be used as type arguments.
         /// </summary>
         internal static string CSharpErrors_CS0718 {
             get {
@@ -3832,7 +3832,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;type&apos;: array elements cannot be of static type.
+        ///   Looks up a localized string similar to {0}: array elements cannot be of static type.
         /// </summary>
         internal static string CSharpErrors_CS0719 {
             get {
@@ -3841,7 +3841,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;static class&apos;: cannot declare indexers in a static class.
+        ///   Looks up a localized string similar to {0}: cannot declare indexers in a static class.
         /// </summary>
         internal static string CSharpErrors_CS0720 {
             get {
@@ -3850,7 +3850,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;type&apos;: static types cannot be used as parameters.
+        ///   Looks up a localized string similar to {0}: static types cannot be used as parameters.
         /// </summary>
         internal static string CSharpErrors_CS0721 {
             get {
@@ -3859,7 +3859,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;type&apos;: static types cannot be used as return types.
+        ///   Looks up a localized string similar to {0}: static types cannot be used as return types.
         /// </summary>
         internal static string CSharpErrors_CS0722 {
             get {
@@ -3868,7 +3868,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot declare variable of static type &apos;type&apos;.
+        ///   Looks up a localized string similar to Cannot declare variable of static type {0}.
         /// </summary>
         internal static string CSharpErrors_CS0723 {
             get {
@@ -3886,25 +3886,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;format specifier&apos; is not a valid format specifier.
-        /// </summary>
-        internal static string CSharpErrors_CS0726 {
-            get {
-                return ResourceManager.GetString("CSharpErrors_CS0726", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Invalid format specifier.
-        /// </summary>
-        internal static string CSharpErrors_CS0727 {
-            get {
-                return ResourceManager.GetString("CSharpErrors_CS0727", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Type &apos;type&apos; is defined in this assembly, but a type forwarder is specified for it.
+        ///   Looks up a localized string similar to Type {0} is defined in this assembly, but a type forwarder is specified for it.
         /// </summary>
         internal static string CSharpErrors_CS0729 {
             get {
@@ -3913,7 +3895,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot forward type &apos;type&apos; because it is a nested type of &apos;type&apos;.
+        ///   Looks up a localized string similar to Cannot forward type {0} because it is a nested type of {1}.
         /// </summary>
         internal static string CSharpErrors_CS0730 {
             get {
@@ -3922,7 +3904,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type forwarder for type &apos;type&apos; in assembly &apos;assembly&apos; causes a cycle.
+        ///   Looks up a localized string similar to The type forwarder for type {0} in assembly {1} causes a cycle.
         /// </summary>
         internal static string CSharpErrors_CS0731 {
             get {
@@ -3931,7 +3913,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot forward generic type, &apos;GenericType&lt;&gt;&apos;.
+        ///   Looks up a localized string similar to Cannot forward generic type, {0}.
         /// </summary>
         internal static string CSharpErrors_CS0733 {
             get {
@@ -3958,7 +3940,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;type name&apos; does not implement interface member &apos;member name&apos;. &apos;method name&apos; cannot implement an interface member because it is static..
+        ///   Looks up a localized string similar to {0} does not implement interface member {1}. {2} cannot implement an interface member because it is static..
         /// </summary>
         internal static string CSharpErrors_CS0736 {
             get {
@@ -3967,7 +3949,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;type name&apos; does not implement interface member &apos;member name&apos;. &apos;method name&apos; cannot implement an interface member because it is not public..
+        ///   Looks up a localized string similar to {0} does not implement interface member {1}. {2} cannot implement an interface member because it is not public..
         /// </summary>
         internal static string CSharpErrors_CS0737 {
             get {
@@ -3976,7 +3958,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;type name&apos; does not implement interface member &apos;member name&apos;. &apos;method name&apos; cannot implement &apos;interface member&apos; because it does not have the matching return type of &apos; type name&apos;..
+        ///   Looks up a localized string similar to {0} does not implement interface member {1}. {2} cannot implement {1} because it does not have the matching return type of {3}..
         /// </summary>
         internal static string CSharpErrors_CS0738 {
             get {
@@ -3985,7 +3967,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;type name&apos; duplicate TypeForwardedToAttribute..
+        ///   Looks up a localized string similar to {0} duplicate TypeForwardedToAttribute..
         /// </summary>
         internal static string CSharpErrors_CS0739 {
             get {
@@ -4138,7 +4120,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No defining declaration found for implementing declaration of partial method &apos;method&apos;..
+        ///   Looks up a localized string similar to No defining declaration found for implementing declaration of partial method {0}..
         /// </summary>
         internal static string CSharpErrors_CS0759 {
             get {
@@ -4147,7 +4129,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Partial method declarations of &apos;method&lt;T&gt;&apos; have inconsistent type parameter constraints..
+        ///   Looks up a localized string similar to Partial method declarations of {0} have inconsistent type parameter constraints..
         /// </summary>
         internal static string CSharpErrors_CS0761 {
             get {
@@ -4156,7 +4138,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot create delegate from method &apos;method&apos; because it is a partial method without an implementing declaration.
+        ///   Looks up a localized string similar to Cannot create delegate from method {0} because it is a partial method without an implementing declaration.
         /// </summary>
         internal static string CSharpErrors_CS0762 {
             get {
@@ -4201,7 +4183,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The fully qualified name for &apos;name&apos; is too long for debug information. Compile without &apos;/debug&apos; option..
+        ///   Looks up a localized string similar to The fully qualified name for {0} is too long for debug information. Compile without &apos;/debug&apos; option..
         /// </summary>
         internal static string CSharpErrors_CS0811 {
             get {
@@ -4210,7 +4192,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot assign &apos;expression&apos; to an implicitly typed local.
+        ///   Looks up a localized string similar to Cannot assign {0} to an implicitly typed local.
         /// </summary>
         internal static string CSharpErrors_CS0815 {
             get {
@@ -4282,7 +4264,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot assign &apos;expression&apos; to anonymous type property..
+        ///   Looks up a localized string similar to Cannot assign {0} to anonymous type property..
         /// </summary>
         internal static string CSharpErrors_CS0828 {
             get {
@@ -4327,7 +4309,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot convert lambda to an expression tree whose type argument &apos;type&apos; is not a delegate type..
+        ///   Looks up a localized string similar to Cannot convert lambda to an expression tree whose type argument {0} is not a delegate type..
         /// </summary>
         internal static string CSharpErrors_CS0835 {
             get {
@@ -4345,7 +4327,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The first operand of an &quot;&quot;is&quot;&quot; or &quot;&quot;as&quot;&quot; operator may not be a lambda expression or anonymous method..
+        ///   Looks up a localized string similar to The first operand of an &apos;is&apos; or &apos;as&apos; operator may not be a lambda expression or anonymous method..
         /// </summary>
         internal static string CSharpErrors_CS0837 {
             get {
@@ -4372,7 +4354,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;Property name&apos; must declare a body because it is not marked abstract or extern. Automatically implemented properties must define both get and set accessors..
+        ///   Looks up a localized string similar to {0} must declare a body because it is not marked abstract or extern. Automatically implemented properties must define both get and set accessors..
         /// </summary>
         internal static string CSharpErrors_CS0840 {
             get {
@@ -4381,7 +4363,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot use variable &apos;name&apos; before it is declared..
+        ///   Looks up a localized string similar to Cannot use variable {0} before it is declared..
         /// </summary>
         internal static string CSharpErrors_CS0841 {
             get {
@@ -4399,7 +4381,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Backing field for automatically implemented property &apos;name&apos; must be fully assigned before control is returned to the caller. Consider calling the default constructor from a constructor initializer..
+        ///   Looks up a localized string similar to Backing field for automatically implemented property {0} must be fully assigned before control is returned to the caller. Consider calling the default constructor from a constructor initializer..
         /// </summary>
         internal static string CSharpErrors_CS0843 {
             get {
@@ -4408,7 +4390,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot use local variable &apos;name&apos; before it is declared. The declaration of the local variable hides the field &apos;name&apos;..
+        ///   Looks up a localized string similar to Cannot use local variable {0} before it is declared. The declaration of the local variable hides the field {0}..
         /// </summary>
         internal static string CSharpErrors_CS0844 {
             get {
@@ -4453,7 +4435,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Duplicate &apos;modifier&apos; modifier.
+        ///   Looks up a localized string similar to Duplicate {0} modifier.
         /// </summary>
         internal static string CSharpErrors_CS1004 {
             get {
@@ -4660,7 +4642,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to #error: &apos;text&apos;.
+        ///   Looks up a localized string similar to #error: {0}.
         /// </summary>
         internal static string CSharpErrors_CS1029 {
             get {
@@ -4804,7 +4786,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;member&apos;: static classes cannot contain protected members.
+        ///   Looks up a localized string similar to {0}: static classes cannot contain protected members.
         /// </summary>
         internal static string CSharpErrors_CS1057 {
             get {
@@ -4822,7 +4804,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;type&apos; does not contain a definition for &apos;member&apos; and no extension method &apos;name&apos; accepting a first argument of type &apos;type&apos; could be found (are you missing a using directive or an assembly reference?)..
+        ///   Looks up a localized string similar to {0} does not contain a definition for {1} and no extension method {2} accepting a first argument of type {0} could be found (are you missing a using directive or an assembly reference?)..
         /// </summary>
         internal static string CSharpErrors_CS1061 {
             get {
@@ -4831,7 +4813,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Method &apos;name&apos; has a parameter modifier &apos;this&apos; which is not on the first parameter..
+        ///   Looks up a localized string similar to Method {0} has a parameter modifier &apos;this&apos; which is not on the first parameter..
         /// </summary>
         internal static string CSharpErrors_CS1100 {
             get {
@@ -4858,7 +4840,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The first parameter of an extension method cannot be of type &apos;type&apos;..
+        ///   Looks up a localized string similar to The first parameter of an extension method cannot be of type {0}..
         /// </summary>
         internal static string CSharpErrors_CS1103 {
             get {
@@ -4894,7 +4876,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A parameter can only have one &apos;modifier name&apos; modifier..
+        ///   Looks up a localized string similar to A parameter can only have one {0} modifier..
         /// </summary>
         internal static string CSharpErrors_CS1107 {
             get {
@@ -4912,7 +4894,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Extension Methods must be defined on top level static classes, &apos;name&apos; is a nested class..
+        ///   Looks up a localized string similar to Extension Methods must be defined on top level static classes, {0} is a nested class..
         /// </summary>
         internal static string CSharpErrors_CS1109 {
             get {
@@ -4939,7 +4921,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Extension methods &apos;name&apos; defined on value type &apos;name&apos; cannot be used to create delegates..
+        ///   Looks up a localized string similar to Extension methods {0} defined on value type {1} cannot be used to create delegates..
         /// </summary>
         internal static string CSharpErrors_CS1113 {
             get {
@@ -4948,7 +4930,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No overload for method &apos;method&apos; takes &apos;number&apos; arguments.
+        ///   Looks up a localized string similar to No overload for method {0} takes {1} arguments.
         /// </summary>
         internal static string CSharpErrors_CS1501 {
             get {
@@ -4957,7 +4939,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The best overloaded Add method &apos;name&apos; for the collection initializer has some invalid arguments.
+        ///   Looks up a localized string similar to The best overloaded Add method {0} for the collection initializer has some invalid arguments.
         /// </summary>
         internal static string CSharpErrors_CS1502 {
             get {
@@ -4966,7 +4948,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The best overloaded Add method &apos;name for the collection initializer has some invalid arguments.
+        ///   Looks up a localized string similar to The best overloaded Add method {0} for the collection initializer has some invalid arguments.
         /// </summary>
         internal static string CSharpErrors_CS1503 {
             get {
@@ -4975,7 +4957,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Source file &apos;file&apos; could not be opened (&apos;reason&apos;).
+        ///   Looks up a localized string similar to Source file {0} could not be opened ({1}).
         /// </summary>
         internal static string CSharpErrors_CS1504 {
             get {
@@ -4984,7 +4966,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot link resource file &apos;file&apos; when building a module.
+        ///   Looks up a localized string similar to Cannot link resource file {0} when building a module.
         /// </summary>
         internal static string CSharpErrors_CS1507 {
             get {
@@ -4993,7 +4975,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resource identifier &apos;identifier&apos; has already been used in this assembly.
+        ///   Looks up a localized string similar to Resource identifier {0} has already been used in this assembly.
         /// </summary>
         internal static string CSharpErrors_CS1508 {
             get {
@@ -5002,7 +4984,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Referenced file &apos;file&apos; is not an assembly; use &apos;/addmodule&apos; option instead.
+        ///   Looks up a localized string similar to Referenced file {0} is not an assembly; use &apos;/addmodule&apos; option instead.
         /// </summary>
         internal static string CSharpErrors_CS1509 {
             get {
@@ -5083,7 +5065,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid token &apos;token&apos; in class, struct, or interface member declaration.
+        ///   Looks up a localized string similar to Invalid token {0} in class, struct, or interface member declaration.
         /// </summary>
         internal static string CSharpErrors_CS1519 {
             get {
@@ -5119,7 +5101,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid expression term &apos;character&apos;.
+        ///   Looks up a localized string similar to Invalid expression term {0}.
         /// </summary>
         internal static string CSharpErrors_CS1525 {
             get {
@@ -5173,7 +5155,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Overloaded binary operator &apos;operator&apos; takes two parameters.
+        ///   Looks up a localized string similar to Overloaded binary operator {0} takes two parameters.
         /// </summary>
         internal static string CSharpErrors_CS1534 {
             get {
@@ -5182,7 +5164,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Overloaded unary operator &apos;operator&apos; takes one parameter.
+        ///   Looks up a localized string similar to Overloaded unary operator {0} takes one parameter.
         /// </summary>
         internal static string CSharpErrors_CS1535 {
             get {
@@ -5200,7 +5182,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The using alias &apos;alias&apos; appeared previously in this namespace.
+        ///   Looks up a localized string similar to The using alias {0} appeared previously in this namespace.
         /// </summary>
         internal static string CSharpErrors_CS1537 {
             get {
@@ -5209,7 +5191,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot access protected member &apos;member&apos; via a qualifier of type &apos;type1&apos;; the qualifier must be of type &apos;type2&apos; (or derived from it).
+        ///   Looks up a localized string similar to Cannot access protected member {0} via a qualifier of type {1}; the qualifier must be of type {2} (or derived from it).
         /// </summary>
         internal static string CSharpErrors_CS1540 {
             get {
@@ -5218,7 +5200,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid reference option: &apos;symbol&apos; — cannot reference directories.
+        ///   Looks up a localized string similar to Invalid reference option: {0} — cannot reference directories.
         /// </summary>
         internal static string CSharpErrors_CS1541 {
             get {
@@ -5227,7 +5209,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;dll&apos; cannot be added to this assembly because it already is an assembly; use &apos;/R&apos; option instead.
+        ///   Looks up a localized string similar to {0} cannot be added to this assembly because it already is an assembly; use &apos;/R&apos; option instead.
         /// </summary>
         internal static string CSharpErrors_CS1542 {
             get {
@@ -5236,7 +5218,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Property, indexer, or event &apos;property&apos; is not supported by the language; try directly calling accessor methods &apos;set accessor&apos; or &apos;get accessor&apos;.
+        ///   Looks up a localized string similar to Property, indexer, or event {0} is not supported by the language; try directly calling accessor methods {1} or {2}.
         /// </summary>
         internal static string CSharpErrors_CS1545 {
             get {
@@ -5245,7 +5227,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Property, indexer, or event &apos;property&apos; is not supported by the language; try directly calling accessor method &apos;accessor&apos;.
+        ///   Looks up a localized string similar to Property, indexer, or event {0} is not supported by the language; try directly calling accessor method {1}.
         /// </summary>
         internal static string CSharpErrors_CS1546 {
             get {
@@ -5263,7 +5245,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cryptographic failure while signing assembly &apos;assembly&apos; — &apos;reason&apos;.
+        ///   Looks up a localized string similar to Cryptographic failure while signing assembly {0} — {1}.
         /// </summary>
         internal static string CSharpErrors_CS1548 {
             get {
@@ -5299,7 +5281,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Declaration is not valid; use &apos;modifier operator &lt;dest-type&gt; (...&apos; instead.
+        ///   Looks up a localized string similar to Declaration is not valid; use &apos;{0} operator {1} (...&apos; instead.
         /// </summary>
         internal static string CSharpErrors_CS1553 {
             get {
@@ -5308,7 +5290,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Declaration is not valid; use &apos;&lt;type&gt; operator op (...&apos; instead.
+        ///   Looks up a localized string similar to Declaration is not valid; use &apos;{0} operator {1} (...&apos; instead.
         /// </summary>
         internal static string CSharpErrors_CS1554 {
             get {
@@ -5317,7 +5299,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not find &apos;class&apos; specified for Main method.
+        ///   Looks up a localized string similar to Could not find {0} specified for Main method.
         /// </summary>
         internal static string CSharpErrors_CS1555 {
             get {
@@ -5326,7 +5308,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;construct&apos; specified for Main method must be a valid class or struct.
+        ///   Looks up a localized string similar to {0} specified for Main method must be a valid class or struct.
         /// </summary>
         internal static string CSharpErrors_CS1556 {
             get {
@@ -5335,7 +5317,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot use &apos;class&apos; for Main method because it is in a different output file.
+        ///   Looks up a localized string similar to Cannot use {0} for Main method because it is in a different output file.
         /// </summary>
         internal static string CSharpErrors_CS1557 {
             get {
@@ -5344,7 +5326,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;class&apos; does not have a suitable static Main method.
+        ///   Looks up a localized string similar to {0} does not have a suitable static Main method.
         /// </summary>
         internal static string CSharpErrors_CS1558 {
             get {
@@ -5353,7 +5335,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot use &apos;object&apos; for Main method because it is imported.
+        ///   Looks up a localized string similar to Cannot use {0} for Main method because it is imported.
         /// </summary>
         internal static string CSharpErrors_CS1559 {
             get {
@@ -5389,7 +5371,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Output &apos;output file&apos; does not have any source files.
+        ///   Looks up a localized string similar to Output {0} does not have any source files.
         /// </summary>
         internal static string CSharpErrors_CS1563 {
             get {
@@ -5416,7 +5398,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error reading resource file &apos;file&apos; — &apos;reason&apos;.
+        ///   Looks up a localized string similar to Error reading resource file {0} — {1}.
         /// </summary>
         internal static string CSharpErrors_CS1566 {
             get {
@@ -5425,7 +5407,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error generating Win32 resource: &apos;file&apos;.
+        ///   Looks up a localized string similar to Error generating Win32 resource: {0}.
         /// </summary>
         internal static string CSharpErrors_CS1567 {
             get {
@@ -5434,7 +5416,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error generating XML documentation file &apos;Filename&apos; (&apos;reason&apos;).
+        ///   Looks up a localized string similar to Error generating XML documentation file {0} ({1}).
         /// </summary>
         internal static string CSharpErrors_CS1569 {
             get {
@@ -5479,7 +5461,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to foreach statement cannot operate on variables of type &apos;type1&apos; because &apos;type2&apos; does not contain a public definition for &apos;identifier&apos;.
+        ///   Looks up a localized string similar to foreach statement cannot operate on variables of type {0} because {1} does not contain a public definition for {2}.
         /// </summary>
         internal static string CSharpErrors_CS1579 {
             get {
@@ -5488,7 +5470,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;file&apos; is not a valid Win32 resource file.
+        ///   Looks up a localized string similar to {0} is not a valid Win32 resource file.
         /// </summary>
         internal static string CSharpErrors_CS1583 {
             get {
@@ -5497,7 +5479,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Member modifier &apos;keyword&apos; must precede the member type and name.
+        ///   Looks up a localized string similar to Member modifier {0} must precede the member type and name.
         /// </summary>
         internal static string CSharpErrors_CS1585 {
             get {
@@ -5515,7 +5497,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot determine common language runtime directory -- &apos;reason&apos;.
+        ///   Looks up a localized string similar to Cannot determine common language runtime directory -- {0}.
         /// </summary>
         internal static string CSharpErrors_CS1588 {
             get {
@@ -5524,7 +5506,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delegate &apos;del&apos; does not take &apos;number&apos; arguments.
+        ///   Looks up a localized string similar to Delegate {0} does not take {1} arguments.
         /// </summary>
         internal static string CSharpErrors_CS1593 {
             get {
@@ -5533,7 +5515,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delegate &apos;delegate&apos; has some invalid arguments.
+        ///   Looks up a localized string similar to Delegate {0} has some invalid arguments.
         /// </summary>
         internal static string CSharpErrors_CS1594 {
             get {
@@ -5551,7 +5533,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Method or delegate cannot return type &apos;type&apos;.
+        ///   Looks up a localized string similar to Method or delegate cannot return type {0}.
         /// </summary>
         internal static string CSharpErrors_CS1599 {
             get {
@@ -5569,7 +5551,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Method or delegate parameter cannot be of type &apos;type&apos;.
+        ///   Looks up a localized string similar to Method or delegate parameter cannot be of type {0}.
         /// </summary>
         internal static string CSharpErrors_CS1601 {
             get {
@@ -5578,7 +5560,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot assign to &apos;variable&apos; because it is read-only.
+        ///   Looks up a localized string similar to Cannot assign to {0} because it is read-only.
         /// </summary>
         internal static string CSharpErrors_CS1604 {
             get {
@@ -5587,7 +5569,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot pass &apos;var&apos; as a ref or out argument because it is read-only.
+        ///   Looks up a localized string similar to Cannot pass {0} as a ref or out argument because it is read-only.
         /// </summary>
         internal static string CSharpErrors_CS1605 {
             get {
@@ -5596,7 +5578,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Assembly signing failed; output may not be signed -- reason.
+        ///   Looks up a localized string similar to Assembly signing failed; output may not be signed -- {0}.
         /// </summary>
         internal static string CSharpErrors_CS1606 {
             get {
@@ -5632,7 +5614,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot modify the return value of &apos;expression&apos; because it is not a variable.
+        ///   Looks up a localized string similar to Cannot modify the return value of {0} because it is not a variable.
         /// </summary>
         internal static string CSharpErrors_CS1612 {
             get {
@@ -5641,7 +5623,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The managed coclass wrapper class &apos;class&apos; for interface &apos;interface&apos; cannot be found (are you missing an assembly reference?).
+        ///   Looks up a localized string similar to The managed coclass wrapper class {0} for interface {1} cannot be found (are you missing an assembly reference?).
         /// </summary>
         internal static string CSharpErrors_CS1613 {
             get {
@@ -5650,7 +5632,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;name&apos; is ambiguous; between &apos;attribute1&apos; and &apos;attribute2&apos;. use either &apos;@attribute&apos; or &apos;attributeAttribute&apos;.
+        ///   Looks up a localized string similar to {0} is ambiguous; between {1} and {2}. use either &apos;@{0}&apos; or &apos;{0}Attribute&apos;.
         /// </summary>
         internal static string CSharpErrors_CS1614 {
             get {
@@ -5659,7 +5641,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Argument &apos;number&apos; should not be passed with the &apos;keyword&apos; keyword.
+        ///   Looks up a localized string similar to Argument {0} should not be passed with the {1} keyword.
         /// </summary>
         internal static string CSharpErrors_CS1615 {
             get {
@@ -5668,7 +5650,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid option &apos;option&apos; for /langversion; must be ISO-1, ISO-2 or Default.
+        ///   Looks up a localized string similar to Invalid option {0} for /langversion; must be ISO-1, ISO-2 or Default.
         /// </summary>
         internal static string CSharpErrors_CS1617 {
             get {
@@ -5677,7 +5659,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot create delegate with &apos;method&apos; because it has a Conditional attribute.
+        ///   Looks up a localized string similar to Cannot create delegate with {0} because it has a Conditional attribute.
         /// </summary>
         internal static string CSharpErrors_CS1618 {
             get {
@@ -5686,7 +5668,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot create temporary file &apos;filename&apos; -- reason.
+        ///   Looks up a localized string similar to Cannot create temporary file {0} -- {1}.
         /// </summary>
         internal static string CSharpErrors_CS1619 {
             get {
@@ -5695,7 +5677,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Argument &apos;number&apos; must be passed with the &apos;keyword&apos; keyword.
+        ///   Looks up a localized string similar to Argument {0} must be passed with the {1} keyword.
         /// </summary>
         internal static string CSharpErrors_CS1620 {
             get {
@@ -5731,7 +5713,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The body of &apos;accessor&apos; cannot be an iterator block because &apos;type&apos; is not an iterator interface type.
+        ///   Looks up a localized string similar to The body of {0} cannot be an iterator block because {1} is not an iterator interface type.
         /// </summary>
         internal static string CSharpErrors_CS1624 {
             get {
@@ -5767,7 +5749,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot use ref or out parameter &apos;parameter&apos; inside an anonymous method, lambda expression, or query expression.
+        ///   Looks up a localized string similar to Cannot use ref or out parameter {0} inside an anonymous method, lambda expression, or query expression.
         /// </summary>
         internal static string CSharpErrors_CS1628 {
             get {
@@ -5785,7 +5767,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid option &apos;option&apos; for /errorreport; must be prompt, send, queue, or none.
+        ///   Looks up a localized string similar to Invalid option {0} for /errorreport; must be prompt, send, queue, or none.
         /// </summary>
         internal static string CSharpErrors_CS1630 {
             get {
@@ -5821,7 +5803,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;identifier&apos; is a reserved identifier and cannot be used when ISO language version mode is used.
+        ///   Looks up a localized string similar to {0} is a reserved identifier and cannot be used when ISO language version mode is used.
         /// </summary>
         internal static string CSharpErrors_CS1638 {
             get {
@@ -5830,7 +5812,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The managed coclass wrapper class signature &apos;signature&apos; for interface &apos;interface&apos; is not a valid class name signature.
+        ///   Looks up a localized string similar to The managed coclass wrapper class signature {0} for interface {1} is not a valid class name signature.
         /// </summary>
         internal static string CSharpErrors_CS1639 {
             get {
@@ -5839,7 +5821,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to foreach statement cannot operate on variables of type &apos;type&apos; because it implements multiple instantiations of &apos;interface&apos;, try casting to a specific interface instantiation.
+        ///   Looks up a localized string similar to foreach statement cannot operate on variables of type {0} because it implements multiple instantiations of {1}, try casting to a specific interface instantiation.
         /// </summary>
         internal static string CSharpErrors_CS1640 {
             get {
@@ -5866,7 +5848,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not all code paths return a value in method of type &apos;type!&apos;.
+        ///   Looks up a localized string similar to Not all code paths return a value in method of type {0}.
         /// </summary>
         internal static string CSharpErrors_CS1643 {
             get {
@@ -5875,7 +5857,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Feature &apos;feature&apos; is not part of the standardized ISO C# language specification, and may not be accepted by other compilers.
+        ///   Looks up a localized string similar to Feature {0} is not part of the standardized ISO C# language specification, and may not be accepted by other compilers.
         /// </summary>
         internal static string CSharpErrors_CS1644 {
             get {
@@ -5893,7 +5875,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An expression is too long or complex to compile near &apos;code&apos;.
+        ///   Looks up a localized string similar to An expression is too long or complex to compile near {0}.
         /// </summary>
         internal static string CSharpErrors_CS1647 {
             get {
@@ -5902,7 +5884,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Members of readonly field &apos;identifier&apos; cannot be modified (except in a constructor or a variable initializer).
+        ///   Looks up a localized string similar to Members of readonly field {0} cannot be modified (except in a constructor or a variable initializer).
         /// </summary>
         internal static string CSharpErrors_CS1648 {
             get {
@@ -5911,7 +5893,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Members of readonly field &apos;identifier&apos; cannot be passed ref or out (except in a constructor).
+        ///   Looks up a localized string similar to Members of readonly field {0} cannot be passed ref or out (except in a constructor).
         /// </summary>
         internal static string CSharpErrors_CS1649 {
             get {
@@ -5920,7 +5902,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fields of static readonly field &apos;identifier&apos; cannot be assigned to (except in a static constructor or a variable initializer).
+        ///   Looks up a localized string similar to Fields of static readonly field {0} cannot be assigned to (except in a static constructor or a variable initializer).
         /// </summary>
         internal static string CSharpErrors_CS1650 {
             get {
@@ -5929,7 +5911,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fields of static readonly field &apos;identifier&apos; cannot be passed ref or out (except in a static constructor).
+        ///   Looks up a localized string similar to Fields of static readonly field {0} cannot be passed ref or out (except in a static constructor).
         /// </summary>
         internal static string CSharpErrors_CS1651 {
             get {
@@ -5938,7 +5920,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot modify members of &apos;variable&apos; because it is a &apos;read-only variable type&apos;.
+        ///   Looks up a localized string similar to Cannot modify members of {0} because it is a {1}.
         /// </summary>
         internal static string CSharpErrors_CS1654 {
             get {
@@ -5947,7 +5929,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot pass fields of &apos;variable&apos; as a ref or out argument because it is a &apos;readonly variable type&apos;.
+        ///   Looks up a localized string similar to Cannot pass fields of {0} as a ref or out argument because it is a {1}.
         /// </summary>
         internal static string CSharpErrors_CS1655 {
             get {
@@ -5956,7 +5938,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot assign to &apos;variable&apos; because it is a &apos;read-only variable type&apos;.
+        ///   Looks up a localized string similar to Cannot assign to {0} because it is a {1}.
         /// </summary>
         internal static string CSharpErrors_CS1656 {
             get {
@@ -5965,7 +5947,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot pass &apos;parameter&apos; as a ref or out argument because &apos;reason&apos;&apos;.
+        ///   Looks up a localized string similar to Cannot pass {0} as a ref or out argument because {1}.
         /// </summary>
         internal static string CSharpErrors_CS1657 {
             get {
@@ -5974,7 +5956,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot convert anonymous method block to type &apos;type&apos; because it is not a delegate type.
+        ///   Looks up a localized string similar to Cannot convert anonymous method block to type {0} because it is not a delegate type.
         /// </summary>
         internal static string CSharpErrors_CS1660 {
             get {
@@ -5983,7 +5965,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot convert anonymous method block to delegate type &apos;delegate type&apos; because the specified block&apos;s parameter types do not match the delegate parameter types.
+        ///   Looks up a localized string similar to Cannot convert anonymous method block to delegate type {0} because the specified block&apos;s parameter types do not match the delegate parameter types.
         /// </summary>
         internal static string CSharpErrors_CS1661 {
             get {
@@ -5992,7 +5974,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot convert anonymous method block to delegate type &apos;delegate type&apos; because some of the return types in the block are not implicitly convertible to the delegate return type.
+        ///   Looks up a localized string similar to Cannot convert anonymous method block to delegate type {0} because some of the return types in the block are not implicitly convertible to the delegate return type.
         /// </summary>
         internal static string CSharpErrors_CS1662 {
             get {
@@ -6010,7 +5992,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fixed size buffer of length &apos;length&apos; and type &apos;type&apos; is too big.
+        ///   Looks up a localized string similar to Fixed size buffer of length {0} and type {1} is too big.
         /// </summary>
         internal static string CSharpErrors_CS1664 {
             get {
@@ -6037,7 +6019,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attribute &apos;attribute&apos; is not valid on property or event accessors. It is valid on &apos;declaration type&apos; declarations only..
+        ///   Looks up a localized string similar to Attribute {0} is not valid on property or event accessors. It is valid on {1} declarations only..
         /// </summary>
         internal static string CSharpErrors_CS1667 {
             get {
@@ -6064,7 +6046,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid option &apos;option&apos; for /platform; must be anycpu, x86, Itanium or x64.
+        ///   Looks up a localized string similar to Invalid option {0} for /platform; must be anycpu, x86, Itanium or x64.
         /// </summary>
         internal static string CSharpErrors_CS1672 {
             get {
@@ -6082,7 +6064,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;T&apos;: type used in a using statement must be implicitly convertible to &apos;System.IDisposable&apos;.
+        ///   Looks up a localized string similar to {0}: type used in a using statement must be implicitly convertible to &apos;System.IDisposable&apos;.
         /// </summary>
         internal static string CSharpErrors_CS1674 {
             get {
@@ -6100,7 +6082,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parameter &apos;number&apos; must be declared with the &apos;keyword&apos; keyword.
+        ///   Looks up a localized string similar to Parameter {0} must be declared with the {1} keyword.
         /// </summary>
         internal static string CSharpErrors_CS1676 {
             get {
@@ -6109,7 +6091,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parameter &apos;number&apos; should not be declared with the &apos;keyword&apos; keyword.
+        ///   Looks up a localized string similar to Parameter {0} should not be declared with the {1} keyword.
         /// </summary>
         internal static string CSharpErrors_CS1677 {
             get {
@@ -6118,7 +6100,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parameter &apos;number&apos; is declared as type &apos;type1&apos; but should be &apos;type2&apos;.
+        ///   Looks up a localized string similar to Parameter {0} is declared as type {1} but should be {2}.
         /// </summary>
         internal static string CSharpErrors_CS1678 {
             get {
@@ -6127,7 +6109,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid extern alias for &apos;/reference&apos;; &apos;identifier&apos; is not a valid identifier.
+        ///   Looks up a localized string similar to Invalid extern alias for {0}; {1} is not a valid identifier.
         /// </summary>
         internal static string CSharpErrors_CS1679 {
             get {
@@ -6154,7 +6136,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Local &apos;variable&apos; or its members cannot have their address taken and be used inside an anonymous method or lambda expression.
+        ///   Looks up a localized string similar to Local {0} or its members cannot have their address taken and be used inside an anonymous method or lambda expression.
         /// </summary>
         internal static string CSharpErrors_CS1686 {
             get {
@@ -6163,7 +6145,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot convert anonymous method block without a parameter list to delegate type &apos;delegate&apos; because it has one or more out parameters.
+        ///   Looks up a localized string similar to Cannot convert anonymous method block without a parameter list to delegate type {0} because it has one or more out parameters.
         /// </summary>
         internal static string CSharpErrors_CS1688 {
             get {
@@ -6172,7 +6154,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attribute &apos;Attribute Name&apos; is only valid on methods or attribute classes.
+        ///   Looks up a localized string similar to Attribute {0} is only valid on methods or attribute classes.
         /// </summary>
         internal static string CSharpErrors_CS1689 {
             get {
@@ -6181,7 +6163,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An assembly with the same simple name &apos;name&apos; has already been imported. Try removing one of the references or sign them to enable side-by-side..
+        ///   Looks up a localized string similar to An assembly with the same simple name {0} has already been imported. Try removing one of the references or sign them to enable side-by-side..
         /// </summary>
         internal static string CSharpErrors_CS1703 {
             get {
@@ -6190,7 +6172,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An assembly with the same simple name &apos;Assembly Name&apos; has already been imported. Try removing one of the references or sign them to enable side-by-side..
+        ///   Looks up a localized string similar to An assembly with the same simple name {0} has already been imported. Try removing one of the references or sign them to enable side-by-side..
         /// </summary>
         internal static string CSharpErrors_CS1704 {
             get {
@@ -6199,7 +6181,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Assembly &apos;AssemblyName1&apos; uses &apos;TypeName&apos; which has a higher version than referenced assembly &apos;AssemblyName2&apos;.
+        ///   Looks up a localized string similar to Assembly {0} uses {1} which has a higher version than referenced assembly {2}.
         /// </summary>
         internal static string CSharpErrors_CS1705 {
             get {
@@ -6226,7 +6208,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unexpected error building metadata name for type Typename1—&apos;Reason&apos;.
+        ///   Looks up a localized string similar to Unexpected error building metadata name for type {0} — {1}.
         /// </summary>
         internal static string CSharpErrors_CS1713 {
             get {
@@ -6235,7 +6217,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The base class or interface of TypeName1 could not be resolved or is invalid.
+        ///   Looks up a localized string similar to The base class or interface of {0} could not be resolved or is invalid.
         /// </summary>
         internal static string CSharpErrors_CS1714 {
             get {
@@ -6244,7 +6226,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;Type1&apos;: type must be &apos;Type2&apos; to match overridden member &apos;MemberName&apos;.
+        ///   Looks up a localized string similar to {0}: type must be {1} to match overridden member {2}.
         /// </summary>
         internal static string CSharpErrors_CS1715 {
             get {
@@ -6262,7 +6244,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error reading Win32 resource file &apos;File Name&apos; -- &apos;reason&apos;.
+        ///   Looks up a localized string similar to Error reading Win32 resource file {0} -- {1}.
         /// </summary>
         internal static string CSharpErrors_CS1719 {
             get {
@@ -6271,7 +6253,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Class &apos;class&apos; cannot have multiple base classes: &apos;class_1&apos; and &apos;class_2&apos;.
+        ///   Looks up a localized string similar to Class {0} cannot have multiple base classes: {1} and {2}.
         /// </summary>
         internal static string CSharpErrors_CS1721 {
             get {
@@ -6280,7 +6262,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Base class &apos;class&apos; must come before any interfaces.
+        ///   Looks up a localized string similar to Base class {0} must come before any interfaces.
         /// </summary>
         internal static string CSharpErrors_CS1722 {
             get {
@@ -6298,7 +6280,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Friend assembly reference &apos;reference&apos; is invalid. InternalsVisibleTo declarations cannot have a version, culture, public key token, or processor architecture specified..
+        ///   Looks up a localized string similar to Friend assembly reference {0} is invalid. InternalsVisibleTo declarations cannot have a version, culture, public key token, or processor architecture specified..
         /// </summary>
         internal static string CSharpErrors_CS1725 {
             get {
@@ -6307,7 +6289,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Friend assembly reference &apos;reference&apos; is invalid. Strong-name signed assemblies must specify a public key in their InternalsVisibleTo declarations..
+        ///   Looks up a localized string similar to Friend assembly reference {0} is invalid. Strong-name signed assemblies must specify a public key in their InternalsVisibleTo declarations..
         /// </summary>
         internal static string CSharpErrors_CS1726 {
             get {
@@ -6316,7 +6298,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot send error report automatically without authorization. Please visit &apos;&apos; to authorize sending error report..
+        ///   Looks up a localized string similar to Cannot send error report automatically without authorization. Please visit {0} to authorize sending error report..
         /// </summary>
         internal static string CSharpErrors_CS1727 {
             get {
@@ -6325,7 +6307,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot bind delegate to &apos;member&apos; because it is a member of &apos;type&apos;.
+        ///   Looks up a localized string similar to Cannot bind delegate to {0} because it is a member of {1}.
         /// </summary>
         internal static string CSharpErrors_CS1728 {
             get {
@@ -6334,7 +6316,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;type&apos; does not contain a constructor that takes &apos;number&apos; arguments..
+        ///   Looks up a localized string similar to {0} does not contain a constructor that takes {1} arguments..
         /// </summary>
         internal static string CSharpErrors_CS1729 {
             get {
@@ -6352,7 +6334,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot convert &apos;expression&apos; to delegate because some of the return types in the block are not implicitly convertible to the delegate return type..
+        ///   Looks up a localized string similar to Cannot convert {0} to delegate because some of the return types in the block are not implicitly convertible to the delegate return type..
         /// </summary>
         internal static string CSharpErrors_CS1731 {
             get {
@@ -6388,7 +6370,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid option &apos;option&apos; for /debug; must be full or pdbonly.
+        ///   Looks up a localized string similar to Invalid option {0} for /debug; must be full or pdbonly.
         /// </summary>
         internal static string CSharpErrors_CS1902 {
             get {
@@ -6397,7 +6379,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid option &apos;option&apos;; Resource visibility must be either &apos;public&apos; or &apos;private&apos;.
+        ///   Looks up a localized string similar to Invalid option {0}; Resource visibility must be either &apos;public&apos; or &apos;private&apos;.
         /// </summary>
         internal static string CSharpErrors_CS1906 {
             get {
@@ -6415,7 +6397,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The DefaultValue attribute is not applicable on parameters of type &apos;type&apos;.
+        ///   Looks up a localized string similar to The DefaultValue attribute is not applicable on parameters of type {0}.
         /// </summary>
         internal static string CSharpErrors_CS1909 {
             get {
@@ -6424,7 +6406,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Argument of type &apos;type&apos; is not applicable for the DefaultValue attribute.
+        ///   Looks up a localized string similar to Argument of type {0} is not applicable for the DefaultValue attribute.
         /// </summary>
         internal static string CSharpErrors_CS1910 {
             get {
@@ -6433,7 +6415,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Duplicate initialization of member &apos;name&apos;..
+        ///   Looks up a localized string similar to Duplicate initialization of member {0}.
         /// </summary>
         internal static string CSharpErrors_CS1912 {
             get {
@@ -6442,7 +6424,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Member &apos;name&apos; cannot be initialized. It is not a field or property..
+        ///   Looks up a localized string similar to Member {0} cannot be initialized. It is not a field or property..
         /// </summary>
         internal static string CSharpErrors_CS1913 {
             get {
@@ -6451,7 +6433,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Static field &apos;name&apos; cannot be assigned in an object initializer.
+        ///   Looks up a localized string similar to Static field {0} cannot be assigned in an object initializer.
         /// </summary>
         internal static string CSharpErrors_CS1914 {
             get {
@@ -6460,7 +6442,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Members of read-only field &apos;name&apos; of type &apos;struct name&apos; cannot be assigned with an object initializer because it is of a value type..
+        ///   Looks up a localized string similar to Members of read-only field {0} of type {1} cannot be assigned with an object initializer because it is of a value type..
         /// </summary>
         internal static string CSharpErrors_CS1917 {
             get {
@@ -6469,7 +6451,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Members of property &apos;name&apos; of type &apos;type&apos; cannot be assigned with an object initializer because it is of a value type..
+        ///   Looks up a localized string similar to Members of property {0} of type {1} cannot be assigned with an object initializer because it is of a value type..
         /// </summary>
         internal static string CSharpErrors_CS1918 {
             get {
@@ -6478,7 +6460,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unsafe type &apos;type name&apos; cannot be used in object creation..
+        ///   Looks up a localized string similar to Unsafe type {0} cannot be used in object creation..
         /// </summary>
         internal static string CSharpErrors_CS1919 {
             get {
@@ -6496,7 +6478,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The best overloaded method match for &apos;method&apos; has wrong signature for the initializer element. The initializable Add must be an accessible instance method..
+        ///   Looks up a localized string similar to The best overloaded method match for {0} has wrong signature for the initializer element. The initializable Add must be an accessible instance method..
         /// </summary>
         internal static string CSharpErrors_CS1921 {
             get {
@@ -6505,7 +6487,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Collection initializer requires its type &apos;type&apos; to implement System.Collections.IEnumerable..
+        ///   Looks up a localized string similar to Collection initializer requires its type {0} to implement System.Collections.IEnumerable..
         /// </summary>
         internal static string CSharpErrors_CS1922 {
             get {
@@ -6514,7 +6496,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot initialize object of type &apos;type&apos; with a collection initializer..
+        ///   Looks up a localized string similar to Cannot initialize object of type {0} with a collection initializer..
         /// </summary>
         internal static string CSharpErrors_CS1925 {
             get {
@@ -6523,7 +6505,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error reading Win32 manifest file &apos;filename&apos; -- &apos;error&apos;..
+        ///   Looks up a localized string similar to Error reading Win32 manifest file {0} -- {1}..
         /// </summary>
         internal static string CSharpErrors_CS1926 {
             get {
@@ -6532,7 +6514,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;Type&apos; does not contain a definition for &apos;method&apos; and the best extension method overload &apos;method&apos; has some invalid arguments..
+        ///   Looks up a localized string similar to {0} does not contain a definition for {1} and the best extension method overload {2} has some invalid arguments..
         /// </summary>
         internal static string CSharpErrors_CS1928 {
             get {
@@ -6541,7 +6523,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Instance argument: cannot convert from &apos;typeA&apos; to &apos;typeB&apos;..
+        ///   Looks up a localized string similar to Instance argument: cannot convert from {0} to {1}..
         /// </summary>
         internal static string CSharpErrors_CS1929 {
             get {
@@ -6550,7 +6532,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The range variable &apos;name&apos; has already been declared.
+        ///   Looks up a localized string similar to The range variable {0} has already been declared.
         /// </summary>
         internal static string CSharpErrors_CS1930 {
             get {
@@ -6559,7 +6541,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The range variable &apos;variable&apos; conflicts with a previous declaration of &apos;variable&apos;..
+        ///   Looks up a localized string similar to The range variable {0} conflicts with a previous declaration of {1}..
         /// </summary>
         internal static string CSharpErrors_CS1931 {
             get {
@@ -6568,7 +6550,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot assign &apos;expression&apos; to a range variable..
+        ///   Looks up a localized string similar to Cannot assign {0} to a range variable..
         /// </summary>
         internal static string CSharpErrors_CS1932 {
             get {
@@ -6586,7 +6568,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not find an implementation of the query pattern for source type &apos;type&apos;. &apos;method&apos; not found. Consider explicitly specifying the type of the range variable &apos;name&apos;..
+        ///   Looks up a localized string similar to Could not find an implementation of the query pattern for source type {0}. {1} not found. Consider explicitly specifying the type of the range variable {2}..
         /// </summary>
         internal static string CSharpErrors_CS1934 {
             get {
@@ -6595,7 +6577,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not find an implementation of the query pattern for source type &apos;type&apos;. &apos;method&apos; not found. Are you missing a reference to &apos;System.Core.dll&apos; or a using directive for &apos;System.Linq&apos;?.
+        ///   Looks up a localized string similar to Could not find an implementation of the query pattern for source type {0}. {1} not found. Are you missing a reference to &apos;System.Core.dll&apos; or a using directive for &apos;System.Linq&apos;?.
         /// </summary>
         internal static string CSharpErrors_CS1935 {
             get {
@@ -6604,7 +6586,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not find an implementation of the query pattern for source type &apos;type&apos;. &apos;method&apos; not found..
+        ///   Looks up a localized string similar to Could not find an implementation of the query pattern for source type {0}. {1} not found..
         /// </summary>
         internal static string CSharpErrors_CS1936 {
             get {
@@ -6613,7 +6595,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The name &apos;name&apos; is not in scope on the left side of &apos;equals&apos;. Consider swapping the expressions on either side of &apos;equals&apos;..
+        ///   Looks up a localized string similar to The name {0} is not in scope on the left side of &apos;equals&apos;. Consider swapping the expressions on either side of &apos;equals&apos;..
         /// </summary>
         internal static string CSharpErrors_CS1937 {
             get {
@@ -6622,7 +6604,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The name &apos;name&apos; is not in scope on the right side of &apos;equals&apos;. Consider swapping the expressions on either side of &apos;equals&apos;..
+        ///   Looks up a localized string similar to The name {0} is not in scope on the right side of &apos;equals&apos;. Consider swapping the expressions on either side of &apos;equals&apos;..
         /// </summary>
         internal static string CSharpErrors_CS1938 {
             get {
@@ -6631,7 +6613,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot pass the range variable &apos;name&apos; as an out or ref parameter..
+        ///   Looks up a localized string similar to Cannot pass the range variable {0} as an out or ref parameter..
         /// </summary>
         internal static string CSharpErrors_CS1939 {
             get {
@@ -6640,7 +6622,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Multiple implementations of the query pattern were found for source type &apos;type&apos;. Ambiguous call to &apos;method&apos;..
+        ///   Looks up a localized string similar to Multiple implementations of the query pattern were found for source type {0}. Ambiguous call to {1}..
         /// </summary>
         internal static string CSharpErrors_CS1940 {
             get {
@@ -6649,7 +6631,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type of one of the expressions in the &apos;clause&apos; clause is incorrect. Type inference failed in the call to &apos;method&apos;..
+        ///   Looks up a localized string similar to The type of one of the expressions in the {0} clause is incorrect. Type inference failed in the call to {1}..
         /// </summary>
         internal static string CSharpErrors_CS1941 {
             get {
@@ -6658,7 +6640,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type of the expression in the &apos;clause&apos; clause is incorrect. Type inference failed in the call to &apos;method&apos;..
+        ///   Looks up a localized string similar to The type of the expression in the {0} clause is incorrect. Type inference failed in the call to {1}..
         /// </summary>
         internal static string CSharpErrors_CS1942 {
             get {
@@ -6667,7 +6649,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An expression of type &apos;type&apos; is not allowed in a subsequent from clause in a query expression with source type &apos;type&apos;. Type inference failed in the call to &apos;method&apos;..
+        ///   Looks up a localized string similar to An expression of type {0} is not allowed in a subsequent from clause in a query expression with source type {1}. Type inference failed in the call to {2}..
         /// </summary>
         internal static string CSharpErrors_CS1943 {
             get {
@@ -6703,7 +6685,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Range variable &apos;variable name&apos; cannot be assigned to -- it is read only..
+        ///   Looks up a localized string similar to Range variable {0} cannot be assigned to -- it is read only..
         /// </summary>
         internal static string CSharpErrors_CS1947 {
             get {
@@ -6712,7 +6694,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The range variable &apos;name&apos; cannot have the same name as a method type parameter.
+        ///   Looks up a localized string similar to The range variable {0} cannot have the same name as a method type parameter.
         /// </summary>
         internal static string CSharpErrors_CS1948 {
             get {
@@ -6730,7 +6712,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The best overloaded Add method &apos;name&apos; for the collection initializer has some invalid arguments..
+        ///   Looks up a localized string similar to The best overloaded Add method {0} for the collection initializer has some invalid arguments..
         /// </summary>
         internal static string CSharpErrors_CS1950 {
             get {
@@ -6766,7 +6748,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The best overloaded method match &apos;method&apos; for the collection initializer element cannot be used. Collection initializer &apos;Add&apos; methods cannot have ref or out parameters..
+        ///   Looks up a localized string similar to The best overloaded method match {0} for the collection initializer element cannot be used. Collection initializer &apos;Add&apos; methods cannot have ref or out parameters..
         /// </summary>
         internal static string CSharpErrors_CS1954 {
             get {
@@ -6775,7 +6757,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Non-invocable member &apos;name&apos; cannot be used like a method..
+        ///   Looks up a localized string similar to Non-invocable member {0} cannot be used like a method..
         /// </summary>
         internal static string CSharpErrors_CS1955 {
             get {
@@ -6793,7 +6775,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;name&apos; is of type &apos;type&apos;. The type specified in a constant declaration must be sbyte, byte, short, ushort, int, uint, long, ulong, char, float, double, decimal, bool, string, an enum-type, or a reference-type..
+        ///   Looks up a localized string similar to {0} is of type {1}. The type specified in a constant declaration must be sbyte, byte, short, ushort, int, uint, long, ulong, char, float, double, decimal, bool, string, an enum-type, or a reference-type..
         /// </summary>
         internal static string CSharpErrors_CS1959 {
             get {
@@ -6802,7 +6784,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Source file &apos;file&apos; could not be found.
+        ///   Looks up a localized string similar to Source file {0} could not be found.
         /// </summary>
         internal static string CSharpErrors_CS2001 {
             get {
@@ -6811,7 +6793,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Response file &apos;file&apos; included multiple times.
+        ///   Looks up a localized string similar to Response file {0} included multiple times.
         /// </summary>
         internal static string CSharpErrors_CS2003 {
             get {
@@ -6820,7 +6802,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Missing file specification for &apos;option&apos; option.
+        ///   Looks up a localized string similar to Missing file specification for {0} option.
         /// </summary>
         internal static string CSharpErrors_CS2005 {
             get {
@@ -6829,7 +6811,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Command-line syntax error: Missing &apos;text&apos; for &apos;option&apos; option.
+        ///   Looks up a localized string similar to Command-line syntax error: Missing {0} for {1} option.
         /// </summary>
         internal static string CSharpErrors_CS2006 {
             get {
@@ -6838,7 +6820,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unrecognized command-line option: &apos;option&apos;.
+        ///   Looks up a localized string similar to Unrecognized command-line option: {0}.
         /// </summary>
         internal static string CSharpErrors_CS2007 {
             get {
@@ -6856,7 +6838,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to open response file &apos;file&apos;.
+        ///   Looks up a localized string similar to Unable to open response file {0}.
         /// </summary>
         internal static string CSharpErrors_CS2011 {
             get {
@@ -6865,7 +6847,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot open &apos;file&apos; for writing.
+        ///   Looks up a localized string similar to Cannot open {0} for writing.
         /// </summary>
         internal static string CSharpErrors_CS2012 {
             get {
@@ -6874,7 +6856,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid image base number &apos;value&apos;.
+        ///   Looks up a localized string similar to Invalid image base number {0}.
         /// </summary>
         internal static string CSharpErrors_CS2013 {
             get {
@@ -6883,7 +6865,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;file&apos; is a binary file instead of a text file.
+        ///   Looks up a localized string similar to {0} is a binary file instead of a text file.
         /// </summary>
         internal static string CSharpErrors_CS2015 {
             get {
@@ -6892,7 +6874,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Code page &apos;codepage&apos; is invalid or not installed.
+        ///   Looks up a localized string similar to Code page {0} is invalid or not installed.
         /// </summary>
         internal static string CSharpErrors_CS2016 {
             get {
@@ -6937,7 +6919,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File name &apos;file&apos; is too long or invalid.
+        ///   Looks up a localized string similar to File name {0} is too long or invalid.
         /// </summary>
         internal static string CSharpErrors_CS2021 {
             get {
@@ -6964,7 +6946,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Character &apos;character&apos; is not allowed on the command-line or in response files.
+        ///   Looks up a localized string similar to Character {0} is not allowed on the command-line or in response files.
         /// </summary>
         internal static string CSharpErrors_CS2032 {
             get {
@@ -6973,7 +6955,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot create short filename &apos;filename&apos; when a long filename with the same short filename already exists .
+        ///   Looks up a localized string similar to Cannot create short filename {0} when a long filename with the same short filename already exists.
         /// </summary>
         internal static string CSharpErrors_CS2033 {
             get {
@@ -6991,7 +6973,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Command-line syntax error: Missing &apos;:&lt;number&gt;&apos; for &apos;compiler_option&apos; option.
+        ///   Looks up a localized string similar to &gt;Command-line syntax error: Missing &apos;:&amp;lt;number&amp;gt;&apos; for {0} option.
         /// </summary>
         internal static string CSharpErrors_CS2035 {
             get {
@@ -7009,7 +6991,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Program &apos;program&apos; does not contain a static &apos;Main&apos; method suitable for an entry point.
+        ///   Looks up a localized string similar to Program {0} does not contain a static &apos;Main&apos; method suitable for an entry point.
         /// </summary>
         internal static string CSharpErrors_CS5001 {
             get {
