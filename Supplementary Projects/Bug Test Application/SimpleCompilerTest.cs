@@ -14,6 +14,12 @@ using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using Microsoft.VisualBasic;
 using System.Reflection;
+ /*---------------------------------------------------------------------\
+ | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ |----------------------------------------------------------------------|
+ | The Abstraction Project's code is provided under a contract-release  |
+ | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+ \-------------------------------------------------------------------- */
 namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 {
     public static class SimpleCompilerTest 
@@ -73,7 +79,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             var testAssembly                = IntermediateGateway.CreateAssembly("TestCompile1");
             var assemblyInfo                = testAssembly.AssemblyInformation;
             assemblyInfo.Culture            = CultureIdentifiers.English_UnitedStates;
-            assemblyInfo.Copyright          = "Copyright \xA9 2010 Allen C. Copeland Jr.";
+            assemblyInfo.Copyright          = "Copyright \xA9 2011 Allen C. Copeland Jr.";
             assemblyInfo.Product            = "Abstraction Project\u2122";
             assemblyInfo.Trademark          = "The Abstraction Project\u2122 is a registered trademark of Allen C. Copeland Jr.";
             assemblyInfo.Description        = "A project to assist in building the Abstraction Project's\u2122 compiler foundation.";

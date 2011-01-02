@@ -6,7 +6,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Collections;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 /*----------------------------------------\
-| Copyright © 2010 Allen Copeland Jr.     |
+| Copyright © 2011 Allen Copeland Jr.     |
 |-----------------------------------------|
 | The Abstraction Project's code is prov- |
 | -ided under a contract-release basis.   |

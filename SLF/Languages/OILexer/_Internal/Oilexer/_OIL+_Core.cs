@@ -19,6 +19,12 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf._Internal;
+ /*---------------------------------------------------------------------\
+ | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ |----------------------------------------------------------------------|
+ | The Abstraction Project's code is provided under a contract-release  |
+ | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+ \-------------------------------------------------------------------- */
 namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
 {
     partial class _OIL

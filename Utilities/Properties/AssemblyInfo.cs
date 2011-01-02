@@ -11,7 +11,7 @@ using System;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AllenCopeland.Abstraction")]
-[assembly: AssemblyCopyright("Copyright © Allen C. Copeland Jr. 2010")]
+[assembly: AssemblyCopyright("Copyright © Allen C. Copeland Jr. 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(true)]

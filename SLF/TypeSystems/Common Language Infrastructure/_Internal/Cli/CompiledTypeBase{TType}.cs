@@ -11,7 +11,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
 //Average number of combinations in my passwords: 47,672,401,706,823,533,450,263,330,816 (62 ^ 16)
  /*---------------------------------------------------------------------\
- | Copyright © 2010 Allen Copeland Jr.                                  |
+ | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |

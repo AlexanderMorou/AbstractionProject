@@ -14,7 +14,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
- | Copyright © 2010 Allen Copeland Jr.                                  |
+ | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -298,5 +298,29 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             return default(TMethod);
         }
+        #region ICompiledMethodMember Members
+
+
+        public object Invoke(object target, params object[] parameters)
+        {
+            return this.MemberInfo.Invoke(target, parameters);
+        }
+
+        public object Invoke(params object[] parameters)
+        {
+            return this.Invoke(null, parameters);
+        }
+
+        public T Invoke<T>(params object[] parameters)
+        {
+            return (T)this.Invoke(parameters);
+        }
+
+        public T Invoke<T>(object target, params object[] parameters)
+        {
+            return (T)this.Invoke(target, parameters);
+        }
+
+        #endregion
     }
 }

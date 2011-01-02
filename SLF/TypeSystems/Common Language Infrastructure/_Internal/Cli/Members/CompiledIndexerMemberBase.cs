@@ -8,6 +8,12 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
+ /*---------------------------------------------------------------------\
+ | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ |----------------------------------------------------------------------|
+ | The Abstraction Project's code is provided under a contract-release  |
+ | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+ \-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
@@ -165,5 +171,49 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             return new ParameterDictionary(((TIndexer)(object)(this)), this.MemberInfo.GetIndexParameters());
         }
+        #region ICompiledPropertyMember Members
+
+
+        public T GetValue<T>(object target)
+        {
+            throw new NotSupportedException();
+        }
+
+        public T GetValue<T>()
+        {
+            throw new NotSupportedException();
+        }
+
+        public object GetValue(object target)
+        {
+            throw new NotSupportedException();
+        }
+
+        public object GetValue()
+        {
+            throw new NotSupportedException();
+        }
+
+        public void SetValue(object target, object value)
+        {
+            throw new NotSupportedException();
+        }
+
+        public void SetValue(object value)
+        {
+            throw new NotSupportedException();
+        }
+
+        public void SetValue<T>(object target, T value)
+        {
+            throw new NotSupportedException();
+        }
+
+        public void SetValue<T>(T value)
+        {
+            throw new NotSupportedException();
+        }
+
+        #endregion
     }
 }
