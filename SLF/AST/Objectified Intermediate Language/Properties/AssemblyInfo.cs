@@ -11,7 +11,7 @@ using System;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("None")]
 [assembly: AssemblyProduct("Objectified Intermediate Language")]
-[assembly: AssemblyCopyright("Copyright © Allen Copeland Jr. 2010")]
+[assembly: AssemblyCopyright("Copyright © Allen Copeland Jr. 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(false)]

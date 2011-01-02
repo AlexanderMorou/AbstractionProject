@@ -13,6 +13,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
+ /*---------------------------------------------------------------------\
+ | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ |----------------------------------------------------------------------|
+ | The Abstraction Project's code is provided under a contract-release  |
+ | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+ \-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens
 {
@@ -66,7 +72,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens
 }
  /* --------------------------------------------------------------------------------------\
  |  This file took 00:00:00.0008193 to generate.                                          |
- |  Date generated: 8/26/2010 4:13:06 PM                                                  |
+ |  Date generated: 8/26/2011 4:13:06 PM                                                  |
  |  There were 3 types used by this file                                                  |
  |  System.Int64, List`1[[RegularLanguageScanData+Entry]], RegularLanguageScanData+Entry  |
  |----------------------------------------------------------------------------------------|

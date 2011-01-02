@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
- | Copyright © 2010 Allen Copeland Jr.                                  |
+ | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -30,29 +30,24 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
 
         internal static bool LastParameterIsParams(this MethodBase mb)
         {
-            var piA = mb.GetParameters();
+            return LastParameterIsParams(mb.GetParameters());
+        }
+        internal static bool LastParameterIsParams(this PropertyInfo property)
+        {
+            return LastParameterIsParams(property.GetIndexParameters());
+        }
+
+        private static bool LastParameterIsParams(ParameterInfo[] target)
+        {
+            if (target == null)
+                throw new ArgumentNullException();
+            var piA = target;
             if (piA.Length > 0)
             {
                 var pi = piA[piA.Length - 1];
                 object[] custAttrs = pi.GetCustomAttributes(typeof(ParamArrayAttribute), true);
                 if (custAttrs.Length > 0)
                     return true;
-            }
-            return false;
-        }
-        internal static bool LastParameterIsParams(this PropertyInfo property)
-        {
-            var propertyMethod = property.GetFirstMethod();
-            if (propertyMethod != null)
-            {
-                var piA = propertyMethod.GetParameters();
-                if (piA.Length > 0)
-                {
-                    var pi = piA[piA.Length - 1];
-                    object[] custAttrs = pi.GetCustomAttributes(typeof(ParamArrayAttribute), true);
-                    if (custAttrs.Length > 0)
-                        return true;
-                }
             }
             return false;
         }
@@ -149,7 +144,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
 
         public static AccessLevelModifiers GetAccessModifiers(this EventInfo @event)
         {
-            MethodInfo firstMethod = GetEventFirstMethod(@event);
+            MethodInfo firstMethod = @event.GetFirstEventMethod();
             if (firstMethod.IsPublic)
                 return AccessLevelModifiers.Public;
             else if (firstMethod.IsAssembly)
@@ -166,7 +161,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
             return AccessLevelModifiers.Private;
         }
 
-        internal static MethodInfo GetEventFirstMethod(this EventInfo @event)
+        internal static MethodInfo GetFirstEventMethod(this EventInfo @event)
         {
             MethodInfo result = @event.GetAddMethod(true);
             if (result == null)
@@ -227,12 +222,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
             else
                 return AccessLevelModifiers.Private;
         }
-        /// <summary>
-        /// Returns the stack requirement for a given <paramref name="method"/>.
-        /// </summary>
-        /// <param name="method">The <see cref="IMethodSignatureMember{TSignatureParameter, TGenericParameter, TSignature, TSignatureParent}"/> to check the stack requirement of.</param>
-        /// <returns>A <see cref="System.Int32"/> indicating the size of stack requirement placed upon the
-        /// <see cref="IMethodSignatureMember{TSignatureParameter, TGenericParameter, TSignature, TSignatureParent}"/></returns>
         public static int CalculateStackRequirement<TSignatureParameter, TSignature, TSignatureParent>(this IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent> method)
             where TSignatureParameter :
                 IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
@@ -241,9 +230,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
             where TSignatureParent :
                 ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
         {
-            if (method is IExtendedInstanceMember && (((IExtendedInstanceMember)(method)).InstanceFlags & ExtendedInstanceMemberFlags.Static) == ExtendedInstanceMemberFlags.Static)
-                return method.Parameters.Count;
-            return method.Parameters.Count + 1;
+            var extendedInstanceMember = method as IExtendedInstanceMember;
+            if (extendedInstanceMember != null)
+            {
+                if (extendedInstanceMember.IsStatic)
+                    return method.Parameters.Count;
+                else
+                    return method.Parameters.Count + 1;
+            }
+            return method.Parameters.Count;
         }
 
 

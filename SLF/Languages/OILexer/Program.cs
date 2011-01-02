@@ -24,6 +24,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Common;
 using System.Windows.Forms;
 using AllenCopeland.Abstraction.Slf.Parsers;
+using AllenCopeland.Abstraction.Slf.Cli.Members;
 /* *
  * Old Release Post-build command:
  * "$(ProjectDir)PostBuild.bat" "$(ConfigurationName)" "$(TargetPath)"
@@ -112,7 +113,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             /// <summary>
             /// Instructs the <see cref="Program"/> to emit
             /// a series of hypertext mark-up language (HTML)
-            /// files associated to the current grammar.
+            /// files associated to parsing the current
+            /// grammar.
             /// </summary>
             ExportTraversalHTML     = 0x0240,
             /// <summary>
@@ -145,7 +147,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
         /// call site.</param>
         private static void Main(string[] args)
         {
-            Console.WriteLine(CSharpCompilerMessages.CS3013);
             var consoleTitle = Console.Title;
             try
             {
@@ -224,6 +225,33 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             {
                 Console.Title = consoleTitle;
             }
+        }
+
+        private static void BrowseCSCMessages()
+        {
+            var cscms = typeof(CSharpCompilerMessages).GetTypeReference<IClassType>() as ICompiledClassType;
+            Tuple<bool, int, int, string, string>[] warnErrors = new Tuple<bool, int, int, string, string>[cscms.Properties.Count];
+            int index = 0;
+            foreach (ICompiledPropertyMember prop in cscms.Properties.Values)
+            {
+                var returnType = prop.PropertyType;
+                if (returnType == typeof(ICompilerReferenceWarning).GetTypeReference())
+                {
+                    ICompilerReferenceWarning warning = prop.GetValue<ICompilerReferenceWarning>();
+                    warnErrors[index++] = new Tuple<bool, int, int, string, string>(false, warning.MessageIdentifier, warning.WarningLevel, warning.MessageBase, prop.Name);
+                }
+                else if (returnType == typeof(ICompilerReferenceError).GetTypeReference())
+                {
+                    ICompilerReferenceError error = prop.GetValue<ICompilerReferenceError>();
+                    warnErrors[index++] = new Tuple<bool, int, int, string, string>(true, error.MessageIdentifier, 0, error.MessageBase, prop.Name);
+                }
+            }
+            var messages = (from we in warnErrors
+                            orderby we.Item1,
+                                    we.Item3,
+                                    we.Item2,
+                                    we.Item4
+                            select new { MessageName = we.Item5, IsError = we.Item1, MessageIdentifier = we.Item2, WarningLevel = we.Item3, MessageBase = we.Item4 }).ToArray();
         }
 
         private static void Extraction05()

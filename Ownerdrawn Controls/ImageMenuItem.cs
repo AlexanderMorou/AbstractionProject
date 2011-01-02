@@ -9,7 +9,7 @@ using System.Drawing.Imaging;
 //using AllenCopeland.Abstraction.OwnerDrawnControls.ListDynamics;
 using System.Diagnostics;
  /*----------------------------------------\
- | Copyright © 2010 Allen Copeland Jr.     |
+ | Copyright © 2011 Allen Copeland Jr.     |
  |-----------------------------------------|
  | The Abstraction Project's code is prov- |
  | -ided under a contract-release basis.   |

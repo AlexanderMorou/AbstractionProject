@@ -9,7 +9,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2010 Allen Copeland Jr.                                  |
+ | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -241,5 +241,73 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get { return this.MemberInfo.GetAccessModifiers(); }
         }
+        #region ICompiledPropertyMember Members
+
+
+        public T GetValue<T>(object target)
+        {
+            if (this.CanRead)
+                return ((ICompiledMethodMember)this.GetMethod).Invoke<T>(target: target);
+            else
+                throw new NotSupportedException("Property is write-only.");
+        }
+
+        public T GetValue<T>()
+        {
+            if (this.CanRead)
+                return ((ICompiledMethodMember)this.GetMethod).Invoke<T>();
+            else
+                throw new NotSupportedException("Property is write-only.");
+        }
+
+        public object GetValue(object target)
+        {
+            if (this.CanRead)
+                return ((ICompiledMethodMember)this.GetMethod).Invoke(target: target);
+            else
+                throw new NotSupportedException("Property is write-only.");
+        }
+
+        public object GetValue()
+        {
+            if (this.CanRead)
+                return ((ICompiledMethodMember)this.GetMethod).Invoke();
+            else
+                throw new NotSupportedException("Property is write-only.");
+        }
+
+        public void SetValue(object target, object value)
+        {
+            if (this.CanWrite)
+                ((ICompiledMethodMember)(this.SetMethod)).Invoke(target, value);
+            else
+                throw new NotSupportedException("Property is read-only");
+        }
+
+        public void SetValue(object value)
+        {
+            if (this.CanWrite)
+                ((ICompiledMethodMember)(this.SetMethod)).Invoke(parameters: value);
+            else
+                throw new NotSupportedException("Property is read-only");
+        }
+
+        public void SetValue<T>(object target, T value)
+        {
+            if (this.CanWrite)
+                ((ICompiledMethodMember)(this.SetMethod)).Invoke(target, value);
+            else
+                throw new NotSupportedException("Property is read-only");
+        }
+
+        public void SetValue<T>(T value)
+        {
+            if (this.CanWrite)
+                ((ICompiledMethodMember)(this.SetMethod)).Invoke(parameters: value);
+            else
+                throw new NotSupportedException("Property is read-only");
+        }
+
+        #endregion
     }
 }

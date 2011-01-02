@@ -10,6 +10,12 @@
  |  Sub-tool Version: 1.0.0.19203                              |
  \----------------------------------------------------------- */
 using System;
+ /*---------------------------------------------------------------------\
+ | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ |----------------------------------------------------------------------|
+ | The Abstraction Project's code is provided under a contract-release  |
+ | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+ \-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Utilities.Tuples
 {
@@ -30,7 +36,7 @@ namespace AllenCopeland.Abstraction.Utilities.Tuples
 }
  /* ------------------------------------------------------------------------------\
  |  This file took 00:00:00.0003559 to generate.                                  |
- |  Date generated: 8/31/2010 11:53:54 AM                                         |
+ |  Date generated: 8/31/2011 11:53:54 AM                                         |
  |  There were 13 types used by this file                                         |
  |  1, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9,                                            |
  |  <T1,T2,T3,T4,T5,T6,T7,System.Tuple`4<T8,T9,T10,T11>>, Tuple`4<T8,T9,T10,T11>  |
