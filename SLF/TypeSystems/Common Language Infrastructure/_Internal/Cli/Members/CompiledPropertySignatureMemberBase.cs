@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using System.Reflection;
+using AllenCopeland.Abstraction.Slf.Cli.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -93,6 +94,58 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 return null;
             return this.OnGetMethod(methodType, mi);
         }
+        #region ICompiledPropertyMember Members
+
+
+        public T GetValue<T>(object target)
+        {
+            if (this.CanRead)
+                return (T)this.MemberInfo.GetValue(target, null);
+            else
+                throw new NotSupportedException("Property is write-only.");
+        }
+
+        public T GetValue<T>()
+        {
+            if (this.CanRead)
+                return (T)this.MemberInfo.GetValue(null, null);
+            else
+                throw new NotSupportedException("Property is write-only.");
+        }
+
+        public object GetValue(object target)
+        {
+            if (this.CanRead)
+                return this.MemberInfo.GetValue(target, null);
+            else
+                throw new NotSupportedException("Property is write-only.");
+        }
+
+        public object GetValue()
+        {
+            if (this.CanRead)
+                return this.MemberInfo.GetValue(null, null);
+            else
+                throw new NotSupportedException("Property is write-only.");
+        }
+
+        public void SetValue(object target, object value)
+        {
+            if (this.CanWrite)
+                this.MemberInfo.SetValue(target, value, null);
+            else
+                throw new NotSupportedException("Property is read-only");
+        }
+
+        public void SetValue(object value)
+        {
+            if (this.CanWrite)
+                this.MemberInfo.SetValue(null, value, null);
+            else
+                throw new NotSupportedException("Property is read-only");
+        }
+
+        #endregion
 
     }
 }

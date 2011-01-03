@@ -23,5 +23,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Members
         /// to the <see cref="ICompiledPropertySignatureMember"/>.
         /// </summary>
         new PropertyInfo MemberInfo { get; }
+        T GetValue<T>(object target);
+        T GetValue<T>();
+        object GetValue(object target);
+        object GetValue();
+        void SetValue(object target, object value);
+        void SetValue(object value);
     }
 }

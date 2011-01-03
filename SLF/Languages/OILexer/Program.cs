@@ -147,6 +147,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
         /// call site.</param>
         private static void Main(string[] args)
         {
+
             var consoleTitle = Console.Title;
             try
             {
@@ -227,11 +228,47 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             }
         }
 
+        private static void TestMethod()
+        {
+            var abstractionTime = Time(BrowseCSCMessages);
+            var reflectionTime = Time(BrowseCSCMessagesReflection);
+            Console.WriteLine("Abstraction took: {0}\nReflection Took: {1}", abstractionTime, reflectionTime);
+        }
+
+        private static void BrowseCSCMessagesReflection() {
+            var cscms = typeof(CSharpCompilerMessages);
+            var properties = cscms.GetProperties(BindingFlags.Public | BindingFlags.Static);
+            Tuple<bool, int, int, string, string>[] warnErrors = new Tuple<bool, int, int, string, string>[properties.Length];
+            int index = 0;
+            foreach (var prop in properties)
+            {
+                var returnType = prop.PropertyType;
+                var getMethod = prop.GetGetMethod(true);
+                if (returnType == typeof(ICompilerReferenceWarning))
+                {
+                    ICompilerReferenceWarning warning = (ICompilerReferenceWarning)getMethod.Invoke(null, null);
+                    warnErrors[index++] = new Tuple<bool, int, int, string, string>(false, warning.MessageIdentifier, warning.WarningLevel, warning.MessageBase, prop.Name);
+                }
+                else if (returnType == typeof(ICompilerReferenceError))
+                {
+                    ICompilerReferenceError error = (ICompilerReferenceError)getMethod.Invoke(null, null);
+                    warnErrors[index++] = new Tuple<bool, int, int, string, string>(true, error.MessageIdentifier, 0, error.MessageBase, prop.Name);
+                }
+            }
+            var messages = (from we in warnErrors
+                            where we != null
+                            orderby we.Item1,
+                                    we.Item3,
+                                    we.Item2,
+                                    we.Item4
+                            select new { MessageName = we.Item5, IsError = we.Item1, MessageIdentifier = we.Item2, WarningLevel = we.Item3, MessageBase = we.Item4 }).ToArray();
+        }
         private static void BrowseCSCMessages()
         {
-            var cscms = typeof(CSharpCompilerMessages).GetTypeReference<IClassType>() as ICompiledClassType;
+            var cscms = typeof(CSharpCompilerMessages).GetTypeReference<IClassType>();
             Tuple<bool, int, int, string, string>[] warnErrors = new Tuple<bool, int, int, string, string>[cscms.Properties.Count];
             int index = 0;
+            
             foreach (ICompiledPropertyMember prop in cscms.Properties.Values)
             {
                 var returnType = prop.PropertyType;
@@ -247,6 +284,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 }
             }
             var messages = (from we in warnErrors
+                            where we != null
                             orderby we.Item1,
                                     we.Item3,
                                     we.Item2,

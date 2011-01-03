@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Utilities.Arrays;
 using System.Reflection;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
@@ -19,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
     internal abstract class CompiledIndexerSignatureMemberBase<TIndexer, TIndexerParent, TIndexerMethod, TMethod, TMethodParent> :
         IndexerSignatureMemberBase<TIndexer, TIndexerParent, TIndexerMethod, TMethod, TMethodParent>,
-        ICompiledPropertySignatureMember
+        ICompiledIndexerSignatureMember
         where TIndexer :
             IIndexerSignatureMember<TIndexer, TIndexerParent>
         where TIndexerParent :
@@ -79,5 +80,58 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             return this.MemberInfo.Name;
         }
+
+        #region ICompiledIndexerSignatureMember Members
+
+        public T GetValue<T>(object target, params object[] indices)
+        {
+            if (this.CanRead)
+                return (T)this.MemberInfo.GetValue(target, indices);
+            else
+                throw new NotSupportedException("Indexer is write-only.");
+        }
+
+        public T GetValue<T>(params object[] indices)
+        {
+            if (this.CanRead)
+                return (T)this.MemberInfo.GetValue(null, indices);
+            else
+                throw new NotSupportedException("Indexer is write-only.");
+        }
+
+        public object GetValue(object target, params object[] indices)
+        {
+            if (this.CanRead)
+                return this.MemberInfo.GetValue(target, indices);
+            else
+                throw new NotSupportedException("Indexer is write-only.");
+        }
+
+        public object GetValue(params object[] indices)
+        {
+            if (this.CanRead)
+                return this.MemberInfo.GetValue(null, indices);
+            else
+                throw new NotSupportedException("Indexer is write-only.");
+        }
+
+        public void SetValue(object target, object[] indices, object value)
+        {
+            if (this.CanWrite)
+                this.MemberInfo.SetValue(target, value, indices);
+            else
+                throw new NotSupportedException("Indexer is read-only");
+        }
+
+        public void SetValue(object[] indices, object value)
+        {
+            if (this.CanWrite)
+                this.MemberInfo.SetValue(null, value, indices);
+            else
+                throw new NotSupportedException("Indexer is read-only");
+        }
+
+        #endregion
+
     }
 }
