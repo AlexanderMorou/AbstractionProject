@@ -286,5 +286,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             return default(TMethod);
         }
+
+
+        public object Invoke(object target, params object[] parameters)
+        {
+            return this.MemberInfo.Invoke(target, parameters);
+        }
+
+        public object Invoke(params object[] parameters)
+        {
+            return this.Invoke(null, parameters);
+        }
+
+        public T Invoke<T>(params object[] parameters)
+        {
+            return (T)this.Invoke(parameters);
+        }
+
+        public T Invoke<T>(object target, params object[] parameters)
+        {
+            return (T)this.Invoke(target, parameters);
+        }
+
     }
 }

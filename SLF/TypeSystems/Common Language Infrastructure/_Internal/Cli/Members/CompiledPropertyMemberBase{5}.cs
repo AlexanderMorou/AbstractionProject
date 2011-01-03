@@ -247,7 +247,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         public T GetValue<T>(object target)
         {
             if (this.CanRead)
-                return ((ICompiledMethodMember)this.GetMethod).Invoke<T>(target: target);
+                return (T)this.MemberInfo.GetValue(target, null);
             else
                 throw new NotSupportedException("Property is write-only.");
         }
@@ -255,7 +255,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         public T GetValue<T>()
         {
             if (this.CanRead)
-                return ((ICompiledMethodMember)this.GetMethod).Invoke<T>();
+                return (T)this.MemberInfo.GetValue(null, null);
             else
                 throw new NotSupportedException("Property is write-only.");
         }
@@ -263,7 +263,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         public object GetValue(object target)
         {
             if (this.CanRead)
-                return ((ICompiledMethodMember)this.GetMethod).Invoke(target: target);
+                return this.MemberInfo.GetValue(target, null);
             else
                 throw new NotSupportedException("Property is write-only.");
         }
@@ -271,7 +271,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         public object GetValue()
         {
             if (this.CanRead)
-                return ((ICompiledMethodMember)this.GetMethod).Invoke();
+                return this.MemberInfo.GetValue(null, null);
             else
                 throw new NotSupportedException("Property is write-only.");
         }
@@ -279,7 +279,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         public void SetValue(object target, object value)
         {
             if (this.CanWrite)
-                ((ICompiledMethodMember)(this.SetMethod)).Invoke(target, value);
+                this.MemberInfo.SetValue(target, value, null);
             else
                 throw new NotSupportedException("Property is read-only");
         }
@@ -287,23 +287,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         public void SetValue(object value)
         {
             if (this.CanWrite)
-                ((ICompiledMethodMember)(this.SetMethod)).Invoke(parameters: value);
-            else
-                throw new NotSupportedException("Property is read-only");
-        }
-
-        public void SetValue<T>(object target, T value)
-        {
-            if (this.CanWrite)
-                ((ICompiledMethodMember)(this.SetMethod)).Invoke(target, value);
-            else
-                throw new NotSupportedException("Property is read-only");
-        }
-
-        public void SetValue<T>(T value)
-        {
-            if (this.CanWrite)
-                ((ICompiledMethodMember)(this.SetMethod)).Invoke(parameters: value);
+                this.MemberInfo.SetValue(null, value, null);
             else
                 throw new NotSupportedException("Property is read-only");
         }

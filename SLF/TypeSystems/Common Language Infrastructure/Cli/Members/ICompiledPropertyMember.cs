@@ -28,7 +28,5 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Members
         object GetValue();
         void SetValue(object target, object value);
         void SetValue(object value);
-        void SetValue<T>(object target, T value);
-        void SetValue<T>(T value);
     }
 }

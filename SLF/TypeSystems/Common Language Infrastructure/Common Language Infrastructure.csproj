@@ -136,6 +136,8 @@
     <Compile Include="Cli\Members\ICompiledEventSignatureMember.cs" />
     <Compile Include="Cli\Members\ICompiledFieldMember.cs" />
     <Compile Include="Cli\Members\ICompiledGenericParameter.cs" />
+    <Compile Include="Cli\Members\ICompiledIndexerMember.cs" />
+    <Compile Include="Cli\Members\ICompiledIndexerSignatureMember.cs" />
     <Compile Include="Cli\Members\ICompiledMember.cs" />
     <Compile Include="Cli\Members\ICompiledMethodMember.cs" />
     <Compile Include="Cli\Members\ICompiledMethodSignature.cs" />
