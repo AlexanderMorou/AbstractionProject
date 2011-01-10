@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Slf.Oil.Modules;
 using System.ComponentModel;
 using AllenCopeland.Abstraction.Slf.Cst;
+using AllenCopeland.Abstraction.Slf.Compilers;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -76,5 +77,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// to the <see cref="IIntermediateAssembly"/>.
         /// </summary>
         IAssemblyReferenceCollection References { get; }
+        /// <summary>
+        /// Returns the <see cref="ICompilationContext"/> associated to the 
+        /// <see cref="IIntermediateAssembly"/> which denotes the
+        /// output type, target file, 
+        /// </summary>
+        ICompilationContext CompilationContext { get; }
     }
 }

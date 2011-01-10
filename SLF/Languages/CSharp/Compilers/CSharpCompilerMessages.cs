@@ -4299,7 +4299,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0313;
 
-        /// <summary><para>C&#9839; compiler error &#35;314:</para><para>The type {0} cannot be used as type parameter {1} in the generic type or method {2}. There is no boxing conversion or type parameter conversion from {3} to {4}.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;314:</para><para>The type {0} cannot be used as type parameter {1} in the generic type or method {2}. There is no boxing conversion or type parameter conversion from {0} to {3}.</para></summary>
         public static ICompilerReferenceError CS0314
         {
             get
@@ -4311,7 +4311,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0314;
 
-        /// <summary><para>C&#9839; compiler error &#35;315:</para><para>The type {0} cannot be used as type parameter {1} in the generic type or method {2}. There is no boxing conversion from {3} to {4}.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;315:</para><para>The type {0} cannot be used as type parameter {1} in the generic type or method {2}. There is no boxing conversion from {0} to {3}.</para></summary>
         public static ICompilerReferenceError CS0315
         {
             get

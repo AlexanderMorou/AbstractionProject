@@ -16,8 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     /// Defines properties and methods associated to a message
     /// from a compiler.
     /// </summary>
-    public interface ICompilerMessage :
-        ISourceRelatedMessage
+    public interface ICompilerMessage
     {
         int MessageIdentifier { get; }
     }

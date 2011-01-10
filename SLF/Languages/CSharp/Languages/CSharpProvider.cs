@@ -19,7 +19,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     internal class CSharpProvider :
         ICSharpProvider
     {
-        private ICSharpCompiler compiler;
         private CSharpLanguageVersion versionCompatability;
         internal CSharpProvider(CSharpLanguageVersion versionCompatability)
         {
@@ -37,17 +36,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         {
             get { throw new NotImplementedException(); }
         }
-
-        public ICSharpCompiler Compiler
-        {
-            get
-            {
-                if (this.compiler == null)
-                    this.compiler = new CSharpCompiler(this);
-                return this.compiler;
-            }
-        }
-
         public ICSharpCodeTranslator Translator
         {
             get { throw new NotImplementedException(); }
@@ -86,11 +74,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         ILanguageASTTranslator<ICSharpCompilationUnit> IHighLevelLanguageProvider<ICSharpCompilationUnit>.ASTTranslator
         {
             get { return this.ASTTranslator; }
-        }
-
-        IIntermediateCompiler<ICSharpCompilationUnit> IHighLevelLanguageProvider<ICSharpCompilationUnit>.Compiler
-        {
-            get { return this.Compiler; }
         }
 
         IIntermediateCodeTranslator IHighLevelLanguageProvider<ICSharpCompilationUnit>.Translator

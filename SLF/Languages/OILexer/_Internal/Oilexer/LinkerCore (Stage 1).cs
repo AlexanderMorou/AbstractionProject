@@ -466,12 +466,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 throw new ArgumentNullException("file");
             if (errors == null)
                 throw new ArgumentNullException("errors");
-            foreach (ITokenEntry ite in file.GetTokenEnumerator())
-                ite.ResolveToken(file, errors);
-            foreach (IProductionRuleEntry ipre in file.GetRulesEnumerator())
-                ipre.ResolveProductionRule(file, errors);
-            foreach (IProductionRuleTemplateEntry ipre in file.GetTemplateRulesEnumerator())
-                ipre.ResolveProductionRule(file, errors);
+            var entries = from entry in file
+                          where entry is ITokenEntry ||
+                                entry is IProductionRuleEntry ||
+                                entry is IProductionRuleTemplateEntry
+                          select entry;
+            entries.AsParallel().ForAll(entry =>
+            {
+                if (entry is ITokenEntry)
+                    ((ITokenEntry)(entry)).ResolveToken(file, errors);
+                else if (entry is IProductionRuleEntry)
+                    ((IProductionRuleEntry)(entry)).ResolveProductionRule(file, errors);
+                else if (entry is IProductionRuleTemplateEntry)
+                    ((IProductionRuleTemplateEntry)(entry)).ResolveProductionRule(file, errors);
+            });
+            //foreach (ITokenEntry ite in file.GetTokenEnumerator())
+            //    ite.ResolveToken(file, errors);
+            //foreach (IProductionRuleEntry ipre in file.GetRulesEnumerator())
+            //    ipre.ResolveProductionRule(file, errors);
+            //foreach (IProductionRuleTemplateEntry ipre in file.GetTemplateRulesEnumerator())
+            //    ipre.ResolveProductionRule(file, errors);
 
         }
 

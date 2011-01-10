@@ -163,28 +163,28 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 string file = null;
                 string extension = null;
                 foreach (string s in args)
-                    if (s.ToLower() == NoSyntax)
+                    if (s.ToLower() == NoSyntax) /* -ns */
                         options = (options & ~ValidOptions.ShowSyntax) | ValidOptions.DoNotEmitSyntax;
-                    else if (s.ToLower() == Syntax)
+                    else if (s.ToLower() == Syntax)/* -s */
                         options = (options & ~ValidOptions.DoNotEmitSyntax) | ValidOptions.ShowSyntax;
-                    else if (s.ToLower() == NoLogo)
+                    else if (s.ToLower() == NoLogo)/* -nl */
                         options = options | ValidOptions.NoLogo;
-                    else if (s.ToLower() == Export_TraversalHTML)
+                    else if (s.ToLower() == Export_TraversalHTML)/* -ex:t-html */
                     {
                         options &= ~(ValidOptions.ExportEXE | ValidOptions.ExportDLL | ValidOptions.ExportCSharp);
                         options |= ValidOptions.ExportTraversalHTML;
                     }
-                    else if (s.ToLower() == Export_DLL)
+                    else if (s.ToLower() == Export_DLL) /* -ex:dll */
                         options = (options & ~(ValidOptions.ExportEXE | ValidOptions.ExportTraversalHTML | ValidOptions.ExportCSharp)) | ValidOptions.ExportDLL;
-                    else if (s.ToLower() == Export_EXE)
+                    else if (s.ToLower() == Export_EXE) /* -ex:exe */
                         options = (options & ~(ValidOptions.ExportTraversalHTML | ValidOptions.ExportDLL | ValidOptions.ExportCSharp)) | ValidOptions.ExportEXE;
-                    else if (s.ToLower() == Export_CSharp)
+                    else if (s.ToLower() == Export_CSharp) /* -ex:cs */
                         options = (options & ~(ValidOptions.ExportEXE | ValidOptions.ExportDLL | ValidOptions.ExportTraversalHTML)) | ValidOptions.ExportCSharp;
-                    else if (s.ToLower() == Quiet)
+                    else if (s.ToLower() == Quiet) /* -q */
                         options = (options & ~ValidOptions.VerboseMode) | ValidOptions.QuietMode;
-                    else if (s.ToLower() == Verbose)
+                    else if (s.ToLower() == Verbose) /* -v */
                         options = (options & ~ValidOptions.QuietMode) | ValidOptions.VerboseMode;
-                    else if (s.ToLower().Substring(0, StreamAnalysis.Length) == StreamAnalysis)
+                    else if (s.ToLower().Substring(0, StreamAnalysis.Length) == StreamAnalysis) /* -a:FILE */
                     {
                         var streamFile = s.ToLower().Substring(StreamAnalysis.Length);
                         if (File.Exists(streamFile))
@@ -200,9 +200,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                             di = null;
                         }
                     }
-                    else if (s.ToLower().Substring(0, StreamAnalysisExtension.Length) == StreamAnalysisExtension)
+                    else if (s.ToLower().Substring(0, StreamAnalysisExtension.Length) == StreamAnalysisExtension) /* -ae:EXTENSION */
                         extension = s.ToLower().Substring(StreamAnalysisExtension.Length);
-                    else if (!File.Exists(s))
+                    else if (!File.Exists(s)) /* FILENAME */
                         Console.WriteLine("File {0} does not exist.", s);
                     else if (file == null)
                     {
@@ -968,7 +968,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     Console.WriteLine("\t{0} {2} in file {1}:", fileErrorSet.Errors.Length, fileErrorSet.File, fError);
                     foreach (var ce in fileErrorSet.Errors)
                     {
-                        bool isWarning = ce is ICompilerWarning;
+                        bool isWarning = ce is ICompilerSourceWarning;
                         if (!isWarning)
                             Console.ForegroundColor = errorColor;
                         else
