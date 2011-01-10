@@ -13,7 +13,7 @@ using AllenCopeland.Abstraction.Slf.Oil;
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
     public class CompilerError :
-        ICompilerError
+        ICompilerSourceError
     {
         private string[] replacements;
         private ICompilerReferenceError message;
@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             this.FileName = fileName;
             this.replacements = replacements;
             this.message = message;
-            this.Location = new LineColumnPair() { Column = column, Line = line };
+            this.Location = new LineColumnPair(line, column);
         }
 
         #region ISourceRelatedMessage Members

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Languages;
+using AllenCopeland.Abstraction.Slf.Oil;
 /*---------------------------------------------------------------------\
 | Copyright © 2008-2011 Allen Copeland Jr.                             |
 |----------------------------------------------------------------------|
@@ -15,10 +16,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     /// <summary>
     /// Provides a base class for compiler options.
     /// </summary>
-    public class CompilerOptions :
-        ICompilerOptions
+    public class CompilationContext :
+        ICompilationContext
     {
-        #region ICompilerOptions Members
+        #region ICompilationContext Members
 
         /// <summary>
         /// Returns/sets whether the code should be optimized.
@@ -43,7 +44,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <summary>
         /// Returns/sets the assembly target file name.
         /// </summary>
-        /// <remarks>If <see cref="InMemory"/> is true, returns null; otherwise the target file.</remarks>
         public string Target { get; set; }
 
         /// <summary>
@@ -62,11 +62,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         public WarningLevel WarnLevel { get; set; }
 
         /// <summary>
-        /// Returns the <see cref="ILanguage"/> associated to the compile process.
-        /// </summary>
-        public ILanguage Language { get; private set; }
-
-        /// <summary>
         /// Returns/sets whether arithmetic overflow checks are on by default.
         /// </summary>
         public bool ArithmeticOverflowChecks { get; set; }
@@ -74,15 +69,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         #endregion
 
         /// <summary>
-        /// Creates a new <see cref="CompilerOptions"/> for the
-        /// <paramref name="language"/> provided.
+        /// Creates a new <see cref="CompilationContext"/> initialized to its default state.
         /// </summary>
-        /// <param name="language">The <see cref="ILanguage"/> which represents
-        /// details about the langauge the intermediate code is being compiled
-        /// in.</param>
-        public CompilerOptions(ILanguage language)
+        public CompilationContext()
         {
-            this.Language = language;
         }
     }
 }

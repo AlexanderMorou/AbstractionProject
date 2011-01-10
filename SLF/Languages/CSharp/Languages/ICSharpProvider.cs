@@ -20,7 +20,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     {
         new ICSharpParser Parser { get; }
         new ICSharpASTTranslator ASTTranslator { get; }
-        new ICSharpCompiler Compiler { get; }
         new ICSharpCodeTranslator Translator { get; }
         new ICSharpLanguage Language { get; }
     }

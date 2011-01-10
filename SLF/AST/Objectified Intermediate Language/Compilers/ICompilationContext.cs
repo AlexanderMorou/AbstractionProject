@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Languages;
+using AllenCopeland.Abstraction.Slf.Oil;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -11,7 +12,7 @@ using AllenCopeland.Abstraction.Slf.Languages;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
-    public interface ICompilerOptions
+    public interface ICompilationContext
     {
         /// <summary>
         /// Returns/sets whether the code should be optimized.
@@ -26,14 +27,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// </summary>
         bool AllowUnsafeCode { get; set; }
         /// <summary>
-        /// Returns/sets whether the compiler should generate an accompanying XML documentation set.
+        /// Returns/sets whether the compiler should generate an accompanying 
+        /// XML documentation set.
         /// </summary>
         bool GenerateXMLDocs { get; set; }
-        /// <summary>
-        /// Returns/sets the assembly target file name.
-        /// </summary>
-        /// <remarks>If <see cref="InMemory"/> is true, returns null; otherwise the target file.</remarks>
-        string Target { get; set; }
         /// <summary>
         /// Returns/sets the level of support given to debug output.
         /// </summary>
@@ -46,10 +43,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// Returns/sets the level of warnings displayed by the compiler.
         /// </summary>
         WarningLevel WarnLevel { get; set; }
-        /// <summary>
-        /// Returns the <see cref="ILangauge"/> associated to the compilation process.
-        /// </summary>
-        ILanguage Language { get; }
         /// <summary>
         /// Returns/sets whether arithmetic overflow checks are on by default.
         /// </summary>

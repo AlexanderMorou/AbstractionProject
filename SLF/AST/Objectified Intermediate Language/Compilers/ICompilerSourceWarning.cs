@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AllenCopeland.Abstraction.Slf.Cst;
+using AllenCopeland.Abstraction.Slf.Languages;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -12,8 +12,14 @@ using AllenCopeland.Abstraction.Slf.Cst;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
-    public interface ICSharpCompiler :
-        IIntermediateCompiler<ICSharpCompilationUnit>
+    public interface ICompilerSourceWarning :
+        ICompilerMessage,
+        ISourceRelatedMessage
     {
+        /// <summary>
+        /// Returns the <see cref="Int32"/> value representing the warning 
+        /// level or severity of the warning.
+        /// </summary>
+        int Level { get; }
     }
 }

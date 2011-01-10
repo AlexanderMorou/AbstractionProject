@@ -685,35 +685,36 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 }
             }
         }
-        private static int threshold = 0;
         public static void ExpandTemplates(this GDFile file, ICompilerErrorCollection errors)
         {
-            List<IProductionRuleEntry> rules = new List<IProductionRuleEntry>(ruleEntries);
-            /* *
-             * Expand the templates of every rule in the file.
-             * Utilize a list to make the operating set
-             * immutable and expansions won't affect the 
-             * enumeration.
-             * */
-            foreach (IProductionRuleEntry rule in rules)
+            List<IProductionRuleEntry> rules =null;
+            do
             {
-                rule.ExpandTemplates(file, errors);
-            }
-            threshold++;
-            /* *
-             * Templates can utilize other templates, thus making this
-             * a non-linear process.  Keep expanding until it breaks.
-             * */
-            if (ruleEntries.Count() != rules.Count)
-                file.ExpandTemplates(errors);
-            threshold--;
-            if (threshold == 0)
-            {
+                rules = new List<IProductionRuleEntry>(ruleEntries);
+                /* *
+                 * Expand the templates of every rule in the file.
+                 * Utilize a list to make the operating set
+                 * immutable and expansions won't affect the 
+                 * enumeration.
+                 * */
+                foreach (IProductionRuleEntry rule in rules)
+                {
+                    rule.ExpandTemplates(file, errors);
+                }
+                /* *
+                 * Templates can create rules which rely on 
+                 * templates themselves.
+                 * *
+                 * Repeat the process until the count stabilizes and
+                 * none of the rules require further expansion.
+                 * */
+
+            } while (ruleEntries.Count() != rules.Count ||
+                ruleEntries.Any(entry=>entry.NeedsExpansion()));
                 //Destroy the templates...
-                IList<IProductionRuleTemplateEntry> templates = new List<IProductionRuleTemplateEntry>(GetTemplateRulesEnumerator(file));
-                foreach (IProductionRuleTemplateEntry t in templates)
-                    file.Remove(t);
-            }
+            IList<IProductionRuleTemplateEntry> templates = new List<IProductionRuleTemplateEntry>(GetTemplateRulesEnumerator(file));
+            foreach (IProductionRuleTemplateEntry t in templates)
+                file.Remove(t);
         }
     }
 }

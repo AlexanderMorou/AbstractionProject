@@ -12,14 +12,12 @@ using AllenCopeland.Abstraction.Slf.Languages;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
-    public interface ICompilerWarning :
+    /// <summary>
+    /// Defines properties and methods for a compiler error.
+    /// </summary>
+    public interface ICompilerSourceError :
         ICompilerMessage,
-        ISourceRelatedMessage
+        ISourceRelatedError
     {
-        /// <summary>
-        /// Returns the <see cref="Int32"/> value representing the warning 
-        /// level or severity of the warning.
-        /// </summary>
-        int Level { get; }
     }
 }

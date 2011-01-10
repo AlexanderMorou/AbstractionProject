@@ -18,16 +18,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     public struct LineColumnPair
     {
         /// <summary>
-        /// Returns/sets the <see cref="Int32"/> value
+        /// Returns the <see cref="Int32"/> value
         /// representing the line associated to the
         /// <see cref="LineColumnPair"/>.
         /// </summary>
-        public int Line { get; set; }
+        public int Line { get; private set; }
         /// <summary>
         /// Returns/sets the <see cref="Int32"/> value
         /// representing the column associated to the
         /// <see cref="LineColumnPair"/>.
         /// </summary>
-        public int Column { get; set; }
+        public int Column { get; private set; }
+
+        public LineColumnPair(int line, int column)
+            : this()
+        {
+            this.Line = line;
+            this.Column = column;
+        }
     }
 }

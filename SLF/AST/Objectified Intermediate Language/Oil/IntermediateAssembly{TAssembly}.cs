@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Modules;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Slf._Internal.Ast;
+using AllenCopeland.Abstraction.Slf.Compilers;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -68,6 +69,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private event EventHandler<DeclarationNameChangedEventArgs> _Renamed;
         private event EventHandler<DeclarationRenamingEventArgs> _Renaming;
         private IAssemblyReferenceCollection references;
+        private ICompilationContext compilationContext;
         /// <summary>
         /// Creates a new <see cref="IntermediateAssembly{TAssembly}"/> with the 
         /// <paramref name="rootAssembly"/> provided.
@@ -682,6 +684,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (this.scopeCoercions == null)
                     this.scopeCoercions = new ScopeCoercionCollection();
                 return this.scopeCoercions;
+            }
+        }
+
+        public ICompilationContext CompilationContext
+        {
+            get {
+                if (this.IsRoot)
+                {
+                    if (this.compilationContext == null)
+                        this.compilationContext = new CompilationContext();
+                    return this.CompilationContext;
+                }
+                else
+                    return this.GetRoot().CompilationContext;
             }
         }
     }
