@@ -25,5 +25,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// is coerced.
         /// </summary>
         ParameterDirection Direction { get; set; }
+        /// <summary>
+        /// Returns/sets the <see cref="IExpression"/> 
+        /// to be directed.
+        /// </summary>
+        IExpression Directed { get; set; }
     }
 }

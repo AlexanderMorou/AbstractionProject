@@ -73,7 +73,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
             /// </summary>
             IToken token;
             /// <summary>
-            /// Data member for <see cref="Error"/>.
+            /// Data member for <see cref="SourceError"/>.
             /// </summary>
             IParserSyntaxError error;
 

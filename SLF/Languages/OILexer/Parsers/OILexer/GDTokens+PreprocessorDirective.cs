@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
             /// </summary>
             ElseIfDirective,
             /// <summary>
-            /// Elifdef conditional directive, #elifdef
+            /// Else if defined conditional directive, #elifdef
             /// </summary>
             ElseIfDefinedDirective,
             /// <summary>

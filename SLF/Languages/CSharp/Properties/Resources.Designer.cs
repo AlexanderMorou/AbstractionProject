@@ -79,7 +79,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Warning treated as error.
+        ///   Looks up a localized string similar to SourceWarning treated as error.
         /// </summary>
         internal static string CSharpErrors_CS0004 {
             get {
@@ -3085,7 +3085,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Internal Compiler Error. An internal error has occurred in the compiler. To work around this problem, try simplifying or changing the program near the locations listed below. Locations at the top of the list are closer to the point at which the internal error occurred. Errors such as this can be reported to Microsoft by using the /errorreport option..
+        ///   Looks up a localized string similar to Internal Compiler SourceError. An internal error has occurred in the compiler. To work around this problem, try simplifying or changing the program near the locations listed below. Locations at the top of the list are closer to the point at which the internal error occurred. Errors such as this can be reported to Microsoft by using the /errorreport option..
         /// </summary>
         internal static string CSharpErrors_CS0583 {
             get {
@@ -3094,7 +3094,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Internal Compiler Error: stage {0} symbol {1}.
+        ///   Looks up a localized string similar to Internal Compiler SourceError: stage {0} symbol {1}.
         /// </summary>
         internal static string CSharpErrors_CS0584 {
             get {
@@ -3103,7 +3103,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Internal Compiler Error: stage {0}.
+        ///   Looks up a localized string similar to Internal Compiler SourceError: stage {0}.
         /// </summary>
         internal static string CSharpErrors_CS0585 {
             get {
@@ -3112,7 +3112,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Internal Compiler Error: stage {0}.
+        ///   Looks up a localized string similar to Internal Compiler SourceError: stage {0}.
         /// </summary>
         internal static string CSharpErrors_CS0586 {
             get {
@@ -3121,7 +3121,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Internal Compiler Error: stage {0}.
+        ///   Looks up a localized string similar to Internal Compiler SourceError: stage {0}.
         /// </summary>
         internal static string CSharpErrors_CS0587 {
             get {
@@ -3130,7 +3130,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Internal Compiler Error: stage &apos;LEX&apos;.
+        ///   Looks up a localized string similar to Internal Compiler SourceError: stage &apos;LEX&apos;.
         /// </summary>
         internal static string CSharpErrors_CS0588 {
             get {
@@ -3139,7 +3139,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Internal Compiler Error: stage &apos;PARSE&apos;.
+        ///   Looks up a localized string similar to Internal Compiler SourceError: stage &apos;PARSE&apos;.
         /// </summary>
         internal static string CSharpErrors_CS0589 {
             get {
@@ -3409,7 +3409,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error emitting {0} attribute -- {1}.
+        ///   Looks up a localized string similar to SourceError emitting {0} attribute -- {1}.
         /// </summary>
         internal static string CSharpErrors_CS0647 {
             get {
@@ -5398,7 +5398,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error reading resource file {0} — {1}.
+        ///   Looks up a localized string similar to SourceError reading resource file {0} — {1}.
         /// </summary>
         internal static string CSharpErrors_CS1566 {
             get {
@@ -5407,7 +5407,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error generating Win32 resource: {0}.
+        ///   Looks up a localized string similar to SourceError generating Win32 resource: {0}.
         /// </summary>
         internal static string CSharpErrors_CS1567 {
             get {
@@ -5416,7 +5416,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error generating XML documentation file {0} ({1}).
+        ///   Looks up a localized string similar to SourceError generating XML documentation file {0} ({1}).
         /// </summary>
         internal static string CSharpErrors_CS1569 {
             get {
@@ -6244,7 +6244,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error reading Win32 resource file {0} -- {1}.
+        ///   Looks up a localized string similar to SourceError reading Win32 resource file {0} -- {1}.
         /// </summary>
         internal static string CSharpErrors_CS1719 {
             get {
@@ -6361,7 +6361,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Warning level must be in the range 0-4.
+        ///   Looks up a localized string similar to SourceWarning level must be in the range 0-4.
         /// </summary>
         internal static string CSharpErrors_CS1900 {
             get {
@@ -6505,7 +6505,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error reading Win32 manifest file {0} -- {1}..
+        ///   Looks up a localized string similar to SourceError reading Win32 manifest file {0} -- {1}..
         /// </summary>
         internal static string CSharpErrors_CS1926 {
             get {

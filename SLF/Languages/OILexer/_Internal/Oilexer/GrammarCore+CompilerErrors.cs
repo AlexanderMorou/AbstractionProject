@@ -31,6 +31,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                     return _RuleNotTemplate;
                 }
             }
+
             private static ICompilerReferenceError _RuleNotTemplate;
             /// <summary>
             /// Reference compiler error message for when a rule is used without template

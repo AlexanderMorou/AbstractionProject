@@ -10,6 +10,7 @@ using AllenCopeland.Abstraction.Slf.Parsers.Oilexer;
 using AllenCopeland.Abstraction.Slf.Compilers.Oilexer;
 using AllenCopeland.Abstraction.Slf.Parsers;
 using AllenCopeland.Abstraction.Slf.Compilers;
+using System.Reflection.Emit;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -43,7 +44,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                                  select tokenEntry).FirstOrDefault();
                     if (match == null)
                     {
-                        errors.Error(GrammarCore.CompilerErrors.UndefinedTokenReference, entry.FileName, entry.Line, entry.Column, string.Format("lower precedence {0}", s));
+                        errors.SourceModelError<ITokenEntry>(GrammarCore.CompilerErrors.UndefinedTokenReference, entry.Line, entry.Column, entry.FileName, entry, string.Format("lower precedence {0}", s));
                         break;
                     }
                     lowerTokens.Add(match);
@@ -161,7 +162,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 }
             }
             else
-                errors.Error(GrammarCore.CompilerErrors.UndefinedTokenReference, entry.FileName, item.Line, item.Column, item.PrimaryName);
+                errors.SourceModelError<ISoftReferenceTokenItem>(GrammarCore.CompilerErrors.UndefinedTokenReference, item.Line, item.Column, entry.FileName, item, item.PrimaryName);
             return item;
         }
 
@@ -189,7 +190,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                             resolutionAid.ResolvedSinglePartToToken(softExpect, reference);
                     }
                     else
-                        errors.Error(GrammarCore.CompilerErrors.UndefinedTokenReference, entry.FileName, part.ExpectedSpecific.Column, part.ExpectedSpecific.Line, softExpect.PrimaryName);
+                        errors.SourceModelError<ISoftReferenceProductionRuleItem>(GrammarCore.CompilerErrors.UndefinedTokenReference, part.ExpectedSpecific.Column, part.ExpectedSpecific.Line, entry.FileName, softExpect, softExpect.PrimaryName);
                     return;
                 }
             }
@@ -329,7 +330,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                                      * Regardless of the match, according to the template, it has
                                      * invalid argument repeat options.
                                      * */
-                                    errors.Error(GrammarCore.CompilerErrors.InvalidRepeatOptions, template.FileName, template.Line, template.Column);
+                                    errors.SourceModelError<IProductionRuleTemplateEntry>(GrammarCore.CompilerErrors.InvalidRepeatOptions, template.Line, template.Column, template.FileName, template);
                             }
                         }
                         else if (tai.InvalidArguments == 0)
@@ -339,7 +340,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                             break;
                         }
                         else
-                            errors.Error(GrammarCore.CompilerErrors.InvalidRepeatOptions, template.FileName, template.Line, template.Column);
+                            errors.SourceModelError(GrammarCore.CompilerErrors.InvalidRepeatOptions, template.Line, template.Column, template.FileName, template);
                     }
                     else
                     {
@@ -362,10 +363,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 return rResult;
             }
             else if (closeMatches.Count > 0)
-                errors.Error(GrammarCore.CompilerErrors.DynamicArgumentCountError, entry.FileName, item.Line, item.Column);
+                errors.SourceModelError(GrammarCore.CompilerErrors.DynamicArgumentCountError, item.Line, item.Column, entry.FileName, item);
             else
                 if (ruleEntries.FindScannableEntry(item.PrimaryName) != null)
-                    errors.Error(GrammarCore.CompilerErrors.RuleNotTemplate, entry.FileName, item.Line, item.Column, item.PrimaryName);
+                    errors.SourceModelError<ISoftTemplateReferenceProductionRuleItem>(GrammarCore.CompilerErrors.RuleNotTemplate, item.Line, item.Column, entry.FileName, item, item.PrimaryName);
             return item;
         }
 
@@ -400,7 +401,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 return rrpri;
             }
             else if (ruleTemplEntries.FindScannableEntry(item.PrimaryName) != null)
-                errors.Error(GrammarCore.CompilerErrors.RuleIsTemplate, entry.FileName, item.Line, item.Column, item.PrimaryName);
+                errors.SourceModelError<ISoftReferenceProductionRuleItem>(GrammarCore.CompilerErrors.RuleIsTemplate, item.Line, item.Column, entry.FileName, item, item.PrimaryName);
             else
             {
                 ITokenEntry tokenE = tokenEntries.FindScannableEntry(item.PrimaryName);

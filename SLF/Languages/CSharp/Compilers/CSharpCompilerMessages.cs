@@ -1791,7 +1791,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0003;
 
-        /// <summary><para>C&#9839; compiler error &#35;4:</para><para>Warning treated as error</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;4:</para><para>SourceWarning treated as error</para></summary>
         public static ICompilerReferenceError CS0004
         {
             get
@@ -5799,7 +5799,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0582;
 
-        /// <summary><para>C&#9839; compiler error &#35;583:</para><para>Internal Compiler Error. An internal error has occurred in the compiler. To work around this problem, try simplifying or changing the program near the locations listed below. Locations at the top of the list are closer to the point at which the internal error occurred. Errors such as this can be reported to Microsoft by using the /errorreport option.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;583:</para><para>Internal Compiler SourceError. An internal error has occurred in the compiler. To work around this problem, try simplifying or changing the program near the locations listed below. Locations at the top of the list are closer to the point at which the internal error occurred. Errors such as this can be reported to Microsoft by using the /errorreport option.</para></summary>
         public static ICompilerReferenceError CS0583
         {
             get
@@ -5811,7 +5811,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0583;
 
-        /// <summary><para>C&#9839; compiler error &#35;584:</para><para>Internal Compiler Error: stage {0} symbol {1}</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;584:</para><para>Internal Compiler SourceError: stage {0} symbol {1}</para></summary>
         public static ICompilerReferenceError CS0584
         {
             get
@@ -5823,7 +5823,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0584;
 
-        /// <summary><para>C&#9839; compiler error &#35;585:</para><para>Internal Compiler Error: stage {0}</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;585:</para><para>Internal Compiler SourceError: stage {0}</para></summary>
         public static ICompilerReferenceError CS0585
         {
             get
@@ -5835,7 +5835,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0585;
 
-        /// <summary><para>C&#9839; compiler error &#35;586:</para><para>Internal Compiler Error: stage {0}</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;586:</para><para>Internal Compiler SourceError: stage {0}</para></summary>
         public static ICompilerReferenceError CS0586
         {
             get
@@ -5847,7 +5847,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0586;
 
-        /// <summary><para>C&#9839; compiler error &#35;587:</para><para>Internal Compiler Error: stage {0}</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;587:</para><para>Internal Compiler SourceError: stage {0}</para></summary>
         public static ICompilerReferenceError CS0587
         {
             get
@@ -5859,7 +5859,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0587;
 
-        /// <summary><para>C&#9839; compiler error &#35;588:</para><para>Internal Compiler Error: stage 'LEX'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;588:</para><para>Internal Compiler SourceError: stage 'LEX'</para></summary>
         public static ICompilerReferenceError CS0588
         {
             get
@@ -5871,7 +5871,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0588;
 
-        /// <summary><para>C&#9839; compiler error &#35;589:</para><para>Internal Compiler Error: stage 'PARSE'</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;589:</para><para>Internal Compiler SourceError: stage 'PARSE'</para></summary>
         public static ICompilerReferenceError CS0589
         {
             get
@@ -6231,7 +6231,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0646;
 
-        /// <summary><para>C&#9839; compiler error &#35;647:</para><para>Error emitting {0} attribute -- {1}</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;647:</para><para>SourceError emitting {0} attribute -- {1}</para></summary>
         public static ICompilerReferenceError CS0647
         {
             get
@@ -8883,7 +8883,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1565;
 
-        /// <summary><para>C&#9839; compiler error &#35;1566:</para><para>Error reading resource file {0} — {1}</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1566:</para><para>SourceError reading resource file {0} — {1}</para></summary>
         public static ICompilerReferenceError CS1566
         {
             get
@@ -8895,7 +8895,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1566;
 
-        /// <summary><para>C&#9839; compiler error &#35;1567:</para><para>Error generating Win32 resource: {0}</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1567:</para><para>SourceError generating Win32 resource: {0}</para></summary>
         public static ICompilerReferenceError CS1567
         {
             get
@@ -8907,7 +8907,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1567;
 
-        /// <summary><para>C&#9839; compiler error &#35;1569:</para><para>Error generating XML documentation file {0} ({1})</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1569:</para><para>SourceError generating XML documentation file {0} ({1})</para></summary>
         public static ICompilerReferenceError CS1569
         {
             get
@@ -10011,7 +10011,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1716;
 
-        /// <summary><para>C&#9839; compiler error &#35;1719:</para><para>Error reading Win32 resource file {0} -- {1}</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1719:</para><para>SourceError reading Win32 resource file {0} -- {1}</para></summary>
         public static ICompilerReferenceError CS1719
         {
             get
@@ -10167,7 +10167,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1733;
 
-        /// <summary><para>C&#9839; compiler error &#35;1900:</para><para>Warning level must be in the range 0-4</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1900:</para><para>SourceWarning level must be in the range 0-4</para></summary>
         public static ICompilerReferenceError CS1900
         {
             get
@@ -10359,7 +10359,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1925;
 
-        /// <summary><para>C&#9839; compiler error &#35;1926:</para><para>Error reading Win32 manifest file {0} -- {1}.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1926:</para><para>SourceError reading Win32 manifest file {0} -- {1}.</para></summary>
         public static ICompilerReferenceError CS1926
         {
             get

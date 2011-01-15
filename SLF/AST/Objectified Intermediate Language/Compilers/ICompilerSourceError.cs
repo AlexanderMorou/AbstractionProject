@@ -16,8 +16,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     /// Defines properties and methods for a compiler error.
     /// </summary>
     public interface ICompilerSourceError :
-        ICompilerMessage,
-        ISourceRelatedError
+        ICompilerError,
+        ICompilerSourceMessage
     {
     }
 }

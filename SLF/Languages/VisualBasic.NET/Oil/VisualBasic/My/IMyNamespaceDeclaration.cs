@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AllenCopeland.Abstraction.Slf.Oil.VisualBasic.My;
 
-namespace AllenCopeland.Abstraction.Slf.Oil.VisualBasic
+namespace AllenCopeland.Abstraction.Slf.Oil.VisualBasic.My
 {
     public interface IMyNamespaceDeclaration : 
         IIntermediateNamespaceDeclaration

@@ -1,0 +1,17 @@
+#include                            "Root.oilexer";
+
+LogicalLine                                     ::=
+    LogicalLineElement:Elements;* Comment:Comment;?
+    LineTerminator;
+
+LogicalLineElement                             ::=>
+    WhiteSpace                                    |
+    LineContinuation                              |
+    Token                                         ;
+
+Token                                            :=
+    Identifier                                    |
+    Keyword                                       |
+    Literal                                       |
+    Separator                                     |
+    Operator                                      ;

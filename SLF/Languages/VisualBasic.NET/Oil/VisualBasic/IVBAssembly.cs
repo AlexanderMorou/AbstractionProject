@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil.VisualBasic;
+using AllenCopeland.Abstraction.Slf.Oil.VisualBasic.My;
 
-namespace AllenCopeland.Abstraction.Slf.Oil
+namespace AllenCopeland.Abstraction.Slf.Oil.VisualBasic
 {
     /// <summary>
     /// Defines properties and methods for working with an assembly

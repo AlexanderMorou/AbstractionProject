@@ -14,6 +14,10 @@ using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using Microsoft.VisualBasic;
 using System.Reflection;
+using AllenCopeland.Abstraction.Slf.Oil.VisualBasic;
+using AllenCopeland.Abstraction.Slf.Oil.Statements;
+using AllenCopeland.Abstraction.Slf._Internal;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -24,303 +28,966 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 {
     public static class SimpleCompilerTest 
     {
-        internal static void Main(string[] args)
+        private class TypeAggregator :
+            IIntermediateCodeVisitor
         {
-            //var t = typeof(int[, ,][][,][, , ,]).GetTypeReference();
-            //Stopwatch timer = new Stopwatch();
-            //Console.WriteLine("Preconstructing graph to handle JIT overhead.");
-            //TimeSpan codeObjectPreconstruction;
-            //TimeSpan disposePregraph;
-            //Process(timer, out codeObjectPreconstruction, out disposePregraph);
-            //TimeSpan codeObjectConstruction;
-            //TimeSpan disposeGraph;
-            //Process(timer, out codeObjectConstruction, out disposeGraph);
-            //Console.WriteLine("Times:");
-            //Console.WriteLine("{0,-25}: {1}", "Full JIT overhead: ", (codeObjectPreconstruction + disposePregraph) - (codeObjectConstruction + disposeGraph));
-            //Console.WriteLine("{0,-25}: {1}", "To construct code graph", codeObjectConstruction);
-            //Console.WriteLine("{0,-25}: {1}", "To dispose code graph", disposeGraph);
-            IIntermediateDynamicHandler handler = IntermediateGateway.CreateDynamicHandler();
-            var u = handler.Builder;
-            const string argsName = "args";
-            var method1 = handler.Methods.Add("Main", new TypedNameSeries(new TypedName(argsName, typeof(string[]).GetTypeReference())));
-            method1.ScopeCoercions.AddStaticName("System.Console");
-            method1.Call("WriteLine".Fuse("There are {0} arguments.".ToPrimitive(), argsName.Fuse("Length")));
-            const string local1Name = "i";
-            var local1NameSymbol = local1Name.GetSymbolExpression();
-            var local1 = method1.Locals.Add(new TypedName(local1Name, typeof(int).GetTypeReference()));
-            local1.AutoDeclare=false;
-            var iteration = method1.Iterate(local1.GetDeclarationStatement(), local1NameSymbol.LessThan(argsName.Fuse("Length")), new IStatementExpression[] { local1.Increment() });
-            iteration.Call("WriteLine", "Arg {0}: {1}".ToPrimitive(), local1NameSymbol, argsName.GetIndexer(local1NameSymbol));
-            var m1 = method1.Compile<string[]>();
-            m1(args);
-            //IIntermediateDynamicMethod u = null;
-            //var p = u.Compile<string[]>();
-            //p(args);
-        }
+            #region IExpressionVisitor Members
 
-        private static void Process(Stopwatch timer, out TimeSpan buildGraphTime, out TimeSpan disposeGraphTime)
-        {
-            timer.Start();
-            var testGraph1 = BuildTestGraph1();
-            timer.Stop();
-            buildGraphTime = timer.Elapsed;
-            timer.Reset();
-            timer.Start();
-            testGraph1.Dispose();
-            timer.Stop();
-            disposeGraphTime = timer.Elapsed;
-            timer.Reset();
-        }
+            public void Visit<TLeft, TRight>(IBinaryOperationExpression<TLeft, TRight> expression)
+                where TLeft : INaryOperandExpression
+                where TRight : INaryOperandExpression
+            {
+                var expressionType = expression.Type;
+                if (expressionType == ExpressionKinds.BinaryForwardTerm)
+                {
+                    switch (expression.Associativity)
+                    {
+                        case BinaryOperationAssociativity.Left:
+                            if (expression.RightSide != null)
+                                expression.RightSide.Visit(this);
+                            break;
+                        case BinaryOperationAssociativity.Right:
+                            if (expression.LeftSide != null)
+                                expression.LeftSide.Visit(this);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    expression.LeftSide.Visit(this);
+                    Console.Write(" ");
+                    switch (expressionType.BinaryOperations)
+                    {
+                        case ExpressionKind.BinaryOperationSector.AssignExpression:
+                            Console.Write("=");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.AssignMultiplyOperation:
+                            Console.Write("*=");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.AssignDivideOperation:
+                            Console.Write("/=");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.AssignModulusOperation:
+                            Console.Write("%=");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.AssignAddOperation:
+                            Console.Write("+=");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.AssignSubtractOperation:
+                            Console.Write("-=");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.AssignLeftShiftOperation:
+                            Console.Write("<<=");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.AssignRightShiftOperation:
+                            Console.Write(">>=");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.AssignBitwiseAndOperation:
+                            Console.Write("&=");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.AssignBitwiseOrOperation:
+                            Console.Write("|=");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.AssignBitwiseExclusiveOrOperation:
+                            Console.Write("^=");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.LogicalOrOperation:
+                            Console.Write("||");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.LogicalAndOperation:
+                            Console.Write("&&");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.BitwiseOrOperation:
+                            Console.Write("|");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.BitwiseExclusiveOrOperation:
+                            Console.Write("^");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.BitwiseAndOperation:
+                            Console.Write("&");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.InequalityOperation:
+                            Console.Write("!=");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.EqualityOperation:
+                            Console.Write("==");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.LessThanOperation:
+                            Console.Write("<");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.LessThanOrEqualToOperation:
+                            Console.Write("<=");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.GreaterThanOperation:
+                            Console.Write(">");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.GreaterThanOrEqualToOperation:
+                            Console.Write(">=");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.TypeCheckOperation:
+                            Console.Write("is");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.TypeCastOrNull:
+                            Console.Write("as");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.ShiftLeftOperation:
+                            Console.Write("<<");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.ShiftRightOperation:
+                            Console.Write(">>");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.AddOperation:
+                            Console.Write("+");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.SubtractOperation:
+                            Console.Write("-");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.MultiplyOperation:
+                            Console.Write("*");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.StrictDivisionOperation:
+                            Console.Write("/");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.ModulusOperation:
+                            Console.Write("%");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.FlexibleDivisionOperation:
+                            Console.Write("\\");
+                            break;
+                        case ExpressionKind.BinaryOperationSector.IntegerDivisionOperation:
+                            Console.Write("\\");
+                            break;
+                    }
+                    Console.Write(" ");
+                    expression.RightSide.Visit(this);
+                }
+            }
 
-        private static IIntermediateAssembly BuildTestGraph1()
-        {
-            if (AddTestMethod == null)
-                AddTestMethod = BuildAddTestMethod().Compile();
-            var testAssembly                = IntermediateGateway.CreateAssembly("TestCompile1");
-            var assemblyInfo                = testAssembly.AssemblyInformation;
-            assemblyInfo.Culture            = CultureIdentifiers.English_UnitedStates;
-            assemblyInfo.Copyright          = "Copyright \xA9 2011 Allen C. Copeland Jr.";
-            assemblyInfo.Product            = "Abstraction Project\u2122";
-            assemblyInfo.Trademark          = "The Abstraction Project\u2122 is a registered trademark of Allen C. Copeland Jr.";
-            assemblyInfo.Description        = "A project to assist in building the Abstraction Project's\u2122 compiler foundation.";
-            assemblyInfo.Title              = "Test Compile 1";
-            testAssembly.DefaultNamespace   = testAssembly.Namespaces.Add("AllenCopeland.Abstraction.SupplimentaryProjects.TestCompile1");
-            var programClass                = testAssembly.DefaultNamespace.Classes.Add("Program", GenericParameterData.EmptySet);
-            var mainMethod = programClass.Methods.Add("Main", new TypedNameSeries(new TypedName("args", "String".GetSymbolType().MakeArray())));
-            programClass.SpecialModifier    = SpecialClassModifier.Static;
-            string[] typeParamNames         = new string[] 
-                { 
-                    "TCtor", "TIntermediateCtor", "TEvent", "TIntermediateEvent", "TField", "TIntermediateField", "TIndexer", 
-                    "TIntermediateIndexer", "TMethod", "TIntermediateMethod", "TProperty", "TIntermediateProperty", "TType", 
-                    "TIntermediateType" 
-                };
+            public void Visit(IIndexerReferenceExpression expression)
+            {
+                expression.Source.Visit(this);
+                Console.Write("[");
+                var parameters = expression.Parameters;
+                VisitExpressionCollection(parameters);
+                Console.Write("]");
+            }
 
-            var symbolTypes                 =
-                (from name in typeParamNames
-                 select name.GetSymbolType()).ToArray();
-            mainMethod.Call("Console".Fuse("WriteLine").Fuse(string.Format("OILexer compiled this on {0}.", DateTime.Now).ToPrimitive()));
-            var testInference = AddTestMethod(programClass, typeParamNames, symbolTypes);
-            testInference.IsStatic          = true;
-            testAssembly.ScopeCoercions.AddNames(
-                "AllenCopeland.Abstraction.Slf.Oil",
-                "AllenCopeland.Abstraction.Slf.Abstract.Members",
-                "System",
-                "AllenCopeland.Abstraction.Slf.Abstract",
-                "AllenCopeland.Abstraction.Slf.Oil.Members",
-                "Microsoft.VisualBasic");
-            testInference.Call("Console".Fuse("WriteLine").Fuse(new IExpression[]{"inst".GetSymbolExpression()}));
-            //var testItem = testInference.Locals.Add("test", testInference.Parameters["inst"].GetReference(), LocalTypingKind.Implicit);
-            /* *
-             * Below is an example of how easy I want the objects to be to weave together.
-             * */
-            var assemblyLocal = mainMethod.Locals.Add("assembly", "IntermediateGateway".Fuse(
-                    "CreateAssembly").Fuse(
-                        "TestAssembly".ToPrimitive()));
-            assemblyLocal.AutoDeclare = false;
-            mainMethod.DefineLocal(assemblyLocal);
-            /* *
-             * var defaultNamespace = assembly.DefaultNamespace = assembly.Namespaces.Add("AllenCopeland.Abstraction.SupplimentaryProjects.TestCompile2");
-             * */
-            var dNamespaceLocal = mainMethod.Locals.Add("defaultNamespace",
-                "assembly".Fuse("DefaultNamespace")
-                    .Assign(
-                        //Strings fuse differently based upon whether they're wrapped up into a primitive or not at a compilation level.
-                        "assembly".Fuse("Namespaces").Fuse("Add").Fuse("AllenCopeland.Abstraction.SupplimentaryProjects.TestCompile2".ToPrimitive())));
-            dNamespaceLocal.AutoDeclare = false;
-            mainMethod.DefineLocal(dNamespaceLocal);
-            mainMethod.Call(
-                "TestMethod".Fuse(
-                    "defaultNamespace".Fuse(
-                        "Classes").Fuse(
-                            "Add").Fuse("TestClass".ToPrimitive())));
-            /* *
-             * Below is an example of what I do *NOT* want the
-             * framework to require as it's a compiler not strictly
-             * a code-gen.
-             * * 
-             * var createAssemblyReference = typeof(IntermediateGateway).GetTypeReference<IClassType>().Methods.Find("CreateAssembly", true, IntermediateGateway.CommonlyUsedTypeReferences.String).First().Value.GetReference(typeof(IntermediateGateway).GetTypeExpression());
-             * var createAssemblyInvoke = createAssemblyReference.Invoke("TestAssembly".ToPrimitive());
-             * var addMethodReference = typeof(IIntermediateTypeDictionary<IClassType, IIntermediateClassType>).GetTypeReference<IInterfaceType>().Methods.Find("Add", true, IntermediateGateway.CommonlyUsedTypeReferences.String).First();
-             * mainMethod.Call(testInference.GetReference(), 
-             *  typeof(IIntermediateTypeDictionary<IClassType, IIntermediateClassType>).GetTypeReference<IInterfaceType>().Methods.Find("Add", true, IntermediateGateway.CommonlyUsedTypeReferences.String).First().Value.GetReference(
-             *      createAssemblyInvoke.GetProperty("Classes")).Invoke("TestClass".ToPrimitive()));
-             * */
-            mainMethod.IsStatic             = true;
+            private void VisitExpressionCollection<T>(IExpressionCollection<T> parameters)
+                where T :
+                    IExpression
+            {
+                bool first = true;
+                foreach (var parameter in parameters)
+                {
+                    if (first)
+                        first = false;
+                    else
+                        Console.Write(",");
+                    parameter.Visit(this);
+                }
+            }
+
+            public void Visit(IConditionalExpression expression)
+            {
+                var expressionType = expression.Type;
+                if (expressionType.ExpansionsRequired == ExpressionKind.ExpansionRequiredSector.ConditionalForwardTerm)
+                {
+                    expression.CheckPart.Visit(this);
+                }
+                else if (expressionType.ExpansionsRequired == ExpressionKind.ExpansionRequiredSector.ConditionalOperation)
+                {
+                    expression.CheckPart.Visit(this);
+                    Console.Write(" ? ");
+                    expression.TruePart.Visit(this);
+                    Console.Write(" : ");
+                    expression.FalsePart.Visit(this);
+                }
+            }
             
-            return testAssembly;
+            private static void DiscernOpFlags(UnaryOperation original, out bool bitInvert, out bool boolInvert, out bool negate, out bool postOp, out bool preOp, out bool decrement, out bool increment)
+            {
+                /* *
+                 * Rediscern the flags based upon logic that cannot be expressed
+                 * in mere bits.
+                 * */
+                bitInvert     = ((original & UnaryOperation.BitwiseInversion) == UnaryOperation.BitwiseInversion);
+                boolInvert    = ((original & UnaryOperation.BooleanInversion) == UnaryOperation.BooleanInversion) 
+                                    && !bitInvert;
+                negate        =    ((original & UnaryOperation.SignInversion) == UnaryOperation.SignInversion) 
+                                    && !boolInvert;
+                postOp        =       ((original & UnaryOperation.PostAction) == UnaryOperation.PostAction);
+                preOp         =        ((original & UnaryOperation.PreAction) == UnaryOperation.PreAction) 
+                                    && !postOp;
+                decrement     =        ((original & UnaryOperation.Decrement) == UnaryOperation.Decrement) 
+                                    && (preOp || postOp);
+                increment     =        ((original & UnaryOperation.Increment) == UnaryOperation.Increment) 
+                                    && !decrement 
+                                    && (preOp || postOp);
+            }
+
+            public void Visit(IUnaryOperationExpression expression)
+            {
+                var expressionType = expression.Type;
+                bool bitInvert, boolInvert, negate, postOp, preOp, decrement, increment;
+                DiscernOpFlags(expression.Operation, out bitInvert, out boolInvert, out negate, out postOp, out preOp, out decrement, out increment);
+                if (bitInvert)
+                    Console.Write("~");
+                else if (boolInvert)
+                    Console.Write("!");
+                if (negate)
+                    Console.Write("-");
+                if (preOp)
+                {
+                    if (decrement)
+                        Console.Write("--");
+                    else if (increment)
+                        Console.Write("++");
+                }
+                expression.Term.Visit(this);
+                if (postOp)
+                {
+                    if (decrement)
+                        Console.Write("--");
+                    else if (increment)
+                        Console.Write("++");
+                }
+            }
+
+            public void Visit(ITypeCastExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ITypeOfExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ITypeReferenceExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IVariadicTypeCastExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ISymbolExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IStaticGetMemberHandleExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ISpecialReferenceExpression expression)
+            {
+                switch (expression.Kind)
+                {
+                    case SpecialReferenceKind.CurrentClass:
+                        Console.Write("class");
+                        break;
+                    case SpecialReferenceKind.Self:
+                        Console.Write("self");
+                        break;
+                    case SpecialReferenceKind.Base:
+                        Console.Write("base");
+                        break;
+                    case SpecialReferenceKind.This:
+                        Console.Write("this");
+                        break;
+                }
+            }
+
+            public void Visit(IPropertyReferenceExpression expression)
+            {
+                expression.Source.Visit(this);
+                Console.WriteLine(".{0}", expression.Name);
+            }
+
+            public void Visit(IParenthesizedExpression expression)
+            {
+                Console.Write("(");
+                expression.Parenthesized.Visit(this);
+                Console.Write(")");
+            }
+
+            public void Visit(INamedParameterExpression expression)
+            {
+                Console.Write("{0}: ", expression.Name);
+                expression.Expression.Visit(this);
+            }
+
+            public void Visit(IMethodPointerReferenceExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IMethodInvokeExpression expression)
+            {
+                expression.Reference.Visit(this);
+            }
+
+            public void Visit(ILocalReferenceExpression expression)
+            {
+                Console.Write(expression.Name);
+            }
+
+            public void Visit(IFieldReferenceExpression expression)
+            {
+                expression.Source.Visit(this);
+                Console.Write(expression.Name);
+            }
+
+            public void Visit(IExpressionToCommaTypeReferenceFusionExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IExpressionToCommaFusionExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IExpressionFusionExpression expression)
+            {
+                expression.Left.Visit(this);
+                Console.Write(".");
+                expression.Right.Visit(this);
+            }
+
+            public void Visit(IEventInvokeExpression expression)
+            {
+                Console.Write(expression.Reference.Name);
+                Console.Write("(");
+                VisitExpressionCollection(expression.Parameters);
+                Console.Write(")");
+            }
+
+            public void Visit(IDirectionExpression expression)
+            {
+                switch (expression.Direction)
+                {
+                    case ParameterDirection.Out:
+                        Console.Write("out ");
+                        break;
+                    case ParameterDirection.Reference:
+                        Console.Write("ref ");
+                        break;
+                }
+                if (expression.Directed != null)
+                    expression.Directed.Visit(this);
+            }
+
+            public void Visit(IDelegateReferenceExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IDelegateMethodPointerReferenceExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IDelegateInvokeExpression expression)
+            {
+                expression.Reference.Visit(this);
+            }
+
+            public void Visit(IDelegateHolderReferenceExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ICreateInstanceMemberAssignment expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ICreateInstanceExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ICreateArrayExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ICreateArrayDetailExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ICommaExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IArrayDimensionDetailExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IAnonymousMethodWithParametersExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IAnonymousMethodExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(Slf.Oil.Expressions.Lambda.ILambdaTypedStatementExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(Slf.Oil.Expressions.Lambda.ILambdaTypeInferredStatementExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(Slf.Oil.Expressions.Lambda.ILambdaTypedSimpleExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(Slf.Oil.Expressions.Lambda.ILambdaTypeInferredSimpleExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IParameterReferenceExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IConstructorInvokeExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IConstructorPointerReferenceExpression ctorPointerReference)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ILinqExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IAssignmentExpression expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            #endregion
+
+            #region ILinqVisitor Members
+
+            public void Visit(ILinqSelectBody expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ILinqGroupBody expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ILinqFusionSelectBody expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ILinqFusionGroupBody expression)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ILinqDirectedOrderByClause linqClause)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ILinqDirectedOrderByGroupClause linqClause)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ILinqFromClause linqClause)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ILinqJoinClause linqClause)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ILinqLetClause linqClause)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ILinqOrderByClause linqClause)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ILinqOrderByGroupClause linqClause)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ILinqTypedFromClause linqClause)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ILinqTypedJoinClause linqClause)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ILinqWhereClause linqClause)
+            {
+                throw new NotImplementedException();
+            }
+
+            #endregion
+
+            #region IIntermediatePrimitiveVisitor Members
+
+            public void Visit(IPrimitiveExpression<bool> expression)
+            {
+                switch (expression.Value)
+                {
+                    case true:
+                        Console.Write("true");
+                        break;
+                    case false:
+                        Console.Write("false");
+                        break;
+                }
+            }
+
+            public void Visit(IPrimitiveExpression<char> expression)
+            {
+                Console.Write(expression.Value.ToString().EscapeStringOrCharCILAndCS(false));
+            }
+
+            public void Visit(IPrimitiveExpression<string> expression)
+            {
+                Console.Write(expression.Value.EscapeStringOrCharCILAndCS());
+            }
+
+            public void Visit(IPrimitiveExpression<byte> expression)
+            {
+                Console.Write("(byte)({0})", expression.Value);
+            }
+
+            public void Visit(IPrimitiveExpression<sbyte> expression)
+            {
+                Console.Write("(sbyte)({0})", expression.Value);
+            }
+
+            public void Visit(IPrimitiveExpression<ushort> expression)
+            {
+                Console.Write("(ushort)({0})", expression.Value);
+            }
+
+            public void Visit(IPrimitiveExpression<short> expression)
+            {
+                Console.Write("(short)({0})", expression.Value);
+            }
+
+            public void Visit(IPrimitiveExpression<uint> expression)
+            {
+                Console.Write("{0}U", expression.Value);
+            }
+
+            public void Visit(IPrimitiveExpression<int> expression)
+            {
+                Console.Write(expression.Value);
+            }
+
+            public void Visit(IPrimitiveExpression<ulong> expression)
+            {
+                Console.Write("{0}UL", expression.Value);
+            }
+
+            public void Visit(IPrimitiveExpression<long> expression)
+            {
+                Console.Write("{0}L", expression.Value);
+            }
+
+            public void Visit(IPrimitiveExpression<float> expression)
+            {
+                Console.Write("{0}F", expression.Value);
+            }
+
+            public void Visit(IPrimitiveExpression<double> expression)
+            {
+                Console.Write("{0}D", expression.Value);
+            }
+
+            public void Visit(IPrimitiveExpression<decimal> expression)
+            {
+                Console.Write("{0}M", expression.Value);
+            }
+
+            public void VisitNull()
+            {
+                Console.Write("null");
+            }
+
+            #endregion
+
+            #region IStatementVisitor Members
+
+            public void Visit(IBlockStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IBreakStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ICallMethodStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IConditionBlockStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ICallFusionStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IConditionContinuationStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IEnumerationBlockStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IExplicitlyTypedLocalVariableDeclarationStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IExpressionStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IGoToStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IJumpTarget statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IIterationBlockStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IJumpStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ILabelStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IReturnStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ISimpleIterationBlockStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ISwitchCaseBlockStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ISwitchStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ITryCatchStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ITryStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ILocalDeclarationStatement statement)
+            {
+                throw new NotImplementedException();
+            }
+
+            #endregion
+
+            #region IIntermediateDeclarationVisitor Members
+
+            public void Visit(IIntermediateAssembly assembly)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IIntermediateNamespaceDeclaration @namespace)
+            {
+                throw new NotImplementedException();
+            }
+
+            #endregion
+
+            #region IIntermediateTypeVisitor Members
+
+            public void Visit(IIntermediateClassType @class)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IIntermediateDelegateType @delegate)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IIntermediateEnumType @enum)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IIntermediateInterfaceType @interface)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IIntermediateStructType @struct)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>(IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent> parameter)
+                where TGenericParameter : IGenericParameter<TGenericParameter, TParent>
+                where TIntermediateGenericParameter : TGenericParameter, IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>
+                where TParent : IGenericParamParent<TGenericParameter, TParent>
+                where TIntermediateParent : TParent, IIntermediateGenericParameterParent<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>
+            {
+                throw new NotImplementedException();
+            }
+
+            #endregion
+
+            #region IIntermediateMemberVisitor Members
+
+            public void Visit(ILocalMember local)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit<TCtor, TIntermediateCtor, TType, TIntermediateType>(IIntermediateConstructorSignatureMember<TCtor, TIntermediateCtor, TType, TIntermediateType> ctor)
+                where TCtor : IConstructorMember<TCtor, TType>
+                where TIntermediateCtor : TCtor, IIntermediateConstructorSignatureMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
+                where TType : ICreatableType<TCtor, TType>
+                where TIntermediateType : TType, IIntermediateCreatableSignatureType<TCtor, TIntermediateCtor, TType, TIntermediateType>
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit<TCtor, TIntermediateCtor, TType, TIntermediateType>(IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType> ctor)
+                where TCtor : IConstructorMember<TCtor, TType>
+                where TIntermediateCtor : TCtor, IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
+                where TType : ICreatableType<TCtor, TType>
+                where TIntermediateType : TType, IIntermediateCreatableType<TCtor, TIntermediateCtor, TType, TIntermediateType>
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>(IIntermediateEventMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> @event)
+                where TEvent : IEventMember<TEvent, TEventParent>
+                where TIntermediateEvent : TEvent, IIntermediateEventMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
+                where TEventParent : IEventParent<TEvent, TEventParent>
+                where TIntermediateEventParent : TEventParent, IIntermediateEventParent<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>(IIntermediateEventSignatureMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> @event)
+                where TEvent : IEventSignatureMember<TEvent, TEventParent>
+                where TIntermediateEvent : TEvent, IIntermediateEventSignatureMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
+                where TEventParent : IEventSignatureParent<TEvent, TEventParent>
+                where TIntermediateEventParent : TEventParent, IIntermediateEventSignatureParent<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit<TCoercionParent>(IBinaryOperatorCoercionMember<TCoercionParent> binaryCoercion) where TCoercionParent : ICoercibleType<IBinaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit<TCoercionParent>(ITypeCoercionMember<TCoercionParent> typeCoercion) where TCoercionParent : ICoercibleType<ITypeCoercionMember<TCoercionParent>, TCoercionParent>
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit<TCoercionParent>(IUnaryOperatorCoercionMember<TCoercionParent> unaryCoercion) where TCoercionParent : ICoercibleType<IUnaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>(IIntermediateFieldMember<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent> field)
+                where TField : IFieldMember<TField, TFieldParent>
+                where TIntermediateField : TField, IIntermediateFieldMember<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>
+                where TFieldParent : IFieldParent<TField, TFieldParent>
+                where TIntermediateFieldParent : TFieldParent, IIntermediateFieldParent<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IIntermediateEnumFieldMember field)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>(IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> indexer)
+                where TIndexer : IIndexerMember<TIndexer, TIndexerParent>
+                where TIntermediateIndexer : TIndexer, IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+                where TIndexerParent : IIndexerParent<TIndexer, TIndexerParent>
+                where TIntermediateIndexerParent : TIndexerParent, IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>(IIntermediateIndexerSignatureMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> indexerSignature)
+                where TIndexer : IIndexerSignatureMember<TIndexer, TIndexerParent>
+                where TIntermediateIndexer : TIndexer, IIntermediateIndexerSignatureMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+                where TIndexerParent : IIndexerSignatureParent<TIndexer, TIndexerParent>
+                where TIntermediateIndexerParent : TIndexerParent, IIntermediateIndexerSignatureParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>(IIntermediateMethodMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent> method)
+                where TMethod : IMethodMember<TMethod, TMethodParent>
+                where TIntermediateMethod : IIntermediateMethodMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>, TMethod
+                where TMethodParent : IMethodParent<TMethod, TMethodParent>
+                where TIntermediateMethodParent : IIntermediateMethodParent<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>, TMethodParent
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit<TSignature, TIntermediateSignature, TParent, TIntermediateParent>(IIntermediateMethodSignatureMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent> methodSignature)
+                where TSignature : IMethodSignatureMember<TSignature, TParent>
+                where TIntermediateSignature : TSignature, IIntermediateMethodSignatureMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent>
+                where TParent : IMethodSignatureParent<TSignature, TParent>
+                where TIntermediateParent : TParent, IIntermediateMethodSignatureParent<TSignature, TIntermediateSignature, TParent, TIntermediateParent>
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> propertySignature)
+                where TProperty : IPropertySignatureMember<TProperty, TPropertyParent>
+                where TIntermediateProperty : TProperty, IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+                where TPropertyParent : IPropertySignatureParentType<TProperty, TPropertyParent>
+                where TIntermediatePropertyParent : TPropertyParent, IIntermediatePropertySignatureParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> property)
+                where TProperty : IPropertyMember<TProperty, TPropertyParent>
+                where TIntermediateProperty : TProperty, IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+                where TPropertyParent : IPropertyParentType<TProperty, TPropertyParent>
+                where TIntermediatePropertyParent : TPropertyParent, IIntermediatePropertyParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit<TParent, TIntermediateParent>(IIntermediateParameterMember<TParent, TIntermediateParent> parameter)
+                where TParent : IParameterParent
+                where TIntermediateParent : TParent, IIntermediateParameterParent
+            {
+                throw new NotImplementedException();
+            }
+
+            #endregion
+
+            #region IIntermediateInclusionVisitor Members
+
+            public void Visit(INamedInclusionScopeCoercion namedInclusion)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(INamedInclusionRenameScopeCoercion renamedInclusion)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(INamespaceInclusionScopeCoercion namespaceInclusion)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(INamespaceInclusionRenameScopeCoercion renamedNamespaceInclusion)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ITypeInclusionScopeCoercion typeInclusion)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(ITypeInclusionRenameScopeCoercion renamedTypeInclusion)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Visit(IStaticInclusionScopeCoercion staticInclusion)
+            {
+                throw new NotImplementedException();
+            }
+
+            #endregion
         }
-
-        private static AddTestMethodSignature AddTestMethod;
-
-        private delegate IIntermediateClassMethodMember AddTestMethodSignature(IIntermediateClassType programClass, string[] typeParamNames, ISymbolType[] symbolTypes);
-
-        private static Expression<AddTestMethodSignature> BuildAddTestMethod()
-        {
-            const int tCtor                 = 0,
-                      tIntermediateCtor     = 1,
-                      tEvent                = 2,
-                      tIntermediateEvent    = 3,
-                      tField                = 4,
-                      tIntermediateField    = 5,
-                      tIndexer              = 6,
-                      tIntermediateIndexer  = 7,
-                      tMethod               = 8,
-                      tIntermediateMethod   = 9,
-                      tProperty             = 10,
-                      tIntermediateProperty = 11,
-                      tType                 = 12,
-                      tIntermediateType     = 13;
-
-            return (IIntermediateClassType programClass, string[] typeParamNames, ISymbolType[] symbolTypes) => programClass.Methods.Add("TestMethod", new TypedNameSeries(new TypedName("inst", "IIntermediateInstantiableType".GetSymbolType(symbolTypes))),
-                new GenericParameterData(typeParamNames[tCtor], new IType[] 
-                    { 
-                        "IConstructorMember".GetSymbolType(
-                            symbolTypes[tCtor], 
-                            symbolTypes[tType]) 
-                    }),
-                new GenericParameterData(typeParamNames[tIntermediateCtor], new IType[] 
-                    {
-                        symbolTypes[tCtor], 
-                        "IIntermediateConstructorMember".GetSymbolType(
-                            symbolTypes[tCtor],
-                            symbolTypes[tIntermediateCtor], 
-                            symbolTypes[tType], 
-                            symbolTypes[tIntermediateType])
-                    }),
-                new GenericParameterData(typeParamNames[tEvent], new IType[]
-                    {
-                        "IEventMember".GetSymbolType(
-                            symbolTypes[tEvent], 
-                            symbolTypes[tType])
-                    }),
-                new GenericParameterData(typeParamNames[tIntermediateEvent], new IType[]
-                    {   
-                        symbolTypes[tEvent],
-                        "IIntermediateEventMember".GetSymbolType(
-                            symbolTypes[tEvent],
-                            symbolTypes[tIntermediateEvent], 
-                            symbolTypes[tType], 
-                            symbolTypes[tIntermediateType])
-                    }),
-                new GenericParameterData(typeParamNames[tField], new IType[]
-                    {
-                        "IFieldMember".GetSymbolType(
-                            symbolTypes[tField], 
-                            symbolTypes[tType]),
-                        "IInstanceMember".GetSymbolType()
-                    }),
-                new GenericParameterData(typeParamNames[tIntermediateField], new IType[]
-                    {   
-                        symbolTypes[tField],
-                        "IIntermediateFieldMember".GetSymbolType(
-                            symbolTypes[tField],
-                            symbolTypes[tIntermediateField], 
-                            symbolTypes[tType], 
-                            symbolTypes[tIntermediateType])
-                    }),
-                new GenericParameterData(typeParamNames[tIndexer], new IType[]
-                    {
-                        "IIndexerMember".GetSymbolType(
-                            symbolTypes[tIndexer], 
-                            symbolTypes[tType])
-                    }),
-                new GenericParameterData(typeParamNames[tIntermediateIndexer], new IType[]
-                    {   
-                        symbolTypes[tIndexer],
-                        "IIntermediateIndexerMember".GetSymbolType(
-                            symbolTypes[tIndexer],
-                            symbolTypes[tIntermediateIndexer], 
-                            symbolTypes[tType], 
-                            symbolTypes[tIntermediateType])
-                    }),
-                new GenericParameterData(typeParamNames[tMethod], new IType[]
-                    {
-                        "IMethodMember".GetSymbolType(
-                            symbolTypes[tMethod], 
-                            symbolTypes[tType]),
-                        "IExtendedInstanceMember".GetSymbolType()
-                    }),
-                new GenericParameterData(typeParamNames[tIntermediateMethod], new IType[]
-                    {   
-                        symbolTypes[tMethod],
-                        "IIntermediateMethodMember".GetSymbolType(
-                            symbolTypes[tMethod],
-                            symbolTypes[tIntermediateMethod], 
-                            symbolTypes[tType], 
-                            symbolTypes[tIntermediateType])
-                    }),
-                new GenericParameterData(typeParamNames[tProperty], new IType[]
-                    {
-                        "IPropertyMember".GetSymbolType(
-                            symbolTypes[tProperty], 
-                            symbolTypes[tType])
-                    }),
-                new GenericParameterData(typeParamNames[tIntermediateProperty], new IType[]
-                    {   
-                        symbolTypes[tProperty],
-                        "IIntermediatePropertyMember".GetSymbolType(
-                            symbolTypes[tProperty],
-                            symbolTypes[tIntermediateProperty], 
-                            symbolTypes[tType], 
-                            symbolTypes[tIntermediateType])
-                    }),
-                new GenericParameterData(typeParamNames[tType], new IType[]
-                    {
-                        "IInstantiableType".GetSymbolType(
-                            symbolTypes[tCtor], 
-                            symbolTypes[tEvent],
-                            symbolTypes[tField], 
-                            symbolTypes[tIndexer],
-                            symbolTypes[tMethod],
-                            symbolTypes[tProperty],
-                            symbolTypes[tType])
-                    }),
-                new GenericParameterData(typeParamNames[tIntermediateType], new IType[]
-                    {
-                        symbolTypes[tType],
-                        "IIntermediateInstantiableType".GetSymbolType(symbolTypes)
-                    }));
-        }
-
-        private static void TestMethod<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer,
-            TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType>(IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> inst)
-            where TCtor :
-                IConstructorMember<TCtor, TType>
-            where TIntermediateCtor :
-                TCtor,
-                IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
-            where TEvent :
-                IEventMember<TEvent, TType>
-            where TIntermediateEvent :
-                TEvent,
-                IIntermediateEventMember<TEvent, TIntermediateEvent, TType, TIntermediateType>
-            where TField :
-                IFieldMember<TField, TType>,
-                IInstanceMember
-            where TIntermediateField :
-                TField,
-                IIntermediateFieldMember<TField, TIntermediateField, TType, TIntermediateType>
-            where TIndexer :
-                IIndexerMember<TIndexer, TType>
-            where TIntermediateIndexer :
-                TIndexer,
-                IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TType, TIntermediateType>
-            where TMethod :
-                IMethodMember<TMethod, TType>,
-                IExtendedInstanceMember
-            where TIntermediateMethod :
-                TMethod,
-                IIntermediateMethodMember<TMethod, TIntermediateMethod, TType, TIntermediateType>
-            where TProperty :
-                IPropertyMember<TProperty, TType>
-            where TIntermediateProperty :
-                TProperty,
-                IIntermediatePropertyMember<TProperty, TIntermediateProperty, TType, TIntermediateType>
-            where TType :
-                IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType>
-            where TIntermediateType :
-                TType,
-                IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType>
+        internal static void Main(string[] args)
         {
 
         }

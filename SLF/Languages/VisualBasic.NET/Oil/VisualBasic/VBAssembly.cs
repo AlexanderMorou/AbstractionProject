@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-namespace AllenCopeland.Abstraction.Slf.Oil
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Oil.VisualBasic.My;
+namespace AllenCopeland.Abstraction.Slf.Oil.VisualBasic
 {
     /// <summary>
     /// 
     /// </summary>
     public class VBAssembly :
-        IntermediateAssembly<VBAssembly>
+        IntermediateAssembly<VBAssembly>,
+        IVBAssembly
     {
         public VBAssembly(string name)
             : base(name)
@@ -26,6 +29,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             return new VBAssembly(this);
         }
+
+
+        #region IVBAssembly Members
+
+        public IMyNamespaceDeclaration MyNamespace
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        #endregion
 
     }
 }

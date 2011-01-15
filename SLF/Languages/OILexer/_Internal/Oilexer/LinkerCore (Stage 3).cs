@@ -246,7 +246,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                     return ((ILiteralProductionRuleItem)(ruleItem)).Deliteralize(availableStock, file, errors);
                 else
                 {
-                    errors.Error(GrammarCore.CompilerErrors.UnexpectedLiteralEntry, currentEntry.FileName, ruleItem.Line, ruleItem.Column, ruleItem.GetType().Name);
+                    errors.SourceError(GrammarCore.CompilerErrors.UnexpectedLiteralEntry, ruleItem.Line, ruleItem.Column, currentEntry.FileName, ruleItem.GetType().Name);
                     return null;
                 }
             }
@@ -551,7 +551,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                     return ((ISoftReferenceProductionRuleItem)(ruleItem)).FinalLink(file, errors);
                 else
                 {
-                    errors.Error(GrammarCore.CompilerErrors.UnexpectedUndefinedEntry, currentEntry.FileName, ruleItem.Line, ruleItem.Column, ruleItem.GetType().Name);
+                    errors.SourceError(GrammarCore.CompilerErrors.UnexpectedUndefinedEntry, ruleItem.Line, ruleItem.Column, currentEntry.FileName, ruleItem.GetType().Name);
                     return null;
                 }
             }
@@ -579,7 +579,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
         {
             IProductionRuleEntry ipre = ruleEntries.FindScannableEntry(softReference.PrimaryName);
             if (ipre == null)
-                errors.Error(GrammarCore.CompilerErrors.UndefinedTokenReference, currentEntry.FileName, softReference.Line, softReference.Column, softReference.PrimaryName);
+                errors.SourceError(GrammarCore.CompilerErrors.UndefinedTokenReference, softReference.Line, softReference.Column, currentEntry.FileName, softReference.PrimaryName);
             else
             {
                 IRuleReferenceProductionRuleItem ipri = new RuleReferenceProductionRuleItem(ipre, softReference.Column, softReference.Line, softReference.Position); ;

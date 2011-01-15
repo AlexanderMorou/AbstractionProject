@@ -48,11 +48,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns/sets the <see cref="IDelegateType"/> associated
         /// to the <see cref="IDelegateHolderReferenceExpression"/>.
         /// </summary>
-        IType AssociatedType { get; set; }
+        IType DelegateType { get; set; }
     }
 
     public interface IDelegateMethodPointerReferenceExpression :
-        IDelegateReferenceExpression
+        IDelegateHolderReferenceExpression
     {
         /// <summary>
         /// Returns/sets the method pointer the delegate
