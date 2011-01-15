@@ -1732,6 +1732,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
                             current = ParseIfDirective(null, ppd, container);
                             break;
                         case GDTokens.PreprocessorType.EndIfDirective:
+                            //There's no break² operation.
                             goto endWhile;
                         default:
                             break;
@@ -2083,7 +2084,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
                 if (result == current)
                     break;
                 else if (result == null)
-                    LogError(GDParserErrors.Unexpected, "Error");
+                    LogError(GDParserErrors.Unexpected, "SourceError");
                 else
                     PushAhead(new GDTokens.ReferenceToken(result, result.Column, result.Line, result.Position));
                 current = result;
@@ -2849,7 +2850,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
                 if (!(SeriesMatch(numberOp, GDTokenType.NumberLiteral, GDTokenType.Operator) ||
                       SeriesMatch(numberOp, GDTokenType.Operator, GDTokenType.NumberLiteral)))
                 {
-                    //Error of some kind.
+                    //SourceError of some kind.
                     if (numberOp[0].TokenType == GDTokenType.NumberLiteral)
                         ExpectOperator(numberOp[1], GDTokens.OperatorType.Minus | GDTokens.OperatorType.Comma, true);
                     else

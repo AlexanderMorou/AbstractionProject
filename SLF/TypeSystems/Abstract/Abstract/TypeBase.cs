@@ -390,6 +390,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Returns the namespace in which the <see cref="TypeBase"/> is declared.
         /// </summary>
+        [DebuggerDisplay("{NamespaceName}")]
         public INamespaceDeclaration Namespace
         {
             get { return this.OnGetNameSpace(); }

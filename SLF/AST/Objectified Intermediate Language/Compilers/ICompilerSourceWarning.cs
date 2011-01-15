@@ -13,8 +13,7 @@ using AllenCopeland.Abstraction.Slf.Languages;
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
     public interface ICompilerSourceWarning :
-        ICompilerMessage,
-        ISourceRelatedMessage
+        ICompilerSourceMessage
     {
         /// <summary>
         /// Returns the <see cref="Int32"/> value representing the warning 

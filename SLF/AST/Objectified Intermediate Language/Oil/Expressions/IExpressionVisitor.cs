@@ -106,11 +106,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <param name="expression">The <see cref="ILocalReferenceExpression"/> to visit.</param>
         void Visit(ILocalReferenceExpression expression);
         /// <summary>
-        /// Visits a fusion type collection target expression.
-        /// </summary>
-        /// <param name="expression">The <see cref="IFusionTypeCollectionTargetExpression"/> to visit.</param>
-        void Visit(IFusionTypeCollectionTargetExpression expression);
-        /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IFieldReferenceExpression"/>

@@ -12,13 +12,13 @@ using AllenCopeland.Abstraction.Slf.Oil;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
-    public class CompilerError :
+    public class CompilerSourceError :
         ICompilerSourceError
     {
         private string[] replacements;
         private ICompilerReferenceError message;
 
-        public CompilerError(ICompilerReferenceError message, string fileName, int line, int column, params string[] replacements) 
+        public CompilerSourceError(ICompilerReferenceError message, string fileName, int line, int column, params string[] replacements) 
         {
             if (message == null)
                 throw new ArgumentNullException("message");

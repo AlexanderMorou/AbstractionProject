@@ -871,14 +871,14 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                          select new FileInfo(s).Length).Sum();
 
             var sortedMessages =
-                (from ICompilerMessage ce in errors
+                (from ICompilerSourceMessage ce in errors
                  orderby ce.Location.Line,
                          ce.Message
                  select ce).ToArray();
             int largestColumn = sortedMessages.Max(p => p.Location.Column).ToString().Length;
             int furthestLine = sortedMessages.Max(p => p.Location.Line).ToString().Length;
 
-            string[] parts = (from ICompilerMessage e in errors
+            string[] parts = (from ICompilerSourceMessage e in errors
                               let ePath = Path.GetDirectoryName(e.FileName)
                               orderby ePath.Length descending
                               select ePath).First().Split(new string[] { @"\" }, StringSplitOptions.RemoveEmptyEntries);
@@ -939,11 +939,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 Console.WriteLine("All folders relative to: {0}", relativeRoot);
             foreach (var folder in folderErrors)
             {
-                //Error color used for denoting the specific error.
+                //SourceError color used for denoting the specific error.
                 const ConsoleColor errorColor = ConsoleColor.DarkRed;
                 //Used for the string noting there were errors.
                 const ConsoleColor errorMColor = ConsoleColor.Red;
-                //Warning color.
+                //SourceWarning color.
                 const ConsoleColor warnColor = ConsoleColor.DarkBlue;
                 //Position Color.
                 const ConsoleColor posColor = ConsoleColor.Gray;
@@ -1725,7 +1725,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                          select new FileInfo(s).Length).Sum();
 
             var iprsSorted =
-                (from CompilerError ce in iprs.SyntaxErrors
+                (from IParserSyntaxError ce in iprs.SyntaxErrors
                  orderby ce.Location.Line,
                          ce.Message
                  select ce).ToArray();
@@ -1761,7 +1761,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
              * readability versus traditional methods of a myriad of dictionaries. *
              * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
             var fileQuery =
-                (from CompilerError error in iprsSorted
+                (from IParserSyntaxError error in iprsSorted
                  select error.FileName).Distinct();
 
             var folderQuery =
@@ -1770,7 +1770,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
 
             var fileErrorQuery =
                 (from file in fileQuery
-                 join CompilerError error in iprsSorted on file equals error.FileName into fileErrors
+                 join IParserSyntaxError error in iprsSorted on file equals error.FileName into fileErrors
                  let fileErrorsArray = fileErrors.ToArray()
                  orderby fileErrorsArray.Length descending,
                          file ascending
@@ -1793,7 +1793,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 Console.WriteLine("All folders relative to: {0}", relativeRoot);
             foreach (var folder in folderErrors)
             {
-                //Error color used for denoting the specific error.
+                //SourceError color used for denoting the specific error.
                 const ConsoleColor errorColor = ConsoleColor.DarkRed;
                 //Used for the string noting there were errors.
                 const ConsoleColor errorMColor = ConsoleColor.Red;
@@ -1821,7 +1821,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     foreach (var ce in fileErrorSet.Errors)
                     {
                         Console.ForegroundColor = errorColor;
-                        Console.Write("\t\t{0} - {{", ce.MessageIdentifier);
+                        Console.Write("\t\t{");
                         Console.ForegroundColor = posColor;
                         int l = ce.Location.Line, c = ce.Location.Column;
                         l = furthestLine - l.ToString().Length;

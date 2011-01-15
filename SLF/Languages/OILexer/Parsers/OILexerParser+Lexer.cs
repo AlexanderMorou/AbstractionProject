@@ -794,7 +794,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
                                         return new NextTokenResults(new GDTokens.PreprocessorDirective(GDTokens.PreprocessorType.ElseIfDirective, this.GetLineIndex(), this.GetColumnIndex(), this.Position));
                                     }
                                 }
-                                else if (IsWhitespaceOrOperatorOrNullChar(LookAhead(8)) && Follows("lifdef", 3))
+                                else if (IsWhitespaceOrOperatorOrNullChar(LookAhead(8)) && Follows("ifdef", 3))
                                 {
                                     return new NextTokenResults(new GDTokens.PreprocessorDirective(GDTokens.PreprocessorType.ElseIfDefinedDirective, this.GetLineIndex(), this.GetColumnIndex(), this.Position));
                                 }

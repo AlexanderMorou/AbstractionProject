@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using System.Diagnostics;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -113,6 +114,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Returns the <see cref="IIntermediateNamespaceDeclaration"/>
         /// in which the current type (or its parent type) is declared.
         /// </summary>
+        [DebuggerDisplay("{NamespaceName}")]
         public new IIntermediateNamespaceDeclaration Namespace
         {
             get

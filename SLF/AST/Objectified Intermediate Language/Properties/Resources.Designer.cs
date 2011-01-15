@@ -61,7 +61,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error, the specified type for the coercion type is an interface.  This is illegal by convention.  Try implementing the interface instead..
+        ///   Looks up a localized string similar to SourceError, the specified type for the coercion type is an interface.  This is illegal by convention.  Try implementing the interface instead..
         /// </summary>
         internal static string Exception_Argument_CoercionType_CannotBeInterface {
             get {
@@ -70,7 +70,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error, the specified type for the custom attribute definition is not derived from attribute.  Attributes cannot be applied unless they derive from Attribute..
+        ///   Looks up a localized string similar to SourceError, the specified type for the custom attribute definition is not derived from attribute.  Attributes cannot be applied unless they derive from Attribute..
         /// </summary>
         internal static string Exception_Argument_CustomAttribute_Type_MustBeAttribute {
             get {
@@ -79,7 +79,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error, the custom attribute type defined in the parameter &apos;{0}&apos; is null..
+        ///   Looks up a localized string similar to SourceError, the custom attribute type defined in the parameter &apos;{0}&apos; is null..
         /// </summary>
         internal static string Exception_ArgumentNull_CustomAttribute_ctor_data {
             get {
@@ -97,7 +97,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error, the containing type is set to occupy both the left and right parameters of the binary operation.  Alter ContainingSide first..
+        ///   Looks up a localized string similar to SourceError, the containing type is set to occupy both the left and right parameters of the binary operation.  Alter ContainingSide first..
         /// </summary>
         internal static string Exception_InvalidOperation_ContainingSideIsBoth {
             get {

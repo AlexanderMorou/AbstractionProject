@@ -1,0 +1,3 @@
+﻿The focus of having a type-specific warning model is to ensure that
+model-based errors can relate directly back to the elements on which
+the error occurred.

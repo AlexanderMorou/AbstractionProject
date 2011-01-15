@@ -374,7 +374,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 }
                 catch
                 {
-                    errors.Error(GrammarCore.CompilerErrors.InvalidPreprocessorCondition, entry.FileName, expression.Line, expression.Column, expression.ToString());
+                    errors.SourceError(GrammarCore.CompilerErrors.InvalidPreprocessorCondition, expression.Line, expression.Column, entry.FileName, expression.ToString());
                 }
             }
             //rule 1.
@@ -519,7 +519,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                         }
                     }
                     else
-                        errors.Error(GrammarCore.CompilerErrors.IsDefinedTemplateParameterMustExpectRule, entry.FileName, expression.Line, expression.Column, name);
+                        errors.SourceError(GrammarCore.CompilerErrors.IsDefinedTemplateParameterMustExpectRule, expression.Line, expression.Column, entry.FileName, name);
                 }
                 foreach (IEntry ientry in file)
                     if (ientry is IProductionRuleEntry && (!(ientry is IProductionRuleTemplateEntry)))
@@ -527,7 +527,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                             return true;
                 return false;
             }
-            errors.Error(GrammarCore.CompilerErrors.InvalidDefinedTarget, entry.FileName, expression.Column, expression.Line, expression.ToString());
+            errors.SourceError(GrammarCore.CompilerErrors.InvalidDefinedTarget, expression.Column, expression.Line, entry.FileName, expression.ToString());
             return false;
         }
 
@@ -587,7 +587,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                                 var specificData = (ISoftReferenceProductionRuleItem)parameterData;
                                 errorData[index] = specificData.PrimaryName;
                                 errorLocations.Add(new Tuple<string,int,int>(pd0.FileName, specificData.Line, specificData.Column));
-                                //errors.Add(new CompilerError(pd0.FileName, specificData.Line, specificData.Column, string.Format(GrammarCore.GrammarParserErrorFormat, (int)GDParserErrors.ReferenceError), string.Format("Location related to error {3}:\r\n\tLanguage defined error in:\r\n\t\t{0} ({1}:{2}).", entry.FileName, directive.Line, directive.Column, directive.Reference.Number)));
+                                //errors.Add(new CompilerSourceError(pd0.FileName, specificData.Line, specificData.Column, string.Format(GrammarCore.GrammarParserErrorFormat, (int)GDParserErrors.ReferenceError), string.Format("Location related to error {3}:\r\n\tLanguage defined error in:\r\n\t\t{0} ({1}:{2}).", entry.FileName, directive.Line, directive.Column, directive.Reference.Number)));
                             }
                         }
                     }
@@ -600,9 +600,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             }
             if (errorLocations.Count > 0)
                 foreach (var errorLocation in errorLocations)
-                    errors.Error(GrammarCore.CompilerErrors.LanguageDefinedError, errorLocation.Item1, errorLocation.Item2, errorLocation.Item3, directive.Reference.Number.ToString(), string.Format(directive.Reference.Message, errorData));
+                    errors.SourceError(GrammarCore.CompilerErrors.LanguageDefinedError, errorLocation.Item2, errorLocation.Item3, errorLocation.Item1, directive.Reference.Number.ToString(), string.Format(directive.Reference.Message, errorData));
             else
-                errors.Error(GrammarCore.CompilerErrors.LanguageDefinedError, entry.FileName, directive.Line, directive.Column, directive.Reference.Number.ToString(), string.Format(directive.Reference.Message, errorData));
+                errors.SourceError(GrammarCore.CompilerErrors.LanguageDefinedError, directive.Line, directive.Column, entry.FileName, directive.Reference.Number.ToString(), string.Format(directive.Reference.Message, errorData));
         }
 
         internal static IProductionRuleItem Expand(this IPreprocessorConditionalReturnDirective directive, ProductionRuleTemplateArgumentSeries argumentLookup, IProductionRuleTemplateEntry entry, GDFile file, ICompilerErrorCollection errors)
@@ -644,7 +644,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                         }
                 if (foundItem == null)
                 {
-                    errors.Error(GrammarCore.CompilerErrors.UndefinedAddRuleTarget, entry.FileName, directive.Line, directive.Column, string.Join<IProductionRule>(" | ", directive.Rules), search);
+                    errors.SourceError(GrammarCore.CompilerErrors.UndefinedAddRuleTarget, directive.Line, directive.Column, entry.FileName, string.Join<IProductionRule>(" | ", directive.Rules), search);
                     return;
                 }
                 foreach (IProductionRule ipr in directive.Rules)
@@ -673,7 +673,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 foreach (IEntry ie in file)
                     if (ie is INamedEntry && ((INamedEntry)ie).Name == search)
                     {
-                        errors.Error(GrammarCore.CompilerErrors.DuplicateTermDefined, entry.FileName, directive.Column, directive.Line, search);
+                        errors.SourceError(GrammarCore.CompilerErrors.DuplicateTermDefined, directive.Column, directive.Line, entry.FileName, search);
                         return;
                     }
                 ProductionRuleEntry insertedItem = new ProductionRuleEntry(search, entry.ScanMode, entry.FileName, directive.Column, directive.Line, directive.Position);

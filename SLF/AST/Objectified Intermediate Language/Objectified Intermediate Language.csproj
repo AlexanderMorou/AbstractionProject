@@ -121,8 +121,12 @@
     <Compile Include="Compilers\CompilerReferenceWarning.cs" />
     <Compile Include="Compilers\CompilerSupport.cs" />
     <Compile Include="Compilers\CompilerWarning.cs" />
+    <Compile Include="Compilers\ICompilerError.cs" />
     <Compile Include="Compilers\DebugSupport.cs" />
     <Compile Include="Compilers\ICompilerContext.cs" />
+    <Compile Include="Compilers\ICompilerModelError{T1-T4}.cs" />
+    <Compile Include="Compilers\ICompilerModelMessage.cs" />
+    <Compile Include="Compilers\ICompilerModelWarning{T1-T4}.cs" />
     <Compile Include="Compilers\ICompilerSourceError.cs" />
     <Compile Include="Compilers\ICompilerMessage.cs" />
     <Compile Include="Compilers\ICompilerMessageCollection.cs" />
@@ -130,6 +134,12 @@
     <Compile Include="Compilers\ICompilerReferenceError.cs" />
     <Compile Include="Compilers\ICompilerReferenceMessage.cs" />
     <Compile Include="Compilers\ICompilerReferenceWarning.cs" />
+    <Compile Include="Compilers\ICompilerSourceMessage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compilers\ICompilerSourceModelError{T1-T4}.cs" />
+    <Compile Include="Compilers\ICompilerSourceModelMessage.cs" />
+    <Compile Include="Compilers\ICompilerSourceModelWarning{T1-T4}.cs" />
     <Compile Include="Compilers\ICompilerSourceWarning.cs" />
     <Compile Include="Oil\IIntermediateDeclarationVisitor.cs" />
     <Compile Include="Oil\IIntermediateDynamicHandler.cs" />
@@ -1000,7 +1010,9 @@
     <None Include="Oil\Expressions\Linq\Linq - ReadMe.txt" />
     <None Include="Oil\Expressions\Linq\LINQ.oilexer" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Compilers\Compiler Warnings and Errors.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>$(SolutionDir)BuildAssistant.bat $(PlatformName) "$(TargetDir)$(TargetFileName)" "$(ProjectName)" uninstall</PreBuildEvent>

@@ -42,11 +42,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         public bool GenerateXMLDocs { get; set; }
 
         /// <summary>
-        /// Returns/sets the assembly target file name.
-        /// </summary>
-        public string Target { get; set; }
-
-        /// <summary>
         /// Returns/sets the level of support given to debug output.
         /// </summary>
         public DebugSupport DebugSupport { get; set; }

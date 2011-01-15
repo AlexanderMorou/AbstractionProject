@@ -13,7 +13,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
 {
     /// <summary>
     /// Defines properties and methods for working with
-    /// a compiler error.
+    /// a compiler reference error message.
     /// </summary>
     public interface ICompilerReferenceError :
         ICompilerReferenceMessage

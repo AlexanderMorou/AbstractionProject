@@ -694,7 +694,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 {
                     if (this.compilationContext == null)
                         this.compilationContext = new CompilationContext();
-                    return this.CompilationContext;
+                    return this.compilationContext;
                 }
                 else
                     return this.GetRoot().CompilationContext;

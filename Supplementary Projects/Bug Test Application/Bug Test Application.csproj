@@ -177,13 +177,13 @@
       <Project>{8B815295-30CD-4825-8634-155776DEEE14}</Project>
       <Name>CSharp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SLF\Languages\Language Metadata Library\Language Services.csproj">
-      <Project>{41C87F7B-840B-4237-AEED-A471955AB3D7}</Project>
-      <Name>Language Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\SLF\Languages\Toy++\Toy++.csproj">
       <Project>{DA55A92C-B4EE-4350-AC02-B6C25D795723}</Project>
       <Name>Toy++</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SLF\Languages\VisualBasic.NET\VisualBasic.NET.csproj">
+      <Project>{9C89419D-F2A1-4882-8408-6708A038E025}</Project>
+      <Name>VisualBasic.NET</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SLF\TypeSystems\Abstract\TypeSystem Abstract.csproj">
       <Project>{161EAA8C-20C6-4B82-925A-4B8B112910AB}</Project>
