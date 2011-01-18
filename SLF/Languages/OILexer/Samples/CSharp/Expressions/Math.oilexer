@@ -121,7 +121,7 @@ ConditionalExpression                     ::=
 
 AssignmentExpression                      ::=
     BinaryOperationExpression<
-        AssignmentExpression,
+        Expression,
         (
             '='                             | 
             "+="                            | 

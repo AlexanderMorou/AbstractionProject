@@ -8,26 +8,23 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     /// <summary>
     /// Defines properties and methods for working with a
     /// compiler model warning which relates to a specific 
-    /// portion of the object model defined in <typeparamref name="T1"/>.
+    /// portion of the source-based object model defined 
+    /// in <typeparamref name="T1"/>.
     /// </summary>
     /// <typeparam name="T1">The point of reference
     /// to which the <see cref="ICompilerSourceModelWarning{T1}"/>
     /// relates.</typeparam>
     public interface ICompilerSourceModelWarning<T1> :
-        ICompilerSourceModelMessage
+        ICompilerSourceModelMessage,
+        ICompilerSourceWarning,
+        ICompilerModelWarning<T1>
     {
-        /// <summary>
-        /// Returns the <typeparamref name="T1"/>
-        /// which denotes the first element relative to
-        /// the model warning.
-        /// </summary>
-        T1 Item1 { get; }
     }
     /// <summary>
     /// Defines properties and methods for working with a
     /// compiler model warning which relates to a specific 
-    /// portion of the object model defined in <typeparamref name="T1"/>
-    /// and <typeparamref name="T2"/>.
+    /// portion of the source-based object model defined
+    /// in <typeparamref name="T1"/> and <typeparamref name="T2"/>.
     /// </summary>
     /// <typeparam name="T1">The type of the first point of
     /// reference to which the <see cref="ICompilerSourceModelWarning{T1, T2}"/>
@@ -36,19 +33,15 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     /// reference to which the <see cref="ICompilerSourceModelWarning{T1, T2}"/>
     /// relates.</typeparam>
     public interface ICompilerSourceModelWarning<T1, T2> :
-        ICompilerModelWarning<T1>
+        ICompilerSourceModelWarning<T1>,
+        ICompilerModelWarning<T1, T2>
     {
-        /// <summary>
-        /// Returns the <typeparamref name="T2"/>
-        /// which denotes the second element relative to 
-        /// the model warning.
-        /// </summary>
-        T2 Item2 { get; }
     }
     /// <summary>
     /// Defines properties and methods for working with a
     /// compiler model warning which relates to a specific 
-    /// portion of the object model defined in <typeparamref name="T1"/>
+    /// portion of the source-based object model defined in 
+    /// <typeparamref name="T1"/>
     /// <typeparamref name="T2"/>, and <typeparamref name="T3"/>.
     /// </summary>
     /// <typeparam name="T1">The type of the first point of
@@ -61,23 +54,14 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     /// reference to which the <see cref="ICompilerSourceModelWarning{T1, T2, T3}"/>
     /// relates.</typeparam>
     public interface ICompilerSourceModelWarning<T1, T2, T3> :
-        ICompilerModelWarning<T1, T2>
-    {
-        /// <summary>
-        /// Returns the <typeparamref name="T3"/>
-        /// which denotes the third element relative to 
-        /// the model warning.
-        /// </summary>
-        T3 Item3 { get; }
-    }
-    public interface ICompilerSourceModelWarning<T1, T2, T3, T4> :
+        ICompilerSourceModelWarning<T1, T2>,
         ICompilerModelWarning<T1, T2, T3>
     {
-        /// <summary>
-        /// Returns the <typeparamref name="T4"/>
-        /// which denotes the fourth element relative to 
-        /// the model warning.
-        /// </summary>
-        T4 Item4 { get; }
+    }
+
+    public interface ICompilerSourceModelWarning<T1, T2, T3, T4> :
+        ICompilerSourceModelWarning<T1, T2, T3>,
+        ICompilerModelWarning<T1, T2, T3, T4>
+    {
     }
 }

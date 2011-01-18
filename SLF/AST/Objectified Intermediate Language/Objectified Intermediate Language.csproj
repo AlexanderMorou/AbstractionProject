@@ -141,6 +141,7 @@
     <Compile Include="Compilers\ICompilerSourceModelMessage.cs" />
     <Compile Include="Compilers\ICompilerSourceModelWarning{T1-T4}.cs" />
     <Compile Include="Compilers\ICompilerSourceWarning.cs" />
+    <Compile Include="Compilers\ICompilerWarning.cs" />
     <Compile Include="Oil\IIntermediateDeclarationVisitor.cs" />
     <Compile Include="Oil\IIntermediateDynamicHandler.cs" />
     <Compile Include="Oil\IIntermediateInclusionVisitor.cs" />

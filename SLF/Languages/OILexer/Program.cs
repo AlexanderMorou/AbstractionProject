@@ -147,7 +147,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
         /// call site.</param>
         private static void Main(string[] args)
         {
+            ProcessMain(args);
+        }
 
+        internal static ParserBuilderResults ProcessMain(string[] args)
+        {
             var consoleTitle = Console.Title;
             try
             {
@@ -157,7 +161,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     if ((options & ValidOptions.NoLogo) != ValidOptions.NoLogo)
                         DisplayLogo();
                     Program.DisplayUsage();
-                    return;
+                    return null;
                 }
                 bool exists = false;
                 string file = null;
@@ -218,9 +222,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     if ((options & ValidOptions.NoLogo) != ValidOptions.NoLogo)
                         DisplayLogo();
                     Program.DisplayUsage();
-                    return;
+                    return null;
                 }
-                Program.ProcessFile(file);
+                return Program.ProcessFile(file);
             }
             finally
             {
@@ -608,8 +612,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             Console.WriteLine("Disposal took {0}", mainStopwatch.Elapsed);
         }
 
-        private static void ProcessFile(string file)
+        private static ParserBuilderResults ProcessFile(string file)
         {
+            ParserBuilderResults resultsOfBuild = null;
             int maxLength = new int[] { TitleSequence_CharacterSetCache.Length, TitleSequence_CharacterSetComputations.Length, TitleSequence_VocabularyCache.Length, TitleSequence_VocabularyComputations.Length, TitleSequence_NumberOfRules.Length, TitleSequence_NumberOfTokens.Length, PhaseName_Linking.Length, PhaseName_ExpandingTemplates.Length, PhaseName_Deliteralization.Length, PhaseName_InliningTokens.Length, PhaseName_TokenNFAConstruction.Length, PhaseName_TokenDFAConstruction.Length, PhaseName_TokenDFAReduction.Length, PhaseName_RuleNFAConstruction.Length, PhaseName_RuleDFAConstruction.Length, PhaseName_CallTreeAnalysis.Length, PhaseName_ObjectModelConstruction.Length, PhaseName_TokenCaptureConstruction.Length, PhaseName_TokenEnumConstruction.Length, PhaseName_RuleStructureConstruction.Length, PhaseName_Parsing.Length }.Max();
             baseTitle = string.Format("{0}: {1}", Path.GetFileNameWithoutExtension(typeof(Program).Assembly.Location), Path.GetFileName(file));
             Console.Title = baseTitle;
@@ -656,7 +661,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     Console.Title = string.Format("{0} Linking project...", baseTitle);
                 }
                 catch (IOException) { }
-                ParserBuilderResults resultsOfBuild = Build(resultsOfParse);
+                resultsOfBuild = Build(resultsOfParse);
 
                 resultsOfBuild.PhaseTimes._AddInternal(ParserBuilderPhase.Parsing, parseTime);
                 if (resultsOfBuild == null)
@@ -862,7 +867,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 Console.Title = string.Format("{0} - {1}", baseTitle, "Finished");
             }
             catch (IOException) { }
-            Console.ReadKey(true);
+            return resultsOfBuild;
         }
 
         private static void ShowErrors(IParserResults<IGDFile> parserResults, ICompilerErrorCollection errors)
@@ -939,11 +944,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 Console.WriteLine("All folders relative to: {0}", relativeRoot);
             foreach (var folder in folderErrors)
             {
-                //SourceError color used for denoting the specific error.
+                //error color used for denoting the specific error.
                 const ConsoleColor errorColor = ConsoleColor.DarkRed;
                 //Used for the string noting there were errors.
                 const ConsoleColor errorMColor = ConsoleColor.Red;
-                //SourceWarning color.
+                //warning color.
                 const ConsoleColor warnColor = ConsoleColor.DarkBlue;
                 //Position Color.
                 const ConsoleColor posColor = ConsoleColor.Gray;
@@ -1711,12 +1716,19 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             return op;
         }
 
-        private static ParserBuilderResults Build(IParserResults<IGDFile> iprs)
+        private static ParserBuilderResults Build(IParserResults<IGDFile> file)
         {
-            ParserBuilderResults resultsOfBuild = iprs.Result.Build(StreamAnalysisFiles, 
-                phase =>
-                    Console.Title = string.Format("{0} - {1}...", Program.baseTitle, GetPhaseSubString(phase)));
-            return resultsOfBuild;
+            ParserBuilder builder = new ParserBuilder(file.Result, StreamAnalysisFiles);
+            EventHandler<ParserBuilderPhaseChangeEventArgs> changeEvent = (source, phaseArgs) =>
+                {
+                    if (phaseArgs.Phase == ParserBuilderPhase.None)
+                        return;
+                    Console.Title = string.Format("{0} - {1}...", Program.baseTitle, GetPhaseSubString(phaseArgs.Phase));
+                };
+            builder.PhaseChange += changeEvent;
+            builder.BuildProject();
+            builder.PhaseChange -= changeEvent;
+            return new ParserBuilderResults() { Project = builder.Project, CompilationErrors = builder.CompilationErrors, PhaseTimes = new ReadOnlyDictionary<ParserBuilderPhase, TimeSpan>(builder.PhaseTimes), RuleStateMachines = builder.RuleDFAStates };
         }
 
         private static void ShowErrors(IParserResults<IGDFile> iprs)
@@ -1793,7 +1805,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 Console.WriteLine("All folders relative to: {0}", relativeRoot);
             foreach (var folder in folderErrors)
             {
-                //SourceError color used for denoting the specific error.
+                //error color used for denoting the specific error.
                 const ConsoleColor errorColor = ConsoleColor.DarkRed;
                 //Used for the string noting there were errors.
                 const ConsoleColor errorMColor = ConsoleColor.Red;
@@ -1905,6 +1917,14 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             }
             Console.WriteLine("╘═{1}{0}═╛", '═'.Repeat(longestLineLength - Usage_End.Length), Usage_End);
             Console.ReadKey(true);
+        }
+    }
+
+    public static class OILexerProgram
+    {
+        public static ParserBuilderResults CallMainMethod(params string[] args)
+        {
+            return Program.ProcessMain(args);
         }
     }
 }

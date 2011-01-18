@@ -133,6 +133,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compilers\Oilexer\ParserBuilderPhaseChangeEventArgs.cs" />
     <Compile Include="Languages\OilexerLanguage.cs" />
     <Compile Include="Languages\OilexerProvider+AltParser.cs" />
     <Compile Include="Languages\OilexerProvider.cs" />
