@@ -539,16 +539,6 @@ using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
                    select iE;
         }
 
-        public static ParserBuilderResults Build(this IGDFile file, List<string> streamAnalysisFiles, Action<ParserBuilderPhase> phaseShifter)
-        {
-            ParserBuilder builder = new ParserBuilder(file, streamAnalysisFiles);
-
-            foreach (ParserBuilderPhase phase in builder)
-                phaseShifter(phase);
-
-            return new ParserBuilderResults() { Project = builder.Project, CompilationErrors = builder.CompilationErrors, PhaseTimes = new ReadOnlyDictionary<ParserBuilderPhase, TimeSpan>(builder.PhaseTimes), RuleStateMachines= builder.RuleDFAStates };
-        }
-
         public static SyntacticalNFAState BuildNFA(this IProductionRuleSeries series, IGrammarSymbolSet symbols, ParserBuilder builder)
         {
             return series.BuildNFA(null, symbols, builder);

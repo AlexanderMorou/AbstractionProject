@@ -582,7 +582,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
                     LogError(GDParserErrors.UnknownSymbol, stringTerminal.Position);
                     break;
                 case StringTerminalKind.Include:
-                    ParseInclude(stringTerminal.Literal);
+                    ParseInclude(stringTerminal);
                     break;
                 case StringTerminalKind.Root:
                     currentTarget.Result.Options.StartEntry = stringTerminal.Literal;
@@ -695,9 +695,9 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
                 Expect("string", its[0].Position);
         }
 
-        private void ParseInclude(string str)
+        private void ParseInclude(IPreprocessorStringTerminalDirective str)
         {
-            string include = str;
+            string include = str.Literal;
 
             if (!Path.IsPathRooted(include))
                 //Files are always relative to the one the current tokenizer is reading 
@@ -720,7 +720,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
                 //    this.includeDirectives.Add(include);
             }
             else
-                LogError(GDParserErrors.IncludeFileNotFound, include);
+                LogError(GDParserErrors.IncludeFileNotFound, include, str.Position);
         }
 
         private void ParseIncludes(GDParserResults currentTarget)

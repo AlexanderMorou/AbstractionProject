@@ -23,7 +23,8 @@
 #endif
 
 ExternAliasDirective                      ::=
-    "extern" "alias" Identifier:AliasName;  ;
+    "extern" "alias" Identifier:AliasName;
+    ';' ;
 
 UsingDirective                           ::=>
     UsingAliasDirective                     |
@@ -31,10 +32,10 @@ UsingDirective                           ::=>
 
 UsingAliasDirective                       ::=
     "using" Identifier:Alias; '=' 
-        NamespaceOrTypeName:Target;         ;
+        NamespaceOrTypeName:Target; ';'     ;
 
 UsingNamespaceDirective                   ::=
-    "using" NamespaceName:Target;           ;
+    "using" NamespaceName:Target; ';'       ;
 
 NamespaceOrTypeName                       ::=
     (

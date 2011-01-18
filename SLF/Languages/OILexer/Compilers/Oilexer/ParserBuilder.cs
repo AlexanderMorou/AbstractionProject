@@ -32,14 +32,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
     /// Provides a builder for the parser that results
     /// from a grammar description file.
     /// </summary>
-    public class ParserBuilder :
-        IEnumerable<ParserBuilderPhase>
+    public class ParserBuilder
     {
-        /// <summary>
-        /// Returns the <see cref="ParserBuildPhase"/> associated to the current
-        /// step in the parse.
-        /// </summary>
-        public ParserBuilderPhase Phase { get; private set; }
         /// <summary>
         /// Returns the <see cref="GDFile"/> which describes the structure
         /// of the grammar to build a parser for.
@@ -91,6 +85,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
         private IGDFileObjectRelationalMap fileRelationalMap;
 
         private CharStreamClass bitStream;
+
+        public event EventHandler<ParserBuilderPhaseChangeEventArgs> PhaseChange;
+
 
         public ParserBuilder(IGDFile source, List<string> streamAnalysisFiles)
         {
@@ -186,10 +183,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 this.SyntaxParser.Parse(file);
         }
 
-        private void BuildCodeModel()
+        private void BuildCodeModel(IIntermediateAssembly project)
         {
-            this.bitStream = BitStreamCreator.CreateBitStream(this.Project.DefaultNamespace);
-            this.fileRelationalMap = new GDFileObjectRelationalMap(this.Source, this.RuleDFAStates, this.Project);
+            this.bitStream = BitStreamCreator.CreateBitStream(project.DefaultNamespace);
+            this.fileRelationalMap = new GDFileObjectRelationalMap(this.Source, this.RuleDFAStates, project);
         }
 
         private void BuildStateMachine(InlinedTokenEntry token, IIntermediateAssembly project, CharStreamClass charStream)
@@ -226,10 +223,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             IIntermediateNamespaceDeclaration targetNamespace = project.DefaultNamespace.Parts.Add();
             IIntermediateClassType targetType;
             targetType = targetNamespace.Classes.Add(string.Format("{0}StateMachine", tokenName));
-            if (this.Project.Modules.ContainsKey("Lexer"))
-                targetType.DeclaringModule = this.Project.Modules["Lexer"];
+            if (project.Modules.ContainsKey("Lexer"))
+                targetType.DeclaringModule = project.Modules["Lexer"];
             else
-                targetType.DeclaringModule = this.Project.Modules.Add("Lexer");
+                targetType.DeclaringModule = project.Modules.Add("Lexer");
             var stateMachine = targetType;
             stateMachine.AccessLevel = AccessLevelModifiers.Internal;
             stateMachine.BaseType = charStream.BitStream;
@@ -754,175 +751,146 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             return new Tuple<RegularLanguageSet, UnicodeCategory[], Dictionary<UnicodeCategory, RegularLanguageSet>>(check, unicodeCategories, partialCategories);
         }
 
-
-        /// <summary>
-        /// Obtains an enumerator for stepping through the build process.
-        /// </summary>
-        /// <returns>A new <see cref="IEnumerator{T}"/> which steps the builder 
-        /// through its phases.</returns>
-        public IEnumerator<ParserBuilderPhase> GetEnumerator()
+        public void BuildProject()
         {
-            if (this.Source == null)
-                yield break;
-            IIntermediateAssembly project = IntermediateGateway.CreateAssembly(Source.Options.AssemblyName);
-            if (Source.Options.Namespace == null)
-                project.DefaultNamespace = project.Namespaces.Add("OILexer.DefaultNamespace");
-            else
-                project.DefaultNamespace = project.Namespaces.Add(Source.Options.Namespace);
-            this.Project = project;
-            Stopwatch timer = new Stopwatch();
-
-            Source.InitLookups();
-            while (true)
+            if (this.phase != ParserBuilderPhase.None)
+                throw new InvalidOperationException("Build in progress.");
+            try
             {
-                switch (Phase)
-                {
-                    case ParserBuilderPhase.None:
-                        ((GDFile)Source).Add(new TokenEofEntry(Source.GetTokenEnumerator().ToArray()));
-                        Phase = ParserBuilderPhase.Linking;
-                        break;
-                    case ParserBuilderPhase.Linking:
-                        yield return ParserBuilderPhase.Linking;
-                        timer.Start();
-                        this.Source.ResolveTemplates(this.CompilationErrors);
-                        timer.Stop();
-                        PhaseTimes.Add(ParserBuilderPhase.Linking, timer.Elapsed);
-                        timer.Reset();
-                        if (CompilationErrors.HasErrors)
-                            goto finished;
-                        Phase = ParserBuilderPhase.ExpandingTemplates;
-                        break;
-                    case ParserBuilderPhase.ExpandingTemplates:
-                        yield return ParserBuilderPhase.ExpandingTemplates;
-                        timer.Start();
-                        this.Source.ExpandTemplates(this.CompilationErrors);
-                        timer.Stop();
-                        PhaseTimes.Add(ParserBuilderPhase.ExpandingTemplates, timer.Elapsed);
-                        timer.Reset();
-                        if (CompilationErrors.HasErrors)
-                            goto finished;
-                        Phase = ParserBuilderPhase.LiteralLookup;
-                        break;
-                    case ParserBuilderPhase.LiteralLookup:
-                        yield return ParserBuilderPhase.LiteralLookup;
-                        timer.Start();
-                        this.Source.FinalLink(this.CompilationErrors);
-                        timer.Stop();
-                        PhaseTimes.Add(ParserBuilderPhase.LiteralLookup, timer.Elapsed);
-                        timer.Reset();
-                        if (CompilationErrors.HasErrors)
-                            goto finished;
-                        Phase = ParserBuilderPhase.InliningTokens;
-                        break;
-                    case ParserBuilderPhase.InliningTokens:
-                        yield return ParserBuilderPhase.InliningTokens;
-                        timer.Start();
-                        bool inlineSuccess = ParserCompilerExtensions.InlineTokens(Source);
-                        if (inlineSuccess)
-                            this.Precedences = new TokenPrecedenceTable(this.Source.GetTokens());
-                        timer.Stop();
-                        PhaseTimes.Add(ParserBuilderPhase.InliningTokens, timer.Elapsed);
-                        timer.Reset();
-                        if (!inlineSuccess)
-                            goto finished;
-                        ParserCompilerExtensions.CleanupRules();
-                        FindStartRule();
-                        if (this.StartEntry == null)
-                            yield break;
-                        Phase = ParserBuilderPhase.TokenNFAConstruction;
-                        break;
-                    case ParserBuilderPhase.TokenNFAConstruction:
-                        yield return ParserBuilderPhase.TokenNFAConstruction;
-                        timer.Start();
-                        ConstructTokenNFA();
-                        timer.Stop();
-                        PhaseTimes.Add(ParserBuilderPhase.TokenNFAConstruction, timer.Elapsed);
-                        timer.Reset();
-                        Phase = ParserBuilderPhase.TokenDFAConstruction;
-                        break;
-                    case ParserBuilderPhase.TokenDFAConstruction:
-                        yield return ParserBuilderPhase.TokenDFAConstruction;
-                        timer.Start();
-                        ConstructTokenDFA();
-                        timer.Stop();
-                        PhaseTimes.Add(ParserBuilderPhase.TokenDFAConstruction, timer.Elapsed);
-                        timer.Reset();
-                        Phase = ParserBuilderPhase.TokenDFAReduction;
-                        break;
-                    case ParserBuilderPhase.TokenDFAReduction:
-                        yield return ParserBuilderPhase.TokenDFAReduction;
-                        timer.Start();
-                        this.ReduceTokenDFA();
-                        timer.Stop();
-                        PhaseTimes.Add(ParserBuilderPhase.TokenDFAReduction, timer.Elapsed);
-                        timer.Reset();
-                        Phase = ParserBuilderPhase.RuleNFAConstruction;
-                        break;
-                    case ParserBuilderPhase.RuleNFAConstruction:
-                        yield return ParserBuilderPhase.RuleNFAConstruction;
-                        timer.Start();
-                        this.ConstructRuleNFA();
-                        timer.Stop();
-                        PhaseTimes.Add(ParserBuilderPhase.RuleNFAConstruction, timer.Elapsed);
-                        timer.Reset();
-                        Phase = ParserBuilderPhase.RuleDFAConstruction;
-                        break;
-                    case ParserBuilderPhase.RuleDFAConstruction:
-                        yield return ParserBuilderPhase.RuleDFAConstruction;
-                        timer.Start();
-                        this.ConstructRuleDFA();
-                        timer.Stop();
-                        PhaseTimes.Add(ParserBuilderPhase.RuleDFAConstruction, timer.Elapsed);
-                        timer.Reset();
-                        Phase = ParserBuilderPhase.CallTreeAnalysis;
-                        break;
-                    case ParserBuilderPhase.CallTreeAnalysis:
-                        yield return ParserBuilderPhase.CallTreeAnalysis;
-                        timer.Start();
-                        this.PerformStreamAnalysis();
-                        timer.Stop();
-                        PhaseTimes.Add(ParserBuilderPhase.CallTreeAnalysis, timer.Elapsed);
-                        timer.Reset();
-                        Phase = ParserBuilderPhase.ObjectModelRootTypesConstruction;
-                        break;
-                    case ParserBuilderPhase.ObjectModelTokenCaptureConstruction:
-                        yield return ParserBuilderPhase.ObjectModelTokenCaptureConstruction;
-                        this.BuildCodeModelCaptures();
-                        Phase = ParserBuilderPhase.ObjectModelTokenEnumConstruction;
-                        break;
-                    case ParserBuilderPhase.ObjectModelTokenEnumConstruction:
-                        yield return ParserBuilderPhase.ObjectModelTokenEnumConstruction;
-                        this.BuildCodeModelEnums();
-                        Phase = ParserBuilderPhase.ObjectModelRuleStructureConstruction;
-                        break;
-                    case ParserBuilderPhase.ObjectModelRuleStructureConstruction:
-                        yield return ParserBuilderPhase.ObjectModelRuleStructureConstruction;
-                        Phase = ParserBuilderPhase.ObjectModelFinalTypesConstruction;
-                        break;
-                    case ParserBuilderPhase.ObjectModelRootTypesConstruction:
-                        yield return ParserBuilderPhase.ObjectModelRootTypesConstruction;
-                        timer.Start();
-                        BuildCodeModel();
-                        timer.Stop();
-                        PhaseTimes.Add(ParserBuilderPhase.ObjectModelRootTypesConstruction, timer.Elapsed);
-                        timer.Reset();
-                        Phase = ParserBuilderPhase.ObjectModelTokenCaptureConstruction;
-                        break;
-                    case ParserBuilderPhase.ObjectModelFinalTypesConstruction:
-                        yield return ParserBuilderPhase.ObjectModelFinalTypesConstruction;
-                        goto finished;
-                    default:
-                        goto finished;
-                }
+                IIntermediateAssembly project = null;
+                if (this.Source == null)
+                    goto finished;
+                project = IntermediateGateway.CreateAssembly(Source.Options.AssemblyName);
+                if (Source.Options.Namespace == null)
+                    project.DefaultNamespace = project.Namespaces.Add("OILexer.DefaultNamespace");
+                else
+                    project.DefaultNamespace = project.Namespaces.Add(Source.Options.Namespace);
+                Stopwatch timer = new Stopwatch();
+
+                Source.InitLookups();
+                ((GDFile)Source).Add(new TokenEofEntry(Source.GetTokenEnumerator().ToArray()));
+                Phase = ParserBuilderPhase.Linking;
+                timer.Start();
+                this.Source.ResolveTemplates(this.CompilationErrors);
+                timer.Stop();
+                PhaseTimes.Add(ParserBuilderPhase.Linking, timer.Elapsed);
+                timer.Reset();
+                if (CompilationErrors.HasErrors)
+                    goto finished;
+                Phase = ParserBuilderPhase.ExpandingTemplates;
+                timer.Start();
+                this.Source.ExpandTemplates(this.CompilationErrors);
+                timer.Stop();
+                PhaseTimes.Add(ParserBuilderPhase.ExpandingTemplates, timer.Elapsed);
+                timer.Reset();
+                if (CompilationErrors.HasErrors)
+                    goto finished;
+                Phase = ParserBuilderPhase.LiteralLookup;
+                timer.Start();
+                this.Source.FinalLink(this.CompilationErrors);
+                timer.Stop();
+                PhaseTimes.Add(ParserBuilderPhase.LiteralLookup, timer.Elapsed);
+                timer.Reset();
+                if (CompilationErrors.HasErrors)
+                    goto finished;
+                Phase = ParserBuilderPhase.InliningTokens;
+                timer.Start();
+                bool inlineSuccess = ParserCompilerExtensions.InlineTokens(Source);
+                if (inlineSuccess)
+                    this.Precedences = new TokenPrecedenceTable(this.Source.GetTokens());
+                timer.Stop();
+                PhaseTimes.Add(ParserBuilderPhase.InliningTokens, timer.Elapsed);
+                timer.Reset();
+                if (!inlineSuccess)
+                    goto finished;
+                ParserCompilerExtensions.CleanupRules();
+                FindStartRule();
+                if (this.StartEntry == null)
+                    goto finished;
+                Phase = ParserBuilderPhase.TokenNFAConstruction;
+                timer.Start();
+                ConstructTokenNFA();
+                timer.Stop();
+                PhaseTimes.Add(ParserBuilderPhase.TokenNFAConstruction, timer.Elapsed);
+                timer.Reset();
+                Phase = ParserBuilderPhase.TokenDFAConstruction;
+                timer.Start();
+                ConstructTokenDFA();
+                timer.Stop();
+                PhaseTimes.Add(ParserBuilderPhase.TokenDFAConstruction, timer.Elapsed);
+                timer.Reset();
+                Phase = ParserBuilderPhase.TokenDFAReduction;
+                timer.Start();
+                this.ReduceTokenDFA();
+                timer.Stop();
+                PhaseTimes.Add(ParserBuilderPhase.TokenDFAReduction, timer.Elapsed);
+                timer.Reset();
+                Phase = ParserBuilderPhase.RuleNFAConstruction;
+                timer.Start();
+                this.ConstructRuleNFA();
+                timer.Stop();
+                PhaseTimes.Add(ParserBuilderPhase.RuleNFAConstruction, timer.Elapsed);
+                timer.Reset();
+                Phase = ParserBuilderPhase.RuleDFAConstruction;
+                timer.Start();
+                this.ConstructRuleDFA();
+                timer.Stop();
+                PhaseTimes.Add(ParserBuilderPhase.RuleDFAConstruction, timer.Elapsed);
+                timer.Reset();
+                Phase = ParserBuilderPhase.CallTreeAnalysis;
+                timer.Start();
+                this.PerformStreamAnalysis();
+                timer.Stop();
+                PhaseTimes.Add(ParserBuilderPhase.CallTreeAnalysis, timer.Elapsed);
+                timer.Reset();
+                Phase = ParserBuilderPhase.ObjectModelRootTypesConstruction;
+                timer.Start();
+                BuildCodeModel(project);
+                timer.Stop();
+                PhaseTimes.Add(ParserBuilderPhase.ObjectModelRootTypesConstruction, timer.Elapsed);
+                timer.Reset();
+                Phase = ParserBuilderPhase.ObjectModelTokenCaptureConstruction;
+                timer.Start();
+                this.BuildCodeModelCaptures(project);
+                timer.Stop();
+                PhaseTimes.Add(ParserBuilderPhase.ObjectModelTokenCaptureConstruction, timer.Elapsed);
+                timer.Reset();
+                Phase = ParserBuilderPhase.ObjectModelTokenEnumConstruction;
+                this.BuildCodeModelEnums();
+                Phase = ParserBuilderPhase.ObjectModelRuleStructureConstruction;
+                Phase = ParserBuilderPhase.ObjectModelFinalTypesConstruction;
+                goto finished;
+            finished:
+                if (this.CompilationErrors.Count == 0)
+                    this.Project = project;
             }
-        finished:
-            //if (this.Errors.Count == 0)
-            //     this.Project = result;
-            LinkerCore.errorEntries = null;
-            LinkerCore.tokenEntries = null;
-            LinkerCore.ruleEntries = null;
-            LinkerCore.ruleTemplEntries = null;
-            yield break;
+            finally
+            {
+                LinkerCore.errorEntries = null;
+                LinkerCore.tokenEntries = null;
+                LinkerCore.ruleEntries = null;
+                LinkerCore.ruleTemplEntries = null;
+                this.Phase = ParserBuilderPhase.None;
+            }
+        }
+
+        private ParserBuilderPhase phase;
+        public ParserBuilderPhase Phase
+        {
+            get { return this.phase; }
+            set
+            {
+                if (value == phase)
+                    return;
+                this.phase = value;
+                this.OnPhaseChange(value);
+            }
+        }
+
+        private void OnPhaseChange(ParserBuilderPhase phase)
+        {
+            if (this.PhaseChange != null)
+                this.PhaseChange(this, new ParserBuilderPhaseChangeEventArgs(phase));
         }
 
         private void FindStartRule()
@@ -930,7 +898,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             IProductionRuleEntry startRule;
             if (Source.Options.StartEntry == null || Source.Options.StartEntry == string.Empty)
             {
-                CompilationErrors.SourceModelError(GrammarCore.CompilerErrors.NoStartDefined, 0, 0, Source.Files[0], Source, Source.Options.GrammarName);
+                CompilationErrors.SourceModelError<GDFile>(GrammarCore.CompilerErrors.NoStartDefined, 0, 0, Source.Files[0], Source, Source.Options.GrammarName);
                 return;
             }
             if ((startRule = (this.Source.GetRules()).FindScannableEntry(Source.Options.StartEntry)) == null)
@@ -945,16 +913,12 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
         {
         }
 
-        private void BuildCodeModelCaptures()
+        private void BuildCodeModelCaptures(IIntermediateAssembly project)
         {
             foreach (var token in this.Source.GetTokens())
-                BuildStateMachine(token, this.Project, bitStream);
+                BuildStateMachine(token, project, bitStream);
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
 
 
     }

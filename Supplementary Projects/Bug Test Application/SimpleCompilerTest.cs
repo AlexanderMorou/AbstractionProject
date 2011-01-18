@@ -18,6 +18,9 @@ using AllenCopeland.Abstraction.Slf.Oil.VisualBasic;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
 using AllenCopeland.Abstraction.Slf._Internal;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq;
+using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions.Lambda;
+using AllenCopeland.Abstraction.Slf.Compilers.Oilexer;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -28,256 +31,133 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 {
     public static class SimpleCompilerTest 
     {
-        private class TypeAggregator :
+        private sealed class TypeAggregator :
             IIntermediateCodeVisitor
         {
+            private HashSet<IType> resultedTypeList;
+            private IReadOnlyCollection<IType> _resultedTypeList;
+            private TypeAggregator() 
+            {
+                this.resultedTypeList = new HashSet<IType>();
+            }
+
+            private IReadOnlyCollection<IType> ResultedTypeList
+            {
+                get {
+                    if (this._resultedTypeList == null)
+                        this._resultedTypeList = new ReadOnlyCollection<IType>(this.resultedTypeList.ToList());
+                    return this._resultedTypeList;
+                }
+            }
+
+            internal static IReadOnlyCollection<IType> AggregateTypes(IIntermediateAssembly assembly)
+            {
+                TypeAggregator aggregator = new TypeAggregator();
+                aggregator.Visit(assembly);
+                return aggregator.ResultedTypeList;
+            }
             #region IExpressionVisitor Members
 
             public void Visit<TLeft, TRight>(IBinaryOperationExpression<TLeft, TRight> expression)
                 where TLeft : INaryOperandExpression
                 where TRight : INaryOperandExpression
             {
-                var expressionType = expression.Type;
-                if (expressionType == ExpressionKinds.BinaryForwardTerm)
-                {
-                    switch (expression.Associativity)
-                    {
-                        case BinaryOperationAssociativity.Left:
-                            if (expression.RightSide != null)
-                                expression.RightSide.Visit(this);
-                            break;
-                        case BinaryOperationAssociativity.Right:
-                            if (expression.LeftSide != null)
-                                expression.LeftSide.Visit(this);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                else
-                {
+                if (expression.LeftSide != null)
                     expression.LeftSide.Visit(this);
-                    Console.Write(" ");
-                    switch (expressionType.BinaryOperations)
-                    {
-                        case ExpressionKind.BinaryOperationSector.AssignExpression:
-                            Console.Write("=");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.AssignMultiplyOperation:
-                            Console.Write("*=");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.AssignDivideOperation:
-                            Console.Write("/=");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.AssignModulusOperation:
-                            Console.Write("%=");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.AssignAddOperation:
-                            Console.Write("+=");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.AssignSubtractOperation:
-                            Console.Write("-=");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.AssignLeftShiftOperation:
-                            Console.Write("<<=");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.AssignRightShiftOperation:
-                            Console.Write(">>=");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.AssignBitwiseAndOperation:
-                            Console.Write("&=");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.AssignBitwiseOrOperation:
-                            Console.Write("|=");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.AssignBitwiseExclusiveOrOperation:
-                            Console.Write("^=");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.LogicalOrOperation:
-                            Console.Write("||");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.LogicalAndOperation:
-                            Console.Write("&&");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.BitwiseOrOperation:
-                            Console.Write("|");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.BitwiseExclusiveOrOperation:
-                            Console.Write("^");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.BitwiseAndOperation:
-                            Console.Write("&");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.InequalityOperation:
-                            Console.Write("!=");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.EqualityOperation:
-                            Console.Write("==");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.LessThanOperation:
-                            Console.Write("<");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.LessThanOrEqualToOperation:
-                            Console.Write("<=");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.GreaterThanOperation:
-                            Console.Write(">");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.GreaterThanOrEqualToOperation:
-                            Console.Write(">=");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.TypeCheckOperation:
-                            Console.Write("is");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.TypeCastOrNull:
-                            Console.Write("as");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.ShiftLeftOperation:
-                            Console.Write("<<");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.ShiftRightOperation:
-                            Console.Write(">>");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.AddOperation:
-                            Console.Write("+");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.SubtractOperation:
-                            Console.Write("-");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.MultiplyOperation:
-                            Console.Write("*");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.StrictDivisionOperation:
-                            Console.Write("/");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.ModulusOperation:
-                            Console.Write("%");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.FlexibleDivisionOperation:
-                            Console.Write("\\");
-                            break;
-                        case ExpressionKind.BinaryOperationSector.IntegerDivisionOperation:
-                            Console.Write("\\");
-                            break;
-                    }
-                    Console.Write(" ");
+                if (expression.RightSide != null)
                     expression.RightSide.Visit(this);
-                }
             }
 
             public void Visit(IIndexerReferenceExpression expression)
             {
-                expression.Source.Visit(this);
-                Console.Write("[");
-                var parameters = expression.Parameters;
-                VisitExpressionCollection(parameters);
-                Console.Write("]");
+                this.Visit(expression.Parameters);
             }
 
-            private void VisitExpressionCollection<T>(IExpressionCollection<T> parameters)
+            private void Visit<T>(IExpressionCollection<T> series)
                 where T :
                     IExpression
             {
-                bool first = true;
-                foreach (var parameter in parameters)
-                {
-                    if (first)
-                        first = false;
-                    else
-                        Console.Write(",");
-                    parameter.Visit(this);
-                }
+                foreach (var expression in series)
+                    if (expression != null)
+                        expression.Visit(this);
             }
 
             public void Visit(IConditionalExpression expression)
             {
-                var expressionType = expression.Type;
-                if (expressionType.ExpansionsRequired == ExpressionKind.ExpansionRequiredSector.ConditionalForwardTerm)
-                {
+                if (expression.CheckPart != null)
                     expression.CheckPart.Visit(this);
-                }
-                else if (expressionType.ExpansionsRequired == ExpressionKind.ExpansionRequiredSector.ConditionalOperation)
+                if (expression.Type != ExpressionKinds.ConditionalForwardTerm)
                 {
-                    expression.CheckPart.Visit(this);
-                    Console.Write(" ? ");
-                    expression.TruePart.Visit(this);
-                    Console.Write(" : ");
-                    expression.FalsePart.Visit(this);
+                    if (expression.TruePart != null)
+                        expression.TruePart.Visit(this);
+                    if (expression.FalsePart != null)
+                        expression.FalsePart.Visit(this);
                 }
-            }
-            
-            private static void DiscernOpFlags(UnaryOperation original, out bool bitInvert, out bool boolInvert, out bool negate, out bool postOp, out bool preOp, out bool decrement, out bool increment)
-            {
-                /* *
-                 * Rediscern the flags based upon logic that cannot be expressed
-                 * in mere bits.
-                 * */
-                bitInvert     = ((original & UnaryOperation.BitwiseInversion) == UnaryOperation.BitwiseInversion);
-                boolInvert    = ((original & UnaryOperation.BooleanInversion) == UnaryOperation.BooleanInversion) 
-                                    && !bitInvert;
-                negate        =    ((original & UnaryOperation.SignInversion) == UnaryOperation.SignInversion) 
-                                    && !boolInvert;
-                postOp        =       ((original & UnaryOperation.PostAction) == UnaryOperation.PostAction);
-                preOp         =        ((original & UnaryOperation.PreAction) == UnaryOperation.PreAction) 
-                                    && !postOp;
-                decrement     =        ((original & UnaryOperation.Decrement) == UnaryOperation.Decrement) 
-                                    && (preOp || postOp);
-                increment     =        ((original & UnaryOperation.Increment) == UnaryOperation.Increment) 
-                                    && !decrement 
-                                    && (preOp || postOp);
+
             }
 
             public void Visit(IUnaryOperationExpression expression)
             {
-                var expressionType = expression.Type;
-                bool bitInvert, boolInvert, negate, postOp, preOp, decrement, increment;
-                DiscernOpFlags(expression.Operation, out bitInvert, out boolInvert, out negate, out postOp, out preOp, out decrement, out increment);
-                if (bitInvert)
-                    Console.Write("~");
-                else if (boolInvert)
-                    Console.Write("!");
-                if (negate)
-                    Console.Write("-");
-                if (preOp)
-                {
-                    if (decrement)
-                        Console.Write("--");
-                    else if (increment)
-                        Console.Write("++");
-                }
                 expression.Term.Visit(this);
-                if (postOp)
-                {
-                    if (decrement)
-                        Console.Write("--");
-                    else if (increment)
-                        Console.Write("++");
-                }
             }
 
             public void Visit(ITypeCastExpression expression)
             {
-                throw new NotImplementedException();
+                this.CheckType(expression.CastType);
+                if (expression.Target != null)
+                    expression.Target.Visit(this);
+            }
+
+            private void CheckType(IType target)
+            {
+                if (target == null)
+                    return;
+                switch (target.ElementClassification)
+                {
+                    case TypeElementClassification.Array:
+                    case TypeElementClassification.Nullable:
+                    case TypeElementClassification.Pointer:
+                    case TypeElementClassification.Reference:
+                        this.CheckType(target.ElementType);
+                        break;
+                    case TypeElementClassification.GenericTypeDefinition:
+                        this.CheckType(target.ElementType);
+                        this.CheckTypes((target as IGenericType).GenericParameters);
+                        break;
+                }
+                this.resultedTypeList.Add(target);
             }
 
             public void Visit(ITypeOfExpression expression)
             {
-                throw new NotImplementedException();
+                this.CheckType(expression.ReferenceType);
             }
 
             public void Visit(ITypeReferenceExpression expression)
             {
-                throw new NotImplementedException();
+                this.CheckType(expression.ReferenceType);
+
+            }
+
+
+            private void CheckTypes(IEnumerable<IType> series)
+            {
+                if (series == null)
+                    return;
+                foreach (var type in series)
+                    this.CheckType(type);
             }
 
             public void Visit(IVariadicTypeCastExpression expression)
             {
-                throw new NotImplementedException();
+                this.CheckTypes(expression.CastTypes);
+                expression.Target.Visit(this);
             }
 
             public void Visit(ISymbolExpression expression)
             {
-                throw new NotImplementedException();
+                if (expression.Source != null)
+                    expression.Source.Visit(this);
             }
 
             public void Visit(IStaticGetMemberHandleExpression expression)
@@ -287,116 +167,108 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(ISpecialReferenceExpression expression)
             {
-                switch (expression.Kind)
-                {
-                    case SpecialReferenceKind.CurrentClass:
-                        Console.Write("class");
-                        break;
-                    case SpecialReferenceKind.Self:
-                        Console.Write("self");
-                        break;
-                    case SpecialReferenceKind.Base:
-                        Console.Write("base");
-                        break;
-                    case SpecialReferenceKind.This:
-                        Console.Write("this");
-                        break;
-                }
+                //Noting to do.
             }
 
             public void Visit(IPropertyReferenceExpression expression)
             {
-                expression.Source.Visit(this);
-                Console.WriteLine(".{0}", expression.Name);
+                if (expression.Source != null)
+                    expression.Source.Visit(this);
             }
 
             public void Visit(IParenthesizedExpression expression)
             {
-                Console.Write("(");
-                expression.Parenthesized.Visit(this);
-                Console.Write(")");
+                if (expression.Parenthesized != null)
+                    expression.Parenthesized.Visit(this);
             }
 
             public void Visit(INamedParameterExpression expression)
             {
-                Console.Write("{0}: ", expression.Name);
-                expression.Expression.Visit(this);
+                if (expression.Expression != null)
+                    expression.Expression.Visit(this);
             }
 
             public void Visit(IMethodPointerReferenceExpression expression)
             {
-                throw new NotImplementedException();
+                if (expression.Reference != null)
+                {
+                    if (expression.Reference.Source != null)
+                        expression.Reference.Source.Visit(this);
+                    if (expression.Reference.GenericParameters != null &&
+                        expression.Reference.GenericParameters.Count > 0)
+                        this.CheckTypes(expression.Reference.GenericParameters);
+                }   
+                this.CheckTypes(expression.Signature);
             }
 
             public void Visit(IMethodInvokeExpression expression)
             {
-                expression.Reference.Visit(this);
+                if (expression.Reference != null)
+                    expression.Reference.Visit(this);
+                this.Visit(expression.Parameters);
             }
 
             public void Visit(ILocalReferenceExpression expression)
             {
-                Console.Write(expression.Name);
             }
 
             public void Visit(IFieldReferenceExpression expression)
             {
-                expression.Source.Visit(this);
-                Console.Write(expression.Name);
+                if (expression.Source != null)
+                    expression.Source.Visit(this);
             }
 
             public void Visit(IExpressionToCommaTypeReferenceFusionExpression expression)
             {
-                throw new NotImplementedException();
+                if (expression.Left != null)
+                    expression.Left.Visit(this);
+                if (expression.Right != null)
+                    this.CheckTypes(expression.Right);
             }
 
             public void Visit(IExpressionToCommaFusionExpression expression)
             {
-                throw new NotImplementedException();
+                if (expression.Left != null)
+                    expression.Left.Visit(this);
+                if (expression.Right != null)
+                    this.Visit(expression.Right);
             }
 
             public void Visit(IExpressionFusionExpression expression)
             {
-                expression.Left.Visit(this);
-                Console.Write(".");
-                expression.Right.Visit(this);
+                if (expression.Left != null)
+                    expression.Left.Visit(this);
+                if (expression.Right != null)
+                    expression.Right.Visit(this);
+
             }
 
             public void Visit(IEventInvokeExpression expression)
             {
-                Console.Write(expression.Reference.Name);
-                Console.Write("(");
-                VisitExpressionCollection(expression.Parameters);
-                Console.Write(")");
+                if (expression.Reference != null)
+                {
+                    if (expression.Reference.SignatureType != null)
+                        this.CheckType(expression.Reference.SignatureType);
+                }
             }
 
             public void Visit(IDirectionExpression expression)
             {
-                switch (expression.Direction)
-                {
-                    case ParameterDirection.Out:
-                        Console.Write("out ");
-                        break;
-                    case ParameterDirection.Reference:
-                        Console.Write("ref ");
-                        break;
-                }
                 if (expression.Directed != null)
                     expression.Directed.Visit(this);
             }
 
             public void Visit(IDelegateReferenceExpression expression)
             {
-                throw new NotImplementedException();
+                
             }
 
             public void Visit(IDelegateMethodPointerReferenceExpression expression)
             {
-                throw new NotImplementedException();
             }
 
             public void Visit(IDelegateInvokeExpression expression)
             {
-                expression.Reference.Visit(this);
             }
 
             public void Visit(IDelegateHolderReferenceExpression expression)
@@ -406,37 +278,77 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(ICreateInstanceMemberAssignment expression)
             {
-                throw new NotImplementedException();
+                if (expression.AssignValue != null)
+                    expression.AssignValue.Visit(this);
             }
 
             public void Visit(ICreateInstanceExpression expression)
             {
-                throw new NotImplementedException();
+                
+                if (expression.PropertyAssignments != null)
+                    foreach (var assignment in expression.PropertyAssignments.Values)
+                        this.Visit(assignment);
+                if (expression.Reference != null)
+                {
+                    if (expression.Reference.Signature != null &&
+                        expression.Reference.Signature.Count > 0)
+                        this.CheckTypes(expression.Reference.Signature);
+                    if (expression.Reference.Reference != null && expression.Reference.Reference.InstanceType != null)
+                        this.CheckType(expression.Reference.Reference.InstanceType);
+                }
             }
 
             public void Visit(ICreateArrayExpression expression)
             {
-                throw new NotImplementedException();
+                this.CheckType(expression.ArrayType);
+                if (expression.Sizes != null)
+                    this.Visit(expression.Sizes);
             }
 
             public void Visit(ICreateArrayDetailExpression expression)
             {
-                throw new NotImplementedException();
+                this.CheckType(expression.ArrayType);
+                if (expression.Sizes != null)
+                    this.Visit(expression.Sizes);
+                this.Visit(expression.Details);
             }
 
             public void Visit(ICommaExpression expression)
             {
-                throw new NotImplementedException();
+                this.Visit<IExpression>(expression);
             }
 
             public void Visit(IArrayDimensionDetailExpression expression)
             {
-                throw new NotImplementedException();
+                
             }
 
             public void Visit(IAnonymousMethodWithParametersExpression expression)
             {
+                foreach (var param in expression.Parameters.Values)
+                    param.Visit(this);
+                this.Visit((IIntermediateTypeParent)(expression));
+                this.Visit(expression.Locals);
+                foreach (var item in expression)
+                    item.Visit(this);
+            }
+
+            private void Visit(ILocalMemberDictionary locals)
+            {
                 throw new NotImplementedException();
+            }
+
+            private void Visit(IIntermediateTypeParent typeParent)
+            {
+                foreach (var type in typeParent.Types.Values)
+                    type.Entry.Visit(this);
+            }
+
+            private void Visit(IIntermediateNamespaceParent namespaceParent)
+            {
+                this.Visit((IIntermediateTypeParent)namespaceParent);
+                foreach (var @namespace in namespaceParent.Namespaces.Values)
+                    @namespace.Visit(this);
             }
 
             public void Visit(IAnonymousMethodExpression expression)
@@ -444,12 +356,12 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
                 throw new NotImplementedException();
             }
 
-            public void Visit(Slf.Oil.Expressions.Lambda.ILambdaTypedStatementExpression expression)
+            public void Visit(ILambdaTypedStatementExpression expression)
             {
                 throw new NotImplementedException();
             }
 
-            public void Visit(Slf.Oil.Expressions.Lambda.ILambdaTypeInferredStatementExpression expression)
+            public void Visit(ILambdaTypeInferredStatementExpression expression)
             {
                 throw new NotImplementedException();
             }
@@ -569,85 +481,76 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(IPrimitiveExpression<bool> expression)
             {
-                switch (expression.Value)
-                {
-                    case true:
-                        Console.Write("true");
-                        break;
-                    case false:
-                        Console.Write("false");
-                        break;
-                }
+                this.CheckType(typeof(bool).GetTypeReference());
             }
 
             public void Visit(IPrimitiveExpression<char> expression)
             {
-                Console.Write(expression.Value.ToString().EscapeStringOrCharCILAndCS(false));
+                this.CheckType(typeof(char).GetTypeReference());
             }
 
             public void Visit(IPrimitiveExpression<string> expression)
             {
-                Console.Write(expression.Value.EscapeStringOrCharCILAndCS());
+                this.CheckType(typeof(string).GetTypeReference());
             }
 
             public void Visit(IPrimitiveExpression<byte> expression)
             {
-                Console.Write("(byte)({0})", expression.Value);
+                this.CheckType(typeof(byte).GetTypeReference());
             }
 
             public void Visit(IPrimitiveExpression<sbyte> expression)
             {
-                Console.Write("(sbyte)({0})", expression.Value);
+                this.CheckType(typeof(sbyte).GetTypeReference());
             }
 
             public void Visit(IPrimitiveExpression<ushort> expression)
             {
-                Console.Write("(ushort)({0})", expression.Value);
+                this.CheckType(typeof(ushort).GetTypeReference());
             }
 
             public void Visit(IPrimitiveExpression<short> expression)
             {
-                Console.Write("(short)({0})", expression.Value);
+                this.CheckType(typeof(short).GetTypeReference());
             }
 
             public void Visit(IPrimitiveExpression<uint> expression)
             {
-                Console.Write("{0}U", expression.Value);
+                this.CheckType(typeof(uint).GetTypeReference());
             }
 
             public void Visit(IPrimitiveExpression<int> expression)
             {
-                Console.Write(expression.Value);
+                this.CheckType(typeof(int).GetTypeReference());
             }
 
             public void Visit(IPrimitiveExpression<ulong> expression)
             {
-                Console.Write("{0}UL", expression.Value);
+                this.CheckType(typeof(ulong).GetTypeReference());
             }
 
             public void Visit(IPrimitiveExpression<long> expression)
             {
-                Console.Write("{0}L", expression.Value);
+                this.CheckType(typeof(long).GetTypeReference());
             }
 
             public void Visit(IPrimitiveExpression<float> expression)
             {
-                Console.Write("{0}F", expression.Value);
+                this.CheckType(typeof(float).GetTypeReference());
             }
 
             public void Visit(IPrimitiveExpression<double> expression)
             {
-                Console.Write("{0}D", expression.Value);
+                this.CheckType(typeof(double).GetTypeReference());
             }
 
             public void Visit(IPrimitiveExpression<decimal> expression)
             {
-                Console.Write("{0}M", expression.Value);
+                this.CheckType(typeof(decimal).GetTypeReference());
             }
 
             public void VisitNull()
             {
-                Console.Write("null");
             }
 
             #endregion
@@ -656,12 +559,12 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(IBlockStatement statement)
             {
-                throw new NotImplementedException();
+                foreach (var subStatement in statement)
+                    subStatement.Visit(this);
             }
 
             public void Visit(IBreakStatement statement)
             {
-                throw new NotImplementedException();
             }
 
             public void Visit(ICallMethodStatement statement)
@@ -671,7 +574,10 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(IConditionBlockStatement statement)
             {
-                throw new NotImplementedException();
+                if (statement.Condition != null)
+                    statement.Condition.Visit(this);
+                this.Visit((IBlockStatement)statement);
+
             }
 
             public void Visit(ICallFusionStatement statement)
@@ -765,12 +671,12 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(IIntermediateAssembly assembly)
             {
-                throw new NotImplementedException();
+                this.Visit((IIntermediateNamespaceParent)assembly);
             }
 
             public void Visit(IIntermediateNamespaceDeclaration @namespace)
             {
-                throw new NotImplementedException();
+                this.Visit((IIntermediateNamespaceParent)(@namespace));
             }
 
             #endregion
@@ -779,7 +685,12 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(IIntermediateClassType @class)
             {
-                throw new NotImplementedException();
+                this.Visit((IIntermediateTypeParent)@class);
+                this.CheckTypes(@class.ImplementedInterfaces);
+                if (@class.BaseType != null)
+                    this.CheckType(@class.BaseType);
+                foreach (var member in @class.Members.Values)
+                    member.Entry.Visit(this);
             }
 
             public void Visit(IIntermediateDelegateType @delegate)
@@ -877,7 +788,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
                 where TFieldParent : IFieldParent<TField, TFieldParent>
                 where TIntermediateFieldParent : TFieldParent, IIntermediateFieldParent<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>
             {
-                throw new NotImplementedException();
+                this.CheckType(field.FieldType);
             }
 
             public void Visit(IIntermediateEnumFieldMember field)
@@ -989,7 +900,12 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
         }
         internal static void Main(string[] args)
         {
+            var results = OILexerProgram.CallMainMethod("-q", "-nl", @"C:\Projects\Code\C#\Abstraction\SLF\Languages\OILexer\bin\x86\Debug\Samples\CSharp\Root.oilexer");
+            if (results != null && results.Project != null)
+            {
+                var typeAggregate = TypeAggregator.AggregateTypes(results.Project);
 
+            }
         }
 
     }
