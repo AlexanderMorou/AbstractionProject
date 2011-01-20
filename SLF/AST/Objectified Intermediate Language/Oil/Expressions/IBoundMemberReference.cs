@@ -13,8 +13,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
-    public interface ITypedMemberReferenceExpression :
-        IMemberReferenceExpression
+    public interface IBoundMemberReference 
     {
         /// <summary>
         /// Returns the <see cref="IType"/> associated to the member.

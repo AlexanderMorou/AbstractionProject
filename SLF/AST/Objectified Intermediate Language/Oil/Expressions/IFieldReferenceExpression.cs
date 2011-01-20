@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// <typeparam name="TIntermediateFieldParent">The type which owns the fields
     /// in the intermediate abstract syntax tree.</typeparam>
     public interface IFieldReferenceExpression<TField, TFieldParent> :
-        ITypedMemberReferenceExpression,
+        IBoundMemberReference,
         IFieldReferenceExpression
         where TField :
             IFieldMember<TField, TFieldParent>

@@ -64,9 +64,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 return this.subordinate;
             }
         }
-        //
-        //
-        //
+
         /// <summary>
         /// Returns the <typeparamref name="TEntry"/> of the
         /// <see cref="MasterDictionaryEntry{TEntry}"/>.

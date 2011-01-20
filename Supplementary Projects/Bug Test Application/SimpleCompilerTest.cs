@@ -110,6 +110,12 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             private void CheckType(IType target)
             {
+                if (target is IIntermediateSegmentableDeclaration)
+                {
+                    var segment = target as IIntermediateSegmentableDeclaration;
+                    if (!segment.IsRoot)
+                        target = (IType)segment.GetRoot();
+                }
                 if (target == null)
                     return;
                 switch (target.ElementClassification)
@@ -192,6 +198,8 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             {
                 if (expression.Reference != null)
                 {
+                    if (expression.Reference is IBoundMemberReference)
+                        this.Visit((IBoundMemberReference)expression.Reference);
                     if (expression.Reference.Source != null)
                         expression.Reference.Source.Visit(this);
                     if (expression.Reference.GenericParameters != null &&
@@ -214,8 +222,15 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(IFieldReferenceExpression expression)
             {
+                if (expression is IBoundMemberReference)
+                    this.Visit((IBoundMemberReference)expression);
                 if (expression.Source != null)
                     expression.Source.Visit(this);
+            }
+
+            private void Visit(IBoundMemberReference expression)
+            {
+                this.CheckType(expression.MemberType);
             }
 
             public void Visit(IExpressionToCommaTypeReferenceFusionExpression expression)
@@ -378,17 +393,29 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(IParameterReferenceExpression expression)
             {
-                throw new NotImplementedException();
             }
 
             public void Visit(IConstructorInvokeExpression expression)
             {
-                throw new NotImplementedException();
+                if (expression.Reference != null)
+                    expression.Reference.Visit(this);
+                if (expression.Parameters != null)
+                    this.Visit(expression.Parameters);
+            }
+
+            private void Visit(ICallParameterSet parameters)
+            {
+                foreach (var element in parameters)
+                    element.Visit(this);
             }
 
             public void Visit(IConstructorPointerReferenceExpression ctorPointerReference)
             {
-                throw new NotImplementedException();
+                if (ctorPointerReference.Signature != null &&
+                    ctorPointerReference.Signature.Count > 0)
+                    this.CheckTypes(ctorPointerReference.Signature);
+                if (ctorPointerReference.Reference != null)
+                    this.CheckType(ctorPointerReference.Reference.InstanceType);
             }
 
             public void Visit(ILinqExpression expression)
@@ -398,7 +425,10 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(IAssignmentExpression expression)
             {
-                throw new NotImplementedException();
+                if (expression.LeftSide != null)
+                    expression.LeftSide.Visit(this);
+                if (expression.RightSide != null)
+                    expression.RightSide.Visit(this);
             }
 
             #endregion
@@ -559,8 +589,13 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(IBlockStatement statement)
             {
+                if (statement.Types != null)
+                    this.Visit((IIntermediateTypeParent)statement);
+                foreach (var local in statement.Locals.Values)
+                    local.Visit(this);
                 foreach (var subStatement in statement)
                     subStatement.Visit(this);
+                this.Visit((IIntermediateTypeParent)statement);
             }
 
             public void Visit(IBreakStatement statement)
@@ -569,7 +604,9 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(ICallMethodStatement statement)
             {
-                throw new NotImplementedException();
+                if (statement.Target != null)
+                    statement.Target.Visit(this);
+                
             }
 
             public void Visit(IConditionBlockStatement statement)
@@ -582,17 +619,18 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(ICallFusionStatement statement)
             {
-                throw new NotImplementedException();
+                if (statement.Target != null)
+                    statement.Target.Visit(this);
             }
 
             public void Visit(IConditionContinuationStatement statement)
             {
-                throw new NotImplementedException();
+                this.Visit((IBlockStatement)statement);
             }
 
             public void Visit(IEnumerationBlockStatement statement)
             {
-                throw new NotImplementedException();
+                this.Visit((IBlockStatement)statement);
             }
 
             public void Visit(IExplicitlyTypedLocalVariableDeclarationStatement statement)
@@ -602,7 +640,8 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(IExpressionStatement statement)
             {
-                throw new NotImplementedException();
+                if (statement.Expression != null)
+                    statement.Expression.Visit(this);
             }
 
             public void Visit(IGoToStatement statement)
@@ -622,17 +661,16 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(IJumpStatement statement)
             {
-                throw new NotImplementedException();
             }
 
             public void Visit(ILabelStatement statement)
             {
-                throw new NotImplementedException();
             }
 
             public void Visit(IReturnStatement statement)
             {
-                throw new NotImplementedException();
+                if (statement.ReturnValue != null)
+                    statement.ReturnValue.Visit(this);
             }
 
             public void Visit(ISimpleIterationBlockStatement statement)
@@ -642,12 +680,17 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(ISwitchCaseBlockStatement statement)
             {
-                throw new NotImplementedException();
+                if (statement.Cases != null)
+                    this.Visit(statement.Cases);
+                this.Visit((IBlockStatement)statement);
             }
 
             public void Visit(ISwitchStatement statement)
             {
-                throw new NotImplementedException();
+                if (statement.Selection != null)
+                    statement.Selection.Visit(this);
+                foreach (var @case in statement)
+                    @case.Visit(this);
             }
 
             public void Visit(ITryCatchStatement statement)
@@ -662,7 +705,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(ILocalDeclarationStatement statement)
             {
-                throw new NotImplementedException();
+                statement.DeclaredLocal.Visit(this);
             }
 
             #endregion
@@ -687,10 +730,10 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             {
                 this.Visit((IIntermediateTypeParent)@class);
                 this.CheckTypes(@class.ImplementedInterfaces);
+                this.Visit(@class.TypeParameters);
                 if (@class.BaseType != null)
                     this.CheckType(@class.BaseType);
-                foreach (var member in @class.Members.Values)
-                    member.Entry.Visit(this);
+                this.Visit(@class.Members);
             }
 
             public void Visit(IIntermediateDelegateType @delegate)
@@ -705,7 +748,10 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(IIntermediateInterfaceType @interface)
             {
-                throw new NotImplementedException();
+                this.Visit((IIntermediateTypeParent)@interface);
+                this.CheckTypes(@interface.ImplementedInterfaces);
+                this.Visit(@interface.TypeParameters);
+                this.Visit(@interface.Members);
             }
 
             public void Visit(IIntermediateStructType @struct)
@@ -714,12 +760,25 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             }
 
             public void Visit<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>(IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent> parameter)
-                where TGenericParameter : IGenericParameter<TGenericParameter, TParent>
-                where TIntermediateGenericParameter : TGenericParameter, IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>
-                where TParent : IGenericParamParent<TGenericParameter, TParent>
-                where TIntermediateParent : TParent, IIntermediateGenericParameterParent<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>
+                where TGenericParameter : 
+                    IGenericParameter<TGenericParameter, TParent>
+                where TIntermediateGenericParameter : 
+                    TGenericParameter, 
+                    IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>
+                where TParent : 
+                    IGenericParamParent<TGenericParameter, TParent>
+                where TIntermediateParent : 
+                    TParent, 
+                    IIntermediateGenericParameterParent<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>
             {
-                throw new NotImplementedException();
+                this.CheckTypes(parameter.Constraints);
+                this.Visit(parameter.Members);
+            }
+
+            public void Visit(IIntermediateFullMemberDictionary members)
+            {
+                foreach (var member in members.Values)
+                    member.Entry.Visit(this);
             }
 
             #endregion
@@ -728,7 +787,8 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(ILocalMember local)
             {
-                throw new NotImplementedException();
+                if (local.InitializationExpression != null)
+                    local.InitializationExpression.Visit(this);
             }
 
             public void Visit<TCtor, TIntermediateCtor, TType, TIntermediateType>(IIntermediateConstructorSignatureMember<TCtor, TIntermediateCtor, TType, TIntermediateType> ctor)
@@ -793,34 +853,65 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             public void Visit(IIntermediateEnumFieldMember field)
             {
-                throw new NotImplementedException();
+                this.CheckType(field.FieldType);
             }
 
             public void Visit<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>(IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> indexer)
-                where TIndexer : IIndexerMember<TIndexer, TIndexerParent>
-                where TIntermediateIndexer : TIndexer, IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
-                where TIndexerParent : IIndexerParent<TIndexer, TIndexerParent>
-                where TIntermediateIndexerParent : TIndexerParent, IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+                where TIndexer : 
+                    IIndexerMember<TIndexer, TIndexerParent>
+                where TIntermediateIndexer : 
+                    TIndexer, 
+                    IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+                where TIndexerParent : 
+                    IIndexerParent<TIndexer, TIndexerParent>
+                where TIntermediateIndexerParent : 
+                    TIndexerParent, 
+                    IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
             {
-                throw new NotImplementedException();
+                this.CheckType(indexer.PropertyType);
+                this.Visit(indexer.Parameters);
+                if (indexer.CanRead)
+                    this.Visit(indexer.GetMethod);
+                else if (indexer.CanWrite)
+                    this.Visit(indexer.SetMethod);
             }
 
             public void Visit<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>(IIntermediateIndexerSignatureMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> indexerSignature)
-                where TIndexer : IIndexerSignatureMember<TIndexer, TIndexerParent>
-                where TIntermediateIndexer : TIndexer, IIntermediateIndexerSignatureMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
-                where TIndexerParent : IIndexerSignatureParent<TIndexer, TIndexerParent>
-                where TIntermediateIndexerParent : TIndexerParent, IIntermediateIndexerSignatureParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+                where TIndexer : 
+                    IIndexerSignatureMember<TIndexer, TIndexerParent>
+                where TIntermediateIndexer : 
+                    TIndexer, 
+                    IIntermediateIndexerSignatureMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+                where TIndexerParent : 
+                    IIndexerSignatureParent<TIndexer, TIndexerParent>
+                where TIntermediateIndexerParent : 
+                    TIndexerParent, 
+                    IIntermediateIndexerSignatureParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
             {
-                throw new NotImplementedException();
+                this.CheckType(indexerSignature.PropertyType);
+                this.Visit(indexerSignature.Parameters);
             }
 
             public void Visit<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>(IIntermediateMethodMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent> method)
-                where TMethod : IMethodMember<TMethod, TMethodParent>
-                where TIntermediateMethod : IIntermediateMethodMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>, TMethod
-                where TMethodParent : IMethodParent<TMethod, TMethodParent>
-                where TIntermediateMethodParent : IIntermediateMethodParent<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>, TMethodParent
+                where TMethod : 
+                    IMethodMember<TMethod, TMethodParent>
+                where TIntermediateMethod : 
+                    IIntermediateMethodMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>, TMethod
+                where TMethodParent : 
+                    IMethodParent<TMethod, TMethodParent>
+                where TIntermediateMethodParent : 
+                    IIntermediateMethodParent<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>, TMethodParent
             {
-                throw new NotImplementedException();
+                this.CheckType(method.ReturnType);
+                this.Visit(method.TypeParameters);
+                this.Visit(method.Parameters);
+                this.Visit((ITopBlockStatement)method);
+            }
+
+            private void Visit(ITopBlockStatement statement)
+            {
+                foreach (var subStatement in statement)
+                    subStatement.Visit(this);
             }
 
             public void Visit<TSignature, TIntermediateSignature, TParent, TIntermediateParent>(IIntermediateMethodSignatureMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent> methodSignature)
@@ -833,28 +924,72 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             }
 
             public void Visit<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> propertySignature)
-                where TProperty : IPropertySignatureMember<TProperty, TPropertyParent>
-                where TIntermediateProperty : TProperty, IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
-                where TPropertyParent : IPropertySignatureParentType<TProperty, TPropertyParent>
-                where TIntermediatePropertyParent : TPropertyParent, IIntermediatePropertySignatureParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+                where TProperty : 
+                    IPropertySignatureMember<TProperty, TPropertyParent>
+                where TIntermediateProperty : 
+                    TProperty, 
+                    IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+                where TPropertyParent :
+                    IPropertySignatureParentType<TProperty, TPropertyParent>
+                where TIntermediatePropertyParent : 
+                    TPropertyParent, 
+                    IIntermediatePropertySignatureParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
             {
                 throw new NotImplementedException();
             }
 
             public void Visit<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> property)
-                where TProperty : IPropertyMember<TProperty, TPropertyParent>
-                where TIntermediateProperty : TProperty, IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
-                where TPropertyParent : IPropertyParentType<TProperty, TPropertyParent>
-                where TIntermediatePropertyParent : TPropertyParent, IIntermediatePropertyParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+                where TProperty : 
+                    IPropertyMember<TProperty, TPropertyParent>
+                where TIntermediateProperty : 
+                    TProperty, 
+                    IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+                where TPropertyParent : 
+                    IPropertyParentType<TProperty, TPropertyParent>
+                where TIntermediatePropertyParent : 
+                    TPropertyParent, 
+                    IIntermediatePropertyParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
             {
                 throw new NotImplementedException();
+            }
+
+            public void Visit<TParent, TIntermediateParent, TParameter, TIntermediateParameter>(IIntermediateParameterMemberDictionary<TParent, TIntermediateParent, TParameter, TIntermediateParameter> parameters) 
+                where TParent :
+                    IParameterParent<TParent, TParameter>
+                where TIntermediateParent :
+                    TParent,
+                    IIntermediateParameterParent<TParent, TIntermediateParent, TParameter, TIntermediateParameter>
+                where TParameter :
+                    IParameterMember<TParent>
+                where TIntermediateParameter :
+                    TParameter,
+                    IIntermediateParameterMember<TParent, TIntermediateParent>
+            {
+                foreach (var param in parameters.Values)
+                    param.Visit(this);
+            }
+
+            private void Visit<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>(IIntermediateGenericParameterDictionary<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent> parameters) 
+                where TGenericParameter :
+                    IGenericParameter<TGenericParameter, TParent>
+                where TIntermediateGenericParameter :
+                    TGenericParameter,
+                    IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>
+                where TParent :
+                    IGenericParamParent<TGenericParameter, TParent>
+                where TIntermediateParent :
+                    TParent,
+                    IIntermediateGenericParameterParent<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>
+            {
+                foreach (var param in parameters.Values)
+                    param.Visit(this);
             }
 
             public void Visit<TParent, TIntermediateParent>(IIntermediateParameterMember<TParent, TIntermediateParent> parameter)
                 where TParent : IParameterParent
                 where TIntermediateParent : TParent, IIntermediateParameterParent
             {
-                throw new NotImplementedException();
+                this.CheckType(parameter.ParameterType);
             }
 
             #endregion
@@ -903,10 +1038,21 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             var results = OILexerProgram.CallMainMethod("-q", "-nl", @"C:\Projects\Code\C#\Abstraction\SLF\Languages\OILexer\bin\x86\Debug\Samples\CSharp\Root.oilexer");
             if (results != null && results.Project != null)
             {
-                var typeAggregate = TypeAggregator.AggregateTypes(results.Project);
 
+                var typeAggregate = from t in TypeAggregator.AggregateTypes(results.Project)
+                                    let assembly = t.Assembly
+                                    where (!(assembly is IIntermediateAssembly)) ||
+                                          ((IIntermediateAssembly)(assembly)).GetRoot() != results.Project.GetRoot()
+                                    let assemblyName = t.Assembly.AssemblyInformation.AssemblyName
+                                    let typeName = t.FullName
+                                    orderby assemblyName ascending,
+                                            typeName ascending
+                                    select t;
+                
+                typeAggregate.OnAll(p => Console.WriteLine(p));
             }
         }
+
 
     }
 }

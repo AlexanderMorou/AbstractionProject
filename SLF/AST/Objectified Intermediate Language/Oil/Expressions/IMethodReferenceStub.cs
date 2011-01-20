@@ -17,7 +17,8 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
     public interface IMethodReferenceStub<TSignatureParameter, TSignature, TParent> :
-        IMethodReferenceStub
+        IMethodReferenceStub,
+        IBoundMemberReference
         where TSignatureParameter :
             IMethodSignatureParameterMember<TSignatureParameter, TSignature, TParent>
         where TSignature :
@@ -29,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns the <typeparamref name="TIntermediateSignature"/>
         /// associated to the current <see cref="IMethodPointerReferenceExpression{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
         /// </summary>
-        TSignature Member { get; }
+        new TSignature Member { get; }
         /// <summary>
         /// Obtains a <see cref="IMethodPointerRefernceExpression{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
         /// with the <paramref name="signature"/> provided.

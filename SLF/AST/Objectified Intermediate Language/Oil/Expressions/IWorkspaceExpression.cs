@@ -12,6 +12,20 @@ using AllenCopeland.Abstraction.Slf.Oil.Statements;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
+    public enum WorkspaceInclusion
+    {
+        /// <summary>
+        /// The active scope of the expression selected by the workspace
+        /// is selected implicitly and public instance members become a part of the
+        /// active scope.
+        /// </summary>
+        Implicit,
+        /// <summary>
+        /// The active scope of the expression selected by the workspace
+        /// is selected explicitly through some symbolic indicator.
+        /// </summary>
+        Explicit,
+    }
     /// <summary>
     /// Defines properties and methods for working with an 
     /// expression which modifies another expression through
@@ -24,5 +38,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         ITopBlockStatement,
         IExpression
     {
+
     }
 }

@@ -83,5 +83,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         {
             return string.Format("cases {0}:", string.Join(", ", this.Cases));
         }
+
+        public override void Visit(IStatementVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

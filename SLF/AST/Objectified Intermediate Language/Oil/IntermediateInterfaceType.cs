@@ -10,6 +10,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Modules;
+using AllenCopeland.Abstraction.Slf._Internal.Ast;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -54,6 +55,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #region IntermediateInterfaceType Data members
 
         #region Member Data Members
+        private IntermediateImplementedInterfaces _implementedInterfaces;
+        private ITypeCollection implementedInterfaces;
 
         /// <summary>
         /// Data member for <see cref="Events"/>.
@@ -168,7 +171,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         protected override ILockedTypeCollection OnGetImplementedInterfaces()
         {
-            throw new NotImplementedException();
+            if (this._implementedInterfaces == null)
+                this._implementedInterfaces = new IntermediateImplementedInterfaces(this.ImplementedInterfaces);
+            return this._implementedInterfaces;
+        }
+
+        /// <summary>
+        /// The <see cref="ITypeCollection"/> which represents the interfaces implemented by the
+        /// <see cref="IntermediateInterfaceType"/>.
+        /// </summary>
+        public new ITypeCollection ImplementedInterfaces
+        {
+            get
+            {
+                if (this.implementedInterfaces == null)
+                    this.implementedInterfaces = new TypeCollection();
+                return this.implementedInterfaces;
+            }
         }
 
         protected override bool IsSubclassOfImpl(IType other)

@@ -174,6 +174,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         #endregion
+
+        #region IBoundMemberReference Members
+
+        IType IBoundMemberReference.MemberType
+        {
+            get { return this.Member.ReturnType; }
+        }
+
+        IMember IBoundMemberReference.Member
+        {
+            get { return this.Member; }
+        }
+
+        #endregion
     }
 
     public class MethodReferenceStub :

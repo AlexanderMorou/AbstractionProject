@@ -521,7 +521,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         #endregion
-        
+
         #region IIntermediatePropertySignatureMember Members
 
 
@@ -550,5 +550,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             visitor.Visit(this);
         }
+
+        #region IIntermediateIndexerMember Members
+
+        IIntermediatePropertyMethodMember IIntermediateIndexerMember.GetMethod
+        {
+            get { return this.GetMethod; }
+        }
+
+        IIntermediatePropertySetMethodMember IIntermediateIndexerMember.SetMethod
+        {
+            get { return (IIntermediatePropertySetMethodMember)this.SetMethod; }
+        }
+
+        #endregion
     }
 }

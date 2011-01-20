@@ -24,26 +24,6 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NO_ANONYMOUS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\_abs.slf.ast.oil.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NO_ANONYMOUS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\_abs.slf.ast.oil.xml</DocumentationFile>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
@@ -276,7 +256,7 @@
     <Compile Include="Oil\Expressions\IStaticGetMemberHandleExpression.cs" />
     <Compile Include="Oil\Expressions\ISymbolExpression.cs" />
     <Compile Include="Oil\Expressions\ITypeCastExpression.cs" />
-    <Compile Include="Oil\Expressions\ITypedMemberReferenceExpression.cs" />
+    <Compile Include="Oil\Expressions\IBoundMemberReference.cs" />
     <Compile Include="Oil\Expressions\ITypeOfExpression.cs" />
     <Compile Include="Oil\Expressions\ITypeReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\IUnaryOperationExpression.cs" />

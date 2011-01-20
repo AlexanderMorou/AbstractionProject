@@ -61,14 +61,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #endregion
 
-        #region ITypedMemberReferenceExpression Members
+        #region IBoundMemberReference Members
 
         public IType MemberType
         {
             get { return this.Member.FieldType; }
         }
 
-        IMember ITypedMemberReferenceExpression.Member
+        IMember IBoundMemberReference.Member
         {
             get { return this.Member; }
         }

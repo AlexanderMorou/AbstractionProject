@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// <typeparam name="TIntermediatePropertyParent">The type which owns the properties
     /// in the intermediate abstract syntax tree.</typeparam>
     public interface IPropertySignatureReferenceExpression<TProperty, TPropertyParent> :
-        ITypedMemberReferenceExpression,
+        IBoundMemberReference,
         IPropertyReferenceExpression
         where TProperty :
             IPropertySignatureMember<TProperty, TPropertyParent>
@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// <typeparam name="TIntermediatePropertyParent">The type which owns the properties
     /// in the intermediate abstract syntax tree.</typeparam>
     public interface IPropertyReferenceExpression<TProperty, TPropertyParent> :
-        ITypedMemberReferenceExpression,
+        IBoundMemberReference,
         IPropertyReferenceExpression
         where TProperty :
             IPropertyMember<TProperty, TPropertyParent>

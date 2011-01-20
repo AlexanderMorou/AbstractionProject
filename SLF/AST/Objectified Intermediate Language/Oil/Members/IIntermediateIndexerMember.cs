@@ -25,8 +25,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// belong to in the intermediate abstract syntax tree.</typeparam>
     public interface IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> :
         IIntermediateSignatureMember<TIndexer, TIntermediateIndexer, IIndexerParameterMember<TIndexer, TIndexerParent>, IIntermediateIndexerParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>, TIndexerParent, TIntermediateIndexerParent>,
-        IIntermediatePropertyMember,
         IIntermediateIndexerMember,
+        IIntermediatePropertyMember,
         IIndexerMember<TIndexer, TIndexerParent>
         where TIndexer :
             IIndexerMember<TIndexer, TIndexerParent>
@@ -68,5 +68,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IIntermediateExtendedInstanceMember,
         IIndexerMember
     {
+        /// <summary>
+        /// Returns the <see cref="IIntermediatePropertyMethodMember"/> 
+        /// which represents the get method of the 
+        /// <see cref="IIntermediateIndexerMember"/>.
+        /// </summary>
+        new IIntermediatePropertyMethodMember GetMethod { get; }
+        /// <summary>
+        /// Returns the <see cref="IIntermediatePropertyMethodMember"/> 
+        /// which represents the set method of the 
+        /// <see cref="IIntermediateIndexerMember"/>.
+        /// </summary>
+        new IIntermediatePropertySetMethodMember SetMethod { get; }
     }
 }
