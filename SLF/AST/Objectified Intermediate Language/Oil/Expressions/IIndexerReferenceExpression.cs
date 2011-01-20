@@ -39,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         InferredIndexer,
     }
     public interface IIndexerReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> :
-        ITypedMemberReferenceExpression,
+        IBoundMemberReference,
         IIndexerReferenceExpression
         where TIndexer :
             IIndexerMember<TIndexer, TIndexerParent>
@@ -56,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     }
 
     public interface IIndexerSignatureReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> :
-        ITypedMemberReferenceExpression,
+        IBoundMemberReference,
         IIndexerReferenceExpression
         where TIndexer :
             IIndexerSignatureMember<TIndexer, TIndexerParent>

@@ -7,7 +7,7 @@
 #RulePrefix                             "CS";
 #RuleSuffix                           "Rule";
 #Root                      "CompilationUnit";
-#Namespace "AllenCopeland.Abstraction.Slf.Parsers";
+#Namespace   "AllenCopeland.Abstraction.Slf";
 
 #include                "Attributes.oilexer";
 #include          "GeneralTemplates.oilexer";

@@ -68,14 +68,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         public TIntermediateIndexer Member { get; private set; }
         #endregion
 
-        #region ITypedMemberReferenceExpression Members
+        #region IBoundMemberReference Members
 
         public IType MemberType
         {
             get { return this.Member.PropertyType; }
         }
 
-        IMember ITypedMemberReferenceExpression.Member
+        IMember IBoundMemberReference.Member
         {
             get { return this.Member; ; }
         }
@@ -178,14 +178,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         public TIntermediateIndexer Member { get; private set; }
         #endregion
 
-        #region ITypedMemberReferenceExpression Members
+        #region IBoundMemberReference Members
 
         public IType MemberType
         {
             get { return this.Member.PropertyType; }
         }
 
-        IMember ITypedMemberReferenceExpression.Member
+        IMember IBoundMemberReference.Member
         {
             get { return this.Member; ; }
         }

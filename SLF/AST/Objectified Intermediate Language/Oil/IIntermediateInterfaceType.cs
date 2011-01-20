@@ -28,6 +28,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IInterfaceType
     {
         /// <summary>
+        /// The <see cref="ITypeCollection"/> which represents the interfaces implemented by the
+        /// <see cref="IIntermediateInterfaceType"/>.
+        /// </summary>
+        new ITypeCollection ImplementedInterfaces { get; }
+        /// <summary>
         /// Returns the classes associated
         /// to the <see cref="IIntermediateTypeParent"/>.
         /// </summary>

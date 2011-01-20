@@ -58,7 +58,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #endregion
 
-        #region ITypedMemberReferenceExpression Members
+        #region IBoundMemberReference Members
 
         /// <summary>
         /// Returns the <see cref="IType"/> associated to the member
@@ -68,7 +68,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             get { return this.Member.PropertyType; }
         }
 
-        IMember ITypedMemberReferenceExpression.Member
+        IMember IBoundMemberReference.Member
         {
             get { return this.Member; }
         }
@@ -203,7 +203,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #endregion
 
-        #region ITypedMemberReferenceExpression Members
+        #region IBoundMemberReference Members
 
         /// <summary>
         /// Returns the <see cref="IType"/> associated to the member
@@ -213,7 +213,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             get { return this.Member.PropertyType; }
         }
 
-        IMember ITypedMemberReferenceExpression.Member
+        IMember IBoundMemberReference.Member
         {
             get { return this.Member; }
         }
