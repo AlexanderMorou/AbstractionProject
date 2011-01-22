@@ -60,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// directly to the <see cref="ILocalMember"/>.
         /// </summary>
         /// <returns></returns>
-        ILocalReferenceExpression GetReference();
+        IBoundLocalReferenceExpression GetReference();
         /// <summary>
         /// Returns/sets whether the <see cref="ILocalMember"/> should be automatically declared.
         /// </summary>

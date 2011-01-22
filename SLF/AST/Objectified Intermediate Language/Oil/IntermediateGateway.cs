@@ -703,9 +703,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return OtherSelector;
         }
 
-        private static DisambiguateFromSelector TypeSelector = (target, symbolReference, referenceType)=> DisambiguateFromType((IIntermediateType)target, symbolReference, referenceType);
-        private static DisambiguateFromSelector MemberSelector = (target, symbolReference, referenceType)=> DisambiguateFromMember((IIntermediateMember)target, symbolReference, referenceType);
-        private static DisambiguateFromSelector OtherSelector = (target, symbolReference, referenceType) => referenceType;
+        private static DisambiguateFromSelector TypeSelector = 
+            (target, symbolReference, referenceType) => 
+                DisambiguateFromType((IIntermediateType)target, symbolReference, referenceType);
+        private static DisambiguateFromSelector MemberSelector = 
+            (target, symbolReference, referenceType) => 
+                DisambiguateFromMember((IIntermediateMember)target, symbolReference, referenceType);
+        private static DisambiguateFromSelector OtherSelector =
+            (target, symbolReference, referenceType) =>
+                referenceType;
 
         internal static IType AttemptToDisambiguateSymbols(this IType sourceType, IIntermediateDeclaration originPoint)
         {
@@ -781,6 +787,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public static IIntermediateDynamicHandler CreateDynamicHandler(bool autoCollect = false)
         {
             return new IntermediateDynamicHandler(autoCollect);
+        }
+
+        public static ICreateInstanceExpression GetNew(this IType target, params IExpression[] parameters)
+        {
+            return new CreateInstanceExpression(new ConstructorPointerReferenceExpression(new ConstructorReferenceStub(target)), parameters);
+        }
+
+        public static ICreateInstanceExpression GetNewExpression(this Type target, params IExpression[] parameters)
+        {
+            return target.GetTypeReference().GetNew(parameters);
         }
     }
 }

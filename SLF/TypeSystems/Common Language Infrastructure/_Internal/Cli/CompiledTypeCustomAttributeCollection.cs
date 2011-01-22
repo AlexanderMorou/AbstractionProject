@@ -126,6 +126,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return result;
         }
 
+        public int IndexOf(ICustomAttributeInstance element)
+        {
+            for (int i = 0; i < this.Count; i++)
+                if (this.attributeWrappers[i] == element)
+                    return i;
+            return -1;
+        }
+
         #endregion
 
         #region IEnumerable<ICustomAttributeInstance> Members
@@ -180,24 +188,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.Contains(((ICustomAttributeInstance)(item)));
         }
 
-        void ICollection.CopyTo(Array array, int arrayIndex)
-        {
-            if (array == null)
-                throw new ArgumentNullException("array");
-            /* *
-             * < 0 is a valid check since non-vector arrays are typed
-             * elementType[*] not elementType[].
-             * */
-            if (arrayIndex < 0 || this.Count + arrayIndex >= array.Length)
-                throw new ArgumentOutOfRangeException("arrayIndex");
-            for (int i = 0; i < this.Count; i++)
-            {
-                this.CheckItemAt(i);
-                array.SetValue(this.attributeWrappers[i], i + arrayIndex);
-            }
-            
-        }
-
         void IControlledStateCollection.CopyTo(Array array, int arrayIndex)
         {
             if (array == null)
@@ -221,19 +211,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return this[index]; }
         }
 
-        #endregion
-
-        #region ICollection Members
-
-
-        bool ICollection.IsSynchronized
+        int IControlledStateCollection.IndexOf(object element)
         {
-            get { return false; }
-        }
-
-        object ICollection.SyncRoot
-        {
-            get { return null; }
+            if (element is ICustomAttributeInstance)
+                return this.IndexOf((ICustomAttributeInstance)element);
+            return -1;
         }
 
         #endregion
@@ -255,10 +237,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get { return this.parent; }
         }
-
-        #endregion
-
-        #region ICustomAttributeCollection Members
 
         public ICustomAttributeInstance this[IType attributeType]
         {
@@ -327,31 +305,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 mruList[i] = mruList[i - 1];
         }
 
-
-        #endregion
-
-        #region IControlledStateCollection Members
-
-
-        int IControlledStateCollection.IndexOf(object element)
-        {
-            if (element is ICustomAttributeInstance)
-                return this.IndexOf((ICustomAttributeInstance)element);
-            return -1;
-        }
-
-        #endregion
-
-        #region IControlledStateCollection<ICustomAttributeInstance> Members
-
-
-        public int IndexOf(ICustomAttributeInstance element)
-        {
-            for (int i = 0; i < this.Count; i++)
-                if (this.attributeWrappers[i] == element)
-                    return i;
-            return -1;
-        }
 
         #endregion
     }

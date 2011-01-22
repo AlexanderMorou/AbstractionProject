@@ -224,11 +224,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
             #region ICollection Members
 
-            void ICollection.CopyTo(Array array, int arrayIndex)
-            {
-                ICollection_CopyTo(array, arrayIndex);
-            }
-
 
             public bool IsSynchronized
             {

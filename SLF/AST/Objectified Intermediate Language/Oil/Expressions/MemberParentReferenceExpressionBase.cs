@@ -29,7 +29,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         public abstract ExpressionKind Type { get; }
 
-
         #region IMemberParentReferenceExpression Members
 
         /// <summary>
@@ -253,44 +252,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             return this;
         }
-        /*
-        #region ILinkableExpression Members
-        
-        public void Link()
-        {
-            if (isLinked)
-                return;
-            this.OnLink();
-            this.isLinked = true;
-        }
 
-        /// <summary>
-        /// Invoked when <see cref="Link"/> is called.
-        /// </summary>
-        /// <remarks>Used in case <see cref="Link"/> needs 
-        /// hidden and overridden.</remarks>
-        protected abstract void OnLink();
-
-        /// <summary>
-        /// Returns whether the <see cref="MemberParentReferenceExpressionBase"/> 
-        /// is linked.
-        /// </summary>
-        public bool IsLinked
-        {
-            get { return this.isLinked; }
-        }
-
-        /// <summary>
-        /// Removes the <see cref="IsLinked"/> flag
-        /// in case of a change that alters the <see cref="ForwardType"/>.
-        /// </summary>
-        protected void Unlink()
-        {
-            this.isLinked = false;
-        }
-
-        #endregion
-        */
         internal virtual MethodReferenceType MethodReferenceType
         {
             get

@@ -46,8 +46,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Visits a type of expression
         /// </summary>
-        /// <param name="expression">The <see cref="ITypeOfExpression"/> to visit.</param>
-        void Visit(ITypeOfExpression expression);
+        /// <param name="expression">The <see cref="IMalleableTypeOfExpression"/> to visit.</param>
+        void Visit(IMalleableTypeOfExpression expression);
         /// <summary>
         /// Visits a type reference expression.
         /// </summary>

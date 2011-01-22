@@ -23,67 +23,67 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     public enum PrimitiveType
     {
         /// <summary>
-        /// The <see cref="IPrimitiveExpression{T}"/> is a boolean value.
+        /// The <see cref="IPrimitiveExpression"/> is a boolean value.
         /// </summary>
         Boolean,
         /// <summary>
-        /// The <see cref="IPrimitiveExpression{T}"/> is a byte value.
+        /// The <see cref="IPrimitiveExpression"/> is a byte value.
         /// </summary>
         Byte,
         /// <summary>
-        /// The <see cref="IPrimitiveExpression{T}"/> is a signed byte value.
+        /// The <see cref="IPrimitiveExpression"/> is a signed byte value.
         /// </summary>
         SByte,
         /// <summary>
-        /// The <see cref="IPrimitiveExpression{T}"/> is a signed
+        /// The <see cref="IPrimitiveExpression"/> is a signed
         /// 16-bit value.
         /// </summary>
         Int16,
         /// <summary>
-        /// The <see cref="IPrimitiveExpression{T}"/> is an unsigned
+        /// The <see cref="IPrimitiveExpression"/> is an unsigned
         /// 16-bit value.
         /// </summary>
         UInt16,
         /// <summary>
-        /// The <see cref="IPrimitiveExpression{T}"/> is a signed
+        /// The <see cref="IPrimitiveExpression"/> is a signed
         /// 32-bit value.
         /// </summary>
         Int32,
         /// <summary>
-        /// The <see cref="IPrimitiveExpression{T}"/> is an unsigned
+        /// The <see cref="IPrimitiveExpression"/> is an unsigned
         /// 32-bit value.
         /// </summary>
         UInt32,
         /// <summary>
-        /// The <see cref="IPrimitiveExpression{T}"/> is a signed
+        /// The <see cref="IPrimitiveExpression"/> is a signed
         /// 64-bit value.
         /// </summary>
         Int64,
         /// <summary>
-        /// The <see cref="IPrimitiveExpression{T}"/> is an unsigned
+        /// The <see cref="IPrimitiveExpression"/> is an unsigned
         /// 64-bit value.
         /// </summary>
         UInt64,
         /// <summary>
-        /// The <see cref="IPrimitiveExpression{T}"/> is decimal value.
+        /// The <see cref="IPrimitiveExpression"/> is decimal value.
         /// </summary>
         Decimal,
         /// <summary>
-        /// The <see cref="IPrimitiveExpression{T}"/> is single precision
+        /// The <see cref="IPrimitiveExpression"/> is single precision
         /// floating point value.
         /// </summary>
         Float,
         /// <summary>
-        /// The <see cref="IPrimitiveExpression{T}"/> is double precision
+        /// The <see cref="IPrimitiveExpression"/> is double precision
         /// floating point value.
         /// </summary>
         Double,
         /// <summary>
-        /// The <see cref="IPrimitiveExpression{T}"/> is a unicode character.
+        /// The <see cref="IPrimitiveExpression"/> is a unicode character.
         /// </summary>
         Char,
         /// <summary>
-        /// The <see cref="IPrimitiveExpression{T}"/> is a string of characters.
+        /// The <see cref="IPrimitiveExpression"/> is a string of characters.
         /// </summary>
         String,
         /// <summary>
@@ -97,7 +97,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         ExpressionBase,
         IPrimitiveExpression<T>
     {
-        const decimal u = 9;
         /// <summary>
         /// Data member for <see cref="Value"/>.
         /// </summary>
@@ -215,7 +214,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         public override ExpressionKind Type
         {
             get {
-
                 switch (this.PrimitiveType)
                 {
                     case PrimitiveType.Boolean:
@@ -293,28 +291,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             }
         }
 
-        /*
-        public override IType ForwardType
-        {
-            get {
-                return this.value.GetType().GetTypeReference();
-            }
-        }
-
-        protected override void OnLink()
-        {
-            //Nothing needs to be done.
-            return;
-        }
-        */
-
         public override void Visit(IExpressionVisitor visitor)
         {
             this.Visit((IIntermediatePrimitiveVisitor)visitor);
         }
 
         #region IPrimitiveExpression Members
-
 
         public void Visit(IIntermediatePrimitiveVisitor visitor)
         {

@@ -22,10 +22,5 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         IMemberReferenceExpression,
         IAssignTargetExpression
     {
-        /// <summary>
-        /// Returns/sets the name of the local the <see cref="ILocalReferenceExpression"/>
-        /// refers to.
-        /// </summary>
-        new string Name { get; set; }
     }
 }

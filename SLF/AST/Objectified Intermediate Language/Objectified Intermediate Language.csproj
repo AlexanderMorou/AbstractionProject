@@ -122,6 +122,14 @@
     <Compile Include="Compilers\ICompilerSourceModelWarning{T1-T4}.cs" />
     <Compile Include="Compilers\ICompilerSourceWarning.cs" />
     <Compile Include="Compilers\ICompilerWarning.cs" />
+    <Compile Include="Oil\Expressions\IBoundTypeOfExpression.cs" />
+    <Compile Include="Oil\Expressions\IMalleableSpecialReferenceExpression.cs" />
+    <Compile Include="Oil\Expressions\IMalleableTypeOfExpression.cs" />
+    <Compile Include="Oil\Expressions\IBoundLocalReferenceExpression.cs" />
+    <Compile Include="Oil\Expressions\IBoundSpecialReferenceExpression.cs" />
+    <Compile Include="Oil\Expressions\IBoundWorkspaceExpression.cs" />
+    <Compile Include="Oil\Expressions\IWorkspaceExpression.cs" />
+    <Compile Include="Oil\Expressions\IWorkspaceScopeExpression.cs" />
     <Compile Include="Oil\IIntermediateDeclarationVisitor.cs" />
     <Compile Include="Oil\IIntermediateDynamicHandler.cs" />
     <Compile Include="Oil\IIntermediateInclusionVisitor.cs" />
@@ -262,7 +270,7 @@
     <Compile Include="Oil\Expressions\IUnaryOperationExpression.cs" />
     <Compile Include="Oil\Expressions\IUnaryOperationPrimaryTerm.cs" />
     <Compile Include="Oil\Expressions\IVariadicTypeCastExpression.cs" />
-    <Compile Include="Oil\Expressions\IWorkspaceExpression.cs" />
+    <Compile Include="Oil\Expressions\IMalleableWorkspaceExpression.cs" />
     <Compile Include="Oil\Expressions\IndexerReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\Lambda\ILambdaBody.cs" />
     <Compile Include="Oil\Expressions\Lambda\ILambdaBodySimple.cs" />

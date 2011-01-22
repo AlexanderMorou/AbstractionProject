@@ -45,10 +45,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     {
                         return this.owner.Name;
                     }
-                    set
-                    {
-                        this.owner.Name = value;
-                    }
                 }
 
                 #endregion

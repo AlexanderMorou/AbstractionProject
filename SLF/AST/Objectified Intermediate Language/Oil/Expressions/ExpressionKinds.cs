@@ -454,20 +454,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         public static readonly ExpressionKind SymbolExpression                  = ExpressionKind.SymbolSector.SymbolExpression;
         /// <summary>
-        /// An expression which alters member lookup to refer to a
-        /// type relative to the inheritance tree at the highest point;
-        /// the most-derived class in the current execution frame.  
-        /// </summary>
-        /// <remarks><para>The concept here is if you have a static
-        /// method 'Test' in non-static class 'A' and 'B' derives
-        /// from 'A', a new method to mask the original is created
-        /// automatically.  The functionality of the method is
-        /// implemented in a generic version that accepts the 'most
-        /// derived type' as a type-parameter, replacing 
-        /// '<see cref="CurrentTypeReference"/>' with the literal
-        /// most-derived class' type.</para></remarks>
-        public static readonly ExpressionKind CurrentTypeReference              = ExpressionKind.ReferenceSector.CurrentTypeReference;
-        /// <summary>
         /// An expression which denotes a binary operation expression
         /// is indicating that it is purely a forward to another
         /// lower-precedence expression in the language's concrete 

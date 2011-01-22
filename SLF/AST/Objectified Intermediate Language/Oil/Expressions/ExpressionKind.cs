@@ -1311,11 +1311,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             /// </summary>
             IndexerReference = 0x0000000000000200,
             /// <summary>
-            /// The expression refers to the current type of the active
-            /// instance.
-            /// </summary>
-            CurrentTypeReference = 0x0000000000000400,
-            /// <summary>
             /// The expression wraps a sub-expression and denotes the
             /// named parameter 
             /// </summary>

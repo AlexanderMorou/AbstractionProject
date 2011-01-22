@@ -268,30 +268,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         #endregion
 
-        #region ICollection Members
-
-        void ICollection.CopyTo(Array array, int arrayIndex)
-        {
-            ((IControlledStateCollection)(this)).CopyTo(array, arrayIndex);
-        }
-
-        int ICollection.Count
-        {
-            get { return this.Count; }
-        }
-
-        bool ICollection.IsSynchronized
-        {
-            get { return false; }
-        }
-
-        object ICollection.SyncRoot
-        {
-            get { return null; }
-        }
-
-        #endregion
-
         #region ICustomAttributeCollection Members
 
 

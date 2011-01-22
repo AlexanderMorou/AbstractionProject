@@ -74,26 +74,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
                 #endregion
 
-                #region ICollection Members
-
-                void ICollection.CopyTo(Array array, int index)
-                {
-                    this.SimpleCopyTo(array, index);
-                }
-
-
-                bool ICollection.IsSynchronized
-                {
-                    get { return false; }
-                }
-
-                object ICollection.SyncRoot
-                {
-                    get { return null; }
-                }
-
-                #endregion
-
                 #region IEnumerable Members
 
                 IEnumerator IEnumerable.GetEnumerator()

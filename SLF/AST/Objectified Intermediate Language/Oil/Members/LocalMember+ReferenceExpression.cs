@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -16,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     {
         protected class ReferenceExpression :
             MemberParentReferenceExpressionBase,
-            ILocalReferenceExpression
+            IBoundLocalReferenceExpression
         {
             private LocalMember owner;
             public ReferenceExpression(LocalMember owner)
@@ -52,10 +55,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 {
                     return this.owner.Name;
                 }
-                set
-                {
-                    this.owner.Name = value;
-                }
             }
 
             #endregion
@@ -64,6 +63,33 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 return this.Name;
             }
+
+            #region IBoundMemberReference Members
+
+            IType IBoundMemberReference.MemberType
+            {
+                get
+                {
+                    switch (this.owner.TypingMethod)
+                    {
+                        case LocalTypingKind.Implicit:
+                            return this.Owner.InferredType;
+                        case LocalTypingKind.Dynamic:
+                            return typeof(object).GetTypeReference();
+                        case LocalTypingKind.Explicit:
+                            return ((ITypedLocalMember)this.Owner).LocalType;
+                        default:
+                            return null;
+                    }
+                }
+            }
+
+            IMember IBoundMemberReference.Member
+            {
+                get { return this.Owner; }
+            }
+
+            #endregion
         }
     }
 }

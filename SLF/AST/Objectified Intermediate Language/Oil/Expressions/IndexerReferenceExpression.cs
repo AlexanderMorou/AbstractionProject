@@ -93,10 +93,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             {
                 return this.Member.Name;
             }
-            set
-            {
-                this.Member.Name = value;
-            }
         }
 
         #endregion
@@ -202,10 +198,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             get
             {
                 return this.Member.Name;
-            }
-            set
-            {
-                this.Member.Name = value;
             }
         }
 

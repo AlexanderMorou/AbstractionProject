@@ -165,7 +165,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                     case ExpressionKind.ReferenceSector.SelfReference:
                     case ExpressionKind.ReferenceSector.FieldReference:
                     case ExpressionKind.ReferenceSector.IndexerReference:
-                    case ExpressionKind.ReferenceSector.CurrentTypeReference:
                         return CSharpOperatorPrecedences.UnaryTerm;
                 }
             }

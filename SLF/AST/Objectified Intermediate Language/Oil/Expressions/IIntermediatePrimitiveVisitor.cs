@@ -83,6 +83,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
         void Visit(IPrimitiveExpression<decimal> expression);
+        /// <summary>
+        /// Visits a null primitive expression.
+        /// </summary>
         void VisitNull();
     }
 }

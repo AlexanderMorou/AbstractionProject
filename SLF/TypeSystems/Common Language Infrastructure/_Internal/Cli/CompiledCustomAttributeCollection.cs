@@ -148,24 +148,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.Contains(((ICustomAttributeInstance)(item)));
         }
 
-        void ICollection.CopyTo(Array array, int arrayIndex)
-        {
-            if (array == null)
-                throw new ArgumentNullException("array");
-            /* *
-             * < 0 is a valid check since non-vector arrays are typed
-             * elementType[*] not elementType[].
-             * */
-            if (arrayIndex < 0 || this.Count + arrayIndex >= array.Length)
-                throw new ArgumentOutOfRangeException("arrayIndex");
-            for (int i = 0; i < this.Count; i++)
-            {
-                this.CheckItemAt(i);
-                array.SetValue(this.attributeWrappers[i], i + arrayIndex);
-            }
-
-        }
-
         void IControlledStateCollection.CopyTo(Array array, int arrayIndex)
         {
             if (array == null)
@@ -187,21 +169,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         object IControlledStateCollection.this[int index]
         {
             get { return this[index]; }
-        }
-
-        #endregion
-
-        #region ICollection Members
-
-
-        bool ICollection.IsSynchronized
-        {
-            get { return false; }
-        }
-
-        object ICollection.SyncRoot
-        {
-            get { return null; }
         }
 
         #endregion

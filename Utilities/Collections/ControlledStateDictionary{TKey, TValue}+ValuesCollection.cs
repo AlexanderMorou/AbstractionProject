@@ -206,11 +206,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 get { return this[index]; }
             }
 
-            void ICollection.CopyTo(Array array, int arrayIndex)
-            {
-                ((IControlledStateCollection)this).CopyTo(array, arrayIndex);
-            }
-
             int IControlledStateCollection.IndexOf(object element)
             {
                 if (element is TValue)

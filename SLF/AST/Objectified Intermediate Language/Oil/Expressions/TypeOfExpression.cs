@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     public class TypeOfExpression :
         ExpressionBase,
         IUnaryOperationPrimaryTerm,
-        ITypeOfExpression
+        IMalleableTypeOfExpression
     {
         public TypeOfExpression(IType referenceType)
         {
@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             get { return ExpressionKinds.TypeOfExpression; }
         }
 
-        #region ITypeOfExpression Members
+        #region IMalleableTypeOfExpression Members
 
         public IType ReferenceType { get; set; }
 
