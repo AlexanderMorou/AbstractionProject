@@ -55,8 +55,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// segmentable declaration.
     /// </summary>
     public interface IIntermediateSegmentableDeclarationPartCollection :
-        IControlledStateCollection,
-        IList
+        IControlledStateCollection
     {
         /// <summary>
         /// Returns the <see cref="IIntermediateSegmentableDeclaration"/> which

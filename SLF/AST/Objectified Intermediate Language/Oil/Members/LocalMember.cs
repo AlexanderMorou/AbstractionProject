@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IntermediateMemberBase<IBlockStatementParent, IBlockStatementParent>,
         ILocalMember
     {
-        private ILocalReferenceExpression singletonLocal = null;
+        private IBoundLocalReferenceExpression singletonLocal = null;
         private ILocalDeclarationStatement singletonDeclaration = null;
         public LocalMember(string name, IBlockStatementParent parent, LocalTypingKind typingMethod)
             : base(name, parent)
@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region ILocalMember Members
 
-        public virtual ILocalReferenceExpression GetReference()
+        public virtual IBoundLocalReferenceExpression GetReference()
         {
             if (singletonLocal == null)
                 singletonLocal = new ReferenceExpression(this);
@@ -73,5 +73,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             visitor.Visit(this);
         }
+
+        /* *
+         * On implicitly typed members, the inferred type will be associated through this field.
+         * *
+         * It can't be inferred on the fly because context information at the time of request
+         * might not be sufficient.
+         * *
+         * Examples include symbol types being present within the initialization expression.
+         * */
+        internal IType InferredType { get; set; }
     }
 }

@@ -85,27 +85,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                     return nameCopy;
                 return this.Member.Name;
             }
-            set
-            {
-                if (this.Member is IIntermediateFieldMember)
-                    ((IIntermediateFieldMember)this.Member).Name = value;
-                else
-                    this.Rebind(value);
-            }
-        }
-
-        private void Rebind(string value)
-        {
-            this.nameCopy = value;
-            var trueSource = this.Source as MemberParentReferenceExpressionBase;
-            if (trueSource != null)
-            {
-                var reboundElement = trueSource.LooselyBindField(value);
-                if (reboundElement == null)
-                    this.Member = default(TField);
-                else
-                    this.Member = (TField)reboundElement;
-            }
         }
 
         #endregion
@@ -155,7 +134,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region IMemberReferenceExpression Members
 
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         #endregion
 

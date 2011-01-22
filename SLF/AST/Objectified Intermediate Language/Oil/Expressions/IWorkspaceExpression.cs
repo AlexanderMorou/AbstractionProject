@@ -3,41 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
-    public enum WorkspaceInclusion
-    {
-        /// <summary>
-        /// The active scope of the expression selected by the workspace
-        /// is selected implicitly and public instance members become a part of the
-        /// active scope.
-        /// </summary>
-        Implicit,
-        /// <summary>
-        /// The active scope of the expression selected by the workspace
-        /// is selected explicitly through some symbolic indicator.
-        /// </summary>
-        Explicit,
-    }
-    /// <summary>
-    /// Defines properties and methods for working with an 
-    /// expression which modifies another expression through
-    /// a series of statements.
-    /// </summary>
-    /// <remarks>Typical implementations would involve
-    /// creation of a temporary variable to hold the
-    /// wrapped expression for manipulation.</remarks>
     public interface IWorkspaceExpression :
-        ITopBlockStatement,
+        IControlledStateCollection<IStatement>,
         IExpression
     {
-
+        /// <summary>
+        /// Returns the <see cref="IExpression"/> associated 
+        /// to the workspace.
+        /// </summary>
+        IExpression Selection { get; }
+        /// <summary>
+        /// Returns the <see cref="WorkspaceInclusion"/>
+        /// which denotes how the scope of the type of
+        /// the expression under <see cref="Selection"/>
+        /// is merged with the statements within the
+        /// <see cref="IWorkspaceExpression"/>.
+        /// </summary>
+        WorkspaceInclusion ScopeInclusion { get; }
     }
 }

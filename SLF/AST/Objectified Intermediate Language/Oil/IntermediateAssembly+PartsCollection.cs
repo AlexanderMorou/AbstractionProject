@@ -61,6 +61,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return result;
             }
 
+            public void Add(IIntermediateAssembly part)
+            {
+                if (part.IsRoot || part.GetRoot() != this.Root)
+                    throw new ArgumentException("part");
+                base.AddImpl(part);
+            }
+
             #endregion
 
             #region IIntermediateSegmentableDeclarationPartCollection Members
@@ -75,134 +82,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return this.Add();
             }
 
-            #endregion
-
-            #region IList Members
-
-            int IList.Add(object value)
-            {
-                if (!(value is TAssembly))
-                    throw new ArgumentException("value");
-                int c = this.Count;
-                this.baseList.Add((TAssembly)value);
-                return c;
-            }
-
-            void IList.Clear()
-            {
-                foreach (var item in this)
-                    item.Dispose();
-                this.baseList.Clear();
-            }
-
-            bool IList.Contains(object value)
-            {
-                if (!(value is TAssembly))
-                    return false;
-                return this.Contains((TAssembly)value);
-            }
-
-            int IList.IndexOf(object value)
-            {
-                if (!(value is TAssembly))
-                    return -1;
-                int index = 0;
-                foreach (var item in this)
-                    if (item == value)
-                        return index;
-                    else
-                        index++;
-                return -1;
-            }
-
-            void IList.Insert(int index, object value)
-            {
-                if (!(value is TAssembly))
-                    throw new ArgumentException("value");
-                TAssembly v = (TAssembly)value;
-                List<IIntermediateAssembly> k = (List<IIntermediateAssembly>)(this.baseList);
-                k.Insert(index, v);
-            }
-
-            /// <summary>
-            /// Returns whether the <see cref="PartsCollection"/> is
-            /// fixed-length.
-            /// </summary>
-            /// <remarks>Returns false.</remarks>
-            public bool IsFixedSize
-            {
-                get { return false; }
-            }
-
-            /// <summary>
-            /// Returns whether the <see cref="PartsCollection"/>
-            /// is read-only.
-            /// </summary>
-            /// <remarks>Returns false.</remarks>
-            public bool IsReadOnly
-            {
-                get { return false; }
-            }
-
-            void IList.Remove(object value)
-            {
-                if (!(value is TAssembly))
-                    throw new ArgumentException("value");
-                TAssembly v = (TAssembly)value;
-                this.baseList.Remove(v);
-            }
-
-            void IList.RemoveAt(int index)
-            {
-                if (index < 0 || index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
-                List<IIntermediateAssembly> k = (List<IIntermediateAssembly>)(this.baseList);
-                k.RemoveAt(index);
-            }
-
-            object IList.this[int index]
-            {
-                get
-                {
-                    return ((List<IIntermediateAssembly>)this.baseList)[index];
-                }
-                set
-                {
-                    if (!(value is TAssembly))
-                        throw new ArgumentException("value");
-                    TAssembly v = (TAssembly)value;
-                    if (this.Contains(v))
-                        throw new InvalidOperationException();
-                    if (v.GetRoot().Equals(this.Root))
-                    {
-                        ((List<IIntermediateAssembly>)(this.baseList))[index] = v;
-                        return;
-                    }
-                    throw new ArgumentException("value");
-                }
-            }
-
-            #endregion
-
-            #region IIntermediateSegmentableDeclarationPartCollection Members
-
             void IIntermediateSegmentableDeclarationPartCollection.Add(IIntermediateSegmentableDeclaration part)
             {
                 if (part is IIntermediateAssembly)
                     this.Add((IIntermediateAssembly)(part));
                 else
                     throw new ArgumentException("part");
-            }
-
-            #endregion
-
-            #region IIntermediateSegmentableDeclarationPartCollection<IIntermediateAssembly> Members
-
-            public void Add(IIntermediateAssembly part)
-            {
-                if (part.IsRoot || part.GetRoot() != this.Root)
-                    throw new ArgumentException("part");
-                base.AddImpl(part);
             }
 
             #endregion

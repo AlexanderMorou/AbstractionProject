@@ -98,7 +98,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SimpleCompilerTest.cs" />
+    <Compile Include="SimpleCompilationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Allen Copeland.pfx" />
@@ -157,14 +157,6 @@
     <ProjectReference Include="..\..\SLF\Languages\CSharp\CSharp.csproj">
       <Project>{8B815295-30CD-4825-8634-155776DEEE14}</Project>
       <Name>CSharp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SLF\Languages\OILexer\OILexer.csproj">
-      <Project>{0D009988-DE0E-4362-830D-7980BEB41F6F}</Project>
-      <Name>OILexer %28SLF\Languages\OILexer\OILexer%29</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SLF\Languages\OILexer\OILexerParser.csproj">
-      <Project>{886B34E8-755F-420C-8725-767EADD92996}</Project>
-      <Name>OILexerParser</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SLF\Languages\Toy++\Toy++.csproj">
       <Project>{DA55A92C-B4EE-4350-AC02-B6C25D795723}</Project>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -36,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
-        public override Expressions.ILocalReferenceExpression GetReference()
+        public override IBoundLocalReferenceExpression GetReference()
         {
             return new ReferenceExpression(this);
         }

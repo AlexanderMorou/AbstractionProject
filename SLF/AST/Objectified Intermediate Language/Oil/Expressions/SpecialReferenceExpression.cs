@@ -35,8 +35,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             {
                 switch (Kind)
                 {
-                    case SpecialReferenceKind.CurrentClass:
-                        return ExpressionKinds.CurrentTypeReference;
                     case SpecialReferenceKind.Self:
                         return ExpressionKinds.SelfReference;
                     case SpecialReferenceKind.Base:
@@ -62,8 +60,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             switch (this.Kind)
             {
-                case SpecialReferenceKind.CurrentClass:
-                    return "class";
                 case SpecialReferenceKind.Self:
                     return "self";
                 case SpecialReferenceKind.Base:

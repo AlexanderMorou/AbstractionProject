@@ -20,26 +20,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// expression for intermediate members.</remarks>
         None,
         /// <summary>
-        /// The special reference refers to the type
-        /// at the current hierarchy level.
-        /// </summary>
-        /// <remarks>
-        /// C&#8902;: thisclass
-        /// C&#9839;: N/A
-        /// VB: N/A
-        /// <para>CIL: call [instance] -
-        /// To A method which accepts the current type as a type-parameter.</para>
-        /// </remarks>
-        CurrentClass,
-        /// <summary>
         /// The special reference refers to the object itself
         /// ignoring standard virtual calling conventions.
         /// </summary>
         /// <remarks>
-        /// C&#8902;: self
-        /// C&#9839;: N/A
-        /// VB: MyClass
-        /// CIL: call [instance]
+        /// <para>C&#9839;: N/A</para>
+        /// <para>VB: MyClass</para>
+        /// <para>CIL: call [instance]</para>
         /// </remarks>
         Self,
         /// <summary>
@@ -47,18 +34,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// ignoring standard virtual calling conventions.
         /// </summary>
         /// <remarks>
-        /// C&#8902;: base
-        /// C&#9839;: base
-        /// VB: MyBase</remarks>
+        /// <para>C&#9839;: base</para>
+        /// <para>VB: MyBase</para></remarks>
         Base,
         /// <summary>
         /// The special reference refers to the object itself
         /// ignoring standard virtual calling conventions.
         /// </summary>
         /// <remarks>
-        /// C&#8902;: this
-        /// C&#9839;: this
-        /// VB: Me</remarks>
+        /// <para>C&#9839;: this</para>
+        /// <para>VB: Me</para></remarks>
         This,
     }
 
@@ -69,6 +54,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the kind of special reference the reference is.
         /// </summary>
-        SpecialReferenceKind Kind { get; set; }
+        SpecialReferenceKind Kind { get; }
     }
 }

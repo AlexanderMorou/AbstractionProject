@@ -155,37 +155,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 get { return this[index]; }
             }
 
-            #endregion
-
-            #region ICollection Members
-
-
-            bool ICollection.IsSynchronized
-            {
-                get { return false; }
-            }
-
-            object ICollection.SyncRoot
-            {
-                get { return null; }
-            }
-
-            void ICollection.CopyTo(Array array, int arrayIndex)
-            {
-                if ((arrayIndex + this.Count) >= array.Length)
-                    throw new ArgumentException("array");
-                if (!(array is TIntermediateDeclaration[]))
-                    throw new ArgumentException("array");
-                this.CopyTo((TIntermediateDeclaration[])array, arrayIndex);
-            }
-
             int IControlledStateCollection.IndexOf(object element)
             {
                 if (element is TIntermediateDeclaration)
                     return this.IndexOf((TIntermediateDeclaration)(element));
                 return -1;
             }
-
             #endregion
 
         }

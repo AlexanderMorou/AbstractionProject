@@ -69,67 +69,111 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             /// Data member for <see cref="String"/>.
             /// </summary>
             private static IType @string;
+
+            /// <summary>
+            /// Data member for <see cref="Boolean"/>.
+            /// </summary>
+            private static IType boolean;
             #endregion
 
             #region IType Dispose section
             static void void_Disposed(object sender, EventArgs e)
             {
-                CommonlyUsedTypeReferences.@void.Disposed -=new EventHandler(void_Disposed);
-                CommonlyUsedTypeReferences.@void = null;
+                if (CommonlyUsedTypeReferences.@void != null)
+                {
+                    CommonlyUsedTypeReferences.@void.Disposed -= new EventHandler(void_Disposed);
+                    CommonlyUsedTypeReferences.@void = null;
+                }
             }
 
             static void parameterArrayAttribute_Disposed(object sender, EventArgs e)
             {
-                CommonlyUsedTypeReferences.parameterArrayAttribute.Disposed -= new EventHandler(void_Disposed);
-                CommonlyUsedTypeReferences.parameterArrayAttribute = null;
+                if (CommonlyUsedTypeReferences.parameterArrayAttribute != null)
+                {
+                    CommonlyUsedTypeReferences.parameterArrayAttribute.Disposed -= new EventHandler(void_Disposed);
+                    CommonlyUsedTypeReferences.parameterArrayAttribute = null;
+                }
             }
 
             static void object_Disposed(object sender, EventArgs e)
             {
-                CommonlyUsedTypeReferences.@object.Disposed -= new EventHandler(void_Disposed);
-                CommonlyUsedTypeReferences.@object = null;
+                if (CommonlyUsedTypeReferences.@object != null)
+                {
+                    CommonlyUsedTypeReferences.@object.Disposed -= new EventHandler(void_Disposed);
+                    CommonlyUsedTypeReferences.@object = null;
+                }
             }
 
             static void extensionAttribute_Disposed(object sender, EventArgs e)
             {
-                CommonlyUsedTypeReferences.extensionAttribute.Disposed -= new EventHandler(void_Disposed);
-                CommonlyUsedTypeReferences.extensionAttribute = null;
+                if (CommonlyUsedTypeReferences.extensionAttribute != null)
+                {
+                    CommonlyUsedTypeReferences.extensionAttribute.Disposed -= new EventHandler(void_Disposed);
+                    CommonlyUsedTypeReferences.extensionAttribute = null;
+                }
             }
 
             static void standardModuleAttribute_Disposed(object sender, EventArgs e)
             {
-                CommonlyUsedTypeReferences.standardModuleAttribute.Disposed -= new EventHandler(void_Disposed);
-                CommonlyUsedTypeReferences.standardModuleAttribute = null;
+                if (CommonlyUsedTypeReferences.standardModuleAttribute != null)
+                {
+                    CommonlyUsedTypeReferences.standardModuleAttribute.Disposed -= new EventHandler(void_Disposed);
+                    CommonlyUsedTypeReferences.standardModuleAttribute = null;
+                }
             }
 
             static void valueType_Disposed(object sender, EventArgs e)
             {
-                CommonlyUsedTypeReferences.valueType.Disposed -= new EventHandler(void_Disposed);
-                CommonlyUsedTypeReferences.valueType = null;
+                if (CommonlyUsedTypeReferences.valueType != null)
+                {
+                    CommonlyUsedTypeReferences.valueType.Disposed -= new EventHandler(void_Disposed);
+                    CommonlyUsedTypeReferences.valueType = null;
+                }
             }
 
             static void enum_Disposed(object sender, EventArgs e)
             {
-                CommonlyUsedTypeReferences.@enum.Disposed -= new EventHandler(enum_Disposed);
-                CommonlyUsedTypeReferences.@enum = null;
+                if (CommonlyUsedTypeReferences.@enum != null)
+                {
+                    CommonlyUsedTypeReferences.@enum.Disposed -= new EventHandler(enum_Disposed);
+                    CommonlyUsedTypeReferences.@enum = null;
+                }
             }
 
             static void delegate_Disposed(object sender, EventArgs e)
             {
-                CommonlyUsedTypeReferences.@delegate.Disposed -= new EventHandler(delegate_Disposed);
-                CommonlyUsedTypeReferences.@delegate = null;
+                if (CommonlyUsedTypeReferences.@delegate != null)
+                {
+                    CommonlyUsedTypeReferences.@delegate.Disposed -= new EventHandler(delegate_Disposed);
+                    CommonlyUsedTypeReferences.@delegate = null;
+                }
             }
 
             static void multicastDelegate_Disposed(object sender, EventArgs e)
             {
-                CommonlyUsedTypeReferences.multicastDelegate.Disposed -= new EventHandler(multicastDelegate_Disposed);
-                CommonlyUsedTypeReferences.multicastDelegate = null;
+                if (CommonlyUsedTypeReferences.multicastDelegate != null)
+                {
+                    CommonlyUsedTypeReferences.multicastDelegate.Disposed -= new EventHandler(multicastDelegate_Disposed);
+                    CommonlyUsedTypeReferences.multicastDelegate = null;
+                }
             }
 
             static void string_Disposed(object sender, EventArgs e)
             {
-                CommonlyUsedTypeReferences.@string.Disposed -= new EventHandler(string_Disposed);
-                CommonlyUsedTypeReferences.@string = null;
+                if (CommonlyUsedTypeReferences.@string != null)
+                {
+                    CommonlyUsedTypeReferences.@string.Disposed -= new EventHandler(string_Disposed);
+                    CommonlyUsedTypeReferences.@string = null;
+                }
+            }
+
+            static void boolean_Disposed(object sender, EventArgs e)
+            {
+                if (CommonlyUsedTypeReferences.boolean != null)
+                {
+                    CommonlyUsedTypeReferences.boolean.Disposed -= new EventHandler(boolean_Disposed);
+                    CommonlyUsedTypeReferences.boolean = null;
+                }
             }
             #endregion
 
@@ -304,6 +348,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         CommonlyUsedTypeReferences.@string.Disposed += new EventHandler(string_Disposed);
                     }
                     return CommonlyUsedTypeReferences.@string;
+                }
+            }
+            /// <summary>
+            /// Returns the <see cref="IType"/> reference wrapper for the <see cref="System.Boolean"/>
+            /// system type.
+            /// </summary>
+            public static IType Boolean
+            {
+                get
+                {
+                    if (CommonlyUsedTypeReferences.boolean == null)
+                    {
+                        CommonlyUsedTypeReferences.boolean = typeof(bool).GetTypeReference();
+                        CommonlyUsedTypeReferences.boolean.Disposed += new EventHandler(boolean_Disposed);
+                    }
+                    return CommonlyUsedTypeReferences.boolean;
                 }
             }
 

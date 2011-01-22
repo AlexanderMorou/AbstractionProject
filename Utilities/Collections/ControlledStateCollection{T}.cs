@@ -17,11 +17,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// A generic collection which is tightly controlled.
     /// </summary>
     /// <typeparam name="T">The type of elements in the <see cref="ControlledStateCollection{T}"/></typeparam>
-    //[DebuggerDisplay("Count: {Count}")]
     public class ControlledStateCollection<T> :
         IControlledStateCollection<T>,
-        IControlledStateCollection,
-        IEnumerable<T>
+        IControlledStateCollection
     {
         /// <summary>
         /// The list to wrap.
@@ -35,9 +33,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <paramref name="baseList"/> to wrap provided.
         /// </summary>
         /// <param name="baseList">The list to wrap.</param>
-        public ControlledStateCollection(IList<T> baseCollection)
+        public ControlledStateCollection(IList<T> baseList)
         {
-            this.baseList = baseCollection;
+            this.baseList = baseList;
         }
 
         /// <summary>
@@ -120,7 +118,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// </summary>
         /// <returns>A <see cref="IEnumerator{T}"/> that can be used to iterate through
         /// the <see cref="ControlledStateCollection{T}"/>.</returns>
-        public virtual IEnumerator<T> GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
+        {
+            return OnGetEnumerator();
+        }
+
+        protected virtual IEnumerator<T> OnGetEnumerator()
         {
             return this.baseList.GetEnumerator();
         }
@@ -193,26 +196,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         #region ICollection Members
 
-        void ICollection.CopyTo(Array array, int index)
-        {
-            this.CopyTo((T[])(array), index);
-        }
-
-        int ICollection.Count
-        {
-            get { return this.Count; }
-        }
-
-        bool ICollection.IsSynchronized
-        {
-            get { return false; }
-        }
-
-        object ICollection.SyncRoot
-        {
-            get { return null; }
-        }
-
+        
         #endregion
 
         protected virtual void AddImpl(T expression)

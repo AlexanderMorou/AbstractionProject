@@ -133,28 +133,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
             #endregion
 
-            #region ICollection Members
-
-
-            bool ICollection.IsSynchronized
-            {
-                get { return false; }
-            }
-
-            object ICollection.SyncRoot
-            {
-                get { return null; }
-            }
-            void ICollection.CopyTo(Array array, int arrayIndex)
-            {
-                if ((arrayIndex + this.Count) >= array.Length)
-                    throw new ArgumentException("array");
-                for (int i = 0; i < this.Count; i++)
-                    array.SetValue(this[i], i + arrayIndex);
-            }
-
-            #endregion
-
         }
     }
 }
