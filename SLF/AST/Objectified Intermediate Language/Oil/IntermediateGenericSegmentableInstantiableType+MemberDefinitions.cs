@@ -505,7 +505,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
                 set
                 {
-                    if (value == IntermediateGateway.CommonlyUsedTypeReferences.Void)
+                    if (value == CommonTypeRefs.Void)
                         throw new InvalidOperationException("Cannot yield a void type.");
                     this.resultedType = value;
                 }

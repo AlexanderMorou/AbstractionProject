@@ -150,7 +150,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public TIntermediateSignature Add(string name)
         {
             var method = this.GetNewMethod(name);
-            method.ReturnType = IntermediateGateway.CommonlyUsedTypeReferences.Void;
+            method.ReturnType = CommonTypeRefs.Void;
             this.AddDeclaration(method);
             return method;
         }
@@ -158,7 +158,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public TIntermediateSignature Add(string name, TypedNameSeries parameters)
         {
             var method = this.GetNewMethodWithParameters(name, parameters);
-            method.ReturnType = IntermediateGateway.CommonlyUsedTypeReferences.Void;
+            method.ReturnType = CommonTypeRefs.Void;
             this.AddDeclaration(method);
             return method;
         }
@@ -166,7 +166,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public TIntermediateSignature Add(string name, TypedNameSeries parameters, params GenericParameterData[] typeParameters)
         {
             var method = this.GetNewMethodWithParametersAndTypeParameters(name, parameters, typeParameters);
-            method.ReturnType = IntermediateGateway.CommonlyUsedTypeReferences.Void;
+            method.ReturnType = CommonTypeRefs.Void;
             this.AddDeclaration(method);
             return method;
         }
@@ -417,7 +417,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public TIntermediateSignature Add(string name)
         {
             var method = this.GetNewMethod(name);
-            method.ReturnType = IntermediateGateway.CommonlyUsedTypeReferences.Void;
+            method.ReturnType = CommonTypeRefs.Void;
             this._Add(method.UniqueIdentifier, method);
             return method;
         }
@@ -425,7 +425,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public TIntermediateSignature Add(string name, TypedNameSeries parameters)
         {
             var method = this.GetNewMethodWithParameters(name, parameters);
-            method.ReturnType = IntermediateGateway.CommonlyUsedTypeReferences.Void;
+            method.ReturnType = CommonTypeRefs.Void;
             this._Add(method.UniqueIdentifier, method);
             return method;
         }
@@ -433,7 +433,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public TIntermediateSignature Add(string name, TypedNameSeries parameters, params GenericParameterData[] typeParameters)
         {
             var method = this.GetNewMethodWithParametersAndTypeParameters(name, parameters, typeParameters);
-            method.ReturnType = IntermediateGateway.CommonlyUsedTypeReferences.Void;
+            method.ReturnType = CommonTypeRefs.Void;
             this._Add(method.UniqueIdentifier, method);
             return method;
         }

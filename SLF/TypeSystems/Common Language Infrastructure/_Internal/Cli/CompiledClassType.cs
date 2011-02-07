@@ -171,7 +171,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (!this.checkedSpecialModifier)
                 {
                     if (this.UnderlyingSystemType.IsDefined(typeof(ExtensionAttribute), false))
-                        this.specialModifier = SpecialClassModifier.ExtensionTarget;
+                        this.specialModifier = SpecialClassModifier.TypeExtensionSource;
                     else if (this.UnderlyingSystemType.DeclaringType == null && this.UnderlyingSystemType.IsDefined(typeof(StandardModuleAttribute), false))
                         this.specialModifier = SpecialClassModifier.Module;
                     else if (this.UnderlyingSystemType.IsSealed && this.UnderlyingSystemType.IsAbstract)

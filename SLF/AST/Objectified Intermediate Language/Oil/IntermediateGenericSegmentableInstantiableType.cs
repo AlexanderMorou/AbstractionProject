@@ -113,6 +113,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region Member Data Members
 
+        /// <summary>
+        /// Data member for <see cref="ImplementedInterfaces"/>
+        /// </summary>
+        private ImplementedInterfacesDictionary<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> implementedInterfaces;
 
         /// <summary>
         /// Data member for holding the full member dictionary in verbatim order.
@@ -881,12 +885,29 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateInstantiableType<TCtor,TIntermediateCtor,TEvent,TIntermediateEvent,TField,TIntermediateField,TIndexer,TIntermediateIndexer,TMethod,TIntermediateMethod,TProperty,TIntermediateProperty,TType,TIntermediateType> Members
 
-        public new IIntermediateInstantiableTypeImplementedInterfaces<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> ImplementedInterfaces
+        public new ImplementedInterfacesDictionary<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> ImplementedInterfaces
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (this.implementedInterfaces == null)
+                    this.implementedInterfaces = new ImplementedInterfacesDictionary<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType>((TInstanceIntermediateType)this);
+                return this.implementedInterfaces;
+            }
+        }
+
+        IIntermediateInstantiableTypeImplementedInterfaces<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> IIntermediateInstantiableType<TCtor,TIntermediateCtor,TEvent,TIntermediateEvent,TField,TIntermediateField,TIndexer,TIntermediateIndexer,TMethod,TIntermediateMethod,TProperty,TIntermediateProperty,TType,TIntermediateType>.ImplementedInterfaces
+        {
+            get {
+                return this.ImplementedInterfaces;
+            }
         }
 
         #endregion
+
+        protected override ILockedTypeCollection OnGetImplementedInterfaces()
+        {
+            return this.ImplementedInterfaces.GetLocked();
+        }
        
         #region IIntermediateInstantiableType Members
 

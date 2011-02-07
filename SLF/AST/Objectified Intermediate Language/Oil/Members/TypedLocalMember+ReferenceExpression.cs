@@ -38,7 +38,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 {
                     if (this.Owner != null &&
                         this.Owner.LocalType != null &&
-                       !this.Owner.LocalType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Void))
+                       !this.Owner.LocalType.Equals(CommonTypeRefs.Void))
                         return this.Owner.LocalType;
                     return null;
                 }

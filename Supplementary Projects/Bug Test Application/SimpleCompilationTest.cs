@@ -59,26 +59,24 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             var program = testAssembly.DefaultNamespace.Classes.Add("Program");
             program.SpecialModifier = SpecialClassModifier.Static;
 
-            var mainMethod = program.Methods.Add("Main", new TypedNameSeries() { { "args", IntermediateGateway.CommonlyUsedTypeReferences.String.MakeArray() } });
+            var mainMethod = program.Methods.Add("Main", new TypedNameSeries() { { "args", CommonTypeRefs.String.MakeArray() } });
             mainMethod.IsStatic = true; //implicit, but explicit in some languages.
             mainMethod.AccessLevel = AccessLevelModifiers.Private;
 
             var mainDialog = testAssembly.DefaultNamespace.Classes.Add("MainDialog");
             mainDialog.BaseType = typeof(Form).GetTypeReference<IClassType>();
             mainDialog.AccessLevel = AccessLevelModifiers.Internal;
-
             
             var applicationRef = typeof(Application).GetTypeExpression();
             mainMethod.Call(applicationRef, "EnableVisualStyles");
             mainMethod.Call(applicationRef, "SetCompatibleTextRenderingDefault", IntermediateGateway.TrueValue);
             mainMethod.Call(applicationRef, "Run", mainDialog.GetNew());
-
-
+            
             var mainDialogDesigner = mainDialog.Parts.Add();
 
             var mdComponents = mainDialogDesigner.Fields.Add(new TypedName("components", typeof(IContainer).GetTypeReference()));
 
-            var mdDispose = mainDialogDesigner.Methods.Add("Dispose", new TypedNameSeries() { { "disposing", IntermediateGateway.CommonlyUsedTypeReferences.Boolean } });
+            var mdDispose = mainDialogDesigner.Methods.Add("Dispose", new TypedNameSeries() { { "disposing", CommonTypeRefs.Boolean } });
             var mdDisposing = mdDispose.Parameters["disposing"];
 
             var disposeCondition = mdDispose.If(mdDisposing.GetReference().LogicalAnd(mdComponents.InequalTo(IntermediateGateway.NullValue)));
@@ -103,14 +101,14 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             mdInitializeComponent.Assign(mdClickMeReference.GetProperty("TabIndex"), 0.ToPrimitive());
             mdInitializeComponent.Assign(mdClickMeReference.GetProperty("Text"), "Click Me".ToPrimitive());
             mdInitializeComponent.Assign(mdClickMeReference.GetProperty("UseVisualStyleBackColor"), IntermediateGateway.TrueValue);
-            //ToDo: Add event handler.
+            //ToDo: Add event add handler.
 
             var thisReference = new SpecialReferenceExpression(SpecialReferenceKind.This);
             mdInitializeComponent.Assign(thisReference.GetProperty("AutoScaleDimensions"), typeof(SizeF).GetNewExpression(6F.ToPrimitive(), 13F.ToPrimitive()));
-            mdInitializeComponent.Assign(thisReference.GetProperty("AutoScaleMode"), typeof(AutoScaleMode).GetTypeExpression().GetField("Font"));
+            mdInitializeComponent.Assign(thisReference.GetProperty("AutoScaleMode"), typeof(AutoScaleMode).GetFieldExpression("Font"));
             mdInitializeComponent.Assign(thisReference.GetProperty("ClientSize"), typeof(Size).GetNewExpression(209.ToPrimitive(), 56.ToPrimitive()));
             mdInitializeComponent.Call(thisReference.GetProperty("Controls"), "Add", mdClickMeReference);
-            mdInitializeComponent.Assign(thisReference.GetProperty("FormBorderStyle"), typeof(FormBorderStyle).GetTypeExpression().GetField("FixedToolWindow"));
+            mdInitializeComponent.Assign(thisReference.GetProperty("FormBorderStyle"), typeof(FormBorderStyle).GetFieldExpression("FixedToolWindow"));
             mdInitializeComponent.Assign(thisReference.GetProperty("MinimizeBox"), IntermediateGateway.FalseValue);
             mdInitializeComponent.Assign(thisReference.GetProperty("MaximizeBox"), IntermediateGateway.FalseValue);
             mdInitializeComponent.Assign(thisReference.GetProperty("Name"), "MainDialog".ToPrimitive());
@@ -120,6 +118,8 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             var mdCtor = mainDialog.Constructors.Add();
             mdCtor.Call(mdInitializeComponent.GetReference());
+
+            
         }
     }
 }

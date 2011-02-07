@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <para>Classes marked with this cannot be generics
         /// nor can they be nested.</para>
         /// </remarks>
-        ExtensionTarget
+        TypeExtensionSource
     }
     
     /// <summary>

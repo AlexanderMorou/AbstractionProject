@@ -55,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #region IntermediateInterfaceType Data members
 
         #region Member Data Members
-        private IntermediateImplementedInterfaces _implementedInterfaces;
+        private ImplementedInterfacesCollection _implementedInterfaces;
         private ITypeCollection implementedInterfaces;
 
         /// <summary>
@@ -172,8 +172,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         protected override ILockedTypeCollection OnGetImplementedInterfaces()
         {
             if (this._implementedInterfaces == null)
-                this._implementedInterfaces = new IntermediateImplementedInterfaces(this.ImplementedInterfaces);
-            return this._implementedInterfaces;
+                this._implementedInterfaces = new ImplementedInterfacesCollection(this);
+            return this._implementedInterfaces.GetLocked();
         }
 
         /// <summary>

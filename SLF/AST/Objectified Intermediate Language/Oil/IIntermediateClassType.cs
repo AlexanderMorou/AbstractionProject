@@ -18,12 +18,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// class type declaration.
     /// </summary>
     public interface IIntermediateClassType :
-        IIntermediateGenericType<IClassType, IIntermediateClassType>,
         IIntermediateInstantiableType
             <IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IClassFieldMember,
              IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IClassMethodMember, 
              IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember,
              IClassType, IIntermediateClassType>,
+        IIntermediateGenericType<IClassType, IIntermediateClassType>,
         IClassType
     {
         /// <summary>
@@ -47,9 +47,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         new IIntermediateAssembly Assembly { get; }
 
         /// <summary>
-        /// Returns the <see cref="ITypeCollection"/> which denotes what interfaces
-        /// are to be implemented by the <see cref="IIntermediateClassType"/>.
+        /// Returns the <see cref="IIntermediateInstantiableTypeImplementedInterfaces{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType}"/>
+        /// which represents the interfaces implemented by the current 
+        /// <see cref="IIntermediateClassType"/>.
         /// </summary>
-        new ITypeCollection ImplementedInterfaces { get; }
+        new IIntermediateInstantiableTypeImplementedInterfaces<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IClassFieldMember,
+                                                               IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IClassMethodMember,
+                                                               IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember,
+                                                               IClassType, IIntermediateClassType> ImplementedInterfaces { get; }
     }
 }

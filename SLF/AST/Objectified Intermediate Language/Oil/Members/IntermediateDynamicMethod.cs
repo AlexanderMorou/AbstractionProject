@@ -48,7 +48,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.Parameters.Count != 16)
                     throw new InvalidOperationException(Resources.Exception_ParameterCount_Mismatch);
-                if (this.ReturnType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Void))
+                if (this.ReturnType.Equals(CommonTypeRefs.Void))
                     return _Compile<Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>>();
                 else
                     throw new InvalidOperationException(Resources.Exception_ReturnType_Mismatch);
@@ -82,7 +82,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.Parameters.Count != 15)
                     throw new InvalidOperationException(Resources.Exception_ParameterCount_Mismatch);
-                if (this.ReturnType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Void))
+                if (this.ReturnType.Equals(CommonTypeRefs.Void))
                     return _Compile<Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>>();
                 else
                     throw new InvalidOperationException(Resources.Exception_ReturnType_Mismatch);
@@ -116,7 +116,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.Parameters.Count != 14)
                     throw new InvalidOperationException(Resources.Exception_ParameterCount_Mismatch);
-                if (this.ReturnType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Void))
+                if (this.ReturnType.Equals(CommonTypeRefs.Void))
                     return _Compile<Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>>();
                 else
                     throw new InvalidOperationException(Resources.Exception_ReturnType_Mismatch);
@@ -150,7 +150,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.Parameters.Count != 13)
                     throw new InvalidOperationException(Resources.Exception_ParameterCount_Mismatch);
-                if (this.ReturnType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Void))
+                if (this.ReturnType.Equals(CommonTypeRefs.Void))
                     return _Compile<Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>>();
                 else
                     throw new InvalidOperationException(Resources.Exception_ReturnType_Mismatch);
@@ -184,7 +184,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.Parameters.Count != 12)
                     throw new InvalidOperationException(Resources.Exception_ParameterCount_Mismatch);
-                if (this.ReturnType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Void))
+                if (this.ReturnType.Equals(CommonTypeRefs.Void))
                     return _Compile<Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>>();
                 else
                     throw new InvalidOperationException(Resources.Exception_ReturnType_Mismatch);
@@ -218,7 +218,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.Parameters.Count != 11)
                     throw new InvalidOperationException(Resources.Exception_ParameterCount_Mismatch);
-                if (this.ReturnType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Void))
+                if (this.ReturnType.Equals(CommonTypeRefs.Void))
                     return _Compile<Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>>();
                 else
                     throw new InvalidOperationException(Resources.Exception_ReturnType_Mismatch);
@@ -252,7 +252,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.Parameters.Count != 10)
                     throw new InvalidOperationException(Resources.Exception_ParameterCount_Mismatch);
-                if (this.ReturnType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Void))
+                if (this.ReturnType.Equals(CommonTypeRefs.Void))
                     return _Compile<Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>>();
                 else
                     throw new InvalidOperationException(Resources.Exception_ReturnType_Mismatch);
@@ -286,7 +286,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.Parameters.Count != 9)
                     throw new InvalidOperationException(Resources.Exception_ParameterCount_Mismatch);
-                if (this.ReturnType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Void))
+                if (this.ReturnType.Equals(CommonTypeRefs.Void))
                     return _Compile<Action<T1, T2, T3, T4, T5, T6, T7, T8, T9>>();
                 else
                     throw new InvalidOperationException(Resources.Exception_ReturnType_Mismatch);
@@ -320,7 +320,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.Parameters.Count != 8)
                     throw new InvalidOperationException(Resources.Exception_ParameterCount_Mismatch);
-                if (this.ReturnType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Void))
+                if (this.ReturnType.Equals(CommonTypeRefs.Void))
                     return _Compile<Action<T1, T2, T3, T4, T5, T6, T7, T8>>();
                 else
                     throw new InvalidOperationException(Resources.Exception_ReturnType_Mismatch);
@@ -368,7 +368,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.Parameters.Count != 7)
                     throw new InvalidOperationException(Resources.Exception_ParameterCount_Mismatch);
-                if (this.ReturnType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Void))
+                if (this.ReturnType.Equals(CommonTypeRefs.Void))
                     return _Compile<Action<T1, T2, T3, T4, T5, T6, T7>>();
                 else
                     throw new InvalidOperationException(Resources.Exception_ReturnType_Mismatch);
@@ -430,7 +430,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.Parameters.Count != 6)
                     throw new InvalidOperationException(Resources.Exception_ParameterCount_Mismatch);
-                if (this.ReturnType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Void))
+                if (this.ReturnType.Equals(CommonTypeRefs.Void))
                     return _Compile<Action<T1, T2, T3, T4, T5, T6>>();
                 else
                     throw new InvalidOperationException(Resources.Exception_ReturnType_Mismatch);
@@ -489,7 +489,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.Parameters.Count != 5)
                     throw new InvalidOperationException(Resources.Exception_ParameterCount_Mismatch);
-                if (this.ReturnType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Void))
+                if (this.ReturnType.Equals(CommonTypeRefs.Void))
                     return _Compile<Action<T1, T2, T3, T4, T5>>();
                 else
                     throw new InvalidOperationException(Resources.Exception_ReturnType_Mismatch);
@@ -545,7 +545,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.Parameters.Count != 4)
                     throw new InvalidOperationException(Resources.Exception_ParameterCount_Mismatch);
-                if (this.ReturnType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Void))
+                if (this.ReturnType.Equals(CommonTypeRefs.Void))
                     return _Compile<Action<T1, T2, T3, T4>>();
                 else
                     throw new InvalidOperationException(Resources.Exception_ReturnType_Mismatch);
@@ -599,7 +599,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.Parameters.Count != 3)
                     throw new InvalidOperationException(Resources.Exception_ParameterCount_Mismatch);
-                if (this.ReturnType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Void))
+                if (this.ReturnType.Equals(CommonTypeRefs.Void))
                     return _Compile<Action<T1, T2, T3>>();
                 else
                     throw new InvalidOperationException(Resources.Exception_ReturnType_Mismatch);
@@ -651,7 +651,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.Parameters.Count != 2)
                     throw new InvalidOperationException(Resources.Exception_ParameterCount_Mismatch);
-                if (this.ReturnType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Void))
+                if (this.ReturnType.Equals(CommonTypeRefs.Void))
                     return _Compile<Action<T1, T2>>();
                 else
                     throw new InvalidOperationException(Resources.Exception_ReturnType_Mismatch);
@@ -700,7 +700,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.Parameters.Count != 1)
                     throw new InvalidOperationException(Resources.Exception_ParameterCount_Mismatch);
-                if (this.ReturnType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Void))
+                if (this.ReturnType.Equals(CommonTypeRefs.Void))
                     return _Compile<Action<T1>>();
                 else
                     throw new InvalidOperationException(Resources.Exception_ReturnType_Mismatch);
@@ -745,7 +745,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.Parameters.Count != 0)
                     throw new InvalidOperationException(Resources.Exception_ParameterCount_Mismatch);
-                if (this.ReturnType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Void))
+                if (this.ReturnType.Equals(CommonTypeRefs.Void))
                     return _Compile<Action>();
                 else
                     throw new InvalidOperationException(Resources.Exception_ReturnType_Mismatch);

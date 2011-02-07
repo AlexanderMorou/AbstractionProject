@@ -120,22 +120,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             get { return TypeKind.Struct; }
         }
 
-        protected override ILockedTypeCollection OnGetImplementedInterfaces()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override bool IsSubclassOfImpl(IType other)
         {
-            if (other.Equals(IntermediateGateway.CommonlyUsedTypeReferences.ValueType) ||
-                other.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Object))
+            if (other.Equals(CommonTypeRefs.ValueType) ||
+                other.Equals(CommonTypeRefs.Object))
                 return true;
             return false;
         }
 
         protected override IType BaseTypeImpl
         {
-            get { return IntermediateGateway.CommonlyUsedTypeReferences.ValueType; }
+            get { return CommonTypeRefs.ValueType; }
         }
 
         protected override IndexerMember GetNewIndexer(TypedName nameAndReturn)
@@ -177,6 +172,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public override void Visit(IIntermediateTypeVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        IIntermediateInstantiableTypeImplementedInterfaces<IStructCtorMember, IIntermediateStructCtorMember, IStructEventMember,
+                                                           IIntermediateStructEventMember, IStructFieldMember, IIntermediateStructFieldMember,
+                                                           IStructIndexerMember, IIntermediateStructIndexerMember, IStructMethodMember,
+                                                           IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember,
+                                                           IStructType, IIntermediateStructType> IIntermediateStructType.ImplementedInterfaces
+        {
+            get
+            {
+                return this.ImplementedInterfaces;
+            }
         }
     }
 }

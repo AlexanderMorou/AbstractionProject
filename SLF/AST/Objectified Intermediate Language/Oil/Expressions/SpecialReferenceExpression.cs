@@ -13,7 +13,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
     public class SpecialReferenceExpression :
         MemberParentReferenceExpressionBase,
-        ISpecialReferenceExpression
+        IMalleableSpecialReferenceExpression
     {
         public SpecialReferenceExpression(SpecialReferenceKind referenceKind)
         {
