@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         internal protected IntermediateDelegateType(string name, IIntermediateTypeParent parent)
             : base(name, parent)
         {
-            this.returnType = IntermediateGateway.CommonlyUsedTypeReferences.Void;
+            this.returnType = CommonTypeRefs.Void;
         }
 
         private static ILockedTypeCollection _ImplementedInterfaces
@@ -116,7 +116,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (this.parameters == null || 
                     this.parameters.Count == 0)
                     return false;
-                return this.Parameters.Values[this.Parameters.Count - 1].IsDefined(IntermediateGateway.CommonlyUsedTypeReferences.ParameterArrayAttribute);
+                return this.Parameters.Values[this.Parameters.Count - 1].IsDefined(CommonTypeRefs.ParameterArrayAttribute);
             }
             set
             {
@@ -125,10 +125,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.CheckParameters();
                 var lastParameter = this.Parameters.Values[this.Parameters.Count - 1];
                 if (value)
-                    lastParameter.CustomAttributes.Add(new CustomAttributeDefinition.ParameterValueCollection(IntermediateGateway.CommonlyUsedTypeReferences.ParameterArrayAttribute));
+                    lastParameter.CustomAttributes.Add(new CustomAttributeDefinition.ParameterValueCollection(CommonTypeRefs.ParameterArrayAttribute));
                 else
                 {
-                    var customAttrDef = lastParameter.CustomAttributes[IntermediateGateway.CommonlyUsedTypeReferences.ParameterArrayAttribute];
+                    var customAttrDef = lastParameter.CustomAttributes[CommonTypeRefs.ParameterArrayAttribute];
                     lastParameter.CustomAttributes.Remove(customAttrDef);
                 }
             }
@@ -219,9 +219,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             ICompiledType compiledType = other as ICompiledType;
             if (compiledType != null &&
                 (
-                    compiledType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.MulticastDelegate) |
-                    compiledType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Delegate) |
-                    compiledType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Object)
+                    compiledType.Equals(CommonTypeRefs.MulticastDelegate) |
+                    compiledType.Equals(CommonTypeRefs.Delegate) |
+                    compiledType.Equals(CommonTypeRefs.Object)
                 ))
                 return true;
             return false;

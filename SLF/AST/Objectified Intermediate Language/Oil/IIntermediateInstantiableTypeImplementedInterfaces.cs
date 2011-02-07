@@ -15,7 +15,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
     public interface IIntermediateInstantiableTypeImplementedInterfaces<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> :
-        IControlledStateDictionary<IType, IIntermediateInterfaceMemberMapping<TEvent, IInterfaceEventMember, TIntermediateEvent,IIntermediateInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TIntermediateIndexer, IIntermediateInterfaceIndexerMember, TMethod, IInterfaceMethodMember, TIntermediateMethod, IIntermediateInterfaceMethodMember, TProperty, IInterfacePropertyMember, TIntermediateProperty, IIntermediateInterfacePropertyMember, TType, IInterfaceType, TIntermediateType, IIntermediateInterfaceType>>,
+        IControlledStateDictionary<IInterfaceType, IIntermediateInterfaceMemberMapping<TEvent, IInterfaceEventMember, TIntermediateEvent,IIntermediateInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TIntermediateIndexer, IIntermediateInterfaceIndexerMember, TMethod, IInterfaceMethodMember, TIntermediateMethod, IIntermediateInterfaceMethodMember, TProperty, IInterfacePropertyMember, TIntermediateProperty, IIntermediateInterfacePropertyMember, TType, IInterfaceType, TIntermediateType, IIntermediateInterfaceType>>,
         ITypeCollectionBase
         where TCtor :
             IConstructorMember<TCtor, TType>
@@ -55,6 +55,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             TType,
             IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType>
     {
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="interface"></param>
+        /// <param name="insertPlaceholders"></param>
+        /// <returns></returns>
+        IIntermediateInterfaceMemberMapping<TEvent, IInterfaceEventMember, TIntermediateEvent, IIntermediateInterfaceEventMember, 
+                                            TIndexer, IInterfaceIndexerMember, TIntermediateIndexer, IIntermediateInterfaceIndexerMember, 
+                                            TMethod, IInterfaceMethodMember, TIntermediateMethod, IIntermediateInterfaceMethodMember, 
+                                            TProperty, IInterfacePropertyMember, TIntermediateProperty, IIntermediateInterfacePropertyMember,
+                                            TType, IInterfaceType, TIntermediateType, IIntermediateInterfaceType> ImplementInterface(IInterfaceType @interface, bool insertPlaceholders = false);
     }
 }

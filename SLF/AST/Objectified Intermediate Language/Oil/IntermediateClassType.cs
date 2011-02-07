@@ -89,8 +89,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IntermediateClassType<TInstanceIntermediateType>
     {
         private IClassType baseType;
-        private IntermediateImplementedInterfaces _implementedInterfaces;
-        private ITypeCollection implementedInterfaces;
         private bool isStatic;
         /// <summary>
         /// Creates a new <see cref="IntermediateClassType{TInstanceIntermediateType}"/> with the 
@@ -264,13 +262,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             get {return TypeKind.Class; }
         }
 
-        protected override ILockedTypeCollection OnGetImplementedInterfaces()
-        {
-            if (this._implementedInterfaces == null)
-                this._implementedInterfaces = new IntermediateImplementedInterfaces(this.ImplementedInterfaces);
-            return this._implementedInterfaces;
-        }
-
         protected override bool IsSubclassOfImpl(IType other)
         {
             return false;
@@ -291,13 +282,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     return this.GetRoot().SpecialModifier;
                 if (this.isStatic)
                 {
-                    if (this.IsDefined(IntermediateGateway.CommonlyUsedTypeReferences.StandardModuleAttribute, false))
-                        if (this.IsDefined(IntermediateGateway.CommonlyUsedTypeReferences.ExtensionAttribute, false))
-                            return SpecialClassModifier.ExtensionTarget;
+                    if (this.IsDefined(CommonTypeRefs.StandardModuleAttribute, false))
+                        if (this.IsDefined(CommonTypeRefs.ExtensionAttribute, false))
+                            return SpecialClassModifier.TypeExtensionSource;
                         else
                             return SpecialClassModifier.Module;
-                    else if (this.IsDefined(IntermediateGateway.CommonlyUsedTypeReferences.ExtensionAttribute, false))
-                        return SpecialClassModifier.ExtensionTarget;
+                    else if (this.IsDefined(CommonTypeRefs.ExtensionAttribute, false))
+                        return SpecialClassModifier.TypeExtensionSource;
                     else
                         return SpecialClassModifier.Static;
                 }
@@ -323,30 +314,30 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     (value == SpecialClassModifier.None))
                 {
                     int current = NONE;
-                    if (this.IsDefined(IntermediateGateway.CommonlyUsedTypeReferences.StandardModuleAttribute, false))
-                        if (this.IsDefined(IntermediateGateway.CommonlyUsedTypeReferences.ExtensionAttribute, false))
+                    if (this.IsDefined(CommonTypeRefs.StandardModuleAttribute, false))
+                        if (this.IsDefined(CommonTypeRefs.ExtensionAttribute, false))
                             current = EXTENSION | MODULE;
                         else
                             current = MODULE;
-                    else if (this.IsDefined(IntermediateGateway.CommonlyUsedTypeReferences.ExtensionAttribute, false))
+                    else if (this.IsDefined(CommonTypeRefs.ExtensionAttribute, false))
                         current = EXTENSION;
                     else
                         current = STATIC;
                     if ((current & EXTENSION) == EXTENSION)
-                        this.CustomAttributes.Remove(this.CustomAttributes[IntermediateGateway.CommonlyUsedTypeReferences.ExtensionAttribute]);
+                        this.CustomAttributes.Remove(this.CustomAttributes[CommonTypeRefs.ExtensionAttribute]);
                     if ((current & MODULE) == MODULE)
-                        this.CustomAttributes.Remove(this.CustomAttributes[IntermediateGateway.CommonlyUsedTypeReferences.StandardModuleAttribute]);
+                        this.CustomAttributes.Remove(this.CustomAttributes[CommonTypeRefs.StandardModuleAttribute]);
                 }
                 else if (value == SpecialClassModifier.Module)
                 {
-                    if (!this.IsDefined(IntermediateGateway.CommonlyUsedTypeReferences.StandardModuleAttribute, false))
-                        this.CustomAttributes.Add(new CustomAttributeDefinition.ParameterValueCollection(IntermediateGateway.CommonlyUsedTypeReferences.StandardModuleAttribute));
-                    if (this.IsDefined(IntermediateGateway.CommonlyUsedTypeReferences.ExtensionAttribute, false))
-                        this.CustomAttributes.Remove(this.CustomAttributes[IntermediateGateway.CommonlyUsedTypeReferences.ExtensionAttribute]);
+                    if (!this.IsDefined(CommonTypeRefs.StandardModuleAttribute, false))
+                        this.CustomAttributes.Add(new CustomAttributeDefinition.ParameterValueCollection(CommonTypeRefs.StandardModuleAttribute));
+                    if (this.IsDefined(CommonTypeRefs.ExtensionAttribute, false))
+                        this.CustomAttributes.Remove(this.CustomAttributes[CommonTypeRefs.ExtensionAttribute]);
                 }
-                else if (value == SpecialClassModifier.ExtensionTarget)
-                    if (!this.IsDefined(IntermediateGateway.CommonlyUsedTypeReferences.ExtensionAttribute, false))
-                        this.CustomAttributes.Add(new CustomAttributeDefinition.ParameterValueCollection(IntermediateGateway.CommonlyUsedTypeReferences.ExtensionAttribute));
+                else if (value == SpecialClassModifier.TypeExtensionSource)
+                    if (!this.IsDefined(CommonTypeRefs.ExtensionAttribute, false))
+                        this.CustomAttributes.Add(new CustomAttributeDefinition.ParameterValueCollection(CommonTypeRefs.ExtensionAttribute));
             }
         }
 
@@ -399,20 +390,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        /// <summary>
-        /// The <see cref="ITypeCollection"/> which represents the interfaces implemented by the
-        /// <see cref="IntermediateClassType"/>.
-        /// </summary>
-        public new ITypeCollection ImplementedInterfaces
-        {
-            get
-            {
-                if (this.implementedInterfaces == null)
-                    this.implementedInterfaces = new TypeCollection();
-                return this.implementedInterfaces;
-            }
-        }
-
         protected override FieldMember GetNewField(TypedName nameAndType)
         {
             var member = new IntermediateClassFieldMember<TInstanceIntermediateType>(nameAndType.Name, (TInstanceIntermediateType)this);
@@ -427,6 +404,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public override void Visit(IIntermediateTypeVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        IIntermediateInstantiableTypeImplementedInterfaces<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IClassFieldMember,
+                                                           IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IClassMethodMember,
+                                                           IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember,
+                                                           IClassType, IIntermediateClassType> IIntermediateClassType.ImplementedInterfaces
+        {
+            get
+            {
+                return this.ImplementedInterfaces;
+            }
         }
     }
 }

@@ -126,9 +126,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             ICompiledType compiledType = other as ICompiledType;
             if (compiledType != null &&
-                ((compiledType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Enum)) ||
-                 (compiledType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.ValueType)) ||
-                 (compiledType.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Object))))
+                ((compiledType.Equals(CommonTypeRefs.Enum)) ||
+                 (compiledType.Equals(CommonTypeRefs.ValueType)) ||
+                 (compiledType.Equals(CommonTypeRefs.Object))))
                 return true;
             return false;
         }

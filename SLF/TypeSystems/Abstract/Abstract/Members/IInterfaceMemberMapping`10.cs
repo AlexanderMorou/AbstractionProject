@@ -70,6 +70,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
             IIndexerSignatureParent<TIndexerSig, TParentSig>
     {
         /// <summary>
+        /// Returns the <see cref="IInterfaceType"/> which is represented by
+        /// the current mapping.
+        /// </summary>
+        IInterfaceType Target { get; }
+        /// <summary>
         /// Returns the list of implemented properties with
         /// a link back to the original interface member.
         /// </summary>

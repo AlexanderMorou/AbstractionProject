@@ -136,6 +136,9 @@
     <Compile Include="Oil\IIntermediateTypeVisitor.cs" />
     <Compile Include="Oil\IntermediateDynamicHandler+MethodDictionary.cs" />
     <Compile Include="Oil\IntermediateDynamicHandler.cs" />
+    <Compile Include="Oil\ImplementedInterfacesDictionary+LockedVariant.cs">
+      <DependentUpon>ImplementedInterfacesDictionary.cs</DependentUpon>
+    </Compile>
     <Compile Include="Oil\Members\IIntermediateDynamicMethod.cs" />
     <Compile Include="Oil\Members\IIntermediateMemberVisitor.cs" />
     <Compile Include="Oil\Members\IntermediateDynamicMethod.cs" />
@@ -465,7 +468,7 @@
     </Compile>
     <Compile Include="Oil\IntermediateFullDeclarationDictionary.cs" />
     <Compile Include="Oil\IntermediateFullTypeDictionary.cs" />
-    <Compile Include="Oil\IntermediateGateway+CommonlyUsedTypeReferences.cs" />
+    <Compile Include="Oil\CommonTypeRefs.cs" />
     <Compile Include="Oil\IntermediateGateway+CreateAssemblyDynamicBridge.cs">
       <DependentUpon>IntermediateGateway.cs</DependentUpon>
     </Compile>
@@ -479,9 +482,7 @@
       <DependentUpon>IntermediateGateway.cs</DependentUpon>
     </Compile>
     <Compile Include="Oil\IntermediateGateway.cs" />
-    <Compile Include="Oil\IntermediateGenericSegmentableInstantiableType+ImplementedInterfacesDictionary.cs">
-      <DependentUpon>IntermediateGenericSegmentableInstantiableType.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Oil\ImplementedInterfacesDictionary.cs" />
     <Compile Include="Oil\IntermediateGenericSegmentableInstantiableType+MemberDefinitions.cs">
       <DependentUpon>IntermediateGenericSegmentableInstantiableType.cs</DependentUpon>
     </Compile>
@@ -949,7 +950,6 @@
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqWhereBodyBuilder.cs" />
     <Compile Include="Oil\Expressions\IIntermediatePrimitiveVisitor.cs" />
     <Compile Include="_Internal\Ast\IntermediateCustomAttributesBaseCollection.cs" />
-    <Compile Include="_Internal\Ast\IntermediateImplementedInterfaces.cs" />
     <Compile Include="_Internal\Ast\SymbolType+CustomAttributeCollection.cs">
       <DependentUpon>SymbolType.cs</DependentUpon>
     </Compile>

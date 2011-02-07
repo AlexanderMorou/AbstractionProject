@@ -363,7 +363,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 nameCopy[j] = new GenericParameterData(currentTypeParamName);
                 parameterInfoCopy[j] = new TypedName(string.Format("item{0}", j + 1), currentTypeParamName);
             }
-            var getTupleName = new TypedName("GetTuple", IntermediateGateway.CommonlyUsedTypeReferences.Void);
+            var getTupleName = new TypedName("GetTuple", CommonTypeRefs.Void);
             IClassType[] tupleBaseTypes = new IClassType[7];
             /* *
              * Unrealistic example, but need to verify ability to obtain multiple 

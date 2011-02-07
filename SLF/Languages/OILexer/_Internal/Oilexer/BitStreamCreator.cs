@@ -110,7 +110,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
              * this.buffer.CopyTo(newBuffer, 0);
              * this.buffer = newBuffer;
              * */
-            var growBufferMethod = result.Methods.Add(new TypedName("GrowBuffer", IntermediateGateway.CommonlyUsedTypeReferences.Void));
+            var growBufferMethod = result.Methods.Add(new TypedName("GrowBuffer", CommonTypeRefs.Void));
             var totalSizeParameter = growBufferMethod.Parameters.Add(new TypedName("totalSize", typeof(int).GetTypeReference()));
 //          if (this.buffer == null)
 //          {
@@ -164,9 +164,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
              *     actualSize++;
              * }
              * */
-            IIntermediateClassMethodMember pushStringMethod = result.Methods.Add(new TypedName("Push", IntermediateGateway.CommonlyUsedTypeReferences.Void));
+            IIntermediateClassMethodMember pushStringMethod = result.Methods.Add(new TypedName("Push", CommonTypeRefs.Void));
             pushStringMethod.AccessLevel = AccessLevelModifiers.Public;
-            var sParameter = pushStringMethod.Parameters.Add(new TypedName("s", IntermediateGateway.CommonlyUsedTypeReferences.String));
+            var sParameter = pushStringMethod.Parameters.Add(new TypedName("s", CommonTypeRefs.String));
 //          if (buffer == null)
 
             var nullCheck = pushStringMethod.If(charBuffer.GetReference().EqualTo(IntermediateGateway.NullValue));
@@ -195,7 +195,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
 
         private static IIntermediateClassMethodMember AddPurgeMethod(IIntermediateClassType result, IIntermediateClassFieldMember charBufferSize)
         {
-            IIntermediateClassMethodMember purgeMethod = result.Methods.Add(new TypedName("Purge", IntermediateGateway.CommonlyUsedTypeReferences.Void));
+            IIntermediateClassMethodMember purgeMethod = result.Methods.Add(new TypedName("Purge", CommonTypeRefs.Void));
             purgeMethod.AccessLevel = AccessLevelModifiers.Public;
 //          actualSize = 0;
             purgeMethod.Assign(charBufferSize.GetReference(), IntermediateGateway.NumberZero);
@@ -213,7 +213,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
              * buffer[actualSize] = c;
              * actualSize++;
              * */
-            IIntermediateClassMethodMember pushMethod = result.Methods.Add(new TypedName("Push", IntermediateGateway.CommonlyUsedTypeReferences.Void));
+            IIntermediateClassMethodMember pushMethod = result.Methods.Add(new TypedName("Push", CommonTypeRefs.Void));
             pushMethod.AccessLevel = AccessLevelModifiers.Public;
             var cParameter = pushMethod.Parameters.Add(new TypedName("c", typeof(char).GetTypeReference()));
 //          if (buffer == null)

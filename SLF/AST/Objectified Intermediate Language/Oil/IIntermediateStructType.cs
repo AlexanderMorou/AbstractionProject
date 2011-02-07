@@ -18,12 +18,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// data structure type declaration.
     /// </summary>
     public interface IIntermediateStructType :
-        IIntermediateGenericType<IStructType, IIntermediateStructType>,
         IIntermediateInstantiableType<IStructCtorMember, IIntermediateStructCtorMember, IStructEventMember, 
             IIntermediateStructEventMember, IStructFieldMember, IIntermediateStructFieldMember, 
             IStructIndexerMember, IIntermediateStructIndexerMember, IStructMethodMember, 
             IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember, 
             IStructType, IIntermediateStructType>,
+        IIntermediateGenericType<IStructType, IIntermediateStructType>,
         IStructType
     {
         /// <summary>
@@ -31,5 +31,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// the <see cref="IIntermediateStructType"/> is declared
         /// </summary>
         new IIntermediateAssembly Assembly { get; }
+
+        /// <summary>
+        /// Returns the <see cref="IIntermediateInstantiableTypeImplementedInterfaces{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType}"/>
+        /// which represents the interfaces implemented by the current 
+        /// <see cref="IIntermediateStructType"/>.
+        /// </summary>
+        new IIntermediateInstantiableTypeImplementedInterfaces<IStructCtorMember, IIntermediateStructCtorMember, IStructEventMember,
+                                                               IIntermediateStructEventMember, IStructFieldMember, IIntermediateStructFieldMember,
+                                                               IStructIndexerMember, IIntermediateStructIndexerMember, IStructMethodMember,
+                                                               IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember,
+                                                               IStructType, IIntermediateStructType> ImplementedInterfaces { get; }
     }
 }

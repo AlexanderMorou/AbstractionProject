@@ -627,12 +627,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         protected override bool IsSubclassOfImpl(IType other)
         {
-            return other.Equals(IntermediateGateway.CommonlyUsedTypeReferences.Object);            
+            return other.Equals(CommonTypeRefs.Object);            
         }
 
         protected override IType BaseTypeImpl
         {
-            get { return IntermediateGateway.CommonlyUsedTypeReferences.Object; }
+            get { return CommonTypeRefs.Object; }
         }
 
         private IntermediateFullMemberDictionary _Members

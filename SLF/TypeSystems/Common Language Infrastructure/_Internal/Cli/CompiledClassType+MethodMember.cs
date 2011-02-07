@@ -134,7 +134,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get
                 {
-                    if (this.Parent.SpecialModifier == SpecialClassModifier.ExtensionTarget && this.IsStatic)
+                    if (this.Parent.SpecialModifier == SpecialClassModifier.TypeExtensionSource && this.IsStatic)
                         return this.MemberInfo.IsDefined(typeof(ExtensionAttribute), false);
                     return false;
                 }
