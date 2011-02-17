@@ -15,6 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         LinqSelectBody,
         ILinqFusionSelectBody
     {
+        private ILinqRangeVariable target;
         /// <summary>
         /// Creates a new <see cref="LinqFusionSelectBody"/> with the
         /// <paramref name="selection"/>, <paramref name="target"/>,
@@ -30,22 +31,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         public LinqFusionSelectBody(IExpression selection, string target, ILinqBody next)
             : base(selection)
         {
-            this.Target = target;
+            this.target = new LinqRangeVariable(this, target);
             this.Next = next;
         }
-        public LinqFusionSelectBody()
+        internal LinqFusionSelectBody()
         {
-
+            this.target = new LinqRangeVariable(this, string.Empty);
         }
 
         #region ILinqFusionBody Members
-
-        /// <summary>
-        /// Returns/sets the <see cref="String"/> representing the
-        /// local the current query data is stored into for use in the
-        /// <see cref="Next"/> <see cref="ILinqBody"/>.
-        /// </summary>
-        public string Target { get; set; }
 
         /// <summary>
         /// Returns/sets the <see cref="ILinqBody"/> which continues the query.
@@ -63,5 +57,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         {
             visitor.Visit(this);
         }
+
+        #region ILinqFusionBody Members
+
+        public ILinqRangeVariable Target
+        {
+            get { return this.target; }
+        }
+
+        #endregion
+
+        #region ILinqClause Members
+
+        public ClauseType Type
+        {
+            get { return ClauseType.ContinuationClause; }
+        }
+
+        #endregion
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Oil.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -18,10 +19,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         ILinqClause
     {
         /// <summary>
-        /// Returns/sets the name of the range variable
-        /// defined by the <see cref="ILinqFromClause"/>.
+        /// Returns the <see cref="ILinqRangeVariable"/> associated
+        /// to the <see cref="ILinqJoinClause"/>.
         /// </summary>
-        string RangeVariableName { get; set; }
+        ILinqRangeVariable RangeVariable { get; }
         /// <summary>
         /// Returns/sets the <see cref="IExpression"/> from which
         /// the langauge integrated query obtains its data from
@@ -29,10 +30,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// </summary>
         IExpression RangeSource { get; set; }
         /// <summary>
-        /// Returns/sets the name of the range variable which 
-        /// the data from the join operation is placed into.
+        /// Returns the <see cref="ILinqRangeVariable"/>
+        /// which denotes where the results of the join are 
+        /// placed associated to the <see cref="ILinqJoinClause"/>.
         /// </summary>
-        string IntoRangeVariableName { get; set; }
+        ILinqRangeVariable IntoRangeVariable { get; }
         /// <summary>
         /// Returns/sets the left <see cref="IExpression"/> which
         /// determines the join condition.

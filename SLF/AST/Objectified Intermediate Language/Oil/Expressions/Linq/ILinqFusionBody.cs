@@ -17,14 +17,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
     /// query expression.
     /// </summary>
     public interface ILinqFusionBody :
-        ILinqBody
+        ILinqBody,
+        ILinqClause
     {
         /// <summary>
-        /// Returns/sets the <see cref="String"/> representing the
+        /// Returns the <see cref="ILinqRangeVariable"/> representing the
         /// local the current query data is stored into for use in the
         /// <see cref="Next"/> <see cref="ILinqBody"/>.
         /// </summary>
-        string Target { get; set; }
+        ILinqRangeVariable Target { get; }
 
         /// <summary>
         /// Returns/sets the <see cref="ILinqBody"/> which continues the query.

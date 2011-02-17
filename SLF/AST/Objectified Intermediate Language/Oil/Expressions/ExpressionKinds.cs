@@ -579,5 +579,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// expression the label represents.
         /// </summary>
         public static readonly ExpressionKind SwitchCaseLabel                   = ExpressionKind.ReferenceSector.SwitchCaseLabel;
+        /// <summary>
+        /// The expression represents a reference to a range variable
+        /// within a language integrated query expression.
+        /// </summary>
+        public static readonly ExpressionKind RangeVariableReference            = ExpressionKind.ReferenceSector.RangeVariableReference;
     }
 }

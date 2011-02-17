@@ -19,9 +19,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         ILinqFromClause
     {
         /// <summary>
-        /// Gets/sets the type of element used in 
-        /// the range selection.
+        /// Returns the <see cref="ILinqTypedRangeVariable"/> associated
+        /// to the <see cref="ILinqTypedFromClause"/>.
         /// </summary>
-        IType RangeType { get; set; }
+        new ILinqTypedRangeVariable RangeVariable { get; }
     }
 }

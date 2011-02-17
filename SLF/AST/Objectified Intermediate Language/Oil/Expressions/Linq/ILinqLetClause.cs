@@ -19,10 +19,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         ILinqClause
     {
         /// <summary>
-        /// Returns/sets the name of the range variable defined by the
+        /// Returns the <see cref="ILinqRangeVariable"/> defined by the
         /// <see cref="ILinqLetClause"/>.
         /// </summary>
-        string RangeVariableName { get; set; }
+        ILinqRangeVariable RangeVariable { get; }
         /// <summary>
         /// Returns/sets the <see cref="IExpression"/> to assign to the
         /// range variable.

@@ -267,5 +267,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <param name="expression">The <see cref="IAssignmentExpression"/>
         /// to visit.</param>
         void Visit(IAssignmentExpression expression);
+        void Visit(ILinqRangeVariableReference expression);
     }
 }

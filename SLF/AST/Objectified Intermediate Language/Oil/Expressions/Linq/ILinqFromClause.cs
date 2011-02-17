@@ -19,10 +19,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         ILinqClause
     {
         /// <summary>
-        /// Returns/sets the name of the range variable
-        /// defined by the <see cref="ILinqFromClause"/>.
+        /// Returns the <see cref="ILinqRangeVariable"/> associated
+        /// to the <see cref="ILinqFromClause"/>.
         /// </summary>
-        string RangeVariableName { get; set; }
+        ILinqRangeVariable RangeVariable { get; }
         /// <summary>
         /// Returns/sets the <see cref="IExpression"/> from which
         /// the langauge integrated query obtains its data from

@@ -1328,11 +1328,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             /// label which acts as a forward to the constant
             /// expression the label represents.
             /// </summary>
-            SwitchCaseLabel =      0x0000000000004000,
+            SwitchCaseLabel =        0x0000000000004000,
+            RangeVariableReference = 0x0000000000008000,
             /// <summary>
             /// Represents every kind of reference.
             /// </summary>
-            All = 0x0000000000007FFF,
+            All = 0x000000000000FFFF,
         }
         /// <summary>
         /// The kinds of primitive value inserts possible.

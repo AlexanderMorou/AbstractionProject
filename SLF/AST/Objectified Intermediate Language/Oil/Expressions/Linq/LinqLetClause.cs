@@ -21,6 +21,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         LinqClauseBase,
         ILinqLetClause
     {
+        private string rangeVariableName;
+        private ILinqRangeVariable rangeVariable;
         /// <summary>
         /// Creates a new <see cref="LinqLetClause"/> with the
         /// <paramref name="rangeVariableName"/> and <paramref name="rangeSelector"/>
@@ -32,7 +34,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// range variable.</param>
         public LinqLetClause(string rangeVariableName, IExpression rangeSelector)
         {
-            this.RangeVariableName = rangeVariableName;
+            if (string.IsNullOrEmpty(rangeVariableName))
+                throw new ArgumentNullException("rangeVariableName");
+            this.rangeVariableName = rangeVariableName;
             this.RangeSource = rangeSelector;
         }
 
@@ -43,12 +47,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
 
         #region ILinqLetClause Members
 
-        /// <summary>
-        /// Returns/sets the name of the range variable defined by the
-        /// <see cref="LinqLetClause"/>.
-        /// </summary>
-        public string RangeVariableName { get; set; }
-
+        public ILinqRangeVariable RangeVariable
+        {
+            get
+            {
+                if (rangeVariable == null)
+                {
+                    rangeVariable = new LinqRangeVariable(this, rangeVariableName);;
+                    this.rangeVariableName = null;
+                }
+                return this.rangeVariable;
+            }
+        }
         /// <summary>
         /// Returns/sets the <see cref="IExpression"/> to assign to the
         /// range variable.
@@ -64,7 +74,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
 
         public override string ToString()
         {
-            return string.Format(CultureInfo.CurrentCulture, "let {0} = {1}", RangeVariableName, RangeSource);
+            return string.Format(CultureInfo.CurrentCulture, "let {0} = {1}", RangeVariable.Name, RangeSource);
         }
 
         public override void Visit(ILinqVisitor visitor)

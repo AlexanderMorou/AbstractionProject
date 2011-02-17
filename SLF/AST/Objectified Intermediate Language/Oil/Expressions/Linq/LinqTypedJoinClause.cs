@@ -17,21 +17,28 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         LinqJoinClause,
         ILinqTypedJoinClause
     {
+        private IType rangeType;
+
         public LinqTypedJoinClause(TypedName rangeVariable, IExpression rangeSource, IExpression leftCondition, IExpression rightCondition, string intoRangeVariableName)
-            : this(rangeVariable, rangeSource, leftCondition, rightCondition)
+            : base(rangeVariable.Name, rangeSource, leftCondition, rightCondition, intoRangeVariableName)
         {
-            this.IntoRangeVariableName = intoRangeVariableName;
+            SetRangeVariableType(rangeVariable);
         }
         public LinqTypedJoinClause(TypedName rangeVariable, IExpression rangeSource, IExpression leftCondition, IExpression rightCondition)
             : base(rangeVariable.Name, rangeSource, leftCondition, rightCondition)
         {
+            SetRangeVariableType(rangeVariable);
+        }
+
+        private void SetRangeVariableType(TypedName rangeVariable)
+        {
             switch (rangeVariable.Source)
             {
                 case TypedNameSource.TypeReference:
-                    this.RangeType = rangeVariable.Reference;
+                    this.rangeType = rangeVariable.Reference;
                     break;
                 case TypedNameSource.SymbolReference:
-                    this.RangeType = rangeVariable.SymbolReference.GetSymbolType();
+                    this.rangeType = rangeVariable.SymbolReference.GetSymbolType();
                     break;
                 case TypedNameSource.InvalidReference:
                     throw new ArgumentOutOfRangeException("rangeVariable");
@@ -44,26 +51,30 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         {
         }
 
-        #region ILinqTypedJoinClause Members
-
-        /// <summary>
-        /// Gets/sets the type of element used in 
-        /// the range selection.
-        /// </summary>
-        public IType RangeType { get; set; }
-
-        #endregion
-
+        
+        protected override ILinqRangeVariable CreateRangeVariable(string rangeVariableName)
+        {
+            return new LinqTypedRangeVariable(this, rangeVariableName, this.rangeType);
+        }
 
         public override string ToString()
         {
-            if (this.RangeType == null)
-                return string.Format(CultureInfo.CurrentCulture, "join {1} in {2} on {3} equals {4} into {5}", RangeType, RangeVariableName, RangeSource, LeftSelector, RightSelector, IntoRangeVariableName);
-            return string.Format(CultureInfo.CurrentCulture, "join {0} {1} in {2} on {3} equals {4}", RangeType, RangeVariableName, RangeSource, LeftSelector, RightSelector);
+            if (this.IntoRangeVariable != null)
+                return string.Format(CultureInfo.CurrentCulture, "join {0} {1} in {2} on {3} equals {4} into {5}", this.RangeVariable.RangeType, this.RangeVariable.Name, RangeSource, LeftSelector, RightSelector, this.IntoRangeVariable.Name);
+            return string.Format(CultureInfo.CurrentCulture, "join {0} {1} in {2} on {3} equals {4}", this.RangeVariable.RangeType, this.RangeVariable.Name, RangeSource, LeftSelector, RightSelector);
         }
         public override void Visit(ILinqVisitor visitor)
         {
             visitor.Visit(this);
         }
+
+        #region ILinqTypedJoinClause Members
+
+        public new ILinqTypedRangeVariable RangeVariable
+        {
+            get { return ((ILinqTypedRangeVariable)base.RangeVariable); }
+        }
+
+        #endregion
     }
 }
