@@ -181,7 +181,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast.Expressions.Linq
                         var next = pathNodes[++i] as LinqFusionBodyBuilder;
                         if (next == null)
                             break;
-                        gfbCurrent.Target = next.IntoRangeName;
+                        gfbCurrent.Target.Name = next.IntoRangeName;
                         gfbCurrent.Next = currentBody = GetBody(bodyTypes[bodyIndex++]);
                     }
                 }
@@ -211,7 +211,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast.Expressions.Linq
                         var next = pathNodes[++i] as LinqFusionBodyBuilder;
                         if (next == null)
                             break;
-                        sfbCurrent.Target = next.IntoRangeName;
+                        sfbCurrent.Target.Name = next.IntoRangeName;
                         sfbCurrent.Next = currentBody = GetBody(bodyTypes[bodyIndex++]);
                     }
                 }

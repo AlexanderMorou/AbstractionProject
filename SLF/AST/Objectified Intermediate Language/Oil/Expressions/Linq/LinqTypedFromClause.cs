@@ -20,6 +20,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         LinqFromClause,
         ILinqTypedFromClause
     {
+        private IType rangeType;
+
         /// <summary>
         /// Creates a new <see cref="LinqTypedFromClause"/> which has
         /// an explicit type referenced to its <paramref name="rangeVariable"/>.
@@ -34,10 +36,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
             switch (rangeVariable.Source)
             {
                 case TypedNameSource.TypeReference:
-                    this.RangeType = rangeVariable.Reference;
+                    this.rangeType = rangeVariable.Reference;
                     break;
                 case TypedNameSource.SymbolReference:
-                    this.RangeType = rangeVariable.SymbolReference.GetSymbolType();
+                    this.rangeType = rangeVariable.SymbolReference.GetSymbolType();
                     break;
                 case TypedNameSource.InvalidReference:
                     throw new ArgumentOutOfRangeException("rangeVariable");
@@ -46,11 +48,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
             }
         }
         /// <summary>
-        /// Gets/sets the type of element used in 
-        /// the range selection.
-        /// </summary>
-        public IType RangeType { get; set; }
-        /// <summary>
         /// Obtains a <see cref="String"/> representing the current
         /// <see cref="LinqTypedFromClause"/>.
         /// </summary>
@@ -58,12 +55,33 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// <see cref="LinqTypedFromClause"/>.</returns>
         public override string ToString()
         {
-            return string.Format(CultureInfo.CurrentCulture, "from {0} {1} in {2}", this.RangeType.FullName, this.RangeVariableName, this.RangeSource);
+            return string.Format(CultureInfo.CurrentCulture, "from {0} {1} in {2}", this.RangeVariable.RangeType.FullName, this.RangeVariable.Name, this.RangeSource);
         }
 
         public override void Visit(ILinqVisitor visitor)
         {
             visitor.Visit(this);
         }
+
+        /// <summary>
+        /// Creates the <see cref="RangeVariable"/> as defined on the parent.
+        /// </summary>
+        /// <param name="rangeVariableName">The <see cref="String"/> value representing
+        /// the name of the range variable.</param>
+        /// <returns>A new <see cref="LinqTypedRangeVariable"/> with the
+        /// <paramref name="rangeVariableName"/> provided.</returns>
+        protected override sealed ILinqRangeVariable CreateRangeVariable(string rangeVariableName)
+        {
+            return new LinqTypedRangeVariable(this, rangeVariableName, this.rangeType);
+        }
+
+        #region ILinqTypedFromClause Members
+
+        public new ILinqTypedRangeVariable RangeVariable
+        {
+            get { return (ILinqTypedRangeVariable)base.RangeVariable; }
+        }
+
+        #endregion
     }
 }

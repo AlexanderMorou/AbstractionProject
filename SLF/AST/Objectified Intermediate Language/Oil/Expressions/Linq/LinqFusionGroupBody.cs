@@ -35,7 +35,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
             this.Key = key;
         }
 
-        public LinqFusionGroupBody()
+        internal LinqFusionGroupBody()
+            : base()
         {
         }
 

@@ -20,9 +20,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         ILinqJoinClause
     {
         /// <summary>
-        /// Gets/sets the type of element used in 
-        /// the range selection.
+        /// Returns the <see cref="ILinqTypedRangeVariable"/> associated
+        /// to the <see cref="ILinqTypedJoinClause"/>.
         /// </summary>
-        IType RangeType { get; set; }
+        new ILinqTypedRangeVariable RangeVariable { get; }
     }
 }

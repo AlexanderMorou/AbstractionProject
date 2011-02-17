@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -241,5 +242,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             where TIntermediateParent :
                 TParent,
                 IIntermediateParameterParent;
+
+        /// <summary>
+        /// Visits the <paramref name="rangeVariable"/> provided.
+        /// </summary>
+        /// <param name="rangeVariable">The <see cref="ILinqRangeVariable"/>
+        /// to visit.</param>
+        void Visit(ILinqRangeVariable rangeVariable);
     }
 }

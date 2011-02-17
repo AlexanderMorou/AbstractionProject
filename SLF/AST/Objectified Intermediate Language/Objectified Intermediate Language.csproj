@@ -130,6 +130,12 @@
     <Compile Include="Oil\Expressions\IBoundWorkspaceExpression.cs" />
     <Compile Include="Oil\Expressions\IWorkspaceExpression.cs" />
     <Compile Include="Oil\Expressions\IWorkspaceScopeExpression.cs" />
+    <Compile Include="Oil\Expressions\Linq\ILinqRangeVariable.cs" />
+    <Compile Include="Oil\Expressions\Linq\ILinqRangeVariableReference.cs" />
+    <Compile Include="Oil\Expressions\Linq\ILinqTypedRangeVariable.cs" />
+    <Compile Include="Oil\Expressions\Linq\LinqRangeVariable+Reference.cs" />
+    <Compile Include="Oil\Expressions\Linq\LinqRangeVariable.cs" />
+    <Compile Include="Oil\Expressions\Linq\LinqTypedRangeVariable.cs" />
     <Compile Include="Oil\IIntermediateDeclarationVisitor.cs" />
     <Compile Include="Oil\IIntermediateDynamicHandler.cs" />
     <Compile Include="Oil\IIntermediateInclusionVisitor.cs" />
@@ -318,7 +324,6 @@
     <Compile Include="Oil\Expressions\Linq\ILinqTypedFromClause.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqTypedJoinClause.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqWhereClause.cs" />
-    <Compile Include="Oil\Expressions\Linq\IRangeVariableReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqBody.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqClauseBase.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqClauseCollection.cs" />

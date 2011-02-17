@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Oil.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -20,7 +21,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// </summary>
         FromClause,
         /// <summary>
-        /// The clause is assigns a temporary storage element for use within the query.
+        /// The clause is assigns a temporary storage element for use within
+        /// the query.
         /// </summary>
         LetClause,
         /// <summary>
@@ -37,13 +39,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// the elements of the range variables in scope.
         /// </summary>
         OrderByClause,
+        /// <summary>
+        /// The clause is a select or group by which continues into 
+        /// another query.
+        /// </summary>
+        ContinuationClause,
     }
 
     /// <summary>
     /// Defines properties and methods for working with a language integrated
     /// query clause.
     /// </summary>
-    public interface ILinqClause
+    public interface ILinqClause :
+        IIntermediateMemberParent
     {
         /// <summary>
         /// Returns the kind of clause the <see cref="ILinqClause"/> is.
