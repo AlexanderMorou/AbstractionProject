@@ -52,42 +52,42 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
     {
         /// <summary>
-        /// Adds a new <see cref="TIntermediateSignature"/> with the
+        /// Adds a new <typeparamref name="TIntermediateSignature"/> with the
         /// <paramref name="name"/> provided.
         /// </summary>
         /// <param name="name">The <see cref="String"/> representing the name the method is referred to by.</param>
-        /// <returns>A new <see cref="TIntermediateSignature"/> instance
+        /// <returns>A new <typeparamref name="TIntermediateSignature"/> instance
         /// which has a <see cref="System.Void"/> return-type.</returns>
         TIntermediateSignature Add(string name);
         /// <summary>
-        /// Adds a new <see cref="TIntermediateSignature"/> with the
+        /// Adds a new <typeparamref name="TIntermediateSignature"/> with the
         /// <paramref name="name"/> and <paramref name="parameters"/> provided.
         /// </summary>
         /// <param name="name">The <see cref="String"/> representing the name the method is referred to by.</param>
         /// <param name="parameters">The <see cref="TypedNameSeries"/> which designates
-        /// the parameter names and types of the new <see cref="TIntermediateSignature"/>.</param>
-        /// <returns>A new <see cref="TIntermediateSignature"/> instance
+        /// the parameter names and types of the new <typeparamref name="TIntermediateSignature"/>.</param>
+        /// <returns>A new <typeparamref name="TIntermediateSignature"/> instance
         /// which has a <see cref="System.Void"/> return-type.</returns>
         TIntermediateSignature Add(string name, TypedNameSeries parameters);
         /// <summary>
-        /// Adds a new <see cref="TIntermediateSignature"/> with the
+        /// Adds a new <typeparamref name="TIntermediateSignature"/> with the
         /// <paramref name="name"/>, <paramref name="parameters"/>, and
         /// <paramref name="typeParameters"/>provided.
         /// </summary>
         /// <param name="name">The <see cref="String"/> representing the name the method is referred to by.</param>
         /// <param name="parameters">The <see cref="TypedNameSeries"/> which designates
-        /// the parameter names and types of the new <see cref="TIntermediateSignature"/>.</param>
+        /// the parameter names and types of the new <typeparamref name="TIntermediateSignature"/>.</param>
         /// <param name="typeParameters">An array of <see cref="GenericParameterData"/> which
         /// defines the type-parameters and their individual type and functional constraints.</param>
         /// <returns>A new <typeparamref name="TIntermediateSignature"/>
         /// which has a <see cref="System.Void"/> return-type.</returns>
-        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> is null, or <see cref="typeParameters"/>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> is null, or <paramref name="typeParameters"/>
         /// is null.</exception>
         /// <exception cref="System.ArgumentException">thrown when <paramref name="name"/> is <see cref="String.Empty"/>
         /// or an element of <paramref name="parameters"/>, or <paramref name="typeParameters"/> contains an invalid type-reference (<see cref="System.Void"/>).</exception>
         TIntermediateSignature Add(string name, TypedNameSeries parameters, params GenericParameterData[] typeParameters);
         /// <summary>
-        /// Adds a new <see cref="TIntermediateSignature"/>
+        /// Adds a new <typeparamref name="TIntermediateSignature"/>
         /// instance with the <paramref name="nameAndReturn"/> provided.
         /// </summary>
         /// <param name="nameAndReturn">A <see cref="TypedName"/> which designates the name of the method and its
@@ -95,35 +95,51 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <returns>A new <typeparamref name="TIntermediateSignature"/>.</returns>
         TIntermediateSignature Add(TypedName nameAndReturn);
         /// <summary>
-        /// Adds a new <see cref="TIntermediateSignature"/>
+        /// Adds a new <typeparamref name="TIntermediateSignature"/>
         /// instance with the <paramref name="parameters"/>, <paramref name="nameAndReturn"/> provided.
         /// </summary>
         /// <param name="nameAndReturn">A <see cref="TypedName"/> which designates the name of the method and its
         /// return-type.</param>
         /// <param name="parameters">The <see cref="TypedNameSeries"/> which designates
-        /// the parameter names and types of the new <see cref="TIntermediateSignature"/>.</param>
+        /// the parameter names and types of the new <typeparamref name="TIntermediateSignature"/>.</param>
         /// <returns>A new <typeparamref name="TIntermediateSignature"/>.</returns>
-        /// <exception cref="System.ArgumentException">thrown when <paramref name="name"/> is <see cref="String.Empty"/>
+        /// <exception cref="System.ArgumentException">thrown when the name portion of <paramref name="nameAndReturn"/> is <see cref="String.Empty"/>
         /// or an element of <paramref name="parameters"/> contains an invalid type-reference (<see cref="System.Void"/>).</exception>
         TIntermediateSignature Add(TypedName nameAndReturn, TypedNameSeries parameters);
         /// <summary>
-        /// Adds a new <see cref="TIntermediateSignature"/>
+        /// Adds a new <typeparamref name="TIntermediateSignature"/>
         /// instane with the <paramref name="parameters"/>, <paramref name="typeParameters"/>, <paramref name="nameAndReturn"/>
         /// provided.
         /// </summary>
         /// <param name="nameAndReturn">A <see cref="TypedName"/> which designates the name of the method and its
         /// return-type.</param>
         /// <param name="parameters">The <see cref="TypedNameSeries"/> which designates
-        /// the parameter names and types of the new <see cref="TIntermediateSignature"/>.</param>
+        /// the parameter names and types of the new <typeparamref name="TIntermediateSignature"/>.</param>
         /// <param name="typeParameters">An array of <see cref="GenericParameterData"/> which
         /// defines the type-parameters and their individual type and functional constraints.</param>
         /// <returns>A new <typeparamref name="TIntermediateSignature"/>.</returns>
-        /// <exception cref="System.ArgumentException">thrown when <paramref name="name"/> is <see cref="String.Empty"/>
+        /// <exception cref="System.ArgumentException">thrown when the name portion of <paramref name="nameAndReturn"/> is <see cref="String.Empty"/>
         /// or an element of <paramref name="parameters"/>, or <paramref name="typeParameters"/> contains an invalid type-reference (<see cref="System.Void"/>).</exception>
-        /// <exception cref="System.ArgumentNullException">thrown when <see cref="typeParameters"/>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="typeParameters"/>
         /// is null.</exception>
         TIntermediateSignature Add(TypedName nameAndReturn, TypedNameSeries parameters, params GenericParameterData[] typeParameters);
+
+        /// <summary>
+        /// Adds a new <typeparamref name="TIntermediateSignature"/> with the <paramref name="name"/>
+        /// and <paramref name="signature"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value which represents the unique identifier associated
+        /// to the new <typeparamref name="TIntermediateSignature"/>.</param>
+        /// <param name="signature">The <see cref="IDelegateType"/> which denotes the return-type
+        /// and parameters of the <typeparamref name="TIntermediateSignature"/>.</param>
+        /// <returns>A new <typeparamref name="TIntermediateSignature"/> with the <paramref name="name"/> provided
+        /// which has the <paramref name="signature"/> provided.</returns>
+        TIntermediateSignature Add(string name, IDelegateType signature);
     }
+    /// <summary>
+    /// Defines properties and methods for working with a series of intermediate
+    /// method signature instances.
+    /// </summary>
     public interface IIntermediateMethodSignatureMemberDictionary :
         IIntermediateSignatureMemberDictionary,
         IIntermediateGroupedMemberDictionary,
@@ -157,9 +173,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// the parameter names and types of the new <see cref="IIntermediateMethodSignatureMember"/>.</param>
         /// <param name="typeParameters">An array of <see cref="GenericParameterData"/> which
         /// defines the type-parameters and their individual type and functional constraints.</param>
-        /// <returns>A new <see cref="IIntermediateMethodSignatureMmber"/>
+        /// <returns>A new <see cref="IIntermediateMethodSignatureMember"/>
         /// which has a <see cref="System.Void"/> return-type.</returns>
-        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> is null, or <see cref="typeParameters"/>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> is null, or <paramref name="typeParameters"/>
         /// is null.</exception>
         /// <exception cref="System.ArgumentException">thrown when <paramref name="name"/> is <see cref="String.Empty"/>
         /// or an element of <paramref name="parameters"/>, or <paramref name="typeParameters"/> contains an invalid type-reference (<see cref="System.Void"/>).</exception>
@@ -170,7 +186,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// </summary>
         /// <param name="nameAndReturn">A <see cref="TypedName"/> which designates the name of the method and its
         /// return-type.</param>
-        /// <returns>A new <see cref="IIntermediateMethodSignatureMmber"/>.</returns>
+        /// <returns>A new <see cref="IIntermediateMethodSignatureMember"/>.</returns>
         IIntermediateMethodSignatureMember Add(TypedName nameAndReturn);
         /// <summary>
         /// Adds a new <see cref="IIntermediateMethodSignatureMember"/>
@@ -180,8 +196,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// return-type.</param>
         /// <param name="parameters">The <see cref="TypedNameSeries"/> which designates
         /// the parameter names and types of the new <see cref="IIntermediateMethodSignatureMember"/>.</param>
-        /// <returns>A new <see cref="IIntermediateMethodSignatureMmber"/>.</returns>
-        /// <exception cref="System.ArgumentException">thrown when <paramref name="name"/> is <see cref="String.Empty"/>
+        /// <returns>A new <see cref="IIntermediateMethodSignatureMember"/>.</returns>
+        /// <exception cref="System.ArgumentException">thrown when the name portion of <paramref name="nameAndReturn"/> is <see cref="String.Empty"/>
         /// or an element of <paramref name="parameters"/> contains an invalid type-reference (<see cref="System.Void"/>).</exception>
         IIntermediateMethodSignatureMember Add(TypedName nameAndReturn, TypedNameSeries parameters);
         /// <summary>
@@ -195,11 +211,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// the parameter names and types of the new <see cref="IIntermediateMethodSignatureMember"/>.</param>
         /// <param name="typeParameters">An array of <see cref="GenericParameterData"/> which
         /// defines the type-parameters and their individual type and functional constraints.</param>
-        /// <returns>A new <see cref="IIntermediateMethodSignatureMmber"/>.</returns>
-        /// <exception cref="System.ArgumentException">thrown when <paramref name="name"/> is <see cref="String.Empty"/>
+        /// <returns>A new <see cref="IIntermediateMethodSignatureMember"/>.</returns>
+        /// <exception cref="System.ArgumentException">thrown when the name portion of <paramref name="nameAndReturn"/> is <see cref="String.Empty"/>
         /// or an element of <paramref name="parameters"/>, or <paramref name="typeParameters"/> contains an invalid type-reference (<see cref="System.Void"/>).</exception>
-        /// <exception cref="System.ArgumentNullException">thrown when <see cref="typeParameters"/>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="typeParameters"/>
         /// is null.</exception>
         IIntermediateMethodSignatureMember Add(TypedName nameAndReturn, TypedNameSeries parameters, params GenericParameterData[] typeParameters);
+        /// <summary>
+        /// Adds a new <see cref="IIntermediateMethodSignatureMember"/> with the <paramref name="name"/>
+        /// and <paramref name="signature"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value which represents the unique identifier associated
+        /// to the new <see cref="IIntermediateMethodSignatureMember"/>.</param>
+        /// <param name="signature">The <see cref="IDelegateType"/> which denotes the return-type
+        /// and parameters of the <see cref="IIntermediateMethodSignatureMember"/>.</param>
+        /// <returns>A new <see cref="IIntermediateMethodSignatureMember"/> with the <paramref name="name"/> provided
+        /// which has the <paramref name="signature"/> provided.</returns>
+        IIntermediateMethodSignatureMember Add(string name, IDelegateType signature);
+
     }
 }

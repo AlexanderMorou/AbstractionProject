@@ -51,7 +51,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         {
         }
 
-        
+        /// <summary>
+        /// Creates the <see cref="RangeVariable"/> as defined on the parent.
+        /// </summary>
+        /// <param name="rangeVariableName">The <see cref="String"/> value representing
+        /// the name of the range variable.</param>
+        /// <returns>A new <see cref="LinqTypedRangeVariable"/> with the
+        /// <paramref name="rangeVariableName"/> provided.</returns>
         protected override ILinqRangeVariable CreateRangeVariable(string rangeVariableName)
         {
             return new LinqTypedRangeVariable(this, rangeVariableName, this.rangeType);

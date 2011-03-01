@@ -18,10 +18,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         IMemberParentReferenceExpression
     {
         /// <summary>
-        /// Returns the <see cref="IEventMember"/> which the 
+        /// Returns the <see cref="IEventReferenceExpression"/> which the 
         /// <see cref="IEventInvokeExpression"/> invokes.
         /// </summary>
-        IEventMember Reference { get; }
+        IEventReferenceExpression Reference { get; }
         /// <summary>
         /// Returns the <see cref="IExpressionCollection"/> used
         /// to invoke the <see cref="Reference"/> event.

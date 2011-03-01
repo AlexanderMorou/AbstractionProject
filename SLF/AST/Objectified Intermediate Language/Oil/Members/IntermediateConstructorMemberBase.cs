@@ -519,17 +519,69 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public void DefineLabel(ILabelStatement label)
         {
-            this.statementContainer.DefineLabel(label);
+            this.StatementContainer.DefineLabel(label);
         }
+
+
+        public IChangeEventHandlerStatement AddHandler(IEventReferenceExpression targetEvent, IMethodPointerReferenceExpression sourceMethod)
+        {
+            return this.StatementContainer.AddHandler(targetEvent, sourceMethod);
+        }
+
+        public IChangeEventHandlerStatement AddHandler(IMemberParentReferenceExpression target, string eventName, IMethodPointerReferenceExpression sourceMethod)
+        {
+            return this.StatementContainer.AddHandler(target, eventName, sourceMethod);
+        }
+
+        public IChangeEventHandlerStatement AddHandler(IMemberParentReferenceExpression target, string eventName, string methodName)
+        {
+            return this.StatementContainer.AddHandler(target, eventName, methodName);
+        }
+
+        public IChangeEventHandlerStatement ChangeHandler(IEventReferenceExpression targetEvent, EventHandlerChangeKind changeKind, IMethodPointerReferenceExpression sourceMethod)
+        {
+            return this.StatementContainer.ChangeHandler(targetEvent, changeKind, sourceMethod);
+        }
+
+        public IChangeEventHandlerStatement ChangeHandler(IMemberParentReferenceExpression target, string eventName, EventHandlerChangeKind changeKind, IMethodPointerReferenceExpression sourceMethod)
+        {
+            return this.StatementContainer.ChangeHandler(target, eventName, changeKind, sourceMethod);
+        }
+
+        public IChangeEventHandlerStatement ChangeHandler(IMemberParentReferenceExpression target, string eventName, EventHandlerChangeKind changeKind, string methodName)
+        {
+            return this.StatementContainer.ChangeHandler(target, eventName, changeKind, methodName);
+        }
+
+        public IChangeEventHandlerStatement RemoveHandler(IEventReferenceExpression targetEvent, IMethodPointerReferenceExpression sourceMethod)
+        {
+            return this.StatementContainer.RemoveHandler(targetEvent, sourceMethod);
+        }
+
+        public IChangeEventHandlerStatement RemoveHandler(IMemberParentReferenceExpression target, string eventName, IMethodPointerReferenceExpression sourceMethod)
+        {
+            return this.StatementContainer.RemoveHandler(target, eventName, sourceMethod);
+        }
+
+        public IChangeEventHandlerStatement RemoveHandler(IMemberParentReferenceExpression target, string eventName, string methodName)
+        {
+            return this.StatementContainer.RemoveHandler(target, eventName, methodName);
+        }
+
+        public ICommentStatement Comment(string comment)
+        {
+            return this.StatementContainer.Comment(comment);
+        }
+
         #endregion
 
 
         #region IControlledStateCollection<IStatement> Members
 
         /// <summary>:
-        /// Gets the number of elements contained in the <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>.</summary>
+        /// Gets the number of elements contained in the <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/>.</summary>
         /// <returns>
-        /// The number of elements contained in the <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>.</returns>
+        /// The number of elements contained in the <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/>.</returns>
         public int Count
         {
             get
@@ -544,12 +596,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         /// <summary>
-        /// Determines whether the <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/> contains a specific 
+        /// Determines whether the <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/> contains a specific 
         /// value.</summary>
         /// <param name="item">
-        /// The object to locate in the <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>.</param>
+        /// The object to locate in the <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/>.</param>
         /// <returns>
-        /// true if <paramref name="item"/> is found in the <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>;
+        /// true if <paramref name="item"/> is found in the <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/>;
         /// otherwise, false.
         /// </returns>
         public bool Contains(IStatement item)
@@ -563,13 +615,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         /// <summary>
-        /// Copies the elements of the <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/> to an
+        /// Copies the elements of the <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/> to an
         /// <see cref="System.Array"/>, starting at a particular <see cref="System.Array"/> 
         /// index.
         /// </summary>
         /// <param name="array">
         /// The one-dimensional <see cref="System.Array"/> that is the destination of the 
-        /// elements copied from <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>. The 
+        /// elements copied from <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/>. The 
         /// <see cref="System.Array"/> must
         /// have zero-based indexing.</param>
         /// <param name="arrayIndex">
@@ -581,7 +633,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <exception cref="System.ArgumentException">
         /// <paramref name="array"/> is multidimensional.-or-<paramref name="arrayIndex"/> 
         /// is equal to or greater than the length of <paramref name="array"/>.-or-The 
-        /// number of elements in the source <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/> is greater 
+        /// number of elements in the source <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/> is greater 
         /// than the available space from <paramref name="arrayIndex"/> to the 
         /// end of the destination <paramref name="array"/>.</exception>
         public void CopyTo(IStatement[] array, int arrayIndex)
@@ -602,7 +654,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <returns>The instance of <typeparamref name="T"/> at the index provided.</returns>
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// <paramref name="index"/> is  beyond the range of the 
-        /// <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>.
+        /// <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/>.
         /// </exception>
         public IStatement this[int index]
         {
@@ -619,7 +671,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         /// <summary>
-        /// Translates the <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/> into a flat <see cref="System.Array"/>
+        /// Translates the <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/> into a flat <see cref="System.Array"/>
         /// of <typeparamref name="T"/> elements.
         /// </summary>
         /// <returns>A new <see cref="System.Array"/> of <typeparamref name="T"/> instances.</returns>
@@ -639,9 +691,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <paramref name="element"/> provided.
         /// </summary>
         /// <param name="element">The <typeparamref name="T"/>
-        /// instance to find within the <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>.</param>
+        /// instance to find within the <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/>.</param>
         /// <returns>-1 if the <paramref name="element"/> was not found within
-        /// the <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>; a positive <see cref="Int32"/>
+        /// the <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/>; a positive <see cref="Int32"/>
         /// value indicating the ordinal index of <paramref name="element"/>
         /// otherwise.</returns>
         public int IndexOf(IStatement element)
@@ -675,7 +727,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         #endregion
-
 
         #endregion
 

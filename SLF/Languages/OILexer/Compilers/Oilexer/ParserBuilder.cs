@@ -223,10 +223,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
             IIntermediateNamespaceDeclaration targetNamespace = project.DefaultNamespace.Parts.Add();
             IIntermediateClassType targetType;
             targetType = targetNamespace.Classes.Add(string.Format("{0}StateMachine", tokenName));
-            if (project.Modules.ContainsKey("Lexer"))
-                targetType.DeclaringModule = project.Modules["Lexer"];
-            else
-                targetType.DeclaringModule = project.Modules.Add("Lexer");
             var stateMachine = targetType;
             stateMachine.AccessLevel = AccessLevelModifiers.Internal;
             stateMachine.BaseType = charStream.BitStream;

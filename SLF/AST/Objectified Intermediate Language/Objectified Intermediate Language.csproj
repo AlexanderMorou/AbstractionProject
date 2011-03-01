@@ -122,7 +122,9 @@
     <Compile Include="Compilers\ICompilerSourceModelWarning{T1-T4}.cs" />
     <Compile Include="Compilers\ICompilerSourceWarning.cs" />
     <Compile Include="Compilers\ICompilerWarning.cs" />
+    <Compile Include="Oil\Expressions\EventReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\IBoundTypeOfExpression.cs" />
+    <Compile Include="Oil\Expressions\IEventReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\IMalleableSpecialReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\IMalleableTypeOfExpression.cs" />
     <Compile Include="Oil\Expressions\IBoundLocalReferenceExpression.cs" />
@@ -149,6 +151,10 @@
     <Compile Include="Oil\Members\IIntermediateMemberVisitor.cs" />
     <Compile Include="Oil\Members\IntermediateDynamicMethod.cs" />
     <Compile Include="Oil\Modules\IntermediateModuleDictionary+AbstractValueCollection.cs" />
+    <Compile Include="Oil\Statements\ChangeEventHandlerStatement.cs" />
+    <Compile Include="Oil\Statements\CommentStatement.cs" />
+    <Compile Include="Oil\Statements\IChangeEventHandlerStatement.cs" />
+    <Compile Include="Oil\Statements\ICommentStatement.cs" />
     <Compile Include="Parsers\IParserSyntaxErrorCollection.cs" />
     <Compile Include="Parsers\IParserSyntaxError.cs" />
     <Compile Include="Languages\ISourceRelatedError.cs" />
@@ -972,6 +978,7 @@
     </Compile>
     <Compile Include="_Internal\Ast\SymbolType.cs" />
     <Compile Include="_Internal\Ast\_IIntermediateGenericType.cs" />
+    <Compile Include="_Internal\DictionaryHelpers.cs" />
     <Compile Include="_Internal\GenericLayer\_SymbolType.cs" />
     <Compile Include="_Internal\ResourceFormatter.cs" />
   </ItemGroup>

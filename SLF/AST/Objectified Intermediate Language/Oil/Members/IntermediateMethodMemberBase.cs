@@ -516,8 +516,60 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public void DefineLabel(ILabelStatement label)
         {
-            this.statementContainer.DefineLabel(label);
+            this.StatementContainer.DefineLabel(label);
         }
+
+
+        public IChangeEventHandlerStatement AddHandler(IEventReferenceExpression targetEvent, IMethodPointerReferenceExpression sourceMethod)
+        {
+            return this.StatementContainer.AddHandler(targetEvent, sourceMethod);
+        }
+
+        public IChangeEventHandlerStatement AddHandler(IMemberParentReferenceExpression target, string eventName, IMethodPointerReferenceExpression sourceMethod)
+        {
+            return this.StatementContainer.AddHandler(target, eventName, sourceMethod);
+        }
+
+        public IChangeEventHandlerStatement AddHandler(IMemberParentReferenceExpression target, string eventName, string methodName)
+        {
+            return this.StatementContainer.AddHandler(target, eventName, methodName);
+        }
+
+        public IChangeEventHandlerStatement ChangeHandler(IEventReferenceExpression targetEvent, EventHandlerChangeKind changeKind, IMethodPointerReferenceExpression sourceMethod)
+        {
+            return this.StatementContainer.ChangeHandler(targetEvent, changeKind, sourceMethod);
+        }
+
+        public IChangeEventHandlerStatement ChangeHandler(IMemberParentReferenceExpression target, string eventName, EventHandlerChangeKind changeKind, IMethodPointerReferenceExpression sourceMethod)
+        {
+            return this.StatementContainer.ChangeHandler(target, eventName, changeKind, sourceMethod);
+        }
+
+        public IChangeEventHandlerStatement ChangeHandler(IMemberParentReferenceExpression target, string eventName, EventHandlerChangeKind changeKind, string methodName)
+        {
+            return this.StatementContainer.ChangeHandler(target, eventName, changeKind, methodName);
+        }
+
+        public IChangeEventHandlerStatement RemoveHandler(IEventReferenceExpression targetEvent, IMethodPointerReferenceExpression sourceMethod)
+        {
+            return this.StatementContainer.RemoveHandler(targetEvent, sourceMethod);
+        }
+
+        public IChangeEventHandlerStatement RemoveHandler(IMemberParentReferenceExpression target, string eventName, IMethodPointerReferenceExpression sourceMethod)
+        {
+            return this.StatementContainer.RemoveHandler(target, eventName, sourceMethod);
+        }
+
+        public IChangeEventHandlerStatement RemoveHandler(IMemberParentReferenceExpression target, string eventName, string methodName)
+        {
+            return this.StatementContainer.RemoveHandler(target, eventName, methodName);
+        }
+
+        public ICommentStatement Comment(string comment)
+        {
+            return this.StatementContainer.Comment(comment);
+        }
+
         #endregion
 
 

@@ -121,5 +121,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// </summary>
         /// <param name="statement">The <see cref="ILocalDeclarationStatement"/> to visit.</param>
         void Visit(ILocalDeclarationStatement statement);
+
+        void Visit(IChangeEventHandlerStatement statement);
+
+        void Visit(ICommentStatement statement);
     }
 }

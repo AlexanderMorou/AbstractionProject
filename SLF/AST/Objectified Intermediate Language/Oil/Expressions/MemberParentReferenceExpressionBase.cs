@@ -31,6 +31,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region IMemberParentReferenceExpression Members
 
+
+        public IEventReferenceExpression GetEvent(string name)
+        {
+            return new EventReferenceExpression(this.ObtainRelativeGetMemberTarget(), name);
+        }
+
         /// <summary>
         /// Obtains a <see cref="IMethodReferenceStub"/> for
         /// a method with the <paramref name="name"/> provided.

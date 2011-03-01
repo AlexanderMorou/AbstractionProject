@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private GenericTypeCache genericCache = null;
         private GenericParameterCollection genericParameters;
         private IIntermediateGenericParameterDictionary<IGenericTypeParameter<TType>, IIntermediateGenericTypeParameter<TType, TIntermediateType>, TType, TIntermediateType> typeParameters;
-        private bool disposing;
+        private byte disposeState;
         private object disposeSynch = new object();
         /// <summary>
         /// Creates a new <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>
@@ -279,13 +279,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// unmanaged data (false).</param>
         protected override void Dispose(bool dispose)
         {
-            if (this.disposeSynch == null)
-                return;
+            const int DISP_STATE_NONE = 0;
+            const int DISP_STATE_DISPOSING = 1;
+            const int DISP_STATE_DISPOSED = 2;
             lock (this.disposeSynch)
             {
-                if (this.disposing)
+                if (this.disposeState != DISP_STATE_NONE)
                     return;
-                this.disposing = true;
+                this.disposeState = DISP_STATE_DISPOSING;
             }
             try
             {
@@ -305,8 +306,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     this.typeParameters = null;
                 }
                 lock (this.disposeSynch)
-                    this.disposing = false;
-                this.disposeSynch = null;
+                    this.disposeState = DISP_STATE_DISPOSED;
             }
             finally
             {
@@ -337,8 +337,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         void _IGenericTypeRegistrar.UnregisterGenericType(LockedTypeCollection typeParameters)
         {
-            if (this.genericCache == null || this.disposing)
-                return;
+            const int DISP_STATE_NONE = 0; //Used inside method to avoid emitting fields.
+            lock (this.disposeSynch)
+                if (this.genericCache == null || this.disposeState != DISP_STATE_NONE)
+                    return;
             this.genericCache.UnregisterGenericType(typeParameters);
         }
 
@@ -419,8 +421,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         public void BeginExodus()
         {
-            if (this.genericCache == null || this.disposing || this.disposeSynch == null)
-                return;
+            const int DISP_STATE_NONE = 0; //Used inside method to avoid emitting fields.
+            lock(disposeSynch)
+                if (this.genericCache == null || this.disposeState != DISP_STATE_NONE)
+                    return;
             this.genericCache.BeginExodus();
         }
 

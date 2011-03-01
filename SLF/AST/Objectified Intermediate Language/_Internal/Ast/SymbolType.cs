@@ -418,6 +418,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             return new FieldReferenceExpression(name, this);
         }
 
+        public IEventReferenceExpression GetEvent(string name)
+        {
+            return new EventReferenceExpression(this, name);
+        }
+
         #endregion
 
         #region IGenericParamParent Members
