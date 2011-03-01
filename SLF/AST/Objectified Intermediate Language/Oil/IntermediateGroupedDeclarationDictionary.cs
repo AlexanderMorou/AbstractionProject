@@ -231,6 +231,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        /// <summary>
+        /// Adds an element of the provided <paramref name="key"/>
+        /// and <paramref name="value"/> to the
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>.
+        /// </summary>
+        /// <param name="key">The <see cref="string"/> key of the
+        /// current <paramref name="value"/> inserted.</param>
+        /// <param name="value">The <typeparamref name="TDeclaration"/>
+        /// to insert.</param>
         protected internal override void _Add(string key, TDeclaration value)
         {
             if (!this.Suspended)

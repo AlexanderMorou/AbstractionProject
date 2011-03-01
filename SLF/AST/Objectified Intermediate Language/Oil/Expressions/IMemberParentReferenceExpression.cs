@@ -124,5 +124,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// relative to the <paramref name="name"/>d field 
         /// that needs retrieved.</returns>
         IFieldReferenceExpression GetField(string name);
+        /// <summary>
+        /// Returns the <see cref="IEventReferenceExpression"/> relative to the
+        /// <paramref name="name"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> of the name of the event
+        /// to reference.</param>
+        /// <returns>A <see cref="IEventReferenceExpression"/> relative to the <paramref name="name"/>d 
+        /// event to reference.</returns>
+        IEventReferenceExpression GetEvent(string name);
     }
 }

@@ -345,5 +345,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         IJumpStatement Jump(IJumpTarget target);
         IGoToStatement GoTo(ILabelStatement target);
 
+        IChangeEventHandlerStatement AddHandler(IEventReferenceExpression targetEvent, IMethodPointerReferenceExpression sourceMethod);
+        IChangeEventHandlerStatement AddHandler(IMemberParentReferenceExpression target, string eventName, IMethodPointerReferenceExpression sourceMethod);
+        IChangeEventHandlerStatement AddHandler(IMemberParentReferenceExpression target, string eventName, string methodName);
+        IChangeEventHandlerStatement ChangeHandler(IEventReferenceExpression targetEvent, EventHandlerChangeKind changeKind, IMethodPointerReferenceExpression sourceMethod);
+        IChangeEventHandlerStatement ChangeHandler(IMemberParentReferenceExpression target, string eventName, EventHandlerChangeKind changeKind, IMethodPointerReferenceExpression sourceMethod);
+        IChangeEventHandlerStatement ChangeHandler(IMemberParentReferenceExpression target, string eventName, EventHandlerChangeKind changeKind, string methodName);
+        IChangeEventHandlerStatement RemoveHandler(IEventReferenceExpression targetEvent, IMethodPointerReferenceExpression sourceMethod);
+        IChangeEventHandlerStatement RemoveHandler(IMemberParentReferenceExpression target, string eventName, IMethodPointerReferenceExpression sourceMethod);
+        IChangeEventHandlerStatement RemoveHandler(IMemberParentReferenceExpression target, string eventName, string methodName);
+
+        /// <summary>
+        /// Inserts a <paramref name="comment"/> into the series of statements.
+        /// </summary>
+        /// <param name="comment">The <see cref="String"/> value denoting the comment.</param>
+        /// <returns>A new <see cref="ICommentStatement"/> which denotes the <paramref name="comment"/>
+        /// provided.</returns>
+        ICommentStatement Comment(string comment);
     }
 }

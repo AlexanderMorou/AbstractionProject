@@ -51,74 +51,122 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
         private static void WindowsFormsTest()
         {
+            
+            //Create the assembly and define its output type.
             var testAssembly = IntermediateGateway.CreateAssembly("WindowsFormsTest");
             testAssembly.CompilationContext.OutputType = AssemblyOutputType.WindowsApplication;
 
+            //Define the assembly's default namespace.
             testAssembly.DefaultNamespace = testAssembly.Namespaces.Add("WindowsFormsApplication1");
 
+            //Define the program class.
             var program = testAssembly.DefaultNamespace.Classes.Add("Program");
             program.SpecialModifier = SpecialClassModifier.Static;
 
+            //Define the main method of the program class.
             var mainMethod = program.Methods.Add("Main", new TypedNameSeries() { { "args", CommonTypeRefs.String.MakeArray() } });
             mainMethod.IsStatic = true; //implicit, but explicit in some languages.
             mainMethod.AccessLevel = AccessLevelModifiers.Private;
 
+            //Define the main dialog.
             var mainDialog = testAssembly.DefaultNamespace.Classes.Add("MainDialog");
             mainDialog.BaseType = typeof(Form).GetTypeReference<IClassType>();
             mainDialog.AccessLevel = AccessLevelModifiers.Internal;
             
+            //Obtain a reference to the application class.
             var applicationRef = typeof(Application).GetTypeExpression();
+
+            //Call the boiler plate code seen in most Windows Forms applications.
             mainMethod.Call(applicationRef, "EnableVisualStyles");
             mainMethod.Call(applicationRef, "SetCompatibleTextRenderingDefault", IntermediateGateway.TrueValue);
             mainMethod.Call(applicationRef, "Run", mainDialog.GetNew());
             
+            //Add the designer partial file to the main dialog.
             var mainDialogDesigner = mainDialog.Parts.Add();
 
+            //Defines the components of the main dialog.
             var mdComponents = mainDialogDesigner.Fields.Add(new TypedName("components", typeof(IContainer).GetTypeReference()));
 
+            //Defines the dispose method.
+            //protected override void Dispose(bool disposing) {
             var mdDispose = mainDialogDesigner.Methods.Add("Dispose", new TypedNameSeries() { { "disposing", CommonTypeRefs.Boolean } });
             var mdDisposing = mdDispose.Parameters["disposing"];
+            mdDispose.AccessLevel = AccessLevelModifiers.Protected;
+            mdDispose.IsOverride = true;
 
+            //if (disposing  && this.components != null)
             var disposeCondition = mdDispose.If(mdDisposing.GetReference().LogicalAnd(mdComponents.InequalTo(IntermediateGateway.NullValue)));
+            //   this.components.Dispose();
             disposeCondition.Call(mdComponents.GetReference(), "Dispose");
-
+            //base.Dispose();
             mdDispose.Call(new SpecialReferenceExpression(SpecialReferenceKind.Base), "Dispose", mdDisposing.GetReference());
+            //}
 
+            //private void InitializeComponent() {
             var mdInitializeComponent = mainDialogDesigner.Methods.Add("InitializeComponent");
             mdInitializeComponent.AccessLevel = AccessLevelModifiers.Private;
 
+            //private System.Windows.Forms.Button ClickMeButton;
             var mdClickMeButton = mainDialogDesigner.Fields.Add(new TypedName("ClickMeButton", typeof(Button).GetTypeReference()));
 
+            mdInitializeComponent.Comment("Control/Component initialization.");
+            //this.ClickMeButton = new System.Windows.Forms.Button();
             mdInitializeComponent.Assign(mdClickMeButton.GetReference(), mdClickMeButton.FieldType.GetNew());
 
+            //SuspendLayout();
             mdInitializeComponent.Call("SuspendLayout");
 
-            var mdClickMeReference = mdClickMeButton.GetReference();
-
-            mdInitializeComponent.Assign(mdClickMeReference.GetProperty("Location"), typeof(Point).GetNewExpression(12.ToPrimitive(), 12.ToPrimitive()));
-            mdInitializeComponent.Assign(mdClickMeReference.GetProperty("Name"), "ClickMeButton".ToPrimitive());
-            mdInitializeComponent.Assign(mdClickMeReference.GetProperty("Size"), typeof(Size).GetNewExpression(185.ToPrimitive(), 32.ToPrimitive()));
-            mdInitializeComponent.Assign(mdClickMeReference.GetProperty("TabIndex"), 0.ToPrimitive());
-            mdInitializeComponent.Assign(mdClickMeReference.GetProperty("Text"), "Click Me".ToPrimitive());
-            mdInitializeComponent.Assign(mdClickMeReference.GetProperty("UseVisualStyleBackColor"), IntermediateGateway.TrueValue);
-            //ToDo: Add event add handler.
-
             var thisReference = new SpecialReferenceExpression(SpecialReferenceKind.This);
+
+
+            var mdClickMeClick = mainDialog.Methods.Add("ClickMeButton_Click", typeof(EventHandler).GetTypeReference<IDelegateType>());
+            mdClickMeClick.Call(thisReference.GetMethod("Close"));
+
+            var mdClickMeReference = mdClickMeButton.GetReference();
+            mdInitializeComponent.Comment("ClickMeButton setup");
+            //this.ClickMeButton.Location = new System.Drawing.Point(12, 12);
+            mdInitializeComponent.Assign(mdClickMeReference.GetProperty("Location"), typeof(Point).GetNewExpression(12.ToPrimitive(), 12.ToPrimitive()));
+            //this.ClickMeButton.Name = "ClickMeButton";
+            mdInitializeComponent.Assign(mdClickMeReference.GetProperty("Name"), "ClickMeButton".ToPrimitive());
+            //this.ClickMeButton.Size = new System.Drawing.Size(185, 32);
+            mdInitializeComponent.Assign(mdClickMeReference.GetProperty("Size"), typeof(Size).GetNewExpression(185.ToPrimitive(), 32.ToPrimitive()));
+            //this.ClickMeButton.TabIndex = 0;
+            mdInitializeComponent.Assign(mdClickMeReference.GetProperty("TabIndex"), 0.ToPrimitive());
+            //this.ClickMeButton.Text = "Click Me";
+            mdInitializeComponent.Assign(mdClickMeReference.GetProperty("Text"), "Click Me".ToPrimitive());
+            //this.ClickMeButton.UseVisualStyleBackColor = true;
+            mdInitializeComponent.Assign(mdClickMeReference.GetProperty("UseVisualStyleBackColor"), IntermediateGateway.TrueValue);
+            //this.ClickMeButton.Click += ClickMeButton_Click;
+            mdInitializeComponent.AddHandler(mdClickMeReference, "Click", mdClickMeClick.GetReference());
+
+            mdInitializeComponent.Comment("MainDialog setup");
+            //this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             mdInitializeComponent.Assign(thisReference.GetProperty("AutoScaleDimensions"), typeof(SizeF).GetNewExpression(6F.ToPrimitive(), 13F.ToPrimitive()));
+            //this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             mdInitializeComponent.Assign(thisReference.GetProperty("AutoScaleMode"), typeof(AutoScaleMode).GetFieldExpression("Font"));
+            //this.ClientSize = new Size(209, 56);
             mdInitializeComponent.Assign(thisReference.GetProperty("ClientSize"), typeof(Size).GetNewExpression(209.ToPrimitive(), 56.ToPrimitive()));
+            //this.Controls.Add(ClickMeButton);
             mdInitializeComponent.Call(thisReference.GetProperty("Controls"), "Add", mdClickMeReference);
+            //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             mdInitializeComponent.Assign(thisReference.GetProperty("FormBorderStyle"), typeof(FormBorderStyle).GetFieldExpression("FixedToolWindow"));
+            //this.MinimizeBox = false;
             mdInitializeComponent.Assign(thisReference.GetProperty("MinimizeBox"), IntermediateGateway.FalseValue);
+            //this.MaximizeBox = false;
             mdInitializeComponent.Assign(thisReference.GetProperty("MaximizeBox"), IntermediateGateway.FalseValue);
+            //this.Name = "MainDialog";
             mdInitializeComponent.Assign(thisReference.GetProperty("Name"), "MainDialog".ToPrimitive());
+            //this.Text = "Windows Forms Test";
             mdInitializeComponent.Assign(thisReference.GetProperty("Text"), "Windows Forms Test".ToPrimitive());
 
+            //ResumeLayout();
             mdInitializeComponent.Call("ResumeLayout");
 
+            //private MainDialog() {
             var mdCtor = mainDialog.Constructors.Add();
+            //this.InitializeComponent();
             mdCtor.Call(mdInitializeComponent.GetReference());
-
+            //}
             
         }
     }

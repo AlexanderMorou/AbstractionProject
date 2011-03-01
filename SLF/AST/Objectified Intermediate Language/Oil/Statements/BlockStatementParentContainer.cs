@@ -558,6 +558,61 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
             return gotoStatement;
         }
 
+
+
+        public IChangeEventHandlerStatement AddHandler(IEventReferenceExpression targetEvent, IMethodPointerReferenceExpression sourceMethod)
+        {
+            return ChangeHandler(targetEvent, EventHandlerChangeKind.Add, sourceMethod);
+        }
+
+        public IChangeEventHandlerStatement AddHandler(IMemberParentReferenceExpression target, string eventName, IMethodPointerReferenceExpression sourceMethod)
+        {
+            return ChangeHandler(target, eventName, EventHandlerChangeKind.Add, sourceMethod);
+        }
+
+        public IChangeEventHandlerStatement AddHandler(IMemberParentReferenceExpression target, string eventName, string methodName)
+        {
+            return ChangeHandler(target, eventName, EventHandlerChangeKind.Add, methodName);
+        }
+
+        public IChangeEventHandlerStatement ChangeHandler(IEventReferenceExpression targetEvent, EventHandlerChangeKind changeKind, IMethodPointerReferenceExpression sourceMethod)
+        {
+            var result = new ChangeEventHandlerStatement(targetEvent, changeKind, sourceMethod, this.Owner);
+            this.baseList.Add(result);
+            return result;
+        }
+
+        public IChangeEventHandlerStatement ChangeHandler(IMemberParentReferenceExpression target, string eventName, EventHandlerChangeKind changeKind, IMethodPointerReferenceExpression sourceMethod)
+        {
+            return ChangeHandler(target.GetEvent(eventName), changeKind, sourceMethod);
+        }
+
+        public IChangeEventHandlerStatement ChangeHandler(IMemberParentReferenceExpression target, string eventName, EventHandlerChangeKind changeKind, string methodName)
+        {
+            return ChangeHandler(target.GetEvent(eventName), changeKind, new MethodReferenceStub(methodName).GetPointer());
+        }
+
+        public IChangeEventHandlerStatement RemoveHandler(IEventReferenceExpression targetEvent, IMethodPointerReferenceExpression sourceMethod)
+        {
+            return ChangeHandler(targetEvent, EventHandlerChangeKind.Remove, sourceMethod);
+        }
+
+        public IChangeEventHandlerStatement RemoveHandler(IMemberParentReferenceExpression target, string eventName, IMethodPointerReferenceExpression sourceMethod)
+        {
+            return ChangeHandler(target, eventName, EventHandlerChangeKind.Remove, sourceMethod);
+        }
+
+        public IChangeEventHandlerStatement RemoveHandler(IMemberParentReferenceExpression target, string eventName, string methodName)
+        {
+            return ChangeHandler(target, eventName, EventHandlerChangeKind.Remove, methodName);
+        }
+
+        public ICommentStatement Comment(string comment)
+        {
+            var result = new CommentStatement(this.Owner, comment);
+            this.baseList.Add(result);
+            return result;
+        }
         #endregion
 
         internal virtual IConditionBlockStatement OnIf(IExpression condition)
