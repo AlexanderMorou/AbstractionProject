@@ -93,7 +93,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         #endregion
 
-
         public override string UniqueIdentifier
         {
             get
@@ -117,5 +116,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             }
         }
 
+        #region IEventSignatureMember Members
+
+
+        public IType ReturnType
+        {
+            get {
+                if (Parent is IGenericType)
+                {
+                    IGenericType parent = ((IGenericType)(this.Parent));
+                    if (parent.IsGenericConstruct && !parent.IsGenericDefinition)
+                        return (IDelegateType)this.Original.ReturnType.Disambiguify(parent.GenericParameters, null, TypeParameterSources.Type);
+                }
+                return this.Original.ReturnType;
+            }
+        }
+
+        #endregion
     }
 }

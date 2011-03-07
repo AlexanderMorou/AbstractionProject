@@ -118,7 +118,6 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             var thisReference = new SpecialReferenceExpression(SpecialReferenceKind.This);
 
-
             var mdClickMeClick = mainDialog.Methods.Add("ClickMeButton_Click", typeof(EventHandler).GetTypeReference<IDelegateType>());
             mdClickMeClick.Call(thisReference.GetMethod("Close"));
 
@@ -167,7 +166,16 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             //this.InitializeComponent();
             mdCtor.Call(mdInitializeComponent.GetReference());
             //}
-            
+            var formType = typeof(Form).GetTypeReference<IClassType>();
+            Console.WriteLine(formType.GetTypeExpression().GetProperty("Name"));
         }
     }
 }
+/*               Split view reference line.  139 Visible Characters.  Visual Studio doesn't persist this information. :(                */
+/* *
+ * Identity Resolution.
+ * Rewrites
+ * Type checking
+ * Stack Generation
+ * 
+ * */

@@ -404,6 +404,34 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return new PropertyReferenceExpression<TProperty, TPropertyParent>(source, target);
         }
 
+        internal static IEventSignatureReferenceExpression<TEvent, TEventParent> GetEventSignatureReference<TEvent, TEventParent>(this TEvent target, IMemberParentReferenceExpression source)
+            where TEvent :
+                IEventSignatureMember<TEvent, TEventParent>
+            where TEventParent :
+                IEventSignatureParent<TEvent, TEventParent>
+        {
+            return new EventSignatureReferenceExpression<TEvent, TEventParent>(source, target);
+        }
+
+        internal static IEventReferenceExpression<TEvent, TEventParent> GetEventReference<TEvent, TEventParent>(this TEvent target, IMemberParentReferenceExpression source)
+            where TEvent :
+                IEventMember<TEvent, TEventParent>
+            where TEventParent :
+                IEventParent<TEvent, TEventParent>
+        {
+            return new EventReferenceExpression<TEvent, TEventParent>(source, target);
+        }
+        internal static IEventReferenceExpression GetEventReference(this IEventSignatureMember target, IMemberParentReferenceExpression source)
+        {
+            var targetParent = target.Parent;
+            if (target is IEventMember)
+                return ((IEventMember)(target)).GetEventReference(source);
+            else if (targetParent is IInterfaceType)
+                return ((IInterfaceEventMember)(target)).GetEventSignatureReference<IInterfaceEventMember, IInterfaceType>(source);
+            else
+                return new EventReferenceExpression(target.Name, source);
+        }
+
         internal static IPropertyReferenceExpression GetPropertyReference(this IPropertySignatureMember target, IMemberParentReferenceExpression source)
         {
             var targetParent = target.Parent;

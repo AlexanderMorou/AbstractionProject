@@ -69,6 +69,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
             get { return this.SignatureTypeImpl; }
         }
 
+        public abstract IType ReturnType { get; }
+
         #endregion
 
         #region Abstract Implementation Members

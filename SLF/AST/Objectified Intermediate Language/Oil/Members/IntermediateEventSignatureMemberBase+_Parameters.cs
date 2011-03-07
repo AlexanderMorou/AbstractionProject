@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TEventParent,
             IIntermediateEventSignatureParent<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
     {
-        private partial class _Parameters :
+        protected partial class _Parameters :
             IntermediateParameterMemberDictionary<TEvent, TIntermediateEvent, IEventSignatureParameterMember<TEvent, TEventParent>, IIntermediateEventSignatureParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>>
         {
             public _Parameters(TIntermediateEvent parent)
