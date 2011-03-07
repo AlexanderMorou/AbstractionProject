@@ -37,6 +37,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// instances in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateEventParent">The type which contains the <typeparamref name="TIntermediateEvent"/>
     /// instances in the intermediate abstract syntax tree.</typeparam>
+    /// <typeparam name="TMethodMember">The type of <see cref="IIntermediateEventMethodMember"/>
+    /// within the current implementation.</typeparam>
     public abstract partial class IntermediateEventMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent, TMethodMember> :
         IntermediateEventSignatureMemberBase<TEvent, TIntermediateEvent, IEventParameterMember<TEvent, TEventParent>, IIntermediateEventParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>, TEventParent, TIntermediateEventParent>,
         IIntermediateEventMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
@@ -61,7 +63,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         private TMethodMember raiseMethod;
         private bool emitRaiseMethod;
         /// <summary>
-        /// Creates a new <see cref="IntermediateEventMember"/> instance
+        /// Creates a new <see cref="IntermediateEventMember{TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent, TMethodMember}"/> instance
         /// with the <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateEventParent"/> which
@@ -82,7 +84,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// </summary>
         /// <param name="type">The <see cref="IntermediateEventMethodType"/> which designates
         /// which of the types of event method members the method needs to be.</param>
-        /// <returns>A new <see cref="TMethodMember"/> structured for
+        /// <returns>A new <typeparamref name="TMethodMember"/> structured for
         /// the <paramref name="type"/> provided.</returns>
         protected abstract TMethodMember GetMethodMember(IntermediateEventMethodType type);
 

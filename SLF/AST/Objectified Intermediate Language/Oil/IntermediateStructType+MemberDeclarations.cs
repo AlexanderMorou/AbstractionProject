@@ -52,10 +52,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IIntermediateEventMethodMember
         {
             private IntermediateEventMethodType methodType;
+            private IntermediateStructEventMember<TInstanceIntermediateType> parent;
             public EventMethodMember(IntermediateStructEventMember<TInstanceIntermediateType> parent, IntermediateEventMethodType methodType)
                 : base((TInstanceIntermediateType)parent.Parent)
             {
-
+                this.parent = parent;
             }
 
             #region IIntermediateEventMethodMember Members
@@ -83,6 +84,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
 
             #endregion
+
+            protected override IType OnGetReturnType()
+            {
+                if (this.parent == null)
+                    return base.ReturnType;
+                else
+                    return this.parent.ReturnType;
+            }
+
+            protected override void OnSetReturnType(IType value)
+            {
+                if (this.parent == null)
+                    base.OnSetReturnType(value);
+                else
+                    this.parent.ReturnType = value;
+            }
 
         }
 

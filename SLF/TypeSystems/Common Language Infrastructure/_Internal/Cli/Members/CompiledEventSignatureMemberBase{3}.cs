@@ -62,5 +62,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get { return this.memberInfo.EventHandlerType.GetTypeReference<IDelegateType>(); }
         }
+
+        public override IType ReturnType
+        {
+            get { return this.SignatureTypeImpl.ReturnType; }
+        }
     }
 }

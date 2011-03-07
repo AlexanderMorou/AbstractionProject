@@ -27,25 +27,28 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TEventParent,
             IIntermediateEventParent<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
     {
-        protected sealed class ParameterMember :
-            IntermediateEventSignatureParameterMember<TEvent, TIntermediateEvent, IEventParameterMember<TEvent, TEventParent>, IIntermediateEventParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>, TEventParent, TIntermediateEventParent>,
-            IIntermediateEventParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
+        partial class ParameterDictionary
         {
-            /// <summary>
-            /// Creates a new <see cref="ParameterMember"/> with the <paramref name="parent"/>,
-            /// <paramref name="name"/>, <paramref name="parameterType"/> and
-            /// <paramref name="direction"/> provided.
-            /// </summary>
-            /// <param name="parent">The <typeparamref name="TIntermediateEvent"/> which
-            /// contains the <see cref="ParameterMember"/>.</param>
-            /// <param name="name">The <see cref="String"/>
-            /// name of the parameter.</param>
-            /// <param name="parameterType">The <see cref="IType"/> of the parameter.</param>
-            /// <param name="direction">The <see cref="ParameterDirection"/> which determines how the informaiton about the parameter
-            /// is managed (in, out, or by reference).</param>
-            public ParameterMember(IntermediateEventMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent, TMethodMember> parent, string name, IType parameterType, ParameterDirection direction)
-                : base(((TIntermediateEvent)((object)(parent))), name, parameterType, direction)
+            protected sealed class ParameterMember :
+                IntermediateEventSignatureParameterMember<TEvent, TIntermediateEvent, IEventParameterMember<TEvent, TEventParent>, IIntermediateEventParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>, TEventParent, TIntermediateEventParent>,
+                IIntermediateEventParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
             {
+                /// <summary>
+                /// Creates a new <see cref="ParameterMember"/> with the <paramref name="parent"/>,
+                /// <paramref name="name"/>, <paramref name="parameterType"/> and
+                /// <paramref name="direction"/> provided.
+                /// </summary>
+                /// <param name="parent">The <typeparamref name="TIntermediateEvent"/> which
+                /// contains the <see cref="ParameterMember"/>.</param>
+                /// <param name="name">The <see cref="String"/>
+                /// name of the parameter.</param>
+                /// <param name="parameterType">The <see cref="IType"/> of the parameter.</param>
+                /// <param name="direction">The <see cref="ParameterDirection"/> which determines how the informaiton about the parameter
+                /// is managed (in, out, or by reference).</param>
+                public ParameterMember(IntermediateEventMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent, TMethodMember> parent, string name, IType parameterType, ParameterDirection direction)
+                    : base(((TIntermediateEvent)((object)(parent))), name, parameterType, direction)
+                {
+                }
             }
         }
     }

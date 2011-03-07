@@ -29,11 +29,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IntermediateClassType<TInstanceIntermediateType>
     {
         /// <summary>
-        /// Creates a new <see cref="IntermediateClassEventMember"/> instance
+        /// Creates a new <see cref="IntermediateClassEventMember{TInstanceIntermediateType}"/> instance
         /// with the <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="parent">The <see cref="IntermediateClassType"/>
-        /// to which the <see cref="IntermediateClassEventMember"/> exists upon.</param>
+        /// to which the <see cref="IntermediateClassEventMember{TInstanceIntermediateType}"/> exists upon.</param>
         public IntermediateClassEventMember(TInstanceIntermediateType parent)
             : base(parent)
         {
@@ -48,11 +48,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IntermediateClassMethodMember<TInstanceIntermediateType>,
             IIntermediateEventMethodMember
         {
+            private IntermediateClassEventMember<TInstanceIntermediateType> parent;
             private IntermediateEventMethodType methodType;
             public EventMethodMember(IntermediateClassEventMember<TInstanceIntermediateType> parent, IntermediateEventMethodType methodType)
                 : base((TInstanceIntermediateType)parent.Parent)
             {
-
+                this.parent = parent;
             }
 
             #region IIntermediateEventMethodMember Members
@@ -78,11 +79,26 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 get { return this.methodType; }
             }
-
             #endregion
 
+            protected override IType OnGetReturnType()
+            {
+                if (this.parent == null)
+                    return base.ReturnType;
+                else
+                    return this.parent.ReturnType; 
+            }
+
+            protected override void OnSetReturnType(IType value)
+            {
+                if (this.parent == null)
+                    base.OnSetReturnType(value);
+                else
+                    this.parent.ReturnType = value;
+            }
         }
     }
+
     public class IntermediateClassCtorMember<TInstanceIntermediateType> :
         IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<TInstanceIntermediateType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IClassType, IIntermediateClassType, TInstanceIntermediateType>.ConstructorMember,
         IIntermediateClassCtorMember
@@ -219,6 +235,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
     }
+
     public class IntermediateClassPropertyMember<TInstanceIntermediateType> :
         IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<TInstanceIntermediateType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IClassType, IIntermediateClassType, TInstanceIntermediateType>.PropertyMember,
         IIntermediateClassPropertyMember

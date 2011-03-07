@@ -34,7 +34,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         public IEventReferenceExpression GetEvent(string name)
         {
-            return new EventReferenceExpression(this.ObtainRelativeGetMemberTarget(), name);
+            var binding = LooselyBindEvent(name);
+            if (binding == null)
+                return new EventReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
+            else
+                return binding.GetEventReference(this);
         }
 
         /// <summary>
@@ -79,8 +83,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <returns>A <see cref="IMethodPointerReferenceExpression"/>
         /// instance which should be a verifiable pointer to the 
         /// method.</returns>
-        /// <remarks>For verifiability, <see cref="ILinkableExpression.Link()"/>
-        /// the <see cref="IMethodPointerReferenceExpression"/>.</remarks>
         public virtual IMethodPointerReferenceExpression GetMethodPointer(string name, ITypeCollection signature)
         {
             return this.GetMethod(name).GetPointer(signature);
@@ -100,8 +102,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <returns>A <see cref="IMethodPointerReferenceExpression"/>
         /// instance which should be a verifiable pointer to the 
         /// method.</returns>
-        /// <remarks>For verifiability, <see cref="ILinkableExpression.Link()"/>
-        /// the <see cref="IMethodPointerReferenceExpression"/>.</remarks>
         public virtual IMethodPointerReferenceExpression GetMethodPointer(string name, ITypeCollection signature, ITypeCollection genericParameters)
         {
             return this.GetMethod(name, genericParameters).GetPointer(signature);
@@ -142,8 +142,69 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 return binding.GetPropertyReference(this);
         }
 
+        internal IEventSignatureMember LooselyBindEvent(string name)
+        {
+            IEventSignatureMember eventResult = null;
+            var typeLookupAid = this.TypeLookupAid;
+            if (typeLookupAid != null && !(typeLookupAid is ISymbolType))
+            {
+                if (typeLookupAid is IEventParent)
+                {
+                    var currentParent = typeLookupAid;
+                repeat:
+                    var eventParent = currentParent as IEventParent;
+                    if (eventParent != null)
+                        foreach (IEventSignatureMember @event in eventParent.Events.Values)
+                            if (@event.Name == name)
+                            {
+                                eventResult = @event;
+                                goto returnResult;
+                            }
+                    if (currentParent != null)
+                    {
+                        currentParent = currentParent.BaseType;
+                        goto repeat;
+                    }
+                }
+                else if (typeLookupAid is IInterfaceType)
+                {
+                    var currentParent = typeLookupAid as IInterfaceType;
+                    Queue<IInterfaceType> implementedInterfaces = new Queue<IInterfaceType>(currentParent.ImplementedInterfaces.Cast<IInterfaceType>());
+                    var eventParent = currentParent;
+                repeat:
+                    if (eventParent != null)
+                        foreach (IEventSignatureMember @event in eventParent.Events.Values)
+                            if (@event.Name == name)
+                            {
+                                eventResult = @event;
+                                goto returnResult;
+                            }
+                    if (implementedInterfaces.Count > 0)
+                    {
+                        eventParent = implementedInterfaces.Dequeue();
+                        goto repeat;
+                    }
+                }
+            }
+            return null;
+        returnResult:
+            if (eventResult is IEventMember)
+            {
+                var eventMember = eventResult as IEventMember;
+                if (this.IsStaticTarget)
+                {
+                    if (!eventMember.IsStatic)
+                        return null;
+                }
+                else if (eventMember.IsStatic)
+                    return null;
+            }
+            return eventResult;
+        }
+
         internal IPropertySignatureMember LooselyBindProperty(string name)
         {
+            IPropertySignatureMember propertyResult = null;
             var typeLookupAid = this.TypeLookupAid;
             if (typeLookupAid != null && !(typeLookupAid is ISymbolType))
             {
@@ -155,10 +216,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                     if (propertyParent != null)
                         foreach (IPropertySignatureMember property in propertyParent.Properties.Values)
                             if (property.Name == name)
-                                if (property is IPropertyMember)
-                                    return property;
-                                else
-                                    return property;
+                            {
+                                propertyResult = property;
+                                goto returnResult;
+                            }
                     if (currentParent != null)
                     {
                         currentParent = currentParent.BaseType;
@@ -174,17 +235,31 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                     if (propertyParent != null)
                         foreach (IPropertySignatureMember property in propertyParent.Properties.Values)
                             if (property.Name == name)
-                                if (property is IPropertyMember)
-                                    return property;
-                                else
-                                    return property;
-                    if (implementedInterfaces.Count > 0){
+                            {
+                                propertyResult = property;
+                                goto returnResult;
+                            }
+                    if (implementedInterfaces.Count > 0)
+                    {
                         propertyParent = implementedInterfaces.Dequeue();
                         goto repeat;
                     }
                 }
             }
             return null;
+        returnResult:
+            if (propertyResult is IPropertyMember)
+            {
+                var propertyMember = propertyResult as IPropertyMember;
+                if (this.IsStaticTarget)
+                {
+                    if (!propertyMember.IsStatic)
+                        return null;
+                }
+                else if (propertyMember.IsStatic)
+                    return null;
+            }
+            return propertyResult;
         }
 
         /// <summary>
@@ -194,10 +269,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <param name="parameters">The <see cref="IExpressionCollection"/>
         /// used to reference the indexer.</param>
         /// <returns></returns>
-        /// <remarks>If the <see cref="ForwardType"/> is an array type
+        /// <remarks>If the <see cref="TypeLookupAid"/> is an array type
         /// returns an array indexer where all parameter types
         /// must be a number; otherwise it returns
-        /// an indexer with the default name 'Item'.</remarks>
+        /// an indexer with the default name defined by the language.</remarks>
         public virtual IIndexerReferenceExpression GetIndexer(params IExpression[] parameters)
         {
             return GetIndexer(null, parameters);
@@ -232,7 +307,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 if (fieldParent != null)
                     foreach (IFieldMember field in fieldParent.Fields.Values)
                         if (field.Name == name)
+                        {
+                            if (field is IInstanceMember)
+                            {
+                                var instanceField = field as IInstanceMember;
+                                if (instanceField.IsStatic != this.IsStaticTarget)
+                                    return null;
+                            }
                             return field;
+                        }
                 if (currentParent != null)
                 {
                     currentParent = currentParent.BaseType;
@@ -253,6 +336,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         public abstract IType ForwardType { get; }
         */
         #endregion
+
+        protected virtual bool IsStaticTarget { get { return false; } }
 
         protected virtual MemberParentReferenceExpressionBase ObtainRelativeGetMemberTarget()
         {

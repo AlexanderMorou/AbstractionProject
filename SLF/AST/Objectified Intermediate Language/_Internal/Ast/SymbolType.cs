@@ -420,7 +420,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         public IEventReferenceExpression GetEvent(string name)
         {
-            return new EventReferenceExpression(this, name);
+            return new EventReferenceExpression(name, this);
         }
 
         #endregion

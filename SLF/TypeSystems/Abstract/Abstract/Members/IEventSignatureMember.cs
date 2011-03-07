@@ -99,6 +99,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         ///// of the event.
         ///// </summary>
         //IMethodSignatureMember OnRemoveMethod { get; }
-
+        /// <summary>
+        /// Returns the <see cref="IType"/> associated to the event
+        /// signature's returntype.
+        /// </summary>
+        IType ReturnType { get; }
     }
 }

@@ -272,12 +272,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             get
             {
-                return this.returnType;
+                return OnGetReturnType();
             }
             set
             {
-                this.returnType = value;
+                OnSetReturnType(value);
             }
+        }
+
+        protected virtual void OnSetReturnType(IType value)
+        {
+            this.returnType = value;
+        }
+
+        protected virtual IType OnGetReturnType()
+        {
+            return this.returnType;
         }
 
         protected override void Dispose(bool disposing)

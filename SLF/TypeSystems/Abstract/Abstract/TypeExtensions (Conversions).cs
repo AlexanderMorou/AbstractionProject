@@ -43,6 +43,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 return false;
             }
         }
+
         internal static bool IsSigned(this TypeCode tc)
         {
             switch (tc)

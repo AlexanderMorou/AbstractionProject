@@ -75,5 +75,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 return this.ReferenceType;
             }
         }
+
+        protected override bool IsStaticTarget
+        {
+            get
+            {
+                return true;
+            }
+        }
     }
 }

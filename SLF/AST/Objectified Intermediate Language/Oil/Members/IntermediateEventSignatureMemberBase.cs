@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -90,7 +91,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             IIntermediateEventSignatureParent<TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent>
     {
         private EventSignatureSource signatureSource;
-
+        private IType returnType;
+        private IDelegateType signatureType;
         /// <summary>
         /// Creates a new <see cref="IntermediateEventSignatureMemberBase{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent}"/>
         /// instance with the <paramref name="parent"/> provided.
@@ -126,9 +128,56 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
-        public IDelegateType SignatureType { get; set; }
+        public IDelegateType SignatureType
+        {
+            get
+            {
+                switch (this.signatureSource)
+                {
+                    case EventSignatureSource.Declared:
+                        return null;
+                    case EventSignatureSource.Delegate:
+                        return this.signatureType;
+                }
+                throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+            }
+            set
+            {
+                this.signatureType = value;
+                this.SignatureSource = EventSignatureSource.Delegate;
+            }
+        }
 
         #endregion
+
+        public IType ReturnType
+        {
+            get
+            {
+                switch (this.signatureSource)
+                {
+                    case EventSignatureSource.Declared:
+                        return this.returnType;
+                    case EventSignatureSource.Delegate:
+                        return this.SignatureType.ReturnType;
+                    default:
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                }
+            }
+            set 
+            {
+                switch (this.signatureSource)
+                {
+                    case EventSignatureSource.Declared:
+                        this.returnType = value;
+                        break;
+                    case EventSignatureSource.Delegate:
+                        throw new InvalidOperationException("Cannot alter the return type of the attached delegate through this means.");
+                    default:
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                }
+            }
+        }
 
     }
 }
