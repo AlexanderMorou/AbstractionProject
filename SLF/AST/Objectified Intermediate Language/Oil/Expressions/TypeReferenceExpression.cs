@@ -60,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         public override string ToString()
         {
-            return this.ReferenceType.CSharpToString();
+            return this.ReferenceType.BuildTypeName(true, false, TypeParameterDisplayMode.DebuggerStandard);
         }
 
         public override void Visit(IExpressionVisitor visitor)

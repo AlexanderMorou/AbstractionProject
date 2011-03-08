@@ -16,7 +16,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// <summary>
     /// Defines properties and methods for working with an expression.
     /// </summary>
-    public interface IExpression
+    public interface IExpression :
+        ISourceElement
     {
         /// <summary>
         /// Returns the type of expression the <see cref="IExpression"/> is.

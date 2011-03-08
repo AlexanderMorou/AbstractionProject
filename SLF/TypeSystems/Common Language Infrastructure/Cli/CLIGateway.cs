@@ -497,8 +497,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 if (fromTC != toTC)
                     return TypeExtensions.conversionInfo[fromTC][toTC];
                 else if (fromTC == TypeCode.Object)
-                    //ToDo: Add code here to use the Expression coersion members to find an
-                    //implicit coercion from 'from' to 'to'.
                     return (to.IsAssignableFrom(from));
                 else
                     return true;
@@ -508,29 +506,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 return false;
             }
         }
-
-        /*//
-        public static bool CanConvertFrom(this IType from, IType to, ref IImplicitChain translation)
-        {
-            TypeCode fromTC = GetTypeCode(from);
-            TypeCode toTC = GetTypeCode(to);
-            try
-            {
-                if (fromTC != toTC)
-                    return TypeExtensions.conversionInfo[fromTC][toTC];
-                else if (fromTC == TypeCode.Object)
-                    //ToDo: Add code here to use the Expression coersion members to find an
-                    //implicit coercion from 'from' to 'to'.
-                    return (to.IsAssignableFrom(from));
-                else
-                    return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-        //*/
 
         /// <summary>
         /// Verifies the type-parameters of a generic method 

@@ -292,5 +292,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             return string.Format("{0}.{1}", this.Source, this.Name);
         }
+
+        #region ISourceElement Members
+
+        public string FileName { get; set; }
+
+        public LineColumnPair? Start { get; set; }
+
+        public LineColumnPair? End { get; set; }
+
+        #endregion
     }
 }

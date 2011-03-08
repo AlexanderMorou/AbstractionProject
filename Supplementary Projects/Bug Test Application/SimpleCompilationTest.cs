@@ -166,8 +166,6 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             //this.InitializeComponent();
             mdCtor.Call(mdInitializeComponent.GetReference());
             //}
-            var formType = typeof(Form).GetTypeReference<IClassType>();
-            Console.WriteLine(formType.GetTypeExpression().GetProperty("Name"));
         }
     }
 }
