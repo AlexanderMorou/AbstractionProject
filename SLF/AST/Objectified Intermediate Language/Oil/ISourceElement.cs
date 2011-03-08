@@ -18,14 +18,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     public interface ISourceElement
     {
         /// <summary>
+        /// Returns/sets the filename associated to the <see cref="ISourceElement"/>.
+        /// </summary>
+        string FileName { get; set; }
+        /// <summary>
         /// The <see cref="LineColumnPair"/> which denotes
         /// the start point of the <see cref="ISourceElement"/>.
         /// </summary>
-        LineColumnPair Start { get; set; }
+        LineColumnPair? Start { get; set; }
         /// <summary>
         /// The <see cref="LineColumnPair"/> which denotes the
         /// end point of the <see cref="ISourceElement"/>.
         /// </summary>
-        LineColumnPair End { get; set; }
+        LineColumnPair? End { get; set; }
     }
 }

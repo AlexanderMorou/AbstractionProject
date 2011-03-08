@@ -432,6 +432,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new EventReferenceExpression(target.Name, source);
         }
 
+        internal static IEventReferenceExpression GetEventReference(this IEventMember target, IMemberParentReferenceExpression source)
+        {
+            var targetParent = target.Parent;
+            if (targetParent is IClassType)
+                return ((IClassEventMember)target).GetEventReference<IClassEventMember, IClassType>(source);
+            else if (targetParent is IStructType)
+                return ((IStructEventMember)target).GetEventReference<IStructEventMember, IStructType>(source);
+            else
+                return new EventReferenceExpression(target.Name, source);
+        }
+
         internal static IPropertyReferenceExpression GetPropertyReference(this IPropertySignatureMember target, IMemberParentReferenceExpression source)
         {
             var targetParent = target.Parent;

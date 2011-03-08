@@ -32,8 +32,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 if (fromTC != toTC)
                     return conversionInfo[fromTC][toTC];
                 else if (fromTC == TypeCode.Object)
-                    //ToDo: Add code here to use the Expression coersion members to find an
-                    //implicit coercion from 'from' to 'to'.
                     return (to.IsAssignableFrom(from));
                 else
                     return true;

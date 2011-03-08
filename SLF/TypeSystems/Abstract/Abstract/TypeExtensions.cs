@@ -142,6 +142,19 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             return new LockedTypeCollection(array.Cast<IType>());
         }
 
+        /// <summary>
+        /// Debug method used to display the name of a type in a near CLR-identical manner.
+        /// </summary>
+        /// <param name="target">The <see cref="IType"/> to build the type name for.</param>
+        /// <param name="shortFormGeneric">Whether the names of the type-parameters
+        /// within the type are shortened for use within the brackets
+        /// of a generic-type instance vs. their full type-name.</param>
+        /// <param name="numericTypeParams">Whether type-parameters are shown as numbers.</param>
+        /// <param name="typeParameterDisplayMode">Whether to use angle brackets or square brackets
+        /// based upon the call-site's intent.  <see cref="TypeParameterDisplayMode.SystemStandard"/> shows 
+        /// square brackets ('[' and ']'), and <see cref="TypeParameterDisplayMode.DebuggerStandard"/>
+        /// shows angle brackets ('&lt;' and '&gt;').</param>
+        /// <returns></returns>
         internal static string BuildTypeName(this IType target, bool shortFormGeneric = false, bool numericTypeParams = false, TypeParameterDisplayMode typeParameterDisplayMode = TypeParameterDisplayMode.SystemStandard)
         {
             switch (target.ElementClassification)

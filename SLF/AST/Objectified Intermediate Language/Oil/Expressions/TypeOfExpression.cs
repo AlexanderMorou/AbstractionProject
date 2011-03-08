@@ -39,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         public override string ToString()
         {
-            return string.Format("typeof({0})", this.ReferenceType.CSharpToString());
+            return string.Format("typeof({0})", this.ReferenceType.BuildTypeName(true, false, TypeParameterDisplayMode.DebuggerStandard));
         }
 
         public override void Visit(IExpressionVisitor visitor)

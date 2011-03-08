@@ -152,5 +152,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         #endregion
+
+        #region ISourceElement Members
+
+        public string FileName { get; set; }
+
+        public LineColumnPair? Start { get; set; }
+
+        public LineColumnPair? End { get; set; }
+
+        #endregion
     }
 }

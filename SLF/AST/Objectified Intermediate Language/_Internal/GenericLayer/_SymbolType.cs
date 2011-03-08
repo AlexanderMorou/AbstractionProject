@@ -117,5 +117,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         }
 
         #endregion
+
+        #region ISourceElement Members
+
+        public string FileName { get; set; }
+
+        public LineColumnPair? Start { get; set; }
+
+        public LineColumnPair? End { get; set; }
+
+        #endregion
     }
 }
