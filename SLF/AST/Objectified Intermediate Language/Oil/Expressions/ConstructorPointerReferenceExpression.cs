@@ -75,7 +75,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         /// <remarks>Returns 
         /// <see cref="ExpressionKinds.ConstructorReference"/>.</remarks>
-        public ExpressionKind Type
+        public ExpressionKinds Type
         {
             get { return ExpressionKinds.ConstructorReference; }
         }

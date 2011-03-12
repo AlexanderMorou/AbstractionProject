@@ -65,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns the type of expression the <see cref="CSharpAddSubtExpression"/> is.
         /// </summary>
         /// <remarks>Returns <see cref="ExpressionType.AddSubtractOperationOperation"/>.</remarks>
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get {
                 switch (this.Operation)

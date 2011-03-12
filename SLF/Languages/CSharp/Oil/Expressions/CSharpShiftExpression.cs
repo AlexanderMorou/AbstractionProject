@@ -63,7 +63,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns the type of expression the <see cref="CSharpShiftExpression"/> is.
         /// </summary>
         /// <remarks>Returns <see cref="ExpressionType.CSharpShiftOperation"/>.</remarks>
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get {
                 switch (this.Operation)

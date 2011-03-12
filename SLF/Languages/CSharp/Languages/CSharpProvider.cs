@@ -46,15 +46,13 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             get {
                 switch (versionCompatability)
                 {
-                    case CSharpLanguageVersion.CSharp_v2:
+                    case CSharpLanguageVersion.Version2:
                         return CSharpGateway.Language.Version2;
-                    case CSharpLanguageVersion.CSharp_v3:
+                    case CSharpLanguageVersion.Version3:
                         return CSharpGateway.Language.Version3;
-                    case CSharpLanguageVersion.CSharp_v3_5:
-                        return CSharpGateway.Language.Version3_5;
-                    case CSharpLanguageVersion.CSharp_v4:
+                    case CSharpLanguageVersion.Version4:
                         return CSharpGateway.Language.Version4;
-                    case CSharpLanguageVersion.CSharp_v5:
+                    case CSharpLanguageVersion.Version5:
                         return CSharpGateway.Language.Version5;
                     default:
                         throw new NotSupportedException("Version not supported.");

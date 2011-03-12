@@ -110,7 +110,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns the type of expression the <see cref="CSharpRelationalExpression"/> is.
         /// </summary>
         /// <remarks>Returns <see cref="ExpressionType.RelationalOperation"/>.</remarks>
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get {
                 switch (this.Operation)

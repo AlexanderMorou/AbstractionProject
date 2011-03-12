@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         private ICSharpConditionalExpression falsePart;
 
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get
             {

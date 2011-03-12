@@ -301,7 +301,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         #region IExpression Members
 
-        ExpressionKind IExpression.Type
+        ExpressionKinds IExpression.Type
         {
             get { return ExpressionKinds.TypeReference; }
         }

@@ -32,38 +32,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="UnaryOperationExpression"/> is.
         /// </summary>
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get
             {
-                bool bitInvert;
-                bool boolInvert;
-                bool negate;
-                bool postOp;
-                bool preOp;
-                bool decrement;
-                bool increment;
-                DiscernOpFlags(this.Operation, out bitInvert, out boolInvert, out negate, out postOp, out preOp, out decrement, out increment);
-                ExpressionKind result = ExpressionKinds.None;
-                if (bitInvert)
-                    result = ExpressionKinds.UnaryBitwiseInversion;
-                else if (boolInvert)
-                    result = ExpressionKinds.UnaryBooleanInversion;
-                if (negate)
-                    result |= ExpressionKinds.UnarySignInversionOperation;
-                if (preOp)
-                    if (increment)
-                        result |= ExpressionKinds.UnaryPreincrement;
-                    else if (decrement)
-                        result |= ExpressionKinds.UnaryPredecrement;
-                if (postOp)
-                    if (increment)
-                        result |= ExpressionKinds.UnaryPostincrement;
-                    else if (decrement)
-                        result |= ExpressionKinds.UnaryPostdecrement;
-                if (result == ExpressionKinds.None)
-                    result = ExpressionKinds.UnaryForwardTerm;
-                return result;
+                if (operation == UnaryOperation.None)
+                    return ExpressionKinds.UnaryForwardTerm;
+                else
+                    return ExpressionKinds.UnaryOperation;
             }
         }
 

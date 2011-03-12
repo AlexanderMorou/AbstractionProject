@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="ExpressionBase"/> is.
         /// </summary>
-        public abstract ExpressionKind Type { get; }
+        public abstract ExpressionKinds Type { get; }
 
         #region IMemberParentReferenceExpression Members
 

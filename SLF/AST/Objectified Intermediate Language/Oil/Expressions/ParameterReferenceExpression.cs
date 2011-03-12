@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
             this.ReferenceTarget = parameter;
         }
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get { return ExpressionKinds.ParameterReference; }
         }
@@ -88,7 +88,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             this.Name = name;
         }
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get { return ExpressionKinds.ParameterReference; }
         }

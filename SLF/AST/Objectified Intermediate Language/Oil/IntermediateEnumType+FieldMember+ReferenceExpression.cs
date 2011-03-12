@@ -49,7 +49,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
                 #endregion
 
-                public override ExpressionKind Type
+                public override ExpressionKinds Type
                 {
                     get { return ExpressionKinds.FieldReference; }
                 }

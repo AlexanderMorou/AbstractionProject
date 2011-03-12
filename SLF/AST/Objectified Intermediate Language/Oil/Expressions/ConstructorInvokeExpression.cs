@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             this.Parameters.AddRange(parameters);
         }
 
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get { return ExpressionKinds.ConstructorInvoke; }
         }
