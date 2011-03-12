@@ -211,7 +211,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region IExpression Members
         
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get {
                 switch (this.PrimitiveType)
@@ -246,7 +246,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                         return ExpressionKinds.PrimitiveStringInsert;
                 }
                 throw new InvalidOperationException();
-                //ToDo: Add series of conditions to relate the proper ExpressionKind.
+                //ToDo: Add series of conditions to relate the proper ExpressionKinds.
             }
         }
 

@@ -218,7 +218,6 @@
     <Compile Include="Oil\Expressions\ExpressionException.cs" />
     <Compile Include="Oil\Expressions\ExpressionExtensions.cs" />
     <Compile Include="Oil\Expressions\ExpressionFusionExpression.cs" />
-    <Compile Include="Oil\Expressions\ExpressionKind.cs" />
     <Compile Include="Oil\Expressions\ExpressionKinds.cs" />
     <Compile Include="Oil\Expressions\ExpressionToCommaFusionExpression.cs" />
     <Compile Include="Oil\Expressions\ExpressionToCommaTypeReferenceFusionExpression.cs" />

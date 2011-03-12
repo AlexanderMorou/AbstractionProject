@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             this.Parameters = new MalleableExpressionCollection(parameters);
         }
 
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get { return ExpressionKinds.IndexerReference; }
         }
@@ -143,7 +143,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             this.Parameters = new MalleableExpressionCollection(parameters);
         }
 
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get { return ExpressionKinds.IndexerReference; }
         }
@@ -260,7 +260,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #endregion
 
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get { return ExpressionKinds.IndexerReference; }
         }

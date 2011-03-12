@@ -19,19 +19,32 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 {
     public enum CSharpLanguageVersion
     {
-        CSharp_v2,
-        CSharp_v3,
-        CSharp_v3_5,
-        CSharp_v4,
-        CSharp_v5,
+        /// <summary>
+        /// CSharp version 2 support enables generics.
+        /// </summary>
+        Version2,
+        /// <summary>
+        /// CSharp version 3 support enables LINQ, Extension methods and
+        /// anonymous types and methods.
+        /// </summary>
+        Version3,
+        /// <summary>
+        /// CSharp version 4 support enables a Dynamic typing model,
+        /// better COM inerop, and primary interop assembly embedding.
+        /// </summary>
+        Version4,
+        /// <summary>
+        /// CSharp version 5 support enables the concept of asynchronous 
+        /// coding models.
+        /// </summary>
+        Version5,
     }
     internal class CSharpLanguage :
         ICSharpLanguage
     {
-        private static readonly ExpressionKind supportedExpressions = new ExpressionKind( ExpressionKind.BinaryOperationSector.All ^ (ExpressionKind.BinaryOperationSector.IntegerDivisionOperation | ExpressionKind.BinaryOperationSector.FlexibleDivisionOperation),  ExpressionKind.ExpansionRequiredSector.ConditionalOperation | ExpressionKind.ExpansionRequiredSector.CreateArray | ExpressionKind.ExpansionRequiredSector.LambdaExpression | ExpressionKind.ExpansionRequiredSector.LinqExpression, ExpressionKind.InvocationSector.ConstructorInvoke | ExpressionKind.InvocationSector.EventFire | ExpressionKind.InvocationSector.MethodCall | ExpressionKind.InvocationSector.MultiCastDelegateCall, ExpressionKind.PrimitiveInsertSector.All, ExpressionKind.ReferenceSector.All ^ (ExpressionKind.ReferenceSector.SelfReference), ExpressionKind.SpecialFunctionSector.All ^ ExpressionKind.SpecialFunctionSector.VariadicTypeCast, ExpressionKind.SymbolSector.All, ExpressionKind.UnaryOperationSector.All);
         private CSharpLanguageVersion versionCompatability;
 
-        public CSharpLanguage(CSharpLanguageVersion versionCompatability = CSharpLanguageVersion.CSharp_v5)
+        public CSharpLanguage(CSharpLanguageVersion versionCompatability = CSharpLanguageVersion.Version5)
         {
             this.versionCompatability = versionCompatability;
         }
@@ -115,7 +128,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             get {
                 
                 CompilerSupport result = CompilerSupport.FullSupport ^ (CompilerSupport.Win32Resources | CompilerSupport.PrimaryInteropEmbedding | CompilerSupport.DuckTyping);
-                if (((int)versionCompatability) >= (int)CSharpLanguageVersion.CSharp_v4)
+                if (((int)versionCompatability) >= (int)CSharpLanguageVersion.Version4)
                     result |= CompilerSupport.PrimaryInteropEmbedding;
                 return result;
             }

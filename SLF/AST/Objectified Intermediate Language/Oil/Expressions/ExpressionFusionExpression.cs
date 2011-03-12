@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #endregion
 
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get { return ExpressionKinds.ExpressionFusion; }
         }

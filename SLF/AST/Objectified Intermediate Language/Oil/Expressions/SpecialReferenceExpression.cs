@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region IExpression Members
 
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get
             {

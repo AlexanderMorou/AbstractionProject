@@ -109,7 +109,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns the type of expression the <see cref="EventReferenceExpression"/> is.
         /// </summary>
         /// <remarks>Returns <see cref="ExpressionKinds.EventReference"/>.</remarks>
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get { return ExpressionKinds.EventReference; }
         }
@@ -224,7 +224,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns the type of expression the <see cref="EventReferenceExpression"/> is.
         /// </summary>
         /// <remarks>Returns <see cref="ExpressionKinds.EventReference"/>.</remarks>
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get { return ExpressionKinds.EventReference; }
         }
@@ -274,7 +274,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region IExpression Members
 
-        public ExpressionKind Type
+        public ExpressionKinds Type
         {
             get {
                 return ExpressionKinds.EventReference;

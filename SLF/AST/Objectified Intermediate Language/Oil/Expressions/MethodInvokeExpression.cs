@@ -259,7 +259,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns the type of expression the <see cref="MethodInvokeExpression"/> is.
         /// </summary>
         /// <remarks>Returns <see cref="ExpressionType.MethodCall"/>.</remarks>
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get { return ExpressionKinds.MethodCall; }
         }

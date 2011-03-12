@@ -50,7 +50,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns the type of expression the <see cref="CSharpBitwiseAndExpression"/> is.
         /// </summary>
         /// <remarks>Returns <see cref="ExpressionType.BitwiseAndOperation"/>.</remarks>
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get { return ExpressionKinds.BitwiseAndOperation; }
         }

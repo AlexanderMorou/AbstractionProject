@@ -79,7 +79,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns the type of expression the <see cref="AssignmentExpression"/> is.
         /// </summary>
         /// <remarks>Returns based upon the <see cref="Operation"/>.</remarks>
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get {
                 switch (this.Operation)

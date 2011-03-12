@@ -16,12 +16,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     {
         public static class Language
         {
-            public static readonly ICSharpLanguage Version2 = new CSharpLanguage(CSharpLanguageVersion.CSharp_v2);
-            public static readonly ICSharpLanguage Version3 = new CSharpLanguage(CSharpLanguageVersion.CSharp_v3);
-            public static readonly ICSharpLanguage Version3_5 = new CSharpLanguage(CSharpLanguageVersion.CSharp_v3_5);
-            public static readonly ICSharpLanguage Version4 = new CSharpLanguage(CSharpLanguageVersion.CSharp_v4);
-            public static readonly ICSharpLanguage Version5 = new CSharpLanguage(CSharpLanguageVersion.CSharp_v5);
-            
+            public static readonly ICSharpLanguage Version2 = new CSharpLanguage(CSharpLanguageVersion.Version2);
+            public static readonly ICSharpLanguage Version3 = new CSharpLanguage(CSharpLanguageVersion.Version3);
+            public static readonly ICSharpLanguage Version4 = new CSharpLanguage(CSharpLanguageVersion.Version4);
+            public static readonly ICSharpLanguage Version5 = new CSharpLanguage(CSharpLanguageVersion.Version5);
         }
     }
 }

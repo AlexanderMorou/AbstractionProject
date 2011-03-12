@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #region IExpression Members
 
-        ExpressionKind IExpression.Type
+        ExpressionKinds IExpression.Type
         {
             get { return ExpressionKinds.TypeReference; }
         }

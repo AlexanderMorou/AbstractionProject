@@ -43,7 +43,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             this.symbol = symbol;
             this.source = source;
         }
-        public override ExpressionKind Type
+        public override ExpressionKinds Type
         {
             get { return ExpressionKinds.SymbolExpression; }
         }
