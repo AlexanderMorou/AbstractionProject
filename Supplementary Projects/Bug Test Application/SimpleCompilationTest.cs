@@ -1,28 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
+using System.Windows.Forms;
+using AllenCopeland.Abstraction.Slf._Internal;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
-using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Compilers;
+using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
-using AllenCopeland.Abstraction.Slf.Oil.Members;
-using Microsoft.VisualBasic;
-using System.Reflection;
-using AllenCopeland.Abstraction.Slf.Oil.VisualBasic;
-using AllenCopeland.Abstraction.Slf.Oil.Statements;
-using AllenCopeland.Abstraction.Slf._Internal;
-using AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq;
-using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions.Lambda;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Drawing;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq;
+using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Slf.Oil.Statements;
+using AllenCopeland.Abstraction.Slf.Oil.VisualBasic;
+using AllenCopeland.Abstraction.Utilities.Collections;
+using Microsoft.VisualBasic;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|

@@ -1,31 +1,31 @@
 ﻿using System;
+using System.CodeDom.Compiler;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Collections;
-using AllenCopeland.Abstraction.Slf.Parsers.Oilexer;
-using System.CodeDom.Compiler;
-using AllenCopeland.Abstraction.Slf.Compilers.Oilexer;
-using System.Globalization;
-using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
-using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
 using AllenCopeland.Abstraction.Slf._Internal.Oilexer.Inlining;
+using AllenCopeland.Abstraction.Slf.Compilers.Oilexer;
+using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
+using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
-using OM = System.Collections.ObjectModel;
+using AllenCopeland.Abstraction.Slf.Parsers.Oilexer;
 using GDFD = AllenCopeland.Abstraction.Slf.Languages.Oilexer;
+using OM = System.Collections.ObjectModel;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
 {
+    using System.Diagnostics;
+    using AllenCopeland.Abstraction.Slf._Internal.Oilexer;
     using AllenCopeland.Abstraction.Slf._Internal.Oilexer.Inlining;
     using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
+    using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
+    using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
+    using AllenCopeland.Abstraction.Utilities.Collections;
     //using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Utilities.Collections;
     using GDEntryCollection =
             OM::Collection<GDFD::IEntry>;
-    using System.Diagnostics;
-    using AllenCopeland.Abstraction.Slf._Internal.Oilexer;
-using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
-    using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
-    using AllenCopeland.Abstraction.Utilities.Collections;
     /// <summary>
     /// Provides a series of extension methdos for the parser compiler
     /// to operate upon the data sets provided by the grammar description

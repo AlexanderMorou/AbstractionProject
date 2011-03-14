@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
-using System.Reflection;
 
 namespace AllenCopeland.Abstraction.Slf.Cli.Members
 {

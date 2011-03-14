@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Abstract;
-using TValueMember = AllenCopeland.Abstraction.Slf.Abstract.IGenericTypeParameter<AllenCopeland.Abstraction.Slf.Oil.ISymbolType> ;
-using System.Collections;
 using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Utilities.Collections;
+using TValueMember = AllenCopeland.Abstraction.Slf.Abstract.IGenericTypeParameter<AllenCopeland.Abstraction.Slf.Oil.ISymbolType>;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|

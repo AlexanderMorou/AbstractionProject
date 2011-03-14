@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using AllenCopeland.Abstraction.Utilities.Collections;
-using AllenCopeland.Abstraction.Slf.Parsers.Oilexer;
-using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
 using System.Reflection.Emit;
-using AllenCopeland.Abstraction.Slf.Oil;
+using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
+using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Slf.Parsers.Oilexer;
+using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -16,8 +16,8 @@ using AllenCopeland.Abstraction.Slf.Abstract;
  \-------------------------------------------------------------------- */
 namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer
 {
-    using RuleTreeNode = KeyedTreeNode<IProductionRuleEntry, GDFileObjectRelationalMap.RuleObjectification>;
     using RuleTree = KeyedTree<IProductionRuleEntry, GDFileObjectRelationalMap.RuleObjectification>;
+    using RuleTreeNode = KeyedTreeNode<IProductionRuleEntry, GDFileObjectRelationalMap.RuleObjectification>;
 
     public class GDFileObjectRelationalMap :
         ControlledStateDictionary<IScannableEntry, IEntryObjectRelationalMap>,

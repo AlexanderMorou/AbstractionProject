@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Diagnostics;
-using AllenCopeland.Abstraction.Slf.Abstract.Modules;
+using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Modules;
+using AllenCopeland.Abstraction.Utilities.Collections;
 /*---------------------------------------------------------------------\
 | Copyright © 2011 Allen Copeland Jr.                                  |
 |----------------------------------------------------------------------|

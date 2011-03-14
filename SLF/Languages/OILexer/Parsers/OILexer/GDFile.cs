@@ -1,10 +1,10 @@
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
-using OM = System.Collections.ObjectModel;
 using GDFD = AllenCopeland.Abstraction.Slf.Languages.Oilexer;
-using System.CodeDom.Compiler;
+using OM = System.Collections.ObjectModel;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -14,17 +14,17 @@ using System.CodeDom.Compiler;
 
 namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
 {
+    using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
+    using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
+    using AllenCopeland.Abstraction.Utilities.Collections;
     /* *
-     * Aliases, uses namespace alias qualifiers to shorten
-     * type names.
-     * */
+         * Aliases, uses namespace alias qualifiers to shorten
+         * type names.
+         * */
     using GDEntryCollection =
         OM::Collection<GDFD::IEntry>;
     using GDStringCollection =
-        OM::Collection<string>;
-using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
-    using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
-    using AllenCopeland.Abstraction.Utilities.Collections;
+            OM::Collection<string>;
 
     /// <summary>
     /// Provides a base implementation of <see cref="IGDFile"/>.
