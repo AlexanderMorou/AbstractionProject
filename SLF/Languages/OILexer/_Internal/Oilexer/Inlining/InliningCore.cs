@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
-using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
 using System.Collections.ObjectModel;
-using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
+using System.Linq;
+using System.Text;
 using AllenCopeland.Abstraction.Slf.FiniteAutomata;
+using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules;
+using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
+using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
 using AllenCopeland.Abstraction.Utilities.Collections;
 /* * 
  * Oilexer is an open-source project and must be released

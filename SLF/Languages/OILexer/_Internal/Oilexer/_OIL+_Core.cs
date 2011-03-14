@@ -1,24 +1,24 @@
-using Microsoft.CSharp;
 using System;
-using System.Linq;
 using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
+using System.Text;
 using System.Text.RegularExpressions;
-using AllenCopeland.Abstraction.Slf.Oil;
-using AllenCopeland.Abstraction.Slf.Languages;
-using AllenCopeland.Abstraction.Slf.Compilers;
-using AllenCopeland.Abstraction.Slf.Translation;
-using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Slf._Internal;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
-using AllenCopeland.Abstraction.Slf._Internal;
+using AllenCopeland.Abstraction.Slf.Compilers;
+using AllenCopeland.Abstraction.Slf.Languages;
+using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
+using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Slf.Translation;
+using Microsoft.CSharp;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|

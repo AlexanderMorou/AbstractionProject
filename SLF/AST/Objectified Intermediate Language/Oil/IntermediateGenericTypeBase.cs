@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using AllenCopeland.Abstraction.Slf.Abstract;
-using AllenCopeland.Abstraction.Slf.Oil.Members;
-using System.Linq;
-using AllenCopeland.Abstraction.Slf.Abstract.Properties;
-using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Globalization;
-using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
-using AllenCopeland.Abstraction.Slf._Internal.Ast;
-using AllenCopeland.Abstraction.Utilities.Events;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using AllenCopeland.Abstraction.Slf._Internal.Ast;
+using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Properties;
+using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|

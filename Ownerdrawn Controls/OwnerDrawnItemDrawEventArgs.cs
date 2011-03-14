@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using System.Drawing;
-using System.Diagnostics;
  /*----------------------------------------\
  | Copyright © 2011 Allen Copeland Jr.     |
  |-----------------------------------------|

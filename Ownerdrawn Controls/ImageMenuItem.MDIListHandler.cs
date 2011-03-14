@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using AllenCopeland.Abstraction.OwnerDrawnControls;
-using System.Drawing;
  /*----------------------------------------\
  | Copyright © 2011 Allen Copeland Jr.     |
  |-----------------------------------------|

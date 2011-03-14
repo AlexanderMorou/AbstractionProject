@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
-using AllenCopeland.Abstraction.Slf._Internal.Oilexer.Inlining;
 using System.Linq;
+using System.Text;
+using AllenCopeland.Abstraction.Slf._Internal.Oilexer.Inlining;
+using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
 /* * 
  * Oilexer is an open-source project and must be released
  * as per the license associated to the project.

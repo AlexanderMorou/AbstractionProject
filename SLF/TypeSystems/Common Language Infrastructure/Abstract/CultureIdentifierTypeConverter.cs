@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
-using System.Linq;
-using AllenCopeland.Abstraction.Utilities.Arrays;
 using System.Globalization;
+using System.Linq;
+using System.Text;
+using AllenCopeland.Abstraction.Utilities.Arrays;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|

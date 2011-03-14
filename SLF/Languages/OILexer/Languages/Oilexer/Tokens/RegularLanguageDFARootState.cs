@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
-using System.IO;
-using AllenCopeland.Abstraction.Slf._Internal.Oilexer;
 using System.Threading;
+using AllenCopeland.Abstraction.Slf._Internal.Oilexer;
+using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
