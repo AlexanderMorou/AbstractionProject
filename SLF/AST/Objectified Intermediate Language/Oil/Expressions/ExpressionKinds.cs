@@ -535,8 +535,5 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         RangeVariableReference,
         UnaryOperation,
         UnaryForwardTerm, /* 1110110100100010000000 */
-        /// <summary>
-        /// Unary operations can carry multiple operations with them.
-        /// </summary>
     }
 }

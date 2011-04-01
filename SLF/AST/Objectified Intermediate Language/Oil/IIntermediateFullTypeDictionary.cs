@@ -32,10 +32,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Removes the <paramref name="type"/> provided from the 
-        /// <see cref="IIntermediateFullTypes"/> and the subordinate 
+        /// <see cref="IIntermediateFullTypeDictionary"/> and the subordinate 
         /// dictionary that contains it.
         /// </summary>
-        /// <param name="intermediateTypeBase">The <see cref="IIntermediateType"/>
+        /// <param name="type">The <see cref="IIntermediateType"/>
         /// to remove.</param>
         /// <remarks>Does not dispose the <paramref name="type"/>.</remarks>
         void RemoveSoft(IIntermediateType type);

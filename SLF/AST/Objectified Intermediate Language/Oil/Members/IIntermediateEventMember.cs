@@ -58,7 +58,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// which is responsible for adding a handler
         /// of the event.
         /// </summary>
-        /// <remarks>Parameters are read-only when <see cref="SignatureSource"/>
+        /// <remarks>Parameters are read-only when <see cref="IIntermediateEventSignatureMember.SignatureSource"/>
         /// is <see cref="EventSignatureSource.Delegate"/>.</remarks>
         new IIntermediateMethodMember OnAddMethod { get; }
         /// <summary>
@@ -66,7 +66,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// which is responsible for removing a handler
         /// of the event.
         /// </summary>
-        /// <remarks>Parameters are read-only when <see cref="SignatureSource"/>
+        /// <remarks>Parameters are read-only when <see cref="IIntermediateEventSignatureMember.SignatureSource"/>
         /// is <see cref="EventSignatureSource.Delegate"/>.</remarks>
         new IIntermediateMethodMember OnRemoveMethod { get; }
         /// <summary>
@@ -95,7 +95,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// which is responsible for adding a handler
         /// of the event.
         /// </summary>
-        /// <remarks>Parameters are read-only when <see cref="SignatureSource"/>
+        /// <remarks>Parameters are read-only when <see cref="IIntermediateEventSignatureMember.SignatureSource"/>
         /// is <see cref="EventSignatureSource.Delegate"/>.</remarks>
         new IIntermediateMethodMember OnAddMethod { get; }
         /// <summary>
@@ -103,7 +103,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// which is responsible for removing a handler
         /// of the event.
         /// </summary>
-        /// <remarks>Parameters are read-only when <see cref="SignatureSource"/>
+        /// <remarks>Parameters are read-only when <see cref="IIntermediateEventSignatureMember.SignatureSource"/>
         /// is <see cref="EventSignatureSource.Delegate"/>.</remarks>
         new IIntermediateMethodMember OnRemoveMethod { get; }
         /// <summary>

@@ -11,7 +11,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     /// portion of the object model defined in <typeparamref name="T1"/>.
     /// </summary>
     /// <typeparam name="T1">The point of reference
-    /// to which the <see cref="ICompilerWarning{T1}"/>
+    /// to which the <see cref="ICompilerModelWarning{T1}"/>
     /// relates.</typeparam>
     public interface ICompilerModelWarning<T1> :
         ICompilerModelMessage
@@ -30,10 +30,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     /// and <typeparamref name="T2"/>.
     /// </summary>
     /// <typeparam name="T1">The type of the first point of
-    /// reference to which the <see cref="ICompilerWarning{T1, T2}"/>
+    /// reference to which the <see cref="ICompilerModelWarning{T1, T2}"/>
     /// relates.</typeparam>
     /// <typeparam name="T2">The type of the second point of 
-    /// reference to which the <see cref="ICompilerWarning{T1, T2}"/>
+    /// reference to which the <see cref="ICompilerModelWarning{T1, T2}"/>
     /// relates.</typeparam>
     public interface ICompilerModelWarning<T1, T2> :
         ICompilerModelWarning<T1>
@@ -52,13 +52,13 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     /// <typeparamref name="T2"/>, and <typeparamref name="T3"/>.
     /// </summary>
     /// <typeparam name="T1">The type of the first point of
-    /// reference to which the <see cref="ICompilerWarning{T1, T2, T3}"/>
+    /// reference to which the <see cref="ICompilerModelWarning{T1, T2, T3}"/>
     /// relates.</typeparam>
     /// <typeparam name="T2">The type of the second point of 
-    /// reference to which the <see cref="ICompilerWarning{T1, T2, T3}"/>
+    /// reference to which the <see cref="ICompilerModelWarning{T1, T2, T3}"/>
     /// relates.</typeparam>
     /// <typeparam name="T3">The type of the third point of
-    /// reference to which the <see cref="ICompilerWarning{T1, T2, T3}"/>
+    /// reference to which the <see cref="ICompilerModelWarning{T1, T2, T3}"/>
     /// relates.</typeparam>
     public interface ICompilerModelWarning<T1, T2, T3> :
         ICompilerModelWarning<T1, T2>

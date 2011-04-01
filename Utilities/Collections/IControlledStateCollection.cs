@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <returns>
         /// The number of elements contained in the <see cref="IControlledStateCollection"/>.
         /// </returns>
-        new int Count { get; }
+        int Count { get; }
         /// <summary>
         /// Determines whether the <see cref="IControlledStateCollection"/> contains a specific 
         /// value.
@@ -58,10 +58,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// is equal to or greater than the length of <paramref name="array"/>.-or-The 
         /// number of elements in the source <see cref="IControlledStateCollection"/> is greater 
         /// than the available space from <paramref name="arrayIndex"/> to the 
-        /// end of the destination <paramref name="array"/>.-or-Type <typeparamref name="T"/> 
-        /// cannot be cast automatically to the type of the destination
+        /// end of the destination <paramref name="array"/>.-or-the underlying <see cref="Type"/>
+        /// of the elements of the <see cref="IControlledStateCollection "/>
+        /// cannot be cast automatically to the type of the destination.
         /// <paramref name="array"/>.</exception>
-        new void CopyTo(Array array, int arrayIndex = 0);
+        void CopyTo(Array array, int arrayIndex = 0);
 
         /// <summary>
         /// Returns the element at the <paramref name="index"/> provided

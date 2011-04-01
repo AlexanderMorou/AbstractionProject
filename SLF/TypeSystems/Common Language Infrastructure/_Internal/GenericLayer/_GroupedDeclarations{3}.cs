@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// instance with the <paramref name="originalSet"/>
         /// provided.
         /// </summary>
-        /// <param name="originalSet">The <typeparamref name="TTypes"/>
+        /// <param name="originalSet">The <typeparamref name="TDictionary"/>
         /// from which the <see cref="_GroupedDeclarations{TDeclarationSpecific, TParent, TDeclaration, TDictionary}"/>
         /// operates.</param>
         protected _GroupedDeclarations(_GroupedMasterBase<TDeclaration> master, TDictionary originalSet, TParent parent)

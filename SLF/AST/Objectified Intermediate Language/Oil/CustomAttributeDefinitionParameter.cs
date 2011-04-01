@@ -13,7 +13,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <summary>
     /// Provides a base class for custom attribute constructor parameters.
     /// </summary>
-    /// <typeparam name="T">The type of value the <see cref="CustomAttributeDefinitionParameter"/>
+    /// <typeparam name="T">The type of value the <see cref="CustomAttributeDefinitionParameter{T}"/>
     /// is.</typeparam>
     public class CustomAttributeDefinitionParameter<T> :
         ICustomAttributeDefinitionParameter<T>
@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #region ICustomAttributeDefinitionParameter<T> Members
 
         /// <summary>
-        /// Returns/sets the <typeparam name="T"/> 
+        /// Returns/sets the <typeparamref name="T"/> 
         /// value defined on one of the 
         /// <see cref="CustomAttributeDefinition"/>'s
         /// constructor argument(s).

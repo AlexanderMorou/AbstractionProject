@@ -42,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             private TInstDeclarationData(TDeclaration rootDeclaration) { }
         }
         /// <summary>
-        /// Data member for <see cref="GetRootDeclaration()"/>.
+        /// Data member for <see cref="GetRoot()"/>.
         /// </summary>
         private TDeclaration rootDeclaration;
         /// <summary>
@@ -50,13 +50,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         private IIntermediateSegmentableDeclarationPartCollection<TDeclaration> parts;
         /// <summary>
-        /// Creates a new <see cref="IntermediateSegmentableDeclarationBase{TDeclaration}"/>
+        /// Creates a new <see cref="IntermediateSegmentableDeclarationBase{TDeclaration, TInstDeclaration}"/>
         /// instance with the <paramref name="rootDeclaration"/> 
         /// provided.
         /// </summary>
         /// <param name="rootDeclaration">The <typeparamref name="TDeclaration"/>
         /// instance that represents the root element of the
-        /// <see cref="IntermediateSegmentableDeclarationBase"/>.</param>
+        /// <see cref="IntermediateSegmentableDeclarationBase{TDeclaration, TInstDeclaration}"/>.</param>
         public IntermediateSegmentableDeclarationBase(TDeclaration rootDeclaration)
         {
             this.rootDeclaration = rootDeclaration;
@@ -72,7 +72,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Returns the <typeparamref name="TDeclaration"/> that is the root declaration.
         /// </summary>
         /// <returns>An instance of <typeparamref name="TDeclaration"/> relative to the root instance that spawned
-        /// the current <see cref="IntermediateSegmentableDeclarationBase"/>.</returns>
+        /// the current <see cref="IntermediateSegmentableDeclarationBase{TDeclaration, TInstDeclaration}"/>.</returns>
         public TDeclaration GetRoot()
         {
             if (this.rootDeclaration == null)

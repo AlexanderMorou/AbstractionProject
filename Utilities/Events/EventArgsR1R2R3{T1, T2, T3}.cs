@@ -56,7 +56,7 @@ namespace AllenCopeland.Abstraction.Utilities.Events
 
         /// <summary>
         /// Returns the required third argument 
-        /// for the <see cref="EventArgsR1R2R3{TArg1, TArg2}"/>.
+        /// for the <see cref="EventArgsR1R2R3{TArg1, TArg2, TArg3}"/>.
         /// </summary>
         public TArg3 Arg3 { get; private set; }
     }

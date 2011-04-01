@@ -188,8 +188,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <typeparam name="TDelegate">The type of delegate used to bind to <paramref name="ctor"/>.</typeparam>
         /// <param name="ctor">The constructor to build a dynamic method for that matches
         /// the signature of <typeparamref name="TDelegate"/>.</param>
-        /// <param name="caller">The <see cref="Type"/> from which the
-        /// method was called.</param>
         /// <returns>A <typeparamref name="TDelegate"/> instance
         /// provided there's no issues between the call between <typeparamref name="TDelegate"/>
         /// and the <paramref name="ctor"/>.</returns>
@@ -197,9 +195,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// is not a type of a delegate, or <paramref name="ctor"/> does not match the parameter
         /// list of the delegate provided in <typeparamref name="TDelegate"/>.</exception>
         /// <exception cref="System.ArgumentNullException"><paramref name="ctor"/> is null.</exception>
-        /// <remarks><para>Delegate will be bound by the scoping rules of the <paramref name="caller"/>.</para>
-        /// <para><paramref name="caller"/> is explicitly defined due to trace not returning 
-        /// type-parameters of caller's declaring type.</para></remarks>
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.PreserveSig)]
         public static TDelegate BuildOptimizedConstructorDelegateEx<TDelegate>(this ConstructorInfo ctor)
         {

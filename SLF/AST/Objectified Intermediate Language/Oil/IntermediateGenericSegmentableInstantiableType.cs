@@ -652,12 +652,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         protected abstract PropertyMember GetNewProperty(TypedName nameAndType);
 
         /// <summary>
-        /// Obtains a new <see cref="ConstructorMember"/> with the <paramref name="parameters"/>
-        /// provided.
+        /// Obtains a new <see cref="ConstructorMember"/> with no parameters.
         /// </summary>
-        /// <param name="parameters">The <see cref="TypedNameSeries"/>
-        /// which designates the names and types of the parameters contained within the
-        /// <typeparamref name="TIntermediateCtor"/> to be created.</param>
         /// <returns>A new <see cref="ConstructorMember"/>, if successful.</returns>
         /// <remarks>Required by design, due to further inheritance on constructors being necessary.</remarks>
         protected abstract ConstructorMember GetNewConstructor();
@@ -697,7 +693,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Obtains a new <see cref="FieldMember"/> with the 
-        /// <see cref="nameAndType"/> of the member to create.
+        /// <paramref name="nameAndType"/> of the member to create.
         /// </summary>
         /// <param name="nameAndType">The <see cref="TypedName"/>
         /// which provides the <see cref="String"/>

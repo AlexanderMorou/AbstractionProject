@@ -101,10 +101,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         protected virtual void OnParameterAdded(EventArgsR1<TIntermediateParameter> e)
         {
-            if (this._ParameterAdded != null)
-                this._ParameterAdded(this, new EventArgsR1<IIntermediateParameterMember>(e.Arg1));
-            if (this.ParameterAdded != null)
-                this.ParameterAdded(this, new EventArgsR1<TIntermediateParameter>(e.Arg1));
+            var _parameterAdded = this._ParameterAdded;
+            if (_parameterAdded != null)
+                _parameterAdded(this, new EventArgsR1<IIntermediateParameterMember>(e.Arg1));
+            var parameterAdded = this.ParameterAdded;
+            if (parameterAdded != null)
+                parameterAdded(this, new EventArgsR1<TIntermediateParameter>(e.Arg1));
         }
 
         void parameters_ItemAdded(object sender, EventArgsR1<TIntermediateParameter> e)
@@ -114,10 +116,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         protected virtual void OnParameterRemoved(EventArgsR1<TIntermediateParameter> e)
         {
-            if (this._ParameterRemoved != null)
-                this._ParameterRemoved(this, new EventArgsR1<IIntermediateParameterMember>(e.Arg1));
-            if (this.ParameterRemoved != null)
-                this.ParameterRemoved(this, new EventArgsR1<TIntermediateParameter>(e.Arg1));
+            var _parameterRemoved = this._ParameterRemoved;
+            if (_parameterRemoved != null)
+                _parameterRemoved(this, new EventArgsR1<IIntermediateParameterMember>(e.Arg1));
+            var parameterRemoved = this.ParameterRemoved;
+            if (parameterRemoved != null)
+                parameterRemoved(this, new EventArgsR1<TIntermediateParameter>(e.Arg1));
         }
 
         /// <summary>
@@ -143,7 +147,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         /// <summary>
-        /// Returns whether the last element in <paramref name="Parameters"/> is a parameter
+        /// Returns whether the last element in <see cref="Parameters"/> is a parameter
         /// array.
         /// </summary>
         public bool LastIsParams

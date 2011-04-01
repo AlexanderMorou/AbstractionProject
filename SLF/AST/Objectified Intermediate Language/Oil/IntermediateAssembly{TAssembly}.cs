@@ -30,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IntermediateAssembly<TAssembly>
     {
         /// <summary>
-        /// Data member for <see cref="CustomAttributes."/>
+        /// Data member for <see cref="CustomAttributes"/>.
         /// </summary>
         private ICustomAttributeDefinitionCollectionSeries attributes;
         /// <summary>
@@ -109,7 +109,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Returns the <see cref="IAssemblyInformation"/> associated to the
         /// current <see cref="IntermediateAssembly{TAssembly}"/>.
         /// </summary>
-        /// <returns>An instance of <see cref="IIntermediateAsseblyInformation"/> from
+        /// <returns>An instance of <see cref="IIntermediateAssemblyInformation"/> from
         /// the new member <see cref="AssemblyInformation"/>.</returns>
         protected override IAssemblyInformation OnGetAssemblyInformation()
         {
@@ -458,8 +458,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.IsRoot)
             {
-                if (this._Renaming != null)
-                    this._Renaming(this, e);
+                var _renaming = this._Renaming;
+                if (_renaming != null)
+                    _renaming(this, e);
             }
             else
                 ((TAssembly)(this.GetRoot())).OnRenaming(e);
@@ -474,8 +475,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.IsRoot)
             {
-                if (this._Renamed != null)
-                    this._Renamed(this, e);
+                var _renamed = this._Renamed;
+                if (_renamed != null)
+                    _renamed(this, e);
             }
             else
                 ((TAssembly)(this.GetRoot())).OnRenamed(e);

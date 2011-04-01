@@ -130,7 +130,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// Returns the <typeparamref name="TMethodMember"/> which is responsible for adding a handler
         /// of the event.
         /// </summary>
-        /// <remarks><para>Parameters are read-only when <see cref="SignatureSource"/>
+        /// <remarks><para>Parameters are read-only when <see cref="IntermediateEventSignatureMemberBase{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent}.SignatureSource"/>
         /// is <see cref="EventSignatureSource.Delegate"/>.</para>
         /// <para>Statements emitted by the raise method are read-only when
         /// <see cref="GenerationType"/> is <see cref="IntermediateEventManagementType.Automatic"/>.

@@ -23,8 +23,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
     /// working with a compiled property member.
     /// </summary>
     /// <typeparam name="TMethod">The type of <see cref="IMethodMember{TMethod, TMethodParent}"/> 
-    /// which is used for the <see cref="CompiledPropertyMemberBase{TProperty, TPropertyParent, TPropertyMethod, TMethod, TMethodParent}.GetMethod"/>
-    /// and <see cref="CompiledPropertyMemberBase{TProperty, TPropertyParent, TPropertyMethod, TMethod, TMethodParent}.SetMethod"/>.</typeparam>
+    /// which is used for the <see cref="PropertyMemberBase{TProperty, TPropertyParent, TPropertyMethod, TMethod, TMethodParent}.GetMethod"/>
+    /// and <see cref="PropertyMemberBase{TProperty, TPropertyParent, TPropertyMethod, TMethod, TMethodParent}.SetMethod"/>.</typeparam>
     /// <typeparam name="TProperty">The type of property used in the current implementation.</typeparam>
     /// <typeparam name="TPropertyParent">The type of parent that contains the <see cref="IPropertyMember"/> 
     /// instances in the current implementation.</typeparam>
@@ -116,7 +116,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <param name="memberInfo">The <see cref="MethodInfo"/> of the 
         /// method.</param>
         /// <returns>An <see cref="IMethodMember"/></returns><remarks>Used for <see cref="IPropertyMember.GetMethod"/> and
-        /// <paramref name="IPropertyMember.SetMethod"/></remarks>
+        /// <see cref="IPropertyMember.SetMethod"/></remarks>
         protected abstract TPropertyMethod OnGetMethod(PropertyMethodType methodType, MethodInfo memberInfo);
 
         protected override string OnGetName()

@@ -32,9 +32,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         PropertyIndexer,
         /// <summary>
-        /// The indexer is inferred by the 
-        /// <see cref="IMemberParentReferenceExpression.ForwardType"/>'s
-        /// value.
+        /// The indexer is inferred by the compiler.
         /// </summary>
         InferredIndexer,
     }

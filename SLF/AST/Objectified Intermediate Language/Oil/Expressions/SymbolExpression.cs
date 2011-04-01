@@ -38,6 +38,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         /// <param name="symbol">The <see cref="System.String"/>
         /// denoting the expression.</param>
+        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
+        /// which leads to the <see cref="SymbolExpression"/>.</param>
         public SymbolExpression(string symbol, IMemberParentReferenceExpression source)
         {
             this.symbol = symbol;
@@ -78,8 +80,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         /// <summary>
-        /// Creates a symbol fusion with the <paramref name="SymbolExpression"/> on the left side
-        /// and the <paramref name="String"/> on the right side.
+        /// Creates a symbol fusion with the <see cref="SymbolExpression"/> on the <paramref name="left"/> side
+        /// and the <see cref="String"/> on the <paramref name="right"/> side.
         /// </summary>
         /// <param name="left">The <see cref="SymbolExpression"/> on the left to be
         /// fused with the <paramref name="right"/> <see cref="String"/>.</param>

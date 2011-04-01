@@ -326,7 +326,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, ITypeCollection search)
         {
-            return CLIGateway.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, ((IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>)this).Values, name, search, strict);
+            return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, ((IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>)this).Values, name, search, strict);
         }
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, ITypeCollection search)
@@ -336,7 +336,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, params IType[] search)
         {
-            return CLIGateway.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, ((IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>)this).Values, name, search, strict);
+            return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, ((IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>)this).Values, name, search, strict);
         }
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, params IType[] search)
@@ -548,7 +548,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <param name="name">The <see cref="String"/> representing the name the method is referred to by.</param>
         /// <returns>A new <typeparamref name="TIntermediateSignature"/> instance
         /// which has a <see cref="System.Void"/> return-type.</returns>
-        /// <summary>
         public TIntermediateSignature Add(string name)
         {
             var method = this.GetNewMethod(name);
@@ -557,6 +556,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return method;
         }
 
+        /// <summary>
         /// Adds a new <typeparamref name="TIntermediateSignature"/> with the
         /// <paramref name="name"/> and <paramref name="parameters"/> provided.
         /// </summary>
@@ -710,7 +710,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, ITypeCollection search)
         {
-            return CLIGateway.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, ((IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>)this).Values, name, search, strict);
+            return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, ((IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>)this).Values, name, search, strict);
         }
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, ITypeCollection search)
@@ -720,7 +720,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, params IType[] search)
         {
-            return CLIGateway.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, ((IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>)this).Values, name, search, strict);
+            return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, ((IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>)this).Values, name, search, strict);
         }
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, params IType[] search)

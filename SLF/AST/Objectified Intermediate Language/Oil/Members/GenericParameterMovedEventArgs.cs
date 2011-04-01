@@ -37,13 +37,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         /// <summary>
         /// Returns the <see cref="Int32"/> ordinal index, relative to the <see cref="IIntermediateGenericParameter.Parent"/>,
-        /// of the <paramref name="Parameter"/> prior to the move.
+        /// of the <see cref="Parameter"/> prior to the move.
         /// </summary>
         public int From { get; private set; }
 
         /// <summary>
         /// Returns the <see cref="Int32"/> ordinal index, relative to the <see cref="IIntermediateGenericParameter.Parent"/>,
-        /// of the <paramref name="Parameter"/> after to the move.
+        /// of the <see cref="Parameter"/> after to the move.
         /// </summary>
         public int To { get; private set; }
 

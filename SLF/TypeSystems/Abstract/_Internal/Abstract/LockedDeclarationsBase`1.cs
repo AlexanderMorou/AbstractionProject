@@ -33,10 +33,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             IDeclaration
     {
         /// <summary>
-        /// Creates a new <see cref="LockedDeclarationsBase{TItem}"/> with the <paramref name="items"/>
-        /// to contain.
+        /// Creates a new <see cref="LockedDeclarationsBase{TItem}"/> with the <paramref name="sibling"/>
+        /// to relate to.
         /// </summary>
-        /// <param name="items">The <see cref="IDictionary{TKey, TValue}"/> 
+        /// <param name="sibling">The <see cref="LockedDeclarationsBase{TItem}"/> 
         /// to encapsulate.</param>
         internal LockedDeclarationsBase(LockedDeclarationsBase<TItem> sibling)
             : base(sibling)
@@ -90,7 +90,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         /// Removes an element with the specified <paramref name="index"/> from the 
         /// <see cref="LockedDeclarationsBase{TItem}"/>.
         /// </summary>
-        /// <param name="key">The <see cref="Int32"/> ordinal index of 
+        /// <param name="index">The <see cref="Int32"/> ordinal index of 
         /// the <typeparamref name="TItem"/> to remove.</param>
         /// <returns>true if the element was successfully removed; false otherwise.</returns>
         /// <exception cref="System.NotSupportedException">

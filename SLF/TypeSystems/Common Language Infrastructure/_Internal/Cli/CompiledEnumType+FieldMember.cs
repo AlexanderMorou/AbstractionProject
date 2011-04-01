@@ -39,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             /// The <see cref="FieldInfo"/> related to the
             /// <see cref="FieldMember"/>'s data.</param>
             /// <param name="parent">
-            /// The <typeparamref name="CompiledClassType"/> 
+            /// The <see cref="CompiledClassType"/> 
             /// which contains the <see cref="FieldMember"/>.
             /// </param>
             public FieldMember(FieldInfo memberInfo, CompiledEnumType parent)

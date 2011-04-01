@@ -713,7 +713,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         /// <summary>
         /// Compiles the dynamic method into a delegate with a return defined as <typeparamref name="TResult"/>
-        /// and one parameter of type <paramref name="T1"/>.
+        /// and one parameter of type <typeparamref name="T1"/>.
         /// </summary>
         /// <typeparam name="T1">The type of the first parameter of the method that the <see cref="IntermediateDynamicMethod"/> represents.</typeparam>
         /// <typeparam name="TResult">The type used to represent the result value of the function to compile.</typeparam>

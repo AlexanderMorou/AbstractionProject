@@ -465,7 +465,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// </summary>
         /// <param name="replacement">The master state which is noted to be 
         /// equivalent to the <paramref name="original"/> provided.</param>
-        /// <param name="original">The <see cref="RegularLanguageState"/> 
+        /// <param name="original">The <typeparamref name="TState"/> 
         /// to replace.</param>
         private static void ReplaceState(TState replacement, TState original)
         {

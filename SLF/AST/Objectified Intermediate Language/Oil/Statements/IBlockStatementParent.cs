@@ -62,7 +62,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// Inserts and returns a new <see cref="ISwitchStatement"/> instance
         /// which relates to the <paramref name="caseCondition"/> provided.
         /// </summary>
-        /// <param name="condition">A <see cref="IExpression"/> instance which
+        /// <param name="caseCondition">A <see cref="IExpression"/> instance which
         /// represents a value to check on each case of the <see cref="ISwitchStatement"/>
         /// that results.</param>
         /// <returns>A new <see cref="ISwitchStatement"/> with no cases relative to the
@@ -159,7 +159,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         ICallMethodStatement Call(IMemberParentReferenceExpression parent, string methodName, IExpressionCollection parameters);
         /// <summary>
         /// Creates, inserts, and returns a new <see cref="ICallMethodStatement"/> with the
-        /// <paramref name="parent"/>, <paramref name="methodName"/>, <see cref="typeParameters"/>
+        /// <paramref name="parent"/>, <paramref name="methodName"/>, <oaranref name="typeParameters"/>
         /// and <paramref name="parameters"/> provided.
         /// </summary>
         /// <param name="parent">The <see cref="IMemberParentReferenceExpression"/> from which
@@ -175,7 +175,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         ICallMethodStatement Call(IMemberParentReferenceExpression parent, string methodName, ITypeCollection typeParameters, params IExpression[] parameters);
         /// <summary>
         /// Creates, inserts, and returns a new <see cref="ICallMethodStatement"/> with the
-        /// <paramref name="parent"/>, <paramref name="methodName"/>, <see cref="typeParameters"/>
+        /// <paramref name="parent"/>, <paramref name="methodName"/>, <paramref name="typeParameters"/>
         /// and <paramref name="parameters"/> provided.
         /// </summary>
         /// <param name="parent">The <see cref="IMemberParentReferenceExpression"/> from which
@@ -334,12 +334,64 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// to declare</param>
         void DefineLabel(ILabelStatement label);
 
+        /// <summary>
+        /// Assigns a <paramref name="value"/> to the <paramref name="target"/>
+        /// with the given assignment <paramref name="operation"/> provided.
+        /// </summary>
+        /// <param name="target">The <see cref="IMemberReferenceExpression"/> which is the target
+        /// of the assignment.</param>
+        /// <param name="operation">The <see cref="AssignmentOperation"/> which denotes how the operation
+        /// should be managed.</param>
+        /// <param name="value">The <see cref="INaryOperandExpression"/> which denotes the value
+        /// to assign to the <paramref name="target"/>.</param>
+        /// <returns>A new <see cref="IExpressionStatement"/> which represents the assignment.</returns>
         IExpressionStatement Assign(IMemberReferenceExpression target, AssignmentOperation operation, INaryOperandExpression value);
+        /// <summary>
+        /// Assigns a <paramref name="value"/> to the <paramref name="target"/>
+        /// with the standard <see cref="AssignmentOperation.SimpleAssign"/> operation.
+        /// </summary>
+        /// <param name="target">The <see cref="IMemberReferenceExpression"/> which is the target of the
+        /// assignment.</param>
+        /// <param name="value">The <see cref="INaryOperandExpression"/> which denotes the value
+        /// to assign to the <paramref name="target"/>.</param>
+        /// <returns>A new <see cref="IExpressionStatement"/> which represents the assignment.</returns>
         IExpressionStatement Assign(IMemberReferenceExpression target, INaryOperandExpression value);
 
+        /// <summary>
+        /// Increments the <paramref name="target"/> variable by one.
+        /// </summary>
+        /// <param name="target">The <see cref="IAssignTargetExpression"/>
+        /// which can be incremented.</param>
+        /// <returns>A <see cref="IExpressionStatement"/> which represents the 
+        /// increment operation.</returns>
         IExpressionStatement Increment(IAssignTargetExpression target);
+        /// <summary>
+        /// Increments the <paramref name="target"/> by the <paramref name="incrementBy"/> value.
+        /// </summary>
+        /// <param name="target">The <see cref="IAssignTargetExpression"/> 
+        /// which can be incremented.</param>
+        /// <param name="incrementBy">The <see cref="INaryOperandExpression"/> which acts 
+        /// as the operand in the increment operation.</param>
+        /// <returns>A <see cref="IExpressionStatement"/> which represents the
+        /// increment operation.</returns>
         IExpressionStatement Increment(IAssignTargetExpression target, INaryOperandExpression incrementBy);
+        /// <summary>
+        /// Decrements the <paramref name="target"/> variable by one.
+        /// </summary>
+        /// <param name="target">The <see cref="IAssignTargetExpression"/>
+        /// which can be decremented.</param>
+        /// <returns>A <see cref="IExpressionStatement"/> which represents the 
+        /// decrement operation.</returns>
         IExpressionStatement Decrement(IAssignTargetExpression target);
+        /// <summary>
+        /// Decrements the <paramref name="target"/> by the <paramref name="decrementBy"/> value.
+        /// </summary>
+        /// <param name="target">The <see cref="IAssignTargetExpression"/> 
+        /// which can be decremented.</param>
+        /// <param name="decrementBy">The <see cref="INaryOperandExpression"/> which acts 
+        /// as the operand in the decrement operation.</param>
+        /// <returns>A <see cref="IExpressionStatement"/> which represents the
+        /// decrement operation.</returns>
         IExpressionStatement Decrement(IAssignTargetExpression target, INaryOperandExpression decrementBy);
 
         IJumpStatement Jump(IJumpTarget target);

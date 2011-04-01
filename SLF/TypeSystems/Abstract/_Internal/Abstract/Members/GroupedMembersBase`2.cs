@@ -53,7 +53,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         /// <paramref name="master"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="FullMembersBase"/> 
-        /// which contains the current <see cref="GroupedMembersBase"/>.</param>
+        /// which contains the current <see cref="GroupedMembersBase{TParent, TItem}"/>.</param>
         internal GroupedMembersBase(FullMembersBase master)
             : base(master)
         {

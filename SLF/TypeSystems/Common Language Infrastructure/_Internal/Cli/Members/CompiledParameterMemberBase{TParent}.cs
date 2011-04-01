@@ -24,6 +24,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         where TParent :
             IParameterParent
     {
+        /// <summary>
         /// Data member for <see cref="MemberInfo"/>
         /// </summary>
         private ParameterInfo parameterInfo;

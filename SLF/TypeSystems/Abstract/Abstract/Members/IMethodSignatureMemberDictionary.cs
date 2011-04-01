@@ -164,7 +164,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// Searches for <see cref="IMethodSignatureMember"/> instances that match the <paramref name="search"/> criteria.
         /// </summary>
         /// <param name="name">The root name of the items to include in the result.</param>
-        /// <param name="genericParameters">The <see cref="ITypeCollection"/> of <see cref="IType"/> elements representing the type-replacements for the generic method.
+        /// <param name="genericParameters">The <see cref="ITypeCollection"/> of <see cref="IType"/> elements representing the type-replacements for the generic method.</param>
         /// <param name="strict">Whether to adhere to the <paramref name="search"/> criteria
         /// strictly.</param>
         /// <param name="search">The <see cref="ITypeCollection"/> that designates the signature to look for.</param>
@@ -176,7 +176,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// Searches for <see cref="IMethodSignatureMember"/> instances that match the <paramref name="search"/> criteria.
         /// </summary>
         /// <param name="name">The root name of the items to include in the result.</param>
-        /// <param name="genericParameters">The <see cref="ITypeCollection"/> of <see cref="IType"/> elements representing the type-replacements for the generic method.
+        /// <param name="genericParameters">The <see cref="ITypeCollection"/> of <see cref="IType"/> elements representing the type-replacements for the generic method.</param>
         /// <param name="search">The <see cref="ITypeCollection"/> that designates the signature to look for.</param>
         /// <returns>A new <see cref="IFilteredSignatureMemberDictionary"/> of 
         /// <see cref="IMethodSignatureMember"/> instances that matched the <paramref name="search"/> criteria.</returns>
@@ -187,7 +187,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// Searches for <see cref="IMethodSignatureMember"/> instances that match the <paramref name="search"/> criteria.
         /// </summary>
         /// <param name="name">The root name of the items to include in the result.</param>
-        /// <param name="genericParameters">The <see cref="ITypeCollection"/> of <see cref="IType"/> elements representing the type-replacements for the generic method.
+        /// <param name="genericParameters">The <see cref="ITypeCollection"/> of <see cref="IType"/> elements representing the type-replacements for the generic method.</param>
         /// <param name="strict">Whether to adhere to the <paramref name="search"/> criteria
         /// strictly.</param>
         /// <param name="search">The <see cref="IType"/> array that designates the signature to look for.</param>
@@ -199,7 +199,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// Searches for <see cref="IMethodSignatureMember"/> instances that match the <paramref name="search"/> criteria.
         /// </summary>
         /// <param name="name">The root name of the items to include in the result.</param>
-        /// <param name="genericParameters">The <see cref="ITypeCollection"/> of <see cref="IType"/> elements representing the type-replacements for the generic method.
+        /// <param name="genericParameters">The <see cref="ITypeCollection"/> of <see cref="IType"/> elements representing the type-replacements for the generic method.</param>
         /// <param name="search">The <see cref="IType"/> array that designates the signature to look for.</param>
         /// <returns>A new <see cref="IFilteredSignatureMemberDictionary"/> of 
         /// <see cref="IMethodSignatureMember"/> instances that matched the <paramref name="search"/> criteria.</returns>

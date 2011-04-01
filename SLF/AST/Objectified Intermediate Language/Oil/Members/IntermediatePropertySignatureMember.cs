@@ -150,7 +150,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// which represents the get method of the 
         /// <see cref="IntermediatePropertySignatureMember{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent, TMethodMember}"/>.
         /// </summary>
-        /// <remarks>Is null if <paramref name="CanRead"/> is false.</remarks>
+        /// <remarks>Is null if <see cref="CanRead"/> is false.</remarks>
         public IIntermediatePropertySignatureMethodMember GetMethod
         {
             get {
@@ -170,7 +170,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// which represents the set method of the 
         /// <see cref="IntermediatePropertySignatureMember{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent, TMethodMember}"/>.
         /// </summary>
-        /// <remarks>Is null if <paramref name="CanWrite"/> is false.</remarks>
+        /// <remarks>Is null if <see cref="CanWrite"/> is false.</remarks>
         public IIntermediatePropertySignatureSetMethodMember SetMethod
         {
             get

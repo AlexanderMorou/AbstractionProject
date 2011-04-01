@@ -59,8 +59,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <returns>A <see cref="IMethodPointerReferenceExpression"/>
         /// instance which should be a verifiable pointer to the 
         /// method.</returns>
-        /// <remarks>For verifiability, <see cref="ILinkableExpression.Link()"/>
-        /// the <see cref="IMethodPointerReferenceExpression"/>.</remarks>
         IMethodPointerReferenceExpression GetMethodPointer(string name, ITypeCollection signature);
         /// <summary>
         /// Obtains a <see cref="IMethodPointerReferenceExpression"/>
@@ -76,8 +74,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <returns>A <see cref="IMethodPointerReferenceExpression"/>
         /// instance which should be a verifiable pointer to the 
         /// method.</returns>
-        /// <remarks>For verifiability, <see cref="ILinkableExpression.Link()"/>
-        /// the <see cref="IMethodPointerReferenceExpression"/>.</remarks>
         IMethodPointerReferenceExpression GetMethodPointer(string name, ITypeCollection signature, ITypeCollection genericParameters);
         /// <summary>
         /// Gets a <paramref name="name"/>d indexer with the <paramref name="parameters"/>
@@ -109,10 +105,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <param name="parameters">The <see cref="IExpressionCollection"/>
         /// used to reference the indexer.</param>
         /// <returns></returns>
-        /// <remarks>If the <see cref="ForwardType"/> is an array type
-        /// returns an array indexer where all parameter types
-        /// must be a number; otherwise it returns
-        /// an indexer with the default name 'Item'.</remarks>
         IIndexerReferenceExpression GetIndexer(params IExpression[] parameters);
         /// <summary>
         /// Returns the <see cref="IFieldReferenceExpression"/>

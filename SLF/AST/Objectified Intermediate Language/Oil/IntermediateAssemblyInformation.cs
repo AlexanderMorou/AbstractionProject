@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         where TAssembly :
             IntermediateAssembly<TAssembly>
     {
-        private static readonly Version defaultVersion = new Version(1,0,0,0);
+        private static readonly Version defaultVersion = new Version(1, 0, 0, 0);
         private Version fileVersion;
         private Version assemblyVersion;
         private TAssembly owner;

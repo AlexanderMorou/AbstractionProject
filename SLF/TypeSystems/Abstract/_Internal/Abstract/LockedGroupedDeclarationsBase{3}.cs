@@ -88,12 +88,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         }
 
         /// <summary>
-        /// Creates a new <see cref="LockedGroupedDeclarationsBase{TItem, TMItem, TSourceItem}"/> with the <paramref name="items"/>
-        /// to contain.
+        /// Creates a new <see cref="LockedGroupedDeclarationsBase{TItem, TMItem, TSourceItem}"/> with the <paramref name="sibling"/>
+        /// to relate to.
         /// </summary>
         /// <param name="master">The <see cref="LockedFullDeclarations{TItem}"/>
         /// which moderates the <see cref="LockedGroupedDeclarationsBase{TItem, TMItem, TSourceItem}"/>.</param>
-        /// <param name="items">The <see cref="IDictionary{TKey, TValue}"/> 
+        /// <param name="sibling">The <see cref="LockedGroupedDeclarationsBase{TItem, TMItem, TSourceItem}"/> 
         /// to encapsulate.</param>
         internal LockedGroupedDeclarationsBase(MasterDictionaryBase<string, TMItem> master, LockedGroupedDeclarationsBase<TItem, TMItem, TSourceItem> sibling)
             : base(master, sibling)

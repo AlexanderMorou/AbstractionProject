@@ -35,7 +35,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private IDictionary<ITypeCollectionBase, IMethodSignatureMember> genericCache;
         private bool lastIsParams;
         int flagA;
-        private IParameterMemberDictionary<TMethod, IMethodSignatureParameterMember<TMethod, TMethodParent>> parameters;
         /// <summary>
         /// Data member for <see cref="MemberInfo"/>.
         /// </summary>
@@ -124,7 +123,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         }
 
         /// <summary>
-        /// Initialies the <see cref="MethodSignatureMemberBase{TSignatureParameter, TGenericParameter, TSignature, TSignatureParent}.TypeParameters"/> property.
+        /// Initialies the <see cref="MethodSignatureMemberBase{TSignatureParameter, TSignature, TSignatureParent}.TypeParameters"/> property.
         /// </summary>
         /// <returns>A new <see cref="IGenericParameterDictionary{TParameter, TParent}"/> instance.</returns>
         protected override IGenericParameterDictionary<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember> InitializeTypeParameters()
@@ -255,7 +254,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
              * _IGenericMethodSignatureRegistrar handles cache.
              * */
             var tK = this.OnMakeGenericMethod(genericReplacements);
-            CLIGateway.VerifyTypeParameters<IMethodSignatureParameterMember<TMethod, TMethodParent>, TMethod, TMethodParent>(this, genericReplacements);
+            CLICommon.VerifyTypeParameters<IMethodSignatureParameterMember<TMethod, TMethodParent>, TMethod, TMethodParent>(this, genericReplacements);
             return tK;
         }
 

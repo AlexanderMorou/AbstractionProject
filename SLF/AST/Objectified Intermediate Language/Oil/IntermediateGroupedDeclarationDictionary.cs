@@ -39,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private List<TDeclaration> suspendedMembers = new List<TDeclaration>();
         //private IDictionary<string, TDeclaration> suspendedMembers = new Dictionary<string,TDeclaration>();
         
-        private new ValuesCollection valuesCollection;
+        private ValuesCollection valuesCollection;
         /// <summary>
         /// Creates a new <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>
         /// with the <paramref name="master"/> dictionary provided.
@@ -118,8 +118,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (e == null)
                 throw new ArgumentNullException("e");
-            if (this.ItemAdded != null)
-                this.ItemAdded(this, e);
+            var itemAdded = this.ItemAdded;
+            if (itemAdded != null)
+                itemAdded(this, e);
         }
 
         /// <summary>
@@ -133,8 +134,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (e == null)
                 throw new ArgumentNullException("e");
-            if (this.ItemRemoved != null)
-                this.ItemRemoved(this, e);
+            var itemRemoved = this.ItemRemoved;
+            if (itemRemoved != null)
+                itemRemoved(this, e);
         }
 
         #endregion

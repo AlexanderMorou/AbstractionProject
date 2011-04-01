@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         bool IsGenericTypeParameter { get; }
 
         /// <summary>
-        /// Returns whether the current type is a generic type with <see cref="IGenericType.GenericParameters"/>.
+        /// Returns whether the current type is a generic type with <see cref="IGenericParamParent.GenericParameters"/>.
         /// </summary>
         bool IsGenericConstruct { get; }
 

@@ -255,7 +255,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         /// <summary>
-        /// Converts a <see cref="TypedName"/> to a <see cref="KeyValuePair"/>
+        /// Converts a <see cref="TypedName"/> to a <see cref="KeyValuePair{TKey, TValue}"/>
         /// where TKey is <see cref="String"/> and TValue is <see cref="IType"/>.
         /// </summary>
         /// <param name="typedName">The <see cref="TypedName"/> to convert.</param>
@@ -272,7 +272,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
          * For languages that don't support implicit type conversion overloads.
          * */
         /// <summary>
-        /// Converts a <see cref="TypedName"/> to a <see cref="KeyValuePair"/>
+        /// Converts a <see cref="TypedName"/> to a <see cref="KeyValuePair{TKey, TValue}"/>
         /// where TKey is <see cref="String"/> and TValue is <see cref="IType"/>.
         /// </summary>
         /// <param name="typedName">The <see cref="TypedName"/> to convert.</param>
@@ -288,7 +288,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <see cref="TypedName"/> where TKey is <see cref="String"/> and
         /// TValue is <see cref="IType"/>.
         /// </summary>
-        /// <param name="keyedValue">The <see cref="KeyValuePair{TKey, TValue}"/> to convert.</param>
+        /// <param name="typedName">The <see cref="KeyValuePair{TKey, TValue}"/> to convert.</param>
         /// <returns>A new <see cref="TypedName"/> if the <see cref="IType"/> of the 
         /// <see cref="KeyValuePair{TKey, TValue}.Value"/> is a good reference.</returns>
         public static TypedName FromKeyValuePair(KeyValuePair<string, IType> typedName)

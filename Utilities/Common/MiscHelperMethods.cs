@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using AllenCopeland.Abstraction.Utilities.Tuples;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -36,6 +37,24 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             if (mi == null)
                 return null;
             return new Tuple<Type, MethodBase>(mi.DeclaringType, mi);
+        }
+
+        public static TimeSpan TimeAction(this Action action)
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            action();
+            sw.Stop();
+            return sw.Elapsed;
+        }
+
+        public static Tuple<TimeSpan, T> TimeResult<T>(this Func<T> func)
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            T result = func();
+            sw.Stop();
+            return TupleHelper.GetTuple(sw.Elapsed, result);
         }
     }
 }

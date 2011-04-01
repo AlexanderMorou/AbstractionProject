@@ -81,11 +81,11 @@ namespace AllenCopeland.Abstraction.Utilities.Common
         }
 
         /// <summary>
-        /// Repeats the <paramref name="char"/> provided until <paramref name="count"/> is reached.
+        /// Repeats the <paramref name="value"/> provided until <paramref name="count"/> is reached.
         /// </summary>
-        /// <param name="char">The <see cref="System.Char"/> to repeat.</param>
-        /// <param name="count">The number of times to repeat <paramref name="char"/>.</param>
-        /// <returns>A <see cref="System.String"/> of the repeated <paramref name="char"/>.</returns>
+        /// <param name="value">The <see cref="System.Char"/> to repeat.</param>
+        /// <param name="count">The number of times to repeat <paramref name="value"/>.</param>
+        /// <returns>A <see cref="System.String"/> of the repeated <paramref name="value"/>.</returns>
         public static string Repeat(this char value, int count)
         {
             if (count <= 0)

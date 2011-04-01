@@ -317,7 +317,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         /// <param name="visitor">The <see cref="IIntermediateCodeVisitor"/> 
         /// to visit.</param>
         /// <remarks>In this instance visits the <paramref name="visitor"/>
-        /// through <see cref="IIntermediateCodeVisitor.Visit(ICallFusionStatement)"/>.</remarks>
+        /// through <see cref="IExpressionVisitor.Visit(ITypeReferenceExpression)"/>.</remarks>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="visitor"/>
         /// is null.</exception>
         public void Visit(IExpressionVisitor visitor)

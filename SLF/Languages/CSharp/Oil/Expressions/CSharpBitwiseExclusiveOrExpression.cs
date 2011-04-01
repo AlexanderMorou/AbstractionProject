@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
     /// <summary>
     /// Provides a base implementation of <see cref="ICSharpBitwiseExclusiveOrExpression"/>; 
-    /// a logical and binary operation ('&'; "XOr"; "xor").
+    /// a logical and binary operation ('^'; "XOr").
     /// </summary>
     public class CSharpBitwiseExclusiveOrExpression :
         CSharpBinaryOperationExpressionBase<ICSharpBitwiseExclusiveOrExpression, ICSharpBitwiseAndExpression>,
@@ -49,7 +49,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="CSharpBitwiseExclusiveOrExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionType.BitwiseExclusiveOrOperation"/>.</remarks>
+        /// <remarks>Returns <see cref="ExpressionKinds.BitwiseExclusiveOrOperation"/>.</remarks>
         public override ExpressionKinds Type
         {
             get { return ExpressionKinds.BitwiseExclusiveOrOperation; }

@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         private TIndexerMethod setMethod;
 
         /// <summary>
-        /// Creates a new <see cref="IndexerMemberBase"/>
+        /// Creates a new <see cref="IndexerMemberBase{TIndexer, TIndexerParent, TIndexerMethod, TMethod, TMethodParent}"/>
         /// with the <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIndexerParent"/> which

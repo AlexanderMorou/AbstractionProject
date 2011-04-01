@@ -32,7 +32,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         private LockedFullMembersBase _members;
         /// <summary>
-        /// Data member for <see cref="DeclaringType"/>.
+        /// Data member for <see cref="TypeBase.DeclaringType"/>.
         /// </summary>
         private IType declaringType = null;
         /// <summary>
@@ -244,7 +244,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         /// <summary>
-        /// Initializes the <see cref="CustomAttributes"/> for the current
+        /// Initializes the <see cref="TypeBase.CustomAttributes"/> for the current
         /// <see cref="CompiledTypeBase{TType}"/>.
         /// </summary>
         /// <returns>A <see cref="ICustomAttributeCollection"/> of

@@ -74,7 +74,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             /// is equal to or greater than the length of <paramref name="array"/>.-or-The 
             /// number of elements in the source <see cref="KeysCollection"/> is greater 
             /// than the available space from <paramref name="arrayIndex"/> to the 
-            /// end of the destination <paramref name="array"/>.-or-Type <typeparamref name="T"/> 
+            /// end of the destination <paramref name="array"/>.-or-Type <typeparamref name="TKey"/> 
             /// cannot be cast automatically to the type of the destination
             /// <paramref name="array"/>.</exception>
             public virtual void CopyTo(TKey[] array, int arrayIndex = 0)
@@ -93,7 +93,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             /// Returns the element at the index provided
             /// </summary>
             /// <param name="index">The index of the element to get.</param>
-            /// <returns>The instance of <typeparamref name="T"/> at the index provided.</returns>
+            /// <returns>The instance of <typeparamref name="TKey"/> at the index provided.</returns>
             /// <exception cref="System.ArgumentOutOfRangeException">
             /// <paramref name="index"/> is  beyond the range of the 
             /// <see cref="KeysCollection"/>.
@@ -131,9 +131,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
             /// <summary>
             /// Translates the <see cref="KeysCollection"/> into a flat <see cref="System.Array"/>
-            /// of <typeparamref name="T"/> elements.
+            /// of <typeparamref name="TKey"/> elements.
             /// </summary>
-            /// <returns>A new <see cref="System.Array"/> of <typeparamref name="T"/> instances.</returns>
+            /// <returns>A new <see cref="System.Array"/> of <typeparamref name="TKey"/> instances.</returns>
             public virtual TKey[] ToArray()
             {
                 TKey[] result;
@@ -147,13 +147,13 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
             /// <summary>
             /// Returns the <see cref="Int32"/> ordinal index of the 
-            /// <paramref name="element"/> provided.
+            /// <paramref name="key"/> provided.
             /// </summary>
-            /// <param name="element">The <typeparamref name="T"/>
+            /// <param name="key">The <typeparamref name="TKey"/>
             /// instance to find within the <see cref="KeysCollection"/>.</param>
-            /// <returns>-1 if the <paramref name="element"/> was not found within
+            /// <returns>-1 if the <paramref name="key"/> was not found within
             /// the <see cref="KeysCollection"/>; a positive <see cref="Int32"/>
-            /// value indicating the ordinal index of <paramref name="element"/>
+            /// value indicating the ordinal index of <paramref name="key"/>
             /// otherwise.</returns>
             public virtual int IndexOf(TKey key)
             {

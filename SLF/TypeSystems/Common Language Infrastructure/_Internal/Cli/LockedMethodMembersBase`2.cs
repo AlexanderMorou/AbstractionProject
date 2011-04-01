@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         /// </summary>
         /// <param name="parent">The <typeparamref name="TMethodParent"/> which contains the 
         /// <see cref="LockedMethodMembersBase{TMethod, TMethodParent}"/>.</param>
-        /// <param name="series">The <typeparamref name="IEnumerable{T}"/> which contains the <paramref name="parent"/>
+        /// <param name="series">The <see cref="IEnumerable{T}"/> which contains the <paramref name="parent"/>
         /// contains.</param>
         internal LockedMethodMembersBase(LockedFullMembersBase master, TMethodParent parent, IEnumerable<TMethod> series)
             : base(master, parent, series)
@@ -69,7 +69,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         /// <see cref="LockedMethodMembersBase{TMethod, TMethodParent}"/>.</param>
         /// <param name="fetchImpl">The <see cref="Func{T, TResult}"/>
         /// which is used to instantiate <typeparamref name="TMethod"/> instances
-        /// from <see cref="MethodInfo"/> stock to propagate the <see cref="LockedMethodMembers{TMethod, TMethodParent}"/>.</param>
+        /// from <see cref="MethodInfo"/> stock to propagate the <see cref="LockedMethodMembersBase{TMethod, TMethodParent}"/>.</param>
         internal LockedMethodMembersBase(LockedFullMembersBase master, TMethodParent parent, MethodInfo[] seriesData, Func<MethodInfo, TMethod> fetchImpl)
             : base(master, parent, seriesData, fetchImpl)
         {

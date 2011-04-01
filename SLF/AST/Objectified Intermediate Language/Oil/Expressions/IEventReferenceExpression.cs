@@ -13,12 +13,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// </summary>
     /// <typeparam name="TEvent">The type of event as it exists int he
     /// abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateEvent">The type of event as it exists
-    /// in the intermediate abstract syntax tree.</typeparam>
     /// <typeparam name="TEventParent">The type which owns the properties
     /// in the abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateEventParent">The type which owns the properties
-    /// in the intermediate abstract syntax tree.</typeparam>
     public interface IEventSignatureReferenceExpression<TEvent, TEventParent> :
         IBoundMemberReference,
         IEventReferenceExpression
@@ -29,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     {
         /// <summary>
         /// Returns the <typeparamref name="TEvent"/> member to which the 
-        /// <see cref="IEventSignatureReferenceExpression"/> refers.
+        /// <see cref="IEventSignatureReferenceExpression{TEvent, TEventParent}"/> refers.
         /// </summary>
         new TEvent Member { get; }
     }
@@ -39,12 +35,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// </summary>
     /// <typeparam name="TEvent">The type of event as it exists int he
     /// abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateEvent">The type of event as it exists
-    /// in the intermediate abstract syntax tree.</typeparam>
     /// <typeparam name="TEventParent">The type which owns the properties
     /// in the abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateEventParent">The type which owns the properties
-    /// in the intermediate abstract syntax tree.</typeparam>
     public interface IEventReferenceExpression<TEvent, TEventParent> :
         IBoundMemberReference,
         IEventReferenceExpression
@@ -54,7 +46,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             IEventParent<TEvent, TEventParent>
     {
         /// <summary>
-        /// Returns the <typeparamref name="TIntermediateEvent"/> member to which the 
+        /// Returns the <typeparamref name="TEvent"/> member to which the 
         /// <see cref="IEventReferenceExpression{TEvent, TEventParent}"/> refers.
         /// </summary>
         new TEvent Member { get; }

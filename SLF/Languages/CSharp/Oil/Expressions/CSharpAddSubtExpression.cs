@@ -13,7 +13,8 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
     /// <summary>
-    /// Provides a base implementation of <see cref=""/>
+    /// Provides a base implementation of <see cref="ICSharpAddSubtExpression"/>
+    /// which represents an add or subtract operation.
     /// </summary>
     public sealed class CSharpAddSubtExpression :
         CSharpBinaryOperationExpressionBase<ICSharpAddSubtExpression, ICSharpMulDivExpression>,
@@ -54,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Creates a new <see cref="CSharpAddSubtExpression"/> with the <paramref name="term"/> which will
         /// be pointed to by the new instance.
         /// </summary>
-        /// <param name="term">The <see cref="ICSharpMulDivExpression"/> pointed to by the <see cref="AddSubtOperation"/>.</param>
+        /// <param name="term">The <see cref="ICSharpMulDivExpression"/> pointed to by the <see cref="CSharpAddSubtExpression"/>.</param>
         public CSharpAddSubtExpression(ICSharpMulDivExpression term)
             : base(term)
         {
@@ -64,7 +65,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="CSharpAddSubtExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionType.AddSubtractOperationOperation"/>.</remarks>
+        /// <remarks>Returns the appropriate <see cref="ExpressionKinds"/> value
+        /// relative to the <see cref="CSharpAddSubtOperation"/>
+        /// of the <see cref="Operation"/>.</remarks>
         public override ExpressionKinds Type
         {
             get {

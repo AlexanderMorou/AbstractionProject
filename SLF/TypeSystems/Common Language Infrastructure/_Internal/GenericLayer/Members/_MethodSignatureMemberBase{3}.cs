@@ -38,11 +38,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         private ILockedTypeCollection typeParameters;
 
         /// <summary>
-        /// Creates a new <see cref="_MethodSignatureMemberBase{TSignatureParameter, TGenericParameter, TGenericParameterConstructor, TGenericParameterConstructorParameter, TSignature, TSignatureParent}"/>
+        /// Creates a new <see cref="_MethodSignatureMemberBase{TSignatureParameter, TSignature, TSignatureParent}"/>
         /// with the <paramref name="parent"/> and <paramref name="original"/> provided.
         /// </summary>
         /// <param name="parent">The <typeparamref name="TSignatureParent"/> the 
-        /// the <see cref="_MethodSignatureMemberBase{TSignatureParameter, TGenericParameter, TGenericParameterConstructor, TGenericParameterConstructorParameter, TSignature, TSignatureParent}"/>
+        /// the <see cref="_MethodSignatureMemberBase{TSignatureParameter, TSignature, TSignatureParent}"/>
         /// is contained within.</param>
         /// <param name="original">The <typeparamref name="TSignature"/> from which
         /// the current instance is based.</param>
@@ -115,7 +115,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         /// <summary>
         /// Obtains the <see cref="IType"/> that the 
-        /// <see cref="_MethodSignatureMemberBase{TSignatureParameter, TGenericParameter, TGenericParameterConstructor, TGenericParameterConstructorParameter, TSignature, TSignatureParent}"/>
+        /// <see cref="_MethodSignatureMemberBase{TSignatureParameter, TSignature, TSignatureParent}"/>
         /// yields upon return.
         /// </summary>
         protected override IType OnGetReturnType()

@@ -21,12 +21,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// </summary>
     /// <typeparam name="TProperty">The type of property as it exists int he
     /// abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateProperty">The type of property as it exists
-    /// in the intermediate abstract syntax tree.</typeparam>
     /// <typeparam name="TPropertyParent">The type which owns the properties
     /// in the abstract type system.</typeparam>
-    /// <typeparam name="TIntermediatePropertyParent">The type which owns the properties
-    /// in the intermediate abstract syntax tree.</typeparam>
     public interface IPropertySignatureReferenceExpression<TProperty, TPropertyParent> :
         IBoundMemberReference,
         IPropertyReferenceExpression
@@ -37,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     {
         /// <summary>
         /// Returns the <typeparamref name="TProperty"/> member to which the 
-        /// <see cref="IPropertySignatureReferenceExpression"/> refers.
+        /// <see cref="IPropertySignatureReferenceExpression{TProperty, TPropertyParent}"/> refers.
         /// </summary>
         new TProperty Member { get; }
     }
@@ -47,12 +43,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// </summary>
     /// <typeparam name="TProperty">The type of property as it exists int he
     /// abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateProperty">The type of property as it exists
-    /// in the intermediate abstract syntax tree.</typeparam>
     /// <typeparam name="TPropertyParent">The type which owns the properties
     /// in the abstract type system.</typeparam>
-    /// <typeparam name="TIntermediatePropertyParent">The type which owns the properties
-    /// in the intermediate abstract syntax tree.</typeparam>
     public interface IPropertyReferenceExpression<TProperty, TPropertyParent> :
         IBoundMemberReference,
         IPropertyReferenceExpression
@@ -62,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             IPropertyParentType<TProperty, TPropertyParent>
     {
         /// <summary>
-        /// Returns the <typeparamref name="TIntermediateProperty"/> member to which the 
+        /// Returns the <typeparamref name="TProperty"/> member to which the 
         /// <see cref="IPropertyReferenceExpression{TProperty, TPropertyParent}"/> refers.
         /// </summary>
         new TProperty Member { get; }

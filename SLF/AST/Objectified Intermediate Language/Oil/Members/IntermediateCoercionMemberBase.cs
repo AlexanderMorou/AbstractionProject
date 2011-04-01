@@ -30,32 +30,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TType,
             IIntermediateCoercibleType<TCoercion, TIntermediateCoercion, TType, TIntermediateType>
     {
-        #region Nested Type Data Members
-        /// <summary>
-        /// Data member fro <see cref="Classes"/>.
-        /// </summary>
-        private IIntermediateClassTypeDictionary classes;
-        /// <summary>
-        /// Data member for <see cref="Delegates"/>.
-        /// </summary>
-        private IIntermediateDelegateTypeDictionary delegates;
-        /// <summary>
-        /// Data member for <see cref="Enums"/>.
-        /// </summary>
-        private IIntermediateEnumTypeDictionary enums;
-        /// <summary>
-        /// Data member for <see cref="Interfaces"/>.
-        /// </summary>
-        private IIntermediateInterfaceTypeDictionary interfaces;
-        /// <summary>
-        /// Data member for <see cref="Structs"/>.
-        /// </summary>
-        private IIntermediateStructTypeDictionary structs;
-        /// <summary>
-        /// Data member for <see cref="Types"/>.
-        /// </summary>
-        private IntermediateFullTypeDictionary types;
-        #endregion
         /// <summary>
         /// Creates a new <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/>
         /// with the <paramref name="parent"/> provided.
@@ -173,7 +147,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// Inserts and returns a new <see cref="ISwitchStatement"/> instance
         /// which relates to the <paramref name="caseCondition"/> provided.
         /// </summary>
-        /// <param name="condition">A <see cref="IExpression"/> instance which
+        /// <param name="caseCondition">A <see cref="IExpression"/> instance which
         /// represents a value to check on each case of the <see cref="ISwitchStatement"/>
         /// that results.</param>
         /// <returns>A new <see cref="ISwitchStatement"/> with no cases relative to the
@@ -304,7 +278,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         /// <summary>
         /// Creates, inserts, and returns a new <see cref="ICallMethodStatement"/> with the
-        /// <paramref name="parent"/>, <paramref name="methodName"/>, <see cref="typeParameters"/>
+        /// <paramref name="parent"/>, <paramref name="methodName"/>, <paramref name="typeParameters"/>
         /// and <paramref name="parameters"/> provided.
         /// </summary>
         /// <param name="parent">The <see cref="IMemberParentReferenceExpression"/> from which
@@ -324,7 +298,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         /// <summary>
         /// Creates, inserts, and returns a new <see cref="ICallMethodStatement"/> with the
-        /// <paramref name="parent"/>, <paramref name="methodName"/>, <see cref="typeParameters"/>
+        /// <paramref name="parent"/>, <paramref name="methodName"/>, <paramref name="typeParameters"/>
         /// and <paramref name="parameters"/> provided.
         /// </summary>
         /// <param name="parent">The <see cref="IMemberParentReferenceExpression"/> from which
@@ -680,7 +654,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// Returns the element at the index provided
         /// </summary>
         /// <param name="index">The index of the element to get.</param>
-        /// <returns>The instance of <typeparamref name="T"/> at the index provided.</returns>
+        /// <returns>The instance of <see cref="IStatement"/> at the index provided.</returns>
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// <paramref name="index"/> is  beyond the range of the 
         /// <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/>.
@@ -701,9 +675,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         /// <summary>
         /// Translates the <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/> into a flat <see cref="System.Array"/>
-        /// of <typeparamref name="T"/> elements.
+        /// of <see cref="IStatement"/> elements.
         /// </summary>
-        /// <returns>A new <see cref="System.Array"/> of <typeparamref name="T"/> instances.</returns>
+        /// <returns>A new <see cref="System.Array"/> of <see cref="IStatement"/> instances.</returns>
         public IStatement[] ToArray()
         {
             /* *
@@ -719,7 +693,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// Returns the <see cref="Int32"/> ordinal index of the 
         /// <paramref name="element"/> provided.
         /// </summary>
-        /// <param name="element">The <typeparamref name="T"/>
+        /// <param name="element">The <see cref="IStatement"/>
         /// instance to find within the <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/>.</param>
         /// <returns>-1 if the <paramref name="element"/> was not found within
         /// the <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/>; a positive <see cref="Int32"/>

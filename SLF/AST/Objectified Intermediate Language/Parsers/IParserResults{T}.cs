@@ -29,6 +29,6 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
         /// <summary>
         /// Returns the resulted <typeparamref name="T"/> from the parse operation.
         /// </summary>
-        new T Result { get; }
+        T Result { get; }
     }
 }

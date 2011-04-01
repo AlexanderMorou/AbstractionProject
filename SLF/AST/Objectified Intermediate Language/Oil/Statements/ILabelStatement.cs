@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// </summary>
         string Name { get; set; }
         /// <summary>
-        /// Obtains a <see cref="IGoTo"/> statement for the
+        /// Obtains a <see cref="IGoToStatement"/> statement for the
         /// <see cref="ILabelStatement"/> which allows a jump
         /// to the label to occur.
         /// </summary>

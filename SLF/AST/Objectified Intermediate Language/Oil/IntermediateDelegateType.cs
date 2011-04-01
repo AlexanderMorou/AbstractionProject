@@ -254,10 +254,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         protected virtual void OnParameterAdded(EventArgsR1<IIntermediateDelegateTypeParameterMember> e)
         {
-            if (this._ParameterAdded != null)
-                this._ParameterAdded(this, new EventArgsR1<IIntermediateParameterMember>(e.Arg1));
-            if (this.ParameterAdded != null)
-                this.ParameterAdded(this, new EventArgsR1<IIntermediateDelegateTypeParameterMember>(e.Arg1));
+            var _parameterAdded = this._ParameterAdded;
+            if (_parameterAdded != null)
+                _parameterAdded(this, new EventArgsR1<IIntermediateParameterMember>(e.Arg1));
+            var parameterAdded = this.ParameterAdded;
+            if (parameterAdded != null)
+                parameterAdded(this, new EventArgsR1<IIntermediateDelegateTypeParameterMember>(e.Arg1));
         }
 
         void parameters_ItemAdded(object sender, EventArgsR1<IIntermediateDelegateTypeParameterMember> e)
@@ -267,10 +269,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         protected virtual void OnParameterRemoved(EventArgsR1<IIntermediateDelegateTypeParameterMember> e)
         {
-            if (this._ParameterRemoved != null)
-                this._ParameterRemoved(this, new EventArgsR1<IIntermediateParameterMember>(e.Arg1));
-            if (this.ParameterRemoved != null)
-                this.ParameterRemoved(this, new EventArgsR1<IIntermediateDelegateTypeParameterMember>(e.Arg1));
+            var _parameterRemoved = this._ParameterRemoved;
+            if (_parameterRemoved != null)
+                _parameterRemoved(this, new EventArgsR1<IIntermediateParameterMember>(e.Arg1));
+            var parameterRemoved = this.ParameterRemoved;
+            if (parameterRemoved != null)
+                parameterRemoved(this, new EventArgsR1<IIntermediateDelegateTypeParameterMember>(e.Arg1));
         }
 
 

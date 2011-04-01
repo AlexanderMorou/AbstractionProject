@@ -13,12 +13,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// </summary>
     /// <typeparam name="TEvent">The type of event as it exists int he
     /// abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateEvent">The type of event as it exists
-    /// in the intermediate abstract syntax tree.</typeparam>
     /// <typeparam name="TEventParent">The type which owns the properties
     /// in the abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateEventParent">The type which owns the properties
-    /// in the intermediate abstract syntax tree.</typeparam>
     public class EventReferenceExpression<TEvent, TEventParent> :
         MemberParentReferenceExpressionBase,
         IEventReferenceExpression<TEvent, TEventParent>
@@ -27,11 +23,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         where TEventParent :
             IEventParent<TEvent, TEventParent>
     {
-        /// <summary>
-        /// Data member for <see cref="ReferenceType"/>.
-        /// </summary>
-        private MethodReferenceType referenceType;
-        private string nameCopy;
 
         public EventReferenceExpression(IMemberParentReferenceExpression source, TEvent member)
         {
@@ -42,8 +33,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         #region IEventReferenceExpression<TEvent,TIntermediateEvent,TEventParent,TIntermediateEventParent> Members
 
         /// <summary>
-        /// Returns the <typeparamref name="TIntermediateEvent"/> member to which the 
-        /// <see cref="IEventReferenceExpression{TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent}"/> refers.
+        /// Returns the <typeparamref name="TEvent"/> member to which the 
+        /// <see cref="IEventReferenceExpression{TEvent, TEventParent}"/> refers.
         /// </summary>
         public TEvent Member { get; private set; }
 
@@ -75,8 +66,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             get
             {
-                if (this.Member == null)
-                    return nameCopy;
                 return this.Member.Name;
             }
         }
@@ -137,12 +126,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// </summary>
     /// <typeparam name="TEvent">The type of event as it exists int he
     /// abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateEvent">The type of event as it exists
-    /// in the intermediate abstract syntax tree.</typeparam>
     /// <typeparam name="TEventParent">The type which owns the properties
     /// in the abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateEventParent">The type which owns the properties
-    /// in the intermediate abstract syntax tree.</typeparam>
     public class EventSignatureReferenceExpression<TEvent, TEventParent> :
         MemberParentReferenceExpressionBase,
         IEventSignatureReferenceExpression<TEvent, TEventParent>
@@ -151,11 +136,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         where TEventParent :
             IEventSignatureParent<TEvent, TEventParent>
     {
-        /// <summary>
-        /// Data member for <see cref="ReferenceType"/>.
-        /// </summary>
-        private MethodReferenceType referenceType;
-        private string nameCopy;
 
         public EventSignatureReferenceExpression(IMemberParentReferenceExpression source, TEvent member)
         {
@@ -166,7 +146,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         #region IEventSignatureReferenceExpression<TEvent,TEventParent> Members
 
         /// <summary>
-        /// Returns the <see cref="TEvent"/> member to which the 
+        /// Returns the <typeparamref name="TEvent"/> member to which the 
         /// <see cref="IEventSignatureReferenceExpression{TEvent, TEventParent}"/> refers.
         /// </summary>
         public TEvent Member { get; private set; }
@@ -209,7 +189,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Returns the <see cref="IMemberParentReferenceExpression"/>
-        /// that sourced the <see cref="IEventSignatureReferenceExpression"/>.
+        /// that sourced the <see cref="EventSignatureReferenceExpression{TEvent, TEventParent}"/>.
         /// </summary>
         public IMemberParentReferenceExpression Source { get; private set; }
 

@@ -99,11 +99,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
 
             /// <summary>
-            /// Obtains the <see cref="DeclarationBase.Name"/> for the <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}"/>.
+            /// Obtains the <see cref="DeclarationBase.Name"/> for the <see cref="BinaryOperatorMember"/>.
             /// </summary>
             /// <returns>A <see cref="System.String"/> that contains 
             /// the name of the 
-            /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}"/>.</returns>
+            /// <see cref="BinaryOperatorMember"/>.</returns>
             protected override sealed string OnGetName()
             {
                 switch (this.Operator)
@@ -429,7 +429,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     case CoercibleUnaryOperators.Plus:
                         p = "+";
                         break;
-                    case CoercibleUnaryOperators.Negative:
+                    case CoercibleUnaryOperators.Negation:
                         p = "-";
                         break;
                     case CoercibleUnaryOperators.EvaluatesToFalse:
@@ -472,7 +472,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     switch (value)
                     {
                         case CoercibleUnaryOperators.Plus:
-                        case CoercibleUnaryOperators.Negative:
+                        case CoercibleUnaryOperators.Negation:
                         case CoercibleUnaryOperators.EvaluatesToFalse:
                         case CoercibleUnaryOperators.EvaluatesToTrue:
                         case CoercibleUnaryOperators.LogicalInvert:

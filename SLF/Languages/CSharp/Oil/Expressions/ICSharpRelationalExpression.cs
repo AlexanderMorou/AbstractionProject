@@ -64,7 +64,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         ICSharpExpression
     {
         /// <summary>
-        /// Returns the type of <see cref="RelationalOperation"/> the <see cref="ICSharpRelationalExpression"/>
+        /// Returns the type of <see cref="CSharpRelationalOperation"/> the <see cref="ICSharpRelationalExpression"/>
         /// is.
         /// </summary>
         CSharpRelationalOperation Operation { get; set; }

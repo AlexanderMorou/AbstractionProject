@@ -11,7 +11,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     {
         /// <summary>
         /// Returns the <see cref="String"/> associated to the 
-        /// <see cref="ICompilerModelError"/>.
+        /// <see cref="ICompilerSourceModelMessage"/>.
         /// </summary>
         new string Message { get; }
     }

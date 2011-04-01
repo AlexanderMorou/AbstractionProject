@@ -73,7 +73,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         /// <summary>
         /// Obtains a <see cref="TypedName"/> for a given <paramref name="type"/> with the
-        /// <paramref name="name"/> and <paramref name="typeParameter"/> set provided.
+        /// <paramref name="name"/> and <paramref name="typeParameters"/> set provided.
         /// </summary>
         /// <param name="type">The <see cref="IType"/> to create a <see cref="TypedName"/>
         /// for.</param>

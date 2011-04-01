@@ -43,7 +43,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
         /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>
         /// instances of varying types.</param>
-        /// <param name="parent">The <typeparamref name="TIntermediateSignatureParent"/>
+        /// <param name="parent">The <typeparamref name="TIntermediateType"/>
         /// which contains the <see cref="IntermediateConstructorSignatureMemberDictionary{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>.</param>
         protected IntermediateConstructorSignatureMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateType parent) :
             base(master, parent)
@@ -51,12 +51,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
         /// <summary>
         /// Creates a new <see cref="IntermediateGroupedSignatureMemberDictionary{TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/> with the 
-        /// <paramref name="master"/>, <paramref name="parent"/> and <paramref name="items"/> provided.
+        /// <paramref name="master"/>, <paramref name="parent"/> and <paramref name="root"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
         /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>
         /// instances of varying types.</param>
-        /// <param name="parent">The <typeparamref name="TIntermediateSignatureParent"/>
+        /// <param name="parent">The <typeparamref name="TIntermediateType"/>
         /// which contains the <see cref="IntermediateConstructorSignatureMemberDictionary{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>.</param>
         /// <param name="root">The <see cref="IntermediateConstructorSignatureMemberDictionary{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
         /// which the current is based upon.</param>
@@ -102,11 +102,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
         protected abstract TIntermediateCtor GetConstructor();
 
         #region IIntermediateConstructorSignatureMemberDictionary Members

@@ -236,10 +236,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Data member for <see cref="InstanceFlags"/>.
         /// </summary>
         private ExtendedInstanceMemberFlags instanceFlags;
-        /// <summary>
-        /// Data member for <see cref="IsExtensionMethod"/>.
-        /// </summary>
-        private bool isExtensionMethod;
 
         public IntermediateStructMethodMember(TInstanceIntermediateType parent)
             : base(parent)

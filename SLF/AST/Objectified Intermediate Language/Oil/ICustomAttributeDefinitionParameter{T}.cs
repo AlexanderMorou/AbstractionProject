@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         ICustomAttributeDefinitionParameter
     {
         /// <summary>
-        /// Returns/sets the <typeparam name="T"/> 
+        /// Returns/sets the <typeparamref name="T"/> 
         /// value defined on one of the 
         /// <see cref="ICustomAttributeDefinition"/>'s
         /// constructor argument(s).

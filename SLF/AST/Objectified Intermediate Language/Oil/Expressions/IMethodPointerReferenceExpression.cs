@@ -26,8 +26,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             ISignatureParent<TSignature, TSignatureParameter, TParent>
     {
         /// <summary>
-        /// Returns the <see cref="IMethodReferenceStub{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
-        /// associated to the <see cref="IMethodPointerReferenceExpression{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.
+        /// Returns the <see cref="IMethodReferenceStub{TSignatureParameter, TSignature, TParent}"/>
+        /// associated to the <see cref="IMethodPointerReferenceExpression{TSignatureParameter, TSignature, TParent}"/>.
         /// </summary>
         /// <remarks>Used to provide initial context data 
         /// for the lookup.</remarks>

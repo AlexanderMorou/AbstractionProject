@@ -46,7 +46,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
 
         /// <summary>
         /// Returns whether the <see cref="IParserSyntaxErrorCollection"/> 
-        /// has an <see cref="ISourceRelatedError"/>.
+        /// has an <see cref="IParserSyntaxError"/>.
         /// </summary>
         bool HasErrors { get; }
 

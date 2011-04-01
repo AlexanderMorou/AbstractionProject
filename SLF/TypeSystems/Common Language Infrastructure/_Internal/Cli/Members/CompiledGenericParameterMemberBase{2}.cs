@@ -430,13 +430,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 {
                     case GenericParameterAttributes.Contravariant:
                         return GenericParameterVariance.Contravariant;
-                        break;
                     case GenericParameterAttributes.Covariant:
                         return GenericParameterVariance.Covariant;
-                        break;
                     default:
                         return GenericParameterVariance.Invariant;
-                        break;
                 }
             }
         }

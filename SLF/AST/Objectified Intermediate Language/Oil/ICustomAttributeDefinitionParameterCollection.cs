@@ -336,7 +336,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Clears the parameters contained within the
         /// <see cref="ICustomAttributeDefinitionParameterCollection"/>.
         /// </summary>
-        /// <remarks>Raises <see cref="NamelessParamtersChanged"/> if there were
+        /// <remarks>Raises <see cref="NamelessParametersChanged"/> if there were
         /// nameless parameters.</remarks>
         void Clear();
         /// <summary>

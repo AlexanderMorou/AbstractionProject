@@ -50,7 +50,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         /// </summary>
         /// <param name="parent">The <typeparamref name="TSignatureParent"/> which contains the 
         /// <see cref="LockedMethodSignatureMembersBase{TSignature, TSignatureParent}"/>.</param>
-        /// <param name="series">The <typeparamref name="IEnumerable{T}"/> which contains the <paramref name="parent"/>
+        /// <param name="series">The <see cref="IEnumerable{T}"/> which contains the <paramref name="parent"/>
         /// contains.</param>
         public LockedMethodSignatureMembersBase(LockedFullMembersBase master, TSignatureParent parent, IEnumerable<TSignature> series)
             : base(master, parent, series)
@@ -62,7 +62,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         /// </summary>
         /// <param name="parent">The <typeparamref name="TSignatureParent"/> which contains the 
         /// <see cref="LockedMethodSignatureMembersBase{TSignature, TSignatureParent}"/>.</param>
-        /// <param name="series">The <typeparamref name="IEnumerable{T}"/> which contains the <paramref name="parent"/>
+        /// <param name="seriesData">The <see cref="MethodInfo"/> array which contains the methods <paramref name="parent"/>
         /// contains.</param>
         public LockedMethodSignatureMembersBase(LockedFullMembersBase master, TSignatureParent parent, MethodInfo[] seriesData, Func<MethodInfo, TSignature> fetchImpl)
             : base(master, parent, seriesData, fetchImpl)

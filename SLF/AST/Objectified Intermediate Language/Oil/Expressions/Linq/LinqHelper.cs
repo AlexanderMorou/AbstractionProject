@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// </summary>
         /// <param name="rangeVariable">The <see cref="TypedName"/> which denotes
         /// the type and name of the range variable referenced in the expression.</param>
-        /// <param name="rangeSource">The <see cref="String"/> <see cref="Symbol"/> which denotes where to 
+        /// <param name="rangeSourceName">The <see cref="String"/> <see cref="Symbol"/> which denotes where to 
         /// find the range source.</param>
         /// <returns>A new <see cref="ILinqBodyBuilder"/> which furthers the 
         /// language integrated query expression build.</returns>

@@ -229,7 +229,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
              * _IGenericMethodRegistrar handles cache.
              * */
             var tK = this.OnMakeGenericMethod(genericReplacements);
-            CLIGateway.VerifyTypeParameters<TSignatureParameter, TSignature, TParent>(this, genericReplacements);
+            CLICommon.VerifyTypeParameters<TSignatureParameter, TSignature, TParent>(this, genericReplacements);
             return tK;
         }
 
@@ -346,18 +346,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         protected virtual void OnTypeParameterAdded(IIntermediateMethodSignatureGenericTypeParameterMember arg1)
         {
-            if (this._TypeParameterAdded != null)
-                this._TypeParameterAdded(this, new EventArgsR1<IIntermediateGenericParameter>(arg1));
-            if (this.TypeParameterAdded != null)
-                this.TypeParameterAdded(this, new EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>(arg1));
+            var _typeParameterAdded = this._TypeParameterAdded;
+            if (_typeParameterAdded != null)
+                _typeParameterAdded(this, new EventArgsR1<IIntermediateGenericParameter>(arg1));
+            var typeParameterAdded = this.TypeParameterAdded;
+            if (typeParameterAdded != null)
+                typeParameterAdded(this, new EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>(arg1));
         }
 
         protected virtual void OnTypeParameterRemoved(IIntermediateMethodSignatureGenericTypeParameterMember arg1)
         {
-            if (this._TypeParameterRemoved != null)
-                this._TypeParameterRemoved(this, new EventArgsR1<IIntermediateGenericParameter>(arg1));
-            if (this.TypeParameterRemoved != null)
-                this.TypeParameterRemoved(this, new EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>(arg1));
+            var _typeParameterRemoved = this._TypeParameterRemoved;
+            if (_typeParameterRemoved != null)
+                _typeParameterRemoved(this, new EventArgsR1<IIntermediateGenericParameter>(arg1));
+            var typeParameterRemoved = this.TypeParameterRemoved;
+            if (typeParameterRemoved != null)
+                typeParameterRemoved(this, new EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>(arg1));
         }
 
 

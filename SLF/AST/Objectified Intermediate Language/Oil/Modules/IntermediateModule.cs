@@ -303,6 +303,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         }
 
         #endregion
+
         /// <summary>
         /// Converts the current <see cref="IntermediateModule"/> into a <see cref="String"/>.
         /// </summary>

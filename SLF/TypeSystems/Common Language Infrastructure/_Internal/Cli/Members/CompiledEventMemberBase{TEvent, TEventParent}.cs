@@ -127,10 +127,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// </summary>
         /// <param name="memberInfo">The <see cref="MethodInfo"/> of the 
         /// method.</param>
-        /// <returns>An <typeparamref cref="TMethod"/>
+        /// <returns>An <typeparamref name="TMethod"/>
         /// </returns>
         /// <remarks>Used for <see cref="IEventMember.OnAddMethod"/>,
-        /// <paramref name="IEventMember.OnRemoveMethod"/> and 
+        /// <see cref="IEventMember.OnRemoveMethod"/> and 
         /// <see cref="IEventMember.OnRaiseMethod"/>.</remarks>
         protected abstract TMethod OnGetMethod(MethodInfo memberInfo);
 

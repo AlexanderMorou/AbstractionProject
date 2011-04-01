@@ -39,11 +39,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// with the <paramref name="leftSide"/>, <paramref name="operation"/>
         /// and <paramref name="rightSide"/> provided.
         /// </summary>
-        /// <param name="leftSide">The <see cref="ICSharpConditionalExpression"/> which makes up the
+        /// <param name="leftSide">The <see cref="INaryOperandExpression"/> which makes up the
         /// left operand.</param>
         /// <param name="operation">The <see cref="AssignmentOperation"/> which indicates the operation
         /// the current <see cref="AssignmentExpression"/> represents.</param>
-        /// <param name="rightSide">The <see cref="IAssignmentExpression"/> which makes up the 
+        /// <param name="rightSide">The <see cref="INaryOperandExpression"/> which makes up the 
         /// right operand.</param>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="leftSide"/> or 
         /// <paramref name="rightSide"/> is null.</exception>

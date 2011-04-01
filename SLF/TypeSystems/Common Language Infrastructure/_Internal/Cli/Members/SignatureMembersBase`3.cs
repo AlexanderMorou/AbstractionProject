@@ -78,7 +78,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
         public virtual IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(bool strict, ITypeCollection search)
         {
-            return CLIGateway.FindCache<TSignature, TSignatureParameter, TSignatureParent>(this.Values, search, strict);
+            return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(this.Values, search, strict);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
         public virtual IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(bool strict, params IType[] search)
         {
-            return CLIGateway.FindCache<TSignature, TSignatureParameter, TSignatureParent>(this.Values, search, strict);
+            return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(this.Values, search, strict);
         }
 
         /// <summary>

@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <summary>
         /// Creates a new instance of <see cref="ReadOnlyDictionary{TKey, TValue}"/>.
         /// </summary>
-        /// <param name="dictionaryCopy">The <see cref="Dictionary{TKey, TValue}"/> to
+        /// <param name="sibling">The <see cref="ReadOnlyDictionary{TKey, TValue}"/> to
         /// wrap.</param>
         public ReadOnlyDictionary(ReadOnlyDictionary<TKey, TValue> sibling)
             : base(sibling)

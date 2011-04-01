@@ -53,7 +53,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         /// </summary>
         /// <param name="original">The <typeparamref name="TPropertySignature"/> instance
         /// form which the <see cref="_PropertySignatureBase{TPropertySignature, TPropertySignatureParent}"/>.</param>
-        /// <param name="parent">The <paramref name="TPropertySignatureParent"/>
+        /// <param name="parent">The <typeparamref name="TPropertySignatureParent"/>
         /// to which the <see cref="_PropertySignatureBase{TPropertySignature, TPropertySignatureParent}"/> 
         /// is contained within.</param>
         public _PropertySignatureBase(TPropertySignature original, TPropertySignatureParent parent)

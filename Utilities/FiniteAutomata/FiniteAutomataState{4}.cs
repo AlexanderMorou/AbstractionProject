@@ -140,7 +140,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         /// <summary>
         /// Creates a transition from the current 
-        /// <see cref="FiniteAutomataState{TCheck, TState, TForwardNodeTarget, TSourceElement}}"/>
+        /// <see cref="FiniteAutomataState{TCheck, TState, TForwardNodeTarget, TSourceElement}"/>
         /// to the <paramref name="target"/> with the
         /// <paramref name="condition"/> for transition provided.
         /// </summary>

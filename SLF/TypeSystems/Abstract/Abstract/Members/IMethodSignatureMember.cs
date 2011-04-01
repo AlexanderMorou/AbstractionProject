@@ -68,7 +68,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// </summary>
         /// <returns>A <typeparamref name="TSignature"/> 
         /// which denotes the original generic variant
-        /// of the current <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent"/>.</returns>
+        /// of the current <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent}"/>.</returns>
         /// <exception cref="System.InvalidOperationException">
         /// Thrown when the <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent}"/>
         /// is not a generic method.</exception>

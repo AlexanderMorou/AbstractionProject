@@ -44,15 +44,15 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             lock (syncObject)
                 genericCache.Add(new LockedTypeCollection(typeParameters), (IGenericType)targetType);
         }
-
+        
         /// <summary>
         /// Returns whether the current <see cref="GenericTypeCache"/>
-        /// contains a generic instance for the <see cref="typeParameters"/>
+        /// contains a generic instance for the <paramref name="typeParameters"/>
         /// provided.
         /// </summary>
         /// <param name="typeParameters">The <see cref="ITypeCollectionBase"/>
         /// which represents the generic parameter replacements to search for.</param>
-        /// <param name="r">The output <typeparamref name="IGenericType"/>
+        /// <param name="r">The output <see cref="IGenericType"/>
         /// instance represented by the <paramref name="typeParameters"/> provided.</param>
         /// <returns>true if the <see cref="GenericTypeCache"/> contains
         /// a generic instance with the <paramref name="typeParameters"/>

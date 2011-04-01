@@ -205,6 +205,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
             finally { 
                 this.OnDisposed();
+                this.Disposed = null;
                 GC.SuppressFinalize(this);
             }
         }
@@ -223,10 +224,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         private void OnDisposed()
         {
             if (this.Disposed != null)
-            {
                 this.Disposed(this, EventArgs.Empty);
-                this.Disposed = null;
-            }
         }
 
         #region IDeclaration Members

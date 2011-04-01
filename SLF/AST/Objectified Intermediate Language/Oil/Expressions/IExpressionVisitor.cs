@@ -250,9 +250,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// to visit.</param>
         void Visit(IConstructorInvokeExpression expression);
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Visits the <paramref name="ctorPointerReference"/> provided.
         /// </summary>
-        /// <param name="expression">The <see cref="IConstructorPointerReferenceExpression"/>
+        /// <param name="ctorPointerReference">The <see cref="IConstructorPointerReferenceExpression"/>
         /// to visit.</param>
         void Visit(IConstructorPointerReferenceExpression ctorPointerReference);
         /// <summary>

@@ -32,7 +32,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="ParenthesizedExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionType.ParenthesizedExpression"/>.</remarks>
+        /// <remarks>Returns <see cref="ExpressionKinds.ParenthesizedExpression"/>.</remarks>
         public override ExpressionKinds Type
         {
             get { return ExpressionKinds.ParenthesizedExpression; }

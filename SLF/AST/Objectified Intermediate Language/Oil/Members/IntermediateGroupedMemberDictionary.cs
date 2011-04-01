@@ -75,7 +75,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         #region IIntermediateMemberDictionary<TMemberParent,TIntermediateMemberParent,TMember,TIntermediateMember> Members
 
         /// <summary>
-        /// Returns the <typeparamref name="TIntermediateParent"/> which contains the <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>.
+        /// Returns the <typeparamref name="TIntermediateMemberParent"/> which contains the <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>.
         /// </summary>
         public TIntermediateMemberParent Parent { get; private set; }
 

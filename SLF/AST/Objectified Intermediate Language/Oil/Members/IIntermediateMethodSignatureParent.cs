@@ -99,9 +99,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IMethodSignatureParent
     {
         /// <summary>
-        /// Returns the <see cref="IIntermediateMethodSignatureMemberDictionary"/> that contain the <see cref="IIntermedateMethodSignatureMember"/> instances
+        /// Returns the <see cref="IIntermediateMethodSignatureMemberDictionary"/> that contain the <see cref="IIntermediateMethodSignatureMember"/> instances
         /// contained within the <see cref="IIntermediateMethodSignatureParent"/>.
         /// </summary>
         new IIntermediateMethodSignatureMemberDictionary Methods { get; }
+        
     }
 }

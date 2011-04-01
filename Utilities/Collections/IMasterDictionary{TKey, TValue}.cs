@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             class
     {
         /// <summary>
-        /// Obtains a <paramref name="subordinate"/> dictionary at the given index.
+        /// Obtains a <see cref="ISubordinateDictionary{TKey, TSValue, TValue}"/> dictionary at the given index.
         /// </summary>
         /// <typeparam name="TSValue">The specific type of value used in the subordinate dictionary, derives
         /// from the master dictionary's <typeparamref name="TValue"/>.</typeparam>

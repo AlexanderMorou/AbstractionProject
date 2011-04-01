@@ -55,7 +55,7 @@ namespace AllenCopeland.Abstraction.Utilities.Events
 
         /// <summary>
         /// Creates a new <see cref="EventArgsR1R2R3{TArg1, TArg2, TArg3}"/> with the
-        /// required <paramref name="arg1"/>, and the required
+        /// required <paramref name="arg2"/>, and the required
         /// <paramref name="arg3"/>.
         /// </summary>
         /// <param name="arg2">The required <typeparamref name="TArg2"/> 
@@ -70,7 +70,7 @@ namespace AllenCopeland.Abstraction.Utilities.Events
 
         /// <summary>
         /// Returns the required third argument 
-        /// for the <see cref="EventArgsR1R2R3{TArg1, TArg2}"/>.
+        /// for the <see cref="EventArgsR1R2R3{TArg1, TArg2, TArg3}"/>.
         /// </summary>
         public TArg3 Arg3 { get; private set; }
     }

@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// </summary>
         private MethodInfo memberInfo;
         /// <summary>
-        /// Data member for <see cref="Operator"/>
+        /// Data member for <see cref="OnGetOperator()"/>
         /// </summary>
         private CoercibleUnaryOperators _operator;
         /// <summary>
@@ -42,28 +42,28 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             this.resultedType = memberInfo.ReturnType.GetTypeReference();
             switch (memberInfo.Name)
             {
-                case "op_UnaryPlus":
+                case CLICommon.UnaryOperatorNames.Plus:
                     this._operator = CoercibleUnaryOperators.Plus;
                     break;
-                case "op_UnaryNegation":
-                    this._operator = CoercibleUnaryOperators.Negative;
+                case CLICommon.UnaryOperatorNames.Negation:
+                    this._operator = CoercibleUnaryOperators.Negation;
                     break;
-                case "op_False":
+                case CLICommon.UnaryOperatorNames.False:
                     this._operator = CoercibleUnaryOperators.EvaluatesToFalse;
                     break;
-                case "op_True":
+                case CLICommon.UnaryOperatorNames.True:
                     this._operator = CoercibleUnaryOperators.EvaluatesToTrue;
                     break;
-                case "op_LogicalNot":
+                case CLICommon.UnaryOperatorNames.LogicalNot:
                     this._operator = CoercibleUnaryOperators.LogicalInvert;
                     break;
-                case "op_OnesComplement":
+                case CLICommon.UnaryOperatorNames.OnesComplement:
                     this._operator = CoercibleUnaryOperators.Complement;
                     break;
-                case "op_Increment":
+                case CLICommon.UnaryOperatorNames.Increment:
                     this._operator = CoercibleUnaryOperators.Increment;
                     break;
-                case "op_Decrement":
+                case CLICommon.UnaryOperatorNames.Decrement:
                     this._operator = CoercibleUnaryOperators.Decrement;
                     break;
                 default:
