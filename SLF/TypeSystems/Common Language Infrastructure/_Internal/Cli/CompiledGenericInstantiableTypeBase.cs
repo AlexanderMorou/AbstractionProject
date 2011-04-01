@@ -199,26 +199,29 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region Initialize Members
 
-
         private IBinaryOperatorCoercionMemberDictionary<TType> InitializeBinaryOperatorCoercions()
         {
             List<string> opNames = new List<string>() { 
-                "op_Addition", "op_Subtraction", "op_Multiply", "op_Division", "op_Modulus", "op_BitwiseAnd", "op_BitwiseOr", 
-                "op_ExclusiveOr", "op_LeftShift", "op_RightShift", "op_Equality", "op_Inequality", "op_LessThan", "op_GreaterThan",
-                "op_LessThanOrEqual", "op_GreaterThanOrEqual" };
+                CLICommon.BinaryOperatorNames.Addition, CLICommon.BinaryOperatorNames.Subtraction, CLICommon.BinaryOperatorNames.Multiply,
+                CLICommon.BinaryOperatorNames.Division, CLICommon.BinaryOperatorNames.Modulus, CLICommon.BinaryOperatorNames.BitwiseAnd, 
+                CLICommon.BinaryOperatorNames.BitwiseOr, CLICommon.BinaryOperatorNames.ExclusiveOr, CLICommon.BinaryOperatorNames.LeftShift,
+                CLICommon.BinaryOperatorNames.RightShift, CLICommon.BinaryOperatorNames.Equality, CLICommon.BinaryOperatorNames.Inequality,
+                CLICommon.BinaryOperatorNames.LessThan, CLICommon.BinaryOperatorNames.GreaterThan, CLICommon.BinaryOperatorNames.LessThanOrEqual, 
+                CLICommon.BinaryOperatorNames.GreaterThanOrEqual };
             return new LockedBinaryOperatorCoercionMembers<TType>(this._Members, ((TType)(object)(this)),
                 UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledBinaryOperatorCoercionMemberBase<TType>(methInfo, ((TType)(object)(this))));
         }
 
         private ITypeCoercionMemberDictionary<TType> InitializeTypeCoercions()
         {
-            List<string> opNames = new List<string>() { "op_Implicit", "op_Explicit" };
+            List<string> opNames = new List<string>() { CLICommon.TypeCoercionNames.Implicit, CLICommon.TypeCoercionNames.Explicit };
             return new LockedTypeCoercionMemberDictionary<TType>(this._Members, ((TType)(object)(this)),
                 UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledTypeCoercionMemberBase<TType>(methInfo, ((TType)(object)(this))));
         }
 
         private IUnaryOperatorCoercionMemberDictionary<TType> InitializeUnaryOperatorCoercions()
         {
+            
             /* *
              *  +       - op_UnaryPlus
              *  -       - op_UnaryNegation
@@ -227,7 +230,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
              *  !       - op_LogicalNot
              *  ~       - op_OnesComplement
              * */
-            List<string> opNames = new List<string>() { "op_UnaryPlus", "op_UnaryNegation", "op_False", "op_True", "op_LogicalNot", "op_OnesComplement", "op_Increment", "op_Decrement" };
+            List<string> opNames = new List<string>() { 
+                CLICommon.UnaryOperatorNames.Plus, CLICommon.UnaryOperatorNames.Negation, CLICommon.UnaryOperatorNames.False, 
+                CLICommon.UnaryOperatorNames.True, CLICommon.UnaryOperatorNames.LogicalNot, CLICommon.UnaryOperatorNames.OnesComplement, 
+                CLICommon.UnaryOperatorNames.Increment, CLICommon.UnaryOperatorNames.Decrement };
             return new LockedUnaryOperatorCoercionMembers<TType>(this._Members, ((TType)(object)(this)),
                 UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledUnaryOperatorCoercionMemberBase<TType>(methInfo, ((TType)(object)(this))));
         }
@@ -241,129 +247,35 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             return new LockedConstructorMembers<TCtor, TType>(this._Members,
                 ((TType)((object)(this))),
-                UnderlyingSystemType.GetConstructors(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).Filter(constructor =>
-                {
-                    var accessModifiers = constructor.GetAccessModifiers();
-                    switch (accessModifiers)
-                    {
-                        case AccessLevelModifiers.Private:
-                        case AccessLevelModifiers.PrivateScope:
-                            return false;
-                        case AccessLevelModifiers.InternalProtected:
-                        case AccessLevelModifiers.Internal:
-                        case AccessLevelModifiers.Public:
-                        case AccessLevelModifiers.Protected:
-                        case AccessLevelModifiers.ProtectedInternal:
-                        default:
-                            return true;
-                    }
-                }), GetConstructor);
+                UnderlyingSystemType.GetConstructors(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).Filter(constructor => constructor.GetAccessModifiers().IsModifierAccessible()), GetConstructor);
         }
 
         private IEventMemberDictionary<TEvent, TType> InitializeEvents()
         {
             return new LockedEventMembersBase<TEvent, TType>(this._Members,
-                ((TType)(object)(this)), UnderlyingSystemType.GetEvents(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly).Filter(eventInfo =>
-                {
-                    var accessModifiers = eventInfo.GetAccessModifiers();
-                    switch (accessModifiers)
-                    {
-                        case AccessLevelModifiers.Private:
-                        case AccessLevelModifiers.PrivateScope:
-                            return false;
-                        case AccessLevelModifiers.InternalProtected:
-                        case AccessLevelModifiers.Internal:
-                        case AccessLevelModifiers.Public:
-                        case AccessLevelModifiers.Protected:
-                        case AccessLevelModifiers.ProtectedInternal:
-                        default:
-                            return true;
-                    }
-                }), this.GetEvent);
+                ((TType)(object)(this)), UnderlyingSystemType.GetEvents(
+                    BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static |
+                    BindingFlags.Public | BindingFlags.DeclaredOnly).Filter(eventInfo => eventInfo.GetAccessModifiers().IsModifierAccessible()), this.GetEvent);
         }
 
         private IFieldMemberDictionary<TField, TType> InitializeFields()
         {
-            return new LockedFieldMembersBase<TField, TType>(this._Members, ((TType)((object)(this))), UnderlyingSystemType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly).Filter(field =>
-            {
-
-                var accessModifiers = field.GetAccessModifiers();
-                switch (accessModifiers)
-                {
-                    case AccessLevelModifiers.Private:
-                    case AccessLevelModifiers.PrivateScope:
-                        return false;
-                    case AccessLevelModifiers.InternalProtected:
-                    case AccessLevelModifiers.Internal:
-                    case AccessLevelModifiers.Public:
-                    case AccessLevelModifiers.Protected:
-                    case AccessLevelModifiers.ProtectedInternal:
-                    default:
-                        return !(field.IsSpecialName || field.IsDefined(typeof(CompilerGeneratedAttribute), true));
-                }
-            }), this.GetField);
+            return new LockedFieldMembersBase<TField, TType>(this._Members, ((TType)((object)(this))), UnderlyingSystemType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly).Filter(field => field.GetAccessModifiers().IsModifierAccessible() && !(field.IsSpecialName || field.IsDefined(typeof(CompilerGeneratedAttribute), true))), this.GetField);
         }
 
         private IIndexerMemberDictionary<TIndexer, TType> InitializeIndexers()
         {
-            return new LockedIndexerMemberDictionary<TIndexer, TType>(this._Members, ((TType)((object)(this))), UnderlyingSystemType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly).Filter(indexerInfo =>
-            {
-                var accessModifiers = indexerInfo.GetAccessModifiers();
-                switch (accessModifiers)
-                {
-                    case AccessLevelModifiers.Private:
-                    case AccessLevelModifiers.PrivateScope:
-                        return false;
-                    case AccessLevelModifiers.InternalProtected:
-                    case AccessLevelModifiers.Internal:
-                    case AccessLevelModifiers.Public:
-                    case AccessLevelModifiers.Protected:
-                    case AccessLevelModifiers.ProtectedInternal:
-                    default:
-                        return !(indexerInfo.IsSpecialName || indexerInfo.IsDefined(typeof(CompilerGeneratedAttribute), true)) && indexerInfo.GetIndexParameters().Length > 0;
-                }
-            }), GetIndexer);
+            return new LockedIndexerMemberDictionary<TIndexer, TType>(this._Members, ((TType)((object)(this))), UnderlyingSystemType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly).Filter(indexerInfo => indexerInfo.GetAccessModifiers().IsModifierAccessible() && !(indexerInfo.IsSpecialName || indexerInfo.IsDefined(typeof(CompilerGeneratedAttribute), true)) && indexerInfo.GetIndexParameters().Length > 0), GetIndexer);
         }
 
         private IMethodMemberDictionary<TMethod, TType> InitializeMethods()
         {
-            return new LockedMethodMembersBase<TMethod, TType>(this._Members, ((TType)((object)(this))), this.UnderlyingSystemType.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly).Filter(method =>{
-                var accessModifiers = method.GetAccessModifiers();
-                switch (accessModifiers)
-                {
-                    case AccessLevelModifiers.Private:
-                    case AccessLevelModifiers.PrivateScope:
-                        return false;
-                    case AccessLevelModifiers.InternalProtected:
-                    case AccessLevelModifiers.Internal:
-                    case AccessLevelModifiers.Public:
-                    case AccessLevelModifiers.Protected:
-                    case AccessLevelModifiers.ProtectedInternal:
-                    default:
-                        return !(method.IsSpecialName || method.IsDefined(typeof(CompilerGeneratedAttribute), true));
-                }
-            }), GetMethod);
+            return new LockedMethodMembersBase<TMethod, TType>(this._Members, ((TType)((object)(this))), this.UnderlyingSystemType.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly).Filter(method => method.GetAccessModifiers().IsModifierAccessible() && !(method.IsSpecialName || method.IsDefined(typeof(CompilerGeneratedAttribute), true))), GetMethod);
         }
 
         private IPropertyMemberDictionary<TProperty, TType> InitializeProperties()
         {
-            return new LockedPropertyMembersBase<TProperty, TType>(this._Members, ((TType)((object)(this))), UnderlyingSystemType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly).Filter(property =>{
-                var accessModifiers = property.GetAccessModifiers();
-
-                switch (accessModifiers)
-                {
-                    case AccessLevelModifiers.Private:
-                    case AccessLevelModifiers.PrivateScope:
-                        return false;
-                    case AccessLevelModifiers.InternalProtected:
-                    case AccessLevelModifiers.Internal:
-                    case AccessLevelModifiers.Public:
-                    case AccessLevelModifiers.Protected:
-                    case AccessLevelModifiers.ProtectedInternal:
-                    default:
-                        return !(property.IsSpecialName || property.IsDefined(typeof(CompilerGeneratedAttribute), true) || property.GetIndexParameters().Length != 0);
-                }
-            }), GetProperty);
+            return new LockedPropertyMembersBase<TProperty, TType>(this._Members, ((TType)((object)(this))), UnderlyingSystemType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly).Filter(property => property.GetAccessModifiers().IsModifierAccessible() && !(property.IsSpecialName || property.IsDefined(typeof(CompilerGeneratedAttribute), true) || property.GetIndexParameters().Length != 0)), GetProperty);
         }
 
         #endregion
@@ -570,7 +482,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         protected abstract TProperty GetProperty(PropertyInfo info);
         /// <summary>
         /// Obtains a <typeparamref name="TField"/> for the 
-        /// <paramref name="FieldInfo"/> provided.
+        /// <paramref name="info"/> provided.
         /// </summary>
         /// <param name="info">The <see cref="FieldInfo"/> 
         /// to obtain the <typeparamref name="TField"/>

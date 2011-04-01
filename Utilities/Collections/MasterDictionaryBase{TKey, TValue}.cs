@@ -119,8 +119,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         #region IMasterDictionary<TKey,TValue> Members
 
         /// <summary>
-        /// Obtains a <paramref name="subordinate"/> dictionary that adheres
-        /// to the sub-type defined.
+        /// Obtains a subordinate dictionary that adheres
+        /// to the sub-type (<typeparamref name="TSValue"/>) defined.
         /// </summary>
         /// <typeparam name="TSValue">The specific type of value used in the subordinate dictionary, derives
         /// from the master dictionary's <typeparamref name="TValue"/>.</typeparam>
@@ -360,6 +360,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <paramref name="key"/>.</summary>
         /// <param name="key">The <typeparamref name="TKey"/>
         /// to look for.</param>
+        /// <param name="value">The value to set the element, 
+        /// at the <paramref name="key"/> provided, to.</param>
         /// <exception cref="System.ArgumentNullException">
         /// <see cref="MasterDictionaryEntry{TEntry}.Subordinate"/> in 
         /// value is: null, or not a subordinate 

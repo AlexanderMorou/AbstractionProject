@@ -506,7 +506,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         /// <summary>
         /// Returns the unique identifier for the current <see cref="TypeBase"/> where 
-        /// <see cref="Name"/> is not enough to distinguish between two 
+        /// <see cref="DeclarationBase.Name"/> is not enough to distinguish between two 
         /// <see cref="TypeBase"/> entities.
         /// </summary>
         public override string UniqueIdentifier
@@ -517,7 +517,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
 
-        protected new virtual void Dispose(bool dispose)
+        protected virtual void Dispose(bool dispose)
         {
             try
             {

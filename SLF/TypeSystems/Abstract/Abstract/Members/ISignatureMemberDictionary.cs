@@ -80,40 +80,40 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         IMemberDictionary
     {
         /// <summary>
-        /// Searches for <typeparamref name="ISignatureMember"/> instances that match the <paramref name="search"/> criteria.
+        /// Searches for <see cref="ISignatureMember"/> instances that match the <paramref name="search"/> criteria.
         /// </summary>
         /// <param name="strict">Whether to adhere to the <paramref name="search"/> criteria
         /// strictly.</param>
         /// <param name="search">The <see cref="ITypeCollection"/> that designates the signature to look for.</param>
-        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary"/> of <typeparamref name="ISignatureMember"/> 
+        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary"/> of <see cref="ISignatureMember"/> 
         /// instances that matched the <paramref name="search"/> criteria.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
         IFilteredSignatureMemberDictionary Find(bool strict, ITypeCollection search);
         /// <summary>
-        /// Searches for <typeparamref name="ISignatureMember"/> instances that match the <paramref name="search"/> criteria.
+        /// Searches for <see cref="ISignatureMember"/> instances that match the <paramref name="search"/> criteria.
         /// </summary>
         /// <param name="search">The <see cref="ITypeCollection"/> that designates the signature to look for.</param>
-        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary"/> of <typeparamref name="ISignatureMember"/> 
+        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary"/> of <see cref="ISignatureMember"/> 
         /// instances that matched the <paramref name="search"/> criteria.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
         /// <remarks>Alias for <see cref="Find(bool, ITypeCollection)"/> where strict is true.</remarks>
         IFilteredSignatureMemberDictionary Find(ITypeCollection search);
 
         /// <summary>
-        /// Searches for <typeparamref name="ISignatureMember"/> instances that match the <paramref name="search"/> criteria.
+        /// Searches for <see cref="ISignatureMember"/> instances that match the <paramref name="search"/> criteria.
         /// </summary>
         /// <param name="strict">Whether to adhere to the <paramref name="search"/> criteria
         /// strictly.</param>
         /// <param name="search">The <see cref="IType"/> array that designates the signature to look for.</param>
-        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary"/> of <typeparamref name="ISignatureMember"/> 
+        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary"/> of <see cref="ISignatureMember"/> 
         /// instances that matched the <paramref name="search"/> criteria.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
         IFilteredSignatureMemberDictionary Find(bool strict, params IType[] search);
         /// <summary>
-        /// Searches for <typeparamref name="ISignatureMember"/> instances that match the <paramref name="search"/> criteria.
+        /// Searches for <see cref="ISignatureMember"/> instances that match the <paramref name="search"/> criteria.
         /// </summary>
         /// <param name="search">The <see cref="ITypeCollection"/> that designates the signature to look for.</param>
-        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary"/> of <typeparamref name="ISignatureMember"/> 
+        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary"/> of <see cref="ISignatureMember"/> 
         /// instances that matched the <paramref name="search"/> criteria.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
         /// <remarks>Alias for <see cref="Find(bool, IType[])"/> where strict is true.</remarks>

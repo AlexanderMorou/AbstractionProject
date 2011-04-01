@@ -30,7 +30,7 @@ namespace AllenCopeland.Abstraction.Utilities.Events
     {
         /// <summary>
         /// Creates a new <see cref="EventArgsR1R2{TArg1, TArg2}"/> with the required
-        /// <paramref name="arg1"/> and the required <paramref name="arg2"/>.
+        /// <paramref name="arg1"/>.
         /// </summary>
         /// <param name="arg1">The required <typeparamref name="TArg1"/> 
         /// argument that is immutable after instantiation.</param>
@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Utilities.Events
         }
         /// <summary>
         /// Creates a new <see cref="EventArgsR1R2{TArg1, TArg2}"/> with the required
-        /// <paramref name="arg1"/> and the required <paramref name="arg2"/>.
+        /// <paramref name="arg1"/> and the required <paramref name="arg3"/>.
         /// </summary>
         /// <param name="arg1">The required <typeparamref name="TArg1"/> 
         /// argument that is immutable after instantiation.</param>
@@ -65,8 +65,8 @@ namespace AllenCopeland.Abstraction.Utilities.Events
         }
         /// <summary>
         /// Creates a new <see cref="EventArgsR1R2{TArg1, TArg2}"/> with the required
-        /// <paramref name="arg1"/>, the required <paramref name="arg2"/> and
-        /// the <paramref name="arg3"/>.
+        /// <paramref name="arg1"/>, the optional <paramref name="arg2"/> and
+        /// <paramref name="arg3"/>.
         /// </summary>
         /// <param name="arg1">The required <typeparamref name="TArg1"/> 
         /// argument that is immutable after instantiation.</param>

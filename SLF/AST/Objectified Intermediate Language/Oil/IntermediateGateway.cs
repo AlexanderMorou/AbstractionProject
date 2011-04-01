@@ -192,6 +192,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Obtains a <see cref="IMethodPointerReferenceExpression"/>
         /// with the <paramref name="signature"/> provided.
         /// </summary>
+        /// <param name="target">The <see cref="IMethodReferenceStub"/>
+        /// on which the pointer is obtained.</param>
         /// <param name="signature">The series if <see cref="System.Type"/>
         /// elements relative to the type-signature of the 
         /// <see cref="IMethodPointerReferenceExpression"/>

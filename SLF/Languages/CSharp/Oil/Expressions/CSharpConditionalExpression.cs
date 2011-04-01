@@ -49,7 +49,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Creates a new <see cref="CSharpConditionalExpression"/>
         /// with the <paramref name="termPart"/> provided.
         /// </summary>
-        /// <param name="termPart">The <see cref="ILogicalOrEpression"/>
+        /// <param name="termPart">The <see cref="ICSharpLogicalOrExpression"/>
         /// which makes the <see cref="CSharpConditionalExpression"/> a pass-through.</param>
         public CSharpConditionalExpression(ICSharpLogicalOrExpression termPart)
         {

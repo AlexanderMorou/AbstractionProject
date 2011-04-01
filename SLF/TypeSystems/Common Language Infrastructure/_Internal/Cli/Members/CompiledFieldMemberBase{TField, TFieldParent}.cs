@@ -61,7 +61,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         /// <summary>
         /// Obtains the <see cref="DeclarationBase.Name"/> 
-        /// for the <see cref="CompiledFieldMember{TField, TFieldParent}"/>.
+        /// for the <see cref="CompiledFieldMemberBase{TField, TFieldParent}"/>.
         /// </summary>
         /// <returns>A <see cref="System.String"/> that 
         /// contains the name of the <see cref="DeclarationBase"/>.
@@ -73,7 +73,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         }
 
         /// <summary>
-        /// Returns the <see cref="IType"/> related to the <see cref="FieldType"/> of the
+        /// Returns the <see cref="IType"/> related to the <see cref="FieldMemberBase{TField, TFieldParent}.FieldType"/> of the
         /// current <see cref="CompiledFieldMemberBase{TField, TFieldParent}"/>.
         /// </summary>
         /// <returns>

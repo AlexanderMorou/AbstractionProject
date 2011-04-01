@@ -15,9 +15,17 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
     /// nondeterministic finite state automation which has a
     /// fixed set of transitions from one state to another.
     /// </summary>
-    /// <typeparam name="TCheck"></typeparam>
-    /// <typeparam name="TState"></typeparam>
-    /// <typeparam name="TDFA"></typeparam>
+    /// <typeparam name="TCheck">The type of set used
+    /// to represent the transition from state set to state set.</typeparam>
+    /// <typeparam name="TState">The kind of <see cref="INFAState{TCheck, TState, TDFA, TSourceElement}"/>
+    /// used to represent the non-deterministic elements of the
+    /// automation.</typeparam>
+    /// <typeparam name="TDFA">The type used to construct
+    /// a deterministic model of the current nondeterministic 
+    /// automation.</typeparam>
+    /// <typeparam name="TSourceElement">The kind of elements from the original
+    /// parse tree which denote the source of the
+    /// <see cref="INFAState{TCheck, TState, TDFA, TSourceElement}"/>.</typeparam>
     public interface INFAState<TCheck, TState, TDFA, TSourceElement> :
         IFiniteAutomataState<TCheck, TState, List<TState>, TSourceElement>
         where TCheck :
@@ -32,7 +40,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             IFiniteAutomataSource
     {
         /// <summary>
-        /// Creates a version of the current <see cref="INFAState{TCheck, TState, TDFA}"/>
+        /// Creates a version of the current <see cref="INFAState{TCheck, TState, TDFA, TSourceElement}"/>
         /// which is deterministic by creating a left-side union on elements which overlap
         /// on their <typeparamref name="TCheck"/> transition requirements.
         /// </summary>

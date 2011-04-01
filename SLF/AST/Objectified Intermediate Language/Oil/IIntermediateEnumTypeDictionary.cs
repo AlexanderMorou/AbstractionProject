@@ -13,8 +13,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 {
     /// <summary>
     /// Defines properties and methods for working with a series of
-    /// intermediate enumeration types grouped with a series of
-    /// <see cref="IIntermediateFullTypes"/>.
+    /// intermediate enumeration types grouped with a
+    /// <see cref="IIntermediateFullTypeDictionary"/>.
     /// </summary>
     public interface IIntermediateEnumTypeDictionary :
         IIntermediateTypeDictionary<IEnumType, IIntermediateEnumType>,

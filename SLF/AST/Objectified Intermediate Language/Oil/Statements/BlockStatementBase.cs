@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
     {
         private IBlockStatementParent parent;
         /// <summary>
-        /// Creates a new <see cref="BlockStatementParent"/> instance
+        /// Creates a new <see cref="BlockStatementBase"/> instance
         /// with the <paramref name="parent"/> which contains it.
         /// </summary>
         /// <param name="parent">The <see cref="IBlockStatement"/> which
@@ -40,7 +40,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <param name="visitor">The <see cref="IIntermediateCodeVisitor"/> 
         /// to visit.</param>
         /// <remarks>In this instance visits the <paramref name="visitor"/>
-        /// through <see cref="IIntermediateCodeVisitor.Visit(IBlockStatement)"/>.</remarks>
+        /// through <see cref="IStatementVisitor.Visit(IBlockStatement)"/>.</remarks>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="visitor"/>
         /// is null.</exception>
         public virtual void Visit(IStatementVisitor visitor)

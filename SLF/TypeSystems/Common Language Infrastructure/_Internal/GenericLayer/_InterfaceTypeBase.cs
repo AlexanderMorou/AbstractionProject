@@ -354,7 +354,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// Returns the <see cref="enums"/>' default value.
         /// </summary>
         /// <remarks>
-        /// Used by <see cref="CheckEnumerators"/>.
+        /// Used by <see cref="CheckEnums"/>.
         /// </remarks>
         /// <returns>
         /// A <see cref="IEnumTypeDictionary"/> instance.

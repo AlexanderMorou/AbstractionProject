@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
     /// <summary>
     /// Provides a base implementation of <see cref="ICSharpBitwiseAndExpression"/>; 
-    /// a logical and binary operation (C&#9839;: '&'; VB: "And"; CIL: "and").
+    /// a logical and binary operation (C&#9839;: '&amp;'; VB: "And"; CIL: "and").
     /// </summary>
     public class CSharpBitwiseAndExpression :
         CSharpBinaryOperationExpressionBase<ICSharpBitwiseAndExpression, ICSharpInequalityExpression>,
@@ -49,7 +49,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="CSharpBitwiseAndExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionType.BitwiseAndOperation"/>.</remarks>
+        /// <remarks>Returns <see cref="ExpressionKinds.BitwiseAndOperation"/>.</remarks>
         public override ExpressionKinds Type
         {
             get { return ExpressionKinds.BitwiseAndOperation; }

@@ -20,8 +20,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules
     internal class SyntacticalParser
     {
         private ParserBuilder builder;
-        GrammarVocabulary fullVocab = null;
-        GrammarVocabulary eofEntry = null;
         internal SyntacticalParser(ParserBuilder builder)
         {
             this.builder = builder;

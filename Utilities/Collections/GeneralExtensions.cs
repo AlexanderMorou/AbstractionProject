@@ -40,32 +40,36 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             return Tweaks.MergeArrays(target.ToArray(), inlineElements);
         }
         /// <summary>
-        /// Performs <paramref name="f"/> on all <typeparamref name="T"/> intances in <paramref name="e"/>.
+        /// Performs <paramref name="method"/> on all <typeparamref name="T"/> intances in <paramref name="source"/>.
         /// </summary>
-        /// <typeparam name="T">The type of members in <see cref="e"/>.</typeparam>
-        /// <param name="e">The <see cref="IEnumerable{T}"/> which needs to have <paramref name="f"/> carried out on
+        /// <typeparam name="T">The type of members in <paramref name="source"/>.</typeparam>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> which needs to have <paramref name="method"/> carried out on
         /// its entries.</param>
-        /// <param name="f">A method with no return value that accepts values of <typeparamref name="T"/>.</param>
+        /// <param name="method">A method with no return value that accepts values of <typeparamref name="T"/>.</param>
         public static void OnAll<T>(this IEnumerable<T> source, Action<T> method)
         {
             foreach (T t in source)
                 method(t);
         }
         /// <summary>
-        /// Performs <paramref name="f"/> on all <typeparamref name="T"/> 
-        /// intances in <paramref name="e"/> using a prefetch of the
+        /// Performs <paramref name="method"/> on all <typeparamref name="T"/> 
+        /// intances in <paramref name="source"/> using a prefetch of the
         /// elements to ensure that changes to the 
         /// collection during iteration do not halt the execution.
         /// </summary>
-        /// <typeparam name="T">The type of members in <see cref="e"/>.</typeparam>
-        /// <param name="e">The <see cref="IEnumerable{T}"/> which needs to have <paramref name="f"/> carried out on
-        /// its entries.</param>
-        /// <param name="f">A method with no return value that accepts values of <typeparamref name="T"/>.</param>
+        /// <typeparam name="T">The type of members in <paramref name="source"/>.</typeparam>
+        /// <param name="source">The <see cref="IEnumerable{T}"/> which needs to
+        /// have <paramref name="method"/> carried out on its entries.
+        /// </param>
+        /// <param name="method">A method with no return value that
+        /// accepts values of <typeparamref name="T"/>.</param>
         public static void OnAllP<T>(this IEnumerable<T> source, Action<T> method)
         {
             foreach (T t in source.ToArray())
                 method(t);
         }
+
+
         public static void OnAll<TItem, TArg1>(this IEnumerable<TItem> source, Action<TItem, TArg1> method, TArg1 arg1)
         {
             foreach (TItem t in source)
@@ -228,7 +232,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <summary>
         /// Takes the <typeparamref name="T"/> elements from the <paramref name="target"/>
         /// from the <paramref name="start"/> and ending after there the <paramref name="count"/>
-        /// is reached or until the <see cref="target"/> is expended.
+        /// is reached or until the <paramref name="target"/> is expended.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="target">The <see cref="IEnumerable{T}"/>

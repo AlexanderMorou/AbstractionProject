@@ -139,11 +139,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                     return CSharpOperatorPrecedences.UnaryTerm;
                 case ExpressionKinds.ExpressionFusion:
                 case ExpressionKinds.ExpressionToCommaFusion:
-                case ExpressionKinds.ExpressionToTypeCollectionFusion:
+                /* *
+                 * case ExpressionKinds.ExpressionToTypeCollectionFusion: 
+                 * Removed, an expression+TypeCollection is not a valid unary forward
+                 * term.
+                 * */
                 case ExpressionKinds.SymbolExpression:
                 case ExpressionKinds.ParenthesizedExpression:
                     return CSharpOperatorPrecedences.UnaryTerm;
                 case ExpressionKinds.UnaryOperation:
+                case ExpressionKinds.UnaryForwardTerm:
+                    /* *
+                     * ToDo: Investigate later why UnaryForwardTerm 
+                     * is needed here.  Previously it wasn't.
+                     * */
                     return CSharpOperatorPrecedences.UnaryOperation;
             }
             return CSharpOperatorPrecedences.NoPrecedence;

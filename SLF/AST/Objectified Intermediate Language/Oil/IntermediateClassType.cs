@@ -55,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Creates a new <see cref="IntermediateClassType"/> with the 
-        /// <paramref name="IIntermediateTypeParent"/>.
+        /// <see cref="IIntermediateTypeParent"/>.
         /// </summary>
         /// <param name="parent">The <see cref="IIntermediateTypeParent"/></param>
         public IntermediateClassType(IIntermediateTypeParent parent)
@@ -132,12 +132,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Obtains a new <see cref="IntermediateClassCtorMember{TInstanceIntermediateType}"/> with the <paramref name="parameters"/>
-        /// provided.
+        /// Obtains a new <see cref="IntermediateClassCtorMember{TInstanceIntermediateType}"/> with no parameters.
         /// </summary>
-        /// <param name="parameters">The <see cref="TypedNameSeries"/>
-        /// which designates the names and types of the parameters contained within the
-        /// <see cref="IntermediateClassCtorMember{TInstanceIntermediateType}"/> to be created.</param>
         /// <returns>A new <see cref="IntermediateClassCtorMember{TInstanceIntermediateType}"/>, if successful.</returns>
         /// <remarks>Required by design, due to further inheritance on constructors being necessary.</remarks>
         protected override IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<TInstanceIntermediateType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IClassType, IIntermediateClassType, TInstanceIntermediateType>.
@@ -169,14 +165,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Obtains a new <see cref="EventMember"/> which designates
+        /// Obtains a new <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}.EventMember"/> which designates
         /// the <paramref name="name"/> and <paramref name="eventSignature"/> of
         /// the event to add.
         /// </summary>
         /// <param name="name">The <see cref="String"/> name of the event.</param>
         /// <param name="eventSignature">The series of names and types which relate to the
         /// auto-generated delegate that's associated to the event.</param>
-        /// <returns>A new <see cref="EventMember"/>.</returns>
+        /// <returns>A new <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}.EventMember"/>.</returns>
         protected override IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<TInstanceIntermediateType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IClassType, IIntermediateClassType, TInstanceIntermediateType>.
                            EventMember GetNewEvent(string name, TypedNameSeries eventSignature)
         {

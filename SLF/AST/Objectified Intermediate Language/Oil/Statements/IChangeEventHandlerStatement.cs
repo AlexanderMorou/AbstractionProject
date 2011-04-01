@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
     {
         /// <summary>
         /// Returns/sets the <see cref="IEventReferenceExpression"/>
-        /// which denotes the event to add the <paramref name="SourceMethod"/>
+        /// which denotes the event to add the <see cref="SourceMethod"/>
         /// as a handler.
         /// </summary>
         IEventReferenceExpression TargetEvent { get; }

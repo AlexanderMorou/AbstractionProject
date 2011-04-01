@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     {
         private bool disposing;
         private object disposeSynch = new object();
-        private new ValuesCollection valuesCollection;
+        private ValuesCollection valuesCollection;
 
         /// <summary>
         /// Creates a new <see cref="IntermediateDeclarationDictionary{TDeclaration, TIntermediateDeclaration}"/> initialized to its default state.
@@ -105,8 +105,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (e == null)
                 throw new ArgumentNullException("e");
-            if (this.ItemAdded != null)
-                this.ItemAdded(this, e);
+            var itemAdded = this.ItemAdded;
+            if (itemAdded != null)
+                itemAdded(this, e);
         }
 
         /// <summary>
@@ -120,8 +121,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (e == null)
                 throw new ArgumentNullException("e");
-            if (this.ItemRemoved != null)
-                this.ItemRemoved(this, e);
+            var itemRemoved = this.ItemRemoved;
+            if (itemRemoved != null)
+                itemRemoved(this, e);
         }
 
         #endregion

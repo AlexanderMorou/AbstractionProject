@@ -43,7 +43,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// provided.</returns>
         TNode[] AddRange(IEnumerable<KeyValuePair<TKey, TValue>> entries);
         /// <summary>
-        /// Clears the <see cref="IKeyedTree"/>.
+        /// Clears the <see cref="IKeyedTree{TKey, TValue, TNode}"/>.
         /// </summary>
         void Clear();
         /// <summary>

@@ -68,8 +68,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// whether the change should take place.</param>
         protected virtual void OnRenaming(DeclarationRenamingEventArgs e)
         {
-            if (this.Renaming != null)
-                this.Renaming(this, e);
+            var renaming = this.Renaming;
+            if (renaming != null)
+                renaming(this, e);
         }
 
         /// <summary>
@@ -79,8 +80,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// indicate the old and new name of the <see cref="IntermediateDeclarationBase"/>.</param>
         protected virtual void OnRenamed(DeclarationNameChangedEventArgs e)
         {
-            if (this.Renamed != null)
-                this.Renamed(this, e);
+            var renamed = this.Renamed;
+            if (renamed != null)
+                renamed(this, e);
         }
 
         /// <summary>
@@ -102,6 +104,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         public abstract string UniqueIdentifier { get; }
 
+        /// <summary>
+        /// Invoked when the <see cref="IntermediateDeclarationBase"/> is disposed.
+        /// </summary>
         public event EventHandler Disposed;
 
         #endregion
@@ -119,8 +124,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
             finally
             {
-                if (this.Disposed != null)
-                    this.Disposed(this, EventArgs.Empty);
+                var disposeTemp = this.Disposed;
+                if (disposeTemp != null)
+                    disposeTemp(this, EventArgs.Empty);
                 this.Disposed = null;
             }
         }

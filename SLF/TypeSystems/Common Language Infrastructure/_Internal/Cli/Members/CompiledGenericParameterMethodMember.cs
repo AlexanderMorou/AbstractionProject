@@ -97,7 +97,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
              * _IGenericMethodSignatureRegistrar handles cache.
              * */
             var v = new _GenericParameterMethodMemberBase<TGenericParameter>(this, genericReplacements);
-            CLIGateway.VerifyTypeParameters<IMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, TGenericParameter>, IGenericParameterMethodMember<TGenericParameter>, TGenericParameter>(this, genericReplacements);
+            CLICommon.VerifyTypeParameters<IMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, TGenericParameter>, IGenericParameterMethodMember<TGenericParameter>, TGenericParameter>(this, genericReplacements);
             return v;
             //*/
         }

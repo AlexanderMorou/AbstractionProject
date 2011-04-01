@@ -32,7 +32,9 @@ LINQWhereClause ::=
     "where" Expression:BoolExpression;;
 
 LINQJoinClause ::=
-    "join" TypeReference:Type;? Identifier:Name; "in" Expression:TargetIn; "on" Expression:ConditionLeft; "equals" Expression:ConditionRight; ("into" Identifier:TargetOut;)?;
+    "join" TypeReference:Type;? Identifier:Name; "in" Expression:TargetIn; "on" 
+    Expression:ConditionLeft; "equals" Expression:ConditionRight; 
+    ("into" Identifier:TargetOut;)?;
 
 LINQOrderByClause ::=
     "orderby" DelimitedList<LINQOrderingClause:Orderings;, ','>;

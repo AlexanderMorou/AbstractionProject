@@ -35,6 +35,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// which determines the constructor arguments and properties set on the
         /// <see cref="ICustomAttributeDefinition"/>.
         /// </summary>
-        new ICustomAttributeDefinitionParameterCollection Parameters { get; }
+        ICustomAttributeDefinitionParameterCollection Parameters { get; }
     }
 }

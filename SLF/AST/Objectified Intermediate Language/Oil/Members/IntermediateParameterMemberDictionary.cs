@@ -95,7 +95,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return item;
         }
 
-        public new TIntermediateParameter Add(TypedName parameterInfo)
+        public TIntermediateParameter Add(TypedName parameterInfo)
         {
             var paramKind = parameterInfo.GetTypeRef();
             if (paramKind.ContainsSymbols())
@@ -111,7 +111,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return this.AddInternal(parameterInfo.Name, paramKind, parameterInfo.Direction);
         }
 
-        public new TIntermediateParameter[] AddRange(params TypedName[] parameterInfo)
+        public TIntermediateParameter[] AddRange(params TypedName[] parameterInfo)
         {
             if (this.locked)
                 throw new InvalidOperationException(Resources.ObjectStateThrowMessage);

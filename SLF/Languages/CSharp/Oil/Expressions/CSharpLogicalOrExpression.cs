@@ -13,7 +13,7 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
     /// <summary>
-    /// Provides a base implementation of <see cref="ICSharpConditionalOrExpression"/>; 
+    /// Provides a base implementation of <see cref="ICSharpLogicalOrExpression"/>; 
     /// a logical and binary operation ('|'; "Or", "or").
     /// </summary>
     public sealed class CSharpLogicalOrExpression :
@@ -21,10 +21,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         ICSharpLogicalOrExpression
     {
         /// <summary>
-        /// Creates a new non-operational <see cref="CSharpConditionalOrExpression"/> with the <paramref name="term"/>
+        /// Creates a new non-operational <see cref="CSharpLogicalOrExpression"/> with the <paramref name="term"/>
         /// provided.
         /// </summary>
-        /// <param name="term">The term the non-operational <see cref="CSharpConditionalOrExpression"/>
+        /// <param name="term">The term the non-operational <see cref="ICSharpLogicalAndExpression"/>
         /// points to.</param>
         public CSharpLogicalOrExpression(ICSharpLogicalAndExpression term)
             : base(term)
@@ -33,13 +33,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         /// <summary>
-        /// Creates a new <see cref="CSharpConditionalOrExpression"/> with the <paramref name="leftSide"/> and
+        /// Creates a new <see cref="CSharpLogicalOrExpression"/> with the <paramref name="leftSide"/> and
         /// <paramref name="rightSide"/> provided.
         /// </summary>
-        /// <param name="leftSide">The <see cref="ICSharpConditionalOrExpression"/> to evaluate alongside 
+        /// <param name="leftSide">The <see cref="ICSharpLogicalOrExpression"/> to evaluate alongside 
         /// <paramref name="rightSide"/></param>
-        /// <param name="rightSide">The <see cref="ICSharpConditionalAndExpression"/> to evaluate
-        /// with <paramref name="leftSide"/>.</param>
+        /// <param name="rightSide">The <see cref="ICSharpLogicalAndExpression"/> to evaluate
+        /// when <paramref name="leftSide"/> is false.</param>
         public CSharpLogicalOrExpression(ICSharpLogicalOrExpression leftSide, ICSharpLogicalAndExpression rightSide)
             : base(leftSide, rightSide)
         {
@@ -47,9 +47,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         /// <summary>
-        /// Returns the type of expression the <see cref="CSharpConditionalOrExpression"/> is.
+        /// Returns the type of expression the <see cref="CSharpLogicalOrExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionType.BitwiseOrOperation"/>.</remarks>
+        /// <remarks>Returns <see cref="ExpressionKinds.LogicalOrOperation"/>.</remarks>
         public override ExpressionKinds Type
         {
             get { return ExpressionKinds.LogicalOrOperation; }
@@ -57,7 +57,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Returns the <see cref="BinaryOperationAssociativity"/> associated to the 
-        /// <see cref="CSharpConditionalOrExpression"/>.
+        /// <see cref="CSharpLogicalOrExpression"/>.
         /// </summary>
         /// <remarks>Returns <see cref="BinaryOperationAssociativity.Left"/>.</remarks>
         public override BinaryOperationAssociativity Associativity

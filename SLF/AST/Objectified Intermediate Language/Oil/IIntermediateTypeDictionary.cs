@@ -103,7 +103,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         IIntermediateTypeParent Parent { get; }
         /// <summary>
-        /// Removes the provided <paramref name="TIntermediateType"/> from the
+        /// Removes the provided <typeparamref name="TIntermediateType"/> from the
         /// <see cref="IIntermediateTypeDictionary{TType, TIntermediateType}"/>
         /// </summary>
         /// <param name="type">The <typeparamref name="TIntermediateType"/> 

@@ -46,7 +46,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         ICSharpExpression
     {
         /// <summary>
-        /// Returns/sets the <see cref="MulDivOperation"/> represented by the <see cref="ICSharpMulDivExpression"/>
+        /// Returns/sets the <see cref="CSharpMulDivOperation"/> represented by the <see cref="ICSharpMulDivExpression"/>
         /// </summary>
         CSharpMulDivOperation Operation { get; set; }
     }

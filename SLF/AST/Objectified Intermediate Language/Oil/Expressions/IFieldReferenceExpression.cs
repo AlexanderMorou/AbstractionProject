@@ -20,12 +20,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// an expression that refers to a specific field.
     /// </summary>
     /// <typeparam name="TField">The type of field in the abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateField">The type of field in the intermediate
-    /// abstract syntax tree.</typeparam>
     /// <typeparam name="TFieldParent">The type which owns the fields
     /// in the abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateFieldParent">The type which owns the fields
-    /// in the intermediate abstract syntax tree.</typeparam>
     public interface IFieldReferenceExpression<TField, TFieldParent> :
         IBoundMemberReference,
         IFieldReferenceExpression
@@ -35,8 +31,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             IFieldParent<TField, TFieldParent>
     {
         /// <summary>
-        /// Returns the member associated to the
-        /// <see cref="IFieldReferenceExpression"/>.
+        /// Returns the <typeparamref name="TField"/> associated to the
+        /// <see cref="IFieldReferenceExpression{TField, TFieldParent}"/>.
         /// </summary>
         new TField Member { get; }
     }

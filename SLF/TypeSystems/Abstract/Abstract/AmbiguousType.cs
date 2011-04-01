@@ -284,11 +284,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             this._source.Clear();
             this.source = null;
             this._source = null;
-            if (this.Disposed != null)
-            {
-                this.Disposed(this, EventArgs.Empty);
-                this.Disposed = null;
-            }
+            var disposedCopy = this.Disposed;
+            if (disposedCopy != null)
+                disposedCopy(this, EventArgs.Empty);
+            this.Disposed = null;
         }
 
         #endregion

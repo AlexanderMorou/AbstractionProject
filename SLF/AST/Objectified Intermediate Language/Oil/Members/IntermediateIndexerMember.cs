@@ -106,7 +106,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// which represents the get method of the 
         /// <see cref="IntermediateIndexerMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>.
         /// </summary>
-        /// <remarks>Is null if <paramref name="CanRead"/> is false.</remarks>
+        /// <remarks>Is null if <see cref="CanRead"/> is false.</remarks>
         public TMethodMember GetMethod
         {
             get
@@ -129,7 +129,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// which represents the set method of the 
         /// <see cref="IntermediateIndexerMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>.
         /// </summary>
-        /// <remarks>Is null if <paramref name="CanWrite"/> is false.</remarks>
+        /// <remarks>Is null if <see cref="CanWrite"/> is false.</remarks>
         public TMethodMember SetMethod
         {
             get
@@ -232,7 +232,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// which represents the get method of the 
         /// <see cref="IntermediateIndexerMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>.
         /// </summary>
-        /// <remarks>Is null if <paramref name="CanRead"/> is false.</remarks>
+        /// <remarks>Is null if <see cref="CanRead"/> is false.</remarks>
         IIntermediatePropertySignatureMethodMember IIntermediatePropertySignatureMember.GetMethod
         {
             get
@@ -246,7 +246,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// which represents the set method of the 
         /// <see cref="IntermediateIndexerMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>.
         /// </summary>
-        /// <remarks>Is null if <paramref name="CanWrite"/> is false.</remarks>
+        /// <remarks>Is null if <see cref="CanWrite"/> is false.</remarks>
         IIntermediatePropertySignatureSetMethodMember IIntermediatePropertySignatureMember.SetMethod
         {
             get

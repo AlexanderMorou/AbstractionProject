@@ -32,14 +32,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         public TSignature Member { get; private set; }
         /// <summary>
         /// Creates a new <see cref="MethodReferenceStub"/> with the 
-        /// <paramref name="source"/>, <paramref name="name"/>, 
+        /// <paramref name="source"/>, <paramref name="member"/>, 
         /// <paramref name="genericParameters"/> and 
         /// <paramref name="referenceType"/> provdied.
         /// </summary>
         /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
         /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
-        /// <param name="name">A <see cref="System.String"/>
-        /// relative to the name of the method.</param>
+        /// <param name="member">The <typeparamref name="TSignature"/>
+        /// to reference.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
         /// <param name="referenceType">The means to refer to
@@ -53,13 +53,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Creates a new <see cref="MethodReferenceStub"/> with the 
-        /// <paramref name="source"/>, <paramref name="name"/>, and
+        /// <paramref name="source"/>, <paramref name="member"/>, and
         /// <paramref name="genericParameters"/> provdied.
         /// </summary>
         /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
         /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
-        /// <param name="name">A <see cref="System.String"/>
-        /// relative to the name of the method.</param>
+        /// <param name="member">The <typeparamref name="TSignature"/>
+        /// to reference.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
         public MethodReferenceStub(IMemberParentReferenceExpression source, TSignature member, ITypeCollectionBase genericParameters, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
@@ -71,13 +71,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Creates a new <see cref="MethodReferenceStub"/> with the 
-        /// <paramref name="source"/>, <paramref name="name"/>, and 
+        /// <paramref name="source"/>, <paramref name="member"/>, and 
         /// <paramref name="referenceType"/> provdied.
         /// </summary>
         /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
         /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
-        /// <param name="name">A <see cref="System.String"/>
-        /// relative to the name of the method.</param>
+        /// <param name="member">The <typeparamref name="TSignature"/>
+        /// to reference.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
         public MethodReferenceStub(IMemberParentReferenceExpression source, TSignature member, MethodReferenceType referenceType, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
@@ -89,13 +89,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Creates a new <see cref="MethodReferenceStub"/> with
-        /// the <paramref name="source"/>, and <paramref name="name"/> 
+        /// the <paramref name="source"/>, and <paramref name="member"/> 
         /// provided.
         /// </summary>
         /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
         /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
-        /// <param name="name">A <see cref="System.String"/>
-        /// relative to the name of the method.</param>
+        /// <param name="member">The <typeparamref name="TSignature"/>
+        /// to reference.</param>
         public MethodReferenceStub(IMemberParentReferenceExpression source, TSignature member, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
             : base(source)
         {
@@ -105,11 +105,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Creates a new <see cref="MethodReferenceStub"/> with the 
-        /// <paramref name="name"/>, <paramref name="genericParameters"/> 
+        /// <paramref name="member"/>, <paramref name="genericParameters"/> 
         /// and <paramref name="referenceType"/> provdied.
         /// </summary>
-        /// <param name="name">A <see cref="System.String"/>
-        /// relative to the name of the method.</param>
+        /// <param name="member">The <typeparamref name="TSignature"/>
+        /// to reference.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
         /// <param name="referenceType">The means to refer to
@@ -123,13 +123,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Creates a new <see cref="MethodReferenceStub"/> with the 
-        /// <paramref name="name"/>, and <paramref name="genericParameters"/> 
+        /// <paramref name="member"/>, and <paramref name="genericParameters"/> 
         /// provdied.
         /// </summary>
-        /// <param name="name">A <see cref="System.String"/>
-        /// relative to the name of the method.</param>
+        /// <param name="member">The <typeparamref name="TSignature"/>
+        /// to reference.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
+        /// <param name="signatureTypesObtainer">The <see cref="Func{TResult}"/> which obtains the signature
+        /// of the <paramref name="member"/>.</param>
         public MethodReferenceStub(TSignature member, ITypeCollectionBase genericParameters, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
             : base(genericParameters)
         {
@@ -301,7 +303,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Creates a new <see cref="MethodReferenceStub"/> with the 
-        /// <paramref name="source"/>, <paramref name="name"/>, and 
+        /// <paramref name="name"/>, and 
         /// <paramref name="referenceType"/> provdied.
         /// </summary>
         /// <param name="name">A <see cref="System.String"/>
@@ -366,14 +368,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Creates a new <see cref="MethodReferenceStub"/> with the 
-        /// <paramref name="source"/>, <paramref name="name"/>, 
+        /// <paramref name="source"/>, 
         /// <paramref name="genericParameters"/> and 
         /// <paramref name="referenceType"/> provdied.
         /// </summary>
         /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
         /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
-        /// <param name="name">A <see cref="System.String"/>
-        /// relative to the name of the method.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
         /// <param name="referenceType">The means to refer to
@@ -387,13 +387,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Creates a new <see cref="MethodReferenceStub"/> with the 
-        /// <paramref name="source"/>, <paramref name="name"/>, and
+        /// <paramref name="source"/>, and
         /// <paramref name="genericParameters"/> provdied.
         /// </summary>
         /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
         /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
-        /// <param name="name">A <see cref="System.String"/>
-        /// relative to the name of the method.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
         public MethodReferenceStubBase(IMemberParentReferenceExpression source, ITypeCollectionBase genericParameters)
@@ -404,13 +402,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Creates a new <see cref="MethodReferenceStub"/> with the 
-        /// <paramref name="source"/>, <paramref name="name"/>, and 
+        /// <paramref name="source"/>, and 
         /// <paramref name="referenceType"/> provdied.
         /// </summary>
         /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
         /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
-        /// <param name="name">A <see cref="System.String"/>
-        /// relative to the name of the method.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
         public MethodReferenceStubBase(IMemberParentReferenceExpression source, MethodReferenceType referenceType)
@@ -421,13 +417,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Creates a new <see cref="MethodReferenceStub"/> with
-        /// the <paramref name="source"/>, and <paramref name="name"/> 
+        /// the <paramref name="source"/>
         /// provided.
         /// </summary>
         /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
         /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
-        /// <param name="name">A <see cref="System.String"/>
-        /// relative to the name of the method.</param>
         public MethodReferenceStubBase(IMemberParentReferenceExpression source)
         {
             this.source = source;
@@ -435,11 +429,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Creates a new <see cref="MethodReferenceStub"/> with the 
-        /// <paramref name="name"/>, <paramref name="genericParameters"/> 
+        /// <paramref name="genericParameters"/> 
         /// and <paramref name="referenceType"/> provdied.
         /// </summary>
-        /// <param name="name">A <see cref="System.String"/>
-        /// relative to the name of the method.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
         /// <param name="referenceType">The means to refer to
@@ -454,8 +446,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <paramref name="genericParameters"/> 
         /// provdied.
         /// </summary>
-        /// <param name="name">A <see cref="System.String"/>
-        /// relative to the name of the method.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
         public MethodReferenceStubBase(ITypeCollectionBase genericParameters)
@@ -465,7 +455,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Creates a new <see cref="MethodReferenceStub"/> with the 
-        /// <paramref name="source"/>, and 
         /// <paramref name="referenceType"/> provdied.
         /// </summary>
         /// <param name="referenceType">The means to refer to
@@ -574,7 +563,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             return this.Invoke(parameters.ToCollection());
         }
         /// <summary>
-        /// Obtains a <see cref="IMethodPointerRefernceExpression"/>
+        /// Obtains a <see cref="IMethodPointerReferenceExpression"/>
         /// with the <paramref name="signature"/> provided.
         /// </summary>
         /// <param name="signature">The <see cref="ITypeCollection"/>
@@ -589,7 +578,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         /// <summary>
-        /// Obtains a <see cref="IMethodPointerRefernceExpression"/>
+        /// Obtains a <see cref="IMethodPointerReferenceExpression"/>
         /// with the <paramref name="signature"/> provided.
         /// </summary>
         /// <param name="signature">The series if <see cref="IType"/>

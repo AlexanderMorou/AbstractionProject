@@ -63,6 +63,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Lambda
         {
             throw new NotImplementedException();
         }
+
         /// <summary>
         /// Obtains a <see cref="ILambdaTypedStatementExpression"/> 
         /// using the <paramref name="params"/> provided to create its 

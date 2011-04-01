@@ -1,29 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Text;
 using System.Windows.Forms;
-using AllenCopeland.Abstraction.Slf._Internal;
 using AllenCopeland.Abstraction.Slf.Abstract;
-using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
-using AllenCopeland.Abstraction.Slf.Oil.Expressions.Lambda;
-using AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
-using AllenCopeland.Abstraction.Slf.Oil.Statements;
-using AllenCopeland.Abstraction.Slf.Oil.VisualBasic;
-using AllenCopeland.Abstraction.Utilities.Collections;
-using Microsoft.VisualBasic;
- /*---------------------------------------------------------------------\
+using AllenCopeland.Abstraction.Utilities.Common;
+/*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
@@ -35,19 +22,11 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
     {
         internal static void Main(string[] args)
         {
-            Console.WriteLine("Time elapsed for test (1): {0}", RunTest());
-            Console.WriteLine("Time elapsed for test (2): {0}", RunTest());
+            Action wftAction = WindowsFormsTest;
+            Console.WriteLine("Time elapsed for test (1): {0}", wftAction.TimeAction());
+            Console.WriteLine("Time elapsed for test (2): {0}", wftAction.TimeAction());
         }
 
-        private static TimeSpan RunTest()
-        {
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            WindowsFormsTest();
-            sw.Stop();
-            var elapsed = sw.Elapsed;
-            return elapsed;
-        }
 
         private static void WindowsFormsTest()
         {
@@ -59,27 +38,12 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             //Define the assembly's default namespace.
             testAssembly.DefaultNamespace = testAssembly.Namespaces.Add("WindowsFormsApplication1");
 
-            //Define the program class.
-            var program = testAssembly.DefaultNamespace.Classes.Add("Program");
-            program.SpecialModifier = SpecialClassModifier.Static;
-
-            //Define the main method of the program class.
-            var mainMethod = program.Methods.Add("Main", new TypedNameSeries() { { "args", CommonTypeRefs.String.MakeArray() } });
-            mainMethod.IsStatic = true; //implicit, but explicit in some languages.
-            mainMethod.AccessLevel = AccessLevelModifiers.Private;
-
             //Define the main dialog.
             var mainDialog = testAssembly.DefaultNamespace.Classes.Add("MainDialog");
             mainDialog.BaseType = typeof(Form).GetTypeReference<IClassType>();
             mainDialog.AccessLevel = AccessLevelModifiers.Internal;
-            
-            //Obtain a reference to the application class.
-            var applicationRef = typeof(Application).GetTypeExpression();
 
-            //Call the boiler plate code seen in most Windows Forms applications.
-            mainMethod.Call(applicationRef, "EnableVisualStyles");
-            mainMethod.Call(applicationRef, "SetCompatibleTextRenderingDefault", IntermediateGateway.TrueValue);
-            mainMethod.Call(applicationRef, "Run", mainDialog.GetNew());
+            CreateProgramClass(testAssembly, mainDialog);
             
             //Add the designer partial file to the main dialog.
             var mainDialogDesigner = mainDialog.Parts.Add();
@@ -95,19 +59,55 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             mdDispose.IsOverride = true;
 
             //if (disposing  && this.components != null)
-            var disposeCondition = mdDispose.If(mdDisposing.GetReference().LogicalAnd(mdComponents.InequalTo(IntermediateGateway.NullValue)));
+            var disposeCondition = mdDispose.If(mdDisposing.LogicalAnd(mdComponents.InequalTo(IntermediateGateway.NullValue)));
             //   this.components.Dispose();
             disposeCondition.Call(mdComponents.GetReference(), "Dispose");
             //base.Dispose();
             mdDispose.Call(new SpecialReferenceExpression(SpecialReferenceKind.Base), "Dispose", mdDisposing.GetReference());
             //}
 
+            //private System.Windows.Forms.Button ClickMeButton;
+            var mdClickMeButton = mainDialogDesigner.Fields.Add(new TypedName("ClickMeButton", typeof(Button).GetTypeReference()));
+
+            var mdClickMeClick = mainDialog.Methods.Add("ClickMeButton_Click", typeof(EventHandler).GetTypeReference<IDelegateType>());
+            mdClickMeClick.Call("Close");
+
+            var mdInitializeComponent = CreateInitializeComponentMethod(mainDialogDesigner, mdClickMeButton, mdClickMeClick);
+
+            //private MainDialog() {
+            var mdCtor = mainDialog.Constructors.Add();
+            //this.InitializeComponent();
+            mdCtor.Call(mdInitializeComponent.GetReference());
+            
+            //}
+        }
+
+        private static void CreateProgramClass(IIntermediateAssembly testAssembly, IIntermediateClassType mainDialog)
+        {
+            //Define the program class.
+            var program = testAssembly.DefaultNamespace.Classes.Add("Program");
+            program.SpecialModifier = SpecialClassModifier.Static;
+
+            //Define the main method of the program class.
+            var mainMethod = program.Methods.Add("Main", new TypedNameSeries() { { "args", CommonTypeRefs.String.MakeArray() } });
+            mainMethod.IsStatic = true; //implicit, but explicit in some languages.
+            mainMethod.AccessLevel = AccessLevelModifiers.Private;
+
+            //Obtain a reference to the application class.
+            var applicationRef = typeof(Application).GetTypeExpression();
+
+            //Call the boiler plate code seen in most Windows Forms applications.
+            mainMethod.Call(applicationRef, "EnableVisualStyles");
+            mainMethod.Call(applicationRef, "SetCompatibleTextRenderingDefault", IntermediateGateway.TrueValue);
+            mainMethod.Call(applicationRef, "Run", mainDialog.GetNew());
+        }
+
+        private static IIntermediateClassMethodMember CreateInitializeComponentMethod(IIntermediateClassType mainDialogDesigner, IIntermediateClassFieldMember mdClickMeButton, IIntermediateClassMethodMember mdClickMeClick)
+        {
+            var thisReference = new SpecialReferenceExpression(SpecialReferenceKind.This);
             //private void InitializeComponent() {
             var mdInitializeComponent = mainDialogDesigner.Methods.Add("InitializeComponent");
             mdInitializeComponent.AccessLevel = AccessLevelModifiers.Private;
-
-            //private System.Windows.Forms.Button ClickMeButton;
-            var mdClickMeButton = mainDialogDesigner.Fields.Add(new TypedName("ClickMeButton", typeof(Button).GetTypeReference()));
 
             mdInitializeComponent.Comment("Control/Component initialization.");
             //this.ClickMeButton = new System.Windows.Forms.Button();
@@ -115,11 +115,6 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             //SuspendLayout();
             mdInitializeComponent.Call("SuspendLayout");
-
-            var thisReference = new SpecialReferenceExpression(SpecialReferenceKind.This);
-
-            var mdClickMeClick = mainDialog.Methods.Add("ClickMeButton_Click", typeof(EventHandler).GetTypeReference<IDelegateType>());
-            mdClickMeClick.Call(thisReference.GetMethod("Close"));
 
             var mdClickMeReference = mdClickMeButton.GetReference();
             mdInitializeComponent.Comment("ClickMeButton setup");
@@ -160,12 +155,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
             //ResumeLayout();
             mdInitializeComponent.Call("ResumeLayout");
-
-            //private MainDialog() {
-            var mdCtor = mainDialog.Constructors.Add();
-            //this.InitializeComponent();
-            mdCtor.Call(mdInitializeComponent.GetReference());
-            //}
+            return mdInitializeComponent;
         }
     }
 }
@@ -175,5 +165,4 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
  * Rewrites
  * Type checking
  * Stack Generation
- * 
  * */

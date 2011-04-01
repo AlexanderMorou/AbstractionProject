@@ -527,7 +527,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Clears the parameters contained within the
         /// <see cref="ICustomAttributeDefinitionParameterCollection"/>.
         /// </summary>
-        /// <remarks>Raises <see cref="NamelessParamtersChanged"/> if there were
+        /// <remarks>Raises <see cref="NamelessParametersChanged"/> if there were
         /// nameless parameters.</remarks>
         public void Clear()
         {
@@ -543,8 +543,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         protected virtual void OnNamelessParametersChanged(EventArgs eventArgs)
         {
-            if (this.NamelessParametersChanged != null)
-                this.NamelessParametersChanged(this, eventArgs);
+            var namelessParametersChanged = this.NamelessParametersChanged;
+            if (namelessParametersChanged != null)
+                namelessParametersChanged(this, eventArgs);
         }
 
         /// <summary>
@@ -620,14 +621,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         private void OnNamedParameterChangedValue(ICustomAttributeDefinitionNamedParameter item)
         {
-            if (this.NamedParameterChangedValue != null)
-                this.NamedParameterChangedValue(this, new EventArgsR1<ICustomAttributeDefinitionNamedParameter>(item));
+            var namedParameterChangedValue = this.NamedParameterChangedValue;
+            if (namedParameterChangedValue != null)
+                namedParameterChangedValue(this, new EventArgsR1<ICustomAttributeDefinitionNamedParameter>(item));
         }
 
         private void OnNamedParameterChangedName(ICustomAttributeDefinitionNamedParameter item)
         {
-            if (this.NamedParameterChangedName != null)
-                this.NamedParameterChangedName(this, new EventArgsR1<ICustomAttributeDefinitionNamedParameter>(item));
+            var namedParameterChangedName = this.NamedParameterChangedName;
+
+            if (namedParameterChangedName != null)
+                namedParameterChangedName(this, new EventArgsR1<ICustomAttributeDefinitionNamedParameter>(item));
         }
     }
 }

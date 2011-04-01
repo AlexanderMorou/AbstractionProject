@@ -25,17 +25,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IIntermediateSegmentableDeclaration<TDeclaration>
     {
         /// <summary>
-        /// Returns the <typeparam name="TDeclaration"/> which
-        /// owns the <see cref="ISegmentableDeclarationPartCollection{TDeclaration}"/>.
+        /// Returns the <typeparamref name="TDeclaration"/> which
+        /// owns the <see cref="IIntermediateSegmentableDeclarationPartCollection{TDeclaration}"/>.
         /// </summary>
         /// <remarks>The <see cref="Root"/> is not a part of the 
         /// <see cref="IIntermediateSegmentableDeclarationPartCollection{TDeclaration}"/>.</remarks>
         TDeclaration Root { get; }
         /// <summary>
-        /// Adds a <typeparam name="TDeclaration"/> part to the
+        /// Adds a <typeparamref name="TDeclaration"/> part to the
         /// current <see cref="IIntermediateSegmentableDeclarationPartCollection{TDeclaration}"/>.
         /// </summary>
-        /// <returns>A new <typeparam name="TDeclaration"/> instance
+        /// <returns>A new <typeparamref name="TDeclaration"/> instance
         /// if successful.</returns>
         TDeclaration Add();
         /// <summary>
@@ -59,7 +59,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     {
         /// <summary>
         /// Returns the <see cref="IIntermediateSegmentableDeclaration"/> which
-        /// owns the <see cref="ISegmentableDeclarationPartCollection"/>.
+        /// owns the <see cref="IIntermediateSegmentableDeclarationPartCollection"/>.
         /// </summary>
         /// <remarks>The <see cref="Root"/> is not a part of the 
         /// <see cref="IIntermediateSegmentableDeclarationPartCollection"/>.</remarks>

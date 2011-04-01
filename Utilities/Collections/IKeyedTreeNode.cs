@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     {
         /// <summary>
         /// Returns/sets the <typeparamref name="TValue"/> which represents
-        /// the current <see cref="IControlledStateKeyedTreeNode"/>.
+        /// the current <see cref="IKeyedTreeNode{TKey, TValue, TNode}"/>.
         /// </summary>
         TValue Value { get; set; }
     }

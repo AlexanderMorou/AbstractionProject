@@ -123,7 +123,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
              * */
             TMethod tK = default(TMethod);
             tK = this.OnMakeGenericMethod(genericReplacements);
-            CLIGateway.VerifyTypeParameters<IMethodParameterMember<TMethod, TMethodParent>, TMethod, TMethodParent>(this, genericReplacements);
+            CLICommon.VerifyTypeParameters<IMethodParameterMember<TMethod, TMethodParent>, TMethod, TMethodParent>(this, genericReplacements);
             return tK;
         }
 

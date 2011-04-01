@@ -60,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
                 case CoercibleUnaryOperators.Plus:
                     p = "+";
                     break;
-                case CoercibleUnaryOperators.Negative:
+                case CoercibleUnaryOperators.Negation:
                     p = "-";
                     break;
                 case CoercibleUnaryOperators.EvaluatesToFalse:

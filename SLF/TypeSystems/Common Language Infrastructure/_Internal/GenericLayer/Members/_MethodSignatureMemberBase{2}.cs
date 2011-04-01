@@ -114,7 +114,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
              * _IGenericMethodRegistrar handles cache.
              * */
             var q = this.OnMakeGenericMethod(genericReplacements);
-            CLIGateway.VerifyTypeParameters<IMethodSignatureParameterMember<TSignature, TSignatureParent>, TSignature, TSignatureParent>(this, genericReplacements);
+            CLICommon.VerifyTypeParameters<IMethodSignatureParameterMember<TSignature, TSignatureParent>, TSignature, TSignatureParent>(this, genericReplacements);
             return q;
         }
 

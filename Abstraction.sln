@@ -93,6 +93,7 @@ Global
 		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
+		Description = The Abstraction Project
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C39FCBDC-EDED-4327-95BA-3B494FA59A8E}.Debug|x64.ActiveCfg = Debug|x64

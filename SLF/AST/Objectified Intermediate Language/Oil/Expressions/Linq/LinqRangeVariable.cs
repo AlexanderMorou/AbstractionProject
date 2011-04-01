@@ -11,7 +11,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         IntermediateDeclarationBase,
         ILinqRangeVariable
     {
-        private ILinqClause owner;
         private Reference _reference;
         public LinqRangeVariable(ILinqClause parent, string name)
         {

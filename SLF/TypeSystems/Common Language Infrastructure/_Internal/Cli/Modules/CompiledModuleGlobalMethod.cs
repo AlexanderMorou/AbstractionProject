@@ -26,7 +26,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
         _IGenericMethodRegistrar,
         IModuleGlobalMethod
     {
-        private IDictionary<ITypeCollectionBase, IMethodMember> genericCache;
 
         internal CompiledModuleGlobalMethod(MethodInfo method, ICompiledModule module)
             : base(method, module)

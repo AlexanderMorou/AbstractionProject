@@ -28,7 +28,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="CSharpMulDivExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionType.MulDivOperation"/>.</remarks>
+        /// <remarks>Returns the appropriate <see cref="ExpressionKinds"/> value
+        /// relative to the <see cref="CSharpMulDivOperation"/>.</remarks>
         public override ExpressionKinds Type
         {
             get
@@ -75,7 +76,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         #region ICSharpMulDivExpression Members
 
         /// <summary>
-        /// Returns/sets the <see cref="MulDivOperation"/> represented by the <see cref="CSharpMulDivExpression"/>.
+        /// Returns/sets the <see cref="CSharpMulDivOperation"/> represented by the <see cref="CSharpMulDivExpression"/>.
         /// </summary>
         public CSharpMulDivOperation Operation
         {

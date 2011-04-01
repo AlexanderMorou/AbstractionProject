@@ -40,7 +40,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private TType original;
         /// <summary>
-        /// Data member for <see cref="BaseType"/>.
+        /// Data member for <see cref="BaseTypeImpl"/>.
         /// </summary>
         /// <remarks>Caches the base type should</remarks>
         private IType baseType;

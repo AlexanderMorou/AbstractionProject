@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Languages;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -51,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
 
         /// <summary>
         /// Returns whether the <see cref="IParserSyntaxErrorCollection"/> 
-        /// has an <see cref="ISourceRelatedError"/>.
+        /// has an <see cref="IParserSyntaxError"/>.
         /// </summary>
         public bool HasErrors
         {

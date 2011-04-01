@@ -61,7 +61,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="CSharpInequalityExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionType.CSharpInequalityOperation"/>.</remarks>
+        /// <remarks>Returns the appropriate <see cref="ExpressionKinds"/> value
+        /// relative to the <see cref="CSharpInequalityOperation"/> 
+        /// within <see cref="Operation"/>.</remarks>
         public override ExpressionKinds Type
         {
             get {
@@ -137,9 +139,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// non-operational term <see cref="CSharpInequalityExpression"/>.
         /// </summary>
         /// <param name="term">The <see cref="CSharpRelationalExpression"/> that will take place of
-        /// <see cref="RightSide"/> as the term.</param>
+        /// <see cref="CSharpBinaryOperationExpressionBase{TLeft, TRight}.RightSide"/> as the term.</param>
         /// <returns>A new <see cref="CSharpInequalityExpression"/> with the <paramref name="term"/> as the
-        /// <see cref="RightSide"/>.</returns>
+        /// <see cref="CSharpBinaryOperationExpressionBase{TLeft, TRight}.RightSide"/>.</returns>
         public static implicit operator CSharpInequalityExpression(CSharpRelationalExpression term)
         {
             return new CSharpInequalityExpression(term);

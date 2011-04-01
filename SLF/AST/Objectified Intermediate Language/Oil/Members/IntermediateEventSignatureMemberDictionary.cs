@@ -120,7 +120,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
         /// <summary>
         /// Creates a new <see cref="IntermediateEventSignatureMemberDictionary{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent}"/> with the 
-        /// <paramref name="master"/>, <paramref name="parent"/> and <paramref name="items"/> provided.
+        /// <paramref name="master"/>, <paramref name="parent"/> and <paramref name="root"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
         /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>

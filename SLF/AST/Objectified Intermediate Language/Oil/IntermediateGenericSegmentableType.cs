@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// abstract syntax tree.</typeparam>
     /// <typeparam name="TInstanceIntermediateType">The type which will be instanced by the 
     /// partial declaration system; must contain a public constructor with the following parameters:
-    /// <paramref name="TIntermediateType"/>, <see cref="IIntermediateTypeParent"/></typeparam>
+    /// <typeparamref name="TIntermediateType"/>, <see cref="IIntermediateTypeParent"/></typeparam>
     public abstract class IntermediateGenericSegmentableType<TType, TIntermediateType, TInstanceIntermediateType> :
         IntermediateGenericTypeBase<TType, TIntermediateType>,
         IIntermediateSegmentableType<TType, TIntermediateType>
@@ -62,7 +62,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Creates a new <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}"/>
-        /// with the <paramref name="root"/> and <paramref name="parent"/> provided.
+        /// with the <paramref name="rootType"/> and <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="rootType">The root <typeparamref name="TInstanceIntermediateType"/>
         /// from which the current <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}"/>
@@ -70,7 +70,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <param name="parent">The <see cref="IIntermediateTypeParent"/> in which the 
         /// current <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}"/> 
         /// is contained.</param>
-        /// <exception cref="System.ArgumentNullException">thrown when the <paramref name="root"/> or
+        /// <exception cref="System.ArgumentNullException">thrown when the <paramref name="rootType"/> or
         /// <paramref name="parent"/> is null.</exception>
         /// <exception cref="System.ArgumentException">thrown when <paramref name="parent"/>
         /// is not the root's parent</exception>

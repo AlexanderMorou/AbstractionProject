@@ -319,11 +319,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         private void OnDisposed()
         {
-            if (this.Disposed != null)
-            {
-                this.Disposed(this, EventArgs.Empty);
-                this.Disposed = null;
-            }
+            var disposeCopy = this.Disposed;
+            if (disposeCopy != null)
+                disposeCopy(this, EventArgs.Empty);
+            this.Disposed = null;
         }
 
         #endregion

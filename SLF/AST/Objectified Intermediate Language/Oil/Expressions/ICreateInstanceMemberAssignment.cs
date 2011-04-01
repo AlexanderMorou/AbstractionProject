@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         string PropertyName { get; set; }
         /// <summary>
-        /// Returns/sets the value to assign to the <see cref="Target"/>.
+        /// Returns/sets the value to assign to the <see cref="PropertyName"/>.
         /// </summary>
         IExpression AssignValue { get; set; }
     }

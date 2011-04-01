@@ -16,11 +16,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         ExpressionException
     {
         /// <summary>
-        /// Initializes a new <see cref="InvalidIncrementTargetException"/> with the <paramref name="CSharpoffendingExpression"/>
+        /// Initializes a new <see cref="InvalidIncrementTargetException"/> with the <paramref name="offendingExpression"/>
         /// that caused the <see cref="InvalidIncrementTargetException"/>.
         /// </summary>
         /// <remarks><see cref="Exception.Message"/> defaults to: "Expression exception".</remarks>
-        /// <param name="CSharpoffendingExpression">The <see cref="IExpression"/> that caused the 
+        /// <param name="offendingExpression">The <see cref="IExpression"/> that caused the 
         /// <see cref="InvalidIncrementTargetException"/>.</param>
         public InvalidIncrementTargetException(IUnaryOperationExpression offendingExpression)
             : base("Expression exception", offendingExpression)
@@ -28,10 +28,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
         /// <summary>
         /// Initializes a new <see cref="InvalidIncrementTargetException"/> with the specified error
-        /// <paramref name="message"/> and <paramref name="CSharpoffendingExpression"/>.
+        /// <paramref name="message"/> and <paramref name="offendingExpression"/>.
         /// </summary>
         /// <param name="message">The <see cref="System.String"/> describing the error.</param>
-        /// <param name="CSharpoffendingExpression">The <see cref="IExpression"/> that caused the 
+        /// <param name="offendingExpression">The <see cref="IExpression"/> that caused the 
         /// <see cref="InvalidIncrementTargetException"/>.</param>
         public InvalidIncrementTargetException(string message, IUnaryOperationExpression offendingExpression)
             : base(message, offendingExpression)
@@ -57,7 +57,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <param name="message">The <see cref="System.String"/> describing the error.</param>
         /// <param name="innerException">The <see cref="Exception"/> that is the cause of the current 
         /// <see cref="InvalidIncrementTargetException"/>, or a null reference if none is specified.</param>
-        /// <param name="CSharpoffendingExpression">The <see cref="IExpression"/> that caused the 
+        /// <param name="offendingExpression">The <see cref="IExpression"/> that caused the 
         /// <see cref="InvalidIncrementTargetException"/>.</param>
         public InvalidIncrementTargetException(string message, Exception innerException, IUnaryOperationExpression offendingExpression)
             : base(message, innerException, offendingExpression)

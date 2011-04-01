@@ -115,7 +115,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// at this point include those already a part of the expression.</param>
         /// <param name="rightCondition">The right half of the condition for the join expression,
         /// valid range variables at this point include those already a part of the
-        /// expression and the <paramref name="rangeVariableName"/> provided.</param>
+        /// expression and the <paramref name="rangeVariable"/> provided.</param>
         /// <returns>An <see cref="ILinqTypedJoinClause"/> instance which defines the
         /// new clause.</returns>
         ILinqTypedJoinClause Join(TypedName rangeVariable, IExpression rangeSelector, IExpression leftCondition, IExpression rightCondition);
@@ -156,7 +156,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// at this point include those already a part of the expression.</param>
         /// <param name="rightCondition">The right half of the condition for the join expression,
         /// valid range variables at this point include those already a part of the
-        /// expression and the <paramref name="rangeVariableName"/> provided.</param>
+        /// expression and the <paramref name="rangeVariable"/> provided.</param>
         /// <param name="intoRangeVariableName">The <see cref="String"/>
         /// which represents the name of the range variable to place
         /// the join clause's results into.</param>

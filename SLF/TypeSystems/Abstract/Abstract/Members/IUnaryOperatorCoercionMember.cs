@@ -25,10 +25,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <remarks>CLI method: op_UnaryPlus</remarks>
         Plus,
         /// <summary>
-        /// Negative unary operator, often '-'.
+        /// Negation unary operator, often '-'.
         /// </summary>
         /// <remarks>CLI method: op_UnaryNegation</remarks>
-        Negative,
+        Negation,
         /// <summary>
         /// 'Evaluates to false' unary operator, often 
         /// 'false' or 'IsFalse'.

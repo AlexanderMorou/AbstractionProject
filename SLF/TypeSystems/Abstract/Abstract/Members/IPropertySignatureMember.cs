@@ -60,14 +60,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// which represents the get method of the 
         /// <see cref="IPropertySignatureMember"/>.
         /// </summary>
-        /// <remarks>Is null if <paramref name="CanRead"/> is false.</remarks>
+        /// <remarks>Is null if <see cref="CanRead"/> is false.</remarks>
         IPropertySignatureMethodMember GetMethod { get; }
         /// <summary>
         /// Returns the <see cref="IPropertySignatureMethodMember"/> 
         /// which represents the set method of the 
         /// <see cref="IPropertySignatureMember"/>.
         /// </summary>
-        /// <remarks>Is null if <paramref name="CanWrite"/> is false.</remarks>
+        /// <remarks>Is null if <see cref="CanWrite"/> is false.</remarks>
         IPropertySignatureMethodMember SetMethod { get; }
     }
 }

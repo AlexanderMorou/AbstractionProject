@@ -21,7 +21,6 @@ namespace AllenCopeland.Abstraction.Slf.Parsers.Oilexer
             /// </summary>
             private string name;
             private GDTokenType tokenType = GDTokenType.Identifier;
-            private IScannableEntry entry;
             public IdentifierToken(string name, int column, int line, long position)
                 : base(column, line, position)
             {

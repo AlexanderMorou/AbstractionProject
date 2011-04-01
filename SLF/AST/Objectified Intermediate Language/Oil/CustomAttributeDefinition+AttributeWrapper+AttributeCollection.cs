@@ -15,7 +15,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     {
         partial class AttributeWrapper
         {
-            private Dictionary<Type, _AttributeCollection> AttributeCache;
             private class _AttributeCollection :
                 AttributeCollection
             {

@@ -19,14 +19,12 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 {
     /// <summary>
-    /// Provides a root implementation of <see cref="IMethodSignatureMemberDictionary{TSignatureParameter, TGenericParameter, TGenericParameterConstructor, TGenericParameterConstructorParameter, TSignature, TSignatureParent}"/> 
+    /// Provides a root implementation of <see cref="IMethodSignatureMemberDictionary{TSignatureParameter, TSignature, TSignatureParent}"/> 
     /// for working with a locked method signature series for compiled types.
     /// </summary>
     /// <typeparam name="TSignatureParameter">The type of parameter used in the <typeparamref name="TSignature"/>.</typeparam>
-    /// <typeparam name="TGenericParameter">The type of generic type-parameter used in the <typeparamref name="TSignature"/> in the 
-    /// current implementation.</typeparam>
-    /// <typeparam name="TSignature">The type of signature used as a parent of <typeparamref name="TSignatureParameter"/> and
-    /// <typeparamref name="TGenericParameter"/> instances.</typeparam>
+    /// <typeparam name="TSignature">The type of signature used as a parent of <typeparamref name="TSignatureParameter"/>
+    /// instances.</typeparam>
     /// <typeparam name="TSignatureParent">The parent that contains the <typeparamref name="TSignature"/> 
     /// instances.</typeparam>
     internal abstract class LockedMethodSignatureMembersBase<TSignatureParameter, TSignature, TSignatureParent> :
@@ -42,8 +40,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
     {
         /// <summary>
-        /// Creates a new <see cref="LockedMethodSignatureMembersBase{TSignatureParameter, TSignature, TSignatureParent}"/> with the <paramref name="parent"/>
-        /// provided.
+        /// Creates a new 
+        /// <see cref="LockedMethodSignatureMembersBase{TSignatureParameter, TSignature, TSignatureParent}"/> 
+        /// with the <paramref name="master"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="LockedFullMembersBase"/> which moderates the <see cref="LockedMethodSignatureMembersBase{TSignatureParameter, TSignature, TSignatureParent}"/>.</param>
         internal LockedMethodSignatureMembersBase(LockedFullMembersBase master) :
@@ -53,8 +52,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         }
 
         /// <summary>
-        /// Creates a new <see cref="LockedMethodSignatureMembersBase{TSignatureParameter, TSignature, TSignatureParent}"/> with the <paramref name="parent"/>
-        /// provided.
+        /// Creates a new
+        /// <see cref="LockedMethodSignatureMembersBase{TSignatureParameter, TSignature, TSignatureParent}"/>
+        /// with the <paramref name="master"/> and <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="LockedFullMembersBase"/> which moderates the <see cref="LockedMethodSignatureMembersBase{TSignatureParameter, TSignature, TSignatureParent}"/>.</param>
         /// <param name="parent">The <typeparamref name="TSignatureParent"/> which contains the 
@@ -71,7 +71,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         /// <param name="master">The <see cref="LockedFullMembersBase"/> which moderates the <see cref="LockedMethodSignatureMembersBase{TSignatureParameter, TSignature, TSignatureParent}"/>.</param>
         /// <param name="parent">The <typeparamref name="TSignatureParent"/> which contains the 
         /// <see cref="LockedMethodSignatureMembersBase{TSignatureParameter, TSignature, TSignatureParent}"/>.</param>
-        /// <param name="series">The <typeparamref name="IEnumerable{T}"/> which contains the <paramref name="parent"/>
+        /// <param name="series">The <see cref="IEnumerable{T}"/> which contains the <paramref name="parent"/>
         /// contains.</param>
         internal LockedMethodSignatureMembersBase(LockedFullMembersBase master, TSignatureParent parent, IEnumerable<TSignature> series) :
             base(master, parent, series)
@@ -82,13 +82,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         /// Creates a new <see cref="LockedMethodSignatureMembersBase{TSignatureParameter, TSignature, TSignatureParent}"/> with the <paramref name="parent"/>
         /// provided.
         /// </summary>
-        /// <param name="master">The <see cref="LockedFullMembersBase"/> which moderates the <see cref="LockedMethodSignatureMembersBase{TSignatureParameter, TGenericParameter, TGenericParameterConstructor, TGenericParameterConstructorParameter, TSignature, TSignatureParent}"/>.</param>
+        /// <param name="master">The <see cref="LockedFullMembersBase"/> which moderates the <see cref="LockedMethodSignatureMembersBase{TSignatureParameter, TSignature, TSignatureParent}"/>.</param>
         /// <param name="parent">The <typeparamref name="TSignatureParent"/> which contains the 
         /// <see cref="LockedMethodSignatureMembersBase{TSignatureParameter, TSignature, TSignatureParent}"/>.</param>
-        /// <param name="seriesData">The <typeparamref name="MethodInfo[]"/> from which the <typeparamref name="TSignature"/>
+        /// <param name="seriesData">The <see cref="MethodInfo"/> array from which the <typeparamref name="TSignature"/>
         /// instances are obtained.</param>
         /// <param name="fetchImpl">The <see cref="Func{T, TResult}"/>
-        /// which is used to instantiate <typeparamref name="TMethod"/> instances
+        /// which is used to instantiate <typeparamref name="TSignature"/> instances
         /// from <see cref="MethodInfo"/> stock to propagate the <see cref="LockedMethodSignatureMembersBase{TSignatureParameter, TSignature, TSignatureParent}"/>.</param>
         internal LockedMethodSignatureMembersBase(LockedFullMembersBase master, TSignatureParent parent, MethodInfo[] seriesData, Func<MethodInfo, TSignature> fetchImpl) :
             base(master, parent, seriesData, fetchImpl)
@@ -158,7 +158,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, ITypeCollection search)
         {
-            return CLIGateway.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, this.Values, name, search, strict);
+            return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, this.Values, name, search, strict);
         }
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, ITypeCollection search)
@@ -168,7 +168,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, params IType[] search)
         {
-            return CLIGateway.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, this.Values, name, search, strict);
+            return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, this.Values, name, search, strict);
         }
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, params IType[] search)

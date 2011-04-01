@@ -246,13 +246,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region Member Check Methods
 
-        private static void SuspendCheck<TType, TIntermediateType>(IntermediateTypeDictionary<TType, TIntermediateType> dictionary, int suspendLevel)
-            where TType :
-                IType<TType>
-            where TIntermediateType :
+        private static void SuspendCheck<TNestedType, TIntermediateNestedType>(IntermediateTypeDictionary<TNestedType, TIntermediateNestedType> dictionary, int suspendLevel)
+            where TNestedType :
+                IType<TNestedType>
+            where TIntermediateNestedType :
                 class,
                 IIntermediateType,
-                TType
+                TNestedType
         {
             if (suspendLevel <= 0)
                 return;

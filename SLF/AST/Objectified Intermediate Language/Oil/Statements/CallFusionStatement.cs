@@ -39,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <param name="visitor">The <see cref="IIntermediateCodeVisitor"/> 
         /// to visit.</param>
         /// <remarks>In this instance visits the <paramref name="visitor"/>
-        /// through <see cref="IIntermediateCodeVisitor.Visit(ICallFusionStatement)"/>.</remarks>
+        /// through <see cref="IStatementVisitor.Visit(ICallFusionStatement)"/>.</remarks>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="visitor"/>
         /// is null.</exception>
         public override void Visit(IStatementVisitor visitor)

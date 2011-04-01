@@ -97,7 +97,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// Creates a new <see cref="IntermediateEventSignatureMemberBase{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent}"/>
         /// instance with the <paramref name="parent"/> provided.
         /// </summary>
-        /// <param name="parent">A <typeparamref name="TIntermediateParent"/> instance
+        /// <param name="parent">A <typeparamref name="TIntermediateEventParent"/> instance
         /// which owns the current <see cref="IntermediateEventSignatureMemberBase{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent}"/>.</param>
         public IntermediateEventSignatureMemberBase(TIntermediateEventParent parent)
             : base(parent)

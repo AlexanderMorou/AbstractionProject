@@ -203,7 +203,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         #region IIntermediateGenericParameterDictionary<TGenericParameter,TIntermediateGenericParameter,TParent,TIntermediateParent> Members
 
 
-        public new TIntermediateGenericParameter[] AddRange(params GenericParameterData[] genericParameterData)
+        public TIntermediateGenericParameter[] AddRange(params GenericParameterData[] genericParameterData)
         {
             if (genericParameterData == null)
                 throw new ArgumentNullException("genericParameterData");

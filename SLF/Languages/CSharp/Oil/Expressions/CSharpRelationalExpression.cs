@@ -35,20 +35,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         /// <param name="leftSide">The <see cref="ICSharpRelationalExpression"/>
         /// which sits on the left side of <paramref name="operation"/>.</param>
-        /// <param name="operation">The <see cref="RelationalOperation"/> to be performed
+        /// <param name="operation">The <see cref="CSharpRelationalOperation"/> to be performed
         /// with regards to <paramref name="leftSide"/> and <paramref name="rightSide"/>.</param>
         /// <param name="rightSide">The <see cref="ICSharpShiftExpression"/>
         /// which sits on the right-side of <paramref name="operation"/>.</param>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="rightSide"/> is null, or when
         /// <paramref name="leftSide"/> is null and <paramref name="operation"/> is not 
-        /// <see cref="RelationalOperation.Term"/>.</exception>
+        /// <see cref="CSharpRelationalOperation.Term"/>.</exception>
         /// <exception cref="System.ArgumentException">thrown when <paramref name="operation"/> is
-        /// <see cref="RelationalOperation.TypeCastOrNull"/> and <paramref name="rightSide"/> has a 
-        /// <see cref="ICSharpMemberParentReferenceExpression.ForwardType"/> 
-        /// that is not a reference type or is null or <paramref name="operation"/> is
-        /// <see cref="RelationalOperation.TypeCastOrNull"/> or <see cref="RelationalOperation.TypeCheck"/>
-        /// and <paramref name="rightSide"/> does not <see cref="ExpressionExtensions.Disfix(IExpression)"/>
-        /// to an <see cref="ICSharpTypeReferenceExpression"/>.</exception>
+        /// <see cref="CSharpRelationalOperation.TypeCastOrNull"/> or <see cref="CSharpRelationalOperation.TypeCheck"/>
+        /// and <paramref name="rightSide"/> does not <see cref="CSharpExpressionExtensions.Disfix(IExpression)"/>
+        /// to an <see cref="ITypeReferenceExpression"/>.</exception>
         public CSharpRelationalExpression(ICSharpRelationalExpression leftSide, CSharpRelationalOperation operation, ICSharpShiftExpression rightSide)
             : base(leftSide, rightSide)
         {
@@ -109,7 +106,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="CSharpRelationalExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionType.RelationalOperation"/>.</remarks>
+        /// <remarks>Returns the appropriate <see cref="ExpressionKinds"/> value
+        /// relative to the <see cref="CSharpRelationalOperation"/>.</remarks>
         public override ExpressionKinds Type
         {
             get {
@@ -138,7 +136,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         #region ICSharpRelationalExpression Members
 
         /// <summary>
-        /// Returns the type of <see cref="RelationalOperation"/> the <see cref="CSharpRelationalExpression"/>
+        /// Returns the type of <see cref="CSharpRelationalOperation"/> the
+        /// <see cref="CSharpRelationalExpression"/>
         /// is.
         /// </summary>
         public CSharpRelationalOperation Operation

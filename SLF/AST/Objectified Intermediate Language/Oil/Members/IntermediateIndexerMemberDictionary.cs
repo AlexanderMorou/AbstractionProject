@@ -53,7 +53,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
         /// <summary>
         /// Creates a new <see cref="IntermediateIndexerMemberDictionary{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent}"/> with the 
-        /// <paramref name="master"/>, <paramref name="parent"/> and <paramref name="items"/> provided.
+        /// <paramref name="master"/>, <paramref name="parent"/> and <paramref name="root"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
         /// which contains the current instance's members as well as those of other <see cref="IntermediateIndexerMemberDictionary{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent}"/>

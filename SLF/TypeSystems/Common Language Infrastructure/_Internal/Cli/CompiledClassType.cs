@@ -109,7 +109,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         /// <summary>
         /// Obtains a <see cref="IClassFieldMember"/> for the 
-        /// <paramref name="FieldInfo"/> provided.
+        /// <paramref name="info"/> provided.
         /// </summary>
         /// <param name="info">The <see cref="FieldInfo"/> 
         /// to obtain the <see cref="IClassFieldMember"/>

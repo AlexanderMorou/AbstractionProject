@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
     public interface IStatement
     {
         /// <summary>
-        /// Returns the <see cref="IStatementParent"/> in which the current <see cref="Statement"/>
+        /// Returns the <see cref="IStatementParent"/> in which the current <see cref="IStatement"/>
         /// was declared.
         /// </summary>
         IStatementParent Parent { get; }

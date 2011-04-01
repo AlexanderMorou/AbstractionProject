@@ -18,12 +18,15 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
     /// </summary>
     /// <typeparam name="TCheck">The type of set used
     /// to represent the transition from state set to state set.</typeparam>
-    /// <typeparam name="TState">The <typeparamref name="TState"/>
+    /// <typeparam name="TState">The kind of <see cref="NFAState{TCheck, TState, TDFA, TSourceElement}"/>
     /// used to represent the non-deterministic elements of the
     /// automation.</typeparam>
     /// <typeparam name="TDFA">The type used to construct
     /// a deterministic model of the current nondeterministic 
     /// automation.</typeparam>
+    /// <typeparam name="TSourceElement">The kind of elements from the original
+    /// parse tree which denote the source of the
+    /// <see cref="NFAState{TCheck, TState, TDFA, TSourceElement}"/>.</typeparam>
     public partial class NFAState<TCheck, TState, TDFA, TSourceElement> :
         FiniteAutomataState<TCheck, TState, List<TState>, TSourceElement>,
         INFAState<TCheck, TState, TDFA, TSourceElement>,
@@ -40,7 +43,6 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         where TSourceElement :
             IFiniteAutomataSource
     {
-        private int flatlineIndex = 0;
         private static Dictionary<int, List<TState>> flatlined = new Dictionary<int, List<TState>>();
         private static List<TState> ToStringStack = new List<TState>();
         protected override IFiniteAutomataTransitionTable<TCheck, TState, List<TState>> InitializeOutTransitionTable()
@@ -64,7 +66,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         /// <summary>
         /// Creates a version of the current
-        /// <see cref="NFAState{TCheck, TState, TDFA}"/> which is 
+        /// <see cref="NFAState{TCheck, TState, TDFA, TSourceElement}"/> which is 
         /// deterministic by creating a left-side union on elements
         /// which overlap on their <typeparamref name="TCheck"/> 
         /// transition requirements.
@@ -131,7 +133,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// </summary>
         /// <returns>A <see cref="IEnumerable{T}"/> which iterates
         /// the edge states of the current
-        /// <see cref="FiniteAutomataState"/>.</returns>
+        /// <see cref="NFAState{TCheck, TState, TDFA, TSourceElement}"/>.</returns>
         public override sealed IEnumerable<TState> ObtainEdges()
         {
             Stack<TState> toCheck = new Stack<TState>();

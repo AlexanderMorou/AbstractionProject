@@ -226,12 +226,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Casts the <paramref name="target"/> symbol
-        /// to the <paramref name="castType"/> provided.
+        /// to the <paramref name="symbolType"/> provided.
         /// </summary>
         /// <param name="target">The <see cref="String"/> representing a
         /// symbol expression the <see cref="TypeCastExpression"/> casts to
-        /// <paramref name="castType"/>.</param>
-        /// <param name="castType">The <see cref="String"/> symbol type
+        /// <paramref name="symbolType"/>.</param>
+        /// <param name="symbolType">The <see cref="String"/> symbol type
         /// the <see cref="TypeCastExpression"/> casts the 
         /// <paramref name="target"/> to.</param>
         /// <returns>A new <see cref="TypeCastExpression"/>.</returns>
@@ -636,8 +636,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         /// <param name="target">The <see cref="IExpression"/> to negate.</param>
         /// <returns>A new <see cref="UnaryOperationExpression"/> instance with
-        /// the <paramref name="target"/> as a <see cref="OperatorPrecedences.UnaryTerm"/>
-        /// with the <see cref="UnaryOperation.Negate"/> applied.</returns>
+        /// the <paramref name="target"/> as a <see cref="UnaryOperationExpression.Term"/>
+        /// with the <see cref="UnaryOperation.SignInversion"/> applied.</returns>
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="target"/> is null.</exception>
         public static UnaryOperationExpression Negate(this IExpression target)
@@ -751,7 +751,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         /// <param name="target">The <see cref="IExpression"/> to boolInvert.</param>
         /// <returns>A new <see cref="UnaryOperationExpression"/> instance with
-        /// the <paramref name="target"/> as a <see cref="OperatorPrecedences.UnaryTerm"/>
+        /// the <paramref name="target"/> as a <see cref="UnaryOperationExpression.Term"/>
         /// with the <see cref="UnaryOperation.BooleanInversion"/> applied.</returns>
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="target"/> is null.</exception>

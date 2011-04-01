@@ -62,7 +62,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <summary>
         /// Returns the <see cref="IIntermediateBinaryOperatorCoercionMember{TType, TIntermediateType}"/> which
         /// coerces the <paramref name="op"/> provided with the
-        /// parent contained on the <see cref="side"/> provided with
+        /// parent contained on the <paramref name="side"/> provided with
         /// <paramref name="otherSide"/> provided.
         /// </summary>
         /// <param name="op">The <see cref="CoercibleBinaryOperators"/>

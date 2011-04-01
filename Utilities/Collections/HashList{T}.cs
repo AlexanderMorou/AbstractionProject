@@ -171,7 +171,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <see cref="HashList{T}"/> equals the current 
         /// instance.
         /// </summary>
-        /// <param name="other">The <see cref="HashList"/>
+        /// <param name="other">The <see cref="HashList{T}"/>
         /// to compare to.</param>
         /// <returns>true if the <paramref name="other"/>
         /// <see cref="HashList{T}"/> equals the 
@@ -253,7 +253,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// reference types.</param>
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// <paramref name="index"/> is less than zero-or-
-        /// greater than <paramref name="Count"/>
+        /// greater than <see cref="Count"/>
         /// </exception>
         public void Insert(int index, T item)
         {
@@ -282,8 +282,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <param name="index">The zero-based index of the 
         /// <typeparamref name="T"/> element to get or set.
         /// </param>
-        /// <returns>The element at the specified 
-        /// <typeparamref name="index"/>.</returns>
+        /// <returns>The element of type <typeparamref name="T"/>
+        /// at the specified <paramref name="index"/>.</returns>
         public T this[int index]
         {
             get
@@ -387,7 +387,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// from the <see cref="HashList{T}"/>
         /// </summary>
         /// <param name="item">The <typeparamref name="T"/>
-        /// instance to remove from the <see cref="HashList"/>. 
+        /// instance to remove from the <see cref="HashList{T}"/>. 
         /// The value can be null for reference types.</param>
         /// <returns>true if item is successfully removed; otherwise,
         /// false. This method also returns false if item was not found 

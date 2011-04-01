@@ -346,6 +346,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             finally
             {
                 this.OnDisposed();
+                this.Disposed = null;
             }
         }
 
@@ -427,8 +428,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// to ensure the event is invoked.</remarks>
         protected virtual void OnDisposed()
         {
-            if (this.Disposed != null)
-                this.Disposed(this, EventArgs.Empty);
+            var disposeCopy = this.Disposed;
+            if (disposeCopy != null)
+                disposeCopy(this, EventArgs.Empty);
         }
 
         #region ICustomAttributedDeclaration Members

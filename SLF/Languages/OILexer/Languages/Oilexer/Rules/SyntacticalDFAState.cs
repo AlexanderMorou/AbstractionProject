@@ -20,7 +20,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules
     public class SyntacticalDFAState :
         DFAState<GrammarVocabulary, SyntacticalDFAState, IProductionRuleSource>
     {
-        private IProductionRuleSource source;
         private bool? canBeEmpty;
         internal ParserBuilder builder;
         public SyntacticalDFAState()

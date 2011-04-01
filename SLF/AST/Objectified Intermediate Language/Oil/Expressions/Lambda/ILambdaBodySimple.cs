@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Lambda
         /// </summary>
         new ILambdaSimpleExpression Parent { get; }
         /// <summary>
-        /// Returns/sets the <see cref="InnerExpression"/> that defines
+        /// Returns/sets the <see cref="IExpression"/> that defines
         /// the <see cref="ILambdaBodySimple"/>.
         /// </summary>
         IExpression Expression { get; set; }

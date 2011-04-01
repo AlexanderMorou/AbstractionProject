@@ -13,8 +13,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     /// <summary>
     /// What level of warning messages should be displayed by the compiler.
     /// </summary>
-    /// <remarks>Descriptions sourced from C# Compiler options in the MSDN library.
-    /// <seealso cref="http://msdn.microsoft.com/en-us/library/13b90fz7.aspx"/></remarks>
+    /// <remarks><para>Descriptions sourced from C# Compiler options in the MSDN library.</para>
+    /// <para>Refer to: http://msdn.microsoft.com/en-us/library/13b90fz7.aspx</para></remarks>
     [Flags]
     public enum WarningLevel
     {

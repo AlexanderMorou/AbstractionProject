@@ -49,13 +49,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             get
             {
                 if (this.MemberInfo != null &&
-                   !string.IsNullOrEmpty(this.MemberInfo.Name) &&
-                    this.MemberInfo.Name.Length > 3)
-                    switch (this.MemberInfo.Name.Substring(3))
+                   !string.IsNullOrEmpty(this.MemberInfo.Name))
+                    switch (this.MemberInfo.Name)
                     {
-                        case "Explicit":
+                        case CLICommon.TypeCoercionNames.Explicit:
                             return TypeConversionRequirement.Explicit;
-                        case "Implicit":
+                        case CLICommon.TypeCoercionNames.Implicit:
                             return TypeConversionRequirement.Implicit;
                     }
                 throw new InvalidOperationException(Resources.ObjectStateThrowMessage);

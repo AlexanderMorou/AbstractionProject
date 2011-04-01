@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer;
 using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
-using AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens;
 using AllenCopeland.Abstraction.Utilities.Collections;
 /* * 
  * Oilexer is an open-source project and must be released

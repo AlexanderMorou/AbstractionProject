@@ -102,6 +102,16 @@
     <Compile Include="Cli\ArrayType.cs" />
     <Compile Include="Cli\AssemblyInformation.cs" />
     <Compile Include="Cli\ByRefType.cs" />
+    <Compile Include="Cli\CLICommon.cs" />
+    <Compile Include="Cli\CLICommon+BinaryOperatorNames.cs">
+      <DependentUpon>CLICommon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cli\CLICommon+TypeCoercionNames.cs">
+      <DependentUpon>CLICommon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cli\CLICommon+UnaryOperatorNames.cs">
+      <DependentUpon>CLICommon.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cli\CLIGateway.cs" />
     <Compile Include="Cli\ICompiledAssembly.cs" />
     <Compile Include="Cli\ICompiledClassType.cs" />

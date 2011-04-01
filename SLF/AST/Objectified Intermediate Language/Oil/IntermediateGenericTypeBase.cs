@@ -382,18 +382,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         protected virtual void OnTypeParameterAdded(IIntermediateGenericTypeParameter<TType, TIntermediateType> arg1)
         {
-            if (this._TypeParameterAdded != null)
-                this._TypeParameterAdded(this, new EventArgsR1<IIntermediateGenericParameter>(arg1));
-            if (this.TypeParameterAdded != null)
-                this.TypeParameterAdded(this, new EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>(arg1));
+            var _typeParameterAdded = this._TypeParameterAdded;
+            if (_typeParameterAdded != null)
+                _typeParameterAdded(this, new EventArgsR1<IIntermediateGenericParameter>(arg1));
+            var typeParameterAdded = this.TypeParameterAdded;
+            if (typeParameterAdded != null)
+                typeParameterAdded(this, new EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>(arg1));
         }
 
         protected virtual void OnTypeParameterRemoved(IIntermediateGenericTypeParameter<TType, TIntermediateType> arg1)
         {
-            if (this._TypeParameterRemoved != null)
-                this._TypeParameterRemoved(this, new EventArgsR1<IIntermediateGenericParameter>(arg1));
-            if (this.TypeParameterRemoved != null)
-                this.TypeParameterRemoved(this, new EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>(arg1));
+            var _typeParameterRemoved = this._TypeParameterRemoved;
+            if (_typeParameterRemoved != null)
+                _typeParameterRemoved(this, new EventArgsR1<IIntermediateGenericParameter>(arg1));
+            var typeParameterRemoved = this.TypeParameterRemoved;
+            if (typeParameterRemoved != null)
+                typeParameterRemoved(this, new EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>(arg1));
         }
         #endregion
 

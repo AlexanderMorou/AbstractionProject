@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
     /// <summary>
     /// Provides a base implementation of a 
-    /// <see cref="IFiniteAutomataSet"/> whose individual elements
+    /// <see cref="IFiniteAutomataSet{TCheck}"/> whose individual elements
     /// from the full set are represented by a single bit.
     /// </summary>
     /// <typeparam name="TCheck">The direct inheritor of the 
@@ -115,7 +115,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// against.</param>
         /// <returns>true if the subset information from the
         /// <paramref name="obj"/> is equal to the current 
-        /// <see cref="FiniteAutomationBitSet{TCheck}"/>;
+        /// <see cref="FiniteAutomataBitSet{TCheck}"/>;
         /// and false, if <paramref name="obj"/> is not an instance
         /// of <typeparamref name="TCheck"/>, or otherwise.</returns>
         public override bool Equals(object obj)
@@ -126,10 +126,10 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         }
 
         /// <summary>
-        /// Obtains the hash for the current <see cref="FiniteAutomataBitset{TCheck}"/>.
+        /// Obtains the hash for the current <see cref="FiniteAutomataBitSet{TCheck}"/>.
         /// </summary>
         /// <returns>A <see cref="Int32"/> value representing the 
-        /// bitwise hash of the current <see cref="FiniteAutomataBitset{TCheck}"/>.</returns>
+        /// bitwise hash of the current <see cref="FiniteAutomataBitSet{TCheck}"/>.</returns>
         public override int GetHashCode()
         {
             int r = (int)(this.offset ^ this.length);
@@ -266,7 +266,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// <param name="other">The <typeparamref name="TCheck"/>
         /// to compare against.</param>
         /// <returns>true if the subset information from the <paramref name="other"/>
-        /// is equal to the current <see cref="FiniteAutomationBitSet{TCheck}"/></returns>
+        /// is equal to the current <see cref="FiniteAutomataBitSet{TCheck}"/></returns>
         public bool Equals(TCheck other)
         {
             return Equals((TCheck)this, (TCheck)other);

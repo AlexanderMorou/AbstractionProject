@@ -37,8 +37,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         where TSValue :
             TMValue
     {
-        private int version;
-        bool needsRefresh = false;
 
         /// <summary>
         /// Data member for <see cref="Master"/>.
@@ -62,12 +60,13 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         /// <summary>
         /// Creates a new <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/>
-        /// with the <paramref name="target"/> provided.
+        /// with the <paramref name="master"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="MasterDictionaryBase{TKey, TMValue}"/>
         /// in which the <see cref="SubordinateDictionary{TKey, TSValue, TValue}"/> resides.</param>
-        /// <param name="items">The <see cref="Dictionary{TKey, TSValue}"/>
-        /// to wrap.</param>
+        /// <param name="sibling">The <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/>
+        /// which is the sibling of the new <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/>
+        /// and therefore contains the same dictionary of elements.</param>
         protected SubordinateDictionary(MasterDictionaryBase<TKey, TMValue> master, SubordinateDictionary<TKey, TSValue, TMValue> sibling)
             : base(sibling)
         {
@@ -103,7 +102,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// </summary>
         /// <param name="key">The <typeparamref name="TKey"/> of the
         /// current <paramref name="value"/> inserted.</param>
-        /// <param name="value">The <typeparamref name="TValue"/>
+        /// <param name="value">The <typeparamref name="TSValue"/>
         /// to insert.</param>
         protected internal override void _Add(TKey key, TSValue value)
         {
@@ -116,7 +115,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// Removes an element with the specified <paramref name="key"/>
         /// from the  <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/>.
         /// </summary>
-        /// <param name="key">The key of the <typeparamref name="TValue"/> to remove.</param>
+        /// <param name="key">The key of the <typeparamref name="TSValue"/> to remove.</param>
         /// <returns>true if the element was successfully removed; false otherwise.</returns>
         protected internal virtual bool Remove(TKey key)
         {
@@ -133,8 +132,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             if (this.Master != null)
                 this.master.Subordinate_Cleared(this);
-            this.version = 0;
-            this.needsRefresh = false;
             base._Clear();
         }
 
@@ -144,7 +141,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <param name="key">The 
         /// <typeparamref name="TKey"/> 
         /// to look for.</param>
-        /// <returns>A <typeparamref name="TValue"/> relative 
+        /// <returns>A <typeparamref name="TSValue"/> relative 
         /// to <paramref name="key"/>.</returns>
         public new virtual TSValue this[TKey key]
         {
@@ -189,8 +186,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         void _ISubordinateDictionaryMasterPass.Clear()
         {
-            this.version = 0;
-            this.needsRefresh = false;
             this._Clear();
         }
 

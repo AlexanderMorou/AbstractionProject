@@ -88,21 +88,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// <returns>A new <see cref="IStructPropertyMember"/>
         /// instance with the <paramref name="info"/>
         /// provided.</returns>
-        protected override IStructPropertyMember GetProperty(System.Reflection.PropertyInfo info)
+        protected override IStructPropertyMember GetProperty(PropertyInfo info)
         {
             return new PropertyMember(info, this);
         }
 
         /// <summary>
         /// Obtains a <see cref="IStructFieldMember"/> for the 
-        /// <paramref name="FieldInfo"/> provided.
+        /// <paramref name="info"/> provided.
         /// </summary>
         /// <param name="info">The <see cref="FieldInfo"/> 
         /// to obtain the <see cref="IStructFieldMember"/>
         /// for.</param>
         /// <returns>A new <see cref="IStructFieldMember"/>
         /// with the <paramref name="info"/> provided.</returns>
-        protected override IStructFieldMember GetField(System.Reflection.FieldInfo info)
+        protected override IStructFieldMember GetField(FieldInfo info)
         {
             return new FieldMember(info, this);
         }

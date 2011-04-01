@@ -63,10 +63,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Creates a new <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>
-        /// with the <paramref name="name"/>
-        /// provided.
+        /// initialized to a default state.
         /// </summary>
-        /// <param name="name">The <see cref="String"/> representing the type's name.</param>
         internal IntermediateTypeBase()
         {
         }
@@ -76,7 +74,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// with the <paramref name="name"/> and <paramref name="parent"/>
         /// provided.
         /// </summary>
-        /// <param name="parent"></param>
         /// <param name="name">The <see cref="String"/> representing the type's name.</param>
         /// <param name="parent">The <see cref="IIntermediateTypeParent"/>
         /// which conatins the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/></param>
@@ -137,7 +134,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        public new IIntermediateTypeParent Parent
+        public IIntermediateTypeParent Parent
         {
             get
             {
@@ -268,8 +265,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// whether the change should take place.</param>
         protected virtual void OnRenaming(DeclarationRenamingEventArgs e)
         {
-            if (this.Renaming != null)
-                this.Renaming(this, e);
+            var renaming = this.Renaming;
+            if (renaming != null)
+                renaming(this, e);
         }
 
         /// <summary>
@@ -279,8 +277,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// indicate the old and new name of the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>.</param>
         protected virtual void OnRenamed(DeclarationNameChangedEventArgs e)
         {
-            if (this.Renamed != null)
-                this.Renamed(this, e);
+            var renamed = this.Renamed;
+            if (renamed != null)
+                renamed(this, e);
         }
 
         internal void AssignName(string value)
@@ -417,11 +416,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Returns the dictionary of full members which denotes the
         /// verbatim order listing of all members within the current
-        /// <see cref="IntermediateTypeBase"/>.
+        /// <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>.
         /// </summary>
         /// <returns>An <see cref="IIntermediateFullMemberDictionary"/> 
         /// instance which denotes the verbatim order listing of all 
-        /// members within the current <see cref="IntermediateTypeBase"/>.
+        /// members within the current <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>.
         /// </returns>
         protected abstract IIntermediateFullMemberDictionary OnGetIntermediateMembers();
 

@@ -183,7 +183,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             /// <summary>
             /// Returns the <see cref="IIntermediateBinaryOperatorCoercionMember{TType, TIntermediateType}"/> which
             /// coerces the <paramref name="op"/> provided with the
-            /// parent contained on the <see cref="side"/> provided with
+            /// parent contained on the <paramref name="side"/> provided with
             /// <paramref name="otherSide"/> provided.
             /// </summary>
             /// <param name="op">The <see cref="CoercibleBinaryOperators"/>
@@ -387,7 +387,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             /// the <paramref name="target"/> specified</returns>
             /// <exception cref="System.ArgumentException">
             /// thrown when there is no explicit/implicit coercion
-            /// from/to <typeparamref name="target"/>.
+            /// from/to <paramref name="target"/>.
             /// </exception>
             /// <exception cref="System.ArgumentOutOfRangeException">
             /// thrown when either <paramref name="requirement"/> or 

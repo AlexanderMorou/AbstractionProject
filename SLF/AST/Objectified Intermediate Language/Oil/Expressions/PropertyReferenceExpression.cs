@@ -22,12 +22,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// </summary>
     /// <typeparam name="TProperty">The type of property as it exists int he
     /// abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateProperty">The type of property as it exists
-    /// in the intermediate abstract syntax tree.</typeparam>
     /// <typeparam name="TPropertyParent">The type which owns the properties
     /// in the abstract type system.</typeparam>
-    /// <typeparam name="TIntermediatePropertyParent">The type which owns the properties
-    /// in the intermediate abstract syntax tree.</typeparam>
     public class PropertyReferenceExpression<TProperty, TPropertyParent> :
         MemberParentReferenceExpressionBase,
         IPropertyReferenceExpression<TProperty, TPropertyParent>
@@ -36,12 +32,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         where TPropertyParent :
             IPropertyParentType<TProperty, TPropertyParent>
     {
-        /// <summary>
-        /// Data member for <see cref="ReferenceType"/>.
-        /// </summary>
-        private MethodReferenceType referenceType;
-        private string nameCopy;
-
+        
         public PropertyReferenceExpression(IMemberParentReferenceExpression source, TProperty member)
         {
             this.Source = source;
@@ -51,8 +42,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         #region IPropertyReferenceExpression<TProperty,TIntermediateProperty,TPropertyParent,TIntermediatePropertyParent> Members
 
         /// <summary>
-        /// Returns the <typeparamref name="TIntermediateProperty"/> member to which the 
-        /// <see cref="IPropertyReferenceExpression{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/> refers.
+        /// Returns the <typeparamref name="TProperty"/> member to which the 
+        /// <see cref="PropertyReferenceExpression{TProperty, TPropertyParent}"/> refers.
         /// </summary>
         public TProperty Member { get; private set; }
 
@@ -84,8 +75,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             get
             {
-                if (this.Member == null)
-                    return nameCopy;
                 return this.Member.Name;
             }
         }
@@ -146,12 +135,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// </summary>
     /// <typeparam name="TProperty">The type of property as it exists int he
     /// abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateProperty">The type of property as it exists
-    /// in the intermediate abstract syntax tree.</typeparam>
     /// <typeparam name="TPropertyParent">The type which owns the properties
     /// in the abstract type system.</typeparam>
-    /// <typeparam name="TIntermediatePropertyParent">The type which owns the properties
-    /// in the intermediate abstract syntax tree.</typeparam>
     public class PropertySignatureReferenceExpression<TProperty, TPropertyParent> :
         MemberParentReferenceExpressionBase,
         IPropertySignatureReferenceExpression<TProperty, TPropertyParent>
@@ -163,8 +148,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Data member for <see cref="ReferenceType"/>.
         /// </summary>
-        private MethodReferenceType referenceType;
-        private string nameCopy;
 
         public PropertySignatureReferenceExpression(IMemberParentReferenceExpression source, TProperty member)
         {
@@ -175,7 +158,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         #region IPropertySignatureReferenceExpression<TProperty,TPropertyParent> Members
 
         /// <summary>
-        /// Returns the <see cref="TProperty"/> member to which the 
+        /// Returns the <typeparamref name="TProperty"/> member to which the 
         /// <see cref="IPropertySignatureReferenceExpression{TProperty, TPropertyParent}"/> refers.
         /// </summary>
         public TProperty Member { get; private set; }
@@ -218,14 +201,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Returns/sets the type of reference to the 
-        /// <see cref="IPropertySignatureReferenceExpression"/>,
+        /// <see cref="PropertySignatureReferenceExpression{TProperty, TPropertyParent}"/>,
         /// get/set methods, is.
         /// </summary>
         public MethodReferenceType ReferenceType { get; set; }
 
         /// <summary>
         /// Returns the <see cref="IMemberParentReferenceExpression"/>
-        /// that sourced the <see cref="IPropertySignatureReferenceExpression"/>.
+        /// that sourced the <see cref="PropertySignatureReferenceExpression{TProperty, TPropertyParent}"/>.
         /// </summary>
         public IMemberParentReferenceExpression Source { get; private set; }
 

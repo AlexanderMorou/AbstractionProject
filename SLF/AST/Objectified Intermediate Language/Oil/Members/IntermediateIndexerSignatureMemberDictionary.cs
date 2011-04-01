@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TIndexerParent
     {
         /// <summary>
-        /// Creates a new <see cref="IntermediateIndexerSignatureMemberDictionary"/> with the 
+        /// Creates a new <see cref="IntermediateIndexerSignatureMemberDictionary{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent}"/> with the 
         /// <paramref name="master"/> and <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
@@ -50,15 +50,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
         }
         /// <summary>
-        /// Creates a new <see cref="IntermediateIndexerSignatureMemberDictionary"/> with the 
-        /// <paramref name="master"/>, <paramref name="parent"/> and <paramref name="items"/> provided.
+        /// Creates a new <see cref="IntermediateIndexerSignatureMemberDictionary{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent}"/> with the 
+        /// <paramref name="master"/>, <paramref name="parent"/> and <paramref name="root"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
         /// which contains the current instance's members as well as those of other <see cref="IntermediateIndexerSignatureMemberDictionary{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent}"/>
         /// instances of varying types.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateIndexerParent"/>
         /// which contains the <see cref="IntermediateIndexerSignatureMemberDictionary{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent}"/>.</param>
-        /// <param name="items">The <see cref="IntermediateIndexerSignatureMemberDictionary{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent}"/>
+        /// <param name="root">The <see cref="IntermediateIndexerSignatureMemberDictionary{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent}"/>
         /// which the is based upon.</param>
         public IntermediateIndexerSignatureMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateIndexerParent parent, IntermediateIndexerSignatureMemberDictionary<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> root)
             : base(master, parent, root)

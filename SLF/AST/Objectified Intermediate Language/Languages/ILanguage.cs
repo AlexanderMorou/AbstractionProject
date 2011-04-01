@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// <see cref="ILanguage"/>.
         /// </summary>
         /// <returns>A new <see cref="ILanguageProvider"/> for the current
-        /// <see cref="ILangauge"/>.</returns>
+        /// <see cref="ILanguage"/>.</returns>
         ILanguageProvider GetProvider();
         /// <summary>
         /// Returns the level of functionality support the compiler contains.

@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         /// </summary>
         /// <param name="original">The <typeparamref name="TProperty"/> instance
         /// form which the <see cref="_PropertyBase{TProperty, TPropertyParent}"/>.</param>
-        /// <param name="parent">The <paramref name="TPropertyParent"/>
+        /// <param name="parent">The <typeparamref name="TPropertyParent"/>
         /// to which the <see cref="_PropertyBase{TProperty, TPropertyParent}"/> 
         /// is contained within.</param>
         public _PropertyBase(TProperty original, TPropertyParent parent) 

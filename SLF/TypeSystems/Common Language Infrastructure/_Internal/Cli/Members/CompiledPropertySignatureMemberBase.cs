@@ -73,7 +73,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <param name="memberInfo">The <see cref="MethodInfo"/> of the 
         /// method.</param>
         /// <returns>An <see cref="IMethodMember"/></returns><remarks>Used for <see cref="IPropertySignatureMember.GetMethod"/> and
-        /// <paramref name="IPropertySignatureMember.SetMethod"/></remarks>
+        /// <see cref="IPropertySignatureMember.SetMethod"/></remarks>
         protected abstract TPropertyMethod OnGetMethod(PropertyMethodType methodType, MethodInfo memberInfo);
 
         protected override sealed TPropertyMethod OnGetMethod(PropertyMethodType methodType)

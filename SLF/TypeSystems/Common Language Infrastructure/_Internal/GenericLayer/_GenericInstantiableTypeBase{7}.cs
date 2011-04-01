@@ -147,7 +147,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// Used by <see cref="CheckConstructors"/>.
         /// </remarks>
         /// <returns>
-        /// A <see cref="IConstructorMemberDictionary<TCtor, TType>"/> instance.
+        /// A <see cref="IConstructorMemberDictionary{TCtor, TType}"/> instance.
         /// </returns>
         protected abstract IConstructorMemberDictionary<TCtor, TType> InitializeConstructors();
 
@@ -617,7 +617,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// Returns the <see cref="enums"/>' default value.
         /// </summary>
         /// <remarks>
-        /// Used by <see cref="CheckEnumerators"/>.
+        /// Used by <see cref="CheckEnums"/>.
         /// </remarks>
         /// <returns>
         /// A <see cref="IEnumTypeDictionary"/> instance.

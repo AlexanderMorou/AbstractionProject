@@ -156,8 +156,9 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             return resultItems.ToArray();
         }
         /// <summary>
-        /// Alters the contents of the array and ignores others based upon the two 
-        /// <see cref="Common.TranslateArgument{TResult, TArgument}"/> delegates.
+        /// Alters the contents of the array by the <see cref="Func{T, TResult}"/>
+        /// <paramref name="translator"/> and ignores others based upon the 
+        /// <see cref="Predicate{T}"/> <paramref name="filter"/>.
         /// </summary>
         /// <typeparam name="TSourceItem">The type of the parameter accepted as input.</typeparam>
         /// <typeparam name="TDestinationItem">The type of result that is expected.</typeparam>
@@ -233,7 +234,7 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
         /// to the <paramref name="array"/> provided.</returns>
         /// <remarks><para>The number of values in the resultant array,
         /// per iteration, is equivalent to the
-        /// <see cref="Array.ArrayRank"/> of the 
+        /// <see cref="Array.Rank"/> of the 
         /// <paramref name="array"/> provided.</para>
         /// <para>Due to the nature this method was intended to be used,
         /// the array retrieved per iteration is the same so it is not

@@ -39,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         ICSharpExpression
     {
         /// <summary>
-        /// Returns/sets the <see cref="AddSubtOperation"/> the <see cref="ICSharpAddSubtExpression"/>
+        /// Returns/sets the <see cref="CSharpAddSubtOperation"/> the <see cref="ICSharpAddSubtExpression"/>
         /// represents.
         /// </summary>
         CSharpAddSubtOperation Operation { get; set; }

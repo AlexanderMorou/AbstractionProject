@@ -133,7 +133,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         #region ICSharpAssignExpression Members
 
         /// <summary>
-        /// Returns/sets the <see cref="AssignOperation"/> associated to the <see cref="CSharpAssignExpression"/>.
+        /// Returns/sets the <see cref="AssignmentOperation"/> associated to the <see cref="CSharpAssignExpression"/>.
         /// </summary>
         public AssignmentOperation Operation
         {

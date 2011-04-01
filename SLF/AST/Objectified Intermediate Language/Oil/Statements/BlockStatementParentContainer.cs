@@ -130,7 +130,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// Inserts and returns a new <see cref="ISwitchStatement"/> instance
         /// which relates to the <paramref name="caseCondition"/> provided.
         /// </summary>
-        /// <param name="condition">A <see cref="IExpression"/> instance which
+        /// <param name="caseCondition">A <see cref="IExpression"/> instance which
         /// represents a value to check on each case of the <see cref="ISwitchStatement"/>
         /// that results.</param>
         /// <returns>A new <see cref="ISwitchStatement"/> with no cases relative to the
@@ -269,7 +269,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         /// <summary>
         /// Creates, inserts, and returns a new <see cref="ICallMethodStatement"/> with the
-        /// <paramref name="parent"/>, <paramref name="methodName"/>, <see cref="typeParameters"/>
+        /// <paramref name="parent"/>, <paramref name="methodName"/>, <paramref name="typeParameters"/>
         /// and <paramref name="parameters"/> provided.
         /// </summary>
         /// <param name="parent">The <see cref="IMemberParentReferenceExpression"/> from which
@@ -289,7 +289,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         /// <summary>
         /// Creates, inserts, and returns a new <see cref="ICallMethodStatement"/> with the
-        /// <paramref name="parent"/>, <paramref name="methodName"/>, <see cref="typeParameters"/>
+        /// <paramref name="parent"/>, <paramref name="methodName"/>, <paramref name="typeParameters"/>
         /// and <paramref name="parameters"/> provided.
         /// </summary>
         /// <param name="parent">The <see cref="IMemberParentReferenceExpression"/> from which

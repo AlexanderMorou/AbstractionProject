@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <summary>
         /// Adds a new <typeparamref name="TIntermediateField"/> with the
         /// <paramref name="nameAndType"/> and
-        /// <paramref name="initializationexpression"/> provided.
+        /// <paramref name="initializationExpression"/> provided.
         /// </summary>
         /// <param name="nameAndType">The <see cref="TypedName"/>
         /// which specifies the type of the field and its name.</param>
@@ -83,7 +83,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <summary>
         /// Adds a new <see cref="IIntermediateFieldMember"/> with the
         /// <paramref name="nameAndType"/> and
-        /// <paramref name="initializationexpression"/> provided.
+        /// <paramref name="initializationExpression"/> provided.
         /// </summary>
         /// <param name="nameAndType">The <see cref="TypedName"/>
         /// which specifies the type of the field and its name.</param>

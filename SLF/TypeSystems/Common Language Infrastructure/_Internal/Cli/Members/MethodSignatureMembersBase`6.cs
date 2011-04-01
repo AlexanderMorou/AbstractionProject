@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
             ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
     {
         /// <summary>
-        /// Creates a new <see cref="MethodSignatureMembersBase{TSignatureParameter, TGenericParameter, TSignature, TSignatureParent}"/> initialized to a default
+        /// Creates a new <see cref="MethodSignatureMembersBase{TSignatureParameter, TSignature, TSignatureParent}"/> initialized to a default
         /// state.
         /// </summary>
         internal MethodSignatureMembersBase(FullMembersBase master)
@@ -112,7 +112,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, ITypeCollection search)
         {
-            return CLIGateway.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, this.Values, name, search, strict);
+            return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, this.Values, name, search, strict);
         }
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, ITypeCollection search)
@@ -122,7 +122,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, params IType[] search)
         {
-            return CLIGateway.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, this.Values, name, search, strict);
+            return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, this.Values, name, search, strict);
         }
 
         public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, params IType[] search)

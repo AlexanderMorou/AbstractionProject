@@ -44,7 +44,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// the <paramref name="typeParameters"/> provided.</returns>
         /// <exception cref="System.InvalidOperationException">
         /// The current <see cref="IGenericType"/>'s 
-        /// <seealso cref="IsGenericDefinition"/> is false.</exception>
+        /// <seealso cref="IGenericParamParent.IsGenericDefinition"/> is false.</exception>
         new IGenericType MakeGenericClosure(ITypeCollectionBase typeParameters);
 
         /// <summary>
@@ -57,8 +57,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <returns>A new closed <see cref="IGenericType"/> instance with 
         /// the <paramref name="typeParameters"/> provided.</returns>
         /// <exception cref="System.InvalidOperationException">
-        /// The current <see cref="IGenericType"/>'s <seealso cref="IsGenericDefinition"/>
+        /// The current <see cref="IGenericType"/>'s <seealso cref="IGenericParamParent.IsGenericDefinition"/>
         /// is false.</exception>
         new IGenericType MakeGenericClosure(params IType[] typeParameters);
+        
     }
 }

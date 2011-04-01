@@ -80,7 +80,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// the <paramref name="target"/> specified</returns>
         /// <exception cref="System.ArgumentException">
         /// thrown when there is no explicit/implicit coercion
-        /// from/to <typeparamref name="target"/>.
+        /// from/to <paramref name="target"/>.
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// thrown when either <paramref name="requirement"/> or 

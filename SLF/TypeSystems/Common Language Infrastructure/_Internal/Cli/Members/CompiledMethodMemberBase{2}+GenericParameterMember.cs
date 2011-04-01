@@ -35,9 +35,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             }
 
             /// <summary>
-            /// Creates a new nullable <see cref="IMethodGenericTypeParameterMember{TMethod, TMethodParent}"/>.
+            /// Creates a new nullable type as the current <see cref="GenericParameterMember"/>.
             /// </summary>
-            /// <returns>A new <see cref="IMethodGenericTypeParameterMember{TMethod, TMethodParent}"/> as a nullable type.</returns>
+            /// <returns>A new <see cref="NullableType"/> on the current <see cref="GenericParameterMember"/>.</returns>
             protected override IType OnMakeNullable()
             {
                 if (this.SpecialConstraint == GenericTypeParameterSpecialConstraint.Struct)

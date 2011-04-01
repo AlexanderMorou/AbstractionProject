@@ -64,7 +64,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public IFilteredSignatureMemberDictionary<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>> Find(bool strict, ITypeCollection search)
         {
-            return CLIGateway.FindCache<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>(this.Values, search, strict);
+            return CLICommon.FindCache<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>(this.Values, search, strict);
         }
 
         public IFilteredSignatureMemberDictionary<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>> Find(ITypeCollection search)
@@ -74,7 +74,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public IFilteredSignatureMemberDictionary<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>> Find(bool strict, params IType[] search)
         {
-            return CLIGateway.FindCache<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>(this.Values, search, strict);
+            return CLICommon.FindCache<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>(this.Values, search, strict);
         }
 
         public IFilteredSignatureMemberDictionary<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>> Find(params IType[] search)

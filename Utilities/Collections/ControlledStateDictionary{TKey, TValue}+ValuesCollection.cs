@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             /// Returns the <see cref="Int32"/> ordinal index of the 
             /// <paramref name="element"/> provided.
             /// </summary>
-            /// <param name="element">The <typeparamref name="T"/>
+            /// <param name="element">The <typeparamref name="TValue"/>
             /// instance to find within the <see cref="ValuesCollection"/>.</param>
             /// <returns>-1 if the <paramref name="element"/> was not found within
             /// the <see cref="ValuesCollection"/>; a positive <see cref="Int32"/>
@@ -113,7 +113,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             /// Returns the element at the index provided
             /// </summary>
             /// <param name="index">The index of the element to get.</param>
-            /// <returns>The instance of <typeparamref name="T"/> at the index provided.</returns>
+            /// <returns>The instance of <typeparamref name="TValue"/> at the index provided.</returns>
             /// <exception cref="System.ArgumentOutOfRangeException">
             /// <paramref name="index"/> is  beyond the range of the 
             /// <see cref="ValuesCollection"/>.
@@ -135,9 +135,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
             /// <summary>
             /// Translates the <see cref="ValuesCollection"/> into a flat <see cref="System.Array"/>
-            /// of <typeparamref name="T"/> elements.
+            /// of <typeparamref name="TValue"/> elements.
             /// </summary>
-            /// <returns>A new <see cref="System.Array"/> of <typeparamref name="T"/> instances.</returns>
+            /// <returns>A new <see cref="System.Array"/> of <typeparamref name="TValue"/> instances.</returns>
             public virtual TValue[] ToArray()
             {
                 TValue[] result;

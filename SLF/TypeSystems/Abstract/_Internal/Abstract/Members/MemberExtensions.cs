@@ -141,6 +141,24 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
             return AccessLevelModifiers.Private;
         }
 
+
+        internal static bool IsModifierAccessible(this AccessLevelModifiers modifiers)
+        {
+            switch (modifiers)
+            {
+                case AccessLevelModifiers.Private:
+                case AccessLevelModifiers.PrivateScope:
+                    return false;
+                case AccessLevelModifiers.InternalProtected:
+                case AccessLevelModifiers.Internal:
+                case AccessLevelModifiers.Public:
+                case AccessLevelModifiers.Protected:
+                case AccessLevelModifiers.ProtectedInternal:
+                default:
+                    return true;
+            }
+        }
+
         public static AccessLevelModifiers GetAccessModifiers(this EventInfo @event)
         {
             MethodInfo firstMethod = @event.GetFirstEventMethod();

@@ -30,14 +30,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Creates a new <see cref="MethodPointerReferenceExpression"/>
         /// with the <paramref name="reference"/> and 
-        /// <paramref name="signature"/> provided.
+        /// <paramref name="signatureTypes"/> provided.
         /// </summary>
         /// <param name="reference">The <see cref="IMethodReferenceStub"/>
         /// from which the <see cref="MethodPointerReferenceExpression"/>
         /// was created.</param>
-        /// <param name="signature">The <see cref="ITypeCollection"/>
-        /// of <paramref name="IType"/> elements relative to the
-        /// method's signature.</param>
+        /// <param name="signatureTypes">The <see cref="SignatureTypes"/>
+        /// of the <paramref name="reference"/> parameter types.</param>
         internal MethodPointerReferenceExpression(IMethodReferenceStub<TSignatureParameter, TSignature, TParent> reference, SignatureTypes signatureTypes)
             : base(reference, signatureTypes)
         {
@@ -233,7 +232,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// from which the <see cref="MethodPointerReferenceExpression"/>
         /// was created.</param>
         /// <param name="signature">The <see cref="ITypeCollection"/>
-        /// of <paramref name="IType"/> elements relative to the
+        /// of <see cref="IType"/> elements relative to the
         /// method's signature.</param>
         public MethodPointerReferenceExpression(IMethodReferenceStub reference, ITypeCollection signature)
         {
@@ -307,7 +306,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="MethodPointerReferenceExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionType.MethodReference"/>.</remarks>
+        /// <remarks>Returns <see cref="ExpressionKinds.MethodReference"/>.</remarks>
         public override ExpressionKinds Type
         {
             get { return ExpressionKinds.MethodReference; }

@@ -43,6 +43,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns/sets the <typeparamref name="TParameter"/> to which the
         /// <see cref="IParameterReferenceExpression"/> refers.
         /// </summary>
-        new TIntermediateParameter ReferenceTarget { get; set; }
+        TIntermediateParameter ReferenceTarget { get; set; }
     }
 }

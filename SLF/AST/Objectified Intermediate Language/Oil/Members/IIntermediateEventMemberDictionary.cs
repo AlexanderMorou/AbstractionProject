@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// the names and types of the parameters of a delegate signature that will be
         /// generated upon translation.</param>
         /// <returns>A <typeparamref name="TIntermediateEvent"/> instance.</returns>
-        new TIntermediateEvent Add(string name, TypedNameSeries eventSignature);
+        TIntermediateEvent Add(string name, TypedNameSeries eventSignature);
     }
     /// <summary>
     /// Defines properties and methods for working with a series of intermediate event members.
