@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// Returns/sets whether to keep the associated temp files
         /// relative to the compile operation.
         /// </summary>
-        /// <remarks></remarks>
+        /// <remarks>Not always applicable.</remarks>
         bool KeepFiles { get; }
     }
 }

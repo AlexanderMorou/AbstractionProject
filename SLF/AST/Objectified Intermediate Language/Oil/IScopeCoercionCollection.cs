@@ -19,7 +19,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// identity resolution (linking) phase of compilation.
     /// </summary>
     public interface IScopeCoercionCollection :
-        IControlledStateCollection<IScopeCoercion>
+        IControlledStateCollection<IScopeCoercion>,
+        IProtectableComponent
     {
         /// <summary>
         /// Adds a <see cref="ITypeInclusionScopeCoercion"/> with the

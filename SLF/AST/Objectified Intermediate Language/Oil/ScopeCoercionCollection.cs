@@ -22,6 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         ControlledStateCollection<IScopeCoercion>,
         IScopeCoercionCollection
     {
+        private int protectionLevel = 0;
         #region IScopeCoercionCollection Members
 
         /// <summary>
@@ -149,7 +150,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Adds a series of <see cref="INamedInclusionScopeCoercion"/> elements
-        /// to the <see cref="IScopeCoercionCollection"/> with the <paramref name="names"/>
+        /// to the <see cref="ScopeCoercionCollection"/> with the <paramref name="names"/>
         /// provided.
         /// </summary>
         /// <param name="names">The series of <see cref="String"/> values which
@@ -222,7 +223,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Removes an <paramref name="includedType"/> from the <see cref="IScopeCoercionCollection"/>
+        /// Removes an <paramref name="includedType"/> from the <see cref="ScopeCoercionCollection"/>
         /// provided it is present.
         /// </summary>
         /// <param name="includedType">The <see cref="IType"/> to remove.</param>
@@ -243,6 +244,37 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return true;
         }
 
+        /// <summary>
+        /// Instructs the <see cref="ScopeCoercionCollection"/> to enter a 
+        /// protected state wherein no changes may occur to the elements within.
+        /// </summary>
+        /// <remarks>Used to guarantee identity resolution consistency during the time the
+        /// type is within scope.</remarks>
+        public void EnterProtectedState()
+        {
+            this.protectionLevel++;
+        }
+
+        /// <summary>
+        /// Instructs the <see cref="ScopeCoercionCollection"/> to exit
+        /// a previously entered protected state, allowing entry changes to occur.
+        /// </summary>
+        public void ExitProtectedState()
+        {
+            if (this.InProtectedState)
+                this.protectionLevel--;
+        }
+
+        /// <summary>
+        /// Returns whether the <see cref="ScopeCoercionCollection"/> is within a protected state.
+        /// </summary>
+        public bool InProtectedState
+        {
+            get
+            {
+                return this.protectionLevel > 0;
+            }
+        }
         #endregion
 
     }

@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Modules;
+using AllenCopeland.Abstraction.Slf.Linkers;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -69,7 +70,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private event EventHandler<DeclarationNameChangedEventArgs> _Renamed;
         private event EventHandler<DeclarationRenamingEventArgs> _Renaming;
         private IAssemblyReferenceCollection references;
-        private ICompilationContext compilationContext;
+        private IMalleableCompilationContext compilationContext;
         /// <summary>
         /// Creates a new <see cref="IntermediateAssembly{TAssembly}"/> with the 
         /// <paramref name="rootAssembly"/> provided.
@@ -252,7 +253,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         public new IIntermediateModuleDictionary Modules
         {
-            get {
+            get
+            {
                 return (IIntermediateModuleDictionary)base.Modules;
             }
         }
@@ -283,7 +285,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         public new IIntermediateModule ManifestModule
         {
-            get {
+            get
+            {
                 if (this.IsRoot)
                 {
                     if (this.manifestModule == null)
@@ -689,13 +692,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        public ICompilationContext CompilationContext
+        public IMalleableCompilationContext CompilationContext
         {
-            get {
+            get
+            {
                 if (this.IsRoot)
                 {
                     if (this.compilationContext == null)
-                        this.compilationContext = new CompilationContext();
+                        this.compilationContext = new MalleableCompilationContext();
                     return this.compilationContext;
                 }
                 else

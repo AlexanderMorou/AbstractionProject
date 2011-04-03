@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AllenCopeland.Abstraction.Slf.Abstract;
 /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -6,7 +7,7 @@
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Slf.Abstract
+namespace AllenCopeland.Abstraction.Slf.Linkers
 {
     public class AssemblyReference :
         IAssemblyReference

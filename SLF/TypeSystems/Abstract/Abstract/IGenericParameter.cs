@@ -63,7 +63,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// </typeparam>
     public interface IGenericParameter<TGenericParameter> :
         ICreatableType<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter>,
-        //ISignatureParent<IGenericParameterMethodMember<TGenericParameter>, IGenericParameterMethodParameterMember<TGenericParameter>, TGenericParameter>,
         IMethodSignatureParent<IGenericParameterMethodMember<TGenericParameter>, TGenericParameter>,
         IEventSignatureParent<IGenericParameterEventMember<TGenericParameter>, TGenericParameter>,
         IIndexerSignatureParent<IGenericParameterIndexerMember<TGenericParameter>, TGenericParameter>,

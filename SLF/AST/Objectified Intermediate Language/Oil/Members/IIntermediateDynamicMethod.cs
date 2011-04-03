@@ -11,9 +11,19 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
+    /// <summary>
+    /// Defines properties and methods for working with a dynamic method which can be 
+    /// built using high-level language constructs.
+    /// </summary>
     public interface IIntermediateDynamicMethod :
         IIntermediateMethodMember<IIntermediateDynamicMethod, IIntermediateDynamicMethod, IIntermediateDynamicHandler, IIntermediateDynamicHandler>
     {
+        /// <summary>
+        /// Returns whether the <see cref="IIntermediateDynamicMethod"/> has been fixed (compiled).
+        /// </summary>
+        /// <remarks>If true, the members of the <see cref="IIntermediateDynamicMethod"/>
+        /// cannot be changed.</remarks>
+        bool Fixed { get; }
         Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Compile<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>();
         Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult> CompileAs<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>();
         Action<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Compile<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>();

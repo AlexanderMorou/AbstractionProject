@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
-namespace AllenCopeland.Abstraction.Slf.Abstract
+namespace AllenCopeland.Abstraction.Slf.Linkers
 {
     public class AssemblyReferenceCollection :
         ControlledStateCollection<IAssemblyReference>,
         IAssemblyReferenceCollection
     {
-
+        private IAssemblyReferenceAliasAggregate rootAggregate;
+        private int protectionLevel = 0;
         #region IAssemblyReferenceCollection Members
 
         /// <summary>
@@ -151,5 +153,39 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #endregion
 
+
+        public IAssemblyReferenceAliasAggregate GetRootNamespaceAggregate()
+        {
+            throw new NotImplementedException();
+        }
+
+        #region IProtectableComponent Members
+
+        public void EnterProtectedState()
+        {
+            this.protectionLevel++;
+        }
+
+        public void ExitProtectedState()
+        {
+            if (this.InProtectedState)
+            {
+                if (this.protectionLevel == 1 && this.rootAggregate != null)
+                {
+                    if (this.rootAggregate.IsDisposed)
+                        this.rootAggregate = null;
+                    else
+                        throw new InvalidOperationException("Cannot make the assembly reference collection malleable until the root namespace aggregate is disposed.");
+                }
+                this.protectionLevel--;
+            }
+        }
+
+        public bool InProtectedState
+        {
+            get { return this.protectionLevel > 0; }
+        }
+
+        #endregion
     }
 }

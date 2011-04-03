@@ -16,8 +16,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     /// <summary>
     /// Provides a base class for compiler options.
     /// </summary>
-    public class CompilationContext :
-        ICompilationContext
+    public class MalleableCompilationContext :
+        IMalleableCompilationContext
     {
         #region ICompilationContext Members
 
@@ -64,10 +64,58 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         #endregion
 
         /// <summary>
-        /// Creates a new <see cref="CompilationContext"/> initialized to its default state.
+        /// Returns the fixed <see cref="ICompilationContext"/> associated to the
+        /// current <see cref="MalleableContext"/>.
         /// </summary>
-        public CompilationContext()
+        /// <returns>A <see cref="ICompilationContext"/>
+        /// whose members cannot be changed.</returns>
+        public ICompilationContext GetFixedContext()
         {
+            return new FixedContext(this);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="MalleableCompilationContext"/> initialized to its default state.
+        /// </summary>
+        public MalleableCompilationContext()
+        {
+        }
+
+        internal class FixedContext :
+            ICompilationContext
+        {
+
+            public FixedContext(MalleableCompilationContext context)
+            {
+                this.Optimize = context.Optimize;
+                this.COMVisible = context.COMVisible;
+                this.AllowUnsafeCode = context.AllowUnsafeCode;
+                this.GenerateXMLDocs = context.AllowUnsafeCode;
+                this.DebugSupport = context.DebugSupport;
+                this.OutputType = context.OutputType;
+                this.WarnLevel = context.WarnLevel;
+                this.ArithmeticOverflowChecks = context.ArithmeticOverflowChecks;
+            }
+
+            #region ICompilationContext Members
+
+            public bool Optimize { get; private set; }
+
+            public bool COMVisible { get; private set; }
+
+            public bool AllowUnsafeCode { get; private set; }
+
+            public bool GenerateXMLDocs { get; private set; }
+
+            public DebugSupport DebugSupport { get; private set; }
+
+            public AssemblyOutputType OutputType { get; private set; }
+
+            public WarningLevel WarnLevel { get; private set; }
+
+            public bool ArithmeticOverflowChecks { get; private set; }
+
+            #endregion
         }
     }
 }
