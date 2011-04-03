@@ -124,5 +124,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (this.parent != null)
                 this.parent = null;
         }
+
+        #region IFullTypeDictionary Members
+
+        public IType FindTypeByName(string typeName, int typeParameterCount = 0)
+        {
+            typeName = typeName + (typeParameterCount == 0 ? string.Empty : ("`" + typeParameterCount.ToString()));
+            if (this.Keys.Contains(typeName))
+                return this[typeName].Entry;
+            else
+                return null;
+        }
+
+        #endregion
+
     }
 }

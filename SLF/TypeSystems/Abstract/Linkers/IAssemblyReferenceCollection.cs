@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -8,14 +9,15 @@ using AllenCopeland.Abstraction.Utilities.Collections;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Slf.Abstract
+namespace AllenCopeland.Abstraction.Slf.Linkers
 {
     /// <summary>
     /// Defines properties and methods for working with
     /// a series of assembly references and their potential alias.
     /// </summary>
     public interface IAssemblyReferenceCollection :
-        IControlledStateCollection<IAssemblyReference>
+        IControlledStateCollection<IAssemblyReference>,
+        IProtectableComponent
     {
         /// <summary>
         /// Adds an <paramref name="assembly"/> to the <see cref="IAssemblyReferenceCollection"/>.
@@ -27,8 +29,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Adds an <paramref name="assembly"/> to the <see cref="IAssemblyReferenceCollection"/>
         /// with the <paramref name="aliases"/> provided.
         /// </summary>
-        /// <param name="aliases">The series of <see cref="String"/> values used to alias the <paramref name="assembly"/>
-        /// provided.</param>
+        /// <param name="aliases">The series of <see cref="String"/> values used to 
+        /// alias the <paramref name="assembly"/> provided.</param>
         /// <param name="assembly">The <see cref="IAssembly"/> to add to the
         /// <see cref="IAssemblyReferenceCollection"/>.</param>
         IAssemblyReference Add(IAssembly assembly, params string[] aliases);
@@ -62,7 +64,16 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <param name="assemblies">The series of <see cref="IAssembly"/> instances
         /// to remove from the <see cref="IAssemblyReferenceCollection"/>.</param>
         void RemoveRange(IAssembly[] assemblies);
+
+        /// <summary>
+        /// Obtains a given <see cref="IAssemblyReference"/> based off of 
+        /// the assembly.
+        /// </summary>
+        /// <param name="target">The <see cref="IAssembly"/> to obtain 
+        /// the <see cref="IAssemblyReference"/> of.</param>
+        /// <returns></returns>
         IAssemblyReference this[IAssembly target] { get; }
+
         /// <summary>
         /// Attempts to obtain a specific <paramref name="target"/> assembly's
         /// <see cref="IAssemblyReference"/>.
@@ -74,5 +85,16 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <returns>true, if the <paramref name="target"/> <see cref="IAssembly"/>
         /// has an associated <see cref="IAssemblyReference"/>; false, otherwise.</returns>
         bool TryGetValue(IAssembly target, out IAssemblyReference value);
+
+        /// <summary>
+        /// Returns the <see cref="IAssemblyReferenceAliasAggregate"/> associated to the
+        /// <see cref="IAssemblyReferenceCollection"/>.
+        /// </summary>
+        /// <returns>An <see cref="IAssemblyReferenceAliasAggregate"/>
+        /// which pertains to the combined root namespace of the assemblies
+        /// referenced by the <see cref="IAssemblyReferenceCollection"/>
+        /// as noted by the individual aliases declared on the references.</returns>
+        IAssemblyReferenceAliasAggregate GetRootNamespaceAggregate();
     }
+
 }

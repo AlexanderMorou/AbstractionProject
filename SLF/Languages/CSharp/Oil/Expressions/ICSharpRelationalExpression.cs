@@ -16,22 +16,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     {
         /// <summary>
         /// Represents an operation where left side of the <see cref="ICSharpRelationalExpression"/>
-        /// is less than the right side.
+        /// is checked on whether it is less than the right side.
         /// </summary>
         LessThan,
         /// <summary>
         /// Represents an operation where left side of the <see cref="ICSharpRelationalExpression"/>
-        /// is less than or equal to the right side.
+        /// is checked on whether it is less than or equal to the right side.
         /// </summary>
         LessThanOrEqualTo,
         /// <summary>
         /// Represents an operation where left side of the <see cref="ICSharpRelationalExpression"/>
-        /// is greater than the right side.
+        /// is checked on whether it is greater than the right side.
         /// </summary>
         GreaterThan,
         /// <summary>
         /// Represents an operation where left side of the <see cref="ICSharpRelationalExpression"/>
-        /// is greater than or equal to the right side.
+        /// is checked on whether it is greater than or equal to the right side.
         /// </summary>
         GreaterThanOrEqualTo,
         /// <summary>

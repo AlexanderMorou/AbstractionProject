@@ -23,5 +23,32 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         {
         }
 
+
+        #region IFullTypeDictionary Members
+
+        public IType FindTypeByName(string typeName, int typeParameterCount = 0)
+        {
+            foreach (var type in this.Values)
+            {
+                var entry = type.Entry;
+                if (entry.Name == typeName)
+                {
+                    if (typeParameterCount > 0 && entry.IsGenericConstruct)
+                    {
+                        var generic = entry as IGenericType;
+                        if (generic == null)
+                            continue;
+                        if (generic.TypeParameters.Count == typeParameterCount)
+                            return generic;
+                    }
+                    else if (typeParameterCount == 0 && !entry.IsGenericConstruct)
+                        return entry;
+                }
+            }
+            return null;
+        }
+
+        #endregion
+
     }
 }

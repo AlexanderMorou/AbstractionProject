@@ -15,37 +15,37 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     public interface ICompilationContext
     {
         /// <summary>
-        /// Returns/sets whether the code should be optimized.
+        /// Returns whether the code should be optimized.
         /// </summary>
-        bool Optimize { get; set; }
+        bool Optimize { get; }
         /// <summary>
-        /// Returns/sets whether the resulted assembly is com visible.
+        /// Returns whether the resulted assembly is com visible.
         /// </summary>
-        bool COMVisible { get; set; }
+        bool COMVisible { get; }
         /// <summary>
-        /// Returns/sets whether the assembly can have unsafe code.
+        /// Returns whether the assembly can have unsafe code.
         /// </summary>
-        bool AllowUnsafeCode { get; set; }
+        bool AllowUnsafeCode { get; }
         /// <summary>
-        /// Returns/sets whether the compiler should generate an accompanying 
+        /// Returns whether the compiler should generate an accompanying 
         /// XML documentation set.
         /// </summary>
-        bool GenerateXMLDocs { get; set; }
+        bool GenerateXMLDocs { get; }
         /// <summary>
-        /// Returns/sets the level of support given to debug output.
+        /// Returns the level of support given to debug output.
         /// </summary>
-        DebugSupport DebugSupport { get; set; }
+        DebugSupport DebugSupport { get; }
         /// <summary>
-        /// Returns/sets the type of assembly that will result from the compile operation.
+        /// Returns the type of assembly that will result from the compile operation.
         /// </summary>
-        AssemblyOutputType OutputType { get; set; }
+        AssemblyOutputType OutputType { get; }
         /// <summary>
-        /// Returns/sets the level of warnings displayed by the compiler.
+        /// Returns the level of warnings displayed by the compiler.
         /// </summary>
-        WarningLevel WarnLevel { get; set; }
+        WarningLevel WarnLevel { get; }
         /// <summary>
-        /// Returns/sets whether arithmetic overflow checks are on by default.
+        /// Returns whether arithmetic overflow checks are on by default.
         /// </summary>
-        bool ArithmeticOverflowChecks { get; set; }
+        bool ArithmeticOverflowChecks { get; }
     }
 }

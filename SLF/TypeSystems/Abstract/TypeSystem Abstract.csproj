@@ -85,10 +85,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\AbstractGateway.cs" />
-    <Compile Include="Abstract\AssemblyReference.cs" />
-    <Compile Include="Abstract\AssemblyReferenceCollection.cs" />
+    <Compile Include="IProtectableComponent.cs" />
+    <Compile Include="Linkers\AssemblyReference.cs" />
+    <Compile Include="Linkers\AssemblyReferenceCollection.cs" />
     <Compile Include="Abstract\GenericTypeCache.cs" />
-    <Compile Include="Abstract\IAssemblyReference.cs" />
+    <Compile Include="Linkers\IAssemblyReference.cs" />
     <Compile Include="Abstract\IMassTargetHandler.cs" />
     <Compile Include="Abstract\MassDisposalAid.cs" />
     <Compile Include="Abstract\Members\IGenericParameterPropertyMethodMember{1}.cs" />
@@ -97,6 +98,11 @@
     <Compile Include="Compilers\InferredAttribute.cs" />
     <Compile Include="Compilers\LanguageMetaHelper.cs" />
     <Compile Include="Compilers\LowerBoundTargetAttribute.cs" />
+    <Compile Include="Linkers\IAssemblyReferenceAliasAggregate.cs" />
+    <Compile Include="Linkers\IAssemblyReferenceIdentityAggregate.cs" />
+    <Compile Include="Linkers\INamespaceAggregate.cs" />
+    <Compile Include="Linkers\INamespaceAggregateAmbiguityNode.cs" />
+    <Compile Include="Linkers\INamespaceAggregateIdentityNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -121,7 +127,7 @@
     <Compile Include="Abstract\IArrayType.cs" />
     <Compile Include="Abstract\IAssembly.cs" />
     <Compile Include="Abstract\IAssemblyInformation.cs" />
-    <Compile Include="Abstract\IAssemblyReferences.cs" />
+    <Compile Include="Linkers\IAssemblyReferenceCollection.cs" />
     <Compile Include="Abstract\IClassType.cs" />
     <Compile Include="Abstract\IClassTypeDictionary.cs" />
     <Compile Include="Abstract\ICoercibleType.cs" />

@@ -96,14 +96,14 @@
     <Compile Include="Compilers\AssemblyOutputType.cs" />
     <Compile Include="Compilers\CompilerError.cs" />
     <Compile Include="Compilers\CompilerErrorCollection.cs" />
-    <Compile Include="Compilers\CompilerOptions.cs" />
+    <Compile Include="Compilers\IMalleableCompilationContext.cs" />
+    <Compile Include="Compilers\MalleableCompilationContext.cs" />
     <Compile Include="Compilers\CompilerReferenceError.cs" />
     <Compile Include="Compilers\CompilerReferenceWarning.cs" />
     <Compile Include="Compilers\CompilerSupport.cs" />
     <Compile Include="Compilers\CompilerWarning.cs" />
     <Compile Include="Compilers\ICompilerError.cs" />
     <Compile Include="Compilers\DebugSupport.cs" />
-    <Compile Include="Compilers\ICompilerContext.cs" />
     <Compile Include="Compilers\ICompilerModelError{T1-T4}.cs" />
     <Compile Include="Compilers\ICompilerModelMessage.cs" />
     <Compile Include="Compilers\ICompilerModelWarning{T1-T4}.cs" />
@@ -122,6 +122,7 @@
     <Compile Include="Compilers\ICompilerSourceModelWarning{T1-T4}.cs" />
     <Compile Include="Compilers\ICompilerSourceWarning.cs" />
     <Compile Include="Compilers\ICompilerWarning.cs" />
+    <Compile Include="Compilers\IntermediateCompilerBase.cs" />
     <Compile Include="Oil\Expressions\EventReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\IBoundTypeOfExpression.cs" />
     <Compile Include="Oil\Expressions\IEventReferenceExpression.cs" />

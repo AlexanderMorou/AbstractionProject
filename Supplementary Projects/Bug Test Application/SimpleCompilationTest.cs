@@ -10,7 +10,9 @@ using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Utilities.Common;
-/*---------------------------------------------------------------------\
+using System.Reflection;
+using System.Reflection.Emit;
+ /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
@@ -30,9 +32,11 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
         private static void WindowsFormsTest()
         {
-            
             //Create the assembly and define its output type.
             var testAssembly = IntermediateGateway.CreateAssembly("WindowsFormsTest");
+            testAssembly.References.Add(typeof(int).Assembly.GetAssemblyReference());
+            testAssembly.References.Add(typeof(Form).Assembly.GetAssemblyReference());
+            testAssembly.References.Add(typeof(System.Linq.Queryable).Assembly.GetAssemblyReference());
             testAssembly.CompilationContext.OutputType = AssemblyOutputType.WindowsApplication;
 
             //Define the assembly's default namespace.
@@ -80,6 +84,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             mdCtor.Call(mdInitializeComponent.GetReference());
             
             //}
+
         }
 
         private static void CreateProgramClass(IIntermediateAssembly testAssembly, IIntermediateClassType mainDialog)
