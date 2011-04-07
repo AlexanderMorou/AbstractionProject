@@ -98,28 +98,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal
         /// of the given namespace.</returns>
         internal static string GetFullName(this INamespaceDeclaration @namespace)
         {
-            var u = @namespace;
-            var k = new List<INamespaceDeclaration>();
-            while (u != null)
-            {
-                k.Add(u);
-                if (u.Parent is INamespaceDeclaration)
-                    u = (INamespaceDeclaration)u.Parent;
-                else
-                    break;
-            }
-            k.Reverse();
-            var first = true;
-            var r = new StringBuilder();
-            foreach (var v in k)
+            var spaceStack = new Stack<INamespaceDeclaration>();
+            for (var currentNamespace = @namespace; currentNamespace != null; currentNamespace = currentNamespace.Parent as INamespaceDeclaration)
+                spaceStack.Push(currentNamespace);
+            bool first = true;
+            StringBuilder fullName = new StringBuilder();
+            while (spaceStack.Count > 0)
             {
                 if (first)
                     first = false;
                 else
-                    r.Append('.');
-                r.Append(v.Name);
+                    fullName.Append('.');
+                fullName.Append(spaceStack.Pop().Name);
             }
-            return r.ToString();
+            return fullName.ToString();
         }
 
         /// <summary>

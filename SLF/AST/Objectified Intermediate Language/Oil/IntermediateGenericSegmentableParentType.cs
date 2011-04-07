@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -528,6 +529,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (this.scopeCoercions == null)
                     this.scopeCoercions = new ScopeCoercionCollection();
                 return this.scopeCoercions;
+            }
+        }
+
+        public override IEnumerable<string> AggregateIdentifiers
+        {
+            get {
+                return (from memberEntry in this.Members.Values
+                        let member = memberEntry.Entry
+                        where !((member is IConstructorMember) || (member is ICoercionMember))
+                        select member.Name).Concat
+                       (from type in this.Types.Values
+                        select type.Entry.Name).Distinct();
             }
         }
     }

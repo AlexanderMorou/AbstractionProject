@@ -274,7 +274,15 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public IFullMemberDictionary Members
         {
-            get { return typeof(Array).GetTypeReference().Members; }
+            get { return LockedFullMembersBase.Empty; }
+        }
+
+        public IEnumerable<string> AggregateIdentifiers
+        {
+            get
+            {
+                yield break;
+            }
         }
 
         #endregion

@@ -81,5 +81,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get { return TypeKind.Enumerator; }
         }
+
+        public override IEnumerable<string> AggregateIdentifiers
+        {
+            get {
+                foreach (var field in this.Fields.Values)
+                    yield return field.Name;
+            }
+        }
     }
 }

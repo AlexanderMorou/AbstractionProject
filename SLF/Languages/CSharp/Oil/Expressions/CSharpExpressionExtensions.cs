@@ -15,7 +15,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
     public static class CSharpExpressionExtensions
     {
-
         public static ICSharpRelationalExpression As(this IExpression target, IReferenceType type)
         {
             return new CSharpRelationalExpression(((ICSharpRelationalExpression)target.AffixTo(CSharpOperatorPrecedences.RelationalOperation)), CSharpRelationalOperation.TypeCastOrNull, (ICSharpShiftExpression)type.GetTypeExpression().AffixTo(CSharpOperatorPrecedences.ShiftOperation));
@@ -262,42 +261,42 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             return target;
         }
 
-        private static IExpression WrapFull(IExpression exprB, CSharpOperatorPrecedences targetPrecedence)
+        private static IExpression WrapFull(IExpression targetExpression, CSharpOperatorPrecedences targetPrecedence)
         {
-            CSharpOperatorPrecedences currentPrecedence = exprB.GetPrecedence();
+            CSharpOperatorPrecedences currentPrecedence = targetExpression.GetPrecedence();
             if (currentPrecedence == targetPrecedence)
-                return exprB;
+                return targetExpression;
             switch (currentPrecedence)
             {
                 case CSharpOperatorPrecedences.ConditionalOperation:
-                    return new CSharpAssignExpression(((ICSharpConditionalExpression)(exprB)));
+                    return new CSharpAssignExpression(((ICSharpConditionalExpression)(targetExpression)));
                 case CSharpOperatorPrecedences.LogicalOrOperation:
-                    return new CSharpConditionalExpression((ICSharpLogicalOrExpression)exprB);
+                    return new CSharpConditionalExpression((ICSharpLogicalOrExpression)targetExpression);
                 case CSharpOperatorPrecedences.LogicalAndOperation:
-                    return WrapFull(new CSharpLogicalOrExpression(((ICSharpLogicalAndExpression)(exprB))), targetPrecedence);
+                    return WrapFull(new CSharpLogicalOrExpression(((ICSharpLogicalAndExpression)(targetExpression))), targetPrecedence);
                 case CSharpOperatorPrecedences.BitwiseOrOperation:
-                    return WrapFull(new CSharpLogicalAndExpression(((ICSharpBitwiseOrExpression)(exprB))), targetPrecedence);
+                    return WrapFull(new CSharpLogicalAndExpression(((ICSharpBitwiseOrExpression)(targetExpression))), targetPrecedence);
                 case CSharpOperatorPrecedences.BitwiseExclusiveOrOperation:
-                    return WrapFull(new CSharpBitwiseOrExpression(((ICSharpBitwiseExclusiveOrExpression)(exprB))), targetPrecedence);
+                    return WrapFull(new CSharpBitwiseOrExpression(((ICSharpBitwiseExclusiveOrExpression)(targetExpression))), targetPrecedence);
                 case CSharpOperatorPrecedences.BitwiseAndOperation:
-                    return WrapFull(new CSharpBitwiseExclusiveOrExpression(((ICSharpBitwiseAndExpression)(exprB))), targetPrecedence);
+                    return WrapFull(new CSharpBitwiseExclusiveOrExpression(((ICSharpBitwiseAndExpression)(targetExpression))), targetPrecedence);
                 case CSharpOperatorPrecedences.InequalityOperation:
-                    return WrapFull(new CSharpBitwiseAndExpression(((ICSharpInequalityExpression)(exprB))), targetPrecedence);
+                    return WrapFull(new CSharpBitwiseAndExpression(((ICSharpInequalityExpression)(targetExpression))), targetPrecedence);
                 case CSharpOperatorPrecedences.RelationalOperation:
-                    return WrapFull(new CSharpInequalityExpression((ICSharpRelationalExpression)exprB), targetPrecedence);
+                    return WrapFull(new CSharpInequalityExpression((ICSharpRelationalExpression)targetExpression), targetPrecedence);
                 case CSharpOperatorPrecedences.ShiftOperation:
-                    return WrapFull(new CSharpRelationalExpression((ICSharpShiftExpression)exprB), targetPrecedence);
+                    return WrapFull(new CSharpRelationalExpression((ICSharpShiftExpression)targetExpression), targetPrecedence);
                 case CSharpOperatorPrecedences.AddSubtOperation:
-                    return WrapFull(new CSharpShiftExpression((ICSharpAddSubtExpression)exprB), targetPrecedence);
+                    return WrapFull(new CSharpShiftExpression((ICSharpAddSubtExpression)targetExpression), targetPrecedence);
                 case CSharpOperatorPrecedences.MulDivOperation:
-                    return WrapFull(new CSharpAddSubtExpression((ICSharpMulDivExpression)exprB), targetPrecedence);
+                    return WrapFull(new CSharpAddSubtExpression((ICSharpMulDivExpression)targetExpression), targetPrecedence);
                 case CSharpOperatorPrecedences.UnaryOperation:
-                    return WrapFull(new CSharpMulDivExpression((IUnaryOperationExpression)exprB), targetPrecedence);
+                    return WrapFull(new CSharpMulDivExpression((IUnaryOperationExpression)targetExpression), targetPrecedence);
                 case CSharpOperatorPrecedences.UnaryTerm:
-                    return WrapFull(new UnaryOperationExpression((IUnaryOperationPrimaryTerm)exprB), targetPrecedence);
+                    return WrapFull(new UnaryOperationExpression((IUnaryOperationPrimaryTerm)targetExpression), targetPrecedence);
                 case CSharpOperatorPrecedences.AssignmentOperation:
                 default:
-                    throw new ArgumentException("Cannot have a precedence level below Assign.", "exprB");
+                    throw new ArgumentException("Cannot have a precedence level below Assign.", "targetExpression");
             }
         }
 

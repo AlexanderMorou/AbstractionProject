@@ -926,5 +926,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             return GetTypeParentDeclarations(this);
         }
+
+        protected override TType OnMakeGenericClosure(ITypeCollectionBase typeParameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override TypeKind TypeImpl
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public override IEnumerable<string> AggregateIdentifiers
+        {
+            get {
+                return (from memberName in (this.Members as LockedFullMembersBase).GetAggregateIdentifiers()
+                        select memberName).Concat(
+                        from typeName in (this.Types as CompiledFullTypeDictionary).GetAggregateIdentifiers()
+                        select typeName);
+            }
+        }
     }
 }

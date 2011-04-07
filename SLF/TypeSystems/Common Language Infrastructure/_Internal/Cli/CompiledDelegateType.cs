@@ -138,5 +138,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get { return TypeKind.Delegate; }
         }
+
+        public override IEnumerable<string> AggregateIdentifiers
+        {
+            get { return EmptyIdentifiers; }
+        }
     }
 }

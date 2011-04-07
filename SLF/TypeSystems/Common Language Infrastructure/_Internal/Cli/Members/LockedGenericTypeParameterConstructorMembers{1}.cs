@@ -31,9 +31,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
     {
         private ConstructorInfo[] seriesData;
         public LockedGenericTypeParameterConstructorMembers(LockedFullMembersBase master, ICompiledGenericTypeParameter<TType> parent, ConstructorInfo[] seriesData, Func<ConstructorInfo, IGenericParameterConstructorMember<IGenericTypeParameter<TType>>> fetchImpl)
-            : base(master, parent, seriesData, fetchImpl)
+            : base(master, parent, seriesData, fetchImpl, GetName)
         {
             this.seriesData = seriesData;
+        }
+
+        private static string GetName(ConstructorInfo target)
+        {
+            //Constructors aren't called via their name, calling convention is specialized.
+            return null;
         }
 
         #region ICompiledGenericTypeGenericConstructorMembers<TType> Members

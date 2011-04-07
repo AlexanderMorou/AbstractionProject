@@ -11,7 +11,12 @@ using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Utilities.Common;
 using System.Reflection;
+using System.Linq;
 using System.Reflection.Emit;
+using dyn = System.Dynamic;
+using exp = System.Linq.Expressions;
+using AllenCopeland.Abstraction.Slf.Linkers;
+using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -24,9 +29,16 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
     {
         internal static void Main(string[] args)
         {
+            
             Action wftAction = WindowsFormsTest;
-            Console.WriteLine("Time elapsed for test (1): {0}", wftAction.TimeAction());
-            Console.WriteLine("Time elapsed for test (2): {0}", wftAction.TimeAction());
+            Func<TimeSpan> wftTimedAction = () => wftAction.TimeAction();
+            Action printAll = () => typeof(int).Assembly.GetAssemblyReference().Namespaces["System.Collections.Generic"].AggregateIdentifiers.OnAll((a) => { a.ToString(); });
+            Func<TimeSpan> printAllTimedAction = () => printAll.TimeAction();
+            Console.WriteLine("Time elapsed for iteration test (1): {0}", printAllTimedAction());
+            Console.WriteLine("Time elapsed for test (1): {0}", wftTimedAction());
+            CLIGateway.ClearCache();
+            Console.WriteLine("Time elapsed for iteration test (2): {0}", printAllTimedAction());
+            Console.WriteLine("Time elapsed for test (2): {0}", wftTimedAction());
         }
 
 
@@ -35,9 +47,9 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             //Create the assembly and define its output type.
             var testAssembly = IntermediateGateway.CreateAssembly("WindowsFormsTest");
             testAssembly.References.Add(typeof(int).Assembly.GetAssemblyReference());
-            testAssembly.References.Add(typeof(Form).Assembly.GetAssemblyReference());
-            testAssembly.References.Add(typeof(System.Linq.Queryable).Assembly.GetAssemblyReference());
-            testAssembly.CompilationContext.OutputType = AssemblyOutputType.WindowsApplication;
+            testAssembly.References.Add(typeof(Form).Assembly.GetAssemblyReference(), "forms", AssemblyReferenceCollection.DefaultAlias);
+            testAssembly.References.Add(typeof(Queryable).Assembly.GetAssemblyReference());
+            testAssembly.CompilationContext.OutputType = AssemblyOutputType.WinFormsApplication;
 
             //Define the assembly's default namespace.
             testAssembly.DefaultNamespace = testAssembly.Namespaces.Add("WindowsFormsApplication1");
@@ -77,12 +89,10 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             mdClickMeClick.Call("Close");
 
             var mdInitializeComponent = CreateInitializeComponentMethod(mainDialogDesigner, mdClickMeButton, mdClickMeClick);
-
             //private MainDialog() {
             var mdCtor = mainDialog.Constructors.Add();
             //this.InitializeComponent();
             mdCtor.Call(mdInitializeComponent.GetReference());
-            
             //}
 
         }
@@ -109,7 +119,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
         private static IIntermediateClassMethodMember CreateInitializeComponentMethod(IIntermediateClassType mainDialogDesigner, IIntermediateClassFieldMember mdClickMeButton, IIntermediateClassMethodMember mdClickMeClick)
         {
-            var thisReference = new SpecialReferenceExpression(SpecialReferenceKind.This);
+            var thisReference = mainDialogDesigner.GetThis();
             //private void InitializeComponent() {
             var mdInitializeComponent = mainDialogDesigner.Methods.Add("InitializeComponent");
             mdInitializeComponent.AccessLevel = AccessLevelModifiers.Private;
@@ -157,14 +167,16 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             mdInitializeComponent.Assign(thisReference.GetProperty("Name"), "MainDialog".ToPrimitive());
             //this.Text = "Windows Forms Test";
             mdInitializeComponent.Assign(thisReference.GetProperty("Text"), "Windows Forms Test".ToPrimitive());
-
+            
             //ResumeLayout();
             mdInitializeComponent.Call("ResumeLayout");
             return mdInitializeComponent;
+            
         }
     }
 }
 /*               Split view reference line.  139 Visible Characters.  Visual Studio doesn't persist this information. :(                */
+/*               Split view reference line.  166 Visible Characters.  When the solution explorer is hidden from view.                                             */
 /* *
  * Identity Resolution.
  * Rewrites

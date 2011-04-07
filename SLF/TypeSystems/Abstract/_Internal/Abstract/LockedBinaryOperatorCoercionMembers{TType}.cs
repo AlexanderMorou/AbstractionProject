@@ -20,9 +20,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             ICoercibleType<TCoercionParent>
     {
         public LockedBinaryOperatorCoercionMembers(LockedFullMembersBase master, TCoercionParent parent, MethodInfo[] sourceData, Func<MethodInfo, IBinaryOperatorCoercionMember<TCoercionParent>> fetchImpl)
-            : base(master, parent, sourceData, fetchImpl)
+            : base(master, parent, sourceData, fetchImpl, GetName)
         {
         }
+
+        private static string GetName(MethodInfo method)
+        {
+            return null;
+        }
+
         public LockedBinaryOperatorCoercionMembers(LockedFullMembersBase master, TCoercionParent parent)
             : base(master, parent)
         {

@@ -294,5 +294,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         {
             return null;
         }
+
+        public override IEnumerable<string> AggregateIdentifiers
+        {
+            get { return EmptyIdentifiers; }
+        }
     }
 }

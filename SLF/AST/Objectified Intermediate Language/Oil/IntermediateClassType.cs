@@ -341,15 +341,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get
             {
-                return this.baseType;
+                if (this.IsRoot)
+                    return this.baseType;
+                else
+                    return this.GetRoot().BaseType;
             }
             set
             {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                if (value.Type == TypeKind.Dynamic)
-                    throw new ArgumentOutOfRangeException("value", "Cannot have a dynamic type base.");
-                this.baseType = value;
+                if (this.IsRoot)
+                {
+                    if (value == null)
+                        throw new ArgumentNullException("value");
+                    if (value.Type == TypeKind.Dynamic)
+                        throw new ArgumentOutOfRangeException("value", "Cannot have a dynamic type base.");
+                    this.baseType = value;
+                }
+                else
+                    this.GetRoot().BaseType = value;
             }
         }
 

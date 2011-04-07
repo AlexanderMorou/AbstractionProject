@@ -424,5 +424,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         }
 
         #endregion
+
+        public override IEnumerable<string> AggregateIdentifiers
+        {
+            get { return this.Original.AggregateIdentifiers; }
+        }
     }
 }

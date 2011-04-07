@@ -820,6 +820,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region ITypeParent Members
 
+
+        public IEnumerable<string> AggregateIdentifiers
+        {
+            get { return this.StatementContainer.AggregateIdentifiers; }
+        }
+
         IClassTypeDictionary ITypeParent.Classes
         {
             get { return this.Classes; }

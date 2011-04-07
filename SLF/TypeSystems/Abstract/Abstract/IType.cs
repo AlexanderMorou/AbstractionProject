@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
-using AllenCopeland.Abstraction.Slf.Linkers;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -19,7 +18,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Defines properties and methods for working with a type.
     /// </summary>
     public interface IType :
-        INamespaceAggregateIdentityNode,
         IEquatable<IType>,
         ICustomAttributedDeclaration,
         IScopedDeclaration
@@ -188,5 +186,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <see cref="IType"/>.
         /// </summary>
         IEnumerable<IDeclaration> Declarations { get; }
+
+        /// <summary>
+        /// Returns a series of string values which relate to the 
+        /// identifiers contained within the <see cref="IType"/>.
+        /// </summary>
+        IEnumerable<string> AggregateIdentifiers { get; }
     }
 }

@@ -500,5 +500,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
+        public override IEnumerable<string> AggregateIdentifiers
+        {
+            get { throw new NotImplementedException(); }
+        }
+
     }
 }

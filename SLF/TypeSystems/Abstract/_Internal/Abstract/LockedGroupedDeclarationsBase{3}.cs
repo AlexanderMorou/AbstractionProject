@@ -57,6 +57,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         private int state;
         private TSourceItem[] sourceData;
         private Func<TSourceItem, TItem> fetchImpl;
+        private Func<TSourceItem, string> nameImpl; 
         protected abstract string FetchKey(TSourceItem item);
 
         protected TItem Fetch(TSourceItem item)
@@ -66,13 +67,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             return fetchImpl(item);
         }
 
-        protected LockedGroupedDeclarationsBase(MasterDictionaryBase<string, TMItem> master, TSourceItem[] sourceData, Func<TSourceItem, TItem> fetchImpl)
+        protected LockedGroupedDeclarationsBase(MasterDictionaryBase<string, TMItem> master, TSourceItem[] sourceData, Func<TSourceItem, TItem> fetchImpl, Func<TSourceItem, string> nameImpl)
             : base(master)
         {
             this.state = USE_FETCH;
             this.sourceData = sourceData;
             this.fetchImpl = fetchImpl;
             ((_LockedRelativeHelper<TMItem>)master).RelateSubordinateMembers<TItem, TSourceItem>(sourceData, this);
+            this.nameImpl = nameImpl;
         }
 
         /// <summary>
@@ -225,6 +227,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             throw new ArgumentOutOfRangeException("source");
         }
 
+        string _LockedGroupDeclarationsMasterPass.FetchName(object source)
+        {
+            if (source is TSourceItem)
+                return nameImpl((TSourceItem)source);
+            else
+                return null;
+        }
         #endregion
 
         protected override ControlledStateDictionary<string, TItem>.KeysCollection InitializeKeysCollection()
@@ -333,5 +342,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             }
             return -1;
         }
+
     }
 }

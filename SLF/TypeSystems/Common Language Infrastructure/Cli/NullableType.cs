@@ -39,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         private ByRefType byRef;
         private ICustomAttributeCollection customAttributes;
         private static INamespaceDeclaration @namespace;
-
+        private IGenericType actualType;
         /// <summary>
         /// Creates a new <see cref="NullableType"/> with the 
         /// given <paramref name="elementType"/>.
@@ -261,9 +261,25 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         private IFullMemberDictionary InitializeMembers()
         {
-            IGenericType u = (IGenericType)typeof(Nullable<>).GetTypeReference();
-            u = u.MakeGenericClosure(this.elementType);
-            return u.Members;
+            this.ActualTypeCheck();
+            return this.actualType.Members;
+        }
+
+        private void ActualTypeCheck()
+        {
+            if (this.actualType != null)
+            {
+                this.actualType = ((IGenericType)(typeof(Nullable<>).GetTypeReference()))
+                    .MakeGenericClosure(this.elementType);
+            }
+        }
+
+        public IEnumerable<string> AggregateIdentifiers
+        {
+            get {
+                this.ActualTypeCheck();
+                return this.actualType.AggregateIdentifiers;
+            }
         }
         #endregion
 
@@ -300,6 +316,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                     this.customAttributes.Dispose();
                     this.customAttributes = null;
                 }
+                if (this.actualType != null)
+                    this.actualType = null;
                 this.members = null;
                 this.elementType = null;
             }

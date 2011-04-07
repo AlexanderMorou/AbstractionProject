@@ -30,8 +30,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         }
 
         public LockedFieldMembersBase(LockedFullMembersBase master, TFieldParent parent, FieldInfo[] sourceData, Func<FieldInfo, TField> fetchImpl)
-            : base(master, parent, sourceData, fetchImpl)
+            : base(master, parent, sourceData, fetchImpl, GetName)
         {
+        }
+
+        private static string GetName(FieldInfo field)
+        {
+            return field.Name;
         }
 
         public LockedFieldMembersBase(LockedFullMembersBase master, TFieldParent parent)

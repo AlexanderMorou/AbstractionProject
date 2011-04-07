@@ -353,5 +353,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
+
+        public override IEnumerable<string> AggregateIdentifiers
+        {
+            get {
+                return this.GetAggregateIdentifiers();
+            }
+        }
     }
 }

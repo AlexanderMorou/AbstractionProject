@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         ICustomAttributedDeclaration
     {
         internal static IEnumerable<IDeclaration> EmptyDeclarations = GetEmptyDeclarations();
-
+        internal static IEnumerable<string> EmptyIdentifiers = GetEmptyIdentifiers();
         /// <summary>
         /// Data member for <see cref="CustomAttributes"/>.
         /// </summary>
@@ -599,6 +599,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 yield return member.Entry;
         }
 
+        private static IEnumerable<string> GetEmptyIdentifiers()
+        {
+            yield break;
+        }
+
         private static IEnumerable<IDeclaration> GetEmptyDeclarations()
         {
             yield break;
@@ -614,5 +619,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             foreach (var member in parent.Members.Values)
                 yield return member.Entry;
         }
+
+        /// <summary>
+        /// Returns a series of string values which relate to the 
+        /// identifiers contained within the <see cref="IType"/>.
+        /// </summary>
+        public abstract IEnumerable<string> AggregateIdentifiers { get; }
     }
 }

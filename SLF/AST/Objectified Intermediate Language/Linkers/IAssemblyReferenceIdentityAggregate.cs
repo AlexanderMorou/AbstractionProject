@@ -12,7 +12,8 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
     /// a series of referenced assemblies.
     /// </summary>
     public interface IAssemblyReferenceIdentityAggregate :
-        INamespaceAggregate
+        IAggregateIdentityNode,
+        IDisposable
     {
         /// <summary>
         /// Returns the series of <see cref="String"/> values which 
@@ -30,6 +31,5 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// assembly namespace identities are aggregated from.
         /// </summary>
         IAssemblyReferenceCollection IdentitySource { get; }
-
     }
 }

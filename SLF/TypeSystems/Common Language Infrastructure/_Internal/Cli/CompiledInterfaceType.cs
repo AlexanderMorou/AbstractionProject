@@ -445,5 +445,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             return GetTypeParentDeclarations(this);
         }
+
+        public override IEnumerable<string> AggregateIdentifiers
+        {
+            get
+            {
+                return (from memberName in (this.Members as LockedFullMembersBase).GetAggregateIdentifiers()
+                        select memberName).Concat(
+                        from typeName in (this.Types as CompiledFullTypeDictionary).GetAggregateIdentifiers()
+                        select typeName).Distinct();
+            }
+        }
     }
 }

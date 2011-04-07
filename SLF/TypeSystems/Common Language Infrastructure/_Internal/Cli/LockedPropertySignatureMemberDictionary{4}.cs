@@ -26,9 +26,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IPropertySignatureParentType<TProperty, TPropertyParent>
     {
         internal LockedPropertySignatureMemberDictionary(LockedFullMembersBase master, TPropertyParent parent, PropertyInfo[] properties, Func<PropertyInfo, TProperty> fetchImpl)
-            : base(master, parent, properties, fetchImpl)
+            : base(master, parent, properties, fetchImpl, GetName)
         {
         }
+
+        private static string GetName(PropertyInfo property)
+        {
+            return property.Name;
+        }
+
         protected override string FetchKey(PropertyInfo item)
         {
             return item.GetUniqueIdentifier();

@@ -19,8 +19,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             ICoercibleType<ITypeCoercionMember<TCoercionParent>, TCoercionParent>
     {
         public LockedTypeCoercionMemberDictionary(LockedFullMembersBase master, TCoercionParent parent, MethodInfo[] sourceData, Func<MethodInfo, ITypeCoercionMember<TCoercionParent>> fetchImpl)
-            : base(master, parent, sourceData, fetchImpl)
+            : base(master, parent, sourceData, fetchImpl, GetName)
         {
+        }
+
+        private static string GetName(MethodInfo method)
+        {
+            //Type coercion members have special resolution mechanics.
+            return null;
         }
 
         protected override string FetchKey(MethodInfo item)

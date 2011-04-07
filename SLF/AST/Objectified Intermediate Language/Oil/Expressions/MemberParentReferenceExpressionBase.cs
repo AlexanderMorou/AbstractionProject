@@ -337,6 +337,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         */
         #endregion
 
+        /// <summary>
+        /// Returns whether the current type associated to the
+        /// member parent reference enables static-only 
+        /// light lookup.
+        /// </summary>
         protected virtual bool IsStaticTarget { get { return false; } }
 
         protected virtual MemberParentReferenceExpressionBase ObtainRelativeGetMemberTarget()

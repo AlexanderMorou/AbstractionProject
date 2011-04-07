@@ -26,7 +26,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         private int state;
         private _KeysCollection _fetchKeys;
         private _ValuesCollection _fetchValues;
-
         private List<MasterDictionaryEntry<object>> sourceData;
         /// <summary>
         /// Creates a new <see cref="LockedFullDeclarations{TMItem}"/> 
@@ -169,5 +168,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         }
 
         #endregion
+
+        internal IEnumerable<string> GetAggregateIdentifiers()
+        {
+            return from me in this.sourceData
+                   where me.Entry != null
+                   select (string)(((_LockedGroupDeclarationsMasterPass)(me.Subordinate)).FetchName(me.Entry)).Distinct();
+        }
     }
 }

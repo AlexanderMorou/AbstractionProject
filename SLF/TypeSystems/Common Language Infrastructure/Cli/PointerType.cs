@@ -36,6 +36,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         #region IType Members
 
+        public IEnumerable<string> AggregateIdentifiers
+        {
+            get { return TypeBase.EmptyIdentifiers; }
+        }
+
         public IEnumerable<IDeclaration> Declarations
         {
             get { return TypeBase.EmptyDeclarations; }

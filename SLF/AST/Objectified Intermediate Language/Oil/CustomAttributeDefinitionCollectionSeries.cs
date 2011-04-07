@@ -133,7 +133,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        public TAttribute GetAttributeInstance<TAttribute>() where TAttribute : Attribute
+        public TAttribute GetAttributeInstance<TAttribute>() 
+            where TAttribute :
+                Attribute
         {
             IType k = typeof(TAttribute).GetTypeReference();
             if (!this.Contains(k))

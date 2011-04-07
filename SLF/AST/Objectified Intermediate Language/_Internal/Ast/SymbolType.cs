@@ -449,5 +449,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         public LineColumnPair? End { get; set; }
 
         #endregion
+
+        public override IEnumerable<string> AggregateIdentifiers
+        {
+            get { return TypeBase.EmptyIdentifiers; }
+        }
     }
 }

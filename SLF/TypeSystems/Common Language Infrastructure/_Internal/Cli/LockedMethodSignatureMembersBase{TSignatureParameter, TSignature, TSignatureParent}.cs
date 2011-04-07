@@ -91,8 +91,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         /// which is used to instantiate <typeparamref name="TSignature"/> instances
         /// from <see cref="MethodInfo"/> stock to propagate the <see cref="LockedMethodSignatureMembersBase{TSignatureParameter, TSignature, TSignatureParent}"/>.</param>
         internal LockedMethodSignatureMembersBase(LockedFullMembersBase master, TSignatureParent parent, MethodInfo[] seriesData, Func<MethodInfo, TSignature> fetchImpl) :
-            base(master, parent, seriesData, fetchImpl)
+            base(master, parent, seriesData, fetchImpl, GetName)
         {
+        }
+
+        private static string GetName(MethodInfo method)
+        {
+            if (method.IsGenericMethod)
+                return method.Name.Substring(0, method.Name.LastIndexOf('`'));
+            return method.Name;
         }
 
         #region IMethodSignatureMemberDictionary<TSignatureParameter,TSignature,TSignatureParent> Members

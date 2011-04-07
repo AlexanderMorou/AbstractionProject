@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -170,6 +171,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public override void Visit(IIntermediateTypeVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        public override IEnumerable<string> AggregateIdentifiers
+        {
+            get {
+                return from f in this.Fields.Values
+                       select f.Name;
+            }
         }
     }
 }
