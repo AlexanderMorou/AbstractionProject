@@ -83,7 +83,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (this.valuesInstance != null)
                 ((_ValuesCollection)this.Values).Dispose();
             this.baseData = null;
-            base.Dispose();
         }
         public override void CopyTo(KeyValuePair<string, INamespaceDeclaration>[] array, int arrayIndex)
         {

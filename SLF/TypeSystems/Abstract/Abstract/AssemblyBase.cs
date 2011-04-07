@@ -1,5 +1,7 @@
 ﻿using System;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
+using System.Collections.Generic;
+using System.Linq;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -138,6 +140,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         #endregion
 
         #region ITypeParent Members
+
+        public abstract IEnumerable<string> AggregateIdentifiers { get; }
 
         /// <summary>
         /// Returns the <see cref="IClassTypeDictionary"/> associated

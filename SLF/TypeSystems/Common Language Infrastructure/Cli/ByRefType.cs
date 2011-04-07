@@ -164,7 +164,13 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 return null;
             }
         }
-
+        public IEnumerable<string> AggregateIdentifiers
+        {
+            get
+            {
+                yield break;
+            }
+        }
         public IType BaseType
         {
             get { return null; }

@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -47,7 +48,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// and will be instanced by the parts helper class.</typeparam>
     public abstract partial class IntermediateGenericSegmentableInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType> :
         IntermediateGenericSegmentableParentType<TType, TIntermediateType, TInstanceIntermediateType>,
-        IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType>
+        IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType>,
+        IIntermediateInstantiableType
         where TCtor :
             IConstructorMember<TCtor, TType>
         where TIntermediateCtor :
@@ -906,6 +908,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
        
         #region IIntermediateInstantiableType Members
+        private IBoundSpecialReferenceExpression thisReference;
+        public IBoundSpecialReferenceExpression GetThis()
+        {
+            if (this.thisReference == null)
+                this.thisReference = new BoundSpecialReferenceExpression(this, SpecialReferenceKind.This);
+            return this.thisReference;
+        }
 
         public void SuspendDualLayout()
         {
@@ -970,6 +979,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 if (dispose)
                 {
+                    if (this.thisReference != null)
+                        this.thisReference.Dispose();
                     if (this.binaryOperatorCoercions != null)
                         this.binaryOperatorCoercions.Dispose();
                     if (this.constructors != null)

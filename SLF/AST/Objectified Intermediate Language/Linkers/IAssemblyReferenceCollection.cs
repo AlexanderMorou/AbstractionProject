@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using System.Linq;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -17,7 +18,8 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
     /// </summary>
     public interface IAssemblyReferenceCollection :
         IControlledStateCollection<IAssemblyReference>,
-        IProtectableComponent
+        IProtectableComponent,
+        IDisposable
     {
         /// <summary>
         /// Adds an <paramref name="assembly"/> to the <see cref="IAssemblyReferenceCollection"/>.
@@ -95,6 +97,24 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// referenced by the <see cref="IAssemblyReferenceCollection"/>
         /// as noted by the individual aliases declared on the references.</returns>
         IAssemblyReferenceAliasAggregate GetRootNamespaceAggregate();
+
+        /// <summary>
+        /// Returns an <see cref="IEnumerable{T}"/> of the referenced
+        /// assemblies.
+        /// </summary>
+        IEnumerable<IAssembly> ReferencedAssemblies { get; }
+
+        /// <summary>
+        /// Returns an <see cref="IEnumerable{T}"/> of the alises used
+        /// across all references.
+        /// </summary>
+        IEnumerable<string> Aliases { get; }
+
+        /// <summary>
+        /// Returns the references within the current <see cref="IAssemblyReferenceCollection"/>
+        /// grouped by their alias.
+        /// </summary>
+        IEnumerable<IGrouping<string, IAssemblyReference>> ReferencesByAlias { get; }
     }
 
 }

@@ -9,6 +9,10 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Linkers
 {
+    /// <summary>
+    /// Defines properties and methods for working with a reference
+    /// to an assembly.
+    /// </summary>
     public interface IAssemblyReference 
     {
         /// <summary>

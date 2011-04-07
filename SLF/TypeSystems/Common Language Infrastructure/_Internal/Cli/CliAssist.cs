@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Utilities.Arrays;
+using AllenCopeland.Abstraction.Slf.Abstract;
 /*----------------------------------------\
 | Copyright © 2011 Allen Copeland Jr.     |
 |-----------------------------------------|
@@ -29,12 +30,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     }
     internal static class CliAssist
     {
+
+        private static Dictionary<Type, AttributeUsage> attributeUsageCache;
+
         static CliAssist()
         {
             attributeUsageCache = new Dictionary<Type, AttributeUsage>();
         }
-
-        private static Dictionary<Type, AttributeUsage> attributeUsageCache;
         /// <summary>
         /// Obtains the usage information on an attribute.
         /// </summary>
@@ -66,6 +68,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 attributeUsageCache.Add(attr, result);
                 return result;
             }
+        }
+
+        public static IEnumerable<string> GetAggregateIdentifiers(this INamespaceParent target)
+        {
+            return (target.Types as CompiledFullTypeDictionary).GetAggregateIdentifiers().Concat(
+                from @namespace in target.Namespaces.Values
+                select @namespace.Name).Distinct();
         }
 
         public static Dictionary<Attribute, Type> GetHierarchicalMap(Type t)

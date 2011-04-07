@@ -65,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
 
         /// <summary>
         /// Returns the fixed <see cref="ICompilationContext"/> associated to the
-        /// current <see cref="MalleableContext"/>.
+        /// current <see cref="MalleableCompilationContext"/>.
         /// </summary>
         /// <returns>A <see cref="ICompilationContext"/>
         /// whose members cannot be changed.</returns>

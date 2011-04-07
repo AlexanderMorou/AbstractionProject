@@ -1,4 +1,5 @@
-﻿/*---------------------------------------------------------------------\
+﻿using System.Collections.Generic;
+ /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
@@ -18,5 +19,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         ITypeParent,
         IMethodParent
     {
+        /// <summary>
+        /// Returns a series of string values which relate to the 
+        /// identifiers contained within the <see cref="IInstantiableType"/>
+        /// </summary>
+        new IEnumerable<string> AggregateIdentifiers { get; }
     }
 }

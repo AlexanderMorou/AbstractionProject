@@ -98,6 +98,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return this.Original;
         }
 
+        
+        public override IEnumerable<string> AggregateIdentifiers
+        {
+            get { return this.Original.AggregateIdentifiers; }
+        }
+
         #region IGenericType<TType> Members
 
         public TType MakeGenericClosure(ITypeCollectionBase typeParameters)

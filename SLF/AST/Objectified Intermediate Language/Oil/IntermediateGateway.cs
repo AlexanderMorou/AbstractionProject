@@ -529,6 +529,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return ((IClassFieldMember)target).GetFieldReference<IClassFieldMember, IClassType>(source);
             else if (targetParent is IStructType)
                 return ((IStructFieldMember)target).GetFieldReference<IStructFieldMember, IStructType>(source);
+            else if (targetParent is IEnumType)
+                return ((IEnumFieldMember)target).GetFieldReference<IEnumFieldMember, IEnumType>(source);
             else
                 return new FieldReferenceExpression(target.Name, source);
         }
@@ -838,6 +840,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public static ICreateInstanceExpression GetNewExpression(this Type target, params IExpression[] parameters)
         {
             return target.GetTypeReference().GetNew(parameters);
+        }
+
+        internal static IEnumerable<string> GetTypeNames(this IIntermediateFullTypeDictionary types)
+        {
+            return (from type in types.Values
+                    select type.Entry.Name).Distinct();
+        }
+
+        internal static IEnumerable<string> GetNamespaceNames(this IIntermediateNamespaceDictionary namespaces)
+        {
+            return (from @namespace in namespaces.Values
+                    select @namespace.Name);
+        }
+
+        internal static IEnumerable<string> GetNamespaceParentIdentifiers(this IIntermediateNamespaceParent parent)
+        {
+            return (parent.Namespaces.GetNamespaceNames()).Concat(parent.Types.GetTypeNames()).Distinct();
         }
     }
 }

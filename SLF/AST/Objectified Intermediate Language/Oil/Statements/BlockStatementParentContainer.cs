@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
@@ -758,7 +759,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
             get { return this.Assembly; }
         }
 
-
+        public IEnumerable<string> AggregateIdentifiers
+        {
+            get {
+                return (from type in this.Types.Values
+                        select type.Entry.Name).Distinct();
+            }
+        }
         #endregion
 
         #region Member Check Methods

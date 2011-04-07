@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using AllenCopeland.Abstraction.Slf.Abstract;
@@ -705,6 +706,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 else
                     return this.GetRoot().CompilationContext;
             }
+        }
+
+        public override IEnumerable<string> AggregateIdentifiers
+        {
+            get { return this.GetNamespaceParentIdentifiers(); }
         }
     }
 }

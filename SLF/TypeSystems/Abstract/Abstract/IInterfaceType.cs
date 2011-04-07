@@ -25,5 +25,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IReferenceType,
         ITypeParent
     {
+        /// <summary>
+        /// Returns a series of string values which relate to the 
+        /// identifiers contained within the <see cref="IInterfaceType"/>
+        /// </summary>
+        new IEnumerable<string> AggregateIdentifiers { get; }
     }
 }

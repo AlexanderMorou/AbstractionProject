@@ -40,14 +40,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         {
         }
 
-        protected LockedSignatureMembersBase(LockedFullMembersBase master, TSourceItem[] sourceData, Func<TSourceItem, TSignature> fetchImpl)
-            : base(master, sourceData, fetchImpl)
-        {
-        }
-
-
-        protected LockedSignatureMembersBase(LockedFullMembersBase master, TSignatureParent parent, TSourceItem[] sourceData, Func<TSourceItem, TSignature> fetchImpl)
-            : base(master, parent, sourceData, fetchImpl)
+        protected LockedSignatureMembersBase(LockedFullMembersBase master, TSignatureParent parent, TSourceItem[] sourceData, Func<TSourceItem, TSignature> fetchImpl, Func<TSourceItem, string> nameImpl)
+            : base(master, parent, sourceData, fetchImpl, nameImpl)
         {
         }
 

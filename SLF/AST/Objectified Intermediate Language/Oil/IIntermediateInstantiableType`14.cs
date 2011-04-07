@@ -4,6 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -110,5 +111,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// has had its duality suspended.
         /// </summary>
         bool Suspended { get; }
+        /// <summary>
+        /// Returns a <see cref="IBoundSpecialReferenceExpression"/>
+        /// relative to the current type as an instance.
+        /// </summary>
+        /// <returns>A <see cref="IBoundSpecialReferenceExpression"/>
+        /// which is bound to the current <see cref="IIntermediateInstantiableType"/>.</returns>
+        IBoundSpecialReferenceExpression GetThis();
     }
 }

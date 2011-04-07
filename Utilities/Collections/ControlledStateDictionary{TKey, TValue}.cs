@@ -324,6 +324,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             this.locals._AddRange(elements);
         }
 
+        protected virtual void _AddRange(KeyValuePair<TKey, TValue>[] elements)
+        {
+            this.locals._AddRange(elements);
+        }
+
         protected internal bool _Remove(TKey key)
         {
             int index;

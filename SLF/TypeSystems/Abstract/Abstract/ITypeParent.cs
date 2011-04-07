@@ -51,5 +51,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Returns the assembly in which the type parent is contained.
         /// </summary>
         IAssembly Assembly { get; }
+        /// <summary>
+        /// Returns a series of string values which relate to the 
+        /// identifiers contained within the <see cref="ITypeParent"/>
+        /// </summary>
+        IEnumerable<string> AggregateIdentifiers { get; }
     }
 }

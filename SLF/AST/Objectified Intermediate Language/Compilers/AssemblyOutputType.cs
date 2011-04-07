@@ -25,8 +25,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// </summary>
         ConsoleApplication,
         /// <summary>
-        /// The manifest module is a windows application.
+        /// The manifest module is a windows forms application.
         /// </summary>
-        WindowsApplication,
+        WinFormsApplication,
     }
 }

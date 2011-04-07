@@ -33,12 +33,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             {
                 if (this.entries == null)
                 {
-                    this.entries = new KeyValuePair<TKey, TValue>[newCount];
+                    this.entries = new KeyValuePair<TKey, TValue>[Math.Max(newCount, 2)];
                     return;
                 }
                 if (this.entries.Length < newCount)
                 {
-                    lock (this.entries)
+                    lock (this.syncObject)
                     {
                         int doubleCount = Math.Max(this.orderings.Count * 2, 4);
                         KeyValuePair<TKey, TValue>[] newEntries = new KeyValuePair<TKey, TValue>[Math.Max(doubleCount, newCount)];
@@ -83,6 +83,26 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                     this.EnsureSpaceExists(this.Count + 1);
                     this.entries[this.Count] = item;
                     this.orderings.Add(item.Key, this.Count);
+                }
+            }
+
+            internal virtual void _AddRange(KeyValuePair<TKey, TValue>[] elements)
+            {
+                if (elements == null)
+                    throw new ArgumentNullException("elements");
+                if (elements.Length == 0)
+                    return;
+                lock (this.syncObject)
+                {
+                    EnsureSpaceExists(this.Count + elements.Length);
+                    int startingCount = this.Count;
+                    Parallel.For(0, elements.Length, i =>
+                    {
+                        var newitem = elements[i];
+                        this.entries[startingCount + i] = newitem;
+                        lock (orderings)
+                            this.orderings.Add(newitem.Key, startingCount + i);
+                    });
                 }
             }
 

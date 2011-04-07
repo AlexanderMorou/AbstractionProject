@@ -565,5 +565,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.structs.Resume();
         }
 
+        public IEnumerable<string> AggregateIdentifiers
+        {
+            get { return this.GetNamespaceParentIdentifiers(); }
+        }
     }
 }

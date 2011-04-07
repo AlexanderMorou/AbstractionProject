@@ -17,15 +17,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IFullDeclarationDictionary<IType>
     {
         /// <summary>
-        /// Returns a <see cref="IType"/> instance
-        /// by its name.
+        /// Returns a series of <see cref="IType"/> instances under a
+        /// common <paramref name="name"/> regardless of the number of
+        /// generic parameters contained within them.
         /// </summary>
-        /// <param name="typeName">The <see cref="String"/> value representing the types
-        /// name.</param>
-        /// <param name="typeParameterCount">The number of type-parameters in the 
-        /// generic type, zero if non-generic.</param>
-        /// <returns>A <see cref="IEnumerable{T}"/>
-        /// of the types which contain the <see cref="TypeName"/> provided.</returns>
-        IType FindTypeByName(string typeName, int typeParameterCount = 0);
+        /// <param name="name">The <see cref="String"/>
+        /// value of the type to return.</param>
+        /// <returns>An <see cref="IType"/> array relative to the
+        /// <paramref name="name"/> provided.</returns>
+        IType[] GetTypesByName(string name);
     }
 }

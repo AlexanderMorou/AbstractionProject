@@ -763,6 +763,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
+        public override IEnumerable<string> AggregateIdentifiers
+        {
+            get {
+                return (from member in this.Members.Values
+                        select member.Entry.Name).Distinct();
+            }
+        }
+
         public override void Visit(IIntermediateTypeVisitor visitor)
         {
             visitor.Visit(this);

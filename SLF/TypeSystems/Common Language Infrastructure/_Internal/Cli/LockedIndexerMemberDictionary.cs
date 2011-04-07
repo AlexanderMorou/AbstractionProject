@@ -27,8 +27,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IIndexerParent<TIndexer, TIndexerParent>
     {
         internal LockedIndexerMemberDictionary(LockedFullMembersBase master, TIndexerParent parent, PropertyInfo[] properties, Func<PropertyInfo, TIndexer> fetchImpl)
-            : base(master, parent, properties, fetchImpl)
+            : base(master, parent, properties, fetchImpl, GetName)
         {
+        }
+
+        private static string GetName(PropertyInfo indexer)
+        {
+            return indexer.Name;
         }
 
         protected override string FetchKey(PropertyInfo item)

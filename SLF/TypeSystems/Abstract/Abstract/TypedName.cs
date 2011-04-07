@@ -35,8 +35,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         InvalidReference,
     }
     /// <summary>
-    /// Provides a name (<see cref="String"/>) paired with a Reference (<see cref="IType"/>) or
-    /// Symbol (<see cref="String"/>).
+    /// Provides a name (<see cref="String"/>) paired with a Reference 
+    /// (<see cref="IType"/>) or Symbol (<see cref="String"/>).
     /// </summary>
     public struct TypedName :
         IEquatable<TypedName>
@@ -71,7 +71,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// which relates to the name of the <see cref="TypedName"/>.</param>
         /// <param name="reference">The <see cref="IType"/>
         /// which relates to the type of the <see cref="TypedName"/>.</param>
-        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> or <paramref name="reference"/> is null.</exception>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/>
+        /// or <paramref name="reference"/> is null.</exception>
         public TypedName(string name, IType reference)
             : this(name, reference, ParameterDirection.In)
         {
@@ -90,7 +91,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// symbol to be resolved immediately, such as creating a 
         /// generic method that uses a type-parameter that's referenced
         /// after the type-parameter is created.</remarks>
-        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> or <paramref name="reference"/> is null.</exception>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/>
+        /// or <paramref name="reference"/> is null.</exception>
         public TypedName(string name, string reference)
             : this(name, reference, ParameterDirection.In)
         {
@@ -114,8 +116,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// after the type-parameter is created.</para>
         /// <para>The <paramref name="direction"/> may be disposed
         /// of in cases where it does not apply.</para></remarks>
-        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> or <paramref name="reference"/> is null.</exception>
-        /// <exception cref="System.ArgumentOutOfRangeException">thrown when <paramref name="direction"/> is invalid.</exception>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> or 
+        /// <paramref name="reference"/> is null.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">thrown when 
+        /// <paramref name="direction"/> is invalid.</exception>
         public TypedName(string name, string reference, ParameterDirection direction)
         {
             switch (direction)

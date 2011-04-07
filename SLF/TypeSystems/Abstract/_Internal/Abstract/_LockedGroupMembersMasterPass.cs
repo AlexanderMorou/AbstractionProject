@@ -23,5 +23,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
     {
         IDeclaration Fetch(object source);
         string FetchKey(object source);
+        /// <summary>
+        /// Obtains the name of a given source object in an event to 
+        /// aggregate identifiers across a larger set.
+        /// </summary>
+        /// <param name="source">The <see cref="Object"/> on which
+        /// to source the name of.</param>
+        /// <returns>A <see cref="String"/> value relative to the 
+        /// name of the <paramref name="source"/>.</returns>
+        string FetchName(object source);
     }
 }

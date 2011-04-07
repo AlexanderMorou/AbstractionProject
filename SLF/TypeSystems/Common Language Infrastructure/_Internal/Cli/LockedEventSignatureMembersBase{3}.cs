@@ -29,10 +29,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             IEventSignatureParent<TEventSignature, TEventSignatureParameter, TEventSignatureParent>
     {
         internal LockedEventSignatureMembersBase(LockedFullMembersBase master, TEventSignatureParent parent, EventInfo[] sourceData, Func<EventInfo, TEventSignature> fetchImpl)
-            : base(master, parent, sourceData, fetchImpl)
+            : base(master, parent, sourceData, fetchImpl, GetName)
         {
         }
-
+        private static string GetName(EventInfo @event)
+        {
+            return @event.Name;
+        }
         internal LockedEventSignatureMembersBase(LockedFullMembersBase master, TEventSignatureParent parent)
             : base(master, parent)
         {

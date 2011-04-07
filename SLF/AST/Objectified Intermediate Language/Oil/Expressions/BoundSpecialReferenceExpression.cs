@@ -2,38 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
-    public class SpecialReferenceExpression :
+    public class BoundSpecialReferenceExpression :
         MemberParentReferenceExpressionBase,
-        IMalleableSpecialReferenceExpression
+        IBoundSpecialReferenceExpression
     {
-        public SpecialReferenceExpression(SpecialReferenceKind referenceKind)
+        internal BoundSpecialReferenceExpression(IType type, SpecialReferenceKind referenceKind)
         {
             this.Kind = referenceKind;
+            this.ReferenceType = type;
         }
 
-
-        #region ISpecialReferenceExpression Members
-
-        public SpecialReferenceKind Kind { get; set; }
-
-        #endregion
-
-        #region IExpression Members
-
-        public override ExpressionKinds Type
+        protected override Slf.Abstract.IType TypeLookupAid
         {
             get
             {
-                switch (Kind)
+                return this.ReferenceType;
+            }
+        }
+
+        public override ExpressionKinds Type
+        {
+            get {
+                switch (this.Kind)
                 {
                     case SpecialReferenceKind.Self:
                         return ExpressionKinds.SelfReference;
@@ -41,20 +35,41 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                         return ExpressionKinds.BaseReference;
                     case SpecialReferenceKind.This:
                         return ExpressionKinds.ThisReference;
-                    default:
-                        return ExpressionKinds.None;
                 }
+                throw new InvalidOperationException();
             }
         }
 
         public override void Visit(IExpressionVisitor visitor)
         {
-            if (visitor == null)
-                throw new ArgumentNullException("visitor");
             visitor.Visit(this);
         }
 
+        #region IBoundSpecialReferenceExpression Members
+
+        /// <summary>
+        /// Returns the <see cref="IType"/> associated to the special reference used for further
+        /// member binding.
+        /// </summary>
+        public IType ReferenceType { get; private set; }
+
         #endregion
+
+        #region ISpecialReferenceExpression Members
+
+        public SpecialReferenceKind Kind { get; private set; }
+
+        #endregion
+
+        #region IDisposable Members
+
+        public void Dispose()
+        {
+            this.ReferenceType = null;
+        }
+
+        #endregion
+
         public override string ToString()
         {
             switch (this.Kind)

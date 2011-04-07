@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf._Internal.Abstract;
+using System.Runtime.CompilerServices;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -126,17 +128,29 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         #region IFullTypeDictionary Members
-
-        public IType FindTypeByName(string typeName, int typeParameterCount = 0)
+        public IType[] GetTypesByName(string name)
         {
-            typeName = typeName + (typeParameterCount == 0 ? string.Empty : ("`" + typeParameterCount.ToString()));
-            if (this.Keys.Contains(typeName))
-                return this[typeName].Entry;
-            else
-                return null;
+            /* *
+             * Pick out the compiled types from the parent's type cache
+             * and use their actual names which will become the unique
+             * names used to refer to the types when retrieving them.
+             * */
+            return (from matchingName in
+                        (from t in this.parent.UnderlyingSystemTypes
+                         let typeName = t.IsGenericType ? t.Name.Substring(0, t.Name.LastIndexOf('`')) : t.Name
+                         where typeName == name
+                         select t.Name)
+                    select this[matchingName].Entry).ToArray();
         }
 
         #endregion
-
+        internal IEnumerable<String> GetAggregateIdentifiers()
+        {
+            return (from t in this.parent.UnderlyingSystemTypes
+                    let typeName = t.IsGenericType ? t.Name.Substring(0, t.Name.LastIndexOf('`')) : t.Name
+                    where !(t.IsDefined(typeof(CompilerGeneratedAttribute), true))
+                    where !string.IsNullOrEmpty(typeName)
+                    select typeName).Distinct();
+        }
     }
 }

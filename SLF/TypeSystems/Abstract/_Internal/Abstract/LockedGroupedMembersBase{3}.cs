@@ -37,13 +37,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         {
         }
 
-        protected LockedGroupedMembersBase(LockedFullMembersBase master, TSourceItem[] sourceData, Func<TSourceItem, TItem> fetchImpl)
-            : base(master, sourceData, fetchImpl)
-        {
-        }
-
-        protected LockedGroupedMembersBase(LockedFullMembersBase master, TParent parent, TSourceItem[] sourceData, Func<TSourceItem, TItem> fetchImpl)
-            : base(master, sourceData, fetchImpl)
+        protected LockedGroupedMembersBase(LockedFullMembersBase master, TParent parent, TSourceItem[] sourceData, Func<TSourceItem, TItem> fetchImpl, Func<TSourceItem, string> nameImpl)
+            : base(master, sourceData, fetchImpl, nameImpl)
         {
             this.parent = parent;
         }

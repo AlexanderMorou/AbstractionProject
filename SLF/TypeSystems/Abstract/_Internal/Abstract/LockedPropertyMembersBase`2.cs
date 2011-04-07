@@ -31,8 +31,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         }
 
         public LockedPropertyMembersBase(LockedFullMembersBase master, TPropertyParent parent, PropertyInfo[] seriesData, Func<PropertyInfo, TProperty> funcImpl)
-            : base(master, parent, seriesData, funcImpl)
+            : base(master, parent, seriesData, funcImpl, GetName)
         {
+        }
+
+        private static string GetName(PropertyInfo property)
+        {
+            return property.Name;
         }
 
         public LockedPropertyMembersBase(LockedFullMembersBase master, TPropertyParent parent)

@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using System.Diagnostics;
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
     /// <summary>
