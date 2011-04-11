@@ -229,6 +229,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         string _LockedGroupDeclarationsMasterPass.FetchName(object source)
         {
+            if (nameImpl == null)
+                return null;
             if (source is TSourceItem)
                 return nameImpl((TSourceItem)source);
             else

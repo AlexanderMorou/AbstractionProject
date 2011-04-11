@@ -146,6 +146,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         #endregion
         internal IEnumerable<String> GetAggregateIdentifiers()
         {
+            /* *
+             * Ignore types which are compiler generated and yield a null
+             * name.
+             * */
             return (from t in this.parent.UnderlyingSystemTypes
                     let typeName = t.IsGenericType ? t.Name.Substring(0, t.Name.LastIndexOf('`')) : t.Name
                     where !(t.IsDefined(typeof(CompilerGeneratedAttribute), true))

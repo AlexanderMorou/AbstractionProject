@@ -96,6 +96,7 @@
     <Compile Include="Compilers\AssemblyOutputType.cs" />
     <Compile Include="Compilers\CompilerError.cs" />
     <Compile Include="Compilers\CompilerErrorCollection.cs" />
+    <Compile Include="Compilers\CSharpCompilerMessages.cs" />
     <Compile Include="Compilers\IMalleableCompilationContext.cs" />
     <Compile Include="Compilers\MalleableCompilationContext.cs" />
     <Compile Include="Compilers\CompilerReferenceError.cs" />
@@ -123,8 +124,50 @@
     <Compile Include="Compilers\ICompilerSourceWarning.cs" />
     <Compile Include="Compilers\ICompilerWarning.cs" />
     <Compile Include="Compilers\IntermediateCompilerBase.cs" />
+    <Compile Include="Oil\CSharpAssembly.cs" />
+    <Compile Include="Oil\CSharpGateway.cs" />
+    <Compile Include="Oil\Expressions\CSharpAddSubtExpression.cs" />
+    <Compile Include="Oil\Expressions\CSharpAssignExpression.cs" />
+    <Compile Include="Oil\Expressions\CSharpBinaryOperationExpressionBase.cs" />
+    <Compile Include="Oil\Expressions\CSharpBitwiseAndExpression.cs" />
+    <Compile Include="Oil\Expressions\CSharpBitwiseExclusiveOrExpression.cs" />
+    <Compile Include="Oil\Expressions\CSharpBitwiseOrExpression.cs" />
+    <Compile Include="Oil\Expressions\CSharpConditionalExpression.cs" />
+    <Compile Include="Oil\Expressions\CSharpExpressionBase.cs" />
+    <Compile Include="Oil\Expressions\CSharp\CSharpExpressionExtensions.cs" />
+    <Compile Include="Oil\Expressions\CSharpInequalityExpression.cs" />
+    <Compile Include="Oil\Expressions\CSharpLogicalAndExpression.cs" />
+    <Compile Include="Oil\Expressions\CSharpLogicalOrExpression.cs" />
+    <Compile Include="Oil\Expressions\CSharpMulDivExpression.cs" />
+    <Compile Include="Oil\Expressions\CSharpRelationalExpression.cs" />
+    <Compile Include="Oil\Expressions\CSharpShiftExpression.cs" />
+    <Compile Include="Oil\Expressions\ICSharpAddSubtExpression.cs" />
+    <Compile Include="Oil\Expressions\ICSharpAssignExpression.cs" />
+    <Compile Include="Oil\Expressions\ICSharpBinaryOperator.cs" />
+    <Compile Include="Oil\Expressions\ICSharpBitwiseAndExpression.cs" />
+    <Compile Include="Oil\Expressions\ICSharpBitwiseExclusiveOrExpression.cs" />
+    <Compile Include="Oil\Expressions\ICSharpBitwiseOrExpression.cs" />
+    <Compile Include="Oil\Expressions\ICSharpConditionalExpression.cs" />
+    <Compile Include="Oil\Expressions\ICSharpExpression.cs" />
+    <Compile Include="Oil\Expressions\ICSharpInequalityExpression.cs" />
+    <Compile Include="Oil\Expressions\ICSharpLogicalAndExpression.cs" />
+    <Compile Include="Oil\Expressions\ICSharpLogicalOrExpression.cs" />
+    <Compile Include="Oil\Expressions\ICSharpMulDivExpression.cs" />
+    <Compile Include="Oil\Expressions\ICSharpRelationalExpression.cs" />
+    <Compile Include="Oil\Expressions\ICSharpShiftExpression.cs" />
+    <Compile Include="Oil\Expressions\InvalidIncrementTargetException.cs" />
+    <Compile Include="Oil\Expressions\InvalidInvertTargetException.cs" />
+    <Compile Include="Oil\Expressions\OperatorPrecedences.cs" />
+    <Compile Include="Oil\ICSharpAssembly.cs" />
+    <Compile Include="Cst\ICSharpCompilationUnit.cs" />
+    <Compile Include="Languages\CSharpLanguage.cs" />
+    <Compile Include="Languages\CSharpProvider.cs" />
+    <Compile Include="Languages\ICSharpASTTranslator.cs" />
+    <Compile Include="Languages\ICSharpLanguage.cs" />
+    <Compile Include="Languages\ICSharpProvider.cs" />
     <Compile Include="Linkers\AggregateIdentityKind.cs" />
     <Compile Include="Linkers\AggregateIdentityNode.cs" />
+    <Compile Include="Linkers\AggregateIdentitySetNode.cs" />
     <Compile Include="Linkers\AggregateNamespaceIdentityNode.cs" />
     <Compile Include="Linkers\AssemblyReference.cs" />
     <Compile Include="Linkers\AssemblyReferenceAliasAggregate.cs" />
@@ -171,6 +214,7 @@
     <Compile Include="Oil\Statements\CommentStatement.cs" />
     <Compile Include="Oil\Statements\IChangeEventHandlerStatement.cs" />
     <Compile Include="Oil\Statements\ICommentStatement.cs" />
+    <Compile Include="Parsers\ICSharpParser.cs" />
     <Compile Include="Parsers\IParserSyntaxErrorCollection.cs" />
     <Compile Include="Parsers\IParserSyntaxError.cs" />
     <Compile Include="Languages\ISourceRelatedError.cs" />
@@ -958,6 +1002,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Translation\ICSharpCodeTranslator.cs" />
     <Compile Include="Translation\IIntermediateCodeTranslator.cs" />
     <Compile Include="Translation\IIntermediateCodeTranslatorOptions.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\ILinqBodyBuilderParent.cs" />
@@ -1028,6 +1073,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Compilers\Compiler Warnings and Errors.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CSharp\Expressions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

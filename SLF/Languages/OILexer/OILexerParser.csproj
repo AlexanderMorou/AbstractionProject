@@ -441,10 +441,6 @@
       <Project>{4FF91A45-B361-4D8F-8C5B-03D11E5291E6}</Project>
       <Name>Common Language Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CSharp\CSharp.csproj">
-      <Project>{8B815295-30CD-4825-8634-155776DEEE14}</Project>
-      <Name>CSharp</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Allen Copeland.pfx" />

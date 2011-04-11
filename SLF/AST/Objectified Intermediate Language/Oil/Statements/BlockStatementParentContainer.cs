@@ -440,6 +440,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         #endregion
 
+        /// <summary>
+        /// Creates, inserts, and returns a new <see cref="IIterationBlockStatement"/> which
+        /// has a series of <paramref name="initializers"/>, a continuation <paramref name="condition"/>
+        /// and a series of <paramref name="iterations"/>.
+        /// </summary>
+        /// <param name="initializers">The series of <see cref="IStatementExpression"/>
+        /// elements which describe what to do during the initialization phase of the iterator.</param>
+        /// <param name="condition">The <see cref="Boolean"/> <see cref="IExpression"/>
+        /// which denotes the condition to evaluate prior to executing the iteration's block body.</param>
+        /// <param name="iterations">The series of <see cref="IStatementExpression"/>
+        /// values which denote the logic to execute after the code-block, 
+        /// but prior to checking the continuation <paramref name="condition"/>.
+        /// </param>
+        /// <returns>A new <see cref="IIterationBlockStatement"/> which
+        /// has a series of <paramref name="initializers"/>, a continuation <paramref name="condition"/>
+        /// and a series of <paramref name="iterations"/> which denote the logic used prior to the 
+        /// <paramref name="condition"/> check but before executing the inner block of the iteration.</returns>
         public IIterationBlockStatement Iterate(IEnumerable<IStatementExpression> initializers, IExpression condition, IEnumerable<IStatementExpression> iterations)
         {
             var result = new IterationBlockStatement(this.Owner, initializers, condition, iterations);
@@ -447,6 +464,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
             return result;
         }
 
+        /// <summary>
+        /// Creates, inserts and returns a new <see cref="IIterationDeclarationBlockStatement"/>
+        /// which defines a local through the <paramref name="localDeclaration"/>,
+        /// a continuation <paramref name="condition"/> and a series of <paramref name="iterations"/>.
+        /// </summary>
+        /// <param name="localDeclaration">A <see cref="ILocalDeclarationStatement"/>
+        /// which defines the local used within the scope of the iteration block.</param>
+        /// <param name="condition">The <see cref="Boolean"/> <see cref="IExpression"/>
+        /// which denotes the condition to evaluate prior to executing the iteration's block body.</param>
+        /// <param name="iterations">The series of <see cref="IStatementExpression"/>
+        /// values which denote the logic to execute after the code-block, 
+        /// but prior to checking the continuation <paramref name="condition"/>.
+        /// </param>
+        /// <returns>A new <see cref="IIterationDeclarationBlockStatement"/>
+        /// which defines a local through the <paramref name="localDeclaration"/>,
+        /// a continuation <paramref name="condition"/> and a series of <paramref name="iterations"/>.</returns>
         public IIterationDeclarationBlockStatement Iterate(ILocalDeclarationStatement localDeclaration, IExpression condition, IEnumerable<IStatementExpression> iterations)
         {
             var result = new IterationDeclarationBlockStatement(this.owner, localDeclaration, condition, iterations);
@@ -456,6 +489,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         public ISimpleIterationBlockStatement Iterate(ILocalDeclarationStatement target, IExpression start, IExpression end, bool endExclusive = true, IExpression incremental = null)
         {
+            var initializer = start;
             throw new NotImplementedException();
         }
 
@@ -558,8 +592,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
             this.baseList.Add(gotoStatement);
             return gotoStatement;
         }
-
-
 
         public IChangeEventHandlerStatement AddHandler(IEventReferenceExpression targetEvent, IMethodPointerReferenceExpression sourceMethod)
         {
