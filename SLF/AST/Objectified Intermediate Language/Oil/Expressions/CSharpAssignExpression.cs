@@ -218,9 +218,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                     case AssignmentOperation.BitwiseExclusiveOrAssign:
                         return true;
                     case AssignmentOperation.Term:
-                        if (this.LeftSide is IStatementExpression)
-                            return ((IStatementExpression)this.LeftSide).ValidAsStatement;
-                        return false;
+                        var leftDisfixed = this.LeftSide.Disfix();
+                        return (leftDisfixed is IStatementExpression) &&  ((IStatementExpression)leftDisfixed).ValidAsStatement;
                     default:
                         return false;
                 }

@@ -41,8 +41,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// <typeparam name="TRight">The type of right side of the 
     /// <see cref="IBinaryOperationExpression{TLeft, TRight}"/>.</typeparam>
     public interface IBinaryOperationExpression<TLeft, TRight> :
-        IExpression,
-        IBinaryOperationExpression
+        IBinaryOperationExpression,
+        IExpression
         where TLeft :
             INaryOperandExpression
         where TRight :
@@ -77,7 +77,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Returns the <see cref="BinaryOperationAssociativity"/> associated to the 
-        /// <see cref="IBinaryOperationExpression{TLeft, TRight}"/>.
+        /// <see cref="IBinaryOperationExpression"/>.
         /// </summary>
         BinaryOperationAssociativity Associativity { get; }
 
