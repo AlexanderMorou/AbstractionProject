@@ -497,7 +497,6 @@
     <Compile Include="Oil\ISourceElement.cs" />
     <Compile Include="Oil\IStaticInclusionScopeCoercion.cs" />
     <Compile Include="Oil\ISymbolType.cs" />
-    <Compile Include="Oil\Instructions\IStackInstruction.cs" />
     <Compile Include="Oil\IntermediateAssembly+PartsCollection.cs">
       <DependentUpon>IntermediateAssembly{TAssembly}.cs</DependentUpon>
     </Compile>
@@ -1074,9 +1073,7 @@
   <ItemGroup>
     <None Include="Compilers\Compiler Warnings and Errors.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CSharp\Expressions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>$(SolutionDir)BuildAssistant.bat $(PlatformName) "$(TargetDir)$(TargetFileName)" "$(ProjectName)" uninstall</PreBuildEvent>
