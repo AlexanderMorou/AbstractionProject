@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions.CSharp;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Utilities.Common;
 using System.Reflection;
@@ -17,6 +18,8 @@ using dyn = System.Dynamic;
 using exp = System.Linq.Expressions;
 using AllenCopeland.Abstraction.Slf.Linkers;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -27,20 +30,27 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 {
     public static class SimpleCompilerTest 
     {
+        static Func<TimeSpan> WindowsFormsTestTimedAction = ((Action)WindowsFormsTest).TimeActionFunc();
+        static Func<string, TimeSpan> PrintAllTimedAction = ((Action<string>)PrintAll).TimeActionFunc();
         internal static void Main(string[] args)
         {
-            
-            Action wftAction = WindowsFormsTest;
-            Func<TimeSpan> wftTimedAction = () => wftAction.TimeAction();
-            Action printAll = () => typeof(int).Assembly.GetAssemblyReference().Namespaces["System.Collections.Generic"].AggregateIdentifiers.OnAll((a) => { a.ToString(); });
-            Func<TimeSpan> printAllTimedAction = () => printAll.TimeAction();
-            Console.WriteLine("Time elapsed for iteration test (1): {0}", printAllTimedAction());
-            Console.WriteLine("Time elapsed for test (1): {0}", wftTimedAction());
+            const string targetNamespace = "System.Collections.Generic";
+            Console.WriteLine("Time elapsed for iteration test (1): {0}", PrintAllTimedAction(targetNamespace));
+            Console.WriteLine("Time elapsed for test (1): {0}", WindowsFormsTestTimedAction());
             CLIGateway.ClearCache();
-            Console.WriteLine("Time elapsed for iteration test (2): {0}", printAllTimedAction());
-            Console.WriteLine("Time elapsed for test (2): {0}", wftTimedAction());
+            Console.WriteLine("Time elapsed for iteration test (2): {0}", PrintAllTimedAction(targetNamespace));
+            Console.WriteLine("Time elapsed for test (2): {0}", WindowsFormsTestTimedAction());
         }
 
+        private static void PrintAll(string @namespace)
+        {
+            typeof(int).Assembly.GetAssemblyReference().Namespaces[@namespace].AggregateIdentifiers.OnAll(PrintAllOnAll);
+        }
+
+        private static void PrintAllOnAll(string target)
+        { 
+            //Do nothing, simple iteration test.
+        }
 
         private static void WindowsFormsTest()
         {
@@ -176,7 +186,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
     }
 }
 /*               Split view reference line.  139 Visible Characters.  Visual Studio doesn't persist this information. :(                */
-/*               Split view reference line.  166 Visible Characters.  When the solution explorer is hidden from view.                                             */
+/*                              Split view reference line.  165 Visible Characters.  When the solution explorer is hidden from view.                              */
 /* *
  * Identity Resolution.
  * Rewrites

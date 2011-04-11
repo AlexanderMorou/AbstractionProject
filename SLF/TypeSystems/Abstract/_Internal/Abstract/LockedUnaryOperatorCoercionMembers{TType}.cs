@@ -21,14 +21,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
     {
 
         public LockedUnaryOperatorCoercionMembers(LockedFullMembersBase master, TType parent, MethodInfo[] sourceData, Func<MethodInfo, IUnaryOperatorCoercionMember<TType>> fetchImpl)
-            : base(master, parent, sourceData, fetchImpl, GetName)
+            : base(master, parent, sourceData, fetchImpl, null)
         {
         }
 
-        private static string GetName(MethodInfo member)
-        {
-            return null;
-        }
 
         #region IUnaryOperatorCoercionMemberDictionary<TType> Members
         /// <summary>

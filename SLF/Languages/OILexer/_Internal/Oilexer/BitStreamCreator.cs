@@ -5,6 +5,8 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Slf.CSharp;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions.CSharp;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;

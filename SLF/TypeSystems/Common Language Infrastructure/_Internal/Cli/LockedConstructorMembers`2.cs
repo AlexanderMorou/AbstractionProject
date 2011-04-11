@@ -39,12 +39,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         }
 
         internal LockedConstructorMembers(LockedFullMembersBase master, TCtorParent parent, ConstructorInfo[] seriesData, Func<ConstructorInfo, TCtor> fetchImpl)
-            : base(master, parent, seriesData, fetchImpl, GetName)
+            : base(master, parent, seriesData, fetchImpl, null)
         {
-        }
-        private static string GetName(ConstructorInfo ctor)
-        {
-            return null;
         }
 
         internal LockedConstructorMembers(LockedFullMembersBase master, TCtorParent parent)

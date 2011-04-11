@@ -154,10 +154,6 @@
       <Project>{02607DC2-E98B-43AE-B906-FE151A70A68D}</Project>
       <Name>Objectified Intermediate Language</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SLF\Languages\CSharp\CSharp.csproj">
-      <Project>{8B815295-30CD-4825-8634-155776DEEE14}</Project>
-      <Name>CSharp</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\SLF\Languages\Toy++\Toy++.csproj">
       <Project>{DA55A92C-B4EE-4350-AC02-B6C25D795723}</Project>
       <Name>Toy++</Name>

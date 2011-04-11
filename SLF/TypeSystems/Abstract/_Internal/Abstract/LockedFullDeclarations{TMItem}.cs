@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -171,9 +172,29 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         internal IEnumerable<string> GetAggregateIdentifiers()
         {
-            return from me in this.sourceData
-                   where me.Entry != null
-                   select (string)(((_LockedGroupDeclarationsMasterPass)(me.Subordinate)).FetchName(me.Entry)).Distinct();
+            /* *
+             * Aggregate them through the locked grouped declarations master pass interface.
+             * Members which yield a null or empty value are special kinds of members, like 
+             * constructors, type/binary/unary coercion members.
+             * *
+             * Later, do analysis to determine whether type-checking the members or the
+             * yielding a null value through a method call per member is quicker.
+             * *
+             * This method is a near hack compared to the intermediate variant; however,
+             * it makes more sense than constructing a heavy-weight member specific wrapper
+             * around the members purely to retrieve their name.
+             * */
+            return (from masterEntry in this.sourceData
+                    where masterEntry.Entry != null
+                    let subordinate = masterEntry.Subordinate as _LockedGroupDeclarationsMasterPass
+                    where subordinate != null
+                    where !(subordinate is IBinaryOperatorCoercionMemberDictionary || 
+                            subordinate is IUnaryOperatorCoercionMemberDictionary ||
+                            subordinate is IConstructorMemberDictionary ||
+                            subordinate is ITypeCoercionMemberDictionary)
+                    let name = subordinate.FetchName(masterEntry.Entry)
+                    where !string.IsNullOrEmpty(name)
+                    select name).Distinct();
         }
     }
 }
