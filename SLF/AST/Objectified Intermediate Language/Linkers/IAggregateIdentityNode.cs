@@ -13,7 +13,8 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
     /// </summary>
     /// <remarks>Aggregates the entities defined within a given 
     /// series of assemblies under a common identity.</remarks>
-    public interface IAggregateIdentityNode
+    public interface IAggregateIdentityNode :
+        IDisposable
     {
         /// <summary>
         /// Returns the name of the aggregated identity.

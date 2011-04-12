@@ -45,7 +45,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return ((MasterDictionaryBase<string, TDeclaration>)(this.owner)).Values.Contains(new MasterDictionaryEntry<TDeclaration>(item.Subordinate, item.Entry));
             }
 
-            public void CopyTo(MasterDictionaryEntry<TIntermediateDeclaration>[] array, int arrayIndex)
+            public void CopyTo(MasterDictionaryEntry<TIntermediateDeclaration>[] array, int arrayIndex = 0)
             {
                 if (arrayIndex + this.Count >= array.Length)
                     throw new ArgumentException("array");

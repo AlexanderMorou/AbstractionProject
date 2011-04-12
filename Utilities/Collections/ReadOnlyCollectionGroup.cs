@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             return false;
         }
 
-        public void CopyTo(TItem[] array, int arrayIndex)
+        public void CopyTo(TItem[] array, int arrayIndex = 0)
         {
             List<TItem> result = new List<TItem>();
             foreach (IControlledStateCollection col in this.collections)

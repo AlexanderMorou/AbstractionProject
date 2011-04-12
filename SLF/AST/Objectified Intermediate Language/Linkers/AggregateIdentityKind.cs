@@ -22,6 +22,11 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// </summary>
         Namespace,
         /// <summary>
+        /// The identity represents the ambiguity between a type
+        /// and a namespace.
+        /// </summary>
+        NamespaceTypeAmbiguity,
+        /// <summary>
         /// The identity represents a specific type within a union of multiple
         /// assemblies that does not clash with the name of another type.
         /// </summary>

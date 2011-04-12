@@ -113,6 +113,7 @@
     <Compile Include="Collections\KeyedTreeNode.cs" />
     <Compile Include="Collections\MasterDictionaryBase{TKey, TValue}.cs" />
     <Compile Include="Collections\MasterDictionaryEntry.cs" />
+    <Compile Include="Collections\MutableDictionary.cs" />
     <Compile Include="Collections\ReadOnlyCollectionGroup.cs" />
     <Compile Include="Collections\ReadOnlyCollection{T}.cs" />
     <Compile Include="Collections\ReadOnlyDictionary{TKey, TValue}.cs" />

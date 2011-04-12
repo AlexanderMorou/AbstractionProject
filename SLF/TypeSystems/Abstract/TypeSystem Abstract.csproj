@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\AbstractGateway.cs" />
+    <Compile Include="Abstract\ITopLevelMethod.cs" />
     <Compile Include="IProtectableComponent.cs" />
     <Compile Include="Abstract\GenericTypeCache.cs" />
     <Compile Include="Abstract\IMassTargetHandler.cs" />

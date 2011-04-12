@@ -20,5 +20,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Modules
     public interface IModuleGlobalMethod :
         IMethodMember<IModuleGlobalMethod, IModule>
     {
+        
     }
 }

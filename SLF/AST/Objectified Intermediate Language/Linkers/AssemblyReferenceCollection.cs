@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// The default alias for new assembly references.
         /// </summary>
         public static readonly string DefaultAlias = "global";
-        private IAssemblyReferenceAliasAggregate rootAggregate;
+        private IAggregateAliasReferenceGroups rootAggregate;
         private int protectionLevel = 0;
         #region IAssemblyReferenceCollection Members
 
@@ -230,10 +230,10 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         #endregion
 
 
-        public IAssemblyReferenceAliasAggregate GetRootNamespaceAggregate()
+        public IAggregateAliasReferenceGroups GetRootNamespaceAggregate()
         {
             this.EnterProtectedState();
-            var result = new AssemblyReferenceAliasAggregate(this);
+            var result = new AggregateAliasReferenceGroups(this);
             return result;
         }
 

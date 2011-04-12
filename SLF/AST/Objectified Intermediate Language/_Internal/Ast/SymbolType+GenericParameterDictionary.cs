@@ -156,7 +156,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 return vkI.Value == this.elements[index];
             }
 
-            public void CopyTo(KeyValuePair<string, IGenericTypeParameter<ISymbolType>>[] array, int arrayIndex)
+            public void CopyTo(KeyValuePair<string, IGenericTypeParameter<ISymbolType>>[] array, int arrayIndex = 0)
             {
                 if (arrayIndex < 0)
                     throw new IndexOutOfRangeException("arrayIndex");

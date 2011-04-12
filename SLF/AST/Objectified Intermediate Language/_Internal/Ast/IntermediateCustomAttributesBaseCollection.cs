@@ -81,7 +81,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             return ((IEnumerable<ICustomAttributeInstance>)(this)).Contains(item);
         }
 
-        public void CopyTo(ICustomAttributeInstance[] array, int arrayIndex)
+        public void CopyTo(ICustomAttributeInstance[] array, int arrayIndex = 0)
         {
             this.ToArray().CopyTo(array, arrayIndex);
         }

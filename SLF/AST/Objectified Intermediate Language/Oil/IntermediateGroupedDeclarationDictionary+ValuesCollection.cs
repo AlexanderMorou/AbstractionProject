@@ -61,7 +61,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     return ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values.Contains(item);
             }
 
-            public void CopyTo(TIntermediateDeclaration[] array, int arrayIndex)
+            public void CopyTo(TIntermediateDeclaration[] array, int arrayIndex = 0)
             {
                 if ((arrayIndex + this.Count) > array.Length)
                     throw new ArgumentException("array");
