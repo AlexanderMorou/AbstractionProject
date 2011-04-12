@@ -89,14 +89,14 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         bool TryGetValue(IAssembly target, out IAssemblyReference value);
 
         /// <summary>
-        /// Returns the <see cref="IAssemblyReferenceAliasAggregate"/> associated to the
+        /// Returns the <see cref="IAggregateAliasReferenceGroups"/> associated to the
         /// <see cref="IAssemblyReferenceCollection"/>.
         /// </summary>
-        /// <returns>An <see cref="IAssemblyReferenceAliasAggregate"/>
+        /// <returns>An <see cref="IAggregateAliasReferenceGroups"/>
         /// which pertains to the combined root namespace of the assemblies
         /// referenced by the <see cref="IAssemblyReferenceCollection"/>
         /// as noted by the individual aliases declared on the references.</returns>
-        IAssemblyReferenceAliasAggregate GetRootNamespaceAggregate();
+        IAggregateAliasReferenceGroups GetRootNamespaceAggregate();
 
         /// <summary>
         /// Returns an <see cref="IEnumerable{T}"/> of the referenced

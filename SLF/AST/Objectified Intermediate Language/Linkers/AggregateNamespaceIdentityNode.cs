@@ -3,29 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
-using AllenCopeland.Abstraction.Utilities.Collections;
-using System.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Linkers
 {
     public class AggregateNamespaceIdentityNode :
-        AggregateIdentitySetNode<string, IAggregateIdentityNode>,
+        AggregateNamespaceParentIdentityNode,
         IAggregateNamespaceIdentityNode
     {
-        private string[] identifiers;
-        /// <summary>
-        /// The data member for <see cref="Namespaces"/>.
-        /// </summary>
+        private IAggregateNamespaceParentIdentityNode parent;
         private INamespaceDeclaration[] namespaces;
-        /// <summary>
-        /// Creates a new <see cref="AggregateNamespaceIdentityNode"/>
-        /// with the <paramref name="namespaces"/> provided.
-        /// </summary>
-        /// <param name="namespaces">The <see cref="INamespaceDeclaration"/> array
-        /// which represents the identities that make up the aggregate namespace identity.</param>
-        internal AggregateNamespaceIdentityNode(INamespaceDeclaration[] namespaces) 
+        public AggregateNamespaceIdentityNode(IAggregateNamespaceParentIdentityNode parent, INamespaceDeclaration[] namespaces)
+            : base(namespaces)
         {
-            this.namespaces = namespaces;
+            this.parent = parent;
         }
 
         #region IAggregateNamespaceIdentityNode Members
@@ -40,7 +30,6 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         }
 
         #endregion
-
 
         public override string Name
         {
@@ -58,5 +47,30 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
             get { return AggregateIdentityKind.Namespace; }
         }
 
+        public override void Dispose()
+        {
+            try
+            {
+                this.namespaces = null;
+            }
+            finally
+            {
+                base.Dispose();
+            }
+        }
+
+        #region IAggregateNamespaceIdentityNode Members
+
+        public new IAggregateNamespaceParentIdentityNode Parent
+        {
+            get { return this.parent; }
+        }
+
+        #endregion
+
+        protected override IAggregateIdentityNode OnGetParent()
+        {
+            return this.Parent;
+        }
     }
 }

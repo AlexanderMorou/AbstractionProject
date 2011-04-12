@@ -6,12 +6,12 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Linkers
 {
-    public sealed class AssemblyReferenceAliasAggregate :
+    public sealed class AggregateAliasReferenceGroups :
         ControlledStateDictionary<string, IAssemblyReferenceIdentityAggregate>,
-        IAssemblyReferenceAliasAggregate
+        IAggregateAliasReferenceGroups
     {
         private AssemblyReferenceCollection parent;
-        public AssemblyReferenceAliasAggregate(AssemblyReferenceCollection parent)
+        public AggregateAliasReferenceGroups(AssemblyReferenceCollection parent)
         {
             var aliasGroupings = parent.ReferencesByAlias.ToDictionary(key => key.Key, value => value.ToArray());
             List<Tuple<List<string>, IAssemblyReference[]>> aliasEquivalents = new List<Tuple<List<string>, IAssemblyReference[]>>();
@@ -74,7 +74,7 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
             this.parent = parent;
         }
 
-        #region IAssemblyReferenceAliasAggregate Members
+        #region IAggregateReferenceAliasSets Members
 
         public bool IsDisposed
         {
@@ -86,7 +86,7 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         #region IDisposable Members
 
         /// <summary>
-        /// Disposes the <see cref="AssemblyReferenceAliasAggregate"/>.
+        /// Disposes the <see cref="AggregateAliasReferenceGroups"/>.
         /// </summary>
         public void Dispose()
         {

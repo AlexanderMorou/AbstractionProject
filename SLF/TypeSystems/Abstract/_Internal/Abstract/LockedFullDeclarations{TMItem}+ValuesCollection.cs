@@ -121,7 +121,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 throw new NotSupportedException();
             }
 
-            public void CopyTo(MasterDictionaryEntry<TMItem>[] array, int arrayIndex)
+            public void CopyTo(MasterDictionaryEntry<TMItem>[] array, int arrayIndex = 0)
             {
                 for (int i = 0; i < this.dataCopy.Count; i++)
                     if (this.dataCopy[i] == null)

@@ -70,7 +70,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             return false;
         }
 
-        public void CopyTo(IExpression[] array, int arrayIndex)
+        public void CopyTo(IExpression[] array, int arrayIndex = 0)
         {
             if (this.data == null)
                 return;

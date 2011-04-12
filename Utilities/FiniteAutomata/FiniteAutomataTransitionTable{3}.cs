@@ -110,7 +110,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             return false;
         }
 
-        public void CopyTo(KeyValuePair<TCheck, TNodeTarget>[] array, int arrayIndex)
+        public void CopyTo(KeyValuePair<TCheck, TNodeTarget>[] array, int arrayIndex = 0)
         {
             if (array == null)
                 throw new ArgumentNullException("array");

@@ -8,7 +8,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf.Linkers
 {
     public interface IAggregateNamespaceIdentityNode :
-        IAggregateIdentityNode, 
+        IAggregateNamespaceParentIdentityNode, 
         IControlledStateDictionary<string, IAggregateIdentityNode>
     {
         /// <summary>
@@ -16,5 +16,11 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// aggregated identity.
         /// </summary>
         IEnumerable<INamespaceDeclaration> Namespaces { get; }
+        /// <summary>
+        /// Returns the <see cref="IAggregateNamespaceParentIdentityNode"/> which
+        /// represents the identity which contains the current
+        /// <see cref="IAggregateNamespaceIdentityNode"/>.
+        /// </summary>
+        new IAggregateNamespaceParentIdentityNode Parent { get; }
     }
 }

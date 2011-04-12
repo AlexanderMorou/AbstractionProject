@@ -10,8 +10,6 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
     public abstract class AggregateIdentityNode :
         IAggregateIdentityNode
     {
-        private IAggregateIdentityNode parent;
-
         /// <summary>
         /// Focused at creating a parentless <see cref="AggregateIdentityNode"/>.
         /// </summary>
@@ -28,9 +26,13 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
 
         public IAggregateIdentityNode Parent
         {
-            get { return this.parent; }
+            get
+            {
+                return this.OnGetParent();
+            }
         }
 
+        protected abstract IAggregateIdentityNode OnGetParent();
 
         /// <summary>
         /// Returns the <see cref="String"/> which represents
@@ -54,11 +56,15 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
                 bool first = false;
                 while (fullPath.Count > 0)
                 {
-                    if (first)
-                        first = false;
-                    else
-                        resultPath.Append(".");
-                    resultPath.Append(fullPath.Pop().Name);
+                    var current = fullPath.Pop();
+                    if (!string.IsNullOrEmpty(current.Name))
+                    {
+                        if (first)
+                            first = false;
+                        else
+                            resultPath.Append(".");
+                        resultPath.Append(current.Name);
+                    }
                 }
                 /* *
                  * Recursion might be more elegant via
@@ -78,5 +84,11 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
 
         #endregion
 
+
+        #region IDisposable Members
+
+        public abstract void Dispose();
+
+        #endregion
     }
 }

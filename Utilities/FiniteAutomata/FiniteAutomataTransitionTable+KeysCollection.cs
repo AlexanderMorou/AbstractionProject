@@ -39,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 return this.owner.backup.ContainsKey(item);
             }
 
-            public void CopyTo(TCheck[] array, int arrayIndex)
+            public void CopyTo(TCheck[] array, int arrayIndex = 0)
             {
                 this.owner.backup.Keys.CopyTo(array, arrayIndex);
             }

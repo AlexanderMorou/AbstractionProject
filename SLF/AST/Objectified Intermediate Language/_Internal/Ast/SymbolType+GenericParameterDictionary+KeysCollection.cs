@@ -38,7 +38,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     return this.container.ContainsKey(item);
                 }
 
-                public void CopyTo(string[] array, int arrayIndex)
+                public void CopyTo(string[] array, int arrayIndex = 0)
                 {
                     if (arrayIndex < 0)
                         throw new ArgumentOutOfRangeException("arrayIndex");

@@ -134,7 +134,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             return this.copy.Contains(item);
         }
 
-        public void CopyTo(IType[] array, int arrayIndex)
+        public void CopyTo(IType[] array, int arrayIndex = 0)
         {
             this.copy.CopyTo(array, arrayIndex);
         }

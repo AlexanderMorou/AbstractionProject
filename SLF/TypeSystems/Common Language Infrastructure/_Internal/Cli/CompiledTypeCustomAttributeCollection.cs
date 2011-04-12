@@ -93,7 +93,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return false;
         }
 
-        public void CopyTo(ICustomAttributeInstance[] array, int arrayIndex)
+        public void CopyTo(ICustomAttributeInstance[] array, int arrayIndex = 0)
         {
             if (array == null)
                 throw new ArgumentNullException("array");

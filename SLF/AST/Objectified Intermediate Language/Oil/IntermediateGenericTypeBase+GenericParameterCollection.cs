@@ -65,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return false;
             }
 
-            public void CopyTo(IType[] array, int arrayIndex)
+            public void CopyTo(IType[] array, int arrayIndex = 0)
             {
                 if (this.Count + arrayIndex >= array.Length)
                     throw new ArgumentException("array");

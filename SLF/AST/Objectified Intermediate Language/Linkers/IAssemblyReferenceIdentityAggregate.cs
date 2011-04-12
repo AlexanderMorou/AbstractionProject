@@ -12,7 +12,7 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
     /// a series of referenced assemblies.
     /// </summary>
     public interface IAssemblyReferenceIdentityAggregate :
-        IAggregateIdentityNode,
+        IAggregateNamespaceParentIdentityNode,
         IDisposable
     {
         /// <summary>

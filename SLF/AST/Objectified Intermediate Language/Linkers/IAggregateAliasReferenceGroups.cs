@@ -8,14 +8,14 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
 {
     /// <summary>
     /// Defines properties and methods for working with a series of assembly 
-    /// references 
+    /// references paired with one or more aliases.
     /// </summary>
-    public interface IAssemblyReferenceAliasAggregate :
+    public interface IAggregateAliasReferenceGroups :
         IControlledStateDictionary<string, IAssemblyReferenceIdentityAggregate>,
         IDisposable
     {
         /// <summary>
-        /// Returns whether the <see cref="IAssemblyReferenceAliasAggregate"/>
+        /// Returns whether the <see cref="IAggregateAliasReferenceGroups"/>
         /// has been disposed.
         /// </summary>
         bool IsDisposed { get; }

@@ -352,7 +352,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// indexing.</param>
         /// <param name="arrayIndex">The zero-based index in 
         /// <paramref name="array"/> at which copying begins.</param>
-        public void CopyTo(T[] array, int arrayIndex)
+        public void CopyTo(T[] array, int arrayIndex = 0)
         {
             this.coreList.CopyTo(array, arrayIndex);
         }

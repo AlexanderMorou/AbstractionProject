@@ -100,7 +100,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     return false;
                 }
 
-                public void CopyTo(TValueMember[] array, int arrayIndex)
+                public void CopyTo(TValueMember[] array, int arrayIndex = 0)
                 {
                     if (arrayIndex < 0)
                         throw new ArgumentOutOfRangeException("arrayIndex");

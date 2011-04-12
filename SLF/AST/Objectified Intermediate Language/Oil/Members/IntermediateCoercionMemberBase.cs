@@ -639,7 +639,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// number of elements in the source <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/> is greater 
         /// than the available space from <paramref name="arrayIndex"/> to the 
         /// end of the destination <paramref name="array"/>.</exception>
-        public void CopyTo(IStatement[] array, int arrayIndex)
+        public void CopyTo(IStatement[] array, int arrayIndex = 0)
         {
             /* *
              * If the container is null, there are no elements to copy.

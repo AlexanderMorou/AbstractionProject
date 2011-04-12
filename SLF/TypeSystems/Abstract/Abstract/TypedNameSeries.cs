@@ -215,7 +215,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             return false;
         }
 
-        public void CopyTo(TypedName[] array, int arrayIndex)
+        public void CopyTo(TypedName[] array, int arrayIndex = 0)
         {
             if (array == null)
                 throw new ArgumentNullException("array");

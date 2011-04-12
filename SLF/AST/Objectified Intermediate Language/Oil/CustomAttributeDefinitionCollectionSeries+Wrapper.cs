@@ -71,7 +71,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return -1;
             }
 
-            public void CopyTo(ICustomAttributeInstance[] array, int arrayIndex)
+            public void CopyTo(ICustomAttributeInstance[] array, int arrayIndex = 0)
             {
                 this.ToArray().CopyTo(array, arrayIndex);
             }
