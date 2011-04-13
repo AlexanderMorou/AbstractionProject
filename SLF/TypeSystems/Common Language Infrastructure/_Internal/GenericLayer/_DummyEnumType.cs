@@ -12,7 +12,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
-    public interface _DummyEnumType :
+    internal interface _DummyEnumType :
         IGenericType,
         IEnumType
     {

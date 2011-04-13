@@ -27,9 +27,9 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// </summary>
         IEnumerable<IAssemblyReference> References { get; }
         /// <summary>
-        /// Returns the <see cref="IAssemblyReferenceCollection"/> from which the
+        /// Returns the <see cref="IAggregateAliasReferenceGroups"/> from which the
         /// assembly namespace identities are aggregated from.
         /// </summary>
-        IAssemblyReferenceCollection IdentitySource { get; }
+        IAggregateAliasReferenceGroups IdentitySource { get; }
     }
 }

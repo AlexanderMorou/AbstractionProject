@@ -7,10 +7,10 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
-using ParametersBase = AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members._ParametersBase<AllenCopeland.Abstraction.Slf.Abstract.IDelegateType, AllenCopeland.Abstraction.Slf.Abstract.Members.IDelegateTypeParameterMember>;
-
+using AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
+    using ParametersBase = _ParametersBase<IDelegateType, IDelegateTypeParameterMember>;
     partial class _DelegateTypeBase
     {
         private class _Parameters :

@@ -85,6 +85,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\AbstractGateway.cs" />
+    <Compile Include="Abstract\CultureIdentifier.cs" />
+    <Compile Include="Abstract\CultureIdentifiers+CountryRegions.cs">
+      <DependentUpon>CultureIdentifiers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\CultureIdentifiers+CultureCodes.cs">
+      <DependentUpon>CultureIdentifiers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\CultureIdentifiers+IDs.cs">
+      <DependentUpon>CultureIdentifiers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\CultureIdentifiers+LocalizedNames.cs">
+      <DependentUpon>CultureIdentifiers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\CultureIdentifiers.cs" />
+    <Compile Include="Abstract\CultureIdentifierTypeConverter.cs" />
+    <Compile Include="Abstract\ITopLevelField.cs" />
     <Compile Include="Abstract\ITopLevelMethod.cs" />
     <Compile Include="IProtectableComponent.cs" />
     <Compile Include="Abstract\GenericTypeCache.cs" />

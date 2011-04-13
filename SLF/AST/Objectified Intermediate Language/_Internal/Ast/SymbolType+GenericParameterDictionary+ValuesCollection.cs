@@ -5,7 +5,6 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Utilities.Collections;
-using TValueMember = AllenCopeland.Abstraction.Slf.Abstract.IGenericTypeParameter<AllenCopeland.Abstraction.Slf.Oil.ISymbolType>;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -15,6 +14,7 @@ using TValueMember = AllenCopeland.Abstraction.Slf.Abstract.IGenericTypeParamete
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 {
+    using TValueMember = IGenericTypeParameter<ISymbolType>;
     partial class SymbolType
     {
         partial class GenericParameterDictionary

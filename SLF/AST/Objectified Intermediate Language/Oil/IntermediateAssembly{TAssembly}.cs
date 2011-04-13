@@ -10,6 +10,7 @@ using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Modules;
 using AllenCopeland.Abstraction.Slf.Linkers;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -711,6 +712,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public override IEnumerable<string> AggregateIdentifiers
         {
             get { return this.GetNamespaceParentIdentifiers(); }
+        }
+
+        protected override IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> InitializeMethods()
+        {
+            throw new NotImplementedException();
         }
     }
 }

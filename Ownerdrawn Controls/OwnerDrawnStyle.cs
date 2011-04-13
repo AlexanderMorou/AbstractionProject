@@ -6,8 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using AllenCopeland.Abstraction.OwnerDrawnControls.Properties;
-using StatesByIndex = System.Collections.Generic.Dictionary<int, AllenCopeland.Abstraction.OwnerDrawnControls.OwnerDrawnItemImageState>;
-using StatesByString = System.Collections.Generic.Dictionary<string, AllenCopeland.Abstraction.OwnerDrawnControls.OwnerDrawnItemImageState>;
  /*----------------------------------------\
  | Copyright © 2011 Allen Copeland Jr.     |
  |-----------------------------------------|
@@ -19,6 +17,8 @@ using StatesByString = System.Collections.Generic.Dictionary<string, AllenCopela
 
 namespace AllenCopeland.Abstraction.OwnerDrawnControls
 {
+    using StatesByIndex = Dictionary<int, OwnerDrawnItemImageState>;
+    using StatesByString = Dictionary<string, OwnerDrawnItemImageState>;
     /// <summary>
     /// Provides a static class helper for owner drawn styles.
     /// </summary>

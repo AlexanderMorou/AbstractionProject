@@ -2,6 +2,7 @@
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using System.Collections.Generic;
 using System.Linq;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -59,7 +60,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Data member for <see cref="Modules"/>.
         /// </summary>
         private IModuleDictionary modules;
-
+        /// <summary>
+        /// Data member for <see cref="Methods"/>.
+        /// </summary>
+        private IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> methods;
         #endregion
         
         #region Protected Members
@@ -456,5 +460,30 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 return this;
             }
         }
+
+        #region IMethodParent<ITopLevelMethod,INamespaceParent> Members
+
+        public IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> Methods
+        {
+            get
+            {
+                if (this.methods == null)
+                    this.methods = this.InitializeMethods();
+                return this.methods;
+            }
+        }
+
+        protected abstract IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> InitializeMethods();
+
+        #endregion
+
+        #region IMethodParent Members
+
+        IMethodMemberDictionary IMethodParent.Methods
+        {
+            get { return (IMethodMemberDictionary)this.Methods; }
+        }
+
+        #endregion
     }
 }

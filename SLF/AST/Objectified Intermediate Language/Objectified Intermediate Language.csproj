@@ -162,6 +162,7 @@
     <Compile Include="Oil\Expressions\InvalidIncrementTargetException.cs" />
     <Compile Include="Oil\Expressions\InvalidInvertTargetException.cs" />
     <Compile Include="Oil\Expressions\OperatorPrecedences.cs" />
+    <Compile Include="Oil\IDataSizeType.cs" />
     <Compile Include="Oil\ICSharpAssembly.cs" />
     <Compile Include="Cst\ICSharpCompilationUnit.cs" />
     <Compile Include="Languages\CSharpLanguage.cs" />
@@ -204,6 +205,8 @@
     <Compile Include="Oil\IIntermediateDeclarationVisitor.cs" />
     <Compile Include="Oil\IIntermediateDynamicHandler.cs" />
     <Compile Include="Oil\IIntermediateInclusionVisitor.cs" />
+    <Compile Include="Oil\IIntermediateStaticDataField.cs" />
+    <Compile Include="Oil\IIntermediateTopLevelMethod.cs" />
     <Compile Include="Oil\IIntermediateTypeVisitor.cs" />
     <Compile Include="Oil\IntermediateDynamicHandler+MethodDictionary.cs" />
     <Compile Include="Oil\IntermediateDynamicHandler.cs" />
