@@ -23,19 +23,19 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Data member for <see cref="Name"/>.
         /// </summary>
-        private string name;
+        private readonly string name;
         /// <summary>
         /// Data member for <see cref="Culture"/>.
         /// </summary>
-        private int culture;
+        private readonly int culture;
         /// <summary>
         /// Data member for <see cref="CountryRegion"/>.
         /// </summary>
-        private string countryRegion;
+        private readonly string countryRegion;
         /// <summary>
         /// Data member for <see cref="LocalizedName"/>
         /// </summary>
-        private string localizedName;
+        private readonly string localizedName;
 
         internal CultureIdentifier(string name, int culture, string localizedName, string countryRegion)
             : this(name, culture, countryRegion)
@@ -48,6 +48,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             this.name = name;
             this.culture = culture;
             this.countryRegion = countryRegion;
+            this.localizedName = null;
         }
 
         #region ICultureIdentifier Members

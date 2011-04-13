@@ -19,5 +19,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <see cref="ITopLevelMethod"/>.
         /// </summary>
         IModule DeclaringModule { get; }
+        /// <summary>
+        /// Returns the <see cref="String"/> value relative to the full
+        /// name of the method.
+        /// </summary>
+        string FullName { get; }
     }
 }

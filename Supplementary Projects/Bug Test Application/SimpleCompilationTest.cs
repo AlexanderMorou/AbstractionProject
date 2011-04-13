@@ -14,8 +14,6 @@ using AllenCopeland.Abstraction.Utilities.Common;
 using System.Reflection;
 using System.Linq;
 using System.Reflection.Emit;
-using dyn = System.Dynamic;
-using exp = System.Linq.Expressions;
 using AllenCopeland.Abstraction.Slf.Linkers;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Collections.ObjectModel;

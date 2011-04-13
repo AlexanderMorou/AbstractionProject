@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// provided.
         /// </summary>
         /// <param name="source">
-        /// The <see cref="IAssemblyReferenceCollection"/> which acts as
+        /// The <see cref="IAggregateAliasReferenceGroups"/> which acts as
         /// a data source for the <see cref="AssemblyReferenceIdentityAggregate"/>.
         /// </param>
         /// <param name="references">
@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// the <see cref="AssemblyReferenceIdentityAggregate"/> is referred 
         /// to by.
         /// </param>
-        internal AssemblyReferenceIdentityAggregate(IAssemblyReferenceCollection source, IAssemblyReference[] references, string[] aliases)
+        internal AssemblyReferenceIdentityAggregate(IAggregateAliasReferenceGroups source, IAssemblyReference[] references, string[] aliases)
             : base((from r in references
                     select r.Reference)
                         .ToArray())
@@ -65,10 +65,10 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         public IEnumerable<IAssemblyReference> References { get; private set; }
 
         /// <summary>
-        /// Returns the <see cref="IAssemblyReferenceCollection"/> from which the
+        /// Returns the <see cref="IAggregateAliasReferenceGroups"/> from which the
         /// assembly namespace identities are aggregated from.
         /// </summary>
-        public IAssemblyReferenceCollection IdentitySource { get; private set; }
+        public IAggregateAliasReferenceGroups IdentitySource { get; private set; }
 
         #endregion
 

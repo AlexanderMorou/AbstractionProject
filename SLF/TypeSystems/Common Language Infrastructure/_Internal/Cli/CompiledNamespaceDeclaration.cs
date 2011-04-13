@@ -8,6 +8,8 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using System.Reflection;
+using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
@@ -28,6 +30,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private string name;
         private IList<string> namespaceNames;
         private Type[] namespaceTypes;
+        private MethodInfo[] namespaceMethods;
+        private IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> methods;
         private IClassTypeDictionary classes;
         private IDelegateTypeDictionary delegates;
         private IEnumTypeDictionary enums;
@@ -345,6 +349,38 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return result.ToArray();
         }
 
+        public MethodInfo[] UnderlyingMethodInfos
+        {
+            get
+            {
+                if (this.namespaceMethods == null)
+                    this.namespaceMethods = this.InitializeNamespaceMethods();
+                return this.namespaceMethods;
+            }
+        }
+
+        private MethodInfo[] InitializeNamespaceMethods()
+        {
+            string fullName = this.GetFullName();
+            int fullLength = fullName.Length;
+            /* *
+             * Filter the methods from the global methods based off of
+             * the prefix being identical to the fullname of the current
+             * namespace.
+             * */
+            return (from m in this.Assembly.AssemblyGlobalMethods
+                    let mName = m.Name
+                    where mName.Length > fullLength
+                    let lName = mName.Substring(0, fullLength)
+                    where lName == fullName
+                    let dot = mName[fullLength]
+                    let rName = mName.Substring(fullLength + 1)
+                    where dot == '.' &&
+                        !(string.IsNullOrEmpty(rName) ||
+                            rName.Contains('.'))
+                    select m).ToArray();
+        }
+
         #region INamespaceDeclaration Members
 
         IAssembly INamespaceDeclaration.Assembly
@@ -377,5 +413,32 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return this.GetAggregateIdentifiers();
             }
         }
+
+        #region IMethodParent<ITopLevelMethod,INamespaceParent> Members
+
+        public IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> Methods
+        {
+            get {
+                if (this.methods == null)
+                    this.methods = this.InitializeMethods();
+                return this.methods;
+            }
+        }
+
+        private IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> InitializeMethods()
+        {
+            return new LockedMethodMembersBase<ITopLevelMethod, INamespaceParent>(this._Members, this);
+        }
+
+        #endregion
+
+        #region IMethodParent Members
+
+        IMethodMemberDictionary IMethodParent.Methods
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        #endregion
     }
 }

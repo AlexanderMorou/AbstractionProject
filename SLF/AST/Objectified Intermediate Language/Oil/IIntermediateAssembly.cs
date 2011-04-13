@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Cst;
 using AllenCopeland.Abstraction.Slf.Oil.Modules;
 using AllenCopeland.Abstraction.Slf.Linkers;
+using AllenCopeland.Abstraction.Slf.Oil.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -25,6 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IIntermediateNamespaceParent,
         IIntermediateSegmentableDeclaration<IIntermediateAssembly>,
         IIntermediateCustomAttributedDeclaration,
+        IIntermediateFieldParent<IStaticDataField, IIntermediateStaticDataField, IAssembly, IIntermediateAssembly>,
         IAssembly,
         IConcreteNode
     {
