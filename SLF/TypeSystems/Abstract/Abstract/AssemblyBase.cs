@@ -63,11 +63,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Data member for <see cref="Methods"/>.
         /// </summary>
-        private IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> methods;
+        private IMethodMemberDictionary<ITopLevelMethodMember, INamespaceParent> methods;
         /// <summary>
         /// Data member for <see cref="Fields"/>.
         /// </summary>
-        private IFieldMemberDictionary<ITopLevelField, INamespaceParent> fields;
+        private IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> fields;
         private IFullMemberDictionary members;
         #endregion
         
@@ -110,13 +110,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// for holding the methods defined outside of a namespace.
         /// </summary>
         /// <returns>A new <see cref="IMethodMemberDictionary{TMethod, TMethodParent}"/> instance.</returns>
-        protected abstract IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> InitializeMethods();
+        protected abstract IMethodMemberDictionary<ITopLevelMethodMember, INamespaceParent> InitializeMethods();
         /// <summary>
         /// Initializes the <see cref="IFieldMemberDictionary{TField, TFieldParent}"/>
         /// for holding the fields defined outside of a namespace.
         /// </summary>
         /// <returns>A new <see cref="IFieldMemberDictionary{TField, TFieldParent}"/> instance.</returns>
-        protected abstract IFieldMemberDictionary<ITopLevelField, INamespaceParent> InitializeFields();
+        protected abstract IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> InitializeFields();
         /// <summary>
         /// Initializes the <see cref="IClassTypeDictionary"/> for holding
         /// the classes defined outside of a namespace.
@@ -525,9 +525,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
 
-        #region IMethodParent<ITopLevelMethod,INamespaceParent> Members
+        #region IMethodParent<ITopLevelMethodMember,INamespaceParent> Members
 
-        public IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> Methods
+        public IMethodMemberDictionary<ITopLevelMethodMember, INamespaceParent> Methods
         {
             get
             {
@@ -547,9 +547,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #endregion
 
-        #region IFieldParent<ITopLevelField,INamespaceParent> Members
+        #region IFieldParent<ITopLevelFieldMember,INamespaceParent> Members
 
-        public IFieldMemberDictionary<ITopLevelField, INamespaceParent> Fields
+        public IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> Fields
         {
             get
             {

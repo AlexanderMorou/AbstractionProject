@@ -184,6 +184,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region _ICompiledAssembly Members
 
+        public ICompiledModule GetModule(Module module)
+        {
+            return this.GetCompiledModule(module);
+        }
+
         public MethodInfo[] AssemblyGlobalMethods
         {
             get
@@ -505,7 +510,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        protected override IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> InitializeMethods()
+        protected override IMethodMemberDictionary<ITopLevelMethodMember, INamespaceParent> InitializeMethods()
         {
             this.CheckGlobals();
             /* *
@@ -516,26 +521,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
              * the module's name to be prefixed to the call prior to use.
              * */
             if (globalMemberType != null)
-                return new LockedMethodMembersBase<ITopLevelMethod, INamespaceParent>(this._Members, this, UnderlyingGlobalMethods, this.GetMethod);
+                return new LockedMethodMembersBase<ITopLevelMethodMember, INamespaceParent>(this._Members, this, UnderlyingGlobalMethods, this.GetMethod);
             else
-                return new LockedMethodMembersBase<ITopLevelMethod, INamespaceParent>(this._Members, this);
+                return new LockedMethodMembersBase<ITopLevelMethodMember, INamespaceParent>(this._Members, this);
         }
 
-        private ITopLevelMethod GetMethod(MethodInfo memberInfo)
+        private ITopLevelMethodMember GetMethod(MethodInfo memberInfo)
         {
             return new CompiledTopLevelMethod(memberInfo, this);
         }
 
-        protected override IFieldMemberDictionary<ITopLevelField, INamespaceParent> InitializeFields()
+        protected override IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> InitializeFields()
         {
             this.CheckFields();
             if (this.globalMemberType != null)
-                return new LockedFieldMembersBase<ITopLevelField, INamespaceParent>(this._Members, this, UnderlyingGlobalFields, this.GetField);
+                return new LockedFieldMembersBase<ITopLevelFieldMember, INamespaceParent>(this._Members, this, UnderlyingGlobalFields, this.GetField);
             else
-                return new LockedFieldMembersBase<ITopLevelField, INamespaceParent>(this._Members, this);
+                return new LockedFieldMembersBase<ITopLevelFieldMember, INamespaceParent>(this._Members, this);
         }
 
-        private ITopLevelField GetField(FieldInfo memberInfo)
+        private ITopLevelFieldMember GetField(FieldInfo memberInfo)
         {
             return new CompiledTopLevelField(memberInfo, this);
         }

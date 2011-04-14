@@ -100,8 +100,8 @@
     </Compile>
     <Compile Include="Abstract\CultureIdentifiers.cs" />
     <Compile Include="Abstract\CultureIdentifierTypeConverter.cs" />
-    <Compile Include="Abstract\ITopLevelField.cs" />
-    <Compile Include="Abstract\ITopLevelMethod.cs" />
+    <Compile Include="Abstract\ITopLevelFieldMember.cs" />
+    <Compile Include="Abstract\ITopLevelMethodMember.cs" />
     <Compile Include="Compilers\GlobalFieldContainerAttribute.cs" />
     <Compile Include="IProtectableComponent.cs" />
     <Compile Include="Abstract\GenericTypeCache.cs" />

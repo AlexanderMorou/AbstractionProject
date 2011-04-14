@@ -21,8 +21,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <remarks>Namespace parents
     /// are also able to contain types.</remarks>
     public interface INamespaceParent :
-        IFieldParent<ITopLevelField, INamespaceParent>,
-        IMethodParent<ITopLevelMethod, INamespaceParent>,
+        IFieldParent<ITopLevelFieldMember, INamespaceParent>,
+        IMethodParent<ITopLevelMethodMember, INamespaceParent>,
         ITypeParent
     {
         /// <summary>

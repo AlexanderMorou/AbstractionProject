@@ -505,6 +505,7 @@
     </Compile>
     <Compile Include="_Internal\GenericLayer\_StructTypeBase.cs" />
     <Compile Include="_Internal\GenericLayer\_StructTypesBase.cs" />
+    <Compile Include="_Internal\GenericLayer\_TopLevelMethod.cs" />
     <Compile Include="_Internal\GenericLayer\_Types{TType, TTypes}.cs" />
   </ItemGroup>
   <ItemGroup>

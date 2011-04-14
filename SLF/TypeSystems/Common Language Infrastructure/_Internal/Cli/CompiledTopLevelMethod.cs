@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using System.Reflection;
+using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal class CompiledTopLevelMethod :
-        CompiledMethodMemberBase<ITopLevelMethod, INamespaceParent>,
-        ITopLevelMethod
+        CompiledMethodMemberBase<ITopLevelMethodMember, INamespaceParent>,
+        ITopLevelMethodMember
     {
 
         public CompiledTopLevelMethod(MethodInfo memberInfo, INamespaceParent parent)
@@ -20,17 +22,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
         }
 
-        protected override ITopLevelMethod OnMakeGenericClosure(ITypeCollectionBase genericReplacements)
+        protected override ITopLevelMethodMember OnMakeGenericClosure(ITypeCollectionBase genericReplacements)
         {
             return new _TopLevelMethod(this, genericReplacements);
         }
-        #region ITopLevelMethod Members
+        #region ITopLevelMethodMember Members
 
         public IModule DeclaringModule
         {
             get {
-                throw new NotImplementedException();
-                //return this.MemberInfo.Module;
+                return this.MemberInfo.Module.GetModuleReference();
             }
         }
 
@@ -40,36 +41,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         #endregion
-
-        private class _TopLevelMethod :
-            _MethodMemberBase<ITopLevelMethod, INamespaceParent>,
-            ITopLevelMethod
-        {
-            public _TopLevelMethod(CompiledTopLevelMethod original, ITypeCollectionBase genericReplacements)
-                : base(original, genericReplacements)
-            {
-
-            }
-            protected override ITopLevelMethod OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
-            {
-                throw new InvalidOperationException(Resources.MakeGenericTypeError_IsGenericTypeDefFalse);
-            }
-
-            #region ITopLevelMethod Members
-
-            public IModule DeclaringModule
-            {
-                get { return this.Original.DeclaringModule; }
-            }
-
-            public string FullName
-            {
-                get { return this.Original.FullName; }
-            }
-
-            #endregion
-
-        }
 
 
     }

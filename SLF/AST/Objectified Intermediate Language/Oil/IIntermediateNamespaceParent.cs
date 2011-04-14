@@ -13,8 +13,8 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
     public interface IIntermediateNamespaceParent :
-        IIntermediateFieldParent<ITopLevelField, IIntermediateTopLevelField, INamespaceParent, IIntermediateNamespaceParent>,
-        IIntermediateMethodParent<ITopLevelMethod, IIntermediateTopLevelMethod, INamespaceParent, IIntermediateNamespaceParent>,
+        IIntermediateFieldParent<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent>,
+        IIntermediateMethodParent<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent>,
         IIntermediateTypeParent,
         INamespaceParent
     {
@@ -23,5 +23,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <see cref="IIntermediateNamespaceParent"/>.
         /// </summary>
         new IIntermediateNamespaceDictionary Namespaces { get; }
+        /// <summary>
+        /// Returns the <see cref="IIntermediateFullMemberDictionary"/> associated to the
+        /// <see cref="IIntermediateNamespaceParent"/> and the grouped series of members
+        /// associated to the fields and members.
+        /// </summary>
+        new IIntermediateFullMemberDictionary Members { get; }
     }
 }

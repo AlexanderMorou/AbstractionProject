@@ -5,7 +5,9 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Slf.Oil.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -51,7 +53,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Data member for <see cref="Namespaces"/>.
         /// </summary>
         private IIntermediateNamespaceDictionary namespaces;
-
+        private IntermediateFullMemberDictionary members;
+        private IIntermediateMethodMemberDictionary<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent> methods;
+        private IIntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent> fields;
         private IScopeCoercionCollection scopeCoercions;
 
         public IntermediateNamespaceDeclaration(string name, IIntermediateNamespaceParent parent)
@@ -569,5 +573,147 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get { return this.GetNamespaceParentIdentifiers(); }
         }
+
+        #region IIntermediateNamespaceParent Members
+
+
+        public IIntermediateFullMemberDictionary Members
+        {
+            get {
+                this.CheckFields();
+                this.CheckMethods();
+                return this._Members;
+            }
+        }
+
+        private void CheckFields()
+        {
+            if (this.fields == null)
+                this.fields = this.InitializeFields();
+        }
+
+        private void CheckMethods()
+        {
+            if (this.methods == null)
+                this.methods = this.InitializeMethods();
+        }
+
+        private IIntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent> InitializeFields()
+        {
+            if (this.IsRoot)
+                return new IntermediateTopLevelFieldMemberDictionary(this._Members, this);
+            else
+                return new IntermediateTopLevelFieldMemberDictionary(this._Members, this, this.GetRoot().Fields as IntermediateTopLevelFieldMemberDictionary);
+                
+        }
+
+        private IIntermediateMethodMemberDictionary<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent> InitializeMethods()
+        {
+            if (this.IsRoot)
+                return new IntermediateTopLevelMethodMemberDictionary(this._Members, this);
+            else
+                return new IntermediateTopLevelMethodMemberDictionary(this._Members, this, this.GetRoot().Methods as IntermediateTopLevelMethodMemberDictionary);
+        }
+
+        private IntermediateFullMemberDictionary _Members
+        {
+            get
+            {
+                if (this.members == null)
+                    this.members = new IntermediateFullMemberDictionary();
+                return this.members;
+            }
+        }
+
+        #endregion
+
+        #region IIntermediateFieldParent<ITopLevelFieldMember,IIntermediateTopLevelFieldMember,INamespaceParent,IIntermediateNamespaceParent> Members
+
+        public IIntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent> Fields
+        {
+            get {
+                this.CheckFields();
+                return this.fields;
+            }
+        }
+
+        #endregion
+
+        #region IFieldParent<ITopLevelFieldMember,INamespaceParent> Members
+
+        IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> IFieldParent<ITopLevelFieldMember, INamespaceParent>.Fields
+        {
+            get { return this.Fields; }
+        }
+
+        #endregion
+
+        #region IFieldParent Members
+
+        IFieldMemberDictionary IFieldParent.Fields
+        {
+            get { return (IFieldMemberDictionary)this.Fields; }
+        }
+
+        #endregion
+
+        #region IIntermediateFieldParent Members
+
+        IIntermediateFieldMemberDictionary IIntermediateFieldParent.Fields
+        {
+            get { return (IIntermediateFieldMemberDictionary)this.Fields; }
+        }
+
+        #endregion
+
+        #region IIntermediateMethodParent<ITopLevelMethodMember,IIntermediateTopLevelMethodMember,INamespaceParent,IIntermediateNamespaceParent> Members
+
+        public IIntermediateMethodMemberDictionary<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent> Methods
+        {
+            get {
+                this.CheckMethods();
+                return this.methods;
+            }
+        }
+
+        #endregion
+
+        #region IIntermediateMethodParent Members
+
+        IIntermediateMethodMemberDictionary IIntermediateMethodParent.Methods
+        {
+            get { return (IIntermediateMethodMemberDictionary)this.Methods; }
+        }
+
+        #endregion
+
+        #region IMethodParent Members
+
+        IMethodMemberDictionary IMethodParent.Methods
+        {
+            get { return (IMethodMemberDictionary)this.Methods; }
+        }
+
+        #endregion
+
+        #region IMethodParent<ITopLevelMethodMember,INamespaceParent> Members
+
+        IMethodMemberDictionary<ITopLevelMethodMember, INamespaceParent> IMethodParent<ITopLevelMethodMember, INamespaceParent>.Methods
+        {
+            get { return this.Methods; }
+        }
+
+        #endregion
+
+        #region INamespaceParent Members
+
+
+        IFullMemberDictionary INamespaceParent.Members
+        {
+            get {
+                return this.Members; }
+        }
+
+        #endregion
     }
 }
