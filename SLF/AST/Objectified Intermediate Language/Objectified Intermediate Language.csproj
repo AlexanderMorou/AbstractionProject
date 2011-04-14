@@ -204,19 +204,18 @@
     <Compile Include="Oil\Expressions\Linq\LinqRangeVariable.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqTypedRangeVariable.cs" />
     <Compile Include="Oil\IIntermediateDeclarationVisitor.cs" />
-    <Compile Include="Oil\IIntermediateDynamicHandler.cs" />
     <Compile Include="Oil\IIntermediateInclusionVisitor.cs" />
-    <Compile Include="Oil\IIntermediateTopLevelField.cs" />
-    <Compile Include="Oil\IIntermediateTopLevelMethod.cs" />
+    <Compile Include="Oil\IIntermediateTopLevelFieldMember.cs" />
+    <Compile Include="Oil\IIntermediateTopLevelMethodMember.cs" />
     <Compile Include="Oil\IIntermediateTypeVisitor.cs" />
-    <Compile Include="Oil\IntermediateDynamicHandler+MethodDictionary.cs" />
-    <Compile Include="Oil\IntermediateDynamicHandler.cs" />
     <Compile Include="Oil\ImplementedInterfacesDictionary+LockedVariant.cs">
       <DependentUpon>ImplementedInterfacesDictionary.cs</DependentUpon>
     </Compile>
-    <Compile Include="Oil\Members\IIntermediateDynamicMethod.cs" />
+    <Compile Include="Oil\IntermediateTopLevelFieldMember.cs" />
+    <Compile Include="Oil\IntermediateTopLevelFieldMemberDictionary.cs" />
+    <Compile Include="Oil\IntermediateTopLevelMethodDictionary.cs" />
+    <Compile Include="Oil\IntermediateTopLevelMethodMember.cs" />
     <Compile Include="Oil\Members\IIntermediateMemberVisitor.cs" />
-    <Compile Include="Oil\Members\IntermediateDynamicMethod.cs" />
     <Compile Include="Oil\Modules\IntermediateModuleDictionary+AbstractValueCollection.cs" />
     <Compile Include="Oil\Statements\ChangeEventHandlerStatement.cs" />
     <Compile Include="Oil\Statements\CommentStatement.cs" />

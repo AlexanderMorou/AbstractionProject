@@ -818,19 +818,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return false;
         }
 
-        /// <summary>
-        /// Creates a new <see cref="IIntermediateDynamicHandler"/> which manages a series of 
-        /// intermediate dynamic methods and the potential containing assembly required to handle
-        /// statement and expression expansion.
-        /// </summary>
-        /// <param name="autoCollect">Determines whether the <see cref="IIntermediateDynamicHandler"/>
-        /// and associated intermediate assembly should be automatically unloaded when <see cref="IDisposable.Dispose"/>
-        /// is called on it.</param>
-        /// <returns>A new <see cref="IIntermediateDynamicHandler"/>.</returns>
-        public static IIntermediateDynamicHandler CreateDynamicHandler(bool autoCollect = false)
-        {
-            return new IntermediateDynamicHandler(autoCollect);
-        }
+        ///// <summary>
+        ///// Creates a new <see cref="IIntermediateDynamicHandler"/> which manages a series of 
+        ///// intermediate dynamic methods and the potential containing assembly required to handle
+        ///// statement and expression expansion.
+        ///// </summary>
+        ///// <param name="autoCollect">Determines whether the <see cref="IIntermediateDynamicHandler"/>
+        ///// and associated intermediate assembly should be automatically unloaded when <see cref="IDisposable.Dispose"/>
+        ///// is called on it.</param>
+        ///// <returns>A new <see cref="IIntermediateDynamicHandler"/>.</returns>
+        //public static IIntermediateDynamicHandler CreateDynamicHandler(bool autoCollect = false)
+        //{
+        //    return new IntermediateDynamicHandler(autoCollect);
+        //}
 
         public static ICreateInstanceExpression GetNew(this IType target, params IExpression[] parameters)
         {
@@ -856,7 +856,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         internal static IEnumerable<string> GetNamespaceParentIdentifiers(this IIntermediateNamespaceParent parent)
         {
-            return (parent.Namespaces.GetNamespaceNames()).Concat(parent.Types.GetTypeNames()).Distinct();
+            return (from name in
+                        ((from ns in parent.Namespaces.GetNamespaceNames()
+                          select ns).Concat(
+                            from t in parent.Types.GetTypeNames()
+                            select t).Concat(
+                              from member in parent.Members.Values
+                              select member.Entry.Name)).Distinct()
+                    orderby name
+                    select name);
         }
     }
 }

@@ -69,5 +69,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return this.fieldRefCount > 0;
             }
         }
+
+        #region IDataSizeType Members
+
+        public int DataSize
+        {
+            get { return this.dataSize; }
+        }
+
+        #endregion
     }
 }

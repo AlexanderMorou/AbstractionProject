@@ -32,8 +32,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private Type[] namespaceTypes;
         private MethodInfo[] namespaceMethods;
         private FieldInfo[] namespaceFields;
-        private IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> methods;
-        private IFieldMemberDictionary<ITopLevelField, INamespaceParent> fields;
+        private IMethodMemberDictionary<ITopLevelMethodMember, INamespaceParent> methods;
+        private IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> fields;
         private IClassTypeDictionary classes;
         private IDelegateTypeDictionary delegates;
         private IEnumTypeDictionary enums;
@@ -457,9 +457,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        #region IMethodParent<ITopLevelMethod,INamespaceParent> Members
+        #region IMethodParent<ITopLevelMethodMember,INamespaceParent> Members
 
-        public IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> Methods
+        public IMethodMemberDictionary<ITopLevelMethodMember, INamespaceParent> Methods
         {
             get {
                 CheckMethods();
@@ -473,9 +473,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 this.methods = this.InitializeMethods();
         }
 
-        private IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> InitializeMethods()
+        private IMethodMemberDictionary<ITopLevelMethodMember, INamespaceParent> InitializeMethods()
         {
-            return new LockedMethodMembersBase<ITopLevelMethod, INamespaceParent>(this._Members, this, this.UnderlyingGlobalMethods, this.GetMethod);
+            return new LockedMethodMembersBase<ITopLevelMethodMember, INamespaceParent>(this._Members, this, this.UnderlyingGlobalMethods, this.GetMethod);
         }
 
         #endregion
@@ -500,9 +500,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
 
-        #region IFieldParent<ITopLevelField,INamespaceParent> Members
+        #region IFieldParent<ITopLevelFieldMember,INamespaceParent> Members
 
-        public IFieldMemberDictionary<ITopLevelField, INamespaceParent> Fields
+        public IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> Fields
         {
             get {
                 this.CheckFields();
@@ -516,9 +516,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 this.fields = this.InitializeFields();
         }
 
-        private IFieldMemberDictionary<ITopLevelField, INamespaceParent> InitializeFields()
+        private IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> InitializeFields()
         {
-            return new LockedFieldMembersBase<ITopLevelField, INamespaceParent>(this._Members, this, this.UnderlyingGlobalFields, this.GetField);
+            return new LockedFieldMembersBase<ITopLevelFieldMember, INamespaceParent>(this._Members, this, this.UnderlyingGlobalFields, this.GetField);
         }
 
         #endregion
@@ -532,12 +532,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-        private ITopLevelField GetField(FieldInfo memberInfo)
+        private ITopLevelFieldMember GetField(FieldInfo memberInfo)
         {
             return new CompiledTopLevelField(memberInfo, this);
         }
 
-        private ITopLevelMethod GetMethod(MethodInfo memberInfo)
+        private ITopLevelMethodMember GetMethod(MethodInfo memberInfo)
         {
             return new CompiledTopLevelMethod(memberInfo, this);
         }

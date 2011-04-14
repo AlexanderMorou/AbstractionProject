@@ -11,12 +11,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Defines properties and methods for working with a top-level method
     /// defined at a top level (outside of a class.)
     /// </summary>
-    public interface ITopLevelMethod :
-        IMethodMember<ITopLevelMethod, INamespaceParent>
+    public interface ITopLevelMethodMember :
+        IMethodMember<ITopLevelMethodMember, INamespaceParent>
     {
         /// <summary>
         /// Returns the <see cref="IModule"/> which declares the 
-        /// <see cref="ITopLevelMethod"/>.
+        /// <see cref="ITopLevelMethodMember"/>.
         /// </summary>
         IModule DeclaringModule { get; }
         /// <summary>

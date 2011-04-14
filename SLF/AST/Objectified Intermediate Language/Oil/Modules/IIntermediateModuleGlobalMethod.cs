@@ -24,9 +24,5 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         IIntermediateMethodMember<IModuleGlobalMethod, IIntermediateModuleGlobalMethod, IModule, IIntermediateModule>,
         IModuleGlobalMethod
     {
-        /// <summary>
-        /// Returns/sets the <see cref=""/>
-        /// </summary>
-        byte[] Data { get; set; }
     }
 }

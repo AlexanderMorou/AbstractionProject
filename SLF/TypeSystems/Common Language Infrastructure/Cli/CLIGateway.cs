@@ -403,6 +403,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             return result;
         }
 
+        public static ICompiledModule GetModuleReference(this Module module)
+        {
+            var assem = (_ICompiledAssembly)module.Assembly.GetAssemblyReference();
+            return assem.GetModule(module);
+        }
+
         /// <summary>
         /// Determines whether the <see cref="IType"/> is a primitive or not.
         /// </summary>
