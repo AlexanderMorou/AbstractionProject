@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -20,6 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <remarks>Namespace parents
     /// are also able to contain types.</remarks>
     public interface INamespaceParent :
+        IFieldParent<ITopLevelField, INamespaceParent>,
         IMethodParent<ITopLevelMethod, INamespaceParent>,
         ITypeParent
     {
@@ -29,5 +31,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// contained within the <see cref="INamespaceParent"/>.
         /// </summary>
         INamespaceDictionary Namespaces { get; }
+        /// <summary>
+        /// Returns the <see cref="IFullMemberDictionary"/> associated to the
+        /// <see cref="INamespaceParent"/> and the grouped series of members
+        /// associated to the fields and members.
+        /// </summary>
+        IFullMemberDictionary Members { get; }
     }
 }

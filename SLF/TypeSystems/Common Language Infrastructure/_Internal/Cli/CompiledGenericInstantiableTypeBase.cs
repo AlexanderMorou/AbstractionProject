@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         CompiledGenericTypeBase<TType>,
         IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType>,
         IEventSignatureParent,
-        ICompiledTypeParent
+        _ICompiledTypeParent
         where TIndexer :
             class,
             IIndexerMember<TIndexer, TType>

@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         CompiledGenericTypeBase<IInterfaceType>,
         ICompiledInterfaceType,
         IEventSignatureParent,
-        ICompiledTypeParent
+        _ICompiledTypeParent
     {
         private IMethodSignatureMemberDictionary<IInterfaceMethodMember, IInterfaceType> methods;
         private IPropertySignatureMemberDictionary<IInterfacePropertyMember, IInterfaceType> properties;
@@ -406,7 +406,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-        #region ICompiledTypeParent Members
+        #region _ICompiledTypeParent Members
 
         public Type[] UnderlyingSystemTypes
         {

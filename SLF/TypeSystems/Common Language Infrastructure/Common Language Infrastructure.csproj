@@ -246,6 +246,8 @@
     </Compile>
     <Compile Include="_Internal\Cli\CompiledStructType.cs" />
     <Compile Include="_Internal\Cli\CompiledStructTypeDictionary.cs" />
+    <Compile Include="_Internal\Cli\CompiledTopLevelField.cs" />
+    <Compile Include="_Internal\Cli\CompiledTopLevelMethod.cs" />
     <Compile Include="_Internal\Cli\CompiledTypeBase{TType}.cs" />
     <Compile Include="_Internal\Cli\CompiledTypeCustomAttributeCollection.cs" />
     <Compile Include="_Internal\Cli\CompiledTypeDictionary+KC.cs">
@@ -519,9 +521,7 @@
       <Name>TypeSystem Abstract</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Abstract\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>$(SolutionDir)BuildAssistant.bat $(PlatformName) "$(TargetDir)$(TargetFileName)" "$(ProjectName)"</PostBuildEvent>

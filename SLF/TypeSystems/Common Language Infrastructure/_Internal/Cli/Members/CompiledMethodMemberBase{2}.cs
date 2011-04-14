@@ -186,7 +186,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         internal void AddImplementationTarget(IMethodSignatureMember member)
         {
-
+            
         }
 
         protected override bool LastIsParamsImpl

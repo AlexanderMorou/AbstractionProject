@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         CompiledTypeDictionary<IInterfaceType>,
         IInterfaceTypeDictionary
     {
-        internal CompiledInterfaceTypeDictionary(ICompiledTypeParent parent, MasterDictionaryBase<string, IType> master)
+        internal CompiledInterfaceTypeDictionary(_ICompiledTypeParent parent, MasterDictionaryBase<string, IType> master)
             : base(parent, master, parent.UnderlyingSystemTypes.Filter(p => p.IsInterface))
         {
         }

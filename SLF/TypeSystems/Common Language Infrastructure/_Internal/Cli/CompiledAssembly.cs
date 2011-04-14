@@ -9,6 +9,9 @@ using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Common;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Compilers;
+using AllenCopeland.Abstraction.Slf._Internal.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -22,13 +25,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     internal partial class CompiledAssembly :
         AssemblyBase,
         _ICompiledAssembly,
-        ICompiledTypeParent
+        _ICompiledTypeParent,
+        _ICompiledNamespaceParent
     {
+        private LockedFullMembersBase _members;
+        private Type globalMemberType;
+        private bool globalMemberTypeRetrieved;
         private CompiledFullTypeDictionary _types;
-
+        private LockedFullMembersBase members;
         private bool initializedCustomAttributes;
         private Type[] assemblyTypes;
-        private Type[] assemblyLevelTypes;
+        private Type[] assemblyRootLevelTypes;
+        private MethodInfo[] assemblyGlobalMethods;
+        private MethodInfo[] assemblyRootLevelGlobalMethods;
+        private FieldInfo[] assemblyGlobalFields;
+        private FieldInfo[] assemblyRootLevelGlobalFields;
         private byte[] publicKeyToken = null;
         /// <summary>
         /// Data member for <see cref="AssemblyBase.AssemblyInformation"/>.
@@ -120,6 +131,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return new ModuleDictionary(this);
         }
 
+        protected override IFullMemberDictionary InitializeMembers()
+        {
+            this.CheckFields();
+            this.CheckMethods();
+            return this._Members;
+        }
+
         protected override bool CanCacheManifestModule
         {
             get { return true; }
@@ -165,6 +183,79 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         #region _ICompiledAssembly Members
+
+        public MethodInfo[] AssemblyGlobalMethods
+        {
+            get
+            {
+                if (this.assemblyGlobalMethods == null)
+                {
+                    this.CheckGlobals();
+                    if (this.globalMemberType != null)
+                    {
+                        var methods = this.globalMemberType.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Static).Filter(m =>
+                            {
+                                var accessLevelModifiers = m.GetAccessModifiers();
+                                switch (accessLevelModifiers)
+                                {
+                                    case AccessLevelModifiers.Private:
+                                    case AccessLevelModifiers.PrivateScope:
+                                        return false;
+                                    case AccessLevelModifiers.InternalProtected:
+                                    case AccessLevelModifiers.Internal:
+                                    case AccessLevelModifiers.Public:
+                                    case AccessLevelModifiers.Protected:
+                                    case AccessLevelModifiers.ProtectedInternal:
+                                    default:
+                                        return true;
+                                }
+                            });
+                        this.assemblyGlobalMethods = methods;
+                    }
+                    else
+                        this.assemblyGlobalMethods = new MethodInfo[0];
+
+                }
+                return this.assemblyGlobalMethods;
+            }
+        }
+
+        public FieldInfo[] AssemblyGlobalFields
+        {
+            get
+            {
+                if (this.assemblyGlobalFields == null)
+                {
+                    this.CheckGlobals();
+                    if (this.globalMemberType != null)
+                    {
+                        var fields = this.globalMemberType.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Static).Filter(
+                            f =>
+                            {
+                                var accessLevelModifiers = f.GetAccessModifiers();
+                                switch (accessLevelModifiers)
+                                {
+                                    case AccessLevelModifiers.Private:
+                                    case AccessLevelModifiers.PrivateScope:
+                                        return false;
+                                    case AccessLevelModifiers.InternalProtected:
+                                    case AccessLevelModifiers.Internal:
+                                    case AccessLevelModifiers.Public:
+                                    case AccessLevelModifiers.Protected:
+                                    case AccessLevelModifiers.ProtectedInternal:
+                                    default:
+                                        return true;
+                                }
+                            });
+                        this.assemblyGlobalFields = fields;
+                    }
+                    else
+                        this.assemblyGlobalFields = new FieldInfo[0];
+                }
+                return this.assemblyGlobalFields;
+            }
+        }
+
         public Type[] AssemblyTypes
         {
             get
@@ -211,6 +302,30 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region _ICompiledNamespaceParent Members
 
+        public FieldInfo[] UnderlyingGlobalFields
+        {
+            get
+            {
+                if (this.assemblyRootLevelGlobalFields == null)
+                    this.assemblyRootLevelGlobalFields = (from m in this.AssemblyGlobalFields
+                                                           where !m.Name.Contains('.')
+                                                           select m).ToArray();
+                return this.assemblyRootLevelGlobalFields;
+            }
+        }
+        
+        public MethodInfo[] UnderlyingGlobalMethods
+        {
+            get {
+                if (this.assemblyRootLevelGlobalMethods == null)
+                    this.assemblyRootLevelGlobalMethods = (from m in this.AssemblyGlobalMethods
+                                                           where !m.Name.Contains('.')
+                                                           select m).ToArray();
+                return this.assemblyRootLevelGlobalMethods;
+            }
+        }
+
+        
         _ICompiledAssembly _ICompiledNamespaceParent.Assembly
         {
             get { return this; }
@@ -313,14 +428,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        #region ICompiledTypeParent Members
+        #region _ICompiledTypeParent Members
 
         public Type[] UnderlyingSystemTypes
         {
             get {
-                if (assemblyLevelTypes == null)
-                    assemblyLevelTypes = this.InitializeAssemblyLevelTypes();
-                return this.assemblyLevelTypes;
+                if (assemblyRootLevelTypes == null)
+                    assemblyRootLevelTypes = this.InitializeAssemblyLevelTypes();
+                return this.assemblyRootLevelTypes;
             }
         }
 
@@ -353,11 +468,84 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
+        private void CheckGlobals()
+        {
+            if (!this.globalMemberTypeRetrieved)
+            {
+                try
+                {
+                    var globalMemberContainer = (from o in this.underlyingAssembly.GetCustomAttributes(typeof(GlobalMemberContainerAttribute), false)
+                                                 select (GlobalMemberContainerAttribute)o).FirstOrDefault();
+                    if (globalMemberContainer != null)
+                        this.globalMemberType = globalMemberContainer.GlobalMemberType;
+                }
+                /* *
+                 * If the container type was applied arbitrarily to a
+                 * type within the assembly that wasn't generated.
+                 * *
+                 * Or the type specified wasn't a static class.
+                 * Typical results of an attribute applied to a 
+                 * user-generated type, which also has a compiler
+                 * generated attribute applied.
+                 * */
+                catch (ArgumentException)
+                {
+                }
+                finally
+                {
+                    this.globalMemberTypeRetrieved = true;
+                }
+            }
+        }
 
         public override IEnumerable<string> AggregateIdentifiers
         {
             get {
                 return this.GetAggregateIdentifiers();
+            }
+        }
+
+        protected override IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> InitializeMethods()
+        {
+            this.CheckGlobals();
+            /* *
+             * All of the methods defined within the scope of the
+             * global member type are assembly level methods.
+             * The global methods within the modules with no namespace
+             * belong to that specific module and would thusly require
+             * the module's name to be prefixed to the call prior to use.
+             * */
+            if (globalMemberType != null)
+                return new LockedMethodMembersBase<ITopLevelMethod, INamespaceParent>(this._Members, this, UnderlyingGlobalMethods, this.GetMethod);
+            else
+                return new LockedMethodMembersBase<ITopLevelMethod, INamespaceParent>(this._Members, this);
+        }
+
+        private ITopLevelMethod GetMethod(MethodInfo memberInfo)
+        {
+            return new CompiledTopLevelMethod(memberInfo, this);
+        }
+
+        protected override IFieldMemberDictionary<ITopLevelField, INamespaceParent> InitializeFields()
+        {
+            this.CheckFields();
+            if (this.globalMemberType != null)
+                return new LockedFieldMembersBase<ITopLevelField, INamespaceParent>(this._Members, this, UnderlyingGlobalFields, this.GetField);
+            else
+                return new LockedFieldMembersBase<ITopLevelField, INamespaceParent>(this._Members, this);
+        }
+
+        private ITopLevelField GetField(FieldInfo memberInfo)
+        {
+            return new CompiledTopLevelField(memberInfo, this);
+        }
+
+        public LockedFullMembersBase _Members {
+            get
+            {
+                if (this._members == null)
+                    this._members = new LockedFullMembersBase();
+                return this._members;
             }
         }
     }

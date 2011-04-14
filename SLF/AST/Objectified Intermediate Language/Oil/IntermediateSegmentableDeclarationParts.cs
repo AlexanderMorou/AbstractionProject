@@ -48,6 +48,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public TDeclaration Add()
         {
             TDeclaration t = creator();
+            if (t == null)
+                return default(TDeclaration);
             lock (this.baseList)
                 this.baseList.Add(t);
             return t;

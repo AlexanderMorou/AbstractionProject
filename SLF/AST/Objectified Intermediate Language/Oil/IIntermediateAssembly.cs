@@ -26,7 +26,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IIntermediateNamespaceParent,
         IIntermediateSegmentableDeclaration<IIntermediateAssembly>,
         IIntermediateCustomAttributedDeclaration,
-        IIntermediateFieldParent<IStaticDataField, IIntermediateStaticDataField, IAssembly, IIntermediateAssembly>,
         IAssembly,
         IConcreteNode
     {

@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Events;
+using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -35,6 +36,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IIntermediateDeclaration,
             TDeclaration
     {
+        private bool isLockApplied = false;
         private int suspensionLevel = 0;
         private List<TDeclaration> suspendedMembers = new List<TDeclaration>();
         //private IDictionary<string, TDeclaration> suspendedMembers = new Dictionary<string,TDeclaration>();
@@ -346,6 +348,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         protected void AddDeclarations(TIntermediateDeclaration[] declarations)
         {
+            if (this.isLockApplied)
+                throw new InvalidOperationException(string.Format(Resources.LockableChangeThrowMessage, "dictionary"));
             if (declarations == null)
                 throw new ArgumentNullException("declarations");
             if (this.Suspended)
@@ -365,6 +369,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         protected void AddDeclaration(TIntermediateDeclaration declaration)
         {
+            if (this.isLockApplied)
+                throw new InvalidOperationException(string.Format(Resources.LockableChangeThrowMessage, "dictionary"));
             if (declaration == null)
                 throw new ArgumentNullException("declaration");
             if (this.Suspended)
@@ -372,6 +378,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     this.suspendedMembers.Add(declaration);
             else
                 base._Add(new KeyValuePair<string, TDeclaration>(declaration.UniqueIdentifier, declaration));
+        }
+
+        internal void Lock()
+        {
+            this.isLockApplied = true;
+        }
+
+        internal void Unlock()
+        {
+            this.isLockApplied = false;
         }
     }
 }

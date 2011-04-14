@@ -20,10 +20,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         IFullTypeDictionary,
         IDisposable
     {
-        private ICompiledTypeParent parent;
+        private _ICompiledTypeParent parent;
         private _KC kc;
         private _VC vc;
-        public CompiledFullTypeDictionary(ICompiledTypeParent parent)
+        public CompiledFullTypeDictionary(_ICompiledTypeParent parent)
             : base()
         {
             this.parent = parent;

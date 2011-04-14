@@ -130,6 +130,7 @@
     <Compile Include="Linkers\IAggregateNamespaceIdentityParentNode.cs" />
     <Compile Include="Oil\CSharpAssembly.cs" />
     <Compile Include="Oil\CSharpGateway.cs" />
+    <Compile Include="Oil\DataSizeType.cs" />
     <Compile Include="Oil\Expressions\CSharpAddSubtExpression.cs" />
     <Compile Include="Oil\Expressions\CSharpAssignExpression.cs" />
     <Compile Include="Oil\Expressions\CSharpBinaryOperationExpressionBase.cs" />
@@ -205,7 +206,7 @@
     <Compile Include="Oil\IIntermediateDeclarationVisitor.cs" />
     <Compile Include="Oil\IIntermediateDynamicHandler.cs" />
     <Compile Include="Oil\IIntermediateInclusionVisitor.cs" />
-    <Compile Include="Oil\IIntermediateStaticDataField.cs" />
+    <Compile Include="Oil\IIntermediateTopLevelField.cs" />
     <Compile Include="Oil\IIntermediateTopLevelMethod.cs" />
     <Compile Include="Oil\IIntermediateTypeVisitor.cs" />
     <Compile Include="Oil\IntermediateDynamicHandler+MethodDictionary.cs" />
@@ -236,9 +237,6 @@
     <Compile Include="Languages\ILanguageParser.cs" />
     <Compile Include="Languages\ILanguageProcessor.cs" />
     <Compile Include="Languages\ILanguageProvider.cs" />
-    <Compile Include="Oil\AnonymousType+PropertyMembers.cs">
-      <DependentUpon>AnonymousType.cs</DependentUpon>
-    </Compile>
     <Compile Include="Oil\AnonymousType.cs" />
     <Compile Include="Oil\Expressions\AssignmentExpression.cs" />
     <Compile Include="Oil\Expressions\AutoContextMemberSource.cs" />

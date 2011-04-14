@@ -160,7 +160,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Data member for the unary operator coercions defined within the type.
         /// </summary>
         private UnaryOperatorDictionary unaryOperatorCoercions;
-
+        private bool lockMembersAndTypes;
         #endregion
 
         private int suspendLevel = 0;
@@ -809,74 +809,110 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         protected virtual BinaryOperatorDictionary InitializeBinaryOperatorCoercions()
         {
+            BinaryOperatorDictionary result;
             if (this.IsRoot)
-                return new BinaryOperatorDictionary(this._Members, this);
+                result = new BinaryOperatorDictionary(this._Members, this);
             else
-                return new BinaryOperatorDictionary(this._Members, this, (BinaryOperatorDictionary)this.GetRoot().BinaryOperatorCoercions);
+                result = new BinaryOperatorDictionary(this._Members, this, (BinaryOperatorDictionary)this.GetRoot().BinaryOperatorCoercions);
+            if (this.IsLocked)
+                result.Lock();
+            return result;
         }
 
         protected virtual ConstructorDictionary InitializeConstructors()
         {
+            ConstructorDictionary result;
             if (this.IsRoot)
-                return new ConstructorDictionary(this._Members, this);
+                result = new ConstructorDictionary(this._Members, this);
             else
-                return new ConstructorDictionary(this._Members, this, (ConstructorDictionary)this.GetRoot().Constructors);
+                result = new ConstructorDictionary(this._Members, this, (ConstructorDictionary)this.GetRoot().Constructors);
+            if (this.IsLocked)
+                result.Lock();
+            return result;
         }
 
         protected virtual EventDictionary InitializeEvents()
         {
+            EventDictionary result;
             if (this.IsRoot)
-                return new EventDictionary(this._Members, this);
+                result = new EventDictionary(this._Members, this);
             else
-                return new EventDictionary(this._Members, this, (EventDictionary)this.GetRoot().Events);
+                result = new EventDictionary(this._Members, this, (EventDictionary)this.GetRoot().Events);
+            if (this.IsLocked)
+                result.Lock();
+            return result;
         }
 
         protected virtual IntermediateFieldMemberDictionary<TField, TIntermediateField, TType, TIntermediateType> InitializeFields()
         {
+            FieldDictionary result;
             if (this.IsRoot)
-                return new FieldDictionary(this._Members, (TInstanceIntermediateType)this);
+                result = new FieldDictionary(this._Members, (TInstanceIntermediateType)this);
             else
-                return new FieldDictionary(this._Members, (TInstanceIntermediateType)this, (FieldDictionary)this.GetRoot().Fields);
+                result = new FieldDictionary(this._Members, (TInstanceIntermediateType)this, (FieldDictionary)this.GetRoot().Fields);
+            if (this.IsLocked)
+                result.Lock();
+            return result;
         }
 
-        protected virtual IntermediateIndexerMemberDictionary<TIndexer, TIntermediateIndexer, TType, TIntermediateType> InitializeIndexers()
+        protected virtual IndexerDictionary InitializeIndexers()
         {
+            IndexerDictionary result;
             if (this.IsRoot)
-                return new IndexerDictionary(this._Members, (TInstanceIntermediateType)this);
+                result = new IndexerDictionary(this._Members, (TInstanceIntermediateType)this);
             else
-                return new IndexerDictionary(this._Members, (TInstanceIntermediateType)this, (IndexerDictionary)(this.GetRoot().Indexers));
+                result = new IndexerDictionary(this._Members, (TInstanceIntermediateType)this, (IndexerDictionary)(this.GetRoot().Indexers));
+            if (this.IsLocked)
+                result.Lock();
+            return result;
         }
 
         protected virtual MethodDictionary InitializeMethods()
         {
+            MethodDictionary result;
             if (this.IsRoot)
-                return new MethodDictionary(this._Members, (TInstanceIntermediateType)this);
+                result = new MethodDictionary(this._Members, (TInstanceIntermediateType)this);
             else
-                return new MethodDictionary(this._Members, (TInstanceIntermediateType)this, (MethodDictionary)this.GetRoot().Methods);
+                result = new MethodDictionary(this._Members, (TInstanceIntermediateType)this, (MethodDictionary)this.GetRoot().Methods);
+            if (this.IsLocked)
+                result.Lock();
+            return result;
         }
 
-        protected virtual IntermediatePropertyMemberDictionary<TProperty, TIntermediateProperty, TType, TIntermediateType> InitializeProperties()
+        protected virtual PropertyDictionary InitializeProperties()
         {
+            PropertyDictionary result;
             if (this.IsRoot)
-                return new PropertyDictionary(this._Members, (TInstanceIntermediateType)this);
+                result = new PropertyDictionary(this._Members, (TInstanceIntermediateType)this);
             else
-                return new PropertyDictionary(this._Members, (TInstanceIntermediateType)this, (PropertyDictionary)this.GetRoot().Properties);
+                result = new PropertyDictionary(this._Members, (TInstanceIntermediateType)this, (PropertyDictionary)this.GetRoot().Properties);
+            if (this.IsLocked)
+                result.Lock();
+            return result;
         }
 
         protected virtual TypeCoercionDictionary InitializeTypeCoercions()
         {
+            TypeCoercionDictionary result;
             if (this.IsRoot)
-                return new TypeCoercionDictionary(this._Members, this);
+                result = new TypeCoercionDictionary(this._Members, this);
             else
-                return new TypeCoercionDictionary(this._Members, this, (TypeCoercionDictionary)this.GetRoot().TypeCoercions);
+                result = new TypeCoercionDictionary(this._Members, this, (TypeCoercionDictionary)this.GetRoot().TypeCoercions);
+            if (this.IsLocked)
+                result.Lock();
+            return result;
         }
 
         protected virtual UnaryOperatorDictionary InitializeUnaryOperatorCoercions()
         {
+            UnaryOperatorDictionary result;
             if (this.IsRoot)
-                return new UnaryOperatorDictionary(this._Members, this);
+                result = new UnaryOperatorDictionary(this._Members, this);
             else
-                return new UnaryOperatorDictionary(this._Members, this, (UnaryOperatorDictionary)this.GetRoot().UnaryOperatorCoercions);
+                result = new UnaryOperatorDictionary(this._Members, this, (UnaryOperatorDictionary)this.GetRoot().UnaryOperatorCoercions);
+            if (this.IsLocked)
+                result.Lock();
+            return result;
         }
 
         #endregion
@@ -1004,6 +1040,64 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             finally
             {
                 base.Dispose(dispose);
+            }
+        }
+
+        internal override void OnLocked()
+        {
+            try
+            {
+                if (this.binaryOperatorCoercions != null)
+                    this.binaryOperatorCoercions.Lock();
+                if (this.constructors != null)
+                    this.constructors.Lock();
+                if (this.events != null)
+                    this.events.Lock();
+                if (this.fields != null)
+                    this.fields.Lock();
+                if (this.indexers != null)
+                    this.indexers.Lock();
+                if (this.methods != null)
+                    this.methods.Lock();
+                if (this.properties != null)
+                    this.properties.Lock();
+                if (this.typeCoercions != null)
+                    this.typeCoercions.Lock();
+                if (this.unaryOperatorCoercions != null)
+                    this.unaryOperatorCoercions.Lock();
+            }
+            finally
+            {
+                base.OnLocked();
+            }
+        }
+
+        internal override void OnUnlocked()
+        {
+            try
+            {
+                if (this.binaryOperatorCoercions != null)
+                    this.binaryOperatorCoercions.Unlock();
+                if (this.constructors != null)
+                    this.constructors.Unlock();
+                if (this.events != null)
+                    this.events.Unlock();
+                if (this.fields != null)
+                    this.fields.Unlock();
+                if (this.indexers != null)
+                    this.indexers.Unlock();
+                if (this.methods != null)
+                    this.methods.Unlock();
+                if (this.properties != null)
+                    this.properties.Unlock();
+                if (this.typeCoercions != null)
+                    this.typeCoercions.Unlock();
+                if (this.unaryOperatorCoercions != null)
+                    this.unaryOperatorCoercions.Unlock();
+            }
+            finally
+            {
+                base.OnUnlocked();
             }
         }
     }

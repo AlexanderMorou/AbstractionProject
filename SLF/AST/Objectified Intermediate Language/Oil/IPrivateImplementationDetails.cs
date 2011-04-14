@@ -25,5 +25,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         IAnonymousTypeDictionary AnonymousTypes { get; }
         Guid DetailGuid { get; set; }
+        /// <summary>
+        /// Obtains a <see cref="IDataSizeType"/>
+        /// of the given <paramref name="dataSize"/>.
+        /// </summary>
+        /// <param name="dataSize">The <see cref="Int32"/> value representing
+        /// the number of bytes within the data type.</param>
+        /// <returns>A <see cref="IDataSizeType"/> relative
+        /// to the <see cref="dataSize"/> provided.</returns>
+        IDataSizeType GetSizeDataType(int dataSize);
     }
 }

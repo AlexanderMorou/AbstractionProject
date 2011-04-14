@@ -58,6 +58,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             : base(root, parent)
         {
         }
+
+        internal IntermediateStructType(IIntermediateTypeParent parent)
+            : base(parent)
+        {
+
+        }
         protected override IntermediateGenericSegmentableInstantiableType<IStructCtorMember, IIntermediateStructCtorMember, IStructEventMember, IIntermediateStructEventMember, IntermediateStructEventMember<TInstanceIntermediateType>.EventMethodMember, IStructFieldMember, IIntermediateStructFieldMember, IStructIndexerMember, IIntermediateStructIndexerMember, IntermediateStructIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IStructMethodMember, IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember, IntermediateStructPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IStructType, IIntermediateStructType, TInstanceIntermediateType>.ConstructorMember GetNewConstructor()
         {
             return new IntermediateStructCtorMember<TInstanceIntermediateType>((TInstanceIntermediateType)this);

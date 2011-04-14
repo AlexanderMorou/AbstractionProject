@@ -17,9 +17,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
     /// Defines properties and methods for working with a global method
     /// defined on an intermediate module.
     /// </summary>
+    /// <remarks>Fields defined at the module level exist in the
+    /// .sdata portion of the executable and require the information to
+    /// be stored at compile time.</remarks>
     public interface IIntermediateModuleGlobalMethod :
         IIntermediateMethodMember<IModuleGlobalMethod, IIntermediateModuleGlobalMethod, IModule, IIntermediateModule>,
         IModuleGlobalMethod
     {
+        /// <summary>
+        /// Returns/sets the <see cref=""/>
+        /// </summary>
+        byte[] Data { get; set; }
     }
 }

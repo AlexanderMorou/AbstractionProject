@@ -20,6 +20,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         IntermediateFieldMemberBase<IModuleGlobalField, IIntermediateModuleGlobalField, IModule, IIntermediateModule>,
         IIntermediateModuleGlobalField
     {
+        private DataSizeType fieldType;
+        private Byte[] data;
         /// <summary>
         /// Creates a new <see cref="IntermediateModuleGlobalField"/> instance
         /// with the <paramref name="name"/> and <paramref name="parent"/>
@@ -32,6 +34,47 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         public IntermediateModuleGlobalField(string name, IIntermediateModule parent)
             : base(name, parent)
         {
+        }
+
+        public override Abstract.IType FieldType
+        {
+            get
+            {
+                return this.fieldType;
+            }
+            set
+            {
+                throw new InvalidOperationException("Cannot alter the field type of a field which stores information within the .sdata of the pe header.");
+            }
+        }
+
+        public Byte[] Data
+        {
+            get
+            {
+                return this.data;
+            }
+            set
+            {
+                if (value==null)
+                    throw new ArgumentNullException("data cannot be null");
+                if (value.Length == 0)
+                    throw new ArgumentException("data cannot be empty.");
+                if (this.fieldType != null)
+                {
+                    if (this.data != null &&
+                        this.data.Length != value.Length)
+                    {
+                        this.fieldType.RemoveReference();
+                        if (!this.fieldType.IsNeeded)
+                        {
+                            var pidDetails = (this.Parent == null ? null : this.Parent.Parent == null ? null : this.Parent.Parent.PrivateImplementationDetails == null ? null : this.Parent.Parent.PrivateImplementationDetails) as PrivateImplementationDetails;
+                            pidDetails.KillSizeDataType(this.data.Length);
+                        }
+                    }
+                }
+                this.data = value;
+            }
         }
     }
 }

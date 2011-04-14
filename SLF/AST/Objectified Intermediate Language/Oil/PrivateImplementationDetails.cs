@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -17,6 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IPrivateImplementationDetails
     {
         private Guid detailGuid;
+        private ControlledStateDictionary<int, DataSizeType> dataSizeTypes = new ControlledStateDictionary<int,DataSizeType>(); 
         internal PrivateImplementationDetails(IIntermediateAssembly parent)
             : base(parent)
         {
@@ -62,6 +64,31 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         protected override PrivateImplementationDetails GetNewPartial(PrivateImplementationDetails root, IIntermediateTypeParent parent)
         {
             return new PrivateImplementationDetails(root, parent);
+        }
+
+        #region IPrivateImplementationDetails Members
+
+        public IDataSizeType GetSizeDataType(int dataSize)
+        {
+            if (!dataSizeTypes.ContainsKey(dataSize))
+                dataSizeTypes._Add(dataSize, new DataSizeType(this, dataSize));
+            return dataSizeTypes[key: dataSize];
+        }
+
+        #endregion
+
+
+        internal void KillSizeDataType(int dataSize)
+        {
+            if (this.dataSizeTypes.ContainsKey(dataSize))
+            {
+                var current = this.dataSizeTypes[key: dataSize];
+                if (!current.IsNeeded)
+                {
+                    current.Dispose();
+                    this.dataSizeTypes._Remove(key: dataSize);
+                }
+            }
         }
     }
 }

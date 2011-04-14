@@ -102,6 +102,7 @@
     <Compile Include="Abstract\CultureIdentifierTypeConverter.cs" />
     <Compile Include="Abstract\ITopLevelField.cs" />
     <Compile Include="Abstract\ITopLevelMethod.cs" />
+    <Compile Include="Compilers\GlobalFieldContainerAttribute.cs" />
     <Compile Include="IProtectableComponent.cs" />
     <Compile Include="Abstract\GenericTypeCache.cs" />
     <Compile Include="Abstract\IMassTargetHandler.cs" />

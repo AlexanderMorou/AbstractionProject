@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         CompiledTypeDictionary<IClassType>,
         IClassTypeDictionary
     {
-        internal CompiledClassTypeDictionary(ICompiledTypeParent parent, MasterDictionaryBase<string, IType> master)
+        internal CompiledClassTypeDictionary(_ICompiledTypeParent parent, MasterDictionaryBase<string, IType> master)
             : base(parent, master, parent.UnderlyingSystemTypes.Filter(p => p.IsClass && (!typeof(Delegate).IsAssignableFrom(p) || typeof(Delegate) == p)))
         {
         }

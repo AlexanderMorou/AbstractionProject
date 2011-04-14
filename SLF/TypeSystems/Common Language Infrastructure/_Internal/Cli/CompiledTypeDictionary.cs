@@ -23,8 +23,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IType<TType>
     {
         private Type[] filteredSeries;
-        internal ICompiledTypeParent parent;
-        public CompiledTypeDictionary(ICompiledTypeParent parent, MasterDictionaryBase<string, IType> master, Type[] filteredSeries)
+        internal _ICompiledTypeParent parent;
+        public CompiledTypeDictionary(_ICompiledTypeParent parent, MasterDictionaryBase<string, IType> master, Type[] filteredSeries)
             : base(master)
         {
             this.parent = parent;
