@@ -24,14 +24,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         DeclarationBase,
         INamespaceDeclaration,
         _ICompiledNamespaceParent,
-        ICompiledTypeParent
+        _ICompiledTypeParent
     {
         private _ICompiledNamespaceParent parent;
         private string name;
         private IList<string> namespaceNames;
         private Type[] namespaceTypes;
         private MethodInfo[] namespaceMethods;
+        private FieldInfo[] namespaceFields;
         private IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> methods;
+        private IFieldMemberDictionary<ITopLevelField, INamespaceParent> fields;
         private IClassTypeDictionary classes;
         private IDelegateTypeDictionary delegates;
         private IEnumTypeDictionary enums;
@@ -39,6 +41,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private IStructTypeDictionary structs;
         private _ICompiledNamespaceDeclarations namespaces;
         private CompiledFullTypeDictionary types;
+        private LockedFullMembersBase _members;
         public CompiledNamespaceDeclaration(string name, _ICompiledNamespaceParent parent)
         {
             this.name = name;
@@ -80,6 +83,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         #endregion
 
         #region INamespaceParent Members
+
+        public IFullMemberDictionary Members
+        {
+            get
+            {
+                this.CheckFields();
+                this.CheckMethods();
+                return this._Members;
+            }
+        }
 
         INamespaceDictionary INamespaceParent.Namespaces
         {
@@ -349,13 +362,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return result.ToArray();
         }
 
-        public MethodInfo[] UnderlyingMethodInfos
+        public MethodInfo[] UnderlyingGlobalMethods
         {
             get
             {
                 if (this.namespaceMethods == null)
                     this.namespaceMethods = this.InitializeNamespaceMethods();
                 return this.namespaceMethods;
+            }
+        }
+        public FieldInfo[] UnderlyingGlobalFields
+        {
+            get
+            {
+                if (this.namespaceFields == null)
+                    this.namespaceFields = this.InitializeNamespaceFields();
+                return this.namespaceFields;
             }
         }
 
@@ -381,6 +403,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     select m).ToArray();
         }
 
+        private FieldInfo[] InitializeNamespaceFields()
+        {
+            string fullName = this.GetFullName();
+            int fullLength = fullName.Length;
+            /* *
+             * Filter the fields from the global fields based off of
+             * the prefix being identical to the fullname of the current
+             * namespace.
+             * */
+            return (from m in this.Assembly.AssemblyGlobalFields
+                    let mName = m.Name
+                    where mName.Length > fullLength
+                    let lName = mName.Substring(0, fullLength)
+                    where lName == fullName
+                    let dot = mName[fullLength]
+                    let rName = mName.Substring(fullLength + 1)
+                    where dot == '.' &&
+                        !(string.IsNullOrEmpty(rName) ||
+                            rName.Contains('.'))
+                    select m).ToArray();
+        }
         #region INamespaceDeclaration Members
 
         IAssembly INamespaceDeclaration.Assembly
@@ -419,15 +462,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> Methods
         {
             get {
-                if (this.methods == null)
-                    this.methods = this.InitializeMethods();
+                CheckMethods();
                 return this.methods;
             }
         }
 
+        private void CheckMethods()
+        {
+            if (this.methods == null)
+                this.methods = this.InitializeMethods();
+        }
+
         private IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> InitializeMethods()
         {
-            return new LockedMethodMembersBase<ITopLevelMethod, INamespaceParent>(this._Members, this);
+            return new LockedMethodMembersBase<ITopLevelMethod, INamespaceParent>(this._Members, this, this.UnderlyingGlobalMethods, this.GetMethod);
         }
 
         #endregion
@@ -436,9 +484,62 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IMethodMemberDictionary IMethodParent.Methods
         {
-            get { throw new NotImplementedException(); }
+            get { return (IMethodMemberDictionary)this.Methods; }
         }
 
         #endregion
+
+        public LockedFullMembersBase _Members
+        {
+            get
+            {
+                if (this._members == null)
+                    this._members = new LockedFullMembersBase();
+                return this._members;
+            }
+        }
+
+
+        #region IFieldParent<ITopLevelField,INamespaceParent> Members
+
+        public IFieldMemberDictionary<ITopLevelField, INamespaceParent> Fields
+        {
+            get {
+                this.CheckFields();
+                return this.fields;
+            }
+        }
+
+        private void CheckFields()
+        {
+            if (this.fields == null)
+                this.fields = this.InitializeFields();
+        }
+
+        private IFieldMemberDictionary<ITopLevelField, INamespaceParent> InitializeFields()
+        {
+            return new LockedFieldMembersBase<ITopLevelField, INamespaceParent>(this._Members, this, this.UnderlyingGlobalFields, this.GetField);
+        }
+
+        #endregion
+
+        #region IFieldParent Members
+
+        IFieldMemberDictionary IFieldParent.Fields
+        {
+            get { return (IFieldMemberDictionary)this.Fields; }
+        }
+
+        #endregion
+
+        private ITopLevelField GetField(FieldInfo memberInfo)
+        {
+            return new CompiledTopLevelField(memberInfo, this);
+        }
+
+        private ITopLevelMethod GetMethod(MethodInfo memberInfo)
+        {
+            return new CompiledTopLevelMethod(memberInfo, this);
+        }
     }
 }

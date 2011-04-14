@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         CompiledTypeDictionary<IStructType>,
         IStructTypeDictionary
     {
-        internal CompiledStructTypeDictionary(ICompiledTypeParent parent, MasterDictionaryBase<string, IType> master)
+        internal CompiledStructTypeDictionary(_ICompiledTypeParent parent, MasterDictionaryBase<string, IType> master)
             : base(parent, master, parent.UnderlyingSystemTypes.Filter(p => p.IsValueType && !p.IsEnum))
         {
         }

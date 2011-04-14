@@ -64,6 +64,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Data member for <see cref="Methods"/>.
         /// </summary>
         private IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> methods;
+        /// <summary>
+        /// Data member for <see cref="Fields"/>.
+        /// </summary>
+        private IFieldMemberDictionary<ITopLevelField, INamespaceParent> fields;
+        private IFullMemberDictionary members;
         #endregion
         
         #region Protected Members
@@ -100,6 +105,18 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #region InitializationMembers
 
+        /// <summary>
+        /// Initializes the <see cref="IMethodMemberDictionary{TMethod, TMethodParent}"/>
+        /// for holding the methods defined outside of a namespace.
+        /// </summary>
+        /// <returns>A new <see cref="IMethodMemberDictionary{TMethod, TMethodParent}"/> instance.</returns>
+        protected abstract IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> InitializeMethods();
+        /// <summary>
+        /// Initializes the <see cref="IFieldMemberDictionary{TField, TFieldParent}"/>
+        /// for holding the fields defined outside of a namespace.
+        /// </summary>
+        /// <returns>A new <see cref="IFieldMemberDictionary{TField, TFieldParent}"/> instance.</returns>
+        protected abstract IFieldMemberDictionary<ITopLevelField, INamespaceParent> InitializeFields();
         /// <summary>
         /// Initializes the <see cref="IClassTypeDictionary"/> for holding
         /// the classes defined outside of a namespace.
@@ -143,6 +160,74 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #endregion
 
+        #region Internal members
+
+        #region Check members
+
+        internal void CheckFields()
+        {
+            if (this.fields == null)
+                this.fields = this.InitializeFields();
+        }
+
+        internal void CheckMethods()
+        {
+            if (this.methods == null)
+                this.methods = this.InitializeMethods();
+        }
+
+        internal void CheckClasses()
+        {
+            if (this.classes == null)
+                this.classes = this.InitializeClasses();
+        }
+
+        internal void CheckDelegates()
+        {
+            if (this.delegates == null)
+                this.delegates = this.InitializeDelegates();
+        }
+
+        internal void CheckEnumerators()
+        {
+            if (this.enums == null)
+                this.enums = this.InitializeEnums();
+        }
+
+        internal void CheckInterfaces()
+        {
+            if (this.interfaces == null)
+                this.interfaces = this.InitializeInterfaces();
+        }
+
+        internal void CheckStructs()
+        {
+            if (this.structs == null)
+                this.structs = this.InitializeStructs();
+        }
+
+        internal void CheckTypes()
+        {
+            if (this.types == null)
+                this.types = this.InitializeTypes();
+        }
+
+        internal void CheckModules()
+        {
+            if (this.modules == null)
+                this.modules = this.InitializeModules();
+        }
+
+        internal void CheckMembers()
+        {
+            if (this.members == null)
+                this.members = this.InitializeMembers();
+        }
+
+        #endregion
+
+        #endregion
+
         #region ITypeParent Members
 
         public abstract IEnumerable<string> AggregateIdentifiers { get; }
@@ -160,12 +245,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
 
-        internal void CheckClasses()
-        {
-            if (this.classes == null)
-                this.classes = this.InitializeClasses();
-        }
-
         /// <summary>
         /// Returns the <see cref="IDelegateTypeDictionary"/> associated
         /// to the <see cref="AssemblyBase"/>.
@@ -177,12 +256,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 CheckDelegates();
                 return this.delegates;
             }
-        }
-
-        internal void CheckDelegates()
-        {
-            if (this.delegates == null)
-                this.delegates = this.InitializeDelegates();
         }
 
         /// <summary>
@@ -198,12 +271,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
 
-        internal void CheckEnumerators()
-        {
-            if (this.enums == null)
-                this.enums = this.InitializeEnums();
-        }
-
         /// <summary>
         /// Returns the <see cref="IInterfaceTypeDictionary"/> associated
         /// to the <see cref="AssemblyBase"/>.
@@ -215,12 +282,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 CheckInterfaces();
                 return this.interfaces;
             }
-        }
-
-        internal void CheckInterfaces()
-        {
-            if (this.interfaces == null)
-                this.interfaces = this.InitializeInterfaces();
         }
 
         /// <summary>
@@ -236,12 +297,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
 
-        internal void CheckStructs()
-        {
-            if (this.structs == null)
-                this.structs = this.InitializeStructs();
-        }
-
         /// <summary>
         /// Returns the <see cref="IFullTypeDictionary"/>  associated to
         /// the <see cref="AssemblyBase"/>.
@@ -250,8 +305,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             get
             {
-                if (this.types == null)
-                    this.types = this.InitializeTypes();
+                CheckTypes();
                 return this.types;
             }
         }
@@ -296,16 +350,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 return this.modules;
             }
         }
-
-        private void CheckModules()
-        {
-            if (this.modules == null)
-                this.modules = this.InitializeModules();
-        }
-
         #endregion
 
         protected abstract IModuleDictionary InitializeModules();
+
+        protected abstract IFullMemberDictionary InitializeMembers();
 
         #region IDisposable Members
 
@@ -348,19 +397,34 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     this.structs.Dispose();
                     this.structs = null;
                 }
+                if (this.modules != null)
+                {
+                    foreach (var module in this.modules.Values)
+                        module.Dispose();
+                    this.modules = null;
+                }
                 this.types = null;
-                GC.SuppressFinalize(this);
             }
             finally
             {
                 this.OnDisposed();
                 this.Disposed = null;
+                GC.SuppressFinalize(this);
             }
         }
 
         #endregion
 
         #region INamespaceParent Members
+
+        public IFullMemberDictionary Members
+        {
+            get {
+                this.CheckMembers();
+                return this.members;
+            }
+        }
+
 
         /// <summary>
         /// Returns the <see cref="INamespaceDictionary"/>
@@ -467,13 +531,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             get
             {
-                if (this.methods == null)
-                    this.methods = this.InitializeMethods();
+                CheckMethods();
                 return this.methods;
             }
         }
-
-        protected abstract IMethodMemberDictionary<ITopLevelMethod, INamespaceParent> InitializeMethods();
 
         #endregion
 
@@ -482,6 +543,28 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IMethodMemberDictionary IMethodParent.Methods
         {
             get { return (IMethodMemberDictionary)this.Methods; }
+        }
+
+        #endregion
+
+        #region IFieldParent<ITopLevelField,INamespaceParent> Members
+
+        public IFieldMemberDictionary<ITopLevelField, INamespaceParent> Fields
+        {
+            get
+            {
+                CheckFields();
+                return this.fields;
+            }
+        }
+
+        #endregion
+
+        #region IFieldParent Members
+
+        IFieldMemberDictionary IFieldParent.Fields
+        {
+            get { return (IFieldMemberDictionary)this.Fields; }
         }
 
         #endregion

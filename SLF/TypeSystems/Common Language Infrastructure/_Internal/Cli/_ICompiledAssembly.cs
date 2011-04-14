@@ -33,5 +33,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// contained within the <see cref="_ICompiledAssembly"/>.
         /// </summary>
         MethodInfo[] AssemblyGlobalMethods { get; }
+        /// <summary>
+        /// Returns the <see cref="FieldInfo"/> array relative to the fields
+        /// contained within the <see cref="_ICompiledAssembly"/>.
+        /// </summary>
+        FieldInfo[] AssemblyGlobalFields { get; }
     }
 }

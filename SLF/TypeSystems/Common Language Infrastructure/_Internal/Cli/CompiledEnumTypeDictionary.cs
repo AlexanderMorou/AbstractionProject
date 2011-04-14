@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         CompiledTypeDictionary<IEnumType>,
         IEnumTypeDictionary
     {
-        internal CompiledEnumTypeDictionary(ICompiledTypeParent parent, MasterDictionaryBase<string, IType> master)
+        internal CompiledEnumTypeDictionary(_ICompiledTypeParent parent, MasterDictionaryBase<string, IType> master)
             : base(parent, master, parent.UnderlyingSystemTypes.Filter(p => p.IsEnum))
         {
         }

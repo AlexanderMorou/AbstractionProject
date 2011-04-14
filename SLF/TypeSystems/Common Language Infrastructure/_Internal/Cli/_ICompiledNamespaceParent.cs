@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
+using System.Reflection;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -33,5 +34,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// namespace names.
         /// </summary>
         IList<string> NamespaceNames { get; }
+        /// <summary>
+        /// Returns the <see cref="MethodInfo"/> array relative to the methods
+        /// contained within the <see cref="_ICompiledNamespaceParent"/>.
+        /// </summary>
+        MethodInfo[] UnderlyingGlobalMethods { get; }
+        /// <summary>
+        /// Returns the <see cref="FieldInfo"/> array relative to the fields
+        /// contained within the <see cref="_ICompiledNamespaceParent"/>.
+        /// </summary>
+        FieldInfo[] UnderlyingGlobalFields { get; }
     }
 }

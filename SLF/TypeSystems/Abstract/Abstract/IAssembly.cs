@@ -27,7 +27,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// </summary>
     public interface IAssembly :
         INamespaceParent,
-        IFieldParent<IStaticDataField, IAssembly>,
         ICustomAttributedDeclaration,
         IDisposable
     {

@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     public struct AnonymousTypeMember :
         IEquatable<AnonymousTypeMember>
     {
-        private bool IndexSet { get; set; }
+        private bool PositionSet { get; set; }
 
         /// <summary>
         /// Creates a new <see cref="AnonymousTypeMember"/>
@@ -61,7 +61,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             : this(original.Name, original.Immutable)
         {
             this.Position = index;
-            IndexSet = true;
+            PositionSet = true;
         }
 
         #region IEquatable<AnonymousTypeMember> Members
@@ -93,23 +93,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             unchecked
             {
-                /* *
-                 * There's no magic to programming: Just logic.
-                 * The logic here?  To obfuscate.
-                 * After all, Local consts are replaced with literals
-                 * on compilation and these names and values, 
-                 * for the most part, disappear.
-                 * *
-                 * As for why I'm obfuscating such a simple thing:
-                 *      No idea.
-                 * */
-                const int magic1 = -12405032,
-                          magic2 = 20021453,
-                          magic3 = 8675309,
-                          magic4 = magic2 % magic3,
-                          magic5 = magic1 * magic4;
-                return magic5 +
-                    ((this.Name.GetHashCode() % magic3 + this.Immutable.GetHashCode()) * magic4);
+                return this.Name.GetHashCode() | (this.Immutable ? this.PositionSet ? (this.Position + 1) : 2670835 : 0);
             }
         }
 
@@ -198,11 +182,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         public override string ToString()
         {
             if (this.Immutable)
-                if (IndexSet)
+                if (PositionSet)
                     return string.Format("[{0}] {1} (read-only)", this.Position, this.Name);
                 else
                     return string.Format("{0} (read-only)", this.Name);
-            else if (IndexSet)
+            else if (PositionSet)
                 return string.Format("[{0}] {1}", this.Position, this.Name);
             return this.Name;
         }

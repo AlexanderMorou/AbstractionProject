@@ -50,6 +50,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Data memer for <see cref="DeclaringModule"/>.
         /// </summary>
         private IIntermediateModule declaringModule;
+        private bool isLocked;
 
         /// <summary>
         /// Returns the <see cref="String"/> name of the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>.
@@ -446,5 +447,34 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public abstract void Visit(IIntermediateTypeVisitor visitor);
 
         #endregion
+
+
+        internal void Lock()
+        {
+            this.OnLocked();
+        }
+
+        internal void Unlock()
+        {
+            this.OnUnlocked();
+        }
+
+        internal virtual void OnLocked()
+        {
+            this.isLocked = true;
+        }
+
+        internal virtual void OnUnlocked()
+        {
+            this.isLocked = false;
+        }
+
+        internal bool IsLocked
+        {
+            get
+            {
+                return this.isLocked;
+            }
+        }
     }
 }

@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+using AllenCopeland.Abstraction.Utilities.Collections;
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
-    public partial class AnonymousType : 
-        IntermediateClassType<AnonymousType>, 
+    public partial class AnonymousType :
+        IntermediateClassType<AnonymousType>,
         IAnonymousType
     {
         /// <summary>
@@ -32,6 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             this.index = parent.PrivateImplementationDetails.AnonymousTypes.Count;
             this.members = members;
+            this.Lock();
         }
 
         #region IAnonymousType Members
@@ -56,14 +58,33 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        protected override AnonymousType GetNewPartial(AnonymousType root, IIntermediateTypeParent parent)
+        protected override IntermediateGenericTypeBase<IClassType, IIntermediateClassType>.TypeParameterDictionary InitializeTypeParameters()
         {
-            throw new NotSupportedException();
+            var result = base.InitializeTypeParameters();
+            /* *
+             * No need to worry about the lock placed upon
+             * the the anonymous type's members: initialization
+             * preceeds the lock placed, since the reference obtained
+             * through the above means ignores the locked
+             * state.  It's only after the initialization is complete that
+             * the lock is placed.
+             * */
+            result.AddRange((from i in this.MemberCount.Range()
+                             select new GenericParameterData(string.Format("T{0}", members[i].Name))).ToArray());
+            return result;
         }
 
-        protected override IntermediateFullTypeDictionary InitializeTypes()
+        protected override IntermediateGenericSegmentableInstantiableType<Abstract.Members.IClassCtorMember, Members.IIntermediateClassCtorMember, Abstract.Members.IClassEventMember, Members.IIntermediateClassEventMember, IntermediateClassEventMember<AnonymousType>.EventMethodMember, Abstract.Members.IClassFieldMember, Members.IIntermediateClassFieldMember, Abstract.Members.IClassIndexerMember, Members.IIntermediateClassIndexerMember, IntermediateClassIndexerMember<AnonymousType>.IndexerMethodMember, Abstract.Members.IClassMethodMember, Members.IIntermediateClassMethodMember, Abstract.Members.IClassPropertyMember, Members.IIntermediateClassPropertyMember, IntermediateClassPropertyMember<AnonymousType>.PropertyMethodMember, IClassType, IIntermediateClassType, AnonymousType>.PropertyDictionary InitializeProperties()
         {
-            throw new NotSupportedException();
+            var result = base.InitializeProperties();
+            
+            return result;
+        }
+
+
+        protected override AnonymousType GetNewPartial(AnonymousType root, IIntermediateTypeParent parent)
+        {
+            return null;
         }
 
     }

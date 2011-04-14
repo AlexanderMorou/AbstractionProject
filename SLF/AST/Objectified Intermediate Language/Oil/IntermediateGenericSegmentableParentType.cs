@@ -72,6 +72,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
+        private bool lockMembersAndTypes;
+
         /// <summary>
         /// Creates a new <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// instance with the <paramref name="name"/> and <paramref name="parent"/> provided.
@@ -331,10 +333,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// instance provided here report the current partial instance as the parent.</remarks>
         protected virtual IntermediateClassTypeDictionary InitializeClasses()
         {
+            IntermediateClassTypeDictionary result;
             if (this.IsRoot)
-                return new IntermediateClassTypeDictionary(this, this._Types);
+                result = new IntermediateClassTypeDictionary(this, this._Types);
             else
-                return new IntermediateClassTypeDictionary(this, this._Types, (IntermediateClassTypeDictionary)this.GetRoot().Classes);
+                result = new IntermediateClassTypeDictionary(this, this._Types, (IntermediateClassTypeDictionary)this.GetRoot().Classes);
+            if (this.IsLocked)
+                result.Lock();
+            return result;
         }
 
         /// <summary>
@@ -351,10 +357,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// instance provided here report the current partial instance as the parent.</remarks>
         protected virtual IntermediateDelegateTypeDictionary InitializeDelegates()
         {
+            IntermediateDelegateTypeDictionary result;
             if (this.IsRoot)
-                return new IntermediateDelegateTypeDictionary(this, this._Types);
+                result  = new IntermediateDelegateTypeDictionary(this, this._Types);
             else
-                return new IntermediateDelegateTypeDictionary(this, this._Types, (IntermediateDelegateTypeDictionary)this.GetRoot().Delegates);
+                result = new IntermediateDelegateTypeDictionary(this, this._Types, (IntermediateDelegateTypeDictionary)this.GetRoot().Delegates);
+            if (this.IsLocked)
+                result.Lock();
+            return result;
         }
 
         /// <summary>
@@ -371,10 +381,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// instance provided here report the current partial instance as the parent.</remarks>
         protected virtual IntermediateEnumTypeDictionary InitializeEnums()
         {
+            IntermediateEnumTypeDictionary result;
             if (this.IsRoot)
-                return new IntermediateEnumTypeDictionary(this, this._Types);
+                result = new IntermediateEnumTypeDictionary(this, this._Types);
             else
-                return new IntermediateEnumTypeDictionary(this, this._Types, (IntermediateEnumTypeDictionary)this.GetRoot().Enums);
+                result = new IntermediateEnumTypeDictionary(this, this._Types, (IntermediateEnumTypeDictionary)this.GetRoot().Enums);
+            if (this.IsLocked)
+                result.Lock();
+            return result;
         }
 
         /// <summary>
@@ -391,10 +405,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// instance provided here report the current partial instance as the parent.</remarks>
         protected virtual IntermediateInterfaceTypeDictionary InitializeInterfaces()
         {
+            IntermediateInterfaceTypeDictionary result;
             if (this.IsRoot)
-                return new IntermediateInterfaceTypeDictionary(this, this._Types);
+                result  = new IntermediateInterfaceTypeDictionary(this, this._Types);
             else
-                return new IntermediateInterfaceTypeDictionary(this, this._Types, (IntermediateInterfaceTypeDictionary)this.GetRoot().Interfaces);
+                result = new IntermediateInterfaceTypeDictionary(this, this._Types, (IntermediateInterfaceTypeDictionary)this.GetRoot().Interfaces);
+            if (this.IsLocked)
+                result.Lock();
+            return result;
         }
 
         /// <summary>
@@ -411,10 +429,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// instance provided here report the current partial instance as the parent.</remarks>
         protected virtual IntermediateStructTypeDictionary InitializeStructs()
         {
+            IntermediateStructTypeDictionary result;
             if (this.IsRoot)
-                return new IntermediateStructTypeDictionary(this, this._Types);
+                result = new IntermediateStructTypeDictionary(this, this._Types);
             else
-                return new IntermediateStructTypeDictionary(this, this._Types, (IntermediateStructTypeDictionary)this.GetRoot().Structs);
+                result = new IntermediateStructTypeDictionary(this, this._Types, (IntermediateStructTypeDictionary)this.GetRoot().Structs);
+            if (this.IsLocked)
+                result.Lock();
+            return result;
         }
 
         /// <summary>
@@ -541,6 +563,48 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         select member.Name).Concat
                        (from type in this.Types.Values
                         select type.Entry.Name).Distinct();
+            }
+        }
+
+        internal override void OnLocked()
+        {
+            try
+            {
+                if (this.classes != null)
+                    this.classes.Lock();
+                if (this.delegates != null)
+                    this.delegates.Lock();
+                if (this.enums != null)
+                    this.enums.Lock();
+                if (this.interfaces != null)
+                    this.interfaces.Lock();
+                if (this.structs != null)
+                    this.structs.Lock();
+            }
+            finally
+            {
+                base.OnLocked();
+            }
+        }
+
+        internal override void OnUnlocked()
+        {
+            try
+            {
+                if (this.classes != null)
+                    this.classes.Unlock();
+                if (this.delegates != null)
+                    this.delegates.Unlock();
+                if (this.enums != null)
+                    this.enums.Unlock();
+                if (this.interfaces != null)
+                    this.interfaces.Unlock();
+                if (this.structs != null)
+                    this.structs.Unlock();
+            }
+            finally
+            {
+                base.OnUnlocked();
             }
         }
     }
