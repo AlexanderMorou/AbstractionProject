@@ -198,7 +198,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     this.CheckGlobals();
                     if (this.globalMemberType != null)
                     {
-                        var methods = this.globalMemberType.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Static).Filter(m =>
+                        var methods = this.globalMemberType.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).Filter(m =>
                             {
                                 var accessLevelModifiers = m.GetAccessModifiers();
                                 switch (accessLevelModifiers)
@@ -234,7 +234,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     this.CheckGlobals();
                     if (this.globalMemberType != null)
                     {
-                        var fields = this.globalMemberType.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Static).Filter(
+                        var fields = this.globalMemberType.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public).Filter(
                             f =>
                             {
                                 var accessLevelModifiers = f.GetAccessModifiers();
@@ -533,7 +533,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> InitializeFields()
         {
-            this.CheckFields();
+            this.CheckGlobals();
             if (this.globalMemberType != null)
                 return new LockedFieldMembersBase<ITopLevelFieldMember, INamespaceParent>(this._Members, this, UnderlyingGlobalFields, this.GetField);
             else
