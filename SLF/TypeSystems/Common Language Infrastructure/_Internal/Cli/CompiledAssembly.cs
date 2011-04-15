@@ -36,10 +36,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private bool initializedCustomAttributes;
         private Type[] assemblyTypes;
         private Type[] assemblyRootLevelTypes;
-        private MethodInfo[] assemblyGlobalMethods;
-        private MethodInfo[] assemblyRootLevelGlobalMethods;
-        private FieldInfo[] assemblyGlobalFields;
-        private FieldInfo[] assemblyRootLevelGlobalFields;
+        private Dictionary<string, Tuple<FieldInfo[], MethodInfo[]>> globals;
+        private Type[] globalNamespaceTypes = null;
         private byte[] publicKeyToken = null;
         /// <summary>
         /// Data member for <see cref="AssemblyBase.AssemblyInformation"/>.
@@ -189,76 +187,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.GetCompiledModule(module);
         }
 
-        public MethodInfo[] AssemblyGlobalMethods
+        public Tuple<FieldInfo[], MethodInfo[]> GetNamespaceMembers(string @namespace)
         {
-            get
+            this.CheckGlobals();
+            if (!this.globals.ContainsKey(@namespace))
             {
-                if (this.assemblyGlobalMethods == null)
-                {
-                    this.CheckGlobals();
-                    if (this.globalMemberType != null)
+                bool found = false;
+                foreach (var type in this.globalNamespaceTypes)
+                    if (type.Name == @namespace)
                     {
-                        var methods = this.globalMemberType.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).Filter(m =>
-                            {
-                                var accessLevelModifiers = m.GetAccessModifiers();
-                                switch (accessLevelModifiers)
-                                {
-                                    case AccessLevelModifiers.Private:
-                                    case AccessLevelModifiers.PrivateScope:
-                                        return false;
-                                    case AccessLevelModifiers.InternalProtected:
-                                    case AccessLevelModifiers.Internal:
-                                    case AccessLevelModifiers.Public:
-                                    case AccessLevelModifiers.Protected:
-                                    case AccessLevelModifiers.ProtectedInternal:
-                                    default:
-                                        return true;
-                                }
-                            });
-                        this.assemblyGlobalMethods = methods;
+                        found = true;
+                        this.globals.Add(@namespace, this.ObtainNamespaceInfo(type));
+                        break;
                     }
-                    else
-                        this.assemblyGlobalMethods = new MethodInfo[0];
-
-                }
-                return this.assemblyGlobalMethods;
+                if (!found)
+                    this.globals.Add(@namespace, new Tuple<FieldInfo[], MethodInfo[]>(new FieldInfo[0], new MethodInfo[0]));
             }
-        }
-
-        public FieldInfo[] AssemblyGlobalFields
-        {
-            get
-            {
-                if (this.assemblyGlobalFields == null)
-                {
-                    this.CheckGlobals();
-                    if (this.globalMemberType != null)
-                    {
-                        var fields = this.globalMemberType.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public).Filter(
-                            f =>
-                            {
-                                var accessLevelModifiers = f.GetAccessModifiers();
-                                switch (accessLevelModifiers)
-                                {
-                                    case AccessLevelModifiers.Private:
-                                    case AccessLevelModifiers.PrivateScope:
-                                        return false;
-                                    case AccessLevelModifiers.InternalProtected:
-                                    case AccessLevelModifiers.Internal:
-                                    case AccessLevelModifiers.Public:
-                                    case AccessLevelModifiers.Protected:
-                                    case AccessLevelModifiers.ProtectedInternal:
-                                    default:
-                                        return true;
-                                }
-                            });
-                        this.assemblyGlobalFields = fields;
-                    }
-                    else
-                        this.assemblyGlobalFields = new FieldInfo[0];
-                }
-                return this.assemblyGlobalFields;
-            }
+            return this.globals[@namespace];
         }
 
         public Type[] AssemblyTypes
@@ -311,22 +256,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.assemblyRootLevelGlobalFields == null)
-                    this.assemblyRootLevelGlobalFields = (from m in this.AssemblyGlobalFields
-                                                           where !m.Name.Contains('.')
-                                                           select m).ToArray();
-                return this.assemblyRootLevelGlobalFields;
+                return this.GetNamespaceMembers(string.Empty).Item1;
             }
         }
         
+
         public MethodInfo[] UnderlyingGlobalMethods
         {
             get {
-                if (this.assemblyRootLevelGlobalMethods == null)
-                    this.assemblyRootLevelGlobalMethods = (from m in this.AssemblyGlobalMethods
-                                                           where !m.Name.Contains('.')
-                                                           select m).ToArray();
-                return this.assemblyRootLevelGlobalMethods;
+                return this.GetNamespaceMembers(string.Empty).Item2;
             }
         }
 
@@ -481,8 +419,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 {
                     var globalMemberContainer = (from o in this.underlyingAssembly.GetCustomAttributes(typeof(GlobalMemberContainerAttribute), false)
                                                  select (GlobalMemberContainerAttribute)o).FirstOrDefault();
+
                     if (globalMemberContainer != null)
+                    {
                         this.globalMemberType = globalMemberContainer.GlobalMemberType;
+                        this.globals = new Dictionary<string, Tuple<FieldInfo[], MethodInfo[]>>();
+                        Type[] namespacesWithGlobals = globalMemberType.GetNestedTypes(BindingFlags.Public).Filter(t => (t.Attributes & (TypeAttributes.Abstract | TypeAttributes.Sealed)) == (TypeAttributes.Abstract | TypeAttributes.Sealed));
+                        this.globalNamespaceTypes = namespacesWithGlobals;
+                        this.globals.Add(string.Empty, ObtainNamespaceInfo(globalMemberType));
+                    }
                 }
                 /* *
                  * If the container type was applied arbitrarily to a
@@ -502,7 +447,45 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
             }
         }
-
+        private Tuple<FieldInfo[], MethodInfo[]> ObtainNamespaceInfo(Type targetType)
+        {
+            var fields = targetType.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public).Filter(
+            f =>
+            {
+                var accessLevelModifiers = f.GetAccessModifiers();
+                switch (accessLevelModifiers)
+                {
+                    case AccessLevelModifiers.Private:
+                    case AccessLevelModifiers.PrivateScope:
+                        return false;
+                    case AccessLevelModifiers.InternalProtected:
+                    case AccessLevelModifiers.Internal:
+                    case AccessLevelModifiers.Public:
+                    case AccessLevelModifiers.Protected:
+                    case AccessLevelModifiers.ProtectedInternal:
+                    default:
+                        return true;
+                }
+            });
+            var methods = targetType.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).Filter(m =>
+            {
+                var accessLevelModifiers = m.GetAccessModifiers();
+                switch (accessLevelModifiers)
+                {
+                    case AccessLevelModifiers.Private:
+                    case AccessLevelModifiers.PrivateScope:
+                        return false;
+                    case AccessLevelModifiers.InternalProtected:
+                    case AccessLevelModifiers.Internal:
+                    case AccessLevelModifiers.Public:
+                    case AccessLevelModifiers.Protected:
+                    case AccessLevelModifiers.ProtectedInternal:
+                    default:
+                        return true;
+                }
+            });
+            return new Tuple<FieldInfo[], MethodInfo[]>(fields, methods);
+        }
         public override IEnumerable<string> AggregateIdentifiers
         {
             get {
@@ -514,11 +497,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             this.CheckGlobals();
             /* *
-             * All of the methods defined within the scope of the
-             * global member type are assembly level methods.
-             * The global methods within the modules with no namespace
-             * belong to that specific module and would thusly require
-             * the module's name to be prefixed to the call prior to use.
+             * If there was no 'public globals' type exported,
+             * there are no globals associated to the assembly; 
+             * however, in the off chance that there is.  
+             * They need to be retrieved.
              * */
             if (globalMemberType != null)
                 return new LockedMethodMembersBase<ITopLevelMethodMember, INamespaceParent>(this._Members, this, UnderlyingGlobalMethods, this.GetMethod);

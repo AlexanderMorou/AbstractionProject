@@ -29,16 +29,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// namespace names.
         /// </summary>
         IList<string> FullNamespaceNames { get; }
-        /// <summary>
-        /// Returns the <see cref="MethodInfo"/> array relative to the methods
-        /// contained within the <see cref="_ICompiledAssembly"/>.
-        /// </summary>
-        MethodInfo[] AssemblyGlobalMethods { get; }
-        /// <summary>
-        /// Returns the <see cref="FieldInfo"/> array relative to the fields
-        /// contained within the <see cref="_ICompiledAssembly"/>.
-        /// </summary>
-        FieldInfo[] AssemblyGlobalFields { get; }
+        Tuple<FieldInfo[], MethodInfo[]> GetNamespaceMembers(string @namespace);
 
         /// <summary>
         /// Obtains the <see cref="ICompiledModule"/> associated to 
