@@ -26,20 +26,14 @@ using System.Runtime.CompilerServices;
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
-[assembly: GlobalMemberContainer(typeof(SimpleCompilerTest))]
 namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 {
-    [CompilerGenerated]
     public static class SimpleCompilerTest 
     {
         public static Func<TimeSpan> WindowsFormsTestTimedAction = ((Action)WindowsFormsTest).TimeActionFunc();
         public static Func<string, TimeSpan> PrintAllTimedAction = ((Action<string>)PrintAll).TimeActionFunc();
         public static void Main(string[] args)
         {
-            var m = typeof(SimpleCompilerTest).Assembly.GetAssemblyReference();
-            var fm = m.Methods.Values.First();
-            Console.WriteLine(m.Members);
-            Console.WriteLine(fm);
             const string targetNamespace = "System.Collections.Generic";
             Console.WriteLine("Time elapsed for iteration test (1): {0}", PrintAllTimedAction(targetNamespace));
             Console.WriteLine("Time elapsed for test (1): {0}", WindowsFormsTestTimedAction());

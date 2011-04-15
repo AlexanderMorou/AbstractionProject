@@ -367,7 +367,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get
             {
                 if (this.namespaceMethods == null)
-                    this.namespaceMethods = this.InitializeNamespaceMethods();
+                    this.namespaceMethods = this.Assembly.GetNamespaceMembers(this.FullName).Item2;
                 return this.namespaceMethods;
             }
         }
@@ -376,54 +376,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get
             {
                 if (this.namespaceFields == null)
-                    this.namespaceFields = this.InitializeNamespaceFields();
+                    this.namespaceFields = this.Assembly.GetNamespaceMembers(this.FullName).Item1;
                 return this.namespaceFields;
             }
         }
 
-        private MethodInfo[] InitializeNamespaceMethods()
-        {
-            string fullName = this.GetFullName();
-            int fullLength = fullName.Length;
-            /* *
-             * Filter the methods from the global methods based off of
-             * the prefix being identical to the fullname of the current
-             * namespace.
-             * */
-            return (from m in this.Assembly.AssemblyGlobalMethods
-                    let mName = m.Name
-                    where mName.Length > fullLength
-                    let lName = mName.Substring(0, fullLength)
-                    where lName == fullName
-                    let dot = mName[fullLength]
-                    let rName = mName.Substring(fullLength + 1)
-                    where dot == '.' &&
-                        !(string.IsNullOrEmpty(rName) ||
-                            rName.Contains('.'))
-                    select m).ToArray();
-        }
-
-        private FieldInfo[] InitializeNamespaceFields()
-        {
-            string fullName = this.GetFullName();
-            int fullLength = fullName.Length;
-            /* *
-             * Filter the fields from the global fields based off of
-             * the prefix being identical to the fullname of the current
-             * namespace.
-             * */
-            return (from m in this.Assembly.AssemblyGlobalFields
-                    let mName = m.Name
-                    where mName.Length > fullLength
-                    let lName = mName.Substring(0, fullLength)
-                    where lName == fullName
-                    let dot = mName[fullLength]
-                    let rName = mName.Substring(fullLength + 1)
-                    where dot == '.' &&
-                        !(string.IsNullOrEmpty(rName) ||
-                            rName.Contains('.'))
-                    select m).ToArray();
-        }
         #region INamespaceDeclaration Members
 
         IAssembly INamespaceDeclaration.Assembly
