@@ -64,7 +64,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Data member for <see cref="Types"/>.
         /// </summary>
-        private IntermediateFullTypeDictionary types;
+        private new IntermediateFullTypeDictionary types;
         private IntermediateFullMemberDictionary members;
         private IScopeCoercionCollection scopeCoercions;
         /* *
@@ -751,7 +751,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateFieldParent<ITopLevelFieldMember,IIntermediateTopLevelFieldMember,INamespaceParent,IIntermediateNamespaceParent> Members
 
-        public IIntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent> Fields
+        public new IIntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent> Fields
         {
             get
             {
@@ -791,7 +791,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateMethodParent<ITopLevelMethodMember,IIntermediateTopLevelMethodMember,INamespaceParent,IIntermediateNamespaceParent> Members
 
-        public IIntermediateMethodMemberDictionary<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent> Methods
+        public new IIntermediateMethodMemberDictionary<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent> Methods
         {
             get
             {
@@ -829,7 +829,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        public IIntermediateFullMemberDictionary Members
+        public new IIntermediateFullMemberDictionary Members
         {
             get
             {

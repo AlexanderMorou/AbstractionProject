@@ -20,6 +20,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Returns/sets the <see cref="IIntermediateModule"/> in which the 
         /// <see cref="IIntermediateTopLevelMethodMember"/> should be declared.
         /// </summary>
-        IIntermediateModule DeclaringModule { get; set; }
+        new IIntermediateModule DeclaringModule { get; set; }
     }
 }
