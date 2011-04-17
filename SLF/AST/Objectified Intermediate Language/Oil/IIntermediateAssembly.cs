@@ -26,8 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IIntermediateNamespaceParent,
         IIntermediateSegmentableDeclaration<IIntermediateAssembly>,
         IIntermediateCustomAttributedDeclaration,
-        IAssembly,
-        IConcreteNode
+        IAssembly
     {
         /// <summary>
         /// Returns itself.

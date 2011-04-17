@@ -34,14 +34,29 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
         public static Func<string, TimeSpan> PrintAllTimedAction = ((Action<string>)PrintAll).TimeActionFunc();
         public static void Main(string[] args)
         {
-            const string targetNamespace = "System.Collections.Generic";
-            Console.WriteLine("Time elapsed for iteration test (1): {0}", PrintAllTimedAction(targetNamespace));
-            Console.WriteLine("Time elapsed for test (1): {0}", WindowsFormsTestTimedAction());
-            CLIGateway.ClearCache();
-            Console.WriteLine("Time elapsed for iteration test (2): {0}", PrintAllTimedAction(targetNamespace));
-            Console.WriteLine("Time elapsed for test (2): {0}", WindowsFormsTestTimedAction());
-        }
+            int testCount = 9;
+            for (int i = 0; i < testCount; i++)
+            {
+                if (i == 0)
+                    Console.WriteLine("Test ran with full JIT.");
+                else if (i == 1)
+                {
+                    CLIGateway.ClearCache();
+                    Console.WriteLine("Test ran with JIT finished, with clean cache.");
+                }
+                else
+                    Console.WriteLine("Test #{0} ran with JIT finished, with cache intact.", i - 1);
 
+                DoTest();
+                Console.WriteLine();
+            }
+        }
+        private static void DoTest()
+        {
+            const string targetNamespace = "System.Collections.Generic";
+            Console.WriteLine("Time elapsed for iteration test: {0}", PrintAllTimedAction(targetNamespace));
+            Console.WriteLine("Time elapsed for object model test: {0}", WindowsFormsTestTimedAction());
+        }
         private static void PrintAll(string @namespace)
         {
             typeof(int).Assembly.GetAssemblyReference().Namespaces[@namespace].AggregateIdentifiers.OnAll(PrintAllOnAll);
@@ -68,7 +83,6 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
             var mainDialog = testAssembly.DefaultNamespace.Classes.Add("MainDialog");
             mainDialog.BaseType = typeof(Form).GetTypeReference<IClassType>();
             mainDialog.AccessLevel = AccessLevelModifiers.Internal;
-
             CreateProgramClass(testAssembly, mainDialog);
             
             //Add the designer partial file to the main dialog.
@@ -109,13 +123,8 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
 
         private static void CreateProgramClass(IIntermediateAssembly testAssembly, IIntermediateClassType mainDialog)
         {
-            //Define the program class.
-            var program = testAssembly.DefaultNamespace.Classes.Add("Program");
-            program.SpecialModifier = SpecialClassModifier.Static;
-
             //Define the main method of the program class.
-            var mainMethod = program.Methods.Add("Main", new TypedNameSeries() { { "args", CommonTypeRefs.String.MakeArray() } });
-            mainMethod.IsStatic = true; //implicit, but explicit in some languages.
+            var mainMethod = testAssembly.DefaultNamespace.Methods.Add("Main", new TypedNameSeries() { { "args", CommonTypeRefs.String.MakeArray() } });
             mainMethod.AccessLevel = AccessLevelModifiers.Private;
 
             //Obtain a reference to the application class.

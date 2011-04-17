@@ -11,6 +11,10 @@ using AllenCopeland.Abstraction.Slf.Oil;
 
 namespace AllenCopeland.Abstraction.Slf.CSharp
 {
+    /// <summary>
+    /// Provides a base implementation for an assembly
+    /// defined within the C&#9839; language.
+    /// </summary>
     public class CSharpAssembly :
         IntermediateAssembly<CSharpAssembly>,
         ICSharpAssembly
@@ -26,14 +30,28 @@ namespace AllenCopeland.Abstraction.Slf.CSharp
         {
         }
 
+        /// <summary>
+        /// Creates a new <see cref="CSharpAssembly"/> with the
+        /// <paramref name="name"/> of the assembly provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value
+        /// which aids in differentiating the <see cref="CSharpAssembly"/>
+        /// from other <see cref="IAssembly"/> instances.</param>
         internal protected CSharpAssembly(string name)
             : base(name)
         {
 
         }
+
+        /// <summary>
+        /// Returns a new <see cref="CSharpAssembly"/> for the 
+        /// 
+        /// </summary>
+        /// <returns></returns>
         protected override CSharpAssembly GetNewPart()
         {
             return new CSharpAssembly(this);
         }
+
     }
 }

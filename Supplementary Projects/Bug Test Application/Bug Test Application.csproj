@@ -154,10 +154,6 @@
       <Project>{02607DC2-E98B-43AE-B906-FE151A70A68D}</Project>
       <Name>Objectified Intermediate Language</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SLF\Languages\Toy++\Toy++.csproj">
-      <Project>{DA55A92C-B4EE-4350-AC02-B6C25D795723}</Project>
-      <Name>Toy++</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\SLF\Languages\VisualBasic.NET\VisualBasic.NET.csproj">
       <Project>{9C89419D-F2A1-4882-8408-6708A038E025}</Project>
       <Name>VisualBasic.NET</Name>

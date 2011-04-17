@@ -39,6 +39,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get
             {
+                if (this.declaringModule == null)
+                    return this.Assembly.ManifestModule;
                 return this.declaringModule;
             }
             set

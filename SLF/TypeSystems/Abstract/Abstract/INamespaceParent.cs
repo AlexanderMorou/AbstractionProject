@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Returns the <see cref="IFullMemberDictionary"/> associated to the
         /// <see cref="INamespaceParent"/> and the grouped series of members
-        /// associated to the fields and members.
+        /// associated to the fields and methods.
         /// </summary>
         IFullMemberDictionary Members { get; }
     }
