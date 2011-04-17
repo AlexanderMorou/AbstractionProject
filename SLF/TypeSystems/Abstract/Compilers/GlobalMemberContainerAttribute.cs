@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
-    [AttributeUsage(AttributeTargets.Assembly)]
+    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false)]
     public class GlobalMemberContainerAttribute :
         Attribute
     {

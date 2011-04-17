@@ -163,61 +163,100 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         #region Internal members
 
         #region Check members
-
+        /// <summary>
+        /// Checks the initialization status of the <see cref="Fields"/>
+        /// associated to the <see cref="AssemblyBase"/>.
+        /// </summary>
         internal void CheckFields()
         {
             if (this.fields == null)
                 this.fields = this.InitializeFields();
         }
 
+        /// <summary>
+        /// Checks the initialization status of the <see cref="Methods"/>
+        /// associated to the <see cref="AssemblyBase"/>.
+        /// </summary>
         internal void CheckMethods()
         {
             if (this.methods == null)
                 this.methods = this.InitializeMethods();
         }
 
+        /// <summary>
+        /// Checks the initialization status of the <see cref="Classes"/>
+        /// associated to the <see cref="AssemblyBase"/>.
+        /// </summary>
         internal void CheckClasses()
         {
             if (this.classes == null)
                 this.classes = this.InitializeClasses();
         }
 
+        /// <summary>
+        /// Checks the initialization status of the <see cref="Delegates"/>
+        /// associated to the <see cref="AssemblyBase"/>.
+        /// </summary>
         internal void CheckDelegates()
         {
             if (this.delegates == null)
                 this.delegates = this.InitializeDelegates();
         }
 
+        /// <summary>
+        /// Checks the initialization status of the <see cref="Enumerators"/>
+        /// associated to the <see cref="AssemblyBase"/>.
+        /// </summary>
         internal void CheckEnumerators()
         {
             if (this.enums == null)
                 this.enums = this.InitializeEnums();
         }
 
+        /// <summary>
+        /// Checks the initialization status of the <see cref="Interfaces"/>
+        /// associated to the <see cref="AssemblyBase"/>.
+        /// </summary>
         internal void CheckInterfaces()
         {
             if (this.interfaces == null)
                 this.interfaces = this.InitializeInterfaces();
         }
 
+        /// <summary>
+        /// Checks the initialization status of the <see cref="Structs"/>
+        /// associated to the <see cref="AssemblyBase"/>.
+        /// </summary>
         internal void CheckStructs()
         {
             if (this.structs == null)
                 this.structs = this.InitializeStructs();
         }
 
+        /// <summary>
+        /// Checks the initialization status of the <see cref="Types"/>
+        /// associated to the <see cref="AssemblyBase"/>.
+        /// </summary>
         internal void CheckTypes()
         {
             if (this.types == null)
                 this.types = this.InitializeTypes();
         }
 
+        /// <summary>
+        /// Checks the initialization status of the <see cref="Modules"/>
+        /// associated to the <see cref="AssemblyBase"/>.
+        /// </summary>
         internal void CheckModules()
         {
             if (this.modules == null)
                 this.modules = this.InitializeModules();
         }
 
+        /// <summary>
+        /// Checks the initialization status of the <see cref="Members"/>
+        /// associated to the <see cref="AssemblyBase"/>.
+        /// </summary>
         internal void CheckMembers()
         {
             if (this.members == null)
@@ -230,6 +269,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #region ITypeParent Members
 
+        /// <summary>
+        /// Returns a series of string values which relate to the 
+        /// identifiers contained within the <see cref="AssemblyBase"/>
+        /// </summary>
         public abstract IEnumerable<string> AggregateIdentifiers { get; }
 
         /// <summary>
@@ -342,6 +385,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
 
+        /// <summary>
+        /// Returns the <see cref="IModuleDictionary"/> which denotes
+        /// the individual modules the <see cref="AssemblyBase"/>
+        /// consists of.
+        /// </summary>
         public IModuleDictionary Modules
         {
             get
@@ -352,12 +400,29 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
         #endregion
 
+        /// <summary>
+        /// Obtains the <see cref="IModuleDictionary"/> instance which
+        /// initializes the <see cref="Modules"/> of the 
+        /// <see cref="AssemblyBase"/>.
+        /// </summary>
+        /// <returns>A <see cref="IModuleDictionary"/> instance
+        /// which initializes the <see cref="Modules"/>.</returns>
         protected abstract IModuleDictionary InitializeModules();
 
+        /// <summary>
+        /// Obtains the <see cref="IFullMemberDictionary"/> instance
+        /// which initializes the <see cref="Members"/> of the
+        /// <see cref="AssemblyBase"/>.
+        /// </summary>
+        /// <returns>The <see cref="IFullMemberDictionary"/>
+        /// instance which initializes the <see cref="Members"/>.</returns>
         protected abstract IFullMemberDictionary InitializeMembers();
 
         #region IDisposable Members
 
+        /// <summary>
+        /// Disposes the <see cref="AssemblyBase"/> instance.
+        /// </summary>
         public void Dispose()
         {
             this.Dispose(true);
@@ -417,6 +482,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #region INamespaceParent Members
 
+        /// <summary>
+        /// Returns the <see cref="IFullMemberDictionary"/> associated to the
+        /// <see cref="AssemblyBase"/> and the grouped series of members
+        /// associated to the fields and methods.
+        /// </summary>
         public IFullMemberDictionary Members
         {
             get {
@@ -429,7 +499,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Returns the <see cref="INamespaceDictionary"/>
         /// of <see cref="INamespaceDeclaration"/> instances
-        /// contained within the <see cref="INamespaceParent"/>.
+        /// contained within the <see cref="AssemblyBase"/>.
         /// </summary>
         public INamespaceDictionary Namespaces
         {
@@ -454,6 +524,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #region ICustomAttributedDeclaration Members
 
+        /// <summary>
+        /// Returns the <see cref="ICustomAttributeCollection"/> 
+        /// associated to the <see cref="AssemblyBase"/>.
+        /// </summary>
         public ICustomAttributeCollection CustomAttributes
         {
             get
@@ -462,6 +536,25 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     this.attributes = this.InitializeCustomAttributes();
                 return this.attributes;
             }
+        }
+
+        /// <summary>
+        /// Determines whether the <paramref name="attributeType"/> 
+        /// is defined on the current <see cref="AssemblyBase"/>.
+        /// </summary>
+        /// <param name="attributeType">The <see cref="IType"/> of
+        /// the attribute to check the presence of.</param>
+        /// <returns>true if an attribute of the given 
+        /// <paramref name="attributeType"/> is defined
+        /// on the current <see cref="AssemblyBase"/>; false,
+        /// otherwise.
+        /// </returns>
+        public bool IsDefined(IType attributeType)
+        {
+            foreach (var item in this.CustomAttributes)
+                if (attributeType.IsAssignableFrom(item.Type))
+                    return true;
+            return false;
         }
 
         #endregion
@@ -489,6 +582,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Occurs when the <see cref="AssemblyBase"/> is disposed.
         /// </summary>
+        /// <remarks>Refer to <see cref="Dispose(bool)"/> for more details.</remarks>
         public event EventHandler Disposed;
 
         #endregion
@@ -505,18 +599,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 disposeCopy(this, EventArgs.Empty);
         }
 
-        #region ICustomAttributedDeclaration Members
-
-        public bool IsDefined(IType attributeType)
-        {
-            foreach (var item in this.CustomAttributes)
-                if (attributeType.IsAssignableFrom(item.Type))
-                    return true;
-            return false;
-        }
-
-        #endregion
-
         IAssembly ITypeParent.Assembly
         {
             get
@@ -527,6 +609,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #region IMethodParent<ITopLevelMethodMember,INamespaceParent> Members
 
+        /// <summary>
+        /// Returns the methods defined on the <see cref="AssemblyBase"/>.
+        /// </summary>
         public IMethodMemberDictionary<ITopLevelMethodMember, INamespaceParent> Methods
         {
             get
@@ -549,6 +634,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #region IFieldParent<ITopLevelFieldMember,INamespaceParent> Members
 
+        /// <summary>
+        /// Returns the <see cref="IFieldMemberDictionary{TField, TParent}"/> defined on the current 
+        /// <see cref="AssemblyBase"/>.
+        /// </summary>
         public IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> Fields
         {
             get

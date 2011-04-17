@@ -213,7 +213,7 @@
     </Compile>
     <Compile Include="Oil\IntermediateTopLevelFieldMember.cs" />
     <Compile Include="Oil\IntermediateTopLevelFieldMemberDictionary.cs" />
-    <Compile Include="Oil\IntermediateTopLevelMethodDictionary.cs" />
+    <Compile Include="Oil\IntermediateTopLevelMethodMemberDictionary.cs" />
     <Compile Include="Oil\IntermediateTopLevelMethodMember.cs" />
     <Compile Include="Oil\Members\IIntermediateMemberVisitor.cs" />
     <Compile Include="Oil\Modules\IntermediateModuleDictionary+AbstractValueCollection.cs" />

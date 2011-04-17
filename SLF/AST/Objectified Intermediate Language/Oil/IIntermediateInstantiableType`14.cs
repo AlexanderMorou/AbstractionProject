@@ -107,7 +107,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// be invoked prior to resuming the duality.</remarks>
         void ResumeDualLayout();
         /// <summary>
-        /// Returns/sets whether the <see cref="IIntermediateInstantiableType"/>
+        /// Returns whether the <see cref="IIntermediateInstantiableType"/>
         /// has had its duality suspended.
         /// </summary>
         bool Suspended { get; }

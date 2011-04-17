@@ -125,7 +125,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Returns the manifest module of the assembly.
         /// </summary>
         /// <returns></returns>
-        protected override IModule OnGetManifestModule()
+        protected sealed override IModule OnGetManifestModule()
+        {
+            return OnGetIntermediateManifestModule();
+        }
+
+        protected virtual IIntermediateModule OnGetIntermediateManifestModule()
         {
             return this.ManifestModule;
         }
@@ -136,7 +141,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.types = this.Initialize_Types();
         }
 
-        protected override IModuleDictionary InitializeModules()
+        protected sealed override IModuleDictionary InitializeModules()
+        {
+            return InitializeIntermediateModules();
+        }
+
+        protected virtual IntermediateModuleDictionary InitializeIntermediateModules()
         {
             if (this.IsRoot)
                 return new IntermediateModuleDictionary(this);
@@ -152,17 +162,77 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new IntermediateFullTypeDictionary(this, this.GetRoot()._Types);
         }
 
+        protected virtual IntermediateTopLevelMethodMemberDictionary InitializeIntermediateMethods()
+        {
+            if (this.IsRoot)
+                return new IntermediateTopLevelMethodMemberDictionary(this._Members, this);
+            else
+                return new IntermediateTopLevelMethodMemberDictionary(this._Members, this, this.GetRoot().Methods);
+        }
+
+        protected virtual IntermediateTopLevelFieldMemberDictionary InitializeIntermediateFields()
+        {
+            if (this.IsRoot)
+                return new IntermediateTopLevelFieldMemberDictionary(this._Members, this);
+            else
+                return new IntermediateTopLevelFieldMemberDictionary(this._Members, this, this.GetRoot().Fields);
+        }
+
+        protected virtual IntermediateClassTypeDictionary InitializeIntermediateClasses()
+        {
+            if (this.IsRoot)
+                return new IntermediateClassTypeDictionary(this, this._Types);
+            else
+                return new IntermediateClassTypeDictionary(this, this._Types, this.GetRoot().Classes);
+        }
+
+        protected virtual IntermediateDelegateTypeDictionary InitializeIntermediateDelegates()
+        {
+            if (this.IsRoot)
+                return new IntermediateDelegateTypeDictionary(this, this._Types);
+            else
+                return new IntermediateDelegateTypeDictionary(this, this._Types, this.GetRoot().Delegates);
+        }
+
+        protected virtual IntermediateEnumTypeDictionary InitializeIntermediateEnums()
+        {
+            if (this.IsRoot)
+                return new IntermediateEnumTypeDictionary(this, this._Types);
+            else
+                return new IntermediateEnumTypeDictionary(this, this._Types, this.GetRoot().Enums);
+        }
+
+        protected virtual IntermediateInterfaceTypeDictionary InitializeIntermediateInterfaces()
+        {
+            if (this.IsRoot)
+                return new IntermediateInterfaceTypeDictionary(this, this._Types);
+            else
+                return new IntermediateInterfaceTypeDictionary(this, this._Types, this.GetRoot().Interfaces);
+        }
+
+        protected virtual IntermediateStructTypeDictionary InitializeIntermediateStructs()
+        {
+            if (this.IsRoot)
+                return new IntermediateStructTypeDictionary(this, this._Types);
+            else
+                return new IntermediateStructTypeDictionary(this, this._Types, this.GetRoot().Structs);
+        }
+
+        protected virtual IIntermediateFullMemberDictionary InitializeIntermediateMembers()
+        {
+            this.CheckFields();
+            this.CheckMethods();
+            return this._Members;
+        }
+
         /// <summary>
         /// Initializes the <see cref="IClassTypeDictionary"/> for holding
         /// the classes defined outside of a namespace.
         /// </summary>
         /// <returns>A new <see cref="IClassTypeDictionary"/> instance.</returns>
-        protected override IClassTypeDictionary InitializeClasses()
+        protected sealed override IClassTypeDictionary InitializeClasses()
         {
-            if (this.IsRoot)
-                return new IntermediateClassTypeDictionary(this, this._Types);
-            else
-                return new IntermediateClassTypeDictionary(this, this._Types, (IntermediateClassTypeDictionary)this.GetRoot().Classes);
+            return InitializeIntermediateClasses();
         }
 
         /// <summary>
@@ -170,12 +240,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// the delegates defined outside of a namespace.
         /// </summary>
         /// <returns>A new <see cref="IDelegateTypeDictionary"/> instance.</returns>
-        protected override IDelegateTypeDictionary InitializeDelegates()
+        protected sealed override IDelegateTypeDictionary InitializeDelegates()
         {
-            if (this.IsRoot)
-                return new IntermediateDelegateTypeDictionary(this, this._Types);
-            else
-                return new IntermediateDelegateTypeDictionary(this, this._Types, (IntermediateDelegateTypeDictionary)this.GetRoot().Delegates);
+            return InitializeIntermediateDelegates();
         }
 
         /// <summary>
@@ -183,12 +250,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// the enumerations defined outside of a namespace.
         /// </summary>
         /// <returns>A new <see cref="IEnumTypeDictionary"/> instance.</returns>
-        protected override IEnumTypeDictionary InitializeEnums()
+        protected sealed override IEnumTypeDictionary InitializeEnums()
         {
-            if (this.IsRoot)
-                return new IntermediateEnumTypeDictionary(this, this._Types);
-            else
-                return new IntermediateEnumTypeDictionary(this, this._Types, (IntermediateEnumTypeDictionary)this.GetRoot().Enums);
+            return InitializeIntermediateEnums();
         }
 
         /// <summary>
@@ -196,12 +260,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// the interfaces defined outside of a namespace.
         /// </summary>
         /// <returns>A new <see cref="IInterfaceTypeDictionary"/> instance.</returns>
-        protected override IInterfaceTypeDictionary InitializeInterfaces()
+        protected sealed override IInterfaceTypeDictionary InitializeInterfaces()
         {
-            if (this.IsRoot)
-                return new IntermediateInterfaceTypeDictionary(this, this._Types);
-            else
-                return new IntermediateInterfaceTypeDictionary(this, this._Types, (IntermediateInterfaceTypeDictionary)this.GetRoot().Interfaces);
+            return InitializeIntermediateInterfaces();
         }
 
         /// <summary>
@@ -209,12 +270,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// the data structures defined outside of a namespace.
         /// </summary>
         /// <returns>A new <see cref="IntermediateStructTypeDictionary"/> instance.</returns>
-        protected override IStructTypeDictionary InitializeStructs()
+        protected sealed override IStructTypeDictionary InitializeStructs()
         {
-            if (this.IsRoot)
-                return new IntermediateStructTypeDictionary(this, this._Types);
-            else
-                return new IntermediateStructTypeDictionary(this, this._Types, (IntermediateStructTypeDictionary)this.GetRoot().Structs);
+            return InitializeIntermediateStructs();
         }
 
         /// <summary>
@@ -226,17 +284,32 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// either the default namespace or in the hierarchy level of the 
         /// module the type is defined within.
         /// </returns>
-        protected override IFullTypeDictionary InitializeTypes()
+        protected sealed override IFullTypeDictionary InitializeTypes()
         {
+            return InitializeIntermediateTypes();
+        }
+
+        protected virtual IntermediateFullTypeDictionary InitializeIntermediateTypes()
+        {
+            this.CheckClasses();
+            this.CheckDelegates();
+            this.CheckEnumerators();
+            this.CheckInterfaces();
+            this.CheckStructs();
             return this._Types;
         }
 
-        protected override INamespaceDictionary InitializeNamespaces()
+        protected sealed override INamespaceDictionary InitializeNamespaces()
+        {
+            return InitializeIntermediateNamespaces();
+        }
+
+        protected virtual IntermediateNamespaceDictionary InitializeIntermediateNamespaces()
         {
             if (this.IsRoot)
                 return new IntermediateNamespaceDictionary(this);
             else
-                return new IntermediateNamespaceDictionary(this, ((IntermediateNamespaceDictionary)((this.GetRoot()).Namespaces)));
+                return new IntermediateNamespaceDictionary(this, this.GetRoot().Namespaces);
         }
 
         private IntermediateFullTypeDictionary _Types
@@ -255,14 +328,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             visitor.Visit(this);
         }
 
-        public new IIntermediateModuleDictionary Modules
+        IIntermediateModuleDictionary IIntermediateAssembly.Modules
         {
             get
             {
-                return (IIntermediateModuleDictionary)base.Modules;
+                return this.Modules;
             }
         }
 
+        public new IntermediateModuleDictionary Modules
+        {
+            get
+            {
+                return (IntermediateModuleDictionary)base.Modules;
+            }
+        }
         /// <summary>
         /// Returns the <see cref="IIntermediateAssemblyInformation"/> about 
         /// the current <see cref="IntermediateAssembly{TAssembly}"/> instance.
@@ -351,49 +431,85 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateTypeParent Members
 
-        public new IIntermediateClassTypeDictionary Classes
+        IIntermediateClassTypeDictionary IIntermediateTypeParent.Classes
         {
-            get { return ((IIntermediateClassTypeDictionary)(base.Classes)); }
+            get { return this.Classes; }
         }
 
-        public new IIntermediateDelegateTypeDictionary Delegates
+        IIntermediateDelegateTypeDictionary IIntermediateTypeParent.Delegates
         {
-            get { return ((IIntermediateDelegateTypeDictionary)(base.Delegates)); }
+            get { return this.Delegates; }
         }
 
-        public new IIntermediateEnumTypeDictionary Enums
+        IIntermediateEnumTypeDictionary IIntermediateTypeParent.Enums
         {
-            get { return ((IIntermediateEnumTypeDictionary)(base.Enums)); }
+            get { return this.Enums; }
         }
 
-        public new IIntermediateInterfaceTypeDictionary Interfaces
+        IIntermediateInterfaceTypeDictionary IIntermediateTypeParent.Interfaces
         {
-            get { return ((IIntermediateInterfaceTypeDictionary)(base.Interfaces)); }
+            get { return this.Interfaces; }
         }
 
-        public new IIntermediateStructTypeDictionary Structs
+        IIntermediateStructTypeDictionary IIntermediateTypeParent.Structs
         {
-            get { return ((IIntermediateStructTypeDictionary)(base.Structs)); }
+            get { return this.Structs; }
         }
 
 
-        public new IIntermediateFullTypeDictionary Types
+        IIntermediateFullTypeDictionary IIntermediateTypeParent.Types
         {
-            get { return ((IIntermediateFullTypeDictionary)(base.Types)); }
+            get { return this.Types; }
+        }
+
+        public new IntermediateClassTypeDictionary Classes
+        {
+            get { return ((IntermediateClassTypeDictionary)(base.Classes)); }
+        }
+
+        public new IntermediateDelegateTypeDictionary Delegates
+        {
+            get { return ((IntermediateDelegateTypeDictionary)(base.Delegates)); }
+        }
+
+        public new IntermediateEnumTypeDictionary Enums
+        {
+            get { return ((IntermediateEnumTypeDictionary)(base.Enums)); }
+        }
+
+        public new IntermediateInterfaceTypeDictionary Interfaces
+        {
+            get { return ((IntermediateInterfaceTypeDictionary)(base.Interfaces)); }
+        }
+
+        public new IntermediateStructTypeDictionary Structs
+        {
+            get { return ((IntermediateStructTypeDictionary)(base.Structs)); }
+        }
+
+
+        public new IntermediateFullTypeDictionary Types
+        {
+            get { return ((IntermediateFullTypeDictionary)(base.Types)); }
         }
 
         #endregion
 
         #region IIntermediateNamespaceParent Members
 
-        public new IIntermediateNamespaceDictionary Namespaces
+        IIntermediateNamespaceDictionary IIntermediateNamespaceParent.Namespaces
         {
-            get { return ((IIntermediateNamespaceDictionary)(base.Namespaces)); }
+            get { return this.Namespaces; }
+        }
+
+        public new IntermediateNamespaceDictionary Namespaces
+        {
+            get { return ((IntermediateNamespaceDictionary)(base.Namespaces)); }
         }
 
         #endregion
 
-        protected override ICustomAttributeCollection InitializeCustomAttributes()
+        protected sealed override ICustomAttributeCollection InitializeCustomAttributes()
         {
             return ((CustomAttributeDefinitionCollectionSeries)(this.CustomAttributes)).GetWrapper();
         }
@@ -718,64 +834,58 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         protected sealed override IMethodMemberDictionary<ITopLevelMethodMember, INamespaceParent> InitializeMethods()
         {
-            if (this.IsRoot)
-                return new IntermediateTopLevelMethodMemberDictionary(this._Members, this);
-            else
-                return new IntermediateTopLevelMethodMemberDictionary(this._Members, this, this.GetRoot().Methods as IntermediateTopLevelMethodMemberDictionary);
+            return InitializeIntermediateMethods();
         }
 
         protected sealed override IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> InitializeFields()
         {
-            if (this.IsRoot)
-                return new IntermediateTopLevelFieldMemberDictionary(this._Members, this);
-            else
-                return new IntermediateTopLevelFieldMemberDictionary(this._Members, this, this.GetRoot().Fields as IntermediateTopLevelFieldMemberDictionary);
+            return InitializeIntermediateFields();
         }
 
-        protected override IFullMemberDictionary InitializeMembers()
+        protected override sealed IFullMemberDictionary InitializeMembers()
         {
-            this.CheckFields();
-            this.CheckMethods();
-            return this._Members;
+            return InitializeIntermediateMembers();
         }
 
+        /* *
+         * _Members versus Members is to allow lazily initialized
+         * member groups.
+         * */
         private IntermediateFullMemberDictionary _Members
         {
             get
             {
                 if (this.members == null)
-                    this.members = new IntermediateFullMemberDictionary();
+                    this.members = Initialize_Members();
                 return this.members;
             }
         }
 
+        private IntermediateFullMemberDictionary Initialize_Members()
+        {
+            if (this.IsRoot)
+                return new IntermediateFullMemberDictionary();
+            else
+                return new IntermediateFullMemberDictionary(this.GetRoot()._Members);
+        }
+
         #region IIntermediateFieldParent<ITopLevelFieldMember,IIntermediateTopLevelFieldMember,INamespaceParent,IIntermediateNamespaceParent> Members
 
-        public new IIntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent> Fields
+        IIntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent> IIntermediateFieldParent<ITopLevelFieldMember,IIntermediateTopLevelFieldMember,INamespaceParent,IIntermediateNamespaceParent>.Fields
+        {
+            get
+            {
+                return this.Fields;
+            }
+        }
+
+        public new IntermediateTopLevelFieldMemberDictionary Fields
         {
             get
             {
                 this.CheckFields();
-                return (IIntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent>)base.Fields;
+                return (IntermediateTopLevelFieldMemberDictionary)base.Fields;
             }
-        }
-
-        #endregion
-
-        #region IFieldParent<ITopLevelFieldMember,INamespaceParent> Members
-
-        IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> IFieldParent<ITopLevelFieldMember, INamespaceParent>.Fields
-        {
-            get { return this.Fields; }
-        }
-
-        #endregion
-
-        #region IFieldParent Members
-
-        IFieldMemberDictionary IFieldParent.Fields
-        {
-            get { return (IFieldMemberDictionary)this.Fields; }
         }
 
         #endregion
@@ -784,14 +894,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         IIntermediateFieldMemberDictionary IIntermediateFieldParent.Fields
         {
-            get { return (IIntermediateFieldMemberDictionary)this.Fields; }
+            get { return this.Fields; }
         }
 
         #endregion
 
         #region IIntermediateMethodParent<ITopLevelMethodMember,IIntermediateTopLevelMethodMember,INamespaceParent,IIntermediateNamespaceParent> Members
 
-        public new IIntermediateMethodMemberDictionary<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent> Methods
+        IIntermediateMethodMemberDictionary<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent> IIntermediateMethodParent<ITopLevelMethodMember,IIntermediateTopLevelMethodMember,INamespaceParent,IIntermediateNamespaceParent>.Methods
         {
             get
             {
@@ -800,29 +910,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        public new IntermediateTopLevelMethodMemberDictionary Methods
+        {
+            get
+            {
+                this.CheckMethods();
+                return (IntermediateTopLevelMethodMemberDictionary)base.Methods;
+            }
+        }
+
         #endregion
 
         #region IIntermediateMethodParent Members
 
         IIntermediateMethodMemberDictionary IIntermediateMethodParent.Methods
-        {
-            get { return (IIntermediateMethodMemberDictionary)this.Methods; }
-        }
-
-        #endregion
-
-        #region IMethodParent Members
-
-        IMethodMemberDictionary IMethodParent.Methods
-        {
-            get { return (IMethodMemberDictionary)this.Methods; }
-        }
-
-        #endregion
-
-        #region IMethodParent<ITopLevelMethodMember,INamespaceParent> Members
-
-        IMethodMemberDictionary<ITopLevelMethodMember, INamespaceParent> IMethodParent<ITopLevelMethodMember, INamespaceParent>.Methods
         {
             get { return this.Methods; }
         }
