@@ -186,6 +186,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
+        /// <param name="expression">The <see cref="ICreateArrayNestedDetailExpression"/>
+        /// to visit.</param>
+        void Visit(ICreateArrayNestedDetailExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
         /// <param name="expression">The <see cref="ICreateArrayDetailExpression"/>
         /// to visit.</param>
         void Visit(ICreateArrayDetailExpression expression);

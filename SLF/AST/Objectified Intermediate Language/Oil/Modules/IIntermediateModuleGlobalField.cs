@@ -22,7 +22,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         IModuleGlobalField
     {
         /// <summary>
-        /// Returns/sets the <see cref=""/>
+        /// Returns/sets the <see cref="Byte"/> array which denotes
+        /// the information associated to the field in the .sdata portion
+        /// of the PE.
         /// </summary>
         byte[] Data { get; set; }
     }

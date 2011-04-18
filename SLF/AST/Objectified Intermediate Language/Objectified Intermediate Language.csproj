@@ -131,6 +131,7 @@
     <Compile Include="Oil\CSharpAssembly.cs" />
     <Compile Include="Oil\CSharpGateway.cs" />
     <Compile Include="Oil\DataSizeType.cs" />
+    <Compile Include="Oil\Expressions\CreateArrayNestedDetailExpression.cs" />
     <Compile Include="Oil\Expressions\CSharpAddSubtExpression.cs" />
     <Compile Include="Oil\Expressions\CSharpAssignExpression.cs" />
     <Compile Include="Oil\Expressions\CSharpBinaryOperationExpressionBase.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Oil\Expressions\CSharpMulDivExpression.cs" />
     <Compile Include="Oil\Expressions\CSharpRelationalExpression.cs" />
     <Compile Include="Oil\Expressions\CSharpShiftExpression.cs" />
+    <Compile Include="Oil\Expressions\ICreateArrayNestedDetailExpression.cs" />
     <Compile Include="Oil\Expressions\ICSharpAddSubtExpression.cs" />
     <Compile Include="Oil\Expressions\ICSharpAssignExpression.cs" />
     <Compile Include="Oil\Expressions\ICSharpBinaryOperator.cs" />

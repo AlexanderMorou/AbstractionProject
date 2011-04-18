@@ -429,6 +429,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         IExpressionStatement Decrement(IAssignTargetExpression target, INaryOperandExpression decrementBy);
 
         IJumpStatement Jump(IJumpTarget target);
+        /// <summary>
+        /// Creates, inserts and returns a <see cref="IGoToStatement"/>
+        /// which encodes the intent to go to the <paramref name="target"/> 
+        /// provided.
+        /// </summary>
+        /// <param name="target">The <see cref="ILabelStatement"/>
+        /// which needs jumped to.</param>
+        /// <returns>The <see cref="IGoToStatement"/>
+        /// which </returns>
         IGoToStatement GoTo(ILabelStatement target);
 
         IChangeEventHandlerStatement AddHandler(IEventReferenceExpression targetEvent, IMethodPointerReferenceExpression sourceMethod);

@@ -523,6 +523,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// data at a specific location is required (for primitives).</remarks>
         CreateArray,
         /// <summary>
+        /// The expression instructs the CLI to create an array's nested
+        /// detail as a part of a multidimensional array.
+        /// </summary>
+        CreateArrayNestedDetail,
+        /// <summary>
         /// The expression represents a switch case
         /// label which acts as a forward to the constant
         /// expression the label represents.

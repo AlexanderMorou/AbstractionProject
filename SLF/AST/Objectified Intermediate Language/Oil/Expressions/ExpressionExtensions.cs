@@ -801,5 +801,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             return assignmentTarget.Assign(AssignmentOperation.SimpleAssign, assignmentValue);
         }
+
+        //public static ICreateArrayExpression ToExpression(this int[] target)
+        //{
+        //    var result = new CreateArrayDetailExpression(typeof(int).GetTypeReference());
+        //    result.Sizes.Add(target.Length.ToPrimitive());
+        //}
     }
 }

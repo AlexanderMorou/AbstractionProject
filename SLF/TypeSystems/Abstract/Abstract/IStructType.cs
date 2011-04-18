@@ -20,6 +20,16 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IGenericType<IStructType>,
         IInstantiableType<IStructCtorMember, IStructEventMember, IStructFieldMember, IStructIndexerMember, IStructMethodMember, IStructPropertyMember, IStructType>
     {
-
+        /// <summary>
+        /// Obtains a <see cref="IStructInterfaceMapping"/> 
+        /// related to the <paramref name="type"/> provided.
+        /// </summary>
+        /// <param name="type">The <see cref="IInterfaceType"/> 
+        /// to obtain the map of.</param>
+        /// <returns>A <see cref="IStructInterfaceMapping"/> relative
+        /// to the properties and methods implemented
+        /// by the <see cref="IStructType"/> with regards
+        /// to <paramref name="type"/>.</returns>
+        new IStructInterfaceMapping GetInterfaceMap(IInterfaceType type);
     }
 }
