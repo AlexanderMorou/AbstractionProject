@@ -18,9 +18,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IPrivateImplementationDetails
     {
         private Guid detailGuid;
-        private ControlledStateDictionary<int, DataSizeType> dataSizeTypes = new ControlledStateDictionary<int,DataSizeType>(); 
+        private ControlledStateDictionary<int, DataSizeType> dataSizeTypes = new ControlledStateDictionary<int, DataSizeType>();
         internal PrivateImplementationDetails(IIntermediateAssembly parent)
-            : base(parent)
+            : base("PrivateImplementationDetails", parent)
         {
             DetailGuid = Guid.NewGuid();
         }
@@ -49,7 +49,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         protected override string OnGetName()
         {
-            return string.Format(CultureInfo.CurrentCulture, "<PrivateImplementationDetails>{{{0}}}", DetailGuid);
+            return string.Format(CultureInfo.CurrentCulture, "<{0}>{{{1}}}", base.OnGetName(), DetailGuid);
+        }
+
+        protected override void OnSetName(string value)
+        {
+            base.OnSetName(value);
         }
 
         #region IPrivateImplementationDetails Members

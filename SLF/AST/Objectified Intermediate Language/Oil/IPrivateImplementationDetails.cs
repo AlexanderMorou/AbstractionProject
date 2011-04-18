@@ -12,9 +12,12 @@ using AllenCopeland.Abstraction.Slf.Oil;
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
     /// <summary>
-    /// Defines properties and methods for working with the private implementation details of a
-    /// library.
+    /// Defines properties and methods for working with the private
+    /// implementation details of an assembly.
     /// </summary>
+    /// <remarks>Details such as the anonymous types, types associated
+    /// to fixed-size static data fields defined within an assembly.
+    /// </remarks>
     public interface IPrivateImplementationDetails :
         IIntermediateClassType
     {
@@ -24,15 +27,30 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <see cref="IPrivateImplementationDetails"/>.
         /// </summary>
         IAnonymousTypeDictionary AnonymousTypes { get; }
+        /// <summary>
+        /// Returns/sets the <see cref="Guid"/> which associates a
+        /// uniqueness value to the assembly to distinguish it between
+        /// other assemblies of the same name.
+        /// </summary>
         Guid DetailGuid { get; set; }
         /// <summary>
         /// Obtains a <see cref="IDataSizeType"/>
         /// of the given <paramref name="dataSize"/>.
         /// </summary>
-        /// <param name="dataSize">The <see cref="Int32"/> value representing
-        /// the number of bytes within the data type.</param>
+        /// <param name="dataSize">The <see cref="Int32"/> value 
+        /// representing the number of bytes within the data
+        /// type.</param>
         /// <returns>A <see cref="IDataSizeType"/> relative
         /// to the <see cref="dataSize"/> provided.</returns>
+        /// <remarks><para>Types defined within this are purely for
+        /// convenience, the yielded type at the point of compile
+        /// may change based upon the library used to handle
+        /// compilation.</para><para>
+        /// An example is System.Reflection.Emit which emits
+        /// a type at the global-level, whereas C&#9839; emits
+        /// it within the 
+        /// PrivateImplementationDetails&lt;<see cref="DetailGuid"/>&gt;</para>
+        /// of the assembly.</remarks>
         IDataSizeType GetSizeDataType(int dataSize);
     }
 }

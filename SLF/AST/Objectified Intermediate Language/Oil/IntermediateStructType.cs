@@ -191,5 +191,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return this.ImplementedInterfaces;
             }
         }
+
+
+        #region IStructType Members
+
+        public new IStructInterfaceMapping GetInterfaceMap(IInterfaceType type)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

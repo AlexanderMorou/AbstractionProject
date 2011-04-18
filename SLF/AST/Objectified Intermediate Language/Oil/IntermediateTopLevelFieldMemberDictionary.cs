@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
-    internal class IntermediateTopLevelFieldMemberDictionary :
+    public class IntermediateTopLevelFieldMemberDictionary :
         IntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent>
     {
         public IntermediateTopLevelFieldMemberDictionary(IntermediateFullMemberDictionary master, IIntermediateNamespaceParent parent)
