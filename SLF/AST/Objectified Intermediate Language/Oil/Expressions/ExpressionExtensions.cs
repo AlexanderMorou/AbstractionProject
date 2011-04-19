@@ -10,6 +10,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Utilities.Arrays;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -283,12 +284,32 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             return target.GetTypeReference().GetTypeExpression();
         }
 
+        /// <summary>
+        /// Obtains a <see cref="TypeReferenceExpression"/> for the <paramref name="target"/>
+        /// provided.
+        /// </summary>
+        /// <param name="target">A <see cref="IExpressionFusionExpression"/> which represents 
+        /// a symbolic form of a type.</param>
+        /// <returns>A new <see cref="TypeReferenceExpression"/> which wraps the <paramref name="target"/>
+        /// in a <see cref="SymbolType"/>.</returns>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="target"/> is null.</exception>
+        public static ITypeReferenceExpression GetTypeExpression(this IExpressionFusionExpression target)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            return new SymbolType(target).GetTypeExpression();
+        }
+
+        #endregion 
+
+        #region MembetReference conversion
         public static IMethodReferenceStub GetMethodExpression(this Type target, string methodName)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
             if (string.IsNullOrEmpty(methodName))
                 throw new ArgumentNullException("methodName");
+
             return target.GetTypeExpression().GetMethod(methodName);
         }
 
@@ -308,11 +329,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             var result = new MethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1), typeof(T2) }.ToCollection());
             return result.Invoke(parameters);
         }
+
         public static IMethodInvokeExpression GetInvokeMethodExpression<T1, T2, T3>(this Type target, string methodName, params IExpression[] parameters)
         {
             var result = new MethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1), typeof(T2), typeof(T3) }.ToCollection());
             return result.Invoke(parameters);
         }
+
         public static IMethodInvokeExpression GetInvokeMethodExpression<T1, T2, T3, T4>(this Type target, string methodName, params IExpression[] parameters)
         {
             var result = new MethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4) }.ToCollection());
@@ -350,24 +373,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new ArgumentOutOfRangeException("indexerName", "May be null, but not empty.");
             return target.GetTypeExpression().GetIndexer(indexerName, parameters);
         }
-
-        /// <summary>
-        /// Obtains a <see cref="TypeReferenceExpression"/> for the <paramref name="target"/>
-        /// provided.
-        /// </summary>
-        /// <param name="target">A <see cref="IExpressionFusionExpression"/> which represents 
-        /// a symbolic form of a type.</param>
-        /// <returns>A new <see cref="TypeReferenceExpression"/> which wraps the <paramref name="target"/>
-        /// in a <see cref="SymbolType"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="target"/> is null.</exception>
-        public static ITypeReferenceExpression GetTypeExpression(this IExpressionFusionExpression target)
-        {
-            if (target == null)
-                throw new ArgumentNullException("target");
-            return new SymbolType(target).GetTypeExpression();
-        }
-
-        #endregion 
+        #endregion
 
         #region TypeOf Expression
         /// <summary>
@@ -747,7 +753,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
         /// <summary>
         /// Returns a <see cref="UnaryOperationExpression"/> with the
-        /// <paramref name="target"/> to setup to be logically inverted.
+        /// <paramref name="target"/> to setup to be logically inverted (true is false, and vice versa).
         /// </summary>
         /// <param name="target">The <see cref="IExpression"/> to boolInvert.</param>
         /// <returns>A new <see cref="UnaryOperationExpression"/> instance with
@@ -786,26 +792,296 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 return new ParenthesizedExpression(target);
         }
 
-        public static void AddRange(this IMalleableExpressionCollection<IExpression> target, IEnumerable<IIntermediateParameterMember> parameters)
+        public static void AddRange(this IMalleableExpressionCollection<IExpression> target, IEnumerable<IExpression> parameters)
         {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
             foreach (var parameter in parameters)
-                target.Add(parameter.GetReference());
+                target.Add(parameter);
         }
 
         public static IAssignmentExpression Assign(this INaryOperandExpression assignmentTarget, AssignmentOperation assignmentType, INaryOperandExpression assignmentValue)
         {
+            if (assignmentTarget == null)
+                throw new ArgumentNullException("assignmentTarget");
+            if (assignmentValue == null)
+                throw new ArgumentNullException("assignmentValue");
             return new AssignmentExpression(assignmentTarget, assignmentType, assignmentValue);
         }
 
         public static IAssignmentExpression Assign(this INaryOperandExpression assignmentTarget, INaryOperandExpression assignmentValue)
         {
+            if (assignmentTarget == null)
+                throw new ArgumentNullException("assignmentTarget");
+            if (assignmentValue == null)
+                throw new ArgumentNullException("assignmentValue");
             return assignmentTarget.Assign(AssignmentOperation.SimpleAssign, assignmentValue);
         }
 
-        //public static ICreateArrayExpression ToExpression(this int[] target)
-        //{
-        //    var result = new CreateArrayDetailExpression(typeof(int).GetTypeReference());
-        //    result.Sizes.Add(target.Length.ToPrimitive());
-        //}
+        #region Array ToExpression
+        public static ICreateArrayExpression ToExpression(this int[] target)
+        {
+            return target.ToExpression<int>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this int[,] target)
+        {
+            return target.ToExpression<int>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this int[, ,] target)
+        {
+            return target.ToExpression<int>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this int[, , ,] target)
+        {
+            return target.ToExpression<int>(ToPrimitive);
+        }
+
+        public static ICreateArrayExpression ToExpression(this byte[] target)
+        {
+            return target.ToExpression<byte>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this byte[,] target)
+        {
+            return target.ToExpression<byte>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this byte[, ,] target)
+        {
+            return target.ToExpression<byte>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this byte[, , ,] target)
+        {
+            return target.ToExpression<byte>(ToPrimitive);
+        }
+
+        public static ICreateArrayExpression ToExpression(this uint[] target)
+        {
+            return target.ToExpression<uint>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this uint[,] target)
+        {
+            return target.ToExpression<uint>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this uint[, ,] target)
+        {
+            return target.ToExpression<uint>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this uint[, , ,] target)
+        {
+            return target.ToExpression<uint>(ToPrimitive);
+        }
+
+        public static ICreateArrayExpression ToExpression(this sbyte[] target)
+        {
+            return target.ToExpression<sbyte>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this sbyte[,] target)
+        {
+            return target.ToExpression<sbyte>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this sbyte[, ,] target)
+        {
+            return target.ToExpression<sbyte>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this sbyte[, , ,] target)
+        {
+            return target.ToExpression<sbyte>(ToPrimitive);
+        }
+
+        public static ICreateArrayExpression ToExpression(this short[] target)
+        {
+            return target.ToExpression<short>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this short[,] target)
+        {
+            return target.ToExpression<short>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this short[, ,] target)
+        {
+            return target.ToExpression<short>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this short[, , ,] target)
+        {
+            return target.ToExpression<short>(ToPrimitive);
+        }
+
+        public static ICreateArrayExpression ToExpression(this ushort[] target)
+        {
+            return target.ToExpression<ushort>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this ushort[,] target)
+        {
+            return target.ToExpression<ushort>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this ushort[, ,] target)
+        {
+            return target.ToExpression<ushort>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this ushort[, , ,] target)
+        {
+            return target.ToExpression<ushort>(ToPrimitive);
+        }
+
+        public static ICreateArrayExpression ToExpression(this long[] target)
+        {
+            return target.ToExpression<long>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this long[,] target)
+        {
+            return target.ToExpression<long>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this long[, ,] target)
+        {
+            return target.ToExpression<long>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this long[, , ,] target)
+        {
+            return target.ToExpression<long>(ToPrimitive);
+        }
+
+        public static ICreateArrayExpression ToExpression(this ulong[] target)
+        {
+            return target.ToExpression<ulong>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this ulong[,] target)
+        {
+            return target.ToExpression<ulong>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this ulong[, ,] target)
+        {
+            return target.ToExpression<ulong>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this ulong[, , ,] target)
+        {
+            return target.ToExpression<ulong>(ToPrimitive);
+        }
+
+        public static ICreateArrayExpression ToExpression(this float[] target)
+        {
+            return target.ToExpression<float>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this float[,] target)
+        {
+            return target.ToExpression<float>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this float[, ,] target)
+        {
+            return target.ToExpression<float>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this float[, , ,] target)
+        {
+            return target.ToExpression<float>(ToPrimitive);
+        }
+
+        public static ICreateArrayExpression ToExpression(this double[] target)
+        {
+            return target.ToExpression<double>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this double[,] target)
+        {
+            return target.ToExpression<double>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this double[, ,] target)
+        {
+            return target.ToExpression<double>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this double[, , ,] target)
+        {
+            return target.ToExpression<double>(ToPrimitive);
+        }
+
+        public static ICreateArrayExpression ToExpression(this decimal[] target)
+        {
+            return target.ToExpression<decimal>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this decimal[,] target)
+        {
+            return target.ToExpression<decimal>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this decimal[, ,] target)
+        {
+            return target.ToExpression<decimal>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this decimal[, , ,] target)
+        {
+            return target.ToExpression<decimal>(ToPrimitive);
+        }
+
+        public static ICreateArrayExpression ToExpression(this string[] target)
+        {
+            return target.ToExpression<string>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this string[,] target)
+        {
+            return target.ToExpression<string>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this string[, ,] target)
+        {
+            return target.ToExpression<string>(ToPrimitive);
+        }
+        public static ICreateArrayExpression ToExpression(this string[, , ,] target)
+        {
+            return target.ToExpression<string>(ToPrimitive);
+        }
+        #endregion
+
+        public static ICreateArrayExpression ToExpression<T>(this Array target, Func<T, IExpression> expressionConverter)
+        {
+            /* *
+             * Instantiate a create array expression with item
+             * details.
+             * */
+            int arrayRank = target.Rank;
+            var result = new CreateArrayDetailExpression(typeof(T).GetTypeReference(), arrayRank);
+            /* *
+             * Since the sizes are available, provide them
+             * to the array detail.
+             * */
+            result.Sizes.AddRange(target.Rank.Range().OnAll(p => target.GetLength(p).ToPrimitive()));
+            /* *
+             * Setup a series of nested detail expressions which will
+             * be used to provide information about the dimensions
+             * of the array.
+             * *
+             * Since they're cleaned out after spill-over, a single
+             * dimension will do, the first item is the result.
+             * */
+            ICreateArrayNestedDetailExpression[] nestedDetails = new ICreateArrayNestedDetailExpression[arrayRank];
+            nestedDetails[0] = result;
+            for (int i = 1; i < arrayRank; i++)
+                nestedDetails[i] = new CreateArrayNestedDetailExpression();
+            int topRankIndex = arrayRank - 1;
+            var topLevel = nestedDetails[topRankIndex];
+            /* *
+             * The bounds increment lambda handles dimension spillover;
+             * that is, when a rank's highest element is reached,
+             * it's set back to one, when this occurs, the current definition
+             * of the dimension is complete, and the next needs started.
+             * */
+            Action<int, bool> boundsLambda = (rank, isIterationComplete) =>
+                {
+                    if (rank > 0)
+                    {
+                        nestedDetails[rank - 1].Details.Add(nestedDetails[rank]);
+                        if (!isIterationComplete)
+                            nestedDetails[rank] = new CreateArrayNestedDetailExpression();
+                        else
+                            nestedDetails[rank] = null;
+                        if (rank == topRankIndex)
+                            topLevel = nestedDetails[topRankIndex];
+                    }
+                };
+
+            /* *
+             * This part is easy, on the top level nested details
+             * add the item at the current indices set. 
+             * *
+             * The bounds lambda handles divisioning.
+             * */
+            foreach (var indices in target.Iterate(boundsLambda))
+                topLevel.Details.Add(expressionConverter((T)target.GetValue(indices)));
+            return result;
+        }
     }
 }

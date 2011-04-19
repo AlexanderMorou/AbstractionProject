@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Utilities.Common;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -35,6 +36,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         public override void Visit(IExpressionVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        public override string ToString()
+        {
+            //Exclude the sizes if the count is wrong.
+            if (this.Rank != this.Sizes.Count)
+                return string.Format("new {0}[{1}] {{ {2} }}", this.ArrayType, ','.Repeat(this.Rank - 1), string.Join<IExpression>(", \r\n", this.Details));
+            else
+                return string.Format("new {0}[{1}] {{ {2} }}", this.ArrayType, string.Join<IExpression>(",", this.Sizes), string.Join<IExpression>(", \r\n", this.Details));
         }
     }
 }

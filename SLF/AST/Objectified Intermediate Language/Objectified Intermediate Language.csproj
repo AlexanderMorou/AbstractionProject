@@ -290,8 +290,6 @@
     <Compile Include="Oil\Expressions\FieldReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\FixedLengthMalleableExpressionCollection.cs" />
     <Compile Include="Oil\Expressions\IAnonymousMethodExpression.cs" />
-    <Compile Include="Oil\Expressions\IArrayDimensionDetailExpression.cs" />
-    <Compile Include="Oil\Expressions\IArrayDimensionDetailExpressions.cs" />
     <Compile Include="Oil\Expressions\IAssignTargetExpression.cs" />
     <Compile Include="Oil\Expressions\IAssignmentExpression.cs" />
     <Compile Include="Oil\Expressions\IBinaryOperationExpression.cs" />

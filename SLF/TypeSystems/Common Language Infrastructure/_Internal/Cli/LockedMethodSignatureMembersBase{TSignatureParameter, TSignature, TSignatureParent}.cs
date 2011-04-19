@@ -97,8 +97,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         private static string GetName(MethodInfo method)
         {
-            if (method.IsGenericMethod)
-                return method.Name.Substring(0, method.Name.LastIndexOf('`'));
             return method.Name;
         }
 

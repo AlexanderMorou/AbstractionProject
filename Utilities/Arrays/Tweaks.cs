@@ -243,6 +243,11 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
         /// continued.</para></remarks>
         public static IEnumerable<int[]> Iterate(this Array array)
         {
+            return array.Iterate(null);
+        }
+
+        public static IEnumerable<int[]> Iterate(this Array array, Action<int, bool> onBoundsIncrement)
+        {
             int[] indices;
             int rank = array.Rank;
             if (rank == 1)
@@ -264,7 +269,7 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                  * Obtain the upper/lower bounds..
                  * */
                 int[] upperBounds = new int[array.Rank];
-                
+
                 for (int i = 0; i < rank; i++)
                 {
                     indices[i] = array.GetLowerBound(i);
@@ -272,7 +277,8 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                 }
 
                 int[] lowerBounds = (int[])indices.Clone();
-
+                bool finished = false;
+                int topRank = rank - 1;
             Repeater:
                 {
                     /* *
@@ -285,7 +291,8 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                      * Move through the dimensions, starting 
                      * with the highest-order.
                      * */
-                    for (int i = rank - 1; i >= 0; i--)
+
+                    for (int i = topRank; i >= 0; i--)
                     {
                         /* *
                          * Index the current dimension...
@@ -297,6 +304,16 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                          * */
                         if (indices[i] <= upperBounds[i])
                             break;
+                        if (i == topRank)
+                        {
+                            finished = true;
+                            for (int j = 0; j < rank; j++)
+                                if (indices[j] < upperBounds[j])
+                                {
+                                    finished = false;
+                                    break;
+                                }
+                        }
                         /* *
                          * Reset the current index, the loop
                          * will continue until all 'overflows' 
@@ -305,6 +322,16 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                          * */
                         indices[i] = lowerBounds[i];
                         /* *
+                         * Instruct the listener that the bounds for
+                         * a given rank have been reached, and thus
+                         * flushed back to the initial point.
+                         * *
+                         * When the rank that's incremented is zero, 
+                         * the iteration is finished.
+                         * */
+                        if (onBoundsIncrement != null)
+                            onBoundsIncrement(i, finished);
+                        /* *
                          * If the first dimension has been incremented
                          * and exceeded the high point of the dimension
                          * exit stage left.
@@ -312,6 +339,7 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                         if (i == 0)
                             yield break;
                     }
+
                     goto Repeater;
                 }
             }

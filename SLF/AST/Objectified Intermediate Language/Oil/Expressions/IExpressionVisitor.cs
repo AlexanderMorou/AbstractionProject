@@ -204,12 +204,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
-        /// <param name="expression">The <see cref="IArrayDimensionDetailExpression"/>
-        /// to visit.</param>
-        void Visit(IArrayDimensionDetailExpression expression);
-        /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
-        /// </summary>
         /// <param name="expression">The <see cref="IAnonymousMethodWithParametersExpression"/>
         /// to visit.</param>
         void Visit(IAnonymousMethodWithParametersExpression expression);
