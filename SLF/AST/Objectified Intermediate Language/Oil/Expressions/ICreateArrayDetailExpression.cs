@@ -16,12 +16,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// expression that details the contents of the array.
     /// </summary>
     public interface ICreateArrayDetailExpression :
-        ICreateArrayExpression
+        ICreateArrayExpression,
+        ICreateArrayNestedDetailExpression
     {
-        /// <summary>
-        /// Returns the <see cref="IExpressionCollection"/> used
-        /// to instantiate the array.
-        /// </summary>
-        IMalleableExpressionCollection Details { get; }
     }
 }

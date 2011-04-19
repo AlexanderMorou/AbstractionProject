@@ -41,5 +41,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         public LineColumnPair? End { get; set; }
 
         #endregion
+
+        public override string ToString()
+        {
+            return string.Format("{{ {0} }}", string.Join<IExpression>(", ", this.Details));
+        }
     }
 }

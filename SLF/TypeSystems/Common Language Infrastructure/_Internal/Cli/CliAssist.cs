@@ -72,9 +72,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public static IEnumerable<string> GetAggregateIdentifiers(this INamespaceParent target)
         {
-            return (target.Types as CompiledFullTypeDictionary).GetAggregateIdentifiers().Concat(
-                from @namespace in target.Namespaces.Values
-                select @namespace.Name).Distinct();
+            return from name in
+                       (target.Types as CompiledFullTypeDictionary).GetAggregateIdentifiers().Concat(
+                        from @namespace in target.Namespaces.Values
+                        select @namespace.Name).Distinct()
+                   orderby name ascending
+                   select name;
         }
 
         public static Dictionary<Attribute, Type> GetHierarchicalMap(Type t)
