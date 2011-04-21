@@ -10,7 +10,7 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
-    public enum ExpressionKinds :
+    public enum ExpressionKind :
         ulong
     {
         /// <summary>

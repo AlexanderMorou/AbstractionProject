@@ -306,10 +306,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="MethodPointerReferenceExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionKinds.MethodReference"/>.</remarks>
-        public override ExpressionKinds Type
+        /// <remarks>Returns <see cref="ExpressionKind.MethodReference"/>.</remarks>
+        public override ExpressionKind Type
         {
-            get { return ExpressionKinds.MethodReference; }
+            get { return ExpressionKind.MethodReference; }
         }
 
         public override string ToString()

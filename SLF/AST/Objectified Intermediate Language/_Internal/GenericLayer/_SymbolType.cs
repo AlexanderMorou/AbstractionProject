@@ -37,9 +37,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #region IExpression Members
 
-        ExpressionKinds IExpression.Type
+        ExpressionKind IExpression.Type
         {
-            get { return ExpressionKinds.TypeReference; }
+            get { return ExpressionKind.TypeReference; }
         }
 
         /// <summary>
@@ -93,12 +93,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         public IIndexerReferenceExpression GetIndexer(string name, params IExpression[] parameters)
         {
-            return new IndexerReferenceExpression(name, parameters, this);
+            return new UnboundIndexerReferenceExpression(name, parameters, this);
         }
 
         public IPropertyReferenceExpression GetProperty(string name)
         {
-            return new PropertyReferenceExpression(name, this);
+            return new UnboundPropertyReferenceExpression(name, this);
         }
 
         public IIndexerReferenceExpression GetIndexer(params IExpression[] parameters)

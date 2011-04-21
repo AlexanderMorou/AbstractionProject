@@ -457,9 +457,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             return new SymbolExpression(symbol).Call(methodName, parameters);
         }
 
-        public static PropertyReferenceExpression GetProperty(this string symbol, string propertyName)
+        public static UnboundPropertyReferenceExpression GetProperty(this string symbol, string propertyName)
         {
-            return (PropertyReferenceExpression)new SymbolExpression(symbol).GetProperty(propertyName);
+            return (UnboundPropertyReferenceExpression)new SymbolExpression(symbol).GetProperty(propertyName);
         }
 
         public static IIndexerReferenceExpression GetIndexer(this string symbol, string indexerName, params IExpression[] parameters)

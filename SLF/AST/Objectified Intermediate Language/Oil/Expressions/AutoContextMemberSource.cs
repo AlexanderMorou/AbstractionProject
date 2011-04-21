@@ -47,16 +47,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region IExpression Members
 
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
             get
             {
                 if (member.IsStatic)
                 {
-                    return ExpressionKinds.TypeReference;
+                    return ExpressionKind.TypeReference;
                 }
                 else
-                    return ExpressionKinds.ThisReference;
+                    return ExpressionKind.ThisReference;
             }
         }
 

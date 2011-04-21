@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Utilities.Events;
 /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -13,11 +14,24 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         IAssemblyReference
     {
         private IAssembly reference;
-        private List<string> aliases = new List<string>();
-
-        public AssemblyReference(IAssembly assembly, params string[] aliases)
+        private IAssemblyReferenceAliasCollection aliases = new AssemblyReferenceAliasCollection();
+        private AssemblyReferenceCollection parent;
+        internal AssemblyReference(IAssembly assembly, AssemblyReferenceCollection parent, params string[] aliases)
         {
             this.aliases.AddRange(aliases);
+            this.parent = parent;
+            this.Aliases.AliasAdded += new System.EventHandler<Utilities.Events.EventArgsR1<string>>(Aliases_AliasAdded);
+            this.Aliases.AliasRemoved += new System.EventHandler<Utilities.Events.EventArgsR1<string>>(Aliases_AliasRemoved);
+        }
+
+        void Aliases_AliasRemoved(object sender, EventArgsR1<string> e)
+        {
+            this.parent.ReferenceAliasRemoved(this, e.Arg1);
+        }
+
+        void Aliases_AliasAdded(object sender, EventArgsR1<string> e)
+        {
+            this.parent.ReferenceAliasAdded(this, e.Arg1);
         }
 
         #region IAssemblyReference Members
@@ -27,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
             get { return this.reference; }
         }
 
-        public IList<string> Aliases
+        public IAssemblyReferenceAliasCollection Aliases
         {
             get { return this.aliases; }
         }

@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="IExpression"/> is.
         /// </summary>
-        ExpressionKinds Type { get; }
+        ExpressionKind Type { get; }
         /// <summary>
         /// Visits the elements of the <see cref="IExpression"/>.
         /// </summary>

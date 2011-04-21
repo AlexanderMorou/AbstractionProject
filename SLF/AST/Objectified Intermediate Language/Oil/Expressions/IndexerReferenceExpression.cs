@@ -14,32 +14,27 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
-    public class IndexerSignatureReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> :
+    public class IndexerSignatureReferenceExpression<TIndexer, TIndexerParent> :
     MemberParentReferenceExpressionBase,
-    IIndexerSignatureReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+    IIndexerSignatureReferenceExpression<TIndexer, TIndexerParent>
         where TIndexer :
-        IIndexerSignatureMember<TIndexer, TIndexerParent>
-        where TIntermediateIndexer :
-        TIndexer,
-        IIntermediateIndexerSignatureMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+            IIndexerSignatureMember<TIndexer, TIndexerParent>
         where TIndexerParent :
-        IIndexerSignatureParent<TIndexer, TIndexerParent>
-        where TIntermediateIndexerParent :
-        TIndexerParent,
-        IIntermediateIndexerSignatureParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+            IIndexerSignatureParent<TIndexer, TIndexerParent>
     {
         private IndexerReferenceType indexerType;
-        public IndexerSignatureReferenceExpression(TIntermediateIndexer member, IEnumerable<IExpression> parameters, IMemberParentReferenceExpression source)
+        public IndexerSignatureReferenceExpression(TIndexer member, IEnumerable<IExpression> parameters, IMemberParentReferenceExpression source, MethodReferenceType referenceType = MethodReferenceType.VirtualMethodReference, IndexerReferenceType indexerType = IndexerReferenceType.InferredIndexer)
             : base()
         {
             this.Source = source;
             this.Member = member;
             this.Parameters = new MalleableExpressionCollection(parameters);
+            this.ReferenceType = referenceType;
         }
 
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
-            get { return ExpressionKinds.IndexerReference; }
+            get { return ExpressionKind.IndexerReference; }
         }
 
         #region IIndexerSignatureReferenceExpression Members
@@ -63,9 +58,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #endregion
 
-        #region IIndexerSignatureReferenceExpression<TIndexer,TIntermediateIndexer,TIndexerParent,TIntermediateIndexerParent> Members
+        #region IIndexerSignatureReferenceExpression<TIndexer,TIndexerParent> Members
 
-        public TIntermediateIndexer Member { get; private set; }
+        public TIndexer Member { get; private set; }
         #endregion
 
         #region IBoundMemberReference Members
@@ -101,10 +96,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Returns/sets the type of reference to the 
-        /// <see cref="IndexerSignatureReferenceExpression{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent}"/>,
+        /// <see cref="IndexerSignatureReferenceExpression{TIndexer, TIndexerParent}"/>,
         /// get/set methods, is.
         /// </summary>
-        public MethodReferenceType ReferenceType { get; set; }
+        public MethodReferenceType ReferenceType { get; private set; }
 
         /// <summary>
         /// Returns the <see cref="IMemberParentReferenceExpression"/> which leads up to the
@@ -120,32 +115,28 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
     }
 
-    public class IndexerReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> :
+    public class IndexerReferenceExpression<TIndexer, TIndexerParent> :
         MemberParentReferenceExpressionBase,
-        IIndexerReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+        IIndexerReferenceExpression<TIndexer, TIndexerParent>
         where TIndexer :
             IIndexerMember<TIndexer, TIndexerParent>
-        where TIntermediateIndexer :
-            TIndexer,
-            IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
         where TIndexerParent :
             IIndexerParent<TIndexer, TIndexerParent>
-        where TIntermediateIndexerParent :
-            TIndexerParent,
-            IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
     {
         private IndexerReferenceType indexerType;
-        public IndexerReferenceExpression(TIntermediateIndexer member, IEnumerable<IExpression> parameters, IMemberParentReferenceExpression source)
+        public IndexerReferenceExpression(TIndexer member, IEnumerable<IExpression> parameters, IMemberParentReferenceExpression source, MethodReferenceType referenceType = MethodReferenceType.VirtualMethodReference, IndexerReferenceType indexerType = IndexerReferenceType.InferredIndexer)
             : base()
         {
             this.Source = source;
             this.Member = member;
             this.Parameters = new MalleableExpressionCollection(parameters);
+            this.ReferenceType = referenceType;
+            this.IndexerType = indexerType;
         }
 
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
-            get { return ExpressionKinds.IndexerReference; }
+            get { return ExpressionKind.IndexerReference; }
         }
 
         #region IIndexerReferenceExpression Members
@@ -156,11 +147,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             {
                 return this.indexerType;
             }
-            set
+            private set
             {
                 this.indexerType = value;
                 if (value == IndexerReferenceType.ArrayIndexer &&
-                    this.ReferenceType == Expressions.MethodReferenceType.VirtualMethodReference)
+                    this.ReferenceType == MethodReferenceType.VirtualMethodReference)
                     this.ReferenceType = MethodReferenceType.StandardMethodReference;
             }
         }
@@ -169,9 +160,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #endregion
 
-        #region IIndexerReferenceExpression<TIndexer,TIntermediateIndexer,TIndexerParent,TIntermediateIndexerParent> Members
+        #region IIndexerReferenceExpression<TIndexer,TIndexerParent> Members
 
-        public TIntermediateIndexer Member { get; private set; }
+        public TIndexer Member { get; private set; }
         #endregion
 
         #region IBoundMemberReference Members
@@ -207,10 +198,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Returns/sets the type of reference to the 
-        /// <see cref="IndexerReferenceExpression{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent}"/>,
+        /// <see cref="IndexerReferenceExpression{TIndexer, TIndexerParent}"/>,
         /// get/set methods, is.
         /// </summary>
-        public MethodReferenceType ReferenceType { get; set; }
+        public MethodReferenceType ReferenceType { get; private set; }
 
         /// <summary>
         /// Returns the <see cref="IMemberParentReferenceExpression"/> which leads up to the
@@ -226,53 +217,4 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
     }
 
-    internal class IndexerReferenceExpression :
-        PropertyReferenceExpression,
-        IIndexerReferenceExpression
-    {
-        private IndexerReferenceType indexerType;
-        private string name;
-        public IndexerReferenceExpression(string name, IEnumerable<IExpression> parameters, IMemberParentReferenceExpression source)
-            : base(name, source)
-        {
-            this.name = name;
-            this.Parameters = new MalleableExpressionCollection(parameters);
-        }
-
-        #region IIndexerReferenceExpression Members
-
-        public IndexerReferenceType IndexerType
-        {
-            get
-            {
-                return this.indexerType;
-            }
-            set
-            {
-                this.indexerType = value;
-                if (value == IndexerReferenceType.ArrayIndexer &&
-                    this.ReferenceType == Expressions.MethodReferenceType.VirtualMethodReference)
-                    this.ReferenceType = MethodReferenceType.StandardMethodReference;
-            }
-        }
-
-        public IMalleableExpressionCollection Parameters { get; private set; }
-
-        #endregion
-
-        public override ExpressionKinds Type
-        {
-            get { return ExpressionKinds.IndexerReference; }
-        }
-
-        public override void Visit(IExpressionVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-
-        public override string ToString()
-        {
-            return string.Format("{0}[{1}]", this.Source, string.Join(", ", this.Parameters));
-        }
-    }
 }

@@ -453,7 +453,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             else if (targetParent is IInterfaceType)
                 return ((IInterfacePropertyMember)target).GetPropertySignatureReference<IInterfacePropertyMember, IInterfaceType>(source);
             else
-                return new PropertyReferenceExpression(target.Name, source);
+                return new UnboundPropertyReferenceExpression(target.Name, source);
         }
 
         internal static IPropertyReferenceExpression GetPropertyReference(this IPropertyMember target, IMemberParentReferenceExpression source)
@@ -464,7 +464,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             else if (targetParent is IStructType)
                 return ((IStructPropertyMember)target).GetPropertyReference<IStructPropertyMember, IStructType>(source);
             else
-                return new PropertyReferenceExpression(target.Name, source);
+                return new UnboundPropertyReferenceExpression(target.Name, source);
         }
 
         public static IMethodReferenceStub GetReference(this IMethodSignatureMember target, IMemberParentReferenceExpression source)

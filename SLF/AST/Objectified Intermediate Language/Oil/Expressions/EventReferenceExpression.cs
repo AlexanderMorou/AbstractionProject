@@ -97,10 +97,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="EventReferenceExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionKinds.EventReference"/>.</remarks>
-        public override ExpressionKinds Type
+        /// <remarks>Returns <see cref="ExpressionKind.EventReference"/>.</remarks>
+        public override ExpressionKind Type
         {
-            get { return ExpressionKinds.EventReference; }
+            get { return ExpressionKind.EventReference; }
         }
 
         public override void Visit(IExpressionVisitor visitor)
@@ -203,10 +203,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="EventReferenceExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionKinds.EventReference"/>.</remarks>
-        public override ExpressionKinds Type
+        /// <remarks>Returns <see cref="ExpressionKind.EventReference"/>.</remarks>
+        public override ExpressionKind Type
         {
-            get { return ExpressionKinds.EventReference; }
+            get { return ExpressionKind.EventReference; }
         }
 
         public override void Visit(IExpressionVisitor visitor)
@@ -254,10 +254,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region IExpression Members
 
-        public ExpressionKinds Type
+        public ExpressionKind Type
         {
             get {
-                return ExpressionKinds.EventReference;
+                return ExpressionKind.EventReference;
             }
         }
 

@@ -1,12 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
-using AllenCopeland.Abstraction.Slf.Oil;
-using AllenCopeland.Abstraction.Slf.Oil.Members;
- /*---------------------------------------------------------------------\
+/*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
@@ -27,18 +23,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="ExpressionBase"/> is.
         /// </summary>
-        public abstract ExpressionKinds Type { get; }
+        public abstract ExpressionKind Type { get; }
 
         #region IMemberParentReferenceExpression Members
 
-
         public IEventReferenceExpression GetEvent(string name)
         {
-            var binding = LooselyBindEvent(name);
-            if (binding == null)
-                return new EventReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
-            else
-                return binding.GetEventReference(this);
+            return new EventReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
         }
 
         /// <summary>
@@ -123,7 +114,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// do not have named indexers.</remarks>
         public virtual IIndexerReferenceExpression GetIndexer(string name, params IExpression[] parameters)
         {
-            return new IndexerReferenceExpression(name, parameters, this.ObtainRelativeGetMemberTarget());
+            return new UnboundIndexerReferenceExpression(name, parameters, this.ObtainRelativeGetMemberTarget());
         }
 
         /// <summary>
@@ -135,131 +126,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// to the property described by <paramref name="name"/>.</returns>
         public virtual IPropertyReferenceExpression GetProperty(string name)
         {
-            var binding = LooselyBindProperty(name);
-            if (binding == null)
-                return new PropertyReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
-            else
-                return binding.GetPropertyReference(this);
-        }
-
-        internal IEventSignatureMember LooselyBindEvent(string name)
-        {
-            IEventSignatureMember eventResult = null;
-            var typeLookupAid = this.TypeLookupAid;
-            if (typeLookupAid != null && !(typeLookupAid is ISymbolType))
-            {
-                if (typeLookupAid is IEventParent)
-                {
-                    var currentParent = typeLookupAid;
-                repeat:
-                    var eventParent = currentParent as IEventParent;
-                    if (eventParent != null)
-                        foreach (IEventSignatureMember @event in eventParent.Events.Values)
-                            if (@event.Name == name)
-                            {
-                                eventResult = @event;
-                                goto returnResult;
-                            }
-                    if (currentParent != null)
-                    {
-                        currentParent = currentParent.BaseType;
-                        goto repeat;
-                    }
-                }
-                else if (typeLookupAid is IInterfaceType)
-                {
-                    var currentParent = typeLookupAid as IInterfaceType;
-                    Queue<IInterfaceType> implementedInterfaces = new Queue<IInterfaceType>(currentParent.ImplementedInterfaces.Cast<IInterfaceType>());
-                    var eventParent = currentParent;
-                repeat:
-                    if (eventParent != null)
-                        foreach (IEventSignatureMember @event in eventParent.Events.Values)
-                            if (@event.Name == name)
-                            {
-                                eventResult = @event;
-                                goto returnResult;
-                            }
-                    if (implementedInterfaces.Count > 0)
-                    {
-                        eventParent = implementedInterfaces.Dequeue();
-                        goto repeat;
-                    }
-                }
-            }
-            return null;
-        returnResult:
-            if (eventResult is IEventMember)
-            {
-                var eventMember = eventResult as IEventMember;
-                if (this.IsStaticTarget)
-                {
-                    if (!eventMember.IsStatic)
-                        return null;
-                }
-                else if (eventMember.IsStatic)
-                    return null;
-            }
-            return eventResult;
-        }
-
-        internal IPropertySignatureMember LooselyBindProperty(string name)
-        {
-            IPropertySignatureMember propertyResult = null;
-            var typeLookupAid = this.TypeLookupAid;
-            if (typeLookupAid != null && !(typeLookupAid is ISymbolType))
-            {
-                if (typeLookupAid is IPropertyParentType)
-                {
-                    var currentParent = typeLookupAid;
-                repeat:
-                    var propertyParent = currentParent as IPropertyParentType;
-                    if (propertyParent != null)
-                        foreach (IPropertySignatureMember property in propertyParent.Properties.Values)
-                            if (property.Name == name)
-                            {
-                                propertyResult = property;
-                                goto returnResult;
-                            }
-                    if (currentParent != null)
-                    {
-                        currentParent = currentParent.BaseType;
-                        goto repeat;
-                    }
-                }
-                else if (typeLookupAid is IInterfaceType)
-                {
-                    var currentParent = typeLookupAid as IInterfaceType;
-                    Queue<IInterfaceType> implementedInterfaces = new Queue<IInterfaceType>(currentParent.ImplementedInterfaces.Cast<IInterfaceType>());
-                    var propertyParent = currentParent;
-                repeat:
-                    if (propertyParent != null)
-                        foreach (IPropertySignatureMember property in propertyParent.Properties.Values)
-                            if (property.Name == name)
-                            {
-                                propertyResult = property;
-                                goto returnResult;
-                            }
-                    if (implementedInterfaces.Count > 0)
-                    {
-                        propertyParent = implementedInterfaces.Dequeue();
-                        goto repeat;
-                    }
-                }
-            }
-            return null;
-        returnResult:
-            if (propertyResult is IPropertyMember)
-            {
-                var propertyMember = propertyResult as IPropertyMember;
-                if (this.IsStaticTarget)
-                {
-                    if (!propertyMember.IsStatic)
-                        return null;
-                }
-                else if (propertyMember.IsStatic)
-                    return null;
-            }
-            return propertyResult;
+            return new UnboundPropertyReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
         }
 
         /// <summary>
@@ -289,40 +156,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// that needs retrieved.</returns>
         public virtual IFieldReferenceExpression GetField(string name)
         {
-            var looseBind = LooselyBindField(name);
-            if (looseBind != null)
-                return looseBind.GetFieldReference(this);
-            else
-                return new FieldReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
-        }
-
-        internal IFieldMember LooselyBindField(string name)
-        {
-            var typeLookupAid = this.TypeLookupAid;
-            if (typeLookupAid != null && !(typeLookupAid is ISymbolType))
-            {
-                var currentParent = typeLookupAid;
-            repeat:
-                var fieldParent = currentParent as IFieldParent;
-                if (fieldParent != null)
-                    foreach (IFieldMember field in fieldParent.Fields.Values)
-                        if (field.Name == name)
-                        {
-                            if (field is IInstanceMember)
-                            {
-                                var instanceField = field as IInstanceMember;
-                                if (instanceField.IsStatic != this.IsStaticTarget)
-                                    return null;
-                            }
-                            return field;
-                        }
-                if (currentParent != null)
-                {
-                    currentParent = currentParent.BaseType;
-                    goto repeat;
-                }
-            }
-            return null;
+            return new FieldReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
         }
 
         /*

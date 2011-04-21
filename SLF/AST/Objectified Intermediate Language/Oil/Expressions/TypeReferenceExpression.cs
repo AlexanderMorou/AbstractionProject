@@ -53,9 +53,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         */
 
         public IType ReferenceType { get; set; }
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
-            get { return ExpressionKinds.TypeReference; }
+            get { return ExpressionKind.TypeReference; }
         }
 
         public override string ToString()

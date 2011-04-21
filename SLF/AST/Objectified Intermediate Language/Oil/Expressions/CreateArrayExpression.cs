@@ -50,9 +50,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #endregion
 
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
-            get { return ExpressionKinds.CreateArray; }
+            get { return ExpressionKind.CreateArray; }
         }
 
         public override void Visit(IExpressionVisitor visitor)

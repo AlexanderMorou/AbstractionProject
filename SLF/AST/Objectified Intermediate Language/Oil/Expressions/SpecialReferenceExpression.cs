@@ -29,20 +29,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region IExpression Members
 
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
             get
             {
                 switch (Kind)
                 {
                     case SpecialReferenceKind.Self:
-                        return ExpressionKinds.SelfReference;
+                        return ExpressionKind.SelfReference;
                     case SpecialReferenceKind.Base:
-                        return ExpressionKinds.BaseReference;
+                        return ExpressionKind.BaseReference;
                     case SpecialReferenceKind.This:
-                        return ExpressionKinds.ThisReference;
+                        return ExpressionKind.ThisReference;
                     default:
-                        return ExpressionKinds.None;
+                        return ExpressionKind.None;
                 }
             }
         }

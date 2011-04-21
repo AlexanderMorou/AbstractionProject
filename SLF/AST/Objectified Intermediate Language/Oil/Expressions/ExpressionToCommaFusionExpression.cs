@@ -48,9 +48,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #endregion
 
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
-            get { return ExpressionKinds.ExpressionToCommaFusion; }
+            get { return ExpressionKind.ExpressionToCommaFusion; }
         }
 
         public override string ToString()

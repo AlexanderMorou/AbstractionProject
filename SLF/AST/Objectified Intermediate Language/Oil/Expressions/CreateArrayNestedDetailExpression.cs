@@ -20,9 +20,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region IExpression Members
 
-        public ExpressionKinds Type
+        public ExpressionKind Type
         {
-            get { return ExpressionKinds.CreateArrayNestedDetail; }
+            get { return ExpressionKind.CreateArrayNestedDetail; }
         }
 
         public void Visit(IExpressionVisitor visitor)

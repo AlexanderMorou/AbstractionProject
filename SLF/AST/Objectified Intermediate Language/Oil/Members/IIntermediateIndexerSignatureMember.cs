@@ -46,7 +46,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <param name="parameters">The series of <see cref="IExpression"/> elements
         /// needed to get or set an element of the indexer</param>
         /// <returns>An indexer reference for the current <see cref="IIntermediateIndexerMember"/>.</returns>
-        new IIndexerSignatureReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> GetReference(IMemberParentReferenceExpression source, params IExpression[] parameters);
+        new IIndexerSignatureReferenceExpression<TIndexer, TIndexerParent> GetReference(IMemberParentReferenceExpression source, params IExpression[] parameters);
         /// <summary>
         /// Obtains an indexer reference for the current <see cref="IIntermediateIndexerMember"/>.
         /// </summary>
@@ -55,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <param name="parameters">The <see cref="IEnumerable{T}"/> of <see cref="IExpression"/> elements
         /// needed to get or set an element of the indexer</param>
         /// <returns>An indexer reference for the current <see cref="IIntermediateIndexerMember"/>.</returns>
-        new IIndexerSignatureReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> GetReference(IMemberParentReferenceExpression source, IEnumerable<IExpression> parameters);
+        new IIndexerSignatureReferenceExpression<TIndexer, TIndexerParent> GetReference(IMemberParentReferenceExpression source, IEnumerable<IExpression> parameters);
     }
 
     /// <summary>

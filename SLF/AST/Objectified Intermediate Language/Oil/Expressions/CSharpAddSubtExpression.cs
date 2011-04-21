@@ -66,20 +66,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="CSharpAddSubtExpression"/> is.
         /// </summary>
-        /// <remarks>Returns the appropriate <see cref="ExpressionKinds"/> value
+        /// <remarks>Returns the appropriate <see cref="ExpressionKind"/> value
         /// relative to the <see cref="CSharpAddSubtOperation"/>
         /// of the <see cref="Operation"/>.</remarks>
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
             get {
                 switch (this.Operation)
                 {
                     case CSharpAddSubtOperation.Term:
-                        return ExpressionKinds.BinaryForwardTerm;
+                        return ExpressionKind.BinaryForwardTerm;
                     case CSharpAddSubtOperation.Addition:
-                        return ExpressionKinds.AddOperation;
+                        return ExpressionKind.AddOperation;
                     case CSharpAddSubtOperation.Subtraction:
-                        return ExpressionKinds.SubtractOperation;
+                        return ExpressionKind.SubtractOperation;
                     default:
                         throw new InvalidOperationException();
                 }

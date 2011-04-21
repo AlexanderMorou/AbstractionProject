@@ -108,7 +108,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Abstract
 
         public static IIndexerReferenceExpression This(this string symbol, IndexerReferenceType indexerType, IMalleableExpressionCollection args)
         {
-            IIndexerReferenceExpression target = symbol.This(args);
+            var target = symbol.This(args) as IUnboundIndexerReferenceExpression;
             target.IndexerType = indexerType;
             return target;
         }
@@ -120,7 +120,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Abstract
 
         public static IIndexerReferenceExpression This(this string symbol, string indexerName, IndexerReferenceType indexerType, IMalleableExpressionCollection args)
         {
-            IIndexerReferenceExpression target = symbol.This(indexerName, args);
+            var target = symbol.This(indexerName, args) as IUnboundIndexerReferenceExpression;
             target.IndexerType = indexerType;
             return target;
         }

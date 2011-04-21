@@ -37,9 +37,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Lambda
         /// Returns the type of expression the 
         /// <see cref="LambdaExpression"/> is.
         /// </summary>
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
-            get { return ExpressionKinds.LambdaExpression; }
+            get { return ExpressionKind.LambdaExpression; }
         }
 
         #endregion

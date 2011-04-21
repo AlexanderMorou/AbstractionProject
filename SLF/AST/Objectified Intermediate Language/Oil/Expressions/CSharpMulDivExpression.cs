@@ -29,22 +29,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="CSharpMulDivExpression"/> is.
         /// </summary>
-        /// <remarks>Returns the appropriate <see cref="ExpressionKinds"/> value
+        /// <remarks>Returns the appropriate <see cref="ExpressionKind"/> value
         /// relative to the <see cref="CSharpMulDivOperation"/>.</remarks>
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
             get
             {
                 switch (this.Operation)
                 {
                     case CSharpMulDivOperation.Multiplication:
-                        return ExpressionKinds.MultiplyOperation;
+                        return ExpressionKind.MultiplyOperation;
                     case CSharpMulDivOperation.Division:
-                        return ExpressionKinds.StrictDivisionOperation;
+                        return ExpressionKind.StrictDivisionOperation;
                     case CSharpMulDivOperation.Remainder:
-                        return ExpressionKinds.ModulusOperation;
+                        return ExpressionKind.ModulusOperation;
                     case CSharpMulDivOperation.Term:
-                        return ExpressionKinds.BinaryForwardTerm;
+                        return ExpressionKind.BinaryForwardTerm;
                     default:
                         throw new InvalidOperationException();
                 }
