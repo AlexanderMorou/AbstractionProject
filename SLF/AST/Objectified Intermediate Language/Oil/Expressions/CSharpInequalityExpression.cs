@@ -62,20 +62,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="CSharpInequalityExpression"/> is.
         /// </summary>
-        /// <remarks>Returns the appropriate <see cref="ExpressionKinds"/> value
+        /// <remarks>Returns the appropriate <see cref="ExpressionKind"/> value
         /// relative to the <see cref="CSharpInequalityOperation"/> 
         /// within <see cref="Operation"/>.</remarks>
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
             get {
                 switch (this.Operation)
                 {
                     case CSharpInequalityOperation.Term:
-                        return ExpressionKinds.BinaryForwardTerm;
+                        return ExpressionKind.BinaryForwardTerm;
                     case CSharpInequalityOperation.Equality:
-                        return ExpressionKinds.EqualityOperation;
+                        return ExpressionKind.EqualityOperation;
                     case CSharpInequalityOperation.Inequality:
-                        return ExpressionKinds.InequalityOperation;
+                        return ExpressionKind.InequalityOperation;
                     default:
                         //Invalid object state.
                         throw new InvalidOperationException();

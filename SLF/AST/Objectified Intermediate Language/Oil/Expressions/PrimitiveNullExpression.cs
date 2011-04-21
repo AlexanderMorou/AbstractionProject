@@ -89,9 +89,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region IExpression Members
 
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
-            get { return ExpressionKinds.PrimitiveNullInsert; }
+            get { return ExpressionKind.PrimitiveNullInsert; }
         }
 
         #endregion

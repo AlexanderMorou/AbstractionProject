@@ -74,10 +74,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <see cref="ConstructorPointerReferenceExpression"/> is.
         /// </summary>
         /// <remarks>Returns 
-        /// <see cref="ExpressionKinds.ConstructorReference"/>.</remarks>
-        public ExpressionKinds Type
+        /// <see cref="ExpressionKind.ConstructorReference"/>.</remarks>
+        public ExpressionKind Type
         {
-            get { return ExpressionKinds.ConstructorReference; }
+            get { return ExpressionKind.ConstructorReference; }
         }
 
         /// <summary>

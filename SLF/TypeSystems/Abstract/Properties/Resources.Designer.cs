@@ -61,15 +61,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot alter the references in scope when in protected mode..
-        /// </summary>
-        internal static string AssemblyReferencesCollection_ProtectedError {
-            get {
-                return ResourceManager.GetString("AssemblyReferencesCollection_ProtectedError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Item.
         /// </summary>
         internal static string DefaultIndexerName {

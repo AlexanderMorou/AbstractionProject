@@ -24,17 +24,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             }
         }
 
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
             get {
                 switch (this.Kind)
                 {
                     case SpecialReferenceKind.Self:
-                        return ExpressionKinds.SelfReference;
+                        return ExpressionKind.SelfReference;
                     case SpecialReferenceKind.Base:
-                        return ExpressionKinds.BaseReference;
+                        return ExpressionKind.BaseReference;
                     case SpecialReferenceKind.This:
-                        return ExpressionKinds.ThisReference;
+                        return ExpressionKind.ThisReference;
                 }
                 throw new InvalidOperationException();
             }

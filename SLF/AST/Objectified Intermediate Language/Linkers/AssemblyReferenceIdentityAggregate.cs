@@ -29,10 +29,9 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// the <see cref="AssemblyReferenceIdentityAggregate"/> is referred 
         /// to by.
         /// </param>
-        internal AssemblyReferenceIdentityAggregate(IAggregateAliasReferenceGroups source, IAssemblyReference[] references, string[] aliases)
-            : base((from r in references
-                    select r.Reference)
-                        .ToArray())
+        internal AssemblyReferenceIdentityAggregate(IAggregateAliasReferenceGroups source, IEnumerable<IAssemblyReference> references, string[] aliases)
+            : base(from r in references
+                   select r.Reference)
         {
             /* *
              * Utilize LINQ to duplicate and obscure the fact that

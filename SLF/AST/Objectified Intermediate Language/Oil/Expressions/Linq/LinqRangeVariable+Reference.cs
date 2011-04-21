@@ -16,10 +16,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
             {
                 this.target = target;
             }
-            public override ExpressionKinds Type
+            public override ExpressionKind Type
             {
                 get {
-                    return ExpressionKinds.RangeVariableReference;
+                    return ExpressionKind.RangeVariableReference;
                 }
             }
 

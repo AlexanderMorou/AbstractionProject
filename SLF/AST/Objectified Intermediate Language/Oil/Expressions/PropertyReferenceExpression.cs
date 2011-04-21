@@ -32,11 +32,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         where TPropertyParent :
             IPropertyParentType<TProperty, TPropertyParent>
     {
-        
-        public PropertyReferenceExpression(IMemberParentReferenceExpression source, TProperty member)
+
+        public PropertyReferenceExpression(IMemberParentReferenceExpression source, TProperty member, MethodReferenceType referenceType = MethodReferenceType.VirtualMethodReference)
         {
             this.Source = source;
             this.Member = member;
+            this.ReferenceType = referenceType;
         }
 
         #region IPropertyReferenceExpression<TProperty,TIntermediateProperty,TPropertyParent,TIntermediatePropertyParent> Members
@@ -88,7 +89,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <see cref="IPropertyReferenceExpression"/>,
         /// get/set methods, is.
         /// </summary>
-        public MethodReferenceType ReferenceType { get; set; }
+        public MethodReferenceType ReferenceType { get; private set; }
 
         /// <summary>
         /// Returns the <see cref="IMemberParentReferenceExpression"/>
@@ -106,10 +107,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="PropertyReferenceExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionKinds.PropertyReference"/>.</remarks>
-        public override ExpressionKinds Type 
+        /// <remarks>Returns <see cref="ExpressionKind.PropertyReference"/>.</remarks>
+        public override ExpressionKind Type 
         {
-            get { return ExpressionKinds.PropertyReference; }
+            get { return ExpressionKind.PropertyReference; }
         }
 
         public override void Visit(IExpressionVisitor visitor) 
@@ -148,9 +149,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Data member for <see cref="ReferenceType"/>.
         /// </summary>
-
-        public PropertySignatureReferenceExpression(IMemberParentReferenceExpression source, TProperty member)
+        public PropertySignatureReferenceExpression(IMemberParentReferenceExpression source, TProperty member, MethodReferenceType referenceType = MethodReferenceType.VirtualMethodReference)
         {
+            this.ReferenceType = referenceType;
             this.Source = source;
             this.Member = member;
         }
@@ -204,7 +205,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <see cref="PropertySignatureReferenceExpression{TProperty, TPropertyParent}"/>,
         /// get/set methods, is.
         /// </summary>
-        public MethodReferenceType ReferenceType { get; set; }
+        public MethodReferenceType ReferenceType { get; private set; }
 
         /// <summary>
         /// Returns the <see cref="IMemberParentReferenceExpression"/>
@@ -222,10 +223,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="PropertyReferenceExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionKinds.PropertyReference"/>.</remarks>
-        public override ExpressionKinds Type
+        /// <remarks>Returns <see cref="ExpressionKind.PropertyReference"/>.</remarks>
+        public override ExpressionKind Type
         {
-            get { return ExpressionKinds.PropertyReference; }
+            get { return ExpressionKind.PropertyReference; }
         }
 
         public override void Visit(IExpressionVisitor visitor)
@@ -244,94 +245,4 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
     }
 
-    /// <summary>
-    /// Provides a base implementation of an <see cref="IPropertyReferenceExpression"/>
-    /// which references a <see cref="IPropertySignatureMember"/> 
-    /// in code by name.
-    /// </summary>
-    public class PropertyReferenceExpression :
-        MemberParentReferenceExpressionBase,
-        IPropertyReferenceExpression 
-    {
-        /// <summary>
-        /// Data member for <see cref="Name"/>.
-        /// </summary>
-        private string name;
-        /// <summary>
-        /// Data member for <see cref="Source"/>.
-        /// </summary>
-        private IMemberParentReferenceExpression source;
-
-        /// <summary>
-        /// Creates a new <see cref="PropertyReferenceExpression"/> with the <paramref name="name"/>
-        /// and <paramref name="source"/> provided.
-        /// </summary>
-        /// <param name="name">A <see cref="System.String"/> relative to the
-        /// property to retrieve a reference to.</param>
-        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
-        /// from which the <see cref="PropertyReferenceExpression"/> is to be
-        /// sourced.</param>
-        public PropertyReferenceExpression(string name, IMemberParentReferenceExpression source)
-        {
-            this.name = name;
-            this.source = source;
-        }
-
-        #region IPropertyReferenceExpression Members
-        /// <summary>
-        /// Returns/sets the type of reference to the 
-        /// <see cref="IPropertyReferenceExpression"/>,
-        /// get/set methods, is.
-        /// </summary>
-        public MethodReferenceType ReferenceType { get; set; }
-
-        /// <summary>
-        /// Returns the <see cref="IMemberParentReferenceExpression"/>
-        /// that sourced the <see cref="IPropertyReferenceExpression"/>.
-        /// </summary>
-        public IMemberParentReferenceExpression Source
-        {
-            get { return this.source; }
-        }
-
-        #endregion
-
-        #region IMemberReferenceExpression Members
-
-        /// <summary>
-        /// Returns/sets the name of the member to reference.
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                this.name = value;
-            }
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Returns the type of expression the <see cref="PropertyReferenceExpression"/> is.
-        /// </summary>
-        /// <remarks>Returns <see cref="ExpressionKinds.PropertyReference"/>.</remarks>
-        public override ExpressionKinds Type
-        {
-            get { return ExpressionKinds.PropertyReference; }
-        }
-
-        public override string ToString()
-        {
-            return string.Format("{0}.{1}", this.source.ToString(), this.Name);
-        }
-
-        public override void Visit(IExpressionVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
-    }
 }

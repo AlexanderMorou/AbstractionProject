@@ -95,10 +95,17 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
                 asliasedIdentityAggregate.Dispose();
             base._Clear();
             this.parent = null;
-            this.parent.ExitProtectedState();
         }
 
         #endregion
 
+        public void AddReferenceToAlias(string alias, IAssemblyReference reference)
+        {
+            IAssemblyReferenceIdentityAggregate element;
+            if (!this.TryGetValue(alias, out element))
+            {
+            }
+            
+        }
     }
 }

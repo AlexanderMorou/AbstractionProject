@@ -18,14 +18,14 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// <summary>
         /// The data member for <see cref="Namespaces"/>.
         /// </summary>
-        private INamespaceParent[] namespaces;
+        private IEnumerable<INamespaceParent> namespaces;
         /// <summary>
         /// Creates a new <see cref="AggregateNamespaceIdentityNode"/>
         /// with the <paramref name="namespaces"/> provided.
         /// </summary>
         /// <param name="namespaces">The <see cref="INamespaceDeclaration"/> array
         /// which represents the identities that make up the aggregate namespace identity.</param>
-        internal AggregateNamespaceParentIdentityNode(INamespaceParent[] namespaces) 
+        internal AggregateNamespaceParentIdentityNode(IEnumerable<INamespaceParent> namespaces) 
         {
             this.namespaces = namespaces;
         }

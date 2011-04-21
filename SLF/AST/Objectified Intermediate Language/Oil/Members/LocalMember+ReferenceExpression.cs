@@ -35,9 +35,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 }
             }
 
-            public override ExpressionKinds Type
+            public override ExpressionKind Type
             {
-                get { return ExpressionKinds.LocalReference; }
+                get { return ExpressionKind.LocalReference; }
             }
 
             public override void Visit(IExpressionVisitor visitor)

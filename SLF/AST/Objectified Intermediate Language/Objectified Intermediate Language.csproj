@@ -127,7 +127,9 @@
     <Compile Include="Linkers\AggregateIdentitySetNode+KeysCollection.cs" />
     <Compile Include="Linkers\AggregateIdentitySetNode+ValuesCollection.cs" />
     <Compile Include="Linkers\AggregateNamespaceIdentityNode.cs" />
+    <Compile Include="Linkers\AssemblyReferenceAliasCollection.cs" />
     <Compile Include="Linkers\IAggregateNamespaceIdentityParentNode.cs" />
+    <Compile Include="Linkers\IAssemblyReferenceAliasCollection.cs" />
     <Compile Include="Oil\CSharpAssembly.cs" />
     <Compile Include="Oil\CSharpGateway.cs" />
     <Compile Include="Oil\DataSizeType.cs" />
@@ -165,6 +167,8 @@
     <Compile Include="Oil\Expressions\InvalidIncrementTargetException.cs" />
     <Compile Include="Oil\Expressions\InvalidInvertTargetException.cs" />
     <Compile Include="Oil\Expressions\OperatorPrecedences.cs" />
+    <Compile Include="Oil\Expressions\UnboundIndexerReferenceExpression.cs" />
+    <Compile Include="Oil\Expressions\UnboundPropertyReferenceExpression.cs" />
     <Compile Include="Oil\IDataSizeType.cs" />
     <Compile Include="Oil\ICSharpAssembly.cs" />
     <Compile Include="Cst\ICSharpCompilationUnit.cs" />

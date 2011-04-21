@@ -18,7 +18,6 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
     /// </summary>
     public interface IAssemblyReferenceCollection :
         IControlledStateCollection<IAssemblyReference>,
-        IProtectableComponent,
         IDisposable
     {
         /// <summary>

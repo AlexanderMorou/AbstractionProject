@@ -37,10 +37,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="NamedParameterExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionKinds.NamedParameterReference"/>.</remarks>
-        public ExpressionKinds Type
+        /// <remarks>Returns <see cref="ExpressionKind.NamedParameterReference"/>.</remarks>
+        public ExpressionKind Type
         {
-            get { return ExpressionKinds.NamedParameterReference; }
+            get { return ExpressionKind.NamedParameterReference; }
         }
 
         #endregion

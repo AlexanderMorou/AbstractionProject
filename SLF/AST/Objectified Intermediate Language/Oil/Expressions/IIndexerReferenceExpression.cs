@@ -36,38 +36,26 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         InferredIndexer,
     }
-    public interface IIndexerReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> :
+    public interface IIndexerReferenceExpression<TIndexer, TIndexerParent> :
         IBoundMemberReference,
         IIndexerReferenceExpression
         where TIndexer :
             IIndexerMember<TIndexer, TIndexerParent>
-        where TIntermediateIndexer :
-            TIndexer,
-            IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
         where TIndexerParent :
             IIndexerParent<TIndexer, TIndexerParent>
-        where TIntermediateIndexerParent :
-            TIndexerParent,
-            IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
     {
-        new TIntermediateIndexer Member { get; }
+        new TIndexer Member { get; }
     }
 
-    public interface IIndexerSignatureReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> :
+    public interface IIndexerSignatureReferenceExpression<TIndexer, TIndexerParent> :
         IBoundMemberReference,
         IIndexerReferenceExpression
         where TIndexer :
             IIndexerSignatureMember<TIndexer, TIndexerParent>
-        where TIntermediateIndexer :
-            TIndexer,
-            IIntermediateIndexerSignatureMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
         where TIndexerParent :
             IIndexerSignatureParent<TIndexer, TIndexerParent>
-        where TIntermediateIndexerParent :
-            TIndexerParent,
-            IIntermediateIndexerSignatureParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
     {
-        new TIntermediateIndexer Member { get; }
+        new TIndexer Member { get; }
     }
 
     /// <summary>
@@ -83,11 +71,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns the <see cref="IndexerReferenceType"/>
         /// of the <see cref="IIndexerReferenceExpression"/>.
         /// </summary>
-        IndexerReferenceType IndexerType { get; set; }
+        IndexerReferenceType IndexerType { get; }
         /// <summary>
         /// The <see cref="IExpressionCollection"/> used
         /// to refer to the indexer.
         /// </summary>
         IMalleableExpressionCollection Parameters { get; }
+    }
+
+    public interface IUnboundIndexerReferenceExpression :
+        IIndexerReferenceExpression 
+    {
+        /// <summary>
+        /// Returns/sets the <see cref="IndexerReferenceType"/>
+        /// of the <see cref="IUnboundIndexerReferenceExpression"/>.
+        /// </summary>
+        new IndexerReferenceType IndexerType { get; set; }
     }
 }

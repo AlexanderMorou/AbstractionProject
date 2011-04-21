@@ -35,9 +35,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             this.Right.AddRange(terms);
         }
 
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
-            get { return ExpressionKinds.ExpressionToTypeCollectionFusion; }
+            get { return ExpressionKind.ExpressionToTypeCollectionFusion; }
         }
 
         #region IExpressionToCommaTypeReferenceFusionExpression Members

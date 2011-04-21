@@ -86,35 +86,35 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns the type of expression the <see cref="CSharpAssignExpression"/> is.
         /// </summary>
         /// <remarks>Returns based upon the <see cref="Operation"/>.</remarks>
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
             get {
                 switch (this.Operation)
                 {
                     case AssignmentOperation.SimpleAssign:
-                        return ExpressionKinds.AssignExpression;
+                        return ExpressionKind.AssignExpression;
                     case AssignmentOperation.MultiplicationAssign:
-                        return ExpressionKinds.AssignMultiplyOperation;
+                        return ExpressionKind.AssignMultiplyOperation;
                     case AssignmentOperation.DivisionAssign:
-                        return ExpressionKinds.AssignDivideOperation;
+                        return ExpressionKind.AssignDivideOperation;
                     case AssignmentOperation.ModulusAssign:
-                        return ExpressionKinds.AssignModulusOperation;
+                        return ExpressionKind.AssignModulusOperation;
                     case AssignmentOperation.AddAssign:
-                        return ExpressionKinds.AssignAddOperation;
+                        return ExpressionKind.AssignAddOperation;
                     case AssignmentOperation.SubtractionAssign:
-                        return ExpressionKinds.AssignSubtractOperation;
+                        return ExpressionKind.AssignSubtractOperation;
                     case AssignmentOperation.LeftShiftAssign:
-                        return ExpressionKinds.AssignLeftShiftOperation;
+                        return ExpressionKind.AssignLeftShiftOperation;
                     case AssignmentOperation.RightShiftAssign:
-                        return ExpressionKinds.AssignRightShiftOperation;
+                        return ExpressionKind.AssignRightShiftOperation;
                     case AssignmentOperation.BitwiseAndAssign:
-                        return ExpressionKinds.AssignBitwiseAndOperation;
+                        return ExpressionKind.AssignBitwiseAndOperation;
                     case AssignmentOperation.BitwiseOrAssign:
-                        return ExpressionKinds.AssignBitwiseOrOperation;
+                        return ExpressionKind.AssignBitwiseOrOperation;
                     case AssignmentOperation.BitwiseExclusiveOrAssign:
-                        return ExpressionKinds.AssignBitwiseExclusiveOrOperation;
+                        return ExpressionKind.AssignBitwiseExclusiveOrOperation;
                     case AssignmentOperation.Term:
-                        return ExpressionKinds.BinaryForwardTerm;
+                        return ExpressionKind.BinaryForwardTerm;
                     default:
                         throw new InvalidOperationException();
                 }

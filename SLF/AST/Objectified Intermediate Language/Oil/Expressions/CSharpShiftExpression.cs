@@ -63,23 +63,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="CSharpShiftExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionKinds.BinaryForwardTerm"/> when <see cref="Operation"/>
+        /// <remarks>Returns <see cref="ExpressionKind.BinaryForwardTerm"/> when <see cref="Operation"/>
         /// is <see cref="CSharpShiftOperation.Term"/>,
-        /// <see cref="ExpressionKinds.ShiftLeftOperation"/>
+        /// <see cref="ExpressionKind.ShiftLeftOperation"/>
         /// when <see cref="Operation"/> is <see cref="CSharpShiftOperation.LeftShift"/>
-        /// and <see cref="ExpressionKinds.ShiftRightOperation"/> when <see cref="Operation"/>
+        /// and <see cref="ExpressionKind.ShiftRightOperation"/> when <see cref="Operation"/>
         /// is <see cref="CSharpShiftOperation.RightShift"/>.</remarks>
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
             get {
                 switch (this.Operation)
                 {
                     case CSharpShiftOperation.Term:
-                        return ExpressionKinds.BinaryForwardTerm;
+                        return ExpressionKind.BinaryForwardTerm;
                     case CSharpShiftOperation.LeftShift:
-                        return ExpressionKinds.ShiftLeftOperation;
+                        return ExpressionKind.ShiftLeftOperation;
                     case CSharpShiftOperation.RightShift:
-                        return ExpressionKinds.ShiftRightOperation;
+                        return ExpressionKind.ShiftRightOperation;
                     default:
                         break;
                 }

@@ -39,10 +39,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// <summary>
         /// Returns the type of expression the <see cref="LinqExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionKinds.LinqExpression"/>.</remarks>
-        public ExpressionKinds Type
+        /// <remarks>Returns <see cref="ExpressionKind.LinqExpression"/>.</remarks>
+        public ExpressionKind Type
         {
-            get { return ExpressionKinds.LinqExpression; }
+            get { return ExpressionKind.LinqExpression; }
         }
 
         #endregion

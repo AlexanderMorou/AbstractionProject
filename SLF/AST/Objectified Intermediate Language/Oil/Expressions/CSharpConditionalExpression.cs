@@ -35,14 +35,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         private ICSharpConditionalExpression falsePart;
 
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
             get
             {
                 if (this.TruePart == null && this.FalsePart == null)
-                    return ExpressionKinds.ConditionalForwardTerm;
+                    return ExpressionKind.ConditionalForwardTerm;
                 else
-                    return ExpressionKinds.ConditionalOperation;
+                    return ExpressionKind.ConditionalOperation;
             }
         }
 

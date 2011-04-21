@@ -45,9 +45,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             this.symbol = symbol;
             this.source = source;
         }
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
-            get { return ExpressionKinds.SymbolExpression; }
+            get { return ExpressionKind.SymbolExpression; }
         }
 
         #region ISymbolExpression Members

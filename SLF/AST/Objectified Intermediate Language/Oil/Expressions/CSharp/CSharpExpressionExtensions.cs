@@ -34,10 +34,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.CSharp
         {
             if (operation == null)
                 throw new ArgumentNullException("operation");
-            ExpressionKinds kind = operation.Type;
+            ExpressionKind kind = operation.Type;
             switch (kind)
             {
-                case ExpressionKinds.BinaryForwardTerm:
+                case ExpressionKind.BinaryForwardTerm:
                     if (operation is ICSharpAssignExpression)
                         return CSharpOperatorPrecedences.AssignmentOperation;
                     else if (operation is ICSharpAddSubtExpression)
@@ -62,97 +62,97 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.CSharp
                         return CSharpOperatorPrecedences.ShiftOperation;
                     else
                         return CSharpOperatorPrecedences.NoPrecedence;
-                case ExpressionKinds.AssignExpression:
-                case ExpressionKinds.AssignMultiplyOperation:
-                case ExpressionKinds.AssignDivideOperation:
-                case ExpressionKinds.AssignModulusOperation:
-                case ExpressionKinds.AssignAddOperation:
-                case ExpressionKinds.AssignSubtractOperation:
-                case ExpressionKinds.AssignLeftShiftOperation:
-                case ExpressionKinds.AssignRightShiftOperation:
-                case ExpressionKinds.AssignBitwiseAndOperation:
-                case ExpressionKinds.AssignBitwiseOrOperation:
-                case ExpressionKinds.AssignBitwiseExclusiveOrOperation:
+                case ExpressionKind.AssignExpression:
+                case ExpressionKind.AssignMultiplyOperation:
+                case ExpressionKind.AssignDivideOperation:
+                case ExpressionKind.AssignModulusOperation:
+                case ExpressionKind.AssignAddOperation:
+                case ExpressionKind.AssignSubtractOperation:
+                case ExpressionKind.AssignLeftShiftOperation:
+                case ExpressionKind.AssignRightShiftOperation:
+                case ExpressionKind.AssignBitwiseAndOperation:
+                case ExpressionKind.AssignBitwiseOrOperation:
+                case ExpressionKind.AssignBitwiseExclusiveOrOperation:
                     return CSharpOperatorPrecedences.AssignmentOperation;
-                case ExpressionKinds.LogicalOrOperation:
+                case ExpressionKind.LogicalOrOperation:
                     return CSharpOperatorPrecedences.LogicalOrOperation;
-                case ExpressionKinds.LogicalAndOperation:
+                case ExpressionKind.LogicalAndOperation:
                     return CSharpOperatorPrecedences.LogicalAndOperation;
-                case ExpressionKinds.BitwiseOrOperation:
+                case ExpressionKind.BitwiseOrOperation:
                     return CSharpOperatorPrecedences.BitwiseOrOperation;
-                case ExpressionKinds.BitwiseExclusiveOrOperation:
+                case ExpressionKind.BitwiseExclusiveOrOperation:
                     return CSharpOperatorPrecedences.BitwiseExclusiveOrOperation;
-                case ExpressionKinds.BitwiseAndOperation:
+                case ExpressionKind.BitwiseAndOperation:
                     return CSharpOperatorPrecedences.BitwiseAndOperation;
-                case ExpressionKinds.InequalityOperation:
-                case ExpressionKinds.EqualityOperation:
+                case ExpressionKind.InequalityOperation:
+                case ExpressionKind.EqualityOperation:
                     return CSharpOperatorPrecedences.InequalityOperation;
-                case ExpressionKinds.LessThanOperation:
-                case ExpressionKinds.LessThanOrEqualToOperation:
-                case ExpressionKinds.GreaterThanOperation:
-                case ExpressionKinds.GreaterThanOrEqualToOperation:
-                case ExpressionKinds.TypeCheckOperation:
-                case ExpressionKinds.TypeCastOrNull:
+                case ExpressionKind.LessThanOperation:
+                case ExpressionKind.LessThanOrEqualToOperation:
+                case ExpressionKind.GreaterThanOperation:
+                case ExpressionKind.GreaterThanOrEqualToOperation:
+                case ExpressionKind.TypeCheckOperation:
+                case ExpressionKind.TypeCastOrNull:
                     return CSharpOperatorPrecedences.RelationalOperation;
-                case ExpressionKinds.ShiftLeftOperation:
-                case ExpressionKinds.ShiftRightOperation:
+                case ExpressionKind.ShiftLeftOperation:
+                case ExpressionKind.ShiftRightOperation:
                     return CSharpOperatorPrecedences.ShiftOperation;
-                case ExpressionKinds.AddOperation:
-                case ExpressionKinds.SubtractOperation:
+                case ExpressionKind.AddOperation:
+                case ExpressionKind.SubtractOperation:
                     return CSharpOperatorPrecedences.AddSubtOperation;
-                case ExpressionKinds.MultiplyOperation:
-                case ExpressionKinds.StrictDivisionOperation:
-                case ExpressionKinds.ModulusOperation:
+                case ExpressionKind.MultiplyOperation:
+                case ExpressionKind.StrictDivisionOperation:
+                case ExpressionKind.ModulusOperation:
                     return CSharpOperatorPrecedences.MulDivOperation;
-                case ExpressionKinds.PrimitiveSByteInsert:
-                case ExpressionKinds.PrimitiveByteInsert:
-                case ExpressionKinds.PrimitiveBooleanInsert:
-                case ExpressionKinds.PrimitiveCharInsert:
-                case ExpressionKinds.PrimitiveUInt16Insert:
-                case ExpressionKinds.PrimitiveInt16Insert:
-                case ExpressionKinds.PrimitiveUInt32Insert:
-                case ExpressionKinds.PrimitiveInt32Insert:
-                case ExpressionKinds.PrimitiveUInt64Insert:
-                case ExpressionKinds.PrimitiveInt64Insert:
-                case ExpressionKinds.PrimitiveSingleInsert:
-                case ExpressionKinds.PrimitiveDoubleInsert:
-                case ExpressionKinds.PrimitiveDecimalInsert:
-                case ExpressionKinds.PrimitiveStringInsert:
-                case ExpressionKinds.PrimitiveNullInsert:
+                case ExpressionKind.PrimitiveSByteInsert:
+                case ExpressionKind.PrimitiveByteInsert:
+                case ExpressionKind.PrimitiveBooleanInsert:
+                case ExpressionKind.PrimitiveCharInsert:
+                case ExpressionKind.PrimitiveUInt16Insert:
+                case ExpressionKind.PrimitiveInt16Insert:
+                case ExpressionKind.PrimitiveUInt32Insert:
+                case ExpressionKind.PrimitiveInt32Insert:
+                case ExpressionKind.PrimitiveUInt64Insert:
+                case ExpressionKind.PrimitiveInt64Insert:
+                case ExpressionKind.PrimitiveSingleInsert:
+                case ExpressionKind.PrimitiveDoubleInsert:
+                case ExpressionKind.PrimitiveDecimalInsert:
+                case ExpressionKind.PrimitiveStringInsert:
+                case ExpressionKind.PrimitiveNullInsert:
                     return CSharpOperatorPrecedences.UnaryTerm;
-                case ExpressionKinds.ParameterReference:
-                case ExpressionKinds.LocalReference:
-                case ExpressionKinds.EventReference:
-                case ExpressionKinds.TypeReference:
-                case ExpressionKinds.MethodReference:
-                case ExpressionKinds.PropertyReference:
-                case ExpressionKinds.ThisReference:
-                case ExpressionKinds.BaseReference:
-                case ExpressionKinds.SelfReference:
-                case ExpressionKinds.FieldReference:
-                case ExpressionKinds.IndexerReference:
+                case ExpressionKind.ParameterReference:
+                case ExpressionKind.LocalReference:
+                case ExpressionKind.EventReference:
+                case ExpressionKind.TypeReference:
+                case ExpressionKind.MethodReference:
+                case ExpressionKind.PropertyReference:
+                case ExpressionKind.ThisReference:
+                case ExpressionKind.BaseReference:
+                case ExpressionKind.SelfReference:
+                case ExpressionKind.FieldReference:
+                case ExpressionKind.IndexerReference:
                     return CSharpOperatorPrecedences.UnaryTerm;
-                case ExpressionKinds.EventFire:
-                case ExpressionKinds.MethodCall:
-                case ExpressionKinds.MultiCastDelegateCall:
+                case ExpressionKind.EventFire:
+                case ExpressionKind.MethodCall:
+                case ExpressionKind.MultiCastDelegateCall:
                     return CSharpOperatorPrecedences.UnaryTerm;
-                case ExpressionKinds.TypeCast:
-                case ExpressionKinds.CheckedExpression:
-                case ExpressionKinds.UncheckedExpression:
-                case ExpressionKinds.TypeOfExpression:
+                case ExpressionKind.TypeCast:
+                case ExpressionKind.CheckedExpression:
+                case ExpressionKind.UncheckedExpression:
+                case ExpressionKind.TypeOfExpression:
                     return CSharpOperatorPrecedences.UnaryTerm;
-                case ExpressionKinds.ExpressionFusion:
-                case ExpressionKinds.ExpressionToCommaFusion:
+                case ExpressionKind.ExpressionFusion:
+                case ExpressionKind.ExpressionToCommaFusion:
                 /* *
-                 * case ExpressionKinds.ExpressionToTypeCollectionFusion: 
+                 * case ExpressionKind.ExpressionToTypeCollectionFusion: 
                  * Removed, an expression+TypeCollection is not a valid unary forward
                  * term.
                  * */
-                case ExpressionKinds.SymbolExpression:
-                case ExpressionKinds.ParenthesizedExpression:
+                case ExpressionKind.SymbolExpression:
+                case ExpressionKind.ParenthesizedExpression:
                     return CSharpOperatorPrecedences.UnaryTerm;
-                case ExpressionKinds.UnaryOperation:
-                case ExpressionKinds.UnaryForwardTerm:
+                case ExpressionKind.UnaryOperation:
+                case ExpressionKind.UnaryForwardTerm:
                     /* *
                      * ToDo: Investigate later why UnaryForwardTerm 
                      * is needed here.  Previously it wasn't.
@@ -235,8 +235,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.CSharp
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            ExpressionKinds targetKind = target.Type;
-            if (targetKind == ExpressionKinds.BinaryForwardTerm)
+            ExpressionKind targetKind = target.Type;
+            if (targetKind == ExpressionKind.BinaryForwardTerm)
             {
                 if (target is ICSharpAssignExpression)
                     return ((ICSharpAssignExpression)(target)).LeftSide.Disfix();
@@ -261,7 +261,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.CSharp
                 else if (target is ICSharpShiftExpression)
                     return ((ICSharpShiftExpression)(target)).RightSide.Disfix();
             }
-            else if (targetKind == ExpressionKinds.UnaryForwardTerm)
+            else if (targetKind == ExpressionKind.UnaryForwardTerm)
                 return ((IUnaryOperationExpression)(target)).Term;
             return target;
         }

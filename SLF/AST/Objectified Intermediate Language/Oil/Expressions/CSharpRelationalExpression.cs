@@ -107,27 +107,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="CSharpRelationalExpression"/> is.
         /// </summary>
-        /// <remarks>Returns the appropriate <see cref="ExpressionKinds"/> value
+        /// <remarks>Returns the appropriate <see cref="ExpressionKind"/> value
         /// relative to the <see cref="CSharpRelationalOperation"/>.</remarks>
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
             get {
                 switch (this.Operation)
                 {
                     case CSharpRelationalOperation.LessThan:
-                        return ExpressionKinds.LessThanOperation;
+                        return ExpressionKind.LessThanOperation;
                     case CSharpRelationalOperation.LessThanOrEqualTo:
-                        return ExpressionKinds.LessThanOrEqualToOperation;
+                        return ExpressionKind.LessThanOrEqualToOperation;
                     case CSharpRelationalOperation.GreaterThan:
-                        return ExpressionKinds.GreaterThanOperation;
+                        return ExpressionKind.GreaterThanOperation;
                     case CSharpRelationalOperation.GreaterThanOrEqualTo:
-                        return ExpressionKinds.GreaterThanOrEqualToOperation;
+                        return ExpressionKind.GreaterThanOrEqualToOperation;
                     case CSharpRelationalOperation.TypeCheck:
-                        return ExpressionKinds.TypeCheckOperation;
+                        return ExpressionKind.TypeCheckOperation;
                     case CSharpRelationalOperation.TypeCastOrNull:
-                        return ExpressionKinds.TypeCastOrNull;
+                        return ExpressionKind.TypeCastOrNull;
                     case CSharpRelationalOperation.Term:
-                        return ExpressionKinds.BinaryForwardTerm;
+                        return ExpressionKind.BinaryForwardTerm;
                     default:
                         throw new InvalidOperationException();
                 }

@@ -211,42 +211,42 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region IExpression Members
         
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
             get {
                 switch (this.PrimitiveType)
                 {
                     case PrimitiveType.Boolean:
-                        return ExpressionKinds.PrimitiveBooleanInsert;
+                        return ExpressionKind.PrimitiveBooleanInsert;
                     case PrimitiveType.Byte:
-                        return ExpressionKinds.PrimitiveByteInsert;
+                        return ExpressionKind.PrimitiveByteInsert;
                     case PrimitiveType.SByte:
-                        return ExpressionKinds.PrimitiveSByteInsert;
+                        return ExpressionKind.PrimitiveSByteInsert;
                     case PrimitiveType.Int16:
-                        return ExpressionKinds.PrimitiveInt16Insert;
+                        return ExpressionKind.PrimitiveInt16Insert;
                     case PrimitiveType.UInt16:
-                        return ExpressionKinds.PrimitiveUInt16Insert;
+                        return ExpressionKind.PrimitiveUInt16Insert;
                     case PrimitiveType.Int32:
-                        return ExpressionKinds.PrimitiveInt32Insert;
+                        return ExpressionKind.PrimitiveInt32Insert;
                     case PrimitiveType.UInt32:
-                        return ExpressionKinds.PrimitiveUInt32Insert;
+                        return ExpressionKind.PrimitiveUInt32Insert;
                     case PrimitiveType.Int64:
-                        return ExpressionKinds.PrimitiveInt64Insert;
+                        return ExpressionKind.PrimitiveInt64Insert;
                     case PrimitiveType.UInt64:
-                        return ExpressionKinds.PrimitiveUInt64Insert;
+                        return ExpressionKind.PrimitiveUInt64Insert;
                     case PrimitiveType.Decimal:
-                        return ExpressionKinds.PrimitiveDecimalInsert;
+                        return ExpressionKind.PrimitiveDecimalInsert;
                     case PrimitiveType.Float:
-                        return ExpressionKinds.PrimitiveSingleInsert;
+                        return ExpressionKind.PrimitiveSingleInsert;
                     case PrimitiveType.Double:
-                        return ExpressionKinds.PrimitiveDoubleInsert;
+                        return ExpressionKind.PrimitiveDoubleInsert;
                     case PrimitiveType.Char:
-                        return ExpressionKinds.PrimitiveCharInsert;
+                        return ExpressionKind.PrimitiveCharInsert;
                     case PrimitiveType.String:
-                        return ExpressionKinds.PrimitiveStringInsert;
+                        return ExpressionKind.PrimitiveStringInsert;
                 }
                 throw new InvalidOperationException();
-                //ToDo: Add series of conditions to relate the proper ExpressionKinds.
+                //ToDo: Add series of conditions to relate the proper ExpressionKind.
             }
         }
 

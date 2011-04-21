@@ -32,14 +32,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="UnaryOperationExpression"/> is.
         /// </summary>
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
             get
             {
                 if (operation == UnaryOperation.None)
-                    return ExpressionKinds.UnaryForwardTerm;
+                    return ExpressionKind.UnaryForwardTerm;
                 else
-                    return ExpressionKinds.UnaryOperation;
+                    return ExpressionKind.UnaryOperation;
             }
         }
 

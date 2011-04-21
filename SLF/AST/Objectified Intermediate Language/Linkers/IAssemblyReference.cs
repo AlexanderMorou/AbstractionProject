@@ -24,6 +24,6 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// Returns the <see cref="IList{T}"/> of the
         /// aliases associated to the <see cref="Reference"/>.
         /// </summary>
-        IList<string> Aliases { get; }
+        IAssemblyReferenceAliasCollection Aliases { get; }
     }
 }

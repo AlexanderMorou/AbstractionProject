@@ -64,6 +64,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// Defines properties and methods for working with an expression
     /// which represents a reference to a property.
     /// </summary>
+    public interface IUnboundPropertyReferenceExpression :
+        IPropertyReferenceExpression
+    {
+        /// <summary>
+        /// Returns/sets the type of reference to the 
+        /// <see cref="IPropertyReferenceExpression"/>,
+        /// get/set methods, is.
+        /// </summary>
+        new MethodReferenceType ReferenceType { get; set; }
+    }
+
     public interface IPropertyReferenceExpression :
         IMemberParentReferenceExpression,
         IMemberReferenceExpression,
@@ -72,15 +83,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         IFusionTermExpression
     {
         /// <summary>
-        /// Returns/sets the type of reference to the 
-        /// <see cref="IPropertyReferenceExpression"/>,
-        /// get/set methods, is.
-        /// </summary>
-        MethodReferenceType ReferenceType { get; set; }
-        /// <summary>
         /// Returns the <see cref="IMemberParentReferenceExpression"/>
         /// that sourced the <see cref="IPropertyReferenceExpression"/>.
         /// </summary>
         IMemberParentReferenceExpression Source { get; }
+        /// <summary>
+        /// Returns the type of reference to the 
+        /// <see cref="IPropertyReferenceExpression"/>,
+        /// get/set methods, is.
+        /// </summary>
+        MethodReferenceType ReferenceType { get; }
     }
 }

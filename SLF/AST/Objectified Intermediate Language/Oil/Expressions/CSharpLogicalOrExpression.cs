@@ -50,10 +50,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of expression the <see cref="CSharpLogicalOrExpression"/> is.
         /// </summary>
-        /// <remarks>Returns <see cref="ExpressionKinds.LogicalOrOperation"/>.</remarks>
-        public override ExpressionKinds Type
+        /// <remarks>Returns <see cref="ExpressionKind.LogicalOrOperation"/>.</remarks>
+        public override ExpressionKind Type
         {
-            get { return ExpressionKinds.LogicalOrOperation; }
+            get { return ExpressionKind.LogicalOrOperation; }
         }
 
         /// <summary>

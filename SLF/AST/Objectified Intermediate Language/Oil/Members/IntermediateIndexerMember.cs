@@ -510,14 +510,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region IIntermediateIndexerMember<TIndexer,TIntermediateIndexer,TIndexerParent,TIntermediateIndexerParent> Members
 
-        public IIndexerReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> GetReference(IMemberParentReferenceExpression parent, params IExpression[] parameters)
+        public IIndexerReferenceExpression<TIndexer, TIndexerParent> GetReference(IMemberParentReferenceExpression parent, params IExpression[] parameters)
         {
             return this.GetReference(parent, (IEnumerable<IExpression>)parameters);
         }
 
-        public IIndexerReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> GetReference(IMemberParentReferenceExpression source, IEnumerable<IExpression> parameters)
+        public IIndexerReferenceExpression<TIndexer, TIndexerParent> GetReference(IMemberParentReferenceExpression source, IEnumerable<IExpression> parameters)
         {
-            return new IndexerReferenceExpression<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>(((TIntermediateIndexer)(object)(this)), parameters, source);
+            return new IndexerReferenceExpression<TIndexer, TIndexerParent>(((TIntermediateIndexer)(object)(this)), parameters, source);
         }
 
         #endregion

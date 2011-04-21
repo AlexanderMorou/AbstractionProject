@@ -26,9 +26,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             this.ReferenceType = referenceType;
         }
 
-        public override ExpressionKinds Type
+        public override ExpressionKind Type
         {
-            get { return ExpressionKinds.TypeOfExpression; }
+            get { return ExpressionKind.TypeOfExpression; }
         }
 
         #region IMalleableTypeOfExpression Members

@@ -22,8 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// The default alias for new assembly references.
         /// </summary>
         public static readonly string DefaultAlias = "global";
-        private IAggregateAliasReferenceGroups rootAggregate;
-        private int protectionLevel = 0;
+        private AggregateAliasReferenceGroups rootAggregate;
         #region IAssemblyReferenceCollection Members
 
         public IEnumerable<IAssembly> ReferencedAssemblies
@@ -62,12 +61,10 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// <see cref="IAssemblyReferenceCollection"/>.</param>
         public IAssemblyReference Add(IAssembly assembly)
         {            
-            if (this.InProtectedState)
-                throw new InvalidOperationException(Resources.AssemblyReferencesCollection_ProtectedError);
             IAssemblyReference result;
             if (this.TryGetValue(assembly, out result))
                 return result;
-            result = new AssemblyReference(assembly, DefaultAlias);
+            result = new AssemblyReference(assembly, this, DefaultAlias);
             base.AddImpl(result);
             return result;
         }
@@ -82,8 +79,6 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// <see cref="IAssemblyReferenceCollection"/>.</param>
         public IAssemblyReference Add(IAssembly assembly, params string[] aliases)
         {
-            if (this.InProtectedState)
-                throw new InvalidOperationException(Resources.AssemblyReferencesCollection_ProtectedError);
             if (assembly == null)
                 throw new ArgumentNullException("assembly");
             if (aliases == null)
@@ -96,7 +91,7 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
                     result.Aliases.Add(alias);
                 return result;
             }
-            result = new AssemblyReference(assembly, aliases);
+            result = new AssemblyReference(assembly, this, aliases);
             base.AddImpl(result);
             return result;
         }
@@ -109,8 +104,6 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// which contains the assembly references to add.</param>
         public void AddRange(IEnumerable<IAssemblyReference> references)
         {
-            if (this.InProtectedState)
-                throw new InvalidOperationException(Resources.AssemblyReferencesCollection_ProtectedError);
             
             foreach (var existingReference in
                 from reference in references
@@ -135,27 +128,44 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// </summary>
         /// <param name="assemblies">The <see cref="IAssembly"/> array to add to the 
         /// <see cref="AssemblyReferenceCollection"/>.</param>
+        /// <remarks>If an element of <paramref name="assemblies"/>
+        /// is an existing reference, it will not be added in the result
+        /// reference set.</remarks>
         public IAssemblyReference[] AddRange(params IAssembly[] assemblies)
         {
-            if (this.InProtectedState)
-                throw new InvalidOperationException(Resources.AssemblyReferencesCollection_ProtectedError);
             if (assemblies == null)
                 throw new ArgumentNullException("assemblies");
             IAssemblyReference[] temp = new IAssemblyReference[assemblies.Length];
             int unused = 0;
+            /* *
+             * Preemptive scan to determine which elements need added and
+             * which can be ignored.
+             * */
             for (int i = 0; i < assemblies.Length; i++)
             {
                 var current = assemblies[i];
                 IAssemblyReference dummy;
                 if (this.TryGetValue(current, out dummy))
+                {
+                    unused++;
                     continue;
-                temp[i - unused] = new AssemblyReference(current, DefaultAlias);
+                }
+                var element = temp[i - unused] = new AssemblyReference(current, this, DefaultAlias);
+                element.Aliases.Add(DefaultAlias);
             }
+            /* *
+             * If every element is new, just add it and return it; otherwise,
+             * add a subset: all of the elements minus those not used.
+             * If none of them were added, return nothing, to avoid a 
+             * pointless copy from the array of null references.
+             * */
             if (unused == 0)
             {
                 base.AddRange(temp);
                 return temp;
             }
+            else if (unused == assemblies.Length)
+                return new IAssemblyReference[0];
             else
             {
                 var result = new IAssemblyReference[assemblies.Length - unused];
@@ -174,8 +184,6 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// <see cref="IAssemblyReferenceCollection"/>.</param>
         public void Remove(IAssembly assembly)
         {
-            if (this.InProtectedState)
-                throw new InvalidOperationException(Resources.AssemblyReferencesCollection_ProtectedError);
             foreach (var reference in this)
                 if (reference.Reference == assembly)
                 {
@@ -192,10 +200,9 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// to remove from the <see cref="IAssemblyReferenceCollection"/>.</param>
         public void RemoveRange(IAssembly[] assemblies)
         {
-            if (this.InProtectedState)
-                throw new InvalidOperationException(Resources.AssemblyReferencesCollection_ProtectedError);
             foreach (var reference in (from assembly in assemblies
-                                       join reference in this on assembly equals reference.Reference
+                                       join reference in this
+                                            on assembly equals reference.Reference
                                        select reference).Distinct().ToArray())
                 baseList.Remove(reference);
         }
@@ -232,53 +239,10 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
 
         public IAggregateAliasReferenceGroups GetRootNamespaceAggregate()
         {
-            this.EnterProtectedState();
-            var result = new AggregateAliasReferenceGroups(this);
-            return result;
+            if (this.rootAggregate == null)
+                this.rootAggregate = new AggregateAliasReferenceGroups(this);
+            return this.rootAggregate;
         }
-
-        #region IProtectableComponent Members
-
-        /// <summary>
-        /// Instructs the <see cref="AssemblyReferenceCollection"/> to enter a 
-        /// protected state wherein no changes may occur to the object state.
-        /// </summary>
-        /// <remarks>Used to guarantee changeless state during an identity 
-        /// sensitive operation.</remarks>
-        public void EnterProtectedState()
-        {
-            this.protectionLevel++;
-        }
-
-        /// <summary>
-        /// Instructs the <see cref="AssemblyReferenceCollection"/> to exit
-        /// a previously entered protected state, allowing state changes to occur.
-        /// </summary>
-        public void ExitProtectedState()
-        {
-            if (this.InProtectedState)
-            {
-                if (this.protectionLevel == 1 && this.rootAggregate != null)
-                {
-                    if (this.rootAggregate.IsDisposed)
-                        this.rootAggregate = null;
-                    else
-                        throw new InvalidOperationException("Cannot make the assembly reference collection malleable until the root namespace aggregate is disposed.");
-                }
-                this.protectionLevel--;
-            }
-        }
-
-        /// <summary>
-        /// Returns whether the <see cref="AssemblyReferenceCollection"/> is
-        /// within a protected state.
-        /// </summary>
-        public bool InProtectedState
-        {
-            get { return this.protectionLevel > 0; }
-        }
-
-        #endregion
 
         #region IDisposable Members
 
@@ -297,5 +261,22 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         }
 
         #endregion
+
+        internal void ReferenceAliasAdded(AssemblyReference reference, string alias)
+        {
+            if (this.rootAggregate == null)
+                //Can't update it if it's not there.
+                return;
+        }
+        internal void ReferenceAliasRemoved(AssemblyReference reference, string alias)
+        {
+            if (this.rootAggregate == null)
+            {
+                if (this.rootAggregate.ContainsKey(alias))
+                {
+
+                }
+            }
+        }
     }
 }
