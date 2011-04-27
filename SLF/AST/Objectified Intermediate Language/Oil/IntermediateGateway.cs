@@ -431,7 +431,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             else if (targetParent is IInterfaceType)
                 return ((IInterfaceEventMember)(target)).GetEventSignatureReference<IInterfaceEventMember, IInterfaceType>(source);
             else
-                return new EventReferenceExpression(target.Name, source);
+                return new UnboundEventReferenceExpression(target.Name, source);
         }
 
         internal static IEventReferenceExpression GetEventReference(this IEventMember target, IMemberParentReferenceExpression source)
@@ -442,7 +442,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             else if (targetParent is IStructType)
                 return ((IStructEventMember)target).GetEventReference<IStructEventMember, IStructType>(source);
             else
-                return new EventReferenceExpression(target.Name, source);
+                return new UnboundEventReferenceExpression(target.Name, source);
         }
 
         internal static IPropertyReferenceExpression GetPropertyReference(this IPropertySignatureMember target, IMemberParentReferenceExpression source)
@@ -473,7 +473,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 throw new ArgumentNullException("source");
             if (target is IInterfaceMethodMember)
                 return GetMethodReference<IMethodSignatureParameterMember<IInterfaceMethodMember, IInterfaceType>, IInterfaceMethodMember, IInterfaceType>((IInterfaceMethodMember)target, source);
-            return new MethodReferenceStub(source, target.Name);
+            return new UnboundMethodReferenceStub(source, target.Name);
         }
 
         public static IMethodReferenceStub GetReference(this IMethodMember target, IMemberParentReferenceExpression source = null)
@@ -490,7 +490,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             else if (target is IStructMethodMember)
                 return GetMethodReference<IMethodParameterMember<IStructMethodMember, IStructType>, IStructMethodMember, IStructType>(target as IStructMethodMember, source);
             else
-                return new MethodReferenceStub(source, target.Name);
+                return new UnboundMethodReferenceStub(source, target.Name);
         }
 
         public static IMethodReferenceStub<TSignatureParameter, TSignature, TParent> GetMethodReference<TSignatureParameter, TSignature, TParent>(this TSignature target, IMemberParentReferenceExpression source)
@@ -532,7 +532,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             else if (targetParent is IEnumType)
                 return ((IEnumFieldMember)target).GetFieldReference<IEnumFieldMember, IEnumType>(source);
             else
-                return new FieldReferenceExpression(target.Name, source);
+                return new UnboundFieldReferenceExpression(target.Name, source);
         }
 
         internal static IFieldReferenceExpression GetFieldReference(this IIntermediateFieldMember target, IMemberParentReferenceExpression source = null)

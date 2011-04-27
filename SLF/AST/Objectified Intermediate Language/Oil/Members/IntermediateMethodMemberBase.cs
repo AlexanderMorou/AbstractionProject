@@ -575,7 +575,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region IControlledStateCollection<IStatement> Members
 
-        /// <summary>:
+        /// <summary>
         /// Gets the number of elements contained in the <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/>.</summary>
         /// <returns>
         /// The number of elements contained in the <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/>.</returns>

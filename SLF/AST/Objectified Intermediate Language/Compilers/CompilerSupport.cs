@@ -21,71 +21,72 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// Compiler supports generation of a documentation file 
         /// from documentation comments.
         /// </summary>
-        XMLDocumentation = 1,
+        XMLDocumentation            = 0x0001,
         /// <summary>
         /// Compiler supports generic parameter based duck typing.
         /// </summary>
-        DuckTyping,
+        DuckTyping                  = 0x0002,
         /// <summary>
         /// Compiler supports optimization.
         /// </summary>
-        Optimization = 2,
+        Optimization                = 0x0004,
         /// <summary>
         /// Compiler supports unsafe code which is not CLSCompliant.
         /// </summary>
-        Unsafe = 4,
+        Unsafe                      = 0x0008,
         /// <summary>
         /// Compiler supports COM Interop.
         /// </summary>
-        COMInterop = 8,
+        COMInterop                  = 0x0010,
         /// <summary>
         /// Compiler supports the define directive.
         /// </summary>
-        Define = 16,
+        Define                      = 0x0020,
         /// <summary>
         /// Compiler supports .NET Resources.
         /// </summary>
-        Resources = 32,
+        Resources                   = 0x0040,
         /// <summary>
         /// Compiler supports win32 resources.
         /// </summary>
-        Win32Resources = 64,
+        Win32Resources              = 0x0080,
         /// <summary>
         /// Compiler supports signing the assembly.
         /// </summary>
-        Signing = 128,
+        Signing                     = 0x0100,
         /// <summary>
         /// Compiler supports creation of multi-file assemblies.
         /// </summary>
-        MultiFileAssemblies = 256,
+        MultiFileAssemblies         = 0x0200,
         /// <summary>
         /// Compiler supports libraries with full debugger support.
         /// </summary>
-        DebuggerSupport = 512,
+        DebuggerSupport             = 0x0400,
         /// <summary>
         /// Compiler supports reading more commands from a response file.
         /// </summary>
         /// <remarks>Applies to compilers that are accessed through a command-line
         /// only.</remarks>
-        ResponseFile = 1024,
+        ResponseFile                = 0x0800,
         /// <summary>
         /// Compiler supports embedding primary interop assembly meta-data pertinent
         /// to scope of the assembly to compile.
         /// </summary>
-        PrimaryInteropEmbedding = 2048,
+        PrimaryInteropEmbedding     = 0x1000,
         /// <summary>
         /// The compiler supports all functionality.
         /// </summary>
-        FullSupport = XMLDocumentation
-                    | Optimization
-                    | DebuggerSupport
-                    | Unsafe
-                    | COMInterop
-                    | Define
-                    | Resources | Win32Resources
-                    | Signing
-                    | MultiFileAssemblies
-                    | ResponseFile
-                    | PrimaryInteropEmbedding
+        FullSupport                 = XMLDocumentation
+                                    | DuckTyping
+                                    | Optimization
+                                    | DebuggerSupport
+                                    | Unsafe
+                                    | COMInterop
+                                    | Define
+                                    | Resources | Win32Resources
+                                    | Signing
+                                    | MultiFileAssemblies
+                                    | ResponseFile
+                                    | PrimaryInteropEmbedding
     }
 }

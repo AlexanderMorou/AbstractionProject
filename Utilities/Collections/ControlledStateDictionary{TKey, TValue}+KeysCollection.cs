@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             }
             #region IControlledStateCollection<TKey> Members
 
-            /// <summary>:
+            /// <summary>
             /// Gets the number of elements contained in the <see cref="KeysCollection"/>.</summary>
             /// <returns>
             /// The number of elements contained in the <see cref="KeysCollection"/>.</returns>

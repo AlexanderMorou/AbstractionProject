@@ -160,23 +160,26 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         public static bool CompareSeriesTo<TSourceItem, TTargetItem>(this IEnumerable<TSourceItem> source, IEnumerable<TTargetItem> target, Func<TSourceItem, TTargetItem, bool> predicate)
         {
-            if (source.Count() != target.Count())
-                return false;
+            bool mv1 = false,
+                 mv2 = false;
             IEnumerator<TSourceItem> e1 = source.GetEnumerator();
-            for (IEnumerator<TTargetItem> e2 = target.GetEnumerator(); e1.MoveNext() && e2.MoveNext(); )
+            for (IEnumerator<TTargetItem> e2 = target.GetEnumerator(); (mv1 = e1.MoveNext()) && (mv2 = e2.MoveNext()); )
                 if (!(predicate(e1.Current, e2.Current)))
                     return false;
-            return true;
+            //If they're both finished, instead of just one.
+            return mv1 == mv2;
         }
 
         public static bool CompareSeriesTo<T>(this IEnumerable<T> source, IEnumerable<T> target, Func<T, T, bool> predicate)
         {
+            bool mv1 = false,
+                 mv2 = false;
             if (source.Count() != target.Count())
                 return false;
-            for (IEnumerator<T> e1 = source.GetEnumerator(), e2 = target.GetEnumerator(); e1.MoveNext() && e2.MoveNext(); )
+            for (IEnumerator<T> e1 = source.GetEnumerator(), e2 = target.GetEnumerator(); (mv1 = e1.MoveNext()) && (mv2 = e2.MoveNext()); )
                 if (!(predicate(e1.Current, e2.Current)))
                     return false;
-            return true;
+            return mv1 == mv2;
         }
 
         /// <summary>

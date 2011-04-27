@@ -62,7 +62,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Defines properties and methods for working with a parent that contains
     /// generic parameters.
     /// </summary>
-    public interface IGenericParamParent
+    public interface IGenericParamParent :
+        IDeclaration
     {
         /// <summary>
         /// Returns whether the current type is an open generic 

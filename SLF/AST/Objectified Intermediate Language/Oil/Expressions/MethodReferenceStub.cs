@@ -31,13 +31,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         public TSignature Member { get; private set; }
         /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// Creates a new <see cref="UnboundMethodReferenceStub"/> with the 
         /// <paramref name="source"/>, <paramref name="member"/>, 
         /// <paramref name="genericParameters"/> and 
         /// <paramref name="referenceType"/> provdied.
         /// </summary>
         /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
-        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
+        /// from which the <see cref="UnboundMethodReferenceStub"/> was sourced.</param>
         /// <param name="member">The <typeparamref name="TSignature"/>
         /// to reference.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
@@ -52,12 +52,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// Creates a new <see cref="UnboundMethodReferenceStub"/> with the 
         /// <paramref name="source"/>, <paramref name="member"/>, and
         /// <paramref name="genericParameters"/> provdied.
         /// </summary>
         /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
-        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
+        /// from which the <see cref="UnboundMethodReferenceStub"/> was sourced.</param>
         /// <param name="member">The <typeparamref name="TSignature"/>
         /// to reference.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
@@ -70,30 +70,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with the 
-        /// <paramref name="source"/>, <paramref name="member"/>, and 
-        /// <paramref name="referenceType"/> provdied.
-        /// </summary>
-        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
-        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
-        /// <param name="member">The <typeparamref name="TSignature"/>
-        /// to reference.</param>
-        /// <param name="referenceType">The means to refer to
-        /// the method.</param>
-        public MethodReferenceStub(IMemberParentReferenceExpression source, TSignature member, MethodReferenceType referenceType, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
-            : base(source, referenceType)
-        {
-            this.Member = member;
-            this.signatureTypesObtainer = signatureTypesObtainer;
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with
+        /// Creates a new <see cref="UnboundMethodReferenceStub"/> with
         /// the <paramref name="source"/>, and <paramref name="member"/> 
         /// provided.
         /// </summary>
         /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
-        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
+        /// from which the <see cref="UnboundMethodReferenceStub"/> was sourced.</param>
         /// <param name="member">The <typeparamref name="TSignature"/>
         /// to reference.</param>
         public MethodReferenceStub(IMemberParentReferenceExpression source, TSignature member, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
@@ -104,7 +86,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// Creates a new <see cref="UnboundMethodReferenceStub"/> with the 
         /// <paramref name="member"/>, <paramref name="genericParameters"/> 
         /// and <paramref name="referenceType"/> provdied.
         /// </summary>
@@ -122,7 +104,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// Creates a new <see cref="UnboundMethodReferenceStub"/> with the 
         /// <paramref name="member"/>, and <paramref name="genericParameters"/> 
         /// provdied.
         /// </summary>
@@ -139,17 +121,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             this.signatureTypesObtainer = signatureTypesObtainer;
         }
 
-        public override string Name
+        public new string Name
         {
             get
             {
                 return this.Member.Name;
             }
-            set
+            internal set
             {
                 if (this.Member is IIntermediateMember)
                     (this.Member as IIntermediateMember).Name = value;
             }
+        }
+
+        protected override string OnGetName()
+        {
+            return this.Name;
         }
 
         protected override MethodPointerReferenceExpression GetPointerReference()
@@ -192,8 +179,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         #endregion
     }
 
-    public class MethodReferenceStub :
-        MethodReferenceStubBase
+    public class UnboundMethodReferenceStub :
+        MethodReferenceStubBase,
+        IUnboundMethodReferenceStub
     {
         /// <summary>
         /// Data member for <see cref="Name"/>.
@@ -201,76 +189,59 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         private string name;
 
         /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// Creates a new <see cref="UnboundMethodReferenceStub"/> with the 
         /// <paramref name="source"/>, <paramref name="name"/>, 
         /// <paramref name="genericParameters"/> and 
         /// <paramref name="referenceType"/> provdied.
         /// </summary>
         /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
-        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
+        /// from which the <see cref="UnboundMethodReferenceStub"/> was sourced.</param>
         /// <param name="name">A <see cref="System.String"/>
         /// relative to the name of the method.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
-        public MethodReferenceStub(IMemberParentReferenceExpression source, string name, ITypeCollectionBase genericParameters, MethodReferenceType referenceType)
+        public UnboundMethodReferenceStub(IMemberParentReferenceExpression source, string name, ITypeCollectionBase genericParameters, MethodReferenceType referenceType)
             : base(source, genericParameters, referenceType)
         {
             this.name = name;
         }
 
         /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// Creates a new <see cref="UnboundMethodReferenceStub"/> with the 
         /// <paramref name="source"/>, <paramref name="name"/>, and
         /// <paramref name="genericParameters"/> provdied.
         /// </summary>
         /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
-        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
+        /// from which the <see cref="UnboundMethodReferenceStub"/> was sourced.</param>
         /// <param name="name">A <see cref="System.String"/>
         /// relative to the name of the method.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
-        public MethodReferenceStub(IMemberParentReferenceExpression source, string name, ITypeCollectionBase genericParameters)
+        public UnboundMethodReferenceStub(IMemberParentReferenceExpression source, string name, ITypeCollectionBase genericParameters)
             : base(source, genericParameters)
         {
             this.name = name;
         }
 
         /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with the 
-        /// <paramref name="source"/>, <paramref name="name"/>, and 
-        /// <paramref name="referenceType"/> provdied.
-        /// </summary>
-        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
-        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
-        /// <param name="name">A <see cref="System.String"/>
-        /// relative to the name of the method.</param>
-        /// <param name="referenceType">The means to refer to
-        /// the method.</param>
-        public MethodReferenceStub(IMemberParentReferenceExpression source, string name, MethodReferenceType referenceType)
-            : base(source, referenceType)
-        {
-            this.name = name;
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with
+        /// Creates a new <see cref="UnboundMethodReferenceStub"/> with
         /// the <paramref name="source"/>, and <paramref name="name"/> 
         /// provided.
         /// </summary>
         /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
-        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
+        /// from which the <see cref="UnboundMethodReferenceStub"/> was sourced.</param>
         /// <param name="name">A <see cref="System.String"/>
         /// relative to the name of the method.</param>
-        public MethodReferenceStub(IMemberParentReferenceExpression source, string name)
+        public UnboundMethodReferenceStub(IMemberParentReferenceExpression source, string name)
             : base(source)
         {
             this.name = name;
         }
 
         /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// Creates a new <see cref="UnboundMethodReferenceStub"/> with the 
         /// <paramref name="name"/>, <paramref name="genericParameters"/> 
         /// and <paramref name="referenceType"/> provdied.
         /// </summary>
@@ -280,14 +251,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// of generic parameter replacements for the signature.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
-        public MethodReferenceStub(string name, ITypeCollectionBase genericParameters, MethodReferenceType referenceType)
+        public UnboundMethodReferenceStub(string name, ITypeCollectionBase genericParameters, MethodReferenceType referenceType)
             : base(genericParameters, referenceType)
         {
             this.name = name;
         }
 
         /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// Creates a new <see cref="UnboundMethodReferenceStub"/> with the 
         /// <paramref name="name"/>, and <paramref name="genericParameters"/> 
         /// provdied.
         /// </summary>
@@ -295,14 +266,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// relative to the name of the method.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
-        public MethodReferenceStub(string name, ITypeCollectionBase genericParameters)
+        public UnboundMethodReferenceStub(string name, ITypeCollectionBase genericParameters)
             : base(genericParameters)
         {
             this.name = name;
         }
 
         /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// Creates a new <see cref="UnboundMethodReferenceStub"/> with the 
         /// <paramref name="name"/>, and 
         /// <paramref name="referenceType"/> provdied.
         /// </summary>
@@ -310,25 +281,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// relative to the name of the method.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
-        public MethodReferenceStub(string name, MethodReferenceType referenceType)
-            : base(referenceType)
+        public UnboundMethodReferenceStub(string name, MethodReferenceType referenceType)
+            : base(source:null, referenceType:referenceType)
         {
             this.name = name;
         }
 
         /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with
+        /// Creates a new <see cref="UnboundMethodReferenceStub"/> with
         /// the  <paramref name="name"/> 
         /// provided.
         /// </summary>
         /// <param name="name">A <see cref="System.String"/>
         /// relative to the name of the method.</param>
-        public MethodReferenceStub(string name)
+        public UnboundMethodReferenceStub(string name)
         {
             this.name = name;
         }
-
-        public override string Name
+        public new string Name
         {
             get
             {
@@ -338,6 +308,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             {
                 this.name = value;
             }
+        }
+
+        public new MethodReferenceType ReferenceType
+        {
+            get
+            {
+                return base.ReferenceType;
+            }
+            set
+            {
+                base.ReferenceType = value;
+            }
+        }
+
+        protected override string OnGetName()
+        {
+            return this.Name;
         }
     }
 
@@ -367,68 +354,40 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         private IMemberParentReferenceExpression source;
 
         /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// Creates a new <see cref="UnboundMethodReferenceStub"/> with the 
         /// <paramref name="source"/>, 
         /// <paramref name="genericParameters"/> and 
         /// <paramref name="referenceType"/> provdied.
         /// </summary>
         /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
-        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
+        /// from which the <see cref="UnboundMethodReferenceStub"/> was sourced.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
-        public MethodReferenceStubBase(IMemberParentReferenceExpression source, ITypeCollectionBase genericParameters, MethodReferenceType referenceType)
+        public MethodReferenceStubBase(IMemberParentReferenceExpression source, ITypeCollectionBase genericParameters = null, MethodReferenceType referenceType = MethodReferenceType.VirtualMethodReference)
         {
-            this.genericParameters = genericParameters is ILockedTypeCollection ? ((ILockedTypeCollection)(genericParameters)) : genericParameters.ToLockedCollection();
+            if (genericParameters != null)
+                this.genericParameters = genericParameters is ILockedTypeCollection ? ((ILockedTypeCollection)(genericParameters)) : genericParameters.ToLockedCollection();
             this.referenceType = referenceType;
             this.source = source;
         }
 
-        /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with the 
-        /// <paramref name="source"/>, and
-        /// <paramref name="genericParameters"/> provdied.
-        /// </summary>
-        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
-        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
-        /// <param name="genericParameters">The <see cref="ITypeCollection"/>
-        /// of generic parameter replacements for the signature.</param>
-        public MethodReferenceStubBase(IMemberParentReferenceExpression source, ITypeCollectionBase genericParameters)
-        {
-            this.genericParameters = genericParameters is ILockedTypeCollection ? ((ILockedTypeCollection)(genericParameters)) : genericParameters.ToLockedCollection();
-            this.source = source;
-        }
 
         /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with the 
-        /// <paramref name="source"/>, and 
-        /// <paramref name="referenceType"/> provdied.
-        /// </summary>
-        /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
-        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
-        /// <param name="referenceType">The means to refer to
-        /// the method.</param>
-        public MethodReferenceStubBase(IMemberParentReferenceExpression source, MethodReferenceType referenceType)
-        {
-            this.referenceType = referenceType;
-            this.source = source;
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with
+        /// Creates a new <see cref="UnboundMethodReferenceStub"/> with
         /// the <paramref name="source"/>
         /// provided.
         /// </summary>
         /// <param name="source">The <see cref="IMemberParentReferenceExpression"/>
-        /// from which the <see cref="MethodReferenceStub"/> was sourced.</param>
+        /// from which the <see cref="UnboundMethodReferenceStub"/> was sourced.</param>
         public MethodReferenceStubBase(IMemberParentReferenceExpression source)
         {
             this.source = source;
         }
 
         /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// Creates a new <see cref="UnboundMethodReferenceStub"/> with the 
         /// <paramref name="genericParameters"/> 
         /// and <paramref name="referenceType"/> provdied.
         /// </summary>
@@ -442,7 +401,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with the 
+        /// Creates a new <see cref="UnboundMethodReferenceStub"/> with the 
         /// <paramref name="genericParameters"/> 
         /// provdied.
         /// </summary>
@@ -452,20 +411,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             : this(null, genericParameters)
         {
         }
-
         /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> with the 
-        /// <paramref name="referenceType"/> provdied.
-        /// </summary>
-        /// <param name="referenceType">The means to refer to
-        /// the method.</param>
-        public MethodReferenceStubBase(MethodReferenceType referenceType)
-            : this((IMemberParentReferenceExpression)null, referenceType)
-        {
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="MethodReferenceStub"/> 
+        /// Creates a new <see cref="UnboundMethodReferenceStub"/> 
         /// initialized to its default state.
         /// </summary>
         public MethodReferenceStubBase()
@@ -485,7 +432,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Returns/sets the type of reference the 
-        /// <see cref="MethodReferenceStub"/> is.
+        /// <see cref="UnboundMethodReferenceStub"/> is.
         /// </summary>
         public MethodReferenceType ReferenceType
         {
@@ -493,7 +440,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             {
                 return this.referenceType;
             }
-            set
+            protected set
             {
                 this.referenceType = value;
             }
@@ -513,7 +460,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns/sets the name of the method associated
         /// to the <see cref="IMethodReferenceStub"/>.
         /// </summary>
-        public abstract string Name { get; set; }
+        public string Name
+        {
+            get
+            {
+                return this.OnGetName();
+            }
+        }
+
+        protected abstract string OnGetName();
 
         /// <summary>
         /// Obtains a <see cref="IMethodInvokeExpression"/>

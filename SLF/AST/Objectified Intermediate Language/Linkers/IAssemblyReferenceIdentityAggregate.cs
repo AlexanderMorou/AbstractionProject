@@ -16,11 +16,11 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         IDisposable
     {
         /// <summary>
-        /// Returns the series of <see cref="String"/> values which 
-        /// represents the aliases associated to the series of assembly
+        /// Returns the <see cref="String"/> values which 
+        /// represents the alias associated to the series of assembly
         /// references aggregated into the current identity set.
         /// </summary>
-        IEnumerable<string> Aliases { get; }
+        string Alias { get; }
         /// <summary>
         /// Returns the <see cref="IAssemblyReference"/> set which is 
         /// collected into an aggregate identity set.

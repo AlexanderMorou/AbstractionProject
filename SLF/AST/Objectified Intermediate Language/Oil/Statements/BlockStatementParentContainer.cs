@@ -318,7 +318,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <returns>A new <see cref="ICallMethodStatement"/>.</returns>
         public ICallMethodStatement Call(string methodName, params IExpression[] parameters)
         {
-            return this.Call(new MethodReferenceStub(methodName).Invoke(parameters));
+            return this.Call(new UnboundMethodReferenceStub(methodName).Invoke(parameters));
         }
 
         /// <summary>
@@ -331,7 +331,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <returns>A new <see cref="ICallMethodStatement"/>.</returns>
         public ICallMethodStatement Call(string methodName, IExpressionCollection parameters)
         {
-            return this.Call(new MethodReferenceStub(methodName).Invoke(parameters));
+            return this.Call(new UnboundMethodReferenceStub(methodName).Invoke(parameters));
         }
 
         /// <summary>
@@ -347,7 +347,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <returns>A new <see cref="ICallMethodStatement"/>.</returns>
         public ICallMethodStatement Call(string methodName, ITypeCollection typeParameters, params IExpression[] parameters)
         {
-            return this.Call(new MethodReferenceStub(methodName, typeParameters).Invoke(parameters));
+            return this.Call(new UnboundMethodReferenceStub(methodName, typeParameters).Invoke(parameters));
         }
 
         /// <summary>
@@ -363,7 +363,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <returns>A new <see cref="ICallMethodStatement"/>.</returns>
         public ICallMethodStatement Call(string methodName, ITypeCollection typeParameters, IExpressionCollection parameters)
         {
-            return this.Call(new MethodReferenceStub(methodName, typeParameters).Invoke(parameters));
+            return this.Call(new UnboundMethodReferenceStub(methodName, typeParameters).Invoke(parameters));
         }
 
         /// <summary>
@@ -380,7 +380,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <returns>A new <see cref="ICallMethodStatement"/>.</returns>
         public ICallMethodStatement Call(MethodReferenceType callType, string methodName, params IExpression[] parameters)
         {
-            return this.Call(new MethodReferenceStub(methodName, callType).Invoke(parameters));
+            return this.Call(new UnboundMethodReferenceStub(methodName, callType).Invoke(parameters));
         }
 
         /// <summary>
@@ -397,7 +397,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <returns>A new <see cref="ICallMethodStatement"/>.</returns>
         public ICallMethodStatement Call(MethodReferenceType callType, string methodName, IExpressionCollection parameters)
         {
-            return this.Call(new MethodReferenceStub(methodName, callType).Invoke(parameters));
+            return this.Call(new UnboundMethodReferenceStub(methodName, callType).Invoke(parameters));
         }
 
         /// <summary>
@@ -416,7 +416,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <returns>A new <see cref="ICallMethodStatement"/>.</returns>
         public ICallMethodStatement Call(MethodReferenceType callType, string methodName, ITypeCollection typeParameters, params IExpression[] parameters)
         {
-            return this.Call(new MethodReferenceStub(methodName, typeParameters, callType).Invoke(parameters));
+            return this.Call(new UnboundMethodReferenceStub(methodName, typeParameters, callType).Invoke(parameters));
         }
 
         /// <summary>
@@ -435,7 +435,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <returns>A new <see cref="ICallMethodStatement"/>.</returns>
         public ICallMethodStatement Call(MethodReferenceType callType, string methodName, ITypeCollection typeParameters, IExpressionCollection parameters)
         {
-            return this.Call(new MethodReferenceStub(methodName, typeParameters, callType).Invoke(parameters));
+            return this.Call(new UnboundMethodReferenceStub(methodName, typeParameters, callType).Invoke(parameters));
         }
 
         #endregion
@@ -622,7 +622,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         public IChangeEventHandlerStatement ChangeHandler(IMemberParentReferenceExpression target, string eventName, EventHandlerChangeKind changeKind, string methodName)
         {
-            return ChangeHandler(target.GetEvent(eventName), changeKind, new MethodReferenceStub(methodName).GetPointer());
+            return ChangeHandler(target.GetEvent(eventName), changeKind, new UnboundMethodReferenceStub(methodName).GetPointer());
         }
 
         public IChangeEventHandlerStatement RemoveHandler(IEventReferenceExpression targetEvent, IMethodPointerReferenceExpression sourceMethod)

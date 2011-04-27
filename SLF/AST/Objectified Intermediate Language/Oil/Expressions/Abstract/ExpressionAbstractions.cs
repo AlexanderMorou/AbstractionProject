@@ -58,22 +58,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Abstract
 
         public static IMethodInvokeExpression Invoke(this ISymbolExpression symbol, IMalleableExpressionCollection args)
         {
-            return new MethodInvokeExpression(new MethodReferenceStub(symbol.Source, symbol.Symbol), args);
+            return new MethodInvokeExpression(new UnboundMethodReferenceStub(symbol.Source, symbol.Symbol), args);
         }
 
         public static IMethodInvokeExpression Invoke(this ISymbolExpression symbol, params IExpression[] args)
         {
-            return new MethodInvokeExpression(new MethodReferenceStub(symbol.Source, symbol.Symbol), args);
+            return new MethodInvokeExpression(new UnboundMethodReferenceStub(symbol.Source, symbol.Symbol), args);
         }
 
         public static IMethodInvokeExpression Call(this string symbol, IMalleableExpressionCollection args)
         {
-            return new MethodInvokeExpression(new MethodReferenceStub(null, symbol), args);
+            return new MethodInvokeExpression(new UnboundMethodReferenceStub(null, symbol), args);
         }
 
         public static IMethodInvokeExpression Call(this string symbol, params IExpression[] args)
         {
-            return new MethodInvokeExpression(new MethodReferenceStub(null, symbol), args);
+            return new MethodInvokeExpression(new UnboundMethodReferenceStub(null, symbol), args);
         }
 
         public static IPropertyReferenceExpression Prop(this string symbol, string prop)
@@ -132,7 +132,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Abstract
 
         public static IMethodPointerReferenceExpression FuncPtr(this string startSymbol)
         {
-            return new MethodPointerReferenceExpression(new MethodReferenceStub(startSymbol));
+            return new MethodPointerReferenceExpression(new UnboundMethodReferenceStub(startSymbol));
         }
     }
 }

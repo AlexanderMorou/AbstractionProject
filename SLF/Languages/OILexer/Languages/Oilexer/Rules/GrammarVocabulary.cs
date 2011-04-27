@@ -84,7 +84,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Rules
             if (symbols == null)
                 throw new ArgumentNullException("symbols");
             if (element == null)
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException("genericGroup");
             NullCheck(symbols);
             int index = symbols.IndexOf(element);
             BitArray values = new BitArray(1);

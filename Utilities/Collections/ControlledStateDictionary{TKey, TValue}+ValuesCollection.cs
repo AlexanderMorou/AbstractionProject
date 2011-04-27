@@ -50,7 +50,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 return -1;
             }
 
-            /// <summary>:
+            /// <summary>
             /// Gets the number of elements contained in the <see cref="ValuesCollection"/>.</summary>
             /// <returns>
             /// The number of elements contained in the <see cref="ValuesCollection"/>.</returns>

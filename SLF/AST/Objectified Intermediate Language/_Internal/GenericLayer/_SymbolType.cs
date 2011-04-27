@@ -25,6 +25,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             : base(original, genericParameters)
         {
         }
+
         protected override TypeKind TypeImpl
         {
             get { return TypeKind.Other; }
@@ -73,12 +74,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         public IMethodReferenceStub GetMethod(string name)
         {
-            return new MethodReferenceStub(this, name);
+            return new UnboundMethodReferenceStub(this, name);
         }
 
         public IMethodReferenceStub GetMethod(string name, ITypeCollection genericParameters)
         {
-            return new MethodReferenceStub(this, name, genericParameters);
+            return new UnboundMethodReferenceStub(this, name, genericParameters);
         }
 
         public IMethodPointerReferenceExpression GetMethodPointer(string name, ITypeCollection signature)
@@ -108,12 +109,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         public IFieldReferenceExpression GetField(string name)
         {
-            return new FieldReferenceExpression(name, this);
+            return new UnboundFieldReferenceExpression(name, this);
         }
 
         public IEventReferenceExpression GetEvent(string name)
         {
-            return new EventReferenceExpression(name, this);
+            return new UnboundEventReferenceExpression(name, this);
         }
 
         #endregion

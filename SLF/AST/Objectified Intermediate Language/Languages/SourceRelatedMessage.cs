@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         protected SourceRelatedMessage(string message, int line, int column, string fileName)
         {
             this.Message = message;
-            this.Location = new LineColumnPair(line,column);
+            this.Location = new LineColumnPair(line, column);
             this.FileName = fileName;
         }
 

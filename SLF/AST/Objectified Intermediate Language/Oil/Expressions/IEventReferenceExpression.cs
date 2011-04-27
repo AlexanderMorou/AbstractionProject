@@ -51,6 +51,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         new TEvent Member { get; }
     }
+
+    public interface IUnboundEventReferenceExpression :
+        IEventReferenceExpression
+    {
+        /// <summary>
+        /// Returns/sets the <see cref="Name"/> 
+        /// of the expression the <see cref="IEventReferenceExpression"/>
+        /// points to.
+        /// </summary>
+        new string Name { get; set; }
+    }
+
     /// <summary>
     /// Defines properties and methods for working with a reference which refers to an event.
     /// </summary>

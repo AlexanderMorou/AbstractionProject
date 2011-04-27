@@ -20,6 +20,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication;
 using System.Runtime.CompilerServices;
+using System.Diagnostics.SymbolStore;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|

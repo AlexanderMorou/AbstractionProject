@@ -55,6 +55,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// provided.</returns>
         new IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> GetPointer(params IType[] signature);
     }
+
+    public interface IUnboundMethodReferenceStub :
+        IMethodReferenceStub
+    {
+        /// <summary>
+        /// Returns/sets the type of reference the 
+        /// <see cref="IUnboundMethodReferenceStub"/> is.
+        /// </summary>
+        new MethodReferenceType ReferenceType { get; set; }
+        /// <summary>
+        /// Returns/sets the name of the method associated
+        /// to the <see cref="IUnboundMethodReferenceStub"/>.
+        /// </summary>
+        new string Name { get; set; }
+    }
+
     /// <summary>
     /// Defines properties and methods for working 
     /// with a refernece to a method.
@@ -69,7 +85,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns/sets the type of reference the 
         /// <see cref="IMethodReferenceStub"/> is.
         /// </summary>
-        MethodReferenceType ReferenceType { get; set; }
+        MethodReferenceType ReferenceType { get; }
         /// <summary>
         /// Returns the <see cref="ITypeCollection"/> of 
         /// <see cref="IType"/> instances used to replace
@@ -77,15 +93,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         ILockedTypeCollection GenericParameters { get; }
         /// <summary>
+        /// Returns the name of the method associated
+        /// to the <see cref="IMethodReferenceStub"/>.
+        /// </summary>
+        string Name { get; }
+        /// <summary>
         /// Returns the <see cref="IMemberParentReferenceExpression"/>
         /// that sourced the <see cref="IMethodReferenceStub"/>.
         /// </summary>
         IMemberParentReferenceExpression Source { get; }
-        /// <summary>
-        /// Returns/sets the name of the method associated
-        /// to the <see cref="IMethodReferenceStub"/>.
-        /// </summary>
-        string Name { get; set; }
         /// <summary>
         /// Obtains a <see cref="IMethodInvokeExpression"/>
         /// by evaluating the <paramref name="parameters"/>
