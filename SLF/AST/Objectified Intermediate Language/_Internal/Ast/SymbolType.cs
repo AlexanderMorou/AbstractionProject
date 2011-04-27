@@ -380,12 +380,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         public IMethodReferenceStub GetMethod(string name)
         {
-            return new MethodReferenceStub(this, name);
+            return new UnboundMethodReferenceStub(this, name);
         }
 
         public IMethodReferenceStub GetMethod(string name, ITypeCollection genericParameters)
         {
-            return new MethodReferenceStub(this, name, genericParameters);
+            return new UnboundMethodReferenceStub(this, name, genericParameters);
         }
 
         public IMethodPointerReferenceExpression GetMethodPointer(string name, ITypeCollection signature)
@@ -415,12 +415,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         public IFieldReferenceExpression GetField(string name)
         {
-            return new FieldReferenceExpression(name, this);
+            return new UnboundFieldReferenceExpression(name, this);
         }
 
         public IEventReferenceExpression GetEvent(string name)
         {
-            return new EventReferenceExpression(name, this);
+            return new UnboundEventReferenceExpression(name, this);
         }
 
         #endregion

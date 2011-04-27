@@ -29,9 +29,10 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// the <see cref="AssemblyReferenceIdentityAggregate"/> is referred 
         /// to by.
         /// </param>
-        internal AssemblyReferenceIdentityAggregate(IAggregateAliasReferenceGroups source, IEnumerable<IAssemblyReference> references, string[] aliases)
-            : base(from r in references
-                   select r.Reference)
+        internal AssemblyReferenceIdentityAggregate(IAggregateAliasReferenceGroups source, IEnumerable<IAssemblyReference> references, string alias)
+            : base((from r in references
+                    where r.Reference != null
+                    select r.Reference).ToArray())
         {
             /* *
              * Utilize LINQ to duplicate and obscure the fact that
@@ -41,21 +42,22 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
              * illegally (think this is no longer possible)
              * it's in vein.
              * */
-            this.Aliases = from f in aliases.ToArray()
-                           select f;
+            this.Alias = alias;
             this.IdentitySource = source;
             this.References = from r in references.ToArray()
+                              where r.Reference != null
+                              orderby r.Reference.Name
                               select r;
         }
 
         #region IAssemblyReferenceIdentityAggregate Members
 
         /// <summary>
-        /// Returns the series of <see cref="String"/> values which 
-        /// represents the aliases associated to the series of assembly
+        /// Returns the <see cref="String"/> values which 
+        /// represents the alias associated to the series of assembly
         /// references aggregated into the current identity set.
         /// </summary>
-        public IEnumerable<string> Aliases { get; private set; }
+        public string Alias { get; private set; }
 
         /// <summary>
         /// Returns the <see cref="IAssemblyReference"/> set which is 
@@ -80,7 +82,7 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         {
             try
             {
-                this.Aliases = null;
+                this.Alias = null;
                 this.References = null;
                 this.IdentitySource = null;
             }
@@ -118,6 +120,11 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         protected override IAggregateIdentityNode OnGetParent()
         {
             return null;
+        }
+
+        internal void AddReference(IAssemblyReference reference)
+        {
+            throw new NotImplementedException();
         }
     }
 }

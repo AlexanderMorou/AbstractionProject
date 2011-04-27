@@ -578,7 +578,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region IControlledStateCollection<IStatement> Members
 
-        /// <summary>:
+        /// <summary>
         /// Gets the number of elements contained in the <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>.</summary>
         /// <returns>
         /// The number of elements contained in the <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>.</returns>

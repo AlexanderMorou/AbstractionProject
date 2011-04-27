@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         public IEventReferenceExpression GetEvent(string name)
         {
-            return new EventReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
+            return new UnboundEventReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// which points to a series of methods named '<paramref name="name"/>'.</returns>
         public virtual IMethodReferenceStub GetMethod(string name)
         {
-            return new MethodReferenceStub(this.ObtainRelativeGetMemberTarget(), name);
+            return new UnboundMethodReferenceStub(this.ObtainRelativeGetMemberTarget(), name);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// generic parameters.</returns>
         public virtual IMethodReferenceStub GetMethod(string name, ITypeCollection genericParameters)
         {
-            return new MethodReferenceStub(this.ObtainRelativeGetMemberTarget(), name, genericParameters);
+            return new UnboundMethodReferenceStub(this.ObtainRelativeGetMemberTarget(), name, genericParameters);
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// that needs retrieved.</returns>
         public virtual IFieldReferenceExpression GetField(string name)
         {
-            return new FieldReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
+            return new UnboundFieldReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
         }
 
         /*

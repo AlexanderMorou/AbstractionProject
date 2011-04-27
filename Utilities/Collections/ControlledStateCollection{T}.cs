@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         #endregion
 
         #region IControlledStateCollection<T> Members
-        /// <summary>:
+        /// <summary>
         /// Gets the number of elements contained in the <see cref="ControlledStateCollection{T}"/>.
         /// </summary>
         ///

@@ -37,6 +37,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         new TField Member { get; }
     }
 
+    public interface IUnboundFieldReferenceExpression :
+        IFieldReferenceExpression
+    {
+        /// <summary>
+        /// Returns/sets the name of the member to reference.
+        /// </summary>
+        new string Name { get; set; }
+    }
+
     /// <summary>
     /// Defines properties and methods for working 
     /// an expression that refers to a field.

@@ -267,16 +267,13 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
             if (this.rootAggregate == null)
                 //Can't update it if it's not there.
                 return;
+            this.rootAggregate.AddReferenceToAlias(alias, reference);
         }
         internal void ReferenceAliasRemoved(AssemblyReference reference, string alias)
         {
             if (this.rootAggregate == null)
-            {
-                if (this.rootAggregate.ContainsKey(alias))
-                {
-
-                }
-            }
+                return;
+            this.rootAggregate.RemoveReferenceFromAlias(alias, reference);
         }
     }
 }

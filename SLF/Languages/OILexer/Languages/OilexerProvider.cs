@@ -18,6 +18,8 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     internal partial class OilexerProvider :
         IHighLevelLanguageProvider<IGDFile>
     {
+        internal static readonly OilexerProvider ProviderInstance = new OilexerProvider();
+
         #region IHighLevelLanguageProvider<IGDFile> Members
 
         public ILanguageParser<IGDFile> Parser

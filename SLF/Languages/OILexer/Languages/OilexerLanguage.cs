@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Parsers.Oilexer;
+using AllenCopeland.Abstraction.Slf.Compilers;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -15,12 +16,17 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     public class OilexerLanguage :
         IHighLevelLanguage<IGDFile>
     {
+        private OilexerLanguage() {
+        }
+        /// <summary>
+        /// The single-ton instance which which provides information about the language.
+        /// </summary>
         internal static OilexerLanguage LanguageInstance = new OilexerLanguage();
         #region IHighLevelLanguage<IGDFile> Members
 
         public IHighLevelLanguageProvider<IGDFile> GetProvider()
         {
-            throw new NotImplementedException();
+            return OilexerProvider.ProviderInstance;
         }
 
         #endregion
@@ -41,9 +47,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
         #region ILanguage Members
 
-        public Compilers.CompilerSupport CompilerSupport
+        public CompilerSupport CompilerSupport
         {
-            get { return Compilers.CompilerSupport.FullSupport ^ (Compilers.CompilerSupport.DebuggerSupport | Compilers.CompilerSupport.COMInterop | Compilers.CompilerSupport.Unsafe | Compilers.CompilerSupport.Win32Resources); }
+            get { return CompilerSupport.FullSupport ^ (CompilerSupport.DebuggerSupport | CompilerSupport.COMInterop | CompilerSupport.Unsafe | CompilerSupport.Win32Resources); }
         }
 
         #endregion

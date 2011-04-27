@@ -320,25 +320,25 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         public static IMethodInvokeExpression GetInvokeMethodExpression<T1>(this Type target, string methodName, params IExpression[] parameters)
         {
-            var result = new MethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1) }.ToCollection());
+            var result = new UnboundMethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1) }.ToCollection());
             return result.Invoke(parameters);
         }
 
         public static IMethodInvokeExpression GetInvokeMethodExpression<T1, T2>(this Type target, string methodName, params IExpression[] parameters)
         {
-            var result = new MethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1), typeof(T2) }.ToCollection());
+            var result = new UnboundMethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1), typeof(T2) }.ToCollection());
             return result.Invoke(parameters);
         }
 
         public static IMethodInvokeExpression GetInvokeMethodExpression<T1, T2, T3>(this Type target, string methodName, params IExpression[] parameters)
         {
-            var result = new MethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1), typeof(T2), typeof(T3) }.ToCollection());
+            var result = new UnboundMethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1), typeof(T2), typeof(T3) }.ToCollection());
             return result.Invoke(parameters);
         }
 
         public static IMethodInvokeExpression GetInvokeMethodExpression<T1, T2, T3, T4>(this Type target, string methodName, params IExpression[] parameters)
         {
-            var result = new MethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4) }.ToCollection());
+            var result = new UnboundMethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4) }.ToCollection());
             return result.Invoke(parameters);
         }
 

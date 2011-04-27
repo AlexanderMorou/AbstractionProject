@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     public interface IControlledStateCollection<T> :
         IEnumerable<T>
     {
-        /// <summary>:
+        /// <summary>
         /// Gets the number of elements contained in the <see cref="IControlledStateCollection{T}"/>.</summary>
         /// <returns>
         /// The number of elements contained in the <see cref="IControlledStateCollection{T}"/>.</returns>

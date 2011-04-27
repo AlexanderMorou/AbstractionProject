@@ -25,5 +25,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// <returns>A new <see cref="IHighLevelLanguageProvider{TRootNode}"/> for the current
         /// <see cref="IHighLevelLanguage{TRootNode}"/>.</returns>
         new IHighLevelLanguageProvider<TRootNode> GetProvider();
+        /// <summary>
+        /// Returns the <see cref="Guid"/> associated to the language when
+        /// defining symbolic documents associated to a given assembly derived
+        /// from the language.
+        /// </summary>
+        Guid LanguageGuid { get; }
     }
 }

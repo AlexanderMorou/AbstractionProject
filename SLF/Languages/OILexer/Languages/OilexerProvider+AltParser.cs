@@ -29,18 +29,18 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
             #region ILanguageProcessor<IParserResults<IGDFile>,Stream,string> Members
 
-            public Parsers.IParserResults<IGDFile> Process(Stream input, string context)
+            public IParserResults<IGDFile> Process(Stream input, string context)
             {
-                throw new NotImplementedException();
+                return base.Parse(input, context);
             }
 
             #endregion
 
             #region ILanguageProcessor<IParserResults<IGDFile>,FileInfo> Members
 
-            public Parsers.IParserResults<IGDFile> Process(FileInfo input)
+            public IParserResults<IGDFile> Process(FileInfo input)
             {
-                throw new NotImplementedException();
+                return base.Parse(input.FullName);
             }
 
             #endregion

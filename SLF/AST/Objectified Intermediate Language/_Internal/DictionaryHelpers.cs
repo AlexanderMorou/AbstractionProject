@@ -10,9 +10,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal
 {
     internal static class DictionaryHelpers
     {
-        internal static TIntermediateSignature MethodDictioanrySignatureAdd<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>(string name, IDelegateType signature,
-            Func<string, TIntermediateSignature> addHelper,
-            Func<TypedName, TypedNameSeries, TIntermediateSignature> addHelperAlt)
+        internal static TIntermediateSignature 
+            AddIntermediateMethodByDelegate<
+                TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>
+            (
+                string name, 
+                IDelegateType signature,
+                Func<string, TIntermediateSignature> addHelper,
+                Func<TypedName, TypedNameSeries, TIntermediateSignature> addHelperAlt
+            )
             where TSignatureParameter :
                 IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
             where TIntermediateSignatureParameter :
@@ -29,6 +35,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal
                 TSignatureParent,
                 IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
         {
+            /* *
+             * If the method being added wants to mirror the declaration 
+             * of the delegate, and the delegate is a generic type with
+             * no specific type references added: mirror the definition
+             * down to the generic parameters.
+             * */
             if (signature.IsGenericConstruct && signature.IsGenericDefinition && signature.DeclaringType == null)
             {
                 var method = addHelper(name);
@@ -55,15 +67,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal
                 method.ReturnType = signature.ReturnType.Disambiguify(genericParameterCollection, null, TypeParameterSources.Type);
                 return method;
             }
+            /* *
+             * Otherwise, just copy the types defined in the parameters.
+             * */
             else if (!(signature.IsGenericConstruct && signature.IsGenericDefinition))
-            {
                 return addHelperAlt(new TypedName(name, signature.ReturnType), new TypedNameSeries((from p in signature.Parameters.Values
                                                                                                     select new TypedName(p.Name, p.ParameterType)).ToArray()));
-            }
             else
-            {
                 throw new NotSupportedException("Generic type provided must be a top-level type.");
-            }
         }
     }
 }

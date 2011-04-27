@@ -95,7 +95,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         /// <summary>
-        /// Returns the type of expression the <see cref="EventReferenceExpression"/> is.
+        /// Returns the type of expression the <see cref="UnboundEventReferenceExpression"/> is.
         /// </summary>
         /// <remarks>Returns <see cref="ExpressionKind.EventReference"/>.</remarks>
         public override ExpressionKind Type
@@ -201,7 +201,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         /// <summary>
-        /// Returns the type of expression the <see cref="EventReferenceExpression"/> is.
+        /// Returns the type of expression the <see cref="UnboundEventReferenceExpression"/> is.
         /// </summary>
         /// <remarks>Returns <see cref="ExpressionKind.EventReference"/>.</remarks>
         public override ExpressionKind Type
@@ -224,11 +224,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             }
         }
     }
-    public class EventReferenceExpression : 
-        IEventReferenceExpression
+    public class UnboundEventReferenceExpression :
+        IUnboundEventReferenceExpression
     {
 
-        public EventReferenceExpression(string name, IMemberParentReferenceExpression source)
+        public UnboundEventReferenceExpression(string name, IMemberParentReferenceExpression source)
         {
             this.Source = source;
             this.Name = name;
@@ -238,10 +238,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Returns the <see cref="Name"/> 
-        /// of the expression the <see cref="EventReferenceExpression"/>
+        /// of the expression the <see cref="UnboundEventReferenceExpression"/>
         /// points to.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Returns the <see cref="IMemberParentReferenceExpression"/> 

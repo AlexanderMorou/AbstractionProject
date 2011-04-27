@@ -297,7 +297,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
              * Setup, create a new series of typed names with the type-parameters of the signature
              * replaced with a string-variant.
              * */
-            return DictionaryHelpers.MethodDictioanrySignatureAdd<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>(name, signature, this.Add, this.Add);
+            return DictionaryHelpers.AddIntermediateMethodByDelegate<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>(name, signature, this.Add, this.Add);
         }
 
         #endregion
@@ -532,7 +532,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
              * Setup, create a new series of typed names with the type-parameters of the signature
              * replaced with a string-variant.
              * */
-            return DictionaryHelpers.MethodDictioanrySignatureAdd<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>(name, signature, this.Add, this.Add);
+            return DictionaryHelpers.AddIntermediateMethodByDelegate<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>(name, signature, this.Add, this.Add);
         }
 
 
