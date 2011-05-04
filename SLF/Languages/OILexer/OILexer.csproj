@@ -105,6 +105,43 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
+    <None Include="Samples\Toy++\Attributes.oilexer" />
+    <None Include="Samples\Toy++\Expressions\AnonymousExpressions.oilexer" />
+    <None Include="Samples\Toy++\Expressions\Array.oilexer" />
+    <None Include="Samples\Toy++\Expressions\LINQ.oilexer" />
+    <None Include="Samples\Toy++\Expressions\Math.oilexer" />
+    <None Include="Samples\Toy++\Expressions\Root.oilexer" />
+    <None Include="Samples\Toy++\Expressions\Templates.oilexer" />
+    <None Include="Samples\Toy++\GeneralTemplates.oilexer" />
+    <None Include="Samples\Toy++\Language\LanguageDeclaration.oilexer" />
+    <None Include="Samples\Toy++\Lexical Grammar\Keywords.oilexer" />
+    <None Include="Samples\Toy++\Lexical Grammar\Operators.oilexer" />
+    <None Include="Samples\Toy++\Lexical Grammar\OtherTokens.oilexer" />
+    <None Include="Samples\Toy++\Lexical Grammar\Preprocessor.oilexer" />
+    <None Include="Samples\Toy++\Lexical Grammar\TPPLexicalGrammar.oilexer" />
+    <None Include="Samples\Toy++\Members\Constructors.oilexer" />
+    <None Include="Samples\Toy++\Members\Events.oilexer" />
+    <None Include="Samples\Toy++\Members\Fields.oilexer" />
+    <None Include="Samples\Toy++\Members\Indexers.oilexer" />
+    <None Include="Samples\Toy++\Members\Locals.oilexer" />
+    <None Include="Samples\Toy++\Members\Methods.oilexer" />
+    <None Include="Samples\Toy++\Members\Operators.oilexer" />
+    <None Include="Samples\Toy++\Members\Parameters.oilexer" />
+    <None Include="Samples\Toy++\Members\Properties.oilexer" />
+    <None Include="Samples\Toy++\Members\Members.oilexer" />
+    <None Include="Samples\Toy++\Namespace.oilexer" />
+    <None Include="Samples\Toy++\Toy++.oilexer" />
+    <None Include="Samples\Toy++\Statements\Statements.oilexer" />
+    <None Include="Samples\Toy++\Statements\Selection.oilexer" />
+    <None Include="Samples\Toy++\Statements\Templates.oilexer" />
+    <None Include="Samples\Toy++\Types\ClassDeclaration.oilexer" />
+    <None Include="Samples\Toy++\Types\DelegateDeclaration.oilexer" />
+    <None Include="Samples\Toy++\Types\EnumDeclaration.oilexer" />
+    <None Include="Samples\Toy++\Types\Generics.oilexer" />
+    <None Include="Samples\Toy++\Types\InterfaceDeclaration.oilexer" />
+    <None Include="Samples\Toy++\Types\Types.oilexer" />
+    <None Include="Samples\Toy++\Types\StructDeclaration.oilexer" />
+    <None Include="Samples\Toy++\Types\Templates.oilexer" />
     <None Include="Samples\Visual Basic\Lexical Grammar\Keywords.oilexer">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

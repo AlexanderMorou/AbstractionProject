@@ -1,0 +1,10 @@
+﻿#include                  "..\\Root.oilexer";
+
+LanguageDeclaration                       :=
+    (
+        "public"                           |
+        "internal" "protected"?            |
+        "protected" "internal"?            
+    ) 
+    "partial"!:IsPartial;;
+
