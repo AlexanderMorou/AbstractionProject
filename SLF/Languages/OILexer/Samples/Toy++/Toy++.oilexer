@@ -10,7 +10,6 @@
 #Namespace            "AllenCopeland.Abstraction.Slf";
 
 #include                         "Attributes.oilexer";
-#include                   "GeneralTemplates.oilexer";
 #include                          "Namespace.oilexer";
 #include           "Expressions\\Expressions.oilexer";
 #include "Lexical Grammar\\TPPLexicalGrammar.oilexer";
@@ -18,6 +17,7 @@
 #include             "Statements\\Statements.oilexer";
 #include                       "Types\\Types.oilexer";
 #include                 "Language\\Language.oilexer";
+#include               "Templates\\Templates.oilexer";
 
 #ifndef Lexer
 #define Lexer = TPParser;

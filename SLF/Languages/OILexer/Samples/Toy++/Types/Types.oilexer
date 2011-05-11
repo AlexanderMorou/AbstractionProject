@@ -6,7 +6,6 @@
 #include                  "Generics.oilexer";
 #include      "InterfaceDeclaration.oilexer";
 #include         "StructDeclaration.oilexer";
-#include                 "Templates.oilexer";
 
 /* B.2.1: Basic Concepts */
 TypeName                                 ::=>
@@ -148,3 +147,6 @@ CommonTypeModifiers                       ::=
         "internal" "protected"? "new"?      |
         "protected" "new"? "internal"?      |
         "protected" "internal"? "new"?      ;
+
+TypedName                                 ::=
+    Type:Type; Identifier:Name;             ;

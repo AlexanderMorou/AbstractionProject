@@ -22,7 +22,6 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
         /// The default alias for new assembly references.
         /// </summary>
         public static readonly string DefaultAlias = "global";
-        private AggregateAliasReferenceGroups rootAggregate;
         #region IAssemblyReferenceCollection Members
 
         public IEnumerable<IAssembly> ReferencedAssemblies
@@ -236,26 +235,10 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
 
         #endregion
 
-
-        public IAggregateAliasReferenceGroups GetRootNamespaceAggregate()
-        {
-            if (this.rootAggregate == null)
-                this.rootAggregate = new AggregateAliasReferenceGroups(this);
-            return this.rootAggregate;
-        }
-
         #region IDisposable Members
 
         public void Dispose()
         {
-            if (this.rootAggregate != null)
-                if (!this.rootAggregate.IsDisposed)
-                {
-                    this.rootAggregate.Dispose();
-                    this.rootAggregate = null;
-                }
-                else
-                    this.rootAggregate = null;
             this.RemoveRange((from @ref in this
                               select @ref.Reference).ToArray());
         }
@@ -264,16 +247,9 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
 
         internal void ReferenceAliasAdded(AssemblyReference reference, string alias)
         {
-            if (this.rootAggregate == null)
-                //Can't update it if it's not there.
-                return;
-            this.rootAggregate.AddReferenceToAlias(alias, reference);
         }
         internal void ReferenceAliasRemoved(AssemblyReference reference, string alias)
         {
-            if (this.rootAggregate == null)
-                return;
-            this.rootAggregate.RemoveReferenceFromAlias(alias, reference);
         }
     }
 }

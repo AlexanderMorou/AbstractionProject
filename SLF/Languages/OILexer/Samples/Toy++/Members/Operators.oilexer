@@ -4,38 +4,30 @@
 |*              B.2.7: Classes             *|
 \* --------------------------------------- */
 
-ExternOperatorHeader<_>                   ::=
-    Attributes:Attributes;?
-    (
-      "public" "static" "extern"            |
-      "public" "extern" "static"            |
-      "extern" "public" "static"            |
-      "static" "public" "extern"            |
-      "static" "extern" "public"            |
-      "extern" "static" "public"
-    );
-
-InternOperatorHeader<_>                   ::=
-    Attributes:Attributes;?
-    (
-      "public" "static"                     |
-      "static" "public"                    
-    );
-
 DeclareInternExtern<
     Intern:Expect=Rule;, 
     Extern:Expect=Rule;, 
     Body> ::=
     #ifdef Extern
-        #return ExternOperatorHeader<> Body';';
+        #return 
+            Attributes:Attributes;?
+            Tuple<"public", "static", "extern">
+            Body';';
     #else
-        #define Extern = ExternOperatorHeader<>
+        #define Extern = 
+            Attributes:Attributes;?
+            Tuple<"public", "static", "extern">
             Body ';'                        ;
     #endif
     #ifdef Intern
-        #return InternOperatorHeader<> Body Block:Body;;
+        #return 
+            Attributes:Attributes;?
+            Tuple<"public", "static">
+            Body Block:Body;                ;
     #else
-        #define Intern = InternOperatorHeader<>
+        #define Intern = 
+            Attributes:Attributes;?
+            Tuple<"public", "static">
             Body Block:Body;                ;
     #endif                                  ;
 
@@ -78,11 +70,9 @@ ExternBinaryOperatorDeclaration           ::=
             ">="
         ):Operator;
         '(' 
-            Type:LeftType; 
-            Identifier:LeftName;
+            TypedName:Left;
             ',' 
-            Type:RightType; 
-            Identifier:RightName;
+            TypedName:Right;
         ')'>                                ;
     
 ExternUnaryOperatorDeclaration            ::=
@@ -102,8 +92,7 @@ ExternUnaryOperatorDeclaration            ::=
             "false"
         ):Operator;
         '('
-            Type:OperandType; 
-            Identifier:OperandName;
+            TypedName:Operand;
         ')'>                                ;
 
 ExternTypeOperatorDeclaration             ::=
@@ -113,4 +102,6 @@ ExternTypeOperatorDeclaration             ::=
         ("implicit" | "explicit"):Operator;
         "operator"
         Type:OperatorType;
-        '(' Type:OperandType; ')'>          ;
+        '(' 
+            TypedName:Operand;
+        ')'>                                ;

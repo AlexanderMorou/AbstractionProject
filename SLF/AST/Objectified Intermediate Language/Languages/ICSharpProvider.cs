@@ -16,11 +16,10 @@ using AllenCopeland.Abstraction.Slf.Translation;
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
     public interface ICSharpProvider :
-        IHighLevelLanguageProvider<ICSharpCompilationUnit>
+        IVersionedHighLevelLanguageProvider<CSharpLanguageVersion, ICSharpCompilationUnit>
     {
         new ICSharpParser Parser { get; }
         new ICSharpASTTranslator ASTTranslator { get; }
-        new ICSharpCodeTranslator Translator { get; }
         new ICSharpLanguage Language { get; }
     }
 }

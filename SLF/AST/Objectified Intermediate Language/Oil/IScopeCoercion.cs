@@ -17,5 +17,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// </summary>
     public interface IScopeCoercion
     {
+
     }
 }

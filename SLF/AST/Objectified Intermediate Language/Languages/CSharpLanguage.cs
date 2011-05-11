@@ -43,11 +43,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     internal class CSharpLanguage :
         ICSharpLanguage
     {
-        private CSharpLanguageVersion versionCompatability;
-
-        public CSharpLanguage(CSharpLanguageVersion versionCompatability = CSharpLanguageVersion.Version5)
+        private const CSharpLanguageVersion DefaultVersion = CSharpLanguageVersion.Version5;
+        internal static readonly CSharpLanguage Singleton = new CSharpLanguage();
+        public CSharpLanguage()
         {
-            this.versionCompatability = versionCompatability;
         }
 
         internal static readonly ReadOnlyCollection<Type> AutoFormTypes = new ReadOnlyCollection<Type>
@@ -105,7 +104,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// <see cref="CSharpLanguage"/>.</returns>
         public ICSharpProvider GetProvider()
         {
-            return new CSharpProvider(this.versionCompatability);
+            return new CSharpProvider(CSharpLanguage.DefaultVersion);
         }
 
         #endregion
@@ -117,7 +116,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             return this.GetProvider();
         }
 
-        public Guid LanguageGuid
+        public Guid Guid
         {
             get { return SymLanguageType.CSharp; }
         }
@@ -132,11 +131,40 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         public CompilerSupport CompilerSupport
         {
             get {
-                
-                CompilerSupport result = CompilerSupport.FullSupport ^ (CompilerSupport.Win32Resources | CompilerSupport.PrimaryInteropEmbedding | CompilerSupport.DuckTyping);
-                if (((int)versionCompatability) >= (int)CSharpLanguageVersion.Version4)
-                    result |= CompilerSupport.PrimaryInteropEmbedding;
-                return result;
+                return GetCompilerSupport(CSharpLanguage.DefaultVersion);
+            }
+        }
+
+        public ILanguageVendor Vendor
+        {
+            get { return LanguageVendors.Microsoft; }
+        }
+        #endregion
+
+        #region IVersionedLanguage Members
+
+        public CompilerSupport GetCompilerSupport(CSharpLanguageVersion version)
+        {
+
+            CompilerSupport result = CompilerSupport.FullSupport ^ (CompilerSupport.Win32Resources | CompilerSupport.PrimaryInteropEmbedding | CompilerSupport.DuckTyping);
+            if (((int)version) >= (int)CSharpLanguageVersion.Version4)
+                result |= CompilerSupport.PrimaryInteropEmbedding;
+            return result;
+        }
+
+        public IVersionedLanguageProvider<CSharpLanguageVersion> GetProvider(CSharpLanguageVersion version)
+        {
+            return new CSharpProvider(version);
+        }
+
+        public IEnumerable<CSharpLanguageVersion> Versions
+        {
+            get
+            {
+                yield return CSharpLanguageVersion.Version2;
+                yield return CSharpLanguageVersion.Version3;
+                yield return CSharpLanguageVersion.Version4;
+                yield return CSharpLanguageVersion.Version5;
             }
         }
 
@@ -144,12 +172,22 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
         #region ICSharpLanguage Members
 
-
         public CSharpLanguageVersion Version
         {
-            get { return this.versionCompatability; }
+            get { return CSharpLanguage.DefaultVersion; }
         }
 
         #endregion
+
+
+        #region IVersionedHighLevelLanguage<CSharpLanguageVersion,ICSharpCompilationUnit> Members
+
+        IVersionedHighLevelLanguageProvider<CSharpLanguageVersion, ICSharpCompilationUnit> IVersionedHighLevelLanguage<CSharpLanguageVersion, ICSharpCompilationUnit>.GetProvider(CSharpLanguageVersion version)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
     }
 }

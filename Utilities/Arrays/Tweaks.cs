@@ -179,27 +179,26 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             Predicate<TSourceItem> filter,
             Func<TSourceItem, TDestinationItem> translator)
         {
+            TDestinationItem[] result = new TDestinationItem[items.Length];
             //Setup space.
-            List<TDestinationItem> resultItems = new List<TDestinationItem>(items.Length);
-            //Iterate, filter, and translate.
-            foreach (TSourceItem item in items)
-                if (filter(item))
-                    resultItems.Add(translator(item));
-            //Remove blanks.
-            resultItems.TrimExcess();
-
-            return resultItems.ToArray();
+            int skipped = 0;
+            for (int i = 0, c = items.Length; i < c; i++)
+            {
+                var currentItem = items[i];
+                if (filter(currentItem))
+                    result[i] = translator(currentItem);
+                else
+                    skipped++;
+            }
+            if (skipped == 0)
+                return result;
+            else
+            {
+                var temp = new TDestinationItem[result.Length - skipped];
+                Array.Copy(result, temp, temp.Length);
+                return temp;
+            }
         }
-        public static T[] ProcessArray<T>(T[] array, Func<T, T> processor)
-        {
-            if (array == null)
-                throw new ArgumentNullException("array");
-            T[] result = new T[array.Length];
-            for (int i = 0; i < array.Length; i++)
-                result[i] = processor(array[i]);
-            return result;
-        }
-
         #if CODE_ANALYSIS
         /* *
          * Suppressed Type-Parameter inference code-analysis point.
@@ -255,7 +254,7 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                 /* *
                  * Simple answer for one dimension
                  * */
-                indices = new int[] { array.GetLowerBound(0) };
+                indices = new int[] { array.GetLowerBound(0) }; 
                 for (; indices[0] <= array.GetUpperBound(0); indices[0]++)
                     yield return indices;
             }
@@ -395,6 +394,24 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             }
         }
 
+        public static T[,] Resize<T>(this T[,] source, int newLengthA, int newLengthB)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            int upperSA = source.GetUpperBound(0),
+                upperSB = source.GetUpperBound(1);
+            int lowerSA = source.GetLowerBound(0),
+                lowerSB = source.GetLowerBound(1);
+
+            T[,] result = (T[,])(Array.CreateInstance(typeof(T), new int[] { newLengthA, newLengthB }, new int[] { lowerSA, lowerSB }));
+            int lengthSA = upperSA + 1 - lowerSA,
+                lengthSB = upperSB + 1 - lowerSB;
+            int copyMaxA = Math.Min(newLengthA, lengthSA),
+                copyMaxB = Math.Min(newLengthB, lengthSB);
+            source.BlockCopy(result, copyMaxA, copyMaxB);
+            return result;
+        }
+
         /// <summary>
         /// Copies data from the <paramref name="source"/> three-dimensional array
         /// to the <paramref name="destination"/> three-dimensional array.
@@ -455,24 +472,6 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
 
         }
 
-        public static T[,] Resize<T>(this T[,] source, int newLengthA, int newLengthB)
-        {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            int upperSA = source.GetUpperBound(0),
-                upperSB = source.GetUpperBound(1);
-            int lowerSA = source.GetLowerBound(0),
-                lowerSB = source.GetLowerBound(1);
-
-            T[,] result = (T[,])(Array.CreateInstance(typeof(T), new int[] { newLengthA, newLengthB }, new int[] { lowerSA, lowerSB }));
-            int lengthSA = upperSA + 1 - lowerSA,
-                lengthSB = upperSB + 1 - lowerSB;
-            int copyMaxA = Math.Min(newLengthA, lengthSA),
-                copyMaxB = Math.Min(newLengthB, lengthSB);
-            source.BlockCopy(result, copyMaxA, copyMaxB);
-            return result;
-        }
-
         public static T[, ,] Resize<T>(this T[, ,] source, int newLengthA, int newLengthB, int newLengthC)
         {
             if (source == null)
@@ -509,10 +508,10 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
         {
             int chunkCount = (int)Math.Ceiling(((double)series.Length) / chunkSize);
             T[][] result = new T[chunkCount][];
-            for (int i = 0; i < chunkCount; i++)
+            for (int i = 0, c = series.Length; i < chunkCount; i++)
             {
                 int min = i * chunkSize;
-                int max = Math.Min((i + 1) * chunkSize, series.Length);
+                int max = Math.Min((i + 1) * chunkSize, c);
                 int size = max - min;
                 T[] current = result[i] = new T[size];
                 for (int j = 0; j < size; j++)
