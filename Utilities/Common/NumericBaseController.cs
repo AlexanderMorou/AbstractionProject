@@ -16,6 +16,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
     public abstract class NumericBaseController
     {
         private List<char> baseEntities;
+        private bool caseSensitive;
         protected NumericBaseController(IEnumerable<char> baseEntities) 
             : this(baseEntities, false)
         {
@@ -34,10 +35,12 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             else
                 this.baseEntities.AddRange(baseEntities);
         }
-        public NumericBaseController(string baseString)
-            : this((IEnumerable<char>)baseString)
+        public NumericBaseController(string baseString, bool caseSensitive = true)
+            : this((IEnumerable<char>)(!caseSensitive ? baseString.ToUpper() : baseString))
         {
+            this.caseSensitive = caseSensitive;
         }
+
         private ulong ShiftBaseValue(int baseIndex, byte position)
         {
             return (ulong)(Math.Pow(baseEntities.Count, position) * baseIndex);
@@ -55,26 +58,53 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             byte nP = NumPlaces(value);
             char[] v = new char[nP];
             for (byte i = 0; i < nP; i++)
-                v[i] = baseEntities[GetShiftIndex(value, i)];
-            return new string(v.Reverse().ToArray());
+                v[nP - (i + 1)] = baseEntities[GetShiftIndex(value, i)];
+            return new string(v);
         }
 
         internal ulong Decode(string value)
         {
-            foreach (char c in value)
-                if (!this.baseEntities.Contains(c))
-                    throw new ArgumentException("value");
             ulong r = 0;
-            for (byte b = 0; b < value.Length; b++)
-                r += ShiftBaseValue((int)baseEntities.IndexOf(value[b]), (byte)(value.Length - (b + 1)));
+            if (caseSensitive)
+            {
+                foreach (char c in value)
+                    if (!this.baseEntities.Contains(c))
+                        throw new ArgumentException("value");
+                for (byte b = 0; b < value.Length; b++)
+                    r += ShiftBaseValue((int)baseEntities.IndexOf(value[b]), (byte)(value.Length - (b + 1)));
+            }
+            else
+            {
+                value = value.ToUpper();
+                for (byte b = 0; b < value.Length; b++)
+                {
+                    char current = value[b];
+                    if (!this.baseEntities.Contains(current))
+                        throw new ArgumentException("value");
+                    r += ShiftBaseValue((int)baseEntities.IndexOf(current), (byte)(value.Length - (b + 1)));
+                }
+            }
             return r;
         }
 
 
         private int GetShiftIndex(ulong value, byte position)
         {
-            ulong d = (value & (((ulong)(Math.Pow(baseEntities.Count, (position + 1)))) - (ulong)Math.Pow(baseEntities.Count, position))) / (ulong)Math.Pow(baseEntities.Count, position);
-            return (int)d;
+            ulong valueCopy = value;
+            for (int i = 1; i <= position; i++)
+                valueCopy /= (ulong)this.baseEntities.Count;
+            return (int)(valueCopy % (ulong)this.baseEntities.Count);
+            //byte nP = (byte)(Math.Ceiling(Math.Log(this.baseEntities.Count, 2)));
+            //ulong curBits = (ulong)Math.Pow(baseEntities.Count, (position + 1)) - 1;
+            //if (position > 0)
+            //    curBits &= ~(ulong)Math.Pow(baseEntities.Count, position) - 1;
+            //var m = (value & curBits) >> nP * position;
+
+            //ulong d = (value & (((ulong)(Math.Pow(baseEntities.Count, (position + 1)))) - (ulong)Math.Pow(baseEntities.Count, position))) / (ulong)Math.Pow(baseEntities.Count, position);
+            //return (int)d;
         }
+
+        public bool CaseSensitive { get { return this.caseSensitive; } }
+
     }
 }

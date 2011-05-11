@@ -14,14 +14,31 @@ using AllenCopeland.Abstraction.Slf.Translation;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
+
     public interface IHighLevelLanguageProvider<TRootNode> :
         ILanguageProvider
         where TRootNode :
             IConcreteNode
     {
+        /// <summary>
+        /// Returns the <see cref="ILanguageParser{TRootNode}"/>
+        /// of the current high level language provider instance.
+        /// </summary>
         ILanguageParser<TRootNode> Parser { get; }
+        /// <summary>
+        /// Returns the <see cref="ILanguageASTTranslator{TRootNode}"/>
+        /// of the current high level language provider instance.
+        /// </summary>
         ILanguageASTTranslator<TRootNode> ASTTranslator { get; }
+        /// <summary>
+        /// Returns the <see cref="IIntermediateCodeTranslator"/>
+        /// of the current language provider.
+        /// </summary>
         IIntermediateCodeTranslator Translator { get; }
+        /// <summary>
+        /// Returns the <see cref="IHighLevelLanguage{TRootNode}"/>
+        /// of the current high level language provider instance.
+        /// </summary>
         IHighLevelLanguage<TRootNode> Language { get; }
     }
 }

@@ -16,6 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     public class OilexerLanguage :
         IHighLevelLanguage<IGDFile>
     {
+        private static Guid _LanguageGuid = new Guid(0xED13FCAD, 0xE20F, 0x4C81, 0xA6, 0xFE, 0xAF, 0xAD, 0xE2, 0x99, 0xB9, 0xC0);
         private OilexerLanguage() {
         }
         /// <summary>
@@ -27,6 +28,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         public IHighLevelLanguageProvider<IGDFile> GetProvider()
         {
             return OilexerProvider.ProviderInstance;
+        }
+
+        public Guid Guid
+        {
+            get { return OilexerLanguage._LanguageGuid; }
         }
 
         #endregion
@@ -50,6 +56,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         public CompilerSupport CompilerSupport
         {
             get { return CompilerSupport.FullSupport ^ (CompilerSupport.DebuggerSupport | CompilerSupport.COMInterop | CompilerSupport.Unsafe | CompilerSupport.Win32Resources); }
+        }
+
+        public ILanguageVendor Vendor
+        {
+            get { return LanguageVendors.AllenCopeland; }
         }
 
         #endregion

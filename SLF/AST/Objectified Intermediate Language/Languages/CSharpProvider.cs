@@ -19,10 +19,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     internal class CSharpProvider :
         ICSharpProvider
     {
-        private CSharpLanguageVersion versionCompatability;
-        internal CSharpProvider(CSharpLanguageVersion versionCompatability)
+        private CSharpLanguageVersion version;
+        internal CSharpProvider(CSharpLanguageVersion version)
         {
-            this.versionCompatability = versionCompatability;
+            this.version = version;
         }
 
         #region ICSharpProvider Members
@@ -36,27 +36,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         {
             get { throw new NotImplementedException(); }
         }
-        public ICSharpCodeTranslator Translator
-        {
-            get { throw new NotImplementedException(); }
-        }
 
         public ICSharpLanguage Language
         {
             get {
-                switch (versionCompatability)
-                {
-                    case CSharpLanguageVersion.Version2:
-                        return CSharpGateway.Language.Version2;
-                    case CSharpLanguageVersion.Version3:
-                        return CSharpGateway.Language.Version3;
-                    case CSharpLanguageVersion.Version4:
-                        return CSharpGateway.Language.Version4;
-                    case CSharpLanguageVersion.Version5:
-                        return CSharpGateway.Language.Version5;
-                    default:
-                        throw new NotSupportedException("Version not supported.");
-                }
+                return CSharpLanguage.Singleton;
             }
         }
 
@@ -74,14 +58,23 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             get { return this.ASTTranslator; }
         }
 
-        IIntermediateCodeTranslator IHighLevelLanguageProvider<ICSharpCompilationUnit>.Translator
+        public IIntermediateCodeTranslator Translator
         {
-            get { return this.Translator; }
+            get { throw new NotImplementedException(); }
         }
 
         IHighLevelLanguage<ICSharpCompilationUnit> IHighLevelLanguageProvider<ICSharpCompilationUnit>.Language
         {
             get { return this.Language; ; }
+        }
+
+        #endregion
+
+        #region IVersionedLanguageProvider<CSharpLanguageVersion> Members
+
+        public CSharpLanguageVersion Version
+        {
+            get { return this.version; }
         }
 
         #endregion

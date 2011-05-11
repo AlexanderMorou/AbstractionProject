@@ -106,7 +106,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
                 int lookAhead = invert ? hasHyphen ? 3 : 2 : hasHyphen ? 2 : 1;
                 int start = lookAhead;
                 char rangeStart = char.MinValue;
-                bool ranged=false;
+                bool ranged = false;
                 char last = char.MinValue;
                 List<char> singleTons = new List<char>();
                 List<Tuple<char, char>> ranges = new List<Tuple<char, char>>();
@@ -484,6 +484,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
                                 break;
                             default:
                                 singleTons.Add(':');
+                                lookAhead++;
                                 continue;
                         }
                     }
@@ -549,6 +550,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
                             case '[': case ']':
                             case '-':
                             case '\\':
+                            case ':':
                                 break;
                             default:
                                 //Syntax error.

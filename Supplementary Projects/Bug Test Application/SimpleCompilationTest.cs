@@ -35,7 +35,10 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
         public static Func<string, TimeSpan> PrintAllTimedAction = ((Action<string>)PrintAll).TimeActionFunc();
         public static void Main(string[] args)
         {
-            int testCount = 9;
+            NumericBase tsB = new SeptemvigesimalBase("iiii");
+            Console.WriteLine(tsB);
+            
+            int testCount = (int)tsB;
             for (int i = 0; i < testCount; i++)
             {
                 if (i == 0)
@@ -60,12 +63,7 @@ namespace AllenCopeland.Abstraction.SupplimentaryProjects.BugTestApplication
         }
         private static void PrintAll(string @namespace)
         {
-            typeof(int).Assembly.GetAssemblyReference().Namespaces[@namespace].AggregateIdentifiers.OnAll(PrintAllOnAll);
-        }
-
-        private static void PrintAllOnAll(string target)
-        { 
-            //Do nothing, simple iteration test.
+            typeof(int).Assembly.GetAssemblyReference().Namespaces[@namespace].AggregateIdentifiers.OnAll((s) => { });
         }
 
         private static void WindowsFormsTest()

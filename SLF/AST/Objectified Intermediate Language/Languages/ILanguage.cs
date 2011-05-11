@@ -14,6 +14,10 @@ using AllenCopeland.Abstraction.Slf.Oil.Statements;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
+    /// <summary>
+    /// Defines properties and methods information 
+    /// about a particular language.
+    /// </summary>
     public interface ILanguage
     {
         /// <summary>
@@ -32,5 +36,15 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// Returns the level of functionality support the compiler contains.
         /// </summary>
         CompilerSupport CompilerSupport { get; }
+        /// <summary>
+        /// Returns the <see cref="ILanguageVendor"/> of a particular language.
+        /// </summary>
+        ILanguageVendor Vendor { get; }
+        /// <summary>
+        /// Returns the <see cref="Guid"/> associated to the language when
+        /// defining symbolic documents associated to a given assembly derived
+        /// from the language.
+        /// </summary>
+        Guid Guid { get; }
     }
 }

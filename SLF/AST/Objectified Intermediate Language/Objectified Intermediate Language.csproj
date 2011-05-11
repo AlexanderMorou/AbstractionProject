@@ -98,6 +98,13 @@
     <Compile Include="Compilers\CompilerErrorCollection.cs" />
     <Compile Include="Compilers\CSharpCompilerMessages.cs" />
     <Compile Include="Compilers\IMalleableCompilationContext.cs" />
+    <Compile Include="Languages\IMicrosoftLanguageVendor.cs" />
+    <Compile Include="Languages\IVersionedHighLevelLanguageProvider{TVersion, TRootNode}.cs" />
+    <Compile Include="Languages\IVersionedHighLevelLanguage{TVersion}.cs" />
+    <Compile Include="Languages\IVersionedLanguageProvider{TVersion}.cs" />
+    <Compile Include="Languages\IVersionedLanguage{TVersion}.cs" />
+    <Compile Include="Languages\LanguageVendorBase.cs" />
+    <Compile Include="Languages\LanguageVendors.cs" />
     <Compile Include="Compilers\MalleableCompilationContext.cs" />
     <Compile Include="Compilers\CompilerReferenceError.cs" />
     <Compile Include="Compilers\CompilerReferenceWarning.cs" />
@@ -124,10 +131,18 @@
     <Compile Include="Compilers\ICompilerSourceWarning.cs" />
     <Compile Include="Compilers\ICompilerWarning.cs" />
     <Compile Include="Compilers\IntermediateCompilerBase.cs" />
+    <Compile Include="Languages\ILanguageVendor.cs" />
+    <Compile Include="Languages\MicrosoftLanguageVendor.cs" />
     <Compile Include="Linkers\AssemblyReferenceAliasCollection.cs" />
     <Compile Include="Linkers\IAssemblyReferenceAliasCollection.cs" />
+    <Compile Include="Linkers\IGenericConstructSymbolLookupTable.cs" />
+    <Compile Include="Linkers\ILinkerSymbol.cs" />
+    <Compile Include="Linkers\INamedSymbolLookupTable.cs" />
+    <Compile Include="Linkers\INamespaceSymbol.cs" />
+    <Compile Include="Linkers\IScopeAggregate.cs" />
+    <Compile Include="Linkers\ISubScopeAggregate.cs" />
+    <Compile Include="Linkers\ISymbolLookupTable.cs" />
     <Compile Include="Oil\CSharpAssembly.cs" />
-    <Compile Include="Oil\CSharpGateway.cs" />
     <Compile Include="Oil\DataSizeType.cs" />
     <Compile Include="Oil\Expressions\CreateArrayNestedDetailExpression.cs" />
     <Compile Include="Oil\Expressions\CSharpAddSubtExpression.cs" />
@@ -175,10 +190,8 @@
     <Compile Include="Languages\ICSharpProvider.cs" />
     <Compile Include="Linkers\AssemblyReference.cs" />
     <Compile Include="Linkers\AssemblyReferenceCollection.cs" />
-    <Compile Include="Linkers\AssemblyReferenceIdentityAggregate.cs" />
     <Compile Include="Linkers\IAssemblyReference.cs" />
     <Compile Include="Linkers\IAssemblyReferenceCollection.cs" />
-    <Compile Include="Linkers\IAssemblyReferenceIdentityAggregate.cs" />
     <Compile Include="Oil\Expressions\BoundSpecialReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\EventReferenceExpression.cs" />
     <Compile Include="Oil\Expressions\IBoundTypeOfExpression.cs" />
@@ -996,7 +1009,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Translation\ICSharpCodeTranslator.cs" />
     <Compile Include="Translation\IIntermediateCodeTranslator.cs" />
     <Compile Include="Translation\IIntermediateCodeTranslatorOptions.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\ILinqBodyBuilderParent.cs" />

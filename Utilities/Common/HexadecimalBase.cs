@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             NumericBaseController
         {
             public Controller()
-                : base("0123456789ABCDEF")
+                : base("0123456789ABCDEF", false)
             {
             }
         }

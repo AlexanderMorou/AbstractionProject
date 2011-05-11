@@ -144,5 +144,15 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             return left.GetNew(left.Value ^ right);
         }
 
+        public static explicit operator int(NumericBase value)
+        {
+            return (int)value.value;
+        }
+
+        public static implicit operator ulong(NumericBase value)
+        {
+            return value.value;
+        }
+
     }
 }

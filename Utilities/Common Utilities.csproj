@@ -130,6 +130,7 @@
     <Compile Include="Common\NumericBase.cs" />
     <Compile Include="Common\NumericBaseController.cs" />
     <Compile Include="Common\OctalBase.cs" />
+    <Compile Include="Common\SeptemvigesimalBase.cs" />
     <Compile Include="Common\StringHandling.cs" />
     <Compile Include="Events\EventArgsR1R2R3{T1, T2, T3}.cs" />
     <Compile Include="Events\EventArgsR1R2{T1, T2, T3}.cs" />
