@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             this.caseSensitive = caseSensitive;
         }
 
-        private ulong ShiftBaseValue(int baseIndex, byte position)
+        private decimal ShiftBaseValue(int baseIndex, byte position)
         {
             return (ulong)(Math.Pow(baseEntities.Count, position) * (ulong)baseIndex);
         }
@@ -64,7 +64,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
 
         internal ulong Decode(string value)
         {
-            ulong r = 0;
+            decimal r = 0;
             if (caseSensitive)
             {
                 foreach (char c in value)
@@ -84,7 +84,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
                     r += ShiftBaseValue((int)baseEntities.IndexOf(current), (byte)(value.Length - (b + 1)));
                 }
             }
-            return r;
+            return (ulong)r;
         }
 
 
@@ -94,14 +94,6 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             for (int i = 1; i <= position; i++)
                 valueCopy /= (ulong)this.baseEntities.Count;
             return (int)(valueCopy % (ulong)this.baseEntities.Count);
-            //byte nP = (byte)(Math.Ceiling(Math.Log(this.baseEntities.Count, 2)));
-            //ulong curBits = (ulong)Math.Pow(baseEntities.Count, (position + 1)) - 1;
-            //if (position > 0)
-            //    curBits &= ~(ulong)Math.Pow(baseEntities.Count, position) - 1;
-            //var m = (value & curBits) >> nP * position;
-
-            //ulong d = (value & (((ulong)(Math.Pow(baseEntities.Count, (position + 1)))) - (ulong)Math.Pow(baseEntities.Count, position))) / (ulong)Math.Pow(baseEntities.Count, position);
-            //return (int)d;
         }
 
         public bool CaseSensitive { get { return this.caseSensitive; } }

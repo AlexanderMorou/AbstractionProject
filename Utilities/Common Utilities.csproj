@@ -124,6 +124,7 @@
     <Compile Include="Collections\_ISubordinateDictionaryMasterPass.cs" />
     <Compile Include="Common\BinaryBase.cs" />
     <Compile Include="Common\CharacterBase.cs" />
+    <Compile Include="Common\DecimalBase.cs" />
     <Compile Include="Common\DuosexagesimalBase.cs" />
     <Compile Include="Common\GameGenieBase.cs" />
     <Compile Include="Common\OctodecimalBase.cs" />

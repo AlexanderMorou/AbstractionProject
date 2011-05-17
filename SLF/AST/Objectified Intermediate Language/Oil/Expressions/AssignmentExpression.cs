@@ -211,15 +211,48 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             visitor.Visit(this);
         }
 
-
         #region IBinaryOperationExpression Members
 
         public INaryOperandExpression LeftSide { get; set; }
 
         public INaryOperandExpression RightSide { get; set; }
 
-        #endregion
+        public BinaryOperationKind OperationKind
+        {
+            get
+            {
+                switch (this.Operation)
+                {
+                    case AssignmentOperation.SimpleAssign:
+                        return BinaryOperationKind.Assign;
+                    case AssignmentOperation.MultiplicationAssign:
+                        return BinaryOperationKind.AssignMultiply;
+                    case AssignmentOperation.DivisionAssign:
+                        return BinaryOperationKind.AssignDivide;
+                    case AssignmentOperation.ModulusAssign:
+                        return BinaryOperationKind.AssignModulus;
+                    case AssignmentOperation.AddAssign:
+                        return BinaryOperationKind.AssignAdd;
+                    case AssignmentOperation.SubtractionAssign:
+                        return BinaryOperationKind.AssignSubtract;
+                    case AssignmentOperation.LeftShiftAssign:
+                        return BinaryOperationKind.AssignLeftShift;
+                    case AssignmentOperation.RightShiftAssign:
+                        return BinaryOperationKind.AssignRightShift;
+                    case AssignmentOperation.BitwiseAndAssign:
+                        return BinaryOperationKind.AssignBitwiseAnd;
+                    case AssignmentOperation.BitwiseOrAssign:
+                        return BinaryOperationKind.AssignBitwiseOr;
+                    case AssignmentOperation.BitwiseExclusiveOrAssign:
+                        return BinaryOperationKind.AssignBitwiseExclusiveOr;
+                    case AssignmentOperation.Term:
+                    default:
+                        return BinaryOperationKind.Term;
+                }
+            }
+        }
 
+        #endregion
 
         #region IStatementExpression Members
 
@@ -251,5 +284,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         #endregion
+
     }
 }
