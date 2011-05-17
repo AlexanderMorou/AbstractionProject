@@ -141,5 +141,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             visitor.Visit(this);
         }
+
+        public override BinaryOperationKind OperationKind
+        {
+            get {
+                switch (this.Operation)
+                {
+                    case CSharpAddSubtOperation.Addition:
+                        return BinaryOperationKind.Add;
+                    case CSharpAddSubtOperation.Subtraction:
+                        return BinaryOperationKind.Subtract;
+                    case CSharpAddSubtOperation.Term:
+                    default:
+                        return BinaryOperationKind.Term;
+                }
+            }
+        }
     }
 }

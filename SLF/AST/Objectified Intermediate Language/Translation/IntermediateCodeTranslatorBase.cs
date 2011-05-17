@@ -14,7 +14,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 namespace AllenCopeland.Abstraction.Slf.Translation
 {
     
-    public class IntermediateCodeTranslatorBase :
+    public abstract class IntermediateCodeTranslatorBase :
         IIntermediateCodeTranslator
     {
         private IIntermediateCodeTranslatorOptions options;
