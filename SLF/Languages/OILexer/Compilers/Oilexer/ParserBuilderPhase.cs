@@ -14,7 +14,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
     /// <summary>
     /// The current phase the parser builder is in.
     /// </summary>
-    public enum ParserBuilderPhase
+    public enum ParserBuilderPhase :
+        long
     {
         /// <summary>
         /// The parser builder hasn't started the process yet.
@@ -24,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
         /// The parser builder is linking the internal
         /// structure of the grammar description.
         /// </summary>
-        Linking = 0x010,
+        Linking = 0x10FA99F,
         /// <summary>
         /// The parser builder is expanding template references.
         /// </summary>
@@ -55,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
         /// The parser builder is reducing the deterministic
         /// automations of the grammar description.
         /// </summary>
-        TokenDFAReduction = 0x555,
+        TokenDFAReduction = 0x1B2F213831A3,
         /// <summary>
         /// The parser builder is building a nondeterministic
         /// view of each rule's internal structure.
@@ -66,7 +67,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
         /// nondeterministic view of each rule's state machine to
         /// produce a deterministic model.
         /// </summary>
-        RuleDFAConstruction = 0x2122,
+        RuleDFAConstruction = 0x245782E,
         /// <summary>
         /// The Parser builder is analyzing the call tree of the
         /// language and constructing a larger deterministic state 
@@ -108,6 +109,6 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
         /// The parser builder is compiling the project.
         /// </summary>
         Compiling = 0x101001,
-        Parsing = 0x203001,
+        Parsing = 0xE777E47B29,
     }
 }

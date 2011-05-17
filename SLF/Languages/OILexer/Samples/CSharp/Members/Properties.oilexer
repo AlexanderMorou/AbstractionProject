@@ -15,6 +15,7 @@ InterfacePropertyDeclaration              ::=
             AbstractSet:SetPart;>
     '}';
 
+
 /* --------------------------------------- *\
 |*              B.2.7: Classes             *|
 \* --------------------------------------- */
@@ -91,3 +92,4 @@ AutomaticPropertyDeclaration              ::=
             AbstractGet:GetPart;
         )
     '}';
+

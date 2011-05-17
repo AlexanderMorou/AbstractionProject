@@ -13,7 +13,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.VisualBasic
     /// </summary>
     /// <remarks>Relative to Start in Visual Basic Language 
     /// Specification Version 10.0</remarks>
-    public interface IVBAssembly :
+    public interface IVisualBasicAssembly :
         IIntermediateAssembly
     {
         /// <summary>

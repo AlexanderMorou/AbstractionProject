@@ -43,7 +43,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
 
         private ulong ShiftBaseValue(int baseIndex, byte position)
         {
-            return (ulong)(Math.Pow(baseEntities.Count, position) * baseIndex);
+            return (ulong)(Math.Pow(baseEntities.Count, position) * (ulong)baseIndex);
         }
         internal byte NumPlaces(ulong value)
         {

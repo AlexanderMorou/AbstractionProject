@@ -124,5 +124,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             visitor.Visit(this);
         }
 
+
+        public override BinaryOperationKind OperationKind
+        {
+            get
+            {
+                switch (this.Operation)
+                {
+                    case CSharpMulDivOperation.Multiplication:
+                        return BinaryOperationKind.Multiply;
+                    case CSharpMulDivOperation.Division:
+                        return BinaryOperationKind.IntegerDivision;
+                    case CSharpMulDivOperation.Remainder:
+                        return BinaryOperationKind.Modulus;
+                    case CSharpMulDivOperation.Term:
+                    default:
+                        return BinaryOperationKind.Term;
+                }
+            }
+        }
     }
 }

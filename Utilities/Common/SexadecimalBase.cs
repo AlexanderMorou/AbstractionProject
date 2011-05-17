@@ -12,20 +12,20 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Utilities.Common
 {
     [CLSCompliant(false)]
-    public class HexadecimalBase :
+    public class SexadecimalBase :
         NumericBase
     {
         private static Controller controller = new Controller();
-        public HexadecimalBase()
+        public SexadecimalBase()
             : base(controller)
         {
 
         }
-        public HexadecimalBase(ulong value)
+        public SexadecimalBase(ulong value)
             : base(controller, value)
         {
         }
-        public HexadecimalBase(string value)
+        public SexadecimalBase(string value)
             : base(controller, value)
         {
         }
@@ -40,12 +40,12 @@ namespace AllenCopeland.Abstraction.Utilities.Common
 
         protected override NumericBase GetNew(ulong value)
         {
-            return new HexadecimalBase(value);
+            return new SexadecimalBase(value);
         }
 
-        public static implicit operator HexadecimalBase(ulong value)
+        public static implicit operator SexadecimalBase(ulong value)
         {
-            return new HexadecimalBase(value);
+            return new SexadecimalBase(value);
         }
     }
 }

@@ -301,12 +301,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
             return item;
         }
 
+        private static List<T> GetList<T>(T item) { return new List<T>(); }
+
         public static IProductionRuleItem ResolveTemplateSoftReference<T>(this ISoftTemplateReferenceProductionRuleItem item, T entry, GDFile file, ICompilerErrorCollection errors)
             where T :
                 IProductionRuleEntry
         {
             IProductionRuleTemplateEntry iprte = null;
-            IList<IProductionRuleTemplateEntry> closeMatches = new List<IProductionRuleTemplateEntry>();
+            var closeMatches = GetList(new { Entry = (IProductionRuleTemplateEntry)null, ArgumentInformation = default(TemplateArgumentInformation) });
             foreach (IProductionRuleTemplateEntry template in ruleTemplEntries)
             {
                 if (template.Name == item.PrimaryName)
@@ -314,7 +316,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                     TemplateArgumentInformation tai = template.GetArgumentInformation();
                     if (item.Parts.Count >= tai.FixedArguments)
                     {
-                        closeMatches.Add(template);
+                        closeMatches.Add(new { Entry = template, ArgumentInformation = tai });
                         if (tai.DynamicArguments > 0)
                         {
                             if ((item.Parts.Count - tai.FixedArguments) % tai.DynamicArguments == 0)
@@ -322,33 +324,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                                 if (tai.InvalidArguments == 0)
                                 {
                                     iprte = template;
-                                    closeMatches.Clear();
                                     break;
                                 }
-                                else
-                                    /* *
-                                     * Regardless of the match, according to the template, it has
-                                     * invalid argument repeat options.
-                                     * */
-                                    errors.SourceModelError<IProductionRuleTemplateEntry>(GrammarCore.CompilerErrors.InvalidRepeatOptions, template.Line, template.Column, template.FileName, template);
                             }
                         }
                         else if (tai.InvalidArguments == 0)
                         {
-                            iprte = template;
-                            closeMatches.Clear();
-                            break;
+                            if (item.Parts.Count == tai.FixedArguments)
+                            {
+                                iprte = template;
+                                break;
+                            }
                         }
-                        else
-                            errors.SourceModelError(GrammarCore.CompilerErrors.InvalidRepeatOptions, template.Line, template.Column, template.FileName, template);
                     }
                     else
                     {
-                        closeMatches.Add(template);
+                        closeMatches.Add(new { Entry = template, ArgumentInformation = tai });
                         continue;
                     }
                 }
             }
+
             if (iprte != null)
             {
                 foreach (IProductionRuleSeries iprs in item.Parts)
@@ -363,10 +359,37 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
                 return rResult;
             }
             else if (closeMatches.Count > 0)
-                errors.SourceModelError(GrammarCore.CompilerErrors.DynamicArgumentCountError, item.Line, item.Column, entry.FileName, item);
-            else
-                if (ruleEntries.FindScannableEntry(item.PrimaryName) != null)
-                    errors.SourceModelError<ISoftTemplateReferenceProductionRuleItem>(GrammarCore.CompilerErrors.RuleNotTemplate, item.Line, item.Column, entry.FileName, item, item.PrimaryName);
+            {
+                var fixedMatch = (from templateArguments in closeMatches
+                                  let arguments = templateArguments.ArgumentInformation
+                                  where arguments.FixedArguments > 0
+                                  select templateArguments.Entry).FirstOrDefault();
+                if (fixedMatch != null)
+                    errors.SourceModelError<IProductionRuleTemplateEntry>(GrammarCore.CompilerErrors.FixedArgumentMismatch, fixedMatch.Line, fixedMatch.Column, fixedMatch.FileName, fixedMatch);
+                else
+                {
+                    var dynamicMatch = (from templateArguments in closeMatches
+                                        let arguments = templateArguments.ArgumentInformation
+                                        where arguments.DynamicArguments > 0
+                                        select templateArguments.Entry).FirstOrDefault();
+                    if (dynamicMatch != null)
+                        errors.SourceModelError<IProductionRuleTemplateEntry>(GrammarCore.CompilerErrors.DynamicArgumentCountError, dynamicMatch.Line, dynamicMatch.Column, dynamicMatch.FileName, dynamicMatch);
+                    else
+                    {
+                        var invalidMatch = (from templateArguments in closeMatches
+                                            let arguments = templateArguments.ArgumentInformation
+                                            where arguments.InvalidArguments > 0
+                                            select templateArguments.Entry).FirstOrDefault();
+                        if (invalidMatch != null)
+                            errors.SourceModelError<IProductionRuleTemplateEntry>(GrammarCore.CompilerErrors.InvalidRepeatOptions, invalidMatch.Line, invalidMatch.Column, invalidMatch.FileName, invalidMatch);
+                        else if (ruleEntries.FindScannableEntry(item.PrimaryName) != null)
+                            errors.SourceModelError<ISoftTemplateReferenceProductionRuleItem>(GrammarCore.CompilerErrors.RuleNotTemplate, item.Line, item.Column, entry.FileName, item, item.PrimaryName);
+                    }
+                }
+                //errors.Add(GrammarCore.GetParserError(entry.FileName, item.Line, item.Column, GDParserErrors.DynamicArgumentCountError));
+            }
+            else if (ruleEntries.FindScannableEntry(item.PrimaryName) != null)
+                errors.SourceModelError<ISoftTemplateReferenceProductionRuleItem>(GrammarCore.CompilerErrors.RuleNotTemplate, item.Line, item.Column, entry.FileName, item, item.PrimaryName);
             return item;
         }
 

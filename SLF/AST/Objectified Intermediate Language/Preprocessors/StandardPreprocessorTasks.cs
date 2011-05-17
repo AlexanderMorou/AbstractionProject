@@ -69,7 +69,9 @@ namespace AllenCopeland.Abstraction.Slf.Preprocessors
         /// of the project.
         /// </summary>
         AnonymousTypeDefinitions,
-
+        /// <summary>
+        /// 
+        /// </summary>
         AnonymousTypeReferences,
         /// <summary>
         /// The kind of generation being performed relates to the language integrated
@@ -93,11 +95,11 @@ namespace AllenCopeland.Abstraction.Slf.Preprocessors
         /// or <see cref="IEnumerable{T}"/>.
         /// </summary>
         Iterators,
-        DuckTypingDefinitions,
+        StructuralTypingDefinitions,
         /// <summary>
         /// 
         /// </summary>
-        DuckTypingMarshalling,
+        StructuralTypingMarshalling,
     }
     /// <summary>
     /// The category the task belongs in.

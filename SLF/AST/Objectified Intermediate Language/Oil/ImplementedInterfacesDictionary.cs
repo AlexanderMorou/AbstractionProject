@@ -68,6 +68,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateInstantiableTypeImplementedInterfaces<TCtor,TIntermediateCtor,TEvent,TIntermediateEvent,TField,TIntermediateField,TIndexer,TIntermediateIndexer,TMethod,TIntermediateMethod,TProperty,TIntermediateProperty,TType,TIntermediateType> Members
 
+        public void ImplementInterfaceQuick(IInterfaceType @interface)
+        {
+            this.Copy.Add(@interface);
+        }
         public IIntermediateInterfaceMemberMapping<TEvent, IInterfaceEventMember, TIntermediateEvent, IIntermediateInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TIntermediateIndexer, IIntermediateInterfaceIndexerMember, TMethod, IInterfaceMethodMember, TIntermediateMethod, IIntermediateInterfaceMethodMember, TProperty, IInterfacePropertyMember, TIntermediateProperty, IIntermediateInterfacePropertyMember, TType, IInterfaceType, TIntermediateType, IIntermediateInterfaceType> ImplementInterface(IInterfaceType @interface, bool insertPlaceholders = false)
         {
             throw new NotImplementedException();

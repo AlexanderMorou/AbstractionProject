@@ -158,12 +158,15 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens
             var tokens = builder.Source.GetTokens().ToArray();
             var fullGrammarBreakdown = GrammarVocabulary.ObtainCompleteSet(builder).Breakdown;
             this.TokenTable = new RegularLanguageTokenTable();
-            //
+            /* *
+             * Create a vocabulary element for the 
+             * end of file token.
+             * */
             this.eofToken = new GrammarVocabulary(builder.GrammarSymbols, builder.GrammarSymbols[builder.EOFToken]);
             foreach (var token in tokens)
                 if (token.DFAState != null)
                 {
-                    this.TokenTable.Add(token.DFAState.OutTransitions.FullCheck, new RegularLanguageTokenTable.Target() { token });
+                    this.TokenTable.Add(token.DFAState.OutTransitions.FullCheck, token);
                     RegularCaptureType captureType = token.DetermineKind();
                     if (captureType == RegularCaptureType.Recognizer || captureType == RegularCaptureType.Capturer)
                         this.stateMachines.Add(token, new RegularLanguageRecognizerStateMachine(token.DFAState, builder));
@@ -173,30 +176,33 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens
                     {
                         GrammarVocabulary currentUnhingedVocabulary = null;
                         IGrammarTokenSymbol singleSymbol = null;
+                        /* *
+                         * If the token is unhinged, an aggregate needs made of the
+                         * current token and the other unhinged tokens.
+                         * */
                         foreach (var symbol in fullGrammarBreakdown.CaptureTokens)
                             if (symbol.Source == token)
                             {
                                 singleSymbol = symbol;
-                                break;
+                                goto createSingle;
                             }
-                        if (singleSymbol == null)
-                        {
-                            foreach (var symbol in fullGrammarBreakdown.ConstantTokens)
-                                if (symbol.Source == token)
-                                {
-                                    singleSymbol = symbol;
-                                    break;
-                                }
-                            if (singleSymbol == null)
+                        foreach (var symbol in fullGrammarBreakdown.ConstantTokens)
+                            if (symbol.Source == token)
                             {
-                                if (fullGrammarBreakdown.LiteralSeriesTokens.ContainsKey(token))
-                                    currentUnhingedVocabulary = new GrammarVocabulary(builder.GrammarSymbols, fullGrammarBreakdown.LiteralSeriesTokens[token].ToArray());
-                                goto noSingleCheck;
+                                singleSymbol = symbol;
+                                goto createSingle;
                             }
-                        }
+                        /* *
+                         * Create an aggregate of the literal elements
+                         * within the token.
+                         * */
+                        if (fullGrammarBreakdown.LiteralSeriesTokens.ContainsKey(token))
+                            currentUnhingedVocabulary = new GrammarVocabulary(builder.GrammarSymbols, fullGrammarBreakdown.LiteralSeriesTokens[token].ToArray());
+                        goto mergeUnhinged;
+                    createSingle:
                         currentUnhingedVocabulary = new GrammarVocabulary(builder.GrammarSymbols, singleSymbol);
 
-                    noSingleCheck: ;
+                    mergeUnhinged:
                         if (unhingedVocabulary == null && currentUnhingedVocabulary != null)
                             unhingedVocabulary = currentUnhingedVocabulary;
                         else if (currentUnhingedVocabulary != null)

@@ -196,5 +196,29 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             visitor.Visit(this);
         }
 
+
+        public override BinaryOperationKind OperationKind
+        {
+            get {
+                switch (this.Operation)
+                {
+                    case CSharpRelationalOperation.LessThan:
+                        return BinaryOperationKind.LessThan;
+                    case CSharpRelationalOperation.LessThanOrEqualTo:
+                        return BinaryOperationKind.LessThanOrEqualTo;
+                    case CSharpRelationalOperation.GreaterThan:
+                        return BinaryOperationKind.GreaterThan;
+                    case CSharpRelationalOperation.GreaterThanOrEqualTo:
+                        return BinaryOperationKind.GreaterThanOrEqualTo;
+                    case CSharpRelationalOperation.TypeCheck:
+                        return BinaryOperationKind.TypeCheck;
+                    case CSharpRelationalOperation.TypeCastOrNull:
+                        return BinaryOperationKind.TypeCastOrNull;
+                    case CSharpRelationalOperation.Term:
+                    default:
+                        return BinaryOperationKind.Term;
+                }
+            }
+        }
     }
 }

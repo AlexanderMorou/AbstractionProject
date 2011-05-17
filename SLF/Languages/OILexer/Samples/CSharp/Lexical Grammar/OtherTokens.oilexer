@@ -39,7 +39,7 @@ String :=
 StringChar := 
     CommonEscapes                           | 
     StringEscape                            | 
-    [^"\\\r\n];
+    [^"\\\r\n:];
 
 StringEscape := '\\' '"';
 

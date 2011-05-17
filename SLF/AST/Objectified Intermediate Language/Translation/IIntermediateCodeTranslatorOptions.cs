@@ -16,6 +16,12 @@ namespace AllenCopeland.Abstraction.Slf.Translation
     public interface IIntermediateCodeTranslatorOptions
     {
         /// <summary>
+        /// Returns/sets whether the code translator will extend the parent
+        /// instance's scope to include the namespace of the type involved
+        /// based off of the explicit types involved.
+        /// </summary>
+        bool AutoScope { get; set; }
+        /// <summary>
         /// Returns/sets whether the code translator allows partial
         /// instances to be written to file, or whether the full code is
         /// written in one file.

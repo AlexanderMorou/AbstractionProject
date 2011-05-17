@@ -22,10 +22,11 @@ using AllenCopeland.Abstraction.Slf.FiniteAutomata;
 
 namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens
 {
-    public class RegularLanguageSet :
+    public partial class RegularLanguageSet :
         FiniteAutomataBitSet<RegularLanguageSet>,
         IEquatable<RegularLanguageSet>
     {
+        private string stringForm;
         public static readonly RegularLanguageSet CompleteSet = BuildCompleteSet();
 
         private static RegularLanguageSet BuildCompleteSet()
@@ -180,28 +181,55 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens
 
         public override string ToString()
         {
-            var ranges = this.GetRange();
+            if (stringForm == null)
+            {
+                var thisRef = this;
+                UnicodeCategory[] categories;
+                ParserCompilerExtensions.PropagateUnicodeCategories(ref thisRef, out categories);
+                if (categories != null && categories.Length > 0)
+                {
+                    var thisRefString = GetSetString(thisRef, categories);
+                    var thisString = GetSetString(this);
+                    if (thisRefString.Length > thisString.Length)
+                        stringForm = thisString;
+                    else
+                        stringForm = thisRefString;
+                }
+                else
+                    stringForm = GetSetString(this);
+            }
+            return stringForm;
+        }
+
+        private static string GetSetString(RegularLanguageSet set, UnicodeCategory[] categories = null)
+        {
             StringBuilder sb = new StringBuilder();
             sb.Append("[");
-            if (this.IsNegativeSet)
+            if (set.IsNegativeSet)
                 sb.Append('^');
+            var ranges = set.GetRange();
+
             foreach (var element in ranges)
             {
                 switch (element.Which)
                 {
-                    case ABSelect.A:
+                    case SwitchPairElement.A:
                         sb.Append(EncodeChar(element.A.Value));
                         break;
-                    case ABSelect.B:
+                    case SwitchPairElement.B:
                         sb.AppendFormat("{0}-{1}", EncodeChar(element.B.Value.Start), EncodeChar(element.B.Value.End));
                         break;
                     default:
                         break;
                 }
             }
+            if (categories != null)
+                foreach (var category in categories)
+                    sb.Append(ParserCompilerExtensions.GetUnicodeCategoryString(category));
             sb.Append("]");
             return sb.ToString();
         }
+        
         private static string EncodeChar(char c)
         {
             switch (c)
@@ -230,5 +258,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens
 
             }
         }
+
+        protected internal RangeData GetRange()
+        {
+            return new RangeData(this);
+        }
+
     }
 }

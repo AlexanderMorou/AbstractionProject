@@ -81,5 +81,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// </summary>
         BinaryOperationAssociativity Associativity { get; }
 
+        /// <summary>
+        /// Returns the <see cref="BinaryOperationKind"/> associated
+        /// to the <see cref="IBinaryOperationExpression"/>.
+        /// </summary>
+        BinaryOperationKind OperationKind { get; }
     }
 }

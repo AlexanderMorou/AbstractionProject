@@ -81,5 +81,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             visitor.Visit(this);
         }
 
+
+        public override BinaryOperationKind OperationKind
+        {
+            get { return BinaryOperationKind.LogicalAnd; }
+        }
     }
 }

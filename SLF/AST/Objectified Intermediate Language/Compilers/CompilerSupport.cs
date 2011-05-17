@@ -23,9 +23,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// </summary>
         XMLDocumentation            = 0x0001,
         /// <summary>
-        /// Compiler supports generic parameter based duck typing.
+        /// Compiler supports generic parameter based structural typing.
         /// </summary>
-        DuckTyping                  = 0x0002,
+        StructuralTyping            = 0x0002,
         /// <summary>
         /// Compiler supports optimization.
         /// </summary>
@@ -39,9 +39,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// </summary>
         COMInterop                  = 0x0010,
         /// <summary>
-        /// Compiler supports the define directive.
+        /// Compiler supports automated variations in the the output
+        /// assembly based off of conditionals defined for a given
+        /// compilation.
         /// </summary>
-        Define                      = 0x0020,
+        ConditionalCompilation      = 0x0020,
         /// <summary>
         /// Compiler supports .NET Resources.
         /// </summary>
@@ -76,17 +78,17 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <summary>
         /// The compiler supports all functionality.
         /// </summary>
-        FullSupport                 = XMLDocumentation
-                                    | DuckTyping
-                                    | Optimization
-                                    | DebuggerSupport
-                                    | Unsafe
-                                    | COMInterop
-                                    | Define
-                                    | Resources | Win32Resources
-                                    | Signing
-                                    | MultiFileAssemblies
-                                    | ResponseFile
-                                    | PrimaryInteropEmbedding
+        FullSupport                 = XMLDocumentation           | 
+                                      StructuralTyping           | 
+                                      Optimization               | 
+                                      DebuggerSupport            | 
+                                      Unsafe                     | 
+                                      COMInterop                 | 
+                                      ConditionalCompilation     | 
+                                      Resources | Win32Resources |
+                                      Signing                    | 
+                                      MultiFileAssemblies        | 
+                                      ResponseFile               | 
+                                      PrimaryInteropEmbedding
     }
 }

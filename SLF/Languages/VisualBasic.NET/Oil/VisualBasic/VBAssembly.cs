@@ -10,28 +10,28 @@ namespace AllenCopeland.Abstraction.Slf.Oil.VisualBasic
     /// <summary>
     /// 
     /// </summary>
-    public class VBAssembly :
-        IntermediateAssembly<VBAssembly>,
-        IVBAssembly
+    public class VisualBasicAssembly :
+        IntermediateAssembly<VisualBasicAssembly>,
+        IVisualBasicAssembly
     {
-        public VBAssembly(string name)
+        public VisualBasicAssembly(string name)
             : base(name)
         {
         }
 
-        public VBAssembly(VBAssembly root)
+        private VisualBasicAssembly(VisualBasicAssembly root)
             : base(root)
         {
             
         }
 
-        protected override VBAssembly GetNewPart()
+        protected override VisualBasicAssembly GetNewPart()
         {
-            return new VBAssembly(this);
+            return new VisualBasicAssembly(this);
         }
 
 
-        #region IVBAssembly Members
+        #region IVisualBasicAssembly Members
 
         public IMyNamespaceDeclaration MyNamespace
         {

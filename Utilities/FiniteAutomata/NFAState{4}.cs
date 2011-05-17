@@ -296,18 +296,35 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         public static void FlatlineState(TState state, List<TState> result)
         {
+            Stack<TState> targets = new Stack<TState>();
+            targets.Push(state);
+            while (targets.Count > 0)
+            {
+                var current = targets.Pop();
+                if (result.Contains(current))
+                    continue;
+                result.Add(current);
+                foreach (var transitionTargets in current.OutTransitions.Values)
+                {
+                    foreach (var target in transitionTargets)
+                        if (target.Equals(current))
+                            continue;
+                        else if (!(targets.Contains(target) || result.Contains(target)))
+                            targets.Push(target);
+                }
+            }
             /* *
              * The state doesn't place itself, but it does insert the transition
              * states: this ensures the flatline set doesn't contain the initial 
              * state, it would be bad to replace state 0.
              * */
-            foreach (var subStateSet in state.OutTransitions.Values)
-                foreach (var subState in subStateSet)
-                    if (!result.Contains(subState))
-                    {
-                        result.Add(subState);
-                        FlatlineState(state, result);
-                    }
+            //foreach (var subStateSet in state.OutTransitions.Values)
+            //    foreach (var subState in subStateSet)
+            //        if (!result.Contains(subState))
+            //        {
+            //            result.Add(subState);
+            //            FlatlineState(state, result);
+            //        }
         }
 
     }

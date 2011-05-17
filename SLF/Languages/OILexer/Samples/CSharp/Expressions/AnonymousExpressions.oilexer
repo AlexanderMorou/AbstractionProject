@@ -9,15 +9,15 @@ AnonymousMethodExpression                 ::=
     "delegate" 
     ExplicitAnonymousFunctionSignature:Signature;?
     Block:Body;                             ;
-
+    
 AnonymousFunctionSignature               ::=>
     ExplicitAnonymousFunctionSignature      |
     ImplicitAnonymousFunctionSignature      ;
-
+    
 AnonymousFunctionBody                    ::=>
-    Expression                              | 
+    Expression                              |
     Block                                   ;
-
+    
 ExplicitAnonymousFunctionSignature      ::=
     '(' DelimitedList<ExplicitAnonymousFunctionParameter:Parameters;, ','>? ')';
 
@@ -34,7 +34,7 @@ ImplicitAnonymousFunctionParameterList    ::=
 
 AnonymousObjectCreationExpression         ::=
     "new" AnonymousObjectInitializer:Type;  ;
-
+    
 AnonymousObjectInitializer                ::=
     '{'
         (

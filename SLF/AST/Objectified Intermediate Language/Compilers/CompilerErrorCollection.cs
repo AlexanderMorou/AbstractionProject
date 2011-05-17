@@ -82,7 +82,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <returns>A <see cref="ICompilerModelError{T1}"/> which represents the error.</returns>
         public ICompilerModelError<T1> ModelError<T1>(ICompilerReferenceError message, T1 item1, params string[] replacements)
         {
-            throw new NotImplementedException();
+            var error = new CompilerModelError<T1>(message, item1, replacements);
+            base.AddImpl(error);
+            return error;
         }
 
         /// <summary>
@@ -103,7 +105,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <returns>A <see cref="ICompilerModelError{T1, T2}"/> which represents the error.</returns>
         public ICompilerModelError<T1, T2> ModelError<T1, T2>(ICompilerReferenceError message, T1 item1, T2 item2, params string[] replacements)
         {
-            throw new NotImplementedException();
+            var error = new CompilerModelError<T1, T2>(message, item1, item2, replacements);
+            base.AddImpl(error);
+            return error;
         }
 
         /// <summary>
@@ -127,7 +131,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <returns>A <see cref="ICompilerModelError{T1, T2, T3}"/> which represents the error.</returns>
         public ICompilerModelError<T1, T2, T3> ModelError<T1, T2, T3>(ICompilerReferenceError message, T1 item1, T2 item2, T3 item3, params string[] replacements)
         {
-            throw new NotImplementedException();
+            var error = new CompilerModelError<T1, T2, T3>(message, item1, item2, item3, replacements);
+            base.AddImpl(error);
+            return error;
         }
 
         /// <summary>
@@ -155,7 +161,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <returns>A <see cref="ICompilerModelError{T1, T2, T3, T4}"/> which represents the error.</returns>
         public ICompilerModelError<T1, T2, T3, T4> ModelError<T1, T2, T3, T4>(ICompilerReferenceError message, T1 item1, T2 item2, T3 item3, T4 item4, params string[] replacements)
         {
-            throw new NotImplementedException();
+            var error = new CompilerModelError<T1, T2, T3, T4>(message, item1, item2, item3, item4, replacements);
+            base.AddImpl(error);
+            return error;
         }
 
         /// <summary>
@@ -173,7 +181,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <returns>A <see cref="ICompilerModelWarning{T1}"/> which represents the warning.</returns>
         public ICompilerModelWarning<T1> ModelWarning<T1>(ICompilerReferenceWarning message, T1 item1, params string[] replacements)
         {
-            throw new NotImplementedException();
+            var warning = new CompilerModelWarning<T1>(message, item1, replacements);
+            base.AddImpl(warning);
+            return warning;
         }
 
         /// <summary>
@@ -194,7 +204,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <returns>A <see cref="ICompilerModelWarning{T1, T2}"/> which represents the warning.</returns>
         public ICompilerModelWarning<T1, T2> ModelWarning<T1, T2>(ICompilerReferenceWarning message, T1 item1, T2 item2, params string[] replacements)
         {
-            throw new NotImplementedException();
+            var warning = new CompilerModelWarning<T1, T2>(message, item1, item2, replacements);
+            base.AddImpl(warning);
+            return warning;
         }
 
         /// <summary>
@@ -217,9 +229,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// which denote the data points to replace within the <paramref name="message"/> provided.</param>
         /// <returns>A <see cref="ICompilerModelWarning{T1, T2, T3}"/> 
         /// which represents the warning.</returns>
-        public ICompilerModelWarning<T1, T2, T3> ModelWarning<T1, T2, T3>(ICompilerReferenceWarning message, T1 item1, T2 item2, T3 item3, [System.Runtime.InteropServices.OptionalAttribute][System.Runtime.InteropServices.DefaultParameterValueAttribute(null)]string itemText1, params string[] replacements)
+        public ICompilerModelWarning<T1, T2, T3> ModelWarning<T1, T2, T3>(ICompilerReferenceWarning message, T1 item1, T2 item2, T3 item3, params string[] replacements)
         {
-            throw new NotImplementedException();
+            var warning = new CompilerModelWarning<T1, T2, T3>(message, item1, item2, item3, replacements);
+            base.AddImpl(warning);
+            return warning;
         }
 
         /// <summary>
@@ -248,7 +262,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// which represents the warning.</returns>
         public ICompilerModelWarning<T1, T2, T3, T4> ModelWarning<T1, T2, T3, T4>(ICompilerReferenceWarning message, T1 item1, T2 item2, T3 item3, T4 item4, params string[] replacements)
         {
-            throw new NotImplementedException();
+            var warning = new CompilerModelWarning<T1, T2, T3, T4>(message, item1, item2, item3, item4, replacements);
+            base.AddImpl(warning);
+            return warning;
         }
 
         /// <summary>
@@ -273,7 +289,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <returns>A <see cref="ICompilerSourceModelError{T1}"/> which represents the error.</returns>
         public ICompilerSourceModelError<T1> SourceModelError<T1>(ICompilerReferenceError message, int line, int column, string fileName, T1 item1, params string[] replacements)
         {
-            throw new NotImplementedException();
+            var error = new CompilerSourceModelError<T1>(message, item1, fileName, line, column, replacements);
+            base.AddImpl(error);
+            return error;
         }
 
         /// <summary>
@@ -301,7 +319,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <returns>A <see cref="ICompilerSourceModelError{T1, T2}"/> which represents the error.</returns>
         public ICompilerSourceModelError<T1, T2> SourceModelError<T1, T2>(ICompilerReferenceError message, int line, int column, string fileName, T1 item1, T2 item2, params string[] replacements)
         {
-            throw new NotImplementedException();
+            var error = new CompilerSourceModelError<T1, T2>(message, item1, item2, fileName, line, column, replacements);
+            base.AddImpl(error);
+            return error;
         }
 
         /// <summary>
@@ -332,7 +352,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <returns>A <see cref="ICompilerSourceModelError{T1, T2, T3}"/> which represents the error.</returns>
         public ICompilerSourceModelError<T1, T2, T3> SourceModelError<T1, T2, T3>(ICompilerReferenceError message, int line, int column, string fileName, T1 item1, T2 item2, T3 item3, params string[] replacements)
         {
-            throw new NotImplementedException();
+            var error = new CompilerSourceModelError<T1, T2, T3>(message, item1, item2, item3, fileName, line, column, replacements);
+            base.AddImpl(error);
+            return error;
         }
 
         /// <summary>
@@ -367,7 +389,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <returns>A <see cref="ICompilerSourceModelError{T1, T2, T3, T4}"/> which represents the error.</returns>
         public ICompilerSourceModelError<T1, T2, T3, T4> SourceModelError<T1, T2, T3, T4>(ICompilerReferenceError message, int line, int column, string fileName, T1 item1, T2 item2, T3 item3, T4 item4, params string[] replacements)
         {
-            throw new NotImplementedException();
+            var error = new CompilerSourceModelError<T1, T2, T3, T4>(message, item1, item2, item3, item4, fileName, line, column, replacements);
+            base.AddImpl(error);
+            return error;
         }
 
         /// <summary>
@@ -392,7 +416,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <returns>A <see cref="ICompilerSourceModelWarning{T1}"/> which represents the warning.</returns>
         public ICompilerSourceModelWarning<T1> SourceModelWarning<T1>(ICompilerReferenceWarning message, int line, int column, string fileName, T1 item1, params string[] replacements)
         {
-            throw new NotImplementedException();
+            var warning = new CompilerSourceModelWarning<T1>(message, item1, fileName, line, column, replacements);
+            base.AddImpl(warning);
+            return warning;
         }
 
         /// <summary>
@@ -420,7 +446,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <returns>A <see cref="ICompilerSourceModelWarning{T1, T2}"/> which represents the warning.</returns>
         public ICompilerSourceModelWarning<T1, T2> SourceModelWarning<T1, T2>(ICompilerReferenceWarning message, int line, int column, string fileName, T1 item1, T2 item2, params string[] replacements)
         {
-            throw new NotImplementedException();
+            var warning = new CompilerSourceModelWarning<T1, T2>(message, item1, item2, fileName, line, column, replacements);
+            base.AddImpl(warning);
+            return warning;
         }
 
         /// <summary>
@@ -452,7 +480,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// which represents the warning.</returns>
         public ICompilerSourceModelWarning<T1, T2, T3> SourceModelWarning<T1, T2, T3>(ICompilerReferenceWarning message, int line, int column, string fileName, T1 item1, T2 item2, T3 item3, params string[] replacements)
         {
-            throw new NotImplementedException();
+            var warning = new CompilerSourceModelWarning<T1, T2, T3>(message, item1, item2, item3, fileName, line, column, replacements);
+            base.AddImpl(warning);
+            return warning;
         }
 
         /// <summary>
@@ -488,7 +518,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// which represents the warning.</returns>
         public ICompilerSourceModelWarning<T1, T2, T3, T4> SourceModelWarning<T1, T2, T3, T4>(ICompilerReferenceWarning message, int line, int column, string fileName, T1 item1, T2 item2, T3 item3, T4 item4, params string[] replacements)
         {
-            throw new NotImplementedException();
+            var warning = new CompilerSourceModelWarning<T1, T2, T3, T4>(message, item1, item2, item3, item4, fileName, line, column, replacements);
+            base.AddImpl(warning);
+            return warning;
         }
 
         #endregion

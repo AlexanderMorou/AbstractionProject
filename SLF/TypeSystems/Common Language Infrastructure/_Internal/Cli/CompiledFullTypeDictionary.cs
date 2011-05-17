@@ -151,7 +151,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
              * name.
              * */
             return (from t in this.parent.UnderlyingSystemTypes
-                    let typeName = t.IsGenericType ? t.Name.Substring(0, t.Name.LastIndexOf('`')) : t.Name
+                    let typeName = t.IsGenericType ?  t.Name.Contains('`') ? t.Name.Substring(0, t.Name.LastIndexOf('`')) : t.Name : t.Name
                     where !(t.IsDefined(typeof(CompilerGeneratedAttribute), true))
                     where !string.IsNullOrEmpty(typeName)
                     select typeName).Distinct();

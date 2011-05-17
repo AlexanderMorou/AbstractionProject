@@ -74,6 +74,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cst\IVisualBasicStart.cs" />
+    <Compile Include="Languages\IVisualBasicLanguage.cs" />
+    <Compile Include="Languages\VisualBasicVendorProvider.cs" />
+    <Compile Include="Languages\VisualBasicVersion.cs" />
     <Compile Include="Oil\VisualBasic\My\IMyNamespaceDeclaration.cs" />
     <Compile Include="Oil\VisualBasic\IVBAssembly.cs" />
     <Compile Include="Oil\VisualBasic\My\IMyApplicationClass.cs" />
@@ -101,6 +105,7 @@
   <ItemGroup>
     <None Include="Allen Copeland.pfx" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

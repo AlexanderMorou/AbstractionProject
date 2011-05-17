@@ -144,6 +144,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             }
         }
 
+        public abstract BinaryOperationKind OperationKind { get; }
+
         #endregion
     }
 }

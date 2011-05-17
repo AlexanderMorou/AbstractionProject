@@ -137,6 +137,7 @@
     <Compile Include="Languages\OilexerLanguage.cs" />
     <Compile Include="Languages\OilexerProvider+AltParser.cs" />
     <Compile Include="Languages\OilexerProvider.cs" />
+    <Compile Include="Languages\OilexerVendorProvider.cs" />
     <Compile Include="Languages\Oilexer\GDFileObjectRelationalMap.cs" />
     <Compile Include="Languages\Oilexer\IEntryObjectRelationalMap.cs" />
     <Compile Include="Languages\Oilexer\IGDFileObjectRelationalMap.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="Languages\Oilexer\Tokens\RegularLanguageScanData+CaptureEntry.cs" />
     <Compile Include="Languages\Oilexer\Tokens\RegularLanguageScanData+Entry.cs" />
     <Compile Include="Languages\Oilexer\Tokens\RegularLanguageScanData.cs" />
+    <Compile Include="Languages\Oilexer\Tokens\RegularLanguageSet+RangeInfo.cs" />
     <Compile Include="Languages\Oilexer\Tokens\RegularLanguageSet.cs" />
     <Compile Include="Languages\Oilexer\Tokens\RegularLanguageToken.cs" />
     <Compile Include="Languages\Oilexer\Tokens\RegularLanguageTokenTable+Target.cs" />
@@ -425,6 +427,9 @@
     <Content Include="_Internal\Oilexer\Inlining\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Allen Copeland.pfx" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Common Utilities.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
       <Name>Common Utilities</Name>
@@ -441,9 +446,6 @@
       <Project>{4FF91A45-B361-4D8F-8C5B-03D11E5291E6}</Project>
       <Name>Common Language Infrastructure</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Allen Copeland.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
