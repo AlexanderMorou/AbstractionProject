@@ -17,14 +17,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// associated to the current verisoned high level
         /// language provider instance.
         /// </summary>
-        IVersionedHighLevelLanguage<TVersion, TRootNode> Language { get; }
-
-        /// <summary>
-        /// Returns the <typeparamref name="TVersion"/> associated to the current
-        /// versioned high level language provider instance.
-        /// </summary>
-        /// <remarks>Depending on implementation, the version can denote
-        /// specific functional aspects of a given langauge implementation.</remarks>
-        TVersion Version { get; }
+        new IVersionedHighLevelLanguage<TVersion, TRootNode> Language { get; }
     }
 }

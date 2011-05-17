@@ -146,15 +146,15 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         public CompilerSupport GetCompilerSupport(CSharpLanguageVersion version)
         {
 
-            CompilerSupport result = CompilerSupport.FullSupport ^ (CompilerSupport.Win32Resources | CompilerSupport.PrimaryInteropEmbedding | CompilerSupport.DuckTyping);
+            CompilerSupport result = CompilerSupport.FullSupport ^ (CompilerSupport.Win32Resources | CompilerSupport.PrimaryInteropEmbedding | CompilerSupport.StructuralTyping);
             if (((int)version) >= (int)CSharpLanguageVersion.Version4)
                 result |= CompilerSupport.PrimaryInteropEmbedding;
             return result;
         }
 
-        public IVersionedLanguageProvider<CSharpLanguageVersion> GetProvider(CSharpLanguageVersion version)
+        IVersionedLanguageProvider<CSharpLanguageVersion> IVersionedLanguage<CSharpLanguageVersion>.GetProvider(CSharpLanguageVersion version)
         {
-            return new CSharpProvider(version);
+            return GetProvider(version);
         }
 
         public IEnumerable<CSharpLanguageVersion> Versions
@@ -170,24 +170,23 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
         #endregion
 
-        #region ICSharpLanguage Members
-
-        public CSharpLanguageVersion Version
-        {
-            get { return CSharpLanguage.DefaultVersion; }
-        }
-
-        #endregion
-
-
         #region IVersionedHighLevelLanguage<CSharpLanguageVersion,ICSharpCompilationUnit> Members
 
         IVersionedHighLevelLanguageProvider<CSharpLanguageVersion, ICSharpCompilationUnit> IVersionedHighLevelLanguage<CSharpLanguageVersion, ICSharpCompilationUnit>.GetProvider(CSharpLanguageVersion version)
         {
-            throw new NotImplementedException();
+            return GetProvider(version);
         }
 
         #endregion
 
+
+        #region ICSharpLanguage Members
+
+        public ICSharpProvider GetProvider(CSharpLanguageVersion version)
+        {
+            return new CSharpProvider(version);
+        }
+
+        #endregion
     }
 }

@@ -1,21 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+using System.Collections;
 
-namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
+namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens
 {
-    partial class FiniteAutomataBitSet<TCheck>
-        where TCheck :
-            FiniteAutomataBitSet<TCheck>,
-            new()
+    partial class RegularLanguageSet
     {
         public struct RangeSet
         {
@@ -28,47 +19,47 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 this.End = end;
             }
         }
-        public enum ABSelect
+        public enum SwitchPairElement
         {
             A,
             B,
         }
-        public struct ABCSet<TA, TB>
+        public struct SwitchPair<TA, TB>
             where TA :
                 struct
             where TB :
                 struct
         {
 
-            public ABSelect Which { get; private set; }
+            public SwitchPairElement Which { get; private set; }
 
             public TA? A { get; private set; }
             public TB? B { get; private set; }
 
-            public ABCSet(TA a)
+            public SwitchPair(TA a)
                 : this()
             {
                 this.A = a;
-                this.Which = ABSelect.A;
+                this.Which = SwitchPairElement.A;
             }
 
-            public ABCSet(TB b)
+            public SwitchPair(TB b)
                 : this()
             {
                 this.B = b;
-                this.Which = ABSelect.B;
+                this.Which = SwitchPairElement.B;
             }
         }
         public struct RangeData :
-            IEnumerable<ABCSet<char, RangeSet>>
+            IEnumerable<SwitchPair<char, RangeSet>>
         {
-            List<ABCSet<char, RangeSet>> orderedData;
+            List<SwitchPair<char, RangeSet>> orderedData;
             public List<char> Singletons { get; private set; }
             public List<RangeSet> Sets { get; private set; }
-            internal RangeData(TCheck source)
+            internal RangeData(RegularLanguageSet source)
                 : this()
             {
-                this.orderedData = new List<ABCSet<char, RangeSet>>();
+                this.orderedData = new List<SwitchPair<char, RangeSet>>();
                 Singletons = new List<char>();
                 Sets = new List<RangeSet>();
                 source.Reduce();
@@ -96,27 +87,27 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 if (rangeStart == i - 1)
                 {
                     Singletons.Add((char)rangeStart);
-                    orderedData.Add(new ABCSet<char, RangeSet>((char)rangeStart));
+                    orderedData.Add(new SwitchPair<char, RangeSet>((char)rangeStart));
                 }
                 else if (rangeStart == i - 2)
                 {
                     Singletons.Add((char)rangeStart);
                     Singletons.Add((char)(rangeStart + 1));
-                    orderedData.Add(new ABCSet<char, RangeSet>((char)(rangeStart)));
-                    orderedData.Add(new ABCSet<char, RangeSet>((char)(rangeStart + 1)));
+                    orderedData.Add(new SwitchPair<char, RangeSet>((char)(rangeStart)));
+                    orderedData.Add(new SwitchPair<char, RangeSet>((char)(rangeStart + 1)));
                 }
-                else
+                else if (inRange)
                 {
                     Sets.Add(new RangeSet((char)rangeStart, (char)(i - 1)));
-                    orderedData.Add(new ABCSet<char, RangeSet>(new RangeSet((char)rangeStart, (char)(i - 1))));
+                    orderedData.Add(new SwitchPair<char, RangeSet>(new RangeSet((char)rangeStart, (char)(i - 1))));
                 }
                 inRange = false;
                 return inRange;
             }
 
-            #region IEnumerable<AOrBSet<char,RangeSet>> Members
+            #region IEnumerable<SwitchPair<char,RangeSet>> Members
 
-            public IEnumerator<ABCSet<char, RangeSet>> GetEnumerator()
+            public IEnumerator<SwitchPair<char, RangeSet>> GetEnumerator()
             {
                 foreach (var rd in this.orderedData)
                     yield return rd;
@@ -132,20 +123,6 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             }
 
             #endregion
-        }
-
-
-        protected void Mirror(TCheck set)
-        {
-            if (set == null)
-                return;
-            this.values = set.values;
-            this.offset = set.offset;
-            this.lastMask = set.lastMask;
-            this.lastMod = set.lastMod;
-            this.length = set.length;
-            this.fullLength = set.FullLength;
-            this.complement = set.complement;
         }
     }
 }

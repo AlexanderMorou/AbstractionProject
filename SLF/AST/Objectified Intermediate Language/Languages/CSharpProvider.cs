@@ -65,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
         IHighLevelLanguage<ICSharpCompilationUnit> IHighLevelLanguageProvider<ICSharpCompilationUnit>.Language
         {
-            get { return this.Language; ; }
+            get { return this.Language; }
         }
 
         #endregion
@@ -75,6 +75,15 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         public CSharpLanguageVersion Version
         {
             get { return this.version; }
+        }
+
+        #endregion
+
+        #region IVersionedHighLevelLanguageProvider<CSharpLanguageVersion,ICSharpCompilationUnit> Members
+
+        IVersionedHighLevelLanguage<CSharpLanguageVersion, ICSharpCompilationUnit> IVersionedHighLevelLanguageProvider<CSharpLanguageVersion, ICSharpCompilationUnit>.Language
+        {
+            get { return this.Language; }
         }
 
         #endregion

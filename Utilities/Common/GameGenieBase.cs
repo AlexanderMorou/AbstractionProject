@@ -43,6 +43,10 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             }
         }
 
+        public static implicit operator GameGenieBase(ulong value)
+        {
+            return new GameGenieBase(value);
+        }
         protected override NumericBase GetNew(ulong value)
         {
             return new GameGenieBase(value);

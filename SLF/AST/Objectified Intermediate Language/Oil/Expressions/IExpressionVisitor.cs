@@ -46,8 +46,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Visits a type of expression
         /// </summary>
-        /// <param name="expression">The <see cref="IMalleableTypeOfExpression"/> to visit.</param>
-        void Visit(IMalleableTypeOfExpression expression);
+        /// <param name="expression">The <see cref="ITypeOfExpression"/> to visit.</param>
+        void Visit(ITypeOfExpression expression);
         /// <summary>
         /// Visits a type reference expression.
         /// </summary>
@@ -267,6 +267,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <param name="expression">The <see cref="IAssignmentExpression"/>
         /// to visit.</param>
         void Visit(IAssignmentExpression expression);
+        /// <summary>
+        /// Visits the range variable of a language integrated query.
+        /// </summary>
+        /// <param name="expression">The <see cref="ILinqRangeVariableReference"/>
+        /// to visit.</param>
         void Visit(ILinqRangeVariableReference expression);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.

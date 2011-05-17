@@ -15,6 +15,11 @@ namespace AllenCopeland.Abstraction.Slf.Translation
     public interface IIntermediateCodeTranslator :
         IIntermediateCodeVisitor
     {
+        /// <summary>
+        /// Returns the <see cref="IIntermediateCodeTranslatorOptions"/> associated
+        /// to the current <see cref="IIntermediateCodeTranslator"/>.
+        /// </summary>
+        IIntermediateCodeTranslatorOptions Options { get; }
 
     }
 }

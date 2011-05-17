@@ -10,25 +10,12 @@ MethodDeclaration                        ::=>
 
 AbstractMethodDeclaration                 ::=
     Attributes:Attributes;?
-   ("new"? 
-        ("public" |
-         "protected" "internal"?|
-         "internal" "protected"?)? "abstract" |
-    "new"? "abstract"
-        ("public" |
-         "protected" "internal"?|
-         "internal" "protected"?)? |
-    ("public" |
-     "protected" "internal"?|
-     "internal" "protected"?)? "new"? "abstract" |
-    "abstract"
-        ("public" |
-         "protected" "internal"?|
-         "internal" "protected"?)? "new"? |
-    "abstract" "new"?
-        ("public" |
-         "protected" "internal"?|
-         "internal" "protected"?)?):Modifiers;
+    SetInject<(
+        "new"                               |
+        "public"                            |
+        "protected"                         |
+        "internal"
+    ):Modifiers;, "abstract">
     ReturnType:ReturnType;
     Identifier:Name;
     GenericHeader<'(' FormalParameterList:Parameters;? ')'>

@@ -19,6 +19,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Oilexer
         internal class CompilerErrors
         {
             /// <summary>
+            /// Reference compiler error message for when a rule is used like a template but the
+            /// number of fixed arguments provided does not match any variation of the template.
+            /// </summary>
+            public static ICompilerReferenceError FixedArgumentMismatch
+            {
+                get
+                {
+                    if (GrammarCore.CompilerErrors._FixedArgumentMismatch == null)
+                        _FixedArgumentMismatch = new CompilerReferenceError(Resources.GrammarParserErrors_FixedArgumentCountError, (int)GDLogicErrors.FixedArgumentCountError);
+                    return _FixedArgumentMismatch;
+                }
+            }
+
+            private static ICompilerReferenceError _FixedArgumentMismatch;
+
+            /// <summary>
             /// Reference compiler error message for when a rule is used like a template,
             /// but no template of the same name can be found.
             /// </summary>

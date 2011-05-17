@@ -187,7 +187,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// which denote the data points to replace within the <paramref name="message"/> provided.</param>
         /// <returns>A <see cref="ICompilerModelWarning{T1, T2, T3}"/> 
         /// which represents the warning.</returns>
-        ICompilerModelWarning<T1, T2, T3> ModelWarning<T1, T2, T3>(ICompilerReferenceWarning message, T1 item1, T2 item2, T3 item3, string itemText1 = null, params string[] replacements);
+        ICompilerModelWarning<T1, T2, T3> ModelWarning<T1, T2, T3>(ICompilerReferenceWarning message, T1 item1, T2 item2, T3 item3, params string[] replacements);
         /// <summary>
         /// Creates and inserts a <see cref="ICompilerModelWarning{T1, T2, T3, T4}"/>
         /// with the <paramref name="message"/>, <paramref name="item1"/>, <paramref name="item2"/>,

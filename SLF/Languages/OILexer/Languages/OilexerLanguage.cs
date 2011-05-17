@@ -13,6 +13,11 @@ using AllenCopeland.Abstraction.Slf.Compilers;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
+    /// <summary>
+    /// Provides information about the OILexer language which reads in 
+    /// a series of grammar description files and produces an assembly as
+    /// a result.
+    /// </summary>
     public class OilexerLanguage :
         IHighLevelLanguage<IGDFile>
     {
@@ -20,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         private OilexerLanguage() {
         }
         /// <summary>
-        /// The single-ton instance which which provides information about the language.
+        /// The singleton instance which which provides information about the language.
         /// </summary>
         internal static OilexerLanguage LanguageInstance = new OilexerLanguage();
         #region IHighLevelLanguage<IGDFile> Members

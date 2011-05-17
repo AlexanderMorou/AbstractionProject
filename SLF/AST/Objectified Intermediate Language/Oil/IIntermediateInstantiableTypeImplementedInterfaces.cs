@@ -66,5 +66,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                                             TMethod, IInterfaceMethodMember, TIntermediateMethod, IIntermediateInterfaceMethodMember, 
                                             TProperty, IInterfacePropertyMember, TIntermediateProperty, IIntermediateInterfacePropertyMember,
                                             TType, IInterfaceType, TIntermediateType, IIntermediateInterfaceType> ImplementInterface(IInterfaceType @interface, bool insertPlaceholders = false);
+        /// <summary>
+        /// Implements an interface quickly versus enumerating through
+        /// its elements and inserting placeholders.
+        /// </summary>
+        /// <param name="interface">The <see cref="IInterfaceType"/>
+        /// to implement.</param>
+        void ImplementInterfaceQuick(IInterfaceType @interface);
     }
 }

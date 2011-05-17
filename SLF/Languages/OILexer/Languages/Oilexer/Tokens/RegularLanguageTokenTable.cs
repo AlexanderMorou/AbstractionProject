@@ -16,10 +16,18 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens
     internal partial class RegularLanguageTokenTable :
         FiniteAutomataTransitionTable<RegularLanguageSet, RegularLanguageDFAState, RegularLanguageTokenTable.Target>
     {
+        public void Add(RegularLanguageSet check, InlinedTokenEntry entry)
+        {
+            this.Add(check, new Target() { entry });
+        }
         public override void Add(RegularLanguageSet check, Target target)
         {
             IDictionary<RegularLanguageSet, IFiniteAutomataTransitionNode<RegularLanguageSet, Target>> colliders;
             var remainder = base.GetColliders(check, out colliders);
+            /* *
+             * In the case where the overlap is 100% of an existing
+             * entry.
+             * */
             if (colliders.Count == 1 && remainder.IsEmpty)
             {
                 var first = colliders.First();
@@ -34,6 +42,12 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens
                 goto altSkip;
             }
         alternate:
+            /* *
+             * Iterate the intersections from the current
+             * entries, if the portion of the node that
+             * intersected has a remainder, inject a new
+             * transition element on that node.
+             * */
             foreach (var intersection in colliders.Keys)
             {
                 var currentNode = colliders[intersection];
@@ -47,6 +61,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Oilexer.Tokens
                         targetSet.Add(subTarget);
                 base.AddInternal(intersection, targetSet);
             }
+            /* *
+             * The remaining set is a new entry.
+             * */
             if (!remainder.IsEmpty)
                 base.AddInternal(remainder, new Target(target));
         altSkip: ;

@@ -28,6 +28,11 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             return new SeptemvigesimalBase(value);
         }
 
+        public static implicit operator SeptemvigesimalBase(ulong value)
+        {
+            return new SeptemvigesimalBase(value);
+        }
+
         private class Controller :
             NumericBaseController
         {

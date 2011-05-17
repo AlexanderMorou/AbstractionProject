@@ -94,10 +94,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compilers\AssemblyOutputType.cs" />
-    <Compile Include="Compilers\CompilerError.cs" />
+    <Compile Include="Compilers\CompilerModelWarning{T1-T4}.cs" />
+    <Compile Include="Compilers\CompilerSourceError.cs" />
     <Compile Include="Compilers\CompilerErrorCollection.cs" />
+    <Compile Include="Compilers\CompilerModelError{T1-T4}.cs" />
+    <Compile Include="Compilers\CompilerSourceModelError{T1-T4}.cs" />
+    <Compile Include="Compilers\CompilerSourceModelWarning{T1-T4}.cs" />
     <Compile Include="Compilers\CSharpCompilerMessages.cs" />
     <Compile Include="Compilers\IMalleableCompilationContext.cs" />
+    <Compile Include="Languages\AllenCopelandLanguageVendor.cs" />
+    <Compile Include="Languages\IAllenCopelandLanguageVendor.cs" />
     <Compile Include="Languages\IMicrosoftLanguageVendor.cs" />
     <Compile Include="Languages\IVersionedHighLevelLanguageProvider{TVersion, TRootNode}.cs" />
     <Compile Include="Languages\IVersionedHighLevelLanguage{TVersion}.cs" />
@@ -144,6 +150,7 @@
     <Compile Include="Linkers\ISymbolLookupTable.cs" />
     <Compile Include="Oil\CSharpAssembly.cs" />
     <Compile Include="Oil\DataSizeType.cs" />
+    <Compile Include="Oil\Expressions\BinaryOperationKind.cs" />
     <Compile Include="Oil\Expressions\CreateArrayNestedDetailExpression.cs" />
     <Compile Include="Oil\Expressions\CSharpAddSubtExpression.cs" />
     <Compile Include="Oil\Expressions\CSharpAssignExpression.cs" />
@@ -227,6 +234,7 @@
     <Compile Include="Oil\Statements\CommentStatement.cs" />
     <Compile Include="Oil\Statements\IChangeEventHandlerStatement.cs" />
     <Compile Include="Oil\Statements\ICommentStatement.cs" />
+    <Compile Include="Oil\Statements\ITypeNamedCatchExceptionBlockStatement.cs" />
     <Compile Include="Parsers\ICSharpParser.cs" />
     <Compile Include="Parsers\IParserSyntaxErrorCollection.cs" />
     <Compile Include="Parsers\IParserSyntaxError.cs" />
@@ -958,7 +966,7 @@
     <Compile Include="Oil\Statements\ITopBlockStatement.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Oil\Statements\ITryCatchStatement.cs">
+    <Compile Include="Oil\Statements\ITypedCatchExceptionBlockStatement.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Oil\Statements\ITryStatement.cs">
@@ -1011,6 +1019,7 @@
     </Compile>
     <Compile Include="Translation\IIntermediateCodeTranslator.cs" />
     <Compile Include="Translation\IIntermediateCodeTranslatorOptions.cs" />
+    <Compile Include="Translation\IntermediateCodeTranslatorBase.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\ILinqBodyBuilderParent.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqBodyBuilderBase.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqDirectedOrderByBodyBuilder.cs" />

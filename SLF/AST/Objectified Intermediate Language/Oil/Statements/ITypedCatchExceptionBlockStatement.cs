@@ -14,11 +14,15 @@ using AllenCopeland.Abstraction.Slf.Oil;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 {
-    public interface ITryCatchStatement :
-        IStatement
+    /// <summary>
+    /// Defines properties and methods for working with a
+    /// typed catch exception block statement.
+    /// </summary>
+    public interface ITypedCatchExceptionBlockStatement :
+        IBlockStatement
     {
         /// <summary>
-        /// Returns/sets the type of exception caught by the <see cref="ITryCatchStatement"/>.
+        /// Returns/sets the type of exception caught by the <see cref="ITypedCatchExceptionBlockStatement"/>.
         /// </summary>
         IType CaughtException { get; set; }
     }

@@ -210,102 +210,75 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     range.Append("None");
             }
             for (int i = 0; i < categories.Length; i++)
-            {
-                switch (categories[i])
-                {
-                    case UnicodeCategory.Control:
-                        range.Append(":Cc:");
-                        break;
-                    case UnicodeCategory.Format:
-                        range.Append(":Cf:");
-                        break;
-                    case UnicodeCategory.OtherNotAssigned:
-                        range.Append(":Cn:");
-                        break;
-                    case UnicodeCategory.PrivateUse:
-                        range.Append(":Co:");
-                        break;
-                    case UnicodeCategory.Surrogate:
-                        range.Append(":Cs:");
-                        break;
-                    case UnicodeCategory.LowercaseLetter:
-                        range.Append(":Ll:");
-                        break;
-                    case UnicodeCategory.ModifierLetter:
-                        range.Append(":Lm:");
-                        break;
-                    case UnicodeCategory.OtherLetter:
-                        range.Append(":Lo:");
-                        break;
-                    case UnicodeCategory.TitlecaseLetter:
-                        range.Append(":Lt:");
-                        break;
-                    case UnicodeCategory.UppercaseLetter:
-                        range.Append(":Lu:");
-                        break;
-                    case UnicodeCategory.EnclosingMark:
-                        range.Append(":Me:");
-                        break;
-                    case UnicodeCategory.NonSpacingMark:
-                        range.Append(":Mn:");
-                        break;
-                    case UnicodeCategory.SpacingCombiningMark:
-                        range.Append(":Mc:");
-                        break;
-                    case UnicodeCategory.DecimalDigitNumber:
-                        range.Append(":Nd:");
-                        break;
-                    case UnicodeCategory.LetterNumber:
-                        range.Append(":Nl:");
-                        break;
-                    case UnicodeCategory.OtherNumber:
-                        range.Append(":No:");
-                        break;
-                    case UnicodeCategory.ConnectorPunctuation:
-                        range.Append(":Pc:");
-                        break;
-                    case UnicodeCategory.ClosePunctuation:
-                        range.Append(":Pe:");
-                        break;
-                    case UnicodeCategory.DashPunctuation:
-                        range.Append(":Pd:");
-                        break;
-                    case UnicodeCategory.FinalQuotePunctuation:
-                        range.Append(":Pf:");
-                        break;
-                    case UnicodeCategory.OpenPunctuation:
-                        range.Append(":Ps:");
-                        break;
-                    case UnicodeCategory.OtherPunctuation:
-                        range.Append(":Po:");
-                        break;
-                    case UnicodeCategory.InitialQuotePunctuation:
-                        range.Append(":Pi:");
-                        break;
-                    case UnicodeCategory.CurrencySymbol:
-                        range.Append(":Sc:");
-                        break;
-                    case UnicodeCategory.ModifierSymbol:
-                        range.Append(":Sk:");
-                        break;
-                    case UnicodeCategory.MathSymbol:
-                        range.Append(":Sm:");
-                        break;
-                    case UnicodeCategory.OtherSymbol:
-                        range.Append(":So:");
-                        break;
-                    case UnicodeCategory.LineSeparator:
-                        range.Append(":Zl:");
-                        break;
-                    case UnicodeCategory.ParagraphSeparator:
-                        range.Append(":Zp:");
-                        break;
-                    case UnicodeCategory.SpaceSeparator:
-                        range.Append(":Zs:");
-                        break;
-                }
-            }
+                range.Append(GetUnicodeCategoryString(categories[i]));
             return string.Format("{0}", range.ToString());
+        }
+        internal static string GetUnicodeCategoryString(UnicodeCategory target)
+        {
+            switch (target)
+            {
+                case UnicodeCategory.Control:
+                    return (":Cc:");
+                case UnicodeCategory.Format:
+                    return (":Cf:");
+                case UnicodeCategory.OtherNotAssigned:
+                    return (":Cn:");
+                case UnicodeCategory.PrivateUse:
+                    return (":Co:");
+                case UnicodeCategory.Surrogate:
+                    return (":Cs:");
+                case UnicodeCategory.LowercaseLetter:
+                    return (":Ll:");
+                case UnicodeCategory.ModifierLetter:
+                    return (":Lm:");
+                case UnicodeCategory.OtherLetter:
+                    return (":Lo:");
+                case UnicodeCategory.TitlecaseLetter:
+                    return (":Lt:");
+                case UnicodeCategory.UppercaseLetter:
+                    return (":Lu:");
+                case UnicodeCategory.EnclosingMark:
+                    return (":Me:");
+                case UnicodeCategory.NonSpacingMark:
+                    return (":Mn:");
+                case UnicodeCategory.SpacingCombiningMark:
+                    return (":Mc:");
+                case UnicodeCategory.DecimalDigitNumber:
+                    return (":Nd:");
+                case UnicodeCategory.LetterNumber:
+                    return (":Nl:");
+                case UnicodeCategory.OtherNumber:
+                    return (":No:");
+                case UnicodeCategory.ConnectorPunctuation:
+                    return (":Pc:");
+                case UnicodeCategory.ClosePunctuation:
+                    return (":Pe:");
+                case UnicodeCategory.DashPunctuation:
+                    return (":Pd:");
+                case UnicodeCategory.FinalQuotePunctuation:
+                    return (":Pf:");
+                case UnicodeCategory.OpenPunctuation:
+                    return (":Ps:");
+                case UnicodeCategory.OtherPunctuation:
+                    return (":Po:");
+                case UnicodeCategory.InitialQuotePunctuation:
+                    return (":Pi:");
+                case UnicodeCategory.CurrencySymbol:
+                    return (":Sc:");
+                case UnicodeCategory.ModifierSymbol:
+                    return (":Sk:");
+                case UnicodeCategory.MathSymbol:
+                    return (":Sm:");
+                case UnicodeCategory.OtherSymbol:
+                    return (":So:");
+                case UnicodeCategory.LineSeparator:
+                    return (":Zl:");
+                case UnicodeCategory.ParagraphSeparator:
+                    return (":Zp:");
+                case UnicodeCategory.SpaceSeparator:
+                    return (":Zs:");
+            }
+            return null;
         }
 
         internal static string GetCharacterString(char c)

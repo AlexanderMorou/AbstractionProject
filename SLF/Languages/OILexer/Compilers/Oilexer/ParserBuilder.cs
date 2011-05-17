@@ -108,10 +108,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
              *      2. Order tokens via precedence.
              *      3. Construct general NFA from inlined tokens.
              * */
-            this.Source.GetTokens().AsParallel().ForAll(token =>
-                token.BuildNFA());
-            //foreach (var token in this.Source.GetTokens())
-            //    token.BuildNFA();
+            //this.Source.GetTokens().OnAll(token =>
+            //    token.BuildNFA());
+            foreach (var token in this.Source.GetTokens())
+                token.BuildNFA();
         }
 
         private void ConstructTokenDFA()
@@ -154,24 +154,34 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
         {
             this.GrammarSymbols = new GrammarSymbolSet(this.Source);
             this.ruleNFAStates = new Dictionary<IProductionRuleEntry, SyntacticalNFAState>();
-            this.Source.GetRules().AsParallel().ForAll(rule =>
-                {
-                    lock (this.ruleNFAStates)
-                        this.ruleNFAStates.Add(rule, rule.BuildNFA(new SyntacticalNFARootState(rule, this), this.GrammarSymbols, this));
-                });
+            var rules = (from rule in Source.GetRules()
+                         orderby rule.Name
+                         select rule).ToArray();
+            var result = new SyntacticalNFARootState[rules.Length];
+            int i = 0;
+            rules.OnAll(p => new { Rule = p, Index = i++ }).AsParallel().ForAll(ruleAndIndex =>
+                result[ruleAndIndex.Index] = (SyntacticalNFARootState)ruleAndIndex.Rule.BuildNFA(new SyntacticalNFARootState(ruleAndIndex.Rule, this), this.GrammarSymbols, this));
+            for (i = 0; i < result.Length; i++)
+            {
+                var current = result[i];
+                this.ruleNFAStates.Add(current.Source, current);
+            }
         }
 
         private void ConstructRuleDFA()
         {
             this.ruleDFAStates = new Dictionary<IProductionRuleEntry, SyntacticalDFARootState>();
-            this.Source.GetRules().AsParallel().ForAll(rule =>
-                {
-                    var dfa = (SyntacticalDFARootState)this.ruleNFAStates[rule].DeterminateAutomata();
-                    lock (this.ruleDFAStates)
-                    {
-                        this.ruleDFAStates.Add(rule, dfa);
-                    }
-                });
+            int i = 0;
+            var rules = (from rule in Source.GetRules()
+                         orderby rule.Name
+                         select rule).ToArray();
+            SyntacticalDFARootState[] result = new SyntacticalDFARootState[rules.Length];
+            rules.OnAll(p => new { Rule = p, Index = i++ }).AsParallel().ForAll(ruleAndIndex => result[ruleAndIndex.Index] = (SyntacticalDFARootState)this.ruleNFAStates[ruleAndIndex.Rule].DeterminateAutomata());
+            for (i = 0; i < result.Length; i++)
+            {
+                var current = result[i];
+                ruleDFAStates.Add(current.Entry, current);
+            }
             this.RuleDFAStates = new ReadOnlyDictionary<IProductionRuleEntry, SyntacticalDFARootState>(this.ruleDFAStates);
         }
 
@@ -206,14 +216,14 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     BuildRecognizerMachine(project, charStream, tokenDFA, tokenName);
                     break;
                 case RegularCaptureType.Transducer:
-                    BuildTransducerMachine(project, tokenDFA, tokenName);
+                    BuildRecognizerMachine(project, charStream, tokenDFA, tokenName);
                     break;
                 case RegularCaptureType.Undecided:
                     break;
             }
         }
 
-        private void BuildTransducerMachine(IIntermediateAssembly project, Languages.Oilexer.Tokens.RegularLanguageDFARootState tokenDFA, string tokenName)
+        private void BuildTransducerMachine(IIntermediateAssembly project, RegularLanguageDFARootState tokenDFA, string tokenName)
         {
             
         }
@@ -433,10 +443,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                             IExpression currentExpression = null;
                             switch (rangeElement.Which)
                             {
-                                case RegularLanguageSet.ABSelect.A:
+                                case RegularLanguageSet.SwitchPairElement.A:
                                     currentExpression = nextChar.EqualTo(rangeElement.A.Value);
                                     break;
-                                case RegularLanguageSet.ABSelect.B:
+                                case RegularLanguageSet.SwitchPairElement.B:
                                     var start = rangeElement.B.Value.Start;
                                     var end = rangeElement.B.Value.End;
                                     /* *
@@ -580,7 +590,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                 IExpression currentExpression = null;
                 switch (rangeElement.Which)
                 {
-                    case RegularLanguageSet.ABSelect.A:
+                    case RegularLanguageSet.SwitchPairElement.A:
                         var value = rangeElement.A.Value;
                         //nextChar != 'value'
                         currentExpression = nextChar.InequalTo(value);
@@ -593,7 +603,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                          *     new PrimitiveExpression(value));
                          * */
                         break;
-                    case RegularLanguageSet.ABSelect.B:
+                    case RegularLanguageSet.SwitchPairElement.B:
                         var start = rangeElement.B.Value.Start;
                         var end = rangeElement.B.Value.End;
                         /* *
@@ -703,11 +713,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers.Oilexer
                     IExpression currentExpression = null;
                     switch (rangeElement.Which)
                     {
-                        case RegularLanguageSet.ABSelect.A:
+                        case RegularLanguageSet.SwitchPairElement.A:
                             currentExpression = nextChar.EqualTo(rangeElement.A.Value);
                             //currentExpression = new CSharpInequalityExpression(nextChar.GetReference(), false, rangeElement.A.Value.ToPrimitive());
                             break;
-                        case RegularLanguageSet.ABSelect.B:
+                        case RegularLanguageSet.SwitchPairElement.B:
                             var start=rangeElement.B.Value.Start;
                             var end=rangeElement.B.Value.End;
                             currentExpression = start.LessThan(nextChar).LogicalOr(nextChar.GreaterThan(end));

@@ -227,5 +227,38 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         #endregion
+
+        public override BinaryOperationKind OperationKind
+        {
+            get {
+                switch (this.Operation)
+                {
+                    case AssignmentOperation.SimpleAssign:
+                        return BinaryOperationKind.Assign;
+                    case AssignmentOperation.MultiplicationAssign:
+                        return BinaryOperationKind.AssignMultiply;
+                    case AssignmentOperation.DivisionAssign:
+                        return BinaryOperationKind.AssignDivide;
+                    case AssignmentOperation.ModulusAssign:
+                        return BinaryOperationKind.AssignModulus;
+                    case AssignmentOperation.AddAssign:
+                        return BinaryOperationKind.AssignAdd;
+                    case AssignmentOperation.SubtractionAssign:
+                        return BinaryOperationKind.AssignSubtract;
+                    case AssignmentOperation.LeftShiftAssign:
+                        return BinaryOperationKind.AssignLeftShift;
+                    case AssignmentOperation.RightShiftAssign:
+                        return BinaryOperationKind.AssignRightShift;
+                    case AssignmentOperation.BitwiseAndAssign:
+                        return BinaryOperationKind.AssignBitwiseAnd;
+                    case AssignmentOperation.BitwiseOrAssign:
+                        return BinaryOperationKind.AssignBitwiseOr;
+                    case AssignmentOperation.BitwiseExclusiveOrAssign:
+                        return BinaryOperationKind.AssignBitwiseExclusiveOr;
+                }
+                return BinaryOperationKind.Term;
+            }
+
+        }
     }
 }

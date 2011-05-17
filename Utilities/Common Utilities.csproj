@@ -124,13 +124,16 @@
     <Compile Include="Collections\_ISubordinateDictionaryMasterPass.cs" />
     <Compile Include="Common\BinaryBase.cs" />
     <Compile Include="Common\CharacterBase.cs" />
+    <Compile Include="Common\DuosexagesimalBase.cs" />
     <Compile Include="Common\GameGenieBase.cs" />
-    <Compile Include="Common\HexadecimalBase.cs" />
+    <Compile Include="Common\OctodecimalBase.cs" />
+    <Compile Include="Common\SexadecimalBase.cs" />
     <Compile Include="Common\MiscHelperMethods.cs" />
     <Compile Include="Common\NumericBase.cs" />
     <Compile Include="Common\NumericBaseController.cs" />
     <Compile Include="Common\OctalBase.cs" />
     <Compile Include="Common\SeptemvigesimalBase.cs" />
+    <Compile Include="Common\SexatrigesimalBase.cs" />
     <Compile Include="Common\StringHandling.cs" />
     <Compile Include="Events\EventArgsR1R2R3{T1, T2, T3}.cs" />
     <Compile Include="Events\EventArgsR1R2{T1, T2, T3}.cs" />
@@ -144,7 +147,6 @@
     <Compile Include="Events\EventArgs{T1, T2}.cs" />
     <Compile Include="Events\EventArgs{T}.cs" />
     <Compile Include="FiniteAutomata\DFAState.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataBitSet+RangeData.cs" />
     <Compile Include="FiniteAutomata\FiniteAutomataBitSet.cs" />
     <Compile Include="FiniteAutomata\FiniteAutomataMultiTargetTransitionTable{2}.cs" />
     <Compile Include="FiniteAutomata\FiniteAutomataSection.cs" />

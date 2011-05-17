@@ -971,10 +971,18 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             }
         }
 
-        protected internal RangeData GetRange()
-        {
-            return new RangeData((TCheck)this);
-        }
 
+        protected void Mirror(TCheck set)
+        {
+            if (set == null)
+                return;
+            this.values = set.values;
+            this.offset = set.offset;
+            this.lastMask = set.lastMask;
+            this.lastMod = set.lastMod;
+            this.length = set.length;
+            this.fullLength = set.FullLength;
+            this.complement = set.complement;
+        }
     }
 }

@@ -46,6 +46,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// to visit.</param>
         void Visit(IIntermediateStructType @struct);
 
+        /// <summary>
+        /// Visits the <paramref name="parameter"/> provided.
+        /// </summary>
+        /// <typeparam name="TGenericParameter">The type of generic parameter in the abstract
+        /// type system.</typeparam>
+        /// <typeparam name="TIntermediateGenericParameter">The type of generic parameter in
+        /// the intermediate abstract syntax tree.</typeparam>
+        /// <typeparam name="TParent">The type which owns the generic parameters in the abstract
+        /// type system.</typeparam>
+        /// <typeparam name="TIntermediateParent">The type which owns the generic parameters in the intermediate
+        /// abstract syntax tree.</typeparam>
+        /// <param name="parameter">The parameter to visit.</param>
         void Visit<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>(IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent> parameter)
             where TGenericParameter :
                 IGenericParameter<TGenericParameter, TParent>

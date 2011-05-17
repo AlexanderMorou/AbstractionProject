@@ -134,5 +134,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             visitor.Visit(this);
         }
 
+
+        public override BinaryOperationKind OperationKind
+        {
+            get
+            {
+                switch (this.Operation)
+                {
+                    case CSharpShiftOperation.LeftShift:
+                        return BinaryOperationKind.LeftShift;
+                    case CSharpShiftOperation.RightShift:
+                        return BinaryOperationKind.RightShift;
+                    case CSharpShiftOperation.Term:
+                    default:
+                        return BinaryOperationKind.Term;
+                }
+            }
+        }
     }
 }
