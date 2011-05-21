@@ -10,6 +10,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using System.CodeDom.Compiler;
 
 namespace AllenCopeland.Abstraction.Slf.Translation
 {
@@ -17,6 +18,12 @@ namespace AllenCopeland.Abstraction.Slf.Translation
     public abstract class IntermediateCodeTranslatorBase :
         IIntermediateCodeTranslator
     {
+        /// <summary>
+        /// The <see cref="IndentedTextWriter"/> which is
+        /// used to handle indentation.
+        /// </summary>
+        private IndentedTextWriter target = null;
+
         private IIntermediateCodeTranslatorOptions options;
 
         protected abstract IIntermediateCodeTranslatorOptions InitializeOptions();
@@ -756,5 +763,33 @@ namespace AllenCopeland.Abstraction.Slf.Translation
         public abstract void Visit(IStaticInclusionScopeCoercion staticInclusion);
 
         #endregion
+
+        /// <summary>
+        /// Increases the <see cref="Target"/> indent level.
+        /// </summary>
+        protected void IncreaseIndent()
+        {
+            this.Target.Indent++;
+        }
+
+        /// <summary>
+        /// Decreases the <see cref="Target"/> indent level.
+        /// </summary>
+        protected void DecreaseIndent()
+        {
+            this.Target.Indent--;
+        }
+
+        public IndentedTextWriter Target
+        {
+            get
+            {
+                return this.target;
+            }
+            set
+            {
+                this.target = value;
+            }
+        }
     }
 }

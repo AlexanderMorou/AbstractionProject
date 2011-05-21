@@ -494,7 +494,7 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             return result;
         }
 
-        public static T[] GetArray<T>(this T element, params T[] followers)
+        public static T[] GetAnonymousTypeArray<T>(this T element, params T[] followers)
         {
             if (followers == null)
                 throw new ArgumentNullException("followers");
@@ -502,6 +502,11 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             result[0] = element;
             followers.CopyTo(result, 1);
             return result;
+        }
+
+        public static T[] GetAnonymousTypeArray<T>(this T anonymousTypeSeed, int length)
+        {
+            return new T[length];
         }
 
         public static T[][] Chunk<T>(this T[] series, int chunkSize)

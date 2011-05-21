@@ -100,6 +100,19 @@
     </Compile>
     <Compile Include="Abstract\CultureIdentifiers.cs" />
     <Compile Include="Abstract\CultureIdentifierTypeConverter.cs" />
+    <Compile Include="Abstract\Documentation\IDocComment.cs" />
+    <Compile Include="Abstract\Documentation\IDocCommentCodeElement.cs" />
+    <Compile Include="Abstract\Documentation\IDocCommentElement.cs" />
+    <Compile Include="Abstract\Documentation\IDocCommentFieldReferenceElement.cs" />
+    <Compile Include="Abstract\Documentation\IDocCommentGroup.cs" />
+    <Compile Include="Abstract\Documentation\IDocCommentParagraphElement.cs" />
+    <Compile Include="Abstract\Documentation\IDocCommentParameterSection.cs" />
+    <Compile Include="Abstract\Documentation\IDocCommentReferenceElement.cs" />
+    <Compile Include="Abstract\Documentation\IDocCommentSection.cs" />
+    <Compile Include="Abstract\Documentation\IDocCommentNamedSection.cs" />
+    <Compile Include="Abstract\Documentation\IDocCommentTextElement.cs" />
+    <Compile Include="Abstract\Documentation\IDocCommentTypeParameterSection.cs" />
+    <Compile Include="Abstract\Documentation\IMethodDocComment.cs" />
     <Compile Include="Abstract\ITopLevelFieldMember.cs" />
     <Compile Include="Abstract\ITopLevelMethodMember.cs" />
     <Compile Include="Compilers\GlobalMemberContainerAttribute.cs" />
