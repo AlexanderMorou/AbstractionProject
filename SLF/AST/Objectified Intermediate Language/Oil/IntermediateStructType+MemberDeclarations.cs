@@ -205,6 +205,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
 
             #endregion
+
             protected override IntermediateParameterMemberDictionary<IStructMethodMember, IIntermediateStructMethodMember, IMethodParameterMember<IStructMethodMember, IStructType>, IIntermediateMethodParameterMember<IStructMethodMember, IIntermediateStructMethodMember, IStructType, IIntermediateStructType>> InitializeParameters()
             {
                 var result = base.InitializeParameters();

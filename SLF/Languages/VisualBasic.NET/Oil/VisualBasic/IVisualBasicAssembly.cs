@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil.VisualBasic;
 using AllenCopeland.Abstraction.Slf.Oil.VisualBasic.My;
+using AllenCopeland.Abstraction.Slf.Languages;
+using AllenCopeland.Abstraction.Slf.Cst;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.VisualBasic
 {
@@ -14,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.VisualBasic
     /// <remarks>Relative to Start in Visual Basic Language 
     /// Specification Version 10.0</remarks>
     public interface IVisualBasicAssembly :
-        IIntermediateAssembly
+        IIntermediateAssembly<IVisualBasicLanguage, IVisualBasicStart, IVisualBasicProvider, VisualBasicVersion>
     {
         /// <summary>
         /// Returns the <see cref="IMyNamespaceDeclaration"/> which

@@ -31,6 +31,19 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// nor can they be nested.</para></remarks>
         Module,
         /// <summary>
+        /// Defines a <see cref="Static"/> class which cannot
+        /// have type-parameters or be a nested type.  Further
+        /// scopes which import the containing namespace
+        /// will see the members of this module in the active
+        /// static scope.
+        /// </summary>
+        /// <remarks><para>Classes marked with this are tagged
+        /// with the <see cref="StandardModuleAttribute"/> and
+        /// the <see cref="HideModuleNameAttribute"/>.</para>
+        /// <para>Classes marked with this cannot be generics
+        /// nor can they be nested.</para></remarks>
+        HiddenModule,
+        /// <summary>
         /// Defines a static class
         /// which can have type-parameters, but can not be
         /// instantiated.

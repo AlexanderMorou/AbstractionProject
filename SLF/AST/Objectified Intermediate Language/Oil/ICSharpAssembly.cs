@@ -4,6 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Cst;
 using AllenCopeland.Abstraction.Slf.Parsers;
 using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Slf.Languages;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -17,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.CSharp
     /// Defines properties and methods for working with a C&#9839; Assembly.
     /// </summary>
     public interface ICSharpAssembly :
-        IIntermediateAssembly
+        IIntermediateAssembly<ICSharpLanguage, ICSharpCompilationUnit, ICSharpProvider, CSharpLanguageVersion>
     {
 
     }

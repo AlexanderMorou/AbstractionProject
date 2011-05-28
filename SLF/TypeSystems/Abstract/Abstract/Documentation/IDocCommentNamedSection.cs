@@ -9,8 +9,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Documentation
     /// Defines properties and methods for working with a named
     /// documentation comment section.
     /// </summary>
-    public interface IDocCommentNamedSection :
-        IDocCommentSection
+    /// <typeparam name="TItem">The type of element represented
+    /// by the section.</typeparam>
+    public interface IDocCommentNamedSection<TItem> :
+        IDocCommentItemedSection<TItem>
+        where TItem :
+            IDeclaration
     {
         /// <summary>
         /// Returns the <see cref="String"/> value associated

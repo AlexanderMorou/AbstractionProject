@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Cst;
+using AllenCopeland.Abstraction.Slf.Oil;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -31,5 +32,18 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// <returns>A new <see cref="IHighLevelLanguageProvider{TRootNode}"/> for the current
         /// <see cref="IHighLevelLanguage{TRootNode}"/>.</returns>
         new IHighLevelLanguageProvider<TRootNode> GetProvider();
+        /// <summary>
+        /// Creates a new <see cref="IIntermediateAssembly"/>
+        /// with the <paramref name="name"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value
+        /// representing part of the identity of the assembly.</param>
+        /// <returns>A new <see cref="IIntermediateAssembly"/>
+        /// with the <paramref name="name"/> provided.</returns>
+        /// <exception cref="System.ArgumentNullException">thrown when 
+        /// <paramref name="name"/> is null.</exception>
+        /// <exception cref="System.ArgumentException">thrown when
+        /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
+        IIntermediateAssembly CreateAssembly(string name);
     }
 }

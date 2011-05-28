@@ -19,7 +19,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
     internal class _SymbolType :
         _GenericTypeBase<ISymbolType>,
         ISymbolType,
-        IExpression
+        IExpression,
+        ITypeReferenceExpression
     {
         public _SymbolType(ISymbolType original, ITypeCollectionBase genericParameters)
             : base(original, genericParameters)

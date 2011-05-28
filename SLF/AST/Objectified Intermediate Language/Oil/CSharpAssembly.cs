@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Slf.Languages;
+using AllenCopeland.Abstraction.Slf.Cst;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -19,6 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.CSharp
         IntermediateAssembly<CSharpAssembly>,
         ICSharpAssembly
     {
+        private ICSharpProvider provider;
         /// <summary>
         /// Creates a new <see cref="CSharpAssembly"/> which is linked to another
         /// <paramref name="root"/> <see cref="CSharpAssembly"/>.
@@ -38,9 +41,14 @@ namespace AllenCopeland.Abstraction.Slf.CSharp
         /// which aids in differentiating the <see cref="CSharpAssembly"/>
         /// from other <see cref="IAssembly"/> instances.</param>
         internal protected CSharpAssembly(string name)
+            : this(name, CSharpLanguage.Singleton.GetProvider())
+        {
+        }
+
+        internal protected CSharpAssembly(string name, ICSharpProvider provider)
             : base(name)
         {
-
+            this.provider = provider;
         }
 
         /// <summary>
@@ -52,6 +60,31 @@ namespace AllenCopeland.Abstraction.Slf.CSharp
         {
             return new CSharpAssembly(this);
         }
+
+
+        #region IIntermediateAssembly<ICSharpLanguage,ICSharpCompilationUnit,ICSharpProvider> Members
+
+        public ICSharpLanguage Language
+        {
+            get {
+                if (this.IsRoot)
+                    return this.provider.Language;
+                else
+                    return this.GetRoot().provider.Language;
+            }
+        }
+
+        public ICSharpProvider Provider
+        {
+            get {
+                if (this.IsRoot)
+                    return this.provider;
+                else
+                    return this.GetRoot().provider;
+            }
+        }
+
+        #endregion
 
     }
 }

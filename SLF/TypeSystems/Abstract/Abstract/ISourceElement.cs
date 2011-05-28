@@ -9,7 +9,7 @@ using System.Text;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Slf.Oil
+namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>
     /// Defines properties and methods for working with an
