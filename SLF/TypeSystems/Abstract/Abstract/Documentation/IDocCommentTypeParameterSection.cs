@@ -6,12 +6,7 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Abstract.Documentation
 {
     public interface IDocCommentTypeParameterSection :
-        IDocCommentNamedSection
+        IDocCommentNamedSection<IGenericParameter>
     {
-        /// <summary>
-        /// Returns the <see cref="IGenericParameter"/>
-        /// associated to the <see cref="IDocCommentTypeParameterSection"/>
-        /// </summary>
-        IGenericParameter TypeParameter { get; }
     }
 }

@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AllenCopeland.Abstraction.Slf</RootNamespace>
-    <AssemblyName>VisualBasic.NET</AssemblyName>
+    <AssemblyName>_abs.slf.languages.vb.net</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -76,12 +76,15 @@
   <ItemGroup>
     <Compile Include="Cst\IVisualBasicStart.cs" />
     <Compile Include="Languages\IVisualBasicLanguage.cs" />
+    <Compile Include="Languages\IVisualBasicProvider.cs" />
+    <Compile Include="Languages\VisualBasicLanguage.cs" />
+    <Compile Include="Languages\VisualBasicProvider.cs" />
     <Compile Include="Languages\VisualBasicVendorProvider.cs" />
     <Compile Include="Languages\VisualBasicVersion.cs" />
     <Compile Include="Oil\VisualBasic\My\IMyNamespaceDeclaration.cs" />
-    <Compile Include="Oil\VisualBasic\IVBAssembly.cs" />
+    <Compile Include="Oil\VisualBasic\IVisualBasicAssembly.cs" />
     <Compile Include="Oil\VisualBasic\My\IMyApplicationClass.cs" />
-    <Compile Include="Oil\VisualBasic\VBAssembly.cs" />
+    <Compile Include="Oil\VisualBasic\VisualBasicAssembly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

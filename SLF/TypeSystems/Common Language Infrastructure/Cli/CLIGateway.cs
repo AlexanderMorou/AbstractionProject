@@ -288,7 +288,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
             else if (t.IsEnum)
                 result = new CompiledEnumType(t);
-            else if (t.IsSubclassOf(typeof(Delegate)))
+            else if (t.IsSubclassOf(typeof(Delegate)) && t != typeof(MulticastDelegate))
                 result = new CompiledDelegateType(t);
             else if (t.IsClass)
                 result = new CompiledClassType(t);

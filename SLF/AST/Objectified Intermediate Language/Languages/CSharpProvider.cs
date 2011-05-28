@@ -7,6 +7,8 @@ using AllenCopeland.Abstraction.Slf.Cst;
 using AllenCopeland.Abstraction.Slf.Parsers;
 using AllenCopeland.Abstraction.Slf.Translation;
 using AllenCopeland.Abstraction.Slf.CSharp;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Oil;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -60,7 +62,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
         public IIntermediateCodeTranslator Translator
         {
-            get { throw new NotImplementedException(); }
+            get { return new Translation.CSharpCodeTranslator(); }
         }
 
         IHighLevelLanguage<ICSharpCompilationUnit> IHighLevelLanguageProvider<ICSharpCompilationUnit>.Language
@@ -84,6 +86,47 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         IVersionedHighLevelLanguage<CSharpLanguageVersion, ICSharpCompilationUnit> IVersionedHighLevelLanguageProvider<CSharpLanguageVersion, ICSharpCompilationUnit>.Language
         {
             get { return this.Language; }
+        }
+
+        #endregion
+
+        #region IHighLevelLanguageProvider<ICSharpCompilationUnit> Members
+
+        public IAnonymousTypePatternAid AnonymousTypePattern
+        {
+            get { return IntermediateGateway.CSharpPattern; }
+        }
+
+        #endregion
+
+
+        #region ICSharpProvider Members
+
+        /// <summary>
+        /// Creates a new <see cref="ICSharpAssembly"/>
+        /// with the <paramref name="name"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value
+        /// representing part of the identity of the assembly.</param>
+        /// <returns>A new <see cref="ICSharpAssembly"/>
+        /// with the <paramref name="name"/> provided.</returns>
+        /// <exception cref="System.ArgumentNullException">thrown when 
+        /// <paramref name="name"/> is null.</exception>
+        /// <exception cref="System.ArgumentException">thrown when
+        /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
+        public ICSharpAssembly CreateAssembly(string name)
+        {
+            return new CSharpAssembly(name);
+        }
+
+        #endregion
+
+        #region IHighLevelLanguageProvider<ICSharpCompilationUnit> Members
+
+
+        IIntermediateAssembly IHighLevelLanguageProvider<ICSharpCompilationUnit>.CreateAssembly(string name)
+        {
+            return this.CreateAssembly(name);
         }
 
         #endregion

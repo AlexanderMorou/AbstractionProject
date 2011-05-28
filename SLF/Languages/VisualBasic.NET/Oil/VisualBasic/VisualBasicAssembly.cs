@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Oil.VisualBasic.My;
+using AllenCopeland.Abstraction.Slf.Languages;
 namespace AllenCopeland.Abstraction.Slf.Oil.VisualBasic
 {
     /// <summary>
@@ -14,8 +15,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.VisualBasic
         IntermediateAssembly<VisualBasicAssembly>,
         IVisualBasicAssembly
     {
+        private IVisualBasicProvider provider;
         public VisualBasicAssembly(string name)
-            : base(name)
+            : this(name, VisualBasicLanguage.Singleton.GetProvider())
         {
         }
 
@@ -23,6 +25,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.VisualBasic
             : base(root)
         {
             
+        }
+
+        internal protected VisualBasicAssembly(string name, IVisualBasicProvider provider)
+            : base(name)
+        {
+            this.provider = provider;
         }
 
         protected override VisualBasicAssembly GetNewPart()
@@ -40,5 +48,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil.VisualBasic
 
         #endregion
 
+        #region IIntermediateAssembly<IVisualBasicLanguage,IVisualBasicStart,IVisualBasicProvider> Members
+
+        public IVisualBasicLanguage Language
+        {
+            get { return this.Provider.Language; }
+        }
+
+        public IVisualBasicProvider Provider
+        {
+            get {
+                if (this.IsRoot)
+                    return this.provider;
+                else
+                    return this.GetRoot().provider;
+            }
+        }
+
+        #endregion
     }
 }

@@ -96,5 +96,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <param name="customAttribute">The <see cref="ICustomAttributeDefinition"/>
         /// to remove.</param>
         void Remove(ICustomAttributeDefinition customAttribute);
+
+        /// <summary>
+        /// Removes the <paramref name="series"/> provided, given they are 
+        /// defined on the <see cref="Parent"/>.
+        /// </summary>
+        /// <param name="series">The <see cref="ICustomAttributeDefinition"/>
+        /// series to remove.</param>
+        void RemoveSet(IEnumerable<ICustomAttributeDefinition> series);
     }
 }

@@ -9,16 +9,21 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 {
     /// <summary>
     /// Defines properties and methods for working with the 
-    /// visual basic language.
+    /// <see cref="IVisualBasicLanguage">Visual Basic.NET language</see>.
     /// </summary>
     public interface IVisualBasicLanguage :
         IVersionedHighLevelLanguage<VisualBasicVersion, IVisualBasicStart>
     {
+        new IVisualBasicProvider GetProvider();
         /// <summary>
-        /// 
+        /// Returns a new <see cref="IVisualBasicProvider"/> associated to the
+        /// <see cref="IVisualBasicLanguage"/>.
         /// </summary>
-        /// <param name="assemblyName"></param>
-        /// <returns></returns>
-        IVisualBasicAssembly CreateAssembly(string assemblyName);
+        /// <param name="version">The <see cref="VisualBasicVersion"/>
+        /// value which denotes what version of the visual basic 
+        /// language to return the provider for.</param>
+        /// <returns>A new <see cref="IVisualBasicProvider"/> for the current
+        /// <see cref="IVisualBasicLanguage"/>.</returns>
+        new IVisualBasicProvider GetProvider(VisualBasicVersion version);
     }
 }

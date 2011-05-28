@@ -1,0 +1,122 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Diagnostics.SymbolStore;
+using AllenCopeland.Abstraction.Slf.Compilers;
+using AllenCopeland.Abstraction.Slf.Oil.VisualBasic;
+
+namespace AllenCopeland.Abstraction.Slf.Languages
+{
+    internal class VisualBasicLanguage :
+        IVisualBasicLanguage
+    {
+        public const VisualBasicVersion DefaultVersion = VisualBasicVersion.Version11;
+        public static readonly IVisualBasicLanguage Singleton = new VisualBasicLanguage();
+
+        private VisualBasicLanguage()
+        {
+        }
+
+        #region IVisualBasicLanguage Members
+
+        public IVisualBasicProvider GetProvider()
+        {
+            return this.GetProvider(VisualBasicLanguage.DefaultVersion);
+        }
+
+        public IVisualBasicProvider GetProvider(VisualBasicVersion version)
+        {
+            return new VisualBasicProvider(version);
+        }
+
+        #endregion
+
+        #region IVersionedHighLevelLanguage<VisualBasicVersion,IVisualBasicStart> Members
+
+        IVersionedHighLevelLanguageProvider<VisualBasicVersion, Cst.IVisualBasicStart> IVersionedHighLevelLanguage<VisualBasicVersion, Cst.IVisualBasicStart>.GetProvider(VisualBasicVersion version)
+        {
+            return new VisualBasicProvider(version);
+        }
+
+        public Oil.IIntermediateAssembly CreateAssembly(string name, VisualBasicVersion version)
+        {
+            return this.GetProvider(version).CreateAssembly(name);
+        }
+
+        #endregion
+
+        #region IHighLevelLanguage<IVisualBasicStart> Members
+
+        IHighLevelLanguageProvider<Cst.IVisualBasicStart> IHighLevelLanguage<Cst.IVisualBasicStart>.GetProvider()
+        {
+            return this.GetProvider();
+        }
+
+        public Oil.IIntermediateAssembly CreateAssembly(string name)
+        {
+            return new VisualBasicAssembly(name, this.GetProvider());
+        }
+
+        #endregion
+
+        #region ILanguage Members
+
+        public string Name
+        {
+            get { return "Visual Basic.NET"; }
+        }
+
+        ILanguageProvider ILanguage.GetProvider()
+        {
+            return this.GetProvider();
+        }
+
+        public CompilerSupport CompilerSupport
+        {
+            get {
+                return this.GetCompilerSupport(VisualBasicLanguage.DefaultVersion);
+            }
+        }
+
+        public ILanguageVendor Vendor
+        {
+            get { return LanguageVendors.Microsoft; }
+        }
+
+        public Guid Guid
+        {
+            get { return SymLanguageType.Basic; }
+        }
+
+        #endregion
+
+        #region IVersionedLanguage<VisualBasicVersion> Members
+
+        IVersionedLanguageProvider<VisualBasicVersion> IVersionedLanguage<VisualBasicVersion>.GetProvider(VisualBasicVersion version)
+        {
+            return this.GetProvider(version);
+        }
+
+        public CompilerSupport GetCompilerSupport(VisualBasicVersion version)
+        {
+            CompilerSupport result = CompilerSupport.FullSupport ^ (CompilerSupport.Win32Resources | CompilerSupport.PrimaryInteropEmbedding | CompilerSupport.StructuralTyping | Compilers.CompilerSupport.Unsafe);
+            if (((int)version) >= (int)VisualBasicVersion.Version10)
+                result |= CompilerSupport.PrimaryInteropEmbedding;
+            return result;
+        }
+
+        public IEnumerable<VisualBasicVersion> Versions
+        {
+            get
+            {
+                yield return VisualBasicVersion.Version08;
+                yield return VisualBasicVersion.Version09;
+                yield return VisualBasicVersion.Version10;
+                yield return VisualBasicVersion.Version11;
+            }
+        }
+
+        #endregion
+    }
+}

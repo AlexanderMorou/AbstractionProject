@@ -103,6 +103,10 @@
     <Compile Include="Compilers\CSharpCompilerMessages.cs" />
     <Compile Include="Compilers\IMalleableCompilationContext.cs" />
     <Compile Include="Languages\AllenCopelandLanguageVendor.cs" />
+    <Compile Include="Oil\IIntermediateAssembly{TLanguage}.cs" />
+    <Compile Include="Oil\IVersionedIntermediateAssembly.cs" />
+    <Compile Include="Translation\IntermediateBlockTranslationClasses.cs" />
+    <Compile Include="Translation\CSharpCodeTranslator.cs" />
     <Compile Include="Languages\IAllenCopelandLanguageVendor.cs" />
     <Compile Include="Languages\IMicrosoftLanguageVendor.cs" />
     <Compile Include="Languages\IVersionedHighLevelLanguageProvider{TVersion, TRootNode}.cs" />
@@ -510,9 +514,7 @@
     <Compile Include="Oil\IRenameScopeCoercion.cs" />
     <Compile Include="Oil\IScopeCoercion.cs" />
     <Compile Include="Oil\IScopeCoercionCollection.cs" />
-    <Compile Include="Oil\ISourceElement.cs" />
     <Compile Include="Oil\IStaticInclusionScopeCoercion.cs" />
-    <Compile Include="Oil\ISymbolType.cs" />
     <Compile Include="Oil\IntermediateAssembly+PartsCollection.cs">
       <DependentUpon>IntermediateAssembly{TAssembly}.cs</DependentUpon>
     </Compile>
@@ -613,7 +615,6 @@
     <Compile Include="Oil\IntermediateTypeDictionary.cs" />
     <Compile Include="Oil\ITypeInclusionRenameScopeCoercion.cs" />
     <Compile Include="Oil\ITypeInclusionScopeCoercion.cs" />
-    <Compile Include="Oil\LineColumnPair.cs" />
     <Compile Include="Oil\Members\GenericParameterMovedEventArgs.cs" />
     <Compile Include="Oil\Members\IIntermediateBinaryOperatorCoercionMember.cs" />
     <Compile Include="Oil\Members\IIntermediateBinaryOperatorCoercionMemberDictionary.cs" />
@@ -1020,6 +1021,7 @@
     <Compile Include="Translation\IIntermediateCodeTranslator.cs" />
     <Compile Include="Translation\IIntermediateCodeTranslatorOptions.cs" />
     <Compile Include="Translation\IntermediateCodeTranslatorBase.cs" />
+    <Compile Include="Translation\IntermediateSpanTranslationClasses.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\ILinqBodyBuilderParent.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqBodyBuilderBase.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqDirectedOrderByBodyBuilder.cs" />
@@ -1036,21 +1038,11 @@
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqWhereBodyBuilder.cs" />
     <Compile Include="Oil\Expressions\IIntermediatePrimitiveVisitor.cs" />
     <Compile Include="_Internal\Ast\IntermediateCustomAttributesBaseCollection.cs" />
-    <Compile Include="_Internal\Ast\SymbolType+CustomAttributeCollection.cs">
-      <DependentUpon>SymbolType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="_Internal\Ast\SymbolType+GenericParameterDictionary+KeysCollection.cs">
-      <DependentUpon>SymbolType+GenericParameterDictionary.cs</DependentUpon>
-    </Compile>
-    <Compile Include="_Internal\Ast\SymbolType+GenericParameterDictionary+ValuesCollection.cs">
-      <DependentUpon>SymbolType+GenericParameterDictionary.cs</DependentUpon>
-    </Compile>
-    <Compile Include="_Internal\Ast\SymbolType+GenericParameterDictionary.cs">
-      <DependentUpon>SymbolType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="_Internal\Ast\SymbolType+GenericParameterMember.cs">
-      <DependentUpon>SymbolType.cs</DependentUpon>
-    </Compile>
+    <Compile Include="_Internal\Ast\SymbolType+CustomAttributeCollection.cs" />
+    <Compile Include="_Internal\Ast\SymbolType+GenericParameterDictionary+KeysCollection.cs" />
+    <Compile Include="_Internal\Ast\SymbolType+GenericParameterDictionary+ValuesCollection.cs" />
+    <Compile Include="_Internal\Ast\SymbolType+GenericParameterDictionary.cs" />
+    <Compile Include="_Internal\Ast\SymbolType+GenericParameterMember.cs" />
     <Compile Include="_Internal\Ast\SymbolType.cs" />
     <Compile Include="_Internal\Ast\_IIntermediateGenericType.cs" />
     <Compile Include="_Internal\DictionaryHelpers.cs" />

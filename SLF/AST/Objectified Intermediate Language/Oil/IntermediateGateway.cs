@@ -45,16 +45,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         public static readonly IPrimitiveExpression<int> NumberZero = 0.ToPrimitive();
 
-        private static AnonymousTypeDisplayStyles anonymousDisplayStyle = AnonymousTypeDisplayStyles.Clean | AnonymousTypeDisplayStyles.CSharp;
-        /// <summary>
-        /// The pattern aid used to adjust an anonymous type's 
-        /// member name patterns.
-        /// </summary>
-        private static IAnonymousTypePatternAid patternAid = null;
-        /// <summary>
-        /// The default Anonymous Type Pattern aid.
-        /// </summary>
-        private static DefaultATPatternAid defaultAid = new DefaultATPatternAid();
         /// <summary>
         /// Type-reference expression cache.
         /// </summary>
@@ -71,8 +61,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            if (target is ISymbolType)
-                return (ISymbolType)target;
+            if (target is SymbolType)
+                return (SymbolType)target;
             if (!typeReferenceCache.ContainsKey(target))
             {
                 target.Disposed += typeExpressionTarget_Disposed;
@@ -137,55 +127,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public static IMember CreateMember(MemberKind kind)
         {
             throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Returns/sets the <see cref="AnonymousTypeDisplayStyles"/>
-        /// associated to anonymous types and how they present their values.
-        /// </summary>
-        public static AnonymousTypeDisplayStyles AnonymousDisplayStyle
-        {
-            get
-            {
-                return IntermediateGateway.anonymousDisplayStyle;
-            }
-            set
-            {
-                if ((value & AnonymousTypeDisplayStyles.Other) == AnonymousTypeDisplayStyles.Other)
-                    throw new ArgumentException("value");
-                IntermediateGateway.anonymousDisplayStyle = value;
-            }
-        }
-
-        public static IAnonymousTypePatternAid PatternAid
-        {
-            get
-            {
-                if ((anonymousDisplayStyle & AnonymousTypeDisplayStyles.Other) == AnonymousTypeDisplayStyles.Other)
-                {
-                    if (patternAid == null)
-                        anonymousDisplayStyle = AnonymousTypeDisplayStyles.CSharp;
-                    return defaultAid;
-                }
-                else if ((anonymousDisplayStyle & AnonymousTypeDisplayStyles.Other) != AnonymousTypeDisplayStyles.Other &&
-                    patternAid == null)
-                    patternAid = defaultAid;
-                return patternAid;
-            }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-                if (value == defaultAid)
-                {
-                    if ((anonymousDisplayStyle & AnonymousTypeDisplayStyles.Other) == AnonymousTypeDisplayStyles.Other)
-                        anonymousDisplayStyle ^= AnonymousTypeDisplayStyles.Other;
-                    return;
-                }
-                else if ((anonymousDisplayStyle & AnonymousTypeDisplayStyles.Other) != AnonymousTypeDisplayStyles.Other)
-                    anonymousDisplayStyle ^= AnonymousTypeDisplayStyles.Other;
-                patternAid = value;
-            }
         }
 
         /// <summary>
@@ -344,7 +285,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         public static IMethodReferenceStub GetMethod(this ISymbolType symbolType, string methodName, params string[] typeParameterNames)
         {
-            return symbolType.GetMethod(methodName, typeParameterNames.ToTypeCollection());
+            var st = symbolType as SymbolType;
+            if (st != null)
+                return st.GetMethod(methodName, typeParameterNames.ToTypeCollection());
+            return symbolType.GetTypeExpression().GetMethod(methodName, typeParameterNames.ToTypeCollection());
         }
 
         public static ISymbolType GetSymbolType(this string typeSymbol, string @namespace, string[] typeParameters)

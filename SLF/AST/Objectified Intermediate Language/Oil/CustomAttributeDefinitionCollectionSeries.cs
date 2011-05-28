@@ -146,14 +146,39 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public void Remove(ICustomAttributeDefinition customAttribute)
         {
             bool found = false;
-            foreach (var item in this.baseList)
-                if (item.Contains(customAttribute))
+            List<ICustomAttributeDefinitionCollection> containers = new List<ICustomAttributeDefinitionCollection>();
+            foreach (var set in base.baseList)
+                if (set.Contains(customAttribute))
                 {
-                    item.Remove(customAttribute);
+                    containers.Add(set);
+                    set.Remove(customAttribute);
                     found = true;
                 }
+            foreach (var set in containers)
+                if (set.Count == 0)
+                    base.baseList.Remove(set);
             if (!found)
-                throw new ArgumentException("customAttribute provided was not found in any collection of the series.","customAttribute");
+                throw new ArgumentException("customAttribute provided was not found in any collection of the series.", "customAttribute");
+        }
+
+        public void RemoveSet(IEnumerable<ICustomAttributeDefinition> series)
+        {
+            List<ICustomAttributeDefinitionCollection> containers = new List<ICustomAttributeDefinitionCollection>();
+            foreach (var item in series)
+            {
+                foreach (var set in base.baseList)
+                {
+                    if (set.Contains(item))
+                    {
+                        if (!containers.Contains(set))
+                            containers.Add(set);
+                        set.Remove(item);
+                    }
+                }
+            }
+            foreach (var set in containers)
+                if (set.Count == 0)
+                    base.baseList.Remove(set);
         }
 
         #endregion

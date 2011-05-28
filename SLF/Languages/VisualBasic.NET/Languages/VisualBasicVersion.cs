@@ -8,22 +8,27 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     public enum VisualBasicVersion
     {
         /// <summary>
-        /// First version of Visual Basic.NET to contain generics.
+        /// First version of 
+        /// <see cref="IVisualBasicLanguage">Visual Basic.NET</see>
+        /// to contain generics.
         /// </summary>
         Version08,
         /// <summary>
-        /// First version of Visual Basic.NET to contain
-        /// Language integrated query.
+        /// First version of 
+        /// <see cref="IVisualBasicLanguage">Visual Basic.NET</see>
+        /// to contain Language integrated query.
         /// </summary>
         Version09,
         /// <summary>
-        /// First version of Visual Basic.NET to contain uniform
-        /// dynamic dispatch functionality.
+        /// First version of 
+        /// <see cref="IVisualBasicLanguage">Visual Basic.NET</see>
+        /// to contain uniform dynamic dispatch functionality.
         /// </summary>
         Version10,
         /// <summary>
-        /// First version of Visual Basic.NET to contain asynchronous
-        /// methods.
+        /// First version of 
+        /// <see cref="IVisualBasicLanguage">Visual Basic.NET</see>
+        /// to contain asynchronous methods.
         /// </summary>
         Version11,
     }

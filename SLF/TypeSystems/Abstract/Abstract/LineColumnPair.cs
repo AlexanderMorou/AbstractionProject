@@ -9,7 +9,7 @@ using System.Text;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Slf.Oil
+namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>
     /// Provides source element with a line/column pairing for 

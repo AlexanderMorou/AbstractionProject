@@ -9,9 +9,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class VisualBasicVendorProvider
     {
-        public static ILanguage GetLanguageVisualBasic(this IMicrosoftLanguageVendor vendor)
+        public static IVisualBasicLanguage GetLanguageVisualBasic(this IMicrosoftLanguageVendor vendor)
         {
-            throw new NotImplementedException();
+            return VisualBasicLanguage.Singleton;
         }
     }
 }

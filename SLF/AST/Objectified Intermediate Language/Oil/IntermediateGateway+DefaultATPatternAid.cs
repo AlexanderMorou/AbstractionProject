@@ -14,36 +14,59 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 {
     partial class IntermediateGateway
     {
+        /// <summary>
+        /// The standard clear-text capable pattern for C&#9839;
+        /// </summary>
+        internal static readonly IAnonymousTypePatternAid CleanCSharpPattern = new DefaultATPatternAid(AnonymousTypeDisplayStyles.CSharp | AnonymousTypeDisplayStyles.Clean);
+        /// <summary>
+        /// The standard pattern for C&#9839;
+        /// </summary>
+        internal static readonly IAnonymousTypePatternAid CSharpPattern = new DefaultATPatternAid(AnonymousTypeDisplayStyles.CSharp);
+        /// <summary>
+        /// The standard clear-text capable pattern for visual basic.
+        /// </summary>
+        internal static readonly IAnonymousTypePatternAid CleanVBPattern = new DefaultATPatternAid(AnonymousTypeDisplayStyles.VisualBasic | AnonymousTypeDisplayStyles.Clean);
+        /// <summary>
+        /// The standard pattern for visual basic.
+        /// </summary>
+        internal static readonly IAnonymousTypePatternAid VBPattern = new DefaultATPatternAid(AnonymousTypeDisplayStyles.VisualBasic);
         private class DefaultATPatternAid :
             AnonymousTypePatternAid
         {
+            private AnonymousTypeDisplayStyles displayStyle;
+
+            public DefaultATPatternAid(AnonymousTypeDisplayStyles displayStyle)
+            {
+                this.displayStyle = displayStyle;
+            }
+
             #region Language/Clean Checks
 
-            private static bool IsCSharp
+            private bool IsCSharp
             {
                 get
                 {
-                    return (IntermediateGateway.anonymousDisplayStyle & AnonymousTypeDisplayStyles.CSharp) == AnonymousTypeDisplayStyles.CSharp;
+                    return (displayStyle & AnonymousTypeDisplayStyles.CSharp) == AnonymousTypeDisplayStyles.CSharp;
                 }
             }
-            private static bool IsVisualBasic
+            private bool IsVisualBasic
             {
                 get
                 {
-                    return (IntermediateGateway.anonymousDisplayStyle & AnonymousTypeDisplayStyles.VisualBasic) == AnonymousTypeDisplayStyles.VisualBasic;
+                    return (displayStyle & AnonymousTypeDisplayStyles.VisualBasic) == AnonymousTypeDisplayStyles.VisualBasic;
                 }
             }
-            private static bool IsClean
+            private bool IsClean
             {
                 get
                 {
-                    return (IntermediateGateway.anonymousDisplayStyle & AnonymousTypeDisplayStyles.Clean) == AnonymousTypeDisplayStyles.Clean;
+                    return (displayStyle & AnonymousTypeDisplayStyles.Clean) == AnonymousTypeDisplayStyles.Clean;
                 }
             }
             #endregion
 
             #region Pattern Selections
-            private static string TypePattern
+            private string TypePattern
             {
                 get
                 {
@@ -64,7 +87,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
             }
 
-            private static string FieldPattern
+            private string FieldPattern
             {
                 get
                 {
@@ -85,7 +108,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             }
 
-            private static string TypeParamPattern
+            private string TypeParamPattern
             {
                 get
                 {

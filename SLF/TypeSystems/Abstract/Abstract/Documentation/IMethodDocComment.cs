@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract.Documentation
 {
@@ -10,25 +11,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Documentation
     /// documentation comment associated to a method.
     /// </summary>
     public interface IMethodDocComment : 
-        IDocComment
+        ISignatureMemberDocComment
     {
         /// <summary>
-        /// Returns the <see cref="IDocCommentGroup"/>
-        /// associated to the parameters of the 
-        /// <see cref="IMethodDocComment"/>.
-        /// </summary>
-        IDocCommentGroup Parameters { get; }
-        /// <summary>
-        /// Returns the <see cref="IDocCommentGroup"/>
+        /// Returns the <see cref="IDocCommentGroup{TItem, TSection}"/>
         /// associated to the type-parameters of the 
         /// <see cref="IMethodDocComment"/>.
         /// </summary>
-        IDocCommentGroup TypeParameters { get; }
-        /// <summary>
-        /// Returns the <see cref="IDocCommentSection"/>
-        /// which denotes information about the return
-        /// value of the method.
-        /// </summary>
-        IDocCommentSection Returns { get; }
+        IDocCommentNamedGroup<IGenericParameter, IDocCommentTypeParameterSection> TypeParameters { get; }
     }
 }
