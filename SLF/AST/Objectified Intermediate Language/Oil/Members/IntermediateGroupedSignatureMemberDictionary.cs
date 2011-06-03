@@ -21,18 +21,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TSignature :
             ISignatureMember<TSignature, TSignatureParameter, TSignatureParent>
         where TIntermediateSignature :
-            TSignature,
-            IIntermediateSignatureMember<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
+            IIntermediateSignatureMember<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>,
+            TSignature
         where TSignatureParameter :
             ISignatureParameterMember<TSignature, TSignatureParameter, TSignatureParent>
         where TIntermediateSignatureParameter :
-            TSignatureParameter,
-            IIntermediateSignatureParameterMember<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
+            IIntermediateSignatureParameterMember<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>,
+            TSignatureParameter
         where TSignatureParent :
             ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
         where TIntermediateSignatureParent :
-            TSignatureParent,
-            IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
+            class,
+            IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>,
+            TSignatureParent
     {
 
         /// <summary>

@@ -290,6 +290,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return this.returnType;
         }
 
+        /// <summary>
+        /// Disposes the <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
+        /// </summary>
+        /// <param name="disposing">whether to dispose the managed 
+        /// resources as well as the unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
             try
@@ -305,6 +310,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                     }
                     if (this.typeParameters != null)
                         this.typeParameters.Dispose();
+                    this.returnType = null;
                 }
             }
             finally
@@ -436,7 +442,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         #endregion
 
         #region IIntermediateMethodSignatureMember Members
-
 
         IMethodPointerReferenceExpression IIntermediateMethodSignatureMember.GetReference(IMemberParentReferenceExpression source)
         {

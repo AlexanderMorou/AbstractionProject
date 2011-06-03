@@ -68,5 +68,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <param name="visitor">The <see cref="IIntermediateTypeVisitor"/> to
         /// receive the <see cref="IIntermediateType"/> as a visitor.</param>
         void Visit(IIntermediateTypeVisitor visitor);
+        /// <summary>
+        /// Returns whether the <see cref="IIntermediateType"/> is disposed.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }

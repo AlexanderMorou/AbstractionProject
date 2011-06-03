@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Events;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -154,7 +156,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             get
             {
-                throw new NotImplementedException();
+                var lastParam = this.parameters.Values.LastOrDefault();
+                if (lastParam == null)
+                    return false;
+                return lastParam.CustomAttributes.Contains(CommonTypeRefs.ParameterArrayAttribute);
             }
         }
 
@@ -177,6 +182,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         #endregion
+
+        /// <summary>
+        /// Disposes the <see cref="IntermediateParameterParentMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>
+        /// </summary>
+        /// <param name="disposing">whether to dispose the managed 
+        /// resources as well as the unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
             try
@@ -201,9 +212,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region IIntermediateParameterParent<TParent,TIntermediateParent,TParameter,TIntermediateParameter> Members
 
-
+        /// <summary>
+        /// Occurs when a parameter is added.
+        /// </summary>
         public event EventHandler<EventArgsR1<TIntermediateParameter>> ParameterAdded;
 
+        /// <summary>
+        /// Occurs when a parameter is removed.
+        /// </summary>
         public event EventHandler<EventArgsR1<TIntermediateParameter>> ParameterRemoved;
 
         #endregion

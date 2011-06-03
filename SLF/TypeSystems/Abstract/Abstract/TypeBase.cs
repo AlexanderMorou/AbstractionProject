@@ -382,7 +382,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Returns the full name of the <see cref="TypeBase"/>.
         /// </summary>
-        public string FullName
+        public virtual string FullName
         {
             get { return this.BuildTypeName(); }
         }

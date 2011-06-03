@@ -22,7 +22,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// differing kind, name collisions.</remarks>
     public interface IIntermediateFullTypeDictionary :
         IIntermediateFullDeclarationDictionary<IType, IIntermediateType>,
-        IFullTypeDictionary
+        IFullTypeDictionary,
+        IDisposable
     {
         /// <summary>
         /// Returns the <see cref="IIntermediateTypeParent"/> that contains the 

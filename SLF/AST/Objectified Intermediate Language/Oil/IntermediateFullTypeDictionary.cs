@@ -20,7 +20,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     [DebuggerDisplay("Types: {Count}")]
     public class IntermediateFullTypeDictionary :
         IntermediateFullDeclarationDictionary<IType, IIntermediateType>,
-        IIntermediateFullTypeDictionary
+        IIntermediateFullTypeDictionary,
+        IDisposable
     {
         /// <summary>
         /// Creates a new <see cref="IntermediateFullTypeDictionary"/> initialized
@@ -165,5 +166,25 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         #endregion
+
+
+
+        #region IDisposable Members
+
+        public void Dispose()
+        {
+            base._Clear();
+        }
+
+        #endregion
+
+
+        internal void ConditionalRemove(IIntermediateTypeParent parent)
+        {
+            this._RemoveSet(from element in this
+                            let intermediateItem = element.Value.Entry as IIntermediateType
+                            where intermediateItem != null && intermediateItem.Parent == parent
+                            select element.Key);
+        }
     }
 }

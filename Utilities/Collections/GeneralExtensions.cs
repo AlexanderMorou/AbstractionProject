@@ -126,6 +126,20 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             return result;
         }
 
+        public static Tuple<TKey[], TValue[]> SplitKeyValueSets<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> set)
+        {
+            var copy=set.ToArray();
+            TKey[] resultA = new TKey[copy.Length];
+            TValue[] resultB = new TValue[copy.Length];
+            for (int i = 0; i < copy.Length; i++)
+            {
+                var current = copy[i];
+                resultA[i] = current.Key;
+                resultB[i] = current.Value;
+            }
+            return new Tuple<TKey[], TValue[]>(resultA, resultB);
+        }
+
         /// <summary>
         /// Creates a new <see cref="IDictionary{TKey, TValue}"/> with the keys of <paramref name="source"/>
         /// and values as yielded by <paramref name="valueGen"/>.

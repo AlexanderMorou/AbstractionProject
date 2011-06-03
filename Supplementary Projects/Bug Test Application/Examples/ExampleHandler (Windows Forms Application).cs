@@ -121,7 +121,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 mdInitializeComponent.Assign(mdClickMeReference.GetProperty("UseVisualStyleBackColor"), IntermediateGateway.TrueValue);
                 //this.ClickMeButton.Click += ClickMeButton_Click;
                 mdInitializeComponent.AddHandler(mdClickMeReference, "Click", mdClickMeClick.GetReference());
-
+                
                 mdInitializeComponent.Comment("MainDialog setup");
                 //this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
                 mdInitializeComponent.Assign(thisReference.GetProperty("AutoScaleDimensions"), typeof(SizeF).GetNewExpression(6F.ToPrimitive(), 13F.ToPrimitive()));

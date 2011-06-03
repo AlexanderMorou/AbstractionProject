@@ -54,18 +54,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         private IIntermediateNamespaceDictionary namespaces;
         private IntermediateFullMemberDictionary members;
-        private IIntermediateMethodMemberDictionary<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent> methods;
-        private IIntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent> fields;
+        private IntermediateMethodMemberDictionary<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent> methods;
+        private IntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent> fields;
         private IScopeCoercionCollection scopeCoercions;
 
+        /// <summary>
+        /// Creates a new <see cref="IntermediateNamespaceDeclaration"/>
+        /// with the <paramref name="name"/> and <paramref name="parent"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value representing the
+        /// <see cref="IntermediateNamespaceDeclaration"/>'s name.</param>
+        /// <param name="parent">The <see cref="IIntermediateNamespaceParent"/>
+        /// which contains the <see cref="IntermediateNamespaceDeclaration"/>.</param>
         public IntermediateNamespaceDeclaration(string name, IIntermediateNamespaceParent parent)
             : base()
         {
             base.Name = name;
             this.parent = parent;
         }
+
         /// <summary>
-        /// Creates a new <see cref="IIntermediateNamespaceDeclaration"/>
+        /// Creates a new <see cref="IntermediateNamespaceDeclaration"/>
         /// instance with the root namespace declaration provided.
         /// </summary>
         /// <param name="rootDeclaration">The <see cref="IntermediateNamespaceDeclaration"/>
@@ -84,6 +93,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             visitor.Visit(this);
         }
 
+        /// <summary>
+        /// Returns the <see cref="IIntermediateAssembly"/> associated
+        /// to the <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
         public IIntermediateAssembly Assembly
         {
             get
@@ -94,6 +107,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        /// <summary>
+        /// Returns the <see cref="IIntermediateNamespaceParent"/>
+        /// which contains the <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
         public IIntermediateNamespaceParent Parent
         {
             get
@@ -104,6 +121,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
+        /// <summary>
+        /// Returns the <see cref="String"/> value representing part or
+        /// all of the unique identifier that makes up the 
+        /// <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
+        /// <returns>A string value representing the name of the 
+        /// <see cref="IntermediateNamespaceDeclaration"/>.</returns>
+        /// <remarks>Overridden to accomodate for partial instance
+        /// awareness.</remarks>
         protected override string OnGetName()
         {
             if (this.IsRoot)
@@ -114,6 +140,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return this.GetRoot().Name;
         }
 
+        /// <summary>
+        /// Returns the unique identifier for the current 
+        /// <see cref="IntermediateNamespaceDeclaration"/> where 
+        /// <see cref="Name"/> is not enough to distinguish
+        /// between two <see cref="IntermediateNamespaceDeclaration"/>
+        /// entities.
+        /// </summary>
         public override string UniqueIdentifier
         {
             get { return this.Name; }
@@ -122,6 +155,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateNamespaceParent Members
 
+        /// <summary>
+        /// Returns the namespaces associated to the
+        /// <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
         public IIntermediateNamespaceDictionary Namespaces
         {
             get
@@ -141,6 +178,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateTypeParent Members
 
+        /// <summary>
+        /// Returns the <see cref="IScopeCoercionCollection"/>
+        /// associated to the scope coercions of the <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
         public IScopeCoercionCollection ScopeCoercions
         {
             get
@@ -150,6 +191,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return this.scopeCoercions;
             }
         }
+
+        /// <summary>
+        /// Returns the classes associated
+        /// to the <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
         public IIntermediateClassTypeDictionary Classes
         {
             get
@@ -159,6 +205,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        /// <summary>
+        /// Returns the delegates associated
+        /// to the <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
         public IIntermediateDelegateTypeDictionary Delegates
         {
             get
@@ -168,6 +218,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        /// <summary>
+        /// Returns the enumerations associated
+        /// to the <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
         public IIntermediateEnumTypeDictionary Enums
         {
             get
@@ -177,6 +231,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        /// <summary>
+        /// Returns the interfaces associated
+        /// to the <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
         public IIntermediateInterfaceTypeDictionary Interfaces
         {
             get
@@ -186,6 +244,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        /// <summary>
+        /// Returns the data structures associated
+        /// to the <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
         public IIntermediateStructTypeDictionary Structs
         {
             get
@@ -204,6 +266,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        /// <summary>
+        /// Returns the full set of types associated to
+        /// the <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
         public IIntermediateFullTypeDictionary Types
         {
             get
@@ -293,9 +359,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region INamespaceDeclaration Members
 
+        /// <summary>
+        /// Returns the <see cref="IntermediateNamespaceDeclaration"/>'s
+        /// full name.
+        /// </summary>
         public string FullName
         {
-            get {
+            get
+            {
                 return this.GetFullName();
             }
         }
@@ -385,12 +456,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        protected override void OnSetName(string value)
+        /// <summary>
+        /// Instructs the <see cref="IntermediateNamespaceDeclaration"/>
+        /// that the <paramref name="name"/> has been changed.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/>
+        /// value representing the new name of the 
+        /// <see cref="IntermediateNamespaceDeclaration"/>.</param>
+        /// <remarks>Overridden to accomodate for partial instance
+        /// awareness.</remarks>
+        protected override void OnSetName(string name)
         {
             if (this.IsRoot)
-                base.OnSetName(value);
+                base.OnSetName(name);
             else
-                this.GetRoot().Name = value;
+                this.GetRoot().Name = name;
         }
 
         private static void SuspendCheck<TType, TIntermediateType>(IntermediateTypeDictionary<TType, TIntermediateType> dictionary, int suspendLevel)
@@ -463,48 +543,84 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
         #endregion
 
+        /// <summary>
+        /// Returns the <see cref="String"/> representation of the
+        /// <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return this.FullName;
         }
 
+        /// <summary>
+        /// Disposes the <see cref="IntermediateNamespaceDeclaration"/>
+        /// </summary>
+        /// <param name="disposing">whether to dispose the managed 
+        /// resources as well as the unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
             try
             {
-                if (this.classes != null)
+                if (disposing)
                 {
-                    this.classes.Dispose();
-                    this.classes = null;
+                    if (this.methods != null)
+                    {
+                        this.methods.Dispose();
+                        this.methods = null;
+                    }
+                    if (this.fields != null)
+                    {
+                        this.fields.Dispose();
+                        this.fields = null;
+                    }
+                    if (this.members != null)
+                    {
+                        if (this.IsRoot)
+                            this.members.Dispose();
+                        else
+                            this.members.ConditionalRemove(this);
+                        this.members = null;
+                    }
+                    if (this.classes != null)
+                    {
+                        this.classes.Dispose();
+                        this.classes = null;
+                    }
+                    if (this.enums != null)
+                    {
+                        this.enums.Dispose();
+                        this.enums = null;
+                    }
+                    if (this.delegates != null)
+                    {
+                        this.delegates.Dispose();
+                        this.delegates = null;
+                    }
+                    if (this.interfaces != null)
+                    {
+                        this.interfaces.Dispose();
+                        this.interfaces = null;
+                    }
+                    if (this.structs != null)
+                    {
+                        this.structs.Dispose();
+                        this.structs = null;
+                    }
+                    if (this.types != null)
+                    {
+                        if (this.IsRoot)
+                            this.types.Dispose();
+                        else
+                            this.types.ConditionalRemove(this);
+                        this.types = null;
+                    }
+                    if (this.namespaces != null)
+                    {
+                        this.namespaces.Dispose();
+                        this.namespaces = null;
+                    }
                 }
-                if (this.enums != null)
-                {
-                    this.enums.Dispose();
-                    this.enums = null;
-                }
-                if (this.delegates != null)
-                {
-                    this.delegates.Dispose();
-                    this.delegates = null;
-                }
-                if (this.interfaces != null)
-                {
-                    this.interfaces.Dispose();
-                    this.interfaces = null;
-                }
-                if (this.structs != null)
-                {
-                    this.structs.Dispose();
-                    this.structs = null;
-                }
-                if (this.types != null)
-                    this.types = null;
-                if (this.namespaces != null)
-                {
-                    this.namespaces.Dispose();
-                    this.namespaces = null;
-                }
-
             }
             finally
             {
@@ -512,6 +628,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        /// <summary>
+        /// Obtains a new <see cref="IntermediateNamespaceDeclaration"/>
+        /// associated to the partial instance being created.
+        /// </summary>
+        /// <returns>A new <see cref="IntermediateNamespaceDeclaration"/>
+        /// associated to the partial instance being created.</returns>
         protected override IntermediateNamespaceDeclaration GetNewPartial()
         {
             var sParent = this.Parent as IIntermediateSegmentableDeclaration;
@@ -537,9 +659,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
         private int suspendLevel = 0;
 
+        /// <summary>
+        /// Suspends the duality in the type layout where members 
+        /// inserted in methods, properties, events and so on are 
+        /// dually inserted in a verbatim-order master set.
+        /// </summary>
+        /// <remarks>Incremental function, all resumes must
+        /// be invoked prior to resuming the duality.</remarks>
         public void SuspendDualLayout()
         {
             this.suspendLevel++;
+            if (this.methods != null)
+                this.methods.Suspend();
+            if (this.fields != null)
+                this.fields.Suspend();
             if (this.classes != null)
                 this.classes.Suspend();
             if (this.delegates != null)
@@ -552,11 +685,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.structs.Suspend();
         }
 
+        /// <summary>
+        /// Resumes the duality in the type layout where members
+        /// inserted in methods, properties, events, and so on are
+        /// dually inserted in a verbatim-order master set.
+        /// </summary>
+        /// <remarks>Incremental function, all resumes must
+        /// be invoked prior to resuming the duality.</remarks>
         public void ResumeDualLayout()
         {
             if (this.suspendLevel == 0)
                 return;
             this.suspendLevel--;
+            if (this.methods != null)
+                this.methods.Resume();
+            if (this.fields != null)
+                this.fields.Resume();
             if (this.classes != null)
                 this.classes.Resume();
             if (this.delegates != null)
@@ -569,6 +713,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.structs.Resume();
         }
 
+        /// <summary>
+        /// Returns a series of string values which relate to the 
+        /// identifiers contained within the <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
         public IEnumerable<string> AggregateIdentifiers
         {
             get { return this.GetNamespaceParentIdentifiers(); }
@@ -577,9 +725,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #region IIntermediateNamespaceParent Members
 
 
+        /// <summary>
+        /// Returns the <see cref="IIntermediateFullMemberDictionary"/> containing the 
+        /// grouped series of members associated to the
+        /// <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
         public IIntermediateFullMemberDictionary Members
         {
-            get {
+            get
+            {
                 this.CheckFields();
                 this.CheckMethods();
                 return this._Members;
@@ -598,16 +752,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.methods = this.InitializeMethods();
         }
 
-        private IIntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent> InitializeFields()
+        private IntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent> InitializeFields()
         {
             if (this.IsRoot)
                 return new IntermediateTopLevelFieldMemberDictionary(this._Members, this);
             else
                 return new IntermediateTopLevelFieldMemberDictionary(this._Members, this, this.GetRoot().Fields as IntermediateTopLevelFieldMemberDictionary);
-                
+
         }
 
-        private IIntermediateMethodMemberDictionary<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent> InitializeMethods()
+        private IntermediateMethodMemberDictionary<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent> InitializeMethods()
         {
             if (this.IsRoot)
                 return new IntermediateTopLevelMethodMemberDictionary(this._Members, this);
@@ -629,9 +783,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateFieldParent<ITopLevelFieldMember,IIntermediateTopLevelFieldMember,INamespaceParent,IIntermediateNamespaceParent> Members
 
+        /// <summary>
+        /// Returns the <see cref="IIntermediateFieldMemberDictionary{TField, TIntermediateField, TFieldParent, TIntermediateFieldParent}"/> 
+        /// containing the fields defined on the current 
+        /// <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
         public IIntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent> Fields
         {
-            get {
+            get
+            {
                 this.CheckFields();
                 return this.fields;
             }
@@ -668,9 +828,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateMethodParent<ITopLevelMethodMember,IIntermediateTopLevelMethodMember,INamespaceParent,IIntermediateNamespaceParent> Members
 
+        /// <summary>
+        /// Returns the <see cref="IIntermediateMethodMemberDictionary{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/> 
+        /// containing the methods defined on the current 
+        /// <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
         public IIntermediateMethodMemberDictionary<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent> Methods
         {
-            get {
+            get
+            {
                 this.CheckMethods();
                 return this.methods;
             }
@@ -710,8 +876,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         IFullMemberDictionary INamespaceParent.Members
         {
-            get {
-                return this.Members; }
+            get
+            {
+                return this.Members;
+            }
         }
 
         #endregion

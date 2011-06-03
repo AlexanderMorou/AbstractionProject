@@ -35,6 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TIndexerParent :
             IIndexerParent<TIndexer, TIndexerParent>
         where TIntermediateIndexerParent :
+            class,
             IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>,
             TIndexerParent
     {

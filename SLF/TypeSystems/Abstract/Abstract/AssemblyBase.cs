@@ -3,6 +3,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using System.Collections.Generic;
 using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -69,6 +70,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         private IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> fields;
         private IFullMemberDictionary members;
+        private byte isDisposed = 0;
+
         #endregion
         
         #region Protected Members
@@ -170,7 +173,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         internal void CheckFields()
         {
             if (this.fields == null)
+            {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.fields = this.InitializeFields();
+            }
         }
 
         /// <summary>
@@ -180,7 +187,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         internal void CheckMethods()
         {
             if (this.methods == null)
+            {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.methods = this.InitializeMethods();
+            }
         }
 
         /// <summary>
@@ -190,7 +201,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         internal void CheckClasses()
         {
             if (this.classes == null)
+            {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.classes = this.InitializeClasses();
+            }
         }
 
         /// <summary>
@@ -200,7 +215,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         internal void CheckDelegates()
         {
             if (this.delegates == null)
+            {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.delegates = this.InitializeDelegates();
+            }
         }
 
         /// <summary>
@@ -210,7 +229,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         internal void CheckEnumerators()
         {
             if (this.enums == null)
+            {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.enums = this.InitializeEnums();
+            }
         }
 
         /// <summary>
@@ -220,7 +243,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         internal void CheckInterfaces()
         {
             if (this.interfaces == null)
+            {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.interfaces = this.InitializeInterfaces();
+            }
         }
 
         /// <summary>
@@ -230,7 +257,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         internal void CheckStructs()
         {
             if (this.structs == null)
+            {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.structs = this.InitializeStructs();
+            }
         }
 
         /// <summary>
@@ -240,7 +271,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         internal void CheckTypes()
         {
             if (this.types == null)
+            {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.types = this.InitializeTypes();
+            }
         }
 
         /// <summary>
@@ -250,7 +285,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         internal void CheckModules()
         {
             if (this.modules == null)
+            {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.modules = this.InitializeModules();
+            }
         }
 
         /// <summary>
@@ -260,7 +299,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         internal void CheckMembers()
         {
             if (this.members == null)
+            {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.members = this.InitializeMembers();
+            }
         }
 
         #endregion
@@ -469,6 +512,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     this.modules = null;
                 }
                 this.types = null;
+                this.isDisposed = 1;
             }
             finally
             {
@@ -657,5 +701,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         #endregion
+
+        public bool IsDisposed
+        {
+            get
+            {
+                return this.isDisposed == 1;
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Utilities.Events;
+using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -23,7 +24,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// </summary>
     /// <typeparam name="TDeclaration">The type of <see cref="IIntermediateSegmentableDeclaration"/>
     /// which needs partialalbe functionality</typeparam>
-    public abstract class IntermediateSegmentableDeclarationBase<TDeclaration, [GenericParamDataTarget(typeof(IntermediateSegmentableDeclarationBase<,>.TInstDeclarationData))] TInstDeclaration> :
+    /// <typeparam name="TInstDeclaration">The specific <typeparamref name="TInstDeclaration"/>
+    /// which represents the implementation of the <typeparamref name="TDeclaration"/>
+    /// provided.</typeparam>
+    public abstract class IntermediateSegmentableDeclarationBase<TDeclaration, TInstDeclaration> :
         IntermediateDeclarationBase,
         IIntermediateSegmentableDeclaration<TDeclaration>
         where TDeclaration :
@@ -34,13 +38,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             TDeclaration/*,
             new (TDeclaration rootDeclaration)*/
     {
-        /* *
-         * TInstDeclarationData's data structure which defines the special extensions to type-parameters.
-         * */
-        private struct TInstDeclarationData
-        {
-            private TInstDeclarationData(TDeclaration rootDeclaration) { }
-        }
         /// <summary>
         /// Data member for <see cref="GetRoot()"/>.
         /// </summary>
@@ -62,6 +59,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             this.rootDeclaration = rootDeclaration;
         }
 
+        /// <summary>
+        /// Creates a new <see cref="IntermediateSegmentableDeclarationBase{TDeclaration, TInstDeclaration}"/>
+        /// initialized to a default state.
+        /// </summary>
+        /// <remarks>Typically reserved for the root instance of a set.</remarks>
         public IntermediateSegmentableDeclarationBase()
         {
         }
@@ -80,11 +82,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return this.rootDeclaration;
         }
 
+        /// <summary>
+        /// Returns the parts collection of the
+        /// <see cref="IntermediateSegmentableDeclarationBase{TDeclaration, TInstDeclaration}"/>.
+        /// </summary>
         public IIntermediateSegmentableDeclarationPartCollection<TDeclaration> Parts
         {
             get {
                 if (this.IsRoot)
                 {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                     if (this.parts == null)
                         this.parts = new IntermediateSegmentableDeclarationParts<TDeclaration, TInstDeclaration>(((TDeclaration)((object)(this))), GetNewPartial);
                     return this.parts;
@@ -105,6 +113,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return this.GetRoot();
         }
 
+        /// <summary>
+        /// Returns whether the current <see cref="IntermediateSegmentableDeclarationBase{TDeclaration, TInstDeclaration}"/>
+        /// is the root (first) instance.
+        /// </summary>
         public bool IsRoot
         {
             get { return this.rootDeclaration == null; }
@@ -117,7 +129,37 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
+        /// <summary>
+        /// Obtains a new <typeparamref name="TInstDeclaration"/>
+        /// associated to the partial instance being created.
+        /// </summary>
+        /// <returns>A new <typeparamref name="TInstDeclaration"/>
+        /// associated to the partial instance being created.</returns>
         protected abstract TInstDeclaration GetNewPartial();
+
+        /// <summary>
+        /// Disposes the <see cref="IntermediateSegmentableDeclarationBase{TDeclaration, TInstDeclaration}"/>
+        /// </summary>
+        /// <param name="disposing">whether to dispose the managed resources as well as
+        /// the unmanaged resources.</param>
+        protected override void Dispose(bool disposing)
+        {
+            try
+            {
+                if (disposing)
+                    if (this.parts != null)
+                    {
+                        this.parts.AsParallel().ForAll(
+                            part =>
+                                part.Dispose());
+                        this.parts = null;
+                    }
+            }
+            finally
+            {
+                base.Dispose(disposing);
+            }
+        }
 
     }
 }

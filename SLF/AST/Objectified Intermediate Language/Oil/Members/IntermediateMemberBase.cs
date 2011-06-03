@@ -121,5 +121,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public abstract void Visit(IIntermediateMemberVisitor visitor);
 
         #endregion
+
+        /// <summary>
+        /// Disposes the <see cref="IntermediateMemberBase{TParent, TIntermediateParent}"/>
+        /// </summary>
+        /// <param name="disposing">whether to dispose the managed 
+        /// resources as well as the unmanaged resources.</param>
+        protected override void Dispose(bool disposing)
+        {
+            try
+            {
+                this.parent = default(TIntermediateParent);
+            }
+            finally
+            {
+                base.Dispose(disposing);
+            }
+        }
     }
 }

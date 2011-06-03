@@ -171,7 +171,7 @@
     <Compile Include="Abstract\ICustomAttributeInstance.cs" />
     <Compile Include="Abstract\ICustomAttributedDeclaration.cs" />
     <Compile Include="Abstract\IDeclaration.cs" />
-    <Compile Include="Abstract\IDeclarations.cs" />
+    <Compile Include="Abstract\IDeclarationDictionary.cs" />
     <Compile Include="Abstract\IDeclarations{TItem}.cs" />
     <Compile Include="Abstract\IDelegateType.cs" />
     <Compile Include="Abstract\IDelegateTypeDictionary.cs" />

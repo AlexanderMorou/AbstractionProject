@@ -38,11 +38,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             IIntermediateParameterMember<TParent, TIntermediateParent>
     {
         /// <summary>
-        /// Returns the dictionary of <typeparamref name="TIntermediateParameter"/> instances for the current <see cref="IIntermediateParameterParent{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>
+        /// Returns the dictionary of <typeparamref name="TIntermediateParameter"/>
+        /// instances for the current
+        /// <see cref="IIntermediateParameterParent{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>
         /// implementation.
         /// </summary>
         new IIntermediateParameterMemberDictionary<TParent, TIntermediateParent, TParameter, TIntermediateParameter> Parameters { get; }
+        /// <summary>
+        /// Occurs when a parameter is added.
+        /// </summary>
         new event EventHandler<EventArgsR1<TIntermediateParameter>> ParameterAdded;
+        /// <summary>
+        /// Occurs when a parameter is removed.
+        /// </summary>
         new event EventHandler<EventArgsR1<TIntermediateParameter>> ParameterRemoved;
     }
 
@@ -59,7 +67,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// implementation.
         /// </summary>
         new IIntermediateParameterMemberDictionary Parameters { get; }
+        /// <summary>
+        /// Occurs when a parameter is added.
+        /// </summary>
         event EventHandler<EventArgsR1<IIntermediateParameterMember>> ParameterAdded;
+        /// <summary>
+        /// Occurs when a parameter is removed.
+        /// </summary>
         event EventHandler<EventArgsR1<IIntermediateParameterMember>> ParameterRemoved;
     }
 }

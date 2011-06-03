@@ -214,7 +214,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         {
             if (this.IsDisposed)
                 throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            return other.Equals(typeof(object).GetTypeReference());
+            return other.Equals(CommonTypeRefs.Object);
         }
 
         protected override ICustomAttributeCollection InitializeCustomAttributes()

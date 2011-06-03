@@ -34,6 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TType :
             ICreatableType<TCtor, TType>
         where TIntermediateType :
+            class,
             IIntermediateCreatableType<TCtor, TIntermediateCtor, TType, TIntermediateType>,
             TType
     {
@@ -87,7 +88,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 var currentParam = parameters[i];
                 var kind = currentParam.GetTypeRef();
                 if (kind.ContainsSymbols())
-                    kind = kind.AttemptToDisambiguateSymbols(this.Parent);
+                    kind = kind.SimpleSymbolDisambiguation(this.Parent);
 
                 adjustedParameters[i] = new TypedName(currentParam.Name, kind, currentParam.Direction);
             });

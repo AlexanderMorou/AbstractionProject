@@ -204,7 +204,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         {
             //return false;
             return typeof(Array).GetTypeReference().Equals(other) ||
-                   typeof(Object).GetTypeReference().Equals(other);
+                   CommonTypeRefs.Object.Equals(other);
         }
 
         public bool IsAssignableFrom(IType target)

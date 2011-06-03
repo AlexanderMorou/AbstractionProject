@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -76,7 +77,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             
             var signatureType = nameAndDelegateType.GetTypeRef();
             if (signatureType.ContainsSymbols())
-                signatureType = signatureType.AttemptToDisambiguateSymbols(result);
+                signatureType = signatureType.SimpleSymbolDisambiguation(result);
 
             result.SignatureSource = EventSignatureSource.Delegate;
             if (signatureType is IDelegateType)
@@ -169,7 +170,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             var member = new IntermediateStructFieldMember<TInstanceIntermediateType>(nameAndType.Name, (TInstanceIntermediateType)this);
             var kind = nameAndType.GetTypeRef();
             if (kind.ContainsSymbols())
-                member.FieldType = kind.AttemptToDisambiguateSymbols(member);
+                member.FieldType = kind.SimpleSymbolDisambiguation(member);
             else
                 member.FieldType = kind;
             return member;

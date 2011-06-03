@@ -215,7 +215,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override bool IsSubclassOfImpl(IType other)
         {
-            return other.Equals(typeof(object).GetTypeReference());
+            return other.Equals(CommonTypeRefs.Object);
         }
 
         protected override IArrayType OnMakeArray(int rank)
@@ -258,6 +258,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         protected override string OnGetNamespaceName()
         {
             return this.UnderlyingSystemType.Namespace;
+        }
+
+        public override sealed string FullName
+        {
+            get
+            {
+                return base.FullName;
+            }
         }
     }
 }

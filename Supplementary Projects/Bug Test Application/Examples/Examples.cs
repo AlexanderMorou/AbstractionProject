@@ -37,11 +37,11 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
         {
             public static Tuple<IVisualBasicAssembly, IIntermediateTopLevelMethodMember, IIntermediateClassType, IIntermediateClassMethodMember, IIntermediateClassMethodMember, IIntermediateClassCtorMember> CreateProjectVB()
             {
-                return CreateProject(name => ExampleHandler.Create<IVisualBasicLanguage, IVisualBasicProvider, IVisualBasicStart, IVisualBasicAssembly, VisualBasicVersion>(LanguageVendors.Microsoft.GetLanguageVisualBasic(), name));
+                return CreateProject(name => ExampleHandler.Create<IVisualBasicLanguage, IVisualBasicProvider, IVisualBasicStart, IVisualBasicAssembly, VisualBasicVersion>(LanguageVendors.Microsoft.GetVisualBasicLanguage(), name));
             }
             public static Tuple<ICSharpAssembly, IIntermediateTopLevelMethodMember, IIntermediateClassType, IIntermediateClassMethodMember, IIntermediateClassMethodMember, IIntermediateClassCtorMember> CreateProjectCSharp()
             {
-                return CreateProject(name => ExampleHandler.Create<ICSharpLanguage, ICSharpProvider, ICSharpCompilationUnit, ICSharpAssembly, CSharpLanguageVersion>(LanguageVendors.Microsoft.GetLanguageCSharp(), name));
+                return CreateProject(name => ExampleHandler.Create<ICSharpLanguage, ICSharpProvider, ICSharpCompilationUnit, ICSharpAssembly, CSharpLanguageVersion>(LanguageVendors.Microsoft.GetCSharpLanguage(), name));
             }
 
         }

@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         private IIntermediateModule declaringModule;
         private bool isLocked;
-
+        private byte isDisposed = 0;
         /// <summary>
         /// Returns the <see cref="String"/> name of the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>.
         /// </summary>
@@ -406,10 +406,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     this.customAttributes = null;
                 }
                 this.parent = null;
+                this.name = null;
                 this.declaringModule = null;
             }
             finally
             {
+                this.isDisposed = 1;
                 base.Dispose(dispose);
             }
         }
@@ -476,5 +478,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return this.isLocked;
             }
         }
+        public bool IsDisposed { get { return this.isDisposed == 1; } }
     }
 }

@@ -34,7 +34,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// <returns>A new <see cref="ICSharpProvider"/> for the 
         /// <see cref="ICSharpLanguage">C&#9839; language</see>.</returns>
         new ICSharpProvider GetProvider(CSharpLanguageVersion version);
-
         /// <summary>
         /// Creates a new <see cref="ICSharpAssembly"/>
         /// with the <paramref name="name"/> provided.
@@ -68,5 +67,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// or <paramref name="version"/> is not one of 
         /// <see cref="CSharpLanguageVersion"/>.</exception>
         new ICSharpAssembly CreateAssembly(string name, CSharpLanguageVersion version);
+        /// <summary>
+        /// Returns the <see cref="ILanguageVendor"/> of a particular language.
+        /// </summary>
+        new IMicrosoftLanguageVendor Vendor { get; }
     }
 }

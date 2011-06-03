@@ -130,5 +130,14 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         }
 
         #endregion
+
+        #region ILanguageProvider Members
+
+        ILanguage ILanguageProvider.Language
+        {
+            get { return this.Language; }
+        }
+
+        #endregion
     }
 }

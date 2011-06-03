@@ -4,6 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -104,7 +105,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 if (this.IsRoot)
                 {
-                    this.parts = null;
+                    if (this.parts != null)
+                    {
+                        foreach (var part in this.parts)
+                            part.Dispose();
+                        this.parts = null;
+                    }
                 }
                 else
                     this.rootType = null;
@@ -120,9 +126,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public IIntermediateSegmentableDeclarationPartCollection<TIntermediateType> Parts
         {
             get {
-                if (this.parts == null)
-                    this.parts = new IntermediateSegmentableTypePartCollection<TType, TIntermediateType, TInstanceIntermediateType>(((TInstanceIntermediateType)(this)), GetNewPartial);
-                return this.parts;
+                if (this.IsRoot)
+                {
+                    if (this.parts == null)
+                    {
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                        this.parts = new IntermediateSegmentableTypePartCollection<TType, TIntermediateType, TInstanceIntermediateType>(((TInstanceIntermediateType)(this)), GetNewPartial);
+                    }
+                    return this.parts;
+                }
+                else
+                    return this.GetRoot().Parts;
             }
         }
 

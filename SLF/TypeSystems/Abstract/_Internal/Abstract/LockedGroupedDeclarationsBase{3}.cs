@@ -134,21 +134,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         /// <exception cref="System.NotSupportedException">
         /// The <see cref="LockedGroupedDeclarationsBase{TItem, TMItem, TSourceItem}"/> does not
         /// support modification.</exception>
-        protected internal override void _Add(string key, TItem value)
+        protected internal sealed override void _Add(string key, TItem value)
         {
             throw new NotSupportedException("Declarations locked.");
         }
 
         /// <summary>
-        /// Removes an element with the specified <paramref name="key"/> from the 
-        /// <see cref="LockedGroupedDeclarationsBase{TItem, TMItem, TSourceItem}"/>.
+        /// Removes an element with the specified <paramref name="index"/>
+        /// from the <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/>.
         /// </summary>
-        /// <param name="key">The key of the <typeparamref name="TItem"/> to remove.</param>
-        /// <returns>true if the element was successfully removed; false otherwise.</returns>
+        /// <param name="index">The <see cref="Int32"/> value of the ordinal index of 
+        /// the <typeparamref name="TSValue"/> to remove.</param>
+        /// <returns><see cref="System.NotSupportedException"/></returns>
         /// <exception cref="System.NotSupportedException">
         /// The <see cref="LockedGroupedDeclarationsBase{TItem, TMItem, TSourceItem}"/> does 
         /// not support modification.</exception>
-        protected internal override bool Remove(string key)
+        protected internal sealed override bool _Remove(int index)
         {
             throw new NotSupportedException("Declarations locked.");
         }
@@ -197,10 +198,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 this.keysInstance = null;
             }
             else
-            {
                 foreach (var v in this.Values)
                     v.Dispose();
-            }
         }
 
         #endregion

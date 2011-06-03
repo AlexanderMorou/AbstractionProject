@@ -201,7 +201,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             }
         }
 
-
         #region ISourceElement Members
 
         public string FileName { get; set; }

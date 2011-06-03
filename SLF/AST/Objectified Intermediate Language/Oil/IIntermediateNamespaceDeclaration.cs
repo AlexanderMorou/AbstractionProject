@@ -29,8 +29,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         new IIntermediateAssembly Assembly { get; }
         /// <summary>
-        /// Returns the <see cref="INamespaceParent"/>
-        /// which contains the <see cref="INamespaceDeclaration"/>.
+        /// Returns the <see cref="IIntermediateNamespaceParent"/>
+        /// which contains the <see cref="IIntermediateNamespaceDeclaration"/>.
         /// </summary>
         new IIntermediateNamespaceParent Parent { get; }
         /// <summary>

@@ -46,5 +46,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// consists of.
         /// </summary>
         IModuleDictionary Modules { get; }
+        /// <summary>
+        /// Returns whether the <see cref="IAssembly"/> has been
+        /// disposed.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }

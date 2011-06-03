@@ -211,14 +211,22 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             if (series == null)
                 throw new ArgumentNullException("series");
             int fullLength = 0;
+            int[] starts = new int[series.Length];
             for (int i = 0; i < series.Length; i++)
                 if (series[i] == null)
                     throw new ArgumentException("A member of series was null", "series");
                 else
+                {
+                    starts[i] = fullLength;
                     fullLength += series[i].Length;
+                }
             T[] result = new T[fullLength];
-            for (int i = 0, offset = 0; i < series.Length && offset < fullLength; offset += series[i++].Length)
-                series[i].CopyTo(result, offset);
+            Parallel.For(0, starts.Length, i =>
+                {
+                    series[i].CopyTo(result, starts[i]);
+                });
+            //for (int i = 0, offset = 0; i < series.Length && offset < fullLength; offset += series[i++].Length)
+            //    series[i].CopyTo(result, offset);
             return result;
         }
         /// <summary>

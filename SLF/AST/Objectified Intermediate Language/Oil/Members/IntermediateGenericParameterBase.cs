@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -32,11 +33,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             class,
             IGenericParameter<TGenericParameter, TParent>
         where TIntermediateGenericParameter :
+            class,
             IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>,
             TGenericParameter
         where TParent :
             IGenericParamParent<TGenericParameter, TParent>
         where TIntermediateParent :
+            class,
             IIntermediateGenericParameterParent<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>,
             TParent
     {

@@ -24,6 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TEventParent :
             IEventParent<TEvent, TEventParent>
         where TIntermediateEventParent :
+            class,
             IIntermediateEventParent<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>,
             TEventParent
     {

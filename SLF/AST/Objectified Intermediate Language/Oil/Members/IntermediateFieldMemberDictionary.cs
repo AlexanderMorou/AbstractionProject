@@ -35,6 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TFieldParent :
             IFieldParent<TField, TFieldParent>
         where TIntermediateFieldParent :
+            class,
             TFieldParent,
             IIntermediateFieldParent<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>
     {
