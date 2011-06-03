@@ -109,7 +109,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             get
             {
                 if (this.typeParameters == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
                     this.typeParameters = this.InitializeTypeParameters();
+                }
                 return this.typeParameters;
             }
         }
@@ -232,7 +236,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             get
             {
                 if (this.genericParameters == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
                     this.genericParameters = new GenericParameterCollection(this);
+                }
                 return this.genericParameters;
             }
         }

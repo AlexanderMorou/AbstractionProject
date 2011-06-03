@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
+using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -53,13 +54,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         where TCtor :
             IConstructorMember<TCtor, TType>
         where TIntermediateCtor :
+            class, 
             TCtor,
             IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
         where TEvent :
             IEventMember<TEvent, TType>
         where TIntermediateEvent :
-            TEvent,
-            IIntermediateEventMember<TEvent, TIntermediateEvent, TType, TIntermediateType>
+            class,
+            IIntermediateEventMember<TEvent, TIntermediateEvent, TType, TIntermediateType>,
+            TEvent
         where TIntermediateEventMethod :
             class,
             TIntermediateMethod,
@@ -160,7 +163,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Data member for the unary operator coercions defined within the type.
         /// </summary>
         private UnaryOperatorDictionary unaryOperatorCoercions;
-        private bool lockMembersAndTypes;
         #endregion
 
         private int suspendLevel = 0;
@@ -617,10 +619,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
 
                 if (this._members == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                     if (this.IsRoot)
                         this._members = new IntermediateFullMemberDictionary();
                     else
                         this._members = new IntermediateFullMemberDictionary((IntermediateFullMemberDictionary)((TInstanceIntermediateType)this.GetRoot())._Members);
+                }
                 return this._members;
             }
         }
@@ -707,13 +713,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             where TMemberParent :
                 IMemberParent
             where TIntermediateMemberParent :
-                TMemberParent,
-                IIntermediateMemberParent
+                class,
+                IIntermediateMemberParent,
+                TMemberParent
             where TMember :
                 IMember<TMemberParent>
             where TIntermediateMember :
-                TMember,
-                IIntermediateMember<TMemberParent, TIntermediateMemberParent>
+                IIntermediateMember<TMemberParent, TIntermediateMemberParent>,
+                TMember
         {
             if (suspendLevel <= 0)
                 return;
@@ -726,6 +733,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.binaryOperatorCoercions == null)
             {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.binaryOperatorCoercions = InitializeBinaryOperatorCoercions();
                 SuspendCheck(binaryOperatorCoercions, suspendLevel);
             }
@@ -735,6 +744,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.constructors == null)
             {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.constructors = this.InitializeConstructors();
                 SuspendCheck(constructors, suspendLevel);
             }
@@ -744,6 +755,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.events == null)
             {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.events = this.InitializeEvents();
                 SuspendCheck(events, suspendLevel);
             }
@@ -753,6 +766,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.fields == null)
             {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.fields = this.InitializeFields();
                 SuspendCheck(fields, suspendLevel);
             }
@@ -762,6 +777,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.indexers == null)
             {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.indexers = this.InitializeIndexers();
                 SuspendCheck(indexers, suspendLevel);
             }
@@ -771,6 +788,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.methods == null)
             {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.methods = this.InitializeMethods();
                 SuspendCheck(methods, suspendLevel);
             }
@@ -780,6 +799,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.properties == null)
             {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.properties = this.InitializeProperties();
                 SuspendCheck(properties, suspendLevel);
             }
@@ -789,6 +810,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.typeCoercions == null)
             {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.typeCoercions = this.InitializeTypeCoercions();
                 SuspendCheck(typeCoercions, suspendLevel);
             }
@@ -798,6 +821,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.unaryOperatorCoercions == null)
             {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.unaryOperatorCoercions = this.InitializeUnaryOperatorCoercions();
                 SuspendCheck(unaryOperatorCoercions, suspendLevel);
             }
@@ -1016,25 +1041,63 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (dispose)
                 {
                     if (this.thisReference != null)
+                    {
                         this.thisReference.Dispose();
+                        this.thisReference = null;
+                    }
                     if (this.binaryOperatorCoercions != null)
+                    {
                         this.binaryOperatorCoercions.Dispose();
+                        this.binaryOperatorCoercions = null;
+                    }
                     if (this.constructors != null)
+                    {
                         this.constructors.Dispose();
+                        this.constructors = null;
+                    }
                     if (this.events != null)
+                    {
                         this.events.Dispose();
+                        this.events = null;
+                    }
                     if (this.fields != null)
+                    {
                         this.fields.Dispose();
+                        this.fields = null;
+                    }
                     if (this.indexers != null)
+                    {
                         this.indexers.Dispose();
+                        this.indexers = null;
+                    }
                     if (this.methods != null)
+                    {
                         this.methods.Dispose();
+                        this.methods = null;
+                    }
                     if (this.properties != null)
+                    {
                         this.properties.Dispose();
+                        this.properties = null;
+                    }
                     if (this.typeCoercions != null)
+                    {
                         this.typeCoercions.Dispose();
+                        this.typeCoercions = null;
+                    }
                     if (this.unaryOperatorCoercions != null)
+                    {
                         this.unaryOperatorCoercions.Dispose();
+                        this.unaryOperatorCoercions = null;
+                    }
+                    if (this._members != null)
+                    {
+                        if (this.IsRoot)
+                            this._members.Dispose();
+                        else
+                            this._members.ConditionalRemove(this);
+                        this._members = null;
+                    }
                 }
             }
             finally

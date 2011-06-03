@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -269,6 +270,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.classes == null)
             {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.classes = this.InitializeClasses();
                 SuspendCheck(this.classes, this.suspendLevel);
             }
@@ -278,6 +281,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.delegates == null)
             {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.delegates = this.InitializeDelegates();
                 SuspendCheck(this.delegates, this.suspendLevel);
             }
@@ -287,6 +292,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.enums == null)
             {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.enums = this.InitializeEnums();
                 SuspendCheck(this.enums, this.suspendLevel);
             }
@@ -296,6 +303,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.interfaces == null)
             {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.interfaces = this.InitializeInterfaces();
                 SuspendCheck(this.interfaces, this.suspendLevel);
             }
@@ -305,6 +314,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.structs == null)
             {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.structs = this.InitializeStructs();
                 SuspendCheck(this.structs, this.suspendLevel);
             }
@@ -313,7 +324,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private void Check_Types()
         {
             if (this.types == null)
+            {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.types = this.InitializeTypes();
+            }
         }
         #endregion
 
@@ -458,6 +473,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         internal override void OnRearrangedInner(int from, int to)
         {
+            /* *
+             * Update the internal representations of the generic variants
+             * of the intermediate types.  So if a type-parameter is rearranged
+             * all of the references to the type are updated accordingly.
+             * *
+             * This assumes the types have been resolved to their proper form,
+             * if they have not, this will obviously not work.
+             * */
             int baseLine = -this.GenericParameters.Count;
             int realFrom = baseLine + from;
             int realTo = baseLine + to;
@@ -499,7 +522,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     this.structs = null;
                 }
                 if (this.types != null)
+                {
+                    if (this.IsRoot)
+                        this.types.Dispose();
+                    else
+                        this.types.ConditionalRemove(this);
                     this.types = null;
+                }
+                if (this.scopeCoercions != null)
+                    this.scopeCoercions = null;
             }
             finally
             {
@@ -549,7 +580,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             get
             {
                 if (this.scopeCoercions == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                     this.scopeCoercions = new ScopeCoercionCollection();
+                }
                 return this.scopeCoercions;
             }
         }

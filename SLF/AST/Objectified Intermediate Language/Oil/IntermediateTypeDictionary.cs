@@ -166,5 +166,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             this._Add(new KeyValuePair<string, TType>(type.UniqueIdentifier, type));
         }
         #endregion
+
+        protected override sealed bool ShouldDispose(TIntermediateType v)
+        {
+            return v.Parent == parent;
+        }
     }
 }

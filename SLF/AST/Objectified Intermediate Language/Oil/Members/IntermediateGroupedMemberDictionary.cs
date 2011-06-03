@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TIntermediateMemberParent">The type of
     /// <see cref="IIntermediateMemberParent"/> in the intermediate
     /// abstract syntax tree.</typeparam>
-    /// <typeparam name="TMember">The type of<see cref="IMember{TParent}"/> 
+    /// <typeparam name="TMember">The type of <see cref="IMember{TParent}"/> 
     /// used in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateMember">The type of 
     /// <see cref="IIntermediateMember{TParent, TIntermediateParent}"/>
@@ -33,8 +33,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TMemberParent :
             IMemberParent
         where TIntermediateMemberParent :
-            TMemberParent,
-            IIntermediateMemberParent
+            class,
+            IIntermediateMemberParent,
+            TMemberParent
         where TMember :
             IMember<TMemberParent>
         where TIntermediateMember :
@@ -112,7 +113,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             if (!this.ContainsKey(uniqueId))
                 throw new KeyNotFoundException();
             var dummy = this[uniqueId];
-            base.Remove(uniqueId);
+            base._Remove(uniqueId);
             dummy.Dispose();
             dummy = default(TIntermediateMember);
             return true;
@@ -136,5 +137,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
+
+        protected override bool ShouldDispose(TIntermediateMember v)
+        {
+            return v.Parent == this.Parent;
+        }
     }
 }

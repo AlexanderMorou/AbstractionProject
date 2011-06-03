@@ -75,6 +75,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        public virtual KeyValuePair<string, TIntermediateDeclaration>[] ToArray()
+        {
+            KeyValuePair<string, TIntermediateDeclaration>[] result = new KeyValuePair<string, TIntermediateDeclaration>[this.Count];
+            this.CopyTo(result);
+            return result;
+        }
+
+        public void CopyTo(KeyValuePair<string, TIntermediateDeclaration>[] result, int index = 0)
+        {
+            var copy = base.ToArray();
+            for (int i = 0; i < this.Count; i++)
+            {
+                var copyElement = copy[i];
+                result[i + index] = new KeyValuePair<string, TIntermediateDeclaration>(copyElement.Key, (TIntermediateDeclaration)copyElement.Value);
+            }
+        }
+
         public new KeyValuePair<string, TIntermediateDeclaration> this[int index]
         {
             get {
@@ -157,10 +174,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 if (disposing)
                 {
-                    var declarationValueCopy = this.Values.ToArray();
-                    Parallel.For(0, declarationValueCopy.Length,
-                        i => declarationValueCopy[i].Dispose());
-                    this._Clear();
+                    var declarationValueCopy = (from v in this.ToArray()
+                                                where ShouldDispose((TIntermediateDeclaration)v.Value)
+                                                select v).SplitKeyValueSets();
+                    if (declarationValueCopy.Item1.Length > 0)
+                    {
+                        Parallel.For(0, declarationValueCopy.Item2.Length, i =>
+                            declarationValueCopy.Item2[i].Dispose());
+
+                        this._RemoveSet(declarationValueCopy.Item1);
+                    }
                 }
             }
             finally
@@ -170,6 +193,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.disposeSynch = null;
             }
         }
+
+        /// <summary>
+        /// Determines whether the <typeparamref name="TIntermediateDeclaration"/>
+        /// should be disposed.
+        /// </summary>
+        /// <param name="declaration">The <typeparamref name="TIntermediateDeclaration"/>
+        /// to check the dispose state of.</param>
+        /// <returns>true if the <paramref name="declaration"/>
+        /// should be disposed; false, otherwise.</returns>
+        protected abstract bool ShouldDispose(TIntermediateDeclaration declaration);
 
         #region IDeclarationDictionary<TDeclaration> Members
 

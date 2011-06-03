@@ -19,13 +19,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         where TCtor :
             IConstructorMember<TCtor, TType>
         where TIntermediateCtor :
+            class, 
             TCtor,
             IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
         where TEvent :
             IEventMember<TEvent, TType>
         where TIntermediateEvent :
-            TEvent,
-            IIntermediateEventMember<TEvent, TIntermediateEvent, TType, TIntermediateType>
+            class,
+            IIntermediateEventMember<TEvent, TIntermediateEvent, TType, TIntermediateType>,
+            TEvent
         where TIntermediateEventMethod :
             class,
             TIntermediateMethod,

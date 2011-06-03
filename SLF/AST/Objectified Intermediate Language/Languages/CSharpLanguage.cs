@@ -23,7 +23,8 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     public enum CSharpLanguageVersion
     {
         /// <summary>
-        /// CSharp version 2 support enables generics.
+        /// CSharp version 2 support provided the initial implementation of
+        /// generics.
         /// </summary>
         Version2,
         /// <summary>
@@ -125,6 +126,14 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
         #endregion
 
+        public IMicrosoftLanguageVendor Vendor
+        {
+            get
+            {
+                return LanguageVendors.Microsoft;
+            }
+        }
+
         #region ILanguage Members
         /// <summary>
         /// Returns the level of functionality support the 
@@ -137,9 +146,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             }
         }
 
-        public ILanguageVendor Vendor
+        ILanguageVendor ILanguage.Vendor
         {
-            get { return LanguageVendors.Microsoft; }
+            get { return this.Vendor; }
         }
         #endregion
 
@@ -159,6 +168,12 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             return GetProvider(version);
         }
 
+        /// <summary>
+        /// Returns a <see cref="IEnumerable{T}"/> of
+        /// elements which denotes the various 
+        /// <see cref="CSharpLanguageVersion">versions</see> of 
+        /// the <see cref="CSharpLanguage">C&#9839; language</see>.
+        /// </summary>
         public IEnumerable<CSharpLanguageVersion> Versions
         {
             get
@@ -257,7 +272,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         #endregion
 
         #region IHighLevelLanguage<ICSharpCompilationUnit> Members
-
 
         IIntermediateAssembly IHighLevelLanguage<ICSharpCompilationUnit>.CreateAssembly(string name)
         {

@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Properties;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -22,13 +23,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         where TCtor :
             IConstructorMember<TCtor, TType>
         where TIntermediateCtor :
+            class, 
             TCtor,
             IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
         where TEvent :
             IEventMember<TEvent, TType>
         where TIntermediateEvent :
-            TEvent,
-            IIntermediateEventMember<TEvent, TIntermediateEvent, TType, TIntermediateType>
+            class,
+            IIntermediateEventMember<TEvent, TIntermediateEvent, TType, TIntermediateType>,
+            TEvent
         where TIntermediateEventMethod :
             class,
             TIntermediateMethod,

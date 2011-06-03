@@ -36,6 +36,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TPropertyParent :
             IPropertySignatureParentType<TProperty, TPropertyParent>
         where TIntermediatePropertyParent :
+            class,
             TPropertyParent,
             IIntermediatePropertySignatureParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
     {

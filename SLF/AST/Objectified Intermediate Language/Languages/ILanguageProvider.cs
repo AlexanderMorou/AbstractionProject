@@ -13,6 +13,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 {
     public interface ILanguageProvider
     {
-
+        /// <summary>
+        /// Returns the <see cref="ILanguage"/>
+        /// of the current language provider instance.
+        /// </summary>
+        ILanguage Language { get; }
     }
 }

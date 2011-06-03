@@ -31,6 +31,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TSignatureParent :
             IMethodSignatureParent<TSignature, TSignatureParent>
         where TIntermediateSignatureParent :
+            class,
             IIntermediateMethodSignatureParent<TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
             TSignatureParent
     {
@@ -51,18 +52,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TSignatureParameter :
             IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
         where TIntermediateSignatureParameter :
-            TSignatureParameter,
-            IIntermediateMethodSignatureParameterMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>
+            IIntermediateMethodSignatureParameterMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
+            TSignatureParameter
         where TSignature :
             IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
         where TIntermediateSignature :
-            TSignature,
-            IIntermediateMethodSignatureMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>
+            IIntermediateMethodSignatureMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
+            TSignature
         where TSignatureParent :
             ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
         where TIntermediateSignatureParent :
-            TSignatureParent,
-            IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
+            class,
+            IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>,
+            TSignatureParent
     {
         protected IntermediateGroupedMethodSignatureMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateSignatureParent parent)
             : base(master, parent)
@@ -105,7 +107,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                         TypedName currentItem = parameters[i];
                         IType paramType = currentItem.GetTypeRef();
                         if (paramType.ContainsSymbols())
-                            paramType = paramType.AttemptToDisambiguateSymbols(method);
+                            paramType = paramType.SimpleSymbolDisambiguation(method);
                         paramType = AdjustTypeReference(paramType, currentItem.Direction);
                         adjustedParameters[i] = new TypedName(currentItem.Name, paramType);
                     });
@@ -226,7 +228,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TIntermediateSignature method = this.Add(nameAndReturn.Name);
             var returnType = nameAndReturn.GetTypeRef();
             if (returnType.ContainsSymbols())
-                method.ReturnType = returnType.AttemptToDisambiguateSymbols(method);
+                method.ReturnType = returnType.SimpleSymbolDisambiguation(method);
             else
                 method.ReturnType = returnType;
             return method;
@@ -248,7 +250,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TIntermediateSignature method = this.Add(nameAndReturn.Name, parameters);
             var returnType = nameAndReturn.GetTypeRef();
             if (returnType.ContainsSymbols())
-                method.ReturnType = returnType.AttemptToDisambiguateSymbols(method);
+                method.ReturnType = returnType.SimpleSymbolDisambiguation(method);
             else
                 method.ReturnType = returnType;
             return method;
@@ -275,7 +277,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TIntermediateSignature method = this.Add(nameAndReturn.Name, parameters, typeParameters);
             var returnType = nameAndReturn.GetTypeRef();
             if (returnType.ContainsSymbols())
-                method.ReturnType = returnType.AttemptToDisambiguateSymbols(method);
+                method.ReturnType = returnType.SimpleSymbolDisambiguation(method);
             else
                 method.ReturnType = returnType;
             return method;

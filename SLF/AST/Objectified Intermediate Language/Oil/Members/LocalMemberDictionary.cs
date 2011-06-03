@@ -94,7 +94,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 var current = seriesElements[i];
                 var localType = current.GetTypeRef();
                 if (localType.ContainsSymbols())
-                    localType = localType.AttemptToDisambiguateSymbols(parentMember);
+                    localType = localType.SimpleSymbolDisambiguation(parentMember);
                 locals[i] = new TypedLocalMember(current.Name, this.Parent, localType);
             });
             this._AddRange(from local in locals
@@ -168,5 +168,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         #endregion
 
 
+
+        protected override bool ShouldDispose(ILocalMember declaration)
+        {
+            return true;
+        }
     }
 }

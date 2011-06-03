@@ -84,5 +84,14 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
         public VisualBasicVersion Version { get; private set; }
         #endregion
+
+        #region ILanguageProvider Members
+
+        ILanguage ILanguageProvider.Language
+        {
+            get { return this.Language; }
+        }
+
+        #endregion
     }
 }

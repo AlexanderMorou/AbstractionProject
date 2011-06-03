@@ -398,7 +398,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 deviations[t]++;
                 return true;
             }
-            else if (a == typeof(object).GetTypeReference())
+            else if (a == CommonTypeRefs.Object)
             {
                 deviations[t]++;
                 return true;

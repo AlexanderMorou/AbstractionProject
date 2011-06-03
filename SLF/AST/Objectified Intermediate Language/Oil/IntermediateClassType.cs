@@ -433,7 +433,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             var member = new IntermediateClassFieldMember<TInstanceIntermediateType>(nameAndType.Name, (TInstanceIntermediateType)this);
             var kind = nameAndType.GetTypeRef();
             if (kind.ContainsSymbols())
-                member.FieldType = kind.AttemptToDisambiguateSymbols(member);
+                member.FieldType = kind.SimpleSymbolDisambiguation(member);
             else
                 member.FieldType = kind;
             return member;
@@ -452,6 +452,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             get
             {
                 return this.ImplementedInterfaces;
+            }
+        }
+
+        protected override void Dispose(bool dispose)
+        {
+            try
+            {
+                this.baseType = null;
+            }
+            finally
+            {
+                base.Dispose(dispose);
             }
         }
     }

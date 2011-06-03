@@ -8,6 +8,9 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
+#if DEBUG
+using System.Diagnostics;
+#endif
 /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -345,7 +348,13 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         {
             lock (CompiledTypeCache)
                 if (!CompiledTypeCache.ContainsKey(t))
+                {
+#if DEBUG
+                    if (!t.HasElementType)
+                        Debug.WriteLine("Cached {0}.", t);
+#endif
                     CompiledTypeCache.Add(t, result);
+                }
         }
 
         internal static void RemoveFromCache(this IType type)

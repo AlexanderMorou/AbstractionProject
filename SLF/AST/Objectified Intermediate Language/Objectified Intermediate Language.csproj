@@ -103,6 +103,10 @@
     <Compile Include="Compilers\CSharpCompilerMessages.cs" />
     <Compile Include="Compilers\IMalleableCompilationContext.cs" />
     <Compile Include="Languages\AllenCopelandLanguageVendor.cs" />
+    <Compile Include="Languages\CommonIntermediateLanguage.cs" />
+    <Compile Include="Languages\CommonIntermediateProvider.cs" />
+    <Compile Include="Languages\ICommonIntermediateLanguage.cs" />
+    <Compile Include="Languages\ICommonIntermediateProvider.cs" />
     <Compile Include="Oil\IIntermediateAssembly{TLanguage}.cs" />
     <Compile Include="Oil\IVersionedIntermediateAssembly.cs" />
     <Compile Include="Translation\IntermediateBlockTranslationClasses.cs" />
@@ -555,7 +559,6 @@
     </Compile>
     <Compile Include="Oil\IntermediateFullDeclarationDictionary.cs" />
     <Compile Include="Oil\IntermediateFullTypeDictionary.cs" />
-    <Compile Include="Oil\CommonTypeRefs.cs" />
     <Compile Include="Oil\IntermediateGateway+CreateAssemblyDynamicBridge.cs">
       <DependentUpon>IntermediateGateway.cs</DependentUpon>
     </Compile>

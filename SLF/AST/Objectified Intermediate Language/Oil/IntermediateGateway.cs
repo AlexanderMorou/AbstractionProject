@@ -30,7 +30,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     public static partial class IntermediateGateway
     {
         private delegate IType DisambiguateFromSelector(IIntermediateDeclaration target, string symbolReference, IType referenceType);
-        private const string nullNamespace = ".<NULL>.";
+        private const string nullNamespace_Pattern = ".<NULL>.<{0}>";
+
+        /// <summary>
+        /// Randomly generate the 'null namespace' pattern every run.
+        /// </summary>
+        private readonly static string nullNamespace = string.Format(nullNamespace_Pattern, Guid.NewGuid());
         /// <summary>
         /// Contains the <see cref="ISymbolType"/> lookup table that
         /// starts with the symbol, the namespace, then the number of generic parameters.
@@ -63,12 +68,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 throw new ArgumentNullException("target");
             if (target is SymbolType)
                 return (SymbolType)target;
-            if (!typeReferenceCache.ContainsKey(target))
+            lock (typeReferenceCache)
             {
-                target.Disposed += typeExpressionTarget_Disposed;
-                typeReferenceCache.Add(target, new TypeReferenceExpression(target));
+                if (!typeReferenceCache.ContainsKey(target))
+                {
+                    target.Disposed += typeExpressionTarget_Disposed;
+                    typeReferenceCache.Add(target, new TypeReferenceExpression(target));
+                }
+                return typeReferenceCache[target];
             }
-            return typeReferenceCache[target];
         }
 
         static void typeExpressionTarget_Disposed(object sender, EventArgs e)
@@ -80,10 +88,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                  * If it doesn't exist in the cache, some other source
                  * called the handler and passed a different type.
                  * */
-                if (typeReferenceCache.ContainsKey(tSender))
+                lock (typeReferenceCache)
                 {
-                    typeReferenceCache.Remove(tSender);
-                    tSender.Disposed -= typeExpressionTarget_Disposed;
+                    if (typeReferenceCache.ContainsKey(tSender))
+                    {
+                        typeReferenceCache.Remove(tSender);
+                        tSender.Disposed -= typeExpressionTarget_Disposed;
+                    }
                 }
             }
         }
@@ -124,6 +135,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return ((TAssembly)(CreateAssemblyBridgeCache<TAssembly>.Bridge.ctor(name).Parts.Add()));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="kind"></param>
+        /// <returns></returns>
         public static IMember CreateMember(MemberKind kind)
         {
             throw new NotImplementedException();
@@ -280,7 +296,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         public static ISymbolType GetSymbolType(this string typeSymbol, params string[] typeParameters)
         {
-            return typeSymbol.GetSymbolType(new TypeCollection(typeParameters.OnAll<string, ISymbolType>(GetSymbolType).Cast<IType>().ToArray()));
+            return typeSymbol.GetSymbolType(typeParameters.OnAll<string, ISymbolType>(GetSymbolType).ToCollection());
         }
 
         public static IMethodReferenceStub GetMethod(this ISymbolType symbolType, string methodName, params string[] typeParameterNames)
@@ -367,6 +383,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             return new EventReferenceExpression<TEvent, TEventParent>(source, target);
         }
+
         internal static IEventReferenceExpression GetEventReference(this IEventSignatureMember target, IMemberParentReferenceExpression source)
         {
             var targetParent = target.Parent;
@@ -700,7 +717,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             (target, symbolReference, referenceType) =>
                 referenceType;
 
-        internal static IType AttemptToDisambiguateSymbols(this IType sourceType, IIntermediateDeclaration originPoint)
+        /// <summary>
+        /// Performs a simple symbol disambiguation from the type-parameters available in the
+        /// generic make-up of the originPoint's hierarchy.
+        /// </summary>
+        /// <param name="sourceType"></param>
+        /// <param name="originPoint"></param>
+        /// <returns></returns>
+        internal static IType SimpleSymbolDisambiguation(this IType sourceType, IIntermediateDeclaration originPoint)
         {
             var selector = originPoint.GetSelector();
             switch (sourceType.ElementClassification)
@@ -712,15 +736,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 case TypeElementClassification.Array:
                     var arrayType = sourceType as IArrayType;
                     if (arrayType != null)
-                        return sourceType.ElementType.AttemptToDisambiguateSymbols(originPoint).MakeArray(arrayType.LowerBounds);
+                        return sourceType.ElementType.SimpleSymbolDisambiguation(originPoint).MakeArray(arrayType.LowerBounds);
                     else
                         break;
                 case TypeElementClassification.Nullable:
-                    return sourceType.ElementType.AttemptToDisambiguateSymbols(originPoint).MakeNullable();
+                    return sourceType.ElementType.SimpleSymbolDisambiguation(originPoint).MakeNullable();
                 case TypeElementClassification.Pointer:
-                    return sourceType.ElementType.AttemptToDisambiguateSymbols(originPoint).MakePointer();
+                    return sourceType.ElementType.SimpleSymbolDisambiguation(originPoint).MakePointer();
                 case TypeElementClassification.Reference:
-                    return sourceType.ElementType.AttemptToDisambiguateSymbols(originPoint).MakeByReference();
+                    return sourceType.ElementType.SimpleSymbolDisambiguation(originPoint).MakeByReference();
                 case TypeElementClassification.GenericTypeDefinition:
                     var genericSource = sourceType as IGenericType;
 
@@ -729,7 +753,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     for (int i = 0; i < gParamCopy.Length; i++)
                     {
                         var recent = gParamCopy[i];
-                        var current = recent.AttemptToDisambiguateSymbols(originPoint);
+                        var current = recent.SimpleSymbolDisambiguation(originPoint);
                         if (current != recent)
                             varies = true;
                         gParamCopy[i] = current;

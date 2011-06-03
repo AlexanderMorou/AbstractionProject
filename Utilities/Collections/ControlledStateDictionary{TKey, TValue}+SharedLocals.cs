@@ -146,6 +146,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 return true;
             }
 
+            internal void _RemoveSet(IEnumerable<int> indices)
+            {
+                foreach (var index in indices)
+                    _Remove(index);
+            }
+
             internal void Clear()
             {
                 lock (this.syncObject)

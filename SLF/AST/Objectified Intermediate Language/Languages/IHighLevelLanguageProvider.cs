@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// Returns the <see cref="IHighLevelLanguage{TRootNode}"/>
         /// of the current high level language provider instance.
         /// </summary>
-        IHighLevelLanguage<TRootNode> Language { get; }
+        new IHighLevelLanguage<TRootNode> Language { get; }
         /// <summary>
         /// Returns the <see cref="IAnonymousTypePatternAid"/> which
         /// provides anonymous types defined within an assembly with

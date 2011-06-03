@@ -112,16 +112,20 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         }
 
         /// <summary>
-        /// Removes an element with the specified <paramref name="key"/>
-        /// from the  <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/>.
+        /// Removes an element with the specified <paramref name="index"/>
+        /// from the <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/>.
         /// </summary>
-        /// <param name="key">The key of the <typeparamref name="TSValue"/> to remove.</param>
+        /// <param name="index">The <see cref="Int32"/> value of the ordinal index of 
+        /// the <typeparamref name="TSValue"/> to remove.</param>
         /// <returns>true if the element was successfully removed; false otherwise.</returns>
-        protected internal virtual bool Remove(TKey key)
+        protected internal override bool _Remove(int index)
         {
+            if (index < 0 || index >= this.Count)
+                throw new ArgumentOutOfRangeException();
+            var key = this.Keys[index];
             if (this.Master != null)
                 this.master.Subordinate_ItemRemoved(this, key);
-            return base._Remove(key);
+            return base._Remove(index);
         }
 
         /// <summary>

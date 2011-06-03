@@ -26,8 +26,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TMethodParent :
             IMethodParent<TMethod, TMethodParent>
         where TIntermediateMethodParent :
-            TMethodParent,
-            IIntermediateMethodParent<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>
+            class,
+            IIntermediateMethodParent<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>,
+            TMethodParent
     {
         protected IntermediateMethodMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateMethodParent parent)
             : base(master, parent)

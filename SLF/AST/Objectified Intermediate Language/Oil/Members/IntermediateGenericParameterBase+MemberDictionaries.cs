@@ -17,11 +17,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             class,
             IGenericParameter<TGenericParameter, TParent>
         where TIntermediateGenericParameter :
+            class,
             IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>,
             TGenericParameter
         where TParent :
             IGenericParamParent<TGenericParameter, TParent>
         where TIntermediateParent :
+            class,
             IIntermediateGenericParameterParent<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>,
             TParent
     {

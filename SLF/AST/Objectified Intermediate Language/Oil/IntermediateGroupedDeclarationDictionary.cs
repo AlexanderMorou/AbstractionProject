@@ -93,6 +93,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        public virtual KeyValuePair<string, TIntermediateDeclaration>[] ToArray()
+        {
+            KeyValuePair<string, TIntermediateDeclaration>[] result = new KeyValuePair<string, TIntermediateDeclaration>[this.Count];
+            this.CopyTo(result);
+            return result;
+        }
+
+        public void CopyTo(KeyValuePair<string, TIntermediateDeclaration>[] result, int index = 0)
+        {
+            var copy = base.ToArray();
+            for (int i = 0; i < this.Count; i++)
+            {
+                var copyElement = copy[i];
+                result[i + index] = new KeyValuePair<string, TIntermediateDeclaration>(copyElement.Key, (TIntermediateDeclaration)copyElement.Value);
+            }
+        }
         public new KeyValuePair<string, TIntermediateDeclaration> this[int index]
         {
             get { return new KeyValuePair<string, TIntermediateDeclaration>(this.Keys[index], this.Values[index]); }
@@ -105,8 +121,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             yield break;
         }
 
+        /// <summary>
+        /// Occurs when an item is added to the 
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>.
+        /// </summary>
         public event EventHandler<EventArgsR1<TIntermediateDeclaration>> ItemAdded;
 
+        /// <summary>
+        /// Occurs when an item is removed from the 
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>.
+        /// </summary>
         public event EventHandler<EventArgsR1<TIntermediateDeclaration>> ItemRemoved;
 
         /// <summary>
@@ -162,30 +186,66 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #endregion
 
         /// <summary>
-        /// Disposes the current <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>.
+        /// Disposes the current 
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>
+        /// with further context on whether managed resources should be disposed.
         /// </summary>
         /// <param name="disposing">Whether to release managed memory.  If true, all data
         /// should be disposed; otherwise, only unmanaged memory should be disposed.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            try
             {
-                if (this.Suspended)
+                if (disposing)
                 {
-                    Parallel.For(0, this.suspendedMembers.Count, i =>
-                        this.suspendedMembers[i].Dispose());
-                    this.suspendedMembers.Clear();
-                    this.suspensionLevel = 0;
+                    if (this.Suspended)
+                    {
+                        Parallel.For(0, this.suspendedMembers.Count, i =>
+                            this.suspendedMembers[i].Dispose());
+                        this.suspendedMembers.Clear();
+                        this.suspensionLevel = 0;
+                    }
+
+                    var declarationValueCopy = (from v in this.ToArray()
+                                                where ShouldDispose((TIntermediateDeclaration)v.Value)
+                                                select v).SplitKeyValueSets();
+                    if (declarationValueCopy.Item1.Length > 0)
+                    {
+                        Parallel.For(0, declarationValueCopy.Item2.Length, i =>
+                            declarationValueCopy.Item2[i].Dispose());
+
+                        this._RemoveSet(declarationValueCopy.Item1);
+                    }
                 }
-                var declarationValueCopy = this.Values.ToArray();
-                Parallel.For(0, declarationValueCopy.Length, i =>
-                    declarationValueCopy[i].Dispose());
-                this._Clear();
+            }
+            finally
+            {
+                GC.SuppressFinalize(this);
             }
         }
 
+        /// <summary>
+        /// Determines whether the <typeparamref name="TIntermediateDeclaration"/>
+        /// should be disposed.
+        /// </summary>
+        /// <param name="declaration">The <typeparamref name="TIntermediateDeclaration"/>
+        /// to check the dispose state of.</param>
+        /// <returns>true if the <paramref name="declaration"/>
+        /// should be disposed; false, otherwise.</returns>
+        protected abstract bool ShouldDispose(TIntermediateDeclaration declaration);
+
         #region IDeclarationDictionary<TDeclaration> Members
 
+        /// <summary>
+        /// Returns the index of the <paramref name="decl"/> provided.
+        /// </summary>
+        /// <param name="decl">The <see cref="IDeclaration"/> in the 
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>
+        /// to return the index of.</param>
+        /// <returns>An <see cref="Int32"/> value representing the index of the <paramref name="decl"/> in the
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>,
+        /// if present; -1, otherwise.</returns>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="decl"/> is null.</exception>
         public int IndexOf(TDeclaration decl)
         {
             if (this.valuesCollection == null && this.Count == 0)
@@ -217,12 +277,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         protected bool Suspended { get { return this.suspensionLevel > 0; } }
 
-
+        /// <summary>
+        /// Suspends the duality of the 
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>.
+        /// </summary>
         protected internal void Suspend()
         {
             this.suspensionLevel++;
         }
 
+        /// <summary>
+        /// Resumes the duality of the 
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>.
+        /// </summary>
         protected internal void Resume()
         {
             if (this.suspensionLevel == 0)
@@ -246,16 +313,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// to insert.</param>
         protected internal override void _Add(string key, TDeclaration value)
         {
+            this.OnItemAdded(new EventArgsR1<TIntermediateDeclaration>(((TIntermediateDeclaration)(value))));
             if (!this.Suspended)
-            {
-                this.OnItemAdded(new EventArgsR1<TIntermediateDeclaration>(((TIntermediateDeclaration)(value))));
                 base._Add(key, value);
-            }
             else
-                lock(this.suspendedMembers)
+                lock (this.suspendedMembers)
                     this.suspendedMembers.Add(value);
         }
 
+        /// <summary>
+        /// Removes an element with the specified <paramref name="index"/>
+        /// from the
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>.
+        /// </summary>
+        /// <param name="index">The <see cref="Int32"/> value of the ordinal index of 
+        /// the <typeparamref name="TSValue"/> to remove.</param>
+        /// <returns>true if the element was successfully removed; false otherwise.</returns>
         protected internal override bool _Remove(int index)
         {
             if (Suspended)
@@ -263,11 +336,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (index > base.Count)
                     if (index < this.Count)
                     {
-                        var suspendedInex = index-this.Count;
+                        var suspendedInex = index - this.Count;
                         var suspendedMember = this.suspendedMembers[suspendedInex];
                         this.OnItemRemoved(new EventArgsR1<TIntermediateDeclaration>((TIntermediateDeclaration)suspendedMember));
                         suspendedMember.Dispose();
                         this.suspendedMembers.RemoveAt(suspendedInex);
+                        return true;
                     }
                     else
                         return false;
@@ -275,6 +349,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return base._Remove(index);
         }
 
+        /// <summary>
+        /// Processes the <typeparamref name="TDeclaration"/> set which
+        /// was inserted when the master/subordinate duality was suspended.
+        /// </summary>
+        /// <param name="declarations">The <see cref="IEnumerable{T}"/>
+        /// set of elements that was inserted during the suspension.</param>
         protected virtual void ProcessSuspendedDeclarations(IEnumerable<TDeclaration> declarations)
         {
             List<KeyValuePair<string, TDeclaration>> processedDeclarations = new List<KeyValuePair<string, TDeclaration>>();
@@ -357,13 +437,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     suspendedMembers.AddRange(declarations.Cast<TDeclaration>());
             else
             {
-                KeyValuePair<string, TDeclaration>[] insertionElements = new KeyValuePair<string, TDeclaration>[declarations.Length];
-                Parallel.For(0, declarations.Length, i =>
-                {
-                    var declaration = declarations[i];
-                    insertionElements[i] = new KeyValuePair<string, TDeclaration>(declaration.UniqueIdentifier, declaration);
-                });
-                base._AddRange(insertionElements);
+                base._AddRange(from declaration in declarations
+                               select new KeyValuePair<string, TDeclaration>(declaration.UniqueIdentifier, declaration));
             }
         }
 

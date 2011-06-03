@@ -98,6 +98,7 @@
       <DependentUpon>CLICommon.cs</DependentUpon>
     </Compile>
     <Compile Include="Cli\CLIGateway.cs" />
+    <Compile Include="Cli\CommonTypeRefs.cs" />
     <Compile Include="Cli\ICompiledAssembly.cs" />
     <Compile Include="Cli\ICompiledClassType.cs" />
     <Compile Include="Cli\ICompiledDelegateType.cs" />

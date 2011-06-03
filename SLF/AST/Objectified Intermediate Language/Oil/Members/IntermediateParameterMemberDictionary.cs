@@ -52,6 +52,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
         }
 
+        protected override bool ShouldDispose(TIntermediateParameter declaration)
+        {
+            return true;
+        }
 
         #region IIntermediateParameterMemberDictionary<TParent,TIntermediateParent,TParameter,TIntermediateParameter> Members
 
@@ -99,7 +103,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             var paramKind = parameterInfo.GetTypeRef();
             if (paramKind.ContainsSymbols())
-                paramKind = paramKind.AttemptToDisambiguateSymbols(this.Parent);
+                paramKind = paramKind.SimpleSymbolDisambiguation(this.Parent);
             return this.Add(parameterInfo.Name, paramKind, parameterInfo.Direction);
         }
 
@@ -107,7 +111,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             var paramKind = parameterInfo.GetTypeRef();
             if (paramKind.ContainsSymbols())
-                paramKind = paramKind.AttemptToDisambiguateSymbols(this.Parent);
+                paramKind = paramKind.SimpleSymbolDisambiguation(this.Parent);
             return this.AddInternal(parameterInfo.Name, paramKind, parameterInfo.Direction);
         }
 
@@ -123,7 +127,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                     var currentParamInfo = parameterInfo[i];
                     var currentParamType = currentParamInfo.GetTypeRef();
                     if (currentParamType.ContainsSymbols())
-                        currentParamType = currentParamType.AttemptToDisambiguateSymbols(this.Parent);
+                        currentParamType = currentParamType.SimpleSymbolDisambiguation(this.Parent);
                     result[i] = this.GetNewParameter(currentParamInfo.Name, currentParamType, currentParamInfo.Direction);
                 });
             foreach (var element in result)

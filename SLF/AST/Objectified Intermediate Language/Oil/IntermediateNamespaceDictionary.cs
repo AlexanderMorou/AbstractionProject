@@ -153,5 +153,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         #endregion
+
+        protected override bool ShouldDispose(IIntermediateNamespaceDeclaration declaration)
+        {
+            return declaration.Parent == parent;
+        }
     }
 }

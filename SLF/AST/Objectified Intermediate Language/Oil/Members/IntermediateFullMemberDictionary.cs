@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
@@ -49,5 +50,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         #endregion
+
+        internal void ConditionalRemove(IIntermediateMemberParent parent)
+        {
+            this._RemoveSet(from element in this
+                            where element.Value.Entry.Parent == parent
+                            select element.Key);
+        }
     }
 }

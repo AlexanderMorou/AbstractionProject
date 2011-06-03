@@ -40,6 +40,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             IIntermediateMethodParent<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>,
             TMethodParent
     {
+        /// <summary>
+        /// Returns the parent of the <see cref="IIntermediateMethodMember{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/>.
+        /// </summary>
+        /// <remarks>Resolves ambiguity between <see cref="IIntermediateMember{TParent, TIntermediateParent}"/>
+        /// and <see cref="IIntermediateMethodMember"/>.</remarks>
+        new TIntermediateMethodParent Parent { get; }
     }
     /// <summary>
     /// Defines properties and methods for working with an intermediate method member

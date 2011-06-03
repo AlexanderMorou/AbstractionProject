@@ -162,6 +162,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         public virtual void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
+            if (this.Count == 0)
+                return;
             Array.ConstrainedCopy(this.locals.entries, 0, array, arrayIndex, this.Count);
         }
 
@@ -334,8 +336,22 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             int index;
             if (this.locals.orderings.TryGetValue(key, out index))
-                this._Remove(index);
+                return this._Remove(index);
             return false;
+        }
+
+        protected internal void _RemoveSet(IEnumerable<TKey> keys)
+        {
+            this._RemoveSet(from key in keys
+                            where this.locals.orderings.ContainsKey(key)
+                            let index = this.locals.orderings[key]
+                            orderby index descending
+                            select index);
+        }
+
+        private void _RemoveSet(IEnumerable<int> elements)
+        {
+            this.locals._RemoveSet(elements);
         }
 
         protected internal virtual bool _Remove(int index)

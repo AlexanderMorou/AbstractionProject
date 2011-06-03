@@ -75,7 +75,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                         case LocalTypingKind.Implicit:
                             return this.Owner.InferredType;
                         case LocalTypingKind.Dynamic:
-                            return typeof(object).GetTypeReference();
+                            return CommonTypeRefs.Object;
                         case LocalTypingKind.Explicit:
                             return ((ITypedLocalMember)this.Owner).LocalType;
                         default:

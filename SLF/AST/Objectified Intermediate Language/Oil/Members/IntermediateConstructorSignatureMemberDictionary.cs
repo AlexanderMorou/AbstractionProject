@@ -33,6 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TType :
             ICreatableType<TCtor, TType>
         where TIntermediateType :
+            class,
             IIntermediateCreatableSignatureType<TCtor, TIntermediateCtor, TType, TIntermediateType>,
             TType
     {

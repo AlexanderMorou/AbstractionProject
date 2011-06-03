@@ -35,8 +35,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TEventParent :
             IEventSignatureParent<TEvent, TEventParent>
         where TIntermediateEventParent :
-            TEventParent,
-            IIntermediateEventSignatureParent<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
+            class,
+            IIntermediateEventSignatureParent<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>,
+            TEventParent
     {
         /// <summary>
         /// Creates a new <see cref="IntermediateEventSignatureMemberDictionary{TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent}"/>
@@ -102,6 +103,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TEventParent :
             IEventSignatureParent<TEvent, TEventParameter, TEventParent>
         where TIntermediateEventParent :
+            class,
             IIntermediateEventSignatureParent<TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent>,
             TEventParent
     {

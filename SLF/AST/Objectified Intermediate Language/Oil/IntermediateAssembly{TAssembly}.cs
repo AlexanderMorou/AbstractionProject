@@ -12,6 +12,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Modules;
 using AllenCopeland.Abstraction.Slf.Linkers;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -531,6 +532,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     }
                     if (this.assemblyInformation != null)
                         this.assemblyInformation.Dispose();
+                    this.name = null;
+                    if (this.IsRoot)
+                    {
+                        if (this.parts != null)
+                        {
+                            foreach (var part in this.parts)
+                                part.Dispose();
+                            this.parts = null;
+                        }
+                    }
                 }
             }
             finally
@@ -856,7 +867,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             get
             {
                 if (this.members == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                     this.members = Initialize_Members();
+                }
                 return this.members;
             }
         }

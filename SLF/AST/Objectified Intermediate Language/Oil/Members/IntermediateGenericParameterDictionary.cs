@@ -110,7 +110,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             ITypeCollectionBase methodTypeParameters = null;
             foreach (var constraint in genericParameterData.Constraints)
                 if (constraint.ContainsSymbols())
-                    result.Constraints.Add(constraint.AttemptToDisambiguateSymbols(result));
+                    result.Constraints.Add(constraint.SimpleSymbolDisambiguation(result));
                 else
                     result.Constraints.Add(constraint);
             //foreach (var propertyGroup in genericParameterData.Properties)
@@ -238,7 +238,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 var current = result[i];
                 foreach (var constraint in currentParameterData.Constraints)
                     if (constraint.ContainsSymbols())
-                        current.Constraints.Add(constraint.AttemptToDisambiguateSymbols(current));
+                        current.Constraints.Add(constraint.SimpleSymbolDisambiguation(current));
                     else
                         current.Constraints.Add(constraint);
             }//);
@@ -247,5 +247,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
+
+        protected override sealed bool ShouldDispose(TIntermediateGenericParameter declaration)
+        {
+            return true;
+        }
     }
 }
