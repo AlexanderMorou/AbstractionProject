@@ -81,7 +81,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Returns the <see cref="IMalleableCompilationContext"/> associated to the 
         /// <see cref="IIntermediateAssembly"/> which denotes the
-        /// output type, target file, 
+        /// output type, target file, and other properties which describe the 
+        /// resulted assembly.
         /// </summary>
         IMalleableCompilationContext CompilationContext { get; }
     }

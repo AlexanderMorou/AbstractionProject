@@ -5,6 +5,10 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
+    /// <summary>
+    /// Defines properties and methods for working with a
+    /// language vendor.
+    /// </summary>
     public interface ILanguageVendor
     {
         /// <summary>

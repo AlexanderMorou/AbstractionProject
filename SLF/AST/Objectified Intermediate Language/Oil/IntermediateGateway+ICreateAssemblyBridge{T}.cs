@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Slf.Languages;
 /*---------------------------------------------------------------------\
 | Copyright © 2011 Allen Copeland Jr.                                  |
 |----------------------------------------------------------------------|
@@ -37,6 +38,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             /// instance with the <paramref name="name"/>
             /// provided.</returns>
             T ctor(string name);
+            /// <summary>
+            /// Creates a new <typeparamref name="T"/>
+            /// instance with the <paramref name="name"/>
+            /// provided.
+            /// </summary>
+            /// <typeparam name="TLanguage"></typeparam>
+            /// <typeparam name="TProvider"></typeparam>
+            /// <param name="name"></param>
+            /// <param name="provider"></param>
+            /// <returns></returns>
+            T ctor<TLanguage, TProvider>(string name, TProvider provider)
+                where TLanguage :
+                    ILanguage
+                where TProvider :
+                    ILanguageProvider;
         }
     }
 }

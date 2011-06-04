@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Slf.Languages;
 /*---------------------------------------------------------------------\
 | Copyright © 2011 Allen Copeland Jr.                                  |
 |----------------------------------------------------------------------|
@@ -25,6 +26,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             public IntermediateAssembly ctor(string name)
             {
                 return new IntermediateAssembly(name);
+            }
+
+            public IntermediateAssembly ctor<TLanguage, TProvider>(string name, TProvider provider)
+                where TLanguage :
+                    ILanguage
+                where TProvider :
+                    ILanguageProvider
+            {
+                throw new NotSupportedException();
             }
 
             #endregion

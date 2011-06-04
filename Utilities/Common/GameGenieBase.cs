@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Numerics;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -25,7 +26,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             : base(controller)
         {
         }
-        public GameGenieBase(ulong value)
+        public GameGenieBase(BigInteger value)
             : base(controller, value)
         {
         }
@@ -43,11 +44,11 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             }
         }
 
-        public static implicit operator GameGenieBase(ulong value)
+        public static implicit operator GameGenieBase(BigInteger value)
         {
             return new GameGenieBase(value);
         }
-        protected override NumericBase GetNew(ulong value)
+        protected override NumericBase GetNew(BigInteger value)
         {
             return new GameGenieBase(value);
         }

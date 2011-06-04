@@ -5,6 +5,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Slf.Compilers;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -81,7 +82,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         protected override string OnGetName()
         {
             if (this.IsManifestModule)
-                return this.Parent.Name;
+            {
+                switch (this.Parent.CompilationContext.OutputType)
+                {
+                    case AssemblyOutputType.ClassLibrary:
+                        return string.Format("{0}.dll", this.Parent.Name);
+                    case AssemblyOutputType.ConsoleApplication:
+                    case AssemblyOutputType.WinFormsApplication:
+                        return string.Format("{0}.exe", this.Parent.Name);
+                    default:
+                        return this.Parent.Name;
+                }
+            }
             else
                 return this.name;
         }

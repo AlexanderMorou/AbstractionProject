@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Slf.Languages;
 /*---------------------------------------------------------------------\
 | Copyright © 2011 Allen Copeland Jr.                                  |
 |----------------------------------------------------------------------|
@@ -49,6 +50,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             public TAssembly ctor(string name)
             {
                 return CtorDelegete(name);
+            }
+
+            #endregion
+
+            #region ICreateAssemblyBridge<TAssembly> Members
+
+
+            public TAssembly ctor<TLanguage, TProvider>(string name, TProvider provider)
+                where TLanguage : 
+                    ILanguage
+                where TProvider : 
+                    ILanguageProvider
+            {
+                throw new NotSupportedException();
             }
 
             #endregion

@@ -66,5 +66,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.VisualBasic
         }
 
         #endregion
+
+        static VisualBasicAssembly()
+        {
+            VisualBasicAssemblyBridge.Register();
+        }
     }
 }

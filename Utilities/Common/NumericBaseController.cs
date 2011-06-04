@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Numerics;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -21,9 +22,10 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             : this(baseEntities, false)
         {
         }
-        internal NumericBaseController(IEnumerable<char> baseEntities, bool skipCheck)
+        internal NumericBaseController(IEnumerable<char> baseEntities, bool skipCheck, bool caseSensitive=true)
         {
             this.baseEntities = new List<char>();
+            this.caseSensitive = caseSensitive;
             if (!skipCheck)
             {
                 foreach (char c in baseEntities)
@@ -36,24 +38,23 @@ namespace AllenCopeland.Abstraction.Utilities.Common
                 this.baseEntities.AddRange(baseEntities);
         }
         public NumericBaseController(string baseString, bool caseSensitive = true)
-            : this((IEnumerable<char>)(!caseSensitive ? baseString.ToUpper() : baseString))
+            : this((IEnumerable<char>)(!caseSensitive ? baseString.ToUpper() : baseString), false, caseSensitive)
         {
-            this.caseSensitive = caseSensitive;
         }
 
-        private decimal ShiftBaseValue(int baseIndex, byte position)
+        private BigInteger ShiftBaseValue(int baseIndex, byte position)
         {
-            return (ulong)(Math.Pow(baseEntities.Count, position) * (ulong)baseIndex);
+            return (BigInteger.Pow(baseEntities.Count, position) * (BigInteger)baseIndex);
         }
-        internal byte NumPlaces(ulong value)
+        internal byte NumPlaces(BigInteger value)
         {
-            double l = value == 0 ? 0 : Math.Log10(value) / Math.Log10(this.baseEntities.Count);
+            var l = value == 0 ? 0 : BigInteger.Log10(value) / Math.Log10(this.baseEntities.Count);
             if (((int)l) == l)
                 return ((byte)(l + 1));
             return (byte)Math.Ceiling(l);
         }
 
-        internal string Encode(ulong value)
+        internal string Encode(BigInteger value)
         {
             byte nP = NumPlaces(value);
             char[] v = new char[nP];
@@ -62,9 +63,9 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             return new string(v);
         }
 
-        internal ulong Decode(string value)
+        internal BigInteger Decode(string value)
         {
-            decimal r = 0;
+            BigInteger r = 0;
             if (caseSensitive)
             {
                 foreach (char c in value)
@@ -84,16 +85,16 @@ namespace AllenCopeland.Abstraction.Utilities.Common
                     r += ShiftBaseValue((int)baseEntities.IndexOf(current), (byte)(value.Length - (b + 1)));
                 }
             }
-            return (ulong)r;
+            return (BigInteger)r;
         }
 
 
-        private int GetShiftIndex(ulong value, byte position)
+        private int GetShiftIndex(BigInteger value, byte position)
         {
-            ulong valueCopy = value;
+            BigInteger valueCopy = value;
             for (int i = 1; i <= position; i++)
-                valueCopy /= (ulong)this.baseEntities.Count;
-            return (int)(valueCopy % (ulong)this.baseEntities.Count);
+                valueCopy /= (BigInteger)this.baseEntities.Count;
+            return (int)(valueCopy % (BigInteger)this.baseEntities.Count);
         }
 
         public bool CaseSensitive { get { return this.caseSensitive; } }

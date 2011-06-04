@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Numerics;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -15,7 +16,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
     public abstract class NumericBase 
     {
         private NumericBaseController controller;
-        private ulong value;
+        private BigInteger value;
         protected NumericBase(NumericBaseController controller)
         {
             this.controller = controller;
@@ -26,7 +27,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
         {
         }
 
-        private static ulong Decoder(NumericBaseController controller, string value)
+        private static BigInteger Decoder(NumericBaseController controller, string value)
         {
             if (controller == null)
                 throw new ArgumentNullException("controller");
@@ -37,7 +38,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             return controller.Decode(value);
         }
 
-        protected NumericBase(NumericBaseController controller, ulong value)
+        protected NumericBase(NumericBaseController controller, BigInteger value)
         {
             if (controller == null)
                 throw new ArgumentNullException("controller");
@@ -49,7 +50,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
         {
             return this.controller.Encode(this.value);
         }
-        public ulong Value
+        public BigInteger Value
         {
             get
             {
@@ -57,7 +58,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             }
         }
 
-        protected abstract NumericBase GetNew(ulong value);
+        protected abstract NumericBase GetNew(BigInteger value);
 
         public static NumericBase operator +(NumericBase left, NumericBase right)
         {
@@ -149,7 +150,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             return (int)value.value;
         }
 
-        public static implicit operator ulong(NumericBase value)
+        public static implicit operator BigInteger(NumericBase value)
         {
             return value.value;
         }

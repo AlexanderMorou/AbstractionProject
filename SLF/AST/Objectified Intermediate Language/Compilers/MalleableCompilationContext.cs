@@ -64,12 +64,17 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         #endregion
 
         /// <summary>
-        /// Returns the fixed <see cref="ICompilationContext"/> associated to the
+        /// Returns the immutable <see cref="ICompilationContext"/> associated to the
         /// current <see cref="MalleableCompilationContext"/>.
         /// </summary>
+        /// <remarks>Typically used by a language's compiler to fix
+        /// the details of the resultant assembly such that changes 
+        /// to the original 
+        /// <see cref="<see cref="MalleableCompilationContext"/>"/>
+        /// are ignored.</remarks>
         /// <returns>A <see cref="ICompilationContext"/>
         /// whose members cannot be changed.</returns>
-        public ICompilationContext GetFixedContext()
+        public ICompilationContext GetImmutableContext()
         {
             return new FixedContext(this);
         }
@@ -81,11 +86,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         {
         }
 
-        internal class FixedContext :
+        private class FixedContext :
             ICompilationContext
         {
 
-            public FixedContext(MalleableCompilationContext context)
+            internal FixedContext(MalleableCompilationContext context)
             {
                 this.Optimize = context.Optimize;
                 this.COMVisible = context.COMVisible;

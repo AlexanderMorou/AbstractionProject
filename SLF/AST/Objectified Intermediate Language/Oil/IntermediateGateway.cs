@@ -15,6 +15,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Modules;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Languages;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -133,6 +134,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 new(string) */
         {
             return ((TAssembly)(CreateAssemblyBridgeCache<TAssembly>.Bridge.ctor(name).Parts.Add()));
+        }
+
+        public static TAssembly CreateAssembly<TAssembly, TLanguage, TProvider>(string name, TProvider provider)
+            where TAssembly :
+                IIntermediateAssembly<TLanguage, TProvider>
+            where TLanguage :
+                ILanguage
+            where TProvider :
+                ILanguageProvider
+        {
+            return ((TAssembly)(CreateAssemblyBridgeCache<TAssembly>.Bridge.ctor<TLanguage, TProvider>(name, provider).Parts.Add()));
         }
 
         /// <summary>

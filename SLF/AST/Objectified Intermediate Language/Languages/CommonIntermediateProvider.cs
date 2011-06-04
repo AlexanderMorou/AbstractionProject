@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Oil;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
@@ -21,7 +22,12 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
         ILanguage ILanguageProvider.Language
         {
-            get { throw new NotImplementedException(); }
+            get { return this.Language; }
+        }
+
+        public IIntermediateAssembly CreateAssembly(string name)
+        {
+            return new IntermediateAssembly(name, this);
         }
 
         #endregion

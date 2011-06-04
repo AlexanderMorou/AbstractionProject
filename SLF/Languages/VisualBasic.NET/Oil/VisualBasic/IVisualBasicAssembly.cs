@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.VisualBasic
     /// <remarks>Relative to Start in Visual Basic Language 
     /// Specification Version 10.0</remarks>
     public interface IVisualBasicAssembly :
-        IIntermediateAssembly<IVisualBasicLanguage, IVisualBasicStart, IVisualBasicProvider, VisualBasicVersion>
+        IVersionedHighLevelIntermediateAssembly<IVisualBasicLanguage, IVisualBasicStart, IVisualBasicProvider, VisualBasicVersion>
     {
         /// <summary>
         /// Returns the <see cref="IMyNamespaceDeclaration"/> which

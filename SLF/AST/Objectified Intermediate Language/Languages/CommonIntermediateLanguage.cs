@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using System.Diagnostics.SymbolStore;
+using AllenCopeland.Abstraction.Slf.Oil;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
@@ -44,6 +45,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             get { return SymLanguageType.ILAssembly; }
         }
 
+        public IIntermediateAssembly CreateAssembly(string name)
+        {
+            return this.GetProvider().CreateAssembly(name);
+        }
+
         #endregion
 
         #region ICommonIntermediateLanguage Members
@@ -54,5 +60,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         }
 
         #endregion
+
     }
 }

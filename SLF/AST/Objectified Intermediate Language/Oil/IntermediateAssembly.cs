@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Languages;
 /*---------------------------------------------------------------------\
 | Copyright © 2011 Allen Copeland Jr.                                  |
 |----------------------------------------------------------------------|
@@ -14,8 +15,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// Provides a default base type for an intermediate assembly.
     /// </summary>
     public sealed class IntermediateAssembly :
-        IntermediateAssembly<IntermediateAssembly>
+        IntermediateAssembly<IntermediateAssembly>,
+        IIntermediateAssembly<ICommonIntermediateLanguage, ICommonIntermediateProvider>
     {
+        /// <summary>
+        /// Data member for <see cref="Provider"/>.
+        /// </summary>
+        private ICommonIntermediateProvider provider;
         /// <summary>
         /// Creates a new <see cref="IntermediateAssembly"/>
         /// with the <paramref name="root"/> assembly provided.
@@ -36,8 +42,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <param name="name">The name of the 
         /// <see cref="IntermediateAssembly"/>.</param>
         internal IntermediateAssembly(string name)
+            : this(name, CommonIntermediateLanguage.Singleton.GetProvider())
+        {
+        }
+
+        internal IntermediateAssembly(string name, ICommonIntermediateProvider provider)
             : base(name)
         {
+            this.provider = provider;
         }
 
         /// <summary>
@@ -61,6 +73,37 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             else
                 throw new InvalidOperationException();
         }
-        
+
+
+        #region IIntermediateAssembly<ICommonIntermediateLanguage,ICommonIntermediateProvider> Members
+
+        /// <summary>
+        /// Returns the <see cref="ICommonIntermediateLanguage">language</see> in which the 
+        /// <see cref="IntermediateAssembly"/> is written in.
+        /// </summary>
+        public ICommonIntermediateLanguage Language
+        {
+            get
+            {
+                return CommonIntermediateLanguage.Singleton;
+            }
+        }
+
+        /// <summary>
+        /// Returns the <see cref="ICommonIntermediateProvider">provider</see>
+        /// which created the <see cref="IntermediateAssembly"/>.
+        /// </summary>
+        public ICommonIntermediateProvider Provider
+        {
+            get
+            {
+                if (this.IsRoot)
+                    return this.provider;
+                else
+                    return this.GetRoot().provider;
+            }
+        }
+
+        #endregion
     }
 }

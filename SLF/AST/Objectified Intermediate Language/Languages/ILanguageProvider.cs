@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Oil;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -18,5 +19,18 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// of the current language provider instance.
         /// </summary>
         ILanguage Language { get; }
+        /// <summary>
+        /// Creates a new <see cref="IIntermediateAssembly"/>
+        /// with the <paramref name="name"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value
+        /// representing part of the identity of the assembly.</param>
+        /// <returns>A new <see cref="IIntermediateAssembly"/>
+        /// with the <paramref name="name"/> provided.</returns>
+        /// <exception cref="System.ArgumentNullException">thrown when 
+        /// <paramref name="name"/> is null.</exception>
+        /// <exception cref="System.ArgumentException">thrown when
+        /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
+        IIntermediateAssembly CreateAssembly(string name);
     }
 }

@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.CSharp
     /// Defines properties and methods for working with a C&#9839; Assembly.
     /// </summary>
     public interface ICSharpAssembly :
-        IIntermediateAssembly<ICSharpLanguage, ICSharpCompilationUnit, ICSharpProvider, CSharpLanguageVersion>
+        IVersionedHighLevelIntermediateAssembly<ICSharpLanguage, ICSharpCompilationUnit, ICSharpProvider, CSharpLanguageVersion>
     {
 
     }

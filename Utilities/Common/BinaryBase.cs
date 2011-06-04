@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Numerics;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -21,7 +22,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
         {
 
         }
-        public BinaryBase(ulong value)
+        public BinaryBase(BigInteger value)
             : base(controller, value)
         {
         }
@@ -34,12 +35,12 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             }
         }
 
-        protected override NumericBase GetNew(ulong value)
+        protected override NumericBase GetNew(BigInteger value)
         {
             return new BinaryBase(value);
         }
 
-        public static implicit operator BinaryBase(ulong value)
+        public static implicit operator BinaryBase(BigInteger value)
         {
             return new BinaryBase(value);
         }

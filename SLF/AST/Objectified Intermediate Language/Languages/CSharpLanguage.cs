@@ -273,7 +273,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
         #region IHighLevelLanguage<ICSharpCompilationUnit> Members
 
-        IIntermediateAssembly IHighLevelLanguage<ICSharpCompilationUnit>.CreateAssembly(string name)
+        IIntermediateAssembly ILanguage.CreateAssembly(string name)
         {
             return this.CreateAssembly(name);
         }

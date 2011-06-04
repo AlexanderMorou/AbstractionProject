@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             get { throw new NotImplementedException(); }
         }
 
-        public ICSharpASTTranslator ASTTranslator
+        public ICSharpCSTTranslator ASTTranslator
         {
             get { throw new NotImplementedException(); }
         }
@@ -55,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             get { return this.Parser; }
         }
 
-        ILanguageASTTranslator<ICSharpCompilationUnit> IHighLevelLanguageProvider<ICSharpCompilationUnit>.ASTTranslator
+        ILanguageCSTTranslator<ICSharpCompilationUnit> IHighLevelLanguageProvider<ICSharpCompilationUnit>.ASTTranslator
         {
             get { return this.ASTTranslator; }
         }
@@ -124,7 +124,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         #region IHighLevelLanguageProvider<ICSharpCompilationUnit> Members
 
 
-        IIntermediateAssembly IHighLevelLanguageProvider<ICSharpCompilationUnit>.CreateAssembly(string name)
+        IIntermediateAssembly ILanguageProvider.CreateAssembly(string name)
         {
             return this.CreateAssembly(name);
         }
