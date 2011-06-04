@@ -107,8 +107,14 @@
     <Compile Include="Languages\CommonIntermediateProvider.cs" />
     <Compile Include="Languages\ICommonIntermediateLanguage.cs" />
     <Compile Include="Languages\ICommonIntermediateProvider.cs" />
-    <Compile Include="Oil\IIntermediateAssembly{TLanguage}.cs" />
-    <Compile Include="Oil\IVersionedIntermediateAssembly.cs" />
+    <Compile Include="Languages\IDynamicLanguage.cs" />
+    <Compile Include="Languages\ILanguageASTTranslator.cs" />
+    <Compile Include="Languages\ILanguageCSTTranslator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\IHighLevelIntermediateAssembly.cs" />
+    <Compile Include="Oil\IIntermediateAssembly`2.cs" />
+    <Compile Include="Oil\IVersionedHighLevelIntermediateAssembly.cs" />
     <Compile Include="Translation\IntermediateBlockTranslationClasses.cs" />
     <Compile Include="Translation\CSharpCodeTranslator.cs" />
     <Compile Include="Languages\IAllenCopelandLanguageVendor.cs" />
@@ -254,7 +260,6 @@
     <Compile Include="Languages\IHighLevelLanguage.cs" />
     <Compile Include="Languages\IHighLevelLanguageProvider.cs" />
     <Compile Include="Languages\ILanguage.cs" />
-    <Compile Include="Languages\ILanguageASTTranslator.cs" />
     <Compile Include="Languages\ILanguageParser.cs" />
     <Compile Include="Languages\ILanguageProcessor.cs" />
     <Compile Include="Languages\ILanguageProvider.cs" />

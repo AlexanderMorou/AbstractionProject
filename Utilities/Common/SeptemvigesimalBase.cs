@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Numerics;
 
 namespace AllenCopeland.Abstraction.Utilities.Common
 {
@@ -14,7 +15,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
         {
 
         }
-        public SeptemvigesimalBase(ulong value)
+        public SeptemvigesimalBase(BigInteger value)
             : base(controller, value)
         {
         }
@@ -23,12 +24,12 @@ namespace AllenCopeland.Abstraction.Utilities.Common
         {
         }
 
-        protected override NumericBase GetNew(ulong value)
+        protected override NumericBase GetNew(BigInteger value)
         {
             return new SeptemvigesimalBase(value);
         }
 
-        public static implicit operator SeptemvigesimalBase(ulong value)
+        public static implicit operator SeptemvigesimalBase(BigInteger value)
         {
             return new SeptemvigesimalBase(value);
         }

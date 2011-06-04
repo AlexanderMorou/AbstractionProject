@@ -17,6 +17,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     {
         private static void Main()
         {
+            //arr1(); return;
             var winFormsVB = MiscHelperMethods.TimeResultFunc(ExampleHandler.WindowsFormsApplication.CreateProjectVB);
             var winFormsCS = MiscHelperMethods.TimeResultFunc(ExampleHandler.WindowsFormsApplication.CreateProjectCSharp);
             Console.WriteLine("Running initial test...");
@@ -36,7 +37,6 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             vbWinFormsTest.Item2.Item1.Dispose();
             csWinFormsTest.Item2.Item1.Dispose();
             CLIGateway.ClearCache();
-            //arr1();
         }
 
         private static void FullName()
@@ -77,8 +77,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             }
             sw.Stop();
             var chunkCopy = sw.Elapsed;
-            sw.Reset();
-            sw.Start();
+            sw.Restart();
             for (int i = 0; i < testCount; i++)
             {
                 var ag = Tweaks.MergeArrays(ds);

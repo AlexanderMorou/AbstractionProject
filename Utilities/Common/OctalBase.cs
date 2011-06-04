@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Numerics;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -21,7 +22,11 @@ namespace AllenCopeland.Abstraction.Utilities.Common
         {
 
         }
-        public OctalBase(ulong value)
+        public OctalBase(BigInteger value)
+            : base(controller, value)
+        {
+        }
+        public OctalBase(string value)
             : base(controller, value)
         {
         }
@@ -34,12 +39,12 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             }
         }
 
-        protected override NumericBase GetNew(ulong value)
+        protected override NumericBase GetNew(BigInteger value)
         {
             return new OctalBase(value);
         }
 
-        public static implicit operator OctalBase(ulong value)
+        public static implicit operator OctalBase(BigInteger value)
         {
             return new OctalBase(value);
         }

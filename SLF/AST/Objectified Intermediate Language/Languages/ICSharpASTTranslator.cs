@@ -12,8 +12,8 @@ using AllenCopeland.Abstraction.Slf.Cst;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
-    public interface ICSharpASTTranslator :
-        ILanguageASTTranslator<ICSharpCompilationUnit>
+    public interface ICSharpCSTTranslator :
+        ILanguageCSTTranslator<ICSharpCompilationUnit>
     {
     }
 }

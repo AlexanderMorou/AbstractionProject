@@ -5,6 +5,8 @@ using System.Text;
 using System.Diagnostics.SymbolStore;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Oil.VisualBasic;
+using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Slf.Cst;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
@@ -39,9 +41,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             return new VisualBasicProvider(version);
         }
 
-        public Oil.IIntermediateAssembly CreateAssembly(string name, VisualBasicVersion version)
+        IIntermediateAssembly IVersionedHighLevelLanguage<VisualBasicVersion,IVisualBasicStart>.CreateAssembly(string name, VisualBasicVersion version)
         {
-            return this.GetProvider(version).CreateAssembly(name);
+            return this.CreateAssembly(name, version);
         }
 
         #endregion
@@ -53,9 +55,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             return this.GetProvider();
         }
 
-        public Oil.IIntermediateAssembly CreateAssembly(string name)
+        IIntermediateAssembly ILanguage.CreateAssembly(string name)
         {
-            return new VisualBasicAssembly(name, this.GetProvider());
+            return this.CreateAssembly(name);
         }
 
         #endregion
@@ -115,6 +117,21 @@ namespace AllenCopeland.Abstraction.Slf.Languages
                 yield return VisualBasicVersion.Version10;
                 yield return VisualBasicVersion.Version11;
             }
+        }
+
+        #endregion
+
+        #region IVisualBasicLanguage Members
+
+
+        public IVisualBasicAssembly CreateAssembly(string name, VisualBasicVersion version)
+        {
+            return this.GetProvider(version).CreateAssembly(name);
+        }
+
+        public IVisualBasicAssembly CreateAssembly(string name)
+        {
+            return this.GetProvider(DefaultVersion).CreateAssembly(name);
         }
 
         #endregion

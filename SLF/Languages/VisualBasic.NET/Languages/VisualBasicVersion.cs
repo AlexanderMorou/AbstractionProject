@@ -5,6 +5,11 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
+    /// <summary>
+    /// Provides a series of values which relate to versions
+    /// of the 
+    /// <see cref="IVisualBasicLanguage">Visual Basic.NET language</see>.
+    /// </summary>
     public enum VisualBasicVersion
     {
         /// <summary>

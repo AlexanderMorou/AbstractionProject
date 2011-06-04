@@ -41,5 +41,18 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// Returns/sets whether arithmetic overflow checks are on by default.
         /// </summary>
         new bool ArithmeticOverflowChecks { get; set; }
+
+        /// <summary>
+        /// Returns the immutable <see cref="ICompilationContext"/> associated to the
+        /// current <see cref="IMalleableCompilationContext"/>.
+        /// </summary>
+        /// <remarks>Typically used by a language's compiler to fix
+        /// the details of the resultant assembly such that changes 
+        /// to the original 
+        /// <see cref="<see cref="IMalleableCompilationContext"/>"/>
+        /// are ignored.</remarks>
+        /// <returns>A <see cref="ICompilationContext"/>
+        /// whose members cannot be changed.</returns>
+        ICompilationContext GetImmutableContext();
     }
 }

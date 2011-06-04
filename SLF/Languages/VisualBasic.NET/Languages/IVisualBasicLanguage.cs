@@ -25,5 +25,36 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// <returns>A new <see cref="IVisualBasicProvider"/> for the current
         /// <see cref="IVisualBasicLanguage"/>.</returns>
         new IVisualBasicProvider GetProvider(VisualBasicVersion version);
+        /// <summary>
+        /// Creates a new <see cref="IVisualBasicAssembly"/>
+        /// with the <paramref name="name"/> and 
+        /// <paramref name="version"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value
+        /// representing part of the identity of the assembly.</param>
+        /// <param name="version">The <see cref="VisualBasicVersion"/>
+        /// of the language to which the <see cref="IVisualBasicAssembly"/>
+        /// is built against.</param>
+        /// <returns>A new <see cref="IIntermediateAssembly"/>
+        /// with the <paramref name="name"/> provided.</returns>
+        /// <exception cref="System.ArgumentNullException">thrown when 
+        /// <paramref name="name"/> is null.</exception>
+        /// <exception cref="System.ArgumentException">thrown when
+        /// <paramref name="name"/> is <see cref="String.Empty"/>
+        /// or <paramref name="version"/> is out of the values allowed.</exception>
+        IVisualBasicAssembly CreateAssembly(string name, VisualBasicVersion version);
+        /// <summary>
+        /// Creates a new <see cref="IVisualBasicAssembly"/>
+        /// with the <paramref name="name"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value
+        /// representing part of the identity of the assembly.</param>
+        /// <returns>A new <see cref="IVisualBasicAssembly"/>
+        /// with the <paramref name="name"/> provided.</returns>
+        /// <exception cref="System.ArgumentNullException">thrown when 
+        /// <paramref name="name"/> is null.</exception>
+        /// <exception cref="System.ArgumentException">thrown when
+        /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
+        IVisualBasicAssembly CreateAssembly(string name);
     }
 }

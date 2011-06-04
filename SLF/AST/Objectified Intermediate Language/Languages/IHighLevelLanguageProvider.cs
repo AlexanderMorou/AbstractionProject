@@ -28,10 +28,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// </summary>
         ILanguageParser<TRootNode> Parser { get; }
         /// <summary>
-        /// Returns the <see cref="ILanguageASTTranslator{TRootNode}"/>
+        /// Returns the <see cref="ILanguageCSTTranslator{TRootNode}"/>
         /// of the current high level language provider instance.
         /// </summary>
-        ILanguageASTTranslator<TRootNode> ASTTranslator { get; }
+        ILanguageCSTTranslator<TRootNode> ASTTranslator { get; }
         /// <summary>
         /// Returns the <see cref="IIntermediateCodeTranslator"/>
         /// of the current language provider.
@@ -48,19 +48,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// a formatting guideline.
         /// </summary>
         IAnonymousTypePatternAid AnonymousTypePattern { get; }
-        /// <summary>
-        /// Creates a new <see cref="IIntermediateAssembly"/>
-        /// with the <paramref name="name"/> provided.
-        /// </summary>
-        /// <param name="name">The <see cref="String"/> value
-        /// representing part of the identity of the assembly.</param>
-        /// <returns>A new <see cref="IIntermediateAssembly"/>
-        /// with the <paramref name="name"/> provided.</returns>
-        /// <exception cref="System.ArgumentNullException">thrown when 
-        /// <paramref name="name"/> is null.</exception>
-        /// <exception cref="System.ArgumentException">thrown when
-        /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
-        IIntermediateAssembly CreateAssembly(string name);
 
     }
     

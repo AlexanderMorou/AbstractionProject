@@ -85,6 +85,7 @@
     <Compile Include="Oil\VisualBasic\IVisualBasicAssembly.cs" />
     <Compile Include="Oil\VisualBasic\My\IMyApplicationClass.cs" />
     <Compile Include="Oil\VisualBasic\VisualBasicAssembly.cs" />
+    <Compile Include="Oil\VisualBasic\VisualBasicAssemblyBridge.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

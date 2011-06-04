@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
             where TRootNode :
                 IConcreteNode
             where TAssembly :
-                IIntermediateAssembly<TLanguage, TRootNode, TProvider, TVersion>
+                IVersionedHighLevelIntermediateAssembly<TLanguage, TRootNode, TProvider, TVersion>
         {
             return (TAssembly)language.CreateAssembly(name);
         }
