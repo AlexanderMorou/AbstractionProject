@@ -26,7 +26,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// </summary>
         IMalleableStatementExpressionCollection Initializers { get; }
     }
-
+    /// <summary>
+    /// Defines properties and methods for working with a
+    /// base iteration block statement.
+    /// </summary>
     public interface IIterationBlockBaseStatement :
         IBreakableBlockStatement
     {

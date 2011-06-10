@@ -164,7 +164,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     }
                     if (this.genericParamsCache != null)
                     {
-                        this.genericParamsCache.OnAll(q => q.Dispose());
+                        var genericParamsCacheCopy = this.genericParamsCache.ToArray();
+                        foreach (var type in genericParamsCacheCopy)
+                            type.Dispose();
                         this.genericParamsCache._Clear();
                         this.genericParamsCache = null;
                     }

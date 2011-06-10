@@ -10,6 +10,9 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Languages;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using System.Diagnostics;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions.CSharp;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 
 namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 {
@@ -17,9 +20,10 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     {
         private static void Main()
         {
+            //FullName(); return;
             //arr1(); return;
-            var winFormsVB = MiscHelperMethods.TimeResultFunc(ExampleHandler.WindowsFormsApplication.CreateProjectVB);
-            var winFormsCS = MiscHelperMethods.TimeResultFunc(ExampleHandler.WindowsFormsApplication.CreateProjectCSharp);
+            var winFormsVB = MiscHelperMethods.TimeResultFunc(ExampleHandler.WindowsFormsApplication.CreateStructureVB,     () => LanguageVendors.Microsoft.GetVisualBasicLanguage().CreateAssembly("VB.Net examples"));
+            var winFormsCS = MiscHelperMethods.TimeResultFunc(ExampleHandler.WindowsFormsApplication.CreateStructureCSharp, () => LanguageVendors.Microsoft.     GetCSharpLanguage().CreateAssembly("CSharp examples"));
             Console.WriteLine("Running initial test...");
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * *");
             Console.WriteLine("* If the native image has been generated for    *");
@@ -43,14 +47,16 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
         {
             var Test = LanguageVendors.Microsoft.GetCSharpLanguage().CreateAssembly("TestAssembly");
             var class1 = Test.Classes.Add("Class1", new GenericParameterData("T1"));
-            var method1 = class1.Methods.Add("Method1", TypedNameSeries.Empty, new GenericParameterData("T2"));
+            var method1 = class1.Methods.Add("Method1", new TypedNameSeries() { { "param1", "T1" }, { "param2", "T2" } }, new GenericParameterData("T2"));
+            method1.Name = "What'cha?";
+            Console.WriteLine(method1.UniqueIdentifier);
             var class2 = method1.Classes.Add("Class2", new GenericParameterData("T3"));
             Console.WriteLine(class2.FullName);
         }
 
         private static void arr1()
         {
-            Random  r= new Random();
+            Random r = new Random();
             int[][] ds = new int[800][];
             int value = 0;
             for (int i = 0; i < ds.Length; i++)
@@ -63,7 +69,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             }
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            const int testCount = 10000;
+            const int testCount = 0x10000;
             for (int i = 0; i < testCount; i++)
             {
                 var ag = ds.AsParallel().Aggregate((a3, a4) =>

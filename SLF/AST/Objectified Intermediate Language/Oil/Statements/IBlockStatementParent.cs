@@ -324,6 +324,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// and a series of <paramref name="iterations"/> which denote the logic used prior to the 
         /// <paramref name="condition"/> check but before executing the inner block of the iteration.</returns>
         IIterationBlockStatement Iterate(IEnumerable<IStatementExpression> initializers, IExpression condition, IEnumerable<IStatementExpression> iterations);
+
         /// <summary>
         /// Creates, inserts and returns a new <see cref="IIterationDeclarationBlockStatement"/>
         /// which defines a local through the <paramref name="localDeclaration"/>,
@@ -338,11 +339,25 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// but prior to checking the continuation <paramref name="condition"/>.
         /// </param>
         /// <returns>A new <see cref="IIterationDeclarationBlockStatement"/>
-        /// which defines a local through the <paramref name="localDeclaration"/>,
-        /// a continuation <paramref name="condition"/> and a series of <paramref name="iterations"/>.</returns>
+        /// which represents the operation..</returns>
         IIterationDeclarationBlockStatement Iterate(ILocalDeclarationStatement localDeclaration, IExpression condition, IEnumerable<IStatementExpression> iterations);
 
         ISimpleIterationBlockStatement Iterate(ILocalDeclarationStatement target, IExpression start, IExpression end, bool endExclusive = true, IExpression incremental = null);
+
+        /// <summary>
+        /// Creates, inserts and returns a new 
+        /// <see cref="IIteratesetStatement"/> which represents an 
+        /// iteration over the <paramref name="target">individual element</paramref>s
+        /// of a <paramref name="source">set</paramref>, either fixed
+        /// or dynamic in nature.
+        /// </summary>
+        /// <param name="target">The variable which should receive the elements of 
+        /// the <paramref name="source"/> as a part of the iteration.</param>
+        /// <param name="source">The <see cref="IExpression"/> which designates
+        /// where the information comes from.</param>
+        /// <returns>A new <see cref="IEnumerateSetBreakableBlockStatement"/> which represents 
+        /// the operation.</returns>
+        IEnumerateSetBreakableBlockStatement Enumerate(ILocalDeclarationStatement target, IExpression source);
 
         /// <summary>
         /// Creates an inserts a <see cref="ILocalDeclarationStatement"/> with the

@@ -10,6 +10,9 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
+    /// <summary>
+    /// Defines a generic base for an operand of an n-part operation.
+    /// </summary>
     public interface INaryOperandExpression :
         IExpression
     {

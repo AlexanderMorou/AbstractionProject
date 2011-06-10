@@ -1,20 +1,10 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using AllenCopeland.Abstraction.Slf.Abstract;
-using AllenCopeland.Abstraction.Slf.Cli;
-using AllenCopeland.Abstraction.Slf.Compilers;
+using AllenCopeland.Abstraction.Slf.CSharp;
 using AllenCopeland.Abstraction.Slf.Cst;
 using AllenCopeland.Abstraction.Slf.Languages;
-using AllenCopeland.Abstraction.Slf.Linkers;
 using AllenCopeland.Abstraction.Slf.Oil;
-using AllenCopeland.Abstraction.Slf.Oil.Expressions;
-using AllenCopeland.Abstraction.Slf.Oil.Expressions.CSharp;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Oil.VisualBasic;
-using AllenCopeland.Abstraction.Slf.CSharp;
 
 namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples
 {
@@ -35,15 +25,14 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
 
         internal partial class WindowsFormsApplication
         {
-            public static Tuple<IVisualBasicAssembly, IIntermediateTopLevelMethodMember, IIntermediateClassType, IIntermediateClassMethodMember, IIntermediateClassMethodMember, IIntermediateClassCtorMember> CreateProjectVB()
+            public static Tuple<IVisualBasicAssembly, IIntermediateTopLevelMethodMember, IIntermediateClassType, IIntermediateClassMethodMember, IIntermediateClassMethodMember, IIntermediateClassCtorMember> CreateStructureVB(IVisualBasicAssembly assembly)
             {
-                return CreateProject(name => ExampleHandler.Create<IVisualBasicLanguage, IVisualBasicProvider, IVisualBasicStart, IVisualBasicAssembly, VisualBasicVersion>(LanguageVendors.Microsoft.GetVisualBasicLanguage(), name));
+                return CreateStructure(assembly);
             }
-            public static Tuple<ICSharpAssembly, IIntermediateTopLevelMethodMember, IIntermediateClassType, IIntermediateClassMethodMember, IIntermediateClassMethodMember, IIntermediateClassCtorMember> CreateProjectCSharp()
+            public static Tuple<ICSharpAssembly, IIntermediateTopLevelMethodMember, IIntermediateClassType, IIntermediateClassMethodMember, IIntermediateClassMethodMember, IIntermediateClassCtorMember> CreateStructureCSharp(ICSharpAssembly assembly)
             {
-                return CreateProject(name => ExampleHandler.Create<ICSharpLanguage, ICSharpProvider, ICSharpCompilationUnit, ICSharpAssembly, CSharpLanguageVersion>(LanguageVendors.Microsoft.GetCSharpLanguage(), name));
+                return CreateStructure(assembly);
             }
-
         }
         internal class ConsoleApplication
         {

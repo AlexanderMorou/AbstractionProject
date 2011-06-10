@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
     {
 
         /// <summary>
-        /// Breaks the execution from its current point elsewhere.
+        /// Breaks the execution from its current point to somewhere else.
         /// </summary>
         /// <returns>A <see cref="IBreakStatement"/> which designates the <see cref="IJumpStatement.Target"/>
         /// as necessary.</returns>

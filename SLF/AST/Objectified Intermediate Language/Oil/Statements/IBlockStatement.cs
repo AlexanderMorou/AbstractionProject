@@ -24,6 +24,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         IBlockStatementParent,
         IIntermediateMemberParent
     {
+        /// <summary>
+        /// Returns the <see cref="IBlockStatementParent"/> which
+        /// contains the <see cref="IBlockStatement"/>.
+        /// </summary>
         new IBlockStatementParent Parent { get; }
     }
 }

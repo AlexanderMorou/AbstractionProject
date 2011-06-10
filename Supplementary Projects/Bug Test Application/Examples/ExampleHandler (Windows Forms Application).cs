@@ -19,25 +19,26 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
         partial class WindowsFormsApplication
         {
 
-            public static Tuple<TAssembly, IIntermediateTopLevelMethodMember, IIntermediateClassType, IIntermediateClassMethodMember, IIntermediateClassMethodMember, IIntermediateClassCtorMember> CreateProject<TAssembly>(Func<string, TAssembly> activator)
+            public static Tuple<TAssembly, IIntermediateTopLevelMethodMember, IIntermediateClassType, IIntermediateClassMethodMember, IIntermediateClassMethodMember, IIntermediateClassCtorMember> CreateStructure<TAssembly>(TAssembly assembly)
                 where TAssembly :
                     IIntermediateAssembly
             {
                 //Create the assembly and define its output type.
-                var testAssembly = activator("WindowsFormsTest");
+                var testAssembly = assembly; //activator("WindowsFormsTest");
                 testAssembly.References.Add(typeof(int).Assembly.GetAssemblyReference());
                 testAssembly.References.Add(typeof(Form).Assembly.GetAssemblyReference(), "forms", AssemblyReferenceCollection.DefaultAlias);
                 testAssembly.References.Add(typeof(Queryable).Assembly.GetAssemblyReference());
                 testAssembly.CompilationContext.OutputType = AssemblyOutputType.WinFormsApplication;
 
+                var @namespace = testAssembly.Namespaces.Add("WindowsFormsApplication1");
                 //Define the assembly's default namespace.
-                testAssembly.DefaultNamespace = testAssembly.Namespaces.Add("WindowsFormsApplication1");
+                //testAssembly.DefaultNamespace = testAssembly.Namespaces.Add("WindowsFormsApplication1");
 
                 //Define the main dialog.
-                var mainDialog = testAssembly.DefaultNamespace.Classes.Add("MainDialog");
+                var mainDialog = @namespace.Classes.Add("MainDialog");
                 mainDialog.BaseType = typeof(Form).GetTypeReference<IClassType>();
                 mainDialog.AccessLevel = AccessLevelModifiers.Internal;
-                var mainMethod = CreateMainMethod(testAssembly, mainDialog);
+                var mainMethod = CreateMainMethod(testAssembly, @namespace, mainDialog);
 
                 //Add the designer partial file to the main dialog.
                 var mainDialogDesigner = mainDialog.Parts.Add();
@@ -75,10 +76,10 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 return new Tuple<TAssembly, IIntermediateTopLevelMethodMember, IIntermediateClassType, IIntermediateClassMethodMember, IIntermediateClassMethodMember, IIntermediateClassCtorMember>(testAssembly, mainMethod, mainDialog, mdDispose, mdInitializeComponent, mdCtor);
             }
 
-            private static IIntermediateTopLevelMethodMember CreateMainMethod(IIntermediateAssembly testAssembly, IIntermediateClassType mainDialog)
+            private static IIntermediateTopLevelMethodMember CreateMainMethod(IIntermediateAssembly testAssembly, IIntermediateNamespaceDeclaration @namespace, IIntermediateClassType mainDialog)
             {
                 //Define the main method of the program class.
-                var mainMethod = testAssembly.DefaultNamespace.Methods.Add("Main", new TypedNameSeries() { { "args", CommonTypeRefs.String.MakeArray() } });
+                var mainMethod = @namespace.Methods.Add("Main", new TypedNameSeries() { { "args", CommonTypeRefs.StringArray } });
                 mainMethod.AccessLevel = AccessLevelModifiers.Private;
 
                 //Obtain a reference to the application class.

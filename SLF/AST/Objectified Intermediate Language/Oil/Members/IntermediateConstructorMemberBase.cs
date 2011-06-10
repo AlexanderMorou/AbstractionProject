@@ -443,11 +443,43 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return this.StatementContainer.Call(callType, methodName, typeParameters, parameters);
         }
 
+        /// <summary>
+        /// Creates, inserts, and returns a new <see cref="IIterationBlockStatement"/> which
+        /// has a series of <paramref name="initializers"/>, a continuation <paramref name="condition"/>
+        /// and a series of <paramref name="iterations"/>.
+        /// </summary>
+        /// <param name="initializers">The series of <see cref="IStatementExpression"/>
+        /// elements which describe what to do during the initialization phase of the iterator.</param>
+        /// <param name="condition">The <see cref="Boolean"/> <see cref="IExpression"/>
+        /// which denotes the condition to evaluate prior to executing the iteration's block body.</param>
+        /// <param name="iterations">The series of <see cref="IStatementExpression"/>
+        /// values which denote the logic to execute after the code-block, 
+        /// but prior to checking the continuation <paramref name="condition"/>.
+        /// </param>
+        /// <returns>A new <see cref="IIterationBlockStatement"/> which
+        /// has a series of <paramref name="initializers"/>, a continuation <paramref name="condition"/>
+        /// and a series of <paramref name="iterations"/> which denote the logic used prior to the 
+        /// <paramref name="condition"/> check but before executing the inner block of the iteration.</returns>
         public IIterationBlockStatement Iterate(IEnumerable<IStatementExpression> initializers, IExpression condition, IEnumerable<IStatementExpression> iterations)
         {
             return this.StatementContainer.Iterate(initializers, condition, iterations);
         }
 
+        /// <summary>
+        /// Creates, inserts and returns a new <see cref="IIterationDeclarationBlockStatement"/>
+        /// which defines a local through the <paramref name="localDeclaration"/>,
+        /// a continuation <paramref name="condition"/> and a series of <paramref name="iterations"/>.
+        /// </summary>
+        /// <param name="localDeclaration">A <see cref="ILocalDeclarationStatement"/>
+        /// which defines the local used within the scope of the iteration block.</param>
+        /// <param name="condition">The <see cref="Boolean"/> <see cref="IExpression"/>
+        /// which denotes the condition to evaluate prior to executing the iteration's block body.</param>
+        /// <param name="iterations">The series of <see cref="IStatementExpression"/>
+        /// values which denote the logic to execute after the code-block, 
+        /// but prior to checking the continuation <paramref name="condition"/>.
+        /// </param>
+        /// <returns>A new <see cref="IIterationDeclarationBlockStatement"/>
+        /// which represents the operation..</returns>
         public IIterationDeclarationBlockStatement Iterate(ILocalDeclarationStatement localDeclaration, IExpression condition, IEnumerable<IStatementExpression> iterations)
         {
             return this.StatementContainer.Iterate(localDeclaration, condition, iterations);
@@ -458,36 +490,136 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return this.StatementContainer.Iterate(target, start, end, endExclusive, incremental);
         }
 
+        /// <summary>
+        /// Creates, inserts and returns a new 
+        /// <see cref="IIteratesetStatement"/> which represents an 
+        /// iteration over the <paramref name="target">individual element</paramref>s
+        /// of a <paramref name="source">set</paramref>, either fixed
+        /// or dynamic in nature.
+        /// </summary>
+        /// <param name="target">The variable which should receive the elements of 
+        /// the <paramref name="source"/> as a part of the iteration.</param>
+        /// <param name="source">The <see cref="IExpression"/> which designates
+        /// where the information comes from.</param>
+        /// <returns>A new <see cref="IEnumerateSetBreakableBlockStatement"/> which represents 
+        /// the operation.</returns>
+        public IEnumerateSetBreakableBlockStatement Enumerate(ILocalDeclarationStatement target, IExpression source)
+        {
+            return this.StatementContainer.Enumerate(target, source);
+        }
+
+        /// <summary>
+        /// Creates an inserts a <see cref="ILocalDeclarationStatement"/> with the
+        /// <paramref name="local"/> provided.
+        /// </summary>
+        /// <param name="local">The <see cref="ILocalMember"/> to declare.</param>
+        /// <returns>A new <see cref="ILocalDeclarationStatement"/>
+        /// which aims to declare the <paramref name="local"/> provided.</returns>
         public ILocalDeclarationStatement DefineLocal(ILocalMember local)
         {
             return this.StatementContainer.DefineLocal(local);
         }
 
+        /// <summary>
+        /// Defines a <see cref="ILabelStatement"/> with the 
+        /// <paramref name="name"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/>
+        /// value associated to the label to create.</param>
+        /// <returns>A new <see cref="ILabelStatement"/> relative to the 
+        /// <paramref name="name"/> provided.</returns>
+        public ILabelStatement DefineLabel(string name)
+        {
+            return this.StatementContainer.DefineLabel(name);
+        }
+
+        /// <summary>
+        /// Defines the provided <paramref name="label"/>.
+        /// </summary>
+        /// <param name="label">The <see cref="ILabelStatement"/>
+        /// to declare</param>
+        public void DefineLabel(ILabelStatement label)
+        {
+            this.StatementContainer.DefineLabel(label);
+        }
+
+        /// <summary>
+        /// Assigns a <paramref name="value"/> to the <paramref name="target"/>
+        /// with the given assignment <paramref name="operation"/> provided.
+        /// </summary>
+        /// <param name="target">The <see cref="IMemberReferenceExpression"/> which is the target
+        /// of the assignment.</param>
+        /// <param name="operation">The <see cref="AssignmentOperation"/> which denotes how the operation
+        /// should be managed.</param>
+        /// <param name="value">The <see cref="INaryOperandExpression"/> which denotes the value
+        /// to assign to the <paramref name="target"/>.</param>
+        /// <returns>A new <see cref="IExpressionStatement"/> which represents the assignment.</returns>
         public IExpressionStatement Assign(IMemberReferenceExpression target, AssignmentOperation operation, INaryOperandExpression value)
         {
             return this.StatementContainer.Assign(target, operation, value);
         }
 
+        /// <summary>
+        /// Assigns a <paramref name="value"/> to the <paramref name="target"/>
+        /// with the standard <see cref="AssignmentOperation.SimpleAssign"/> operation.
+        /// </summary>
+        /// <param name="target">The <see cref="IMemberReferenceExpression"/> which is the target of the
+        /// assignment.</param>
+        /// <param name="value">The <see cref="INaryOperandExpression"/> which denotes the value
+        /// to assign to the <paramref name="target"/>.</param>
+        /// <returns>A new <see cref="IExpressionStatement"/> which represents the assignment.</returns>
         public IExpressionStatement Assign(IMemberReferenceExpression target, INaryOperandExpression value)
         {
             return this.StatementContainer.Assign(target, value);
         }
 
+        /// <summary>
+        /// Increments the <paramref name="target"/> variable by one.
+        /// </summary>
+        /// <param name="target">The <see cref="IAssignTargetExpression"/>
+        /// which can be incremented.</param>
+        /// <returns>A <see cref="IExpressionStatement"/> which represents the 
+        /// increment operation.</returns>
         public IExpressionStatement Increment(IAssignTargetExpression target)
         {
             return this.StatementContainer.Increment(target);
         }
 
+        /// <summary>
+        /// Increments the <paramref name="target"/> by the <paramref name="incrementBy"/> value.
+        /// </summary>
+        /// <param name="target">The <see cref="IAssignTargetExpression"/> 
+        /// which can be incremented.</param>
+        /// <param name="incrementBy">The <see cref="INaryOperandExpression"/> which acts 
+        /// as the operand in the increment operation.</param>
+        /// <returns>A <see cref="IExpressionStatement"/> which represents the
+        /// increment operation.</returns>
         public IExpressionStatement Increment(IAssignTargetExpression target, INaryOperandExpression incrementBy)
         {
             return this.StatementContainer.Increment(target, incrementBy);
         }
 
+        /// <summary>
+        /// Decrements the <paramref name="target"/> variable by one.
+        /// </summary>
+        /// <param name="target">The <see cref="IAssignTargetExpression"/>
+        /// which can be decremented.</param>
+        /// <returns>A <see cref="IExpressionStatement"/> which represents the 
+        /// decrement operation.</returns>
         public IExpressionStatement Decrement(IAssignTargetExpression target)
         {
             return this.StatementContainer.Decrement(target);
         }
 
+        /// <summary>
+        /// Decrements the <paramref name="target"/> by the <paramref name="decrementBy"/> value.
+        /// </summary>
+        /// <param name="target">The <see cref="IAssignTargetExpression"/> 
+        /// which can be decremented.</param>
+        /// <param name="decrementBy">The <see cref="INaryOperandExpression"/> which acts 
+        /// as the operand in the decrement operation.</param>
+        /// <returns>A <see cref="IExpressionStatement"/> which represents the
+        /// decrement operation.</returns>
         public IExpressionStatement Decrement(IAssignTargetExpression target, INaryOperandExpression decrementBy)
         {
             return this.StatementContainer.Decrement(target, decrementBy);
@@ -497,31 +629,39 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             return this.StatementContainer.Jump(target);
         }
+
+        /// <summary>
+        /// Creates, inserts and returns a <see cref="IGoToStatement"/>
+        /// which encodes the intent to go to the <paramref name="target"/> 
+        /// provided.
+        /// </summary>
+        /// <param name="target">The <see cref="ILabelStatement"/>
+        /// which needs jumped to.</param>
+        /// <returns>The <see cref="IGoToStatement"/>
+        /// which </returns>
         public IGoToStatement GoTo(ILabelStatement target)
         {
             return this.StatementContainer.GoTo(target);
         }
 
+        /// <summary>
+        /// Returns the <see cref="IBlockStatementLabelDictionary"/> of the labels associated to the current
+        /// <see cref="IBlockStatementParent"/>.
+        /// </summary>
         public IBlockStatementLabelDictionary Labels
         {
             get { return this.StatementContainer.Labels; }
         }
 
+        /// <summary>
+        /// Returns the <see cref="IBlockStatementLabelDictionary"/> which
+        /// is a unioned dictionary of those contained within the current
+        /// <see cref="IBlockStatementParent"/> and those above.
+        /// </summary>
         public IBlockStatementLabelDictionary ScopeLabels
         {
             get { return this.StatementContainer.ScopeLabels; }
         }
-
-        public ILabelStatement DefineLabel(string name)
-        {
-            return this.StatementContainer.DefineLabel(name);
-        }
-
-        public void DefineLabel(ILabelStatement label)
-        {
-            this.StatementContainer.DefineLabel(label);
-        }
-
 
         public IChangeEventHandlerStatement AddHandler(IEventReferenceExpression targetEvent, IMethodPointerReferenceExpression sourceMethod)
         {
@@ -568,13 +708,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return this.StatementContainer.RemoveHandler(target, eventName, methodName);
         }
 
+        /// <summary>
+        /// Inserts a <paramref name="comment"/> into the series of statements.
+        /// </summary>
+        /// <param name="comment">The <see cref="String"/> value denoting the comment.</param>
+        /// <returns>A new <see cref="ICommentStatement"/> which denotes the <paramref name="comment"/>
+        /// provided.</returns>
         public ICommentStatement Comment(string comment)
         {
             return this.StatementContainer.Comment(comment);
         }
 
         #endregion
-
 
         #region IControlledStateCollection<IStatement> Members
 

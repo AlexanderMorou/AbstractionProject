@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Common;
+using System.ComponentModel;
 //using AllenCopeland.Abstraction.Utilities.Tuples;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
@@ -17,6 +18,7 @@ using AllenCopeland.Abstraction.Utilities.Common;
 
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class GeneralExtensions
     {
         private static readonly Random shuffleRandom = new Random();
@@ -161,7 +163,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             source.OnAll((tk, target, method) => target.Add(tk, method(tk)), result, valueGen);
             return result;
         }
-
+        
         public static T[] Filter<T>(this IEnumerable<T> source, Predicate<T> predicate)
         {
             //'Where<T>(IEnumerable<T> x, Func<T, bool> predicate)' is the same.
@@ -177,7 +179,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             bool mv1 = false,
                  mv2 = false;
             IEnumerator<TSourceItem> e1 = source.GetEnumerator();
-            for (IEnumerator<TTargetItem> e2 = target.GetEnumerator(); (mv1 = e1.MoveNext()) && (mv2 = e2.MoveNext()); )
+            IEnumerator<TTargetItem> e2 = target.GetEnumerator();
+
+            for (mv1 = e1.MoveNext(), mv2 = e2.MoveNext(); mv1 && mv2; mv1 = e1.MoveNext(), mv2 = e2.MoveNext())
                 if (!(predicate(e1.Current, e2.Current)))
                     return false;
             //If they're both finished, instead of just one.
@@ -190,7 +194,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                  mv2 = false;
             if (source.Count() != target.Count())
                 return false;
-            for (IEnumerator<T> e1 = source.GetEnumerator(), e2 = target.GetEnumerator(); (mv1 = e1.MoveNext()) && (mv2 = e2.MoveNext()); )
+            IEnumerator<T> e1 = source.GetEnumerator(),
+                           e2 = target.GetEnumerator();
+            for (mv1 = e1.MoveNext(), mv2 = e2.MoveNext(); mv1 && mv2; mv1 = e1.MoveNext(), mv2 = e2.MoveNext())
                 if (!(predicate(e1.Current, e2.Current)))
                     return false;
             return mv1 == mv2;
