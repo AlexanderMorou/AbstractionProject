@@ -49,8 +49,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <summary>
         /// Visits the enumeration block <paramref name="statement"/> provided.
         /// </summary>
-        /// <param name="statement">The <see cref="IEnumerationBlockStatement"/> to visit.</param>
-        void Visit(IEnumerationBlockStatement statement);
+        /// <param name="statement">The <see cref="IEnumerateSetBreakableBlockStatement"/> to visit.</param>
+        void Visit(IEnumerateSetBreakableBlockStatement statement);
         /// <summary>
         /// Visits the explicitly typed local variable declaration <paramref name="statement"/> provided.
         /// </summary>

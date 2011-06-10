@@ -3,30 +3,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+using System.ComponentModel;
+using AllenCopeland.Abstraction.Slf.Oil.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 {
-    public class IterationBlockBaseStatement :
+    /// <summary>
+    /// Provides a base implementation of 
+    /// <see cref="IEnumerateSetBreakableBlockStatement"/>
+    /// which provides properties and methods for working with a 
+    /// statement which represents the action of enumerating the
+    /// elements of a set and performing a set of actions on each
+    /// element.
+    /// </summary>
+    public class EnumerateSetBreakableBlockStatement :
         BlockStatementBase,
-        IIterationBlockBaseStatement
+        IEnumerateSetBreakableBlockStatement
     {
         private IBreakExit exitPoint;
 
-        public IterationBlockBaseStatement(IBlockStatementParent parent, IExpression condition, IEnumerable<IStatementExpression> iterations)
+        /// <summary>
+        /// Creates a new <see cref="EnumerateSetBreakableBlockStatement"/>
+        /// with the <paramref name="parent"/> provided.
+        /// </summary>
+        /// <param name="parent">The <see cref="IBlockStatementParent"/>
+        /// which contains the <see cref="IEnumerateSetBreakableBlockStatement"/>.
+        /// </param>
+        public EnumerateSetBreakableBlockStatement(IBlockStatementParent parent)
             : base(parent)
         {
-            this.Condition = condition;
-            this.Iterations = new MalleableStatementExpressionCollection(iterations);
         }
 
         #region IBreakableBlockStatement Members
 
+        /// <summary>
+        /// Returns the <see cref="IBreakExit"/> for the <see cref="IBreakableStatement"/>.
+        /// </summary>
+        /// <remarks>In languages that natively support the break statement
+        /// this is unnecessary; however in using this in the code, 
+        /// the label will be emitted in the associated supporting 
+        /// language as well.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public IBreakExit AssociatedJumpLabel
         {
             get
@@ -77,22 +94,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
             return new BreakableConditionBlockStatement(this) { Condition = condition };
         }
 
-
-        #region IIterationBlockBaseStatement Members
+        #region IEnumerateSetBreakableBlockStatement Members
+        /// <summary>
+        /// Returns/sets the <see cref="ILocalDeclarationStatement"/> which
+        /// designates the <see cref="ILocalMember"/> to utilize within the
+        /// scope of the enumeration.
+        /// </summary>
+        public ILocalDeclarationStatement LocalDeclaration { get; set; }
 
         /// <summary>
-        /// Returns/sets the <see cref="IExpression"/> which evaluates as a boolean to determine
-        /// whether to continue the iteration process.
+        /// Returns/sets the <see cref="IExpression"/> which provides the
+        /// source set for the enumeration.
         /// </summary>
-        public IExpression Condition { get; set; }
-
-        /// <summary>
-        /// Returns the <see cref="IMalleableStatementExpressionCollection"/> of expressions that should 
-        /// execute at the end of each iteration.
-        /// </summary>
-        public IMalleableStatementExpressionCollection Iterations { get; private set; }
+        public IExpression Source { get; set; }
 
         #endregion
-
     }
 }

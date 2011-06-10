@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
+using System.ComponentModel;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -32,6 +33,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         #region IBreakableBlockStatement Members
 
+        /// <summary>
+        /// Returns the <see cref="IBreakExit"/> for the <see cref="IBreakableStatement"/>.
+        /// </summary>
+        /// <remarks>In languages that natively support the break statement
+        /// this is unnecessary; however in using this in the code, 
+        /// the label will be emitted in the associated supporting 
+        /// language as well.</remarks>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public IBreakExit AssociatedJumpLabel
         {
             get
@@ -41,7 +50,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         }
 
         /// <summary>
-        /// Breaks the execution from its current point elsewhere.
+        /// Breaks the execution from its current point to somewhere else.
         /// </summary>
         /// <returns>A <see cref="IBreakStatement"/> which designates the <see cref="IJumpStatement.Target"/>
         /// as necessary.</returns>
@@ -52,6 +61,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
             return b;
         }
 
+        /// <summary>
+        /// Inserts and returns a new <see cref="IBreakableConditionBlockStatement"/> instance
+        /// which relates to the <paramref name="condition"/> provided that can contain a 
+        /// break statement.
+        /// </summary>
+        /// <param name="condition">The <see cref="IExpression"/> to evaluate
+        /// before executing the <see cref="IBreakableConditionBlockStatement"/>'s
+        /// statements.</param>
+        /// <returns>A new <see cref="IBreakableConditionBlockStatement"/> with the
+        /// <see cref="IExpression"/> <paramref name="condition"/> provided
+        /// that can contain a break statement.</returns>
         public new IBreakableConditionBlockStatement If(IExpression condition)
         {
             return (IBreakableConditionBlockStatement)(base.If(condition));
@@ -61,8 +81,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         internal override IConditionBlockStatement OnIf(IExpression condition)
         {
-            var result = new BreakableConditionBlockStatement(this) { Condition = condition };
-            return result;
+            return new BreakableConditionBlockStatement(this) { Condition = condition };
         }
 
         /// <summary>

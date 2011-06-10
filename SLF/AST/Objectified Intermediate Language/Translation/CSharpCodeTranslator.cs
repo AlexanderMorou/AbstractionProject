@@ -422,7 +422,7 @@ namespace AllenCopeland.Abstraction.Slf.Translation
             throw new NotImplementedException();
         }
 
-        public override void Visit(IEnumerationBlockStatement statement)
+        public override void Visit(IEnumerateSetBreakableBlockStatement statement)
         {
             throw new NotImplementedException();
         }

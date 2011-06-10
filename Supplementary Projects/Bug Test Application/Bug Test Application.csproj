@@ -93,6 +93,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Examples\ExampleHandler %28Language Integrated Query%29.cs" />
     <Compile Include="Examples\ExampleHandler %28Windows Forms Application%29.cs" />
     <Compile Include="Examples\Examples.cs" />
     <Compile Include="Program.Examples.cs" />

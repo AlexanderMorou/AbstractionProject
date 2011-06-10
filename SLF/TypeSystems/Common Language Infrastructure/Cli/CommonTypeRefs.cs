@@ -311,6 +311,18 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         }
 
         /// <summary>
+        /// Returns the <see cref="IArrayType"/> reference wrapper for the <see cref="System.Object"/>
+        /// system type as an array.
+        /// </summary>
+        public static IArrayType ObjectArray
+        {
+            get
+            {
+                return Object.MakeArray();
+            }
+        }
+
+        /// <summary>
         /// Returns the <see cref="IStructType"/> reference wrapper for the <see cref="System.Void"/>
         /// system type.
         /// </summary>
@@ -430,6 +442,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 return CommonTypeRefs.@string;
             }
         }
+
+        /// <summary>
+        /// Returns the <see cref="IArrayType"/> reference wrapper for the <see cref="System.String"/>
+        /// system type as an array.
+        /// </summary>
+        public static IArrayType StringArray
+        {
+            get
+            {
+                return String.MakeArray();
+            }
+        }
+
         /// <summary>
         /// Returns the <see cref="IStructType"/> reference wrapper for the <see cref="System.Boolean"/>
         /// system type.
@@ -447,6 +472,18 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                     CommonTypeRefs.boolean.Disposed += new EventHandler(boolean_Disposed);
                 }
                 return CommonTypeRefs.boolean;
+            }
+        }
+
+        /// <summary>
+        /// Returns the <see cref="IArrayType"/> reference wrapper for the <see cref="System.Boolean"/>
+        /// system type as an array.
+        /// </summary>
+        public static IArrayType BooleanArray
+        {
+            get
+            {
+                return Boolean.MakeArray();
             }
         }
 

@@ -85,10 +85,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
-        /// <summary>
-        /// Obtains the pertinent information for the 
-        /// <see cref="CompiledBinaryOperatorCoercionMemberBase{TCoercionParent}"/>.
-        /// </summary>
+        /* *
+         * Obtains the pertinent information for the binary operation coercion member. 
+         * */
         private void GetData()
         {
             Type[] _params = this.MemberInfo.GetParameters().OnAll(p => p.ParameterType).ToArray();
@@ -102,7 +101,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 else
                 {
                     containingSide = BinaryOpCoercionContainingSide.LeftSide;
-                    //Ensure to disambiguify the type-parameters, if any.
                     otherSide = _params[1].GetTypeReference();
                 }
             else if (_params[1] == pType)
@@ -116,52 +114,52 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             //CLI operator overload names.
             switch (s)
             {
-                case CLICommon.BinaryOperatorNames.Addition: // '+'
+                case CLICommon.BinaryOperatorNames.Addition: //                '+'      - op_Addition
                     this._operator = CoercibleBinaryOperators.Add;
                     break;
-                case CLICommon.BinaryOperatorNames.BitwiseAnd: // '-'
+                case CLICommon.BinaryOperatorNames.BitwiseAnd: //          '&' or 'And' - op_BitwiseAnd
                     this._operator = CoercibleBinaryOperators.BitwiseAnd;
                     break;
-                case CLICommon.BinaryOperatorNames.BitwiseOr: // '|' or "Or"
+                case CLICommon.BinaryOperatorNames.BitwiseOr: //           '|' or "Or"  - op_BitwiseOr
                     this._operator = CoercibleBinaryOperators.BitwiseOr;
                     break;
-                case CLICommon.BinaryOperatorNames.Division: // '/'
+                case CLICommon.BinaryOperatorNames.Division: //                '/'      - op_Division
                     this._operator = CoercibleBinaryOperators.Divide;
                     break;
-                case CLICommon.BinaryOperatorNames.ExclusiveOr: // '^'
+                case CLICommon.BinaryOperatorNames.ExclusiveOr: //         '^' or 'XOr' - op_ExclusiveOr
                     this._operator = CoercibleBinaryOperators.ExclusiveOr;
                     break;
-                case CLICommon.BinaryOperatorNames.GreaterThan: // '>'
+                case CLICommon.BinaryOperatorNames.GreaterThan: //             '>'      - op_GreaterThan
                     this._operator = CoercibleBinaryOperators.GreaterThan;
                     break;
-                case CLICommon.BinaryOperatorNames.GreaterThanOrEqual: // ">="
+                case CLICommon.BinaryOperatorNames.GreaterThanOrEqual: //  ">="         - op_GreaterThanOrEqual
                     this._operator = CoercibleBinaryOperators.GreaterThanOrEqualTo;
                     break;
-                case CLICommon.BinaryOperatorNames.Equality: // "==" or '='
+                case CLICommon.BinaryOperatorNames.Equality: //            "==" or '='  - op_Equality
                     this._operator = CoercibleBinaryOperators.IsEqualTo;
                     break;
-                case CLICommon.BinaryOperatorNames.Inequality: // "!=" or "<>"
+                case CLICommon.BinaryOperatorNames.Inequality: //          "!=" or "<>" - op_Inequality
                     this._operator = CoercibleBinaryOperators.IsNotEqualTo;
                     break;
-                case CLICommon.BinaryOperatorNames.LeftShift: // "<<"
+                case CLICommon.BinaryOperatorNames.LeftShift: //               "<<"     - op_LeftShift
                     this._operator = CoercibleBinaryOperators.LeftShift;
                     break;
-                case CLICommon.BinaryOperatorNames.LessThan: // '<'
+                case CLICommon.BinaryOperatorNames.LessThan: //                '<'      - op_LessThan
                     this._operator = CoercibleBinaryOperators.LessThan;
                     break;
-                case CLICommon.BinaryOperatorNames.LessThanOrEqual: // "<="
+                case CLICommon.BinaryOperatorNames.LessThanOrEqual: //         "<="     - op_LessThanOrEqual
                     this._operator = CoercibleBinaryOperators.LessThanOrEqualTo;
                     break;
-                case CLICommon.BinaryOperatorNames.Modulus: // '%' or "Mod"
+                case CLICommon.BinaryOperatorNames.Modulus: //             '%' or "Mod" - op_Modulus
                     this._operator = CoercibleBinaryOperators.Modulus;
                     break;
-                case CLICommon.BinaryOperatorNames.Multiply: // '*' 
+                case CLICommon.BinaryOperatorNames.Multiply: //                '*'      - op_Multiply
                     this._operator = CoercibleBinaryOperators.Multiply;
                     break;
-                case CLICommon.BinaryOperatorNames.RightShift: // ">>"
+                case CLICommon.BinaryOperatorNames.RightShift: //             ">>"      - op_RightShift
                     this._operator = CoercibleBinaryOperators.RightShift;
                     break;
-                case CLICommon.BinaryOperatorNames.Subtraction: // '-' 
+                case CLICommon.BinaryOperatorNames.Subtraction: //             '-'      - op_Subtraction
                     this._operator = CoercibleBinaryOperators.Subtract;
                     break;
                 default:

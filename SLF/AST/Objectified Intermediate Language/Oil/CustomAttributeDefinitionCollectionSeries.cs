@@ -80,6 +80,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// which contains the <see cref="CustomAttributeDefinitionCollectionSeries"/>.
         /// </summary>
         public IIntermediateCustomAttributedDeclaration Parent { get; private set; }
+
         public ICustomAttributeDefinition[] Flatten()
         {
             int count = 0;

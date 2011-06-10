@@ -81,14 +81,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// the following possible scopes: <see cref="Protected"/> or
         /// <see cref="Public"/>.
         /// </summary>
-        AssemblyAnd = 0x1c1,
+        AssemblyAnd = 0x1C1,
 
         /* 000000111001000010 */
         /// <summary>
         /// Can be accessed by the assembly or the other valid scope: 
         /// <see cref="Protected"/>.
         /// </summary>
-        AssemblyOr = 0xe42,
+        AssemblyOr = 0xE42,
 
         /* 000111001010000100 */
         /// <summary>
@@ -138,7 +138,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// the assembly, and nothing else.
         /// </para>
         /// <para>Cannot be combined with anything but <see cref="AssemblyAnd"/>.</para></remarks>
-        Public = 0x2a810,
+        Public = 0x2A810,
 
         /* 110100000000100000 */
         /// <summary>

@@ -110,7 +110,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             return new TypedName(name, type);
         }
 
-
         /// <summary>
         /// Obtains a <see cref="ITypeCollection"/> for the <paramref name="array"/> of 
         /// <typeparamref name="T"/> provided.
@@ -165,7 +164,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                         {
                             var genericParameter = (IGenericParameter)target;
                             if (genericParameter.Parent is IType)
-                                return string.Format("!{0}", genericParameter.Position);
+                                return string.Format( "!{0}", genericParameter.Position);
                             else
                                 return string.Format("!!{0}", genericParameter.Position);
                         }

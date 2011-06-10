@@ -50,6 +50,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
             visitor.Visit(this);
         }
 
+        /// <summary>
+        /// Returns the <see cref="IBlockStatementParent"/> which
+        /// contains the <see cref="IBlockStatement"/>.
+        /// </summary>
         public IBlockStatementParent Parent
         {
             get

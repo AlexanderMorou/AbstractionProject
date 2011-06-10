@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         private GenericParameterDictionary typeParameters;
         private GenericTypeCache genericCache = null;
         private string _namespace;
-        private IClassType baseType;
+        //private IClassType baseType;
 
         internal SymbolType(IExpression sourceExpression)
         {
@@ -274,9 +274,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         {
             get
             {
-                if (this.baseType == null)
-                    return typeof(System.Object).GetTypeReference();
-                return this.baseType;
+                return null;
+                //if (this.baseType == null)
+                //    return typeof(System.Object).GetTypeReference();
+                //return this.baseType;
             }
         }
 

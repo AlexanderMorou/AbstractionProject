@@ -764,7 +764,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         public bool IsRoot
         {
-            get { return this.rootAssembly == null; }
+            get
+            {
+                return this.rootAssembly == null;
+            }
         }
 
         IIntermediateSegmentableDeclaration IIntermediateSegmentableDeclaration.GetRoot()

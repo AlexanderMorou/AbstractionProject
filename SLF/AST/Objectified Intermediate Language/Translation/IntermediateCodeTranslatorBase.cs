@@ -517,7 +517,7 @@ namespace AllenCopeland.Abstraction.Slf.Translation
 
         public abstract void Visit(IConditionContinuationStatement statement);
 
-        public abstract void Visit(IEnumerationBlockStatement statement);
+        public abstract void Visit(IEnumerateSetBreakableBlockStatement statement);
 
         public abstract void Visit(IExplicitlyTypedLocalVariableDeclarationStatement statement);
 

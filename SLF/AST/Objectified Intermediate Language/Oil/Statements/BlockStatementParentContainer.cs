@@ -493,6 +493,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
             throw new NotImplementedException();
         }
 
+        public IEnumerateSetBreakableBlockStatement Enumerate(ILocalDeclarationStatement target, IExpression source)
+        {
+            throw new NotImplementedException();
+        }
+
         public ILocalDeclarationStatement DefineLocal(ILocalMember local)
         {
             var result = local.GetDeclarationStatement();
@@ -650,8 +655,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         internal virtual IConditionBlockStatement OnIf(IExpression condition)
         {
-            var result = new ConditionBlockStatement(this.Owner) { Condition = condition };
-            return result;
+            return new ConditionBlockStatement(this.Owner) { Condition = condition };
         }
 
         internal virtual IBlockStatementParent Owner

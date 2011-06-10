@@ -115,6 +115,8 @@
     <Compile Include="Oil\IHighLevelIntermediateAssembly.cs" />
     <Compile Include="Oil\IIntermediateAssembly`2.cs" />
     <Compile Include="Oil\IVersionedHighLevelIntermediateAssembly.cs" />
+    <Compile Include="Oil\Statements\EnumerateSetBreakableBlockStatement.cs" />
+    <Compile Include="Oil\Statements\IEnumerateSetBreakableBlockStatement.cs" />
     <Compile Include="Translation\IntermediateBlockTranslationClasses.cs" />
     <Compile Include="Translation\CSharpCodeTranslator.cs" />
     <Compile Include="Languages\IAllenCopelandLanguageVendor.cs" />
@@ -909,9 +911,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Oil\Statements\IConditionContinuationStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IEnumerationBlockStatement.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Oil\Statements\IExplicitlyTypedLocalVariableDeclarationStatement.cs">
