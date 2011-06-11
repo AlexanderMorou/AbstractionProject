@@ -101,7 +101,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateAssembly"/> instance
+        /// Creates a new <see cref="CommonIntermediateAssembly"/> instance
         /// with the <paramref name="name"/> provided.
         /// </summary>
         /// <param name="name">The <see cref="String"/>
@@ -110,7 +110,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <returns>An <see cref="IIntermediateAssembly"/> instance.</returns>
         public static IIntermediateAssembly CreateAssembly(string name)
         {
-            return CreateAssembly<IntermediateAssembly>(name);
+            return CreateAssembly<CommonIntermediateAssembly>(name);
         }
 
         /// <summary>
@@ -148,16 +148,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="kind"></param>
-        /// <returns></returns>
-        public static IMember CreateMember(MemberKind kind)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Obtains a <see cref="IMethodPointerReferenceExpression"/>
         /// with the <paramref name="signature"/> provided.
         /// </summary>
@@ -177,15 +167,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         internal static string GetNamespace(this IIntermediateType target)
         {
-            IIntermediateTypeParent iitp = target.Parent;
-            while (iitp != null)
+            IIntermediateTypeParent typeParent = target.Parent;
+            while (typeParent != null)
             {
-                if (iitp is IIntermediateAssembly)
+                if (typeParent is IIntermediateAssembly)
                     return null;
-                if (iitp is IIntermediateNamespaceDeclaration)
-                    return ((IIntermediateNamespaceDeclaration)(iitp)).FullName;
-                if (iitp is IIntermediateType)
-                    iitp = ((IIntermediateType)(iitp)).Parent;
+                if (typeParent is IIntermediateNamespaceDeclaration)
+                    return ((IIntermediateNamespaceDeclaration)(typeParent)).FullName;
+                if (typeParent is IIntermediateType)
+                    typeParent = ((IIntermediateType)(typeParent)).Parent;
                 else
                     return null;
             }
@@ -193,6 +183,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
                 //*
         #region Symbol Types
+        /// <summary>
+        /// Obtains a <see cref="ISymbolType">symbol type</see>
+        /// for the <paramref name="typeSymbol">type symbol</paramref>
+        /// provided.
+        /// </summary>
+        /// <param name="typeSymbol">The <see cref="String"/> value which
+        /// represents the symbol.</param>
+        /// <returns>A <see cref="ISymbolType">symbol type</see>
+        /// for the <paramref name="typeSymbol">type symbol</paramref>
+        /// provided.</returns>
         public static ISymbolType GetSymbolType(this string typeSymbol)
         {
             if (typeSymbol == null)
@@ -341,7 +341,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             switch (nameAndType.Source)
             {
                 case TypedNameSource.TypeReference:
-                    return nameAndType.Reference;
+                    return nameAndType.TypeReference;
                 case TypedNameSource.SymbolReference:
                     return nameAndType.SymbolReference.GetSymbolType();
                 case TypedNameSource.InvalidReference:
@@ -516,22 +516,56 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return GetFieldReference((IFieldMember)target, source);
         }
 
+        /// <summary>
+        /// Creates a new <see cref="ICreateInstanceExpression"/> with the
+        /// <paramref name="target"/> <see cref="IType"/> and the <paramref name="parameters"/> 
+        /// that the new instance to be created.
+        /// </summary>
+        /// <param name="target">The <see cref="IType"/> which needs a new
+        /// instance expression.</param>
+        /// <param name="parameters">The <see cref="IExpression"/> series
+        /// which denote the constructor parameters.</param>
+        /// <returns>A new <see cref="ICreateInstanceExpression"/>
+        /// relative to the <paramref name="target"/> and its
+        /// constructor's <paramref name="parameters"/>.</returns>
         public static ICreateInstanceExpression NewExpression(this IType target, params IExpression[] parameters)
         {
-            var result = new CreateInstanceExpression(new ConstructorPointerReferenceExpression(new ConstructorReferenceStub(target)), parameters);
-            return result;
+            return new CreateInstanceExpression(new ConstructorPointerReferenceExpression(new ConstructorReferenceStub(target)), parameters);
         }
 
+        /// <summary>
+        /// Creates a new <see cref="ICreateInstanceExpression"/> with the
+        /// <paramref name="target"/> <see cref="IType"/> and the <paramref name="parameters"/> 
+        /// that the new instance to be created.
+        /// </summary>
+        /// <param name="target">The <see cref="IType"/> which needs a new
+        /// instance expression.</param>
+        /// <param name="parameters">The <see cref="IExpressionCollection"/>
+        /// which denote the constructor parameters.</param>
+        /// <returns>A new <see cref="ICreateInstanceExpression"/>
+        /// relative to the <paramref name="target"/> and its
+        /// constructor's <paramref name="parameters"/>.</returns>
         public static ICreateInstanceExpression NewExpression(this IType target, IExpressionCollection parameters)
         {
-            var result = new CreateInstanceExpression(new ConstructorPointerReferenceExpression(new ConstructorReferenceStub(target)), parameters);
-            return result;
+            return new CreateInstanceExpression(new ConstructorPointerReferenceExpression(new ConstructorReferenceStub(target)), parameters);
         }
 
+        /// <summary>
+        /// Creates a new <see cref="ICreateInstanceExpression"/> with the
+        /// <paramref name="target"/> <see cref="IType"/> and the <paramref name="parameters"/> 
+        /// that the new instance to be created.
+        /// </summary>
+        /// <param name="target">The <see cref="IType"/> which needs a new
+        /// instance expression.</param>
+        /// <param name="parameters">The <see cref="IEnumerable{T}"/>
+        /// of <see cref="IExpression"/> instances which denote the
+        /// constructor parameters.</param>
+        /// <returns>A new <see cref="ICreateInstanceExpression"/>
+        /// relative to the <paramref name="target"/> and its
+        /// constructor's <paramref name="parameters"/>.</returns>
         public static ICreateInstanceExpression NewExpression(this IType target, IEnumerable<IExpression> parameters)
         {
-            var result = new CreateInstanceExpression(new ConstructorPointerReferenceExpression(new ConstructorReferenceStub(target)), parameters.ToArray());
-            return result;
+            return new CreateInstanceExpression(new ConstructorPointerReferenceExpression(new ConstructorReferenceStub(target)), parameters.ToArray());
         }
         internal static IType AscertainType(this TypedName typedName, IIntermediateType containingType)
         {
@@ -543,14 +577,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     /* *
                      * A type is explicitly provided.
                      * */
-                    referenceType = typedName.Reference;
+                    referenceType = typedName.TypeReference;
                     if (!referenceType.IsGenericConstruct && referenceType is ISymbolType &&
                         referenceType.Namespace == null)
                     {
                         symbolReference = referenceType.Name;
                         goto ObtainSymbol;
                     }
-                    return typedName.Reference;
+                    return typedName.TypeReference;
                 case TypedNameSource.SymbolReference:
                     /* *
                      * Evaluate the member hierarchy and determine whether
@@ -573,14 +607,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     /* *
                      * A type is explicitly provided.
                      * */
-                    referenceType = typedName.Reference;
+                    referenceType = typedName.TypeReference;
                     if (!referenceType.IsGenericConstruct && referenceType is ISymbolType &&
                         referenceType.Namespace == null)
                     {
                         symbolReference = referenceType.Name;
                         goto ObtainSymbol;
                     }
-                    return typedName.Reference;
+                    return typedName.TypeReference;
                 case TypedNameSource.SymbolReference:
                     /* *
                      * Evaluate the member hierarchy and determine whether

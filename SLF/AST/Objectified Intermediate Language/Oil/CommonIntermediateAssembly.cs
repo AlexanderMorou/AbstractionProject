@@ -14,62 +14,62 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <summary>
     /// Provides a default base type for an intermediate assembly.
     /// </summary>
-    public sealed class IntermediateAssembly :
-        IntermediateAssembly<IntermediateAssembly>,
-        IIntermediateAssembly<ICommonIntermediateLanguage, ICommonIntermediateProvider>
+    public sealed class CommonIntermediateAssembly :
+        IntermediateAssembly<CommonIntermediateAssembly>,
+        ICommonIntermediateAssembly
     {
         /// <summary>
         /// Data member for <see cref="Provider"/>.
         /// </summary>
         private ICommonIntermediateProvider provider;
         /// <summary>
-        /// Creates a new <see cref="IntermediateAssembly"/>
+        /// Creates a new <see cref="CommonIntermediateAssembly"/>
         /// with the <paramref name="root"/> assembly provided.
         /// </summary>
-        /// <param name="root">The <see cref="IntermediateAssembly"/>
+        /// <param name="root">The <see cref="CommonIntermediateAssembly"/>
         /// which acts as the root instance of the intermediate assembly
         /// whose source spans multiple files.</param>
-        internal IntermediateAssembly(IntermediateAssembly root)
+        internal CommonIntermediateAssembly(CommonIntermediateAssembly root)
             : base(root)
         {
 
         }
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateAssembly"/> with
+        /// Creates a new <see cref="CommonIntermediateAssembly"/> with
         /// the <paramref name="name"/> provided.
         /// </summary>
         /// <param name="name">The name of the 
-        /// <see cref="IntermediateAssembly"/>.</param>
-        internal IntermediateAssembly(string name)
+        /// <see cref="CommonIntermediateAssembly"/>.</param>
+        internal CommonIntermediateAssembly(string name)
             : this(name, CommonIntermediateLanguage.Singleton.GetProvider())
         {
         }
 
-        internal IntermediateAssembly(string name, ICommonIntermediateProvider provider)
+        internal CommonIntermediateAssembly(string name, ICommonIntermediateProvider provider)
             : base(name)
         {
             this.provider = provider;
         }
 
         /// <summary>
-        /// Obtains a new <see cref="IntermediateAssembly"/>
-        /// instance with the current <see cref="IntermediateAssembly"/>
+        /// Obtains a new <see cref="CommonIntermediateAssembly"/>
+        /// instance with the current <see cref="CommonIntermediateAssembly"/>
         /// as the root.
         /// </summary>
-        /// <returns>A new <see cref="IntermediateAssembly"/>
-        /// instance with the current <see cref="IntermediateAssembly"/>
+        /// <returns>A new <see cref="CommonIntermediateAssembly"/>
+        /// instance with the current <see cref="CommonIntermediateAssembly"/>
         /// as the root.</returns>
         /// <remarks>Unless <see cref="GetNewPart"/> is called upon
-        /// a root <see cref="IntermediateAssembly"/>, it will fail.
+        /// a root <see cref="CommonIntermediateAssembly"/>, it will fail.
         /// </remarks>
         /// <exception cref="System.InvalidOperationException">
         /// thrown when the current assembly is not the root
         /// assembly.</exception>
-        protected override IntermediateAssembly GetNewPart()
+        protected override CommonIntermediateAssembly GetNewPart()
         {
             if (this.IsRoot)
-                return new IntermediateAssembly(this);
+                return new CommonIntermediateAssembly(this);
             else
                 throw new InvalidOperationException();
         }
@@ -79,7 +79,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns the <see cref="ICommonIntermediateLanguage">language</see> in which the 
-        /// <see cref="IntermediateAssembly"/> is written in.
+        /// <see cref="CommonIntermediateAssembly"/> is written in.
         /// </summary>
         public ICommonIntermediateLanguage Language
         {
@@ -91,7 +91,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns the <see cref="ICommonIntermediateProvider">provider</see>
-        /// which created the <see cref="IntermediateAssembly"/>.
+        /// which created the <see cref="CommonIntermediateAssembly"/>.
         /// </summary>
         public ICommonIntermediateProvider Provider
         {

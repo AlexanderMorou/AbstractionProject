@@ -11,9 +11,30 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     {
         #region ICommonIntermediateProvider Members
 
+        /// <summary>
+        /// Returns the 
+        /// <see cref="ICommonIntermediateLanguage">Common Intermediate Language</see>.
+        /// </summary>
         public ICommonIntermediateLanguage Language
         {
             get { return CommonIntermediateLanguage.Singleton; }
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="ICommonIntermediateAssembly"/>
+        /// with the <paramref name="name"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value
+        /// representing part of the identity of the assembly.</param>
+        /// <returns>A new <see cref="ICommonIntermediateAssembly"/>
+        /// with the <paramref name="name"/> provided.</returns>
+        /// <exception cref="System.ArgumentNullException">thrown when 
+        /// <paramref name="name"/> is null.</exception>
+        /// <exception cref="System.ArgumentException">thrown when
+        /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
+        public ICommonIntermediateAssembly CreateAssembly(string name)
+        {
+            return new CommonIntermediateAssembly(name, this);
         }
 
         #endregion
@@ -25,9 +46,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             get { return this.Language; }
         }
 
-        public IIntermediateAssembly CreateAssembly(string name)
+        IIntermediateAssembly ILanguageProvider.CreateAssembly(string name)
         {
-            return new IntermediateAssembly(name, this);
+            return this.CreateAssembly(name);
         }
 
         #endregion

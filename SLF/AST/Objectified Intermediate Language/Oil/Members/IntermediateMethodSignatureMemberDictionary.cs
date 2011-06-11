@@ -623,7 +623,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             switch (source.Source)
             {
                 case TypedNameSource.TypeReference:
-                    return (source.Reference);
+                    return (source.TypeReference);
                 case TypedNameSource.SymbolReference:
                     if (this.Parent is IGenericType)
                     {

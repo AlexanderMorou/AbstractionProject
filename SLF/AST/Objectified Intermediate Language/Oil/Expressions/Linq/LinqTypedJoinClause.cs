@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
             switch (rangeVariable.Source)
             {
                 case TypedNameSource.TypeReference:
-                    this.rangeType = rangeVariable.Reference;
+                    this.rangeType = rangeVariable.TypeReference;
                     break;
                 case TypedNameSource.SymbolReference:
                     this.rangeType = rangeVariable.SymbolReference.GetSymbolType();

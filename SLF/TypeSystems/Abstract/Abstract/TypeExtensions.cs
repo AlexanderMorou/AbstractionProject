@@ -205,7 +205,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                         if (arrayVariant.IsZeroBased)
                             if (arrayVariant.ArrayRank == 1)
                                 if (arrayVariant.IsVectorArray)
-
                                     return string.Format("{0}[]", target.ElementType.BuildTypeName(shortFormGeneric, numericTypeParams));
                                 else
                                     return string.Format("{0}[*]", target.ElementType.BuildTypeName(shortFormGeneric, numericTypeParams));
@@ -240,9 +239,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                                              * In certain situations, the position of the
                                              * parameter is more important, especially when
                                              * building the unique identifier of a parameter
-                                             * of a method.  This way two methods with similarly 
+                                             * of a method.  This way two methods with similarly
                                              * positioned generic-parameters can intentionally
-                                             * collide.  
+                                             * collide.
                                              * *
                                              * This is important because its the order of the parameters
                                              * that determines the actual final signature of the method,

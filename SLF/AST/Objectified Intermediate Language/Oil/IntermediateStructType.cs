@@ -145,7 +145,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return new IntermediateStructIndexerMember<TInstanceIntermediateType>(nameAndReturn.Name, (TInstanceIntermediateType)(object)this)
             {
                 PropertyType = nameAndReturn.Source == TypedNameSource.TypeReference ?
-                               nameAndReturn.Reference :
+                               nameAndReturn.TypeReference :
                                nameAndReturn.Source == TypedNameSource.SymbolReference ?
                                nameAndReturn.SymbolReference.GetSymbolType() :
                                null
@@ -158,7 +158,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return new IntermediateStructPropertyMember<TInstanceIntermediateType>(nameAndType.Name, (TInstanceIntermediateType)this)
             {
                 PropertyType = nameAndType.Source == TypedNameSource.TypeReference ?
-                   nameAndType.Reference :
+                   nameAndType.TypeReference :
                    nameAndType.Source == TypedNameSource.SymbolReference ?
                    nameAndType.SymbolReference.GetSymbolType() :
                    null

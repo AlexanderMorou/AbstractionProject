@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Oil;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
@@ -13,9 +14,22 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         ILanguageProvider
     {
         /// <summary>
-        /// Returns the <see cref="ICommonIntermediateLanguage"/> 
-        /// associated to the <see cref="ICommonIntermediateProvider"/>.
+        /// Returns the 
+        /// <see cref="ICommonIntermediateLanguage">Common Intermediate Language</see>.
         /// </summary>
         new ICommonIntermediateLanguage Language { get; }
+        /// <summary>
+        /// Creates a new <see cref="ICommonIntermediateAssembly"/>
+        /// with the <paramref name="name"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value
+        /// representing part of the identity of the assembly.</param>
+        /// <returns>A new <see cref="ICommonIntermediateAssembly"/>
+        /// with the <paramref name="name"/> provided.</returns>
+        /// <exception cref="System.ArgumentNullException">thrown when 
+        /// <paramref name="name"/> is null.</exception>
+        /// <exception cref="System.ArgumentException">thrown when
+        /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
+        ICommonIntermediateAssembly CreateAssembly(string name);
     }
 }
