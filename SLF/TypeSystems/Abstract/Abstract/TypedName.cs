@@ -47,7 +47,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         [ComVisible(false)]
         string name;
         /// <summary>
-        /// Data member for <see cref="Reference"/>.
+        /// Data member for <see cref="TypeReference"/>.
         /// </summary>
         [ComVisible(false)]
         IType reference;
@@ -189,7 +189,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Returns the <see cref="IType"/> the <see cref="TypedName"/> refers to.
         /// </summary>
-        public IType Reference
+        public IType TypeReference
         {
             get
             {
@@ -269,7 +269,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             if (typedName.Source != TypedNameSource.TypeReference)
                 throw new ArgumentException("Invalid reference, Source must be a TypeReference.", "typedName");
-            return new KeyValuePair<string, IType>(typedName.Name, typedName.Reference);
+            return new KeyValuePair<string, IType>(typedName.Name, typedName.TypeReference);
         }
 
         /* *

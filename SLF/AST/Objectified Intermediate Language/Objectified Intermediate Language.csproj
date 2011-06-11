@@ -112,6 +112,7 @@
     <Compile Include="Languages\ILanguageCSTTranslator.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Oil\ICommonIntermediateAssembly.cs" />
     <Compile Include="Oil\IHighLevelIntermediateAssembly.cs" />
     <Compile Include="Oil\IIntermediateAssembly`2.cs" />
     <Compile Include="Oil\IVersionedHighLevelIntermediateAssembly.cs" />
@@ -529,7 +530,7 @@
     <Compile Include="Oil\IntermediateAssembly+PartsCollection.cs">
       <DependentUpon>IntermediateAssembly{TAssembly}.cs</DependentUpon>
     </Compile>
-    <Compile Include="Oil\IntermediateAssembly.cs" />
+    <Compile Include="Oil\CommonIntermediateAssembly.cs" />
     <Compile Include="Oil\IntermediateAssemblyInformation.cs" />
     <Compile Include="Oil\IntermediateAssembly{TAssembly}.cs" />
     <Compile Include="Oil\IntermediateClassType+MemberDeclarations.cs">

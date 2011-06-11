@@ -72,8 +72,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             protected override IIntermediateInterfaceEventMember GetEvent(TypedName typedName)
             {
                 if (typedName.Source == TypedNameSource.TypeReference &&
-                    typedName.Reference is IDelegateType)
-                    return new EventMember(this.Parent) { Name = typedName.Name, SignatureType = (IDelegateType)typedName.Reference };
+                    typedName.TypeReference is IDelegateType)
+                    return new EventMember(this.Parent) { Name = typedName.Name, SignatureType = (IDelegateType)typedName.TypeReference };
                 else
                     throw new ArgumentException("typedName");
             }

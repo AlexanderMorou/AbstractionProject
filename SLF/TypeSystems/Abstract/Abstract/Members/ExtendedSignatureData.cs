@@ -76,7 +76,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         {
             get
             {
-                return this.nameAndReturn.Reference;
+                return this.nameAndReturn.TypeReference;
             }
         }
 

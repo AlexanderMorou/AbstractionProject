@@ -18,17 +18,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         [CompilerGenerated]
         private class CreateIntermediateAssemblyBridge :
-            ICreateAssemblyBridge<IntermediateAssembly>
+            ICreateAssemblyBridge<CommonIntermediateAssembly>
         {
 
-            #region ICreateAssemblyBridge<IntermediateAssembly> Members
+            #region ICreateAssemblyBridge<CommonIntermediateLanguageAssembly> Members
 
-            public IntermediateAssembly ctor(string name)
+            public CommonIntermediateAssembly ctor(string name)
             {
-                return new IntermediateAssembly(name);
+                return new CommonIntermediateAssembly(name);
             }
 
-            public IntermediateAssembly ctor<TLanguage, TProvider>(string name, TProvider provider)
+            public CommonIntermediateAssembly ctor<TLanguage, TProvider>(string name, TProvider provider)
                 where TLanguage :
                     ILanguage
                 where TProvider :
