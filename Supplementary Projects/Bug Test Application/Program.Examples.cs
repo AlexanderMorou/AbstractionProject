@@ -18,9 +18,9 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     {
         private static void Main()
         {
-            var msLangVendor = LanguageVendors.Microsoft;
             //FullName(); return;
             //arr1(); return;
+            var msLangVendor = LanguageVendors.Microsoft;
             IVisualBasicAssembly vbAssem = null;
             ICSharpAssembly csAssem = null;
 
@@ -53,24 +53,22 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             var jitTest = MiscHelperMethods.TimeAction(() =>
                 {
                     var item = vbTestFunc();
-                    item.Item2.Item3.Item1.Dispose();
+                    vbAssem.Dispose();
+                    vbAssem = null;
                 });
             //CLIGateway.ClearCache();
             vbAssem = null;
-            csAssem = null;
             Console.WriteLine("Initial tests took {0}", jitTest);
             var vbTest = vbTestFunc();
             var csTest = csTestFunc();
-            Console.WriteLine("C# test took: {0}", csTest.Item1);
-            Console.WriteLine("\tWinForms: {0}", csTest.Item2.Item1);
-            Console.WriteLine("\tLinq: {0}", csTest.Item2.Item2);
             Console.WriteLine("VB.NET test took: {0}", vbTest.Item1);
             Console.WriteLine("\tWinForms: {0}", vbTest.Item2.Item1);
             Console.WriteLine("\tLinq: {0}", vbTest.Item2.Item2);
+            Console.WriteLine("C# test took: {0}", csTest.Item1);
+            Console.WriteLine("\tWinForms: {0}", csTest.Item2.Item1);
+            Console.WriteLine("\tLinq: {0}", csTest.Item2.Item2);
             vbAssem.Dispose();
             csAssem.Dispose();
-            //vbTest.Item2.Item1.Dispose();
-            //csTest.Item2.Item1.Dispose();
             CLIGateway.ClearCache();
         }
 
@@ -87,12 +85,13 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 
         private static void arr1()
         {
+            Console.WriteLine("Chunk copy.");
             Random r = new Random();
             int[][] ds = new int[800][];
             int value = 0;
             for (int i = 0; i < ds.Length; i++)
             {
-                var dsCurrent = new int[r.Next(10, 80)];
+                var dsCurrent = new int[80];//r.Next(10, 80)];
                 for (int j = 0; j < dsCurrent.Length; j++)
                     dsCurrent[j] = ++value;
                 ds[i] = dsCurrent;
@@ -105,6 +104,8 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             {
                 var ag = ds.AsParallel().Aggregate((a3, a4) =>
                 {
+                    if (i == 1)
+                        Console.Write("{0}-{1} ",a3.Length, a4.Length);
                     var a5 = new int[a3.Length + a4.Length];
                     a3.CopyTo(a5, 0);
                     a4.CopyTo(a5, a3.Length);
@@ -114,6 +115,9 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             }
             sw.Stop();
             var chunkCopy = sw.Elapsed;
+            Console.WriteLine("Press any key to start alternative copy.");
+            Console.ReadKey(true);
+            Console.WriteLine("Alternative copy.");
             sw.Restart();
             for (int i = 0; i < testCount; i++)
             {

@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using System.Globalization;
 
 namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples
 {
@@ -23,7 +24,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 assembly.ScopeCoercions.Add(typeof(Console).Namespace);
                 //using System.Linq;
                 assembly.ScopeCoercions.Add(typeof(Queryable).Namespace);
-
+                assembly.ScopeCoercions.Add(typeof(CultureInfo).Namespace);
                 var @namespace = assembly.Namespaces.Add("LinqExample");
                 var topLevelMethod = @namespace.Methods.Add("LinqTest");
                 //var digits = new String[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }; 
@@ -34,21 +35,23 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 var digitSymbol = (Symbol)"digit";
                 /* *
                  * var sortedDigits = from digit in digits
-                 *                    orderby digit.Length ascending,
-                 *                            digit ascending
+                 *                    orderby digit.Length descending,
+                 *                            digit[0]
                  *                    select digit;
                  * */
                 var sortedDigits = topLevelMethod.Locals.Add("sortedDigits", 
                         LinqHelper
                         .From("digit", /* in */ digits.GetReference())
                             .OrderBy(digitSymbol.GetProperty("Length"), LinqOrderByDirection.Descending)
-                            .ThenBy(digitSymbol, LinqOrderByDirection.Ascending)
+                            .ThenBy(digitSymbol.GetIndexer(0.ToPrimitive()))
                         .Select(digitSymbol).Build(), LocalTypingKind.Implicit);
-
+                topLevelMethod.DefineLocal(digits);
+                topLevelMethod.DefineLocal(sortedDigits);
                 /* *
                  * Console.WriteLine("Sorted Digits");
                  * */
-                topLevelMethod.Call("Console".Fuse("WriteLine").Fuse("Sorted Digits".ToPrimitive()));
+                
+                topLevelMethod.Call("Console".Fuse("WriteLine").Fuse("CultureInfo".Fuse("CurrentCulture").Fuse("TextInfo").Fuse("ToTitleCase").Fuse("sorted digits".ToPrimitive())));
                 /* *
                  * foreach (digit in sortedDigits)
                  *     Console.WriteLine(digit);
@@ -56,10 +59,8 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 var iteratorLocal = topLevelMethod.Locals.Add("digit", null, LocalTypingKind.Implicit);
                 iteratorLocal.AutoDeclare = false;
                 var enumerationBlock = topLevelMethod.Enumerate(iteratorLocal.GetDeclarationStatement(), sortedDigits.GetReference());
-
                 enumerationBlock.Call("Console".Fuse("WriteLine").Fuse(iteratorLocal.GetReference()));
                 return new Tuple<TAssembly, IIntermediateTopLevelMethodMember>(assembly, topLevelMethod);
-
             }
         }
     }

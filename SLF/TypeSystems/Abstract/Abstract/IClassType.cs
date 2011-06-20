@@ -1,5 +1,6 @@
 ﻿using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using Microsoft.VisualBasic.CompilerServices;
+using Microsoft.VisualBasic;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|

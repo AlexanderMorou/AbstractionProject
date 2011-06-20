@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Globalization;
 /*---------------------------------------------------------------------\
 | Copyright © 2011 Allen Copeland Jr.                                  |
 |----------------------------------------------------------------------|
@@ -46,7 +47,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// <param name="orderingKey">The <see cref="IExpression"/>
         /// used to coerce the ordering of the output data set.</param>
         public LinqOrderingPair(IExpression orderingKey)
-            : this(orderingKey, LinqOrderByDirection.Ascending)
+            : this(orderingKey, LinqOrderByDirection.Unspecified)
         {
         }
         /// <summary>
@@ -63,5 +64,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// (<see cref="LinqOrderByDirection.Ascending"/> (default)).
         /// </summary>
         public LinqOrderByDirection Direction { get; private set; }
+
+        public override string ToString()
+        {
+            switch (this.Direction)
+            {
+                case LinqOrderByDirection.Ascending:
+                    return string.Format(CultureInfo.CurrentCulture, "{0} ascending", this.OrderingKey);
+                case LinqOrderByDirection.Descending:
+                    return string.Format(CultureInfo.CurrentCulture, "{0} descending", this.OrderingKey);
+                case LinqOrderByDirection.Unspecified:
+                default:
+                    return this.OrderingKey.ToString();
+            }
+        }
     }
 }

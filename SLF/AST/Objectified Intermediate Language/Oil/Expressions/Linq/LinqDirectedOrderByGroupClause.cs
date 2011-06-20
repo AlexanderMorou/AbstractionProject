@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
 {
@@ -35,5 +36,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         public ILinqOrderingPairCollection Orderings { get; private set; }
 
         #endregion
+
+
+        public override string ToString()
+        {
+            return string.Format(CultureInfo.CurrentCulture, "orderby {0}", string.Join(", ", this.Orderings));
+        }
     }
 }

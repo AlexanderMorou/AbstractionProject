@@ -19,6 +19,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
     public enum LinqOrderByDirection
     {
         /// <summary>
+        /// The <see cref="ILinqDirectedOrderByClause"/> is ordered 
+        /// in a way that is unspecified, and thus will be ordered
+        /// by the default set forth by the language.
+        /// </summary>
+        Unspecified,
+        /// <summary>
         /// The <see cref="ILinqDirectedOrderByClause"/> is ordered
         /// in ascending (normal) order.
         /// </summary>

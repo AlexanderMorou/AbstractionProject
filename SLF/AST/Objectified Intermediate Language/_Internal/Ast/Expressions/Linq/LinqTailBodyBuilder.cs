@@ -163,7 +163,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast.Expressions.Linq
                             var thenBy = pathNodes[j] as LinqThenByBodyBuilder;
                             if (thenBy != null)
                             {
-                                pairs[j - i] = new LinqOrderingPair(dThenBy.OrderKey);
+                                pairs[j - i] = new LinqOrderingPair(thenBy.OrderKey);
                                 lastValid = j;
                                 continue;
                             }
@@ -203,7 +203,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast.Expressions.Linq
                             var thenBy = pathNodes[j] as LinqThenByBodyBuilder;
                             if (thenBy != null)
                             {
-                                pairs[j - i] = new LinqOrderingPair(dThenBy.OrderKey);
+                                pairs[j - i] = new LinqOrderingPair(thenBy.OrderKey);
                                 lastValid = j;
                                 continue;
                             }
