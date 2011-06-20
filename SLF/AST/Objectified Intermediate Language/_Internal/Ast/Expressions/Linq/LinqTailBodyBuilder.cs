@@ -61,7 +61,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast.Expressions.Linq
             for (int i = 0; i < pathNodes.Length; i++)
                 if (pathNodes[i] is ILinqTailBodyBuilder)
                 {
-                    bool last = i==pathNodes.Length - 1;
+                    bool last = i == pathNodes.Length - 1;
 
                     if (pathNodes[i] is LinqTailGroupBodyBuilder)
                         bodyTypes[bodyIndex++] = last ? groupBody : groupFuseBody;
@@ -133,15 +133,89 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast.Expressions.Linq
                 var dOrderClause = pathNodes[i] as LinqDirectedOrderByBodyBuilder;
                 if (dOrderClause != null)
                 {
-                    currentBody.Clauses.OrderBy(dOrderClause.OrderKey, dOrderClause.Direction);
+                    /* *
+                     * Special case, forward glance needs made to determine the proper
+                     * clause to construct.
+                     * */
+                    int lastClause = -1;
+                    for (int j = i + 1; j < pathNodes.Length; j++)
+                        if (pathNodes[j] is LinqThenByBodyBuilder ||
+                            pathNodes[j] is LinqDirectedThenByBodyBuilder)
+                            lastClause = j;
+                        else
+                            break;
+                    if (lastClause == -1)
+                        currentBody.Clauses.OrderBy(dOrderClause.OrderKey, dOrderClause.Direction);
+                    else
+                    {
+                        var pairs = new LinqOrderingPair[(lastClause + 1) - i];
+                        pairs[0] = new LinqOrderingPair(dOrderClause.OrderKey, dOrderClause.Direction);
+                        int lastValid = i;
+                        for (int j = i + 1; j <= lastClause; j++)
+                        {
+                            var dThenBy = pathNodes[j] as LinqDirectedThenByBodyBuilder;
+                            if (dThenBy != null)
+                            {
+                                pairs[j - i] = new LinqOrderingPair(dThenBy.OrderKey, dThenBy.Direction);
+                                lastValid = j;
+                                continue;
+                            }
+                            var thenBy = pathNodes[j] as LinqThenByBodyBuilder;
+                            if (thenBy != null)
+                            {
+                                pairs[j - i] = new LinqOrderingPair(dThenBy.OrderKey);
+                                lastValid = j;
+                                continue;
+                            }
+                            break;
+                        }
+                        i = lastValid;
+                        currentBody.Clauses.OrderBy(pairs);
+                    }
                     continue;
                 }
                 var orderClause = pathNodes[i] as LinqOrderByBodyBuilder;
                 if (orderClause != null)
                 {
-                    currentBody.Clauses.OrderBy(orderClause.OrderKey);
+                    int lastClause = -1;
+                    for (int j = i + 1; j < pathNodes.Length; j++)
+                        if (pathNodes[j] is LinqThenByBodyBuilder ||
+                            pathNodes[j] is LinqDirectedThenByBodyBuilder)
+                            lastClause = j;
+                        else
+                            break;
+                    if (lastClause == -1)
+                        currentBody.Clauses.OrderBy(orderClause.OrderKey);
+                    else
+                    {
+                        var pairs = new LinqOrderingPair[(lastClause + 1) - i];
+                        pairs[0] = new LinqOrderingPair(orderClause.OrderKey);
+                        int lastValid = i;
+                        for (int j = i + 1; j <= lastClause; j++)
+                        {
+                            var dThenBy = pathNodes[j] as LinqDirectedThenByBodyBuilder;
+                            if (dThenBy != null)
+                            {
+                                pairs[j - i] = new LinqOrderingPair(dThenBy.OrderKey, dThenBy.Direction);
+                                lastValid = j;
+                                continue;
+                            }
+                            var thenBy = pathNodes[j] as LinqThenByBodyBuilder;
+                            if (thenBy != null)
+                            {
+                                pairs[j - i] = new LinqOrderingPair(dThenBy.OrderKey);
+                                lastValid = j;
+                                continue;
+                            }
+                            break;
+                        }
+                        i = lastValid;
+                        currentBody.Clauses.OrderBy(pairs);
+                    }
                     continue;
                 }
+
+
                 var whereClause = pathNodes[i] as LinqWhereBodyBuilder;
                 if (whereClause != null)
                 {

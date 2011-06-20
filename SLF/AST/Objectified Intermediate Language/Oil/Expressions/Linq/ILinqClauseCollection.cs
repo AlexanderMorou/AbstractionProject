@@ -84,6 +84,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// defines the new clause.</returns>
         ILinqDirectedOrderByClause OrderBy(IExpression orderKey, LinqOrderByDirection direction);
         /// <summary>
+        /// Creates, inserts, and returns a new <see cref="ILinqOrderByGroupClause"/>
+        /// </summary>
+        /// <param name="orderKeys">The <see cref="IEnumerable{T}"/> of elements
+        /// which denote the keys to order the set by.</param>
+        /// <returns>An <see cref="ILinqOrderByGroupClause"/> instance which
+        /// defines the new clause.</returns>
+        ILinqOrderByGroupClause OrderBy(IEnumerable<IExpression> orderKeys);
+        /// <summary>
+        /// Creates, inserts, and returns a new <see cref="ILinqDirectedOrderByGroupClause"/>
+        /// </summary>
+        /// <param name="orderKeys">The <see cref="IEnumerable{T}"/> of elements
+        /// which denote the keys, and directions, to order the set by.</param>
+        /// <returns>An <see cref="ILinqDirectedOrderByGroupClause"/> instance which
+        /// defines the new clause.</returns>
+        ILinqDirectedOrderByGroupClause OrderBy(params LinqOrderingPair[] orderKeys);
+        /// <summary>
         /// Creates, inserts, and returns a new <see cref="ILinqJoinClause"/> which 
         /// defines a join operation on a sequence given the <paramref name="leftCondition"/>
         /// and <paramref name="rightCondition"/> to determine an item-wise relationship

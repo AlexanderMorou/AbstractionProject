@@ -27,6 +27,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region IMemberParentReferenceExpression Members
 
+        /// <summary>
+        /// Returns the <see cref="IEventReferenceExpression"/> relative to the
+        /// <paramref name="name"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> of the name of the event
+        /// to reference.</param>
+        /// <returns>A <see cref="IEventReferenceExpression"/> relative to the <paramref name="name"/>d 
+        /// event to reference.</returns>
         public IEventReferenceExpression GetEvent(string name)
         {
             return new UnboundEventReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
@@ -159,16 +167,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             return new UnboundFieldReferenceExpression(name, this.ObtainRelativeGetMemberTarget());
         }
 
-        /*
-        /// <summary>
-        /// Returns the type which is used as a spring
-        /// point for obtaining and linking the members.
-        /// </summary>
-        /// <remarks>Necessary for every 
-        /// <see cref="IMemberParentReferenceExpression"/>
-        /// to have in order to properly link.</remarks>
-        public abstract IType ForwardType { get; }
-        */
         #endregion
 
         /// <summary>
@@ -203,10 +201,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region ISourceElement Members
 
+        /// <summary>
+        /// Returns/sets the filename associated to the <see cref="ISourceElement"/>.
+        /// </summary>
         public string FileName { get; set; }
 
+        /// <summary>
+        /// The <see cref="LineColumnPair"/> which denotes
+        /// the start point of the <see cref="ISourceElement"/>.
+        /// </summary>
         public LineColumnPair? Start { get; set; }
 
+        /// <summary>
+        /// The <see cref="LineColumnPair"/> which denotes the
+        /// end point of the <see cref="ISourceElement"/>.
+        /// </summary>
         public LineColumnPair? End { get; set; }
 
         #endregion

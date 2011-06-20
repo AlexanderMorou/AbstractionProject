@@ -32,6 +32,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
         }
 
+        public CreateInstanceExpression(IConstructorPointerReferenceExpression reference, IEnumerable<IExpression> parameters)
+            : base(reference, parameters)
+        {
+        }
+
+        internal static CreateInstanceExpression GetByExpressionCollection<T>(IConstructorPointerReferenceExpression reference, IExpressionCollection<T> parameters)
+            where T :
+                IExpression
+        {
+            var result = new CreateInstanceExpression(reference);
+            result.Parameters.AddRange(parameters);
+            return result;
+        }
         #region ICreateInstanceExpression Members
         /// <summary>
         /// Returns the <see cref="ICreateInstanceMemberAssignmentDictionary"/> 

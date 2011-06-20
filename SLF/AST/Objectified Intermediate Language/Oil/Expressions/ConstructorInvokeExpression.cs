@@ -34,6 +34,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             this.Parameters.AddRange(parameters);
         }
 
+        public ConstructorInvokeExpression(IConstructorPointerReferenceExpression reference, IEnumerable<IExpression> parameters)
+            : this(reference)
+        {
+        }
+
+
         public override ExpressionKind Type
         {
             get { return ExpressionKind.ConstructorInvoke; }

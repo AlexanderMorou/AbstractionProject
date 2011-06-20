@@ -236,17 +236,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// language integrated query expression build.</returns>
         ILinqBodyBuilder Join(string rangeVariableName, string rangeSourceSymbol, IExpression conditionLeft, IExpression conditionRight, string intoRangeName);
         /// <summary>
-        /// Creates and returns a new <see cref="ILinqBodyBuilder"/>
+        /// Creates and returns a new <see cref="ILinqOrderedBodyBuilder"/>
         /// which furthers the language integrated query build with an
         /// order by clause injected into the query expression.
         /// </summary>
         /// <param name="orderingKey">The <see cref="IExpression"/> on which
         /// to order the resulted series.</param>
-        /// <returns>A new <see cref="ILinqBodyBuilder"/> which furthers the 
+        /// <returns>A new <see cref="ILinqOrderedBodyBuilder"/> which furthers the 
         /// language integrated query expression build.</returns>
-        ILinqBodyBuilder OrderBy(IExpression orderingKey);
+        ILinqOrderedBodyBuilder OrderBy(IExpression orderingKey);
         /// <summary>
-        /// Creates and returns a new <see cref="ILinqBodyBuilder"/> which furthers
+        /// Creates and returns a new <see cref="ILinqOrderedBodyBuilder"/> which furthers
         /// the language integrated query build with an orderby clause injected
         /// into the query expression.
         /// </summary>
@@ -255,9 +255,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// <param name="direction">The <see cref="LinqOrderByDirection"/>
         /// which denotes the specific direction the ordering coerces
         /// the output data set.</param>
-        /// <returns>A new <see cref="ILinqBodyBuilder"/> which furthers the 
+        /// <returns>A new <see cref="ILinqOrderedBodyBuilder"/> which furthers the 
         /// language integrated query expression build.</returns>
-        ILinqBodyBuilder OrderBy(IExpression orderingKey, LinqOrderByDirection direction);
+        ILinqOrderedBodyBuilder OrderBy(IExpression orderingKey, LinqOrderByDirection direction);
         /// <summary>
         /// Creates and returns a new <see cref="ILinqTailBodyBuilder"/> which
         /// finalizes the language integrated query build with a

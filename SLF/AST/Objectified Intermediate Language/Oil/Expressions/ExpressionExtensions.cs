@@ -259,7 +259,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <returns>A new <see cref="IExpressionCollection"/> containing
         /// the elements from <paramref name="target"/>.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="target"/> is null.</exception>
-        public static MalleableExpressionCollection ToCollection(this IExpression[] target)
+        public static MalleableExpressionCollection ToCollection(this IEnumerable<IExpression> target)
         {
             if (target == null)
                 throw new ArgumentNullException("target");

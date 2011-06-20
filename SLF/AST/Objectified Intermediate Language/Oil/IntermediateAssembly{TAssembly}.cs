@@ -816,6 +816,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// instance of an assembly.</remarks>
         public string FileName { get; set; }
 
+        /// <summary>
+        /// Returns the <see cref="IScopeCoercionCollection"/>
+        /// associated to the scope coercions of the <see cref="IntermediateAssembly{TAssembly}"/>.
+        /// </summary>
         public IScopeCoercionCollection ScopeCoercions
         {
             get

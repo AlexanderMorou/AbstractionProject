@@ -23,22 +23,14 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 where TAssembly :
                     IIntermediateAssembly
             {
-                //Create the assembly and define its output type.
-                var testAssembly = assembly; //activator("WindowsFormsTest");
-                testAssembly.References.Add(typeof(int).Assembly.GetAssemblyReference());
-                testAssembly.References.Add(typeof(Form).Assembly.GetAssemblyReference(), "forms", AssemblyReferenceCollection.DefaultAlias);
-                testAssembly.References.Add(typeof(Queryable).Assembly.GetAssemblyReference());
-                testAssembly.CompilationContext.OutputType = AssemblyOutputType.WinFormsApplication;
 
-                var @namespace = testAssembly.Namespaces.Add("WindowsFormsApplication1");
-                //Define the assembly's default namespace.
-                //testAssembly.DefaultNamespace = testAssembly.Namespaces.Add("WindowsFormsApplication1");
+                var @namespace = assembly.Namespaces.Add("WindowsFormsApplication1");
 
                 //Define the main dialog.
                 var mainDialog = @namespace.Classes.Add("MainDialog");
                 mainDialog.BaseType = typeof(Form).GetTypeReference<IClassType>();
                 mainDialog.AccessLevel = AccessLevelModifiers.Internal;
-                var mainMethod = CreateMainMethod(testAssembly, @namespace, mainDialog);
+                var mainMethod = CreateMainMethod(assembly, @namespace, mainDialog);
 
                 //Add the designer partial file to the main dialog.
                 var mainDialogDesigner = mainDialog.Parts.Add();
@@ -73,7 +65,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 //this.InitializeComponent();
                 mdCtor.Call(mdInitializeComponent.GetReference());
                 //}
-                return new Tuple<TAssembly, IIntermediateTopLevelMethodMember, IIntermediateClassType, IIntermediateClassMethodMember, IIntermediateClassMethodMember, IIntermediateClassCtorMember>(testAssembly, mainMethod, mainDialog, mdDispose, mdInitializeComponent, mdCtor);
+                return new Tuple<TAssembly, IIntermediateTopLevelMethodMember, IIntermediateClassType, IIntermediateClassMethodMember, IIntermediateClassMethodMember, IIntermediateClassCtorMember>(assembly, mainMethod, mainDialog, mdDispose, mdInitializeComponent, mdCtor);
             }
 
             private static IIntermediateTopLevelMethodMember CreateMainMethod(IIntermediateAssembly testAssembly, IIntermediateNamespaceDeclaration @namespace, IIntermediateClassType mainDialog)
@@ -88,7 +80,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 //Call the boiler plate code seen in most Windows Forms applications.
                 mainMethod.Call(applicationRef, "EnableVisualStyles");
                 mainMethod.Call(applicationRef, "SetCompatibleTextRenderingDefault", IntermediateGateway.TrueValue);
-                mainMethod.Call(applicationRef, "Run", mainDialog.GetNew());
+                mainMethod.Call(applicationRef, "Run", mainDialog.GetNewExpression());
                 return mainMethod;
             }
 
@@ -101,8 +93,8 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
 
                 mdInitializeComponent.Comment("Control/Component initialization.");
                 //this.ClickMeButton = new System.Windows.Forms.Button();
-                mdInitializeComponent.Assign(mdClickMeButton.GetReference(), mdClickMeButton.FieldType.GetNew());
-
+                mdInitializeComponent.Assign(mdClickMeButton.GetReference(), mdClickMeButton.FieldType.GetNewExpression());
+                
                 //SuspendLayout();
                 mdInitializeComponent.Call("SuspendLayout");
 

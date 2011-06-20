@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Adds a <see cref="ICreateInstanceMemberAssignment"/> to the
         /// <see cref="ICreateInstanceMemberAssignmentDictionary"/>.
         /// </summary>
-        /// <param name="assignment">The <see cref="ICreateInstanceMemberAssignmentDictionary"/>
+        /// <param name="assignment">The <see cref="ICreateInstanceMemberAssignment"/>
         /// to insert.</param>
         void Add(ICreateInstanceMemberAssignment assignment);
     }

@@ -112,6 +112,22 @@ namespace AllenCopeland.Abstraction.Utilities.Common
         {
             return () => TimeResult(func, arg());
         }
+        /// <summary>
+        /// Creates a <see cref="Func{TResult}"/> with a <paramref name="TimeSpan"/> and
+        /// <typeparamref name="TResult"/> as the return within a <see cref="Tuple{T1, T2}"/>
+        /// as a pair.
+        /// </summary>
+        /// <typeparam name="TResult">The type of the result of the <paramref name="func"/> to
+        /// create a time function for.</typeparam>
+        /// <param name="func">The <see cref="Func{TResult}"/> which needs a time metric
+        /// function applied to it.</param>
+        /// <returns>A <see cref="Func{TResult}"/> with a <paramref name="TimeSpan"/> and
+        /// <typeparamref name="TResult"/> as the return within a <see cref="Tuple{T1, T2}"/>
+        /// as a pair.</returns>
+        public static Func<Tuple<TimeSpan, TResult>> TimeResultFunc<T, TResult>(this Func<T, TResult> func, T arg)
+        {
+            return () => TimeResult(func, arg);
+        }
 
         public static TimeSpan TimeAction(this Action action)
         {

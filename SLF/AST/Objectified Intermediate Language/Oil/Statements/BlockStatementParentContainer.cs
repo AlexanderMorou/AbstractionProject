@@ -495,7 +495,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         public IEnumerateSetBreakableBlockStatement Enumerate(ILocalDeclarationStatement target, IExpression source)
         {
-            throw new NotImplementedException();
+            return new EnumerateSetBreakableBlockStatement(this) { LocalDeclaration = target, Source = source };
         }
 
         public ILocalDeclarationStatement DefineLocal(ILocalMember local)

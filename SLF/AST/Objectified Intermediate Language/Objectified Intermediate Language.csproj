@@ -93,6 +93,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compilers\AnonymousTypeDisplayStyle.cs" />
+    <Compile Include="Compilers\AnonymousTypeMember.cs" />
+    <Compile Include="Compilers\AnonymousTypePatternAid.cs" />
     <Compile Include="Compilers\AssemblyOutputType.cs" />
     <Compile Include="Compilers\CompilerModelWarning{T1-T4}.cs" />
     <Compile Include="Compilers\CompilerSourceError.cs" />
@@ -101,17 +104,25 @@
     <Compile Include="Compilers\CompilerSourceModelError{T1-T4}.cs" />
     <Compile Include="Compilers\CompilerSourceModelWarning{T1-T4}.cs" />
     <Compile Include="Compilers\CSharpCompilerMessages.cs" />
+    <Compile Include="Compilers\IAnonymousTypePatternAid.cs" />
     <Compile Include="Compilers\IMalleableCompilationContext.cs" />
     <Compile Include="Languages\AllenCopelandLanguageVendor.cs" />
     <Compile Include="Languages\CommonIntermediateLanguage.cs" />
     <Compile Include="Languages\CommonIntermediateProvider.cs" />
     <Compile Include="Languages\ICommonIntermediateLanguage.cs" />
     <Compile Include="Languages\ICommonIntermediateProvider.cs" />
+    <Compile Include="Compilers\ICompilerPatternAid.cs" />
     <Compile Include="Languages\IDynamicLanguage.cs" />
     <Compile Include="Languages\ILanguageASTTranslator.cs" />
     <Compile Include="Languages\ILanguageCSTTranslator.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Oil\Expressions\ICreateAnonymousType.cs" />
+    <Compile Include="Oil\Expressions\ICreateAnonymousTypeMemberAssignment.cs" />
+    <Compile Include="Oil\Expressions\ICreateAnonymousTypeMemberAssignmentDictionary.cs" />
+    <Compile Include="Oil\Expressions\Linq\ILinqOrderedBodyBuilder.cs" />
+    <Compile Include="Oil\Expressions\Linq\ILinqThenByClause.cs" />
+    <Compile Include="Oil\Expressions\Linq\LinqDirectedOrderByGroupClause.cs" />
     <Compile Include="Oil\ICommonIntermediateAssembly.cs" />
     <Compile Include="Oil\IHighLevelIntermediateAssembly.cs" />
     <Compile Include="Oil\IIntermediateAssembly`2.cs" />
@@ -1033,6 +1044,7 @@
     <Compile Include="_Internal\Ast\Expressions\Linq\ILinqBodyBuilderParent.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqBodyBuilderBase.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqDirectedOrderByBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqDirectedThenByBodyBuilder.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqFromBodyBuilder.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqFusionBodyBuilder.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqJoinBodyBuilder.cs" />
@@ -1041,6 +1053,7 @@
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqTailBodyBuilder.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqTailGroupBodyBuilder.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqTailSelectBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqThenByBodyBuilder.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqTypedFromBodyBuilder.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqTypedJoinBodyBuilder.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqWhereBodyBuilder.cs" />

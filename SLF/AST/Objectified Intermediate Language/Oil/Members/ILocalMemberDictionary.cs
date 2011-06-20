@@ -92,8 +92,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// and <paramref name="initializationExpression"/> provided.</returns>
         /// <exception cref="System.ArgumentOutOfRangeException">thrown when <paramref name="typingMethod"/>
         /// is not <see cref="LocalTypingKind.Implicit"/> or <see cref="LocalTypingKind.Dynamic"/>.</exception>
-        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> or
-        /// <paramref name="initializationExpression"/> is null.</exception>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> is null.</exception>
         ILocalMember Add(string name, IExpression initializationExpression, LocalTypingKind typingMethod = LocalTypingKind.Implicit);
     }
 }

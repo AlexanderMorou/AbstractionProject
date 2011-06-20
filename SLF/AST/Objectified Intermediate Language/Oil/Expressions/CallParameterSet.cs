@@ -94,6 +94,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             foreach (var item in expressions)
                 this.Add(item);
         }
+        public void AddRange<T>(IExpressionCollection<T> expressions)
+            where T :
+                IExpression
+        {
+            foreach (var item in expressions)
+                this.Add(item);
+        }
 
         #endregion
 

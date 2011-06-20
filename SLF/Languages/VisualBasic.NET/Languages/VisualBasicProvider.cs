@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Translation;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.VisualBasic;
+using AllenCopeland.Abstraction.Slf.Compilers;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {

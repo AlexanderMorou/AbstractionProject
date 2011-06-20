@@ -101,14 +101,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Creates a new <see cref="CommonIntermediateAssembly"/> instance
+        /// Creates a new <see cref="ICommonIntermediateAssembly"/> instance
         /// with the <paramref name="name"/> provided.
         /// </summary>
         /// <param name="name">The <see cref="String"/>
-        /// that represents the name of the <see cref="IIntermediateAssembly"/>
+        /// that represents the name of the <see cref="ICommonIntermediateAssembly"/>
         /// created.</param>
         /// <returns>An <see cref="IIntermediateAssembly"/> instance.</returns>
-        public static IIntermediateAssembly CreateAssembly(string name)
+        public static ICommonIntermediateAssembly CreateAssembly(string name)
         {
             return CreateAssembly<CommonIntermediateAssembly>(name);
         }
@@ -181,7 +181,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
             return null;
         }
-                //*
+        //*
         #region Symbol Types
         /// <summary>
         /// Obtains a <see cref="ISymbolType">symbol type</see>
@@ -528,9 +528,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <returns>A new <see cref="ICreateInstanceExpression"/>
         /// relative to the <paramref name="target"/> and its
         /// constructor's <paramref name="parameters"/>.</returns>
-        public static ICreateInstanceExpression NewExpression(this IType target, params IExpression[] parameters)
+        public static ICreateInstanceExpression GetNewExpression(this IType target, params IExpression[] parameters)
         {
-            return new CreateInstanceExpression(new ConstructorPointerReferenceExpression(new ConstructorReferenceStub(target)), parameters);
+            return target.GetNewExpression(parameters.ToCollection());
         }
 
         /// <summary>
@@ -545,9 +545,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <returns>A new <see cref="ICreateInstanceExpression"/>
         /// relative to the <paramref name="target"/> and its
         /// constructor's <paramref name="parameters"/>.</returns>
-        public static ICreateInstanceExpression NewExpression(this IType target, IExpressionCollection parameters)
+        public static ICreateInstanceExpression GetNewExpression<T>(this IType target, IExpressionCollection<T> parameters)
+            where T :
+                IExpression
         {
-            return new CreateInstanceExpression(new ConstructorPointerReferenceExpression(new ConstructorReferenceStub(target)), parameters);
+            return CreateInstanceExpression.GetByExpressionCollection(new ConstructorPointerReferenceExpression(new ConstructorReferenceStub(target)), parameters);
+            //return new CreateInstanceExpression(new ConstructorPointerReferenceExpression(new ConstructorReferenceStub(target)), parameters);
         }
 
         /// <summary>
@@ -563,10 +566,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <returns>A new <see cref="ICreateInstanceExpression"/>
         /// relative to the <paramref name="target"/> and its
         /// constructor's <paramref name="parameters"/>.</returns>
-        public static ICreateInstanceExpression NewExpression(this IType target, IEnumerable<IExpression> parameters)
+        public static ICreateInstanceExpression GetNewExpression(this IType target, IEnumerable<IExpression> parameters)
         {
-            return new CreateInstanceExpression(new ConstructorPointerReferenceExpression(new ConstructorReferenceStub(target)), parameters.ToArray());
+            return target.GetNewExpression(parameters.ToCollection());
         }
+
+        public static ICreateInstanceExpression GetNewExpression(this Type target, params IExpression[] parameters)
+        {
+            return target.GetTypeReference().GetNewExpression(parameters);
+        }
+
         internal static IType AscertainType(this TypedName typedName, IIntermediateType containingType)
         {
             string symbolReference;
@@ -812,6 +821,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return sourceType;
         }
 
+        /// <summary>
+        /// Returns whether the <paramref name="type"/> contains symbols as a
+        /// part of its definition.
+        /// </summary>
+        /// <param name="type">The <see cref="IType"/> to check for symbols.</param>
+        /// <returns>true if the type is a <see cref="ISymbolType"/> or
+        /// contains generic-parameters which are symbols, or the element
+        /// type of the <paramref name="type"/> is a symbol.</returns>
         public static bool ContainsSymbols(this IType type)
         {
             if (type is ISymbolType)
@@ -829,6 +846,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     if (genericVariant.ElementType.ContainsSymbols())
                         return true;
             }
+            else if (type.ElementClassification != TypeElementClassification.None && type.ElementClassification != TypeElementClassification.GenericTypeDefinition)
+                return type.ElementType.ContainsSymbols();
             return false;
         }
 
@@ -845,16 +864,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         //{
         //    return new IntermediateDynamicHandler(autoCollect);
         //}
-
-        public static ICreateInstanceExpression GetNew(this IType target, params IExpression[] parameters)
-        {
-            return new CreateInstanceExpression(new ConstructorPointerReferenceExpression(new ConstructorReferenceStub(target)), parameters);
-        }
-
-        public static ICreateInstanceExpression GetNewExpression(this Type target, params IExpression[] parameters)
-        {
-            return target.GetTypeReference().GetNew(parameters);
-        }
 
         internal static IEnumerable<string> GetTypeNames(this IIntermediateFullTypeDictionary types)
         {

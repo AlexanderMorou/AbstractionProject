@@ -13,7 +13,8 @@ using AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq;
 namespace AllenCopeland.Abstraction.Slf._Internal.Ast.Expressions.Linq
 {
     internal class LinqOrderByBodyBuilder :
-        LinqBodyBuilderBase
+        LinqBodyBuilderBase,
+        ILinqOrderedBodyBuilder
     {
         public LinqOrderByBodyBuilder(ILinqBodyBuilderParent root, IExpression orderKey)
             : base(root)
@@ -21,5 +22,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast.Expressions.Linq
             this.OrderKey = orderKey;
         }
         public IExpression OrderKey { get; private set; }
+
+        #region ILinqOrderedBodyBuilder Members
+
+        public ILinqOrderedBodyBuilder ThenBy(IExpression orderingKey)
+        {
+            return new LinqThenByBodyBuilder(this, orderingKey);
+        }
+
+        public ILinqOrderedBodyBuilder ThenBy(IExpression orderingKey, LinqOrderByDirection direction)
+        {
+            return new LinqDirectedThenByBodyBuilder(this, orderingKey, direction);
+        }
+
+        #endregion
     }
 }

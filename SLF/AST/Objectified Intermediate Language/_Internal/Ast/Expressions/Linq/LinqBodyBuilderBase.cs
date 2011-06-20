@@ -70,12 +70,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast.Expressions.Linq
             return new LinqJoinBodyBuilder(this, rangeVariableName, rangeSource, conditionLeft, conditionRight, intoRangeName);
         }
 
-        public ILinqBodyBuilder OrderBy(IExpression orderingKey)
+        public ILinqOrderedBodyBuilder OrderBy(IExpression orderingKey)
         {
             return new LinqOrderByBodyBuilder(this, orderingKey);
         }
 
-        public ILinqBodyBuilder OrderBy(IExpression orderingKey, LinqOrderByDirection direction)
+        public ILinqOrderedBodyBuilder OrderBy(IExpression orderingKey, LinqOrderByDirection direction)
         {
             return new LinqDirectedOrderByBodyBuilder(this, orderingKey, direction);
         }
