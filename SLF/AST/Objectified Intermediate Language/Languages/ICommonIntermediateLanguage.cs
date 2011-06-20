@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// <summary>
         /// Returns the <see cref="IMicrosoftLanguageVendor">Microsoft</see> vendor.
         /// </summary>
-        IMicrosoftLanguageVendor Vendor { get; }
+        new IMicrosoftLanguageVendor Vendor { get; }
         /// <summary>
         /// Returns a new <see cref="ICommonIntermediateProvider"/> associated to the current
         /// <see cref="ILanguage"/>.
@@ -37,6 +37,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// <paramref name="name"/> is null.</exception>
         /// <exception cref="System.ArgumentException">thrown when
         /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
-        ICommonIntermediateAssembly CreateAssembly(string name);
+        new ICommonIntermediateAssembly CreateAssembly(string name);
     }
 }

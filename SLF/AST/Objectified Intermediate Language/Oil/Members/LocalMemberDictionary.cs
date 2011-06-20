@@ -152,8 +152,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 throw new ArgumentOutOfRangeException("typingMethod");
             if (name == null)
                 throw new ArgumentNullException("name");
-            if (initializationExpression == null)
-                throw new ArgumentNullException("initializationExpression");
             var result = new LocalMember(name, this.Parent, typingMethod) { InitializationExpression = initializationExpression };
             this._Add(result.UniqueIdentifier, result);
             return result;

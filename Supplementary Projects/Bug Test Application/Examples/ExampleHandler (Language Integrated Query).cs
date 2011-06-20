@@ -19,18 +19,45 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 where TAssembly :
                     IIntermediateAssembly
             {
+                //using System;
+                assembly.ScopeCoercions.Add(typeof(Console).Namespace);
+                //using System.Linq;
+                assembly.ScopeCoercions.Add(typeof(Queryable).Namespace);
+
                 var @namespace = assembly.Namespaces.Add("LinqExample");
                 var topLevelMethod = @namespace.Methods.Add("LinqTest");
-                var digits = topLevelMethod.Locals.Add(new TypedName("digits", CommonTypeRefs.StringArray), (new[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }).ToExpression());
+                //var digits = new String[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }; 
+                var digits = topLevelMethod.Locals.Add(
+                        "digits",
+                        (new[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }).ToExpression(), 
+                        LocalTypingKind.Implicit);
                 var digitSymbol = (Symbol)"digit";
+                /* *
+                 * var sortedDigits = from digit in digits
+                 *                    orderby digit.Length ascending,
+                 *                            digit ascending
+                 *                    select digit;
+                 * */
                 var sortedDigits = topLevelMethod.Locals.Add("sortedDigits", 
                         LinqHelper
                         .From("digit", /* in */ digits.GetReference())
-                            .OrderBy(digitSymbol.GetProperty("Length"), LinqOrderByDirection.Ascending)
-                            .OrderBy(digitSymbol, LinqOrderByDirection.Ascending)
+                            .OrderBy(digitSymbol.GetProperty("Length"), LinqOrderByDirection.Descending)
+                            .ThenBy(digitSymbol, LinqOrderByDirection.Ascending)
                         .Select(digitSymbol).Build(), LocalTypingKind.Implicit);
-                topLevelMethod.Call(typeof(Console).GetTypeExpression(), "WriteLine", "Sorted Digits".ToPrimitive());
-                //topLevelMethod.ForEach()
+
+                /* *
+                 * Console.WriteLine("Sorted Digits");
+                 * */
+                topLevelMethod.Call("Console".Fuse("WriteLine").Fuse("Sorted Digits".ToPrimitive()));
+                /* *
+                 * foreach (digit in sortedDigits)
+                 *     Console.WriteLine(digit);
+                 * */
+                var iteratorLocal = topLevelMethod.Locals.Add("digit", null, LocalTypingKind.Implicit);
+                iteratorLocal.AutoDeclare = false;
+                var enumerationBlock = topLevelMethod.Enumerate(iteratorLocal.GetDeclarationStatement(), sortedDigits.GetReference());
+
+                enumerationBlock.Call("Console".Fuse("WriteLine").Fuse(iteratorLocal.GetReference()));
                 return new Tuple<TAssembly, IIntermediateTopLevelMethodMember>(assembly, topLevelMethod);
 
             }

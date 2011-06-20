@@ -206,6 +206,38 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
             return result;
         }
 
+
+        /// <summary>
+        /// Creates, inserts, and returns a new <see cref="ILinqOrderByGroupClause"/>
+        /// </summary>
+        /// <param name="orderKeys">The <see cref="IEnumerable{T}"/> of elements
+        /// which denote the keys to order the set by.</param>
+        /// <returns>An <see cref="ILinqOrderByGroupClause"/> instance which
+        /// defines the new clause.</returns>
+        public ILinqOrderByGroupClause OrderBy(IEnumerable<IExpression> orderKeys)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Creates, inserts, and returns a new <see cref="ILinqDirectedOrderByGroupClause"/>
+        /// </summary>
+        /// <param name="orderKeys">The <see cref="IEnumerable{T}"/> of elements
+        /// which denote the keys, and directions, to order the set by.</param>
+        /// <returns>An <see cref="ILinqDirectedOrderByGroupClause"/> instance which
+        /// defines the new clause.</returns>
+        public ILinqDirectedOrderByGroupClause OrderBy(params LinqOrderingPair[] orderKeys)
+        {
+            var result = new LinqDirectedOrderByGroupClause();
+            foreach (var orderKey in orderKeys)
+            {
+                if (orderKey.OrderingKey == null)
+                    continue;
+                result.Orderings.Add(orderKey.OrderingKey, orderKey.Direction);
+            }
+            base.baseList.Add(result);
+            return result;
+        }
         #endregion
     }
 }

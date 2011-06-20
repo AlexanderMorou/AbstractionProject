@@ -143,9 +143,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Abstract\AnonymousTypeDisplayStyle.cs" />
-    <Compile Include="Abstract\AnonymousTypeMember.cs" />
-    <Compile Include="Abstract\AnonymousTypePatternAid.cs" />
     <Compile Include="Abstract\AssemblyBase.cs" />
     <Compile Include="Abstract\DeclarationBase.cs" />
     <Compile Include="Abstract\DeclarationDictionaryBase{TItem}.cs" />
@@ -156,7 +153,6 @@
     <Compile Include="Abstract\GroupedDeclarationDictionaryBase{TItem, TMItem}.cs" />
     <Compile Include="Abstract\IAmbiguousType.cs" />
     <Compile Include="Abstract\IAnonymousType.cs" />
-    <Compile Include="Abstract\IAnonymousTypePatternAid.cs" />
     <Compile Include="Abstract\IArrayType.cs" />
     <Compile Include="Abstract\IAssembly.cs" />
     <Compile Include="Abstract\IAssemblyInformation.cs" />

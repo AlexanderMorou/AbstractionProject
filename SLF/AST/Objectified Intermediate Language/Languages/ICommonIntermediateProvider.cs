@@ -30,6 +30,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// <paramref name="name"/> is null.</exception>
         /// <exception cref="System.ArgumentException">thrown when
         /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
-        ICommonIntermediateAssembly CreateAssembly(string name);
+        new ICommonIntermediateAssembly CreateAssembly(string name);
     }
 }

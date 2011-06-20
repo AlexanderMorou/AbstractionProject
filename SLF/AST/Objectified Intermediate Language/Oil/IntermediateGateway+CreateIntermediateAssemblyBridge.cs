@@ -34,6 +34,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 where TProvider :
                     ILanguageProvider
             {
+                if (typeof(ICommonIntermediateLanguage).IsAssignableFrom(typeof(TLanguage)))
+                    if (typeof(ICommonIntermediateProvider).IsAssignableFrom(typeof(TProvider)))
+                        return new CommonIntermediateAssembly(name);
                 throw new NotSupportedException();
             }
 

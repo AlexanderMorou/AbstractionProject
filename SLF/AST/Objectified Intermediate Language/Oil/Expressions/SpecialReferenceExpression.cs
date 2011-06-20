@@ -15,6 +15,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         MemberParentReferenceExpressionBase,
         IMalleableSpecialReferenceExpression
     {
+        /// <summary>
+        /// Creates a new <see cref="SpecialReferenceExpression"/> with the
+        /// <paramref name="referenceKind"/> provided.
+        /// </summary>
+        /// <param name="referenceKind">The <see cref="SpecialReferenceKind"/>
+        /// which denotes whether the reference refers to the active instance
+        /// type, its base, or the active scope disregarding the virtual nature
+        /// of the targets.</param>
         public SpecialReferenceExpression(SpecialReferenceKind referenceKind)
         {
             this.Kind = referenceKind;
@@ -23,6 +31,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region ISpecialReferenceExpression Members
 
+        /// <summary>
+        /// Returns the kind of special reference the reference is.
+        /// </summary>
         public SpecialReferenceKind Kind { get; set; }
 
         #endregion
@@ -55,6 +66,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         #endregion
+
         public override string ToString()
         {
             switch (this.Kind)

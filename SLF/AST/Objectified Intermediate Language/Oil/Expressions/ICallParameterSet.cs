@@ -117,5 +117,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <param name="expressions">The <see cref="IExpressionCollection"/>
         /// to add to the <see cref="ICallParameterSet"/>.</param>
         void AddRange(IExpressionCollection expressions);
+        /// <summary>
+        /// Adds a <see cref="IExpressionCollection{T}"/> to the 
+        /// <see cref="ICallParameterSet"/>.
+        /// </summary>
+        /// <param name="expressions">The <see cref="IExpressionCollection{T}"/>
+        /// to add to the <see cref="ICallParameterSet"/>.</param>
+        void AddRange<T>(IExpressionCollection<T> expressions)
+            where T :
+                IExpression;
     }
 }

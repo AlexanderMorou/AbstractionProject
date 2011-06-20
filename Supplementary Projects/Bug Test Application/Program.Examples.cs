@@ -1,29 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AllenCopeland.Abstraction.Slf.Oil;
-using AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples;
-using AllenCopeland.Abstraction.Utilities.Common;
-using AllenCopeland.Abstraction.Utilities.Arrays;
-using AllenCopeland.Abstraction.Slf.Cli;
-using AllenCopeland.Abstraction.Slf.Languages;
-using AllenCopeland.Abstraction.Slf.Abstract;
 using System.Diagnostics;
-using AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq;
-using AllenCopeland.Abstraction.Slf.Oil.Expressions.CSharp;
-using AllenCopeland.Abstraction.Slf.Oil.Expressions;
+using System.Linq;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.CSharp;
+using AllenCopeland.Abstraction.Slf.Languages;
+using AllenCopeland.Abstraction.Slf.Oil.VisualBasic;
+using AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples;
+using AllenCopeland.Abstraction.Utilities.Arrays;
+using AllenCopeland.Abstraction.Utilities.Common;
 
 namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 {
+    using linqExample = ExampleHandler.LanguageIntegratedQuery;
+    using winformExample = ExampleHandler.WindowsFormsApplication;
     internal class Program
     {
         private static void Main()
         {
+            var msLangVendor = LanguageVendors.Microsoft;
             //FullName(); return;
             //arr1(); return;
-            var winFormsVB = MiscHelperMethods.TimeResultFunc(ExampleHandler.WindowsFormsApplication.CreateStructureVB,     () => LanguageVendors.Microsoft.GetVisualBasicLanguage().CreateAssembly("VB.Net examples"));
-            var winFormsCS = MiscHelperMethods.TimeResultFunc(ExampleHandler.WindowsFormsApplication.CreateStructureCSharp, () => LanguageVendors.Microsoft.     GetCSharpLanguage().CreateAssembly("CSharp examples"));
+            IVisualBasicAssembly vbAssem = null;
+            ICSharpAssembly csAssem = null;
+
+            var winFormsVB = MiscHelperMethods.TimeResultFunc(winformExample.CreateStructureVB, () => vbAssem = msLangVendor.GetVisualBasicLanguage().CreateAssembly("VB.Net examples"));
+            var winFormsCS = MiscHelperMethods.TimeResultFunc(winformExample.CreateStructureCSharp, () => csAssem = msLangVendor.GetCSharpLanguage().CreateAssembly("CSharp examples"));
+
+            var linqVB = MiscHelperMethods.TimeResultFunc(linqExample.CreateStructureVB, () => vbAssem);
+            var linqCS = MiscHelperMethods.TimeResultFunc(linqExample.CreateStructureCSharp, () => csAssem);
+
+            var vbTestFunc = MiscHelperMethods.TimeResultFunc(() =>
+            {
+                var winForms = winFormsVB();
+                var linq = linqVB();
+                return Tuple.Create(winForms.Item1, linq.Item1, winForms.Item2, linq.Item2);
+            });
+            var csTestFunc = MiscHelperMethods.TimeResultFunc(() =>
+            {
+                var winForms = winFormsCS();
+                var linq = linqCS();
+                return Tuple.Create(winForms.Item1, linq.Item1, winForms.Item2, linq.Item2);
+            });
+
             Console.WriteLine("Running initial test...");
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * *");
             Console.WriteLine("* If the native image has been generated for    *");
@@ -31,15 +50,27 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             Console.WriteLine("* caches commonly used types; otherwise, this   *");
             Console.WriteLine("* also accounts for JIT overhead.               *");
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * *");
-            var jitTest = MiscHelperMethods.TimeAction(() => winFormsVB().Item2.Item1.Dispose());
-            CLIGateway.ClearCache();
+            var jitTest = MiscHelperMethods.TimeAction(() =>
+                {
+                    var item = vbTestFunc();
+                    item.Item2.Item3.Item1.Dispose();
+                });
+            //CLIGateway.ClearCache();
+            vbAssem = null;
+            csAssem = null;
             Console.WriteLine("Initial tests took {0}", jitTest);
-            var vbWinFormsTest = winFormsVB();
-            var csWinFormsTest = winFormsCS();
-            Console.WriteLine("C# test took: {0}", csWinFormsTest.Item1);
-            Console.WriteLine("VB.NET test took: {0}", vbWinFormsTest.Item1);
-            vbWinFormsTest.Item2.Item1.Dispose();
-            csWinFormsTest.Item2.Item1.Dispose();
+            var vbTest = vbTestFunc();
+            var csTest = csTestFunc();
+            Console.WriteLine("C# test took: {0}", csTest.Item1);
+            Console.WriteLine("\tWinForms: {0}", csTest.Item2.Item1);
+            Console.WriteLine("\tLinq: {0}", csTest.Item2.Item2);
+            Console.WriteLine("VB.NET test took: {0}", vbTest.Item1);
+            Console.WriteLine("\tWinForms: {0}", vbTest.Item2.Item1);
+            Console.WriteLine("\tLinq: {0}", vbTest.Item2.Item2);
+            vbAssem.Dispose();
+            csAssem.Dispose();
+            //vbTest.Item2.Item1.Dispose();
+            //csTest.Item2.Item1.Dispose();
             CLIGateway.ClearCache();
         }
 
