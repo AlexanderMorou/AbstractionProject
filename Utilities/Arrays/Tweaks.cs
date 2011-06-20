@@ -200,6 +200,14 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                 return temp;
             }
         }
+        
+        /// <summary>
+        /// Merges a <paramref name="series"/> of arrays into a single, large, array.
+        /// </summary>
+        /// <typeparam name="T">The type of element contained within each array.</typeparam>
+        /// <param name="series">The array of arrays.</param>
+        /// <returns>A new <typeparamref name="T"/> array containing all of the
+        /// elements from <paramref name="series"/>.</returns>
         #if CODE_ANALYSIS
         /* *
          * Suppressed Type-Parameter inference code-analysis point.
@@ -212,18 +220,12 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             if (series == null)
                 throw new ArgumentNullException("series");
             int fullLength = 0;
-            //int[] starts = new int[series.Length];
             for (int i = 0; i < series.Length; i++)
                 if (series[i] == null)
                     throw new ArgumentException("A member of series was null", "series");
                 else
-                    //starts[i] = fullLength;
                     fullLength += series[i].Length;
             T[] result = new T[fullLength];
-            //Parallel.For(0, starts.Length, i =>
-            //    {
-            //        series[i].CopyTo(result, starts[i]);
-            //    });
             for (int i = 0, offset = 0; i < series.Length && offset < fullLength; offset += series[i++].Length)
                 series[i].CopyTo(result, offset);
             return result;

@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
 
         public override string ToString()
         {
-            return string.Format(CultureInfo.CurrentCulture, "orderby {0}");
+            return string.Format(CultureInfo.CurrentCulture, "orderby {0}", this.OrderKey);
         }
 
         #region ILinqOrderByClause Members

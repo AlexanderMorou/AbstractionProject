@@ -56,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// <see cref="LinqExpression"/>.</returns>
         public override string ToString()
         {
-            return string.Format("{0}\r\n{1}", From.ToString(), Body.ToString());
+            return string.Format("{0} \r\n{1}", From.ToString(), Body.ToString());
         }
 
         #region IExpression Members

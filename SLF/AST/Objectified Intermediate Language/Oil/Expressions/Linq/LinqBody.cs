@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Globalization;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -61,7 +62,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
             StringBuilder resultBuilder = new StringBuilder();
             if (this.clauses != null)
                 foreach (var clause in this.clauses)
-                    resultBuilder.AppendLine(clause.ToString());
+                    resultBuilder.AppendLine(string.Format(CultureInfo.CurrentCulture, "{0} ", clause));
             return resultBuilder.ToString();
         }
 

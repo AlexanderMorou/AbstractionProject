@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using System.ComponentModel;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using System.Globalization;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 {
@@ -109,5 +110,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         public IExpression Source { get; set; }
 
         #endregion
+
+        public override string ToString()
+        {
+            return string.Format(CultureInfo.CurrentCulture, "foreach ({0} in {1}) {{...", this.LocalDeclaration, this.Source);
+        }
     }
 }

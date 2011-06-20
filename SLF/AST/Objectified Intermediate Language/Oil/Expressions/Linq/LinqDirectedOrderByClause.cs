@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Globalization;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -44,6 +45,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         public override void Visit(ILinqVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        public override string ToString()
+        {
+            return string.Format(CultureInfo.CurrentCulture, "orderby {0}", this.OrderKey.ToString() + (this.Direction == LinqOrderByDirection.Unspecified ? string.Empty : " " + (this.Direction == LinqOrderByDirection.Ascending ? "ascending" : "descending")));
         }
     }
 }
