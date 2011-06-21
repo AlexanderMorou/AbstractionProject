@@ -79,17 +79,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cst\IVisualBasicStart.cs" />
-    <Compile Include="Languages\IVisualBasicLanguage.cs" />
-    <Compile Include="Languages\IVisualBasicProvider.cs" />
-    <Compile Include="Languages\VisualBasicLanguage.cs" />
-    <Compile Include="Languages\VisualBasicProvider.cs" />
-    <Compile Include="Languages\VisualBasicVendorProvider.cs" />
-    <Compile Include="Languages\VisualBasicVersion.cs" />
-    <Compile Include="Oil\VisualBasic\My\IMyNamespaceDeclaration.cs" />
-    <Compile Include="Oil\VisualBasic\IVisualBasicAssembly.cs" />
-    <Compile Include="Oil\VisualBasic\My\IMyApplicationClass.cs" />
-    <Compile Include="Oil\VisualBasic\VisualBasicAssembly.cs" />
-    <Compile Include="Oil\VisualBasic\VisualBasicAssemblyBridge.cs" />
+    <Compile Include="Languages\VisualBasic\IVisualBasicAssembly.cs" />
+    <Compile Include="Languages\VisualBasic\IVisualBasicLanguage.cs" />
+    <Compile Include="Languages\VisualBasic\IVisualBasicProvider.cs" />
+    <Compile Include="Languages\VisualBasic\My\IMyApplicationClass.cs" />
+    <Compile Include="Languages\VisualBasic\My\IMyNamespaceDeclaration.cs" />
+    <Compile Include="Languages\VisualBasic\VisualBasicAssembly.cs" />
+    <Compile Include="Languages\VisualBasic\VisualBasicAssemblyBridge.cs" />
+    <Compile Include="Languages\VisualBasic\VisualBasicLanguage.cs" />
+    <Compile Include="Languages\VisualBasic\VisualBasicProvider.cs" />
+    <Compile Include="Languages\VisualBasic\VisualBasicVendorProvider.cs" />
+    <Compile Include="Languages\VisualBasic\VisualBasicVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

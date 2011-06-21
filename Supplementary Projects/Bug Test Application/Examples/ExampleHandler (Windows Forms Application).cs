@@ -9,8 +9,9 @@ using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Linkers;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
-using AllenCopeland.Abstraction.Slf.Oil.Expressions.CSharp;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Slf.Languages.CSharp;
+using AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2011 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
