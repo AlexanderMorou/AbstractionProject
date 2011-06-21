@@ -86,22 +86,5 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     return 0;
             }
         }
-
-        /*
-        public static IImplicitChain2 GetImplicitCast<TCoercionParentFrom, TCoercionParentTo>(ICoercibleType<ITypeCoercionMember<TCoercionParentFrom>, TCoercionParentFrom> fromType, ICoercibleType<ITypeCoercionMember<TCoercionParentTo>, TCoercionParentTo> toType)
-            where TCoercionParentFrom :
-                ICoercibleType<ITypeCoercionMember<TCoercionParentFrom>, TCoercionParentFrom>
-            where TCoercionParentTo :
-                ICoercibleType<ITypeCoercionMember<TCoercionParentTo>, TCoercionParentTo>
-        {
-
-        }
-
-        public static IImplicitChain2 GetImplicitCast<TCoercionParentFrom>(ICoercibleType<ITypeCoercionMember<TCoercionParentFrom>, TCoercionParentFrom> fromType, IType toType)
-            where TCoercionParentFrom :
-                ICoercibleType<ITypeCoercionMember<TCoercionParentFrom>, TCoercionParentFrom>
-        {
-        }
-        */
     }
 }

@@ -8,6 +8,12 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members;
+ /*---------------------------------------------------------------------\
+ | Copyright © 2011 Allen Copeland Jr.                                  |
+ |----------------------------------------------------------------------|
+ | The Abstraction Project's code is provided under a contract-release  |
+ | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+ \-------------------------------------------------------------------- */
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
     using ParametersBase = _ParametersBase<IDelegateType, IDelegateTypeParameterMember>;

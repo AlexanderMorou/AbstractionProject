@@ -8,7 +8,7 @@
     <ProjectGuid>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AllenCopeland.Abstraction.Utilities</RootNamespace>
+    <RootNamespace>AllenCopeland.Abstraction</RootNamespace>
     <AssemblyName>_abs.util</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -82,126 +82,137 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Arrays\Tweaks.cs" />
-    <Compile Include="Collections\ControlledStateCollection{T}.cs" />
-    <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}+KeysCollection.cs" />
-    <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}+SharedLocals.cs" />
-    <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}+ValuesCollection.cs" />
-    <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}.cs" />
-    <Compile Include="Collections\ControlledStateKeyedTree.cs" />
-    <Compile Include="Collections\ControlledStateKeyedTreeNode.cs" />
-    <Compile Include="Collections\CovariantReadOnlyCollection.cs" />
-    <Compile Include="Collections\GeneralExtensions.cs" />
-    <Compile Include="Collections\HashList{T}.cs" />
-    <Compile Include="Collections\IControlledStateCollection.cs" />
-    <Compile Include="Collections\IControlledStateCollection{T}.cs" />
-    <Compile Include="Collections\IControlledStateDictionary.cs" />
-    <Compile Include="Collections\IControlledStateDictionary{TKey, TValue}.cs" />
-    <Compile Include="Collections\IControlledStateKeyedTree.cs" />
-    <Compile Include="Collections\IControlledStateKeyedTreeNode.cs" />
-    <Compile Include="Collections\IKeyedTree.cs" />
-    <Compile Include="Collections\IKeyedTreeNode.cs" />
-    <Compile Include="Collections\IMasterDictionary.cs" />
-    <Compile Include="Collections\IMasterDictionary{TKey, TValue}.cs" />
-    <Compile Include="Collections\IReadOnlyCollection.cs" />
-    <Compile Include="Collections\IReadOnlyColletion{T}.cs" />
-    <Compile Include="Collections\IReadOnlyDictionary.cs" />
-    <Compile Include="Collections\IReadOnlyDictionary{TKey, TValue}.cs" />
-    <Compile Include="Collections\ISubordinateDictionary.cs" />
-    <Compile Include="Collections\ISubordinateDictionary{TKey, TSValue, TMValue}.cs" />
-    <Compile Include="Collections\ISubordinateDictionary{TKey, TValue}.cs" />
-    <Compile Include="Collections\KeyedTree.cs" />
-    <Compile Include="Collections\KeyedTreeNode.cs" />
-    <Compile Include="Collections\MasterDictionaryBase{TKey, TValue}.cs" />
-    <Compile Include="Collections\MasterDictionaryEntry.cs" />
-    <Compile Include="Collections\MutableDictionary.cs" />
-    <Compile Include="Collections\ReadOnlyCollectionGroup.cs" />
-    <Compile Include="Collections\ReadOnlyCollection{T}.cs" />
-    <Compile Include="Collections\ReadOnlyDictionary{TKey, TValue}.cs" />
-    <Compile Include="Collections\SimpleCollection{T}.cs" />
-    <Compile Include="Collections\SimpleDictionaryEnumerator{TKey, TValue}.cs" />
-    <Compile Include="Collections\SubordinateDictionary{TKey, TSValue, TMValue}+KC.cs" />
-    <Compile Include="Collections\SubordinateDictionary{TKey, TSValue, TMValue}.cs" />
-    <Compile Include="Collections\_ISubordinateDictionaryMasterPass.cs" />
-    <Compile Include="Common\BinaryBase.cs" />
-    <Compile Include="Common\CharacterBase.cs" />
-    <Compile Include="Common\DecimalBase.cs" />
-    <Compile Include="Common\DuosexagesimalBase.cs" />
-    <Compile Include="Common\GameGenieBase.cs" />
-    <Compile Include="Common\OctodecimalBase.cs" />
-    <Compile Include="Common\SexadecimalBase.cs" />
-    <Compile Include="Common\MiscHelperMethods.cs" />
-    <Compile Include="Common\NumericBase.cs" />
-    <Compile Include="Common\NumericBaseController.cs" />
-    <Compile Include="Common\OctalBase.cs" />
-    <Compile Include="Common\SeptemvigesimalBase.cs" />
-    <Compile Include="Common\SexatrigesimalBase.cs" />
-    <Compile Include="Common\StringHandling.cs" />
-    <Compile Include="Events\EventArgsR1R2R3{T1, T2, T3}.cs" />
-    <Compile Include="Events\EventArgsR1R2{T1, T2, T3}.cs" />
-    <Compile Include="Events\EventArgsR1R2{T1, T2}.cs" />
-    <Compile Include="Events\EventArgsR1R3{T1, T2, T3}.cs" />
-    <Compile Include="Events\EventArgsR1{T1, T2, T3}.cs" />
-    <Compile Include="Events\EventArgsR1{T1, T2}.cs" />
-    <Compile Include="Events\EventArgsR1{T}.cs" />
-    <Compile Include="Events\EventArgsR2R3{T1, T2, T3}.cs" />
-    <Compile Include="Events\EventArgsR2{T1, T2}.cs" />
-    <Compile Include="Events\EventArgs{T1, T2}.cs" />
-    <Compile Include="Events\EventArgs{T}.cs" />
-    <Compile Include="FiniteAutomata\DFAState.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataBitSet.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataMultiTargetTransitionTable{2}.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataSection.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataSingleTargetTransitionTable.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataState{4}.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataTransitionNode{TCheck, TTarget}.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataTransitionTable+KeysCollection.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataTransitionTable+ValuesCollection.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomataTransitionTable{3}.cs" />
-    <Compile Include="FiniteAutomata\FiniteAutomationSourceKind.cs" />
-    <Compile Include="FiniteAutomata\IDFAState.cs" />
-    <Compile Include="FiniteAutomata\IFiniteAutomataMultiTargetTransitionTable.cs" />
-    <Compile Include="FiniteAutomata\IFiniteAutomataSection.cs" />
-    <Compile Include="FiniteAutomata\IFiniteAutomataSet.cs" />
-    <Compile Include="FiniteAutomata\IFiniteAutomataSingleTargetTransitionTable.cs" />
-    <Compile Include="FiniteAutomata\IFiniteAutomataSource.cs" />
-    <Compile Include="FiniteAutomata\IFiniteAutomataState.cs" />
-    <Compile Include="FiniteAutomata\IFiniteAutomataTransitionNode.cs" />
-    <Compile Include="FiniteAutomata\IFiniteAutomataTransitionTable.cs" />
-    <Compile Include="FiniteAutomata\INFAState.cs" />
-    <Compile Include="FiniteAutomata\MinimalBitArray.cs" />
-    <Compile Include="FiniteAutomata\NFAState+DFAEntry.cs" />
-    <Compile Include="FiniteAutomata\NFAState+DFAEntrySet.cs" />
-    <Compile Include="FiniteAutomata\NFAState+DFAEntryTable.cs" />
-    <Compile Include="FiniteAutomata\NFAState{4}.cs" />
+    <Compile Include="Globalization\CultureIdentifier.cs" />
+    <Compile Include="Globalization\CultureIdentifiers+CountryRegions.cs" />
+    <Compile Include="Globalization\CultureIdentifiers+CultureCodes.cs" />
+    <Compile Include="Globalization\CultureIdentifiers+IDs.cs" />
+    <Compile Include="Globalization\CultureIdentifiers+LocalizedNames.cs" />
+    <Compile Include="Globalization\CultureIdentifiers.cs" />
+    <Compile Include="Globalization\CultureIdentifierTypeConverter.cs" />
+    <Compile Include="Globalization\ICultureIdentifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Tuples\TupleHelper.cs" />
-    <Compile Include="Tuples\Tuple`10.cs" />
-    <Compile Include="Tuples\Tuple`11.cs" />
-    <Compile Include="Tuples\Tuple`12.cs" />
-    <Compile Include="Tuples\Tuple`13.cs" />
-    <Compile Include="Tuples\Tuple`14.cs" />
-    <Compile Include="Tuples\Tuple`15.cs" />
-    <Compile Include="Tuples\Tuple`16.cs" />
-    <Compile Include="Tuples\Tuple`17.cs" />
-    <Compile Include="Tuples\Tuple`18.cs" />
-    <Compile Include="Tuples\Tuple`19.cs" />
-    <Compile Include="Tuples\Tuple`20.cs" />
-    <Compile Include="Tuples\Tuple`9.cs" />
+    <Compile Include="Utilities\Arrays\Tweaks.cs" />
+    <Compile Include="Utilities\Collections\ControlledStateCollection{T}.cs" />
+    <Compile Include="Utilities\Collections\ControlledStateDictionary{TKey, TValue}+KeysCollection.cs" />
+    <Compile Include="Utilities\Collections\ControlledStateDictionary{TKey, TValue}+SharedLocals.cs" />
+    <Compile Include="Utilities\Collections\ControlledStateDictionary{TKey, TValue}+ValuesCollection.cs" />
+    <Compile Include="Utilities\Collections\ControlledStateDictionary{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\ControlledStateKeyedTree.cs" />
+    <Compile Include="Utilities\Collections\ControlledStateKeyedTreeNode.cs" />
+    <Compile Include="Utilities\Collections\CovariantReadOnlyCollection.cs" />
+    <Compile Include="Utilities\Collections\GeneralExtensions.cs" />
+    <Compile Include="Utilities\Collections\HashList{T}.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateCollection.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateCollection{T}.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateDictionary.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateDictionary{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateKeyedTree.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateKeyedTreeNode.cs" />
+    <Compile Include="Utilities\Collections\IKeyedTree.cs" />
+    <Compile Include="Utilities\Collections\IKeyedTreeNode.cs" />
+    <Compile Include="Utilities\Collections\IMasterDictionary.cs" />
+    <Compile Include="Utilities\Collections\IMasterDictionary{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\IReadOnlyCollection.cs" />
+    <Compile Include="Utilities\Collections\IReadOnlyColletion{T}.cs" />
+    <Compile Include="Utilities\Collections\IReadOnlyDictionary.cs" />
+    <Compile Include="Utilities\Collections\IReadOnlyDictionary{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\ISubordinateDictionary.cs" />
+    <Compile Include="Utilities\Collections\ISubordinateDictionary{TKey, TSValue, TMValue}.cs" />
+    <Compile Include="Utilities\Collections\ISubordinateDictionary{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\KeyedTree.cs" />
+    <Compile Include="Utilities\Collections\KeyedTreeNode.cs" />
+    <Compile Include="Utilities\Collections\MasterDictionaryBase{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\MasterDictionaryEntry.cs" />
+    <Compile Include="Utilities\Collections\MutableDictionary.cs" />
+    <Compile Include="Utilities\Collections\ReadOnlyCollectionGroup.cs" />
+    <Compile Include="Utilities\Collections\ReadOnlyCollection{T}.cs" />
+    <Compile Include="Utilities\Collections\ReadOnlyDictionary{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\SimpleCollection{T}.cs" />
+    <Compile Include="Utilities\Collections\SimpleDictionaryEnumerator{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\SubordinateDictionary{TKey, TSValue, TMValue}+KC.cs" />
+    <Compile Include="Utilities\Collections\SubordinateDictionary{TKey, TSValue, TMValue}.cs" />
+    <Compile Include="Utilities\Collections\_ISubordinateDictionaryMasterPass.cs" />
+    <Compile Include="Utilities\Common\BinaryBase.cs" />
+    <Compile Include="Utilities\Common\CharacterBase.cs" />
+    <Compile Include="Utilities\Common\DecimalBase.cs" />
+    <Compile Include="Utilities\Common\DuosexagesimalBase.cs" />
+    <Compile Include="Utilities\Common\GameGenieBase.cs" />
+    <Compile Include="Utilities\Common\MiscHelperMethods.cs" />
+    <Compile Include="Utilities\Common\NumericBase.cs" />
+    <Compile Include="Utilities\Common\NumericBaseController.cs" />
+    <Compile Include="Utilities\Common\OctalBase.cs" />
+    <Compile Include="Utilities\Common\OctodecimalBase.cs" />
+    <Compile Include="Utilities\Common\SeptemvigesimalBase.cs" />
+    <Compile Include="Utilities\Common\SexadecimalBase.cs" />
+    <Compile Include="Utilities\Common\SexatrigesimalBase.cs" />
+    <Compile Include="Utilities\Common\StringHandling.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1R2R3{T1, T2, T3}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1R2{T1, T2, T3}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1R2{T1, T2}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1R3{T1, T2, T3}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1{T1, T2, T3}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1{T1, T2}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1{T}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR2R3{T1, T2, T3}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR2{T1, T2}.cs" />
+    <Compile Include="Utilities\Events\EventArgs{T1, T2}.cs" />
+    <Compile Include="Utilities\Events\EventArgs{T}.cs" />
+    <Compile Include="Utilities\FiniteAutomata\DFAState.cs" />
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataBitSet.cs" />
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataMultiTargetTransitionTable{2}.cs" />
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataSection.cs" />
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataSingleTargetTransitionTable.cs" />
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataState{4}.cs" />
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataTransitionNode{TCheck, TTarget}.cs" />
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataTransitionTable+KeysCollection.cs" />
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataTransitionTable+ValuesCollection.cs" />
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataTransitionTable{3}.cs" />
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomationSourceKind.cs" />
+    <Compile Include="Utilities\FiniteAutomata\IDFAState.cs" />
+    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataMultiTargetTransitionTable.cs" />
+    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataSection.cs" />
+    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataSet.cs" />
+    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataSingleTargetTransitionTable.cs" />
+    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataSource.cs" />
+    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataState.cs" />
+    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataTransitionNode.cs" />
+    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataTransitionTable.cs" />
+    <Compile Include="Utilities\FiniteAutomata\INFAState.cs" />
+    <Compile Include="Utilities\FiniteAutomata\MinimalBitArray.cs" />
+    <Compile Include="Utilities\FiniteAutomata\NFAState+DFAEntry.cs" />
+    <Compile Include="Utilities\FiniteAutomata\NFAState+DFAEntrySet.cs" />
+    <Compile Include="Utilities\FiniteAutomata\NFAState+DFAEntryTable.cs" />
+    <Compile Include="Utilities\FiniteAutomata\NFAState{4}.cs" />
+    <Compile Include="Utilities\Tuples\TupleHelper.cs" />
+    <Compile Include="Utilities\Tuples\Tuple`10.cs" />
+    <Compile Include="Utilities\Tuples\Tuple`11.cs" />
+    <Compile Include="Utilities\Tuples\Tuple`12.cs" />
+    <Compile Include="Utilities\Tuples\Tuple`13.cs" />
+    <Compile Include="Utilities\Tuples\Tuple`14.cs" />
+    <Compile Include="Utilities\Tuples\Tuple`15.cs" />
+    <Compile Include="Utilities\Tuples\Tuple`16.cs" />
+    <Compile Include="Utilities\Tuples\Tuple`17.cs" />
+    <Compile Include="Utilities\Tuples\Tuple`18.cs" />
+    <Compile Include="Utilities\Tuples\Tuple`19.cs" />
+    <Compile Include="Utilities\Tuples\Tuple`20.cs" />
+    <Compile Include="Utilities\Tuples\Tuple`9.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>AllenCopeland.Abstraction.Utilities.Properties</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Allen Copeland.pfx" />
+    <None Include="Utilities\Collections\ControlledStateCollection{T}.zip" />
+    <None Include="Utilities\Collections\MasterDictionaryBase{TKey, TValue}.zip" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

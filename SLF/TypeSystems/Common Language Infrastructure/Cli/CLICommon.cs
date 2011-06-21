@@ -9,6 +9,12 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Diagnostics;
+ /*---------------------------------------------------------------------\
+ | Copyright © 2011 Allen Copeland Jr.                                  |
+ |----------------------------------------------------------------------|
+ | The Abstraction Project's code is provided under a contract-release  |
+ | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+ \-------------------------------------------------------------------- */
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
     /// <summary>
