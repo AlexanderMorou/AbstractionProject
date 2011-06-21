@@ -6,7 +6,7 @@ using System.Globalization;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Slf.Abstract
+namespace AllenCopeland.Abstraction.Slf.Globalization
 {
     /// <summary>
     /// Defines properties and methods for working with 

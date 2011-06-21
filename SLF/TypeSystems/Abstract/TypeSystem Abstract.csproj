@@ -85,21 +85,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\AbstractGateway.cs" />
-    <Compile Include="Abstract\CultureIdentifier.cs" />
-    <Compile Include="Abstract\CultureIdentifiers+CountryRegions.cs">
-      <DependentUpon>CultureIdentifiers.cs</DependentUpon>
+    <Compile Include="Globalization\CultureIdentifier.cs">
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Abstract\CultureIdentifiers+CultureCodes.cs">
+    <Compile Include="Globalization\CultureIdentifiers+CountryRegions.cs">
       <DependentUpon>CultureIdentifiers.cs</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Abstract\CultureIdentifiers+IDs.cs">
+    <Compile Include="Globalization\CultureIdentifiers+CultureCodes.cs">
       <DependentUpon>CultureIdentifiers.cs</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Abstract\CultureIdentifiers+LocalizedNames.cs">
+    <Compile Include="Globalization\CultureIdentifiers+IDs.cs">
       <DependentUpon>CultureIdentifiers.cs</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Abstract\CultureIdentifiers.cs" />
-    <Compile Include="Abstract\CultureIdentifierTypeConverter.cs" />
+    <Compile Include="Globalization\CultureIdentifiers+LocalizedNames.cs">
+      <DependentUpon>CultureIdentifiers.cs</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Globalization\CultureIdentifiers.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Globalization\ICultureIdentifier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Globalization\CultureIdentifierTypeConverter.cs" />
     <Compile Include="Abstract\Documentation\IDocComment.cs" />
     <Compile Include="Abstract\Documentation\IDocCommentCodeElement.cs" />
     <Compile Include="Abstract\Documentation\IDocCommentCodeReference.cs" />
@@ -162,7 +173,6 @@
     <Compile Include="Abstract\ICoercibleType`1.cs" />
     <Compile Include="Abstract\ICoercibleType`2.cs" />
     <Compile Include="Abstract\ICreatableType.cs" />
-    <Compile Include="Abstract\ICultureIdentifier.cs" />
     <Compile Include="Abstract\ICustomAttributeCollection.cs" />
     <Compile Include="Abstract\ICustomAttributeInstance.cs" />
     <Compile Include="Abstract\ICustomAttributedDeclaration.cs" />

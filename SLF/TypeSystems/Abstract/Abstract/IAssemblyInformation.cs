@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using AllenCopeland.Abstraction.Slf.Globalization;
 /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|

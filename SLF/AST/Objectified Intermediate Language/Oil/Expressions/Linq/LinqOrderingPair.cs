@@ -65,18 +65,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// </summary>
         public LinqOrderByDirection Direction { get; private set; }
 
+        /// <summary>
+        /// Returns the current <see cref="LinqOrderingPair"/> as
+        /// a <see cref="String"/>.
+        /// </summary>
+        /// <returns>A <see cref="String"/> value representing the
+        /// <see cref="LinqOrderingPair"/>.</returns>
         public override string ToString()
         {
+            string orderingKeyString = this.OrderingKey == null ? string.Empty : this.OrderingKey.ToString();
             switch (this.Direction)
             {
                 case LinqOrderByDirection.Ascending:
-                    return string.Format(CultureInfo.CurrentCulture, "{0} ascending", this.OrderingKey);
+                    return string.Format(CultureInfo.CurrentCulture, "{0} ascending", orderingKeyString);
                 case LinqOrderByDirection.Descending:
-                    return string.Format(CultureInfo.CurrentCulture, "{0} descending", this.OrderingKey);
-                case LinqOrderByDirection.Unspecified:
-                default:
-                    return this.OrderingKey.ToString();
+                    return string.Format(CultureInfo.CurrentCulture, "{0} descending", orderingKeyString);
             }
+            return orderingKeyString;
         }
     }
 }

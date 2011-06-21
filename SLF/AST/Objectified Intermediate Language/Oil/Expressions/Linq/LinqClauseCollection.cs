@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
@@ -88,16 +89,71 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
             return result;
         }
 
+        /// <summary>
+        /// Creates, inserts, and returns a new <see cref="ILinqOrderByClause"/> which
+        /// defines a key selector for the expression used to compare across the series
+        /// to order it.
+        /// </summary>
+        /// <param name="orderKey">The <see cref="IExpression"/> which determines
+        /// the ordering key for comparison to order the data series.</param>
+        /// <returns>An <see cref="ILinqOrderByClause"/> instance which
+        /// defines the new clause.</returns>
         public ILinqOrderByClause OrderBy(IExpression orderKey)
         {
-            var result = new LinqOrderByClause(orderKey);
-            base.baseList.Add(result);
-            return result;
+            return this.OrderBy(new LinqOrderingPair(orderKey));
         }
 
-        public ILinqDirectedOrderByClause OrderBy(IExpression orderKey, LinqOrderByDirection direction)
+        /// <summary>
+        /// Creates, inserts, and returns a new <see cref="ILinqOrderByClause"/> which
+        /// defines a key selector for the expression used to compare across the series
+        /// to order it.
+        /// </summary>
+        /// <param name="orderKey">The <see cref="IExpression"/> which determines
+        /// the ordering key for comparison to order the data series.</param>
+        /// <param name="direction">The <see cref="LinqOrderByDirection"/>
+        /// for the <see cref="ILinqOrderByClause"/>.</param>
+        /// <returns>An <see cref="ILinqOrderByClause"/> instance which
+        /// defines the new clause.</returns>
+        public ILinqOrderByClause OrderBy(IExpression orderKey, LinqOrderByDirection direction)
         {
-            var result = new LinqDirectedOrderByClause(orderKey, direction);
+            return this.OrderBy(new LinqOrderingPair(orderKey, direction));
+        }
+
+        /// <summary>
+        /// Creates, inserts, and returns a new <see cref="ILinqOrderByClause"/>
+        /// </summary>
+        /// <param name="orderKeys">The <see cref="IEnumerable{T}"/> of elements
+        /// which denote the keys to order the set by.</param>
+        /// <returns>An <see cref="ILinqOrderByClause"/> instance which
+        /// defines the new clause.</returns>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="orderKeys"/> is null.</exception>
+        public ILinqOrderByClause OrderBy(IEnumerable<IExpression> orderKeys)
+        {
+            if (orderKeys == null)
+                throw new ArgumentNullException("orderKeys");
+            var orderKeysCopy = orderKeys.ToArray();
+            LinqOrderingPair[] orderings = new LinqOrderingPair[orderKeysCopy.Length];
+            for (int i = 0; i < orderKeysCopy.Length; i++)
+                orderings[i] = new LinqOrderingPair(orderKeysCopy[i]);
+            return this.OrderBy(orderings);
+        }
+
+        /// <summary>
+        /// Creates, inserts, and returns a new <see cref="ILinqOrderByClause"/>
+        /// </summary>
+        /// <param name="orderKeys">The <see cref="IEnumerable{T}"/> of elements
+        /// which denote the keys, and directions, to order the set by.</param>
+        /// <returns>An <see cref="ILinqOrderByClause"/> instance which
+        /// defines the new clause.</returns>
+        public ILinqOrderByClause OrderBy(params LinqOrderingPair[] orderKeys)
+        {
+            var result = new LinqOrderByClause();
+            foreach (var orderKey in orderKeys)
+            {
+                if (orderKey.OrderingKey == null)
+                    continue;
+                result.Orderings.Add(orderKey.OrderingKey, orderKey.Direction);
+            }
             base.baseList.Add(result);
             return result;
         }
@@ -206,38 +262,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
             return result;
         }
 
-
-        /// <summary>
-        /// Creates, inserts, and returns a new <see cref="ILinqOrderByGroupClause"/>
-        /// </summary>
-        /// <param name="orderKeys">The <see cref="IEnumerable{T}"/> of elements
-        /// which denote the keys to order the set by.</param>
-        /// <returns>An <see cref="ILinqOrderByGroupClause"/> instance which
-        /// defines the new clause.</returns>
-        public ILinqOrderByGroupClause OrderBy(IEnumerable<IExpression> orderKeys)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Creates, inserts, and returns a new <see cref="ILinqDirectedOrderByGroupClause"/>
-        /// </summary>
-        /// <param name="orderKeys">The <see cref="IEnumerable{T}"/> of elements
-        /// which denote the keys, and directions, to order the set by.</param>
-        /// <returns>An <see cref="ILinqDirectedOrderByGroupClause"/> instance which
-        /// defines the new clause.</returns>
-        public ILinqDirectedOrderByGroupClause OrderBy(params LinqOrderingPair[] orderKeys)
-        {
-            var result = new LinqDirectedOrderByGroupClause();
-            foreach (var orderKey in orderKeys)
-            {
-                if (orderKey.OrderingKey == null)
-                    continue;
-                result.Orderings.Add(orderKey.OrderingKey, orderKey.Direction);
-            }
-            base.baseList.Add(result);
-            return result;
-        }
         #endregion
     }
 }

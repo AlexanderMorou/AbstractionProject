@@ -11,7 +11,7 @@ using System.Text;
  \-------------------------------------------------------------------- */
 
 
-namespace AllenCopeland.Abstraction.Slf.Abstract
+namespace AllenCopeland.Abstraction.Slf.Globalization
 {
     /// <summary>
     /// Provides a base <see cref="ICultureIdentifier"/> implementation which supports 
