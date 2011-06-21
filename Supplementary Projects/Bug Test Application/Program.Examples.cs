@@ -3,12 +3,13 @@ using System.Diagnostics;
 using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
-using AllenCopeland.Abstraction.Slf.CSharp;
 using AllenCopeland.Abstraction.Slf.Languages;
-using AllenCopeland.Abstraction.Slf.Oil.VisualBasic;
 using AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Common;
+using AllenCopeland.Abstraction.Slf.Languages.Cil;
+using AllenCopeland.Abstraction.Slf.Languages.CSharp;
+using AllenCopeland.Abstraction.Slf.Languages.VisualBasic;
  /*---------------------------------------------------------------------\
  | Copyright © 2011 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
