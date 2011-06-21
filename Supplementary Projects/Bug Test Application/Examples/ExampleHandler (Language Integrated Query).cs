@@ -9,6 +9,12 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using System.Globalization;
+ /*---------------------------------------------------------------------\
+ | Copyright © 2011 Allen Copeland Jr.                                  |
+ |----------------------------------------------------------------------|
+ | The Abstraction Project's code is provided under a contract-release  |
+ | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+ \-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples
 {

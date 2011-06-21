@@ -507,7 +507,6 @@
     <Compile Include="Oil\IIntermediateInterfaceMemberMapping.cs" />
     <Compile Include="Oil\IIntermediateInterfaceType.cs" />
     <Compile Include="Oil\IIntermediateInterfaceTypeDictionary.cs" />
-    <Compile Include="Oil\IIntermediateLocalizableDeclaration.cs" />
     <Compile Include="Oil\IIntermediateNamespaceDeclaration.cs" />
     <Compile Include="Oil\IIntermediateNamespaceDictionary.cs" />
     <Compile Include="Oil\IIntermediateNamespaceParent.cs" />
@@ -1092,7 +1091,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Oil\Expressions\Linq\Linq - ReadMe.txt" />
-    <None Include="Oil\Expressions\Linq\LINQ.oilexer" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Compilers\Compiler Warnings and Errors.txt" />

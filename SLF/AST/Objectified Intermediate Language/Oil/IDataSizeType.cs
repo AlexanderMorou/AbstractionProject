@@ -3,9 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
+ /*---------------------------------------------------------------------\
+ | Copyright © 2011 Allen Copeland Jr.                                  |
+ |----------------------------------------------------------------------|
+ | The Abstraction Project's code is provided under a contract-release  |
+ | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+ \-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
+    /// <summary>
+    /// Defines properties and methods for working with a <see cref="IStructType"/>
+    /// which represents a logical placeholder for a set of bytes of
+    /// a specific <see cref="IDataSizeType.DataSize">size</see>.
+    /// </summary>
     public interface IDataSizeType :
         IStructType
     {

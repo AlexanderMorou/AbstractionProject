@@ -11,6 +11,12 @@ using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions.CSharp;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+ /*---------------------------------------------------------------------\
+ | Copyright © 2011 Allen Copeland Jr.                                  |
+ |----------------------------------------------------------------------|
+ | The Abstraction Project's code is provided under a contract-release  |
+ | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+ \-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples
 {
