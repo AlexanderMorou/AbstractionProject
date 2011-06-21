@@ -10,1375 +10,1376 @@ using System.Text;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Slf.Abstract
+namespace AllenCopeland.Abstraction.Slf.Globalization
 {
     partial class CultureIdentifiers
     {
         /// <summary>
-        /// Provides a series of constant int values that relate to the culture information and the 
-        /// numerical identifiers of the cultures.
+        /// Provides a series of constant string values that relate to culture information and the 
+        /// short-hand code each respective culture.
         /// </summary>
         /* *
          * Visible by design in cases where users of the code are
-         * more interested in the numerical id associated to cultures, 
-         * than the full culture identifiers.
+         * more interested in the culture codes, than the
+         * culture identifiers.
          * */
         [SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
-        public static class NumericIdentifiers
+        public static class CultureCodes
         {
+
+            /// <summary>
+            /// Culture name for None.
+            /// </summary>
+            /// <remarks>CultureID: 0x007F
+            /// CultureName: <see cref="System.String.Empty"/>.</remarks>
+            public const string None = "";
             ///<summary>
-            ///Culture identifier constant for None.
-            ///</summary>
-            ///<remarks>Culture ID: 0x007F
-            ///Culture Name: <see cref="System.String.Empty"/></remarks>
-            public const int None = 0x007F;
-            ///<summary>
-            ///Culture identifier constant for Afrikaans.
+            ///Culture name for Afrikaans.
             ///</summary>
             ///<remarks>Culture ID: 0x0036
-            ///Culture Name:af</remarks>
-            public const int Afrikaans = 0x0036;
+            ///Culture Name: af</remarks>
+            public const string Afrikaans = "af";
             ///<summary>
-            ///Culture identifier constant for Afrikaans - South Africa.
+            ///Culture name for Afrikaans - South Africa.
             ///</summary>
             ///<remarks>Culture ID: 0x0436
-            ///Culture Name:af-ZA</remarks>
+            ///Culture Name: af-ZA</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Afrikaans_SouthAfrica = 0x0436;
+            public const string Afrikaans_SouthAfrica = "af-ZA";
             ///<summary>
-            ///Culture identifier constant for Albanian.
+            ///Culture name for Albanian.
             ///</summary>
             ///<remarks>Culture ID: 0x001C
-            ///Culture Name:sq</remarks>
-            public const int Albanian = 0x001C;
+            ///Culture Name: sq</remarks>
+            public const string Albanian = "sq";
             ///<summary>
-            ///Culture identifier constant for Albanian - Albania.
+            ///Culture name for Albanian - Albania.
             ///</summary>
             ///<remarks>Culture ID: 0x041C
-            ///Culture Name:sq-AL</remarks>
+            ///Culture Name: sq-AL</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Albanian_Albania = 0x041C;
+            public const string Albanian_Albania = "sq-AL";
             ///<summary>
-            ///Culture identifier constant for Arabic.
+            ///Culture name for Arabic.
             ///</summary>
             ///<remarks>Culture ID: 0x0001
-            ///Culture Name:ar</remarks>
-            public const int Arabic = 0x0001;
+            ///Culture Name: ar</remarks>
+            public const string Arabic = "ar";
             ///<summary>
-            ///Culture identifier constant for Arabic - Algeria.
+            ///Culture name for Arabic - Algeria.
             ///</summary>
             ///<remarks>Culture ID: 0x1401
-            ///Culture Name:ar-DZ</remarks>
+            ///Culture Name: ar-DZ</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Arabic_Algeria = 0x1401;
+            public const string Arabic_Algeria = "ar-DZ";
             ///<summary>
-            ///Culture identifier constant for Arabic - Bahrain.
+            ///Culture name for Arabic - Bahrain.
             ///</summary>
             ///<remarks>Culture ID: 0x3C01
-            ///Culture Name:ar-BH</remarks>
+            ///Culture Name: ar-BH</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Arabic_Bahrain = 0x3C01;
+            public const string Arabic_Bahrain = "ar-BH";
             ///<summary>
-            ///Culture identifier constant for Arabic - Egypt.
+            ///Culture name for Arabic - Egypt.
             ///</summary>
             ///<remarks>Culture ID: 0x0C01
-            ///Culture Name:ar-EG</remarks>
+            ///Culture Name: ar-EG</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Arabic_Egypt = 0x0C01;
+            public const string Arabic_Egypt = "ar-EG";
             ///<summary>
-            ///Culture identifier constant for Arabic - Iraq.
+            ///Culture name for Arabic - Iraq.
             ///</summary>
             ///<remarks>Culture ID: 0x0801
-            ///Culture Name:ar-IQ</remarks>
+            ///Culture Name: ar-IQ</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Arabic_Iraq = 0x0801;
+            public const string Arabic_Iraq = "ar-IQ";
             ///<summary>
-            ///Culture identifier constant for Arabic - Jordan.
+            ///Culture name for Arabic - Jordan.
             ///</summary>
             ///<remarks>Culture ID: 0x2C01
-            ///Culture Name:ar-JO</remarks>
+            ///Culture Name: ar-JO</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Arabic_Jordan = 0x2C01;
+            public const string Arabic_Jordan = "ar-JO";
             ///<summary>
-            ///Culture identifier constant for Arabic - Kuwait.
+            ///Culture name for Arabic - Kuwait.
             ///</summary>
             ///<remarks>Culture ID: 0x3401
-            ///Culture Name:ar-KW</remarks>
+            ///Culture Name: ar-KW</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Arabic_Kuwait = 0x3401;
+            public const string Arabic_Kuwait = "ar-KW";
             ///<summary>
-            ///Culture identifier constant for Arabic - Lebanon.
+            ///Culture name for Arabic - Lebanon.
             ///</summary>
             ///<remarks>Culture ID: 0x3001
-            ///Culture Name:ar-LB</remarks>
+            ///Culture Name: ar-LB</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Arabic_Lebanon = 0x3001;
+            public const string Arabic_Lebanon = "ar-LB";
             ///<summary>
-            ///Culture identifier constant for Arabic - Libya.
+            ///Culture name for Arabic - Libya.
             ///</summary>
             ///<remarks>Culture ID: 0x1001
-            ///Culture Name:ar-LY</remarks>
+            ///Culture Name: ar-LY</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Arabic_Libya = 0x1001;
+            public const string Arabic_Libya = "ar-LY";
             ///<summary>
-            ///Culture identifier constant for Arabic - Morocco.
+            ///Culture name for Arabic - Morocco.
             ///</summary>
             ///<remarks>Culture ID: 0x1801
-            ///Culture Name:ar-MA</remarks>
+            ///Culture Name: ar-MA</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Arabic_Morocco = 0x1801;
+            public const string Arabic_Morocco = "ar-MA";
             ///<summary>
-            ///Culture identifier constant for Arabic - Oman.
+            ///Culture name for Arabic - Oman.
             ///</summary>
             ///<remarks>Culture ID: 0x2001
-            ///Culture Name:ar-OM</remarks>
+            ///Culture Name: ar-OM</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Arabic_Oman = 0x2001;
+            public const string Arabic_Oman = "ar-OM";
             ///<summary>
-            ///Culture identifier constant for Arabic - Qatar.
+            ///Culture name for Arabic - Qatar.
             ///</summary>
             ///<remarks>Culture ID: 0x4001
-            ///Culture Name:ar-QA</remarks>
+            ///Culture Name: ar-QA</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Arabic_Qatar = 0x4001;
+            public const string Arabic_Qatar = "ar-QA";
             ///<summary>
-            ///Culture identifier constant for Arabic - Saudi Arabia.
+            ///Culture name for Arabic - Saudi Arabia.
             ///</summary>
             ///<remarks>Culture ID: 0x0401
-            ///Culture Name:ar-SA</remarks>
+            ///Culture Name: ar-SA</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Arabic_SaudiArabia = 0x0401;
+            public const string Arabic_SaudiArabia = "ar-SA";
             ///<summary>
-            ///Culture identifier constant for Arabic - Syria.
+            ///Culture name for Arabic - Syria.
             ///</summary>
             ///<remarks>Culture ID: 0x2801
-            ///Culture Name:ar-SY</remarks>
+            ///Culture Name: ar-SY</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Arabic_Syria = 0x2801;
+            public const string Arabic_Syria = "ar-SY";
             ///<summary>
-            ///Culture identifier constant for Arabic - Tunisia.
+            ///Culture name for Arabic - Tunisia.
             ///</summary>
             ///<remarks>Culture ID: 0x1C01
-            ///Culture Name:ar-TN</remarks>
+            ///Culture Name: ar-TN</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Arabic_Tunisia = 0x1C01;
+            public const string Arabic_Tunisia = "ar-TN";
             ///<summary>
-            ///Culture identifier constant for Arabic - United Arab Emirates.
+            ///Culture name for Arabic - United Arab Emirates.
             ///</summary>
             ///<remarks>Culture ID: 0x3801
-            ///Culture Name:ar-AE</remarks>
+            ///Culture Name: ar-AE</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Arabic_UnitedArabEmirates = 0x3801;
+            public const string Arabic_UnitedArabEmirates = "ar-AE";
             ///<summary>
-            ///Culture identifier constant for Arabic - Yemen.
+            ///Culture name for Arabic - Yemen.
             ///</summary>
             ///<remarks>Culture ID: 0x2401
-            ///Culture Name:ar-YE</remarks>
+            ///Culture Name: ar-YE</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Arabic_Yemen = 0x2401;
+            public const string Arabic_Yemen = "ar-YE";
             ///<summary>
-            ///Culture identifier constant for Armenian.
+            ///Culture name for Armenian.
             ///</summary>
             ///<remarks>Culture ID: 0x002B
-            ///Culture Name:hy</remarks>
-            public const int Armenian = 0x002B;
+            ///Culture Name: hy</remarks>
+            public const string Armenian = "hy";
             ///<summary>
-            ///Culture identifier constant for Armenian - Armenia.
+            ///Culture name for Armenian - Armenia.
             ///</summary>
             ///<remarks>Culture ID: 0x042B
-            ///Culture Name:hy-AM</remarks>
+            ///Culture Name: hy-AM</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Armenian_Armenia = 0x042B;
+            public const string Armenian_Armenia = "hy-AM";
             ///<summary>
-            ///Culture identifier constant for Azeri.
+            ///Culture name for Azeri.
             ///</summary>
             ///<remarks>Culture ID: 0x002C
-            ///Culture Name:az</remarks>
-            public const int Azeri = 0x002C;
+            ///Culture Name: az</remarks>
+            public const string Azeri = "az";
             ///<summary>
-            ///Culture identifier constant for Azeri (Cyrillic) - Azerbaijan.
+            ///Culture name for Azeri (Cyrillic) - Azerbaijan.
             ///</summary>
             ///<remarks>Culture ID: 0x082C
-            ///Culture Name:az-AZ-Cyrl</remarks>
+            ///Culture Name: az-AZ-Cyrl</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Azeri_Cyrillic_Azerbaijan = 0x082C;
+            public const string Azeri_Cyrillic_Azerbaijan = "az-AZ-Cyrl";
             ///<summary>
-            ///Culture identifier constant for Azeri (Latin) - Azerbaijan.
+            ///Culture name for Azeri (Latin) - Azerbaijan.
             ///</summary>
             ///<remarks>Culture ID: 0x042C
-            ///Culture Name:az-AZ-Latn</remarks>
+            ///Culture Name: az-AZ-Latn</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Azeri_Latin_Azerbaijan = 0x042C;
+            public const string Azeri_Latin_Azerbaijan = "az-AZ-Latn";
             ///<summary>
-            ///Culture identifier constant for Basque.
+            ///Culture name for Basque.
             ///</summary>
             ///<remarks>Culture ID: 0x002D
-            ///Culture Name:eu</remarks>
-            public const int Basque = 0x002D;
+            ///Culture Name: eu</remarks>
+            public const string Basque = "eu";
             ///<summary>
-            ///Culture identifier constant for Basque - Basque.
+            ///Culture name for Basque - Basque.
             ///</summary>
             ///<remarks>Culture ID: 0x042D
-            ///Culture Name:eu-ES</remarks>
+            ///Culture Name: eu-ES</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Basque_Basque = 0x042D;
+            public const string Basque_Basque = "eu-ES";
             ///<summary>
-            ///Culture identifier constant for Belarusian.
+            ///Culture name for Belarusian.
             ///</summary>
             ///<remarks>Culture ID: 0x0023
-            ///Culture Name:be</remarks>
-            public const int Belarusian = 0x0023;
+            ///Culture Name: be</remarks>
+            public const string Belarusian = "be";
             ///<summary>
-            ///Culture identifier constant for Belarusian - Belarus.
+            ///Culture name for Belarusian - Belarus.
             ///</summary>
             ///<remarks>Culture ID: 0x0423
-            ///Culture Name:be-BY</remarks>
+            ///Culture Name: be-BY</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Belarusian_Belarus = 0x0423;
+            public const string Belarusian_Belarus = "be-BY";
             ///<summary>
-            ///Culture identifier constant for Bulgarian.
+            ///Culture name for Bulgarian.
             ///</summary>
             ///<remarks>Culture ID: 0x0002
-            ///Culture Name:bg</remarks>
-            public const int Bulgarian = 0x0002;
+            ///Culture Name: bg</remarks>
+            public const string Bulgarian = "bg";
             ///<summary>
-            ///Culture identifier constant for Bulgarian - Bulgaria.
+            ///Culture name for Bulgarian - Bulgaria.
             ///</summary>
             ///<remarks>Culture ID: 0x0402
-            ///Culture Name:bg-BG</remarks>
+            ///Culture Name: bg-BG</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Bulgarian_Bulgaria = 0x0402;
+            public const string Bulgarian_Bulgaria = "bg-BG";
             ///<summary>
-            ///Culture identifier constant for Catalan.
+            ///Culture name for Catalan.
             ///</summary>
             ///<remarks>Culture ID: 0x0003
-            ///Culture Name:ca</remarks>
-            public const int Catalan = 0x0003;
+            ///Culture Name: ca</remarks>
+            public const string Catalan = "ca";
             ///<summary>
-            ///Culture identifier constant for Catalan - Catalan.
+            ///Culture name for Catalan - Catalan.
             ///</summary>
             ///<remarks>Culture ID: 0x0403
-            ///Culture Name:ca-ES</remarks>
+            ///Culture Name: ca-ES</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Catalan_Catalan = 0x0403;
+            public const string Catalan_Catalan = "ca-ES";
             ///<summary>
-            ///Culture identifier constant for Chinese - Hong Kong SAR.
+            ///Culture name for Chinese - Hong Kong SAR.
             ///</summary>
             ///<remarks>Culture ID: 0x0C04
-            ///Culture Name:zh-HK</remarks>
+            ///Culture Name: zh-HK</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
             [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "SAR")]
-            public const int Chinese_HongKongSAR = 0x0C04;
+            public const string Chinese_HongKongSAR = "zh-HK";
             ///<summary>
-            ///Culture identifier constant for Chinese - Macao SAR.
+            ///Culture name for Chinese - Macao SAR.
             ///</summary>
             ///<remarks>Culture ID: 0x1404
-            ///Culture Name:zh-MO</remarks>
+            ///Culture Name: zh-MO</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
             [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "SAR")]
-            public const int Chinese_MacaoSAR = 0x1404;
+            public const string Chinese_MacaoSAR = "zh-MO";
             ///<summary>
-            ///Culture identifier constant for Chinese - China.
+            ///Culture name for Chinese - China.
             ///</summary>
             ///<remarks>Culture ID: 0x0804
-            ///Culture Name:zh-CN</remarks>
+            ///Culture Name: zh-CN</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Chinese_China = 0x0804;
+            public const string Chinese_China = "zh-CN";
             ///<summary>
-            ///Culture identifier constant for Chinese (Simplified).
+            ///Culture name for Chinese (Simplified).
             ///</summary>
             ///<remarks>Culture ID: 0x0004
-            ///Culture Name:zh-CHS</remarks>
+            ///Culture Name: zh-CHS</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Chinese_Simplified = 0x0004;
+            public const string Chinese_Simplified = "zh-CHS";
             ///<summary>
-            ///Culture identifier constant for Chinese - Singapore.
+            ///Culture name for Chinese - Singapore.
             ///</summary>
             ///<remarks>Culture ID: 0x1004
-            ///Culture Name:zh-SG</remarks>
+            ///Culture Name: zh-SG</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Chinese_Singapore = 0x1004;
+            public const string Chinese_Singapore = "zh-SG";
             ///<summary>
-            ///Culture identifier constant for Chinese - Taiwan.
+            ///Culture name for Chinese - Taiwan.
             ///</summary>
             ///<remarks>Culture ID: 0x0404
-            ///Culture Name:zh-TW</remarks>
+            ///Culture Name: zh-TW</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Chinese_Taiwan = 0x0404;
+            public const string Chinese_Taiwan = "zh-TW";
             ///<summary>
-            ///Culture identifier constant for Chinese (Traditional).
+            ///Culture name for Chinese (Traditional).
             ///</summary>
             ///<remarks>Culture ID: 0x7C04
-            ///Culture Name:zh-CHT</remarks>
+            ///Culture Name: zh-CHT</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Chinese_Traditional = 0x7C04;
+            public const string Chinese_Traditional = "zh-CHT";
             ///<summary>
-            ///Culture identifier constant for Croatian.
+            ///Culture name for Croatian.
             ///</summary>
             ///<remarks>Culture ID: 0x001A
-            ///Culture Name:hr</remarks>
-            public const int Croatian = 0x001A;
+            ///Culture Name: hr</remarks>
+            public const string Croatian = "hr";
             ///<summary>
-            ///Culture identifier constant for Croatian - Croatia.
+            ///Culture name for Croatian - Croatia.
             ///</summary>
             ///<remarks>Culture ID: 0x041A
-            ///Culture Name:hr-HR</remarks>
+            ///Culture Name: hr-HR</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Croatian_Croatia = 0x041A;
+            public const string Croatian_Croatia = "hr-HR";
             ///<summary>
-            ///Culture identifier constant for Czech.
+            ///Culture name for Czech.
             ///</summary>
             ///<remarks>Culture ID: 0x0005
-            ///Culture Name:cs</remarks>
-            public const int Czech = 0x0005;
+            ///Culture Name: cs</remarks>
+            public const string Czech = "cs";
             ///<summary>
-            ///Culture identifier constant for Czech - Czech Republic.
+            ///Culture name for Czech - Czech Republic.
             ///</summary>
             ///<remarks>Culture ID: 0x0405
-            ///Culture Name:cs-CZ</remarks>
+            ///Culture Name: cs-CZ</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Czech_CzechRepublic = 0x0405;
+            public const string Czech_CzechRepublic = "cs-CZ";
             ///<summary>
-            ///Culture identifier constant for Danish.
+            ///Culture name for Danish.
             ///</summary>
             ///<remarks>Culture ID: 0x0006
-            ///Culture Name:da</remarks>
-            public const int Danish = 0x0006;
+            ///Culture Name: da</remarks>
+            public const string Danish = "da";
             ///<summary>
-            ///Culture identifier constant for Danish - Denmark.
+            ///Culture name for Danish - Denmark.
             ///</summary>
             ///<remarks>Culture ID: 0x0406
-            ///Culture Name:da-DK</remarks>
+            ///Culture Name: da-DK</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Danish_Denmark = 0x0406;
+            public const string Danish_Denmark = "da-DK";
             ///<summary>
-            ///Culture identifier constant for Dhivehi.
+            ///Culture name for Dhivehi.
             ///</summary>
             ///<remarks>Culture ID: 0x0065
-            ///Culture Name:div</remarks>
-            public const int Dhivehi = 0x0065;
+            ///Culture Name: div</remarks>
+            public const string Dhivehi = "div";
             ///<summary>
-            ///Culture identifier constant for Dhivehi - Maldives.
+            ///Culture name for Dhivehi - Maldives.
             ///</summary>
             ///<remarks>Culture ID: 0x0465
-            ///Culture Name:div-MV</remarks>
+            ///Culture Name: div-MV</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Dhivehi_Maldives = 0x0465;
+            public const string Dhivehi_Maldives = "div-MV";
             ///<summary>
-            ///Culture identifier constant for Dutch.
+            ///Culture name for Dutch.
             ///</summary>
             ///<remarks>Culture ID: 0x0013
-            ///Culture Name:nl</remarks>
-            public const int Dutch = 0x0013;
+            ///Culture Name: nl</remarks>
+            public const string Dutch = "nl";
             ///<summary>
-            ///Culture identifier constant for Dutch - Belgium.
+            ///Culture name for Dutch - Belgium.
             ///</summary>
             ///<remarks>Culture ID: 0x0813
-            ///Culture Name:nl-BE</remarks>
+            ///Culture Name: nl-BE</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Dutch_Belgium = 0x0813;
+            public const string Dutch_Belgium = "nl-BE";
             ///<summary>
-            ///Culture identifier constant for Dutch - The Netherlands.
+            ///Culture name for Dutch - The Netherlands.
             ///</summary>
             ///<remarks>Culture ID: 0x0413
-            ///Culture Name:nl-NL</remarks>
+            ///Culture Name: nl-NL</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Dutch_TheNetherlands = 0x0413;
+            public const string Dutch_TheNetherlands = "nl-NL";
             ///<summary>
-            ///Culture identifier constant for English.
+            ///Culture name for English.
             ///</summary>
             ///<remarks>Culture ID: 0x0009
-            ///Culture Name:en</remarks>
-            public const int English = 0x0009;
+            ///Culture Name: en</remarks>
+            public const string English = "en";
             ///<summary>
-            ///Culture identifier constant for English - Australia.
+            ///Culture name for English - Australia.
             ///</summary>
             ///<remarks>Culture ID: 0x0C09
-            ///Culture Name:en-AU</remarks>
+            ///Culture Name: en-AU</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int English_Australia = 0x0C09;
+            public const string English_Australia = "en-AU";
             ///<summary>
-            ///Culture identifier constant for English - Belize.
+            ///Culture name for English - Belize.
             ///</summary>
             ///<remarks>Culture ID: 0x2809
-            ///Culture Name:en-BZ</remarks>
+            ///Culture Name: en-BZ</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int English_Belize = 0x2809;
+            public const string English_Belize = "en-BZ";
             ///<summary>
-            ///Culture identifier constant for English - Canada.
+            ///Culture name for English - Canada.
             ///</summary>
             ///<remarks>Culture ID: 0x1009
-            ///Culture Name:en-CA</remarks>
+            ///Culture Name: en-CA</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int English_Canada = 0x1009;
+            public const string English_Canada = "en-CA";
             ///<summary>
-            ///Culture identifier constant for English - Caribbean.
+            ///Culture name for English - Caribbean.
             ///</summary>
             ///<remarks>Culture ID: 0x2409
-            ///Culture Name:en-CB</remarks>
+            ///Culture Name: en-CB</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int English_Caribbean = 0x2409;
+            public const string English_Caribbean = "en-CB";
             ///<summary>
-            ///Culture identifier constant for English - Ireland.
+            ///Culture name for English - Ireland.
             ///</summary>
             ///<remarks>Culture ID: 0x1809
-            ///Culture Name:en-IE</remarks>
+            ///Culture Name: en-IE</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int English_Ireland = 0x1809;
+            public const string English_Ireland = "en-IE";
             ///<summary>
-            ///Culture identifier constant for English - Jamaica.
+            ///Culture name for English - Jamaica.
             ///</summary>
             ///<remarks>Culture ID: 0x2009
-            ///Culture Name:en-JM</remarks>
+            ///Culture Name: en-JM</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int English_Jamaica = 0x2009;
+            public const string English_Jamaica = "en-JM";
             ///<summary>
-            ///Culture identifier constant for English - New Zealand.
+            ///Culture name for English - New Zealand.
             ///</summary>
             ///<remarks>Culture ID: 0x1409
-            ///Culture Name:en-NZ</remarks>
+            ///Culture Name: en-NZ</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int English_NewZealand = 0x1409;
+            public const string English_NewZealand = "en-NZ";
             ///<summary>
-            ///Culture identifier constant for English - Philippines.
+            ///Culture name for English - Philippines.
             ///</summary>
             ///<remarks>Culture ID: 0x3409
-            ///Culture Name:en-PH</remarks>
+            ///Culture Name: en-PH</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int English_Philippines = 0x3409;
+            public const string English_Philippines = "en-PH";
             ///<summary>
-            ///Culture identifier constant for English - South Africa.
+            ///Culture name for English - South Africa.
             ///</summary>
             ///<remarks>Culture ID: 0x1C09
-            ///Culture Name:en-ZA</remarks>
+            ///Culture Name: en-ZA</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int English_SouthAfrica = 0x1C09;
+            public const string English_SouthAfrica = "en-ZA";
             ///<summary>
-            ///Culture identifier constant for English - Trinidad and Tobago.
+            ///Culture name for English - Trinidad and Tobago.
             ///</summary>
             ///<remarks>Culture ID: 0x2C09
-            ///Culture Name:en-TT</remarks>
+            ///Culture Name: en-TT</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int English_TrinidadAndTobago = 0x2C09;
+            public const string English_TrinidadAndTobago = "en-TT";
             ///<summary>
-            ///Culture identifier constant for English - United Kingdom.
+            ///Culture name for English - United Kingdom.
             ///</summary>
             ///<remarks>Culture ID: 0x0809
-            ///Culture Name:en-GB</remarks>
+            ///Culture Name: en-GB</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int English_UnitedKingdom = 0x0809;
+            public const string English_UnitedKingdom = "en-GB";
             ///<summary>
-            ///Culture identifier constant for English - United States.
+            ///Culture name for English - United States.
             ///</summary>
             ///<remarks>Culture ID: 0x0409
-            ///Culture Name:en-US</remarks>
+            ///Culture Name: en-US</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int English_UnitedStates = 0x0409;
+            public const string English_UnitedStates = "en-US";
             ///<summary>
-            ///Culture identifier constant for English - Zimbabwe.
+            ///Culture name for English - Zimbabwe.
             ///</summary>
             ///<remarks>Culture ID: 0x3009
-            ///Culture Name:en-ZW</remarks>
+            ///Culture Name: en-ZW</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int English_Zimbabwe = 0x3009;
+            public const string English_Zimbabwe = "en-ZW";
             ///<summary>
-            ///Culture identifier constant for Estonian.
+            ///Culture name for Estonian.
             ///</summary>
             ///<remarks>Culture ID: 0x0025
-            ///Culture Name:et</remarks>
-            public const int Estonian = 0x0025;
+            ///Culture Name: et</remarks>
+            public const string Estonian = "et";
             ///<summary>
-            ///Culture identifier constant for Estonian - Estonia.
+            ///Culture name for Estonian - Estonia.
             ///</summary>
             ///<remarks>Culture ID: 0x0425
-            ///Culture Name:et-EE</remarks>
+            ///Culture Name: et-EE</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Estonian_Estonia = 0x0425;
+            public const string Estonian_Estonia = "et-EE";
             ///<summary>
-            ///Culture identifier constant for Faroese.
+            ///Culture name for Faroese.
             ///</summary>
             ///<remarks>Culture ID: 0x0038
-            ///Culture Name:fo</remarks>
-            public const int Faroese = 0x0038;
+            ///Culture Name: fo</remarks>
+            public const string Faroese = "fo";
             ///<summary>
-            ///Culture identifier constant for Faroese - Faroe Islands.
+            ///Culture name for Faroese - Faroe Islands.
             ///</summary>
             ///<remarks>Culture ID: 0x0438
-            ///Culture Name:fo-FO</remarks>
+            ///Culture Name: fo-FO</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Faroese_FaroeIslands = 0x0438;
+            public const string Faroese_FaroeIslands = "fo-FO";
             ///<summary>
-            ///Culture identifier constant for Farsi.
+            ///Culture name for Farsi.
             ///</summary>
             ///<remarks>Culture ID: 0x0029
-            ///Culture Name:fa</remarks>
-            public const int Farsi = 0x0029;
+            ///Culture Name: fa</remarks>
+            public const string Farsi = "fa";
             ///<summary>
-            ///Culture identifier constant for Farsi - Iran.
+            ///Culture name for Farsi - Iran.
             ///</summary>
             ///<remarks>Culture ID: 0x0429
-            ///Culture Name:fa-IR</remarks>
+            ///Culture Name: fa-IR</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Farsi_Iran = 0x0429;
+            public const string Farsi_Iran = "fa-IR";
             ///<summary>
-            ///Culture identifier constant for Finnish.
+            ///Culture name for Finnish.
             ///</summary>
             ///<remarks>Culture ID: 0x000B
-            ///Culture Name:fi</remarks>
-            public const int Finnish = 0x000B;
+            ///Culture Name: fi</remarks>
+            public const string Finnish = "fi";
             ///<summary>
-            ///Culture identifier constant for Finnish - Finland.
+            ///Culture name for Finnish - Finland.
             ///</summary>
             ///<remarks>Culture ID: 0x040B
-            ///Culture Name:fi-FI</remarks>
+            ///Culture Name: fi-FI</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Finnish_Finland = 0x040B;
+            public const string Finnish_Finland = "fi-FI";
             ///<summary>
-            ///Culture identifier constant for French.
+            ///Culture name for French.
             ///</summary>
             ///<remarks>Culture ID: 0x000C
-            ///Culture Name:fr</remarks>
-            public const int French = 0x000C;
+            ///Culture Name: fr</remarks>
+            public const string French = "fr";
             ///<summary>
-            ///Culture identifier constant for French - Belgium.
+            ///Culture name for French - Belgium.
             ///</summary>
             ///<remarks>Culture ID: 0x080C
-            ///Culture Name:fr-BE</remarks>
+            ///Culture Name: fr-BE</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int French_Belgium = 0x080C;
+            public const string French_Belgium = "fr-BE";
             ///<summary>
-            ///Culture identifier constant for French - Canada.
+            ///Culture name for French - Canada.
             ///</summary>
             ///<remarks>Culture ID: 0x0C0C
-            ///Culture Name:fr-CA</remarks>
+            ///Culture Name: fr-CA</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int French_Canada = 0x0C0C;
+            public const string French_Canada = "fr-CA";
             ///<summary>
-            ///Culture identifier constant for French - France.
+            ///Culture name for French - France.
             ///</summary>
             ///<remarks>Culture ID: 0x040C
-            ///Culture Name:fr-FR</remarks>
+            ///Culture Name: fr-FR</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int French_France = 0x040C;
+            public const string French_France = "fr-FR";
             ///<summary>
-            ///Culture identifier constant for French - Luxembourg.
+            ///Culture name for French - Luxembourg.
             ///</summary>
             ///<remarks>Culture ID: 0x140C
-            ///Culture Name:fr-LU</remarks>
+            ///Culture Name: fr-LU</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int French_Luxembourg = 0x140C;
+            public const string French_Luxembourg = "fr-LU";
             ///<summary>
-            ///Culture identifier constant for French - Monaco.
+            ///Culture name for French - Monaco.
             ///</summary>
             ///<remarks>Culture ID: 0x180C
-            ///Culture Name:fr-MC</remarks>
+            ///Culture Name: fr-MC</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int French_Monaco = 0x180C;
+            public const string French_Monaco = "fr-MC";
             ///<summary>
-            ///Culture identifier constant for French - Switzerland.
+            ///Culture name for French - Switzerland.
             ///</summary>
             ///<remarks>Culture ID: 0x100C
-            ///Culture Name:fr-CH</remarks>
+            ///Culture Name: fr-CH</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int French_Switzerland = 0x100C;
+            public const string French_Switzerland = "fr-CH";
             ///<summary>
-            ///Culture identifier constant for Galician.
+            ///Culture name for Galician.
             ///</summary>
             ///<remarks>Culture ID: 0x0056
-            ///Culture Name:gl</remarks>
-            public const int Galician = 0x0056;
+            ///Culture Name: gl</remarks>
+            public const string Galician = "gl";
             ///<summary>
-            ///Culture identifier constant for Galician - Galician.
+            ///Culture name for Galician - Galician.
             ///</summary>
             ///<remarks>Culture ID: 0x0456
-            ///Culture Name:gl-ES</remarks>
+            ///Culture Name: gl-ES</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Galician_Galician = 0x0456;
+            public const string Galician_Galician = "gl-ES";
             ///<summary>
-            ///Culture identifier constant for Georgian.
+            ///Culture name for Georgian.
             ///</summary>
             ///<remarks>Culture ID: 0x0037
-            ///Culture Name:ka</remarks>
-            public const int Georgian = 0x0037;
+            ///Culture Name: ka</remarks>
+            public const string Georgian = "ka";
             ///<summary>
-            ///Culture identifier constant for Georgian - Georgia.
+            ///Culture name for Georgian - Georgia.
             ///</summary>
             ///<remarks>Culture ID: 0x0437
-            ///Culture Name:ka-GE</remarks>
+            ///Culture Name: ka-GE</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Georgian_Georgia = 0x0437;
+            public const string Georgian_Georgia = "ka-GE";
             ///<summary>
-            ///Culture identifier constant for German.
+            ///Culture name for German.
             ///</summary>
             ///<remarks>Culture ID: 0x0007
-            ///Culture Name:de</remarks>
-            public const int German = 0x0007;
+            ///Culture Name: de</remarks>
+            public const string German = "de";
             ///<summary>
-            ///Culture identifier constant for German - Austria.
+            ///Culture name for German - Austria.
             ///</summary>
             ///<remarks>Culture ID: 0x0C07
-            ///Culture Name:de-AT</remarks>
+            ///Culture Name: de-AT</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int German_Austria = 0x0C07;
+            public const string German_Austria = "de-AT";
             ///<summary>
-            ///Culture identifier constant for German - Germany.
+            ///Culture name for German - Germany.
             ///</summary>
             ///<remarks>Culture ID: 0x0407
-            ///Culture Name:de-DE</remarks>
+            ///Culture Name: de-DE</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int German_Germany = 0x0407;
+            public const string German_Germany = "de-DE";
             ///<summary>
-            ///Culture identifier constant for German - Liechtenstein.
+            ///Culture name for German - Liechtenstein.
             ///</summary>
             ///<remarks>Culture ID: 0x1407
-            ///Culture Name:de-LI</remarks>
+            ///Culture Name: de-LI</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int German_Liechtenstein = 0x1407;
+            public const string German_Liechtenstein = "de-LI";
             ///<summary>
-            ///Culture identifier constant for German - Luxembourg.
+            ///Culture name for German - Luxembourg.
             ///</summary>
             ///<remarks>Culture ID: 0x1007
-            ///Culture Name:de-LU</remarks>
+            ///Culture Name: de-LU</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int German_Luxembourg = 0x1007;
+            public const string German_Luxembourg = "de-LU";
             ///<summary>
-            ///Culture identifier constant for German - Switzerland.
+            ///Culture name for German - Switzerland.
             ///</summary>
             ///<remarks>Culture ID: 0x0807
-            ///Culture Name:de-CH</remarks>
+            ///Culture Name: de-CH</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int German_Switzerland = 0x0807;
+            public const string German_Switzerland = "de-CH";
             ///<summary>
-            ///Culture identifier constant for Greek.
+            ///Culture name for Greek.
             ///</summary>
             ///<remarks>Culture ID: 0x0008
-            ///Culture Name:el</remarks>
-            public const int Greek = 0x0008;
+            ///Culture Name: el</remarks>
+            public const string Greek = "el";
             ///<summary>
-            ///Culture identifier constant for Greek - Greece.
+            ///Culture name for Greek - Greece.
             ///</summary>
             ///<remarks>Culture ID: 0x0408
-            ///Culture Name:el-GR</remarks>
+            ///Culture Name: el-GR</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Greek_Greece = 0x0408;
+            public const string Greek_Greece = "el-GR";
             ///<summary>
-            ///Culture identifier constant for Gujarati.
+            ///Culture name for Gujarati.
             ///</summary>
             ///<remarks>Culture ID: 0x0047
-            ///Culture Name:gu</remarks>
-            public const int Gujarati = 0x0047;
+            ///Culture Name: gu</remarks>
+            public const string Gujarati = "gu";
             ///<summary>
-            ///Culture identifier constant for Gujarati - India.
+            ///Culture name for Gujarati - India.
             ///</summary>
             ///<remarks>Culture ID: 0x0447
-            ///Culture Name:gu-IN</remarks>
+            ///Culture Name: gu-IN</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Gujarati_India = 0x0447;
+            public const string Gujarati_India = "gu-IN";
             ///<summary>
-            ///Culture identifier constant for Hebrew.
+            ///Culture name for Hebrew.
             ///</summary>
             ///<remarks>Culture ID: 0x000D
-            ///Culture Name:he</remarks>
-            public const int Hebrew = 0x000D;
+            ///Culture Name: he</remarks>
+            public const string Hebrew = "he";
             ///<summary>
-            ///Culture identifier constant for Hebrew - Israel.
+            ///Culture name for Hebrew - Israel.
             ///</summary>
             ///<remarks>Culture ID: 0x040D
-            ///Culture Name:he-IL</remarks>
+            ///Culture Name: he-IL</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Hebrew_Israel = 0x040D;
+            public const string Hebrew_Israel = "he-IL";
             ///<summary>
-            ///Culture identifier constant for Hindi.
+            ///Culture name for Hindi.
             ///</summary>
             ///<remarks>Culture ID: 0x0039
-            ///Culture Name:hi</remarks>
-            public const int Hindi = 0x0039;
+            ///Culture Name: hi</remarks>
+            public const string Hindi = "hi";
             ///<summary>
-            ///Culture identifier constant for Hindi - India.
+            ///Culture name for Hindi - India.
             ///</summary>
             ///<remarks>Culture ID: 0x0439
-            ///Culture Name:hi-IN</remarks>
+            ///Culture Name: hi-IN</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Hindi_India = 0x0439;
+            public const string Hindi_India = "hi-IN";
             ///<summary>
-            ///Culture identifier constant for Hungarian.
+            ///Culture name for Hungarian.
             ///</summary>
             ///<remarks>Culture ID: 0x000E
-            ///Culture Name:hu</remarks>
-            public const int Hungarian = 0x000E;
+            ///Culture Name: hu</remarks>
+            public const string Hungarian = "hu";
             ///<summary>
-            ///Culture identifier constant for Hungarian - Hungary.
+            ///Culture name for Hungarian - Hungary.
             ///</summary>
             ///<remarks>Culture ID: 0x040E
-            ///Culture Name:hu-HU</remarks>
+            ///Culture Name: hu-HU</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Hungarian_Hungary = 0x040E;
+            public const string Hungarian_Hungary = "hu-HU";
             ///<summary>
-            ///Culture identifier constant for Icelandic.
+            ///Culture name for Icelandic.
             ///</summary>
             ///<remarks>Culture ID: 0x000F
-            ///Culture Name:is</remarks>
-            public const int Icelandic = 0x000F;
+            ///Culture Name: is</remarks>
+            public const string Icelandic = "is";
             ///<summary>
-            ///Culture identifier constant for Icelandic - Iceland.
+            ///Culture name for Icelandic - Iceland.
             ///</summary>
             ///<remarks>Culture ID: 0x040F
-            ///Culture Name:is-IS</remarks>
+            ///Culture Name: is-IS</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Icelandic_Iceland = 0x040F;
+            public const string Icelandic_Iceland = "is-IS";
             ///<summary>
-            ///Culture identifier constant for Indonesian.
+            ///Culture name for Indonesian.
             ///</summary>
             ///<remarks>Culture ID: 0x0021
-            ///Culture Name:id</remarks>
-            public const int Indonesian = 0x0021;
+            ///Culture Name: id</remarks>
+            public const string Indonesian = "id";
             ///<summary>
-            ///Culture identifier constant for Indonesian - Indonesia.
+            ///Culture name for Indonesian - Indonesia.
             ///</summary>
             ///<remarks>Culture ID: 0x0421
-            ///Culture Name:id-ID</remarks>
+            ///Culture Name: id-ID</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Indonesian_Indonesia = 0x0421;
+            public const string Indonesian_Indonesia = "id-ID";
             ///<summary>
-            ///Culture identifier constant for Italian.
+            ///Culture name for Italian.
             ///</summary>
             ///<remarks>Culture ID: 0x0010
-            ///Culture Name:it</remarks>
-            public const int Italian = 0x0010;
+            ///Culture Name: it</remarks>
+            public const string Italian = "it";
             ///<summary>
-            ///Culture identifier constant for Italian - Italy.
+            ///Culture name for Italian - Italy.
             ///</summary>
             ///<remarks>Culture ID: 0x0410
-            ///Culture Name:it-IT</remarks>
+            ///Culture Name: it-IT</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Italian_Italy = 0x0410;
+            public const string Italian_Italy = "it-IT";
             ///<summary>
-            ///Culture identifier constant for Italian - Switzerland.
+            ///Culture name for Italian - Switzerland.
             ///</summary>
             ///<remarks>Culture ID: 0x0810
-            ///Culture Name:it-CH</remarks>
+            ///Culture Name: it-CH</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Italian_Switzerland = 0x0810;
+            public const string Italian_Switzerland = "it-CH";
             ///<summary>
-            ///Culture identifier constant for Japanese.
+            ///Culture name for Japanese.
             ///</summary>
             ///<remarks>Culture ID: 0x0011
-            ///Culture Name:ja</remarks>
-            public const int Japanese = 0x0011;
+            ///Culture Name: ja</remarks>
+            public const string Japanese = "ja";
             ///<summary>
-            ///Culture identifier constant for Japanese - Japan.
+            ///Culture name for Japanese - Japan.
             ///</summary>
             ///<remarks>Culture ID: 0x0411
-            ///Culture Name:ja-JP</remarks>
+            ///Culture Name: ja-JP</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Japanese_Japan = 0x0411;
+            public const string Japanese_Japan = "ja-JP";
             ///<summary>
-            ///Culture identifier constant for Kannada.
+            ///Culture name for Kannada.
             ///</summary>
             ///<remarks>Culture ID: 0x004B
-            ///Culture Name:kn</remarks>
-            public const int Kannada = 0x004B;
+            ///Culture Name: kn</remarks>
+            public const string Kannada = "kn";
             ///<summary>
-            ///Culture identifier constant for Kannada - India.
+            ///Culture name for Kannada - India.
             ///</summary>
             ///<remarks>Culture ID: 0x044B
-            ///Culture Name:kn-IN</remarks>
+            ///Culture Name: kn-IN</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Kannada_India = 0x044B;
+            public const string Kannada_India = "kn-IN";
             ///<summary>
-            ///Culture identifier constant for Kazakh.
+            ///Culture name for Kazakh.
             ///</summary>
             ///<remarks>Culture ID: 0x003F
-            ///Culture Name:kk</remarks>
-            public const int Kazakh = 0x003F;
+            ///Culture Name: kk</remarks>
+            public const string Kazakh = "kk";
             ///<summary>
-            ///Culture identifier constant for Kazakh - Kazakhstan.
+            ///Culture name for Kazakh - Kazakhstan.
             ///</summary>
             ///<remarks>Culture ID: 0x043F
-            ///Culture Name:kk-KZ</remarks>
+            ///Culture Name: kk-KZ</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Kazakh_Kazakhstan = 0x043F;
+            public const string Kazakh_Kazakhstan = "kk-KZ";
             ///<summary>
-            ///Culture identifier constant for Konkani.
+            ///Culture name for Konkani.
             ///</summary>
             ///<remarks>Culture ID: 0x0057
-            ///Culture Name:kok</remarks>
-            public const int Konkani = 0x0057;
+            ///Culture Name: kok</remarks>
+            public const string Konkani = "kok";
             ///<summary>
-            ///Culture identifier constant for Konkani - India.
+            ///Culture name for Konkani - India.
             ///</summary>
             ///<remarks>Culture ID: 0x0457
-            ///Culture Name:kok-IN</remarks>
+            ///Culture Name: kok-IN</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Konkani_India = 0x0457;
+            public const string Konkani_India = "kok-IN";
             ///<summary>
-            ///Culture identifier constant for Korean.
+            ///Culture name for Korean.
             ///</summary>
             ///<remarks>Culture ID: 0x0012
-            ///Culture Name:ko</remarks>
-            public const int Korean = 0x0012;
+            ///Culture Name: ko</remarks>
+            public const string Korean = "ko";
             ///<summary>
-            ///Culture identifier constant for Korean - Korea.
+            ///Culture name for Korean - Korea.
             ///</summary>
             ///<remarks>Culture ID: 0x0412
-            ///Culture Name:ko-KR</remarks>
+            ///Culture Name: ko-KR</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Korean_Korea = 0x0412;
+            public const string Korean_Korea = "ko-KR";
             ///<summary>
-            ///Culture identifier constant for Kyrgyz.
+            ///Culture name for Kyrgyz.
             ///</summary>
             ///<remarks>Culture ID: 0x0040
-            ///Culture Name:ky</remarks>
-            public const int Kyrgyz = 0x0040;
+            ///Culture Name: ky</remarks>
+            public const string Kyrgyz = "ky";
             ///<summary>
-            ///Culture identifier constant for Kyrgyz - Kyrgyzstan.
+            ///Culture name for Kyrgyz - Kyrgyzstan.
             ///</summary>
             ///<remarks>Culture ID: 0x0440
-            ///Culture Name:ky-KG</remarks>
+            ///Culture Name: ky-KG</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Kyrgyz_Kyrgyzstan = 0x0440;
+            public const string Kyrgyz_Kyrgyzstan = "ky-KG";
             ///<summary>
-            ///Culture identifier constant for Latvian.
+            ///Culture name for Latvian.
             ///</summary>
             ///<remarks>Culture ID: 0x0026
-            ///Culture Name:lv</remarks>
-            public const int Latvian = 0x0026;
+            ///Culture Name: lv</remarks>
+            public const string Latvian = "lv";
             ///<summary>
-            ///Culture identifier constant for Latvian - Latvia.
+            ///Culture name for Latvian - Latvia.
             ///</summary>
             ///<remarks>Culture ID: 0x0426
-            ///Culture Name:lv-LV</remarks>
+            ///Culture Name: lv-LV</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Latvian_Latvia = 0x0426;
+            public const string Latvian_Latvia = "lv-LV";
             ///<summary>
-            ///Culture identifier constant for Lithuanian.
+            ///Culture name for Lithuanian.
             ///</summary>
             ///<remarks>Culture ID: 0x0027
-            ///Culture Name:lt</remarks>
-            public const int Lithuanian = 0x0027;
+            ///Culture Name: lt</remarks>
+            public const string Lithuanian = "lt";
             ///<summary>
-            ///Culture identifier constant for Lithuanian - Lithuania.
+            ///Culture name for Lithuanian - Lithuania.
             ///</summary>
             ///<remarks>Culture ID: 0x0427
-            ///Culture Name:lt-LT</remarks>
+            ///Culture Name: lt-LT</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Lithuanian_Lithuania = 0x0427;
+            public const string Lithuanian_Lithuania = "lt-LT";
             ///<summary>
-            ///Culture identifier constant for Macedonian.
+            ///Culture name for Macedonian.
             ///</summary>
             ///<remarks>Culture ID: 0x002F
-            ///Culture Name:mk</remarks>
-            public const int Macedonian = 0x002F;
+            ///Culture Name: mk</remarks>
+            public const string Macedonian = "mk";
             ///<summary>
-            ///Culture identifier constant for Macedonian - Former Yugoslav Republic of Macedonia.
+            ///Culture name for Macedonian - Former Yugoslav Republic of Macedonia.
             ///</summary>
             ///<remarks>Culture ID: 0x042F
-            ///Culture Name:mk-MK</remarks>
+            ///Culture Name: mk-MK</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Macedonian_FormerYugoslavRepublicOfMacedonia = 0x042F;
+            public const string Macedonian_FormerYugoslavRepublicOfMacedonia = "mk-MK";
             ///<summary>
-            ///Culture identifier constant for Malay.
+            ///Culture name for Malay.
             ///</summary>
             ///<remarks>Culture ID: 0x003E
-            ///Culture Name:ms</remarks>
-            public const int Malay = 0x003E;
+            ///Culture Name: ms</remarks>
+            public const string Malay = "ms";
             ///<summary>
-            ///Culture identifier constant for Malay - Brunei.
+            ///Culture name for Malay - Brunei.
             ///</summary>
             ///<remarks>Culture ID: 0x083E
-            ///Culture Name:ms-BN</remarks>
+            ///Culture Name: ms-BN</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Malay_Brunei = 0x083E;
+            public const string Malay_Brunei = "ms-BN";
             ///<summary>
-            ///Culture identifier constant for Malay - Malaysia.
+            ///Culture name for Malay - Malaysia.
             ///</summary>
             ///<remarks>Culture ID: 0x043E
-            ///Culture Name:ms-MY</remarks>
+            ///Culture Name: ms-MY</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Malay_Malaysia = 0x043E;
+            public const string Malay_Malaysia = "ms-MY";
             ///<summary>
-            ///Culture identifier constant for Marathi.
+            ///Culture name for Marathi.
             ///</summary>
             ///<remarks>Culture ID: 0x004E
-            ///Culture Name:mr</remarks>
-            public const int Marathi = 0x004E;
+            ///Culture Name: mr</remarks>
+            public const string Marathi = "mr";
             ///<summary>
-            ///Culture identifier constant for Marathi - India.
+            ///Culture name for Marathi - India.
             ///</summary>
             ///<remarks>Culture ID: 0x044E
-            ///Culture Name:mr-IN</remarks>
+            ///Culture Name: mr-IN</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Marathi_India = 0x044E;
+            public const string Marathi_India = "mr-IN";
             ///<summary>
-            ///Culture identifier constant for Mongolian.
+            ///Culture name for Mongolian.
             ///</summary>
             ///<remarks>Culture ID: 0x0050
-            ///Culture Name:mn</remarks>
-            public const int Mongolian = 0x0050;
+            ///Culture Name: mn</remarks>
+            public const string Mongolian = "mn";
             ///<summary>
-            ///Culture identifier constant for Mongolian - Mongolia.
+            ///Culture name for Mongolian - Mongolia.
             ///</summary>
             ///<remarks>Culture ID: 0x0450
-            ///Culture Name:mn-MN</remarks>
+            ///Culture Name: mn-MN</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Mongolian_Mongolia = 0x0450;
+            public const string Mongolian_Mongolia = "mn-MN";
             ///<summary>
-            ///Culture identifier constant for Norwegian.
+            ///Culture name for Norwegian.
             ///</summary>
             ///<remarks>Culture ID: 0x0014
-            ///Culture Name:no</remarks>
-            public const int Norwegian = 0x0014;
-            ///<summary>
-            ///Culture identifier constant for Norwegian (Bokmål) - Norway.
-            ///</summary>
-            ///<remarks>Culture ID: 0x0414
-            ///Culture Name:nb-NO</remarks>
+            ///Culture Name: no</remarks>
+            public const string Norwegian = "no";
+            /// <summary>
+            /// Culture name for Norwegian (Bokmål) - Norway
+            /// </summary>
+            /// <remarks>Culture ID: 0x0414
+            /// Culture Name: nb-NO</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Norwegian_Bokmål_Norway = 0x0414;
+            public const string Norwegian_Bokmål_Norway = "nb-NO";
             ///<summary>
-            ///Culture identifier constant for Norwegian (Nynorsk) - Norway.
+            ///Culture name for Norwegian (Nynorsk) - Norway.
             ///</summary>
             ///<remarks>Culture ID: 0x0814
-            ///Culture Name:nn-NO</remarks>
+            ///Culture Name: nn-NO</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Norwegian_Nynorsk_Norway = 0x0814;
+            public const string Norwegian_Nynorsk_Norway = "nn-NO";
             ///<summary>
-            ///Culture identifier constant for Polish.
+            ///Culture name for Polish.
             ///</summary>
             ///<remarks>Culture ID: 0x0015
-            ///Culture Name:pl</remarks>
-            public const int Polish = 0x0015;
+            ///Culture Name: pl</remarks>
+            public const string Polish = "pl";
             ///<summary>
-            ///Culture identifier constant for Polish - Poland.
+            ///Culture name for Polish - Poland.
             ///</summary>
             ///<remarks>Culture ID: 0x0415
-            ///Culture Name:pl-PL</remarks>
+            ///Culture Name: pl-PL</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Polish_Poland = 0x0415;
+            public const string Polish_Poland = "pl-PL";
             ///<summary>
-            ///Culture identifier constant for Portuguese.
+            ///Culture name for Portuguese.
             ///</summary>
             ///<remarks>Culture ID: 0x0016
-            ///Culture Name:pt</remarks>
-            public const int Portuguese = 0x0016;
+            ///Culture Name: pt</remarks>
+            public const string Portuguese = "pt";
             ///<summary>
-            ///Culture identifier constant for Portuguese - Brazil.
+            ///Culture name for Portuguese - Brazil.
             ///</summary>
             ///<remarks>Culture ID: 0x0416
-            ///Culture Name:pt-BR</remarks>
+            ///Culture Name: pt-BR</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Portuguese_Brazil = 0x0416;
+            public const string Portuguese_Brazil = "pt-BR";
             ///<summary>
-            ///Culture identifier constant for Portuguese - Portugal.
+            ///Culture name for Portuguese - Portugal.
             ///</summary>
             ///<remarks>Culture ID: 0x0816
-            ///Culture Name:pt-PT</remarks>
+            ///Culture Name: pt-PT</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Portuguese_Portugal = 0x0816;
+            public const string Portuguese_Portugal = "pt-PT";
             ///<summary>
-            ///Culture identifier constant for Punjabi.
+            ///Culture name for Punjabi.
             ///</summary>
             ///<remarks>Culture ID: 0x0046
-            ///Culture Name:pa</remarks>
-            public const int Punjabi = 0x0046;
+            ///Culture Name: pa</remarks>
+            public const string Punjabi = "pa";
             ///<summary>
-            ///Culture identifier constant for Punjabi - India.
+            ///Culture name for Punjabi - India.
             ///</summary>
             ///<remarks>Culture ID: 0x0446
-            ///Culture Name:pa-IN</remarks>
+            ///Culture Name: pa-IN</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Punjabi_India = 0x0446;
+            public const string Punjabi_India = "pa-IN";
             ///<summary>
-            ///Culture identifier constant for Romanian.
+            ///Culture name for Romanian.
             ///</summary>
             ///<remarks>Culture ID: 0x0018
-            ///Culture Name:ro</remarks>
-            public const int Romanian = 0x0018;
+            ///Culture Name: ro</remarks>
+            public const string Romanian = "ro";
             ///<summary>
-            ///Culture identifier constant for Romanian - Romania.
+            ///Culture name for Romanian - Romania.
             ///</summary>
             ///<remarks>Culture ID: 0x0418
-            ///Culture Name:ro-RO</remarks>
+            ///Culture Name: ro-RO</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Romanian_Romania = 0x0418;
+            public const string Romanian_Romania = "ro-RO";
             ///<summary>
-            ///Culture identifier constant for Russian.
+            ///Culture name for Russian.
             ///</summary>
             ///<remarks>Culture ID: 0x0019
-            ///Culture Name:ru</remarks>
-            public const int Russian = 0x0019;
+            ///Culture Name: ru</remarks>
+            public const string Russian = "ru";
             ///<summary>
-            ///Culture identifier constant for Russian - Russia.
+            ///Culture name for Russian - Russia.
             ///</summary>
             ///<remarks>Culture ID: 0x0419
-            ///Culture Name:ru-RU</remarks>
+            ///Culture Name: ru-RU</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Russian_Russia = 0x0419;
+            public const string Russian_Russia = "ru-RU";
             ///<summary>
-            ///Culture identifier constant for Sanskrit.
+            ///Culture name for Sanskrit.
             ///</summary>
             ///<remarks>Culture ID: 0x004F
-            ///Culture Name:sa</remarks>
-            public const int Sanskrit = 0x004F;
+            ///Culture Name: sa</remarks>
+            public const string Sanskrit = "sa";
             ///<summary>
-            ///Culture identifier constant for Sanskrit - India.
+            ///Culture name for Sanskrit - India.
             ///</summary>
             ///<remarks>Culture ID: 0x044F
-            ///Culture Name:sa-IN</remarks>
+            ///Culture Name: sa-IN</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Sanskrit_India = 0x044F;
+            public const string Sanskrit_India = "sa-IN";
             ///<summary>
-            ///Culture identifier constant for Serbian (Cyrillic) - Serbia.
+            ///Culture name for Serbian (Cyrillic) - Serbia.
             ///</summary>
             ///<remarks>Culture ID: 0x0C1A
-            ///Culture Name:sr-SP-Cyrl</remarks>
+            ///Culture Name: sr-SP-Cyrl</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Serbian_Cyrillic_Serbia = 0x0C1A;
+            public const string Serbian_Cyrillic_Serbia = "sr-SP-Cyrl";
             ///<summary>
-            ///Culture identifier constant for Serbian (Latin) - Serbia.
+            ///Culture name for Serbian (Latin) - Serbia.
             ///</summary>
             ///<remarks>Culture ID: 0x081A
-            ///Culture Name:sr-SP-Latn</remarks>
+            ///Culture Name: sr-SP-Latn</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Serbian_Latin_Serbia = 0x081A;
+            public const string Serbian_Latin_Serbia = "sr-SP-Latn";
             ///<summary>
-            ///Culture identifier constant for Slovak.
+            ///Culture name for Slovak.
             ///</summary>
             ///<remarks>Culture ID: 0x001B
-            ///Culture Name:sk</remarks>
-            public const int Slovak = 0x001B;
+            ///Culture Name: sk</remarks>
+            public const string Slovak = "sk";
             ///<summary>
-            ///Culture identifier constant for Slovak - Slovakia.
+            ///Culture name for Slovak - Slovakia.
             ///</summary>
             ///<remarks>Culture ID: 0x041B
-            ///Culture Name:sk-SK</remarks>
+            ///Culture Name: sk-SK</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Slovak_Slovakia = 0x041B;
+            public const string Slovak_Slovakia = "sk-SK";
             ///<summary>
-            ///Culture identifier constant for Slovenian.
+            ///Culture name for Slovenian.
             ///</summary>
             ///<remarks>Culture ID: 0x0024
-            ///Culture Name:sl</remarks>
-            public const int Slovenian = 0x0024;
+            ///Culture Name: sl</remarks>
+            public const string Slovenian = "sl";
             ///<summary>
-            ///Culture identifier constant for Slovenian - Slovenia.
+            ///Culture name for Slovenian - Slovenia.
             ///</summary>
             ///<remarks>Culture ID: 0x0424
-            ///Culture Name:sl-SI</remarks>
+            ///Culture Name: sl-SI</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Slovenian_Slovenia = 0x0424;
+            public const string Slovenian_Slovenia = "sl-SI";
             ///<summary>
-            ///Culture identifier constant for Spanish.
+            ///Culture name for Spanish.
             ///</summary>
             ///<remarks>Culture ID: 0x000A
-            ///Culture Name:es</remarks>
-            public const int Spanish = 0x000A;
+            ///Culture Name: es</remarks>
+            public const string Spanish = "es";
             ///<summary>
-            ///Culture identifier constant for Spanish - Argentina.
+            ///Culture name for Spanish - Argentina.
             ///</summary>
             ///<remarks>Culture ID: 0x2C0A
-            ///Culture Name:es-AR</remarks>
+            ///Culture Name: es-AR</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Spanish_Argentina = 0x2C0A;
+            public const string Spanish_Argentina = "es-AR";
             ///<summary>
-            ///Culture identifier constant for Spanish - Bolivia.
+            ///Culture name for Spanish - Bolivia.
             ///</summary>
             ///<remarks>Culture ID: 0x400A
-            ///Culture Name:es-BO</remarks>
+            ///Culture Name: es-BO</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Spanish_Bolivia = 0x400A;
+            public const string Spanish_Bolivia = "es-BO";
             ///<summary>
-            ///Culture identifier constant for Spanish - Chile.
+            ///Culture name for Spanish - Chile.
             ///</summary>
             ///<remarks>Culture ID: 0x340A
-            ///Culture Name:es-CL</remarks>
+            ///Culture Name: es-CL</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Spanish_Chile = 0x340A;
+            public const string Spanish_Chile = "es-CL";
             ///<summary>
-            ///Culture identifier constant for Spanish - Colombia.
+            ///Culture name for Spanish - Colombia.
             ///</summary>
             ///<remarks>Culture ID: 0x240A
-            ///Culture Name:es-CO</remarks>
+            ///Culture Name: es-CO</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Spanish_Colombia = 0x240A;
+            public const string Spanish_Colombia = "es-CO";
             ///<summary>
-            ///Culture identifier constant for Spanish - Costa Rica.
+            ///Culture name for Spanish - Costa Rica.
             ///</summary>
             ///<remarks>Culture ID: 0x140A
-            ///Culture Name:es-CR</remarks>
+            ///Culture Name: es-CR</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Spanish_CostaRica = 0x140A;
+            public const string Spanish_CostaRica = "es-CR";
             ///<summary>
-            ///Culture identifier constant for Spanish - Dominican Republic.
+            ///Culture name for Spanish - Dominican Republic.
             ///</summary>
             ///<remarks>Culture ID: 0x1C0A
-            ///Culture Name:es-DO</remarks>
+            ///Culture Name: es-DO</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Spanish_DominicanRepublic = 0x1C0A;
+            public const string Spanish_DominicanRepublic = "es-DO";
             ///<summary>
-            ///Culture identifier constant for Spanish - Ecuador.
+            ///Culture name for Spanish - Ecuador.
             ///</summary>
             ///<remarks>Culture ID: 0x300A
-            ///Culture Name:es-EC</remarks>
+            ///Culture Name: es-EC</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Spanish_Ecuador = 0x300A;
+            public const string Spanish_Ecuador = "es-EC";
             ///<summary>
-            ///Culture identifier constant for Spanish - El Salvador.
+            ///Culture name for Spanish - El Salvador.
             ///</summary>
             ///<remarks>Culture ID: 0x440A
-            ///Culture Name:es-SV</remarks>
+            ///Culture Name: es-SV</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
             [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "El")]
-            public const int Spanish_ElSalvador = 0x440A;
+            public const string Spanish_ElSalvador = "es-SV";
             ///<summary>
-            ///Culture identifier constant for Spanish - Guatemala.
+            ///Culture name for Spanish - Guatemala.
             ///</summary>
             ///<remarks>Culture ID: 0x100A
-            ///Culture Name:es-GT</remarks>
+            ///Culture Name: es-GT</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Spanish_Guatemala = 0x100A;
+            public const string Spanish_Guatemala = "es-GT";
             ///<summary>
-            ///Culture identifier constant for Spanish - Honduras.
+            ///Culture name for Spanish - Honduras.
             ///</summary>
             ///<remarks>Culture ID: 0x480A
-            ///Culture Name:es-HN</remarks>
+            ///Culture Name: es-HN</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Spanish_Honduras = 0x480A;
+            public const string Spanish_Honduras = "es-HN";
             ///<summary>
-            ///Culture identifier constant for Spanish - Mexico.
+            ///Culture name for Spanish - Mexico.
             ///</summary>
             ///<remarks>Culture ID: 0x080A
-            ///Culture Name:es-MX</remarks>
+            ///Culture Name: es-MX</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Spanish_Mexico = 0x080A;
+            public const string Spanish_Mexico = "es-MX";
             ///<summary>
-            ///Culture identifier constant for Spanish - Nicaragua.
+            ///Culture name for Spanish - Nicaragua.
             ///</summary>
             ///<remarks>Culture ID: 0x4C0A
-            ///Culture Name:es-NI</remarks>
+            ///Culture Name: es-NI</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Spanish_Nicaragua = 0x4C0A;
+            public const string Spanish_Nicaragua = "es-NI";
             ///<summary>
-            ///Culture identifier constant for Spanish - Panama.
+            ///Culture name for Spanish - Panama.
             ///</summary>
             ///<remarks>Culture ID: 0x180A
-            ///Culture Name:es-PA</remarks>
+            ///Culture Name: es-PA</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Spanish_Panama = 0x180A;
+            public const string Spanish_Panama = "es-PA";
             ///<summary>
-            ///Culture identifier constant for Spanish - Paraguay.
+            ///Culture name for Spanish - Paraguay.
             ///</summary>
             ///<remarks>Culture ID: 0x3C0A
-            ///Culture Name:es-PY</remarks>
+            ///Culture Name: es-PY</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Spanish_Paraguay = 0x3C0A;
+            public const string Spanish_Paraguay = "es-PY";
             ///<summary>
-            ///Culture identifier constant for Spanish - Peru.
+            ///Culture name for Spanish - Peru.
             ///</summary>
             ///<remarks>Culture ID: 0x280A
-            ///Culture Name:es-PE</remarks>
+            ///Culture Name: es-PE</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Spanish_Peru = 0x280A;
+            public const string Spanish_Peru = "es-PE";
             ///<summary>
-            ///Culture identifier constant for Spanish - Puerto Rico.
+            ///Culture name for Spanish - Puerto Rico.
             ///</summary>
             ///<remarks>Culture ID: 0x500A
-            ///Culture Name:es-PR</remarks>
+            ///Culture Name: es-PR</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Spanish_PuertoRico = 0x500A;
+            public const string Spanish_PuertoRico = "es-PR";
             ///<summary>
-            ///Culture identifier constant for Spanish - Spain.
+            ///Culture name for Spanish - Spain.
             ///</summary>
             ///<remarks>Culture ID: 0x0C0A
-            ///Culture Name:es-ES</remarks>
+            ///Culture Name: es-ES</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Spanish_Spain = 0x0C0A;
+            public const string Spanish_Spain = "es-ES";
             ///<summary>
-            ///Culture identifier constant for Spanish - Uruguay.
+            ///Culture name for Spanish - Uruguay.
             ///</summary>
             ///<remarks>Culture ID: 0x380A
-            ///Culture Name:es-UY</remarks>
+            ///Culture Name: es-UY</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Spanish_Uruguay = 0x380A;
+            public const string Spanish_Uruguay = "es-UY";
             ///<summary>
-            ///Culture identifier constant for Spanish - Venezuela.
+            ///Culture name for Spanish - Venezuela.
             ///</summary>
             ///<remarks>Culture ID: 0x200A
-            ///Culture Name:es-VE</remarks>
+            ///Culture Name: es-VE</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Spanish_Venezuela = 0x200A;
+            public const string Spanish_Venezuela = "es-VE";
             ///<summary>
-            ///Culture identifier constant for Swahili.
+            ///Culture name for Swahili.
             ///</summary>
             ///<remarks>Culture ID: 0x0041
-            ///Culture Name:sw</remarks>
-            public const int Swahili = 0x0041;
+            ///Culture Name: sw</remarks>
+            public const string Swahili = "sw";
             ///<summary>
-            ///Culture identifier constant for Swahili - Kenya.
+            ///Culture name for Swahili - Kenya.
             ///</summary>
             ///<remarks>Culture ID: 0x0441
-            ///Culture Name:sw-KE</remarks>
+            ///Culture Name: sw-KE</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Swahili_Kenya = 0x0441;
+            public const string Swahili_Kenya = "sw-KE";
             ///<summary>
-            ///Culture identifier constant for Swedish.
+            ///Culture name for Swedish.
             ///</summary>
             ///<remarks>Culture ID: 0x001D
-            ///Culture Name:sv</remarks>
-            public const int Swedish = 0x001D;
+            ///Culture Name: sv</remarks>
+            public const string Swedish = "sv";
             ///<summary>
-            ///Culture identifier constant for Swedish - Finland.
+            ///Culture name for Swedish - Finland.
             ///</summary>
             ///<remarks>Culture ID: 0x081D
-            ///Culture Name:sv-FI</remarks>
+            ///Culture Name: sv-FI</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Swedish_Finland = 0x081D;
+            public const string Swedish_Finland = "sv-FI";
             ///<summary>
-            ///Culture identifier constant for Swedish - Sweden.
+            ///Culture name for Swedish - Sweden.
             ///</summary>
             ///<remarks>Culture ID: 0x041D
-            ///Culture Name:sv-SE</remarks>
+            ///Culture Name: sv-SE</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Swedish_Sweden = 0x041D;
+            public const string Swedish_Sweden = "sv-SE";
             ///<summary>
-            ///Culture identifier constant for Syriac.
+            ///Culture name for Syriac.
             ///</summary>
             ///<remarks>Culture ID: 0x005A
-            ///Culture Name:syr</remarks>
+            ///Culture Name: syr</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Syriac")]
-            public const int Syriac = 0x005A;
+            public const string Syriac = "syr";
             ///<summary>
-            ///Culture identifier constant for Syriac - Syria.
+            ///Culture name for Syriac - Syria.
             ///</summary>
             ///<remarks>Culture ID: 0x045A
-            ///Culture Name:syr-SY</remarks>
+            ///Culture Name: syr-SY</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Syriac")]
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Syriac_Syria = 0x045A;
+            public const string Syriac_Syria = "syr-SY";
             ///<summary>
-            ///Culture identifier constant for Tamil.
+            ///Culture name for Tamil.
             ///</summary>
             ///<remarks>Culture ID: 0x0049
-            ///Culture Name:ta</remarks>
-            public const int Tamil = 0x0049;
+            ///Culture Name: ta</remarks>
+            public const string Tamil = "ta";
             ///<summary>
-            ///Culture identifier constant for Tamil - India.
+            ///Culture name for Tamil - India.
             ///</summary>
             ///<remarks>Culture ID: 0x0449
-            ///Culture Name:ta-IN</remarks>
+            ///Culture Name: ta-IN</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Tamil_India = 0x0449;
+            public const string Tamil_India = "ta-IN";
             ///<summary>
-            ///Culture identifier constant for Tatar.
+            ///Culture name for Tatar.
             ///</summary>
             ///<remarks>Culture ID: 0x0044
-            ///Culture Name:tt</remarks>
-            public const int Tatar = 0x0044;
+            ///Culture Name: tt</remarks>
+            public const string Tatar = "tt";
             ///<summary>
-            ///Culture identifier constant for Tatar - Russia.
+            ///Culture name for Tatar - Russia.
             ///</summary>
             ///<remarks>Culture ID: 0x0444
-            ///Culture Name:tt-RU</remarks>
+            ///Culture Name: tt-RU</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Tatar_Russia = 0x0444;
+            public const string Tatar_Russia = "tt-RU";
             ///<summary>
-            ///Culture identifier constant for Telugu.
+            ///Culture name for Telugu.
             ///</summary>
             ///<remarks>Culture ID: 0x004A
-            ///Culture Name:te</remarks>
-            public const int Telugu = 0x004A;
+            ///Culture Name: te</remarks>
+            public const string Telugu = "te";
             ///<summary>
-            ///Culture identifier constant for Telugu - India.
+            ///Culture name for Telugu - India.
             ///</summary>
             ///<remarks>Culture ID: 0x044A
-            ///Culture Name:te-IN</remarks>
+            ///Culture Name: te-IN</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Telugu_India = 0x044A;
+            public const string Telugu_India = "te-IN";
             ///<summary>
-            ///Culture identifier constant for Thai.
+            ///Culture name for Thai.
             ///</summary>
             ///<remarks>Culture ID: 0x001E
-            ///Culture Name:th</remarks>
-            public const int Thai = 0x001E;
+            ///Culture Name: th</remarks>
+            public const string Thai = "th";
             ///<summary>
-            ///Culture identifier constant for Thai - Thailand.
+            ///Culture name for Thai - Thailand.
             ///</summary>
             ///<remarks>Culture ID: 0x041E
-            ///Culture Name:th-TH</remarks>
+            ///Culture Name: th-TH</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Thai_Thailand = 0x041E;
+            public const string Thai_Thailand = "th-TH";
             ///<summary>
-            ///Culture identifier constant for Turkish.
+            ///Culture name for Turkish.
             ///</summary>
             ///<remarks>Culture ID: 0x001F
-            ///Culture Name:tr</remarks>
-            public const int Turkish = 0x001F;
+            ///Culture Name: tr</remarks>
+            public const string Turkish = "tr";
             ///<summary>
-            ///Culture identifier constant for Turkish - Turkey.
+            ///Culture name for Turkish - Turkey.
             ///</summary>
             ///<remarks>Culture ID: 0x041F
-            ///Culture Name:tr-TR</remarks>
+            ///Culture Name: tr-TR</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Turkish_Turkey = 0x041F;
+            public const string Turkish_Turkey = "tr-TR";
             ///<summary>
-            ///Culture identifier constant for Ukrainian.
+            ///Culture name for Ukrainian.
             ///</summary>
             ///<remarks>Culture ID: 0x0022
-            ///Culture Name:uk</remarks>
-            public const int Ukrainian = 0x0022;
+            ///Culture Name: uk</remarks>
+            public const string Ukrainian = "uk";
             ///<summary>
-            ///Culture identifier constant for Ukrainian - Ukraine.
+            ///Culture name for Ukrainian - Ukraine.
             ///</summary>
             ///<remarks>Culture ID: 0x0422
-            ///Culture Name:uk-UA</remarks>
+            ///Culture Name: uk-UA</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Ukrainian_Ukraine = 0x0422;
+            public const string Ukrainian_Ukraine = "uk-UA";
             ///<summary>
-            ///Culture identifier constant for Urdu.
+            ///Culture name for Urdu.
             ///</summary>
             ///<remarks>Culture ID: 0x0020
-            ///Culture Name:ur</remarks>
-            public const int Urdu = 0x0020;
+            ///Culture Name: ur</remarks>
+            public const string Urdu = "ur";
             ///<summary>
-            ///Culture identifier constant for Urdu - Pakistan.
+            ///Culture name for Urdu - Pakistan.
             ///</summary>
             ///<remarks>Culture ID: 0x0420
-            ///Culture Name:ur-PK</remarks>
+            ///Culture Name: ur-PK</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Urdu_Pakistan = 0x0420;
+            public const string Urdu_Pakistan = "ur-PK";
             ///<summary>
-            ///Culture identifier constant for Uzbek.
+            ///Culture name for Uzbek.
             ///</summary>
             ///<remarks>Culture ID: 0x0043
-            ///Culture Name:uz</remarks>
-            public const int Uzbek = 0x0043;
+            ///Culture Name: uz</remarks>
+            public const string Uzbek = "uz";
             ///<summary>
-            ///Culture identifier constant for Uzbek (Cyrillic) - Uzbekistan.
+            ///Culture name for Uzbek (Cyrillic) - Uzbekistan.
             ///</summary>
             ///<remarks>Culture ID: 0x0843
-            ///Culture Name:uz-UZ-Cyrl</remarks>
+            ///Culture Name: uz-UZ-Cyrl</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Uzbek_Cyrillic_Uzbekistan = 0x0843;
+            public const string Uzbek_Cyrillic_Uzbekistan = "uz-UZ-Cyrl";
             ///<summary>
-            ///Culture identifier constant for Uzbek (Latin) - Uzbekistan.
+            ///Culture name for Uzbek (Latin) - Uzbekistan.
             ///</summary>
             ///<remarks>Culture ID: 0x0443
-            ///Culture Name:uz-UZ-Latn</remarks>
+            ///Culture Name: uz-UZ-Latn</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Uzbek_Latin_Uzbekistan = 0x0443;
+            public const string Uzbek_Latin_Uzbekistan = "uz-UZ-Latn";
             ///<summary>
-            ///Culture identifier constant for Vietnamese.
+            ///Culture name for Vietnamese.
             ///</summary>
             ///<remarks>Culture ID: 0x002A
-            ///Culture Name:vi</remarks>
-            public const int Vietnamese = 0x002A;
-            ///<summary>
-            ///Culture identifier constant for Vietnamese - Vietnam.
-            ///</summary>
-            ///<remarks>Culture ID: 0x042A
-            ///Culture Name:vi-VN</remarks>
+            ///Culture Name: vi</remarks>
+            public const string Vietnamese = "vi";
+            /// <summary>
+            /// Culture name for Vietnamese - Vietnam.
+            /// </summary>
+            /// <remarks>Culture ID: 0x042A
+            /// Culture Name: vi-VN</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
-            public const int Vietnamese_Vietnam = 0x042A;
+            public const string Vietnamese_Vietnam = "vi-VN";
         }
     }
 }

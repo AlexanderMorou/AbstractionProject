@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Linq;
 using System.Text;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+using System.Globalization;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
 {
@@ -15,19 +10,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         LinqClauseBase,
         ILinqOrderByClause
     {
-        protected LinqOrderByClause()
-        {
-        }
 
-        /// <summary>
-        /// Creates a new <see cref="LinqOrderByClause"/> with the
-        /// <paramref name="orderKey"/> provided.
-        /// </summary>
-        /// <param name="orderKey">The <see cref="IExpression"/> which determines
-        /// the ordering key for comparison to order the data series.</param>
-        public LinqOrderByClause(IExpression orderKey)
+        public LinqOrderByClause()
+            : base()
         {
-            this.OrderKey = orderKey;
+            this.Orderings = new LinqOrderingPairCollection();
         }
 
         public override ClauseType Type
@@ -35,24 +22,25 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
             get { return ClauseType.OrderByClause; }
         }
 
-        public override string ToString()
-        {
-            return string.Format(CultureInfo.CurrentCulture, "orderby {0}", this.OrderKey);
-        }
-
-        #region ILinqOrderByClause Members
-
-        /// <summary>
-        /// Returns/sets the <see cref="IExpression"/> which determines
-        /// the ordering key for comparison to order the data series.
-        /// </summary>
-        public IExpression OrderKey { get; set; }
-
-        #endregion
-
         public override void Visit(ILinqVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        #region ILinqDirectedOrderByGroupClause Members
+
+        /// <summary>
+        /// Returns the <see cref="ILinqOrderingPairCollection"/>
+        /// that directs the output data set.
+        /// </summary>
+        public ILinqOrderingPairCollection Orderings { get; private set; }
+
+        #endregion
+
+
+        public override string ToString()
+        {
+            return string.Format(CultureInfo.CurrentCulture, "orderby {0}", string.Join(", ", this.Orderings));
         }
     }
 }

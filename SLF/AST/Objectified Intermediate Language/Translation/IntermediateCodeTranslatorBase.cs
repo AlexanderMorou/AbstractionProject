@@ -382,10 +382,6 @@ namespace AllenCopeland.Abstraction.Slf.Translation
 
         public abstract void Visit(ILinqFusionGroupBody expression);
 
-        public abstract void Visit(ILinqDirectedOrderByClause linqClause);
-
-        public abstract void Visit(ILinqDirectedOrderByGroupClause linqClause);
-
         public abstract void Visit(ILinqFromClause linqClause);
 
         public abstract void Visit(ILinqJoinClause linqClause);
@@ -393,8 +389,6 @@ namespace AllenCopeland.Abstraction.Slf.Translation
         public abstract void Visit(ILinqLetClause linqClause);
 
         public abstract void Visit(ILinqOrderByClause linqClause);
-
-        public abstract void Visit(ILinqOrderByGroupClause linqClause);
 
         public abstract void Visit(ILinqTypedFromClause linqClause);
 

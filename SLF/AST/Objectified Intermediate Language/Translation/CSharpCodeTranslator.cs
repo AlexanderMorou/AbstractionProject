@@ -267,16 +267,6 @@ namespace AllenCopeland.Abstraction.Slf.Translation
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILinqDirectedOrderByClause linqClause)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Visit(ILinqDirectedOrderByGroupClause linqClause)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void Visit(ILinqFromClause linqClause)
         {
             throw new NotImplementedException();
@@ -293,11 +283,6 @@ namespace AllenCopeland.Abstraction.Slf.Translation
         }
 
         public override void Visit(ILinqOrderByClause linqClause)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Visit(ILinqOrderByGroupClause linqClause)
         {
             throw new NotImplementedException();
         }

@@ -120,9 +120,10 @@
     <Compile Include="Oil\Expressions\ICreateAnonymousType.cs" />
     <Compile Include="Oil\Expressions\ICreateAnonymousTypeMemberAssignment.cs" />
     <Compile Include="Oil\Expressions\ICreateAnonymousTypeMemberAssignmentDictionary.cs" />
+    <Compile Include="Oil\Expressions\Linq\ILinqOrderByClause.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Oil\Expressions\Linq\ILinqOrderedBodyBuilder.cs" />
-    <Compile Include="Oil\Expressions\Linq\ILinqThenByClause.cs" />
-    <Compile Include="Oil\Expressions\Linq\LinqDirectedOrderByGroupClause.cs" />
     <Compile Include="Oil\ICommonIntermediateAssembly.cs" />
     <Compile Include="Oil\IHighLevelIntermediateAssembly.cs" />
     <Compile Include="Oil\IIntermediateAssembly`2.cs" />
@@ -408,13 +409,11 @@
     <Compile Include="Oil\Expressions\Lambda\LambdaExpression.cs" />
     <Compile Include="Oil\Expressions\Lambda\LambdaExpressionKind.cs" />
     <Compile Include="Oil\Expressions\Lambda\LambdaExtensions.cs" />
-    <Compile Include="Oil\Expressions\Linq\IIntermediateLinqVisitor.cs" />
+    <Compile Include="Oil\Expressions\Linq\ILinqVisitor.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqBody.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqBodyBuilder.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqClause.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqClauseCollection.cs" />
-    <Compile Include="Oil\Expressions\Linq\ILinqDirectedOrderByClause.cs" />
-    <Compile Include="Oil\Expressions\Linq\ILinqDirectedOrderByGroupClause.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqExpression.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqFromClause.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqFusionBody.cs" />
@@ -424,8 +423,6 @@
     <Compile Include="Oil\Expressions\Linq\ILinqGroupBody.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqJoinClause.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqLetClause.cs" />
-    <Compile Include="Oil\Expressions\Linq\ILinqOrderByClause.cs" />
-    <Compile Include="Oil\Expressions\Linq\ILinqOrderByGroupClause.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqOrderingPairCollection.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqSelectBody.cs" />
     <Compile Include="Oil\Expressions\Linq\ILinqTailBodyBuilder.cs" />
@@ -435,7 +432,6 @@
     <Compile Include="Oil\Expressions\Linq\LinqBody.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqClauseBase.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqClauseCollection.cs" />
-    <Compile Include="Oil\Expressions\Linq\LinqDirectedOrderByClause.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqExpression.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqFromClause.cs" />
     <Compile Include="Oil\Expressions\Linq\LinqFusionGroupBody.cs" />
