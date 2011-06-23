@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     {
         partial class ParameterDictionary
         {
-            protected sealed class ParameterMember :
+            private sealed class ParameterMember :
                 IntermediateEventSignatureParameterMember<TEvent, TIntermediateEvent, IEventParameterMember<TEvent, TEventParent>, IIntermediateEventParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>, TEventParent, TIntermediateEventParent>,
                 IIntermediateEventParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
             {

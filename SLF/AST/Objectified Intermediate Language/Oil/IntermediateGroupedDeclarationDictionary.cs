@@ -93,7 +93,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        public virtual KeyValuePair<string, TIntermediateDeclaration>[] ToArray()
+        public new virtual KeyValuePair<string, TIntermediateDeclaration>[] ToArray()
         {
             KeyValuePair<string, TIntermediateDeclaration>[] result = new KeyValuePair<string, TIntermediateDeclaration>[this.Count];
             this.CopyTo(result);
@@ -327,7 +327,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>.
         /// </summary>
         /// <param name="index">The <see cref="Int32"/> value of the ordinal index of 
-        /// the <typeparamref name="TSValue"/> to remove.</param>
+        /// the <typeparamref name="TIntermediateDeclaration"/> to remove.</param>
         /// <returns>true if the element was successfully removed; false otherwise.</returns>
         protected internal override bool _Remove(int index)
         {

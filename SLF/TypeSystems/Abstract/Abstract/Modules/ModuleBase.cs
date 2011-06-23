@@ -153,6 +153,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Modules
 
         #endregion
 
+        /// <summary>
+        /// Disposes the <see cref="ModuleBase"/>.
+        /// </summary>
         public override void Dispose()
         {
             if (this.methods != null)

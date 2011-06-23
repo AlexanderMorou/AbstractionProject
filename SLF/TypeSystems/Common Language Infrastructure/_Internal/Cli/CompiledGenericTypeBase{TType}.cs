@@ -139,7 +139,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        protected override void Dispose(bool dispose)
+        public override void Dispose()
         {
             if (this.disposeSynch == null)
                 return;
@@ -151,30 +151,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
             try
             {
-                if (dispose)
+                if (this.subSet != null)
                 {
-                    if (this.subSet != null)
-                    {
-                        this.subSet.Dispose();
-                        this.subSet = null;
-                    }
-                    if (this.typeParameters != null)
-                    {
-                        this.typeParameters = null;
-                    }
-                    if (this.genericParamsCache != null)
-                    {
-                        var genericParamsCacheCopy = this.genericParamsCache.ToArray();
-                        foreach (var type in genericParamsCacheCopy)
-                            type.Dispose();
-                        this.genericParamsCache._Clear();
-                        this.genericParamsCache = null;
-                    }
-                    if (genericCache != null)
-                    {
-                        this.genericCache.Dispose();
-                        this.genericCache = null;
-                    }
+                    this.subSet.Dispose();
+                    this.subSet = null;
+                }
+                if (this.typeParameters != null)
+                {
+                    this.typeParameters = null;
+                }
+                if (this.genericParamsCache != null)
+                {
+                    var genericParamsCacheCopy = this.genericParamsCache.ToArray();
+                    foreach (var type in genericParamsCacheCopy)
+                        type.Dispose();
+                    this.genericParamsCache._Clear();
+                    this.genericParamsCache = null;
+                }
+                if (genericCache != null)
+                {
+                    this.genericCache.Dispose();
+                    this.genericCache = null;
                 }
             }
             finally
@@ -182,7 +179,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 lock (this.disposeSynch)
                     this.disposing = false;
                 this.disposeSynch = null;
-                base.Dispose(dispose);
+                base.Dispose();
             }
         }
 

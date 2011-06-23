@@ -80,7 +80,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 return false;
             }
 
-            public int IndexOf(string key)
+            public new int IndexOf(string key)
             {
                 int index = 0;
                 bool containsUnloaded = false;

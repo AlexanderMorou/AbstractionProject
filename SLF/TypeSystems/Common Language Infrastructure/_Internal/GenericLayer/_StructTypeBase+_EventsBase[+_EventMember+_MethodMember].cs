@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         private class _EventsBase :
             _EventMembersBase<IStructEventMember, IStructType>
         {
-            private _StructTypeBase Parent
+            private new _StructTypeBase Parent
             {
                 get
                 {
@@ -38,7 +38,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 _EventMemberBase<IStructEventMember, IStructType>,
                 IStructEventMember
             {
-                private _StructTypeBase Parent
+                private new _StructTypeBase Parent
                 {
                     get
                     {

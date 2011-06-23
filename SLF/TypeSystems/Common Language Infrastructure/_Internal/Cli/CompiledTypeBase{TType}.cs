@@ -168,7 +168,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return true; }
         }
 
-        protected override void Dispose(bool dispose)
+        public override void Dispose()
         {
             this.RemoveFromCache();
             this.underlyingSystemType = null;
@@ -178,7 +178,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 this._members._Clear();
                 this._members = null;
             }
-            base.Dispose(dispose);
+            base.Dispose();
         }
 
 

@@ -22,6 +22,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// Returns/sets the <typeparamref name="TValue"/> which represents
         /// the current <see cref="IKeyedTreeNode{TKey, TValue, TNode}"/>.
         /// </summary>
-        TValue Value { get; set; }
+        new TValue Value { get; set; }
     }
 }

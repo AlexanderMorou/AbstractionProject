@@ -151,7 +151,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             yield break;
         }
 
-        protected sealed override void ICollection_CopyTo(Array array, int arrayIndex)
+        protected sealed override void CopyToArray(Array array, int arrayIndex)
         {
             if (arrayIndex + this.Count > array.Length)
                 throw new ArgumentException("array");

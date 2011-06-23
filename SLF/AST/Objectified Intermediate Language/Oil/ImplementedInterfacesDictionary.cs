@@ -62,8 +62,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private ITypeCollection copy;
         private LockedVariant locked;
         internal ImplementedInterfacesDictionary(TIntermediateType parent)
-        { 
-
+        {
+            this.parent = parent;
         }
 
         #region IIntermediateInstantiableTypeImplementedInterfaces<TCtor,TIntermediateCtor,TEvent,TIntermediateEvent,TField,TIntermediateField,TIndexer,TIntermediateIndexer,TMethod,TIntermediateMethod,TProperty,TIntermediateProperty,TType,TIntermediateType> Members
@@ -134,7 +134,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IEnumerable<IType> Members
 
-        public IEnumerator<IType> GetEnumerator()
+        public new IEnumerator<IType> GetEnumerator()
         {
             return GetEnumerableInternal().GetEnumerator();
         }

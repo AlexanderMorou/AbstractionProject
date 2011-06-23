@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     partial class CompiledStructType
     {
-        protected partial class IndexerMember :
+        private partial class IndexerMember :
             CompiledIndexerMemberBase<IStructIndexerMember, IStructType, IndexerMember.MethodMember,IStructMethodMember,IStructType>,
             IStructIndexerMember
         {

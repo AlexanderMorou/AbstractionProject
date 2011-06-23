@@ -42,52 +42,45 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// to visit.</param>
         void Visit(ILinqFusionGroupBody expression);
         /// <summary>
-        /// Visits the <see cref="ILinqFromClause"/> 
-        /// <paramref name="expression"/>.
+        /// Visits the <see cref="ILinqFromClause"/>.
         /// </summary>
-        /// <param name="expression">The <see cref="ILinqFromClause"/>
+        /// <param name="linqClause">The <see cref="ILinqFromClause"/>
         /// to visit.</param>
         void Visit(ILinqFromClause linqClause);
         /// <summary>
-        /// Visits the <see cref="ILinqJoinClause"/> 
-        /// <paramref name="expression"/>.
+        /// Visits the <see cref="ILinqJoinClause"/>.
         /// </summary>
-        /// <param name="expression">The <see cref="ILinqJoinClause"/>
+        /// <param name="linqClause">The <see cref="ILinqJoinClause"/>
         /// to visit.</param>
         void Visit(ILinqJoinClause linqClause);
         /// <summary>
-        /// Visits the <see cref="ILinqLetClause"/> 
-        /// <paramref name="expression"/>.
+        /// Visits the <see cref="ILinqLetClause"/>.
         /// </summary>
-        /// <param name="expression">The <see cref="ILinqLetClause"/>
+        /// <param name="linqClause">The <see cref="ILinqLetClause"/>
         /// to visit.</param>
         void Visit(ILinqLetClause linqClause);
         /// <summary>
-        /// Visits the <see cref="ILinqOrderByClause"/> 
-        /// <paramref name="expression"/>.
+        /// Visits the <see cref="ILinqOrderByClause"/>.
         /// </summary>
-        /// <param name="expression">The <see cref="ILinqOrderByClause"/>
+        /// <param name="linqClause">The <see cref="ILinqOrderByClause"/>
         /// to visit.</param>
         void Visit(ILinqOrderByClause linqClause);
         /// <summary>
-        /// Visits the <see cref="ILinqTypedFromClause"/> 
-        /// <paramref name="expression"/>.
+        /// Visits the <see cref="ILinqTypedFromClause"/>.
         /// </summary>
-        /// <param name="expression">The <see cref="ILinqTypedFromClause"/>
+        /// <param name="linqClause">The <see cref="ILinqTypedFromClause"/>
         /// to visit.</param>
         void Visit(ILinqTypedFromClause linqClause);
         /// <summary>
-        /// Visits the <see cref="ILinqTypedJoinClause"/> 
-        /// <paramref name="expression"/>.
+        /// Visits the <see cref="ILinqTypedJoinClause"/>.
         /// </summary>
-        /// <param name="expression">The <see cref="ILinqTypedJoinClause"/>
+        /// <param name="linqClause">The <see cref="ILinqTypedJoinClause"/>
         /// to visit.</param>
         void Visit(ILinqTypedJoinClause linqClause);
         /// <summary>
-        /// Visits the <see cref="ILinqWhereClause"/> 
-        /// <paramref name="expression"/>.
+        /// Visits the <see cref="ILinqWhereClause"/>.
         /// </summary>
-        /// <param name="expression">The <see cref="ILinqWhereClause"/>
+        /// <param name="linqClause">The <see cref="ILinqWhereClause"/>
         /// to visit.</param>
         void Visit(ILinqWhereClause linqClause);
     }

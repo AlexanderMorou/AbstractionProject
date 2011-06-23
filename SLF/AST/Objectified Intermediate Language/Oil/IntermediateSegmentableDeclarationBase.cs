@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Utilities.Events;
 using AllenCopeland.Abstraction.Utilities.Properties;
+using System.ComponentModel;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -27,6 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <typeparam name="TInstDeclaration">The specific <typeparamref name="TInstDeclaration"/>
     /// which represents the implementation of the <typeparamref name="TDeclaration"/>
     /// provided.</typeparam>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class IntermediateSegmentableDeclarationBase<TDeclaration, TInstDeclaration> :
         IntermediateDeclarationBase,
         IIntermediateSegmentableDeclaration<TDeclaration>

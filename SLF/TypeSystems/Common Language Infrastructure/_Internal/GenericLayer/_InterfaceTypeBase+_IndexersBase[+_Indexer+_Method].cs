@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 return new _IndexerMember(item, this._Parent);
             }
 
-            internal protected sealed class _IndexerMember :
+            internal sealed class _IndexerMember :
                 _IndexerSignatureMemberBase<IInterfaceIndexerMember, IInterfaceType>,
                 IInterfaceIndexerMember
             {
@@ -49,7 +49,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 {
                     get { return string.Format("{0}[{1}]", this.Name, string.Join(",", this.Parameters.Values)); }
                 }
-                internal protected class _MethodMember :
+                internal new class _MethodMember :
                     _MethodsBase._Method,
                     IPropertySignatureMethodMember
                 {

@@ -11,6 +11,12 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract.Documentation
 {
+    /// <summary>
+    /// Defines properties and methods for working with a 
+    /// small element of text that describes the text
+    /// inbetween other sections, or as the main body of a
+    /// section.
+    /// </summary>
     public interface IDocCommentTextElement :
         IDocCommentElement
     {

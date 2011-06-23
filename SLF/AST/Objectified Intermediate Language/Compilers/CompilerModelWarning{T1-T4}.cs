@@ -21,6 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         {
             this.message = message;
             this.Item1 = item1;
+            this.replacements = replacements;
         }
 
         #region ICompilerModelWarning<T1> Members

@@ -159,7 +159,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region IClassType Members
 
-        public IClassInterfaceMapping GetInterfaceMap(IInterfaceType type)
+        public new IClassInterfaceMapping GetInterfaceMap(IInterfaceType type)
         {
             throw new NotImplementedException();
         }

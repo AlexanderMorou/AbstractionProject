@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             {
 
             }
-            private _EnumTypeBase Parent
+            private new _EnumTypeBase Parent
             {
                 get
                 {

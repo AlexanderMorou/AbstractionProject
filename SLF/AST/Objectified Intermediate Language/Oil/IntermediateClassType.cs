@@ -10,6 +10,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using Microsoft.VisualBasic.CompilerServices;
+using System.ComponentModel;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -82,6 +83,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <summary>
     /// Provides a generic implementation of an intermediate class type.
     /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Always)]
     public abstract partial class IntermediateClassType<TInstanceIntermediateType> :
         IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<TInstanceIntermediateType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IClassType, IIntermediateClassType, TInstanceIntermediateType>,
         IIntermediateClassType
@@ -140,6 +142,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                            ConstructorMember GetNewConstructor()
         {
             return new IntermediateClassCtorMember<TInstanceIntermediateType>((TInstanceIntermediateType)(object)this);
+        }
+
+        protected override IntermediateGenericSegmentableInstantiableType<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IntermediateClassEventMember<TInstanceIntermediateType>.EventMethodMember, IClassFieldMember, IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IntermediateClassIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IClassType, IIntermediateClassType, TInstanceIntermediateType>.ConstructorMember GetTypeInitializer()
+        {
+            return new IntermediateClassCtorMember<TInstanceIntermediateType>((TInstanceIntermediateType)(object)this, true);
         }
 
         /// <summary>
@@ -455,7 +462,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        protected override void Dispose(bool dispose)
+        public override void Dispose()
         {
             try
             {
@@ -463,8 +470,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
             finally
             {
-                base.Dispose(dispose);
+                base.Dispose();
             }
         }
+
     }
 }

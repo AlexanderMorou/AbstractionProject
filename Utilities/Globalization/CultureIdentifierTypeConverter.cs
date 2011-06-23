@@ -86,12 +86,21 @@ namespace AllenCopeland.Abstraction.Globalization
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
         {
             if (destinationType == typeof(string))
-            {
                 return (context.PropertyDescriptor.PropertyType.IsAssignableFrom(typeof(ICultureIdentifier)));
-            }
             return base.CanConvertTo(context, destinationType);
         }
 
+        /// <summary>
+        /// Returns whether the resultant set of values returned by
+        /// <see cref="TypeConverter.GetStandardValues()"/> is an 
+        /// exclusive list of values with the <paramref name="context"/> provided.
+        /// </summary>
+        /// <param name="context">The <see cref="ITypeDescriptorContext"/>
+        /// that provides a format context.</param>
+        /// <returns>true if the values returned from 
+        /// <see cref="TypeConverter.GetStandardValues()"/> is an exhaustive
+        /// list of possible values; false, if other values are possible.
+        /// </returns>
         public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
         {
             if (context != null && context.PropertyDescriptor != null)
@@ -99,12 +108,26 @@ namespace AllenCopeland.Abstraction.Globalization
             else
                 return base.GetStandardValuesExclusive(context);
         }
-        public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
+        
+        /// <summary>
+        /// Converts the <paramref name="value"/> to the <paramref name="destinationType"/>
+        /// given the <paramref name="culture"/> and <paramref name="context"/> provided.
+        /// </summary>
+        /// <param name="context">The <see cref="ITypeDescriptorContext"/> that
+        /// provides a format context.</param>
+        /// <param name="culture">The <see cref="CultureInfo"/> that may influence
+        /// the conversion; if null is passed, the current culture is used.</param>
+        /// <param name="value">The <see cref="System.Object"/> to convert.</param>
+        /// <param name="destinationType">The <see cref="Type"/> to convert
+        /// the <paramref name="value"/> to.</param>
+        /// <returns>An <see cref="Object"/> that represents the converted <paramref name="value"/>.</returns>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="destinationType"/>
+        /// is null.</exception>
+        /// <exception cref="System.NotSupportedException">The conversion cannot be performed.</exception>
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
             if (destinationType == typeof(String) && value is ICultureIdentifier)
-            {
                 return ((ICultureIdentifier)value).CountryRegion;
-            }
             return base.ConvertTo(context, culture, value, destinationType);
         }
 

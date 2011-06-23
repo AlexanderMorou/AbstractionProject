@@ -471,6 +471,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             this.Dispose(true);
         }
 
+        /// <summary>
+        /// Disposes the resources and references associated to the 
+        /// <see cref="AssemblyBase"/>.
+        /// </summary>
+        /// <param name="disposing">Whether to release the managed resources
+        /// as well as the unmanaged resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             try
@@ -702,6 +708,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #endregion
 
+        /// <summary>
+        /// Returns whether the <see cref="AssemblyBase"/> has been 
+        /// disposed.
+        /// </summary>
+        /// <returns>true, if the <see cref="AssemblyBase"/> is already
+        /// disposed; false, otherwise.</returns>
         public bool IsDisposed
         {
             get

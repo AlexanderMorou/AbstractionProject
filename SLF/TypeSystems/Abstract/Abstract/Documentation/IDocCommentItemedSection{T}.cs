@@ -11,6 +11,14 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract.Documentation
 {
+    /// <summary>
+    /// Defines properties and methods for working with a
+    /// documentation comment section that contains a <typeparamref name="TItem"/>
+    /// that represents the <see cref="IDeclaration"/> that the
+    /// <see cref="IDocCommentItemedSection{TItem}"/> describes.
+    /// </summary>
+    /// <typeparam name="TItem">The type of <see cref="IDeclaration"/>
+    /// described by the <see cref="IDocCommentItemedSection{TItem}"/>.</typeparam>
     public interface IDocCommentItemedSection<TItem> :
         IDocCommentSection
         where TItem :

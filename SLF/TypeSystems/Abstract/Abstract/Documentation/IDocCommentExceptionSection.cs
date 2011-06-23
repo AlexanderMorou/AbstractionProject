@@ -11,10 +11,15 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract.Documentation
 {
+    /// <summary>
+    /// Defines properties and methods for working with a documentation
+    /// comment section that denotes the specifics of a
+    /// given exception and the written conditions for them being
+    /// thrown.
+    /// </summary>
     public interface IDocCommentExceptionSection :
         IDocCommentItemedSection<IClassType>,
         IDocCommentCodeReference
     {
-
     }
 }

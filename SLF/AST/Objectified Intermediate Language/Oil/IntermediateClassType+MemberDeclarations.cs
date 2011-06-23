@@ -54,6 +54,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 : base((TInstanceIntermediateType)parent.Parent)
             {
                 this.parent = parent;
+                this.methodType = methodType;
             }
 
             #region IIntermediateEventMethodMember Members
@@ -105,8 +106,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         where TInstanceIntermediateType :
             IntermediateClassType<TInstanceIntermediateType>
     {
-        public IntermediateClassCtorMember(TInstanceIntermediateType parent)
-            : base(parent)
+        public IntermediateClassCtorMember(TInstanceIntermediateType parent, bool typeInitializer = false)
+            : base(parent, typeInitializer)
         {
 
         }
@@ -180,6 +181,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (owner == null)
                     throw new ArgumentNullException("parent");
                 this.owner = owner;
+                this.methodType = methodType;
             }
 
             protected IntermediateClassIndexerMember<TInstanceIntermediateType> Owner

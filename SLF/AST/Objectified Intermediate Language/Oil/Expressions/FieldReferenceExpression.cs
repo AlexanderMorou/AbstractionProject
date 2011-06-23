@@ -29,9 +29,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         where TFieldParent :
             IFieldParent<TField, TFieldParent>
     {
-        private string nameCopy;
         public FieldReferenceExpression(TField member, IMemberParentReferenceExpression source)
         {
+            if (member == null)
+                throw new ArgumentNullException("member");
             this.Member = member;
             this.Source = source;
         }
@@ -51,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         #region IFieldReferenceExpression<TField,TIntermediateField,TFieldParent,TIntermediateFieldParent> Members
         /// <summary>
         /// Returns the <typeparamref name="TField"/> associated to the
-        /// <see cref="UnboundFieldReferenceExpression{TField, TFieldParent}"/>.
+        /// <see cref="FieldReferenceExpression{TField, TFieldParent}"/>.
         /// </summary>
         public TField Member { get; private set; }
 
@@ -77,8 +78,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             get
             {
-                if (this.Member == null)
-                    return nameCopy;
                 return this.Member.Name;
             }
         }

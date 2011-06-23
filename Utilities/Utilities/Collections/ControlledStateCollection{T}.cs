@@ -195,10 +195,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         }
         #endregion
 
-        #region ICollection Members
-
-        
-        #endregion
 
         protected virtual void AddImpl(T expression)
         {

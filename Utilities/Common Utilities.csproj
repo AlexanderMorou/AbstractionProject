@@ -137,57 +137,159 @@
     <Compile Include="Utilities\Collections\SubordinateDictionary{TKey, TSValue, TMValue}+KC.cs" />
     <Compile Include="Utilities\Collections\SubordinateDictionary{TKey, TSValue, TMValue}.cs" />
     <Compile Include="Utilities\Collections\_ISubordinateDictionaryMasterPass.cs" />
-    <Compile Include="Utilities\Common\BinaryBase.cs" />
-    <Compile Include="Utilities\Common\CharacterBase.cs" />
-    <Compile Include="Utilities\Common\DecimalBase.cs" />
-    <Compile Include="Utilities\Common\DuosexagesimalBase.cs" />
-    <Compile Include="Utilities\Common\GameGenieBase.cs" />
-    <Compile Include="Utilities\Common\MiscHelperMethods.cs" />
-    <Compile Include="Utilities\Common\NumericBase.cs" />
-    <Compile Include="Utilities\Common\NumericBaseController.cs" />
-    <Compile Include="Utilities\Common\OctalBase.cs" />
-    <Compile Include="Utilities\Common\OctodecimalBase.cs" />
-    <Compile Include="Utilities\Common\SeptemvigesimalBase.cs" />
-    <Compile Include="Utilities\Common\SexadecimalBase.cs" />
-    <Compile Include="Utilities\Common\SexatrigesimalBase.cs" />
-    <Compile Include="Utilities\Common\StringHandling.cs" />
-    <Compile Include="Utilities\Events\EventArgsR1R2R3{T1, T2, T3}.cs" />
-    <Compile Include="Utilities\Events\EventArgsR1R2{T1, T2, T3}.cs" />
-    <Compile Include="Utilities\Events\EventArgsR1R2{T1, T2}.cs" />
-    <Compile Include="Utilities\Events\EventArgsR1R3{T1, T2, T3}.cs" />
-    <Compile Include="Utilities\Events\EventArgsR1{T1, T2, T3}.cs" />
-    <Compile Include="Utilities\Events\EventArgsR1{T1, T2}.cs" />
-    <Compile Include="Utilities\Events\EventArgsR1{T}.cs" />
-    <Compile Include="Utilities\Events\EventArgsR2R3{T1, T2, T3}.cs" />
-    <Compile Include="Utilities\Events\EventArgsR2{T1, T2}.cs" />
-    <Compile Include="Utilities\Events\EventArgs{T1, T2}.cs" />
-    <Compile Include="Utilities\Events\EventArgs{T}.cs" />
-    <Compile Include="Utilities\FiniteAutomata\DFAState.cs" />
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataBitSet.cs" />
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataMultiTargetTransitionTable{2}.cs" />
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataSection.cs" />
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataSingleTargetTransitionTable.cs" />
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataState{4}.cs" />
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataTransitionNode{TCheck, TTarget}.cs" />
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataTransitionTable+KeysCollection.cs" />
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataTransitionTable+ValuesCollection.cs" />
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataTransitionTable{3}.cs" />
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomationSourceKind.cs" />
-    <Compile Include="Utilities\FiniteAutomata\IDFAState.cs" />
-    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataMultiTargetTransitionTable.cs" />
-    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataSection.cs" />
-    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataSet.cs" />
-    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataSingleTargetTransitionTable.cs" />
-    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataSource.cs" />
-    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataState.cs" />
-    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataTransitionNode.cs" />
-    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataTransitionTable.cs" />
-    <Compile Include="Utilities\FiniteAutomata\INFAState.cs" />
-    <Compile Include="Utilities\FiniteAutomata\MinimalBitArray.cs" />
-    <Compile Include="Utilities\FiniteAutomata\NFAState+DFAEntry.cs" />
-    <Compile Include="Utilities\FiniteAutomata\NFAState+DFAEntrySet.cs" />
-    <Compile Include="Utilities\FiniteAutomata\NFAState+DFAEntryTable.cs" />
-    <Compile Include="Utilities\FiniteAutomata\NFAState{4}.cs" />
+    <Compile Include="Utilities\Common\BinaryBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Common\CharacterBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Common\DecimalBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Common\DuosexagesimalBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Common\GameGenieBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Common\MiscHelperMethods.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Common\NumericBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Common\NumericBaseController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Common\OctalBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Common\OctodecimalBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Common\SeptemvigesimalBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Common\SexadecimalBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Common\SexatrigesimalBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Common\StringHandling.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Events\EventArgsR1R2R3{T1, T2, T3}.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Events\EventArgsR1R2{T1, T2, T3}.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Events\EventArgsR1R2{T1, T2}.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Events\EventArgsR1R3{T1, T2, T3}.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Events\EventArgsR1{T1, T2, T3}.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Events\EventArgsR1{T1, T2}.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Events\EventArgsR1{T}.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Events\EventArgsR2R3{T1, T2, T3}.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Events\EventArgsR2{T1, T2}.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Events\EventArgs{T1, T2}.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Events\EventArgs{T}.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\DFAState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataBitSet.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataMultiTargetTransitionTable{2}.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataSection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataSingleTargetTransitionTable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataState{4}.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataTransitionNode{TCheck, TTarget}.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataTransitionTable+KeysCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataTransitionTable+ValuesCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataTransitionTable{3}.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\FiniteAutomationSourceKind.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\IDFAState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataMultiTargetTransitionTable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataSection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataSet.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataSingleTargetTransitionTable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataSource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataTransitionNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataTransitionTable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\INFAState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\MinimalBitArray.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\NFAState+DFAEntry.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\NFAState+DFAEntrySet.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\NFAState+DFAEntryTable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\FiniteAutomata\NFAState{4}.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Utilities\Tuples\TupleHelper.cs" />
     <Compile Include="Utilities\Tuples\Tuple`10.cs" />
     <Compile Include="Utilities\Tuples\Tuple`11.cs" />
@@ -211,8 +313,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Allen Copeland.pfx" />
-    <None Include="Utilities\Collections\ControlledStateCollection{T}.zip" />
-    <None Include="Utilities\Collections\MasterDictionaryBase{TKey, TValue}.zip" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

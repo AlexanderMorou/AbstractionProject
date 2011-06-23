@@ -11,6 +11,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Events;
+using System.ComponentModel;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -20,6 +21,7 @@ using AllenCopeland.Abstraction.Utilities.Events;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract partial class IntermediateGenericTypeBase<TType, TIntermediateType> :
         IntermediateTypeBase<TType, TIntermediateType>,
         IIntermediateGenericType<TType, TIntermediateType>,
@@ -285,7 +287,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         /// <param name="dispose">whether to dispose all data, including the managed data (true), or just the
         /// unmanaged data (false).</param>
-        protected override void Dispose(bool dispose)
+        public override void Dispose()
         {
             const int DISP_STATE_NONE = 0;
             const int DISP_STATE_DISPOSING = 1;
@@ -318,7 +320,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
             finally
             {
-                base.Dispose(dispose);
+                base.Dispose();
             }
         }
 

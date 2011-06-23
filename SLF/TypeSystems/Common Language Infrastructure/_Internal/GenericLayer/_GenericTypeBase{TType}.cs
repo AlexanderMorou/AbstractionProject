@@ -330,7 +330,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         }
 
         private object disposeLock = new object();
-        protected override void Dispose(bool dispose)
+        public override void Dispose()
         {
             if (CLIGateway.CompiledTypeCache.Values.Contains(this))
                 this.RemoveFromCache();
@@ -338,16 +338,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 return;
             lock (disposeLock)
             {
-                if (dispose)
-                {
-                    this.disposed = true;
-                    if (original is _IGenericTypeRegistrar)
-                        ((_IGenericTypeRegistrar)(original)).UnregisterGenericType(this.genericParameters);
-                    this.genericParameters = null;
-                    this.original = null;
-                }
+                this.disposed = true;
+                if (original is _IGenericTypeRegistrar)
+                    ((_IGenericTypeRegistrar)(original)).UnregisterGenericType(this.genericParameters);
+                this.genericParameters = null;
+                this.original = null;
             }
-            base.Dispose(dispose);
+            base.Dispose();
         }
 
         public override bool IsGenericConstruct

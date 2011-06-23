@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// <param name="version">The <typeparamref name="TVersion"/>
         /// which denotes what specific version of the language to obtain
         /// the provider for.</param>
-        /// <returns>A new <see cref="IVersionedLanguageProvider"/> for the current
+        /// <returns>A new <see cref="IVersionedLanguageProvider{TVersion}"/> for the current
         /// <see cref="IVersionedLanguage{TVersion}"/>.</returns>
         IVersionedLanguageProvider<TVersion> GetProvider(TVersion version);
         /// <summary>

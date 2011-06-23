@@ -13,6 +13,10 @@ using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
+    /// <summary>
+    /// Provides a general case generic type cache for
+    /// generic implementations.
+    /// </summary>
     public class GenericTypeCache :
         _IGenericTypeRegistrar,
         IDisposable,
@@ -102,56 +106,19 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #endregion
 
-
-
+        /// <summary>
+        /// Begins an exodus upon the <see cref="GenericTypeCache"/>.
+        /// </summary>
         public void BeginExodus()
         {
             if (this.exodusCache != null)
                 return;
             this.exodusCache = new HashSet<LockedTypeCollection>();
         }
-        #region IDisposable Members
 
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        private void Dispose(bool dispose)
-        {
-            if (this.syncObject == null)
-                return;
-            lock (syncObject)
-            {
-                if (this.disposing)
-                    return;
-                this.disposing = true;
-            }
-            try
-            {
-                if (dispose)
-                {
-                    IGenericType[] genericCacheCopy;
-                    lock (this.syncObject)
-                        genericCacheCopy = this.genericCache.Values.ToArray();
-                    Parallel.ForEach(genericCacheCopy, genericEntity =>
-                        genericEntity.Dispose());
-                    lock (this.syncObject)
-                    {
-                        this.genericCache.Clear();
-                        this.genericCache = null;
-                    }
-                }
-            }
-            finally
-            {
-                lock (this.syncObject)
-                    this.disposing = false;
-            }
-        }
-
-        #endregion
-
+        /// <summary>
+        /// Ends an exodus upon the <see cref="GenericTypeCache"/>.
+        /// </summary>
         public void EndExodus()
         {
             if (this.exodusCache == null)
@@ -170,17 +137,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 keyCopy = this.genericCache.Keys.ToArray();
 
             Parallel.For(0, exodusCopy.Length, exodusSetIndex =>
-            //for (int exodusSetIndex = 0; exodusSetIndex < exodusCopy.Length; exodusSetIndex++)
             {
                 var currentSet = exodusCopy[exodusSetIndex].copy;
-                //Parallel.For(0, keyCopy.Length, (keySetIndex, keySetLoopState) =>
                 for (int keySetIndex = 0; keySetIndex < keyCopy.Length; keySetIndex++)
                 {
                     var currentKeySet = keyCopy[keySetIndex].copy;
                     if (currentKeySet.Count != currentSet.Count)
                         return;
                     bool allFound = true;
-                    //Parallel.For(0, currentSet.Count, (currentElementIndex, currentSetLoopState) =>
                     for (int currentElementIndex = 0; currentElementIndex < currentSet.Count; currentElementIndex++)
                     {
                         IType currentElement = currentSet[currentElementIndex];
@@ -190,10 +154,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                         if (!currentAlternate.Equals(currentElement))
                         {
                             allFound = false;
-                            //currentSetLoopState.Stop(); return;
                             break;
                         }
-                    }//);
+                    }
                     if (allFound)
                     {
                         var currentLocked = keyCopy[keySetIndex];
@@ -205,15 +168,49 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                             genericCache.Remove(currentLocked);
                             exodusElements++;
                         }
-                        //keySetLoopState.Stop(); return;
                         break;
                     }
-                }//);
+                }
             });
-            //Console.WriteLine("{0} were expunged.", exodusElements);
             exodusCache = null;
         }
 
+        #region IDisposable Members
+
+        /// <summary>
+        /// Disposes the <see cref="GenericTypeCache"/>.
+        /// </summary>
+        public void Dispose()
+        {
+            if (this.syncObject == null)
+                return;
+            lock (syncObject)
+            {
+                if (this.disposing)
+                    return;
+                this.disposing = true;
+            }
+            try
+            {
+                IGenericType[] genericCacheCopy;
+                lock (this.syncObject)
+                    genericCacheCopy = this.genericCache.Values.ToArray();
+                Parallel.ForEach(genericCacheCopy, genericEntity =>
+                    genericEntity.Dispose());
+                lock (this.syncObject)
+                {
+                    this.genericCache.Clear();
+                    this.genericCache = null;
+                }
+            }
+            finally
+            {
+                lock (this.syncObject)
+                    this.disposing = false;
+            }
+        }
+
+        #endregion
 
         private LockedTypeCollection ObtainGenericFamilliar(ITypeCollectionBase typeParameters)
         {
@@ -265,6 +262,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #region IEnumerable<IType> Members
 
+        /// <summary>
+        /// Obtains an <see cref="IEnumerable{T}"/> instance
+        /// which iterates the elements of the <see cref="GenericTypeCache"/>.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{T}"/> instance.</returns>
         public IEnumerator<IGenericType> GetEnumerator()
         {
             foreach (var element in this.genericCache.Values)

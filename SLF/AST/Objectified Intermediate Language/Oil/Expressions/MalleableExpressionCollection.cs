@@ -113,7 +113,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             this.baseList.Clear();
         }
 
-        public T this[int index]
+        public new T this[int index]
         {
             get
             {

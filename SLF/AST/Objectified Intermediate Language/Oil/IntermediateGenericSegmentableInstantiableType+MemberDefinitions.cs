@@ -276,8 +276,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IntermediateConstructorMemberBase<TCtor, TIntermediateCtor, TType, TIntermediateType>,
             IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
         {
-            protected ConstructorMember(IntermediateGenericSegmentableInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType> parent)
-                : base(((TIntermediateType)(((object)(parent)))))
+            protected ConstructorMember(IntermediateGenericSegmentableInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType> parent, bool typeInitializer = false)
+                : base(((TIntermediateType)(((object)(parent)))), typeInitializer)
             {
             }
         }

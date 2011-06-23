@@ -39,6 +39,16 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         private bool requiresBlankConstructor;
 
+        /// <summary>
+        /// Creates a new <see cref="GenericParameterData"/> with the <paramref name="name"/>,
+        /// and <paramref name="constraints"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value representing the
+        /// unique identifier of the generic parameter to be constructed from
+        /// the <see cref="GenericParameterData"/>.</param>
+        /// <param name="constraints">The <see cref="IType"/> array
+        /// specifying the constraints which bind the resultant generic
+        /// parameter.</param>
         public GenericParameterData(string name, IType[] constraints = null)
             : this(name, false, SignaturesData.Empty, constraints) { }
 
@@ -62,6 +72,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// that represents the name of the generic parameter.</param>
         /// <param name="constructors">The <see cref="SignaturesData"/>
         /// which defines the constructor information on the parameter.</param>
+        /// <param name="constraints">The <see cref="IType"/> array
+        /// specifying the constraints which bind the resultant generic
+        /// parameter.</param>
         public GenericParameterData(string name, SignaturesData constructors, IType[] constraints = null) : this(name, false, constructors, constraints) { }
 
         /// <summary>
@@ -91,6 +104,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// a public no-parameter constructor.</param>
         /// <param name="constructors">The <see cref="SignaturesData"/>
         /// which defines the constructor information on the parameter.</param>
+        /// <param name="constraints">The <see cref="IType"/> array
+        /// specifying the constraints which bind the resultant generic
+        /// parameter.</param>
         public GenericParameterData(string name, bool requiresBlankConstructor, SignaturesData constructors, IType[] constraints = null)
             : this(name, requiresBlankConstructor, constructors, ExtendedSignaturesData.Empty, ExtendedSignaturesData.Empty, TypedNameSeries.Empty, TypedNameSeries.Empty, constraints) { }
 
@@ -108,6 +124,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <param name="indexers">The <see cref="ExtendedSignaturesData"/> associated to the indexers to add.</param>
         /// <param name="properties">The <see cref="TypedNameSeries"/> associated to the properties to add.</param>
         /// <param name="events">The <see cref="TypedNameSeries"/> associated to the events to add.</param>
+        /// <param name="constraints">The <see cref="IType"/> array
+        /// specifying the constraints which bind the resultant generic
+        /// parameter.</param>
         public GenericParameterData(string name, bool requiresBlankConstructor, SignaturesData constructors, ExtendedSignaturesData methods, ExtendedSignaturesData indexers, TypedNameSeries properties, TypedNameSeries events, IType[] constraints = null)
         {
             this.name = name;
@@ -122,32 +141,147 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             else
                 this.constraints = constraints.ToCollection();
         }
-
+        /// <summary>
+        /// Creates a new <see cref="GenericParameterData"/> with the <paramref name="name"/>,
+        /// <paramref name="constructors"/>, <paramref name="methods"/>, <paramref name="indexers"/>,
+        /// <paramref name="properties"/>, <paramref name="events"/> and 
+        /// <paramref name="constraints"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value of the 
+        /// unique identifier of the <see cref="IGenericParameter"/>
+        /// to create.</param>
+        /// <param name="constructors">The <see cref="SignaturesData"/>
+        /// associated to the constructors to add.</param>
+        /// <param name="methods">The <see cref="ExtendedSignaturesData"/>
+        /// associated to the methods to add.</param>
+        /// <param name="indexers">The <see cref="ExtendedSignaturesData"/>
+        /// associated to the indexers to add.</param>
+        /// <param name="properties">The <see cref="TypedNameSeries"/>
+        /// associated to the properties to add.</param>
+        /// <param name="events">The <see cref="TypedNameSeries"/>
+        /// associated to the events to add.</param>
+        /// <param name="constraints">The <see cref="IType"/> array
+        /// specifying the constraints which bind the resultant generic
+        /// parameter.</param>
         public GenericParameterData(string name, SignaturesData constructors, ExtendedSignaturesData methods, ExtendedSignaturesData indexers, TypedNameSeries properties, TypedNameSeries events, IType[] constraints = null)
             : this(name, false, constructors, methods, indexers, properties, events, constraints) { }
 
+        /// <summary>
+        /// Creates a new <see cref="GenericParameterData"/> with the
+        /// <paramref name="name"/>, <paramref name="methods"/>, 
+        /// <paramref name="indexers"/>, <paramref name="properties"/>,
+        /// <paramref name="events"/> and <paramref name="constraints"/>
+        /// provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value of the 
+        /// unique identifier of the <see cref="IGenericParameter"/>
+        /// to create.</param>
+        /// <param name="methods">The <see cref="ExtendedSignaturesData"/>
+        /// associated to the methods to add.</param>
+        /// <param name="indexers">The <see cref="ExtendedSignaturesData"/>
+        /// associated to the indexers to add.</param>
+        /// <param name="properties">The <see cref="TypedNameSeries"/>
+        /// associated to the properties to add.</param>
+        /// <param name="events">The <see cref="TypedNameSeries"/>
+        /// associated to the events to add.</param>
+        /// <param name="constraints">The <see cref="IType"/> array
+        /// specifying the constraints which bind the resultant generic
+        /// parameter.</param>
         public GenericParameterData(string name, ExtendedSignaturesData methods, ExtendedSignaturesData indexers, TypedNameSeries properties, TypedNameSeries events, IType[] constraints = null)
             : this(name, false, SignaturesData.Empty, methods, indexers, properties, events, constraints) { }
 
+        /// <summary>
+        /// Creates a new <see cref="GenericParameterData"/> with the
+        /// <paramref name="name"/>, <paramref name="indexers"/>, 
+        /// <paramref name="properties"/>, <paramref name="events"/>
+        /// and <paramref name="constraints"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value of the 
+        /// unique identifier of the <see cref="IGenericParameter"/>
+        /// to create.</param>
+        /// <param name="indexers">The <see cref="ExtendedSignaturesData"/>
+        /// associated to the indexers to add.</param>
+        /// <param name="properties">The <see cref="TypedNameSeries"/>
+        /// associated to the properties to add.</param>
+        /// <param name="events">The <see cref="TypedNameSeries"/>
+        /// associated to the events to add.</param>
+        /// <param name="constraints">The <see cref="IType"/> array
+        /// specifying the constraints which bind the resultant generic
+        /// parameter.</param>
         public GenericParameterData(string name, ExtendedSignaturesData indexers, TypedNameSeries properties, TypedNameSeries events, IType[] constraints = null)
             : this(name, false, SignaturesData.Empty, ExtendedSignaturesData.Empty, indexers, properties, events, constraints)
         {
         }
 
+        /// <summary>
+        /// Creates a new <see cref="GenericParameterData"/> with the
+        /// <paramref name="name"/>, <paramref name="properties"/>,
+        /// <paramref name="events"/> and <paramref name="constraints"/>
+        /// provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value of the 
+        /// unique identifier of the <see cref="IGenericParameter"/>
+        /// to create.</param>
+        /// <param name="properties">The <see cref="TypedNameSeries"/>
+        /// associated to the properties to add.</param>
+        /// <param name="events">The <see cref="TypedNameSeries"/>
+        /// associated to the events to add.</param>
+        /// <param name="constraints">The <see cref="IType"/> array
+        /// specifying the constraints which bind the resultant generic
+        /// parameter.</param>
         public GenericParameterData(string name, TypedNameSeries properties, TypedNameSeries events, IType[] constraints = null)
             : this(name, false, SignaturesData.Empty, ExtendedSignaturesData.Empty, ExtendedSignaturesData.Empty, properties, events, constraints)
         {
         }
 
+        /// <summary>
+        /// Creates a new <see cref="GenericParameterData"/> with the
+        /// <paramref name="name"/>, whether it <paramref name="requiresBlankConstructor"/>,
+        /// the <paramref name="indexers"/>, <paramref name="properties"/>, 
+        /// <paramref name="events"/> and <paramref name="constraints"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value of the 
+        /// unique identifier of the <see cref="IGenericParameter"/>
+        /// to create.</param>
+        /// <param name="requiresBlankConstructor">whether the new generic parameter requires a public
+        /// blank constructor.</param>
+        /// <param name="indexers">The <see cref="ExtendedSignaturesData"/>
+        /// associated to the indexers to add.</param>
+        /// <param name="properties">The <see cref="TypedNameSeries"/>
+        /// associated to the properties to add.</param>
+        /// <param name="events">The <see cref="TypedNameSeries"/>
+        /// associated to the events to add.</param>
+        /// <param name="constraints">The <see cref="IType"/> array
+        /// specifying the constraints which bind the resultant generic
+        /// parameter.</param>
         public GenericParameterData(string name, bool requiresBlankConstructor, ExtendedSignaturesData indexers, TypedNameSeries properties, TypedNameSeries events, IType[] constraints = null)
             : this(name, requiresBlankConstructor, SignaturesData.Empty, ExtendedSignaturesData.Empty, indexers, properties, events, constraints)
         {
         }
 
+        /// <summary>
+        /// Creates a new <see cref="GenericParameterData"/> with the
+        /// <paramref name="name"/>, whether it <paramref name="requiresBlankConstructor"/>,
+        /// the <paramref name="properties"/>, <paramref name="events"/>
+        /// and <paramref name="constraints"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value of the 
+        /// unique identifier of the <see cref="IGenericParameter"/>
+        /// to create.</param>
+        /// <param name="requiresBlankConstructor">whether the new generic parameter requires a public
+        /// blank constructor.</param>
+        /// <param name="properties">The <see cref="TypedNameSeries"/>
+        /// associated to the properties to add.</param>
+        /// <param name="events">The <see cref="TypedNameSeries"/>
+        /// associated to the events to add.</param>
+        /// <param name="constraints">The <see cref="IType"/> array
+        /// specifying the constraints which bind the resultant generic
+        /// parameter.</param>
         public GenericParameterData(string name, bool requiresBlankConstructor, TypedNameSeries properties, TypedNameSeries events, IType[] constraints = null)
             : this(name, requiresBlankConstructor, SignaturesData.Empty, ExtendedSignaturesData.Empty, ExtendedSignaturesData.Empty, properties, events, constraints)
         {
         }
+
         /// <summary>
         /// Returns the <see cref="SignaturesData"/> of the series of
         /// <see cref="SignatureData"/> relative to the 
@@ -240,6 +374,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
 
+        /// <summary>
+        /// Returns the <see cref="ITypeCollection"/> that denotes
+        /// the sequence of <see cref="IType"/> elements that constrain
+        /// the <see cref="IGenericParameter"/> described by the 
+        /// <see cref="GenericParameterData"/>.
+        /// </summary>
         public ITypeCollection Constraints
         {
             get

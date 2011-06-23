@@ -346,7 +346,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         /// <summary>
         /// Creates, inserts and returns a new 
-        /// <see cref="IIteratesetStatement"/> which represents an 
+        /// <see cref="IEnumerateSetBreakableBlockStatement"/> which represents an 
         /// iteration over the <paramref name="target">individual element</paramref>s
         /// of a <paramref name="source">set</paramref>, either fixed
         /// or dynamic in nature.

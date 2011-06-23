@@ -11,6 +11,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Modules;
+using System.ComponentModel;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -46,6 +47,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// Provides a base class for an intermediate interface type 
     /// declaration.
     /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Always)]
     public abstract partial class IntermediateInterfaceType<TInstanceType> :
         IntermediateGenericSegmentableParentType<IInterfaceType, IIntermediateInterfaceType, TInstanceType>,
         IIntermediateInterfaceType

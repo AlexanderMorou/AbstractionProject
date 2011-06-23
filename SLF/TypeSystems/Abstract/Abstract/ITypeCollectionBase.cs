@@ -29,6 +29,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <returns>The index of <paramref name="item"/> if 
         /// found in the <see cref="ITypeCollection"/>; 
         /// otherwise, -1.</returns>
-        int IndexOf(IType item);
+        new int IndexOf(IType item);
     }
 }

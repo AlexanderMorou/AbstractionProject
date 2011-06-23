@@ -55,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <remarks>Typically used by a language's compiler to fix
         /// the details of the resultant assembly such that changes 
         /// to the original 
-        /// <see cref="<see cref="IMalleableCompilationContext"/>"/>
+        /// <see cref="IMalleableCompilationContext"/>
         /// are ignored.</remarks>
         /// <returns>A <see cref="ICompilationContext"/>
         /// whose members cannot be changed.</returns>

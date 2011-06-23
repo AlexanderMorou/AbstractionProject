@@ -22,6 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Linkers
             this.parent = parent;
             this.Aliases.AliasAdded += new System.EventHandler<Utilities.Events.EventArgsR1<string>>(Aliases_AliasAdded);
             this.Aliases.AliasRemoved += new System.EventHandler<Utilities.Events.EventArgsR1<string>>(Aliases_AliasRemoved);
+            this.reference = assembly;
         }
 
         void Aliases_AliasRemoved(object sender, EventArgsR1<string> e)
