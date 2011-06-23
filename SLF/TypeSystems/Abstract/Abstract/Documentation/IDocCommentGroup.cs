@@ -12,10 +12,24 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract.Documentation
 {
-
+    /// <summary>
+    /// Defines properties and methods for working with a series of
+    /// sections; with a <typeparamref name="TKey"/> provided for
+    /// selecting the section, a <typeparamref name="TItem"/> that
+    /// denotes the information pertinent to the section, and
+    /// the <typeparamref name="TSection"/> that describes the
+    /// <typeparamref name="TItem"/>.
+    /// </summary>
+    /// <typeparam name="TKey">The kind of key used to select
+    /// a given <typeparamref name="TSection"/>.</typeparam>
+    /// <typeparam name="TItem">The kind of element represented by
+    /// the <typeparamref name="TSection"/>.</typeparam>
+    /// <typeparam name="TSection">The type of <see cref="IDocCommentSection"/>
+    /// that describes the <typeparamref name="TItem"/> elements.</typeparam>
     public interface IDocCommentGroup<TKey, TItem, TSection> :
         IControlledStateDictionary<TKey, TSection>
+        where TSection :
+            IDocCommentSection
     {
-
     }
 }

@@ -27,6 +27,10 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
             private int imageIndex = -1;
             private bool enabled;
 
+            /// <summary>
+            /// Creates a new <see cref="ImageObjectItem"/>
+            /// initialized to a default state.
+            /// </summary>
             public ImageObjectItem()
                 : this(null, null, -1)
             {

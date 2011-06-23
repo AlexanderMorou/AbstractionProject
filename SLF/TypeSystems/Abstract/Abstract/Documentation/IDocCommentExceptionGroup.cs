@@ -11,8 +11,14 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract.Documentation
 {
+    /// <summary>
+    /// Defines properties and methods for working with a
+    /// series of exception sections that describe the conditions
+    /// for the exceptions being thrown.
+    /// </summary>
     public interface IDocCommentExceptionGroup :
-        IDocCommentGroup<IClassType, IClassType, IDocCommentExceptionGroup>
+        IDocCommentGroup<IClassType, IClassType, IDocCommentExceptionSection>
     {
+
     }
 }

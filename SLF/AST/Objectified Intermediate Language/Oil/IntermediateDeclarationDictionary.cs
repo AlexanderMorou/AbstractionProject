@@ -75,7 +75,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        public virtual KeyValuePair<string, TIntermediateDeclaration>[] ToArray()
+        public new virtual KeyValuePair<string, TIntermediateDeclaration>[] ToArray()
         {
             KeyValuePair<string, TIntermediateDeclaration>[] result = new KeyValuePair<string, TIntermediateDeclaration>[this.Count];
             this.CopyTo(result);
@@ -233,16 +233,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #endregion
         protected internal override void _Add(string key, TDeclaration value)
         {
-            base._Add(key, value);
             this.OnItemAdded(new EventArgsR1<TIntermediateDeclaration>(((TIntermediateDeclaration)(value))));
+            base._Add(key, value);
         }
 
-        protected override void _AddRange(IEnumerable<KeyValuePair<string, TDeclaration>> elements)
+        protected override void _AddRange(KeyValuePair<string, TDeclaration>[] elements)
         {
-            var newElements = elements.ToArray();
-            foreach (var element in newElements)
+            foreach (var element in elements)
                 this.OnItemAdded(new EventArgsR1<TIntermediateDeclaration>(((TIntermediateDeclaration)(element.Value))));
-            base._AddRange(newElements);
+            base._AddRange(elements);
         }
     }
 }

@@ -12,6 +12,10 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract.Documentation
 {
+    /// <summary>
+    /// Defines properties and methods for working with a documentation
+    /// comment element that references a field.
+    /// </summary>
     public interface IDocCommentFieldReferenceElement :
         IDocCommentReferenceElement
     {
@@ -20,6 +24,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Documentation
         /// associated to the 
         /// <see cref="IDocCommentFieldReferenceElement"/>.
         /// </summary>
-        IFieldMember ReferencedElement { get; }
+        new IFieldMember ReferencedElement { get; }
     }
 }

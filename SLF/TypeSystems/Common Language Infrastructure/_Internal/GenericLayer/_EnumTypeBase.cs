@@ -92,7 +92,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                     return this.disposed;
             }
         }
-        protected override void Dispose(bool dispose)
+        public override void Dispose()
         {
             if (CLIGateway.CompiledTypeCache.Values.Contains(this))
                 this.RemoveFromCache();
@@ -100,16 +100,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 return;
             lock (disposeLock)
             {
-                if (dispose)
-                {
-                    this.disposed = true;
-                    if (Original is _IGenericTypeRegistrar)
-                        ((_IGenericTypeRegistrar)(Original)).UnregisterGenericType(this.genericParameters);
-                    this.genericParameters = null;
-                    this.Original = null;
-                }
+                this.disposed = true;
+                if (Original is _IGenericTypeRegistrar)
+                    ((_IGenericTypeRegistrar)(Original)).UnregisterGenericType(this.genericParameters);
+                this.genericParameters = null;
+                this.Original = null;
             }
-            base.Dispose(dispose);
+            base.Dispose();
         }
 
         private IType OnGetDeclaringTypeImpl()

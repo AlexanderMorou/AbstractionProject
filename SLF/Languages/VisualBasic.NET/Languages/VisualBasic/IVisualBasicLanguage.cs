@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Cst;
+using AllenCopeland.Abstraction.Slf.Oil;
  /*---------------------------------------------------------------------\
  | Copyright © 2011 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -47,7 +48,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         /// <exception cref="System.ArgumentException">thrown when
         /// <paramref name="name"/> is <see cref="String.Empty"/>
         /// or <paramref name="version"/> is out of the values allowed.</exception>
-        IVisualBasicAssembly CreateAssembly(string name, VisualBasicVersion version);
+        new IVisualBasicAssembly CreateAssembly(string name, VisualBasicVersion version);
         /// <summary>
         /// Creates a new <see cref="IVisualBasicAssembly"/>
         /// with the <paramref name="name"/> provided.
@@ -60,6 +61,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         /// <paramref name="name"/> is null.</exception>
         /// <exception cref="System.ArgumentException">thrown when
         /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
-        IVisualBasicAssembly CreateAssembly(string name);
+        new IVisualBasicAssembly CreateAssembly(string name);
     }
 }

@@ -59,6 +59,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         public abstract void Dispose();
 
+        /// <summary>
+        /// Occurs when the <see cref="DeclarationBase"/> is disposed.
+        /// </summary>
+        /// <remarks>Inheritors must remember to invoke this if they 
+        /// override its functionality to ensure that <see cref="Disposed"/>
+        /// is fired.</remarks>
         protected void OnDisposed()
         {
             var disposeCopy = this.Disposed;

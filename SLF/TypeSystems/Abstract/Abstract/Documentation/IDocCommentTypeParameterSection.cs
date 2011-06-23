@@ -11,6 +11,11 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract.Documentation
 {
+    /// <summary>
+    /// Defines properties and methods for working with a 
+    /// documentation comment section that describes a
+    /// <see cref="IGenericParameter"/>.
+    /// </summary>
     public interface IDocCommentTypeParameterSection :
         IDocCommentNamedSection<IGenericParameter>
     {

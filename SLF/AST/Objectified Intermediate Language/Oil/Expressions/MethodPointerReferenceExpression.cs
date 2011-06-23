@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             private TSignature source;
             public SignatureTypes(TSignature source)
             {
-
+                this.source = source;
             }
 
             #region ITypeCollection Members

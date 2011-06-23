@@ -222,7 +222,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 this.properties = this.InitializeProperties();
         }
         #endregion
-        protected override void Dispose(bool dispose)
+        public override void Dispose()
         {
             if (this._constraints != null)
             {
@@ -236,7 +236,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             }
             if (this.parent != null)
                 this.parent = default(TParent);
-            base.Dispose(dispose);
+            base.Dispose();
         }
 
         #region IGenericParameter<TGenericParameter,TGenericParameterConstructor,TGenericParameterConstructorParameter> Members

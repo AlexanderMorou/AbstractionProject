@@ -13,6 +13,10 @@ using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
+    /// <summary>
+    /// Defines properties and methods for working with a 
+    /// field defined at the top (namespace) level.
+    /// </summary>
     public interface ITopLevelFieldMember :
         IFieldMember<ITopLevelFieldMember, INamespaceParent>
     {

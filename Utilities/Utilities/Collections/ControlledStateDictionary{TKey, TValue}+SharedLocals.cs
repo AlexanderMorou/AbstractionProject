@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 {
     partial class ControlledStateDictionary<TKey, TValue>
     {
-        public class SharedLocals
+        private class SharedLocals
         {
             internal Dictionary<TKey, int> orderings = new Dictionary<TKey, int>();
             internal KeyValuePair<TKey, TValue>[] entries;
@@ -52,7 +52,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             {
                 get
                 {
-                    return this.orderings.Count;
+                    lock (this.syncObject)
+                        return this.orderings.Count;
                 }
             }
 
@@ -80,8 +81,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             {
                 lock (this.syncObject)
                 {
-                    this.EnsureSpaceExists(this.Count + 1);
-                    this.entries[this.Count] = item;
+                    int count = this.orderings.Count;
+                    this.EnsureSpaceExists(count + 1);
+                    this.entries[count] = item;
                     this.orderings.Add(item.Key, this.Count);
                 }
             }
@@ -94,35 +96,14 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                     return;
                 lock (this.syncObject)
                 {
-                    EnsureSpaceExists(this.Count + elements.Length);
-                    int startingCount = this.Count;
+                    int count = this.orderings.Count;
+                    EnsureSpaceExists(count + elements.Length);
                     Parallel.For(0, elements.Length, i =>
                     {
                         var newitem = elements[i];
-                        this.entries[startingCount + i] = newitem;
+                        this.entries[count + i] = newitem;
                         lock (orderings)
-                            this.orderings.Add(newitem.Key, startingCount + i);
-                    });
-                }
-            }
-
-            internal void _AddRange(IEnumerable<KeyValuePair<TKey, TValue>> elements)
-            {
-                if (elements == null)
-                    throw new ArgumentNullException("elements");
-                KeyValuePair<TKey, TValue>[] newSet = elements.ToArray();
-                if (newSet.Length == 0)
-                    return;
-                lock (this.syncObject)
-                {
-                    EnsureSpaceExists(this.Count + newSet.Length);
-                    int startingCount = this.Count;
-                    Parallel.For(0, newSet.Length, i =>
-                    {
-                        var newitem = newSet[i];
-                        this.entries[startingCount + i] = newitem;
-                        lock (orderings)
-                            this.orderings.Add(newitem.Key, startingCount + i);
+                            this.orderings.Add(newitem.Key, count + i);
                     });
                 }
             }
@@ -184,7 +165,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                     this.values = value;
                 }
             }
-
 
         }
     }

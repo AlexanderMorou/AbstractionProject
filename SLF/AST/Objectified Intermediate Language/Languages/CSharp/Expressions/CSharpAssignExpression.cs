@@ -199,6 +199,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
 
         #region IStatementExpression Members
 
+        /// <summary>
+        /// Returns whether the <see cref="CSharpAssignExpression"/> is valid as a statement in its 
+        /// current form.
+        /// </summary>
         public bool ValidAsStatement
         {
             get

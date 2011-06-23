@@ -61,7 +61,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 return dc;
             }
 
-            public bool Contains(MasterDictionaryEntry<TMItem> item)
+            public new bool Contains(MasterDictionaryEntry<TMItem> item)
             {
                 bool containsUnloaded = false;
                 foreach (var s in this.dataCopy)
@@ -121,7 +121,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 throw new NotSupportedException();
             }
 
-            public void CopyTo(MasterDictionaryEntry<TMItem>[] array, int arrayIndex = 0)
+            public new void CopyTo(MasterDictionaryEntry<TMItem>[] array, int arrayIndex = 0)
             {
                 for (int i = 0; i < this.dataCopy.Count; i++)
                     if (this.dataCopy[i] == null)

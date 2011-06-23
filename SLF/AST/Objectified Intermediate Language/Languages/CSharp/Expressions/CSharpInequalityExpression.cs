@@ -16,6 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
     /// <summary>
     /// Provides a root implementation of <see cref="ICSharpInequalityExpression"/>.
     /// </summary>
+    #pragma warning disable 0660, 0661
     public class CSharpInequalityExpression :
         CSharpBinaryOperationExpressionBase<ICSharpInequalityExpression, ICSharpRelationalExpression>,
         ICSharpInequalityExpression
@@ -24,7 +25,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
         /// Data member for <see cref="Operation"/>.
         /// </summary>
         private CSharpInequalityOperation operation;
-
         /// <summary>
         /// Creates a new <see cref="CSharpInequalityExpression"/> instance
         /// with the <paramref name="leftSide"/>, <paramref name="equals"/>,
@@ -189,4 +189,5 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
             }
         }
     }
+    #pragma warning restore 0660, 0661
 }

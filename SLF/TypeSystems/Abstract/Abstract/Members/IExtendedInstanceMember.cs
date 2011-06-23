@@ -77,7 +77,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
          * */
         Override  = 0x2a08,
         /// <summary>
-        /// Member hides base's definition.
+        /// Member hides base's definition
+        /// by signature.
         /// </summary>
         /* 1000000000010000 */
         /* *
@@ -88,6 +89,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
          * */
         HideBySignature = InstanceMemberFlags.HideBySignature,
         /* 1000000000100000 */
+        /// <summary>
+        /// Member hides base's definition by name.
+        /// </summary>
         HideByName = InstanceMemberFlags.HideByName,
         /// <summary>
         /// Member is final (removes the ability for 

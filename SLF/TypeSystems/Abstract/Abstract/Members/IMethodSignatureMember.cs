@@ -124,6 +124,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <see cref="IType"/> elements that replace the 
         /// base definition's <see cref="IGenericParamParent.TypeParameters"/>.
         /// </summary>
-        ILockedTypeCollection GenericParameters { get; }
+        new ILockedTypeCollection GenericParameters { get; }
     }
 }

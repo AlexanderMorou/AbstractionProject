@@ -5,6 +5,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Utilities.Properties;
+using System.ComponentModel;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -24,6 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <typeparam name="TInstanceIntermediateType">The type which will be instanced by the 
     /// partial declaration system; must contain a public constructor with the following parameters:
     /// <typeparamref name="TIntermediateType"/>, <see cref="IIntermediateTypeParent"/></typeparam>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class IntermediateGenericSegmentableType<TType, TIntermediateType, TInstanceIntermediateType> :
         IntermediateGenericTypeBase<TType, TIntermediateType>,
         IIntermediateSegmentableType<TType, TIntermediateType>
@@ -99,7 +101,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.GetRoot().Name = value;
         }
 
-        protected override void Dispose(bool dispose)
+        public override void Dispose()
         {
             try
             {
@@ -117,7 +119,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
             finally
             {
-                base.Dispose(dispose);
+                base.Dispose();
             }
         }
 

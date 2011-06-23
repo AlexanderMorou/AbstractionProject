@@ -12,6 +12,12 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract.Documentation
 {
+    /// <summary>
+    /// Defines properties and methods for working with a 
+    /// documentation comment for a member may contain
+    /// a series of parameters, has a return value,
+    /// and a possible sequence of exceptions to describe.
+    /// </summary>
     public interface ISignatureMemberDocComment :
         ICodeMemberDocComment
     {

@@ -464,6 +464,15 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #region IEquatable<IType> Members
 
+        /// <summary>
+        /// Determines whether the <paramref name="other"/>
+        /// <see cref="IType"/> is equal to
+        /// the current <see cref="TypeBase"/>.
+        /// </summary>
+        /// <param name="other">The other <see cref="IType"/>
+        /// to check against.</param>
+        /// <returns>true if the <see cref="IType"/> is
+        /// equal to the current <see cref="TypeBase"/>.</returns>
         public bool Equals(IType other)
         {
             if (other.GetType() != this.GetType())
@@ -498,27 +507,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Performs application-defined tasks associated with 
         /// freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        public sealed override void Dispose()
+        public override void Dispose()
         {
             //Dispose
-            this.Dispose(true);
-        }
-
-        /// <summary>
-        /// Returns the unique identifier for the current <see cref="TypeBase"/> where 
-        /// <see cref="DeclarationBase.Name"/> is not enough to distinguish between two 
-        /// <see cref="TypeBase"/> entities.
-        /// </summary>
-        public override string UniqueIdentifier
-        {
-            get
-            {
-                return this.BuildTypeName();
-            }
-        }
-
-        protected virtual void Dispose(bool dispose)
-        {
             try
             {
                 if (this.arrayCache != null)
@@ -546,6 +537,24 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
 
+        /// <summary>
+        /// Returns the unique identifier for the current <see cref="TypeBase"/> where 
+        /// <see cref="DeclarationBase.Name"/> is not enough to distinguish between two 
+        /// <see cref="TypeBase"/> entities.
+        /// </summary>
+        public override string UniqueIdentifier
+        {
+            get
+            {
+                return this.BuildTypeName();
+            }
+        }
+
+        /// <summary>
+        /// Converts the <see cref="TypeBase"/> to a <see cref="String"/>
+        /// representation.
+        /// </summary>
+        /// <returns>The full name of the type as a string.</returns>
         public override string ToString()
         {
             return this.BuildTypeName(true);
@@ -566,6 +575,16 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
 
+        /// <summary>
+        /// Determines whether the <see cref="IType"/>
+        /// is defined within the custom attributes of the 
+        /// <see cref="TypeBase"/>.
+        /// </summary>
+        /// <param name="attributeType">The <see cref="IType"/> which determines
+        /// the </param>
+        /// <returns>true if <see cref="attributeType"/> can be assigned to
+        /// from a type of one of the custom attributes contained within 
+        /// the <see cref="TypeBase"/>.</returns>
         public bool IsDefined(IType attributeType)
         {
             foreach (ICustomAttributeInstance inst in this.CustomAttributes)
@@ -584,7 +603,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// attributes relative to the current instance.</returns>
         protected abstract ICustomAttributeCollection InitializeCustomAttributes();
 
-
+        /// <summary>
+        /// Returns a <see cref="IEnumerable{T}"/> of the elements
+        /// contained within the <see cref="TypeBase"/>.
+        /// </summary>
         public IEnumerable<IDeclaration> Declarations
         {
             get
@@ -593,6 +615,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
 
+        /// <summary>
+        /// Obtains the <see cref="IEnumerable{T}"/> which contains all of the 
+        /// declarations for the <see cref="TypeBase"/>.
+        /// </summary>
+        /// <returns>A <see cref="IEnumerable{T}"/> capable of iterating the declarations
+        /// contained within the <see cref="TypeBase"/>.</returns>
         protected virtual IEnumerable<IDeclaration> OnGetDeclarations()
         {
             foreach (var member in this.Members.Values)

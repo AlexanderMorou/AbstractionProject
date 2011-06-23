@@ -41,7 +41,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <see cref="System.Array"/>, starting at a particular <see cref="System.Array"/> 
         /// index.
         /// </summary>
-        ///
         /// <param name="array">
         /// The one-dimensional <see cref="System.Array"/> that is the destination of the 
         /// elements copied from <see cref="IControlledStateCollection"/>. The 
@@ -62,6 +61,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// of the elements of the <see cref="IControlledStateCollection "/>
         /// cannot be cast automatically to the type of the destination.
         /// <paramref name="array"/>.</exception>
+        /// <exception cref="System.ArrayTypeMismatchException">thrown when the type
+        /// of the <paramref name="array"/> does not match the underlying type of
+        /// the elements of the <see cref="IControlledStateCollection"/>.</exception>
         void CopyTo(Array array, int arrayIndex = 0);
 
         /// <summary>

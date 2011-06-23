@@ -29,8 +29,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <typeparam name="TAssembly">The kind of assembly represented by the </typeparam>
     public abstract partial class IntermediateAssembly<TAssembly> :
         AssemblyBase,
-        IIntermediateAssembly,
-        IIntermediateSegmentableDeclaration<IIntermediateAssembly>
+        IIntermediateAssembly
         where TAssembly :
             IntermediateAssembly<TAssembly>
     {

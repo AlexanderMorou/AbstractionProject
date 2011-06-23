@@ -64,7 +64,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return false;
         }
 
-        protected override void ICollection_CopyTo(Array array, int arrayIndex)
+        protected override void CopyToArray(Array array, int arrayIndex)
         {
             if (array.Length - arrayIndex < this.Count)
                 throw new ArgumentException("array");

@@ -107,6 +107,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IIndexerSignatureParent,
         IPropertySignatureParentType
     {
+        /// <summary>
+        /// Returns the direction of allowed variance of the
+        /// <see cref="IGenericParameter"/>.
+        /// </summary>
         GenericParameterVariance Variance { get; }
         /// <summary>
         /// Returns whether the <see cref="IGenericParameter"/> requires a

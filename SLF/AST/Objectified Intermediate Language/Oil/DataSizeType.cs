@@ -32,6 +32,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             //Cheap method, but effective.
             this.Lock();
+            this.dataSize = dataSize;
         }
 
         protected override DataSizeType GetNewPartial(DataSizeType root, IIntermediateTypeParent parent)

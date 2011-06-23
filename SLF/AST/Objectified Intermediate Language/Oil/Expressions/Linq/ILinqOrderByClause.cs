@@ -12,7 +12,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
 {
     /// <summary>
     /// The ordering direction used for a 
-    /// <see cref="ILinqDirectedOrderByClause"/>
+    /// <see cref="ILinqOrderByClause"/>
     /// to determine which direction the results are 
     /// ordered.
     /// </summary>

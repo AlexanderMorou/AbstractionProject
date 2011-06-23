@@ -21,14 +21,14 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             IControlledStateCollection
         {
             private SharedLocals locals;
-            public ValuesCollection(SharedLocals locals)
+            private ValuesCollection(SharedLocals locals)
             {
                 this.locals = locals;
             }
 
-            protected ValuesCollection(ControlledStateDictionary<TKey, TValue> localOwner)
+            protected internal ValuesCollection(ControlledStateDictionary<TKey, TValue> localOwner)
+                : this(localOwner.locals)
             {
-                this.locals = localOwner.locals;
             }
             #region IControlledStateCollection<TValue> Members
 

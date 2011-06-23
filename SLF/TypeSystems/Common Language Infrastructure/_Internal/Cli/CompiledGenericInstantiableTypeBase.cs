@@ -734,74 +734,71 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-        protected override void Dispose(bool dispose)
+        public override void Dispose()
         {
-            if (dispose)
+            if (this.binaryOperatorCoercions != null)
             {
-                if (this.binaryOperatorCoercions != null)
-                {
-                    this.binaryOperatorCoercions.Dispose();
-                    this.binaryOperatorCoercions = null;
-                }
-                if (this.fields != null)
-                {
-                    this.fields.Dispose();
-                    this.fields = null;
-                } 
-                if (this.events != null)
-                {
-                    this.events.Dispose();
-                    this.events = null;
-                }
-                if (this.methods != null)
-                {
-                    this.methods.Dispose();
-                    this.methods = null;
-                }
-                if (this.properties != null)
-                {
-                    this.properties.Dispose();
-                    this.properties = null;
-                }
-                if (this.unaryOperatorCoercions != null)
-                {
-                    this.unaryOperatorCoercions.Dispose();
-                    this.unaryOperatorCoercions = null;
-                } 
-                if (this.typeCoercions != null)
-                {
-                    this.typeCoercions.Dispose();
-                    this.typeCoercions = null;
-                }
-                if (this.classes != null)
-                {
-                    this.classes.Dispose();
-                    this.classes = null;
-                }
-                if (this.enums != null)
-                {
-                    this.enums.Dispose();
-                    this.enums = null;
-                }
-                if (this.delegates != null)
-                {
-                    this.delegates.Dispose();
-                    this.delegates = null;
-                }
-                if (this.interfaces != null)
-                {
-                    this.interfaces.Dispose();
-                    this.interfaces = null;
-                }
-                if (this.typeInitializer != null)
-                {
-                    this.typeInitializer.Dispose();
-                    this.typeInitializer = null;
-                }
-                if (this.types != null)
-                    this.types = null;
+                this.binaryOperatorCoercions.Dispose();
+                this.binaryOperatorCoercions = null;
             }
-            base.Dispose(dispose);
+            if (this.fields != null)
+            {
+                this.fields.Dispose();
+                this.fields = null;
+            }
+            if (this.events != null)
+            {
+                this.events.Dispose();
+                this.events = null;
+            }
+            if (this.methods != null)
+            {
+                this.methods.Dispose();
+                this.methods = null;
+            }
+            if (this.properties != null)
+            {
+                this.properties.Dispose();
+                this.properties = null;
+            }
+            if (this.unaryOperatorCoercions != null)
+            {
+                this.unaryOperatorCoercions.Dispose();
+                this.unaryOperatorCoercions = null;
+            }
+            if (this.typeCoercions != null)
+            {
+                this.typeCoercions.Dispose();
+                this.typeCoercions = null;
+            }
+            if (this.classes != null)
+            {
+                this.classes.Dispose();
+                this.classes = null;
+            }
+            if (this.enums != null)
+            {
+                this.enums.Dispose();
+                this.enums = null;
+            }
+            if (this.delegates != null)
+            {
+                this.delegates.Dispose();
+                this.delegates = null;
+            }
+            if (this.interfaces != null)
+            {
+                this.interfaces.Dispose();
+                this.interfaces = null;
+            }
+            if (this.typeInitializer != null)
+            {
+                this.typeInitializer.Dispose();
+                this.typeInitializer = null;
+            }
+            if (this.types != null)
+                this.types = null;
+            base.Dispose();
         }
 
         #region IEventSignatureParent Members

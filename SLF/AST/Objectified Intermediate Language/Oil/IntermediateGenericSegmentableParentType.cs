@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Properties;
+using System.ComponentModel;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -25,6 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// intermediate abstract syntax tree.</typeparam>
     /// <typeparam name="TInstanceIntermediateType">The direct kind of type
     /// used to instantiate the partial elements within the system.</typeparam>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class IntermediateGenericSegmentableParentType<TType, TIntermediateType, TInstanceIntermediateType> :
         IntermediateGenericSegmentableType<TType, TIntermediateType, TInstanceIntermediateType>,
         IIntermediateTypeParent
@@ -492,7 +494,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 element.Rearranged(realFrom, realTo);
             base.OnRearrangedInner(from, to);
         }
-        protected override void Dispose(bool dispose)
+        public override void Dispose()
         {
             try
             {
@@ -534,7 +536,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
             finally
             {
-                base.Dispose(dispose);
+                base.Dispose();
             }
         }
         protected override IEnumerable<IDeclaration> OnGetDeclarations()

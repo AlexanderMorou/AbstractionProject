@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Modules;
+using System.ComponentModel;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -20,6 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <summary>
     /// Provides a base class for intermediate types.
     /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class IntermediateTypeBase<TType, TIntermediateType> :
         TypeBase<TType>,
         IIntermediateType
@@ -396,7 +398,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        protected override void Dispose(bool dispose)
+        public override void Dispose()
         {
             try
             {
@@ -412,7 +414,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             finally
             {
                 this.isDisposed = 1;
-                base.Dispose(dispose);
+                base.Dispose();
             }
         }
 

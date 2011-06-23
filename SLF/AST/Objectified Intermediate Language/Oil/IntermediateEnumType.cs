@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using System.ComponentModel;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -16,6 +17,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
+    [EditorBrowsable(EditorBrowsableState.Always)]
     public partial class IntermediateEnumType :
         IntermediateTypeBase<IEnumType, IIntermediateEnumType>,
         IIntermediateEnumType

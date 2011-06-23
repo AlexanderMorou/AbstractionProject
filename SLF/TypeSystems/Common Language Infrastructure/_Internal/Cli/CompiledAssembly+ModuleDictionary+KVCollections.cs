@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     {
         partial class ModuleDictionary
         {
-            private sealed class KeysCollection :
+            private new sealed class KeysCollection :
                 ControlledStateDictionary<string, IModule>.KeysCollection
             {
                 private ModuleDictionary owner;
@@ -96,7 +96,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
             }
 
-            private sealed class ValuesCollection :
+            private new sealed class ValuesCollection :
                 ControlledStateDictionary<string, IModule>.ValuesCollection
             {
                 private ModuleDictionary owner;

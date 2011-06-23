@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 topLevelMethod.DefineLocal(digits);
                 topLevelMethod.DefineLocal(sortedDigits);
                 /* *
-                 * Console.WriteLine("Sorted Digits");
+                 * Console.WriteLine(CultureInfo.CurrentCulture.TextInfo.ToTitleCase("sorted digits"));
                  * */
                 
                 topLevelMethod.Call("Console".Fuse("WriteLine").Fuse("CultureInfo".Fuse("CurrentCulture").Fuse("TextInfo").Fuse("ToTitleCase").Fuse("sorted digits".ToPrimitive())));

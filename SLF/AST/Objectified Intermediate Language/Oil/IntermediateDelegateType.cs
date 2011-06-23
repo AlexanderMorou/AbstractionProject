@@ -10,6 +10,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Utilities.Events;
+using System.ComponentModel;
 
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
@@ -23,6 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <summary>
     /// Provides a base class for delegate types.
     /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Always)]
     public partial class IntermediateDelegateType :
         IntermediateGenericTypeBase<IDelegateType, IIntermediateDelegateType>,
         IIntermediateDelegateType
@@ -304,24 +306,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         #endregion
-        protected override void Dispose(bool dispose)
+        public override void Dispose()
         {
             try
             {
-                if (dispose)
+                if (this.parameters != null)
                 {
-                    if (this.parameters != null)
-                    {
-                        this.parameters.ItemAdded -= new EventHandler<EventArgsR1<IIntermediateDelegateTypeParameterMember>>(parameters_ItemAdded);
-                        this.parameters.ItemRemoved -= new EventHandler<EventArgsR1<IIntermediateDelegateTypeParameterMember>>(parameters_ItemRemoved);
-                        this.parameters.Dispose();
-                        this.parameters = null;
-                    }
+                    this.parameters.ItemAdded -= new EventHandler<EventArgsR1<IIntermediateDelegateTypeParameterMember>>(parameters_ItemAdded);
+                    this.parameters.ItemRemoved -= new EventHandler<EventArgsR1<IIntermediateDelegateTypeParameterMember>>(parameters_ItemRemoved);
+                    this.parameters.Dispose();
+                    this.parameters = null;
                 }
             }
             finally
             {
-                base.Dispose(dispose);
+                base.Dispose();
             }
         }
 

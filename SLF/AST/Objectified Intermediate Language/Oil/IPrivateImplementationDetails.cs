@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// representing the number of bytes within the data
         /// type.</param>
         /// <returns>A <see cref="IDataSizeType"/> relative
-        /// to the <see cref="dataSize"/> provided.</returns>
+        /// to the <paramref name="dataSize"/> provided.</returns>
         /// <remarks><para>Types defined within this are purely for
         /// convenience, the yielded type at the point of compile
         /// may change based upon the library used to handle

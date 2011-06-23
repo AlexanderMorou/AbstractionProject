@@ -38,7 +38,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TType,
             IIntermediateCreatableSignatureType<TCtor, TIntermediateCtor, TType, TIntermediateType>
     {
-        bool naming = false;
+        private bool naming = false;
+        private bool typeInitializer;
         /// <summary>
         /// Creates a new <see cref="IntermediateConstructorSignatureMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
         /// with the <paramref name="parent"/> provdied.
@@ -46,21 +47,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <param name="parent">The <typeparamref name="TIntermediateType"/>
         /// which the <see cref="IntermediateConstructorSignatureMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
         /// belongs to.</param>
-        public IntermediateConstructorSignatureMemberBase(TIntermediateType parent)
+        /// <param name="typeInitializer">Whether the <see cref="IntermediateConstructorSignatureMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/> 
+        /// is a type initializer</param>
+        internal IntermediateConstructorSignatureMemberBase(TIntermediateType parent, bool typeInitializer = false)
             : base(parent)
         {
-            naming = true;
-            this.Name = ".ctor";
-            naming = false;
-        }
-
-        internal IntermediateConstructorSignatureMemberBase(TIntermediateType parent, bool typeInitializer)
-            : this(parent)
-        {
+            this.typeInitializer = typeInitializer;
             if (typeInitializer)
             {
                 naming = true;
                 this.Name = ".cctor";
+                typeInitializer = true;
+                naming = false;
+            }
+            else
+            {
+                naming = true;
+                this.Name = ".ctor";
+                typeInitializer = false;
                 naming = false;
             }
         }

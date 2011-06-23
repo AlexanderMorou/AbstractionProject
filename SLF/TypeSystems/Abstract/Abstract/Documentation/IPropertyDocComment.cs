@@ -11,6 +11,9 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract.Documentation
 {
+    /// <summary>
+    /// Defines properties and methods for working with a 
+    /// </summary>
     public interface IPropertyDocComment :
         ICodeMemberDocComment
     {

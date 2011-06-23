@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Utilities.Properties;
+using System.ComponentModel;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -47,6 +48,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// in the intermediate abstract syntax tree.</typeparam>
     /// <typeparam name="TInstanceIntermediateType">The kind of type which implements the <typeparamref name="TIntermediateType"/>
     /// and will be instanced by the parts helper class.</typeparam>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract partial class IntermediateGenericSegmentableInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType> :
         IntermediateGenericSegmentableParentType<TType, TIntermediateType, TInstanceIntermediateType>,
         IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType>,
@@ -163,6 +165,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Data member for the unary operator coercions defined within the type.
         /// </summary>
         private UnaryOperatorDictionary unaryOperatorCoercions;
+
+        private ConstructorMember typeInitializer;
         #endregion
 
         private int suspendLevel = 0;
@@ -215,8 +219,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         public TIntermediateCtor TypeInitializer
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (this.typeInitializer == null)
+                    this.typeInitializer = this.GetTypeInitializer();
+                return (TIntermediateCtor)(object)this.typeInitializer;
+            }
         }
+
 
         #endregion
 
@@ -659,11 +669,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <paramref name="nameAndType"/>.</returns>
         protected abstract PropertyMember GetNewProperty(TypedName nameAndType);
 
+
+        /// <summary>
+        /// Obtains a new <see cref="ConstructorMember"/> to act as the <see cref="TypeInitializer"/>
+        /// for the type.
+        /// </summary>
+        /// <returns>A <see cref="ConstructorMember"/> which is noted to be
+        /// the static constructor.</returns>
+        /// <remarks>The <see cref="ConstructorMember"/> returned must inherit
+        /// <typeparamref name="TIntermediateCtor"/>.</remarks>
+        protected abstract ConstructorMember GetTypeInitializer();
+
         /// <summary>
         /// Obtains a new <see cref="ConstructorMember"/> with no parameters.
         /// </summary>
         /// <returns>A new <see cref="ConstructorMember"/>, if successful.</returns>
         /// <remarks>Required by design, due to further inheritance on constructors being necessary.</remarks>
+        /// <remarks>The <see cref="ConstructorMember"/> returned must inherit
+        /// <typeparamref name="TIntermediateCtor"/>.</remarks>
         protected abstract ConstructorMember GetNewConstructor();
         /// <summary>
         /// Obtains a new <see cref="EventMember"/> which designates the 
@@ -1034,75 +1057,72 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        protected override void Dispose(bool dispose)
+        public override void Dispose()
         {
             try
             {
-                if (dispose)
+                if (this.thisReference != null)
                 {
-                    if (this.thisReference != null)
-                    {
-                        this.thisReference.Dispose();
-                        this.thisReference = null;
-                    }
-                    if (this.binaryOperatorCoercions != null)
-                    {
-                        this.binaryOperatorCoercions.Dispose();
-                        this.binaryOperatorCoercions = null;
-                    }
-                    if (this.constructors != null)
-                    {
-                        this.constructors.Dispose();
-                        this.constructors = null;
-                    }
-                    if (this.events != null)
-                    {
-                        this.events.Dispose();
-                        this.events = null;
-                    }
-                    if (this.fields != null)
-                    {
-                        this.fields.Dispose();
-                        this.fields = null;
-                    }
-                    if (this.indexers != null)
-                    {
-                        this.indexers.Dispose();
-                        this.indexers = null;
-                    }
-                    if (this.methods != null)
-                    {
-                        this.methods.Dispose();
-                        this.methods = null;
-                    }
-                    if (this.properties != null)
-                    {
-                        this.properties.Dispose();
-                        this.properties = null;
-                    }
-                    if (this.typeCoercions != null)
-                    {
-                        this.typeCoercions.Dispose();
-                        this.typeCoercions = null;
-                    }
-                    if (this.unaryOperatorCoercions != null)
-                    {
-                        this.unaryOperatorCoercions.Dispose();
-                        this.unaryOperatorCoercions = null;
-                    }
-                    if (this._members != null)
-                    {
-                        if (this.IsRoot)
-                            this._members.Dispose();
-                        else
-                            this._members.ConditionalRemove(this);
-                        this._members = null;
-                    }
+                    this.thisReference.Dispose();
+                    this.thisReference = null;
+                }
+                if (this.binaryOperatorCoercions != null)
+                {
+                    this.binaryOperatorCoercions.Dispose();
+                    this.binaryOperatorCoercions = null;
+                }
+                if (this.constructors != null)
+                {
+                    this.constructors.Dispose();
+                    this.constructors = null;
+                }
+                if (this.events != null)
+                {
+                    this.events.Dispose();
+                    this.events = null;
+                }
+                if (this.fields != null)
+                {
+                    this.fields.Dispose();
+                    this.fields = null;
+                }
+                if (this.indexers != null)
+                {
+                    this.indexers.Dispose();
+                    this.indexers = null;
+                }
+                if (this.methods != null)
+                {
+                    this.methods.Dispose();
+                    this.methods = null;
+                }
+                if (this.properties != null)
+                {
+                    this.properties.Dispose();
+                    this.properties = null;
+                }
+                if (this.typeCoercions != null)
+                {
+                    this.typeCoercions.Dispose();
+                    this.typeCoercions = null;
+                }
+                if (this.unaryOperatorCoercions != null)
+                {
+                    this.unaryOperatorCoercions.Dispose();
+                    this.unaryOperatorCoercions = null;
+                }
+                if (this._members != null)
+                {
+                    if (this.IsRoot)
+                        this._members.Dispose();
+                    else
+                        this._members.ConditionalRemove(this);
+                    this._members = null;
                 }
             }
             finally
             {
-                base.Dispose(dispose);
+                base.Dispose();
             }
         }
 

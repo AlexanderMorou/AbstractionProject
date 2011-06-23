@@ -11,6 +11,10 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract.Documentation
 {
+    /// <summary>
+    /// Defines properties and methods for working with a documentation
+    /// comment that works to provide a section of code.
+    /// </summary>
     public interface IDocCommentCodeElement :
         IDocCommentSection,
         IDocCommentElement

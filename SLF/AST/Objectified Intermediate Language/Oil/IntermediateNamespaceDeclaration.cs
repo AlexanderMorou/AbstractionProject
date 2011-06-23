@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using System.ComponentModel;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -17,6 +18,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
+    [EditorBrowsable(EditorBrowsableState.Always)]
     public class IntermediateNamespaceDeclaration :
         IntermediateSegmentableDeclarationBase<IIntermediateNamespaceDeclaration, IntermediateNamespaceDeclaration>,
         IIntermediateNamespaceDeclaration
@@ -143,9 +145,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Returns the unique identifier for the current 
         /// <see cref="IntermediateNamespaceDeclaration"/> where 
-        /// <see cref="Name"/> is not enough to distinguish
-        /// between two <see cref="IntermediateNamespaceDeclaration"/>
-        /// entities.
+        /// <see cref="IntermediateDeclarationBase.Name"/> is not enough
+        /// to distinguish between two 
+        /// <see cref="IntermediateNamespaceDeclaration"/> entities.
         /// </summary>
         public override string UniqueIdentifier
         {
