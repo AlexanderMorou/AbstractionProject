@@ -11,6 +11,16 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
+    /// <summary>
+    /// Defines properties and methods for working with a node within
+    /// a keyed tree.
+    /// </summary>
+    /// <typeparam name="TKey">The kind of type used to represent
+    /// the key used to determine the branching lookup condition.</typeparam>
+    /// <typeparam name="TValue">The type of value used to represent the
+    /// node items.</typeparam>
+    /// <typeparam name="TNode">The kind of node used within the current
+    /// hierarchy.</typeparam>
     public interface IKeyedTreeNode<TKey, TValue, TNode> :
         IKeyedTree<TKey, TValue, TNode>,
         IControlledStateKeyedTreeNode<TKey, TValue, TNode>

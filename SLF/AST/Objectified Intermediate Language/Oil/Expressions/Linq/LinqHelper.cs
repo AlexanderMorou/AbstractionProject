@@ -43,7 +43,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// language integrated query expression build.</returns>
         public static ILinqBodyBuilder From(TypedName rangeVariable, string rangeSourceName)
         {
-            return new LinqTypedFromBodyBuilder(rangeVariable, (Symbol)rangeSourceName);
+            return new LinqTypedFromBodyBuilder(rangeVariable, rangeSourceName.GetSymbolExpression());
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
         /// language integrated query expression build.</returns>
         public static ILinqBodyBuilder From(string rangeVariableName, string rangeSourceName)
         {
-            return new LinqFromBodyBuilder(rangeVariableName, (Symbol)rangeSourceName);
+            return new LinqFromBodyBuilder(rangeVariableName, rangeSourceName.GetSymbolExpression());
         }
     }
 }

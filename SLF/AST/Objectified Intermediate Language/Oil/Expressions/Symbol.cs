@@ -13,12 +13,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     public sealed class Symbol :
         SymbolExpression
     {
-        public Symbol(string symbol)
+        internal Symbol(string symbol)
             : base(symbol)
         {
         }
 
-        public Symbol(string symbol, IMemberParentReferenceExpression source)
+        internal Symbol(string symbol, IMemberParentReferenceExpression source)
             : base(symbol, source)
         {
         }
@@ -30,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <returns></returns>
         public static implicit operator Symbol(string symbol)
         {
-            return new Symbol(symbol);
+            return (Symbol)(symbol.GetSymbolExpression());
         }
     }
 }

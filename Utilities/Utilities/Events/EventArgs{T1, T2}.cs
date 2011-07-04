@@ -10,6 +10,14 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Utilities.Events
 {
+    /// <summary>
+    /// Provides a generic event argument set which
+    /// contains two values.
+    /// </summary>
+    /// <typeparam name="TArg1">The type of the first argument of the event 
+    /// arguments.</typeparam>
+    /// <typeparam name="TArg2">The type fo the second argument of the event
+    /// arguments.</typeparam>
     public class EventArgs<TArg1, TArg2> :
         EventArgs<TArg1>
     {

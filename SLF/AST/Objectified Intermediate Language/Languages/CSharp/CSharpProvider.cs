@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
             get { return this.Parser; }
         }
 
-        ILanguageCSTTranslator<ICSharpCompilationUnit> IHighLevelLanguageProvider<ICSharpCompilationUnit>.ASTTranslator
+        ILanguageCSTTranslator<ICSharpCompilationUnit> IHighLevelLanguageProvider<ICSharpCompilationUnit>.CSTTranslator
         {
             get { return this.ASTTranslator; }
         }

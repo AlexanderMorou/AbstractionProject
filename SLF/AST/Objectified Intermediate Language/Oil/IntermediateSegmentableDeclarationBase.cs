@@ -36,18 +36,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             class,
             IIntermediateSegmentableDeclaration<TDeclaration>
         where TInstDeclaration :
-            class,
+            IntermediateSegmentableDeclarationBase<TDeclaration, TInstDeclaration>,
             TDeclaration/*,
             new (TDeclaration rootDeclaration)*/
     {
         /// <summary>
         /// Data member for <see cref="GetRoot()"/>.
         /// </summary>
-        private TDeclaration rootDeclaration;
+        private TInstDeclaration rootDeclaration;
         /// <summary>
         /// Data member for <see cref="Parts"/>.
         /// </summary>
-        private IIntermediateSegmentableDeclarationPartCollection<TDeclaration> parts;
+        private IntermediateSegmentableDeclarationParts<TDeclaration, TInstDeclaration> parts;
         /// <summary>
         /// Creates a new <see cref="IntermediateSegmentableDeclarationBase{TDeclaration, TInstDeclaration}"/>
         /// instance with the <paramref name="rootDeclaration"/> 
@@ -56,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <param name="rootDeclaration">The <typeparamref name="TDeclaration"/>
         /// instance that represents the root element of the
         /// <see cref="IntermediateSegmentableDeclarationBase{TDeclaration, TInstDeclaration}"/>.</param>
-        public IntermediateSegmentableDeclarationBase(TDeclaration rootDeclaration)
+        public IntermediateSegmentableDeclarationBase(TInstDeclaration rootDeclaration)
         {
             this.rootDeclaration = rootDeclaration;
         }
@@ -70,18 +70,25 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
         }
 
-        #region IIntermediateSegmentableDeclaration<TDeclaration> Members
-
         /// <summary>
         /// Returns the <typeparamref name="TDeclaration"/> that is the root declaration.
         /// </summary>
         /// <returns>An instance of <typeparamref name="TDeclaration"/> relative to the root instance that spawned
         /// the current <see cref="IntermediateSegmentableDeclarationBase{TDeclaration, TInstDeclaration}"/>.</returns>
-        public TDeclaration GetRoot()
+        public TInstDeclaration GetRoot()
         {
             if (this.rootDeclaration == null)
                 throw new InvalidOperationException();
             return this.rootDeclaration;
+        }
+
+
+
+        #region IIntermediateSegmentableDeclaration<TDeclaration> Members
+
+        TDeclaration IIntermediateSegmentableDeclaration<TDeclaration>.GetRoot()
+        {
+            return this.GetRoot();
         }
 
         /// <summary>
@@ -90,13 +97,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         public IIntermediateSegmentableDeclarationPartCollection<TDeclaration> Parts
         {
-            get {
+            get
+            {
                 if (this.IsRoot)
                 {
                     if (this.IsDisposed)
                         throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                     if (this.parts == null)
-                        this.parts = new IntermediateSegmentableDeclarationParts<TDeclaration, TInstDeclaration>(((TDeclaration)((object)(this))), GetNewPartial);
+                        this.parts = new IntermediateSegmentableDeclarationParts<TDeclaration, TInstDeclaration>((TInstDeclaration)this, GetNewPartial);
                     return this.parts;
                 }
                 else
@@ -154,6 +162,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         this.parts.AsParallel().ForAll(
                             part =>
                                 part.Dispose());
+                        if (this.parts.baseList != null)
+                            this.parts.baseList.Clear();
                         this.parts = null;
                     }
             }

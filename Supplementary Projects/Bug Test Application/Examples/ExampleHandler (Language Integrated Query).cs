@@ -36,9 +36,9 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 //var digits = new String[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }; 
                 var digits = topLevelMethod.Locals.Add(
                         "digits",
-                        (new[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }).ToExpression(), 
+                        new[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }.ToExpression(), 
                         LocalTypingKind.Implicit);
-                var digitSymbol = (Symbol)"digit";
+
                 /* *
                  * var sortedDigits = from digit in digits
                  *                    orderby digit.Length descending,
@@ -48,24 +48,29 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 var sortedDigits = topLevelMethod.Locals.Add("sortedDigits", 
                         LinqHelper
                         .From("digit", /* in */ digits.GetReference())
-                            .OrderBy(digitSymbol.GetProperty("Length"), LinqOrderByDirection.Descending)
-                            .ThenBy(digitSymbol.GetIndexer(0.ToPrimitive()))
-                        .Select(digitSymbol).Build(), LocalTypingKind.Implicit);
+                            .OrderBy("digit".Fuse("Length"), LinqOrderByDirection.Descending)
+                            .ThenBy("digit".GetIndexer(0.ToPrimitive()))
+                        .Select("digit").Build(), LocalTypingKind.Implicit);
                 topLevelMethod.DefineLocal(digits);
                 topLevelMethod.DefineLocal(sortedDigits);
                 /* *
+                 * Construction of expressions is pretty simple; just fuse strings together, 
+                 * differentiation takes place on whether the string is an expression or not.
+                 * */
+
+                /* *
                  * Console.WriteLine(CultureInfo.CurrentCulture.TextInfo.ToTitleCase("sorted digits"));
                  * */
-                
                 topLevelMethod.Call("Console".Fuse("WriteLine").Fuse("CultureInfo".Fuse("CurrentCulture").Fuse("TextInfo").Fuse("ToTitleCase").Fuse("sorted digits".ToPrimitive())));
+
                 /* *
                  * foreach (digit in sortedDigits)
                  *     Console.WriteLine(digit);
                  * */
                 var iteratorLocal = topLevelMethod.Locals.Add("digit", null, LocalTypingKind.Implicit);
                 iteratorLocal.AutoDeclare = false;
-                var enumerationBlock = topLevelMethod.Enumerate(iteratorLocal.GetDeclarationStatement(), sortedDigits.GetReference());
-                enumerationBlock.Call("Console".Fuse("WriteLine").Fuse(iteratorLocal.GetReference()));
+                var enumerationBlock = topLevelMethod.Enumerate(iteratorLocal, sortedDigits.GetReference());
+                enumerationBlock.Call("Console".Fuse("WriteLine").Fuse((IExpression)(Symbol)"digit"));
                 return new Tuple<TAssembly, IIntermediateTopLevelMethodMember>(assembly, topLevelMethod);
             }
         }

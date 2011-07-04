@@ -11,6 +11,11 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
+    /// <summary>
+    /// Defines properties and methods for working with a finite
+    /// automata source element from which the active automation element
+    /// was derived.
+    /// </summary>
     public interface IFiniteAutomataSource
     {
     }

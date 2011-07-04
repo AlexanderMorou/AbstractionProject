@@ -52,21 +52,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         internal IntermediateConstructorSignatureMemberBase(TIntermediateType parent, bool typeInitializer = false)
             : base(parent)
         {
+            naming = true;
             this.typeInitializer = typeInitializer;
-            if (typeInitializer)
-            {
-                naming = true;
-                this.Name = ".cctor";
-                typeInitializer = true;
-                naming = false;
-            }
-            else
-            {
-                naming = true;
-                this.Name = ".ctor";
-                typeInitializer = false;
-                naming = false;
-            }
+            this.Name = typeInitializer ? ".cctor" : ".ctor";
+            naming = false;
         }
 
         #region IIntermediateScopedDeclaration Members

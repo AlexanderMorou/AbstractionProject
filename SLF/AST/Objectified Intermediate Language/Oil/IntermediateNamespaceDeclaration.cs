@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using System.ComponentModel;
+using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -24,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IIntermediateNamespaceDeclaration
     {
         /// <summary>
-        /// Data member fro <see cref="Classes"/>.
+        /// Data member for <see cref="Classes"/>.
         /// </summary>
         private IntermediateClassTypeDictionary classes;
         /// <summary>
@@ -55,8 +56,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Data member for <see cref="Namespaces"/>.
         /// </summary>
         private IIntermediateNamespaceDictionary namespaces;
+        /// <summary>
+        /// Data member for <see cref="_Members"/>
+        /// </summary>
         private IntermediateFullMemberDictionary members;
+        /// <summary>
+        /// Data member for <see cref="Methods"/>.
+        /// </summary>
         private IntermediateMethodMemberDictionary<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent> methods;
+        /// <summary>
+        /// Data member for <see cref="Fields"/>.
+        /// </summary>
         private IntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent> fields;
         private IScopeCoercionCollection scopeCoercions;
 
@@ -81,6 +91,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         /// <param name="rootDeclaration">The <see cref="IntermediateNamespaceDeclaration"/>
         /// which is the root instance.</param>
+        /// <param name="parent">The <see cref="IIntermediateNamespaceParent"/>
+        /// which contains the <see cref="IntermediateNamespaceDeclaration"/>.</param>
         public IntermediateNamespaceDeclaration(IntermediateNamespaceDeclaration rootDeclaration, IIntermediateNamespaceParent parent)
             : base(rootDeclaration)
         {
@@ -89,7 +101,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
 
         #region IIntermediateNamespaceDeclaration Members
-
+        /// <summary>
+        /// Visits a <see cref="IIntermediateDeclarationVisitor"/>.
+        /// </summary>
+        /// <param name="visitor">The <see cref="IIntermediateDeclarationVisitor"/> to visit.</param>
         public void Visit(IIntermediateDeclarationVisitor visitor)
         {
             visitor.Visit(this);
@@ -168,7 +183,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (this.IsRoot)
                 {
                     if (this.namespaces == null)
-                        this.namespaces = this.InitializeNamespaces();
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                        else
+                            this.namespaces = this.InitializeNamespaces();
                     return this.namespaces;
                 }
                 else
@@ -189,7 +207,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             get
             {
                 if (this.scopeCoercions == null)
-                    this.scopeCoercions = new ScopeCoercionCollection();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.scopeCoercions = new ScopeCoercionCollection();
                 return this.scopeCoercions;
             }
         }
@@ -259,15 +280,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        private IntermediateFullTypeDictionary _Types
-        {
-            get
-            {
-                this.Check_Types();
-                return this.types;
-            }
-        }
-
         /// <summary>
         /// Returns the full set of types associated to
         /// the <see cref="IntermediateNamespaceDeclaration"/>.
@@ -286,6 +298,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         #endregion
+
+        private IntermediateFullTypeDictionary _Types
+        {
+            get
+            {
+                this.Check_Types();
+                return this.types;
+            }
+        }
 
         #region ITypeParent Members
 
@@ -393,6 +414,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region Initializers
 
+        /// <summary>
+        /// Initializes the child namespaces associated to the
+        /// <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
+        /// <returns>A new <see cref="IIntermediateNamespaceDictionary"/>
+        /// instance.</returns>
         protected virtual IIntermediateNamespaceDictionary InitializeNamespaces()
         {
 
@@ -402,6 +429,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new IntermediateNamespaceDictionary(this, (IntermediateNamespaceDictionary)this.GetRoot().Namespaces);
         }
 
+        /// <summary>
+        /// Initializes the child classes of the 
+        /// <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
+        /// <returns>A new <see cref="IntermediateClassTypeDictionary"/>
+        /// instance.</returns>
         protected virtual IntermediateClassTypeDictionary InitializeClasses()
         {
             if (this.IsRoot)
@@ -410,6 +443,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new IntermediateClassTypeDictionary(this, this._Types, (IntermediateClassTypeDictionary)this.GetRoot().Classes);
         }
 
+        /// <summary>
+        /// Initializes the child delegates of the
+        /// <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
+        /// <returns>A new <see cref="IntermediateDelegateTypeDictionary"/>
+        /// instance.</returns>
         protected virtual IntermediateDelegateTypeDictionary InitializeDelegates()
         {
             if (this.IsRoot)
@@ -418,6 +457,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new IntermediateDelegateTypeDictionary(this, this._Types, (IntermediateDelegateTypeDictionary)this.GetRoot().Delegates);
         }
 
+
+        /// <summary>
+        /// Initializes the child enumerations of the
+        /// <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
+        /// <returns>A new <see cref="IntermediateEnumTypeDictionary"/>
+        /// instance.</returns>
         protected virtual IntermediateEnumTypeDictionary InitializeEnums()
         {
             if (this.IsRoot)
@@ -426,6 +472,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new IntermediateEnumTypeDictionary(this, this._Types, (IntermediateEnumTypeDictionary)this.GetRoot().Enums);
         }
 
+        /// <summary>
+        /// Initializes the child interfaces of the
+        /// <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
+        /// <returns>A new <see cref="IntermediateInterfaceTypeDictionary"/>
+        /// instance.</returns>
         protected virtual IntermediateInterfaceTypeDictionary InitializeInterfaces()
         {
             if (this.IsRoot)
@@ -434,6 +486,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new IntermediateInterfaceTypeDictionary(this, this._Types, (IntermediateInterfaceTypeDictionary)this.GetRoot().Interfaces);
         }
 
+        /// <summary>
+        /// Initializes the child data structures of the
+        /// <see cref="IntermediateNamespaceDeclaration"/>.
+        /// </summary>
+        /// <returns>A new <see cref="IntermediateStructTypeDictionary"/>
+        /// instance.</returns>
         protected virtual IntermediateStructTypeDictionary InitializeStructs()
         {
             if (this.IsRoot)
@@ -443,17 +501,39 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        protected virtual IntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent> InitializeFields()
+        {
+            if (this.IsRoot)
+                return new IntermediateTopLevelFieldMemberDictionary(this._Members, this);
+            else
+                return new IntermediateTopLevelFieldMemberDictionary(this._Members, this, this.GetRoot().Fields as IntermediateTopLevelFieldMemberDictionary);
+
+        }
+
+        protected virtual IntermediateMethodMemberDictionary<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent> InitializeMethods()
+        {
+            if (this.IsRoot)
+                return new IntermediateTopLevelMethodMemberDictionary(this._Members, this);
+            else
+                return new IntermediateTopLevelMethodMemberDictionary(this._Members, this, this.GetRoot().Methods as IntermediateTopLevelMethodMemberDictionary);
+        }
+
+        /// <summary>
         /// Initializes the full types container to a default state if the 
         /// current <see cref="IntermediateNamespaceDeclaration"/> is 
         /// the root instance; otherwise, 
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A new <see cref="IntermediateFullTypeDictionary"/>
+        /// instance.</returns>
         private IntermediateFullTypeDictionary InitializeTypes()
         {
             if (this.IsRoot)
                 return new IntermediateFullTypeDictionary(this);
             else
-                return new IntermediateFullTypeDictionary(this, ((IntermediateNamespaceDeclaration)(this.GetRoot()))._Types);
+                return new IntermediateFullTypeDictionary(this, this.GetRoot()._Types);
         }
 
         #endregion
@@ -497,7 +577,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.classes == null)
             {
-                this.classes = this.InitializeClasses();
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                else
+                    this.classes = this.InitializeClasses();
                 SuspendCheck(this.classes, this.suspendLevel);
             }
         }
@@ -506,7 +589,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.delegates == null)
             {
-                this.delegates = this.InitializeDelegates();
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                else
+                    this.delegates = this.InitializeDelegates();
                 SuspendCheck(this.delegates, this.suspendLevel);
             }
         }
@@ -515,7 +601,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.enums == null)
             {
-                this.enums = this.InitializeEnums();
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                else
+                    this.enums = this.InitializeEnums();
                 SuspendCheck(this.enums, this.suspendLevel);
             }
         }
@@ -524,7 +613,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.interfaces == null)
             {
-                this.interfaces = this.InitializeInterfaces();
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                else
+                    this.interfaces = this.InitializeInterfaces();
                 SuspendCheck(this.interfaces, this.suspendLevel);
             }
         }
@@ -533,7 +625,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.structs == null)
             {
-                this.structs = this.InitializeStructs();
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                else
+                    this.structs = this.InitializeStructs();
                 SuspendCheck(this.structs, this.suspendLevel);
             }
         }
@@ -541,8 +636,30 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private void Check_Types()
         {
             if (this.types == null)
-                this.types = this.InitializeTypes();
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                else
+                    this.types = this.InitializeTypes();
         }
+
+        private void CheckFields()
+        {
+            if (this.fields == null)
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                else
+                    this.fields = this.InitializeFields();
+        }
+
+        private void CheckMethods()
+        {
+            if (this.methods == null)
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                else
+                    this.methods = this.InitializeMethods();
+        }
+
         #endregion
 
         /// <summary>
@@ -566,6 +683,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 if (disposing)
                 {
+                    this.parent = null;
                     if (this.methods != null)
                     {
                         this.methods.Dispose();
@@ -622,6 +740,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         this.namespaces.Dispose();
                         this.namespaces = null;
                     }
+                    this.scopeCoercions = null;
                 }
             }
             finally
@@ -721,7 +840,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         public IEnumerable<string> AggregateIdentifiers
         {
-            get { return this.GetNamespaceParentIdentifiers(); }
+            get
+            {
+                return this.GetNamespaceParentIdentifiers();
+            }
         }
 
         #region IIntermediateNamespaceParent Members
@@ -742,41 +864,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        private void CheckFields()
-        {
-            if (this.fields == null)
-                this.fields = this.InitializeFields();
-        }
-
-        private void CheckMethods()
-        {
-            if (this.methods == null)
-                this.methods = this.InitializeMethods();
-        }
-
-        private IntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent> InitializeFields()
-        {
-            if (this.IsRoot)
-                return new IntermediateTopLevelFieldMemberDictionary(this._Members, this);
-            else
-                return new IntermediateTopLevelFieldMemberDictionary(this._Members, this, this.GetRoot().Fields as IntermediateTopLevelFieldMemberDictionary);
-
-        }
-
-        private IntermediateMethodMemberDictionary<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent> InitializeMethods()
-        {
-            if (this.IsRoot)
-                return new IntermediateTopLevelMethodMemberDictionary(this._Members, this);
-            else
-                return new IntermediateTopLevelMethodMemberDictionary(this._Members, this, this.GetRoot().Methods as IntermediateTopLevelMethodMemberDictionary);
-        }
-
         private IntermediateFullMemberDictionary _Members
         {
             get
             {
                 if (this.members == null)
-                    this.members = new IntermediateFullMemberDictionary();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.members = new IntermediateFullMemberDictionary();
                 return this.members;
             }
         }
@@ -874,7 +970,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #endregion
 
         #region INamespaceParent Members
-
 
         IFullMemberDictionary INamespaceParent.Members
         {

@@ -221,9 +221,6 @@
     <Compile Include="Utilities\FiniteAutomata\FiniteAutomataMultiTargetTransitionTable{2}.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataSection.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Utilities\FiniteAutomata\FiniteAutomataSingleTargetTransitionTable.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -273,9 +270,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utilities\FiniteAutomata\INFAState.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utilities\FiniteAutomata\MinimalBitArray.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utilities\FiniteAutomata\NFAState+DFAEntry.cs">

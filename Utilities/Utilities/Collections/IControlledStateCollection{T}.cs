@@ -60,10 +60,10 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         void CopyTo(T[] array, int arrayIndex = 0);
 
         /// <summary>
-        /// Returns the element at the index provided
+        /// Returns the element at the <paramref name="index"/> provided
         /// </summary>
         /// <param name="index">The index of the element to get.</param>
-        /// <returns>The instance of <typeparamref name="T"/> at the index provided.</returns>
+        /// <returns>The instance of <typeparamref name="T"/> at the <paramref name="index"/> provided.</returns>
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// <paramref name="index"/> is  beyond the range of the 
         /// <see cref="IControlledStateCollection{T}"/>.

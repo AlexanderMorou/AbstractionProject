@@ -493,9 +493,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
             throw new NotImplementedException();
         }
 
-        public IEnumerateSetBreakableBlockStatement Enumerate(ILocalDeclarationStatement target, IExpression source)
+        /// <summary>
+        /// Creates, inserts and returns a new 
+        /// <see cref="IEnumerateSetBreakableBlockStatement"/> which represents an 
+        /// iteration over the <paramref name="target">individual elements</paramref>
+        /// of a <paramref name="source">set</paramref>, either fixed
+        /// or dynamic in nature.
+        /// </summary>
+        /// <param name="target">The <see cref="ILocalMember"/> 
+        /// which should receive the elements of the
+        /// <paramref name="source"/> as a part of the iteration.
+        /// </param>
+        /// <param name="source">The <see cref="IExpression"/> which designates
+        /// where the information comes from.</param>
+        /// <returns>A new <see cref="IEnumerateSetBreakableBlockStatement"/> which represents 
+        /// the operation.</returns>
+        public IEnumerateSetBreakableBlockStatement Enumerate(ILocalMember target, IExpression source)
         {
-            var result = new EnumerateSetBreakableBlockStatement(this) { LocalDeclaration = target, Source = source };
+            var result = new EnumerateSetBreakableBlockStatement(this, target) { Source = source };
             this.baseList.Add(result);
             return result;
         }

@@ -22,11 +22,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         IBreakableBlockStatement
     {
         /// <summary>
-        /// Returns/sets the <see cref="ILocalDeclarationStatement"/> which
-        /// designates the <see cref="ILocalMember"/> to utilize within the
-        /// scope of the enumeration.
+        /// Returns the <see cref="ILocalMember"/> to
+        /// utilize within the scope of the enumeration.
         /// </summary>
-        ILocalDeclarationStatement LocalDeclaration { get; set; }
+        ILocalMember Local { get; }
         /// <summary>
         /// Returns/sets the <see cref="IExpression"/> which provides the
         /// source set for the enumeration.

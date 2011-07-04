@@ -10,6 +10,20 @@ using System.Text;
  \-------------------------------------------------------------------- */
 namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
+    /// <summary>
+    /// Provides a base implementation of a generic state within a, 
+    /// transition based, finite automation.
+    /// </summary>
+    /// <typeparam name="TCheck">The type of <see cref="IFiniteAutomataSet{TCheck}"/>
+    /// used to specify the condition for transition from one state
+    /// to another (or others).</typeparam>
+    /// <typeparam name="TState">The specific kind of <see cref="FiniteAutomataState{TCheck, TState, TForwardNodeTarget, TSourceElement}"/>
+    /// used within the current automation.</typeparam>
+    /// <typeparam name="TForwardNodeTarget">The kind of target used when the condition 
+    /// put forth by the <typeparamref name="TCheck"/> requirement aremet.</typeparam>
+    /// <typeparam name="TSourceElement">The type of 
+    /// <see cref="IFiniteAutomataSourceElement"/> from which the states
+    /// are derived.</typeparam>
     public abstract class FiniteAutomataState<TCheck, TState, TForwardNodeTarget, TSourceElement> :
         IFiniteAutomataState<TCheck, TState, TForwardNodeTarget, TSourceElement>
         where TCheck :
@@ -27,6 +41,10 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         private bool forcedNoEdge = false;
         private IFiniteAutomataMultiTargetTransitionTable<TCheck, TState> inTransitions;
         private IFiniteAutomataTransitionTable<TCheck, TState, TForwardNodeTarget> outTransitions;
+        /// <summary>
+        /// Creates a new <see cref="FiniteAutomataState{TCheck, TState, TForwardNodeTarget, TSourceElement}"/>
+        /// initialized to a default state.
+        /// </summary>
         protected FiniteAutomataState()
         {
             this.StateValue = -1;

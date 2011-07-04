@@ -92,37 +92,37 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast.Expressions.Linq
 
         public ILinqBodyBuilder From(TypedName rangeVariable, string rangeSource)
         {
-            return this.From(rangeVariable, (Symbol)rangeSource);
+            return this.From(rangeVariable, rangeSource.GetSymbolExpression());
         }
 
         public ILinqBodyBuilder From(string rangeVariableName, string rangeSource)
         {
-            return this.From(rangeVariableName, (Symbol)rangeSource);
+            return this.From(rangeVariableName, rangeSource.GetSymbolExpression());
         }
 
         public ILinqBodyBuilder Join(TypedName rangeVariable, string rangeSourceSymbol, IExpression conditionLeft, IExpression conditionRight)
         {
-            return this.Join(rangeVariable, (Symbol)rangeSourceSymbol, conditionLeft, conditionRight);
+            return this.Join(rangeVariable, rangeSourceSymbol.GetSymbolExpression(), conditionLeft, conditionRight);
         }
 
         public ILinqBodyBuilder Join(string rangeVariableName, string rangeSourceSymbol, IExpression conditionLeft, IExpression conditionRight)
         {
-            return this.Join(rangeVariableName, (Symbol)rangeSourceSymbol, conditionLeft, conditionRight);
+            return this.Join(rangeVariableName, rangeSourceSymbol.GetSymbolExpression(), conditionLeft, conditionRight);
         }
 
         public ILinqBodyBuilder Join(TypedName rangeVariable, string rangeSourceSymbol, IExpression conditionLeft, IExpression conditionRight, string intoRangeName)
         {
-            return this.Join(rangeVariable, (Symbol)rangeSourceSymbol, conditionLeft, conditionRight, intoRangeName);
+            return this.Join(rangeVariable, rangeSourceSymbol.GetSymbolExpression(), conditionLeft, conditionRight, intoRangeName);
         }
 
         public ILinqBodyBuilder Join(string rangeVariableName, string rangeSourceSymbol, IExpression conditionLeft, IExpression conditionRight, string intoRangeName)
         {
-            return this.Join(rangeVariableName, (Symbol)rangeSourceSymbol, conditionLeft, conditionRight, intoRangeName);
+            return this.Join(rangeVariableName, rangeSourceSymbol.GetSymbolExpression(), conditionLeft, conditionRight, intoRangeName);
         }
 
         public ILinqTailBodyBuilder Select(string symbolSelection)
         {
-            return this.Select((Symbol)symbolSelection);
+            return this.Select(symbolSelection.GetSymbolExpression());
         }
 
         #endregion
