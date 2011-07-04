@@ -21,9 +21,9 @@ using AllenCopeland.Abstraction.Utilities.Arrays;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
-    [CLSCompliant(false)]
     public static partial class ExpressionExtensions
     {
+        private static IDictionary<string, Symbol> stringSymbolCache = new Dictionary<string,Symbol>();
         #region Primitive Conversion
         /// <summary>
         /// Obtains the <see cref="PrimitiveExpression{T}"/> for the <paramref name="value"/> provided.
@@ -454,29 +454,29 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         public static MethodInvokeExpression Call(this string symbol, string methodName, params IExpression[] parameters)
         {
-            return new SymbolExpression(symbol).Call(methodName, parameters);
+            return symbol.GetSymbolExpression().Call(methodName, parameters);
         }
 
         public static UnboundPropertyReferenceExpression GetProperty(this string symbol, string propertyName)
         {
-            return (UnboundPropertyReferenceExpression)new SymbolExpression(symbol).GetProperty(propertyName);
+            return (UnboundPropertyReferenceExpression)symbol.GetSymbolExpression().GetProperty(propertyName);
         }
 
         public static IIndexerReferenceExpression GetIndexer(this string symbol, string indexerName, params IExpression[] parameters)
         {
-            return new SymbolExpression(symbol).GetIndexer(indexerName, parameters);
+            return symbol.GetSymbolExpression().GetIndexer(indexerName, parameters);
         }
 
         public static IIndexerReferenceExpression GetIndexer(this string symbol, params IExpression[] parameters)
         {
-            return new SymbolExpression(symbol).GetIndexer(parameters);
+
+            return symbol.GetSymbolExpression().GetIndexer(parameters);
         }
 
         public static IFieldReferenceExpression GetField(this string symbol, string fieldName)
         {
-            return new SymbolExpression(symbol).GetField(fieldName);
+            return symbol.GetSymbolExpression().GetField(fieldName);
         }
-
 
         /// <summary>
         /// Obtains a symbol expression from the <paramref name="target"/> <see cref="String"/>
@@ -485,13 +485,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <param name="target">The <see cref="String"/> representing the symbol expression.</param>
         /// <returns>A new <see cref="ISymbolExpression"/>.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="target"/> is null.</exception>
-        public static SymbolExpression GetSymbolExpression(this string target)
+        public static SymbolExpression GetSymbolExpression(this string symbol)
         {
-            if (target == null)
-                throw new ArgumentNullException("target");
-            return new SymbolExpression(target);
+            if (symbol == null)
+                throw new ArgumentNullException("symbol");
+            lock (stringSymbolCache)
+            {
+                if (!stringSymbolCache.ContainsKey(symbol))
+                    stringSymbolCache.Add(symbol, new Symbol(symbol));
+                return stringSymbolCache[symbol];
+            }
         }
-
 
         public static IExpressionFusionExpression Fuse(this IFusionTargetExpression target, IFusionTermExpression term)
         {
@@ -505,7 +509,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         public static IExpressionFusionExpression Fuse(this string target, string term)
         {
-            return new ExpressionFusionExpression(target.GetSymbolExpression(), term.GetSymbolExpression());
+            return target.GetSymbolExpression().Fuse(term);
         }
 
         public static IExpressionFusionExpression Fuse(this IType target, string term)

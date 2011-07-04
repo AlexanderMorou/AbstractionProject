@@ -36,9 +36,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <param name="parent">The <see cref="IBlockStatementParent"/>
         /// which contains the <see cref="IEnumerateSetBreakableBlockStatement"/>.
         /// </param>
-        public EnumerateSetBreakableBlockStatement(IBlockStatementParent parent)
+        public EnumerateSetBreakableBlockStatement(IBlockStatementParent parent, ILocalMember local)
             : base(parent)
         {
+            this.Local = local;
         }
 
         #region IBreakableBlockStatement Members
@@ -103,11 +104,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         #region IEnumerateSetBreakableBlockStatement Members
         /// <summary>
-        /// Returns/sets the <see cref="ILocalDeclarationStatement"/> which
-        /// designates the <see cref="ILocalMember"/> to utilize within the
-        /// scope of the enumeration.
+        /// Returns the <see cref="ILocalMember"/> to
+        /// utilize within the scope of the enumeration.
         /// </summary>
-        public ILocalDeclarationStatement LocalDeclaration { get; set; }
+        public ILocalMember Local { get; private set; }
 
         /// <summary>
         /// Returns/sets the <see cref="IExpression"/> which provides the
@@ -119,7 +119,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         public override string ToString()
         {
-            return string.Format(CultureInfo.CurrentCulture, "foreach ({0} in {1}) {{...", this.LocalDeclaration, this.Source);
+            return string.Format(CultureInfo.CurrentCulture, "foreach ({0} in {1}) {{...", this.Local.Name, this.Source);
         }
     }
 }

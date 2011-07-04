@@ -63,10 +63,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             {
                 return this.symbol;
             }
-            set
-            {
-                this.symbol = value;
-            }
         }
 
         #endregion

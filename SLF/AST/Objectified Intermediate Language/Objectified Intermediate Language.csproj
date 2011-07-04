@@ -307,7 +307,6 @@
     <Compile Include="Oil\CustomAttributeDefinitionParameterValue.cs" />
     <Compile Include="Oil\DeclarationNameChangedEventArgs.cs" />
     <Compile Include="Oil\DeclarationRenamingEventArgs.cs" />
-    <Compile Include="Oil\Expressions\Abstract\ExpressionAbstractions.cs" />
     <Compile Include="Oil\Expressions\CallNamedParameterDictionary.cs" />
     <Compile Include="Oil\Expressions\CallParameterSet.cs" />
     <Compile Include="Oil\Expressions\ConstructorInvokeExpression.cs" />

@@ -261,21 +261,21 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             if (rank == 1)
             {
                 /* *
-                 * Simple answer for one dimension
-                 * */
-                indices = new int[] { array.GetLowerBound(0) }; 
+                    * Simple answer for one dimension
+                    * */
+                indices = new int[] { array.GetLowerBound(0) };
                 for (; indices[0] <= array.GetUpperBound(0); indices[0]++)
                     yield return indices;
             }
             else
             {
                 /* *
-                 * Multi-dimensional, or non-vector, arrays are a bit different.
-                 * */
+                    * Multi-dimensional, or non-vector, arrays are a bit different.
+                    * */
                 indices = new int[array.Rank];
                 /* *
-                 * Obtain the upper/lower bounds..
-                 * */
+                    * Obtain the upper/lower bounds..
+                    * */
                 int[] upperBounds = new int[array.Rank];
 
                 for (int i = 0; i < rank; i++)
@@ -288,6 +288,7 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                 bool finished = false;
                 int topRank = rank - 1;
             Repeater:
+                //while (true)
                 {
                     /* *
                      * Nifty thing is... it's always the same array,
@@ -347,7 +348,6 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                         if (i == 0)
                             yield break;
                     }
-
                     goto Repeater;
                 }
             }

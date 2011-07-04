@@ -29,13 +29,32 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         private bool fullCheckObtained;
         private TCheck fullCheck;
         #region IFiniteAutomataTransitionTable<TCheck,TState,TNodeTarget> Members
-
+        /// <summary>
+        /// Adds a transition with the requirement <paramref name="check"/>
+        /// and the <paramref name="target"/> of the transition provided.
+        /// </summary>
+        /// <param name="check">The <typeparamref name="TCheck"/>
+        /// which denotes the transition requirement for the change in state.
+        /// </param>
+        /// <param name="target">The <typeparamref name="TNodeTarget"/>
+        /// that denotes the target of the transition.</param>
         public abstract void Add(TCheck check, TNodeTarget target);
 
         #endregion
 
         #region IFiniteAutomataTransitionTable<TCheck,TState> Members
 
+        /// <summary>
+        /// Adds a state to the transition table by the 
+        /// <paramref name="check"/> required for the transition
+        /// and the <paramref name="target"/> that results after
+        /// the transition.
+        /// </summary>
+        /// <param name="check">The <typeparamref name="TCheck"/>
+        /// which denotes the transition requirement for the change in state.
+        /// </param>
+        /// <param name="target">The <typeparamref name="TState"/>
+        /// that acts as the target of the transition.</param>
         public void AddState(TCheck check, TState target)
         {
             this.Add(check, GetStateTarget(target));
@@ -43,6 +62,13 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         #endregion
 
+        /// <summary>
+        /// Obtains the target of a given state.
+        /// </summary>
+        /// <param name="state">The <typeparamref name="TState"/>
+        /// which needs a target to make a transition.</param>
+        /// <returns>The <typeparamref name="TNodeTarget"/>
+        /// which will contain the <paramref name="state"/>.</returns>
         protected abstract TNodeTarget GetStateTarget(TState state);
 
         #region IControlledStateDictionary<TCheck,TNodeTarget> Members
@@ -97,11 +123,28 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         #region IControlledStateCollection<KeyValuePair<TCheck,TNodeTarget>> Members
 
+        /// <summary>
+        /// Gets the number of elements contained in the
+        /// <see cref="FiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>.
+        /// </summary>
+        /// <returns>
+        /// The number of elements contained in the
+        /// <see cref="FiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>.
+        /// </returns>
         public int Count
         {
             get { return this.backup.Count; }
         }
 
+        /// <summary>
+        /// Determines whether the <see cref="FiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/> contains a specific 
+        /// value.</summary>
+        /// <param name="item">
+        /// The object to locate in the <see cref="FiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>.</param>
+        /// <returns>
+        /// true if <paramref name="item"/> is found in the <see cref="FiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>;
+        /// otherwise, false.
+        /// </returns>
         public bool Contains(KeyValuePair<TCheck, TNodeTarget> item)
         {
             IFiniteAutomataTransitionNode<TCheck, TNodeTarget> node;
@@ -110,6 +153,31 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             return false;
         }
 
+        /// <summary>
+        /// Copies the elements of the <see cref="FiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/> to an
+        /// <see cref="System.Array"/>, starting at a particular <see cref="System.Array"/> 
+        /// index.
+        /// </summary>
+        /// <param name="array">
+        /// The one-dimensional <see cref="System.Array"/> that is
+        /// the destination of the elements copied from
+        /// <see cref="FiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>. The 
+        /// <see cref="System.Array"/> must have zero-based indexing.
+        /// </param>
+        /// <param name="arrayIndex">
+        /// The zero-based index in <paramref name="array"/> at which
+        /// copying begins.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// <paramref name="arrayIndex"/> is less than 0.</exception>
+        /// <exception cref="System.ArgumentNullException">
+        /// <paramref name="array"/> is null.</exception>
+        /// <exception cref="System.ArgumentException">
+        /// <paramref name="array"/> is multidimensional.-or-<paramref name="arrayIndex"/> 
+        /// is equal to or greater than the length of <paramref name="array"/>.-or-The 
+        /// number of elements in the source
+        /// <see cref="FiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>
+        /// is greater than the available space from <paramref name="arrayIndex"/>
+        /// to the end of the destination <paramref name="array"/>.</exception>
         public void CopyTo(KeyValuePair<TCheck, TNodeTarget>[] array, int arrayIndex = 0)
         {
             if (array == null)
@@ -121,6 +189,15 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 array[arrayIndex + i++] = item;
         }
 
+        /// <summary>
+        /// Returns the element at the index provided
+        /// </summary>
+        /// <param name="index">The index of the element to get.</param>
+        /// <returns>The <see cref="KeyValuePair{TKey, TValue}"/> at the <paramref name="index"/> provided.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// <paramref name="index"/> is  beyond the range of the 
+        /// <see cref="FiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>.
+        /// </exception>
         public KeyValuePair<TCheck, TNodeTarget> this[int index]
         {
             get
@@ -136,6 +213,14 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             }
         }
 
+        /// <summary>
+        /// Translates the <see cref="FiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>
+        /// into a flat <see cref="System.Array"/> of <typeparamref name="T"/>
+        /// elements.
+        /// </summary>
+        /// <returns>
+        /// A new <see cref="System.Array"/> of <typeparamref name="T"/>
+        /// instances.</returns>
         public KeyValuePair<TCheck, TNodeTarget>[] ToArray()
         {
             KeyValuePair<TCheck, TNodeTarget>[] result = new KeyValuePair<TCheck, TNodeTarget>[this.Count];
@@ -143,10 +228,38 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             return result;
         }
 
+        /// <summary>
+        /// Returns the <see cref="Int32"/> ordinal index of the 
+        /// <paramref name="element"/> provided.
+        /// </summary>
+        /// <param name="element">The <see cref="KeyValuePair{TKey, TValue}"/>
+        /// instance to find within the <see cref="FiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>.</param>
+        /// <returns>-1 if the <paramref name="element"/> was not found within
+        /// the <see cref="FiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>; a positive <see cref="Int32"/>
+        /// value indicating the ordinal index of <paramref name="element"/>
+        /// otherwise.</returns>
+        public int IndexOf(KeyValuePair<TCheck, TNodeTarget> element)
+        {
+            var tC = element.Key;
+            var tT = element.Value;
+            var index = this.Keys.IndexOf(tC);
+            if (index != -1 && this.values[index].Equals(tT))
+                return index;
+            return -1;
+        }
+
         #endregion
 
         #region IEnumerable<KeyValuePair<TCheck,TNodeTarget>> Members
 
+        /// <summary>
+        /// Obtains an enumerator which can iterate the elements
+        /// of the <see cref="FiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerator{T}"/>
+        /// which can iterate the elements of the 
+        /// <see cref="FiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>.
+        /// </returns>
         public IEnumerator<KeyValuePair<TCheck, TNodeTarget>> GetEnumerator()
         {
             foreach (var kvpNode in this.backup)
@@ -165,12 +278,12 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         #endregion
 
 
-        protected virtual KeysCollection InitializeKeys()
+        private KeysCollection InitializeKeys()
         {
             return new KeysCollection(this);
         }
 
-        protected virtual ValuesCollection InitializeValues()
+        private ValuesCollection InitializeValues()
         {
             return new ValuesCollection(this);
         }
@@ -178,6 +291,12 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         #region IFiniteAutomataTransitionTable<TCheck,TState> Members
 
+        /// <summary>
+        /// Removes the transition that equals the <typeparamref name="TCheck"/>
+        /// provided.
+        /// </summary>
+        /// <param name="check">The <typeparamref name="TCheck"/>
+        /// that denotes the transition requirement to remove.</param>
         public void Remove(TCheck check)
         {
             if (!this.ContainsKey(check))
@@ -190,6 +309,10 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             this.backup.Remove(check);
         }
 
+        /// <summary>
+        /// Returns the <see cref="IEnumerable{T}"/> of
+        /// targets contained within the current transition table.
+        /// </summary>
         public abstract IEnumerable<TState> Targets { get; }
         #endregion
 
@@ -266,19 +389,5 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             return new TCheck();
         }
 
-        #region IControlledStateCollection<KeyValuePair<TCheck,TNodeTarget>> Members
-
-
-        public int IndexOf(KeyValuePair<TCheck, TNodeTarget> element)
-        {
-            var tC = element.Key;
-            var tT = element.Value;
-            var index = this.Keys.IndexOf(tC);
-            if (index != -1 && this.values[index].Equals(tT))
-                return index;
-            return -1;
-        }
-
-        #endregion
     }
 }

@@ -10,6 +10,11 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
+    /// <summary>
+    /// Defines properties and methods for working 
+    /// </summary>
+    /// <typeparam name="TCheck"></typeparam>
+    /// <typeparam name="TState"></typeparam>
     public interface IFiniteAutomataMultiTargetTransitionTable<TCheck, TState> : 
         IFiniteAutomataTransitionTable<TCheck, TState, List<TState>>
         where TCheck :

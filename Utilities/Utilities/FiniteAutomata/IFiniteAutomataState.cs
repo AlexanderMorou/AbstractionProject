@@ -10,6 +10,17 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
+    /// <summary>
+    /// Defines properties and methods for working with a generalized finite
+    /// automata state.
+    /// </summary>
+    /// <typeparam name="TCheck">The type of set used in the
+    /// automation.</typeparam>
+    /// <typeparam name="TState">The type of state used in the automation.</typeparam>
+    /// <typeparam name="TNodeTarget">The type used to denote the target
+    /// container for the transition table.</typeparam>
+    /// <typeparam name="TSourceElement">The type used to represent the
+    /// source elements from which the automation is derived.</typeparam>
     public interface IFiniteAutomataState<TCheck, TState, TForwardNodeTarget, TSourceElement> :
         IFiniteAutomataState<TCheck, TState>
         where TCheck :
@@ -23,6 +34,13 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         new IFiniteAutomataTransitionTable<TCheck, TState, TForwardNodeTarget> OutTransitions { get; }
     }
 
+    /// <summary>
+    /// Defines properties and methods for working with a generalized finite
+    /// automata state.
+    /// </summary>
+    /// <typeparam name="TCheck">The type of set used in the
+    /// automation.</typeparam>
+    /// <typeparam name="TState">The type of state used in the automation.</typeparam>
     public interface IFiniteAutomataState<TCheck, TState>
         where TCheck :
             IFiniteAutomataSet<TCheck>,
@@ -41,9 +59,21 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// outgoing transitions.
         /// </summary>
         bool IsMarked { get; }
+        /// <summary>
+        /// Returns/sets whether the current <see cref="IFiniteAutomataState{TCheck, TState}"/> 
+        /// has been forced into not being an edge state.
+        /// </summary>
         bool ForcedNoEdge { get; set; }
 
+        /// <summary>
+        /// Returns the <see cref="IFiniteAutomataMultiTargetTransitionTable{TCheck, TState}"/>
+        /// which denotes the conditions for and the states that target the current state.
+        /// </summary>
         IFiniteAutomataMultiTargetTransitionTable<TCheck, TState> InTransitions { get; }
+        /// <summary>
+        /// Returns the <see cref="IFiniteAutomataTransitionTable{TCheck, TState}"/>
+        /// that denotes the outgoing transitions from the <see cref="IFiniteAutomataState{TCheck, TState}"/>.
+        /// </summary>
         IFiniteAutomataTransitionTable<TCheck, TState> OutTransitions { get; }
         /// <summary>
         /// Obtains the edges of the current

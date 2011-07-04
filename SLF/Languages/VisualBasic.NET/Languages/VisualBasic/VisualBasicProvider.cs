@@ -80,7 +80,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         /// Returns the <see cref="ILanguageCSTTranslator{TRootNode}"/>
         /// of the current high level language provider instance.
         /// </summary>
-        public ILanguageCSTTranslator<IVisualBasicStart> ASTTranslator
+        public ILanguageCSTTranslator<IVisualBasicStart> CSTTranslator
         {
             get { throw new NotImplementedException(); }
         }

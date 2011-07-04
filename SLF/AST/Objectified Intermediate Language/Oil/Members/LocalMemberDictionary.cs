@@ -19,6 +19,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IntermediateMemberDictionary<IBlockStatementParent, IBlockStatementParent, ILocalMember, ILocalMember>,
         ILocalMemberDictionary
     {
+        /// <summary>
+        /// Creates a new <see cref="LocalMemberDictionary"/> with the <paramref name="parent"/>
+        /// <see cref="IBlockMemberStatement"/> provided.
+        /// </summary>
+        /// <param name="parent">The <see cref="IBlockMemberStatement"/> which owns the
+        /// <see cref="LocalMemberDictionary"/>.</param>
         public LocalMemberDictionary(IBlockStatementParent parent)
             : base(parent)
         {

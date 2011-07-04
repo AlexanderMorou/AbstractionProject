@@ -14,6 +14,10 @@ using AllenCopeland.Abstraction.Slf.Oil.Statements;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
+    /// <summary>
+    /// Defines properties and methods for working with a series of local members
+    /// which are either, explicitly, implicitly or dynamically typed.
+    /// </summary>
     public interface ILocalMemberDictionary :
         IIntermediateMemberDictionary<IBlockStatementParent, IBlockStatementParent, ILocalMember, ILocalMember>
     {
@@ -44,6 +48,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// the <paramref name="nameAndType"/> provided.
         /// </returns>
         ITypedLocalMember Add(TypedName nameAndType, IExpression initializationExpression);
+
         /// <summary>
         /// Inserts a new <see cref="ITypedLocalMember"/> from the <paramref name="nameAndType"/>
         /// provided.
@@ -55,6 +60,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// the <paramref name="nameAndType"/> provided.
         /// </returns>
         ITypedLocalMember Add(TypedName nameAndType);
+
         /// <summary>
         /// Inserts a series of new <see cref="ITypedLocalMember"/> instances
         /// with the <see cref="TypedNameSeries"/>, relative to the active
@@ -65,6 +71,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <returns>a series of new <see cref="ITypedLocalMember"/> instances
         /// with the <see cref="TypedNameSeries"/> provided.</returns>
         ITypedLocalMember[] AddRange(TypedNameSeries namesAndTypes);
+
         /// <summary>
         /// Inserts a series of new <see cref="ITypedLocalMember"/> instances
         /// with the series of <see cref="TypedName"/> elements, relative
@@ -75,6 +82,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <returns>a series of new <see cref="ITypedLocalMember"/> instances
         /// with the <see cref="TypedName"/> series provided.</returns>
         ITypedLocalMember[] AddRange(params TypedName[] namesAndTypes);
+
         /// <summary>
         /// Inserts a new <see cref="ILocalMember"/> with the
         /// <paramref name="name"/>, <paramref name="initializationExpression"/>, 

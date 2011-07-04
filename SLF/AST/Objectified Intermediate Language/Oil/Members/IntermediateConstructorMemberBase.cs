@@ -493,17 +493,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <summary>
         /// Creates, inserts and returns a new 
         /// <see cref="IEnumerateSetBreakableBlockStatement"/> which represents an 
-        /// iteration over the <paramref name="target">individual element</paramref>s
+        /// iteration over the <paramref name="target">individual elements</paramref>
         /// of a <paramref name="source">set</paramref>, either fixed
         /// or dynamic in nature.
         /// </summary>
-        /// <param name="target">The variable which should receive the elements of 
-        /// the <paramref name="source"/> as a part of the iteration.</param>
+        /// <param name="target">The <see cref="ILocalMember"/> 
+        /// which should receive the elements of the
+        /// <paramref name="source"/> as a part of the iteration.
+        /// </param>
         /// <param name="source">The <see cref="IExpression"/> which designates
         /// where the information comes from.</param>
         /// <returns>A new <see cref="IEnumerateSetBreakableBlockStatement"/> which represents 
         /// the operation.</returns>
-        public IEnumerateSetBreakableBlockStatement Enumerate(ILocalDeclarationStatement target, IExpression source)
+        public IEnumerateSetBreakableBlockStatement Enumerate(ILocalMember target, IExpression source)
         {
             return this.StatementContainer.Enumerate(target, source);
         }

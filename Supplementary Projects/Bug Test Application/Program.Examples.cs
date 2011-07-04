@@ -27,6 +27,36 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
         {
             //FullName(); return;
             //arr1(); return;
+            RunExamples();
+            //Fix001();
+        }
+
+        private static void Fix001()
+        {
+            var testAssembly = LanguageVendors.Microsoft.GetVisualBasicLanguage().CreateAssembly("TestAssembly");
+            var testClass = testAssembly.Classes.Add("TestClass");
+            /* *
+             * Fixed type initializers, so they can't have parameters.
+             * */
+            //var ti = testClass.TypeInitializer;
+            /* *
+             * Fixed post-creation parameter injection, ensures
+             * it doesn't throw an exception due to an event being
+             * called prior to the parameter actually being added.
+             * *
+             * This caused the signature to be incorrect when it was
+             * rekeying the dictionary
+             * */
+            var ti = testClass.Constructors.Add();
+            var p1 = ti.Parameters.Add("Test", typeof(int).GetTypeReference());
+            /* *
+             * ToDo: Fix parameters dictionary to have Remove method.
+             * */
+            //ti.Parameters.Remove(p1);
+        }
+
+        private static void RunExamples()
+        {
             var msLangVendor = LanguageVendors.Microsoft;
             IVisualBasicAssembly vbAssem = null;
             ICSharpAssembly csAssem = null;
@@ -58,11 +88,11 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             Console.WriteLine("* also accounts for JIT overhead.               *");
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * *");
             var jitTest = MiscHelperMethods.TimeAction(() =>
-                {
-                    var item = vbTestFunc();
-                    vbAssem.Dispose();
-                    vbAssem = null;
-                });
+            {
+                var item = vbTestFunc();
+                vbAssem.Dispose();
+                vbAssem = null;
+            });
             //CLIGateway.ClearCache();
             vbAssem = null;
             Console.WriteLine("Initial tests took {0}", jitTest);

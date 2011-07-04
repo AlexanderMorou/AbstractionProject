@@ -11,6 +11,13 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
+    /// <summary>
+    /// Defines properties and methods for working with a controlled state
+    /// keyed tree.
+    /// </summary>
+    /// <typeparam name="TKey"></typeparam>
+    /// <typeparam name="TValue"></typeparam>
+    /// <typeparam name="TNode"></typeparam>
     public class ControlledStateKeyedTreeNode<TKey, TValue, TNode> :
         ControlledStateKeyedTree<TKey, TValue, TNode>,
         IControlledStateKeyedTreeNode<TKey, TValue, TNode>

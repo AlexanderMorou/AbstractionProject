@@ -88,17 +88,16 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         public override IEnumerable<TState> Targets
         {
-            get {
+            get
+            {
                 HashSet<TState> targetsPassed = new HashSet<TState>();
                 foreach (var set in this.Values)
                     foreach (var state in set)
-                    {
                         if (!targetsPassed.Contains(state))
                         {
                             targetsPassed.Add(state);
                             yield return state;
                         }
-                    }
             }
         }
 

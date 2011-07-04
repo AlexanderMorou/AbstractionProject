@@ -35,6 +35,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns/sets the value associated with the symbol.
         /// </summary>
-        string Symbol { get; set; }
+        string Symbol { get; }
     }
 }

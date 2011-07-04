@@ -65,6 +65,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Data member for <see cref="Types"/>.
         /// </summary>
         private new IntermediateFullTypeDictionary types;
+        private IIntermediateNamespaceDeclaration defaultNamespace;
         private IntermediateFullMemberDictionary members;
         private IScopeCoercionCollection scopeCoercions;
         /* *
@@ -410,7 +411,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        public IIntermediateNamespaceDeclaration DefaultNamespace { get; set; }
+        public IIntermediateNamespaceDeclaration DefaultNamespace
+        {
+            get
+            {
+                if (this.IsRoot)
+                    return this.defaultNamespace;
+                else
+                    return this.GetRoot().DefaultNamespace;
+            }
+            set
+            {
+                if (this.IsRoot)
+                    this.defaultNamespace = value;
+                else
+                    this.GetRoot().DefaultNamespace = value;
+            }
+        }
 
         public IAssemblyReferenceCollection References
         {
@@ -540,7 +557,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                                 part.Dispose();
                             this.parts = null;
                         }
+                        this.defaultNamespace = null;
                     }
+                    else
+                        this.rootAssembly = null;
                 }
             }
             finally

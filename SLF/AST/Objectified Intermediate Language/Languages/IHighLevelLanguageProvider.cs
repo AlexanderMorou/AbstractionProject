@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// Returns the <see cref="ILanguageCSTTranslator{TRootNode}"/>
         /// of the current high level language provider instance.
         /// </summary>
-        ILanguageCSTTranslator<TRootNode> ASTTranslator { get; }
+        ILanguageCSTTranslator<TRootNode> CSTTranslator { get; }
         /// <summary>
         /// Returns the <see cref="IIntermediateCodeTranslator"/>
         /// of the current language provider.

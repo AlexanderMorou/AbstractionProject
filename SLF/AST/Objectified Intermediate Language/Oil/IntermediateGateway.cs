@@ -210,6 +210,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        /// <summary>
+        /// Obtains a symbol type for the given <paramref name="typeSymbol"/>
+        /// and the <paramref name="genericParameterCount"/> provided.
+        /// </summary>
+        /// <param name="typeSymbol">The <see cref="String"/> value representing the
+        /// symbol to use within the type.</param>
+        /// <param name="genericParameterCount">The number of generic parameters
+        /// represented by the type involved.</param>
+        /// <returns>A <see cref="ISymbolType"/> that contains the 
+        /// <paramref name="typeSymbol"/> and <paramref name="genericParameterCount"/>
+        /// number of type-parameters.</returns>
+        /// <remarks>Used in cases where the source language needs a symbol representing
+        /// a known type, typically a situation where the symbol or set of symbols is known
+        /// to be a type by syntax.</remarks>
         public static ISymbolType GetSymbolType(this string typeSymbol, int genericParameterCount)
         {
             if (typeSymbol == null)
