@@ -11,6 +11,14 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
+    /// <summary>
+    /// Provides a base implementation of a multiple target transition table
+    /// which yields a non-deterministic state machine.
+    /// </summary>
+    /// <typeparam name="TCheck">The type of set used in the
+    /// automation.</typeparam>
+    /// <typeparam name="TState">The type of state which contains
+    /// the <see cref="FiniteAutomataMultiTargetTransitionTable{TCheck, TState}"/>.</typeparam>
     public class FiniteAutomataMultiTargetTransitionTable<TCheck, TState> :
         FiniteAutomataTransitionTable<TCheck, TState, List<TState>>,
         IFiniteAutomataMultiTargetTransitionTable<TCheck, TState>
@@ -22,22 +30,45 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
     {
         private bool autoSegment;
 
+        /// <summary>
+        /// Creates a new <see cref="FiniteAutomataMultiTargetTransitionTable{TCheck, TState}"/>
+        /// initialized to its default state.
+        /// </summary>
         public FiniteAutomataMultiTargetTransitionTable()
             : this(true)
         {
         }
 
+        /// <summary>
+        /// Creates a new <see cref="FiniteAutomataMultiTargetTransitionTable{TCheck, TState}"/>
+        /// with the <paramref name="autoSegment"/> condition provided.
+        /// </summary>
+        /// <param name="autoSegment">Determines whether the transition table should 
+        /// automatically break up transitions if an intersection occurs.</param>
         public FiniteAutomataMultiTargetTransitionTable(bool autoSegment)
         {
             this.autoSegment = autoSegment;
         }
 
+        /// <summary>
+        /// Adds a <typeparamref name="TCheck"/> condition with the series
+        /// of states provided as the non-deterministic target.
+        /// </summary>
+        /// <param name="check">The <typeparamref name="TCheck"/>
+        /// that determines the transitionary condition.</param>
+        /// <param name="target">The series of <typeparamref name="TState"/>
+        /// instances which denote the non-deterministic target.</param>
         public override void Add(TCheck check, List<TState> target)
         {
             if (autoSegment)
             {
                 IDictionary<TCheck, IFiniteAutomataTransitionNode<TCheck, List<TState>>> colliders;
                 var remainder = base.GetColliders(check, out colliders);
+                /* *
+                 * If the intersection is the full condition, check to see
+                 * if there's a node that exactly matches, if so, just add the
+                 * state to the node target.
+                 * */
                 if (colliders.Count == 1 && remainder.IsEmpty)
                 {
                     var first = colliders.First();
@@ -52,6 +83,12 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                     goto altSkip;
                 }
             alternate:
+                /* *
+                 * Otherwise, iterate the collision sections
+                 * and break apart the current entry with
+                 * the intersection, repeat until all
+                 * colliding nodes are finished.
+                 * */
                 foreach (var intersection in colliders.Keys)
                 {
                     var currentNode = colliders[intersection];
@@ -69,16 +106,23 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                     base.AddInternal(remainder, new List<TState>(target));
             altSkip: ;
             }
+            else if (base.ContainsKey(check))
+            {
+                /* *
+                 * Obtain the current node, and simply add the target
+                 * elements to the node.
+                 * */
+                var currentNode = base.GetNode(check);
+                foreach (var state in target)
+                    if (!currentNode.Target.Contains(state))
+                        currentNode.Target.Add(state);
+            }
             else
-                if (base.ContainsKey(check))
-                {
-                    var currentNode = base.GetNode(check);
-                    foreach (var state in target)
-                        if (!currentNode.Target.Contains(state))
-                            currentNode.Target.Add(state);
-                }
-                else
-                    base.AddInternal(check, target);
+                /* *
+                 * If auto-segmentation isn't active and the node
+                 * isn't exactly present in the current setup...
+                 * */
+                base.AddInternal(check, target);
         }
 
         protected override List<TState> GetStateTarget(TState state)

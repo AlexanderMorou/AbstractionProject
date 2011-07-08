@@ -153,7 +153,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             sw.Start();
             TResult result = func();
             sw.Stop();
-            return TupleHelper.GetTuple(sw.Elapsed, result);
+            return Tuple.Create(sw.Elapsed, result);
         }
         public static Tuple<TimeSpan, TResult> TimeResult<T, TResult>(this Func<T, TResult> func, T arg)
         {
@@ -161,7 +161,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             sw.Start();
             TResult result = func(arg);
             sw.Stop();
-            return TupleHelper.GetTuple(sw.Elapsed, result);
+            return Tuple.Create(sw.Elapsed, result);
         }
     }
 }

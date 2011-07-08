@@ -11,10 +11,14 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
     /// <summary>
-    /// Defines properties and methods for working 
+    /// Defines properties and methods for working with a transition table
+    /// that has multiple targets for a given <typeparamref name="TCheck"/>
+    /// condition, yielding a non-deterministic state machine.
     /// </summary>
-    /// <typeparam name="TCheck"></typeparam>
-    /// <typeparam name="TState"></typeparam>
+    /// <typeparam name="TCheck">The type of set used in the
+    /// automation.</typeparam>
+    /// <typeparam name="TState">The type of state which contains
+    /// the <see cref="IFiniteAutomataMultiTargetTransitionTable{TCheck, TState}"/>.</typeparam>
     public interface IFiniteAutomataMultiTargetTransitionTable<TCheck, TState> : 
         IFiniteAutomataTransitionTable<TCheck, TState, List<TState>>
         where TCheck :

@@ -45,6 +45,14 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
     {
         private static Dictionary<int, List<TState>> flatlined = new Dictionary<int, List<TState>>();
         private static List<TState> ToStringStack = new List<TState>();
+
+        /// <summary>
+        /// Initializes the <see cref="IFiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>
+        /// for the current non-deterministic state.
+        /// </summary>
+        /// <returns>A new <see cref="FiniteAutomataMultiTargetTransitionTable{TCheck, TState}"/>
+        /// representing the non-deterministic targets of the state's
+        /// transitions.</returns>
         protected override IFiniteAutomataTransitionTable<TCheck, TState, List<TState>> InitializeOutTransitionTable()
         {
             return new FiniteAutomataMultiTargetTransitionTable<TCheck, TState>();
@@ -76,7 +84,6 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// in a deterministic manner.</returns>
         public TDFA DeterminateAutomata()
         {
-
             DFAEntryTable entrySet = new DFAEntryTable(this.GetDFAState);
             TDFA result = GetRootDFAState();
             ReplicateSourcesToAlt<TDFA, TDFA>(result);
@@ -160,6 +167,12 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         #region INFAState<TCheck,TState,TDFA> Members
 
+        /// <summary>
+        /// Creates a concatination between the current state's edges and
+        /// the <paramref name="target"/> <typeparamref name="TState"/>.
+        /// </summary>
+        /// <param name="target">The <typeparamref name="TState"/>
+        /// to concatenate with the current state.</param>
         public void Concat(TState target)
         {
             var edges = this.ObtainEdges().ToArray();
@@ -179,6 +192,12 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 //    edge.IsEdge = false;
         }
 
+        /// <summary>
+        /// Creates a union between the current state's transitions and
+        /// the <typeparamref name="target"/> <typeparamref name="TState"/>.
+        /// </summary>
+        /// <param name="target">The <typeparamref name="TState"/>
+        /// to create a union with.</param>
         public virtual void Union(TState target)
         {
             this.IsEdge = target.IsEdge || this.IsEdge;
@@ -188,6 +207,17 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             base.UnifySources(target);
         }
 
+        /// <summary>
+        /// Creates a relative compliment between the current state's
+        /// transitions and the edge points of the <paramref name="target"/>.
+        /// </summary>
+        /// <param name="target">The <typeparamref name="TState"/>
+        /// to create a relative compliment on.</param>
+        /// <remarks>The edges of the <paramref name="target"/>
+        /// and the current state that overlap are explicitly marked
+        /// as non-edges.</remarks>
+        /// <exception cref="System.NotImplementedException">
+        /// thrown because it's not implemented.</exception>
         public void RelativeComplement(TState target)
         {
             throw new NotImplementedException();
@@ -195,6 +225,16 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         #endregion
 
+        /// <summary>
+        /// Creates a transition from the current 
+        /// <see cref="NFAState{TCheck, TState, TDFA, TSourceElement}"/>
+        /// to the <paramref name="target"/> with the
+        /// <paramref name="condition"/> for transition provided.
+        /// </summary>
+        /// <param name="condition">The <typeparamref name="TCheck"/>
+        /// which restricts the move.</param>
+        /// <param name="target">The <typeparamref name="TState"/>
+        /// to move into.</param>
         public override void MoveTo(TCheck condition, TState target)
         {
             this.OutTransitions.Add(condition, new List<TState>() { target });
@@ -202,7 +242,15 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         }
 
         #region IEquatable<TState> Members
-
+        /// <summary>
+        /// Determines whether the current 
+        /// <see cref="NFAState{TCheck, TState, TDFA, TSourceElement}"/>
+        /// is equal to the <paramref name="other"/>.
+        /// </summary>
+        /// <param name="other">The <typeparamref name="TState"/>
+        /// to compare to.</param>
+        /// <returns>true if the current state and the <paramref name="other"/>
+        /// are equal; false, otherwise.</returns>
         public bool Equals(TState other) { return object.ReferenceEquals(this, other); }
 
         #endregion

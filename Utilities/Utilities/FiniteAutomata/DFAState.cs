@@ -26,11 +26,22 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
     {
         private static List<TState> ToStringStack = new List<TState>();
 
+        /// <summary>
+        /// Initializes the <see cref="IFiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>
+        /// for the current <see cref="DFAState{TCheck, TState, TSourceElement}"/>.
+        /// </summary>
+        /// <returns>A new <see cref="IFiniteAutomataTransitionTable{TCheck, TState, TForwardNodeTarget}"/>
+        /// representing the state's outgoing transitions.</returns>
         protected override IFiniteAutomataTransitionTable<TCheck, TState, TState> InitializeOutTransitionTable()
         {
             return new FiniteAutomataSingleTargetTransitionTable<TCheck, TState>();
         }
 
+        /// <summary>
+        /// Returns the <see cref="FiniteAutomataSingleTargetTransitionTable{TCheck, TState}"/>
+        /// which denotes the table of single-target transition nodes going away
+        /// from the current state.
+        /// </summary>
         public new FiniteAutomataSingleTargetTransitionTable<TCheck, TState> OutTransitions
         {
             get
@@ -39,11 +50,6 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             }
         }
 
-        /// <summary>
-        /// Returns the <see cref="IFiniteAutomataSingleTargetTransitionTable{TCheck, TState}"/>
-        /// which denotes the table of single-target transition nodes going away
-        /// from the current state.
-        /// </summary>
         IFiniteAutomataSingleTargetTransitionTable<TCheck, TState> IDFAState<TCheck, TState, TSourceElement>.OutTransitions
         {
             get
@@ -52,6 +58,15 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             }
         }
 
+        /// <summary>
+        /// Obtains the edges of the current
+        /// <see cref="DFAState{TCheck, TState, TSourceElement}"/>
+        /// which are plausible points to terminate the current state.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{T}"/> instance which
+        /// yields the edges of the current 
+        /// <see cref="DFAState{TCheck, TState, TSourceElement}"/>.
+        /// </returns>
         public override IEnumerable<TState> ObtainEdges()
         {
             Stack<TState> toCheck = new Stack<TState>();
@@ -72,6 +87,16 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             yield break;
         }
 
+        /// <summary>
+        /// Creates a transition from the current 
+        /// <see cref="DFAState{TCheck, TState, TSourceElement}"/>
+        /// to the <paramref name="target"/> with the
+        /// <paramref name="condition"/> for transition provided.
+        /// </summary>
+        /// <param name="condition">The <typeparamref name="TCheck"/>
+        /// which restricts the move.</param>
+        /// <param name="target">The <typeparamref name="TState"/>
+        /// to move into.</param>
         public override void MoveTo(TCheck condition, TState target)
         {
             this.OutTransitions.Add(condition, target);
@@ -84,6 +109,11 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             target.MovedInto(condition, (TState)this);
         }
 
+        /// <summary>
+        /// Obtains the number of unique states within the current automation.
+        /// </summary>
+        /// <returns>An <see cref="Int32"/> value representing the 
+        /// number of states in the deterministic automation.</returns>
         public override int CountStates()
         {
             return CountStates((TState)this, new HashSet<TState>());
@@ -370,6 +400,16 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             return false; //Not a terminal reduction.
         }
 
+        /// <summary>
+        /// Obtains all of the states within the deterministic 
+        /// automation and places them within the
+        /// <paramref name="result"/> provided.
+        /// </summary>
+        /// <param name="state">The <typeparamref name="TState"/>
+        /// which represents the root state.</param>
+        /// <param name="result">The <see cref="List{T}"/>
+        /// of <typeparamref name="TState"/>
+        /// elements to populate.</param>
         public static void FlatlineState(TState state, List<TState> result)
         {
             if (state == null)
