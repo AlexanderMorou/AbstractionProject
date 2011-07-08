@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
     /// <typeparam name="TState">The specific kind of <see cref="FiniteAutomataState{TCheck, TState, TForwardNodeTarget, TSourceElement}"/>
     /// used within the current automation.</typeparam>
     /// <typeparam name="TForwardNodeTarget">The kind of target used when the condition 
-    /// put forth by the <typeparamref name="TCheck"/> requirement aremet.</typeparam>
+    /// put forth, by the <typeparamref name="TCheck"/> requirement, is met.</typeparam>
     /// <typeparam name="TSourceElement">The type of 
     /// <see cref="IFiniteAutomataSourceElement"/> from which the states
     /// are derived.</typeparam>
@@ -52,6 +52,10 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         #region IFiniteAutomataState<TCheck,TState,TForwardNodeTarget,TBackwardNodeTarget> Members
 
+        /// <summary>
+        /// Returns the <see cref="IFiniteAutomataTransitionTable{TCheck, TState, TForwardNodeTarget}"/>
+        /// that denotes the outgoing transitions from the <see cref="FiniteAutomataState{TCheck, TState, TForwardNodeTarget, TSourceElement}"/>.
+        /// </summary>
         public IFiniteAutomataTransitionTable<TCheck, TState, TForwardNodeTarget> OutTransitions
         {
             get {
@@ -61,11 +65,23 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             }
         }
 
+        /// <summary>
+        /// Initializes the <see cref="IFiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>
+        /// for the current <see cref="FiniteAutomataState{TCheck, TState, TForwardNodeTarget, TSourceElement}"/> state.
+        /// </summary>
+        /// <returns>A new <see cref="FiniteAutomataMultiTargetTransitionTable{TCheck, TState}"/>
+        /// representing the state's incoming transitions.</returns>
         protected virtual IFiniteAutomataMultiTargetTransitionTable<TCheck, TState> InitializeInTransitionTable()
         {
             return new FiniteAutomataMultiTargetTransitionTable<TCheck, TState>(false);
         }
 
+        /// <summary>
+        /// Initializes the <see cref="IFiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>
+        /// for the current <see cref="FiniteAutomataState{TCheck, TState, TForwardNodeTarget, TSourceElement}"/>.
+        /// </summary>
+        /// <returns>A new <see cref="IFiniteAutomataTransitionTable{TCheck, TState, TForwardNodeTarget}"/>
+        /// representing the state's outgoing transitions.</returns>
         protected abstract IFiniteAutomataTransitionTable<TCheck, TState, TForwardNodeTarget> InitializeOutTransitionTable();
 
         #endregion
@@ -90,6 +106,13 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             }
         }
 
+        /// <summary>
+        /// Returns/sets whether the current <see cref="IFiniteAutomataState{TCheck, TState}"/> 
+        /// has been forced into not being an edge state.
+        /// </summary>
+        /// <remarks>Used in instances where an edge is explicitly marked as a
+        /// non-edge when a relative complement operation is performed between
+        /// two automations.</remarks>
         public bool ForcedNoEdge
         {
             get
@@ -114,6 +137,10 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             }
         }
 
+        /// <summary>
+        /// Returns the <see cref="IFiniteAutomataMultiTargetTransitionTable{TCheck, TState}"/>
+        /// which denotes the conditions for and the states that target the current state.
+        /// </summary>
         public IFiniteAutomataMultiTargetTransitionTable<TCheck, TState> InTransitions
         {
             get
@@ -170,7 +197,11 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         #endregion
 
-
+        /// <summary>
+        /// Obtains the number of unique states within the current automation.
+        /// </summary>
+        /// <returns>An <see cref="Int32"/> value representing the 
+        /// number of states in the automation.</returns>
         public abstract int CountStates();
 
         /// <summary>
@@ -301,6 +332,10 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             }
         }
 
+        /// <summary>
+        /// Obtains the sources from which the current state of the 
+        /// automation derived.
+        /// </summary>
         public IEnumerable<Tuple<TSourceElement, FiniteAutomationSourceKind>> Sources
         {
             get
@@ -310,6 +345,9 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             }
         }
 
+        /// <summary>
+        /// Returns the number of sources within the current state.
+        /// </summary>
         public int SourceCount
         {
             get

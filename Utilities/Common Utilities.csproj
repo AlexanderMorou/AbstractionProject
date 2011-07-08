@@ -96,6 +96,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Slf\Compilers\GenericParamCtorFailureException.cs" />
+    <Compile Include="Slf\Compilers\GenericParamDataTargetAttribute.cs" />
+    <Compile Include="Slf\Compilers\GlobalMemberContainerAttribute.cs" />
+    <Compile Include="Slf\Compilers\InferredAttribute.cs" />
+    <Compile Include="Slf\Compilers\LanguageMetaHelper.cs" />
+    <Compile Include="Slf\Compilers\LowerBoundTargetAttribute.cs" />
+    <Compile Include="Slf\Compilers\StaticContainerExtensionAttribute.cs" />
     <Compile Include="Utilities\Arrays\Tweaks.cs" />
     <Compile Include="Utilities\Collections\ControlledStateCollection{T}.cs" />
     <Compile Include="Utilities\Collections\ControlledStateDictionary{TKey, TValue}+KeysCollection.cs" />
@@ -284,19 +291,45 @@
     <Compile Include="Utilities\FiniteAutomata\NFAState{4}.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Utilities\Tuples\TupleHelper.cs" />
-    <Compile Include="Utilities\Tuples\Tuple`10.cs" />
-    <Compile Include="Utilities\Tuples\Tuple`11.cs" />
-    <Compile Include="Utilities\Tuples\Tuple`12.cs" />
-    <Compile Include="Utilities\Tuples\Tuple`13.cs" />
-    <Compile Include="Utilities\Tuples\Tuple`14.cs" />
-    <Compile Include="Utilities\Tuples\Tuple`15.cs" />
-    <Compile Include="Utilities\Tuples\Tuple`16.cs" />
-    <Compile Include="Utilities\Tuples\Tuple`17.cs" />
-    <Compile Include="Utilities\Tuples\Tuple`18.cs" />
-    <Compile Include="Utilities\Tuples\Tuple`19.cs" />
-    <Compile Include="Utilities\Tuples\Tuple`20.cs" />
-    <Compile Include="Utilities\Tuples\Tuple`9.cs" />
+    <Compile Include="Utilities\Tuples\TupleHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Tuples\Tuple`09.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Tuples\Tuple`10.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Tuples\Tuple`11.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Tuples\Tuple`12.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Tuples\Tuple`13.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Tuples\Tuple`14.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Tuples\Tuple`15.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Tuples\Tuple`16.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Tuples\Tuple`17.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Tuples\Tuple`18.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Tuples\Tuple`19.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Utilities\Tuples\Tuple`20.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -46,10 +46,34 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// </summary>
         /// <returns></returns>
         TDFA DeterminateAutomata();
+        /// <summary>
+        /// Returns a multi-target transition table for the states
+        /// leaving the automation.
+        /// </summary>
         new IFiniteAutomataMultiTargetTransitionTable<TCheck, TState> OutTransitions { get; }
-
+        /// <summary>
+        /// Creates a concatination between the current state's edges and
+        /// the <paramref name="target"/> <typeparamref name="TState"/>.
+        /// </summary>
+        /// <param name="target">The <typeparamref name="TState"/>
+        /// to concatenate with the current state.</param>
         void Concat(TState target);
+        /// <summary>
+        /// Creates a union between the current state's transitions and
+        /// the <typeparamref name="target"/> <typeparamref name="TState"/>.
+        /// </summary>
+        /// <param name="target">The <typeparamref name="TState"/>
+        /// to create a union with.</param>
         void Union(TState target);
+        /// <summary>
+        /// Creates a relative compliment between the current state's
+        /// transitions and the edge points of the <paramref name="target"/>.
+        /// </summary>
+        /// <param name="target">The <typeparamref name="TState"/>
+        /// to create a relative compliment on.</param>
+        /// <remarks>The edges of the <paramref name="target"/>
+        /// and the current state that overlap are explicitly marked
+        /// as non-edges.</remarks>
         void RelativeComplement(TState target);
 
     }

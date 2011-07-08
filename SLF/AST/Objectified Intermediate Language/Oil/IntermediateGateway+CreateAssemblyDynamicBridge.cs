@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Linq;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Languages;
+#if TYPESYSTEM_CLI
+using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Cli.Members;
+#endif
 /*---------------------------------------------------------------------\
 | Copyright © 2011 Allen Copeland Jr.                                  |
 |----------------------------------------------------------------------|
@@ -24,8 +29,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 IIntermediateAssembly
         {
             private static Func<string, TAssembly> ctorDelegate;
+            #if TYPESYSTEM_CLI
             private static RuntimeMethodHandle ctorHandle;
-
+            #endif
             private static Func<string, TAssembly> CtorDelegete
             {
                 get
@@ -39,10 +45,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             static CreateAssemblyDynamicBridge()
             {
                 var type = typeof(TAssembly);
-                var ctor = LanguageMetaHelper.FindConstructor(type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic), typeof(string));
+
+                #if TYPESYSTEM_CLI //Common Language Infrastructure
+
+                var typeRef = type.GetTypeReference();
+                if (typeRef.Type != Abstract.TypeKind.Class)
+                    throw new ArgumentException("TAssembly");
+                var classRef = (ICompiledClassType)typeRef;
+                var ctor = classRef.Constructors.Find(true, CommonTypeRefs.String).Values.First() as ICompiledCtorMember;
                 if (ctor == null)
                     throw new ArgumentException("TAssembly");
-                ctorHandle = ctor.MethodHandle;
+                ctorHandle = ctor.MemberInfo.MethodHandle;
+
+                #endif
+
             }
 
             #region ICreateAssemblyBridge<TAssembly> Members

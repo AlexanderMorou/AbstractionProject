@@ -82,6 +82,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             }
             return conversionInfo;
         }
+
         /// <summary>
         /// Checks to see if you can go <paramref name="from"/> one type <paramref name="to"/> another.
         /// </summary>
