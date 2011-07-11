@@ -129,8 +129,207 @@
     <Compile Include="Oil\IHighLevelIntermediateAssembly.cs" />
     <Compile Include="Oil\IIntermediateAssembly`2.cs" />
     <Compile Include="Oil\IVersionedHighLevelIntermediateAssembly.cs" />
-    <Compile Include="Oil\Statements\EnumerateSetBreakableBlockStatement.cs" />
-    <Compile Include="Oil\Statements\IEnumerateSetBreakableBlockStatement.cs" />
+    <Compile Include="Oil\Statements\BlockStatementBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\BlockStatementLabelDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\BlockStatementParentContainer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\BlockStatementScopeLabelDictionary+KeysCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\BlockStatementScopeLabelDictionary+ValuesCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\BlockStatementScopeLabelDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\BreakableConditionBlockStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\BreakableConditionContinuationStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\BreakExit.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\BreakStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\CallFusionStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\CallMethodStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\ChangeEventHandlerStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\CommentStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\ConditionContinuationStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\ConditionStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\EnumerateSetBreakableBlockStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\ExpressionStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\GoToStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IBlockStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IBlockStatementLabelDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IBlockStatementParent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IBreakableBlockStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IBreakableConditionBlockStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IBreakableConditionContinuationStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IBreakableStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IBreakExit.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IBreakStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\ICallFusionStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\ICallMethodStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IChangeEventHandlerStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\ICommentStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IConditionBlockStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IConditionContinuationStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IEnumerateSetBreakableBlockStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IExplicitlyTypedLocalVariableDeclarationStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IExpressionStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IGoToStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IIterationBlockStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IIterationDeclarationBlockStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IJumpStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IJumpTarget.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\ILabelStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\ILocalDeclarationStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IReturnStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\ISimpleIterationBlockStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IStatementParent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IStatements.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IStatementVisitor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\ISwitchCaseBlockStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\ISwitchStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IterationBlockBaseStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IterationBlockStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\IterationDeclarationBlockStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\ITopBlockStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\ITryStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\ITypedCatchExceptionBlockStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\ITypeNamedCatchExceptionBlockStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\JumpStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\LabelStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\LocalDeclarationStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\ReturnStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\StatementBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\StatementKind.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\SwitchCaseBlockStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Oil\Statements\SwitchStatement.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Translation\IntermediateBlockTranslationClasses.cs" />
     <Compile Include="Translation\CSharpCodeTranslator.cs" />
     <Compile Include="Languages\IAllenCopelandLanguageVendor.cs" />
@@ -259,11 +458,6 @@
     <Compile Include="Oil\IntermediateTopLevelMethodMember.cs" />
     <Compile Include="Oil\Members\IIntermediateMemberVisitor.cs" />
     <Compile Include="Oil\Modules\IntermediateModuleDictionary+AbstractValueCollection.cs" />
-    <Compile Include="Oil\Statements\ChangeEventHandlerStatement.cs" />
-    <Compile Include="Oil\Statements\CommentStatement.cs" />
-    <Compile Include="Oil\Statements\IChangeEventHandlerStatement.cs" />
-    <Compile Include="Oil\Statements\ICommentStatement.cs" />
-    <Compile Include="Oil\Statements\ITypeNamedCatchExceptionBlockStatement.cs" />
     <Compile Include="Parsers\ICSharpParser.cs" />
     <Compile Include="Parsers\IParserSyntaxErrorCollection.cs" />
     <Compile Include="Parsers\IParserSyntaxError.cs" />
@@ -836,178 +1030,6 @@
     <Compile Include="Oil\NamespaceInclusionScopeCoercion.cs" />
     <Compile Include="Oil\PrivateImplementationDetails.cs" />
     <Compile Include="Oil\ScopeCoercionCollection.cs" />
-    <Compile Include="Oil\Statements\BlockStatementBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\BlockStatementLabelDictionary.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\BlockStatementParentContainer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\BlockStatementScopeLabelDictionary+KeysCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\BlockStatementScopeLabelDictionary+ValuesCollection.cs" />
-    <Compile Include="Oil\Statements\BlockStatementScopeLabelDictionary.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\BreakableConditionBlockStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\BreakableConditionContinuationStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\BreakExit.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\BreakStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\CallFusionStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\CallMethodStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\ConditionContinuationStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\ConditionStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\ExpressionStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\GoToStatement.cs" />
-    <Compile Include="Oil\Statements\IBlockStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IBlockStatementLabelDictionary.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IBlockStatementParent.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IBreakableBlockStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IBreakableConditionBlockStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IBreakableConditionContinuationStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IBreakableStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IBreakExit.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IBreakStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\ICallFusionStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\ICallMethodStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IConditionBlockStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IConditionContinuationStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IExplicitlyTypedLocalVariableDeclarationStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IExpressionStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IGoToStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IIterationBlockStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IIterationDeclarationBlockStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IJumpStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IJumpTarget.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\ILabelStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\ILocalDeclarationStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IReturnStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\ISimpleIterationBlockStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IStatementParent.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IStatements.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IStatementVisitor.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\ISwitchCaseBlockStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\ISwitchStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IterationBlockBaseStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IterationBlockStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\IterationDeclarationBlockStatement.cs" />
-    <Compile Include="Oil\Statements\ITopBlockStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\ITypedCatchExceptionBlockStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\ITryStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\JumpStatement.cs" />
-    <Compile Include="Oil\Statements\LabelStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\LocalDeclarationStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\ReturnStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\StatementBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\StatementKind.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\SwitchCaseBlockStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Oil\Statements\SwitchStatement.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Oil\StaticInclusionScopeCoercion.cs" />
     <Compile Include="Oil\TypeInclusionRenameScopeCoercion.cs" />
     <Compile Include="Oil\TypeInclusionScopeCoercion.cs" />

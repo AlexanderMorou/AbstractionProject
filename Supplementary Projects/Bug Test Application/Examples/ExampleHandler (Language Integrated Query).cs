@@ -67,9 +67,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                  * foreach (digit in sortedDigits)
                  *     Console.WriteLine(digit);
                  * */
-                var iteratorLocal = topLevelMethod.Locals.Add("digit", null, LocalTypingKind.Implicit);
-                iteratorLocal.AutoDeclare = false;
-                var enumerationBlock = topLevelMethod.Enumerate(iteratorLocal, sortedDigits.GetReference());
+                var enumerationBlock = topLevelMethod.Enumerate("digit", sortedDigits.GetReference());
                 enumerationBlock.Call("Console".Fuse("WriteLine").Fuse((IExpression)(Symbol)"digit"));
                 return new Tuple<TAssembly, IIntermediateTopLevelMethodMember>(assembly, topLevelMethod);
             }

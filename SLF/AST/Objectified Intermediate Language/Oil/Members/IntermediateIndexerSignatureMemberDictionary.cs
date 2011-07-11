@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TIndexerParent">The type of indexer signature parent in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateIndexerParent">The type of indexer signature parent in the intermediate
     /// abstract syntax tree.</typeparam>
-    public class IntermediateIndexerSignatureMemberDictionary<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> :
+    public abstract class IntermediateIndexerSignatureMemberDictionary<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> :
         IntermediateGroupedMemberDictionary<TIndexerParent, TIntermediateIndexerParent, TIndexer, TIntermediateIndexer>,
         IIntermediateIndexerSignatureMemberDictionary<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>,
         IIntermediateIndexerSignatureMemberDictionary
@@ -71,6 +71,33 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IIndexerSignatureParent IIndexerSignatureMemberDictionary.Parent
         {
             get { return base.Parent; }
+        }
+
+        #endregion
+
+
+        #region IIntermediateIndexerSignatureMemberDictionary<TIndexer,TIntermediateIndexer,TIndexerParent,TIntermediateIndexerParent> Members
+
+        public TIntermediateIndexer Add(IType returnType, TypedNameSeries parameters, bool canGet = true, bool canSet = true)
+        {
+            return this.Add(new TypedName(null, returnType), parameters, canGet, canSet);
+        }
+
+        public abstract TIntermediateIndexer Add(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true);
+
+        #endregion
+
+
+        #region IIntermediateIndexerSignatureMemberDictionary Members
+
+        IIntermediateIndexerSignatureMember IIntermediateIndexerSignatureMemberDictionary.Add(IType returnType, TypedNameSeries parameters, bool canGet, bool canSet)
+        {
+            return this.Add(returnType, parameters, canGet, canSet);
+        }
+
+        IIntermediateIndexerSignatureMember IIntermediateIndexerSignatureMemberDictionary.Add(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet, bool canSet)
+        {
+            return this.Add(nameAndReturn, parameters, canGet, canSet);
         }
 
         #endregion
