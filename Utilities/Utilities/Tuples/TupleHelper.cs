@@ -14,13 +14,16 @@ namespace AllenCopeland.Abstraction.Utilities.Tuples
 {
     // Module: RootModule
     /// <summary>
-    /// Defines static methods for creating 9+ element tuples.
+    /// Defines static methods for creating nonuple (9-tuple) through
+    /// the unvigenuple (21-tuple).
     /// </summary>
+    /// <remarks>This finishes out the second tuple depth, started by <see cref="Tuple.Create{T1,T2,T3,T4,T5,T6,T7,T8}(T1,T2,T3,T4,T5,T6,T7,T8)"/>
+    /// and finishes out the third tuple depth.</remarks>
     public static class TupleHelper
     {
         #region TupleHelper methods
         /// <summary>
-        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9}"/>
+        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> nonuple
         /// with the primary through nonary components provided.
         /// </summary>
         /// <typeparam name="T1">The type of the nonuple's primary component.</typeparam>
@@ -41,18 +44,18 @@ namespace AllenCopeland.Abstraction.Utilities.Tuples
         /// <param name="item7">The value of the nonuple's septenary component.</param>
         /// <param name="item8">The value of the nonuple's octonary component.</param>
         /// <param name="item9">The value of the nonuple's nonary component.</param>
-        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9}"/> instance
+        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> nonuple instance
         /// with the first through ninth components provided.</returns>
         [StaticContainerExtensionAttribute(typeof(Tuple))]
-        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9)
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9)
         {
-            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9>(item1, item2, item3,
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9>>(item1, item2, item3,
                 item4, item5, item6,
-                item7, item8, item9);
+                item7, new Tuple<T8, T9>(item8, item9));
         }
 
         /// <summary>
-        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10}"/>
+        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> decuple
         /// with the first through tenth components provided.
         /// </summary>
         /// <typeparam name="T1">The type of the decuple's primary component.</typeparam>
@@ -75,19 +78,19 @@ namespace AllenCopeland.Abstraction.Utilities.Tuples
         /// <param name="item8">The value of the decuple's octonary component.</param>
         /// <param name="item9">The value of the decuple's nonary component.</param>
         /// <param name="item10">The value of the decuple's denary component.</param>
-        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10}"/>
+        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> decuple
         /// with the first through tenth components provided.</returns>
         [StaticContainerExtensionAttribute(typeof(Tuple))]
-        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10)
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10)
         {
-            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(item1, item2, item3,
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10>>(item1, item2, item3,
                 item4, item5, item6,
-                item7, item8, item9,
-                item10);
+                item7, new Tuple<T8, T9, T10>(item8, item9,
+                item10));
         }
 
         /// <summary>
-        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11}"/>
+        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> undecuple
         /// with the first through eleventh components provided.
         /// </summary>
         /// <typeparam name="T1">The type of the undecuple's primary component.</typeparam>
@@ -112,19 +115,19 @@ namespace AllenCopeland.Abstraction.Utilities.Tuples
         /// <param name="item9">The value of the undecuple's nonary component.</param>
         /// <param name="item10">The value of the undecuple's denary component.</param>
         /// <param name="item11">The value of the undecuple's undenary component.</param>
-        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11}"/>
+        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> undecuple
         /// with the first through eleventh components provided.</returns>
         [StaticContainerExtensionAttribute(typeof(Tuple))]
-        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11)
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11)
         {
-            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(item1, item2, item3,
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11>>(item1, item2, item3,
                 item4, item5, item6,
-                item7, item8, item9,
-                item10, item11);
+                item7, new Tuple<T8, T9, T10, T11>(item8, item9,
+                item10, item11));
         }
 
         /// <summary>
-        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12}"/>
+        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> duodecuple
         /// with the first through twelfth components provided.
         /// </summary>
         /// <typeparam name="T1">The type of the duodecuple's primary component.</typeparam>
@@ -151,19 +154,19 @@ namespace AllenCopeland.Abstraction.Utilities.Tuples
         /// <param name="item10">The value of the duodecuple's denary component.</param>
         /// <param name="item11">The value of the duodecuple's undenary component.</param>
         /// <param name="item12">The value of the duodecuple's duodenary component.</param>
-        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12}"/>
+        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> duodecuple
         /// with the first through twelfth components provided.</returns>
         [StaticContainerExtensionAttribute(typeof(Tuple))]
-        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12)
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12)
         {
-            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(item1, item2, item3,
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12>>(item1, item2, item3,
                 item4, item5, item6,
-                item7, item8, item9,
-                item10, item11, item12);
+                item7, new Tuple<T8, T9, T10, T11, T12>(item8, item9,
+                item10, item11, item12));
         }
 
         /// <summary>
-        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13}"/>
+        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> tredecuple
         /// with the first through thirteenth components provided.
         /// </summary>
         /// <typeparam name="T1">The type of the tredecuple's primary component.</typeparam>
@@ -193,20 +196,20 @@ namespace AllenCopeland.Abstraction.Utilities.Tuples
         /// <param name="item11">The value of the tredecuple's undenary component.</param>
         /// <param name="item12">The value of the tredecuple's duodenary component.</param>
         /// <param name="item13">The value of the tredecuple's tredenary component.</param>
-        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, 13}"/>
+        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> tredecuple
         /// with the first through thirteenth components provided.</returns>
         [StaticContainerExtensionAttribute(typeof(Tuple))]
-        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13)
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13)
         {
-            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(item1, item2, item3,
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13>>(item1, item2, item3,
                 item4, item5, item6,
-                item7, item8, item9,
+                item7, new Tuple<T8, T9, T10, T11, T12, T13>(item8, item9,
                 item10, item11, item12,
-                item13);
+                item13));
         }
 
         /// <summary>
-        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14}"/>
+        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> quattuordecuple
         /// with the first through fourteenth components provided.
         /// </summary>
         /// <typeparam name="T1">The type of the quattuordecuple's primary component.</typeparam>
@@ -237,20 +240,20 @@ namespace AllenCopeland.Abstraction.Utilities.Tuples
         /// <param name="item12">The value of the quattuordecuple's duodenary component.</param>
         /// <param name="item13">The value of the quattuordecuple's tredenary component.</param>
         /// <param name="item14">The value of the quattuordecuple's quattuordenary component.</param>
-        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, 13, T14}"/>
+        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> quattuordecuple
         /// with the first through fourteenth components provided.</returns>
         [StaticContainerExtensionAttribute(typeof(Tuple))]
-        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14)
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13, T14>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14)
         {
-            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(item1, item2, item3,
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13, T14>>(item1, item2, item3,
                 item4, item5, item6,
-                item7, item8, item9,
+                item7, new Tuple<T8, T9, T10, T11, T12, T13, T14>(item8, item9,
                 item10, item11, item12,
-                item13, item14);
+                item13, item14));
         }
 
         /// <summary>
-        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15}"/>
+        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> quindecuple
         /// with the first through fifteenth components provided.
         /// </summary>
         /// <typeparam name="T1">The type of the quindecuple's primary component.</typeparam>
@@ -283,20 +286,20 @@ namespace AllenCopeland.Abstraction.Utilities.Tuples
         /// <param name="item13">The value of the quindecuple's tredenary component.</param>
         /// <param name="item14">The value of the quindecuple's quattuordenary component.</param>
         /// <param name="item15">The value of the quindecuple's quindenary component.</param>
-        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, 13, T14, T15}"/>
+        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> quindecuple
         /// with the first through fifteenth components provided.</returns>
         [StaticContainerExtensionAttribute(typeof(Tuple))]
-        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15)
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15>>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15)
         {
-            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(item1, item2, item3,
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15>>>(item1, item2, item3,
                 item4, item5, item6,
-                item7, item8, item9,
+                item7, new Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15>>(item8, item9,
                 item10, item11, item12,
-                item13, item14, item15);
+                item13, item14, Tuple.Create(item15)));
         }
 
         /// <summary>
-        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16}"/>
+        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> sexdecuple
         /// with the first through sixteenth components provided.
         /// </summary>
         /// <typeparam name="T1">The type of the sexdecuple's primary component.</typeparam>
@@ -331,21 +334,21 @@ namespace AllenCopeland.Abstraction.Utilities.Tuples
         /// <param name="item14">The value of the sexdecuple's quattuordenary component.</param>
         /// <param name="item15">The value of the sexdecuple's quindenary component.</param>
         /// <param name="item16">The value of the sexdecuple's sedenary component.</param>
-        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, 13, T14, T15, T16}"/>
+        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> sexdecuple
         /// with the first through sixteenth components provided.</returns>
         [StaticContainerExtensionAttribute(typeof(Tuple))]
-        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15, T16 item16)
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15, T16>>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15, T16 item16)
         {
-            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(item1, item2, item3,
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15, T16>>>(item1, item2, item3,
                 item4, item5, item6,
-                item7, item8, item9,
+                item7, new Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15, T16>>(item8, item9,
                 item10, item11, item12,
-                item13, item14, item15,
-                item16);
+                item13, item14, Tuple.Create(item15,
+                item16)));
         }
 
         /// <summary>
-        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17}"/>
+        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> septendecuple
         /// with the first through seventeenth components provided.
         /// </summary>
         /// <typeparam name="T1">The type of the septendecuple's primary component.</typeparam>
@@ -382,21 +385,21 @@ namespace AllenCopeland.Abstraction.Utilities.Tuples
         /// <param name="item15">The value of the septendecuple's quindenary component.</param>
         /// <param name="item16">The value of the septendecuple's sedenary component.</param>
         /// <param name="item17">The value of the septendecuple's septendenary component.</param>
-        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, 13, T14, T15, T16, T17}"/>
+        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> septendecuple
         /// with the first through seventeenth components provided.</returns>
         [StaticContainerExtensionAttribute(typeof(Tuple))]
-        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15, T16 item16, T17 item17)
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15, T16, T17>>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15, T16 item16, T17 item17)
         {
-            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>(item1, item2, item3,
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15, T16, T17>>>(item1, item2, item3,
                 item4, item5, item6,
-                item7, item8, item9,
+                item7, new Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15, T16, T17>>(item8, item9,
                 item10, item11, item12,
-                item13, item14, item15,
-                item16, item17);
+                item13, item14, Tuple.Create(item15,
+                item16, item17)));
         }
 
         /// <summary>
-        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18}"/>
+        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> octodecuple
         /// with the first through eighteenth components provided.
         /// </summary>
         /// <typeparam name="T1">The type of the octodecuple's primary component.</typeparam>
@@ -435,21 +438,21 @@ namespace AllenCopeland.Abstraction.Utilities.Tuples
         /// <param name="item16">The value of the octodecuple's sedenary component.</param>
         /// <param name="item17">The value of the octodecuple's septendenary component.</param>
         /// <param name="item18">The value of the octodecuple's octodenary component.</param>
-        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, 13, T14, T15, T16, T17, T18}"/>
+        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> octodecuple
         /// with the first through eighteenth components provided.</returns>
         [StaticContainerExtensionAttribute(typeof(Tuple))]
-        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15, T16 item16, T17 item17, T18 item18)
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15, T16, T17, T18>>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15, T16 item16, T17 item17, T18 item18)
         {
-            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18>(item1, item2, item3,
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15, T16, T17, T18>>>(item1, item2, item3,
                 item4, item5, item6,
-                item7, item8, item9,
+                item7, new Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15, T16, T17, T18>>(item8, item9,
                 item10, item11, item12,
-                item13, item14, item15,
-                item16, item17, item18);
+                item13, item14, Tuple.Create(item15,
+                item16, item17, item18)));
         }
 
         /// <summary>
-        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19}"/>
+        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> novemdecuple
         /// with the first through nineteenth components provided.
         /// </summary>
         /// <typeparam name="T1">The type of the novemdecuple's primary component.</typeparam>
@@ -490,22 +493,22 @@ namespace AllenCopeland.Abstraction.Utilities.Tuples
         /// <param name="item17">The value of the novemdecuple's septendenary component.</param>
         /// <param name="item18">The value of the novemdecuple's octodenary component.</param>
         /// <param name="item19">The value of the novemdecuple's novemdenary component.</param>
-        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19}"/>
+        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> novemdecuple
         /// with the first through nineteenth components provided.</returns>
         [StaticContainerExtensionAttribute(typeof(Tuple))]
-        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15, T16 item16, T17 item17, T18 item18, T19 item19)
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15, T16, T17, T18, T19>>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15, T16 item16, T17 item17, T18 item18, T19 item19)
         {
-            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19>(item1, item2, item3,
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15, T16, T17, T18, T19>>>(item1, item2, item3,
                 item4, item5, item6,
-                item7, item8, item9,
+                item7, new Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15, T16, T17, T18, T19>>(item8, item9,
                 item10, item11, item12,
-                item13, item14, item15,
+                item13, item14, Tuple.Create(item15,
                 item16, item17, item18,
-                item19);
+                item19)));
         }
 
         /// <summary>
-        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20}"/>
+        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> vigenuple
         /// with the first through twentieth components provided.
         /// </summary>
         /// <typeparam name="T1">The type of the vigenuple's primary component.</typeparam>
@@ -548,22 +551,81 @@ namespace AllenCopeland.Abstraction.Utilities.Tuples
         /// <param name="item18">The value of the vigenuple's octodenary component.</param>
         /// <param name="item19">The value of the vigenuple's novemdenary component.</param>
         /// <param name="item20">The value of the vigenuple's vigenary component.</param>
-        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20}"/>
+        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> vigenuple
         /// with the first through twentieth components provided.</returns>
         [StaticContainerExtensionAttribute(typeof(Tuple))]
-        public static Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15, T16 item16, T17 item17, T18 item18, T19 item19, T20 item20)
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15, T16, T17, T18, T19, T20>>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15, T16 item16, T17 item17, T18 item18, T19 item19, T20 item20)
         {
-            return new Tuple<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>(item1, item2, item3,
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15, T16, T17, T18, T19, T20>>>(item1, item2, item3,
                 item4, item5, item6,
-                item7, item8, item9,
+                item7, new Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15, T16, T17, T18, T19, T20>>(item8, item9,
                 item10, item11, item12,
-                item13, item14, item15,
+                item13, item14, Tuple.Create(item15,
                 item16, item17, item18,
-                item19, item20);
+                item19, item20)));
+        }
+
+
+        /// <summary>
+        /// Creates a new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> unvigenuple
+        /// with the first through twenty-first components provided.
+        /// </summary>
+        /// <typeparam name="T1">The type of the unvigenuple's primary component.</typeparam>
+        /// <typeparam name="T2">The type of the unvigenuple's secondary component.</typeparam>
+        /// <typeparam name="T3">The type of the unvigenuple's tertiary component.</typeparam>
+        /// <typeparam name="T4">The type of the unvigenuple's quaternary component.</typeparam>
+        /// <typeparam name="T5">The type of the unvigenuple's quinary component.</typeparam>
+        /// <typeparam name="T6">The type of the unvigenuple's senary component.</typeparam>
+        /// <typeparam name="T7">The type of the unvigenuple's septenary component.</typeparam>
+        /// <typeparam name="T8">The type of the unvigenuple's octonary component.</typeparam>
+        /// <typeparam name="T9">The type of the unvigenuple's nonary component.</typeparam>
+        /// <typeparam name="T10">The type of the unvigenuple's denary component.</typeparam>
+        /// <typeparam name="T11">The type of the unvigenuple's undenary component.</typeparam>
+        /// <typeparam name="T12">The type of the unvigenuple's duodenary component.</typeparam>
+        /// <typeparam name="T13">The type of the unvigenuple's tredenary component.</typeparam>
+        /// <typeparam name="T14">The type of the unvigenuple's quattuordenary component.</typeparam>
+        /// <typeparam name="T15">The type of the unvigenuple's quindenary component.</typeparam>
+        /// <typeparam name="T16">The type of the unvigenuple's sedenary component.</typeparam>
+        /// <typeparam name="T17">The type of the unvigenuple's septendenary component.</typeparam>
+        /// <typeparam name="T18">The type of the unvigenuple's octodenary component.</typeparam>
+        /// <typeparam name="T19">The type of the unvigenuple's novemdenary component.</typeparam>
+        /// <typeparam name="T20">The type of the unvigenuple's vigenary component.</typeparam>
+        /// <typeparam name="T21">The type of the unvigenuple's unvigenary component.</typeparam>
+        /// <param name="item1">The value of the unvigenuple's primary component.</param>
+        /// <param name="item2">The value of the unvigenuple's secondary component.</param>
+        /// <param name="item3">The value of the unvigenuple's tertiary component.</param>
+        /// <param name="item4">The value of the unvigenuple's quaternary component.</param>
+        /// <param name="item5">The value of the unvigenuple's quinary component.</param>
+        /// <param name="item6">The value of the unvigenuple's senary component.</param>
+        /// <param name="item7">The value of the unvigenuple's septenary component.</param>
+        /// <param name="item8">The value of the unvigenuple's octonary component.</param>
+        /// <param name="item9">The value of the unvigenuple's nonary component.</param>
+        /// <param name="item10">The value of the unvigenuple's denary component.</param>
+        /// <param name="item11">The value of the unvigenuple's undenary component.</param>
+        /// <param name="item12">The value of the unvigenuple's duodenary component.</param>
+        /// <param name="item13">The value of the unvigenuple's tredenary component.</param>
+        /// <param name="item14">The value of the unvigenuple's quattuordenary component.</param>
+        /// <param name="item15">The value of the unvigenuple's quindenary component.</param>
+        /// <param name="item16">The value of the unvigenuple's sedenary component.</param>
+        /// <param name="item17">The value of the unvigenuple's septendenary component.</param>
+        /// <param name="item18">The value of the unvigenuple's octodenary component.</param>
+        /// <param name="item19">The value of the unvigenuple's novemdenary component.</param>
+        /// <param name="item20">The value of the unvigenuple's vigenary component.</param>
+        /// <param name="item21">The value of the unvigenuple's unvigenary component.</param>
+        /// <returns>A new <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/> unvigenuple
+        /// with the first through twenty-first components provided.</returns>
+        [StaticContainerExtensionAttribute(typeof(Tuple))]
+        public static Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15, T16, T17, T18, T19, T20, T21>>> Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21>(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15, T16 item16, T17 item17, T18 item18, T19 item19, T20 item20, T21 item21)
+        {
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15, T16, T17, T18, T19, T20, T21>>>(item1, item2, item3,
+                item4, item5, item6,
+                item7, new Tuple<T8, T9, T10, T11, T12, T13, T14, Tuple<T15, T16, T17, T18, T19, T20, T21>>(item8, item9,
+                item10, item11, item12,
+                item13, item14, Tuple.Create(item15,
+                item16, item17, item18,
+                item19, item20, item21)));
         }
         #endregion // TupleHelper methods
-
-
     }
     // Module: RootModule
 }

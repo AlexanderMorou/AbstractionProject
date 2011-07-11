@@ -156,6 +156,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
 
             #endregion
+
+            public override IIntermediateGenericParameterIndexerMember<TGenericParameter, TIntermediateGenericParameter> Add(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

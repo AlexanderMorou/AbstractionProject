@@ -44,7 +44,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <paramref name="master"/> and <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
-        /// which contains the current instance's members as well as those of other <see cref="IntermediateIndexerMemberDictionary{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent}"/>
+        /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>
         /// instances of varying types.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateIndexerParent"/>
         /// which contains the <see cref="IntermediateIndexerMemberDictionary{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent}"/>.</param>
@@ -57,7 +57,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <paramref name="master"/>, <paramref name="parent"/> and <paramref name="root"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
-        /// which contains the current instance's members as well as those of other <see cref="IntermediateIndexerMemberDictionary{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent}"/>
+        /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>
         /// instances of varying types.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateIndexerParent"/>
         /// which contains the <see cref="IntermediateIndexerMemberDictionary{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent}"/>.</param>
@@ -81,14 +81,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <param name="parameters">The <see cref="TypedNameSeries"/>
         /// which denotes the types and names of the parameters of the
         /// indexer to add.</param>
+        /// <param name="canGet">Whether the property can be read.</param>
+        /// <param name="canSet">Whether the property can be written.</param>
         /// <returns>A <typeparamref name="TIntermediateIndexer"/> which
         /// represents the indexer added.</returns>
         /// <exception cref="System.ArgumentException">thrown another
         /// member within the <see cref="IIntermediateIndexerMemberDictionary"/>
         /// contains the same signature.</exception>
-        public virtual TIntermediateIndexer Add(IType returnType, TypedNameSeries parameters)
+        public TIntermediateIndexer Add(IType returnType, TypedNameSeries parameters, bool canGet = true, bool canSet = true)
         {
-            return this.Add(new TypedName(Resources.DefaultIndexerName, returnType), parameters);
+            return this.Add(new TypedName(null, returnType), parameters);
         }
 
         /// <summary>
@@ -101,25 +103,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <param name="parameters">The <see cref="TypedNameSeries"/>
         /// which denotes the types and names of the parameters of the
         /// indexer to add.</param>
+        /// <param name="canGet">Whether the property can be read.</param>
+        /// <param name="canSet">Whether the property can be written.</param>
         /// <returns>A <typeparamref name="TIntermediateIndexer"/> which
         /// represents the indexer added.</returns>
         /// <exception cref="System.ArgumentException">thrown another
         /// member within the <see cref="IIntermediateIndexerMemberDictionary"/>
         /// contains the same signature.</exception>
-        public abstract TIntermediateIndexer Add(TypedName nameAndReturn, TypedNameSeries parameters);
+        public abstract TIntermediateIndexer Add(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true);
 
         #endregion
 
         #region IIntermediateIndexerMemberDictionary Members
 
-        IIntermediateIndexerMember IIntermediateIndexerMemberDictionary.Add(IType returnType, TypedNameSeries parameters)
+        IIntermediateIndexerMember IIntermediateIndexerMemberDictionary.Add(IType returnType, TypedNameSeries parameters, bool canGet, bool canSet)
         {
-            return this.Add(returnType, parameters);
+            return this.Add(returnType, parameters, canGet, canSet);
         }
 
-        IIntermediateIndexerMember IIntermediateIndexerMemberDictionary.Add(TypedName nameAndReturn, TypedNameSeries parameters)
+        IIntermediateIndexerMember IIntermediateIndexerMemberDictionary.Add(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet, bool canSet)
         {
-            return this.Add(nameAndReturn, parameters);
+            return this.Add(nameAndReturn, parameters, canGet, canSet);
         }
 
         #endregion

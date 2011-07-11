@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using System.ComponentModel;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using System.Globalization;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2011 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -36,9 +37,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <param name="parent">The <see cref="IBlockStatementParent"/>
         /// which contains the <see cref="IEnumerateSetBreakableBlockStatement"/>.
         /// </param>
-        public EnumerateSetBreakableBlockStatement(IBlockStatementParent parent, ILocalMember local)
+        public EnumerateSetBreakableBlockStatement(IBlockStatementParent parent, string localName)
             : base(parent)
         {
+            var local = this.Locals.Add(localName, null, LocalTypingKind.Implicit);
+            local.AutoDeclare = false;
+            this.Local = local;
+        }
+        public EnumerateSetBreakableBlockStatement(IBlockStatementParent parent, TypedName localNameAndType)
+            : base(parent)
+        {
+            var local = this.Locals.Add(localNameAndType);
+            local.AutoDeclare = false;
             this.Local = local;
         }
 

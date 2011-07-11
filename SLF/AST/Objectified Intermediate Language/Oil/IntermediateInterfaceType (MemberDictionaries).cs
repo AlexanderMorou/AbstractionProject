@@ -32,7 +32,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             }
 
-
+            public override IIntermediateInterfaceIndexerMember Add(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         private class PropertyMembers :

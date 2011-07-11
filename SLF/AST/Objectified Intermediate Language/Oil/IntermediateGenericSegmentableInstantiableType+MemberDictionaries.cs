@@ -313,10 +313,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     return (TInstanceIntermediateType)base.Parent;
                 }
             }
-            public override TIntermediateIndexer Add(TypedName nameAndReturn, TypedNameSeries parameters)
+            public override TIntermediateIndexer Add(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true)
             {
                 var result = (TIntermediateIndexer)(object)this.Parent.GetNewIndexer(nameAndReturn);
-                
+                result.CanRead = canGet;
+                result.CanWrite = canSet;
                 return result;
             }
         }

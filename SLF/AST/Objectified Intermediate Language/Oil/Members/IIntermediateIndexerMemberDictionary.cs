@@ -47,12 +47,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <param name="parameters">The <see cref="TypedNameSeries"/>
         /// which denotes the types and names of the parameters of the
         /// indexer to add.</param>
+        /// <param name="canGet">Whether the property can be read.</param>
+        /// <param name="canSet">Whether the property can be written.</param>
         /// <returns>A <typeparamref name="TIntermediateIndexer"/> which
         /// represents the indexer added.</returns>
         /// <exception cref="System.ArgumentException">thrown another
         /// member within the <see cref="IIntermediateIndexerMemberDictionary"/>
         /// contains the same signature.</exception>
-        TIntermediateIndexer Add(IType returnType, TypedNameSeries parameters);
+        TIntermediateIndexer Add(IType returnType, TypedNameSeries parameters, bool canGet = true, bool canSet = true);
         /// <summary>
         /// Adds a new <typeparamref name="TIntermediateIndexer"/> with
         /// the <paramref name="nameAndReturn"/> and
@@ -63,12 +65,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <param name="parameters">The <see cref="TypedNameSeries"/>
         /// which denotes the types and names of the parameters of the
         /// indexer to add.</param>
+        /// <param name="canGet">Whether the property can be read.</param>
+        /// <param name="canSet">Whether the property can be written.</param>
         /// <returns>A <typeparamref name="TIntermediateIndexer"/> which
         /// represents the indexer added.</returns>
         /// <exception cref="System.ArgumentException">thrown another
         /// member within the <see cref="IIntermediateIndexerMemberDictionary"/>
         /// contains the same signature.</exception>
-        TIntermediateIndexer Add(TypedName nameAndReturn, TypedNameSeries parameters);
+        TIntermediateIndexer Add(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true);
     }
 
     /// <summary>
@@ -89,12 +93,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <param name="parameters">The <see cref="TypedNameSeries"/>
         /// which denotes the types and names of the parameters of the
         /// indexer to add.</param>
+        /// <param name="canGet">Whether the property can be read.</param>
+        /// <param name="canSet">Whether the property can be written.</param>
         /// <returns>A <see cref="IIntermediateIndexerMember"/> which
         /// represents the indexer added.</returns>
         /// <exception cref="System.ArgumentException">thrown another
         /// member within the <see cref="IIntermediateIndexerMemberDictionary"/>
         /// contains the same signature.</exception>
-        IIntermediateIndexerMember Add(IType returnType, TypedNameSeries parameters);
+        IIntermediateIndexerMember Add(IType returnType, TypedNameSeries parameters, bool canGet = true, bool canSet = true);
         /// <summary>
         /// Adds a new <see cref="IIntermediateIndexerMember"/> with
         /// the <paramref name="nameAndReturn"/> and
@@ -105,11 +111,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <param name="parameters">The <see cref="TypedNameSeries"/>
         /// which denotes the types and names of the parameters of the
         /// indexer to add.</param>
+        /// <param name="canGet">Whether the property can be read.</param>
+        /// <param name="canSet">Whether the property can be written.</param>
         /// <returns>A <see cref="IIntermediateIndexerMember"/> which
         /// represents the indexer added.</returns>
         /// <exception cref="System.ArgumentException">thrown another
         /// member within the <see cref="IIntermediateIndexerMemberDictionary"/>
         /// contains the same signature.</exception>
-        IIntermediateIndexerMember Add(TypedName nameAndReturn, TypedNameSeries parameters);
+        IIntermediateIndexerMember Add(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true);
     }
 }

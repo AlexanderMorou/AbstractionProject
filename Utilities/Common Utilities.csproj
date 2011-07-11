@@ -100,9 +100,9 @@
     <Compile Include="Slf\Compilers\GenericParamDataTargetAttribute.cs" />
     <Compile Include="Slf\Compilers\GlobalMemberContainerAttribute.cs" />
     <Compile Include="Slf\Compilers\InferredAttribute.cs" />
-    <Compile Include="Slf\Compilers\LanguageMetaHelper.cs" />
     <Compile Include="Slf\Compilers\LowerBoundTargetAttribute.cs" />
     <Compile Include="Slf\Compilers\StaticContainerExtensionAttribute.cs" />
+    <Compile Include="Slf\Compilers\TypeParameterBridgeExtensions.cs" />
     <Compile Include="Utilities\Arrays\Tweaks.cs" />
     <Compile Include="Utilities\Collections\ControlledStateCollection{T}.cs" />
     <Compile Include="Utilities\Collections\ControlledStateDictionary{TKey, TValue}+KeysCollection.cs" />
@@ -150,9 +150,6 @@
     <Compile Include="Utilities\Common\CharacterBase.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Utilities\Common\DecimalBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Utilities\Common\DuosexagesimalBase.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -175,9 +172,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utilities\Common\SeptemvigesimalBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utilities\Common\SexadecimalBase.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utilities\Common\SexatrigesimalBase.cs">
@@ -292,42 +286,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Utilities\Tuples\TupleHelper.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utilities\Tuples\Tuple`09.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utilities\Tuples\Tuple`10.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utilities\Tuples\Tuple`11.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utilities\Tuples\Tuple`12.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utilities\Tuples\Tuple`13.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utilities\Tuples\Tuple`14.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utilities\Tuples\Tuple`15.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utilities\Tuples\Tuple`16.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utilities\Tuples\Tuple`17.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utilities\Tuples\Tuple`18.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utilities\Tuples\Tuple`19.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utilities\Tuples\Tuple`20.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

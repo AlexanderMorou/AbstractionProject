@@ -17,8 +17,8 @@ namespace AllenCopeland.Abstraction.Utilities.Common
     {
         /// <summary>
         /// Joins a <paramref name="series"/> of <see cref="String"/> values with the 
-        /// <paramref name="separator"/> provided, appending a new line prior to the 
-        /// <paramref name="maxWidth"/> being reached.
+        /// <paramref name="separator"/> provided, appending a <paramref name="sectionSeparator"/>
+        /// when <paramref name="maxWidth"/> is reached for that section.
         /// </summary>
         /// <param name="series">A series of <see cref="String"/> values to be 
         /// joined together delimited by the <paramref name="separator"/>
@@ -26,16 +26,16 @@ namespace AllenCopeland.Abstraction.Utilities.Common
         /// <param name="separator">The <see cref="String"/> value which
         /// should delimit the elements within <paramref name="series"/>.</param>
         /// <param name="maxWidth">The <see cref="Int32"/> value which denotes how 
-        /// many characters should be allowed, at maximum, per line.</param>
+        /// many characters should be allowed, at maximum, per section.</param>
         /// <returns>A <see cref="String"/> value which represents the elements of the 
         /// <paramref name="series"/> delimited by the <paramref name="separator"/>
-        /// provided with a <paramref name="maxWidth"/> specified per line.</returns>
+        /// provided with a <paramref name="maxWidth"/> specified per section.</returns>
         /// <remarks>If the length of an element of the <paramref name="series"/>
         /// provided is greater than <paramref name="maxWidth"/>, the maximum width
         /// is adjusted.</remarks>
         /// <exception cref="System.ArgumentNullException">thrown when an element of <paramref name="series"/>
         /// is null; or <paramref name="series"/>, or <paramref name="separator"/> is null.</exception>
-        public static string FixedJoin(this string[] series, string separator, int maxWidth = 80)
+        public static string FixedJoin(this string[] series, string separator, string sectionSeparator, int maxWidth = 80)
         {
             if (series == null)
                 throw new ArgumentNullException("series");
@@ -48,7 +48,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
                 var element = series[i];
                 if (element == null)
                     throw new ArgumentNullException("series");
-                int elementLen = element.Length;
+                int elementLen = element.Length + separator.Length;
                 if (elementLen > maxElementLength)
                     maxElementLength = elementLen;
             }
@@ -70,7 +70,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
                 int newLength = currentLength + element.Length;
                 if (newLength >= maxActual)
                 {
-                    resultBuilder.AppendLine();
+                    resultBuilder.Append(sectionSeparator);
                     currentLength = element.Length;
                 }
                 else
@@ -78,6 +78,31 @@ namespace AllenCopeland.Abstraction.Utilities.Common
                 resultBuilder.Append(element);
             }
             return resultBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Joins a <paramref name="series"/> of <see cref="String"/> values with the 
+        /// <paramref name="separator"/> provided, appending a new line prior to the 
+        /// <paramref name="maxWidth"/> being reached.
+        /// </summary>
+        /// <param name="series">A series of <see cref="String"/> values to be 
+        /// joined together delimited by the <paramref name="separator"/>
+        /// provided.</param>
+        /// <param name="separator">The <see cref="String"/> value which
+        /// should delimit the elements within <paramref name="series"/>.</param>
+        /// <param name="maxWidth">The <see cref="Int32"/> value which denotes how 
+        /// many characters should be allowed, at maximum, per line.</param>
+        /// <returns>A <see cref="String"/> value which represents the elements of the 
+        /// <paramref name="series"/> delimited by the <paramref name="separator"/>
+        /// provided with a <paramref name="maxWidth"/> specified per line.</returns>
+        /// <remarks>If the length of an element of the <paramref name="series"/>
+        /// provided is greater than <paramref name="maxWidth"/>, the maximum width
+        /// is adjusted.</remarks>
+        /// <exception cref="System.ArgumentNullException">thrown when an element of <paramref name="series"/>
+        /// is null; or <paramref name="series"/>, or <paramref name="separator"/> is null.</exception>
+        public static string FixedJoin(this string[] series, string separator, int maxWidth = 80)
+        {
+            return series.FixedJoin(separator, Environment.NewLine, maxWidth);
         }
 
         /// <summary>
@@ -99,12 +124,11 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             }
         }
 
-        public static string Repeat(this string s, int length)
+        public static string Repeat(this string s, int times)
         {
-            char[] result = new char[s.Length * length];
-            for (int j = 0, k = 0; j < length; j++)
-                for (int i = 0; i < s.Length; i++)
-                    result[k++] = s[i];
+            char[] result = new char[s.Length * times];
+            for (int j = 0, k = 0; j < times; k += s.Length, j++)
+                s.CopyTo(0, result, k, s.Length);
             return new string(result);
         }
         /// <summary>
