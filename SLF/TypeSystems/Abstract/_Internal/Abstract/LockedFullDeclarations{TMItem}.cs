@@ -82,7 +82,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         private void FetchKeysCheck()
         {
-            if (this._fetchKeys == null)
+            if (this.state == USE_FETCH && this._fetchKeys == null)
                 this._fetchKeys = new _KeysCollection(this);
         }
         protected override ControlledStateDictionary<string, MasterDictionaryEntry<TMItem>>.ValuesCollection InitializeValuesCollection()
@@ -99,7 +99,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         private void FetchValuesCheck()
         {
-            if (this._fetchValues == null)
+            if (this.state == USE_FETCH && this._fetchValues == null)
                 this._fetchValues = new _ValuesCollection(this);
         }
 
@@ -124,6 +124,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             _LockedGroupDeclarationsMasterPass lgdmp = (_LockedGroupDeclarationsMasterPass)isd;
             return lgdmp.FetchKey(sourceElement.Entry);
         }
+        
         public override int Count
         {
             get
@@ -142,6 +143,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             else
                 return FetchEnumerator();
         }
+
         private IEnumerator<KeyValuePair<string, MasterDictionaryEntry<TMItem>>> FetchEnumerator()
         {
             FetchValuesCheck();
@@ -153,12 +155,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         protected sealed override void CopyToArray(Array array, int arrayIndex)
         {
-            if (arrayIndex + this.Count > array.Length)
-                throw new ArgumentException("array");
-            this.FetchKeysCheck();
-            this.FetchValuesCheck();
-            for (int i = 0; i < this.Count; i++)
-                array.SetValue(new KeyValuePair<string, MasterDictionaryEntry<TMItem>>(this._fetchKeys[i], this._fetchValues[i]), i + arrayIndex);
+            if (this.state == USE_FETCH)
+            {
+                if (arrayIndex + this.Count > array.Length)
+                    throw new ArgumentException("array");
+                this.FetchKeysCheck();
+                this.FetchValuesCheck();
+                for (int i = 0; i < this.Count; i++)
+                    array.SetValue(new KeyValuePair<string, MasterDictionaryEntry<TMItem>>(this._fetchKeys[i], this._fetchValues[i]), i + arrayIndex);
+            }
+            else
+                base.CopyToArray(array, arrayIndex);
         }
 
         #region _LockedRelativeHelper<TMItem> Members

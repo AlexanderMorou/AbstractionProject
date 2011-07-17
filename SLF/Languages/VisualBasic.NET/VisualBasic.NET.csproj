@@ -84,6 +84,7 @@
     <Compile Include="Languages\VisualBasic\IVisualBasicProvider.cs" />
     <Compile Include="Languages\VisualBasic\My\IMyApplicationClass.cs" />
     <Compile Include="Languages\VisualBasic\My\IMyNamespaceDeclaration.cs" />
+    <Compile Include="Languages\VisualBasic\My\MyNamespaceDeclaration.cs" />
     <Compile Include="Languages\VisualBasic\VisualBasicAssembly.cs" />
     <Compile Include="Languages\VisualBasic\VisualBasicAssemblyBridge.cs" />
     <Compile Include="Languages\VisualBasic\VisualBasicLanguage.cs" />

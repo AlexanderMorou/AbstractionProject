@@ -15,14 +15,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         private class _ValuesCollection :
             ControlledStateDictionary<string, MasterDictionaryEntry<TMItem>>.ValuesCollection
         {
-            private LockedFullDeclarations<TMItem> source;
+            private LockedFullDeclarations<TMItem> owner;
             private List<MasterDictionaryEntry<TMItem>?> dataCopy;
             public _ValuesCollection(LockedFullDeclarations<TMItem> source)
                 : base(source)
             {
-                this.source = source;
+                this.owner = source;
                 this.dataCopy = new List<MasterDictionaryEntry<TMItem>?>(source.sourceData.Count);
-                for (int i = 0; i < this.source.sourceData.Count; i++)
+                for (int i = 0; i < this.owner.sourceData.Count; i++)
                     this.dataCopy.Add(null);
             }
 
@@ -36,7 +36,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             protected override MasterDictionaryEntry<TMItem> OnGetThis(int index)
             {
                 if (this.dataCopy[index] == null)
-                    this.dataCopy[index] = this.source.Fetch(source.sourceData[index]);
+                    this.dataCopy[index] = this.owner.Fetch(owner.sourceData[index]);
                 return this.dataCopy[index].Value;
             }
             public override IEnumerator<MasterDictionaryEntry<TMItem>> GetEnumerator()
@@ -44,7 +44,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 for (int i = 0; i < this.dataCopy.Capacity; i++)
                 {
                     if (this.dataCopy[i] == null)
-                        this.dataCopy[i] = this.source.Fetch(source.sourceData[i]);
+                        this.dataCopy[i] = this.owner.Fetch(owner.sourceData[i]);
                     yield return this.dataCopy[i].Value;
                 }
                 yield break;
@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             {
                 for (int i = 0; i < this.dataCopy.Count; i++)
                     if (this.dataCopy[i] == null)
-                        this.dataCopy[i] = this.source.Fetch(source.sourceData[i]);
+                        this.dataCopy[i] = this.owner.Fetch(owner.sourceData[i]);
                 MasterDictionaryEntry<TMItem>[] dc = new MasterDictionaryEntry<TMItem>[this.dataCopy.Count];
                 for (int i = 0; i < this.dataCopy.Count; i++)
                     dc[i] = this.dataCopy[i].Value;
@@ -73,7 +73,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                     for (int i = 0; i < this.dataCopy.Count; i++)
                         if (dataCopy[i] == null)
                         {
-                            MasterDictionaryEntry<TMItem> r = this.source.Fetch(source.sourceData[i]);
+                            MasterDictionaryEntry<TMItem> r = this.owner.Fetch(owner.sourceData[i]);
                             this.dataCopy[i] = r;
                             if (object.ReferenceEquals(r, item))
                                 return true;
@@ -90,7 +90,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                         this.dataCopy[i] = null;
                     }
                 this.dataCopy = null;
-                this.source = null;
+                this.owner = null;
             }
 
             internal void SetRange(int p)
@@ -125,7 +125,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             {
                 for (int i = 0; i < this.dataCopy.Count; i++)
                     if (this.dataCopy[i] == null)
-                        array[i + arrayIndex] = (this.dataCopy[i] = this.source.Fetch(source.sourceData[i])).Value;
+                        array[i + arrayIndex] = (this.dataCopy[i] = this.owner.Fetch(owner.sourceData[i])).Value;
                     else
                         array[i + arrayIndex] = this.dataCopy[i].Value;
             }

@@ -757,6 +757,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// associated to the partial instance being created.</returns>
         protected override IntermediateNamespaceDeclaration GetNewPartial()
         {
+            return new IntermediateNamespaceDeclaration(this, ObtainParentPartial());
+        }
+
+        /// <summary>
+        /// Obtains a partial element of the parent which
+        /// contains the <see cref="IntermediateNamespaceDeclaration"/> 
+        /// if the parent is segmentable; otherwise, the current
+        /// <see cref="Parent"/> is retrieved.
+        /// </summary>
+        /// <returns>A <see cref="IIntermediateNamespaceParent"/>
+        /// that will contain the new partial obtained through
+        /// <see cref="GetNewPartial"/>.</returns>
+        protected IIntermediateNamespaceParent ObtainParentPartial()
+        {
             var sParent = this.Parent as IIntermediateSegmentableDeclaration;
             /* *
              * The point of segmenting a namespace is to enable 
@@ -776,8 +790,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             if (sParent != null)
                 sParent = sParent.Parts.Add();
             var pParent = (sParent == null ? this.Parent : (sParent as IIntermediateNamespaceParent) ?? this.Parent);
-            return new IntermediateNamespaceDeclaration(this, pParent);
+            return pParent;
         }
+
         private int suspendLevel = 0;
 
         /// <summary>
