@@ -103,6 +103,7 @@
     <Compile Include="Compilers\CompilerModelError{T1-T4}.cs" />
     <Compile Include="Compilers\CompilerSourceModelError{T1-T4}.cs" />
     <Compile Include="Compilers\CompilerSourceModelWarning{T1-T4}.cs" />
+    <Compile Include="Compilers\CSharpCompilerMessages+Formatter.cs" />
     <Compile Include="Compilers\CSharpCompilerMessages.cs" />
     <Compile Include="Compilers\IAnonymousTypePatternAid.cs" />
     <Compile Include="Compilers\IMalleableCompilationContext.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Languages\ILanguageCSTTranslator.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Oil\DynamicType.cs" />
     <Compile Include="Oil\Expressions\ICreateAnonymousType.cs" />
     <Compile Include="Oil\Expressions\ICreateAnonymousTypeMemberAssignment.cs" />
     <Compile Include="Oil\Expressions\ICreateAnonymousTypeMemberAssignmentDictionary.cs" />

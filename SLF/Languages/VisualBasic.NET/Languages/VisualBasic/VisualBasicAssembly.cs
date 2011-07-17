@@ -31,7 +31,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         private VisualBasicAssembly(VisualBasicAssembly root)
             : base(root)
         {
-            
         }
 
         internal protected VisualBasicAssembly(string name, IVisualBasicProvider provider)
@@ -45,12 +44,18 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
             return new VisualBasicAssembly(this);
         }
 
+        protected override IntermediateNamespaceDictionary InitializeIntermediateNamespaces()
+        {
+            var results = base.InitializeIntermediateNamespaces();
+            results.Add(new MyNamespaceDeclaration(this));
+            return results;
+        }
 
         #region IVisualBasicAssembly Members
 
         public IMyNamespaceDeclaration MyNamespace
         {
-            get { throw new NotImplementedException(); }
+            get { return (IMyNamespaceDeclaration)this.Namespaces["My"]; }
         }
 
         #endregion

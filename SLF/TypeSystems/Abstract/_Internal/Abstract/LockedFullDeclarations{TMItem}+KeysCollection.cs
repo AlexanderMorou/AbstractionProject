@@ -14,19 +14,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         private class _KeysCollection :
             ControlledStateDictionary<string, MasterDictionaryEntry<TMItem>>.KeysCollection
         {
-            private LockedFullDeclarations<TMItem> source;
+            private LockedFullDeclarations<TMItem> owner;
             private string[] dataCopy;
             public _KeysCollection(LockedFullDeclarations<TMItem> source)
                 : base(source)
             {
-                this.source = source;
+                this.owner = source;
                 this.dataCopy = new string[source.sourceData.Count];
             }
 
             protected override string OnGetKey(int index)
             {
                 if (this.dataCopy[index] == null)
-                    this.dataCopy[index] = this.source.FetchKey(source.sourceData[index]);
+                    this.dataCopy[index] = this.owner.FetchKey(owner.sourceData[index]);
                 return this.dataCopy[index];
             }
 
@@ -45,7 +45,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 for (int i = 0; i < this.dataCopy.Length; i++)
                 {
                     if (this.dataCopy[i] == null)
-                        this.dataCopy[i] = this.source.FetchKey(source.sourceData[i]);
+                        this.dataCopy[i] = this.owner.FetchKey(owner.sourceData[i]);
                     yield return this.dataCopy[i];
                 }
                 yield break;
@@ -55,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             {
                 for (int i = 0; i < this.dataCopy.Length; i++)
                     if (this.dataCopy[i] == null)
-                        this.dataCopy[i] = this.source.FetchKey(source.sourceData[i]);
+                        this.dataCopy[i] = this.owner.FetchKey(owner.sourceData[i]);
                 string[] dc = new string[this.dataCopy.Length];
                 this.dataCopy.CopyTo(dc, 0);
                 return dc;
@@ -76,7 +76,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                     for (int i = 0; i < this.dataCopy.Length; i++)
                         if (this.dataCopy[i] == null)
                         {
-                            string r = this.source.FetchKey(source.sourceData[i]);
+                            string r = this.owner.FetchKey(owner.sourceData[i]);
                             this.dataCopy[i] = r;
                             if (r == item)
                                 return true;
@@ -104,7 +104,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                     for (int i = 0; i < this.dataCopy.Length; i++)
                         if (this.dataCopy[i] == null)
                         {
-                            string r = this.source.FetchKey(source.sourceData[i]);
+                            string r = this.owner.FetchKey(owner.sourceData[i]);
                             this.dataCopy[i] = r;
                             if (r == key)
                                 return i;
@@ -116,7 +116,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             internal void Dispose()
             {
                 this.dataCopy = null;
-                this.source = null;
+                this.owner = null;
             }
 
             internal void SetRange(int p)

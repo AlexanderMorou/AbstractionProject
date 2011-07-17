@@ -615,48 +615,207 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
             return gotoStatement;
         }
 
-        public IChangeEventHandlerStatement AddHandler(IEventReferenceExpression targetEvent, IMethodPointerReferenceExpression sourceMethod)
+        /// <summary>
+        /// Creates, inserts and returns a <see cref="IChangeEventHandlerStatement"/>
+        /// using <see cref="EventHandlerChangeKind.Add"/> to denote the kind of action on
+        /// the event handler, with the the <paramref name="target"/>, 
+        /// and <paramref name="sourceMethod"/> provided.
+        /// </summary>
+        /// <param name="target">The <see cref="IEventReferenceExpression"/>
+        /// which references the event in question.</param>
+        /// <param name="sourceMethod">The <see cref="IMethodPointerReferenceExpression"/>
+        /// which denotes the method to point to.</param>
+        /// <returns>A new <see cref="IChangeEventHandlerStatement"/>
+        /// which represents the operation.</returns>
+        /// <exception cref="System.ArgumentNullException">thrown when
+        /// <paramref name="target"/> or <paramref name="sourceMethod"/> is
+        /// null.</exception>
+        public IChangeEventHandlerStatement AddHandler(IEventReferenceExpression target, IMethodPointerReferenceExpression sourceMethod)
         {
-            return ChangeHandler(targetEvent, EventHandlerChangeKind.Add, sourceMethod);
+            return ChangeHandler(target, EventHandlerChangeKind.Add, sourceMethod);
         }
 
+        /// <summary>
+        /// Creates, inserts and returns a <see cref="IChangeEventHandlerStatement"/>
+        /// using <see cref="EventHandlerChangeKind.Add"/> to denote the kind of action on
+        /// the event handler, with the the<paramref name="target"/>, <paramref name="eventName"/>
+        /// and <paramref name="sourceMethod"/> provided.
+        /// </summary>
+        /// <param name="target">The <see cref="IMemberParentReferenceExpression"/> which contains the event via
+        /// <paramref name="eventName"/>.</param>
+        /// <param name="eventName">The <see cref="String"/> value representing the unique name of the
+        /// event in question.</param>
+        /// <param name="sourceMethod">The <see cref="IMethodPointerReferenceExpression"/>
+        /// which denotes the method to point to.</param>
+        /// <returns>A new <see cref="IChangeEventHandlerStatement"/>
+        /// which represents the operation.</returns>
+        /// <exception cref="System.ArgumentNullException">thrown when
+        /// <paramref name="target"/>, <paramref name="eventName"/> or
+        /// <paramref name="sourceMethod"/> is null.</exception>
         public IChangeEventHandlerStatement AddHandler(IMemberParentReferenceExpression target, string eventName, IMethodPointerReferenceExpression sourceMethod)
         {
             return ChangeHandler(target, eventName, EventHandlerChangeKind.Add, sourceMethod);
         }
 
+        /// <summary>
+        /// Creates, inserts and returns a <see cref="IChangeEventHandlerStatement"/>
+        /// using <see cref="EventHandlerChangeKind.Add"/> to denote the kind of action on
+        /// the event handler, with the the <paramref name="target"/>, <paramref name="eventName"/>
+        /// and <paramref name="methodName"/> provided.
+        /// </summary>
+        /// <param name="target">The <see cref="IMemberParentReferenceExpression"/> which contains the event via
+        /// <paramref name="eventName"/>.</param>
+        /// <param name="eventName">The <see cref="String"/> value representing the unique name of the
+        /// event in question.</param>
+        /// <param name="methodName">The <see cref="String"/> value representing the unique name of the
+        /// method containing a signature that matches the event of <paramref name="eventName"/>.</param>
+        /// <returns>A new <see cref="IChangeEventHandlerStatement"/>
+        /// which represents the operation.</returns>
+        /// <exception cref="System.ArgumentNullException">thrown when
+        /// <paramref name="target"/>, <paramref name="eventName"/> or
+        /// <paramref name="methodName"/> is null.</exception>
         public IChangeEventHandlerStatement AddHandler(IMemberParentReferenceExpression target, string eventName, string methodName)
         {
             return ChangeHandler(target, eventName, EventHandlerChangeKind.Add, methodName);
         }
 
-        public IChangeEventHandlerStatement ChangeHandler(IEventReferenceExpression targetEvent, EventHandlerChangeKind changeKind, IMethodPointerReferenceExpression sourceMethod)
+        /// <summary>
+        /// Creates, inserts and returns a <see cref="IChangeEventHandlerStatement"/>
+        /// with the <paramref name="changeKind"/>, <paramref name="target"/>, 
+        /// and <paramref name="sourceMethod"/> provided.
+        /// </summary>
+        /// <param name="target">The <see cref="IEventReferenceExpression"/> which denotes the 
+        /// event to target.</param>
+        /// <param name="changeKind">The <see cref="EventHandlerChangeKind"/> which denotes
+        /// the kind of change on the event to make.</param>
+        /// <param name="sourceMethod">The <see cref="IMethodPointerReferenceExpression"/> which
+        /// denotes the method to change.</param>
+        /// <returns>A new <see cref="IChangeEventHandlerStatement"/>
+        /// which represents the operation.</returns>
+        /// <exception cref="System.ArgumentNullException">thrown when
+        /// <paramref name="target"/> or <paramref name="sourceMethod"/>
+        /// is null.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">thrown when 
+        /// <paramref name="changeKind"/> is out of the valid range of values 
+        /// (<see cref="EventHandlerChangeKind.Add"/> or 
+        /// <see cref="EventHandlerChangeKind.Remove"/>).
+        /// </exception>
+        public IChangeEventHandlerStatement ChangeHandler(IEventReferenceExpression target, EventHandlerChangeKind changeKind, IMethodPointerReferenceExpression sourceMethod)
         {
-            var result = new ChangeEventHandlerStatement(targetEvent, changeKind, sourceMethod, this.Owner);
+            var result = new ChangeEventHandlerStatement(target, changeKind, sourceMethod, this.Owner);
             this.baseList.Add(result);
             return result;
         }
 
+        /// <summary>
+        /// Creates, inserts and returns a <see cref="IChangeEventHandlerStatement"/>
+        /// with the <paramref name="changeKind"/>, <paramref name="target"/>, <paramref name="eventName"/>, and
+        /// <paramref name="sourceMethod"/> provided.
+        /// </summary>
+        /// <param name="target">The <see cref="IMemberParentReferenceExpression"/> which denotes the 
+        /// event to target.</param>
+        /// <param name="eventName">The <see cref="String"/> value which denotes the unique name of the event.</param>
+        /// <param name="changeKind">The <see cref="EventHandlerChangeKind"/>
+        /// that denotes the kind of change on the event to make.</param>
+        /// <param name="sourceMethod">The <see cref="IMethodPointerReferenceExpression"/>
+        /// which denotes the method to change.</param>
+        /// <returns>A new <see cref="IChangeEventHandlerStatement"/>
+        /// which represents the operation.</returns>
+        /// <exception cref="System.ArgumentNullException">thrown when
+        /// <paramref name="target"/>, <paramref name="eventName"/>, or <paramref name="sourceMethod"/>
+        /// is null.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">thrown when 
+        /// <paramref name="changeKind"/> is out of the valid range of values 
+        /// (<see cref="EventHandlerChangeKind.Add"/> or 
+        /// <see cref="EventHandlerChangeKind.Remove"/>).
+        /// </exception>
         public IChangeEventHandlerStatement ChangeHandler(IMemberParentReferenceExpression target, string eventName, EventHandlerChangeKind changeKind, IMethodPointerReferenceExpression sourceMethod)
         {
             return ChangeHandler(target.GetEvent(eventName), changeKind, sourceMethod);
         }
 
+        /// <summary>
+        /// Creates, inserts and returns a <see cref="IChangeEventHandlerStatement"/>
+        /// with the <paramref name="changeKind"/>, <paramref name="target"/>, <paramref name="eventName"/>, and
+        /// <paramref name="methodName"/> provided.
+        /// </summary>
+        /// <param name="target">The <see cref="IMemberParentReferenceExpression"/> which denotes the 
+        /// event to target.</param>
+        /// <param name="eventName">The <see cref="String"/> value which denotes the unique name of the event.</param>
+        /// <param name="changeKind">The <see cref="EventHandlerChangeKind"/>
+        /// that denotes the kind of change on the event to make.</param>
+        /// <param name="methodName">The <see cref="String"/> value representing the unique name of the
+        /// method containing a signature that matches the event of <paramref name="eventName"/>.</param>
+        /// <returns>A new <see cref="IChangeEventHandlerStatement"/>
+        /// which represents the operation.</returns>
+        /// <exception cref="System.ArgumentNullException">thrown when
+        /// <paramref name="target"/>, <paramref name="eventName"/>, or <paramref name="methodName"/>
+        /// is null.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">thrown when 
+        /// <paramref name="changeKind"/> is out of the valid range of values 
+        /// (<see cref="EventHandlerChangeKind.Add"/> or 
+        /// <see cref="EventHandlerChangeKind.Remove"/>).
+        /// </exception>
         public IChangeEventHandlerStatement ChangeHandler(IMemberParentReferenceExpression target, string eventName, EventHandlerChangeKind changeKind, string methodName)
         {
             return ChangeHandler(target.GetEvent(eventName), changeKind, new UnboundMethodReferenceStub(methodName).GetPointer());
         }
 
-        public IChangeEventHandlerStatement RemoveHandler(IEventReferenceExpression targetEvent, IMethodPointerReferenceExpression sourceMethod)
+        /// <summary>
+        /// Creates, inserts and returns a <see cref="IChangeEventHandlerStatement"/>
+        /// using <see cref="EventHandlerChangeKind.Remove"/> to denote the kind of action on
+        /// the event handler, with the the <paramref name="target"/>, and
+        /// <paramref name="sourceMethod"/> provided.
+        /// </summary>
+        /// <param name="target">The <see cref="IEventReferenceExpression"/>
+        /// which references the event in question.</param>
+        /// <param name="sourceMethod">The <see cref="IMethodPointerReferenceExpression"/>
+        /// which denotes the method to point to.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">thrown when
+        /// <paramref name="target"/> or <paramref name="sourceMethod"/> is
+        /// null.</exception>
+        public IChangeEventHandlerStatement RemoveHandler(IEventReferenceExpression target, IMethodPointerReferenceExpression sourceMethod)
         {
-            return ChangeHandler(targetEvent, EventHandlerChangeKind.Remove, sourceMethod);
+            return ChangeHandler(target, EventHandlerChangeKind.Remove, sourceMethod);
         }
 
+        /// <summary>
+        /// Creates, inserts and returns a <see cref="IChangeEventHandlerStatement"/>
+        /// using <see cref="EventHandlerChangeKind.Remove"/> to denote the kind of action on
+        /// the event handler, with the the<paramref name="target"/>, <paramref name="eventName"/>
+        /// and <paramref name="sourceMethod"/> provided.
+        /// </summary>
+        /// <param name="target">The <see cref="IMemberParentReferenceExpression"/> which contains the event via
+        /// <paramref name="eventName"/>.</param>
+        /// <param name="eventName">The <see cref="String"/> value representing the unique name of the
+        /// event in question.</param>
+        /// <param name="sourceMethod">The <see cref="IMethodPointerReferenceExpression"/>
+        /// which denotes the method to point to.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">thrown when
+        /// <paramref name="target"/>, <paramref name="eventName"/> or
+        /// <paramref name="sourceMethod"/> is null.</exception>
         public IChangeEventHandlerStatement RemoveHandler(IMemberParentReferenceExpression target, string eventName, IMethodPointerReferenceExpression sourceMethod)
         {
             return ChangeHandler(target, eventName, EventHandlerChangeKind.Remove, sourceMethod);
         }
 
+        /// <summary>
+        /// Creates, inserts and returns a <see cref="IChangeEventHandlerStatement"/>
+        /// using <see cref="EventHandlerChangeKind.Remove"/> to denote the kind of action on
+        /// the event handler, with the the <paramref name="target"/>, <paramref name="eventName"/>
+        /// and <paramref name="methodName"/> provided.
+        /// </summary>
+        /// <param name="target">The <see cref="IMemberParentReferenceExpression"/> which contains the event via
+        /// <paramref name="eventName"/>.</param>
+        /// <param name="eventName">The <see cref="String"/> value representing the unique name of the
+        /// event in question.</param>
+        /// <param name="methodName">The <see cref="String"/> value representing the unique name of the
+        /// method containing a signature that matches the event of <paramref name="eventName"/>.</param>
+        /// <exception cref="System.ArgumentNullException">thrown when
+        /// <paramref name="target"/>, <paramref name="eventName"/> or
+        /// <paramref name="methodName"/> is null.</exception>
         public IChangeEventHandlerStatement RemoveHandler(IMemberParentReferenceExpression target, string eventName, string methodName)
         {
             return ChangeHandler(target, eventName, EventHandlerChangeKind.Remove, methodName);

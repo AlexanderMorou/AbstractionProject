@@ -57,6 +57,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         private static IDictionary<IType, TypeReferenceExpression> typeReferenceCache = new Dictionary<IType, TypeReferenceExpression>();
 
+        public static readonly DynamicType DynamicType = DynamicType.SingleTon;
+
         /// <summary>
         /// Obtains a <see cref="ITypeReferenceExpression"/>
         /// relative to the curent <see cref="IType"/>.

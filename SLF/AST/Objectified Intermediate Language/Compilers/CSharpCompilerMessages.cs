@@ -12,7 +12,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Properties;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
-    public static class CSharpCompilerMessages
+    public static partial class CSharpCompilerMessages
     {
         /// <summary><para>C&#9839; compiler warning (level 4) &#35;28:</para><para>{0} has the wrong signature to be an entry point </para></summary>
         public static ICompilerReferenceWarning CS0028

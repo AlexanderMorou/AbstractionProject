@@ -11,6 +11,17 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     using Utilities.Collections;
     public static class TypeParameterBridgeExtensions
     {
+        /* *
+         * Added 7/12/2011 - Extracted into method via LINQ expression,
+         * removed ctorParameters.OnAll(parameter => { ...
+         * because it was unnecessary, foreach works just as well.
+         * */
+        private static Type[] GetParameterTypes(this IEnumerable<ParameterInfo> series)
+        {
+            return (from param in series
+                    select param.ParameterType).ToArray();
+        }
+
         /// <summary>
         /// Builds an optimized constructor delegate using a dynamic method
         /// bound to the <typeparamref name="TDelegate"/> provided for the
@@ -36,8 +47,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                 throw new ArgumentException("TDelegate");
             //Obtain the invoke method on the delegate and obtain its signature.
             var delegateInvoke = delegateType.GetMethod("Invoke");
-            var delegateTypes = (from parameter in delegateInvoke.GetParameters()
-                                 select parameter.ParameterType).ToArray();
+            var delegateTypes = delegateInvoke.GetParameters().GetParameterTypes();
 
             //Obtain the method call parameters.
             var ctorParameters = ctor.GetParameters();
@@ -45,11 +55,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                 throw new ArgumentException("ctor");
 
             var optimizedCtor = new DynamicMethod(string.Format(".ctor@{0}({1})", ctor.DeclaringType.Name, GetStringFormSignature(delegateTypes)), delegateInvoke.ReturnType, delegateTypes, ctor.DeclaringType, true);
-            var ctorTypes = ctorParameters.OnAll(param => param.ParameterType).ToArray();
+            int argIndex = 0;
+            var ctorTypes = ctorParameters.GetParameterTypes();
             //Instantiate the generator.
             var interLangGenerator = optimizedCtor.GetILGenerator();
             optimizedCtor.InitLocals = true;
-            int argIndex = 0;
             bool[] compareCasts = new bool[ctorTypes.Length];
             for (int i = 0; i < compareCasts.Length; i++)
                 compareCasts[i] = ctorTypes[i] != delegateTypes[i];
@@ -60,14 +70,12 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
              * Additionally include checks for by-ref parameters,
              * which are loaded onto the stack by address.
              * */
-            ctorParameters.OnAll(parameter =>
+            foreach (var parameter in ctorParameters)
             {
                 if (parameter.IsOut || parameter.ParameterType.IsByRef)
                 {
-                    if (argIndex < 128)
-                    {
+                    if (argIndex < 0x100)
                         interLangGenerator.Emit(OpCodes.Ldarga_S, argIndex);
-                    }
                     else
                         interLangGenerator.Emit(OpCodes.Ldarga, argIndex);
                 }
@@ -111,7 +119,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                         interLangGenerator.Emit(OpCodes.Castclass, ctorTypes[argIndex]);
                 }
                 argIndex++;
-            });
+            }
+
 
             interLangGenerator.Emit(OpCodes.Newobj, ctor);
             if (ctor.DeclaringType.IsValueType)
