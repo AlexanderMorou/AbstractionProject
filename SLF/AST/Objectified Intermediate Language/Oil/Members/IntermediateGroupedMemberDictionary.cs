@@ -108,7 +108,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region IIntermediateMemberDictionary Members
 
-        public new bool Remove(string uniqueId)
+        public bool Remove(string uniqueId)
         {
             if (!this.ContainsKey(uniqueId))
                 throw new KeyNotFoundException();

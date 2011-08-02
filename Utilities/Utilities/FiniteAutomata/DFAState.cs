@@ -12,6 +12,14 @@ using System.Threading.Tasks;
  \-------------------------------------------------------------------- */
 namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
+    /// <summary>
+    /// Provides a base implementation of a deterministic finite automation state.
+    /// </summary>
+    /// <typeparam name="TCheck">The kind of set used as a condition for
+    /// transitioning between states.</typeparam>
+    /// <typeparam name="TState">The kind of dfa state used within the automation.</typeparam>
+    /// <typeparam name="TSourceElement">The kind of element used to represent the sources
+    /// within the deterministic finite automation.</typeparam>
     public abstract class DFAState<TCheck, TState, TSourceElement> :
         FiniteAutomataState<TCheck, TState, TState, TSourceElement>,
         IDFAState<TCheck, TState, TSourceElement>
@@ -134,6 +142,12 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         }
         internal virtual string StringForm { get { return this.ToStringInternal(); } }
 
+        /// <summary>
+        /// Returns the string representation of the 
+        /// <see cref="DFASTate{TCheck, TState, TSourceElement}"/>.
+        /// </summary>
+        /// <returns>A <see cref="String"/> value representing
+        /// the state.</returns>
         public override string ToString()
         {
             return ToStringInternal();

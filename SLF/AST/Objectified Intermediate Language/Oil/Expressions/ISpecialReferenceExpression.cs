@@ -10,6 +10,10 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
+    /// <summary>
+    /// The kind of reference associated to a special concept
+    /// which can alter member lookup.
+    /// </summary>
     public enum SpecialReferenceKind
     {
         /// <summary>

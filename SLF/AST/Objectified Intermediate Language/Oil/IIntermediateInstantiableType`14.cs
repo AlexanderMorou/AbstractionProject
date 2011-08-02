@@ -19,13 +19,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// type that can be instantiated.
     /// </summary>
     /// <typeparam name="TCtor">The type used for the constructors in the current implementation.</typeparam>
+    /// <typeparam name="TIntermediateCtor">The type of constructor member in the intermediate
+    /// abstract syntax tree.</typeparam>
     /// <typeparam name="TEvent">The type used for the events in the current implementation.</typeparam>
+    /// <typeparam name="TIntermediateEvent">The type of <see cref="IIntermediateEventMember{TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent}"/> in
+    /// the intermediate abstract syntax tree.</typeparam>
     /// <typeparam name="TField">The type used for the fields in the current implementation.</typeparam>
+    /// <typeparam name="TIntermediateField">The type of field in the intermediate
+    /// abstract syntax tree.</typeparam>
     /// <typeparam name="TIndexer">The type used for the indexers in the current implementation.</typeparam>
+    /// <typeparam name="TIntermediateIndexer">The type of indexzer in the intermediate
+    /// abstract syntax tree.</typeparam>
     /// <typeparam name="TMethod">The type used for the methods in the current implementation.</typeparam>
+    /// <typeparam name="TIntermediateMethod">The type of methods in the intermediate
+    /// abstract syntax tree.</typeparam>
     /// <typeparam name="TProperty">The type used for the properties in the current implementation.</typeparam>
+    /// <typeparam name="TIntermediateProperty">The type of property member used in the
+    /// intermediate abstract syntax tree.</typeparam>
     /// <typeparam name="TType">The <see cref="IInstantiableType{TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType}"/> 
     /// in the implementation.</typeparam>
+    /// <typeparam name="TIntermediateType">The type kind of type used within the intermediate abstract syntax
+    /// tree to represent the malleable form of the type during design time.</typeparam>
     public interface IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> :
         IIntermediateCreatableType<TCtor, TIntermediateCtor, TType, TIntermediateType>,
         IIntermediateMethodParent<TMethod, TIntermediateMethod, TType, TIntermediateType>,

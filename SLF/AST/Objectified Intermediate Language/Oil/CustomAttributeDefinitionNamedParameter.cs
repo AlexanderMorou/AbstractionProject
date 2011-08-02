@@ -28,6 +28,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// relative to the property that is set on the custom attribute.</param>
         /// <param name="value">The <typeparamref name="T"/> instance
         /// which the <see cref="CustomAttributeDefinitionNamedParameter{T}"/> is typed as.</param>
+        /// <param name="owner">The <see cref="CustomAttributeDefinitionParameterCollection"/>
+        /// which contains the <see cref="CustomAttributeDefinitionNamedParameter{T}"/>.</param>
         internal CustomAttributeDefinitionNamedParameter(string name, T value, CustomAttributeDefinitionParameterCollection owner) :
             base(value, owner)
         {

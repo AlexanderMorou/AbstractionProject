@@ -25,6 +25,11 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             : base(controller, value)
         {
         }
+
+        public OctodecimalBase(string value)
+            : base(controller, value)
+        {
+        }
         private class Controller :
             NumericBaseController
         {

@@ -222,7 +222,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         /// <summary>
-        /// Returns the type of expression the <see cref="PropertyReferenceExpression"/> is.
+        /// Returns the type of expression the <see cref="PropertySignatureReferenceExpression{TProperty, TPropertyParent}"/> is.
         /// </summary>
         /// <remarks>Returns <see cref="ExpressionKind.PropertyReference"/>.</remarks>
         public override ExpressionKind Type

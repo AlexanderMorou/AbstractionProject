@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
             get { throw new NotImplementedException(); }
         }
 
-        public ICSharpCSTTranslator ASTTranslator
+        public ICSharpCSTTranslator CSTTranslator
         {
             get { throw new NotImplementedException(); }
         }
@@ -56,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
 
         ILanguageCSTTranslator<ICSharpCompilationUnit> IHighLevelLanguageProvider<ICSharpCompilationUnit>.CSTTranslator
         {
-            get { return this.ASTTranslator; }
+            get { return this.CSTTranslator; }
         }
 
         public IIntermediateCodeTranslator Translator

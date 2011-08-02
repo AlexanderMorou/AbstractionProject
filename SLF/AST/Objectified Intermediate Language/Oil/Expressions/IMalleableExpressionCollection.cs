@@ -10,6 +10,12 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
+    /// <summary>
+    /// Defines properties and methods for working with a malleable expression
+    /// collection.
+    /// </summary>
+    /// <typeparam name="T">The type of <see cref="IExpression"/>
+    /// elements within the <see cref="IMalleableExpressionCollection{T}"/>.</typeparam>
     public interface IMalleableExpressionCollection<T> :
         IExpressionCollection<T>
         where T :
@@ -63,7 +69,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// expressions which can be modified.
     /// </summary>
     public interface IMalleableExpressionCollection :
-        IMalleableExpressionCollection<IExpression>
+        IMalleableExpressionCollection<IExpression>,
+        IExpressionCollection
     {
     }
 }

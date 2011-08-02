@@ -24,6 +24,12 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             IControlledStateCollection<TNodeTarget>
         {
             private FiniteAutomataTransitionTable<TCheck, TState, TNodeTarget> owner;
+            /// <summary>
+            /// Creates a mew <see cref="ValuesCollection"/>
+            /// with the <paramref name="owner"/> provided.
+            /// </summary>
+            /// <param name="owner">The <see cref="FiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>
+            /// which contains the <see cref="ValuesCollection"/>.</param>
             public ValuesCollection(FiniteAutomataTransitionTable<TCheck, TState, TNodeTarget> owner)
             {
                 this.owner = owner;
@@ -31,11 +37,24 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
             #region IControlledStateCollection<TNodeTarget> Members
 
+            /// <summary>
+            /// Gets the number of elements contained in the <see cref="ValuesCollection"/>.</summary>
+            /// <returns>
+            /// The number of elements contained in the <see cref="ValuesCollection"/>.</returns>
             public int Count
             {
                 get { return this.owner.backup.Count; }
             }
 
+            /// <summary>
+            /// Determines whether the <see cref="ValuesCollection"/> contains a specific 
+            /// value.</summary>
+            /// <param name="item">
+            /// The object to locate in the <see cref="ValuesCollection"/>.</param>
+            /// <returns>
+            /// true if <paramref name="item"/> is found in the <see cref="ValuesCollection"/>;
+            /// otherwise, false.
+            /// </returns>
             public virtual bool Contains(TNodeTarget item)
             {
                 foreach (var node in this.owner.backup.Values)

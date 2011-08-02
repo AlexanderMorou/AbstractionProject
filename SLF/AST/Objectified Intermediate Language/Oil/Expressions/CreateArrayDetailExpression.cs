@@ -13,16 +13,16 @@ using AllenCopeland.Abstraction.Utilities.Common;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
-    public class CreateArrayDetailExpression :
-        CreateArrayExpression,
-        ICreateArrayDetailExpression
+    public class MalleableCreateArrayDetailExpression :
+        MalleableCreateArrayExpression,
+        IMalleableCreateArrayDetailExpression
     {
-        public CreateArrayDetailExpression(IType arrayType, params IExpression[] details)
+        public MalleableCreateArrayDetailExpression(IType arrayType, params IExpression[] details)
             : this(arrayType, 1, details)
         {
         }
 
-        public CreateArrayDetailExpression(IType arrayType, int rank, params IExpression[] details)
+        public MalleableCreateArrayDetailExpression(IType arrayType, int rank, params IExpression[] details)
             : base(arrayType, rank)
         {
             this.Details = new MalleableExpressionCollection(details);
@@ -30,6 +30,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #region ICreateArrayDetailExpression Members
 
+        /// <summary>
+        /// Returns the <see cref="IMalleableExpressionCollection"/>
+        /// used to instantiate the array.
+        /// </summary>
         public IMalleableExpressionCollection Details { get; private set; }
         #endregion
 
@@ -46,5 +50,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             else
                 return string.Format("new {0}[{1}] {{ {2} }}", this.ArrayType, string.Join<IExpression>(",", this.Sizes), string.Join<IExpression>(", \r\n", this.Details));
         }
+
+        #region ICreateArrayNestedDetailExpression Members
+
+        IExpressionCollection ICreateArrayNestedDetailExpression.Details
+        {
+            get { return this.Details; }
+        }
+
+        #endregion
     }
 }

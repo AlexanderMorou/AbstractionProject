@@ -66,6 +66,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// Creates a new <see cref="IntermediateSignatureMemberDictionary{TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/>
         /// with the <see cref="Dictionary{TKey, TValue}"/> <paramref name="toWrap"/>.
         /// </summary>
+        /// <param name="parent">The <typeparamref name="TIntermediateSignatureParent"/>
+        /// which contains the <see cref="IntermediateSignatureMemberDictionary{TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/>.</param>
         /// <param name="toWrap">The <see cref="IntermediateSignatureMemberDictionary{TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/> the current is based upon.</param>
         public IntermediateSignatureMemberDictionary(TIntermediateSignatureParent parent, IntermediateSignatureMemberDictionary<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent> toWrap) :
             base(parent, toWrap)

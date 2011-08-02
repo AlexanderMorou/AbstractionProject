@@ -13,7 +13,10 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Utilities.Common
 {
-    internal static class StringHandling
+    /// <summary>
+    /// Provides a few basic string handling functions.
+    /// </summary>
+    public static class StringHandling
     {
         /// <summary>
         /// Joins a <paramref name="series"/> of <see cref="String"/> values with the 
@@ -116,12 +119,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             if (count <= 0)
                 return string.Empty;
             else
-            {
-                char[] r = new char[count];
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = value;
-                return new string(r);
-            }
+                return new string(value, count);
         }
 
         public static string Repeat(this string s, int times)
@@ -139,13 +137,13 @@ namespace AllenCopeland.Abstraction.Utilities.Common
         /// <param name="minPlaces">The minimum number of places the hexadecimal needs to have.</param>
         /// <returns>A <see cref="System.String"/> of a <paramref name="number"/> formatted into a 
         /// hexadecimal value.</returns>
-        public static string FormatHexadecimal(this int number, int minPlaces)
+        internal static string FormatHexadecimal(this int number, int minPlaces)
         {
             string r = string.Format(CultureInfo.CurrentCulture, "{0:X}", number);
             return string.Format(CultureInfo.CurrentCulture, "{0}{1}", '0'.Repeat(minPlaces - r.Length), r);
         }
 
-        public static string FormatHexadecimal(this byte[] array)
+        internal static string FormatHexadecimal(this byte[] array)
         {
             StringBuilder sb = new StringBuilder();
             foreach (byte b in array)
@@ -153,7 +151,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             return sb.ToString();
         }
 
-        public static byte[] ToByteArray(this string source)
+        internal static byte[] ToByteArray(this string source)
         {
             byte[] b = new byte[source.Length * 2];
             const int lb = 0x00FF;
@@ -167,7 +165,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             }
             return b;
         }
-        public static string GetRelativeRoot(this IEnumerable<string> files)
+        internal static string GetRelativeRoot(this IEnumerable<string> files)
         {
             var parts = (from f in files
                          let ePath = Path.GetDirectoryName(f)
@@ -186,7 +184,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             }
             return relativeRoot;
         }
-        public static string GetExtensionFromRelativeRoot(string path, string relativeRoot, string uptrail = @".\")
+        internal static string GetExtensionFromRelativeRoot(string path, string relativeRoot, string uptrail = @".\")
         {
             string rPath = null;
             if (relativeRoot != null)
@@ -199,6 +197,34 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             else
                 rPath = path;
             return rPath;
+        }
+        /// <summary>
+        /// Reverses the <paramref name="target"/> <see cref="String"/>.
+        /// </summary>
+        /// <param name="target">The <see cref="String"/> value to reverse.</param>
+        /// <returns>A new <see cref="String"/> with the characters in the reverse
+        /// order in which they started.</returns>
+        public unsafe static string Reverse(this string target)
+        {
+            /* *
+             * Wrote this for stackoverflow.
+             * Figured I might as well put it here.
+             * *
+             * First unsafe method ftw.
+             * */
+            if (target == null || target.Length <= 1)
+                return target;
+            int len = target.Length;
+            char* items = stackalloc char[len];
+            fixed (char* originalPtr = target)
+            {
+                for (int i = 0, j = len; i <= --j; i++)
+                {
+                    items[i] = originalPtr[j];
+                    items[j] = originalPtr[i];
+                }
+            }
+            return new string(items, 0, len);
         }
 
     }

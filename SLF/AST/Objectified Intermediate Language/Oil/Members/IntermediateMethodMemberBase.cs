@@ -747,9 +747,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// (<see cref="EventHandlerChangeKind.Add"/> or 
         /// <see cref="EventHandlerChangeKind.Remove"/>).
         /// </exception>
-        public IChangeEventHandlerStatement ChangeHandler(IEventReferenceExpression targetEvent, EventHandlerChangeKind changeKind, IMethodPointerReferenceExpression sourceMethod)
+        public IChangeEventHandlerStatement ChangeHandler(IEventReferenceExpression target, EventHandlerChangeKind changeKind, IMethodPointerReferenceExpression sourceMethod)
         {
-            return this.StatementContainer.ChangeHandler(targetEvent, changeKind, sourceMethod);
+            return this.StatementContainer.ChangeHandler(target, changeKind, sourceMethod);
         }
 
         /// <summary>
@@ -820,9 +820,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <exception cref="System.ArgumentNullException">thrown when
         /// <paramref name="target"/> or <paramref name="sourceMethod"/> is
         /// null.</exception>
-        public IChangeEventHandlerStatement RemoveHandler(IEventReferenceExpression targetEvent, IMethodPointerReferenceExpression sourceMethod)
+        public IChangeEventHandlerStatement RemoveHandler(IEventReferenceExpression target, IMethodPointerReferenceExpression sourceMethod)
         {
-            return this.StatementContainer.RemoveHandler(targetEvent, sourceMethod);
+            return this.StatementContainer.RemoveHandler(target, sourceMethod);
         }
 
         /// <summary>

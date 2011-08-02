@@ -30,11 +30,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <typeparam name="TEvent">The type of the event members in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateEvent">The type of the event members in the intermediate
     /// abstract syntax tree.</typeparam>
+    /// <typeparam name="TIntermediateEventMethod">The type of
+    /// method used within the events of the intermediate abstract 
+    /// syntax tree.</typeparam>
     /// <typeparam name="TField">The type of the field members in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateField">The type of the field members in the intermediate
     /// abstract syntax tree.</typeparam>
     /// <typeparam name="TIndexer">The type of the indexer members in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateIndexer">The type of the indexer members in the intermediate abstract
+    /// syntax tree.</typeparam>
+    /// <typeparam name="TIntermediateIndexerMethod">The type of 
+    /// method used within the indexers of the intermediate abstract
     /// syntax tree.</typeparam>
     /// <typeparam name="TMethod">The type of the method members in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateMethod">The type of the method members in the intermediate
@@ -42,6 +48,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <typeparam name="TProperty">The type of the property members in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateProperty">The type of the property members in the intermediate
     /// abstract syntax tree.</typeparam>
+    /// <typeparam name="TIntermediatePropertyMethod">The type of
+    /// method used within the properties of the intermediate abstract
+    /// syntax tree.</typeparam>
     /// <typeparam name="TType">The kind of type which contains all the members
     /// in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateType">The kind of type which contains all the members

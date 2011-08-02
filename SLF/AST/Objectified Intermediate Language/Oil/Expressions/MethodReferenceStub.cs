@@ -44,6 +44,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// of generic parameter replacements for the signature.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
+        /// <param name="signatureTypesObtainer">The <see cref="Func{TResult}"/> which obtains the signature
+        /// of the <paramref name="member"/>.</param>
         public MethodReferenceStub(IMemberParentReferenceExpression source, TSignature member, ITypeCollectionBase genericParameters, MethodReferenceType referenceType, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
             : base(source, genericParameters, referenceType)
         {
@@ -62,6 +64,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// to reference.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
+        /// <param name="signatureTypesObtainer">The <see cref="Func{TResult}"/> which obtains the signature
+        /// of the <paramref name="member"/>.</param>
         public MethodReferenceStub(IMemberParentReferenceExpression source, TSignature member, ITypeCollectionBase genericParameters, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
             : base(source, genericParameters)
         {
@@ -78,6 +82,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// from which the <see cref="UnboundMethodReferenceStub"/> was sourced.</param>
         /// <param name="member">The <typeparamref name="TSignature"/>
         /// to reference.</param>
+        /// <param name="signatureTypesObtainer">The <see cref="Func{TResult}"/> which obtains the signature
+        /// of the <paramref name="member"/>.</param>
         public MethodReferenceStub(IMemberParentReferenceExpression source, TSignature member, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
             : base(source)
         {
@@ -96,6 +102,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// of generic parameter replacements for the signature.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
+        /// <param name="signatureTypesObtainer">The <see cref="Func{TResult}"/> which obtains the signature
+        /// of the <paramref name="member"/>.</param>
         public MethodReferenceStub(TSignature member, ITypeCollectionBase genericParameters, MethodReferenceType referenceType, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
             : base(genericParameters, referenceType)
         {

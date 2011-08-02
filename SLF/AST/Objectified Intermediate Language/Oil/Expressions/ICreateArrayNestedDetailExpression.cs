@@ -18,6 +18,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Returns the <see cref="IExpressionCollection"/> used
         /// to instantiate the array.
         /// </summary>
-        IMalleableExpressionCollection Details { get; }
+        IExpressionCollection Details { get; }
     }
 }

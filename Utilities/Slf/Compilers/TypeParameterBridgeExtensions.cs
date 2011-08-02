@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Runtime.CompilerServices;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
-    using Utilities.Collections;
+    /// <summary>
+    /// Defines properties and methods for working with the functionality associated
+    /// to building type-parameter bridges.
+    /// </summary>
     public static class TypeParameterBridgeExtensions
     {
         /* *

@@ -26,6 +26,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediatePropertyParent">The type which acts as the parent of the 
     /// properties in the intermediate abstract syntax tree.</typeparam>
+    /// <typeparam name="TMethodMember">The type of method member used within
+    /// the property signatures within the intermediate abstract
+    /// syntax tree.</typeparam>
     public abstract class IntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent, TMethodMember> :
         IntermediateMemberBase<TPropertyParent, TIntermediatePropertyParent>,
         IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>

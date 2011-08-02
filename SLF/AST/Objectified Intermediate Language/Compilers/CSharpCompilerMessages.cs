@@ -818,7 +818,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceWarning _CS1573;
 
-        /// <summary><para>C&#9839; compiler warning (level 1) &#35;1574:</para><para>XML comment on {0} has syntactically incorrect cref attribute {1}</para></summary>
+        /// <summary><para>C&#9839; compiler warning (level 1) &#35;1574:</para><para>XML comment on {0} has cref attribute {1} that could not be resolved.</para></summary>
         public static ICompilerReferenceWarning CS1574
         {
             get

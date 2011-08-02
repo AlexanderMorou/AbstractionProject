@@ -10,12 +10,28 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
+    /// <summary>
+    /// Defines properties and methods for working with an expression
+    /// fusion expression which fuses
+    /// an <see cref="IFusionTargetExpression"/>
+    /// with a <see cref="IFusionTermExpression"/>.
+    /// </summary>
     public interface IExpressionFusionExpression :
         IFusionTypeCollectionTargetExpression,
         IFusionCommaTargetExpression,
         IUnaryOperationPrimaryTerm
     {
+        /// <summary>
+        /// The <see cref="IFusionTargetExpression"/>
+        /// which acts as the left side of
+        /// the expression.
+        /// </summary>
         IFusionTargetExpression Left { get; set; }
+        /// <summary>
+        /// The <see cref="IFusionTermExpression"/>
+        /// which acts as the right side of
+        /// the expression.
+        /// </summary>
         IFusionTermExpression Right { get; set; }
     }
 }

@@ -26,8 +26,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private IntermediateFullMemberDictionary members;
         /// <summary>
         /// Creates a new <see cref="IntermediateEnumType"/> with the
-        /// <paramref name="parent"/> provided.
+        /// <paramref name="name"/> and <paramref name="parent"/> 
+        /// provided.
         /// </summary>
+        /// <param name="name">The <see cref="String"/> value denoting
+        /// the unique name of the <see cref="IntermediateEnumType"/>.</param>
         /// <param name="parent">The <see cref="IIntermediateTypeParent"/> which
         /// contains the <see cref="IntermediateEnumType"/>.</param>
         protected internal IntermediateEnumType(string name, IIntermediateTypeParent parent)

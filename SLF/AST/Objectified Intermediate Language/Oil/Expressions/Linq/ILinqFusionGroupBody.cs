@@ -10,6 +10,11 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
 {
+    /// <summary>
+    /// Defines properties and methods for working with a 
+    /// language integrated query body which acts as
+    /// a group body that fuses with another query.
+    /// </summary>
     public interface ILinqFusionGroupBody :
         ILinqGroupBody,
         ILinqFusionBody

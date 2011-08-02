@@ -394,5 +394,117 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             return value.value;
         }
 
+        /// <summary>
+        /// Creates a new <see cref="SeptemvigesimalBase"/>, base-27,
+        /// instance with the intrinsic <paramref name="value"/>
+        /// provided.
+        /// </summary>
+        /// <param name="value">The <see cref="String"/> value to parse
+        /// into base-27.</param>
+        /// <returns>A new <see cref="SeptemvigesimalBase"/>
+        /// instance.</returns>
+        public static SeptemvigesimalBase GetBase27(string value)
+        {
+            return new SeptemvigesimalBase(value);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="SeptemvigesimalBase"/>, base-27,
+        /// instance with the intrinsic <paramref name="value"/>
+        /// provided.
+        /// </summary>
+        /// <param name="value">The intrinsic <see cref="BigInteger"/> 
+        /// base-27 value.</param>
+        /// <returns>A new <see cref="SeptemvigesimalBase"/>
+        /// instance.</returns>
+        public static SeptemvigesimalBase GetBase27(BigInteger value)
+        {
+            return new SeptemvigesimalBase(value);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="DuosexagesimalBase"/>, base-62,
+        /// instance with the intrinsic <paramref name="value"/>
+        /// provided.
+        /// </summary>
+        /// <param name="value">The <see cref="String"/> value to parse
+        /// into base-62.</param>
+        /// <returns>A new <see cref="DuosexagesimalBase"/>
+        /// instance.</returns>
+        public static DuosexagesimalBase GetBase62(string value)
+        {
+            return new DuosexagesimalBase(value);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="DuosexagesimalBase"/>, base-62,
+        /// instance with the intrinsic <paramref name="value"/>
+        /// provided.
+        /// </summary>
+        /// <param name="value">The intrinsic <see cref="BigInteger"/> 
+        /// base-62 value.</param>
+        /// <returns>A new <see cref="DuosexagesimalBase"/>
+        /// instance.</returns>
+        public static DuosexagesimalBase GetBase62(BigInteger value)
+        {
+            return new DuosexagesimalBase(value);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="OctalBase"/>, base-8,
+        /// instance with the intrinsic <paramref name="value"/>
+        /// provided.
+        /// </summary>
+        /// <param name="value">The <see cref="String"/> value to parse
+        /// into base-8.</param>
+        /// <returns>A new <see cref="OctalBase"/>
+        /// instance.</returns>
+        public static OctalBase GetBase8(string value)
+        {
+            return new OctalBase(value);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="OctalBase"/>, base-8,
+        /// instance with the intrinsic <paramref name="value"/>
+        /// provided.
+        /// </summary>
+        /// <param name="value">The intrinsic <see cref="BigInteger"/> 
+        /// base-8 value.</param>
+        /// <returns>A new <see cref="OctalBase"/>
+        /// instance.</returns>
+        public static OctalBase GetBase8(BigInteger value)
+        {
+            return new OctalBase(value);
+        }
+
+
+        /// <summary>
+        /// Creates a new <see cref="OctodecimalBase"/>, base-18,
+        /// instance with the intrinsic <paramref name="value"/>
+        /// provided.
+        /// </summary>
+        /// <param name="value">The <see cref="String"/> value to parse
+        /// into base-18.</param>
+        /// <returns>A new <see cref="OctodecimalBase"/>
+        /// instance.</returns>
+        public static OctodecimalBase GetBase18(string value)
+        {
+            return new OctodecimalBase(value);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="OctodecimalBase"/>, base-18,
+        /// instance with the intrinsic <paramref name="value"/>
+        /// provided.
+        /// </summary>
+        /// <param name="value">The intrinsic <see cref="BigInteger"/> 
+        /// base-18 value.</param>
+        /// <returns>A new <see cref="OctodecimalBase"/>
+        /// instance.</returns>
+        public static OctodecimalBase GetBase18(BigInteger value)
+        {
+            return new OctodecimalBase(value);
+        }
     }
 }

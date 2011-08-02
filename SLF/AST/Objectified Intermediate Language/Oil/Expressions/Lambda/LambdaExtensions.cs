@@ -21,8 +21,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Lambda
     {
         /// <summary>
         /// Obtains an <see cref="ILambdaSimpleExpression"/> with the 
-        /// <paramref name="paramNames"/> as its parameters.
+        /// <paramref name="expression"/> body, and 
+        /// <paramref name="paramNames"/> as its parameter
+        /// names.
         /// </summary>
+        /// <param name="expression">A <see cref="IExpression"/> which
+        /// denotes the body of the simple lambda expression.</param>
         /// <param name="paramNames">A series of <see cref="String"/> 
         /// elements that make up the names of the parameters for the
         /// lambda expression.</param>
@@ -52,6 +56,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Lambda
         /// using the <paramref name="params"/> provided to create
         /// its signature.
         /// </summary>
+        /// <param name="expression">The <see cref="IExpression"/>
+        /// which defines the body of the resulted simple typed
+        /// lambda expression.</param>
         /// <param name="params">A series of <see cref="TypedName"/>
         /// instances that relates to the parameter types and names of the
         /// <see cref="ILambdaTypedSimpleExpression"/> to create.

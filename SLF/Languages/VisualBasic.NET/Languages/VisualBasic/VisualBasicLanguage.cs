@@ -117,10 +117,15 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         {
             get
             {
-                yield return VisualBasicVersion.Version08;
-                yield return VisualBasicVersion.Version09;
-                yield return VisualBasicVersion.Version10;
-                yield return VisualBasicVersion.Version11;
+                yield return VisualBasicVersion.Version08 | VisualBasicVersion.VersionCore;
+                yield return VisualBasicVersion.Version09 | VisualBasicVersion.VersionCore;
+                yield return VisualBasicVersion.Version10 | VisualBasicVersion.VersionCore;
+                yield return VisualBasicVersion.Version11 | VisualBasicVersion.VersionCore;
+
+                yield return VisualBasicVersion.Version08 | VisualBasicVersion.VersionRegular;
+                yield return VisualBasicVersion.Version09 | VisualBasicVersion.VersionRegular;
+                yield return VisualBasicVersion.Version10 | VisualBasicVersion.VersionRegular;
+                yield return VisualBasicVersion.Version11 | VisualBasicVersion.VersionRegular;
             }
         }
 

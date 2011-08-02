@@ -10,6 +10,11 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
+    /// <summary>
+    /// Defines properties and methods for working
+    /// with a kind of expression that can have a
+    /// series of type-parameters fused onto it.
+    /// </summary>
     public interface IFusionTypeCollectionTargetExpression :
         IFusionTargetExpression
     {

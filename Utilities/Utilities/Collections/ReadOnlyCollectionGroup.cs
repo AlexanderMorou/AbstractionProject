@@ -16,19 +16,28 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         where TCollection :
             IControlledStateCollection
     {
-        private IList<IControlledStateCollection> collections;
+        private IControlledStateCollection[] collections;
         public ReadOnlyCollectionGroup(IControlledStateCollection[] collections)
         {
-            this.collections = new List<IControlledStateCollection>(collections);
+            if (collections == null)
+                throw new ArgumentNullException("collections");
+            for (int i = 0; i < collections.Length; i++)
+                if (collections[i] == null)
+                    throw new ArgumentException("an element of collections was null.", "collections");
+            this.collections = (IControlledStateCollection[])collections.Clone();
         }
         #region IControlledStateCollection<TItem> Members
 
+        /// <summary>
+        /// Returns the number of elements within the 
+        /// <see cref="ReadOnlyCollectionGroup{TCollection, TItem}"/>.
+        /// </summary>
         public int Count
         {
             get {
                 int result = 0;
-                foreach (IControlledStateCollection col in this.collections)
-                    result += col.Count;
+                for (int i = 0; i < collections.Length; i++)
+                    result += collections[i].Count;
                 return result;
             }
         }
@@ -43,28 +52,31 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         public void CopyTo(TItem[] array, int arrayIndex = 0)
         {
-            List<TItem> result = new List<TItem>();
-            foreach (IControlledStateCollection col in this.collections)
-                foreach (TItem item in col)
-                    result.Add(item);
-            result.CopyTo(array, arrayIndex);
-            result.Clear();
-            result = null;
+            IControlledStateCollection current = this.collections[0];
+            for (int i = 0, offset = 0, len = this.collections.Length; i < this.collections.Length; current = (i+1) < len ?  this.collections[++i] : null, offset += current.Count)
+            {
+                if (offset + current.Count > array.Length)
+                    throw new ArgumentException("array not large enough to hold elements.", "array");
+                current.CopyTo(array, offset);
+            }
         }
 
         public TItem this[int index]
         {
             get
             {
+                if (index < 0 ||
+                    index >= this.Count)
+                    throw new ArgumentOutOfRangeException("index");
                 for (
                         int i = 0,
                         rangeStart = 0,
-                        rangeEnd = (this.collections.Count > 0) ?
+                        rangeEnd = (this.collections.Length > 0) ?
                             this.collections[0].Count : 0;
-                        i < this.collections.Count;
+                        i < this.collections.Length;
                         rangeStart = rangeEnd,
                         i++,
-                        rangeEnd += (i < this.collections.Count)
+                        rangeEnd += (i < this.collections.Length)
                             ? this.collections[i].Count : 0)
                 {
                     if (index >= rangeStart && index < rangeEnd)
@@ -76,7 +88,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         public int IndexOf(TItem element)
         {
-            for (int i = 0, offset = 0; i < this.collections.Count; offset += this.collections[i++].Count)
+            for (int i = 0, offset = 0; i < this.collections.Length; offset += this.collections[i++].Count)
             {
                 int index = this.collections[i].IndexOf(element);
                 if (index == -1)
@@ -111,8 +123,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         public TItem[] ToArray()
         {
             TItem[] result = new TItem[this.Count];
-            for (int i = 0, offset = 0; i < this.collections.Count; offset += this.collections[i++].Count)
-                this.collections[i].CopyTo(result, offset);
+            this.CopyTo(result);
             return result;
         }
 

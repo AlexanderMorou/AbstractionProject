@@ -32,6 +32,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
         /// </summary>
         /// <param name="leftSide">The <see cref="ICSharpShiftExpression"/> the 
         /// <see cref="CSharpShiftExpression"/> uses as its left operand.</param>
+        /// <param name="operation">The <see cref="CSharpShiftOperation"/> which denotes
+        /// the kind of shift action to take between the <paramref name="leftSide"/>
+        /// and <paramref name="rightSide"/>.</param>
         /// <param name="rightSide">The <see cref="ICSharpAddSubtExpression"/> the <see cref="CSharpShiftExpression"/>
         /// uses as its right operand.</param>
         public CSharpShiftExpression(ICSharpShiftExpression leftSide, CSharpShiftOperation operation, ICSharpAddSubtExpression rightSide)

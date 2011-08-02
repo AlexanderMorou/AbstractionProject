@@ -12,12 +12,12 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
-    public class CreateArrayExpression :
+    public class MalleableCreateArrayExpression :
         MemberParentReferenceExpressionBase,
-        ICreateArrayExpression
+        IMalleableCreateArrayExpression
     {
 
-        public CreateArrayExpression(IType arrayType, int rank, params IExpression[] sizes)
+        public MalleableCreateArrayExpression(IType arrayType, int rank, params IExpression[] sizes)
             : base()
         {
             this.ArrayType = arrayType;
@@ -25,11 +25,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             this.Sizes = new MalleableExpressionCollection(sizes);
         }
 
-        public CreateArrayExpression(IType arrayType, params IExpression[] sizes)
+        public MalleableCreateArrayExpression(IType arrayType, params IExpression[] sizes)
             : this(arrayType, 1, sizes)
         {
         }
-        #region ICreateArrayExpression Members
+        #region IMalleableCreateArrayExpression Members
 
         /// <summary>
         /// Returns the type of array to create.
@@ -44,7 +44,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         /// <summary>
         /// Returns the <see cref="IMalleableExpressionCollection"/> used 
-        /// to denote the size of the <see cref="CreateArrayExpression"/>
+        /// to denote the size of the <see cref="MalleableCreateArrayExpression"/>
         /// </summary>
         public IMalleableExpressionCollection Sizes { get; private set; }
 
@@ -59,5 +59,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             visitor.Visit(this);
         }
+
+        #region ICreateArrayExpression Members
+
+
+        IExpressionCollection ICreateArrayExpression.Sizes
+        {
+            get { return this.Sizes; }
+        }
+
+        #endregion
     }
 }

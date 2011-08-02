@@ -13,7 +13,11 @@ using System.Reflection;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
-    [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false)]
+    /// <summary>
+    /// Represents an attribute that connects a module with its
+    /// global methods/fields container.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Module, AllowMultiple = false)]
     public class GlobalMemberContainerAttribute :
         Attribute
     {

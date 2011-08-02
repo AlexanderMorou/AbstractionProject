@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using AllenCopeland.Abstraction.Slf.Abstract;
 /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -164,7 +165,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <returns>Zero if the <see cref="AnonymousTypeMember"/>
         /// has not been assigned to an <see cref="IAnonymousType"/>.</returns>
         public int Position { get; private set; }
-
+        
         private string StringForm
         {
             get
