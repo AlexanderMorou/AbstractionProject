@@ -344,7 +344,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         /// <summary>
         /// Creates, inserts and returns a new <see cref="ISimpleIterationBlockStatement"/>
-        /// which defines a local through the <see cref="target"/>,
+        /// which defines a local through the <paramref name="target"/>,
         /// and moves from <paramref name="start"/> to <paramref name="end"/>,
         /// where perhaps the <paramref name="endExclusive"/>, using the optional
         /// <paramref name="incremental"/>.

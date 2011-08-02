@@ -23,6 +23,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// </summary>
     /// <typeparam name="TDeclaration">The type of <see cref="IIntermediateSegmentableDeclaration"/>
     /// which needs partialalbe functionality</typeparam>
+    /// <typeparam name="TInstDeclaration">The specific type of <typeparamref name="TDeclaration"/>
+    /// used within the parts that is instantiated and used as the root and partial
+    /// elements.</typeparam>
     public class IntermediateSegmentableDeclarationParts<TDeclaration, TInstDeclaration> :
         ControlledStateCollection<TDeclaration>,
         IIntermediateSegmentableDeclarationPartCollection<TDeclaration>,

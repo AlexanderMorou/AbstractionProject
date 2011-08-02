@@ -10,6 +10,9 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
+    /// <summary>
+    /// The kind of action associated to an <see cref="IExpression"/>.
+    /// </summary>
     public enum ExpressionKind :
         ulong
     {

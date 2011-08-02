@@ -312,6 +312,16 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             return -1;
         }
 
+        /// <summary>
+        /// Returns the number of sequential incidents of <paramref name="characters"/>
+        /// within <paramref name="value"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="String"/> to search within.</param>
+        /// <param name="characters">The <see cref="String"/> of characters to count
+        /// the incidents of within <paramref name="value"/>.</param>
+        /// <returns>A <see cref="Int32"/> value denoting the number of occurrences
+        /// of <paramref name="characters"/> within
+        /// <paramref name="value"/>.</returns>
         public static int Count(this string value, string characters)
         {
             int count = 0;

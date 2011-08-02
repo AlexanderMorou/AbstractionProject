@@ -7,6 +7,9 @@
  \-------------------------------------------------------------------- */
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
 {
+    /// <summary>
+    /// Provides a linq order by clause.
+    /// </summary>
     public class LinqOrderByClause :
         LinqClauseBase,
         ILinqOrderByClause

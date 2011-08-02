@@ -12,15 +12,19 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
-    public class CreateArrayNestedDetailExpression :
-        ICreateArrayNestedDetailExpression
+    public class MalleableCreateArrayNestedDetailExpression :
+        IMalleableCreateArrayNestedDetailExpression
     {
-        public CreateArrayNestedDetailExpression()
+        public MalleableCreateArrayNestedDetailExpression()
         {
             this.Details = new MalleableExpressionCollection();
         }
         #region ICreateArrayNestedDetailExpression Members
 
+        /// <summary>
+        /// Returns the <see cref="IMalleableExpressionCollection"/>
+        /// used to instantiate the array.
+        /// </summary>
         public IMalleableExpressionCollection Details { get; private set; }
 
         #endregion
@@ -53,5 +57,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             return string.Format("{{ {0} }}", string.Join<IExpression>(", ", this.Details));
         }
+
+        #region ICreateArrayNestedDetailExpression Members
+
+        IExpressionCollection ICreateArrayNestedDetailExpression.Details
+        {
+            get { return this.Details; }
+        }
+
+        #endregion
     }
 }

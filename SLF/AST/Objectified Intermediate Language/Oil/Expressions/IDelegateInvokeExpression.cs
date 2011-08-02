@@ -10,12 +10,17 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
+    /// <summary>
+    /// Defines properties and methods for working with
+    /// an expression that invokes a delegate.
+    /// </summary>
     public interface IDelegateInvokeExpression :
         IMemberParentReferenceExpression,
         IStatementExpression
     {
         /// <summary>
-        /// Returns the 
+        /// Returns the <see cref="IDelegateReferenceExpression"/>
+        /// which denotes the target of the invocation.
         /// </summary>
         IDelegateReferenceExpression Reference { get; }
     }

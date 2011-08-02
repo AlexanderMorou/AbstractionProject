@@ -10,6 +10,11 @@ using AllenCopeland.Abstraction.Utilities.Events;
 
 namespace AllenCopeland.Abstraction.Slf.Linkers
 {
+    /// <summary>
+    /// Provides an <see cref="IAssemblyReference"/> 
+    /// implementation which represents a reference to 
+    /// an assembly.
+    /// </summary>
     public class AssemblyReference :
         IAssemblyReference
     {

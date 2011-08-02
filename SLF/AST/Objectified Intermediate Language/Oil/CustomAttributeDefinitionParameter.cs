@@ -26,6 +26,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         /// <param name="value">The <typeparamref name="T"/> instance
         /// which the <see cref="CustomAttributeDefinitionParameter{T}"/> is typed as.</param>
+        /// <param name="owner">The <see cref="CustomAttributeDefinitionParameterCollection"/>
+        /// which contains the <see cref="CustomAttributeDefinitionParameter{T}"/>.</param>
         internal CustomAttributeDefinitionParameter(T value, CustomAttributeDefinitionParameterCollection owner)
         {
             this.value = value;

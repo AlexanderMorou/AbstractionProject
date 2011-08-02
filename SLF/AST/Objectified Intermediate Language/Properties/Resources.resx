@@ -2632,7 +2632,7 @@
     <value>Parameter {0} has no matching param tag in the XML comment for {0} (but other parameters do)</value>
   </data>
   <data name="CSharpWarnings_CS1574" xml:space="preserve">
-    <value>XML comment on {0} has syntactically incorrect cref attribute {1}</value>
+    <value>XML comment on {0} has cref attribute {1} that could not be resolved.</value>
   </data>
   <data name="CSharpWarnings_CS1580" xml:space="preserve">
     <value>Invalid type for parameter {0} in XML comment cref attribute</value>

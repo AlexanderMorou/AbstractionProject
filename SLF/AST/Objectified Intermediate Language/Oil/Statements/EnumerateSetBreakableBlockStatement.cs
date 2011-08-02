@@ -37,6 +37,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// <param name="parent">The <see cref="IBlockStatementParent"/>
         /// which contains the <see cref="IEnumerateSetBreakableBlockStatement"/>.
         /// </param>
+        /// <param name="localName">The <see cref="String"/> value denoting
+        /// the name of the local for the set enumeration block statement.</param>
         public EnumerateSetBreakableBlockStatement(IBlockStatementParent parent, string localName)
             : base(parent)
         {

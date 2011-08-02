@@ -22,16 +22,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <summary>
         /// Returns the type of array to create.
         /// </summary>
-        IType ArrayType { get; set; }
+        IType ArrayType { get; }
         /// <summary>
         /// Returns the <see cref="Rank"/> of the array
         /// to create.
         /// </summary>
-        int Rank { get; set; }
+        int Rank { get; }
         /// <summary>
         /// Returns the <see cref="IMalleableExpressionCollection"/> used 
         /// to denote the size of the <see cref="ICreateArrayExpression"/>
         /// </summary>
-        IMalleableExpressionCollection Sizes { get; }
+        IExpressionCollection Sizes { get; }
     }
 }

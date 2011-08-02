@@ -47,7 +47,8 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         protected override IntermediateNamespaceDictionary InitializeIntermediateNamespaces()
         {
             var results = base.InitializeIntermediateNamespaces();
-            results.Add(new MyNamespaceDeclaration(this));
+            if (this.IsRoot)
+                results.Add(new MyNamespaceDeclaration(this));
             return results;
         }
 

@@ -11,6 +11,11 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
+    /// <summary>
+    /// Provides a base implementation of a read only collection.
+    /// </summary>
+    /// <typeparam name="T">The type of elements within the
+    /// read only collection.</typeparam>
     public class ReadOnlyCollection<T> :
         ControlledStateCollection<T>,
         IReadOnlyCollection<T>

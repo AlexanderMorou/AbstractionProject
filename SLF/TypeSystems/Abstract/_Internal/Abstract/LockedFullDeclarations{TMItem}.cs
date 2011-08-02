@@ -27,6 +27,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         private int state;
         private _KeysCollection _fetchKeys;
         private _ValuesCollection _fetchValues;
+        private object syncObject = new object();
         private List<MasterDictionaryEntry<object>> sourceData;
         /// <summary>
         /// Creates a new <see cref="LockedFullDeclarations{TMItem}"/> 
@@ -48,8 +49,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 throw new ArgumentNullException("subordinate");
             if (!this.Subordinates.Contains((ISubordinateDictionary)subordinate))
                 throw new ArgumentException("subordinate");
-            if (this.state != USE_FETCH)
-                this.state = USE_FETCH;
+            lock (syncObject)
+                if (this.state != USE_FETCH)
+                    this.state = USE_FETCH;
             if (this.sourceData == null)
                 this.sourceData = new List<MasterDictionaryEntry<object>>();
             this.sourceData.AddRange(sourceData.OnAll(u => new MasterDictionaryEntry<object>((ISubordinateDictionary)subordinate, u)));
@@ -61,7 +63,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         public override bool ContainsKey(string key)
         {
-            if (this.state == USE_FETCH)
+            int state;
+            lock (syncObject)
+                state = this.state;
+            if (state == USE_FETCH)
             {
                 this.FetchKeysCheck();
                 return this._fetchKeys.Contains(key);
@@ -72,35 +77,40 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         protected override ControlledStateDictionary<string, MasterDictionaryEntry<TMItem>>.KeysCollection InitializeKeysCollection()
         {
-            if (this.state == USE_FETCH)
-            {
-                FetchKeysCheck();
-                return this._fetchKeys;
-            }
+            lock (syncObject)
+                if (this.state == USE_FETCH)
+                {
+                    FetchKeysCheck();
+                    return this._fetchKeys;
+                }
             return base.InitializeKeysCollection();
         }
 
         private void FetchKeysCheck()
         {
-            if (this.state == USE_FETCH && this._fetchKeys == null)
-                this._fetchKeys = new _KeysCollection(this);
+            lock (syncObject)
+                if (this.state == USE_FETCH && this._fetchKeys == null)
+                    this._fetchKeys = new _KeysCollection(this);
         }
+
         protected override ControlledStateDictionary<string, MasterDictionaryEntry<TMItem>>.ValuesCollection InitializeValuesCollection()
         {
-            if (this.state == USE_FETCH)
-            {
-                FetchValuesCheck();
-                return this._fetchValues;
-            }
 
+            lock (syncObject)
+                if (this.state == USE_FETCH)
+                {
+                    FetchValuesCheck();
+                    return this._fetchValues;
+                }
             return base.InitializeValuesCollection();
         }
 
 
         private void FetchValuesCheck()
         {
-            if (this.state == USE_FETCH && this._fetchValues == null)
-                this._fetchValues = new _ValuesCollection(this);
+            lock (syncObject)
+                if (this.state == USE_FETCH && this._fetchValues == null)
+                    this._fetchValues = new _ValuesCollection(this);
         }
 
         internal MasterDictionaryEntry<TMItem> Fetch(MasterDictionaryEntry<object> sourceElement)
@@ -129,7 +139,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         {
             get
             {
-                if (this.state == USE_FETCH)
+                int state;
+                lock (syncObject)
+                    state = this.state;
+                if (state == USE_FETCH)
                     return this.sourceData.Count;
                 else
                     return base.Count;
@@ -138,6 +151,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         public override IEnumerator<KeyValuePair<string, MasterDictionaryEntry<TMItem>>> GetEnumerator()
         {
+            int state;
+            lock (syncObject)
+                state = this.state;
             if (state != USE_FETCH)
                 return base.GetEnumerator();
             else
@@ -155,7 +171,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         protected sealed override void CopyToArray(Array array, int arrayIndex)
         {
-            if (this.state == USE_FETCH)
+            int state;
+            lock (syncObject)
+                state = this.state;
+            if (state == USE_FETCH)
             {
                 if (arrayIndex + this.Count > array.Length)
                     throw new ArgumentException("array");

@@ -75,8 +75,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        private bool lockMembersAndTypes;
-
         /// <summary>
         /// Creates a new <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// instance with the <paramref name="name"/> and <paramref name="parent"/> provided.

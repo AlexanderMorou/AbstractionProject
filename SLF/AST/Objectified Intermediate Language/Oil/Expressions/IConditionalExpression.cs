@@ -10,6 +10,13 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
+    /// <summary>
+    /// Defines properties and methods for working with a conditional
+    /// expression which denotes a boolean check expression
+    /// that leads to either the true or false portion of the
+    /// expression.
+    /// </summary>
+    /// <remarks>Essentially control flow result selection.</remarks>
     public interface IConditionalExpression :
         INaryOperandExpression
     {

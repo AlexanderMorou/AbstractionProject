@@ -479,12 +479,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         /// <summary>
-        /// Obtains a symbol expression from the <paramref name="target"/> <see cref="String"/>
+        /// Obtains a symbol expression from the <paramref name="symbol"/> <see cref="String"/>
         /// provided.
         /// </summary>
-        /// <param name="target">The <see cref="String"/> representing the symbol expression.</param>
+        /// <param name="symbol">The <see cref="String"/> representing the symbol expression.</param>
         /// <returns>A new <see cref="ISymbolExpression"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="target"/> is null.</exception>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="symbol"/> is null.</exception>
         public static SymbolExpression GetSymbolExpression(this string symbol)
         {
             if (symbol == null)
@@ -1037,7 +1037,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
              * details.
              * */
             int arrayRank = target.Rank;
-            var result = new CreateArrayDetailExpression(typeof(T).GetTypeReference(), arrayRank);
+            var result = new MalleableCreateArrayDetailExpression(typeof(T).GetTypeReference(), arrayRank);
             /* *
              * Since the sizes are available, provide them
              * to the array detail.
@@ -1051,10 +1051,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
              * Since they're cleaned out after spill-over, a single
              * dimension will do, the first item is the result.
              * */
-            ICreateArrayNestedDetailExpression[] nestedDetails = new ICreateArrayNestedDetailExpression[arrayRank];
+            IMalleableCreateArrayNestedDetailExpression[] nestedDetails = new IMalleableCreateArrayNestedDetailExpression[arrayRank];
             nestedDetails[0] = result;
             for (int i = 1; i < arrayRank; i++)
-                nestedDetails[i] = new CreateArrayNestedDetailExpression();
+                nestedDetails[i] = new MalleableCreateArrayNestedDetailExpression();
             int topRankIndex = arrayRank - 1;
             var topLevel = nestedDetails[topRankIndex];
             /* *
@@ -1069,7 +1069,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                     {
                         nestedDetails[rank - 1].Details.Add(nestedDetails[rank]);
                         if (!isIterationComplete)
-                            nestedDetails[rank] = new CreateArrayNestedDetailExpression();
+                            nestedDetails[rank] = new MalleableCreateArrayNestedDetailExpression();
                         else
                             nestedDetails[rank] = null;
                         if (rank == topRankIndex)
@@ -1083,7 +1083,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
              * *
              * The bounds lambda handles divisioning.
              * */
-            foreach (var indices in target.Iterate(boundsLambda))
+            foreach (var indices in target.Iterate(onBoundsIncrement: boundsLambda))
                 topLevel.Details.Add(expressionConverter((T)target.GetValue(indices)));
             return result;
         }

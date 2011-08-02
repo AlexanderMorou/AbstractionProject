@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         IVersionedHighLevelLanguageProvider<CSharpLanguageVersion, ICSharpCompilationUnit>
     {
         new ICSharpParser Parser { get; }
-        new ICSharpCSTTranslator ASTTranslator { get; }
+        new ICSharpCSTTranslator CSTTranslator { get; }
         new ICSharpLanguage Language { get; }
         /// <summary>
         /// Creates a new <see cref="ICSharpAssembly"/>

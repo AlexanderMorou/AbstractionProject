@@ -21,9 +21,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     {
         /// <summary>
         /// Creates a new <see cref="LocalMemberDictionary"/> with the <paramref name="parent"/>
-        /// <see cref="IBlockMemberStatement"/> provided.
+        /// <see cref="IBlockStatementParent"/> provided.
         /// </summary>
-        /// <param name="parent">The <see cref="IBlockMemberStatement"/> which owns the
+        /// <param name="parent">The <see cref="IBlockStatementParent"/> which owns the
         /// <see cref="LocalMemberDictionary"/>.</param>
         public LocalMemberDictionary(IBlockStatementParent parent)
             : base(parent)

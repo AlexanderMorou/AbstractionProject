@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
     /// <typeparam name="TForwardNodeTarget">The kind of target used when the condition 
     /// put forth, by the <typeparamref name="TCheck"/> requirement, is met.</typeparam>
     /// <typeparam name="TSourceElement">The type of 
-    /// <see cref="IFiniteAutomataSourceElement"/> from which the states
+    /// <see cref="IFiniteAutomataSource"/> from which the states
     /// are derived.</typeparam>
     public abstract class FiniteAutomataState<TCheck, TState, TForwardNodeTarget, TSourceElement> :
         IFiniteAutomataState<TCheck, TState, TForwardNodeTarget, TSourceElement>

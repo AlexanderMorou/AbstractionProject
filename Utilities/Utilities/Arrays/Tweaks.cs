@@ -230,6 +230,7 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                 series[i].CopyTo(result, offset);
             return result;
         }
+
         /// <summary>
         /// Obtains an enumerable object which can iterate through all of
         /// the indices of an <see cref="Array"/> regardless of its 
@@ -237,6 +238,8 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
         /// </summary>
         /// <param name="array">The <see cref="Array"/> to perform
         /// iteration on.</param>
+        /// <param name="useSingletonResult"></param>
+        /// <param name="onBoundsIncrement"></param>
         /// <returns>A <see cref="IEnumerable{T}"/> object that
         /// yields a single-dimensional array per iteration relative
         /// to the <paramref name="array"/> provided.</returns>
@@ -245,37 +248,40 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
         /// <see cref="Array.Rank"/> of the 
         /// <paramref name="array"/> provided.</para>
         /// <para>Due to the nature this method was intended to be used,
-        /// the array retrieved per iteration is the same so it is not
-        /// guaranteed to be the same on a much later access
-        /// should its reference be stored, and the iteration
-        /// continued.</para></remarks>
-        public static IEnumerable<int[]> Iterate(this Array array)
+        /// the array retrieved per iteration is the same instance, when
+        /// <paramref name="useSingletonResult"/> is true, so its values are
+        /// guaranteed to <b>not</b> be the same, on a much later access of the
+        /// iteration, should its reference be stored.</para></remarks>
+        /// <exception cref="System.ArgumentNullException">thrown when
+        /// <paramref name="array"/> is null.</exception>
+        public static IEnumerable<int[]> Iterate(this Array array, bool useSingletonResult = true, Action<int, bool> onBoundsIncrement = null)
         {
-            return array.Iterate(null);
-        }
-
-        public static IEnumerable<int[]> Iterate(this Array array, Action<int, bool> onBoundsIncrement)
-        {
+            if (array == null)
+                throw new ArgumentNullException("array");
             int[] indices;
             int rank = array.Rank;
             if (rank == 1)
             {
                 /* *
-                    * Simple answer for one dimension
-                    * */
+                 * Simple answer for one dimension
+                 * */
                 indices = new int[] { array.GetLowerBound(0) };
-                for (; indices[0] <= array.GetUpperBound(0); indices[0]++)
-                    yield return indices;
+                if (useSingletonResult)
+                    for (int upperBound = array.GetUpperBound(0); indices[0] <= upperBound; indices[0]++)
+                        yield return indices;
+                else
+                    for (int upperBound = array.GetUpperBound(0); indices[0] <= upperBound; indices[0]++)
+                        yield return (int[])indices.Clone();
             }
             else
             {
                 /* *
-                    * Multi-dimensional, or non-vector, arrays are a bit different.
-                    * */
+                 * Multi-dimensional, or non-vector, arrays are a bit different.
+                 * */
                 indices = new int[array.Rank];
                 /* *
-                    * Obtain the upper/lower bounds..
-                    * */
+                 * Obtain the upper/lower bounds..
+                 * */
                 int[] upperBounds = new int[array.Rank];
 
                 for (int i = 0; i < rank; i++)
@@ -290,12 +296,22 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             Repeater:
                 //while (true)
                 {
-                    /* *
-                     * Nifty thing is... it's always the same array,
-                     * which means there's no performance hit for
-                     * creating and returning new arrays, because we don't.
-                     * */
-                    yield return indices;
+                    if (useSingletonResult)
+                        /* *
+                         * Nifty thing is... it's always the same array,
+                         * which means there's no performance hit for
+                         * creating and returning new arrays, because we don't.
+                         * */
+                        yield return indices;
+                    else
+                        /* *
+                         * If the user needs to cache the indices of every element
+                         * of the array, this would be necessary.
+                         * *
+                         * Notable use case is parallel processing/initialization
+                         * of an array.
+                         * */
+                        yield return (int[])indices.Clone();
                     /* *
                      * Move through the dimensions, starting 
                      * with the highest-order.
@@ -403,6 +419,29 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             }
         }
 
+        /// <summary>
+        /// Resizes the <paramref name="source"/> array provided
+        /// with the <paramref name="newLengthA"/> and 
+        /// <paramref name="newLengthB"/>,
+        /// while preserving the original data.
+        /// </summary>
+        /// <typeparam name="T">The kind of element used within the array
+        /// to resize.</typeparam>
+        /// <param name="source">The two-dimensional array to resize.</param>
+        /// <param name="newLengthA">The <see cref="Int32"/> value denoting
+        /// the new number of elements in the first dimension of the array.</param>
+        /// <param name="newLengthB">The <see cref="Int32"/> value denoting
+        /// the new number of elements in the second dimension of the array.</param>
+        /// <returns>A new two-dimensional array of <typeparamref name="T"/>
+        /// with the original data from the <paramref name="source"/>.</returns>
+        /// <remarks>If <paramref name="newLengthA"/> and/or <paramref name="newLengthB"/> are/is
+        /// less than the number of elements, within their respective dimensions,
+        /// the data will be truncated accordingly.</remarks>
+        /// <exception cref="System.ArgumentNullException">thrown when
+        /// <paramref name="source"/> is null.</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// thrown when <paramref name="newLengthA"/> or 
+        /// <paramref name="newLengthB"/> is less than zero.</exception>
         public static T[,] Resize<T>(this T[,] source, int newLengthA, int newLengthB)
         {
             if (source == null)
@@ -501,21 +540,6 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                 copyMaxC = Math.Min(newLengthC, lengthSC);
             source.CubicCopy(result, copyMaxA, copyMaxB, copyMaxC);
             return result;
-        }
-
-        public static T[] GetAnonymousTypeArray<T>(this T element, params T[] followers)
-        {
-            if (followers == null)
-                throw new ArgumentNullException("followers");
-            T[] result = new T[followers.Length + 1];
-            result[0] = element;
-            followers.CopyTo(result, 1);
-            return result;
-        }
-
-        public static T[] GetAnonymousTypeArray<T>(this T anonymousTypeSeed, int length)
-        {
-            return new T[length];
         }
 
         public static T[][] Chunk<T>(this T[] series, int chunkSize)

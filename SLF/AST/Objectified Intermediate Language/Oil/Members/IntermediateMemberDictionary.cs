@@ -47,6 +47,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// Creates a new <see cref="IntermediateMemberDictionary{TParent, TIntermediateParent, TMember, TIntermediateMember}"/> 
         /// with the <see cref="Dictionary{TKey, TValue}"/> <paramref name="toWrap"/>.
         /// </summary>
+        /// <param name="parent">The <typeparamref name="TIntermediateParent"/>
+        /// which contains the <see cref="IntermediateMemberDictionary{TParent, TIntermediateParent, TMember, TIntermediateMember}"/>.</param>
         /// <param name="toWrap">The <see cref="Dictionary{TKey, TValue}"/> to encapsulate.</param>
         public IntermediateMemberDictionary(TIntermediateParent parent, IntermediateMemberDictionary<TParent, TIntermediateParent, TMember, TIntermediateMember> toWrap) :
             base(toWrap)

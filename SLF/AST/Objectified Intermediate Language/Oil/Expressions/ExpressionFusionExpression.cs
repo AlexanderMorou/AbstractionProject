@@ -10,6 +10,11 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
+    /// <summary>
+    /// Provides an expression fusion expression which fuses
+    /// a <see cref="IFusionTargetExpression"/> with a 
+    /// <see cref="IFusionTermExpression"/>.
+    /// </summary>
     public class ExpressionFusionExpression :
         ExpressionBase,
         IExpressionFusionExpression

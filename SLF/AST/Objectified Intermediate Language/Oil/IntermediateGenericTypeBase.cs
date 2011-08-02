@@ -282,11 +282,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         protected abstract TType OnMakeGenericClosure(ITypeCollectionBase typeParameters);
 
         /// <summary>
-        /// Disposes the <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>
-        /// and <paramref name="dispose"/>s the managed data as needed.
+        /// Disposes the <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>.
         /// </summary>
-        /// <param name="dispose">whether to dispose all data, including the managed data (true), or just the
-        /// unmanaged data (false).</param>
         public override void Dispose()
         {
             const int DISP_STATE_NONE = 0;

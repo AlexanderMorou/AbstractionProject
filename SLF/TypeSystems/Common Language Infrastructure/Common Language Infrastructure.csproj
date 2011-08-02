@@ -135,8 +135,12 @@
     <Compile Include="_Internal\Cli\CompiledAssembly+CustomAttributeCollection.cs">
       <DependentUpon>CompiledAssembly.cs</DependentUpon>
     </Compile>
-    <Compile Include="_Internal\Cli\CompiledAssembly+ModuleDictionary+KVCollections.cs" />
-    <Compile Include="_Internal\Cli\CompiledAssembly+ModuleDictionary.cs" />
+    <Compile Include="_Internal\Cli\CompiledAssembly+ModuleDictionary+KVCollections.cs">
+      <DependentUpon>CompiledAssembly+ModuleDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledAssembly+ModuleDictionary.cs">
+      <DependentUpon>CompiledAssembly.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\Cli\CompiledAssembly.cs" />
     <Compile Include="_Internal\Cli\CompiledClassType+ConstructorMember.cs">
       <DependentUpon>CompiledClassType.cs</DependentUpon>
@@ -163,8 +167,12 @@
     <Compile Include="_Internal\Cli\CompiledClassTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\CompiledCustomAttributeCollection.cs" />
     <Compile Include="_Internal\Cli\CompiledCustomAttributeInstance.cs" />
-    <Compile Include="_Internal\Cli\CompiledDelegateType+ParameterMember.cs" />
-    <Compile Include="_Internal\Cli\CompiledDelegateType+ParametersDictionary.cs" />
+    <Compile Include="_Internal\Cli\CompiledDelegateType+ParameterMember.cs">
+      <DependentUpon>CompiledDelegateType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\CompiledDelegateType+ParametersDictionary.cs">
+      <DependentUpon>CompiledDelegateType.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\Cli\CompiledDelegateType.cs" />
     <Compile Include="_Internal\Cli\CompiledDelegateTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\CompiledEnumType+FieldMember.cs">
