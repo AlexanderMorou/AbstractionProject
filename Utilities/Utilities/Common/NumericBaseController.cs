@@ -46,19 +46,19 @@ namespace AllenCopeland.Abstraction.Utilities.Common
         {
             return (BigInteger.Pow(baseEntities.Count, position) * (BigInteger)baseIndex);
         }
-        internal byte NumPlaces(BigInteger value)
+        internal int NumPlaces(BigInteger value)
         {
             var l = value == 0 ? 0 : BigInteger.Log10(value) / Math.Log10(this.baseEntities.Count);
             if (((int)l) == l)
-                return ((byte)(l + 1));
-            return (byte)Math.Ceiling(l);
+                return ((int)(l + 1));
+            return (int)Math.Ceiling(l);
         }
 
         internal string Encode(BigInteger value)
         {
-            byte nP = NumPlaces(value);
+            int nP = NumPlaces(value);
             char[] v = new char[nP];
-            for (byte i = 0; i < nP; i++)
+            for (int i = 0; i < nP; i++)
                 v[nP - (i + 1)] = baseEntities[GetShiftIndex(value, i)];
             return new string(v);
         }
@@ -89,7 +89,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
         }
 
 
-        private int GetShiftIndex(BigInteger value, byte position)
+        private int GetShiftIndex(BigInteger value, int position)
         {
             BigInteger valueCopy = value;
             for (int i = 1; i <= position; i++)

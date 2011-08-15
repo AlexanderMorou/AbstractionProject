@@ -39,6 +39,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IIntermediatePropertySignatureMemberDictionary,
         IGenericParameterPropertyMemberDictionary
     {
-
+        /// <summary>
+        /// Returns the <see cref="IIntermediateGenericParameter"/> which contains
+        /// the <see cref="IIntermediateGenericParameterPropertyMemberDictionary"/>.
+        /// </summary>
+        new IIntermediateGenericParameter Parent { get; }
     }
 }

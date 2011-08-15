@@ -10,6 +10,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Properties;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -24,8 +25,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IConstructorMember<TCtor, TType>
         where TIntermediateCtor :
             class, 
-            TCtor,
-            IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
+            IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType>,
+            TCtor
         where TEvent :
             IEventMember<TEvent, TType>
         where TIntermediateEvent :
@@ -40,8 +41,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IFieldMember<TField, TType>,
             IInstanceMember
         where TIntermediateField :
-            TField,
             IIntermediateFieldMember<TField, TIntermediateField, TType, TIntermediateType>,
+            TField,
             IIntermediateInstanceMember
         where TIndexer :
             IIndexerMember<TIndexer, TType>
@@ -49,8 +50,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             TIndexer,
             IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TType, TIntermediateType>
         where TIntermediateIndexerMethod :
-            class,
-            TMethod,
+            class, 
+            TIntermediateMethod,
             IIntermediatePropertyMethodMember
         where TMethod :
             class,
@@ -58,16 +59,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IExtendedInstanceMember
         where TIntermediateMethod :
             class,
-            TMethod,
-            IIntermediateMethodMember<TMethod, TIntermediateMethod, TType, TIntermediateType>
+            IIntermediateMethodMember<TMethod, TIntermediateMethod, TType, TIntermediateType>,
+            TMethod
         where TProperty :
             IPropertyMember<TProperty, TType>
         where TIntermediateProperty :
-            TProperty,
-            IIntermediatePropertyMember<TProperty, TIntermediateProperty, TType, TIntermediateType>
+            IIntermediatePropertyMember<TProperty, TIntermediateProperty, TType, TIntermediateType>,
+            TProperty
         where TIntermediatePropertyMethod :
             class,
-            TMethod,
+            TIntermediateMethod,
             IIntermediatePropertyMethodMember
         where TType :
             class,
@@ -558,6 +559,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             protected IndexerMember(TInstanceIntermediateType parent)
                 : base(parent)
             {
+                
             }
 
             /// <summary>
@@ -572,6 +574,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             protected IndexerMember(string name, TInstanceIntermediateType parent)
                 : base(name, parent)
             {
+                
+            }
+
+            protected override void OnParameterAdded(EventArgsR1<IIntermediateIndexerParameterMember<TIndexer, TIntermediateIndexer, TType, TIntermediateType>> e)
+            {
+                base.OnParameterAdded(e);
+            }
+
+            protected override void OnParameterRemoved(EventArgsR1<IIntermediateIndexerParameterMember<TIndexer, TIntermediateIndexer, TType, TIntermediateType>> e)
+            {
+                base.OnParameterRemoved(e);
             }
         }
 

@@ -33,6 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             return new ParameterDictionary(((TIntermediateMethod)((object)(this))));
         }
+
         /// <summary>
         /// Provides a dictionary for the parameters for the intermediate
         /// method member.

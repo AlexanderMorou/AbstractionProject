@@ -30,20 +30,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <summary>
         /// Provides a constructors dictionary for the generic parameter.
         /// </summary>
-        public class ConstructorsDictionary :
+        public class ConstructorMemberDictionary :
             IntermediateConstructorSignatureMemberDictionary<IGenericParameterConstructorMember<TGenericParameter>, IIntermediateGenericParameterConstructorMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>,
             IIntermediateGenericParameterConstructorMemberDictionary<TGenericParameter, TIntermediateGenericParameter>,
             IIntermediateGenericParameterConstructorMemberDictionary
         {
             /// <summary>
-            /// Creates a new <see cref="ConstructorsDictionary"/> with the 
+            /// Creates a new <see cref="ConstructorMemberDictionary"/> with the 
             /// <paramref name="master"/> and <paramref name="parent"/>
             /// provided.
             /// </summary>
             /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
             /// which contains the other members of the <typeparamref name="TIntermediateGenericParameter"/>.</param>
-            /// <param name="parent">The parent which contains the <see cref="ConstructorsDictionary"/>.</param>
-            public ConstructorsDictionary(IntermediateFullMemberDictionary master, TIntermediateGenericParameter parent) 
+            /// <param name="parent">The parent which contains the <see cref="ConstructorMemberDictionary"/>.</param>
+            public ConstructorMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateGenericParameter parent) 
                 : base(master, parent)
             {
 
@@ -76,20 +76,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <summary>
         /// Provides an events dictionary for the generic parameter.
         /// </summary>
-        public class EventsDictionary :
+        public class EventMemberDictionary :
             IntermediateEventSignatureMemberDictionary<IGenericParameterEventMember<TGenericParameter>, IIntermediateGenericParameterEventMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>,
             IIntermediateGenericParameterEventMemberDictionary<TGenericParameter, TIntermediateGenericParameter>,
             IIntermediateGenericParameterEventMemberDictionary
         {
             /// <summary>
-            /// Creates a new <see cref="EventsDictionary"/> with the 
+            /// Creates a new <see cref="EventMemberDictionary"/> with the 
             /// <paramref name="master"/> and <paramref name="parent"/>
             /// provided.
             /// </summary>
             /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
             /// which contains the other members of the <typeparamref name="TIntermediateGenericParameter"/>.</param>
-            /// <param name="parent">The parent which contains the <see cref="EventsDictionary"/>.</param>
-            public EventsDictionary(IntermediateFullMemberDictionary master, TIntermediateGenericParameter parent) 
+            /// <param name="parent">The parent which contains the <see cref="EventMemberDictionary"/>.</param>
+            public EventMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateGenericParameter parent) 
                 : base(master, parent)
             {
 
@@ -121,20 +121,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <summary>
         /// Provides an indexers dictionary for the generic parameter.
         /// </summary>
-        public class IndexersDictionary :
+        public class IndexerMemberDictionary :
             IntermediateIndexerSignatureMemberDictionary<IGenericParameterIndexerMember<TGenericParameter>, IIntermediateGenericParameterIndexerMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>,
             IIntermediateGenericParameterIndexerMemberDictionary<TGenericParameter, TIntermediateGenericParameter>,
             IIntermediateGenericParameterIndexerMemberDictionary
         {
             /// <summary>
-            /// Creates a new <see cref="IndexersDictionary"/> with the 
+            /// Creates a new <see cref="IndexerMemberDictionary"/> with the 
             /// <paramref name="master"/> and <paramref name="parent"/>
             /// provided.
             /// </summary>
             /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
             /// which contains the other members of the <typeparamref name="TIntermediateGenericParameter"/>.</param>
-            /// <param name="parent">The parent which contains the <see cref="IndexersDictionary"/>.</param>
-            public IndexersDictionary(IntermediateFullMemberDictionary master, TIntermediateGenericParameter parent) 
+            /// <param name="parent">The parent which contains the <see cref="IndexerMemberDictionary"/>.</param>
+            public IndexerMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateGenericParameter parent) 
                 : base(master, parent)
             {
             }
@@ -158,6 +158,90 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             #endregion
 
             public override IIntermediateGenericParameterIndexerMember<TGenericParameter, TIntermediateGenericParameter> Add(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public class MethodMemberDictionary :
+            IntermediateMethodSignatureMemberDictionary<IGenericParameterMethodMember<TGenericParameter>, IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>,
+            IIntermediateGenericParameterMethodMemberDictionary<TGenericParameter, TIntermediateGenericParameter>,
+            IIntermediateGenericParameterMethodMemberDictionary
+        {
+            /// <summary>
+            /// Creates a new <see cref="MethodMemberDictionary"/> with the 
+            /// <paramref name="master"/> and <paramref name="parent"/>
+            /// provided.
+            /// </summary>
+            /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
+            /// which contains the other members of the <typeparamref name="TIntermediateGenericParameter"/>.</param>
+            /// <param name="parent">The parent which contains the <see cref="MethodMemberDictionary"/>.</param>
+            public MethodMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateGenericParameter parent) 
+                : base(master, parent)
+            {
+            }
+
+            #region IIntermediateGenericParameterMethodMemberDictionary Members
+
+            IIntermediateGenericParameter IIntermediateGenericParameterMethodMemberDictionary.Parent
+            {
+                get { return base.Parent; }
+            }
+
+            #endregion
+
+            #region IGenericParameterMethodMemberDictionary Members
+
+            IGenericParameter IGenericParameterMethodMemberDictionary.Parent
+            {
+                get { return base.Parent; }
+            }
+
+            #endregion
+
+            protected override IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter> OnGetNewMethod(string name)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public class PropertyMemberDictionary :
+            IntermediatePropertySignatureMemberDictionary<IGenericParameterPropertyMember<TGenericParameter>, IIntermediateGenericParameterPropertyMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>,
+            IIntermediateGenericParameterPropertyMemberDictionary<TGenericParameter, TIntermediateGenericParameter>,
+            IIntermediateGenericParameterPropertyMemberDictionary
+        {
+            /// <summary>
+            /// Creates a new <see cref="PropertyMemberDictionary"/> with the 
+            /// <paramref name="master"/> and <paramref name="parent"/>
+            /// provided.
+            /// </summary>
+            /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
+            /// which contains the other members of the <typeparamref name="TIntermediateGenericParameter"/>.</param>
+            /// <param name="parent">The parent which contains the <see cref="PropertyMemberDictionary"/>.</param>
+            public PropertyMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateGenericParameter parent)
+                : base(master, parent)
+            {
+            }
+
+            #region IIntermediateGenericParameterPropertyMemberDictionary Members
+
+            IIntermediateGenericParameter IIntermediateGenericParameterPropertyMemberDictionary.Parent
+            {
+                get { return base.Parent; }
+            }
+
+            #endregion
+
+            #region IGenericParameterPropertyMemberDictionary Members
+
+            IGenericParameter IGenericParameterPropertyMemberDictionary.Parent
+            {
+                get { return base.Parent; }
+            }
+
+            #endregion
+
+            protected override IIntermediateGenericParameterPropertyMember<TGenericParameter, TIntermediateGenericParameter> OnGetProperty(TypedName nameAndType)
             {
                 throw new NotImplementedException();
             }

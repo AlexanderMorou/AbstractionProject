@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
+using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -113,7 +114,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.canRead)
                 {
-                    if (this.getMethod == null)
+                    if (this.IsGetMethodInitialized)
                         this.getMethod = this.GetMethodMember(PropertyMethodType.GetMethod);
                     return this.getMethod;
                 }
@@ -121,6 +122,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                     return null;
             }
         }
+
+        internal bool IsGetMethodInitialized
+        {
+            get
+            {
+                return this.getMethod == null;
+            }
+        }
+
 
         protected abstract TMethodMember GetMethodMember(PropertyMethodType methodType);
 
@@ -136,7 +146,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (this.canWrite)
                 {
-                    if (this.setMethod == null)
+                    if (this.IsSetMethodInitialized)
                         this.setMethod = this.GetMethodMember(PropertyMethodType.SetMethod);
                     return this.setMethod;
                 }
@@ -145,6 +155,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
+        internal bool IsSetMethodInitialized
+        {
+            get
+            {
+                return this.setMethod == null;
+            }
+        }
         IIntermediatePropertyMethodMember IIntermediatePropertyMember.GetMethod
         {
             get

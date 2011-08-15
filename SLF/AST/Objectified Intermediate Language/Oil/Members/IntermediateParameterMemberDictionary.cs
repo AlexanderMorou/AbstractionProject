@@ -40,7 +40,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TParameter,
             IIntermediateParameterMember<TParent, TIntermediateParent>
     {
-        private bool locked;
         /// <summary>
         /// Creates a new <see cref="IntermediateParameterMemberDictionary{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>
         /// with the <paramref name="parent"/> provided.
@@ -87,7 +86,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// as it exists in the <see cref="IIntermediateParameterMemberDictionary{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>.</returns>
         public TIntermediateParameter Add(string name, IType parameterType, ParameterDirection direction)
         {
-            if (this.locked)
+            if (this.Locked)
                 throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
             return AddInternal(name, parameterType, direction);
         }
@@ -117,7 +116,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public TIntermediateParameter[] AddRange(params TypedName[] parameterInfo)
         {
-            if (this.locked)
+            if (this.Locked)
                 throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
             if (parameterInfo == null)
                 throw new ArgumentNullException("parameterInfo");
@@ -207,11 +206,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             this.Changed = true;
             base._Clear();
-        }
-
-        internal void Lock()
-        {
-            this.locked = true;
         }
     }
 }

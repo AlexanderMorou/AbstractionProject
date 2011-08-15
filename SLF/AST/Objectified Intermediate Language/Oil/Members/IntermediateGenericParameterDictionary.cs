@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf._Internal;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -84,6 +85,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// an existing type-parameter name.</exception>
         public TIntermediateGenericParameter Add(string name)
         {
+            if (this.Locked)
+                throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
             if (name == null)
                 throw new ArgumentNullException("name");
             TIntermediateGenericParameter result = this.GetNew(name);
@@ -95,6 +98,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public TIntermediateGenericParameter Add(GenericParameterData genericParameterData)
         {
+            if (this.Locked)
+                throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
             if (string.IsNullOrEmpty(genericParameterData.Name))
                 throw new ArgumentException("genericParameterData");
             var result = this.GetNew(genericParameterData.Name);
@@ -193,8 +198,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             var resultOriginal = this.AddRange(genericParameterData);
             var result = new IIntermediateGenericParameter[resultOriginal.Length];
-            Parallel.For(0, resultOriginal.Length, i=> 
-                result[i] = resultOriginal[i]);
+            for (int i = 0; i < resultOriginal.Length; i++)
+                result[i] = resultOriginal[i];
             return result;
         }
 
@@ -205,6 +210,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public TIntermediateGenericParameter[] AddRange(params GenericParameterData[] genericParameterData)
         {
+            if (this.Locked)
+                throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
             if (genericParameterData == null)
                 throw new ArgumentNullException("genericParameterData");
             TIntermediateGenericParameter[] result = new TIntermediateGenericParameter[genericParameterData.Length];

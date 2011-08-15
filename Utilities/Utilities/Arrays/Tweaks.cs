@@ -358,7 +358,7 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                             onBoundsIncrement(i, finished);
                         /* *
                          * If the first dimension has been incremented
-                         * and exceeded the high point of the dimension
+                         * and exceeded the high point of the dimension,
                          * exit stage left.
                          * */
                         if (i == 0)
@@ -409,9 +409,10 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                 {
                     /* *
                      * Point of diminishing returns, the innermost 
-                     * array is best served to be given a normal loop as the 
-                     * tasking of the parallel elements takes a greater
-                     * overhead than the loop itself does.
+                     * dimension is best served to be given a normal
+                     * loop as the tasking of the parallel elements 
+                     * takes a greater overhead than the loop itself 
+                     * does.
                      * */
                     for (int innerIndex = 0; innerIndex < lengthB; innerIndex++)
                         destination[lowerDA + outterIndex, lowerDB + innerIndex] = source[lowerSA + outterIndex, lowerSB + innerIndex];
@@ -557,5 +558,6 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             }
             return result;
         }
+
     }
 }

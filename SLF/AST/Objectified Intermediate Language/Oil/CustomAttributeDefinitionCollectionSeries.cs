@@ -31,6 +31,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             this.Parent = parent;
         }
 
+        public CustomAttributeDefinitionCollectionSeries(CustomAttributeDefinitionCollectionSeries wrapped, IIntermediateCustomAttributedDeclaration parent)
+            : base(wrapped.baseList)
+        {
+        }
+
         #region ICustomAttributeDefinitionCollectionSeries Members
 
         public ICustomAttributeDefinitionCollection Add()

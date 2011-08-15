@@ -29,13 +29,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TParent :
             IParameterParent<TParent, TParameter>
         where TIntermediateParent :
-            TParent,
-            IIntermediateParameterParent<TParent, TIntermediateParent, TParameter, TIntermediateParameter>
+            IIntermediateParameterParent<TParent, TIntermediateParent, TParameter, TIntermediateParameter>,
+            TParent
         where TParameter :
             IParameterMember<TParent>
         where TIntermediateParameter :
-            TParameter,
-            IIntermediateParameterMember<TParent, TIntermediateParent>
+            IIntermediateParameterMember<TParent, TIntermediateParent>,
+            TParameter
     {
         /// <summary>
         /// Returns the dictionary of <typeparamref name="TIntermediateParameter"/>

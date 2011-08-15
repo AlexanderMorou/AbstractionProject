@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -16,13 +17,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             class,
             IMethodSignatureMember<TSignature, TParent>
         where TIntermediateSignature :
-            TSignature,
-            IIntermediateMethodSignatureMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent>
+            IIntermediateMethodSignatureMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent>,
+            TSignature
         where TParent :
             IMethodSignatureParent<TSignature, TParent>
         where TIntermediateParent :
-            TParent,
-            IIntermediateMethodSignatureParent<TSignature, TIntermediateSignature, TParent, TIntermediateParent>
+            IIntermediateMethodSignatureParent<TSignature, TIntermediateSignature, TParent, TIntermediateParent>,
+            TParent
     {
         /// <summary>
         /// Provides a base class for the intermediate method signature member parameters to derive from.
@@ -40,6 +41,29 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             public ParameterMember(TIntermediateSignature parent)
                 : base(parent)
             {
+            }
+        }
+
+        protected class ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter> :
+            IntermediateMethodSignatureMemberBase<IMethodSignatureParameterMember<TSignature, TParent>, IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent>, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter>>,
+            IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent>
+            where TAltParent :
+                IParameterParent<TAltParent, TAltParameter>
+            where TIntermediateAltParent :
+                IIntermediateParameterParent<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter>,
+                TAltParent
+            where TAltParameter :
+                IParameterMember<TAltParent>
+            where TIntermediateAltParameter :
+                class,
+                IIntermediateParameterMember<TAltParent, TIntermediateAltParent>,
+                TAltParameter
+        {
+            internal ParameterMember(TIntermediateAltParameter original, TIntermediateSignature parent)
+                : base(original, parent)
+            {
+                if (original == null)
+                    throw new ArgumentNullException("original");
             }
         }
     }
@@ -87,6 +111,51 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
 
             #endregion
+        }
+
+        protected abstract class ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter> :
+            ParameterMember,
+            ParameterDictionary<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter>.IWrapperParameter
+            where TAltParent :
+                IParameterParent<TAltParent, TAltParameter>
+            where TIntermediateAltParent :
+                IIntermediateParameterParent<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter>,
+                TAltParent
+            where TAltParameter :
+                IParameterMember<TAltParent>
+            where TIntermediateAltParameter :
+                class,
+                IIntermediateParameterMember<TAltParent, TIntermediateAltParent>,
+                TAltParameter
+            where TWrapperParameter :
+                ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter>,
+                TIntermediateSignatureParameter,
+                ParameterDictionary<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter>.IWrapperParameter
+        {
+
+            public ParameterMember(TIntermediateAltParameter original, TIntermediateSignature parent)
+                : base(parent)
+            {
+                this.AlternateParameter = original;
+            }
+
+            #region IWrapperParameter Members
+
+            public TIntermediateAltParameter AlternateParameter { get; private set; }
+
+            #endregion
+
+            public override IType ParameterType
+            {
+                get
+                {
+                    return this.AlternateParameter.ParameterType;
+                }
+                set
+                {
+                    this.AlternateParameter.ParameterType = value;
+                }
+            }
         }
     }
 }

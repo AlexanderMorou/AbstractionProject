@@ -140,9 +140,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             private IIntermediateMethodParameterMember valueParameter;
 
             public IndexerSetMethodMember(IntermediateClassIndexerMember<TInstanceIntermediateType> owner)
-                : base(owner, PropertyMethodType.SetMethod)
+                : base(PropertyMethodType.SetMethod, owner)
             {
 
+            }
+
+            protected override IntermediateParameterMemberDictionary<IClassMethodMember, IIntermediateClassMethodMember, IMethodParameterMember<IClassMethodMember, IClassType>, IIntermediateMethodParameterMember<IClassMethodMember, IIntermediateClassMethodMember, IClassType, IIntermediateClassType>> InitializeParameters()
+            {
+                var result = base.InitializeParameters();
+                this.valueParameter = result._Add(new TypedName("value", this.Owner.PropertyType));
+                return result;
             }
 
             #region IIntermediatePropertySetMethodMember Members
@@ -152,7 +159,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 get
                 {
                     if (this.valueParameter == null)
-                        valueParameter = this.Parameters._Add(new TypedName("value", this.Owner.PropertyType));
+                        return this.Parameters["value"];
                     return valueParameter;
                 }
             }
@@ -175,7 +182,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             private PropertyMethodType methodType;
             private IntermediateClassIndexerMember<TInstanceIntermediateType> owner;
-            public IndexerMethodMember(IntermediateClassIndexerMember<TInstanceIntermediateType> owner, PropertyMethodType methodType)
+            public IndexerMethodMember(PropertyMethodType methodType, IntermediateClassIndexerMember<TInstanceIntermediateType> owner)
                 : base(owner == null ? null : (TInstanceIntermediateType)owner.Parent)
             {
                 if (owner == null)
@@ -228,12 +235,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             switch (methodType)
             {
-                case PropertyMethodType.GetMethod:
-                    return new IndexerMethodMember(this, methodType);
                 case PropertyMethodType.SetMethod:
                     return new IndexerSetMethodMember(this);
                 default:
-                    throw new ArgumentOutOfRangeException("methodType");
+                case PropertyMethodType.GetMethod:
+                    return new IndexerMethodMember(PropertyMethodType.GetMethod, this);
             }
         }
     }
@@ -271,12 +277,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 get {
                     if (this.valueParameter == null)
-                        valueParameter = this.Parameters._Add(new TypedName("value", this.Owner.PropertyType));
+                        return this.Parameters["value"];
                     return valueParameter;
                 }
             }
 
             #endregion
+
+            protected override IntermediateParameterMemberDictionary<IClassMethodMember, IIntermediateClassMethodMember, IMethodParameterMember<IClassMethodMember, IClassType>, IIntermediateMethodParameterMember<IClassMethodMember, IIntermediateClassMethodMember, IClassType, IIntermediateClassType>> InitializeParameters()
+            {
+                var result = base.InitializeParameters();
+                result.Unlock();
+                this.valueParameter = result.Add(new TypedName("value", this.Owner.PropertyType));
+                result.Lock();
+                return result;
+            }
 
             #region IIntermediatePropertySignatureSetMethodMember Members
 
@@ -293,21 +308,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IIntermediatePropertyMethodMember
         {
             private PropertyMethodType methodType;
-            private IntermediateClassPropertyMember<TInstanceIntermediateType> owner;
             public PropertyMethodMember(PropertyMethodType methodType, IntermediateClassPropertyMember<TInstanceIntermediateType> owner, TInstanceIntermediateType parent)
                 : base(parent)
             {
                 this.methodType = methodType;
-                this.owner = owner;
+                this.Owner = owner;
             }
 
-            protected IntermediateClassPropertyMember<TInstanceIntermediateType> Owner
-            {
-                get
-                {
-                    return this.owner;
-                }
-            }
+            protected IntermediateClassPropertyMember<TInstanceIntermediateType> Owner { get; private set; }
 
             #region IPropertySignatureMethodMember Members
 
@@ -323,11 +331,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 switch (this.MethodType)
                 {
                     case PropertyMethodType.SetMethod:
-                        return string.Format("set_{0}", this.owner.Name);
+                        return string.Format("set_{0}", this.Owner.Name);
                     default:
                     case PropertyMethodType.GetMethod:
-                        return string.Format("get_{0}", this.owner.Name);
+                        return string.Format("get_{0}", this.Owner.Name);
                 }
+            }
+
+            protected override sealed void OnSetName(string name)
+            {
+                throw new NotSupportedException(string.Format("Cannot set the name of the {0} method of a property.", MethodType == PropertyMethodType.SetMethod ? "set" : "get"));
             }
 
             protected override IntermediateParameterMemberDictionary<IClassMethodMember, IIntermediateClassMethodMember, IMethodParameterMember<IClassMethodMember, IClassType>, IIntermediateMethodParameterMember<IClassMethodMember, IIntermediateClassMethodMember, IClassType, IIntermediateClassType>> InitializeParameters()
@@ -336,19 +349,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 result.Lock();
                 return result;
             }
-
+            protected override IntermediateMethodSignatureMemberBase<IMethodParameterMember<IClassMethodMember, IClassType>, IIntermediateMethodParameterMember<IClassMethodMember, IIntermediateClassMethodMember, IClassType, IIntermediateClassType>, IClassMethodMember, IIntermediateClassMethodMember, IClassType, IIntermediateClassType>.TypeParameterDictionary InitializeTypeParameters()
+            {
+                var result = base.InitializeTypeParameters();
+                result.Lock();
+                return result;
+            }
         }
 
         protected override IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember GetMethodMember(PropertyMethodType methodType)
         {
             switch (methodType)
             {
-                case PropertyMethodType.GetMethod:
-                    return new IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember(methodType, this, (TInstanceIntermediateType)this.Parent);
                 case PropertyMethodType.SetMethod:
                     return new IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertySetMethodMember(this, (TInstanceIntermediateType)this.Parent);
+                default:
+                case PropertyMethodType.GetMethod:
+                    return new IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember(PropertyMethodType.GetMethod, this, (TInstanceIntermediateType)this.Parent);
             }
-            throw new ArgumentOutOfRangeException("methodType");
         }
     }
 

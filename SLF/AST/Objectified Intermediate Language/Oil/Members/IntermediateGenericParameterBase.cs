@@ -47,10 +47,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         private ILockedTypeCollection _constraints;
         private ICustomAttributeDefinitionCollectionSeries customAttributes;
         private IntermediateFullMemberDictionary _members;
-        private ConstructorsDictionary constructors;
-        private EventsDictionary events;
-        private IndexersDictionary indexers;
-        private IIntermediateGenericParameterMethodMemberDictionary<TGenericParameter, TIntermediateGenericParameter> methods;
+        private ConstructorMemberDictionary constructors;
+        private EventMemberDictionary events;
+        private IndexerMemberDictionary indexers;
+        private MethodMemberDictionary methods;
         private IIntermediateGenericParameterPropertyMemberDictionary<TGenericParameter, TIntermediateGenericParameter> properties;
 
         protected IntermediateGenericParameterBase(string name, TIntermediateParent parent)
@@ -129,7 +129,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
-        public ConstructorsDictionary Constructors
+        public ConstructorMemberDictionary Constructors
         {
             get
             {
@@ -138,7 +138,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
-        public IndexersDictionary Indexers
+        public IndexerMemberDictionary Indexers
         {
             get
             {
@@ -147,7 +147,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
-        public EventsDictionary Events
+        public EventMemberDictionary Events
         {
             get
             {
@@ -174,24 +174,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
-        protected virtual ConstructorsDictionary InitializeConstructors()
+        protected virtual ConstructorMemberDictionary InitializeConstructors()
         {
-            return new ConstructorsDictionary(this._Members, ((TIntermediateGenericParameter)((object)(this))));
+            return new ConstructorMemberDictionary(this._Members, ((TIntermediateGenericParameter)((object)(this))));
         }
 
-        protected virtual EventsDictionary InitializeEvents()
+        protected virtual EventMemberDictionary InitializeEvents()
         {
-            return new EventsDictionary(this._Members, ((TIntermediateGenericParameter)((object)(this))));
+            return new EventMemberDictionary(this._Members, ((TIntermediateGenericParameter)((object)(this))));
         }
 
-        private IndexersDictionary InitializeIndexers()
+        private IndexerMemberDictionary InitializeIndexers()
         {
-            return new IndexersDictionary(this._Members, ((TIntermediateGenericParameter)((object)(this))));
+            return new IndexerMemberDictionary(this._Members, ((TIntermediateGenericParameter)((object)(this))));
         }
 
-        private IIntermediateGenericParameterMethodMemberDictionary<TGenericParameter, TIntermediateGenericParameter> InitializeMethods()
+        private MethodMemberDictionary InitializeMethods()
         {
-            throw new NotImplementedException();
+            return new MethodMemberDictionary(this._Members, ((TIntermediateGenericParameter)((object)(this))));
         }
 
         private IIntermediateGenericParameterPropertyMemberDictionary<TGenericParameter, TIntermediateGenericParameter> InitializeProperties()

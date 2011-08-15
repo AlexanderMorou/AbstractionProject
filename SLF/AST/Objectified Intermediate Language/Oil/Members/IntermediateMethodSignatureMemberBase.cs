@@ -39,13 +39,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             class,
             IMethodSignatureMember<TSignature, TParent>
         where TIntermediateSignature :
-            TSignature,
-            IIntermediateMethodSignatureMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent>
+            IIntermediateMethodSignatureMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent>,
+            TSignature
         where TParent :
             IMethodSignatureParent<TSignature, TParent>
         where TIntermediateParent :
-            TParent,
-            IIntermediateMethodSignatureParent<TSignature, TIntermediateSignature, TParent, TIntermediateParent>
+            IIntermediateMethodSignatureParent<TSignature, TIntermediateSignature, TParent, TIntermediateParent>,
+            TParent
     {
         /// <summary>
         /// Creates a new <see cref="IntermediateMethodSignatureMemberBase{TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
@@ -55,6 +55,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <see cref="IntermediateMethodSignatureMemberBase{TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.</param>
         protected IntermediateMethodSignatureMemberBase(TIntermediateParent parent)
             : base(parent)
+        {
+
+        }
+
+        protected IntermediateMethodSignatureMemberBase(string name, TIntermediateParent parent)
+            : base(name, parent)
         {
 
         }

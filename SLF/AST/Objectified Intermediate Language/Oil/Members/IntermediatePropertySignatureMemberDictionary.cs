@@ -27,7 +27,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// properties in the intermediate abstract syntax tree.</typeparam>
     public abstract class IntermediatePropertySignatureMemberDictionary<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> :
         IntermediateGroupedMemberDictionary<TPropertyParent, TIntermediatePropertyParent, TProperty, TIntermediateProperty>,
-        IIntermediatePropertySignatureMemberDictionary<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+        IIntermediatePropertySignatureMemberDictionary<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>,
+        IIntermediatePropertySignatureMemberDictionary
         where TProperty :
             IPropertySignatureMember<TProperty, TPropertyParent>
         where TIntermediateProperty :
@@ -84,7 +85,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <exception cref="System.ArgumentException">The <see cref="TypedName.Name"/> on <paramref name="nameAndType"/> is null -or-
         /// the <see cref="TypedName.Source"/> on <paramref name="nameAndType"/> is 
         /// <see cref="TypedNameSource.InvalidReference"/>.</exception>
-        public abstract TIntermediateProperty Add(TypedName nameAndType);
+        public TIntermediateProperty Add(TypedName nameAndType)
+        {
+            return this.Add(nameAndType, true, true);
+        }
 
         /// <summary>
         /// Adds a new <typeparamref name="TIntermediateProperty"/> instance with
@@ -100,10 +104,33 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <see cref="TypedNameSource.InvalidReference"/>.</exception>
         public TIntermediateProperty Add(TypedName nameAndType, bool canGet, bool canSet)
         {
-            var result = this.Add(nameAndType);
+            var result = this.OnGetProperty(nameAndType);
             result.CanRead = canGet;
             result.CanWrite = canSet;
+            this.AddDeclaration(result);
             return result;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Obtains a new <typeparamref name="TIntermediateProperty"/> with the
+        /// <paramref name="nameAndType"/> provided.
+        /// </summary>
+        /// <param name="nameAndType">The name and type of the <typeparamref name="TIntermediateProperty"/> to add.</param>
+        /// <returns>A new <typeparamref name="TIntermediateProperty"/> instance.</returns>
+        protected abstract TIntermediateProperty OnGetProperty(TypedName nameAndType);
+
+        #region IIntermediatePropertySignatureMemberDictionary Members
+
+        IIntermediatePropertySignatureMember IIntermediatePropertySignatureMemberDictionary.Add(TypedName nameAndType)
+        {
+            return this.Add(nameAndType);
+        }
+
+        IIntermediatePropertySignatureMember IIntermediatePropertySignatureMemberDictionary.Add(TypedName nameAndType, bool canGet, bool canSet)
+        {
+            return this.Add(nameAndType, canGet, canSet);
         }
 
         #endregion

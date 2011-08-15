@@ -22,6 +22,12 @@ namespace AllenCopeland.Abstraction.Utilities.Common
         {
 
         }
+
+        public BinaryBase(string value)
+            : base(controller, value)
+        {
+        }
+
         public BinaryBase(BigInteger value)
             : base(controller, value)
         {

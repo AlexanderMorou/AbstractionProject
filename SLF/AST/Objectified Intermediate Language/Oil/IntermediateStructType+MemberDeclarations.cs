@@ -483,8 +483,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             private IIntermediateMethodParameterMember valueParameter;
 
-            public PropertySetMethodMember(IntermediateStructPropertyMember<TInstanceIntermediateType> owner, TInstanceIntermediateType parent)
-                : base(PropertyMethodType.SetMethod, owner, parent)
+            public PropertySetMethodMember(IntermediateStructPropertyMember<TInstanceIntermediateType> owner)
+                : base(PropertyMethodType.SetMethod, owner)
             {
             }
 
@@ -495,7 +495,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 get
                 {
                     if (this.valueParameter == null)
-                        valueParameter = this.Parameters._Add(new TypedName("value", this.Owner.PropertyType));
+                        return this.Parameters["value"];
                     return valueParameter;
                 }
             }
@@ -511,6 +511,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             #endregion
 
+            protected override IntermediateParameterMemberDictionary<IStructMethodMember, IIntermediateStructMethodMember, IMethodParameterMember<IStructMethodMember, IStructType>, IIntermediateMethodParameterMember<IStructMethodMember, IIntermediateStructMethodMember, IStructType, IIntermediateStructType>> InitializeParameters()
+            {
+                var result = base.InitializeParameters();
+                this.valueParameter = result._Add(new TypedName("value", this.Owner.PropertyType));
+                return result;
+            }
+
         }
         public class PropertyMethodMember :
             IntermediateStructMethodMember<TInstanceIntermediateType>,
@@ -518,8 +525,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             private PropertyMethodType methodType;
             private IntermediateStructPropertyMember<TInstanceIntermediateType> owner;
-            public PropertyMethodMember(PropertyMethodType methodType, IntermediateStructPropertyMember<TInstanceIntermediateType> owner, TInstanceIntermediateType parent)
-                : base(parent)
+            public PropertyMethodMember(PropertyMethodType methodType, IntermediateStructPropertyMember<TInstanceIntermediateType> owner)
+                : base(owner == null ? null : (TInstanceIntermediateType)(owner.Parent))
             {
                 this.methodType = methodType;
                 this.owner = owner;
@@ -554,9 +561,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
             }
 
+            protected override sealed void OnSetName(string name)
+            {
+                throw new NotSupportedException(string.Format("Cannot set the name of the {0} method of a property.", MethodType == PropertyMethodType.SetMethod ? "set" : "get"));
+            }
+
             protected override IntermediateParameterMemberDictionary<IStructMethodMember, IIntermediateStructMethodMember, IMethodParameterMember<IStructMethodMember, IStructType>, IIntermediateMethodParameterMember<IStructMethodMember, IIntermediateStructMethodMember, IStructType, IIntermediateStructType>> InitializeParameters()
             {
                 var result = base.InitializeParameters();
+                result.Lock();
+                return result;
+            }
+
+            protected override IntermediateMethodSignatureMemberBase<IMethodParameterMember<IStructMethodMember, IStructType>, IIntermediateMethodParameterMember<IStructMethodMember, IIntermediateStructMethodMember, IStructType, IIntermediateStructType>, IStructMethodMember, IIntermediateStructMethodMember, IStructType, IIntermediateStructType>.TypeParameterDictionary InitializeTypeParameters()
+            {
+                var result = base.InitializeTypeParameters();
                 result.Lock();
                 return result;
             }
@@ -567,12 +586,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             switch (methodType)
             {
-                case PropertyMethodType.GetMethod:
-                    return new IntermediateStructPropertyMember<TInstanceIntermediateType>.PropertyMethodMember(methodType, this, (TInstanceIntermediateType)this.Parent);
                 case PropertyMethodType.SetMethod:
-                    return new IntermediateStructPropertyMember<TInstanceIntermediateType>.PropertySetMethodMember(this, (TInstanceIntermediateType)this.Parent);
+                    return new PropertySetMethodMember(this);
+                default:
+                case PropertyMethodType.GetMethod:
+                    return new PropertyMethodMember(PropertyMethodType.GetMethod, this);
             }
-            throw new ArgumentOutOfRangeException("methodType");
         }
     }
 }

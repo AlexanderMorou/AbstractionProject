@@ -35,6 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private bool disposing;
         private object disposeSynch = new object();
         private ValuesCollection valuesCollection;
+        private bool locked;
 
         /// <summary>
         /// Creates a new <see cref="IntermediateDeclarationDictionary{TDeclaration, TIntermediateDeclaration}"/> initialized to its default state.
@@ -242,6 +243,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             base._AddRange(elements);
             foreach (var element in elements)
                 this.OnItemAdded(new EventArgsR1<TIntermediateDeclaration>(((TIntermediateDeclaration)(element.Value))));
+        }
+
+        internal void Lock()
+        {
+            this.locked = true;
+        }
+
+        internal void Unlock()
+        {
+            this.locked = false;
+        }
+
+        internal bool Locked
+        {
+            get
+            {
+                return this.locked;
+            }
         }
     }
 }
