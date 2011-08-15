@@ -128,7 +128,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             int value = 0;
             for (int i = 0; i < ds.Length; i++)
             {
-                var dsCurrent = new int[80];//r.Next(10, 80)];
+                var dsCurrent = new int[80];
                 for (int j = 0; j < dsCurrent.Length; j++)
                     dsCurrent[j] = ++value;
                 ds[i] = dsCurrent;

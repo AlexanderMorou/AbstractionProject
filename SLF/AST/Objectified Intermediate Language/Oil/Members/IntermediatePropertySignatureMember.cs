@@ -215,9 +215,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// instance which represents the get or set accessor of the property.</returns>
         protected abstract TMethodMember GetMethodSignatureMember(PropertyMethodType methodType);
 
-
         #region IIntermediatePropertySignatureMember Members
-
 
         IPropertyReferenceExpression IIntermediatePropertySignatureMember.GetReference(IMemberParentReferenceExpression source)
         {

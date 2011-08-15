@@ -21,6 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     public class LowerBoundTargetAttribute :
         Attribute
     {
+        private int[] bounds;
         /// <summary>
         /// Creates a new <see cref="LowerBoundTargetAttribute"/> with the
         /// <paramref name="bounds"/> provided.
@@ -30,14 +31,22 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// per dimension.</param>
         public LowerBoundTargetAttribute(params int[] bounds)
         {
-            this.Bounds = bounds;
+            if (bounds == null)
+                throw new ArgumentNullException("bounds");
+            this.bounds = bounds;
         }
 
         /// <summary>
         /// Returns the <see cref="Int32"/> array designating the lower bounds of the
         /// parameter, return-type, or field marked with the attribute.
         /// </summary>
-        public int[] Bounds { get; private set; }
+        public int[] Bounds
+        {
+            get
+            {
+                return this.bounds;
+            }
+        }
 
         /// <summary>
         /// Returns whether the bounds, specified by the <see cref="LowerBoundTargetAttribute"/>,
@@ -47,8 +56,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         {
             get
             {
-                foreach (int i in this.Bounds)
-                    if (i != 0)
+                for (int i = 0; i < this.bounds.Length; i++)
+                    if (this.bounds[i] != 0)
                         return true;
                 return false;
             }

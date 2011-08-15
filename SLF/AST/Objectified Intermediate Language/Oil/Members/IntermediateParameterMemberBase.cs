@@ -58,7 +58,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// Returns/sets the type that the <see cref="IntermediateParameterMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>
         /// is defined as.
         /// </summary>
-        public IType ParameterType
+        public virtual IType ParameterType
         {
             get
             {
@@ -105,7 +105,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <summary>
         /// Returns/sets the direction the parameter is coerced.
         /// </summary>
-        public ParameterDirection Direction
+        public virtual ParameterDirection Direction
         {
             get
             {
@@ -142,7 +142,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
-        protected ICustomAttributeDefinitionCollectionSeries InitializeCustomAttributes()
+        protected virtual ICustomAttributeDefinitionCollectionSeries InitializeCustomAttributes()
         {
             return new CustomAttributeDefinitionCollectionSeries(this);
         }

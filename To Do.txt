@@ -6,3 +6,9 @@ Research dynamic language runtime and incorporate dynamics in full
 
 
 CS1591 - Public members without XML documents
+
+
+
+    Build Indexer Member method-parameter variations whose 
+    parameters mirror the parameter of the indexer, that are
+    added and removed upon the original being added/removed.
