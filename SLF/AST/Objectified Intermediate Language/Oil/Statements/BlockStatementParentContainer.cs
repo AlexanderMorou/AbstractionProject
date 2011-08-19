@@ -573,6 +573,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
             return this.Assign(target,  AssignmentOperation.SimpleAssign, value);
         }
 
+        public IExpressionStatement Assign(IExpressionFusionExpression target, AssignmentOperation operation, INaryOperandExpression value)
+        {
+            var result = new ExpressionStatement(this.owner, new AssignmentExpression(target, operation, value));
+            base.baseList.Add(result);
+            return result;
+        }
+
+        public IExpressionStatement Assign(IExpressionFusionExpression target, INaryOperandExpression value)
+        {
+            return this.Assign(target, AssignmentOperation.SimpleAssign, value);
+        }
+
         public IExpressionStatement Increment(IAssignTargetExpression target)
         {
             var result = new ExpressionStatement(this.owner, new UnaryOperationExpression(target, UnaryOperation.Increment | UnaryOperation.PostAction));

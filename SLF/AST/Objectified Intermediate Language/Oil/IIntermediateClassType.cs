@@ -55,5 +55,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                                                                IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IClassMethodMember,
                                                                IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember,
                                                                IClassType, IIntermediateClassType> ImplementedInterfaces { get; }
+
+        /// <summary>
+        /// Returns the <see cref="IIntermediateClassCtorMember"/> which denotes the
+        /// constructor member that contains no parameters.
+        /// </summary>
+        IIntermediateClassCtorMember DefaultConstructor { get; }
     }
 }

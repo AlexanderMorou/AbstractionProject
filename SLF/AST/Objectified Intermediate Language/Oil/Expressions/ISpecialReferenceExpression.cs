@@ -53,7 +53,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
     public interface ISpecialReferenceExpression :
         IUnaryOperationPrimaryTerm,
-        IMemberParentReferenceExpression
+        IMemberParentReferenceExpression,
+        IFusionTargetExpression
     {
         /// <summary>
         /// Returns the kind of special reference the reference is.

@@ -30,8 +30,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// </summary>
         protected new class ParameterMember :
             IntermediateMethodSignatureMemberBase<IMethodParameterMember<TMethod, TMethodParent>, IIntermediateMethodParameterMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>, TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>.ParameterMember,
-            IIntermediateMethodParameterMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>,
-            IIntermediateMethodParameterMember
+            IIntermediateMethodParameterMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>
         {
             /// <summary>
             /// Creates a new <see cref="ParameterMember"/> with the 
@@ -53,5 +52,52 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
             #endregion
         }
+        
+        /// <summary>
+        /// Provides a base class for the intermediate method signature member parameters to derive from
+        /// when there's a parameter from which the current mirrors.
+        /// </summary>
+        /// <typeparam name="TAltParent">The kind of parent which contains the 
+        /// set of parameters that the current member mirrors a copy of one of.</typeparam>
+        /// <typeparam name="TIntermediateAltParent">The kind of parent which
+        /// contains the set of parameters that the current member mirrors a copy
+        /// of one of, in the intermediate context.</typeparam>
+        /// <typeparam name="TAltParameter">The kind of parameter that is mirrored by the 
+        /// <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter}"/>.
+        /// </typeparam>
+        /// <typeparam name="TIntermediateAltParameter">The kind of intermediate parameter that is 
+        /// mirrored by the <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter}"/>.
+        /// </typeparam>
+        protected class ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter> :
+            IntermediateMethodSignatureMemberBase<IMethodParameterMember<TMethod, TMethodParent>, IIntermediateMethodParameterMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>, TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>.ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter>>,
+            IIntermediateMethodParameterMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>
+            where TAltParent :
+                IParameterParent<TAltParent, TAltParameter>
+            where TIntermediateAltParent :
+                IIntermediateParameterParent<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter>,
+                TAltParent
+            where TAltParameter :
+                IParameterMember<TAltParent>
+            where TIntermediateAltParameter :
+                class,
+                IIntermediateParameterMember<TAltParent, TIntermediateAltParent>,
+                TAltParameter
+        {
+            internal ParameterMember(TIntermediateAltParameter original, TIntermediateMethod parent)
+                : base(original, parent)
+            {
+            }
+
+            #region IMethodParameterMember Members
+
+            IMethodMember IMethodParameterMember.Parent
+            {
+                get { return this.Parent; }
+            }
+
+            #endregion
+
+        }
+
     }
 }

@@ -54,7 +54,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         IMemberReferenceExpression,
         IMemberParentReferenceExpression,
         IAssignTargetExpression,
-        IUnaryOperationPrimaryTerm
+        IUnaryOperationPrimaryTerm,
+        IFusionTargetExpression,
+        IFusionTermExpression
     {
         /// <summary>
         /// Returns the <see cref="IMemberParentReferenceExpression"/> 

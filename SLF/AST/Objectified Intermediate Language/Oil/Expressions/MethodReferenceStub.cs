@@ -147,18 +147,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             return this.Name;
         }
 
-        protected override MethodPointerReferenceExpression GetPointerReference()
+        protected sealed override MethodPointerReferenceExpression GetPointerReference()
         {
             return new MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>(this, this.signatureTypesObtainer());
         }
 
-        protected override MethodPointerReferenceExpression GetPointerReference(ITypeCollection signature)
+        protected sealed override MethodPointerReferenceExpression GetPointerReference(ITypeCollection signature)
         {
             return new MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>(this, signature);
         }
 
         #region IMethodReferenceStub<TSignatureParameter,TSignatureParameter,TSignature,TSignature,TParent,TIntermediateParent> Members
-
 
         public new IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> GetPointer(ITypeCollection signature)
         {
@@ -168,6 +167,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         public new IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> GetPointer(params IType[] signature)
         {
             return (IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>)base.GetPointer(signature);
+        }
+
+        public new IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> GetPointer()
+        {
+            return (MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>)this.GetPointerReference();
         }
 
         #endregion
@@ -185,6 +189,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         }
 
         #endregion
+
     }
 
     public class UnboundMethodReferenceStub :
@@ -523,8 +528,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// provided.</returns>
         public IMethodInvokeExpression Invoke(params IExpression[] parameters)
         {
+            if (parameters == null ||
+                parameters.Length == 0)
+                return this.Invoke(ExpressionCollection.Empty);
             return this.Invoke(parameters.ToCollection());
         }
+
         /// <summary>
         /// Obtains a <see cref="IMethodPointerReferenceExpression"/>
         /// with the <paramref name="signature"/> provided.
@@ -537,7 +546,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// provided.</returns>
         public IMethodPointerReferenceExpression GetPointer(ITypeCollection signature)
         {
-            return this.GetPointerReference(signature);
+            if (signature == null)
+                return this.GetPointerReference();
+            else
+                return this.GetPointerReference(signature);
         }
 
         /// <summary>
@@ -554,6 +566,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         public IMethodPointerReferenceExpression GetPointer(params IType[] signature)
         {
             return this.GetPointer(signature.ToCollection());
+        }
+
+        public IMethodPointerReferenceExpression GetPointer()
+        {
+            return this.GetPointerReference();
         }
 
         #endregion

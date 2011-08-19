@@ -44,6 +44,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
+        /// <summary>
+        /// Provides a base class for the intermediate method signature member parameters to derive from
+        /// when there's a parameter from which the current mirrors.
+        /// </summary>
+        /// <typeparam name="TAltParent">The kind of parent which contains the 
+        /// set of parameters that the current member mirrors a copy of one of.</typeparam>
+        /// <typeparam name="TIntermediateAltParent">The kind of parent which
+        /// contains the set of parameters that the current member mirrors a copy
+        /// of one of, in the intermediate context.</typeparam>
+        /// <typeparam name="TAltParameter">The kind of parameter that is mirrored by the 
+        /// <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter}"/>.
+        /// </typeparam>
+        /// <typeparam name="TIntermediateAltParameter">The kind of intermediate parameter that is 
+        /// mirrored by the <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter}"/>.
+        /// </typeparam>
         protected class ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter> :
             IntermediateMethodSignatureMemberBase<IMethodSignatureParameterMember<TSignature, TParent>, IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent>, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter>>,
             IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent>
@@ -62,8 +77,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             internal ParameterMember(TIntermediateAltParameter original, TIntermediateSignature parent)
                 : base(original, parent)
             {
-                if (original == null)
-                    throw new ArgumentNullException("original");
             }
         }
     }
@@ -113,6 +126,26 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             #endregion
         }
 
+        /// <summary>
+        /// Provides a base class for the intermediate method signature member parameters to derive from
+        /// when there's a parameter from which the current mirrors.
+        /// </summary>
+        /// <typeparam name="TAltParent">The kind of parent which contains the 
+        /// set of parameters that the current member mirrors a copy of one of.</typeparam>
+        /// <typeparam name="TIntermediateAltParent">The kind of parent which
+        /// contains the set of parameters that the current member mirrors a copy
+        /// of one of, in the intermediate context.</typeparam>
+        /// <typeparam name="TAltParameter">The kind of parameter that is mirrored by the 
+        /// <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter}"/>.
+        /// </typeparam>
+        /// <typeparam name="TIntermediateAltParameter">The kind of intermediate parameter that is 
+        /// mirrored by the <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter}"/>.
+        /// </typeparam>
+        /// <typeparam name="TWrapperParameter">The kind of parameter that derives from
+        /// <typeparamref name="TIntermediateSignatureParameter"/> that acts
+        /// as the mirrored parameter and derives directly from
+        /// <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter}"/>.
+        /// </typeparam>
         protected abstract class ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter> :
             ParameterMember,
             ParameterDictionary<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter>.IWrapperParameter
@@ -132,19 +165,39 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 TIntermediateSignatureParameter,
                 ParameterDictionary<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter>.IWrapperParameter
         {
-
+            /// <summary>
+            /// Creates a new <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter}"/>
+            /// with the <paramref name="original"/> to wrap, and the <paramref name="parent"/> that contains it.
+            /// </summary>
+            /// <param name="original">The <typeparamref name="TIntermediateAltParameter"/> that's wrapped by the
+            /// <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter}"/>.
+            /// </param>
+            /// <param name="parent">The <typeparamref name="TIntermediateSignature"/>
+            /// which contains the <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter}"/>.</param>
             public ParameterMember(TIntermediateAltParameter original, TIntermediateSignature parent)
                 : base(parent)
             {
+                if (original == null)
+                    throw new ArgumentNullException("original");
                 this.AlternateParameter = original;
             }
 
             #region IWrapperParameter Members
 
+            /// <summary>
+            /// The alternate parameter which is wrapped.
+            /// </summary>
             public TIntermediateAltParameter AlternateParameter { get; private set; }
 
             #endregion
 
+            /// <summary>
+            /// Returns/sets the type that the 
+            /// <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter}"/>
+            /// is defined as.
+            /// </summary>
+            /// <remarks>Associates to the <see cref="IIntermediateParameterMember.ParameterType"/>
+            /// from the <see cref="AlternateParameter"/>.</remarks>
             public override IType ParameterType
             {
                 get
@@ -154,6 +207,38 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 set
                 {
                     this.AlternateParameter.ParameterType = value;
+                }
+            }
+
+            /// <summary>
+            /// Initializes the <see cref="CustomAttributeDefinitionCollectionSeries"/> which
+            /// denotes the groups of attributes defined on
+            /// the <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter}"/>.
+            /// </summary>
+            /// <returns>A new <see cref="CustomAttributeDefinitionCollectionSeries"/>
+            /// instance which refers to the parameters defined on the 
+            /// <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter}"/>.</returns>
+            /// <remarks>Links directly to the <see cref="IIntermediateCustomAttributedDeclaration.CustomAttributes"/>
+            /// defined on the <see cref="AlternateParameter"/>.</remarks>
+            protected override CustomAttributeDefinitionCollectionSeries InitializeCustomAttributes()
+            {
+                return new CustomAttributeDefinitionCollectionSeries((CustomAttributeDefinitionCollectionSeries)this.AlternateParameter.CustomAttributes, this);
+            }
+
+            /// <summary>
+            /// Returns/sets the direction the parameter is coerced.
+            /// </summary>
+            /// <remarks>Links directly to the <see cref="IIntermediateParameterMember.Direction"/> from
+            /// the <see cref="AlternateParameter"/>.</remarks>
+            public override ParameterDirection Direction
+            {
+                get
+                {
+                    return this.AlternateParameter.Direction;
+                }
+                set
+                {
+                    this.AlternateParameter.Direction = value;
                 }
             }
         }

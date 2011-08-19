@@ -91,6 +91,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IntermediateClassType<TInstanceIntermediateType>
     {
         private IClassType baseType;
+        private IIntermediateClassCtorMember defaultCtor;
         private bool isStatic;
         /// <summary>
         /// Creates a new <see cref="IntermediateClassType{TInstanceIntermediateType}"/> with the 
@@ -471,6 +472,28 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             finally
             {
                 base.Dispose();
+            }
+        }
+
+        public IIntermediateClassCtorMember DefaultConstructor
+        {
+            get
+            {
+                if (this.defaultCtor == null)
+                {
+                    if (base.AreConstructorsInitialized)
+                    {
+                        foreach (var item in this.Constructors.Values)
+                            if (item.Parameters.Count == 0)
+                            {
+                                this.defaultCtor = item;
+                                goto returnPoint;
+                            }
+                    }
+                    this.defaultCtor = this.Constructors.Add(TypedNameSeries.Empty);
+                }
+            returnPoint:
+                return this.defaultCtor;
             }
         }
 

@@ -417,6 +417,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// to assign to the <paramref name="target"/>.</param>
         /// <returns>A new <see cref="IExpressionStatement"/> which represents the assignment.</returns>
         IExpressionStatement Assign(IMemberReferenceExpression target, AssignmentOperation operation, INaryOperandExpression value);
+
+        /// <summary>
+        /// Assigns a <paramref name="value"/> to the <paramref name="target"/>
+        /// with the given assignment <paramref name="operation"/> provided.
+        /// </summary>
+        /// <param name="target">The <see cref="IExpressionFusionExpression"/> which denotes
+        /// a fusion between two expressions that potentially references
+        /// a assignable member.</param>
+        /// <param name="operation">The <see cref="AssignmentOperation"/> which denotes how the operation
+        /// should be managed.</param>
+        /// <param name="value">The <see cref="INaryOperandExpression"/> which denotes the value
+        /// to assign to the <paramref name="target"/>.</param>
+        /// <returns>A new <see cref="IExpressionStatement"/>
+        /// which denotes the operation</returns>
+        IExpressionStatement Assign(IExpressionFusionExpression target, AssignmentOperation operation, INaryOperandExpression value);
         /// <summary>
         /// Assigns a <paramref name="value"/> to the <paramref name="target"/>
         /// with the standard <see cref="AssignmentOperation.SimpleAssign"/> operation.
@@ -427,6 +442,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// to assign to the <paramref name="target"/>.</param>
         /// <returns>A new <see cref="IExpressionStatement"/> which represents the assignment.</returns>
         IExpressionStatement Assign(IMemberReferenceExpression target, INaryOperandExpression value);
+        /// <summary>
+        /// Assigns a <paramref name="value"/> to the <paramref name="target"/>
+        /// with the standard <see cref="AssignmentOperation.SimpleAssign"/> operation.
+        /// </summary>
+        /// <param name="target">The <see cref="IExpressionFusionExpression"/> which is the target of the
+        /// assignment.</param>
+        /// <param name="value">The <see cref="INaryOperandExpression"/> which denotes the value
+        /// to assign to the <paramref name="target"/>.</param>
+        /// <returns>A new <see cref="IExpressionStatement"/> which represents the assignment.</returns>
+        IExpressionStatement Assign(IExpressionFusionExpression target, INaryOperandExpression value);
 
         /// <summary>
         /// Increments the <paramref name="target"/> variable by one.

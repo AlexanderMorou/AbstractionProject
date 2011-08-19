@@ -142,7 +142,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
-        protected virtual ICustomAttributeDefinitionCollectionSeries InitializeCustomAttributes()
+        /// <summary>
+        /// Initializes the <see cref="CustomAttributeDefinitionCollectionSeries"/> which
+        /// denotes the groups of attributes defined on
+        /// the <see cref="IntermediateParameterMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>.
+        /// </summary>
+        /// <returns>A new <see cref="CustomAttributeDefinitionCollectionSeries"/>
+        /// instance which refers to the parameters defined on the 
+        /// <see cref="IntermediateParameterMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>.</returns>
+        protected virtual CustomAttributeDefinitionCollectionSeries InitializeCustomAttributes()
         {
             return new CustomAttributeDefinitionCollectionSeries(this);
         }

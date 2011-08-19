@@ -54,6 +54,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// relative to the <paramref name="signature"/>
         /// provided.</returns>
         new IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> GetPointer(params IType[] signature);
+
+        /// <summary>
+        /// Obtains a <see cref="IMethodPointerReferenceExpression{TSignatureParameter, TSignature, TParent}"/>
+        /// using the default signature associated to the <see cref="Member"/>.
+        /// </summary>
+        /// <returns>A <see cref="IMethodPointerReferenceExpression{TSignatureParameter, TSignature, TParent}"/>
+        /// instance relative to the <see cref="Member"/>.</returns>
+        new IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> GetPointer();
+
     }
 
     public interface IUnboundMethodReferenceStub :
@@ -155,5 +164,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// relative to the <paramref name="signature"/>
         /// provided.</returns>
         IMethodPointerReferenceExpression GetPointer(params IType[] signature);
+        /// <summary>
+        /// Obtains a <see cref="IMethodPointerReferenceExpression"/>
+        /// where the signature needs to be discovered during compile.
+        /// </summary>
+        /// <returns>A <see cref="IMethodPointerReferenceExpression"/>
+        /// with no signature.</returns>
+        IMethodPointerReferenceExpression GetPointer();
     }
 }

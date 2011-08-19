@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IControlledStateCollection<TypedName>
     {
         /// <summary>
-        /// An empty typed name series.
+        /// An empty typed name series that cannot be modified.
         /// </summary>
         public static readonly TypedNameSeries Empty = new TypedNameSeries(true);
 

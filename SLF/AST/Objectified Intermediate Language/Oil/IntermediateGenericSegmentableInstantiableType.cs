@@ -231,7 +231,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             get
             {
                 if (this.typeInitializer == null)
+                {
                     this.typeInitializer = this.GetTypeInitializer();
+                    if (typeInitializer != null)
+                        ((ConstructorDictionary)this.Constructors).AddDeclaration((TIntermediateCtor)(object)typeInitializer);
+                }
                 return (TIntermediateCtor)(object)this.typeInitializer;
             }
         }
@@ -1192,5 +1196,68 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 base.OnUnlocked();
             }
         }
+
+        /// <summary>
+        /// Returns whether the binary operator coercions of the 
+        /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool AreBinaryOperatorCoercionsInitialized { get { return this.binaryOperatorCoercions != null; } }
+
+        /// <summary>
+        /// Returns whether the constructors of the 
+        /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool AreConstructorsInitialized { get { return this.constructors != null; } }
+
+        /// <summary>
+        /// Returns whether the events of the 
+        /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool AreEventsInitialized { get { return this.events != null; } }
+
+        /// <summary>
+        /// Returns whether the fields of the 
+        /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool AreFieldsInitialized { get { return this.fields != null; } }
+
+        /// <summary>
+        /// Returns whether the indexers of the 
+        /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool AreIndexersInitialized { get { return this.indexers != null; } }
+
+        /// <summary>
+        /// Returns whether the methods of the 
+        /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool AreMethodsInitialized { get { return this.methods != null; } }
+
+        /// <summary>
+        /// Returns whether the properties of the 
+        /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool ArePropertiesInitialized { get { return this.properties != null; } }
+
+        /// <summary>
+        /// Returns whether the type coercions of the 
+        /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool AreTypeCoercionsInitialized { get { return this.typeCoercions != null; } }
+
+        /// <summary>
+        /// Returns whether the unary operator coercions of the 
+        /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool AreUnaryOperatorCoercionsInitialized { get { return this.unaryOperatorCoercions != null; } }
     }
 }
