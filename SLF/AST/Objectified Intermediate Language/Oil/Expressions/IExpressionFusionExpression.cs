@@ -19,7 +19,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     public interface IExpressionFusionExpression :
         IFusionTypeCollectionTargetExpression,
         IFusionCommaTargetExpression,
-        IUnaryOperationPrimaryTerm
+        IUnaryOperationPrimaryTerm,
+        IMemberParentReferenceExpression
     {
         /// <summary>
         /// The <see cref="IFusionTargetExpression"/>

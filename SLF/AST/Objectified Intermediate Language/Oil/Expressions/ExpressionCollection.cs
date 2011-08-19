@@ -22,7 +22,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         where T :
             IExpression
     {
-        public static readonly IExpression[] EmptyExpressionArray = new IExpression[0];
+        public static readonly ExpressionCollection<T> Empty = new ExpressionCollection<T>();
+        public static readonly T[] EmptyExpressionArray = new T[0];
         /// <summary>
         /// Creates a new <see cref="ExpressionCollection"/> initialized
         /// to a default state.

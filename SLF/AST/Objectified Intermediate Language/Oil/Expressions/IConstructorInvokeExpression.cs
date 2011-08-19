@@ -15,7 +15,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         IMemberParentReferenceExpression,
         IUnaryOperationPrimaryTerm,
         IFusionCommaTargetExpression,
-        IFusionTermExpression,
         IStatementExpression
     {
         /// <summary>

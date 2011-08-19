@@ -442,7 +442,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        protected void AddDeclaration(TIntermediateDeclaration declaration)
+        protected internal void AddDeclaration(TIntermediateDeclaration declaration)
         {
             if (this.isLockApplied)
                 throw new InvalidOperationException(string.Format(Resources.LockableChangeThrowMessage, "dictionary"));

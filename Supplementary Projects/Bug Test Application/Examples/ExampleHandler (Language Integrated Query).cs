@@ -30,6 +30,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 assembly.ScopeCoercions.Add(typeof(Console).Namespace);
                 //using System.Linq;
                 assembly.ScopeCoercions.Add(typeof(Queryable).Namespace);
+                //using System.Globalization;
                 assembly.ScopeCoercions.Add(typeof(CultureInfo).Namespace);
                 var @namespace = assembly.Namespaces.Add("LinqExample");
                 var topLevelMethod = @namespace.Methods.Add("LinqTest");
@@ -69,7 +70,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                  * */
                 var enumerationBlock = topLevelMethod.Enumerate("digit", sortedDigits.GetReference());
                 enumerationBlock.Call("Console".Fuse("WriteLine").Fuse((IExpression)(Symbol)"digit"));
-                return new Tuple<TAssembly, IIntermediateTopLevelMethodMember>(assembly, topLevelMethod);
+                return Tuple.Create(assembly, topLevelMethod);
             }
         }
     }

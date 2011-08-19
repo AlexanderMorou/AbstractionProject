@@ -642,5 +642,40 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 base.OnUnlocked();
             }
         }
+
+        /// <summary>
+        /// Returns whether the classes of the 
+        /// <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool AreClassesInitialized { get { return this.classes != null; } }
+
+        /// <summary>
+        /// Returns whether the delegates of the 
+        /// <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool AreDelegatesInitialized { get { return this.delegates != null; } }
+
+        /// <summary>
+        /// Returns whether the enums of the 
+        /// <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool AreEnumsInitialized { get { return this.enums != null; } }
+
+        /// <summary>
+        /// Returns whether the interfaces of the 
+        /// <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool AreInterfacesInitialized { get { return this.interfaces != null; } }
+
+        /// <summary>
+        /// Returns whether the structs of the 
+        /// <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool AreStructsInitialized { get { return this.structs != null; } }
     }
 }

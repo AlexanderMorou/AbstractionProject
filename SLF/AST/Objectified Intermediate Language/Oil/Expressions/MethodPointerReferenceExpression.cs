@@ -237,7 +237,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         public MethodPointerReferenceExpression(IMethodReferenceStub reference, ITypeCollection signature)
         {
             this.reference = reference;
-            this.signature = signature == null ? ((ITypeCollection)(new TypeCollection())) : signature;
+            this.signature = signature;
         }
         /// <summary>
         /// Creates a new <see cref="MethodPointerReferenceExpression"/>
@@ -285,6 +285,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// the types of parameters used to
         /// bind to the method.
         /// </summary>
+        /// <remarks><para>Can be null if there is no signature associated.</para>
+        /// <para>Typical case would be when the method is unbound because the source
+        /// has not been resolved, and expression-type resolution has not been performed.</para></remarks>
         public ITypeCollection Signature
         {
             get { return this.signature; }
@@ -317,9 +320,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             StringBuilder sb = new StringBuilder();
             if (this.Reference != null)
                 sb.Append(this.Reference.ToString());
-            sb.Append("(");
             if (this.Signature != null && this.Signature.Count > 0)
             {
+                sb.Append("(");
                 bool first = true;
                 foreach (IType t in this.Signature)
                 {
@@ -329,8 +332,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                         sb.Append(", ");
                     sb.Append(t.Name);
                 }
+                sb.Append(")");
             }
-            sb.Append(")");
+            else
+            {
+                sb.Append("()");
+            }
             return sb.ToString();
         }
 

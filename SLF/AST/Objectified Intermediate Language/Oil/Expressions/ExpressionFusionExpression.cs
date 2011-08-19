@@ -65,5 +65,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         {
             visitor.Visit(this);
         }
+
     }
 }

@@ -180,7 +180,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// does not support members.</exception>
         IFullMemberDictionary Members { get; }
 
-
         /// <summary>
         /// Returns a <see cref="IEnumerable{T}"/> of the elements contained within the 
         /// <see cref="IType"/>.
