@@ -150,10 +150,6 @@
     <None Include="Resources\EditDeleteImage.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Ownerdrawn Controls\Ownerdrawn Controls.csproj">
-      <Project>{C39FCBDC-EDED-4327-95BA-3B494FA59A8E}</Project>
-      <Name>Ownerdrawn Controls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\SLF\AST\Objectified Intermediate Language\Objectified Intermediate Language.csproj">
       <Project>{02607DC2-E98B-43AE-B906-FE151A70A68D}</Project>
       <Name>Objectified Intermediate Language</Name>

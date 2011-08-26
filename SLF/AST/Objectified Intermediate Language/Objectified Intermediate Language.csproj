@@ -95,6 +95,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Oil\DynamicType.cs" />
+    <Compile Include="Oil\Statements\BoundChangeEventSignatureHandlerStatement.cs" />
+    <Compile Include="Oil\Statements\IBoundChangeEventSignatureHandlerStatement.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -286,7 +289,6 @@
     <Compile Include="Oil\DataSizeType.cs" />
     <Compile Include="Oil\DeclarationNameChangedEventArgs.cs" />
     <Compile Include="Oil\DeclarationRenamingEventArgs.cs" />
-    <Compile Include="Oil\DynamicType.cs" />
     <Compile Include="Oil\Expressions\AssignmentExpression.cs" />
     <Compile Include="Oil\Expressions\AutoContextMemberSource.cs" />
     <Compile Include="Oil\Expressions\BinaryOperationKind.cs" />
@@ -736,7 +738,7 @@
     <Compile Include="Oil\Members\IIntermediateInterfacePropertyMember.cs" />
     <Compile Include="Oil\Members\IIntermediateMember.cs" />
     <Compile Include="Oil\Members\IIntermediateMemberDictionary.cs" />
-    <Compile Include="Oil\Members\IIntermediateMemberParent.cs" />
+    <Compile Include="Oil\IIntermediateMemberParent.cs" />
     <Compile Include="Oil\Members\IIntermediateMemberVisitor.cs" />
     <Compile Include="Oil\Members\IIntermediateMethodMember.cs" />
     <Compile Include="Oil\Members\IIntermediateMethodMemberDictionary.cs" />

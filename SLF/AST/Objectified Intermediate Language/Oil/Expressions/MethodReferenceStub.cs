@@ -386,7 +386,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             this.source = source;
         }
 
-
         /// <summary>
         /// Creates a new <see cref="UnboundMethodReferenceStub"/> with
         /// the <paramref name="source"/>

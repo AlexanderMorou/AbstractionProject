@@ -305,7 +305,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         #endregion
 
-
         /// <summary>
         /// Returns the type of expression the <see cref="MethodPointerReferenceExpression"/> is.
         /// </summary>

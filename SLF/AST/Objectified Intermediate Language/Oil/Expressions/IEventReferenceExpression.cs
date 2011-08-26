@@ -17,43 +17,25 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// Defines generic properties and methods for working with an expression
     /// which represents a reference to a event signature.
     /// </summary>
-    /// <typeparam name="TEvent">The type of event as it exists int he
+    /// <typeparam name="TEvent">The type of event as it exists in the
     /// abstract type system.</typeparam>
+    /// <typeparam name="TEventParameter">The type of parameter
+    /// contained within the events.</typeparam>
     /// <typeparam name="TEventParent">The type which owns the properties
     /// in the abstract type system.</typeparam>
-    public interface IEventSignatureReferenceExpression<TEvent, TEventParent> :
+    public interface IEventReferenceExpression<TEvent, TEventParameter, TEventParent> :
         IBoundMemberReference,
         IEventReferenceExpression
         where TEvent :
-            IEventSignatureMember<TEvent, TEventParent>
+            IEventSignatureMember<TEvent, TEventParameter, TEventParent>
         where TEventParent :
-            IEventSignatureParent<TEvent, TEventParent>
+            IEventSignatureParent<TEvent, TEventParameter, TEventParent>
+        where TEventParameter :
+            IEventSignatureParameterMember<TEvent, TEventParameter, TEventParent>
     {
         /// <summary>
         /// Returns the <typeparamref name="TEvent"/> member to which the 
-        /// <see cref="IEventSignatureReferenceExpression{TEvent, TEventParent}"/> refers.
-        /// </summary>
-        new TEvent Member { get; }
-    }
-    /// <summary>
-    /// Defines generic properties and methods for working with an expression
-    /// which represents a reference to a event.
-    /// </summary>
-    /// <typeparam name="TEvent">The type of event as it exists int he
-    /// abstract type system.</typeparam>
-    /// <typeparam name="TEventParent">The type which owns the properties
-    /// in the abstract type system.</typeparam>
-    public interface IEventReferenceExpression<TEvent, TEventParent> :
-        IBoundMemberReference,
-        IEventReferenceExpression
-        where TEvent :
-            IEventMember<TEvent, TEventParent>
-        where TEventParent :
-            IEventParent<TEvent, TEventParent>
-    {
-        /// <summary>
-        /// Returns the <typeparamref name="TEvent"/> member to which the 
-        /// <see cref="IEventReferenceExpression{TEvent, TEventParent}"/> refers.
+        /// <see cref="IEventReferenceExpression{TEvent, TEventParameter, TEventParent}"/> refers.
         /// </summary>
         new TEvent Member { get; }
     }

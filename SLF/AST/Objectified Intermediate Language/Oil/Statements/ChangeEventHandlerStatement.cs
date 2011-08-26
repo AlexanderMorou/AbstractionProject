@@ -12,6 +12,12 @@ using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 {
+    /// <summary>
+    /// Provides a base statement which represents a
+    /// change within an event handler which operates on expressions
+    /// which are assumed to contain both a valid event reference and 
+    /// a valid method pointer reference, but it's not verified.
+    /// </summary>
     public class ChangeEventHandlerStatement : 
         StatementBase,
         IChangeEventHandlerStatement
@@ -31,11 +37,25 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
 
         #region IChangeEventHandlerStatement Members
 
+        /// <summary>
+        /// Returns/sets the <see cref="IEventReferenceExpression"/>
+        /// which denotes the event to add the <see cref="SourceMethod"/>
+        /// as a handler.
+        /// </summary>
         public IEventReferenceExpression TargetEvent { get; private set; }
 
+        /// <summary>
+        /// Returns/sets the <see cref="IMethodPointerReferenceExpression"/> which denotes
+        /// the source and signature of the method in question.
+        /// </summary>
         public IMethodPointerReferenceExpression SourceMethod { get; private set; }
 
         private EventHandlerChangeKind changeKind;
+
+        /// <summary>
+        /// Returns the kind of change which occurs as a result of the action implied
+        /// by the statement.
+        /// </summary>
         public EventHandlerChangeKind ChangeKind
         {
             get

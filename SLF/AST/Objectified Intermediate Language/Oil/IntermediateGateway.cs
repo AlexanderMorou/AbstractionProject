@@ -395,31 +395,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return new PropertyReferenceExpression<TProperty, TPropertyParent>(source, target);
         }
 
-        internal static IEventSignatureReferenceExpression<TEvent, TEventParent> GetEventSignatureReference<TEvent, TEventParent>(this TEvent target, IMemberParentReferenceExpression source)
-            where TEvent :
-                IEventSignatureMember<TEvent, TEventParent>
-            where TEventParent :
-                IEventSignatureParent<TEvent, TEventParent>
-        {
-            return new EventSignatureReferenceExpression<TEvent, TEventParent>(source, target);
-        }
-
-        internal static IEventReferenceExpression<TEvent, TEventParent> GetEventReference<TEvent, TEventParent>(this TEvent target, IMemberParentReferenceExpression source)
-            where TEvent :
-                IEventMember<TEvent, TEventParent>
-            where TEventParent :
-                IEventParent<TEvent, TEventParent>
-        {
-            return new EventReferenceExpression<TEvent, TEventParent>(source, target);
-        }
-
         internal static IEventReferenceExpression GetEventReference(this IEventSignatureMember target, IMemberParentReferenceExpression source)
         {
             var targetParent = target.Parent;
             if (target is IEventMember)
                 return ((IEventMember)(target)).GetEventReference(source);
             else if (targetParent is IInterfaceType)
-                return ((IInterfaceEventMember)(target)).GetEventSignatureReference<IInterfaceEventMember, IInterfaceType>(source);
+                return ((IInterfaceEventMember)(target)).GetEventReference<IInterfaceEventMember, IEventSignatureParameterMember<IInterfaceEventMember, IInterfaceType>, IInterfaceType>(source);
             else
                 return new UnboundEventReferenceExpression(target.Name, source);
         }
@@ -428,11 +410,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             var targetParent = target.Parent;
             if (targetParent is IClassType)
-                return ((IClassEventMember)target).GetEventReference<IClassEventMember, IClassType>(source);
+                return ((IClassEventMember)target).GetEventReference<IClassEventMember, IEventParameterMember<IClassEventMember, IClassType>, IClassType>(source);
             else if (targetParent is IStructType)
-                return ((IStructEventMember)target).GetEventReference<IStructEventMember, IStructType>(source);
+                return ((IStructEventMember)target).GetEventReference<IStructEventMember, IEventParameterMember<IStructEventMember, IStructType>, IStructType>(source);
             else
                 return new UnboundEventReferenceExpression(target.Name, source);
+        }
+
+        internal static IEventReferenceExpression<TEvent, TEventParameter, TEventParent> GetEventReference<TEvent, TEventParameter, TEventParent>(this TEvent @event, IMemberParentReferenceExpression source = null)
+            where TEvent :
+                IEventSignatureMember<TEvent, TEventParameter, TEventParent>
+            where TEventParameter :
+                IEventSignatureParameterMember<TEvent, TEventParameter, TEventParent>
+            where TEventParent :
+                IEventSignatureParent<TEvent, TEventParameter, TEventParent>
+        {
+            if (@event is IIntermediateInstanceMember)
+            {
+                if (source == null)
+                    source = new AutoContextMemberSource((IIntermediateInstanceMember)@event);
+            }
+            return new EventReferenceExpression<TEvent, TEventParameter, TEventParent>(source, @event);
         }
 
         internal static IPropertyReferenceExpression GetPropertyReference(this IPropertySignatureMember target, IMemberParentReferenceExpression source)
@@ -483,7 +481,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new UnboundMethodReferenceStub(source, target.Name);
         }
 
-        public static IMethodReferenceStub<TSignatureParameter, TSignature, TParent> GetMethodReference<TSignatureParameter, TSignature, TParent>(this TSignature target, IMemberParentReferenceExpression source)
+        public static IMethodReferenceStub<TSignatureParameter, TSignature, TParent> GetMethodReference<TSignatureParameter, TSignature, TParent>(this TSignature target, IMemberParentReferenceExpression source = null)
             where TSignatureParameter :
                 IMethodSignatureParameterMember<TSignatureParameter, TSignature, TParent>
             where TSignature :
@@ -493,6 +491,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (target == null)
                 throw new ArgumentNullException("target");
+            if (target is IIntermediateInstanceMember)
+            {
+                if (source == null)
+                    source = new AutoContextMemberSource((IIntermediateInstanceMember)target);
+            }
             return new MethodReferenceStub<TSignatureParameter, TSignature, TParent>(source, target, () => new MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes(target));
         }
 
@@ -907,7 +910,32 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     select name);
         }
 
+        public static ICreateArrayExpression MakeArrayExpression(this Type underlyingSystemType, IExpression size = null)
+        {
+            if (size == null)
+                return new MalleableCreateArrayExpression(underlyingSystemType.GetTypeReference());
+            return new MalleableCreateArrayExpression(underlyingSystemType.GetTypeReference(), size);
+        }
 
+        public static ICreateArrayExpression MakeArrayExpression(this Type underlyingSystemType, int size)
+        {
+            return underlyingSystemType.MakeArrayExpression(size.ToPrimitive());
+        }
+
+        public static ICreateArrayExpression MakeArrayExpression(this Type underlyingSystemType, params int[] sizes)
+        {
+            if (sizes == null)
+                throw new ArgumentNullException("sizes");
+            return underlyingSystemType.MakeArrayExpression((from s in sizes
+                                                             select s.ToPrimitive()).ToArray());
+        }
+
+        public static ICreateArrayExpression MakeArrayExpression(this Type underlyingSystemType, params IExpression[] sizes)
+        {
+            if (sizes == null)
+                throw new ArgumentNullException("sizes");
+            return new MalleableCreateArrayExpression(underlyingSystemType.GetTypeReference(), sizes);
+        }
         
     }
 }

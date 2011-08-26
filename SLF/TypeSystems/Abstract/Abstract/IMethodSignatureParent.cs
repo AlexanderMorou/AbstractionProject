@@ -6,7 +6,8 @@
  \-------------------------------------------------------------------- */
 
 
-namespace AllenCopeland.Abstraction.Slf.Abstract.Members
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
+namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>
     /// Defines generic properties and methods for working with a parent that contains method signatures.
