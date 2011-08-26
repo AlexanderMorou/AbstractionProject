@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -121,7 +122,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// </summary>
         /// <param name="statement">The <see cref="IChangeEventHandlerStatement"/> 
         /// to visit.</param>
-        void Visit(IChangeEventHandlerStatement statement);
+        void Visit<TEventTarget, TMethodTarget>(IChangeEventHandlerStatement<TEventTarget, TMethodTarget> statement)
+            where TEventTarget :
+                IExpression
+            where TMethodTarget :
+                IExpression;
         /// <summary>
         /// Visits the comment <paramref name="statement"/> provided.
         /// </summary>

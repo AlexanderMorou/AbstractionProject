@@ -121,7 +121,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /* 011001010100001000 */
         /// <summary>
         /// Special scope indicating assembly-only, different
-        /// from <see cref="Internal"/> in that InternalsVisibleToAttribute
+        /// from <see cref="Internal"/> in that <see cref="InternalsVisibleToAttribute"/>
         /// is ineffective.
         /// </summary>
         /// <remarks>Cannot be combined with any other flag.</remarks>

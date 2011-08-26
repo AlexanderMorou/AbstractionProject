@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -10,7 +11,7 @@ using System.Text;
  \-------------------------------------------------------------------- */
 
 
-namespace AllenCopeland.Abstraction.Slf.Abstract.Members
+namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>
     /// Defines generic properties and methods for working with an 

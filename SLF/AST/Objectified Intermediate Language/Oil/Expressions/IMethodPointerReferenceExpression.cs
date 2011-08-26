@@ -16,6 +16,14 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
+    /// <summary>
+    /// Defines generic properties and methods for working with a bound
+    /// pointer to a method.
+    /// </summary>
+    /// <typeparam name="TSignatureParameter">The type of parameter used in the <typeparamref name="TSignature"/>.</typeparam>
+    /// <typeparam name="TSignature">The type of signature used as a parent of <typeparamref name="TSignatureParameter"/> instances.</typeparam>
+    /// <typeparam name="TParent">The parent that contains the <typeparamref name="TSignature"/> 
+    /// instances.</typeparam>
     public interface IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> :
         IMethodPointerReferenceExpression
         where TSignatureParameter :

@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TParent,
             IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TParent, TIntermediateParent>
     {
-        new IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> GetReference(IMemberParentReferenceExpression source);
+        new IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> GetReference(IMemberParentReferenceExpression source = null);
         new IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> GetReference(IMemberParentReferenceExpression source, IEnumerable<IType> typeParameters);
         new IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> GetReference(IMemberParentReferenceExpression source, params IType[] typeParameters);
     }
@@ -81,7 +81,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// </summary>
         new IType ReturnType { get; set; }
 
-        IMethodPointerReferenceExpression GetReference(IMemberParentReferenceExpression source);
+        IMethodPointerReferenceExpression GetReference(IMemberParentReferenceExpression source = null);
         IMethodPointerReferenceExpression GetReference(IMemberParentReferenceExpression source, IEnumerable<IType> typeParameters);
         IMethodPointerReferenceExpression GetReference(IMemberParentReferenceExpression source, params IType[] typeParameters);
     }

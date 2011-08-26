@@ -248,7 +248,7 @@
     <Compile Include="Abstract\Members\IInterfaceMethodMember.cs" />
     <Compile Include="Abstract\Members\IInterfacePropertyMember.cs" />
     <Compile Include="Abstract\Members\IMember.cs" />
-    <Compile Include="Abstract\Members\IMemberParent.cs" />
+    <Compile Include="Abstract\IMemberParent.cs" />
     <Compile Include="Abstract\Members\IMembers.cs" />
     <Compile Include="Abstract\Members\IMethodMember.cs" />
     <Compile Include="Abstract\Members\IMethodMembers.cs" />
@@ -257,7 +257,7 @@
     <Compile Include="Abstract\Members\IMethodSignatureMember.cs" />
     <Compile Include="Abstract\Members\IMethodSignatureMemberDictionary.cs" />
     <Compile Include="Abstract\Members\IMethodSignatureParameterMember.cs" />
-    <Compile Include="Abstract\Members\IMethodSignatureParent.cs" />
+    <Compile Include="Abstract\IMethodSignatureParent.cs" />
     <Compile Include="Abstract\Members\IParameterMember.cs" />
     <Compile Include="Abstract\Members\IParameterMemberDictionary.cs" />
     <Compile Include="Abstract\Members\IParameterParent.cs" />
@@ -269,7 +269,7 @@
     <Compile Include="Abstract\Members\ISignatureMember.cs" />
     <Compile Include="Abstract\Members\ISignatureMemberDictionary.cs" />
     <Compile Include="Abstract\Members\ISignatureParameterMember.cs" />
-    <Compile Include="Abstract\Members\ISignatureParent.cs" />
+    <Compile Include="Abstract\ISignatureParent.cs" />
     <Compile Include="Abstract\Members\IStructConstructorMember.cs" />
     <Compile Include="Abstract\Members\IStructEventMember.cs" />
     <Compile Include="Abstract\Members\IStructFieldMember.cs" />

@@ -29,13 +29,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TMethod :
             IMethodMember<TMethod, TParent>
         where TIntermediateMethod :
-            TMethod,
-            IIntermediateMethodMember<TMethod, TIntermediateMethod, TParent, TIntermediateParent>
+            IIntermediateMethodMember<TMethod, TIntermediateMethod, TParent, TIntermediateParent>,
+            TMethod
         where TParent :
             IMethodParent<TMethod, TParent>
         where TIntermediateParent :
-            TParent,
-            IIntermediateMethodParent<TMethod, TIntermediateMethod, TParent, TIntermediateParent>
+            IIntermediateMethodParent<TMethod, TIntermediateMethod, TParent, TIntermediateParent>,
+            TParent
     {
         /// <summary>
         /// Returns the methods defined on the <typeparamref name="TIntermediateParent"/>.

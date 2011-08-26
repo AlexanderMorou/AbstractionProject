@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -9,7 +10,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Slf.Oil.Members
+namespace AllenCopeland.Abstraction.Slf.Oil
 {
     /// <summary>
     /// Defines properties and methods for working with the intermediate 
