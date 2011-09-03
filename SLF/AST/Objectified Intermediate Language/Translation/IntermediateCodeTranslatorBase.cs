@@ -527,28 +527,102 @@ namespace AllenCopeland.Abstraction.Slf.Translation
 
         public abstract void Visit(IJumpTarget statement);
 
+        /// <summary>
+        /// Visits the iteration block <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="IIterationBlockStatement"/> to visit.</param>
         public abstract void Visit(IIterationBlockStatement statement);
 
+        /// <summary>
+        /// Visits the jump <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="IJumpStatement"/> to visit.</param>
         public abstract void Visit(IJumpStatement statement);
 
+        /// <summary>
+        /// Visits the label <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="ILabelStatement"/> to visit.</param>
         public abstract void Visit(ILabelStatement statement);
 
+        /// <summary>
+        /// Visits the return <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="IReturnStatement"/> to visit.</param>
         public abstract void Visit(IReturnStatement statement);
 
+        /// <summary>
+        /// Visits the simple iteration <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="ISimpleIterationBlockStatement"/> to visit.</param>
         public abstract void Visit(ISimpleIterationBlockStatement statement);
 
+        /// <summary>
+        /// Visits the switch case block <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="ISwitchCaseBlockStatement"/> to visit.</param>
         public abstract void Visit(ISwitchCaseBlockStatement statement);
 
+        /// <summary>
+        /// Visits the switch <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="ISwitchStatement"/> to visit.</param>
         public abstract void Visit(ISwitchStatement statement);
 
+        /// <summary>
+        /// Visits the try <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="ITryStatement"/> to visit.</param>
         public abstract void Visit(ITryStatement statement);
 
+        /// <summary>
+        /// Visits the <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="ILocalDeclarationStatement"/> to visit.</param>
         public abstract void Visit(ILocalDeclarationStatement statement);
 
+        /// <summary>
+        /// Visits the change event handler <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="IChangeEventHandlerStatement"/> 
+        /// to visit.</param>
         public abstract void Visit(IChangeEventHandlerStatement statement);
 
-        public abstract void Visit(ICommentStatement statement);
+        /// <summary>
+        /// Visits the bound change event handler <paramref name="statement"/>
+        /// provided.
+        /// </summary>
+        /// <typeparam name="TEvent">The type of event as it exists in the
+        /// abstract type system.</typeparam>
+        /// <typeparam name="TEventParameter">The type of parameter
+        /// contained within the events.</typeparam>
+        /// <typeparam name="TEventParent">The type which owns the properties
+        /// in the abstract type system.</typeparam>
+        /// <typeparam name="TSignatureParameter">The type of parameter used in the <typeparamref name="TSignature"/>.</typeparam>
+        /// <typeparam name="TSignature">The type of signature used as a parent of <typeparamref name="TSignatureParameter"/> instances.</typeparam>
+        /// <typeparam name="TSignatureParent">The parent that contains the <typeparamref name="TSignature"/> 
+        /// instances.</typeparam>
+        /// <param name="statement">The <see cref="IBoundChangeEventSignatureHandlerStatement{TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent}"/> to visit.</param>
+        public abstract void Visit<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(IBoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent> statement)
+            where TEvent :
+                IEventSignatureMember<TEvent, TEventParameter, TEventParent>
+            where TEventParent :
+                IEventSignatureParent<TEvent, TEventParameter, TEventParent>
+            where TEventParameter :
+                IEventSignatureParameterMember<TEvent, TEventParameter, TEventParent>
+            where TSignatureParameter :
+                IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
+            where TSignature :
+                IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
+            where TSignatureParent :
+                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>;
 
+        /// <summary>
+        /// Visits the comment <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="ICommentStatement"/>
+        /// to visit.</param>
+        public abstract void Visit(ICommentStatement statement);
         #endregion
 
         #region IIntermediateDeclarationVisitor Members
@@ -791,5 +865,6 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                 this.target = value;
             }
         }
+
     }
 }

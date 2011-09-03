@@ -14,15 +14,19 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 {
     /// <summary>
-    /// Defines generic properties and methods for working with an expression
-    /// which represents a reference to a event signature.
+    /// Defines generic properties and methods for working with an
+    /// expression which represents a reference to a event signature.
     /// </summary>
-    /// <typeparam name="TEvent">The type of event as it exists in the
-    /// abstract type system.</typeparam>
-    /// <typeparam name="TEventParameter">The type of parameter
-    /// contained within the events.</typeparam>
-    /// <typeparam name="TEventParent">The type which owns the properties
-    /// in the abstract type system.</typeparam>
+    /// <typeparam name="TEvent">
+    /// The type of event as it exists in the abstract type system.
+    /// </typeparam>
+    /// <typeparam name="TEventParameter">
+    /// The type of parameters used on the <typeparamref name="TEvent"/>
+    /// instances in the abstract typs system.
+    /// </typeparam>
+    /// <typeparam name="TEventParent">
+    /// The type which owns the properties in the abstract type system.
+    /// </typeparam>
     public interface IEventReferenceExpression<TEvent, TEventParameter, TEventParent> :
         IBoundMemberReference,
         IEventReferenceExpression
@@ -40,19 +44,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         new TEvent Member { get; }
     }
 
+    /// <summary>
+    /// Defines properties and methods for working with an expression 
+    /// which represents a reference to an event; unbound, so as the 
+    /// target event is malleable.
+    /// </summary>
     public interface IUnboundEventReferenceExpression :
         IEventReferenceExpression
     {
         /// <summary>
-        /// Returns/sets the <see cref="Name"/> 
-        /// of the expression the <see cref="IEventReferenceExpression"/>
-        /// points to.
+        /// Returns/sets the <see cref="Name"/> of the expression the
+        /// <see cref="IEventReferenceExpression"/> points to.
         /// </summary>
         new string Name { get; set; }
     }
 
     /// <summary>
-    /// Defines properties and methods for working with a reference which refers to an event.
+    /// Defines properties and methods for working with a reference
+    /// which refers to an event.
     /// </summary>
     public interface IEventReferenceExpression :
         IExpression

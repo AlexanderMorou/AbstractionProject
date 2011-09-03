@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AllenCopeland.Abstraction.Slf</RootNamespace>
-    <AssemblyName>_abs.slf.ast.oil</AssemblyName>
+    <AssemblyName>_abs.slf.typesystems.oil</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>

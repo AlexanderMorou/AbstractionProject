@@ -19,6 +19,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
     /// </summary>
     /// <typeparam name="TEvent">The type of event as it exists int he
     /// abstract type system.</typeparam>
+    /// <typeparam name="TEventParameter">The type of parameters used on the <typeparamref name="TEvent"/>
+    /// instances in the abstract typs system.</typeparam>
     /// <typeparam name="TEventParent">The type which owns the properties
     /// in the abstract type system.</typeparam>
     public class EventReferenceExpression<TEvent, TEventParameter, TEventParent> :
@@ -94,6 +96,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             return string.Format("{0}.{1}", this.Source.ToString(), this.Name);
         }
 
+        #region IExpression Members
+
         /// <summary>
         /// Returns the type of expression the <see cref="EventReferenceExpression{TEvent, TEventParameter, TEventParent}"/> is.
         /// </summary>
@@ -103,10 +107,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             get { return ExpressionKind.EventReference; }
         }
 
+        /// <summary>
+        /// Visits the <see cref="IExpressionVisitor"/>.
+        /// </summary>
+        /// <param name="visitor">The <see cref="IExpressionVisitor"/>
+        /// to visit.</param>
         public void Visit(IExpressionVisitor visitor)
         {
             visitor.Visit(this);
         }
+        #endregion
 
         #region ISourceElement Members
 
@@ -161,7 +171,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
 
         public ExpressionKind Type
         {
-            get {
+            get
+            {
                 return ExpressionKind.EventReference;
             }
         }
