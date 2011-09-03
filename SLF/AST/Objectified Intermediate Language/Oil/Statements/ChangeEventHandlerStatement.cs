@@ -42,13 +42,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// which denotes the event to add the <see cref="SourceMethod"/>
         /// as a handler.
         /// </summary>
-        public IEventReferenceExpression TargetEvent { get; private set; }
+        public IEventReferenceExpression TargetEvent { get; set; }
 
         /// <summary>
         /// Returns/sets the <see cref="IMethodPointerReferenceExpression"/> which denotes
         /// the source and signature of the method in question.
         /// </summary>
-        public IMethodPointerReferenceExpression SourceMethod { get; private set; }
+        public IMethodPointerReferenceExpression SourceMethod { get; set; }
 
         private EventHandlerChangeKind changeKind;
 

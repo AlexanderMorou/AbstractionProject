@@ -657,5 +657,10 @@ namespace AllenCopeland.Abstraction.Slf.Translation
         {
             throw new NotImplementedException();
         }
+
+        public override void Visit<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(IBoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent> statement)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -655,21 +655,67 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// is null.</exception>
         public IBoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent> AddHandler<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(IEventReferenceExpression<TEvent, TEventParameter, TEventParent> @event, TSignature method)
             where TEvent :
+                class,
                 IEventSignatureMember<TEvent, TEventParameter, TEventParent>
-            where TEventParent :
-                IEventSignatureParent<TEvent, TEventParameter, TEventParent>
             where TEventParameter :
                 IEventSignatureParameterMember<TEvent, TEventParameter, TEventParent>
+            where TEventParent :
+                IEventSignatureParent<TEvent, TEventParameter, TEventParent>
+            where TSignature :
+                class,
+                IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParameter :
                 IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
-            where TSignature :
-                IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
                 ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
         {
             return this.ChangeHandler<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(@event, EventHandlerChangeKind.Add, method);
         }
 
+        /// <summary>
+        /// Creates, inserts and returns a <see cref="IBoundChangeEventSignatureHandlerStatement{TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent}"/>
+        /// using <see cref="EventHandlerChangeKind.Add"/> to denote the kind of action on
+        /// the event handler, with the the <paramref name="targetEvent"/>, and
+        /// <paramref name="methodPtr"/> provided.
+        /// </summary>
+        /// <typeparam name="TEvent">The type of event as it exists in the
+        /// abstract type system.</typeparam>
+        /// <typeparam name="TEventParameter">The type of parameter
+        /// contained within the events.</typeparam>
+        /// <typeparam name="TEventParent">The type which owns the properties
+        /// in the abstract type system.</typeparam>
+        /// <typeparam name="TSignatureParameter">The type of parameter used in the <typeparamref name="TSignature"/>.</typeparam>
+        /// <typeparam name="TSignature">The type of signature used as a parent of <typeparamref name="TSignatureParameter"/> instances.</typeparam>
+        /// <typeparam name="TSignatureParent">The parent that contains the <typeparamref name="TSignature"/> 
+        /// instances.</typeparam>
+        /// <param name="targetEvent">The <see cref="IEventReferenceExpression<TEvent, TEventParameter, TEventParent>"/>
+        /// which references the event in question.</param>
+        /// <param name="methodPtr">The <see cref="IMethodPointerReferenceExpression{TSignatureParameter, TSignature, TSignatureParent}"/>
+        /// which denotes the method to add to the event.</param>
+        /// <returns>A <see cref="IBoundChangeEventSignatureHandlerStatement{TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent}"/>
+        /// which represents the operation.</returns>
+        /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="event"/>, or <paramref name="method"/>
+        /// is null.</exception>
+        /// <remarks>Exceedingly long type signature due to being a bound expression, typical use is for the compiler or
+        /// code generators that know the exact event and method to apply to.</remarks>
+        public IBoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent> AddHandler<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(IEventReferenceExpression<TEvent, TEventParameter, TEventParent> targetEvent, IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TSignatureParent> methodPtr)
+            where TEvent :
+                class,
+                IEventSignatureMember<TEvent, TEventParameter, TEventParent>
+            where TEventParameter :
+                IEventSignatureParameterMember<TEvent, TEventParameter, TEventParent>
+            where TEventParent :
+                IEventSignatureParent<TEvent, TEventParameter, TEventParent>
+            where TSignature :
+                class,
+                IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
+            where TSignatureParameter :
+                IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
+            where TSignatureParent :
+                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+        {
+            return this.ChangeHandler(targetEvent, EventHandlerChangeKind.Add, methodPtr);
+        }
 
         /// <summary>
         /// Creates, inserts and returns a <see cref="IChangeEventHandlerStatement"/>
@@ -767,15 +813,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// </exception>
         public IBoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent> ChangeHandler<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(IEventReferenceExpression<TEvent, TEventParameter, TEventParent> @event, EventHandlerChangeKind changeKind, TSignature method)
             where TEvent :
+                class,
                 IEventSignatureMember<TEvent, TEventParameter, TEventParent>
-            where TEventParent :
-                IEventSignatureParent<TEvent, TEventParameter, TEventParent>
             where TEventParameter :
                 IEventSignatureParameterMember<TEvent, TEventParameter, TEventParent>
+            where TEventParent :
+                IEventSignatureParent<TEvent, TEventParameter, TEventParent>
+            where TSignature :
+                class,
+                IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParameter :
                 IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
-            where TSignature :
-                IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
                 ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
         {
@@ -784,6 +832,53 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
             return result;
         }
 
+        /// <summary>
+        /// Creates, inserts and returns a <see cref="IBoundChangeEventSignatureHandlerStatement{TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent}"/>
+        /// with the the <paramref name="targetEvent"/>, <see cref="changeKind"/>, and
+        /// <paramref name="methodPtr"/> provided.
+        /// </summary>
+        /// <typeparam name="TEvent">The type of event as it exists in the
+        /// abstract type system.</typeparam>
+        /// <typeparam name="TEventParameter">The type of parameter
+        /// contained within the events.</typeparam>
+        /// <typeparam name="TEventParent">The type which owns the properties
+        /// in the abstract type system.</typeparam>
+        /// <typeparam name="TSignatureParameter">The type of parameter used in the <typeparamref name="TSignature"/>.</typeparam>
+        /// <typeparam name="TSignature">The type of signature used as a parent of <typeparamref name="TSignatureParameter"/> instances.</typeparam>
+        /// <typeparam name="TSignatureParent">The parent that contains the <typeparamref name="TSignature"/> 
+        /// instances.</typeparam>
+        /// <param name="targetEvent">The <see cref="IEventReferenceExpression<TEvent, TEventParameter, TEventParent>"/>
+        /// which references the event in question.</param>
+        /// <param name="changeKind">The <see cref="EventHandlerChangeKind"/> which denotes
+        /// the kind of change on the event to make.</param>
+        /// <param name="methodPtr">The <see cref="IMethodPointerReferenceExpression{TSignatureParameter, TSignature, TSignatureParent}"/>
+        /// which denotes the method to remove from the event.</param>
+        /// <returns>A <see cref="IBoundChangeEventSignatureHandlerStatement{TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent}"/>
+        /// which represents the operation.</returns>
+        /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="event"/>, or <paramref name="method"/>
+        /// is null.</exception>
+        /// <remarks>Exceedingly long type signature due to being a bound expression, typical use is for the compiler or
+        /// code generators that know the exact event and method to apply to.</remarks>
+        public IBoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent> ChangeHandler<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(IEventReferenceExpression<TEvent, TEventParameter, TEventParent> targetEvent, EventHandlerChangeKind changeKind, IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TSignatureParent> methodPtr)
+            where TEvent :
+                class,
+                IEventSignatureMember<TEvent, TEventParameter, TEventParent>
+            where TEventParameter :
+                IEventSignatureParameterMember<TEvent, TEventParameter, TEventParent>
+            where TEventParent :
+                IEventSignatureParent<TEvent, TEventParameter, TEventParent>
+            where TSignature :
+                class,
+                IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
+            where TSignatureParameter :
+                IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
+            where TSignatureParent :
+                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+        {
+            var result = new BoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(this.owner, targetEvent, changeKind, methodPtr);
+            this.baseList.Add(result);
+            return result;
+        }
         /// <summary>
         /// Creates, inserts and returns a <see cref="IChangeEventHandlerStatement"/>
         /// with the <paramref name="changeKind"/>, <paramref name="target"/>, 
@@ -890,22 +985,70 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         /// which represents the operation.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="event"/>, or <paramref name="method"/>
         /// is null.</exception>
-        IBoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent> RemoveHandler<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(IEventReferenceExpression<TEvent, TEventParameter, TEventParent> @event, TSignature method)
+        public IBoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent> RemoveHandler<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(IEventReferenceExpression<TEvent, TEventParameter, TEventParent> @event, TSignature method)
             where TEvent :
+                class,
                 IEventSignatureMember<TEvent, TEventParameter, TEventParent>
-            where TEventParent :
-                IEventSignatureParent<TEvent, TEventParameter, TEventParent>
             where TEventParameter :
                 IEventSignatureParameterMember<TEvent, TEventParameter, TEventParent>
+            where TEventParent :
+                IEventSignatureParent<TEvent, TEventParameter, TEventParent>
+            where TSignature :
+                class,
+                IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParameter :
                 IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
-            where TSignature :
-                IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
                 ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
         {
             return this.ChangeHandler<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(@event, EventHandlerChangeKind.Remove, method);
         }
+
+        /// <summary>
+        /// Creates, inserts and returns a <see cref="IBoundChangeEventSignatureHandlerStatement{TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent}"/>
+        /// using <see cref="EventHandlerChangeKind.Remove"/> to denote the kind of action on
+        /// the event handler, with the the <paramref name="targetEvent"/>, and
+        /// <paramref name="methodPtr"/> provided.
+        /// </summary>
+        /// <typeparam name="TEvent">The type of event as it exists in the
+        /// abstract type system.</typeparam>
+        /// <typeparam name="TEventParameter">The type of parameter
+        /// contained within the events.</typeparam>
+        /// <typeparam name="TEventParent">The type which owns the properties
+        /// in the abstract type system.</typeparam>
+        /// <typeparam name="TSignatureParameter">The type of parameter used in the <typeparamref name="TSignature"/>.</typeparam>
+        /// <typeparam name="TSignature">The type of signature used as a parent of <typeparamref name="TSignatureParameter"/> instances.</typeparam>
+        /// <typeparam name="TSignatureParent">The parent that contains the <typeparamref name="TSignature"/> 
+        /// instances.</typeparam>
+        /// <param name="targetEvent">The <see cref="IEventReferenceExpression<TEvent, TEventParameter, TEventParent>"/>
+        /// which references the event in question.</param>
+        /// <param name="methodPtr">The <see cref="IMethodPointerReferenceExpression{TSignatureParameter, TSignature, TSignatureParent}"/>
+        /// which denotes the method to remove from the event.</param>
+        /// <returns>A <see cref="IBoundChangeEventSignatureHandlerStatement{TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent}"/>
+        /// which represents the operation.</returns>
+        /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="event"/>, or <paramref name="method"/>
+        /// is null.</exception>
+        /// <remarks>Exceedingly long type signature due to being a bound expression, typical use is for the compiler or
+        /// code generators that know the exact event and method to apply to.</remarks>
+        public IBoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent> RemoveHandler<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(IEventReferenceExpression<TEvent, TEventParameter, TEventParent> targetEvent, IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TSignatureParent> methodPtr)
+            where TEvent :
+                class,
+                IEventSignatureMember<TEvent, TEventParameter, TEventParent>
+            where TEventParameter :
+                IEventSignatureParameterMember<TEvent, TEventParameter, TEventParent>
+            where TEventParent :
+                IEventSignatureParent<TEvent, TEventParameter, TEventParent>
+            where TSignature :
+                class,
+                IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
+            where TSignatureParameter :
+                IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
+            where TSignatureParent :
+                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+        {
+            return ChangeHandler(targetEvent, EventHandlerChangeKind.Remove, methodPtr);
+        }
+
         /// <summary>
         /// Creates, inserts and returns a <see cref="IChangeEventHandlerStatement"/>
         /// using <see cref="EventHandlerChangeKind.Remove"/> to denote the kind of action on
