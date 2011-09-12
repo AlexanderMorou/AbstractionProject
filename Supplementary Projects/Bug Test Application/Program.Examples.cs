@@ -14,6 +14,7 @@ using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Common;
 using linqExample = AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples.ExampleHandler.LanguageIntegratedQuery;
 using winformExample = AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples.ExampleHandler.WindowsFormsApplication;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2011 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -23,14 +24,43 @@ using winformExample = AllenCopeland.Abstraction.SupplementaryProjects.BugTestAp
 
 namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 {
+    internal class BaseDefinitionTest<T1>
+    {
+        public virtual void Test<T3>()
+        {
+            Console.WriteLine("Test");
+        }
+    }
+
+    internal class DerivedDefinitionTest<T2> :
+        BaseDefinitionTest<T2>
+    {
+        public override void Test<T3>()
+        {
+            Console.WriteLine("Test");
+            base.Test<T3>();
+        }
+    }
     internal class Program
     {
         private static void Main()
         {
+            var m = typeof(DerivedDefinitionTest<Tuple<int>>).GetTypeReference<IClassType>();
+            var initialMethod = m.Methods.Values[0];
+            var genericVariation = initialMethod.MakeGenericClosure(typeof(Func<int>).GetTypeReference());
+            var testMethod = genericVariation.BaseDefinition;
+            CheckDisambiguation(); return;
             //FullName(); return;
             //arr1(); return;
-            RunExamples();
+            //RunExamples();
             //Fix001();
+        }
+
+        private static void CheckDisambiguation()
+        {
+            var testAssembly = LanguageVendors.Microsoft.GetVisualBasicLanguage().CreateAssembly("TestAssembly");
+            var testClass = testAssembly.Classes.Add("TestGenericClass", new GenericParameterData("TA", true), new GenericParameterData("TB", new IType[] { typeof(Tuple<>).GetTypeReference<IClassType>().MakeGenericClosure("TA".GetSymbolType().MakeArray()) }));
+
         }
 
         private static void Fix001()
