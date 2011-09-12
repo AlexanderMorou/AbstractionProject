@@ -108,6 +108,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         public IArrayType CreateArray(params int[] lowerBounds)
         {
+            if (lowerBounds == null)
+                throw new ArgumentNullException("lowerBounds");
+            if (lowerBounds.Length == 1 && lowerBounds[0] == 0)
+                return this.CreateArray();
             var result = CreateArrayInternal(lowerBounds, creatorMulti);
             return result;
         }
