@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
             protected override TItem OnGetThis(int index)
             {
-                if (object.ReferenceEquals(this.dataCopy[index], default(TItem)))
+                if (this.dataCopy[index] == null)
                     this.dataCopy[index] = this.source.Fetch(source.sourceData[index]);
                 return this.dataCopy[index];
             }
@@ -42,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             {
                 for (int i = 0; i < this.dataCopy.Length; i++)
                 {
-                    if (object.ReferenceEquals(this.dataCopy[i], default(TItem)))
+                    if (this.dataCopy[i] == null)
                         this.dataCopy[i] = this.source.Fetch(source.sourceData[i]);
                     yield return this.dataCopy[i];
                 }
@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             public override TItem[] ToArray()
             {
                 for (int i = 0; i < this.dataCopy.Length; i++)
-                    if (object.ReferenceEquals(this.dataCopy[i], default(TItem)))
+                    if (this.dataCopy[i] == null)
                         this.dataCopy[i] = this.source.Fetch(source.sourceData[i]);
                 TItem[] dc = new TItem[this.dataCopy.Length];
                 this.dataCopy.CopyTo(dc, 0);
@@ -80,10 +80,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             internal void Dispose()
             {
                 for (int i = 0; i < this.dataCopy.Length; i++)
-                    if (!object.ReferenceEquals(this.dataCopy[i], null))
+                    if (this.dataCopy[i] != null)
                     {
                         this.dataCopy[i].Dispose();
-                        this.dataCopy[i] = default(TItem);
+                        this.dataCopy[i] = null;
                     }
                 this.dataCopy = null;
                 this.source = null;

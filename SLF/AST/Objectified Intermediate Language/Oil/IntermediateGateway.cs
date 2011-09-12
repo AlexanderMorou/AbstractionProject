@@ -353,6 +353,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         /// <remarks>Instance not a singleton, new element retrieved per access.</remarks>
         public static IPrimitiveExpression<bool> FalseValue { get { return new PrimitiveExpression<bool>(false); } }
+
+        /// <summary>
+        /// Obtains a proper <see cref="IType"/> instance
+        /// for a <see cref="TypedName"/>.
+        /// </summary>
+        /// <param name="nameAndType">The <see cref="TypedName"/>
+        /// which represents a type and name pairing.</param>
+        /// <returns>The <see cref="IType"/>
+        /// associated to the <paramref name="nameAndType"/>
+        /// provided.</returns>
+        /// <remarks>Yields a <see cref="ISymbolType"/> when 
+        /// <see cref="TypedName.Source"/> is 
+        /// <see cref="TypedNameSource.SymbolReference"/>.</remarks>
         public static IType GetTypeRef(this TypedName nameAndType)
         {
             switch (nameAndType.Source)
@@ -367,6 +380,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        /// <summary>
+        /// Obtains a <see cref="ITypeCollection"/> for a series
+        /// of <see cref="String"/> symbol types.
+        /// </summary>
+        /// <param name="target">A series of <see cref="String"/> values
+        /// which represent the symbol types to obtain a type collection of.</param>
+        /// <returns>A <see cref="ITypeCollection"/> which contains the 
+        /// series of symbol types.</returns>
         public static ITypeCollection ToTypeCollection(this string[] target)
         {
             if (target == null)
@@ -393,28 +414,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 IPropertyParentType<TProperty, TPropertyParent>
         {
             return new PropertyReferenceExpression<TProperty, TPropertyParent>(source, target);
-        }
-
-        internal static IEventReferenceExpression GetEventReference(this IEventSignatureMember target, IMemberParentReferenceExpression source)
-        {
-            var targetParent = target.Parent;
-            if (target is IEventMember)
-                return ((IEventMember)(target)).GetEventReference(source);
-            else if (targetParent is IInterfaceType)
-                return ((IInterfaceEventMember)(target)).GetEventReference<IInterfaceEventMember, IEventSignatureParameterMember<IInterfaceEventMember, IInterfaceType>, IInterfaceType>(source);
-            else
-                return new UnboundEventReferenceExpression(target.Name, source);
-        }
-
-        internal static IEventReferenceExpression GetEventReference(this IEventMember target, IMemberParentReferenceExpression source)
-        {
-            var targetParent = target.Parent;
-            if (targetParent is IClassType)
-                return ((IClassEventMember)target).GetEventReference<IClassEventMember, IEventParameterMember<IClassEventMember, IClassType>, IClassType>(source);
-            else if (targetParent is IStructType)
-                return ((IStructEventMember)target).GetEventReference<IStructEventMember, IEventParameterMember<IStructEventMember, IStructType>, IStructType>(source);
-            else
-                return new UnboundEventReferenceExpression(target.Name, source);
         }
 
         internal static IEventReferenceExpression<TEvent, TEventParameter, TEventParent> GetEventReference<TEvent, TEventParameter, TEventParent>(this TEvent @event, IMemberParentReferenceExpression source = null)
@@ -455,33 +454,52 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new UnboundPropertyReferenceExpression(target.Name, source);
         }
 
-        public static IMethodReferenceStub GetReference(this IMethodSignatureMember target, IMemberParentReferenceExpression source)
+        public static IPropertyReferenceExpression<IClassPropertyMember, IClassType> GetReference(this IClassPropertyMember target, IMemberParentReferenceExpression source = null)
         {
-            if (source == null)
-                throw new ArgumentNullException("source");
-            if (target is IInterfaceMethodMember)
-                return GetMethodReference<IMethodSignatureParameterMember<IInterfaceMethodMember, IInterfaceType>, IInterfaceMethodMember, IInterfaceType>((IInterfaceMethodMember)target, source);
-            return new UnboundMethodReferenceStub(source, target.Name);
+            return GetPropertyReference<IClassPropertyMember, IClassType>(target, source);
         }
 
-        public static IMethodReferenceStub GetReference(this IMethodMember target, IMemberParentReferenceExpression source = null)
+        public static IPropertyReferenceExpression<IStructPropertyMember, IStructType> GetReference(this IStructPropertyMember target, IMemberParentReferenceExpression source = null)
         {
-            if (target is IIntermediateInstanceMember)
-            {
-                if (source == null)
-                    source = new AutoContextMemberSource((IIntermediateInstanceMember)target);
-            }
-            else if (source == null)
-                throw new ArgumentNullException("source");
-            if (target is IClassMethodMember)
-                return GetMethodReference<IMethodParameterMember<IClassMethodMember, IClassType>, IClassMethodMember, IClassType>(target as IClassMethodMember, source);
-            else if (target is IStructMethodMember)
-                return GetMethodReference<IMethodParameterMember<IStructMethodMember, IStructType>, IStructMethodMember, IStructType>(target as IStructMethodMember, source);
-            else
-                return new UnboundMethodReferenceStub(source, target.Name);
+            return GetPropertyReference<IStructPropertyMember, IStructType>(target, source);
         }
 
-        public static IMethodReferenceStub<TSignatureParameter, TSignature, TParent> GetMethodReference<TSignatureParameter, TSignature, TParent>(this TSignature target, IMemberParentReferenceExpression source = null)
+        public static IPropertySignatureReferenceExpression<IInterfacePropertyMember, IInterfaceType> GetReference(this IInterfacePropertyMember target, IMemberParentReferenceExpression source = null)
+        {
+            return GetPropertySignatureReference<IInterfacePropertyMember, IInterfaceType>(target, source);
+        }
+
+        public static IMethodReferenceStub<IMethodParameterMember<IClassMethodMember, IClassType>, IClassMethodMember, IClassType> GetReference(this IClassMethodMember target, IMemberParentReferenceExpression source = null)
+        {
+            return GetMethodReference<IMethodParameterMember<IClassMethodMember, IClassType>, IClassMethodMember, IClassType>(target, source);
+        }
+
+        public static IMethodReferenceStub<IMethodParameterMember<IStructMethodMember, IStructType>, IStructMethodMember, IStructType> GetReference(this IStructMethodMember target, IMemberParentReferenceExpression source = null)
+        {
+            return GetMethodReference<IMethodParameterMember<IStructMethodMember, IStructType>, IStructMethodMember, IStructType>(target, source);
+        }
+
+        public static IMethodReferenceStub<IMethodSignatureParameterMember<IInterfaceMethodMember, IInterfaceType>, IInterfaceMethodMember, IInterfaceType> GetReference(this IInterfaceMethodMember target, IMemberParentReferenceExpression source = null)
+        {
+            return GetMethodReference<IMethodSignatureParameterMember<IInterfaceMethodMember, IInterfaceType>, IInterfaceMethodMember, IInterfaceType>(target, source);
+        }
+
+        public static IEventReferenceExpression<IClassEventMember, IEventParameterMember<IClassEventMember, IClassType>, IClassType> GetReference(this IClassEventMember target, IMemberParentReferenceExpression source = null)
+        {
+            return GetEventReference<IClassEventMember, IEventParameterMember<IClassEventMember, IClassType>, IClassType>(target, source);
+        }
+
+        public static IEventReferenceExpression<IStructEventMember, IEventParameterMember<IStructEventMember, IStructType>, IStructType> GetReference(this IStructEventMember target, IMemberParentReferenceExpression source = null)
+        {
+            return GetEventReference<IStructEventMember, IEventParameterMember<IStructEventMember, IStructType>, IStructType>(target, source);
+        }
+
+        public static IEventReferenceExpression<IInterfaceEventMember, IEventSignatureParameterMember<IInterfaceEventMember, IInterfaceType>, IInterfaceType> GetReference(this IInterfaceEventMember target, IMemberParentReferenceExpression source = null)
+        {
+            return GetEventReference<IInterfaceEventMember, IEventSignatureParameterMember<IInterfaceEventMember, IInterfaceType>, IInterfaceType>(target, source);
+        }
+
+        internal static IMethodReferenceStub<TSignatureParameter, TSignature, TParent> GetMethodReference<TSignatureParameter, TSignature, TParent>(this TSignature target, IMemberParentReferenceExpression source = null)
             where TSignatureParameter :
                 IMethodSignatureParameterMember<TSignatureParameter, TSignature, TParent>
             where TSignature :
@@ -489,8 +507,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             where TParent :
                 ISignatureParent<TSignature, TSignatureParameter, TParent>
         {
-            if (target == null)
-                throw new ArgumentNullException("target");
             if (target is IIntermediateInstanceMember)
             {
                 if (source == null)

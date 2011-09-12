@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -177,5 +179,33 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
+
+        #region IEventSignatureMemberDictionary<TEvent,TEventParameter,TEventParent> Members
+
+        public IFilteredSignatureMemberDictionary<TEvent, TEventParameter, TEventParent> Find(IDelegateType searchCriteria)
+        {
+            return this.Find(true, searchCriteria.Parameters.ParameterTypes);
+        }
+
+        public TEvent Find(string eventName, IDelegateType searchCriteria)
+        {
+            return this.Find(searchCriteria).Filter(@event => @event.Name == eventName).Values.FirstOrDefault();
+        }
+
+        #endregion
+    
+        #region IEventSignatureMemberDictionary Members
+
+        IFilteredSignatureMemberDictionary IEventSignatureMemberDictionary.Find(IDelegateType searchCriteria)
+        {
+            return (IFilteredSignatureMemberDictionary)this.Find(searchCriteria);
+        }
+
+        IEventSignatureMember IEventSignatureMemberDictionary.Find(string eventName, IDelegateType searchCriteria)
+        {
+            return this.Find(eventName, searchCriteria);
+        }
+
+        #endregion
     }
 }

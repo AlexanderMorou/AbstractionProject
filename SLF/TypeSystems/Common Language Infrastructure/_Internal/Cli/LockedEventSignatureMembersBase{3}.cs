@@ -45,5 +45,35 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         {
             return item.Name;
         }
+
+        #region IEventSignatureMemberDictionary<TEventSignature,TEventSignatureParameter,TEventSignatureParent> Members
+
+        public TEventSignature Find(string eventName, IDelegateType searchCriteria)
+        {
+            return this.Find(searchCriteria).Filter(@event => @event.Name == eventName).Values.FirstOrDefault();
+        }
+
+        public IFilteredSignatureMemberDictionary<TEventSignature, TEventSignatureParameter, TEventSignatureParent> Find(IDelegateType searchCriteria)
+        {
+            return this.Find(true, searchCriteria.Parameters.ParameterTypes);
+        }
+
+        #endregion
+
+
+        #region IEventSignatureMemberDictionary Members
+
+        IFilteredSignatureMemberDictionary IEventSignatureMemberDictionary.Find(IDelegateType searchCriteria)
+        {
+            return (IFilteredSignatureMemberDictionary)this.Find(searchCriteria);
+        }
+
+        IEventSignatureMember IEventSignatureMemberDictionary.Find(string eventName, IDelegateType searchCriteria)
+        {
+            return this.Find(eventName, searchCriteria);
+        }
+
+        #endregion
+
     }
 }

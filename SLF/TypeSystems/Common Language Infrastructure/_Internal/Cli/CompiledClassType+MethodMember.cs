@@ -167,7 +167,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     foreach (ICompiledMethodMember member in p.Methods.Values)
                         //When the method handles equal one another: Match found.
                         if (member.MemberInfo.MethodHandle == baseMember.MethodHandle)
-                            return ((IClassMethodMember)(baseMember));
+                            return ((IClassMethodMember)(member));
                     throw new InvalidOperationException("Missing base member");
                 }
             }

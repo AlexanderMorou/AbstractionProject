@@ -354,7 +354,7 @@
     <Compile Include="_Internal\Cli\Members\LockedGenericTypeParameterConstructorMembers{1}.cs" />
     <Compile Include="_Internal\Cli\Members\MethodMembersBase`2.cs" />
     <Compile Include="_Internal\Cli\Members\MethodSignatureMembersBase`6.cs" />
-    <Compile Include="_Internal\Cli\Members\SignatureMembersBase`3.cs" />
+    <Compile Include="_Internal\Cli\Members\SignatureMembersBase{TSignature, TSignatureParameter, TSignatureParent}.cs" />
     <Compile Include="_Internal\Cli\Modules\CompiledModule.cs" />
     <Compile Include="_Internal\Cli\Modules\CompiledModuleGlobalMethod.cs" />
     <Compile Include="_Internal\Cli\_ICompiledAssembly.cs" />

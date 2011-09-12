@@ -58,7 +58,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         #region ISignatureMemberDictionary<TSignature,TSignatureParameter,TSignatureParent> Members
 
-        public virtual IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(bool strict, ITypeCollection search)
+        public virtual IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(bool strict, ITypeCollectionBase search)
         {
             return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(this.Values, search, strict);
         }
@@ -68,7 +68,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(this.Values, search, strict);
         }
 
-        public virtual IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(ITypeCollection search)
+        public virtual IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(ITypeCollectionBase search)
         {
             return this.Find(true, search);
         }

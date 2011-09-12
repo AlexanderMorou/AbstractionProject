@@ -84,6 +84,17 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             return array.OnAll(u => u.GetTypeReference()).ToArray().ToLockedCollection();
         }
 
+        internal static IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Filter<TSignature, TSignatureParameter, TSignatureParent>(this IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> source, Predicate<TSignature> predicate)
+            where TSignature :
+                ISignatureMember<TSignature, TSignatureParameter, TSignatureParent>
+            where TSignatureParameter :
+                ISignatureParameterMember<TSignature, TSignatureParameter, TSignatureParent>
+            where TSignatureParent :
+                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+        {
+            return new FilteredSignatureMembers<TSignature, TSignatureParameter, TSignatureParent>(source.Values.Filter(predicate));
+        }
+
         internal static IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> FindCache<TSignature, TSignatureParameter, TSignatureParent>(IEnumerable<TSignature> values, IEnumerable<IType> search, bool strict)
             where TSignature :
                 ISignatureMember<TSignature, TSignatureParameter, TSignatureParent>
@@ -190,91 +201,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 deviations.Remove(t);
             return bResult;
         }
-
-        internal static IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> FindCacheTest<TSignature, TGenericParameter, TGenericParameterConstructor, TGenericParameterConstructorParameter, TSignatureParameter, TSignatureParent>(ITypeCollectionBase genericParameters, IControlledStateCollection<TSignature> values, string name, IEnumerable<IType> search, bool strict)
-            where TSignatureParameter :
-                IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
-            where TSignature :
-                IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
-            where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
-        {
-            //As it implies, simpler.
-            if (strict)
-            {
-                var resultSys = values.Where(method =>
-                {
-                    if (method.Name != name)
-                        return false;
-                    if (genericParameters != null && genericParameters.Count > 0)
-                    {
-                        //Obvious mismatch.
-                        if (!method.IsGenericConstruct)
-                            return false;
-                        //...same.
-                        else if (method.TypeParameters.Count != genericParameters.Count)
-                            return false;
-                        //Compare the type-parameters.
-                        try { method.VerifyTypeParameters(genericParameters); }
-                        catch (ArgumentException) { return false; }
-                    }
-                    else if (method.IsGenericConstruct)
-                        //Strict mode requires type-parameters to be present.
-                        return false;
-
-                    return method.Parameters.Values.CompareSeriesTo(search, (methodParam, searchType) => methodParam.ParameterType.Equals(searchType));
-                });
-                return new FilteredSignatureMembers<TSignature, TSignatureParameter, TSignatureParent>(resultSys.ToArray());
-            }
-            else
-            {
-                var resultSys = values.Where(method =>
-                {
-                    if (method.Name != name)
-                        return false;
-                    /* *
-                     * Notes   : There are a few implied things known.
-                     *           When inferring the types, you know that 
-                     *           the generic parameters are not given.
-                     *           Therefore, only check in this condition.
-                     *           Multiple resultant generic parameter 
-                     *           sets may result; however, the best choice 
-                     *           is always sort by the least deviations.
-                     * *
-                     * Cautions: High levels of inference may yield MULTIPLE
-                     *           result sets.  As a result, the CIL translator
-                     *           will have to fill in the gaps through
-                     *           analyzing the associated set result 
-                     *           interactions.  If a member on one possible
-                     *           match is used, then instances without
-                     *           said member(s) can be eliminated.
-                     *           Similar inferences can be made through remaining
-                     *           sets and the usage of chained expressions that 
-                     *           use the result of the call.
-                     * */
-                    if (genericParameters != null)
-                    {
-                        /* *
-                         * Generic parameters being present automatically
-                         * eliminate non-generic methods.
-                         * */
-                        if (!method.IsGenericConstruct)
-                            return false;
-
-                        //if (!method.TypeParameters.Values.All(gP => gP.VerifyTypeParameter(genericParameters[gP.Position])))
-                        //    return false;
-                        try { method.VerifyTypeParameters(genericParameters); }
-                        catch (ArgumentException) { return false; }
-                    }
-                    else
-                    {
-                    }
-                    throw new NotImplementedException();
-                });
-                throw new NotImplementedException();
-            }
-        }
-
         internal static IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> FindCache<TSignature, TSignatureParameter, TSignatureParent>(ITypeCollection genericParameters, IControlledStateCollection<TSignature> values, string name, IEnumerable<IType> search, bool strict)
             where TSignatureParameter :
                 IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
@@ -713,6 +639,44 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                  * */
                 param.Dispose();
             });
+        }
+        public static IFilteredSignatureMemberDictionary<IClassEventMember, IEventParameterMember<IClassEventMember, IClassType>, IClassType> FindInFamily(this IEventMemberDictionary<IClassEventMember, IClassType> target, IDelegateType searchCriteria)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (searchCriteria == null)
+                throw new ArgumentNullException("searchCriteria");
+            List<IClassEventMember> result = new List<IClassEventMember>();
+            for (IClassType current = target.Parent; current != null; current = current.BaseType)
+                foreach (var matchedItem in current.Events.Find(searchCriteria).Values)
+                    if (result.FirstOrDefault(m => m.Name == matchedItem.Name) == null)
+                        result.Add(matchedItem);
+            return new FilteredSignatureMembers<IClassEventMember, IEventParameterMember<IClassEventMember, IClassType>, IClassType>(result.ToArray());
+        }
+
+        public static IClassMethodMember FindInFamily(this IMethodMemberDictionary<IClassMethodMember, IClassType> target, string methodName, params IType[] signature)
+        {
+            for (IClassType current = target.Parent; current != null; current = current.BaseType)
+                foreach (var method in current.Methods.Values)
+                    if (method.Name == methodName && signature.SequenceEqual(method.Parameters.ParameterTypes))
+                        return method;
+            return null;
+        }
+
+        public static IClassEventMember FindInFamily(this IEventMemberDictionary<IClassEventMember, IClassType> target, string eventName, IDelegateType searchCriteria)
+        {
+            for (IClassType current = target.Parent; current != null; current = current.BaseType)
+                if (current.Events.Keys.Contains(eventName))
+                    foreach (var @event in current.Events.Values)
+                        if (@event.Name == eventName)
+                            if (@event.SignatureSource == EventSignatureSource.Delegate)
+                            {
+                                if (@event.SignatureType == searchCriteria)
+                                    return @event;
+                            }
+                            else if (searchCriteria.Parameters.ParameterTypes.SequenceEqual(@event.Parameters.ParameterTypes))
+                                return @event;
+            return null;
         }
     }
 }

@@ -76,7 +76,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignature, TSignatureParameter, TSignatureParent}"/> of 
         /// <typeparamref name="TSignature"/> instances that matched the <paramref name="search"/> criteria.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
-        public virtual IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(bool strict, ITypeCollection search)
+        public virtual IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(bool strict, ITypeCollectionBase search)
         {
             return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(this.Values, search, strict);
         }
@@ -103,7 +103,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         /// <typeparamref name="TSignature"/> instances that matched the <paramref name="search"/> criteria.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
         /// <remarks>Alias for <see cref="Find(bool, ITypeCollection)"/> where strict is true.</remarks>
-        public virtual IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(ITypeCollection search)
+        public virtual IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(ITypeCollectionBase search)
         {
             return this.Find(true, search);
         }

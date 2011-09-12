@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Languages;
-using AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples;
-using AllenCopeland.Abstraction.Utilities.Arrays;
-using AllenCopeland.Abstraction.Utilities.Common;
 using AllenCopeland.Abstraction.Slf.Languages.Cil;
 using AllenCopeland.Abstraction.Slf.Languages.CSharp;
 using AllenCopeland.Abstraction.Slf.Languages.VisualBasic;
+using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples;
+using AllenCopeland.Abstraction.Utilities.Arrays;
+using AllenCopeland.Abstraction.Utilities.Common;
+using linqExample = AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples.ExampleHandler.LanguageIntegratedQuery;
+using winformExample = AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples.ExampleHandler.WindowsFormsApplication;
  /*---------------------------------------------------------------------\
  | Copyright © 2011 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -19,8 +23,6 @@ using AllenCopeland.Abstraction.Slf.Languages.VisualBasic;
 
 namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 {
-    using linqExample = ExampleHandler.LanguageIntegratedQuery;
-    using winformExample = ExampleHandler.WindowsFormsApplication;
     internal class Program
     {
         private static void Main()

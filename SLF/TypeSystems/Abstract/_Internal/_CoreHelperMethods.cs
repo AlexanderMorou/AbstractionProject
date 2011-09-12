@@ -231,6 +231,5 @@ namespace AllenCopeland.Abstraction.Slf._Internal
                 tns.Add(item);
             return tns;
         }
-
     }
 }

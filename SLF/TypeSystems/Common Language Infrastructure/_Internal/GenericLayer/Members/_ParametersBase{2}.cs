@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -23,6 +25,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             class,
             IParameterMember<TParent>
     {
+        private ParameterMemberDictionaryTypes<TParent, TParameter> parameterTypes;
         protected _ParametersBase(TParent parent, IParameterMemberDictionary<TParent, TParameter> original)
             : base(parent, original)
         {
@@ -39,5 +42,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         #endregion
 
+        #region IParameterMemberDictionary Members
+
+
+        public ITypeCollectionBase ParameterTypes
+        {
+            get
+            {
+                if (this.parameterTypes == null)
+                    this.parameterTypes = new ParameterMemberDictionaryTypes<TParent, TParameter>(this);
+                return this.parameterTypes;
+            }
+        }
+
+        #endregion
     }
 }

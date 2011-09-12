@@ -39,6 +39,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             IMethodParent<TMethod, TEventParent>,
             IEventParent<TEvent, TEventParent>
     {
+        private EventSignatureSource? source;
         private ExtendedInstanceMemberFlags memberFlags;
         private bool retrFlags;
         private TMethod raiseMethod;
@@ -239,7 +240,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override EventSignatureSource SignatureSourceImpl
         {
-            get { return EventSignatureSource.Declared; }
+            get {
+                if (this.source == null)
+                {
+                    var signatureType = this.SignatureType;
+                    if (signatureType.CustomAttributes.Contains(CommonTypeRefs.CompilerGeneratedAttribute))
+                        source = EventSignatureSource.Declared;
+                    else
+                        source = EventSignatureSource.Delegate;
+                }
+                return this.source.Value;
+            }
         }
 
 

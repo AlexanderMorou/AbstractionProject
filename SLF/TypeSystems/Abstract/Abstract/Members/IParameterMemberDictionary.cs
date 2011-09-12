@@ -28,6 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         where TParameter :
             IParameterMember<TParent>
     {
+        ITypeCollectionBase ParameterTypes { get; }
     }
     /// <summary>
     /// Defines properties and methods for working with a dictionary of <see cref="IParameterMember"/> 
@@ -40,5 +41,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// Returns the <see cref="IParameterParent"/> which owns the <see cref="IParameterMember"/> series.
         /// </summary>
         new IParameterParent Parent { get; }
+        ITypeCollectionBase ParameterTypes { get; } 
     }
 }
