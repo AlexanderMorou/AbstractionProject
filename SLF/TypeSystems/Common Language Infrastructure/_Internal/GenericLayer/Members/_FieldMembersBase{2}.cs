@@ -18,7 +18,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
     internal abstract class _FieldMembersBase<TField, TFieldParent> :
         _GroupedMembersBase<TFieldParent, TField, IFieldMemberDictionary<TField, TFieldParent>>,
-        IFieldMemberDictionary<TField, TFieldParent>
+        IFieldMemberDictionary<TField, TFieldParent>,
+        IFieldMemberDictionary
         where TField :
             class,
             IFieldMember<TField, TFieldParent>
@@ -30,5 +31,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             : base(master, originalSet, parent)
         {
         }
+
+        #region IFieldMemberDictionary Members
+
+        IFieldParent IFieldMemberDictionary.Parent
+        {
+            get { return this.Parent; }
+        }
+
+        #endregion
     }
 }

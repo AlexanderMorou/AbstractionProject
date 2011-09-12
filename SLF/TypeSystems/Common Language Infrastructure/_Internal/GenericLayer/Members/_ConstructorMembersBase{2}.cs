@@ -17,7 +17,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
     internal abstract class _ConstructorMembersBase<TCtor, TType> :
         _SignatureMembersBase<TCtor, IConstructorParameterMember<TCtor, TType>, TType, IConstructorMemberDictionary<TCtor, TType>>,
-        IConstructorMemberDictionary<TCtor, TType>
+        IConstructorMemberDictionary<TCtor, TType>,
+        IConstructorMemberDictionary
         where TCtor :
             class,
             IConstructorMember<TCtor, TType>
