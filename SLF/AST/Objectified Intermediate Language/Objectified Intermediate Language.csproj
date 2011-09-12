@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Oil\DynamicType.cs" />
+    <Compile Include="Oil\IntermediateGateway+SimpleSymbolDisambiguationWorker.cs" />
     <Compile Include="Oil\Statements\BoundChangeEventSignatureHandlerStatement.cs" />
     <Compile Include="Oil\Statements\IBoundChangeEventSignatureHandlerStatement.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
