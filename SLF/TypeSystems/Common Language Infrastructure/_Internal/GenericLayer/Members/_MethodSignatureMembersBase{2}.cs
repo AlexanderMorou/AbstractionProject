@@ -17,7 +17,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
     internal abstract class _MethodSignatureMembersBase<TSignature, TSignatureParent> :
         _MethodSignatureMembersBase<IMethodSignatureParameterMember<TSignature, TSignatureParent>, TSignature, TSignatureParent, IMethodSignatureMemberDictionary<TSignature, TSignatureParent>>,
-        IMethodSignatureMemberDictionary<TSignature, TSignatureParent>
+        IMethodSignatureMemberDictionary<TSignature, TSignatureParent>,
+        IMethodSignatureMemberDictionary
         where TSignature :
             class,
             IMethodSignatureMember<TSignature, TSignatureParent>

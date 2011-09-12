@@ -17,7 +17,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
     internal abstract class _MethodMembersBase<TMethod, TMethodParent> :
         _MethodSignatureMembersBase<IMethodParameterMember<TMethod, TMethodParent>, TMethod, TMethodParent, IMethodMemberDictionary<TMethod, TMethodParent>>,
-        IMethodMemberDictionary<TMethod, TMethodParent>
+        IMethodMemberDictionary<TMethod, TMethodParent>,
+        IMethodMemberDictionary
         where TMethod :
             class,
             IMethodMember<TMethod, TMethodParent>
@@ -28,5 +29,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             : base(master, originalSet, parent)
         {
         }
+
+        #region IMethodMemberDictionary Members
+
+        IMethodParent IMethodMemberDictionary.Parent
+        {
+            get { return this.Parent; }
+        }
+
+        int IMethodMemberDictionary.IndexOf(IMethodMember method)
+        {
+            if (method is TMethod)
+                return this.IndexOf((TMethod)method);
+            return -1;
+        }
+
+        #endregion
+
     }
 }
