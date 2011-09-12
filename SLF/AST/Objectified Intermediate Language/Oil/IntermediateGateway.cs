@@ -817,44 +817,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <returns></returns>
         internal static IType SimpleSymbolDisambiguation(this IType sourceType, IIntermediateDeclaration originPoint)
         {
-            var selector = originPoint.GetSelector();
-            switch (sourceType.ElementClassification)
-            {
-                case TypeElementClassification.None:
-                    if (sourceType is ISymbolType && !sourceType.IsGenericConstruct)
-                        return selector(originPoint, sourceType.Name, sourceType);
-                    break;
-                case TypeElementClassification.Array:
-                    var arrayType = sourceType as IArrayType;
-                    if (arrayType != null)
-                        return sourceType.ElementType.SimpleSymbolDisambiguation(originPoint).MakeArray(arrayType.LowerBounds);
-                    else
-                        break;
-                case TypeElementClassification.Nullable:
-                    return sourceType.ElementType.SimpleSymbolDisambiguation(originPoint).MakeNullable();
-                case TypeElementClassification.Pointer:
-                    return sourceType.ElementType.SimpleSymbolDisambiguation(originPoint).MakePointer();
-                case TypeElementClassification.Reference:
-                    return sourceType.ElementType.SimpleSymbolDisambiguation(originPoint).MakeByReference();
-                case TypeElementClassification.GenericTypeDefinition:
-                    var genericSource = sourceType as IGenericType;
-
-                    IType[] gParamCopy = genericSource.GenericParameters.ToArray();
-                    bool varies = false;
-                    for (int i = 0; i < gParamCopy.Length; i++)
-                    {
-                        var recent = gParamCopy[i];
-                        var current = recent.SimpleSymbolDisambiguation(originPoint);
-                        if (current != recent)
-                            varies = true;
-                        gParamCopy[i] = current;
-                    }
-                    if (varies)
-                        return ((IGenericType)(genericSource.ElementType)).MakeGenericClosure(gParamCopy.ToCollection());
-                    else
-                        break;
-            }
-            return sourceType;
+            return SimpleTypeDisambiguationWorker.Disambiguate(sourceType, originPoint);
         }
 
         /// <summary>
