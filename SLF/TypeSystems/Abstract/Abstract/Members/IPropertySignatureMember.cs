@@ -13,7 +13,7 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Abstract.Members
 {
     /// <summary>
-    /// Defines properties and methods for working with a property
+    /// Defines generic properties and methods for working with a property
     /// signature member.
     /// </summary>
     /// <typeparam name="TProperty">The type of property in the current implementation.</typeparam>

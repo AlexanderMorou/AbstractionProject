@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
     partial class CompiledGenericParameterConstructorMemberBase<TGenericParameter>
     {
         private new class Parameters :
-            ParameterMembersBase<IGenericParameterConstructorMember<TGenericParameter>, IConstructorParameterMember<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter>>,
+            ParameterMemberDictionaryBase<IGenericParameterConstructorMember<TGenericParameter>, IConstructorParameterMember<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter>>,
             IParameterMemberDictionary<IGenericParameterConstructorMember<TGenericParameter>, IConstructorParameterMember<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter>>
         {
             public Parameters(ParameterInfo[] dataSeries, CompiledGenericParameterConstructorMemberBase<TGenericParameter> parent)

@@ -82,8 +82,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 IGenericType genericDeclaringType = ((IGenericType)(this.DeclaringType));
                 int parentCollectionCount = genericDeclaringType.GenericParameters.Count;
-                for (int i = 0; i < parentCollectionCount; i++)
-                    itc.RemoveAt(0);
+                itc.RemoveRange(0, parentCollectionCount);
             }
             foreach (IGenericTypeParameter<TType> param in itc)
                 yield return param;

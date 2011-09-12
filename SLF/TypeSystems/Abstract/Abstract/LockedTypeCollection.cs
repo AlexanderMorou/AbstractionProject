@@ -196,6 +196,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             throw new NotSupportedException();
         }
 
+        public void RemoveRange(int index, int count)
+        {
+            throw new NotSupportedException();
+        }
+
         public void RemoveAt(int index)
         {
             throw new NotSupportedException();

@@ -62,6 +62,17 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// index is not a valid index in the <see cref="ITypeCollection"/>.
         /// </exception>
         void RemoveAt(int index);
+        /// <summary>
+        /// Removes a series of <see cref="IType"/> elements
+        /// starting at the <paramref name="index"/> 
+        /// repeating until the <paramref name="index"/> and
+        /// <paramref name="count"/> is reached.
+        /// </summary>
+        /// <param name="index">The zero-based index of the 
+        /// <see cref="IType"/> series to remove.</param>
+        /// <param name="count">The <see cref="Int32"/> value denoting the number
+        /// of elements to remove.</param>
+        void RemoveRange(int index, int count);
 
         /// <summary>
         /// Adds an <see cref="IType"/> to the <see cref="ITypeCollection"/>.

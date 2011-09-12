@@ -351,6 +351,7 @@
     <Compile Include="_Internal\Abstract\Members\MethodSignatureMemberBase{2}.cs" />
     <Compile Include="_Internal\Abstract\Members\MethodSignatureMemberBase{3}.cs" />
     <Compile Include="_Internal\Abstract\Members\ParameterMemberBase`1.cs" />
+    <Compile Include="_Internal\Abstract\Members\ParameterMemberDictionaryTypes.cs" />
     <Compile Include="_Internal\Abstract\Members\ParameterMembersBase`2.cs" />
     <Compile Include="_Internal\Abstract\Members\PropertyMemberBase{TProperty, TPropertyParent}.cs" />
     <Compile Include="_Internal\Abstract\Members\PropertySignatureMemberBase.cs" />

@@ -87,6 +87,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                 throw new NotSupportedException();
             }
 
+            public void RemoveRange(int index, int count)
+            {
+                throw new NotSupportedException();
+            }
+
             public void RemoveAt(int index)
             {
                 throw new NotSupportedException();

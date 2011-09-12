@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using System;
 /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -18,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
     /// in the current implementation.</typeparam>
     /// <typeparam name="TParameter">The type of <see cref="IParameterMember{TParent}"/> which is contained by the 
     /// <typeparamref name="TParent"/> in the current implementation.</typeparam>
-    internal class ParameterMembersBase<TParent, TParameter> :
+    internal class ParameterMemberDictionaryBase<TParent, TParameter> :
         MembersBase<TParent, TParameter>,
         IParameterMemberDictionary<TParent, TParameter>,
         IParameterMemberDictionary
@@ -27,18 +29,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         where TParameter :
             IParameterMember<TParent>
     {
-        internal ParameterMembersBase(IEnumerable<TParameter> parameters)
+        private ParameterMemberDictionaryTypes<TParent, TParameter> parameterTypes;
+        internal ParameterMemberDictionaryBase(IEnumerable<TParameter> parameters)
             : base()
         {
             foreach (TParameter p in parameters)
                 base._Add(p.UniqueIdentifier, p);
         }
-        internal ParameterMembersBase(TParent parent)
+        internal ParameterMemberDictionaryBase(TParent parent)
             : base(parent)
         {
 
         }
-        internal ParameterMembersBase(TParent parent, IEnumerable<TParameter> parameters)
+        internal ParameterMemberDictionaryBase(TParent parent, IEnumerable<TParameter> parameters)
             : base(parent)
         {
             foreach (TParameter p in parameters)
@@ -54,5 +57,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
 
         #endregion
 
+        #region IParameterMemberDictionary Members
+
+
+        public ITypeCollectionBase ParameterTypes
+        {
+            get {
+                if (this.parameterTypes == null)
+                    this.parameterTypes = new ParameterMemberDictionaryTypes<TParent, TParameter>(this);
+                return this.parameterTypes;
+            }
+        }
+
+        #endregion
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Properties;
+using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -40,6 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TParameter,
             IIntermediateParameterMember<TParent, TIntermediateParent>
     {
+        private ParameterMemberDictionaryTypes<TParent, TParameter> parameterTypes;
         /// <summary>
         /// Creates a new <see cref="IntermediateParameterMemberDictionary{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>
         /// with the <paramref name="parent"/> provided.
@@ -154,6 +156,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             get { return base.Parent; }
         }
 
+        public ITypeCollectionBase ParameterTypes
+        {
+            get
+            {
+                if (this.parameterTypes == null)
+                    this.parameterTypes = new ParameterMemberDictionaryTypes<TParent, TParameter>(this);
+                return this.parameterTypes;
+            }
+        }
         #endregion
 
         #region IIntermediateParameterMemberDictionary Members

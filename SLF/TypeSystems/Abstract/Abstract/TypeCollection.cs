@@ -72,5 +72,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         #endregion
+
     }
 }
