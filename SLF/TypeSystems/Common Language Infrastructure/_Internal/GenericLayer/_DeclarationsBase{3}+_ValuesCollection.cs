@@ -86,7 +86,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 this.ToArray().CopyTo(array, arrayIndex);
             }
 
-            protected override TDeclarationSpecific OnGetThis(int index)
+            protected override TDeclarationSpecific OnGetValue(int index)
             {
                 if (index < 0 || index >= this.Count)
                     throw new ArgumentOutOfRangeException("index");

@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IType<TType>
     {
         private class KC :
-            ControlledStateDictionary<string, TType>.KeysCollection,
+            KeysCollection,
             IDisposable
         {
             private CompiledTypeDictionary<TType> parent;
@@ -111,16 +111,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 yield break;
             }
 
-            public override string this[int index]
+            protected override string OnGetKey(int index)
             {
-                get
-                {
-                    if (index < 0 ||
-                        index >= this.Count)
-                        throw new ArgumentOutOfRangeException("index");
-                    CheckItemAt(index);
-                    return this.names[index];
-                }
+                if (index < 0 ||
+                    index >= this.Count)
+                    throw new ArgumentOutOfRangeException("index");
+                CheckItemAt(index);
+                return this.names[index];
             }
 
             public void Dispose()

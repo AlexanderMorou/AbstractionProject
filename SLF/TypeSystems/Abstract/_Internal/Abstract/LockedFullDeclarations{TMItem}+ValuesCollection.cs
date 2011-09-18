@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                     return this.dataCopy.Count;
                 }
             }
-            protected override MasterDictionaryEntry<TMItem> OnGetThis(int index)
+            protected override MasterDictionaryEntry<TMItem> OnGetValue(int index)
             {
                 if (this.dataCopy[index] == null)
                     this.dataCopy[index] = this.owner.Fetch(owner.sourceData[index]);

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -404,6 +404,7 @@
       <DependentUpon>_MethodSignatureMemberBase{2}.cs</DependentUpon>
     </Compile>
     <Compile Include="_Internal\GenericLayer\Members\_MethodSignatureMemberBase{2}.cs" />
+    <Compile Include="_Internal\GenericLayer\Members\_MethodSignatureMemberBase{3}+TypeParameters.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_MethodSignatureMemberBase{3}+_Parameters.cs">
       <DependentUpon>_MethodSignatureMemberBase{3}.cs</DependentUpon>
     </Compile>
@@ -419,6 +420,10 @@
     <Compile Include="_Internal\GenericLayer\Members\_PropertySignatureMemberBase{2}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_PropertySignatureMembersBase{2}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_SignatureMembersBase{4}.cs" />
+    <Compile Include="_Internal\GenericLayer\Members\_TypeParameterDictionary.cs" />
+    <Compile Include="_Internal\GenericLayer\Members\_TypeParameterDictionary+GenericParameterMember.cs">
+        <DependentUpon>_TypeParameterDictionary.cs</DependentUpon>
+    </Compile>
     <Compile Include="_Internal\GenericLayer\Modules\_GlobalMethodMember{2}.cs" />
     <Compile Include="_Internal\GenericLayer\_ClassTypeBase+_ConstructorsBase[+_Constructor].cs">
       <DependentUpon>_ClassTypeBase.cs</DependentUpon>

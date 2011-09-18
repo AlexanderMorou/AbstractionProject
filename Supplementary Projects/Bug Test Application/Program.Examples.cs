@@ -15,6 +15,7 @@ using AllenCopeland.Abstraction.Utilities.Common;
 using linqExample = AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples.ExampleHandler.LanguageIntegratedQuery;
 using winformExample = AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples.ExampleHandler.WindowsFormsApplication;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2011 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -26,7 +27,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 {
     internal class BaseDefinitionTest<T1>
     {
-        public virtual void Test<T3>()
+        public virtual void Test<T3>(T1 t1, T3 t3)
         {
             Console.WriteLine("Test");
         }
@@ -35,20 +36,17 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     internal class DerivedDefinitionTest<T2> :
         BaseDefinitionTest<T2>
     {
-        public override void Test<T3>()
+        public override void Test<T3>(T2 t2, T3 t3)
         {
             Console.WriteLine("Test");
-            base.Test<T3>();
+            base.Test<T3>(t2, t3);
         }
     }
     internal class Program
     {
         private static void Main()
         {
-            var m = typeof(DerivedDefinitionTest<Tuple<int>>).GetTypeReference<IClassType>();
-            var initialMethod = m.Methods.Values[0];
-            var genericVariation = initialMethod.MakeGenericClosure(typeof(Func<int>).GetTypeReference());
-            var testMethod = genericVariation.BaseDefinition;
+            UnitTestForCompiledGenericConstraints();
             CheckDisambiguation(); return;
             //FullName(); return;
             //arr1(); return;
@@ -56,11 +54,39 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             //Fix001();
         }
 
+        private static void UnitTestForCompiledGenericConstraints()
+        {
+            var targetType = typeof(ISignatureParent<,,>);
+            var targetTypeRef = targetType.GetTypeReference<IInterfaceType>();
+            var targetTypeGenericParameters =
+                    (from genericParameter in targetType.GetGenericArguments()
+                     select new { Parameter = genericParameter, ParameterConstraints = genericParameter.GetGenericParameterConstraints() }).ToArray();
+            var targetTypeRefGenericParameters =
+                    (from parameter in targetTypeRef.GenericParameters
+                     let genericParameter = parameter as IGenericParameter
+                     where genericParameter != null
+                     select new { Parameter = genericParameter, ParameterConstraints = genericParameter.Constraints.ToArray() }).ToArray();
+        }
+
         private static void CheckDisambiguation()
         {
             var testAssembly = LanguageVendors.Microsoft.GetVisualBasicLanguage().CreateAssembly("TestAssembly");
             var testClass = testAssembly.Classes.Add("TestGenericClass", new GenericParameterData("TA", true), new GenericParameterData("TB", new IType[] { typeof(Tuple<>).GetTypeReference<IClassType>().MakeGenericClosure("TA".GetSymbolType().MakeArray()) }));
-
+            var testMethod = testClass.Methods.Add("TA".GetSymbolType().GetTypedName("TestMethod"), new TypedNameSeries { { "p1", "TC".GetSymbolType() }, { "p2", "TD".GetSymbolType() }, { "p3", "TB".GetSymbolType() } }, new GenericParameterData("TC"), new GenericParameterData("TD", new IType[] { "TC".GetSymbolType() }));
+            testMethod.IsVirtual = true;
+            testMethod.AccessLevel = AccessLevelModifiers.ProtectedInternal;
+            var testDerivedClass = testAssembly.Classes.Add("TestDerivedClass", new GenericParameterData("TE", true));
+            var typeParamTE = testDerivedClass.TypeParameters["TE"];
+            var tbReplacement = typeof(Tuple<>).GetTypeReference<IClassType>().MakeGenericClosure(typeParamTE.MakeArray());
+            testDerivedClass.BaseType = testClass.MakeGenericClosure(typeParamTE, tbReplacement);
+            var testDerivedMethod = testDerivedClass.Methods.Add("TE".GetSymbolType().GetTypedName("TestMethod"), new TypedNameSeries { { "p1", "TF".GetSymbolType() }, { "p2", "TG".GetSymbolType() }, { "p3", tbReplacement } }, new GenericParameterData("TF"), new GenericParameterData("TG", new IType[] { "TF".GetSymbolType() }));
+            testDerivedMethod.AccessLevel = AccessLevelModifiers.ProtectedInternal;
+            testDerivedMethod.IsOverride = true;
+            var testDerivedClosure = testDerivedClass.MakeGenericClosure(typeof(int));
+            var testDerivedClosureMethod = testDerivedClosure.Methods[testDerivedClass.Methods.Values.IndexOf(testDerivedMethod)].Value;
+            var testDerivedClosureMethodClosure = testDerivedClosureMethod.MakeGenericClosure(typeof(IClassType).GetTypeReference(), typeof(IIntermediateClassType).GetTypeReference());
+            var testDerivedClosureMethodClosureBaseDefinition = testDerivedClosureMethodClosure.BaseDefinition;
+            Console.WriteLine(testDerivedMethod.BaseDefinition);
         }
 
         private static void Fix001()

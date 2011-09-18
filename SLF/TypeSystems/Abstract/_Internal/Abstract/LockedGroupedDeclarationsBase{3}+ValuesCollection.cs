@@ -12,7 +12,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
     partial class LockedGroupedDeclarationsBase<TItem, TMItem, TSourceItem>
     {
         private class _ValuesCollection :
-            ControlledStateDictionary<string, TItem>.ValuesCollection
+            ValuesCollection
         {
             private LockedGroupedDeclarationsBase<TItem, TMItem, TSourceItem> source;
             internal TItem[] dataCopy;
@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 this.dataCopy = new TItem[source.sourceData.Length];
             }
 
-            protected override TItem OnGetThis(int index)
+            protected override TItem OnGetValue(int index)
             {
                 if (this.dataCopy[index] == null)
                     this.dataCopy[index] = this.source.Fetch(source.sourceData[index]);

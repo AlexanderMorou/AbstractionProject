@@ -23,6 +23,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         CompiledGenericParameterMemberBase<IGenericTypeParameter<TType>, TType>,
         ICompiledGenericTypeParameter<TType>
         where TType :
+            class,
             IGenericType<TType>
     {
         protected CompiledGenericTypeParameter(TType parent, Type type)

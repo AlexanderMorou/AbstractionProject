@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using System;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -30,7 +31,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 return this.dataCopy[index];
             }
 
-            protected sealed override void OnSetKey(int index, string value) { }
+#if DEBUG
+            /// <summary>
+            /// Sets the <paramref name="value"/> at the
+            /// <paramref name="index"/> provided.
+            /// </summary>
+            /// <param name="index">The <see cref="Int32"/> that represents the index of
+            /// the element to set.</param>
+            /// <param name="value">The <see cref="String"/> value to set it to.</param>
+            /// <exception cref="System.NotSupportedException">thrown always, not supported
+            /// in a locked declaration set.</exception>
+#endif
+            protected internal override sealed void OnSetKey(int index, string value)
+            {
+                throw new NotSupportedException();
+            }
 
             public override int Count
             {

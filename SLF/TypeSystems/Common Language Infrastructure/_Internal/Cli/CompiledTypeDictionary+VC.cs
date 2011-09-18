@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IType<TType>
     {
         private class VC :
-            ControlledStateDictionary<string, TType>.ValuesCollection,
+            ValuesCollection,
             IDisposable
         {
             private CompiledTypeDictionary<TType> parent;
@@ -113,7 +113,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
                 yield break;
             }
-            protected override TType OnGetThis(int index)
+            protected override TType OnGetValue(int index)
             {
                 if (index < 0 ||
                     index >= this.Count)

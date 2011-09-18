@@ -490,8 +490,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             IGenericTestCaseParameter[] testCases =
                 (from IGenericTypeParameter t in genericType.GenericParameters
                  select new GenericVerificationParameter(
-                     (from k in t.Constraints
-                      select k.Disambiguify(
+                     (from constraint in t.Constraints
+                      let genericConstraint = constraint.IsGenericConstruct ? constraint as IGenericParamParent : null
+                      select
+                        (genericConstraint != null && genericConstraint.IsGenericDefinition && genericType == constraint) ? genericType.MakeGenericClosure(typeReplacements) :
+                            constraint.Disambiguify(
                              typeReplacements,
                              TypeCollection.Empty,
                              TypeParameterSources.Type)).ToCollection(), t)).ToArray();
@@ -524,8 +527,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli
              * Iterate through the replacements and compare them against 
              * the test cases.
              * */
-            Parallel.For(0, testCases.Length, i =>
-            //for (int i = 0; i < testCases.Length; i++)
+            //Parallel.For(0, testCases.Length, i =>
+            for (int i = 0; i < testCases.Length; i++)
             {
                 IGenericTestCaseParameter param = testCases[i];
                 IType replacement = typeReplacements[i];
@@ -638,7 +641,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                  * Dispose the type-parameter test case, it's no longer needed
                  * */
                 param.Dispose();
-            });
+            }//);
         }
         public static IFilteredSignatureMemberDictionary<IClassEventMember, IEventParameterMember<IClassEventMember, IClassType>, IClassType> FindInFamily(this IEventMemberDictionary<IClassEventMember, IClassType> target, IDelegateType searchCriteria)
         {

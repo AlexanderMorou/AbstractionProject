@@ -59,7 +59,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return result;
             }
 
-            protected override INamespaceDeclaration OnGetThis(int index)
+            protected override INamespaceDeclaration OnGetValue(int index)
             {
                 if (index < 0 || index > this.dataCopy.Length)
                     throw new ArgumentOutOfRangeException("index");

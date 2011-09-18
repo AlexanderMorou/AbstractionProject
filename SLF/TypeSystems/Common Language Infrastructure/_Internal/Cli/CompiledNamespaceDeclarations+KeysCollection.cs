@@ -34,14 +34,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
             }
 
-            public override string this[int index]
+            protected override string OnGetKey(int index)
             {
-                get
-                {
-                    if (index < 0 || index >= this.parent.baseData.Length)
-                        throw new ArgumentOutOfRangeException("index");
-                    return this.parent.baseData[index];
-                }
+                if (index < 0 || index >= this.parent.baseData.Length)
+                    throw new ArgumentOutOfRangeException("index");
+                return this.parent.baseData[index];
             }
 
             public override bool Contains(string item)

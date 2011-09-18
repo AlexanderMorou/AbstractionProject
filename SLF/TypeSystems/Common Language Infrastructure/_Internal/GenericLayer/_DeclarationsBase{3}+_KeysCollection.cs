@@ -86,20 +86,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 this.ToArray().CopyTo(array, arrayIndex);
             }
 
-            public override string this[int index]
+            protected override string OnGetKey(int index)
             {
-                get
+                if (index < 0 || index >= this.Count)
+                    throw new ArgumentOutOfRangeException("index");
+                if (this.values.Count <= index)
                 {
-                    if (index < 0 || index >= this.Count)
-                        throw new ArgumentOutOfRangeException("index");
-                    if (this.values.Count <= index)
-                    {
-                        int oldCount = this.values.Count;
-                        for (int i = oldCount; i <= index; i++)
-                            this.CheckItemAt(this.ParentTypes.Original.Values[i]);
-                    }
-                    return this.values.Values[index];
+                    int oldCount = this.values.Count;
+                    for (int i = oldCount; i <= index; i++)
+                        this.CheckItemAt(this.ParentTypes.Original.Values[i]);
                 }
+                return this.values.Values[index];
             }
 
             public override string[] ToArray()

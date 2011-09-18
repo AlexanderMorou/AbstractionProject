@@ -99,7 +99,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             /// <paramref name="index"/> is  beyond the range of the 
             /// <see cref="KeysCollection"/>.
             /// </exception>
-            public virtual TKey this[int index]
+            public TKey this[int index]
             {
                 get
                 {
@@ -118,7 +118,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 return this.locals.entries[index].Key;
             }
 
-            protected virtual void OnSetKey(int index, TKey value)
+            protected internal virtual void OnSetKey(int index, TKey value)
             {
                 if (index < 0 || index >= this.Count)
                     throw new ArgumentOutOfRangeException("index");
@@ -196,10 +196,10 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
             void IControlledStateCollection.CopyTo(Array array, int arrayIndex)
             {
-                ICollection_CopyTo(array, arrayIndex);
+                GeneralCopyTo(array, arrayIndex);
             }
 
-            protected virtual void ICollection_CopyTo(Array array, int arrayIndex)
+            protected virtual void GeneralCopyTo(Array array, int arrayIndex)
             {
                 if (arrayIndex < 0 || arrayIndex >= array.Length)
                     throw new ArgumentException("arrayIndex");

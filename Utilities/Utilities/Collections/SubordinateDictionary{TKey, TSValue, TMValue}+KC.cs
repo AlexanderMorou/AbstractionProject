@@ -27,19 +27,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 this.owner = owner;
             }
 
-            public override TKey this[int index]
+            protected internal override void OnSetKey(int index, TKey value)
             {
-                get
-                {
-                    return base[index];
-                }
-                internal protected set
-                {
-                    int masterIndex = this.owner.Master.Keys.IndexOf(base[index]);
-                    if (masterIndex > -1)
-                        this.owner.Master.Keys[masterIndex] = value;
-                    base[index] = value;
-                }
+                int masterIndex = this.owner.Master.Keys.IndexOf(base[index]);
+                if (masterIndex > -1)
+                    this.owner.Master.Keys[masterIndex] = value;
+                base[index] = value;
             }
 
             public override IEnumerator<TKey> GetEnumerator()

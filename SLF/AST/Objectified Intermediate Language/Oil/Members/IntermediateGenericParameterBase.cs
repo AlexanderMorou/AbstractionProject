@@ -51,8 +51,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         private EventMemberDictionary events;
         private IndexerMemberDictionary indexers;
         private MethodMemberDictionary methods;
-        private IIntermediateGenericParameterPropertyMemberDictionary<TGenericParameter, TIntermediateGenericParameter> properties;
+        private PropertyMemberDictionary properties;
 
+        /// <summary>
+        /// Creates a new <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>
+        /// with the <paramref name="name"/> and <paramref name="parent"/>
+        /// provided.
+        /// </summary>
+        /// <param name="name"><see cref="System.String"/> which represents
+        /// the unique identifier of the <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>.</param>
+        /// <param name="parent">The <typeparamref name="TIntermediateParent"/>
+        /// which contains the <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>.</param>
         protected IntermediateGenericParameterBase(string name, TIntermediateParent parent)
             : base()
         {
@@ -82,6 +91,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 }
                 return null;
             }
+        }
+
+        protected override bool OnGetIsNullable()
+        {
+            return (this.SpecialConstraint & GenericTypeParameterSpecialConstraint.Struct) != GenericTypeParameterSpecialConstraint.None;
         }
 
         #region Check Methods
@@ -194,9 +208,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             return new MethodMemberDictionary(this._Members, ((TIntermediateGenericParameter)((object)(this))));
         }
 
-        private IIntermediateGenericParameterPropertyMemberDictionary<TGenericParameter, TIntermediateGenericParameter> InitializeProperties()
+        private PropertyMemberDictionary InitializeProperties()
         {
-            throw new NotImplementedException();
+            return new PropertyMemberDictionary(this._Members, ((TIntermediateGenericParameter)((object)(this))));
         }
 
         #region IIntermediateGenericParameter<TGenericParameter,TIntermediateGenericParameter> Members
@@ -275,15 +289,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IGenericParameterConstructorMember<TGenericParameter> ICreatableType<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter>.TypeInitializer
         {
             get { return null; }
-        }
-
-        #endregion
-
-        #region IType<TGenericParameter> Members
-
-        public new TGenericParameter ElementType
-        {
-            get { throw new InvalidOperationException("Not an array, by-ref, pointer, or nullable type."); }
         }
 
         #endregion
@@ -630,7 +635,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         protected override bool IsSubclassOfImpl(IType other)
         {
-            return other.Equals(CommonTypeRefs.Object);            
+            return other.Equals(CommonTypeRefs.Object);
         }
 
         protected override IType BaseTypeImpl

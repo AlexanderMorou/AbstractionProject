@@ -635,7 +635,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             get {
                 if (!this.IsOverride)
                     throw new InvalidOperationException();
-                for (IClassType p = this.Parent; p != null; p = p.BaseType)
+                for (IClassType p = this.Parent.BaseType; p != null; p = p.BaseType)
                     foreach (var methodMember in p.Methods.Values)
                         if (methodMember.Name != this.Name ||
                             methodMember.Parameters.Count != this.Parameters.Count ||

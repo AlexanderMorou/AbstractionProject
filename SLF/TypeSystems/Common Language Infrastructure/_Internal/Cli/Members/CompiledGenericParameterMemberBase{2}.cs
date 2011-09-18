@@ -27,6 +27,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             class,
             IGenericParameter<TGenericParameter, TParent>
         where TParent :
+            class,
             IGenericParamParent<TGenericParameter, TParent>
     {
         /// <summary>
@@ -60,7 +61,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// Data member for <see cref="Constructors"/>.
         /// </summary>
         private IGenericParameterConstructorMemberDictionary<TGenericParameter> constructors;
-
+        private object constraintLock = new object();
         protected CompiledGenericParameterMemberBase(TParent parent, Type underlyingSystemType)
             : base(underlyingSystemType)
         {
@@ -159,30 +160,53 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private ITypeCollection _Constraints
         {
             get {
-                if (this._constraints == null)
-                    this._constraints = ObtainConstraints();
+                bool setConstraints = false;
+                lock (constraintLock)
+                    if (this._constraints == null)
+                    {
+                        this._constraints = ObtainConstraints();
+                        setConstraints = true;
+                    }
+                if (setConstraints)
+                    this.DisambiguateConstraints();
                 return this._constraints;
             }
         }
 
-
+        private void DisambiguateConstraints()
+        {
+            for (int i = 0, c = this._constraints.Count; i < c; i++)
+            {
+                var constraint = this._constraints[i];
+                if (constraint == this.parent)
+                    this._constraints[i] = (IType)this.Parent.MakeGenericClosure(this.Parent.GenericParameters);
+            }
+        }
 
         /// <summary>
         /// Obtains the constraints for the <see cref="CompiledGenericParameterMemberBase{TGenericParameter, TParent}"/>.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A <see cref="ITypeCollection"/>
+        /// which denotes the constraints of the generic parameter.</returns>
         private ITypeCollection ObtainConstraints()
         {
             /* *
              * To ensure that the constraints provided are accurate, this checks for the Nullable<T>
              * type constraint.  To prevent 'issues' it is removed since it's not a valid
-             * constraint in C&#9839; or VB
+             * constraint in C&#9839; or VB.
+             * *
+             * It also removes the ValueType constraint since this is taken care of in the
+             * SpecialConstraint, no need to further complicate the valiation routine
+             * by adding more steps.
              * */
             return this.UnderlyingSystemType.GetGenericParameterConstraints().Filter(
                 t =>
                 {
-                    if (t.IsGenericType && !t.IsGenericTypeDefinition &&
-                        t.GetGenericTypeDefinition() == typeof(Nullable<>))
+                    if ((t == typeof(ValueType) &&
+                         ((t.GenericParameterAttributes & GenericParameterAttributes.NotNullableValueTypeConstraint) ==
+                           GenericParameterAttributes.NotNullableValueTypeConstraint)) ||
+                        (t.IsGenericType && !t.IsGenericTypeDefinition &&
+                         t.GetGenericTypeDefinition() == typeof(Nullable<>)))
                         return false;
                     return true;
                 }).OnAll(t => t.GetTypeReference()).ToCollection();
@@ -266,12 +290,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
+        #region Initialize Member methods
+
         private IGenericParameterConstructorMemberDictionary<TGenericParameter> InitializeConstructors()
         {
-            if (this.ElementClassification == TypeElementClassification.None || this.ElementClassification == TypeElementClassification.GenericTypeDefinition)
-                return new LockedGenericParameterConstructorMembers<TGenericParameter>(this._Members, (TGenericParameter)(object)this, UnderlyingSystemType.ObtainTypeParameterConstrutors(), (ConstructorInfo k) => new CompiledGenericParameterConstructorMemberBase<TGenericParameter>((TGenericParameter)(object)this, k));
-            else
-                throw new InvalidOperationException("Cannot obtain the constructors of an array, pointer, byref, or nullable genric-type-parameter.");
+            return new LockedGenericParameterConstructorMembers<TGenericParameter>(this._Members, (TGenericParameter)(object)this, UnderlyingSystemType.ObtainTypeParameterConstrutors(), (ConstructorInfo k) => new CompiledGenericParameterConstructorMemberBase<TGenericParameter>((TGenericParameter)(object)this, k));
         }
 
         private IGenericParameterEventMemberDictionary<TGenericParameter> InitializeEvents()
@@ -284,24 +307,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             throw new NotImplementedException();
         }
 
-        private IGenericParameterPropertyMemberDictionary<TGenericParameter> InitializeProperties()
-        {
-            if (this.ElementClassification == TypeElementClassification.None || this.ElementClassification == TypeElementClassification.GenericTypeDefinition)
-                return new LockedGenericParameterPropertyMembers<TGenericParameter>(this._Members, (TGenericParameter)(object)this, UnderlyingSystemType.ObtainTypeParameterProperties(), (PropertyInfo k) => new CompiledGenericParameterPropertyMember<TGenericParameter>((TGenericParameter)(object)this, k));
-            else
-                throw new InvalidOperationException("Cannot obtain the methods of an array, pointer, byref, or nullable genric-type-parameter.");
-        }
-
         private IGenericParameterMethodMemberDictionary<TGenericParameter> InitializeMethods()
         {
-            if (this.ElementClassification == TypeElementClassification.None || this.ElementClassification == TypeElementClassification.GenericTypeDefinition)
-                return new LockedGenericParameterMethodMembers<TGenericParameter>(this._Members, (TGenericParameter)(object)this, UnderlyingSystemType.ObtainTypeParameterMethods(), (MethodInfo k) => new CompiledGenericParameterMethodMember<TGenericParameter>((TGenericParameter)(object)this, k));
-            else
-                throw new InvalidOperationException("Cannot obtain the methods of an array, pointer, byref, or nullable genric-type-parameter.");
+            return new LockedGenericParameterMethodMembers<TGenericParameter>(this._Members, (TGenericParameter)(object)this, UnderlyingSystemType.ObtainTypeParameterMethods(), (MethodInfo k) => new CompiledGenericParameterMethodMember<TGenericParameter>((TGenericParameter)(object)this, k));
         }
+
+        private IGenericParameterPropertyMemberDictionary<TGenericParameter> InitializeProperties()
+        {
+            return new LockedGenericParameterPropertyMembers<TGenericParameter>(this._Members, (TGenericParameter)(object)this, UnderlyingSystemType.ObtainTypeParameterProperties(), (PropertyInfo k) => new CompiledGenericParameterPropertyMember<TGenericParameter>((TGenericParameter)(object)this, k));
+        }
+
+        #endregion
 
         protected override IType OnGetDeclaringType()
         {
+            /* *
+             * 
+             * */
             if (this.UnderlyingSystemType.DeclaringType != null && 
                 this.UnderlyingSystemType.DeclaringMethod != null)
                 return null;
