@@ -123,11 +123,20 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             {
                 get
                 {
-                    return OnGetThis(index);
+                    return OnGetValue(index);
+                }
+                internal protected set
+                {
+                    OnSetValue(index, value);
                 }
             }
 
-            protected virtual TValue OnGetThis(int index)
+            protected internal virtual void OnSetValue(int index, TValue value)
+            {
+                this.locals.entries[index] = new KeyValuePair<TKey, TValue>(this.locals.entries[index].Key, value);
+            }
+
+            protected virtual TValue OnGetValue(int index)
             {
                 if (index < 0 || index >= this.Count)
                     throw new ArgumentOutOfRangeException("index");

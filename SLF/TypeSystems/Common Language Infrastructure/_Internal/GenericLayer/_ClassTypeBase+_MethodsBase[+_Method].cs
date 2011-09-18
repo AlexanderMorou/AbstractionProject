@@ -132,7 +132,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                             parentA = parentA.BaseType, parentB = parentB.BaseType) ;
                         var current = parentB.Methods.Values[parentA.Methods.IndexOf(baseDefinition)];
                         if (this.IsGenericConstruct && !this.IsGenericDefinition)
-                            return current.MakeGenericClosure(this.GenericParameters.ToCollection());
+                            return current.MakeGenericClosure(this.GenericParameters.ToLockedCollection());
                         else
                             return current;
                         /* 

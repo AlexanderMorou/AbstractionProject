@@ -184,6 +184,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 if (value == null)
                     throw new ArgumentNullException("value");
+                if (!(this.Parent is IIntermediateNamespaceDeclaration ||
+                    this.Parent is IIntermediateAssembly))
+                    throw new InvalidOperationException("Cannot move type hierarchy to a different module, move the top-most type to achieve this affect.");
                 if (this.declaringModule == value)
                     return;
                 if (this.declaringModule != null &&

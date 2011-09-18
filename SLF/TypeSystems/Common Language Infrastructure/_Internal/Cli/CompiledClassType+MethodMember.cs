@@ -28,6 +28,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IClassMethodMember,
             ICompiledMethodMember
         {
+            private bool? hasBaseDefinition;
+            private IClassMethodMember baseDefinition;
             public MethodMember(MethodInfo methodInfo, CompiledClassType @class)
                 : base(methodInfo, @class)
             {
@@ -92,7 +94,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return 
                         this.MemberInfo.IsHideBySig &&
                         this.MemberInfo.IsVirtual && 
-                        ((this.MemberInfo.Attributes & MethodAttributes.NewSlot) != MethodAttributes.NewSlot);
+                        ((this.MemberInfo.Attributes & MethodAttributes.NewSlot) == MethodAttributes.ReuseSlot);
                 }
             }
 
@@ -157,18 +159,38 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get
                 {
-                    if (!this.IsOverride)
-                        throw new InvalidOperationException();
-                    //Obtain the base definition from the member info.
-                    var baseMember = this.MemberInfo.GetBaseDefinition();
-                    //Obtain the type containing the base member.
-                    IClassType p = (IClassType)baseMember.DeclaringType.GetTypeReference();
-                    //Iterate through its methods.
-                    foreach (ICompiledMethodMember member in p.Methods.Values)
-                        //When the method handles equal one another: Match found.
-                        if (member.MemberInfo.MethodHandle == baseMember.MethodHandle)
-                            return ((IClassMethodMember)(member));
+                    if (hasBaseDefinition == null){
+                        if (!this.IsOverride)
+                        {
+                            this.hasBaseDefinition=false;
+                            throw new InvalidOperationException();
+                        }
+                        //Obtain the base definition from the member info.
+                        var baseMember = this.MemberInfo.GetBaseDefinition();
+                        //Obtain the type containing the base member.
+                        IClassType baseDefinitionType = baseMember.DeclaringType.GetTypeReference<IClassType>();
+                        //Iterate through its methods.
+                        var baseMethodParameterTypes = 
+                            (from p in baseMember.GetParameters()
+                             select p.ParameterType.GetTypeReference()).ToArray();
+                        foreach (IClassMethodMember member in baseDefinitionType.Methods.Values)
+                            //When the method handles equal one another: Match found.
+                            if (member.Name == baseMember.Name &&
+                                member.Parameters.ParameterTypes.SequenceEqual(baseMethodParameterTypes))
+                            {
+                                this.baseDefinition = member;
+                                hasBaseDefinition = true;
+                                return this.baseDefinition;
+                            }
                     throw new InvalidOperationException("Missing base member");
+                    }
+                    else
+                    {
+                        if (hasBaseDefinition.Value)
+                            return this.baseDefinition;
+                        else
+                            throw new InvalidOperationException();
+                    }
                 }
             }
 

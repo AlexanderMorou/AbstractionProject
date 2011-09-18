@@ -135,11 +135,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
             }
         }
 
-        IMethodSignatureMember IMethodSignatureMember.MakeGenericClosure(ITypeCollection genericReplacements)
-        {
-            return this.MakeGenericClosure(genericReplacements);
-        }
-
         IMethodSignatureMember IMethodSignatureMember.GetGenericDefinition()
         {
             return this.GetGenericDefinition();
@@ -221,6 +216,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
 
         public abstract TSignature MakeGenericClosure(ITypeCollectionBase genericReplacements);
 
+        public TSignature MakeGenericClosure(params IType[] typeParameters)
+        {
+            return this.MakeGenericClosure(typeParameters.ToLockedCollection());
+        }
 
         IMethodSignatureMember IGenericParamParent<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember>.MakeGenericClosure(ITypeCollectionBase typeParameters)
         {

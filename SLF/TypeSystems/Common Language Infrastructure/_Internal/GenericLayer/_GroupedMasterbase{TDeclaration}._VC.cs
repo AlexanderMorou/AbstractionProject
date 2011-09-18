@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                     return this.master.Count;
                 }
             }
-            protected override MasterDictionaryEntry<TDeclaration> OnGetThis(int index)
+            protected override MasterDictionaryEntry<TDeclaration> OnGetValue(int index)
             {
                 int currentIndexBase = 0;
                 foreach (var subordinate in this.master.Subordinates)

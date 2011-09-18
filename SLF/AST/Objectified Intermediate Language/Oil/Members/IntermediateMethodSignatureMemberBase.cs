@@ -196,11 +196,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             get { return this.ReturnType; }
         }
 
-        IMethodSignatureMember IMethodSignatureMember.MakeGenericClosure(ITypeCollection genericReplacements)
-        {
-            return this.MakeGenericClosure(genericReplacements);
-        }
-
         IMethodSignatureMember IMethodSignatureMember.GetGenericDefinition()
         {
             return this.GetGenericDefinition();
@@ -237,6 +232,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             var tK = this.OnMakeGenericMethod(genericReplacements);
             CLICommon.VerifyTypeParameters<TSignatureParameter, TSignature, TParent>(this, genericReplacements);
             return tK;
+        }
+
+        public TSignature MakeGenericClosure(params IType[] typeParameters)
+        {
+            return this.MakeGenericClosure(typeParameters.ToLockedCollection());
         }
 
         private bool ContainsGenericMethod(ITypeCollectionBase typeParameters, ref TSignature r)

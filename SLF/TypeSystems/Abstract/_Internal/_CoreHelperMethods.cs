@@ -221,7 +221,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal
             ITypeCollectionBase s = null;
             if (target.IsGenericConstruct)
                 s = target.GenericParameters;
-            return string.Format("{0} {1}{2}({3})", q.FullName, target.Name, target.IsGenericConstruct ? string.Format(CultureInfo.CurrentCulture, "<{0}>",String.Join(", ", s.OnAll(t => t.Name).ToArray())) : string.Empty, string.Join(", ", r.OnAll(t => t.IsGenericTypeParameter ? t.Name : t.FullName).ToArray()));
+            return string.Format("{0} {1}{2}({3})", q.FullName, target.Name, target.IsGenericConstruct ? string.Format(CultureInfo.CurrentCulture, "<{0}>",String.Join(", ", s.OnAll(t => t.BuildTypeName(true, true, TypeParameterDisplayMode.SystemStandard)).ToArray())) : string.Empty, string.Join(", ", r.OnAll(t => t.BuildTypeName(true, true, TypeParameterDisplayMode.SystemStandard)).ToArray()));
         }
 
         public static TypedNameSeries ToSeries(this IEnumerable<TypedName> target)

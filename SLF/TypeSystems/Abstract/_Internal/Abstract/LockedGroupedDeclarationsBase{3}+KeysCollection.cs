@@ -22,15 +22,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 this.source = source;
                 this.dataCopy = new string[source.sourceData.Length];
             }
-            public override string this[int index]
+      
+            protected override string OnGetKey(int index)
             {
-                get
-                {
-                    if (this.dataCopy[index] == null)
-                        this.dataCopy[index] = this.source.FetchKey(source.sourceData[index]);
-                    return this.dataCopy[index];
-                }
+                if (this.dataCopy[index] == null)
+                    this.dataCopy[index] = this.source.FetchKey(source.sourceData[index]);
+                return this.dataCopy[index];
             }
+
             public override int Count
             {
                 get

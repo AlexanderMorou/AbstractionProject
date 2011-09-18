@@ -109,7 +109,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get { return this.dataCopy.Length; }
             }
-            protected override MasterDictionaryEntry<IType> OnGetThis(int index)
+            protected override MasterDictionaryEntry<IType> OnGetValue(int index)
             {
                 CheckItemAt(index);
                 return this.dataCopy[index].Value;

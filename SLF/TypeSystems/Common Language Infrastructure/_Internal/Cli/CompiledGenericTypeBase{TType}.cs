@@ -70,12 +70,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get
             {
                 if (this.subSet == null)
-                    this.subSet = new LockedGenericParameters<IGenericTypeParameter<TType>, TType>((TType)(object)this, this.OnGetGenericParameters());
+                    this.subSet = new LockedGenericParameters<IGenericTypeParameter<TType>, TType>((TType)(object)this, this.GetGenericTypeParameterSubset());
                 return this.subSet;
             }
         }
 
-        private IEnumerable<IGenericTypeParameter<TType>> OnGetGenericParameters()
+        private IEnumerable<IGenericTypeParameter<TType>> GetGenericTypeParameterSubset()
         {
             ITypeCollection itc = GenericParameters.ToArray().ToCollection();
             if (this.DeclaringType != null && this.DeclaringType.IsGenericConstruct && this.DeclaringType is IGenericType)
@@ -213,21 +213,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
              * and thereby making IsAssignableFrom validate 
              * properly.
              * */
-            TType result = this.OnMakeGenericClosure(typeParameters);
-            try
-            {
-                this.VerifyTypeParameters(typeParameters);
-            }
-            catch (ArgumentException e)
-            {
-                result.Dispose();
-                if (typeParameters is LockedTypeCollection)
-                    this.genericCache.UnregisterGenericType((LockedTypeCollection)typeParameters);
-                else
-                    this.genericCache.UnregisterGenericType(new LockedTypeCollection(typeParameters));
-                throw e;
-            }
-            return result;
+            return this.OnMakeGenericClosure(typeParameters);
         }
 
         public TType MakeGenericClosure(params IType[] typeParameters)

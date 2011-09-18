@@ -227,7 +227,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         public bool IsNullable
         {
-            get { return !(this is IReferenceType); }
+            get { return OnGetIsNullable(); }
+        }
+
+        protected virtual bool OnGetIsNullable()
+        {
+            return !(this is IReferenceType);
         }
 
         /// <summary>
