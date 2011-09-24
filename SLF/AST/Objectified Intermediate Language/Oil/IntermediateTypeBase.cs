@@ -80,8 +80,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <param name="name">The <see cref="String"/> representing the type's name.</param>
         /// <param name="parent">The <see cref="IIntermediateTypeParent"/>
         /// which conatins the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/></param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="parent"/>
-        /// is null.</exception>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/>
+        /// or <paramref name="parent"/> is null.</exception>
+        /// <exception cref="System.ArgumentException">thrown when <paramref name="name"/> is
+        /// <see cref="String.Empty"/>.</exception>
         public IntermediateTypeBase(string name, IIntermediateTypeParent parent)
             : this(parent)
         {
@@ -99,7 +101,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         /// <param name="parent">The <see cref="IIntermediateTypeParent"/>
         /// which conatins the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/></param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="parent"/>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="parent"/>
         /// is null.</exception>
         public IntermediateTypeBase(IIntermediateTypeParent parent)
         {
@@ -137,6 +139,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        /// <summary>
+        /// Returns the <see cref="IIntermediateTypeParent"/> which
+        /// contains the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>.
+        /// </summary>
         public IIntermediateTypeParent Parent
         {
             get
@@ -185,7 +191,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (value == null)
                     throw new ArgumentNullException("value");
                 if (!(this.Parent is IIntermediateNamespaceDeclaration ||
-                    this.Parent is IIntermediateAssembly))
+                      this.Parent is IIntermediateAssembly))
                     throw new InvalidOperationException("Cannot move type hierarchy to a different module, move the top-most type to achieve this affect.");
                 if (this.declaringModule == value)
                     return;
@@ -243,7 +249,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get
             {
-                return base.Name;
+                return this.OnGetName();
             }
             set
             {
@@ -251,6 +257,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        /// <summary>
+        /// Implementation which sets the name of the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="String"/> value representing the unique
+        /// name of the type within the current context.</param>
         protected virtual void OnSetName(string value)
         {
             if (value == this.name)
@@ -306,17 +317,29 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
+        /// <summary>
+        /// Returns the <see cref="IType"/> from which the current
+        /// <see cref="TypeBase"/> is declared.
+        /// </summary>
+        /// <returns>An <see cref="IType"/> instance denoting
+        /// the current <see cref="TypeBase"/>'s point 
+        /// of declaration.</returns>
         protected override IType OnGetDeclaringType()
         {
             return this.DeclaringType;
         }
 
+        /// <summary>
+        /// Returns whether the set of interfaces implemented by
+        /// the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>
+        /// can be cached.
+        /// </summary>
         protected override bool CanCacheImplementsList
         {
             get { return false; }
         }
 
-        protected override INamespaceDeclaration OnGetNameSpace()
+        protected override INamespaceDeclaration OnGetNamespace()
         {
             if (this.DeclaringType != null)
                 return this.DeclaringType.Namespace;

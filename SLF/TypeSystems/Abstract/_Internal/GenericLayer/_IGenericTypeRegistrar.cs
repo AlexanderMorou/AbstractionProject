@@ -8,9 +8,17 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
-    internal interface _IGenericTypeRegistrar
+    internal interface _IGenericClosureRegistrar
     {
-        void RegisterGenericType(IGenericType targetType, LockedTypeCollection typeParameters);
-        void UnregisterGenericType(LockedTypeCollection typeParameters);
+        /// <summary>
+        /// Registers a generic closure
+        /// </summary>
+        /// <param name="targetType"></param>
+        /// <param name="typeParameters"></param>
+        void RegisterGenericClosure(IGenericType targetType, ILockedTypeCollection typeParameters);
+        bool ContainsGenericClosure(ILockedTypeCollection typeParameters);
+        IGenericType ObtainGenericClosure(ILockedTypeCollection typeParameters);
+        void UnregisterGenericClosure(ILockedTypeCollection typeParameters);
+        bool TryObtainGenericClosure(ILockedTypeCollection typeParameters, out IGenericType targetType);
     }
 }

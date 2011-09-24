@@ -478,8 +478,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
              * of the intermediate types.  So if a type-parameter is rearranged
              * all of the references to the type are updated accordingly.
              * *
-             * This assumes the types have been resolved to their proper form,
-             * if they have not, this will obviously not work.
+             * This assumes the types have been resolved to their linked
+             * form from their symbol state, if they have not, this will
+             * obviously not work.
              * */
             int baseLine = -this.GenericParameters.Count;
             int realFrom = baseLine + from;
@@ -492,6 +493,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 element.Rearranged(realFrom, realTo);
             base.OnRearrangedInner(from, to);
         }
+
+        /// <summary>
+        /// Frees managed resources used by the 
+        /// <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.
+        /// </summary>
         public override void Dispose()
         {
             try

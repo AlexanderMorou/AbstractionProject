@@ -451,11 +451,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
                 get { return this.original.Variance; }
             }
 
-            public bool RequiresNewConstructor
-            {
-                get { return this.original.RequiresNewConstructor; }
-            }
-
             public GenericTypeParameterSpecialConstraint SpecialConstraint
             {
                 get { return this.original.SpecialConstraint; }

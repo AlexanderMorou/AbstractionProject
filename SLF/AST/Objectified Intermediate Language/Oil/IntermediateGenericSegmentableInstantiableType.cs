@@ -765,6 +765,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             for (int i = 0; i < suspendLevel; i++)
                 target.Suspend();
         }
+
         private void CheckBinaryOperatorCoercions()
         {
             if (this.binaryOperatorCoercions == null)
@@ -1069,7 +1070,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         #endregion
-
+        /// <summary>
+        /// Frees the managed resources used by the
+        /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>.
+        /// </summary>
         public override void Dispose()
         {
             try
@@ -1139,6 +1143,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        /* *
+         * Locking is different than suspending the structure
+         * of an intermediate type, used to set the structure
+         * of a mutable model as immutable.
+         * */
         internal override void OnLocked()
         {
             try

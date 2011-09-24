@@ -49,7 +49,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return LockedFullMembersBase.Empty;
         }
 
-        protected override INamespaceDeclaration OnGetNameSpace()
+        protected override INamespaceDeclaration OnGetNamespace()
         {
             return null;
         }

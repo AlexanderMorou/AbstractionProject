@@ -18,7 +18,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// of types.
     /// </summary>
     public interface ITypeCollectionBase :
-        IControlledStateCollection<IType>
+        IControlledStateCollection<IType>,
+        IEquatable<ITypeCollectionBase>
     {
         /// <summary>
         /// Determines the index of a specific <paramref name="item"/>

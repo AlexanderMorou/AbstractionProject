@@ -61,7 +61,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     return LockedFullMembersBase.Empty;
                 }
 
-                protected override INamespaceDeclaration OnGetNameSpace()
+                protected override INamespaceDeclaration OnGetNamespace()
                 {
                     return null;
                 }
@@ -287,11 +287,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 #endregion
 
                 #region IGenericParameter Members
-
-                public bool RequiresNewConstructor
-                {
-                    get { return false; }
-                }
 
                 public GenericTypeParameterSpecialConstraint SpecialConstraint
                 {

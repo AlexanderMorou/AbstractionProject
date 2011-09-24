@@ -33,7 +33,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         protected override IEnumType ObtainWrapper(IEnumType item)
         {
-            return new _EnumTypeBase(item, Parent.GenericParameters);
+            var gtRegistrar = item as _IGenericClosureRegistrar;
+            var genericParameters = Parent.GenericParameters;
+            IGenericType genericResult;
+                if (gtRegistrar != null && gtRegistrar.TryObtainGenericClosure(genericParameters, out genericResult))
+                    return (IEnumType)genericResult;
+
+            var result = new _EnumTypeBase(item, Parent.GenericParameters);
+            if (gtRegistrar != null)
+                gtRegistrar.RegisterGenericClosure(result, genericParameters);
+            return result;
         }
     }
 }

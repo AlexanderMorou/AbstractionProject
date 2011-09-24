@@ -64,7 +64,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal
                     foreach (var constraint in originalGenericParameter.Constraints)
                         currentGenericParameter.Constraints.Add(constraint.Disambiguify(genericParameterCollection, null, TypeParameterSources.Type));
                     currentGenericParameter.SpecialConstraint = originalGenericParameter.SpecialConstraint;
-                    currentGenericParameter.RequiresNewConstructor = originalGenericParameter.RequiresNewConstructor;
                 }
 
                 method.Parameters.AddRange((from p in signature.Parameters.Values

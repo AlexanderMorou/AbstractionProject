@@ -20,6 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// An empty signature data set.
         /// </summary>
         public static readonly SignaturesData Empty = new SignaturesData();
+        public static readonly SignaturesData DefaultConstructorSet = new SignaturesData(SignatureData.Empty);
         /// <summary>
         /// Data member for <see cref="Signatures"/>.
         /// </summary>

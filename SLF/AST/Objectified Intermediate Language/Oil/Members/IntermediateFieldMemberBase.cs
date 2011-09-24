@@ -65,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         IFieldReferenceExpression IIntermediateFieldMember.GetReference(IMemberParentReferenceExpression source)
         {
-            return IntermediateGateway.GetFieldReference(this, source);
+            return ((TField)(object)this).GetFieldReference<TField, TFieldParent>(source);
         }
 
         public string Summary { get; set; }

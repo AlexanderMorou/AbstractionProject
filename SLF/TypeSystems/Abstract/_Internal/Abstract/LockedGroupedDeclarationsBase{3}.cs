@@ -191,11 +191,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 _ValuesCollection vc = ((_ValuesCollection)this.valuesInstance);
                 _KeysCollection kc = ((_KeysCollection)this.keysInstance);
                 if (vc != null)
+                {
                     vc.Dispose();
+                    this.valuesInstance = null;
+                }
                 if (kc != null)
+                {
                     kc.Dispose();
-                this.valuesInstance = null;
-                this.keysInstance = null;
+                    this.keysInstance = null;
+                }
             }
             else
                 foreach (var v in this.Values)

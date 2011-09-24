@@ -26,12 +26,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     internal abstract partial class CompiledGenericTypeBase<TType> :
         CompiledTypeBase<TType>,
         IGenericType<TType>,
-        _IGenericTypeRegistrar
+        _IGenericClosureRegistrar
         where TType :
             class,
             IGenericType<TType>
     {
-        private object disposeSynch = new object();
         private bool disposing;
         private object typeParamSynch = new object();
         /// <summary>
@@ -140,9 +139,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public override void Dispose()
         {
-            if (this.disposeSynch == null)
+            if (this.SyncObject == null)
                 return;
-            lock (disposeSynch)
+            lock (this.SyncObject)
             {
                 if (this.disposing)
                     return;
@@ -175,9 +174,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
             finally
             {
-                lock (this.disposeSynch)
+                lock (this.SyncObject)
                     this.disposing = false;
-                this.disposeSynch = null;
                 base.Dispose();
             }
         }
@@ -189,36 +187,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (typeParameters == null)
                 throw new ArgumentNullException("typeParameters");
             if (!this.IsGenericDefinition)
-                throw new System.InvalidOperationException();
-            if (this.genericCache != null)
-            {
-                IGenericType r;
-                if (this.genericCache.ContainsGenericType(typeParameters, out r))
-                    return (TType)r;
-            }
-            /* *
-             * Make the generic type *before* verifying the 
-             * type-parameters.
-             * *
-             * The cause for this is the verification stage
-             * creates test cases for every constraint on every
-             * type-parameter contained within the type; therefore,
-             * if the constraints contain an instance **where the 
-             * type-parameters are equal to the ones passed to
-             * this method**, it creates a duplicate that's inserted
-             * into the cache and causes the verification stage
-             * to fail.  This way, the generic instance auto-inserts
-             * itself into the cache on the call below;
-             * the verification stage calls up that instance
-             * and thereby making IsAssignableFrom validate 
-             * properly.
-             * */
-            return this.OnMakeGenericClosure(typeParameters);
+                throw new InvalidOperationException();
+            var lockedTypeParameters = typeParameters.ToLockedCollection();
+            IGenericType genericResult;
+            lock (this.SyncObject)
+                if (this.genericCache != null && genericCache.TryObtainGenericClosure(lockedTypeParameters, out genericResult))
+                    return (TType)genericResult;
+            return this.OnMakeGenericClosure(lockedTypeParameters);
         }
 
         public TType MakeGenericClosure(params IType[] typeParameters)
         {
-            return MakeGenericClosure(typeParameters.ToCollection());
+            return MakeGenericClosure(typeParameters.ToLockedCollection());
         }
 
         #endregion
@@ -239,9 +219,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.genericParamsCache == null)
-                    this.genericParamsCache = new LockedTypeCollection(this.GetGenericParameters());
-                return this.genericParamsCache;
+                lock (this.SyncObject)
+                {
+                    if (this.genericParamsCache == null)
+                        this.genericParamsCache = new LockedTypeCollection(this.GetGenericParameters());
+                    return this.genericParamsCache;
+                }
             }
         }
 
@@ -269,20 +252,52 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// <remarks>Performs no type-parameter check.</remarks>
         protected abstract TType OnMakeGenericClosure(ITypeCollectionBase typeParameters);
 
-        #region _IGenericTypeRegistrar Members
+        #region _IGenericClosureRegistrar Members
 
-        public void RegisterGenericType(IGenericType targetType, LockedTypeCollection typeParameters)
+        public bool ContainsGenericClosure(ILockedTypeCollection typeParameters)
         {
-            if (this.disposing || this.disposeSynch == null)
+            lock (this.SyncObject)
+            {
+                if (this.disposing || this.genericCache == null)
+                    return false;
+                return this.genericCache.ContainsGenericClosure(typeParameters);
+            }
+        }
+
+        public IGenericType ObtainGenericClosure(ILockedTypeCollection typeParameters)
+        {
+            lock (this.SyncObject)
+            {
+                if (this.disposing || this.genericCache == null)
+                    return null;
+                return this.genericCache.ObtainGenericClosure(typeParameters);
+            }
+        }
+
+        public bool TryObtainGenericClosure(ILockedTypeCollection typeParameters, out IGenericType genericClosure)
+        {
+            lock (this.SyncObject)
+            {
+                if (this.genericCache == null)
+                {
+                    genericClosure = null;
+                    return false;
+                }
+                return this.genericCache.TryObtainGenericClosure(typeParameters, out genericClosure);
+            }
+        }
+        public void RegisterGenericClosure(IGenericType targetType, ILockedTypeCollection typeParameters)
+        {
+            if (this.disposing)
                 return;
             if (this.genericCache == null)
                 this.genericCache = new GenericTypeCache();
             this.genericCache.RegisterGenericType(targetType, typeParameters);
         }
 
-        public void UnregisterGenericType(LockedTypeCollection typeParameters)
+        public void UnregisterGenericClosure(ILockedTypeCollection typeParameters)
         {
-            if (this.genericCache == null || this.disposing || this.disposeSynch == null)
+            if (this.genericCache == null || this.disposing)
                 return;
             this.genericCache.UnregisterGenericType(typeParameters);
         }
@@ -296,17 +311,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public void BeginExodus()
         {
-            if (this.genericCache == null || this.disposing || this.disposeSynch == null)
-                return;
-            this.genericCache.BeginExodus();
+            lock (this.SyncObject)
+            {
+                if (this.genericCache == null || this.disposing)
+                    return;
+                this.genericCache.BeginExodus();
+            }
         }
 
         public void EndExodus()
         {
-            if (this.genericCache == null || this.disposing || this.disposeSynch == null)
-                return;
-            //Console.Write("Beginning exodus for {0}: ", this.ToString());
-            this.genericCache.EndExodus();
+            lock (this.SyncObject)
+            {
+                if (this.genericCache == null || this.disposing)
+                    return;
+                this.genericCache.EndExodus();
+            }
         }
+
     }
 }

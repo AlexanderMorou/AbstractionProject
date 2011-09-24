@@ -910,8 +910,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             return false;
                         case AccessLevelModifiers.Public:
                         case AccessLevelModifiers.Protected:
-                        case AccessLevelModifiers.ProtectedInternal:
-                        case AccessLevelModifiers.InternalProtected:
+                        case AccessLevelModifiers.ProtectedOrInternal:
+                        case AccessLevelModifiers.ProtectedAndInternal:
                         case AccessLevelModifiers.Internal:
                         default:
                             return true;

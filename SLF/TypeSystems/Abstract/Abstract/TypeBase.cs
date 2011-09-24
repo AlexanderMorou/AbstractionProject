@@ -87,7 +87,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         /// <returns>A <see cref="INamespaceDeclaration"/> value representing the namespace of 
         /// the current <see cref="TypeBase"/>.</returns>
-        protected abstract INamespaceDeclaration OnGetNameSpace();
+        protected abstract INamespaceDeclaration OnGetNamespace();
 
         /// <summary>
         /// Returns the <see cref="AccessLevelModifiers"/> which determine
@@ -167,10 +167,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// as a nullable type.</returns>
         protected abstract IType OnMakeNullable();
 
+        private object syncObject = new object();
+
         private void CacheCheck()
         {
-            if (this.arrayCache == null)
-                this.arrayCache = new TypeArrayCache(this, this.OnMakeArray, this.OnMakeArray);
+            lock (this.syncObject)
+                if (this.arrayCache == null)
+                    this.arrayCache = new TypeArrayCache(this, this.OnMakeArray, this.OnMakeArray);
         }
 
         protected virtual IType OnGetElementType()
@@ -249,7 +252,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         public IArrayType MakeArray(int rank)
         {
             CacheCheck();
-            return arrayCache.CreateArray(rank);
+            lock (this.syncObject)
+                return arrayCache.CreateArray(rank);
         }
 
         /// <summary>
@@ -277,7 +281,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         public IArrayType MakeArray(params int[] lowerBounds)
         {
             CacheCheck();
-            return this.arrayCache.CreateArray(lowerBounds);
+            lock (this.syncObject)
+                return this.arrayCache.CreateArray(lowerBounds);
         }
 
         /// <summary>
@@ -288,9 +293,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <see cref="IType"/> is a by-reference type.</exception>
         public IType MakePointer()
         {
-            if (this.pointer == null)
-                this.pointer = this.OnMakePointer();
-            return this.pointer;
+            lock (this.syncObject)
+            {
+                if (this.pointer == null)
+                    this.pointer = this.OnMakePointer();
+                return this.pointer;
+            }
         }
 
         /// <summary>
@@ -303,9 +311,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             if (this.ElementClassification == TypeElementClassification.Reference)
                 throw new InvalidOperationException("Type is already a by-reference type.");
-            if (this.byRefType == null)
-                this.byRefType = this.OnMakeByReference();
-            return this.byRefType;
+            lock (this.syncObject)
+            {
+                if (this.byRefType == null)
+                    this.byRefType = this.OnMakeByReference();
+                return this.byRefType;
+            }
         }
 
         /// <summary>
@@ -321,9 +332,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             if (this.ElementClassification == TypeElementClassification.Nullable)
                 throw new InvalidOperationException("Type is already nullable.");
-            if (this.nullable == null)
-                this.nullable = this.OnMakeNullable();
-            return this.nullable;
+            lock (this.syncObject)
+            {
+                if (this.nullable == null)
+                    this.nullable = this.OnMakeNullable();
+                return this.nullable;
+            }
         }
 
         /// <summary>
@@ -398,7 +412,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         [DebuggerDisplay("{NamespaceName}")]
         public INamespaceDeclaration Namespace
         {
-            get { return this.OnGetNameSpace(); }
+            get { return this.OnGetNamespace(); }
         }
 
         /// <summary>
@@ -437,9 +451,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             {
                 if (this.CanCacheImplementsList)
                 {
-                    if (this.implementedInterfaces == null)
-                        this.implementedInterfaces = this.OnGetImplementedInterfaces();
-                    return this.implementedInterfaces;
+                    lock (this.SyncObject)
+                    {
+                        if (this.implementedInterfaces == null)
+                            this.implementedInterfaces = this.OnGetImplementedInterfaces();
+                        return this.implementedInterfaces;
+                    }
                 }
                 else
                     return this.OnGetImplementedInterfaces();
@@ -515,30 +532,33 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         public override void Dispose()
         {
             //Dispose
-            try
+            lock (this.syncObject)
             {
-                if (this.arrayCache != null)
-                    this.arrayCache.Dispose();
-                if (this.byRefType != null)
+                try
                 {
-                    this.byRefType.Dispose();
-                    this.byRefType = null;
+                    if (this.arrayCache != null)
+                        this.arrayCache.Dispose();
+                    if (this.byRefType != null)
+                    {
+                        this.byRefType.Dispose();
+                        this.byRefType = null;
+                    }
+                    if (this.nullable != null)
+                    {
+                        this.nullable.Dispose();
+                        this.nullable = null;
+                    }
+                    if (this.pointer != null)
+                    {
+                        this.pointer.Dispose();
+                        this.pointer = null;
+                    }
+                    GC.SuppressFinalize(this);
                 }
-                if (this.nullable != null)
+                finally
                 {
-                    this.nullable.Dispose();
-                    this.nullable = null;
+                    this.OnDisposed();
                 }
-                if (this.pointer != null)
-                {
-                    this.pointer.Dispose();
-                    this.pointer = null;
-                }
-                GC.SuppressFinalize(this);
-            }
-            finally
-            {
-                this.OnDisposed();
             }
         }
 
@@ -573,10 +593,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         public ICustomAttributeCollection CustomAttributes
         {
-            get {
-                if (this.customAttributes == null)
-                    this.customAttributes = this.InitializeCustomAttributes();
-                return this.customAttributes;
+            get
+            {
+                lock (this.syncObject)
+                {
+                    if (this.customAttributes == null)
+                        this.customAttributes = this.InitializeCustomAttributes();
+                    return this.customAttributes;
+                }
             }
         }
 
@@ -658,5 +682,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// identifiers contained within the <see cref="IType"/>.
         /// </summary>
         public abstract IEnumerable<string> AggregateIdentifiers { get; }
+
+        protected object SyncObject { get { return this.syncObject; } }
     }
 }

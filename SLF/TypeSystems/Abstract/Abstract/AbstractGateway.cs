@@ -36,21 +36,21 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             switch (modifiers)
             {
-                case AccessLevelModifiers.InternalProtected:
+                case AccessLevelModifiers.ProtectedAndInternal:
                     if (compare == AccessLevelModifiers.Private)
                         return 1;
-                    else if (compare == AccessLevelModifiers.InternalProtected)
+                    else if (compare == AccessLevelModifiers.ProtectedAndInternal)
                         return 0;
                     else
                         return -1;
                 case AccessLevelModifiers.Internal:
                     switch (compare)
                     {
-                        case AccessLevelModifiers.InternalProtected:
+                        case AccessLevelModifiers.ProtectedAndInternal:
                         case AccessLevelModifiers.Private:
                             return 1;
                         case AccessLevelModifiers.Protected:
-                        case AccessLevelModifiers.ProtectedInternal:
+                        case AccessLevelModifiers.ProtectedOrInternal:
                         case AccessLevelModifiers.Public:
                             return -1;
                         case AccessLevelModifiers.Internal:
@@ -65,21 +65,21 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 case AccessLevelModifiers.Protected:
                     switch (compare)
                     {
-                        case AccessLevelModifiers.InternalProtected:
+                        case AccessLevelModifiers.ProtectedAndInternal:
                         case AccessLevelModifiers.Internal:
                         case AccessLevelModifiers.Private:
                             return 1;
-                        case AccessLevelModifiers.ProtectedInternal:
+                        case AccessLevelModifiers.ProtectedOrInternal:
                         case AccessLevelModifiers.Public:
                             return -1;
                         case AccessLevelModifiers.Protected:
                         default:
                             return 0;
                     }
-                case AccessLevelModifiers.ProtectedInternal:
+                case AccessLevelModifiers.ProtectedOrInternal:
                     if (compare == AccessLevelModifiers.Public)
                         return -1;
-                    else if (compare == AccessLevelModifiers.ProtectedInternal)
+                    else if (compare == AccessLevelModifiers.ProtectedOrInternal)
                         return 0;
                     else
                         return 1;

@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
+using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -20,6 +21,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         _GenericTypeBase<TType>,
         IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType>
         where TCtor :
+            class,
             IConstructorMember<TCtor, TType>
         where TEvent :
             IEventMember<TEvent, TType>
@@ -124,7 +126,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get
             {
                 this.CheckConstructors();
-                return this.constructors;
+                lock (SyncObject)
+                    return this.constructors;
             }
         }
 
@@ -135,9 +138,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckConstructors()
         {
-            lock (memberInitSynch)
+            lock (SyncObject)
                 if (this.constructors == null)
-                this.constructors = this.InitializeConstructors();
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.constructors = this.InitializeConstructors();
+                }
         }
 
         /// <summary>
@@ -169,7 +176,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get
             {
                 this.CheckMethods();
-                return this.methods;
+                lock (SyncObject)
+                    return this.methods;
             }
         }
 
@@ -180,9 +188,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckMethods()
         {
-            lock (memberInitSynch)
+            lock (SyncObject)
                 if (this.methods == null)
-                this.methods = this.InitializeMethods();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.methods = this.InitializeMethods();
         }
 
         protected abstract IMethodMemberDictionary<TMethod, TType> InitializeMethods();
@@ -193,7 +204,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         IMethodMemberDictionary IMethodParent.Methods
         {
-            get { return (IMethodMemberDictionary)this.methods; }
+            get { return (IMethodMemberDictionary)this.Methods; }
         }
 
         #endregion
@@ -205,7 +216,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get
             {
                 this.CheckProperties();
-                return this.properties;
+                lock (SyncObject)
+                    return this.properties;
             }
         }
 
@@ -216,9 +228,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckProperties()
         {
-            lock (memberInitSynch)
+            lock (SyncObject)
                 if (this.properties == null)
-                this.properties = this.InitializeProperties();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.properties = this.InitializeProperties();
         }
 
         /// <summary>
@@ -239,7 +254,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         IPropertyMemberDictionary IPropertyParentType.Properties
         {
-            get { return (IPropertyMemberDictionary)this.properties; }
+            get { return (IPropertyMemberDictionary)this.Properties; }
         }
 
         #endregion
@@ -251,7 +266,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get
             {
                 this.CheckFields();
-                return this.fields;
+                lock (SyncObject)
+                    return this.fields;
             }
         }
 
@@ -262,9 +278,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckFields()
         {
-            lock (memberInitSynch)
+            lock (SyncObject)
                 if (this.fields == null)
-                this.fields = this.InitializeFields();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.fields = this.InitializeFields();
         }
 
         /// <summary>
@@ -296,7 +315,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get
             {
                 this.CheckBinaryOperatorCoercions();
-                return this.binaryOperatorCoercions;
+                lock (SyncObject)
+                    return this.binaryOperatorCoercions;
             }
         }
 
@@ -307,9 +327,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckBinaryOperatorCoercions()
         {
-            lock (memberInitSynch)
+            lock (SyncObject)
                 if (this.binaryOperatorCoercions == null)
-                this.binaryOperatorCoercions = this.InitializeBinaryOperatorCoercions();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.binaryOperatorCoercions = this.InitializeBinaryOperatorCoercions();
         }
 
         /// <summary>
@@ -331,7 +354,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get
             {
                 this.CheckTypeCoercions();
-                return this.typeCoercions;
+                lock (SyncObject)
+                    return this.typeCoercions;
             }
         }
 
@@ -342,9 +366,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckTypeCoercions()
         {
-            lock (memberInitSynch)
+            lock (SyncObject)
                 if (this.typeCoercions == null)
-                this.typeCoercions = this.InitializeTypeCoercions();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.typeCoercions = this.InitializeTypeCoercions();
         }
 
         /// <summary>
@@ -366,7 +393,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get
             {
                 this.CheckUnaryOperatorCoercions();
-                return this.unaryOperatorCoercions;
+                lock (SyncObject)
+                    return this.unaryOperatorCoercions;
             }
         }
 
@@ -377,9 +405,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckUnaryOperatorCoercions()
         {
-            lock (memberInitSynch)
+            lock (SyncObject)
                 if (this.unaryOperatorCoercions == null)
-                this.unaryOperatorCoercions = this.InitializeUnaryOperatorCoercions();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.unaryOperatorCoercions = this.InitializeUnaryOperatorCoercions();
         }
 
         /// <summary>
@@ -426,7 +457,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get
             {
                 this.CheckEvents();
-                return this.events;
+                lock (SyncObject)
+                    return this.events;
             }
         }
 
@@ -437,9 +469,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckEvents()
         {
-            lock (memberInitSynch)
+            lock (SyncObject)
                 if (this.events == null)
-                this.events = this.InitializeEvents();
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.events = this.InitializeEvents();
+                }
         }
 
         /// <summary>
@@ -480,7 +516,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get
             {
                 this.CheckIndexers();
-                return this.indexers;
+                lock (SyncObject)
+                    return this.indexers;
             }
         }
 
@@ -491,9 +528,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckIndexers()
         {
-            lock (memberInitSynch)
+            lock (SyncObject)
                 if (this.indexers == null)
-                this.indexers = this.InitializeIndexers();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.indexers = this.InitializeIndexers();
         }
 
         /// <summary>
@@ -520,13 +560,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         #endregion
 
         #region ITypeParent Members
-        private object typeInitializerSynch = new object();
         public IClassTypeDictionary Classes
         {
             get
             {
                 this.CheckClasses();
-                return this.classes;
+                lock (SyncObject)
+                    return this.classes;
             }
         }
 
@@ -537,9 +577,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckClasses()
         {
-            lock (typeInitializerSynch)
+            lock (SyncObject)
                 if (this.classes == null)
-                    this.classes = this.InitializeClasses();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.classes = this.InitializeClasses();
         }
 
         /// <summary>
@@ -561,7 +604,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get
             {
                 this.CheckDelegates();
-                return this.delegates;
+                lock (SyncObject)
+                    return this.delegates;
             }
         }
 
@@ -572,9 +616,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckDelegates()
         {
-            lock (typeInitializerSynch)
+            lock (SyncObject)
                 if (this.delegates == null)
-                    this.delegates = this.InitializeDelegates();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.delegates = this.InitializeDelegates();
         }
 
         /// <summary>
@@ -597,7 +644,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get
             {
                 this.CheckEnums();
-                return this.enums;
+                lock (SyncObject)
+                    return this.enums;
             }
         }
 
@@ -608,9 +656,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckEnums()
         {
-            lock (typeInitializerSynch)
+            lock (SyncObject)
                 if (this.enums == null)
-                    this.enums = this.InitializeEnums();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.enums = this.InitializeEnums();
         }
 
         /// <summary>
@@ -633,7 +684,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get
             {
                 this.CheckInterfaces();
-                return this.interfaces;
+                lock (SyncObject)
+                    return this.interfaces;
             }
         }
 
@@ -644,9 +696,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckInterfaces()
         {
-            lock (typeInitializerSynch)
+            lock (SyncObject)
                 if (this.interfaces == null)
-                    this.interfaces = this.InitializeInterfaces(); ;
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.interfaces = this.InitializeInterfaces();
         }
 
         /// <summary>
@@ -669,7 +724,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get
             {
                 this.CheckStructs();
-                return this.structs;
+                lock (SyncObject)
+                    return this.structs;
             }
         }
 
@@ -680,9 +736,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void CheckStructs()
         {
-            lock (typeInitializerSynch)
+            lock (SyncObject)
                 if (this.structs == null)
-                    this.structs = this.InitializeStructs();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.structs = this.InitializeStructs();
         }
 
         /// <summary>
@@ -733,7 +792,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get
             {
                 this.Check_Types();
-                return this.types;
+                lock (SyncObject)
+                    return this.types;
             }
         }
 
@@ -744,9 +804,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void Check_Types()
         {
-            lock (typeInitializerSynch)
+            lock (SyncObject)
                 if (this.types == null)
-                    this.types = this.Initialize_Types();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.types = this.Initialize_Types();
         }
 
         /// <summary>
@@ -765,13 +828,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #endregion
 
-        private object memberInitSynch = new object();
         public _FullMembersBase _Members
         {
             get
             {
                 this.Check_Members();
-                return this._members;
+                lock (SyncObject)
+                    return this._members;
             }
         }
 
@@ -782,9 +845,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         private void Check_Members()
         {
-            lock (memberInitSynch)
+            lock (SyncObject)
                 if (this._members == null)
-                    this._members = this.Initialize_Members();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this._members = this.Initialize_Members();
         }
 
         /// <summary>
@@ -812,7 +878,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             this.CheckProperties();
             this.CheckTypeCoercions();
             this.CheckUnaryOperatorCoercions();
-            return this._Members;
+            lock (SyncObject)
+                return this._Members;
         }
 
         #region ICreatableType<TCtor,TType> Members
@@ -845,6 +912,102 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         protected override IEnumerable<IDeclaration> OnGetDeclarations()
         {
             return GetTypeParentDeclarations(this);
+        }
+
+        public override void Dispose()
+        {
+            if (this.IsDisposed)
+                return;
+            try
+            {
+                lock (SyncObject)
+                {
+                    if (this.classes != null)
+                    {
+                        this.classes.Dispose();
+                        this.classes = null;
+                    }
+                    if (this.delegates != null)
+                    {
+                        this.delegates.Dispose();
+                        this.delegates = null;
+                    }
+                    if (this.enums != null)
+                    {
+                        this.enums.Dispose();
+                        this.enums = null;
+                    }
+                    if (this.interfaces != null)
+                    {
+                        this.interfaces.Dispose();
+                        this.interfaces = null;
+                    }
+                    if (this.structs != null)
+                    {
+                        this.structs.Dispose();
+                        this.structs = null;
+                    }
+                    if (this.types != null)
+                        this.types = null;
+                    if (this.binaryOperatorCoercions != null)
+                    {
+                        this.binaryOperatorCoercions.Dispose();
+                        this.binaryOperatorCoercions = null;
+                    }
+                    if (this.typeInitializer != null)
+                    {
+                        this.typeInitializer.Dispose();
+                        this.typeInitializer = null;
+                    }
+                    if (this.constructors != null)
+                    {
+                        this.constructors.Dispose();
+                        this.constructors = null;
+                    }
+                    if (this.methods != null)
+                    {
+                        this.methods.Dispose();
+                        this.methods = null;
+                    }
+                    if (this.events != null)
+                    {
+                        this.events.Dispose();
+                        this.events = null;
+                    }
+                    if (this.fields != null)
+                    {
+                        this.fields.Dispose();
+                        this.fields = null;
+                    }
+                    if (this.indexers != null)
+                    {
+                        this.indexers.Dispose();
+                        this.indexers = null;
+                    }
+                    if (this.properties != null)
+                    {
+                        this.properties.Dispose();
+                        this.properties = null;
+                    }
+                    if (this.typeCoercions != null)
+                    {
+                        this.typeCoercions.Dispose();
+                        this.typeCoercions = null;
+                    }
+                    if (this.unaryOperatorCoercions != null)
+                    {
+                        this.unaryOperatorCoercions.Dispose();
+                        this.unaryOperatorCoercions = null;
+                    }
+                    if (this._members != null)
+                        this._members = null;
+                    fullTypesChecked = true;
+                }
+            }
+            finally
+            {
+                base.Dispose();
+            }
         }
     }
 }

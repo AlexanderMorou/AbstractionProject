@@ -16,9 +16,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <summary>
     /// Provides a locked type collection.
     /// </summary>
-    internal class LockedTypeCollection :
+    public class LockedTypeCollection :
         ILockedTypeCollection,
-        ITypeCollection
+        ITypeCollection,
+        IEquatable<ITypeCollectionBase>
     {
         /// <summary>
         /// An empty series of types that is locked.
@@ -244,6 +245,34 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             {
                 return this.copy == null;
             }
+        }
+
+
+        #region IEquatable<ITypeCollectionBase> Members
+
+        public bool Equals(ITypeCollectionBase other)
+        {
+            if (other == null)
+                return false;
+            if (object.ReferenceEquals(other, this))
+                return true;
+            if (other.Count != this.Count)
+                return false;
+            return this.SequenceEqual(other);
+        }
+
+        #endregion
+
+        public override bool Equals(object obj)
+        {
+            if (obj is ITypeCollectionBase)
+                return this.Equals((ITypeCollectionBase)(obj));
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Count.GetHashCode();
         }
     }
 }

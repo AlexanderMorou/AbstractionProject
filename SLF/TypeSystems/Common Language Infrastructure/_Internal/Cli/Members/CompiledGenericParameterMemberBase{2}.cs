@@ -76,20 +76,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         }
 
         /// <summary>
-        /// Returns whether the <see cref="IGenericParameter"/> requires a new
-        /// constructor constraint.
-        /// </summary>
-        public bool RequiresNewConstructor
-        {
-            get
-            {
-                if (newCtorConstraint == null)
-                    newCtorConstraint = ((base.UnderlyingSystemType.GenericParameterAttributes & GenericParameterAttributes.DefaultConstructorConstraint) == GenericParameterAttributes.DefaultConstructorConstraint);
-                return newCtorConstraint.Value;
-            }
-        }
-
-        /// <summary>
         /// Returns the special constraint placed upon the <see cref="IGenericParameter"/>.
         /// </summary>
         public GenericTypeParameterSpecialConstraint SpecialConstraint
@@ -178,8 +164,60 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             for (int i = 0, c = this._constraints.Count; i < c; i++)
             {
                 var constraint = this._constraints[i];
-                if (constraint == this.parent)
-                    this._constraints[i] = (IType)this.Parent.MakeGenericClosure(this.Parent.GenericParameters);
+                if (NeedsDisambiguated(constraint, this.Parent))
+                    this._constraints[i] = DisambiguateConstraint(this._constraints[i], this.Parent, this.Parent.GenericParameters);
+            }
+        }
+
+        private static bool NeedsDisambiguated(IType constraint, TParent parent)
+        {
+            switch (constraint.ElementClassification)
+            {
+                case TypeElementClassification.None:
+                    return constraint == parent;
+                case TypeElementClassification.Array:
+                case TypeElementClassification.Nullable:
+                case TypeElementClassification.Pointer:
+                case TypeElementClassification.Reference:
+                    return NeedsDisambiguated(constraint.ElementType, parent);
+                case TypeElementClassification.GenericTypeDefinition:
+                    var genericType = constraint as IGenericType;
+                    return genericType.GenericParameters.Any(genericParameter =>
+                        NeedsDisambiguated(genericParameter, parent));
+                default:
+                    return false;
+            }
+        }
+
+        private static IType DisambiguateConstraint(IType constraint, TParent parent, ILockedTypeCollection genericParameters)
+        {
+            switch (constraint.ElementClassification)
+            {
+                case TypeElementClassification.None:
+                    if (constraint == parent)
+                        return (IType)parent.MakeGenericClosure(genericParameters);
+                    else
+                        return constraint;
+                case TypeElementClassification.Array:
+                    var arrayType = constraint as IArrayType;
+                    if (arrayType == null)
+                        return constraint;
+                    return DisambiguateConstraint(constraint.ElementType, parent, genericParameters).MakeArray(arrayType.LowerBounds);
+                case TypeElementClassification.Nullable:
+                    return DisambiguateConstraint(constraint.ElementType, parent, genericParameters).MakeNullable();
+                case TypeElementClassification.Pointer:
+                    return DisambiguateConstraint(constraint.ElementType, parent, genericParameters).MakePointer();
+                case TypeElementClassification.Reference:
+                    return DisambiguateConstraint(constraint.ElementType, parent, genericParameters).MakeByReference();
+                case TypeElementClassification.GenericTypeDefinition:
+                    var genericType = constraint as IGenericType;
+                    if (genericType == null)
+                        return constraint;
+                    return ((IGenericType)genericType.ElementType).MakeGenericClosure(
+                        (from genericParameter in genericType.GenericParameters
+                         select DisambiguateConstraint(genericParameter, parent, genericParameters)).ToArray());
+                default:
+                    return constraint;
             }
         }
 
@@ -525,6 +563,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         public override IEnumerable<string> AggregateIdentifiers
         {
             get { throw new NotImplementedException(); }
+        }
+
+        protected override bool OnGetIsNullable()
+        {
+            return this.SpecialConstraint == GenericTypeParameterSpecialConstraint.Struct;
         }
 
     }

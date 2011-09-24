@@ -38,11 +38,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         #region IGenericParameter Members
 
-        public bool RequiresNewConstructor
-        {
-            get { return original.RequiresNewConstructor; }
-        }
-
         public GenericTypeParameterSpecialConstraint SpecialConstraint
         {
             get { return original.SpecialConstraint; }
@@ -114,7 +109,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             return LockedFullMembersBase.Empty;
         }
 
-        protected override INamespaceDeclaration OnGetNameSpace()
+        protected override INamespaceDeclaration OnGetNamespace()
         {
             return null;
         }

@@ -28,10 +28,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// The accessability of an <see cref="IScopedDeclaration"/>.
     /// </summary>
     /// <remarks>
-    /// <para><see cref="AccessLevelModifiers.InternalProtected"/> 
+    /// <para><see cref="AccessLevelModifiers.ProtectedAndInternal"/> 
     /// (<seealso cref="Type.IsNestedFamANDAssem"/>):</para>
     /// <para>Not available in C&#9839; or Visual Basic; therefore,
-    /// <see cref="ProtectedInternal"/> (<seealso cref="Type.IsNestedFamORAssem"/>)
+    /// <see cref="ProtectedOrInternal"/> (<seealso cref="Type.IsNestedFamORAssem"/>)
     /// will be translated as an alternative and a warning thrown.
     /// </para>
     /// <para>
@@ -65,9 +65,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// threshold only in the defining assembly (<seealso cref="Type.IsNestedFamANDAssem"/>).
         /// </summary>
         /// <remarks><para>Not available in C&#9839; or Visual Basic; therefore, 
-        /// <see cref="ProtectedInternal"/> will be translated as an alternative.</para>
+        /// <see cref="ProtectedOrInternal"/> will be translated as an alternative.</para>
         /// <para>A combination of <see cref="AssemblyOr"/> and <see cref="Protected"/>.</para></remarks>
-        InternalProtected = AssemblyAnd | Protected,
+        ProtectedAndInternal = AssemblyAnd | Protected,
 
         /// <summary>
         /// Declaration is accessable to the assembly that defined it.
@@ -154,6 +154,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// as well as the defining assembly (<seealso cref="Type.IsNestedFamORAssem"/>).
         /// </summary>
         /// <remarks><para>A combination of <see cref="AssemblyOr"/> and <see cref="Protected"/>.</para></remarks>
-        ProtectedInternal = AssemblyOr | Protected,
+        ProtectedOrInternal = AssemblyOr | Protected,
     }
 }

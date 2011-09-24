@@ -71,6 +71,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             this.Parent = parent;
         }
 
+        /// <summary>
+        /// Returns the <see cref="IIntermediateAssembly"/> to which
+        /// the current 
+        /// <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>
+        /// belongs.
+        /// </summary>
         public override IIntermediateAssembly Assembly
         {
             get
@@ -93,9 +99,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
+        /// <summary>
+        /// Returns whether the current 
+        /// <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>
+        /// is nullable.
+        /// </summary>
+        /// <returns>true if the <see cref="SpecialConstraint"/> is
+        /// <see cref="GenericTypeParameterSpecialConstraint.Struct"/>; 
+        /// false, otherwise.</returns>
         protected override bool OnGetIsNullable()
         {
-            return (this.SpecialConstraint & GenericTypeParameterSpecialConstraint.Struct) != GenericTypeParameterSpecialConstraint.None;
+            return (this.SpecialConstraint == GenericTypeParameterSpecialConstraint.Struct);
         }
 
         #region Check Methods
@@ -143,6 +157,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
+        /// <summary>
+        /// Returns the <see cref="ConstructorMemberDictionary"/>
+        /// associated to the current
+        /// <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>.
+        /// </summary>
         public ConstructorMemberDictionary Constructors
         {
             get
@@ -152,6 +171,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
+        /// <summary>
+        /// Returns the <see cref="IndexerMemberDictionary"/>
+        /// associated to the current
+        /// <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>.
+        /// </summary>
         public IndexerMemberDictionary Indexers
         {
             get
@@ -161,6 +185,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
+        /// <summary>
+        /// Returns the <see cref="EventMemberDictionary"/>
+        /// associated to the current
+        /// <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>.
+        /// </summary>
         public EventMemberDictionary Events
         {
             get
@@ -170,7 +199,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
-        public IIntermediateGenericParameterMethodMemberDictionary<TGenericParameter, TIntermediateGenericParameter> Methods
+        /// <summary>
+        /// Returns the <see cref="MethodMemberDictionary"/>
+        /// associated to the current
+        /// <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>.
+        /// </summary>
+        public MethodMemberDictionary Methods
         {
             get
             {
@@ -179,7 +213,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
-        public IIntermediateGenericParameterPropertyMemberDictionary<TGenericParameter, TIntermediateGenericParameter> Properties
+        /// <summary>
+        /// Returns the <see cref="PropertyMemberDictionary"/>
+        /// associated to the current
+        /// <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>.
+        /// </summary>
+        public PropertyMemberDictionary Properties
         {
             get
             {
@@ -188,27 +227,62 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
+        /// <summary>
+        /// Initializes the <see cref="Constructors"/> property of the 
+        /// <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>
+        /// </summary>
+        /// <returns>A <see cref="ConstructorMemberDictionary"/>
+        /// which contains the constructors of the 
+        /// <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/></returns>
         protected virtual ConstructorMemberDictionary InitializeConstructors()
         {
             return new ConstructorMemberDictionary(this._Members, ((TIntermediateGenericParameter)((object)(this))));
         }
 
+        /// <summary>
+        /// Initializes the <see cref="Events"/> property of the 
+        /// <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>
+        /// </summary>
+        /// <returns>A <see cref="EventMemberDictionary"/>
+        /// which contains the events of the 
+        /// <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/></returns>
         protected virtual EventMemberDictionary InitializeEvents()
         {
             return new EventMemberDictionary(this._Members, ((TIntermediateGenericParameter)((object)(this))));
         }
 
-        private IndexerMemberDictionary InitializeIndexers()
+        /// <summary>
+        /// Initializes the <see cref="Indexers"/> property of the 
+        /// <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>
+        /// </summary>
+        /// <returns>A <see cref="IndexerMemberDictionary"/>
+        /// which contains the indexers of the 
+        /// <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/></returns>
+        protected virtual IndexerMemberDictionary InitializeIndexers()
         {
             return new IndexerMemberDictionary(this._Members, ((TIntermediateGenericParameter)((object)(this))));
         }
 
-        private MethodMemberDictionary InitializeMethods()
+        /// <summary>
+        /// Initializes the <see cref="Methods"/> property of the 
+        /// <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>
+        /// </summary>
+        /// <returns>A <see cref="MethodMemberDictionary"/>
+        /// which contains the methods of the 
+        /// <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/></returns>
+        protected virtual MethodMemberDictionary InitializeMethods()
         {
             return new MethodMemberDictionary(this._Members, ((TIntermediateGenericParameter)((object)(this))));
         }
 
-        private PropertyMemberDictionary InitializeProperties()
+        /// <summary>
+        /// Initializes the <see cref="Properties"/> property of the 
+        /// <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>
+        /// </summary>
+        /// <returns>A <see cref="PropertyMemberDictionary"/>
+        /// which contains the properties of the 
+        /// <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/></returns>
+        protected virtual PropertyMemberDictionary InitializeProperties()
         {
             return new PropertyMemberDictionary(this._Members, ((TIntermediateGenericParameter)((object)(this))));
         }
@@ -269,7 +343,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         IConstructorMemberDictionary ICreatableType.Constructors
         {
-            get { return ((IConstructorMemberDictionary)(this.Constructors)); }
+            get { return this.Constructors; }
         }
 
         IConstructorMember ICreatableType.TypeInitializer
@@ -324,7 +398,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         IEventSignatureMemberDictionary IEventSignatureParent.Events
         {
-            get { return ((IEventSignatureMemberDictionary)(this.Events)); }
+            get { return this.Events; }
         }
 
         #endregion
@@ -333,7 +407,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         IIntermediateEventSignatureMemberDictionary IIntermediateEventSignatureParent.Events
         {
-            get { return ((IIntermediateEventSignatureMemberDictionary)(this.Events)); }
+            get { return this.Events; }
         }
 
         #endregion
@@ -360,7 +434,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         IIndexerSignatureMemberDictionary IIndexerSignatureParent.Indexers
         {
-            get { return ((IIndexerSignatureMemberDictionary)(this.Indexers)); }
+            get { return this.Indexers; }
         }
 
         #endregion
@@ -378,7 +452,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         IIntermediatePropertySignatureMemberDictionary IIntermediatePropertySignatureParentType.Properties
         {
-            get { return (IIntermediatePropertySignatureMemberDictionary)this.Properties; }
+            get { return this.Properties; }
         }
 
         #endregion
@@ -387,7 +461,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         IPropertySignatureMemberDictionary IPropertySignatureParentType.Properties
         {
-            get { return (IPropertySignatureMemberDictionary)this.Properties; }
+            get { return this.Properties; }
         }
 
         #endregion
@@ -428,12 +502,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         /// <summary>
-        /// Returns/sets whether the <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/> requires a new
-        /// constructor constraint.
-        /// </summary>
-        public bool RequiresNewConstructor { get; set; }
-
-        /// <summary>
         /// Returns/sets the special constraint placed upon the <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>.
         /// </summary>
         public GenericTypeParameterSpecialConstraint SpecialConstraint { get; set; }
@@ -455,12 +523,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         IIntermediateGenericParameterMethodMemberDictionary IIntermediateGenericParameter.Methods
         {
-            get { return (IIntermediateGenericParameterMethodMemberDictionary)this.Methods; }
+            get { return this.Methods; }
         }
 
         IIntermediateGenericParameterPropertyMemberDictionary IIntermediateGenericParameter.Properties
         {
-            get { return (IIntermediateGenericParameterPropertyMemberDictionary)this.Properties; }
+            get { return this.Properties; }
         }
 
         #endregion
@@ -469,17 +537,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         IMethodSignatureMemberDictionary IMethodSignatureParent.Methods
         {
-            get { return (IMethodSignatureMemberDictionary)this.Methods; }
+            get { return this.Methods; }
         }
 
         #endregion
 
         #region IGenericParameter Members
-
-        bool IGenericParameter.RequiresNewConstructor
-        {
-            get { return this.RequiresNewConstructor; }
-        }
 
         GenericTypeParameterSpecialConstraint IGenericParameter.SpecialConstraint
         {
@@ -540,27 +603,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         IGenericParameterConstructorMemberDictionary IGenericParameter.Constructors
         {
-            get { return ((IGenericParameterConstructorMemberDictionary)(this.Constructors)); }
+            get { return this.Constructors; }
         }
 
         IGenericParameterEventMemberDictionary IGenericParameter.Events
         {
-            get { return ((IGenericParameterEventMemberDictionary)(this.Events)); }
+            get { return this.Events; }
         }
 
         IGenericParameterIndexerMemberDictionary IGenericParameter.Indexers
         {
-            get { return (IGenericParameterIndexerMemberDictionary)this.Indexers; }
+            get { return this.Indexers; }
         }
 
         IGenericParameterMethodMemberDictionary IGenericParameter.Methods
         {
-            get { return (IGenericParameterMethodMemberDictionary)this.Methods; }
+            get { return this.Methods; }
         }
 
         IGenericParameterPropertyMemberDictionary IGenericParameter.Properties
         {
-            get { return (IGenericParameterPropertyMemberDictionary)this.Properties; }
+            get { return this.Properties; }
         }
 
         #endregion
