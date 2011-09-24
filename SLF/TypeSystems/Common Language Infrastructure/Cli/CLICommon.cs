@@ -538,11 +538,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 if (replacement.IsGenericTypeParameter && replacement is IGenericParameter)
                 {
                     IGenericParameter replacementParam = ((IGenericParameter)(replacement));
-                    if (param.RequiresNewConstructor && !replacementParam.RequiresNewConstructor)
-                        throw new ArgumentException(string.Format(Resources.TypeConstraintFailure,
-                            /*{0}*/ replacementParam.Name,
-                            /*{1}*/ param.Name,
-                            /*{2}*/ Resources.TypeConstraintFailure_NewConstraint));
                     if (param.SpecialConstraint == GenericTypeParameterSpecialConstraint.Class && !
                           ((replacementParam.SpecialConstraint == GenericTypeParameterSpecialConstraint.Class ||
                            (replacementParam.Constraints.Count > 0 &&
@@ -571,27 +566,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 }
                 else
                 {
-                    /* *
-                     * Structs and enumerations are both value types and
-                     * automatically contain a default constructor 
-                     * (See CIL keyword 'initobj'; requires
-                     * variable address to be loaded onto the stack).
-                     * */
-                    if (param.RequiresNewConstructor && !(replacement.Type == TypeKind.Struct || replacement.Type == TypeKind.Enumerator))
-                    {
-                        if (replacement.Type == TypeKind.Interface || (!(replacement is ICreatableType)))
-                            throw new ArgumentException(string.Format(Resources.TypeConstraintFailure,
-                                /*{0}*/ replacement.Name,
-                                /*{1}*/ param.Name,
-                                /*{2}*/ Resources.TypeConstraintFailure_NewInterfaceDelegateOther));
-                        ICreatableType creatableReplacement = (ICreatableType)(replacement);
-                        if (creatableReplacement.Constructors.Find().Count == 0)
-                            throw new ArgumentException(string.Format(Resources.TypeConstraintFailure,
-                                /*{0}*/ replacement.Name,
-                                /*{1}*/ param.Name,
-                                /*{2}*/ Resources.TypeConstraintFailure_NewStandard));
-                    }
-
                     /* *
                      * SpecialConstraint check.
                      * */

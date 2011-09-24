@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
@@ -131,6 +132,31 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
 
             #endregion
+
+            #region IEquatable<ITypeCollectionBase> Members
+
+            public bool Equals(ITypeCollectionBase other)
+            {
+                if (other == null)
+                    return false;
+                if (object.ReferenceEquals(other, this))
+                    return true;
+                return this.SequenceEqual(other);
+            }
+
+            #endregion
+
+            public override bool Equals(object obj)
+            {
+                if (obj is ITypeCollectionBase)
+                    return this.Equals((ITypeCollectionBase)(obj));
+                return false;
+            }
+
+            public override int GetHashCode()
+            {
+                return this.Count.GetHashCode();
+            }
         }
     }
 }

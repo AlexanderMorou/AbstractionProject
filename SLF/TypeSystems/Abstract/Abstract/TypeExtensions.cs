@@ -134,7 +134,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <param name="array">The <see cref="IEnumerable{T}"/> of <typeparamref name="T"/> elements.</param>
         /// <returns>A new <see cref="ILockedTypeCollection"/> which contains the elements from the 
         /// <paramref name="array"/>.</returns>
-        public static ILockedTypeCollection ToLockedCollection<T>(this IEnumerable<T> array)
+        public static LockedTypeCollection ToLockedCollection<T>(this IEnumerable<T> array)
             where T :
                 IType
         {

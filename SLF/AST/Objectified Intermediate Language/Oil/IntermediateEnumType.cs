@@ -33,10 +33,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// the unique name of the <see cref="IntermediateEnumType"/>.</param>
         /// <param name="parent">The <see cref="IIntermediateTypeParent"/> which
         /// contains the <see cref="IntermediateEnumType"/>.</param>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/>
+        /// or <paramref name="parent"/> is null.</exception>
+        /// <exception cref="System.ArgumentException">thrown when <paramref name="name"/> is
+        /// <see cref="String.Empty"/>.</exception>
         protected internal IntermediateEnumType(string name, IIntermediateTypeParent parent)
-            : base(parent)
+            : base(name, parent)
         {
-            base.AssignName(name);
         }
 
         /// <summary>
@@ -70,6 +73,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateEnumType Members
 
+        /// <summary>
+        /// Returns/sets the <see cref="EnumerationBaseType"/> for the 
+        /// <see cref="IIntermediateEnumType"/>.
+        /// </summary>
         public new EnumerationBaseType BaseType { get; set; }
 
         IIntermediateEnumFieldMemberDictionary IIntermediateEnumType.Fields
@@ -118,12 +125,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return LockedTypeCollection.Empty;
         }
 
+        /// <summary>
+        /// Returns whether the current type is a generic
+        /// type with generic parameters.
+        /// </summary>
         public override bool IsGenericConstruct
         {
             get
             {
-                if (this.Parent is IIntermediateType)
-                    return ((IIntermediateType)(this.Parent)).IsGenericConstruct;
+
+                if (this.Parent is IIntermediateDeclaration)
+                    return ((IIntermediateDeclaration)(this.Parent)).IsDeclarationGenericConstruct();
                 return false;
             }
         }
@@ -139,6 +151,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return false;
         }
 
+        /// <summary>
+        /// Implementation version of <see cref="TypeBase.BaseType"/> which 
+        /// returns the base type of the current <see cref="IntermediateEnumType"/>
+        /// </summary>
         protected override IType BaseTypeImpl
         {
             get
@@ -178,6 +194,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             visitor.Visit(this);
         }
 
+        /// <summary>
+        /// Returns a series of string values which relate to the 
+        /// identifiers contained within the <see cref="IntermediateEnumType"/>.
+        /// </summary>
         public override IEnumerable<string> AggregateIdentifiers
         {
             get {

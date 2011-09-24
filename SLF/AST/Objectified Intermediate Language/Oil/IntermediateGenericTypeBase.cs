@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     public abstract partial class IntermediateGenericTypeBase<TType, TIntermediateType> :
         IntermediateTypeBase<TType, TIntermediateType>,
         IIntermediateGenericType<TType, TIntermediateType>,
-        _IGenericTypeRegistrar,
+        _IGenericClosureRegistrar,
         _IIntermediateGenericType,
         IMassTargetHandler
         where TType :
@@ -40,7 +40,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private GenericParameterCollection genericParameters;
         private IIntermediateGenericParameterDictionary<IGenericTypeParameter<TType>, IIntermediateGenericTypeParameter<TType, TIntermediateType>, TType, TIntermediateType> typeParameters;
         private byte disposeState;
-        private object disposeSynch = new object();
         /// <summary>
         /// Creates a new <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>
         /// with the <paramref name="name"/> and <paramref name="parent"/> 
@@ -78,13 +77,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get
             {
-                if (this.typeParameters == null || this.TypeParameters.Count == 0)
-                    if (this.Parent is IGenericType)
-                        return ((IGenericType)(this.Parent)).IsGenericConstruct;
+                lock (this.SyncObject)
+                    if (this.typeParameters == null || this.TypeParameters.Count == 0)
+                        if (this.Parent is IIntermediateDeclaration)
+                            return ((IIntermediateDeclaration)(this.Parent)).IsDeclarationGenericConstruct();
+                        else
+                            return false;
                     else
-                        return false;
-                else
-                    return true;
+                        return true;
             }
         }
 
@@ -110,13 +110,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get
             {
-                if (this.typeParameters == null)
+                lock (this.SyncObject)
                 {
-                    if (this.IsDisposed)
-                        throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-                    this.typeParameters = this.InitializeTypeParameters();
+                    if (this.typeParameters == null)
+                    {
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                        this.typeParameters = this.InitializeTypeParameters();
+                    }
+                    return this.typeParameters;
                 }
-                return this.typeParameters;
             }
         }
 
@@ -176,13 +179,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// is false.</exception>
         public TType MakeGenericClosure(ITypeCollectionBase typeParameters)
         {
-            if (this.genericCache != null)
-            {
-                IGenericType r;
-                if (this.genericCache.ContainsGenericType(typeParameters, out r))
-                    return (TType)r;
-            }
-            return this.OnMakeGenericClosure(typeParameters);
+            LockedTypeCollection lockedTypeParameters = typeParameters.ToLockedCollection();
+            IGenericType genericResult;
+            lock (this.SyncObject)
+                if (this.genericCache != null && genericCache.TryObtainGenericClosure(lockedTypeParameters, out genericResult))
+                    return (TType)genericResult;
+            return this.OnMakeGenericClosure(lockedTypeParameters);
         }
 
         /// <summary>
@@ -200,7 +202,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// is false.</exception>
         public TType MakeGenericClosure(params IType[] typeParameters)
         {
-            return this.MakeGenericClosure(typeParameters.ToCollection());
+            return this.MakeGenericClosure(typeParameters.ToLockedCollection());
         }
 
         #endregion
@@ -237,13 +239,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get
             {
-                if (this.genericParameters == null)
+                lock (this.SyncObject)
                 {
-                    if (this.IsDisposed)
-                        throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-                    this.genericParameters = new GenericParameterCollection(this);
+                    if (this.genericParameters == null)
+                    {
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                        this.genericParameters = new GenericParameterCollection(this);
+                    }
+                    return this.genericParameters;
                 }
-                return this.genericParameters;
             }
         }
 
@@ -289,35 +294,34 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             const int DISP_STATE_NONE = 0;
             const int DISP_STATE_DISPOSING = 1;
             const int DISP_STATE_DISPOSED = 2;
-            lock (this.disposeSynch)
+            lock (this.SyncObject)
             {
                 if (this.disposeState != DISP_STATE_NONE)
                     return;
                 this.disposeState = DISP_STATE_DISPOSING;
-            }
-            try
-            {
-                if (genericCache != null)
+                try
                 {
-                    this.genericCache.Dispose();
-                    this.genericCache = null;
-                }
-                if (this.genericParameters != null)
-                {
-                    this.genericParameters.Dispose();
-                    this.genericParameters = null;
-                }
-                if (this.typeParameters != null)
-                {
-                    this.typeParameters.Dispose();
-                    this.typeParameters = null;
-                }
-                lock (this.disposeSynch)
+                    if (genericCache != null)
+                    {
+                        this.genericCache.Dispose();
+                        this.genericCache = null;
+                    }
+                    if (this.genericParameters != null)
+                    {
+                        this.genericParameters.Dispose();
+                        this.genericParameters = null;
+                    }
+                    if (this.typeParameters != null)
+                    {
+                        this.typeParameters.Dispose();
+                        this.typeParameters = null;
+                    }
                     this.disposeState = DISP_STATE_DISPOSED;
-            }
-            finally
-            {
-                base.Dispose();
+                }
+                finally
+                {
+                    base.Dispose();
+                }
             }
         }
 
@@ -329,26 +333,64 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get
             {
-                return this.typeParameters != null;
+                lock (this.SyncObject)
+                    return this.typeParameters != null;
             }
         }
 
-        #region _IGenericTypeRegistrar Members
+        #region _IGenericClosureRegistrar Members
 
-        void _IGenericTypeRegistrar.RegisterGenericType(IGenericType targetType, LockedTypeCollection typeParameters)
+        bool _IGenericClosureRegistrar.ContainsGenericClosure(ILockedTypeCollection typeParameters)
         {
-            if (this.genericCache == null)
-                this.genericCache = new GenericTypeCache();
-            this.genericCache.RegisterGenericType(targetType, typeParameters);
+            lock (this.SyncObject)
+            {
+                if (this.genericCache == null)
+                    return false;
+                return this.genericCache.ContainsGenericClosure(typeParameters);
+            }
         }
 
-        void _IGenericTypeRegistrar.UnregisterGenericType(LockedTypeCollection typeParameters)
+        IGenericType _IGenericClosureRegistrar.ObtainGenericClosure(ILockedTypeCollection typeParameters)
         {
-            const int DISP_STATE_NONE = 0; //Used inside method to avoid emitting fields.
-            lock (this.disposeSynch)
-                if (this.genericCache == null || this.disposeState != DISP_STATE_NONE)
+            lock (this.SyncObject)
+            {
+                if (this.genericCache == null)
+                    return null;
+                return this.genericCache.ObtainGenericClosure(typeParameters);
+            }
+        }
+
+
+        bool _IGenericClosureRegistrar.TryObtainGenericClosure(ILockedTypeCollection typeParameters, out IGenericType genericClosure)
+        {
+            lock (this.SyncObject)
+            {
+                if (this.genericCache == null)
+                {
+                    genericClosure = null;
+                    return false;
+                }
+                return this.genericCache.TryObtainGenericClosure(typeParameters, out genericClosure);
+            }
+        }
+        void _IGenericClosureRegistrar.RegisterGenericClosure(IGenericType targetType, ILockedTypeCollection typeParameters)
+        {
+            lock (this.SyncObject)
+            {
+                if (this.genericCache == null)
+                    this.genericCache = new GenericTypeCache();
+                this.genericCache.RegisterGenericType(targetType, typeParameters);
+            }
+        }
+
+        void _IGenericClosureRegistrar.UnregisterGenericClosure(ILockedTypeCollection typeParameters)
+        {
+            lock (this.SyncObject)
+            {
+                if (this.genericCache == null)
                     return;
-            this.genericCache.UnregisterGenericType(typeParameters);
+                this.genericCache.UnregisterGenericType(typeParameters);
+            }
         }
 
         #endregion
@@ -360,14 +402,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         internal virtual void OnRearrangedInner(int from, int to)
         {
-            if (this.genericCache == null)
-                return;
-            int gpC = this.GenericParameters.Count;
-            int baseLine = (gpC - this.TypeParameters.Count);
-            int realFrom = baseLine + from,
-                realTo   = baseLine + to;
-            foreach (var element in this.genericCache.Cast<_IGenericType>())
-                element.PositionalShift(realFrom, realTo);
+            lock (this.SyncObject)
+            {
+                if (this.genericCache == null)
+                    return;
+                int gpC = this.GenericParameters.Count;
+                int baseLine = (gpC - this.TypeParameters.Count);
+                int realFrom = baseLine + from,
+                    realTo = baseLine + to;
+                foreach (var element in this.genericCache.Cast<_IGenericType>())
+                    element.PositionalShift(realFrom, realTo);
+            }
         }
 
         #region _IIntermediateGenericType Members
@@ -432,11 +477,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         public void BeginExodus()
         {
-            const int DISP_STATE_NONE = 0; //Used inside method to avoid emitting fields.
-            lock(disposeSynch)
-                if (this.genericCache == null || this.disposeState != DISP_STATE_NONE)
+            lock (SyncObject)
+            {
+                if (this.genericCache == null)
                     return;
-            this.genericCache.BeginExodus();
+                this.genericCache.BeginExodus();
+            }
         }
 
         /// <summary>
@@ -444,11 +490,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         public void EndExodus()
         {
-            this.genericCache.EndExodus();
+            lock (SyncObject)
+            {
+                if (this.genericCache == null)
+                    return;
+                this.genericCache.EndExodus();
+            }
         }
 
         #endregion
-
 
     }
 }

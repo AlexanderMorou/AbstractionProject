@@ -116,10 +116,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
             else if (field.IsFamily)
                 return AccessLevelModifiers.Protected;
             else if (field.IsFamilyOrAssembly)
-                return AccessLevelModifiers.ProtectedInternal;
+                return AccessLevelModifiers.ProtectedOrInternal;
             else if (field.IsFamilyAndAssembly)
                 //Special case, not available in C# or VB.
-                return AccessLevelModifiers.InternalProtected;
+                return AccessLevelModifiers.ProtectedAndInternal;
             return AccessLevelModifiers.Private;
         }
 
@@ -134,10 +134,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
             else if (type.IsNestedFamily)
                 return AccessLevelModifiers.Protected;
             else if (type.IsNestedFamORAssem)
-                return AccessLevelModifiers.ProtectedInternal;
+                return AccessLevelModifiers.ProtectedOrInternal;
             else if (type.IsNestedFamANDAssem)
                 //Special case, not available in C# or VB.
-                return AccessLevelModifiers.InternalProtected;
+                return AccessLevelModifiers.ProtectedAndInternal;
             return AccessLevelModifiers.Private;
         }
 
@@ -149,11 +149,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
                 case AccessLevelModifiers.Private:
                 case AccessLevelModifiers.PrivateScope:
                     return false;
-                case AccessLevelModifiers.InternalProtected:
+                case AccessLevelModifiers.ProtectedAndInternal:
                 case AccessLevelModifiers.Internal:
                 case AccessLevelModifiers.Public:
                 case AccessLevelModifiers.Protected:
-                case AccessLevelModifiers.ProtectedInternal:
+                case AccessLevelModifiers.ProtectedOrInternal:
                 default:
                     return true;
             }
@@ -171,10 +171,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
             else if (firstMethod.IsFamily)
                 return AccessLevelModifiers.Protected;
             else if (firstMethod.IsFamilyOrAssembly)
-                return AccessLevelModifiers.ProtectedInternal;
+                return AccessLevelModifiers.ProtectedOrInternal;
             else if (firstMethod.IsFamilyAndAssembly)
                 //Special case, not available in C# or VB.
-                return AccessLevelModifiers.InternalProtected;
+                return AccessLevelModifiers.ProtectedAndInternal;
             return AccessLevelModifiers.Private;
         }
 
@@ -209,10 +209,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
             else if (method.IsFamily)
                 return AccessLevelModifiers.Protected;
             else if (method.IsFamilyOrAssembly)
-                return AccessLevelModifiers.ProtectedInternal;
+                return AccessLevelModifiers.ProtectedOrInternal;
             else if (method.IsFamilyAndAssembly)
                 //Special case, not available in C# or VB.
-                return AccessLevelModifiers.InternalProtected;
+                return AccessLevelModifiers.ProtectedAndInternal;
             return AccessLevelModifiers.Private;
         }
 

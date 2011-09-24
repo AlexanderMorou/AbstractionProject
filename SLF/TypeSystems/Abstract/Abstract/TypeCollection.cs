@@ -21,7 +21,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     [DebuggerDisplay("{ToString()}")]
     public class TypeCollection :
         List<IType>,
-        ITypeCollection
+        ITypeCollection,
+        IEquatable<ITypeCollectionBase>
     {
         /// <summary>
         /// Returns a blank <see cref="ITypeCollection"/> which is locked.
@@ -40,12 +41,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             this.AddRange(references);
         }
-        /*//
-        public TypeCollection(params Type[] references)
-        {
-            this.AddRange(references);
-        }
-        //*/
 
         internal string StringForm
         {
@@ -66,12 +61,39 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Inserts and returns the <see cref="IType"/> instances translated from <paramref name="types"/>.
         /// </summary>
         /// <param name="types">The <see cref="IType"/> array to insert as a series.</param>
-        public void AddRange(IType[] types)
+        public void AddRange(params IType[] types)
         {
             base.AddRange(types);
         }
 
         #endregion
 
+
+        #region IEquatable<ITypeCollectionBase> Members
+
+        public bool Equals(ITypeCollectionBase other)
+        {
+            if (other == null)
+                return false;
+            if (object.ReferenceEquals(other, this))
+                return true;
+            if (other.Count != this.Count)
+                return false;
+            return this.SequenceEqual(other);
+        }
+
+        #endregion
+
+        public override bool Equals(object obj)
+        {
+            if (obj is ITypeCollectionBase)
+                return this.Equals((ITypeCollectionBase)(obj));
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Count.GetHashCode();
+        }
     }
 }

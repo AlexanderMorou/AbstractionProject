@@ -105,8 +105,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             var result = this.GetNew(genericParameterData.Name);
             if (this.ContainsKey(result.UniqueIdentifier))
                 throw new ArgumentException("genericParameterData");
-            if (genericParameterData.RequiresBlankConstructor)
-                result.RequiresNewConstructor = true;
             foreach (var ctorSig in genericParameterData.Constructors.Signatures)
                 result.Constructors.Add(ctorSig.Parameters.ToSeries());
             foreach (var eventGroup in genericParameterData.Events)
@@ -224,8 +222,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 if (this.ContainsKey(currentUniqueId) ||
                     currentKeys.Contains(currentUniqueId))
                     throw new ArgumentException("genericParameterData");
-                if (currentParameterData.RequiresBlankConstructor)
-                    current.RequiresNewConstructor = true;
                 foreach (var ctorSig in currentParameterData.Constructors.Signatures)
                     current.Constructors.Add(ctorSig.Parameters.ToSeries());
                 foreach (var eventGroup in currentParameterData.Events)

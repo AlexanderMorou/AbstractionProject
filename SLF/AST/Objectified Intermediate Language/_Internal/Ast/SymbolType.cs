@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         TypeBase<ISymbolType>,
         ISymbolType,
         ITypeReferenceExpression,
-        _IGenericTypeRegistrar,
+        _IGenericClosureRegistrar,
         IMassTargetHandler
     {
         private int sourceSelector = NameSelection;
@@ -106,14 +106,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 throw new System.InvalidOperationException();
             if (typeParameters.Count != this.GenericParameters.Count)
                 throw new ArgumentException("typeParameters");
-            if (this.genericCache != null)
-            {
-                IGenericType r = null;
-                if (this.genericCache.ContainsGenericType(typeParameters, out r))
-                    return (ISymbolType)r;
-            }
-            ISymbolType result = this.OnMakeGenericClosure(typeParameters);
-            return result;
+            var lockedTypeParameters = typeParameters.ToLockedCollection();
+            lock (this.SyncObject)
+                if (this.genericCache != null && this.genericCache.ContainsGenericClosure(lockedTypeParameters))
+                    return (ISymbolType)genericCache.ObtainGenericClosure(lockedTypeParameters);
+            return this.OnMakeGenericClosure(lockedTypeParameters);
         }
 
         public ISymbolType MakeGenericClosure(params IType[] typeParameters)
@@ -132,9 +129,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         {
             get
             {
-                if (this.typeParameters == null)
-                    this.typeParameters = new GenericParameterDictionary(this);
-                return this.typeParameters;
+                lock (this.SyncObject)
+                {
+                    if (this.typeParameters == null)
+                        this.typeParameters = new GenericParameterDictionary(this);
+                    return this.typeParameters;
+                }
             }
         }
 
@@ -220,7 +220,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             return LockedFullMembersBase.Empty;
         }
 
-        protected override INamespaceDeclaration OnGetNameSpace()
+        protected override INamespaceDeclaration OnGetNamespace()
         {
             return null;
         }
@@ -262,7 +262,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         public override bool IsGenericConstruct
         {
-            get { return this.typeParameters == null ? false : this.TypeParameters.Count > 0; }
+            get
+            {
+                lock (this.SyncObject)
+                    return this.typeParameters == null ? false : this.TypeParameters.Count > 0;
+            }
         }
 
         protected override bool IsSubclassOfImpl(IType other)
@@ -275,9 +279,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             get
             {
                 return null;
-                //if (this.baseType == null)
-                //    return typeof(System.Object).GetTypeReference();
-                //return this.baseType;
             }
         }
 
@@ -334,20 +335,59 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             return this._namespace;
         }
 
-        #region _IGenericTypeRegistrar Members
+        #region _IGenericClosureRegistrar Members
 
-        public void RegisterGenericType(IGenericType targetType, LockedTypeCollection typeParameters)
+        public void RegisterGenericClosure(IGenericType targetType, ILockedTypeCollection typeParameters)
         {
-            if (this.genericCache == null)
-                this.genericCache = new GenericTypeCache();
-            this.genericCache.RegisterGenericType(targetType, typeParameters);
+            lock (this.SyncObject)
+            {
+                if (this.genericCache == null)
+                    this.genericCache = new GenericTypeCache();
+                this.genericCache.RegisterGenericType(targetType, typeParameters);
+            }
         }
 
-        public void UnregisterGenericType(LockedTypeCollection typeParameters)
+        public void UnregisterGenericClosure(ILockedTypeCollection typeParameters)
         {
-            if (this.genericCache == null)
-                return;
-            this.genericCache.UnregisterGenericType(typeParameters);
+            lock (this.SyncObject)
+            {
+                if (this.genericCache == null)
+                    return;
+                this.genericCache.UnregisterGenericType(typeParameters);
+            }
+        }
+
+        public bool TryObtainGenericClosure(ILockedTypeCollection typeParameters, out IGenericType genericClosure)
+        {
+            lock (this.SyncObject)
+            {
+                if (this.genericCache == null)
+                {
+                    genericClosure = null;
+                    return false;
+                }
+                return this.genericCache.TryObtainGenericClosure(typeParameters, out genericClosure);
+            }
+        }
+
+        public bool ContainsGenericClosure(ILockedTypeCollection typeParameters)
+        {
+            lock (this.SyncObject)
+            {
+                if (this.genericCache == null)
+                    return false;
+                return this.genericCache.ContainsGenericClosure(typeParameters);
+            }
+        }
+
+        public IGenericType ObtainGenericClosure(ILockedTypeCollection typeParameters)
+        {
+            lock (this.SyncObject)
+            {
+                if (this.genericCache == null)
+                    return null;
+                return this.genericCache.ObtainGenericClosure(typeParameters);
+            }
         }
 
         #endregion
@@ -356,14 +396,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         public void BeginExodus()
         {
-            if (this.genericCache != null)
-                this.genericCache.BeginExodus();
+            lock (this.SyncObject)
+                if (this.genericCache != null)
+                    this.genericCache.BeginExodus();
         }
 
         public void EndExodus()
         {
-            if (this.genericCache != null)
-                this.genericCache.EndExodus();
+            lock (this.SyncObject)
+                if (this.genericCache != null)
+                    this.genericCache.EndExodus();
         }
 
         #endregion

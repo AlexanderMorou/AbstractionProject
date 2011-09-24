@@ -18,6 +18,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
     partial class _GenericInstantiableTypeBase<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType>
         where TCtor :
+            class,
             IConstructorMember<TCtor, TType>
         where TEvent :
             IEventMember<TEvent, TType>

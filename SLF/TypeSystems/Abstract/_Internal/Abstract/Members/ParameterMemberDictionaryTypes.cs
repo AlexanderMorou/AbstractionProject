@@ -105,5 +105,31 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
 
         #endregion
 
+        #region IEquatable<ITypeCollectionBase> Members
+
+        public bool Equals(ITypeCollectionBase other)
+        {
+            if (other == null)
+                return false;
+            if (object.ReferenceEquals(this, other))
+                return true;
+            if (other.Count != this.Count)
+                return false;
+            return this.SequenceEqual(other);
+        }
+
+        #endregion
+
+        public override bool Equals(object obj)
+        {
+            if (obj is ITypeCollectionBase)
+                return this.Equals((ITypeCollectionBase)(obj));
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Count.GetHashCode();
+        }
     }
 }

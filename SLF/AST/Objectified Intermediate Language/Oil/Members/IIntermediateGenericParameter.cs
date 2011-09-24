@@ -67,28 +67,28 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter>
     {
         /// <summary>
-        /// Returns the <see cref="IGenericParameterConstructorMemberDictionary{TGenericParameter}"/>
-        /// associated to the current <see cref="IGenericParameter{TGenericParameter}"/>.
+        /// Returns the <see cref="IIntermediateGenericParameterConstructorMemberDictionary{TGenericParameter, TIntermediateGenericParameter}"/>
+        /// associated to the current <see cref="IIntermediateGenericParameter{TGenericParameter, TIntermediateGenericParameter}"/>.
         /// </summary>
         new IIntermediateGenericParameterConstructorMemberDictionary<TGenericParameter, TIntermediateGenericParameter> Constructors { get; }
         /// <summary>
-        /// Returns the <see cref="IGenericParameterEventMemberDictionary{TGenericParameter}"/>
-        /// associated to the current <see cref="IGenericParameter{TGenericParameter}"/>.
+        /// Returns the <see cref="IIntermediateGenericParameterEventMemberDictionary{TGenericParameter, TIntermediateGenericParameter}"/>
+        /// associated to the current <see cref="IIntermediateGenericParameter{TGenericParameter, TIntermediateGenericParameter}"/>.
         /// </summary>
         new IIntermediateGenericParameterEventMemberDictionary<TGenericParameter, TIntermediateGenericParameter> Events { get; }
         /// <summary>
-        /// Returns the <see cref="IGenericParameterIndexerMemberDictionary{TGenericParameter}"/>
-        /// associated to the current <see cref="IGenericParameter{TGenericParameter}"/>.
+        /// Returns the <see cref="IIntermediateGenericParameterIndexerMemberDictionary{TGenericParameter, TIntermediateGenericParameter}"/>
+        /// associated to the current <see cref="IIntermediateGenericParameter{TGenericParameter, TIntermediateGenericParameter}"/>.
         /// </summary>
         new IIntermediateGenericParameterIndexerMemberDictionary<TGenericParameter, TIntermediateGenericParameter> Indexers { get; }
         /// <summary>
-        /// Returns the <see cref="IGenericParameterMethodMemberDictionary{TGenericParameter}"/>
-        /// associated to the current <see cref="IGenericParameter{TGenericParameter}"/>.
+        /// Returns the <see cref="IIntermediateGenericParameterMethodMemberDictionary{TGenericParameter, TIntermediateGenericParameter}"/>
+        /// associated to the current <see cref="IIntermediateGenericParameter{TGenericParameter, TIntermediateGenericParameter}"/>.
         /// </summary>
         new IIntermediateGenericParameterMethodMemberDictionary<TGenericParameter, TIntermediateGenericParameter> Methods { get; }
         /// <summary>
-        /// Returns the <see cref="IGenericParameterPropertyMemberDictionary{TGenericParameter}"/>
-        /// associated to the current <see cref="IGenericParameter{TGenericParameter}"/>.
+        /// Returns the <see cref="IIntermediateGenericParameterPropertyMemberDictionary{TGenericParameter, TIntermediateGenericParameter}"/>
+        /// associated to the current <see cref="IIntermediateGenericParameter{TGenericParameter, TIntermediateGenericParameter}"/>.
         /// </summary>
         new IIntermediateGenericParameterPropertyMemberDictionary<TGenericParameter, TIntermediateGenericParameter> Properties { get; }
     }
@@ -129,11 +129,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// associated to the current <see cref="IGenericParameter"/>.
         /// </summary>
         new IIntermediateGenericParameterPropertyMemberDictionary Properties { get; }
-        /// <summary>
-        /// Returns/sets whether the <see cref="IIntermediateGenericParameter"/> requires a new
-        /// constructor constraint.
-        /// </summary>
-        new bool RequiresNewConstructor { get; set; }
         /// <summary>
         /// Returns/sets the special constraint placed upon the <see cref="IIntermediateGenericParameter"/>.
         /// </summary>

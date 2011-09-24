@@ -113,11 +113,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         GenericParameterVariance Variance { get; }
         /// <summary>
-        /// Returns whether the <see cref="IGenericParameter"/> requires a
-        /// new constructor constraint.
-        /// </summary>
-        bool RequiresNewConstructor { get; }
-        /// <summary>
         /// Returns the special constraint placed upon the <see cref="IGenericParameter"/>.
         /// </summary>
         GenericTypeParameterSpecialConstraint SpecialConstraint { get; }

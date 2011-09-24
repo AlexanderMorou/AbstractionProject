@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Text;
+using AllenCopeland.Abstraction.Slf._Internal.Compilers;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
@@ -168,6 +169,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                                  * */
                                 where c.GetParameters().Length > 0
                                 select c;
+                    if ((parameter.GenericParameterAttributes & GenericParameterAttributes.DefaultConstructorConstraint) == GenericParameterAttributes.DefaultConstructorConstraint)
+                        ctors = new ConstructorInfo[] { new GenericParameterDefaultConstructorConstraint(parameter) }.Concat(ctors);
                     return ctors.ToArray();
                 }
                 catch (InvalidOperationException)
@@ -179,6 +182,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             else
                 throw new ArgumentException("parameter");
         yieldNone:
+            if ((parameter.GenericParameterAttributes & GenericParameterAttributes.DefaultConstructorConstraint) == GenericParameterAttributes.DefaultConstructorConstraint)
+                return new ConstructorInfo [] { new GenericParameterDefaultConstructorConstraint(parameter) };
             return new ConstructorInfo[0];
         }
 

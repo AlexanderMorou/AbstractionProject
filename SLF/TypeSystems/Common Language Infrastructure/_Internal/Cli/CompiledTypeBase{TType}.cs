@@ -112,7 +112,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.UnderlyingSystemType.Name;
         }
 
-        protected override INamespaceDeclaration OnGetNameSpace()
+        protected override INamespaceDeclaration OnGetNamespace()
         {
             if (nameSpace == null)
             {
@@ -135,10 +135,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             else if (this.UnderlyingSystemType.IsNestedFamily)
                 return AccessLevelModifiers.Protected;
             else if (this.UnderlyingSystemType.IsNestedFamORAssem)
-                return AccessLevelModifiers.ProtectedInternal;
+                return AccessLevelModifiers.ProtectedOrInternal;
             else if (this.UnderlyingSystemType.IsNestedFamANDAssem)
                 //Special case, not available in C# or VB.
-                return AccessLevelModifiers.InternalProtected;
+                return AccessLevelModifiers.ProtectedAndInternal;
             return AccessLevelModifiers.PrivateScope;
         }
 

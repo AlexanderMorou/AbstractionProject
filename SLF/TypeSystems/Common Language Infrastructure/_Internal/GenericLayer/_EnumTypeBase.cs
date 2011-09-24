@@ -42,8 +42,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
              * Allow the original to cache this series of generic
              * parameters to the current instance.
              * */
-            if (original is _IGenericTypeRegistrar)
-                ((_IGenericTypeRegistrar)(original)).RegisterGenericType(this, this.genericParameters);
+            if (original is _IGenericClosureRegistrar)
+                ((_IGenericClosureRegistrar)(original)).RegisterGenericClosure(this, this.genericParameters);
             foreach (var type in this.genericParameters)
                 type.Disposed += new EventHandler(genericParameter_Disposed);
             this.Original = original;
@@ -101,8 +101,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             lock (disposeLock)
             {
                 this.disposed = true;
-                if (Original is _IGenericTypeRegistrar)
-                    ((_IGenericTypeRegistrar)(Original)).UnregisterGenericType(this.genericParameters);
+                if (Original is _IGenericClosureRegistrar)
+                    ((_IGenericClosureRegistrar)(Original)).UnregisterGenericClosure(this.genericParameters);
                 this.genericParameters = null;
                 this.Original = null;
             }
@@ -294,7 +294,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return this._Members;
         }
 
-        protected override INamespaceDeclaration OnGetNameSpace()
+        protected override INamespaceDeclaration OnGetNamespace()
         {
             if (this.IsDisposed)
                 throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);

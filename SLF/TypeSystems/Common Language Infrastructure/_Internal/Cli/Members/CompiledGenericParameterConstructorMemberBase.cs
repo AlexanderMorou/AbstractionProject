@@ -20,15 +20,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             IGenericParameter<TGenericParameter>
     {
         bool lastIsParams;
-        private ConstructorInfo memberInfo;
+        string uniqueIdentifier = null;
+        private ConstructorInfo ctorInfo;
         internal CompiledGenericParameterConstructorMemberBase(TGenericParameter parent, ConstructorInfo ctorInfo)
             : base(parent)
         {
-            this.memberInfo = ctorInfo;
+            this.uniqueIdentifier = ctorInfo.GetUniqueIdentifier();
+            this.ctorInfo = ctorInfo;
             this.lastIsParams = ctorInfo.LastParameterIsParams();
         }
 
-        protected ConstructorInfo MemberInfo { get { return this.memberInfo; } }
+        protected ConstructorInfo MemberInfo { get { return this.ctorInfo; } }
 
         protected override sealed bool LastIsParamsImpl
         {
@@ -43,6 +45,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         protected override IParameterMemberDictionary<IGenericParameterConstructorMember<TGenericParameter>, IConstructorParameterMember<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter>> InitializeParameters()
         {
             return new Parameters(this.MemberInfo.GetParameters(), this);
+        }
+
+        public override string UniqueIdentifier
+        {
+            get
+            {
+                return this.uniqueIdentifier;
+            }
         }
     }
 }

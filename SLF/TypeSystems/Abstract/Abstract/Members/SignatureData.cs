@@ -16,6 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// </summary>
     public struct SignatureData
     {
+        public static readonly SignatureData Empty = new SignatureData();
         /// <summary>
         /// Data member for <see cref="Parameters"/>.
         /// </summary>

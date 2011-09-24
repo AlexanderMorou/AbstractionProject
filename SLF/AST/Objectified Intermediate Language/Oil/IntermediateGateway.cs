@@ -454,6 +454,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new UnboundPropertyReferenceExpression(target.Name, source);
         }
 
+        public static IFieldReferenceExpression<IClassFieldMember, IClassType> GetReference(this IClassFieldMember target, IMemberParentReferenceExpression source = null)
+        {
+            return target.GetFieldReference<IClassFieldMember, IClassType>(source);
+        }
+        public static IFieldReferenceExpression<IEnumFieldMember, IEnumType> GetReference(this IEnumFieldMember target, IMemberParentReferenceExpression source = null)
+        {
+            return target.GetFieldReference<IEnumFieldMember, IEnumType>(source);
+        }
+        public static IFieldReferenceExpression<IStructFieldMember, IStructType> GetReference(this IStructFieldMember target, IMemberParentReferenceExpression source = null)
+        {
+            return target.GetFieldReference<IStructFieldMember, IStructType>(source);
+        }
+
         public static IPropertyReferenceExpression<IClassPropertyMember, IClassType> GetReference(this IClassPropertyMember target, IMemberParentReferenceExpression source = null)
         {
             return GetPropertyReference<IClassPropertyMember, IClassType>(target, source);
@@ -528,28 +541,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             where TFieldParent :
                 IFieldParent<TField, TFieldParent>
         {
-            return new FieldReferenceExpression<TField, TFieldParent>(target, source);
-        }
-
-        internal static IFieldReferenceExpression GetFieldReference(this IFieldMember target, IMemberParentReferenceExpression source)
-        {
-            var targetParent = target.Parent;
-            if (targetParent is IClassType)
-                return ((IClassFieldMember)target).GetFieldReference<IClassFieldMember, IClassType>(source);
-            else if (targetParent is IStructType)
-                return ((IStructFieldMember)target).GetFieldReference<IStructFieldMember, IStructType>(source);
-            else if (targetParent is IEnumType)
-                return ((IEnumFieldMember)target).GetFieldReference<IEnumFieldMember, IEnumType>(source);
-            else
-                return new UnboundFieldReferenceExpression(target.Name, source);
-        }
-
-        internal static IFieldReferenceExpression GetFieldReference(this IIntermediateFieldMember target, IMemberParentReferenceExpression source = null)
-        {
-            if (source == null)
-                if (target is IIntermediateInstanceMember)
+            if (target is IIntermediateInstanceMember)
+            {
+                if (source == null)
                     source = new AutoContextMemberSource((IIntermediateInstanceMember)target);
-            return GetFieldReference((IFieldMember)target, source);
+            }
+            return new FieldReferenceExpression<TField, TFieldParent>(target, source);
         }
 
         /// <summary>
@@ -915,6 +912,41 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 throw new ArgumentNullException("sizes");
             return new MalleableCreateArrayExpression(underlyingSystemType.GetTypeReference(), sizes);
         }
-        
+
+        internal static bool IsDeclarationGenericConstruct(this IIntermediateDeclaration target)
+        {
+            var current = target;
+            while (current != null)
+            {
+                {
+                    var currentType = current as IIntermediateType;
+                    if (currentType != null && currentType.IsGenericConstruct)
+                        return true;
+                    var currentTypeParent = currentType.Parent;
+                    if (currentTypeParent is IIntermediateDeclaration)
+                    {
+                        current = (IIntermediateDeclaration)currentTypeParent;
+                        continue;
+                    }
+                }
+                {
+                    var currentGenericParent = current as IIntermediateGenericParameterParent;
+                    if (currentGenericParent != null && currentGenericParent.IsGenericConstruct)
+                        return true;
+                }
+                {
+                    var currentMember = current as IIntermediateMember;
+                    var currentMemberParent = currentMember.Parent;
+                    if (currentMemberParent is IIntermediateDeclaration)
+                    {
+                        current = currentMemberParent as IIntermediateDeclaration;
+                        continue;
+                    }
+                    break;
+                }
+            }
+            return false;
+        }
+
     }
 }

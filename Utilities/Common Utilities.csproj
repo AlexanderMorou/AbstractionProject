@@ -115,6 +115,7 @@
     <Compile Include="Slf\Compilers\LowerBoundTargetAttribute.cs" />
     <Compile Include="Slf\Compilers\StaticContainerExtensionAttribute.cs" />
     <Compile Include="Slf\Compilers\TypeParameterBridgeExtensions.cs" />
+    <Compile Include="Slf\_Internal\Compilers\GenericParameterDefaultConstructorConstraint.cs" />
     <Compile Include="Utilities\Arrays\Tweaks.cs" />
     <Compile Include="Utilities\Collections\_ISubordinateDictionaryMasterPass.cs" />
     <Compile Include="Utilities\Collections\ControlledStateCollection{T}.cs" />

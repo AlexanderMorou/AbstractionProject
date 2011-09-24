@@ -220,11 +220,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             case AccessLevelModifiers.Private:
                             case AccessLevelModifiers.PrivateScope:
                                 return false;
-                            case AccessLevelModifiers.InternalProtected:
+                            case AccessLevelModifiers.ProtectedAndInternal:
                             case AccessLevelModifiers.Internal:
                             case AccessLevelModifiers.Public:
                             case AccessLevelModifiers.Protected:
-                            case AccessLevelModifiers.ProtectedInternal:
+                            case AccessLevelModifiers.ProtectedOrInternal:
                             default:
                                 return t.DeclaringType == null;
                         }
@@ -458,11 +458,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     case AccessLevelModifiers.Private:
                     case AccessLevelModifiers.PrivateScope:
                         return false;
-                    case AccessLevelModifiers.InternalProtected:
+                    case AccessLevelModifiers.ProtectedAndInternal:
                     case AccessLevelModifiers.Internal:
                     case AccessLevelModifiers.Public:
                     case AccessLevelModifiers.Protected:
-                    case AccessLevelModifiers.ProtectedInternal:
+                    case AccessLevelModifiers.ProtectedOrInternal:
                     default:
                         return true;
                 }
@@ -475,11 +475,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     case AccessLevelModifiers.Private:
                     case AccessLevelModifiers.PrivateScope:
                         return false;
-                    case AccessLevelModifiers.InternalProtected:
+                    case AccessLevelModifiers.ProtectedAndInternal:
                     case AccessLevelModifiers.Internal:
                     case AccessLevelModifiers.Public:
                     case AccessLevelModifiers.Protected:
-                    case AccessLevelModifiers.ProtectedInternal:
+                    case AccessLevelModifiers.ProtectedOrInternal:
                     default:
                         return true;
                 }

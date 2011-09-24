@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Languages;
 using AllenCopeland.Abstraction.Slf.Languages.Cil;
 using AllenCopeland.Abstraction.Slf.Languages.CSharp;
 using AllenCopeland.Abstraction.Slf.Languages.VisualBasic;
 using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Common;
-using linqExample = AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples.ExampleHandler.LanguageIntegratedQuery;
-using winformExample = AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples.ExampleHandler.WindowsFormsApplication;
-using AllenCopeland.Abstraction.Slf.Oil.Expressions;
-using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2011 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -25,7 +23,17 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 {
+    using linqExample = ExampleHandler.LanguageIntegratedQuery;
+    using winformExample = ExampleHandler.WindowsFormsApplication;
+    using AllenCopeland.Abstraction.Utilities.Collections;
+    internal class Test1
+    {
+        public void Test2(ref int t3) { }
+        public void Test4(out int t4) { t4 = 0; }
+    }
     internal class BaseDefinitionTest<T1>
+        where T1 :
+            IEnumerable<BaseDefinitionTest<T1>>
     {
         public virtual void Test<T3>(T1 t1, T3 t3)
         {
@@ -35,6 +43,8 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 
     internal class DerivedDefinitionTest<T2> :
         BaseDefinitionTest<T2>
+        where T2 :
+            IEnumerable<BaseDefinitionTest<T2>>
     {
         public override void Test<T3>(T2 t2, T3 t3)
         {
@@ -46,46 +56,76 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     {
         private static void Main()
         {
+            //UnitTest_GenericCache();
+            //UnitTest_Direction();
             UnitTestForCompiledGenericConstraints();
-            CheckDisambiguation(); return;
+            //CheckDisambiguation(); return;
             //FullName(); return;
             //arr1(); return;
             //RunExamples();
             //Fix001();
         }
 
+        private static void UnitTest_Direction()
+        {
+            var typeRef = typeof(ExpressionExtensions).GetTypeReference<IClassType>();
+            var methods =
+                (from m in typeRef.Methods.Values
+                 let parameters = (from param in m.Parameters.Values
+                                   select new { Name = param.Name, Direction = param.Direction, Type = param.ParameterType }).ToList()
+                 orderby m.Name ascending, parameters.Count ascending
+                 select new { Name = m.Name, Parameters = parameters, ReturnType = m.ReturnType }).ToList();
+
+        }
+
+        private static void UnitTest_GenericCache()
+        {
+            var testType = typeof(Dictionary<string, IClassType>).GetTypeReference();
+            var testType2 = typeof(Dictionary<,>).GetTypeReference<IClassType>().MakeGenericClosure(typeof(string), typeof(IClassType));
+
+            testType.ElementType.Dispose();
+        }
+
         private static void UnitTestForCompiledGenericConstraints()
         {
-            var targetType = typeof(ISignatureParent<,,>);
-            var targetTypeRef = targetType.GetTypeReference<IInterfaceType>();
+            var targetType = typeof(BaseDefinitionTest<>);
+            var targetTypeRef = targetType.GetTypeReference<IClassType>();
             var targetTypeGenericParameters =
                     (from genericParameter in targetType.GetGenericArguments()
-                     select new { Parameter = genericParameter, ParameterConstraints = genericParameter.GetGenericParameterConstraints() }).ToArray();
+                     select new { Parameter = genericParameter, UnderlyingType = genericParameter, ParameterConstraints = genericParameter.GetGenericParameterConstraints(), Constructors = genericParameter.GetConstructors() }).ToArray();
             var targetTypeRefGenericParameters =
-                    (from parameter in targetTypeRef.GenericParameters
-                     let genericParameter = parameter as IGenericParameter
-                     where genericParameter != null
-                     select new { Parameter = genericParameter, ParameterConstraints = genericParameter.Constraints.ToArray() }).ToArray();
+                    (from genericParameter in targetTypeRef.TypeParameters.Values
+                     let compiledParameter = genericParameter as ICompiledGenericTypeParameter<IClassType>
+                     where compiledParameter != null
+                     select new { Parameter = genericParameter, UnderlyingType = compiledParameter.UnderlyingSystemType, ParameterConstraints = genericParameter.Constraints.ToArray(), Constructors = genericParameter.Constructors.Values.ToArray() }).ToArray();
+            Console.WriteLine("{0},{1}", targetTypeGenericParameters, targetTypeRefGenericParameters);
+            Console.WriteLine(targetTypeRefGenericParameters[0].Constructors[0].UniqueIdentifier);
         }
 
         private static void CheckDisambiguation()
         {
             var testAssembly = LanguageVendors.Microsoft.GetVisualBasicLanguage().CreateAssembly("TestAssembly");
-            var testClass = testAssembly.Classes.Add("TestGenericClass", new GenericParameterData("TA", true), new GenericParameterData("TB", new IType[] { typeof(Tuple<>).GetTypeReference<IClassType>().MakeGenericClosure("TA".GetSymbolType().MakeArray()) }));
+            var testClass = testAssembly.Classes.Add("TestGenericClass", new GenericParameterData("TA", SignaturesData.DefaultConstructorSet), new GenericParameterData("TB", new IType[] { typeof(Tuple<>).GetTypeReference<IClassType>().MakeGenericClosure("TA".GetSymbolType().MakeArray()) }));
             var testMethod = testClass.Methods.Add("TA".GetSymbolType().GetTypedName("TestMethod"), new TypedNameSeries { { "p1", "TC".GetSymbolType() }, { "p2", "TD".GetSymbolType() }, { "p3", "TB".GetSymbolType() } }, new GenericParameterData("TC"), new GenericParameterData("TD", new IType[] { "TC".GetSymbolType() }));
             testMethod.IsVirtual = true;
-            testMethod.AccessLevel = AccessLevelModifiers.ProtectedInternal;
-            var testDerivedClass = testAssembly.Classes.Add("TestDerivedClass", new GenericParameterData("TE", true));
+            testMethod.AccessLevel = AccessLevelModifiers.ProtectedOrInternal;
+            var testDerivedClass = testAssembly.Classes.Add("TestDerivedClass", new GenericParameterData("TE", SignaturesData.DefaultConstructorSet));
             var typeParamTE = testDerivedClass.TypeParameters["TE"];
             var tbReplacement = typeof(Tuple<>).GetTypeReference<IClassType>().MakeGenericClosure(typeParamTE.MakeArray());
             testDerivedClass.BaseType = testClass.MakeGenericClosure(typeParamTE, tbReplacement);
             var testDerivedMethod = testDerivedClass.Methods.Add("TE".GetSymbolType().GetTypedName("TestMethod"), new TypedNameSeries { { "p1", "TF".GetSymbolType() }, { "p2", "TG".GetSymbolType() }, { "p3", tbReplacement } }, new GenericParameterData("TF"), new GenericParameterData("TG", new IType[] { "TF".GetSymbolType() }));
-            testDerivedMethod.AccessLevel = AccessLevelModifiers.ProtectedInternal;
+            testDerivedMethod.AccessLevel = AccessLevelModifiers.ProtectedOrInternal;
             testDerivedMethod.IsOverride = true;
             var testDerivedClosure = testDerivedClass.MakeGenericClosure(typeof(int));
             var testDerivedClosureMethod = testDerivedClosure.Methods[testDerivedClass.Methods.Values.IndexOf(testDerivedMethod)].Value;
             var testDerivedClosureMethodClosure = testDerivedClosureMethod.MakeGenericClosure(typeof(IClassType).GetTypeReference(), typeof(IIntermediateClassType).GetTypeReference());
             var testDerivedClosureMethodClosureBaseDefinition = testDerivedClosureMethodClosure.BaseDefinition;
+            var testEnum = testDerivedClass.Enums.Add("TestEnumeration");
+            var testEnumField = testEnum.Fields.Add("TestField", 0);
+            //var testEnumClosureField = testDerivedClosure.Enums.Values[0].Fields.Values[0].GetReference();
+            var testEnumClosureField = ((IEnumType)((IGenericType)(testEnum)).MakeGenericClosure(typeof(int).GetTypeReference())).Fields.Values[0].GetReference();
+            var testEnumFieldReference = testEnumField.GetReference();
+            Console.WriteLine(testEnumFieldReference.Fuse("ToString").Fuse(new IExpression[0]));
             Console.WriteLine(testDerivedMethod.BaseDefinition);
         }
 

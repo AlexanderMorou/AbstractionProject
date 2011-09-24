@@ -402,5 +402,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             return new CovariantReadOnlyCollection<TLower, THigher>(source);
         }
+
     }
 }
