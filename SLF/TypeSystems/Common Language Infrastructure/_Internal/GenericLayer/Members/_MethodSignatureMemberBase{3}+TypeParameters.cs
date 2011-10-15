@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         where TSignature :
             IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
         where TSignatureParent :
-            ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
     {
         private class TypeParameterDictionary :
             GenericParameterDictionaryBase<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember>

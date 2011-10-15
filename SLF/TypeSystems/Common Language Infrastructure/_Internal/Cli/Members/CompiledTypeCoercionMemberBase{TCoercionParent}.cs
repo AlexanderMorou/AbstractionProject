@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -17,14 +16,17 @@ using AllenCopeland.Abstraction.Utilities.Properties;
  \-------------------------------------------------------------------- */
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    internal class CompiledTypeCoercionMemberBase<TCoercionParent> :
-        TypeCoercionMemberBase<TCoercionParent>,
-        ITypeCoercionMember<TCoercionParent>,
+    internal class CompiledTypeCoercionMemberBase<TCoercionParentIdentifier, TCoercionParent> :
+        TypeCoercionMemberBase<TCoercionParentIdentifier, TCoercionParent>,
+        ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>,
         ICompiledTypeCoercionMember
+        where TCoercionParentIdentifier :
+            ITypeUniqueIdentifier<TCoercionParentIdentifier>
         where TCoercionParent :
-            ICoercibleType<ITypeCoercionMember<TCoercionParent>, TCoercionParent>
+            ICoercibleType<ITypeCoercionUniqueIdentifier, TCoercionParentIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
     {
         private IType coercionType;
+        private ITypeCoercionUniqueIdentifier uniqueIdentifier;
         private TypeConversionDirection direction;
         public CompiledTypeCoercionMemberBase(MethodInfo memberInfo, TCoercionParent parent)
             : base(parent)
@@ -34,14 +36,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             var firstParam = this.MemberInfo.GetParameters().First();
             if (declaringType == this.MemberInfo.ReturnType)
             {
-                coercionType = firstParam.ParameterType.GetTypeReference();
-                direction = TypeConversionDirection.ToContainingType;
+                this.coercionType = firstParam.ParameterType.GetTypeReference();
+                this.direction = TypeConversionDirection.ToContainingType;
             }
             else
             {
-                coercionType = MemberInfo.ReturnType.GetTypeReference();
-                direction = TypeConversionDirection.FromContainingType;
+                this.coercionType = MemberInfo.ReturnType.GetTypeReference();
+                this.direction = TypeConversionDirection.FromContainingType;
             }
+            uniqueIdentifier = AstIdentifier.TypeOperator(Requirement, direction, coercionType);
         }
 
         public override TypeConversionRequirement Requirement
@@ -83,9 +86,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             return this.MemberInfo.Name;
         }
 
-        public override string UniqueIdentifier
+        public override ITypeCoercionUniqueIdentifier UniqueIdentifier
         {
-            get { return this.MemberInfo.GetUniqueIdentifier(); }
+            get { return this.uniqueIdentifier; }
         }
 
         #region ICompiledTypeCoercionMember Members

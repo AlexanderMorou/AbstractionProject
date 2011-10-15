@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -86,6 +86,8 @@
   <ItemGroup>
     <Compile Include="Cli\ArrayType.cs" />
     <Compile Include="Cli\AssemblyInformation.cs" />
+    <Compile Include="Cli\AstIdentifier+IdentifierDefaults.cs" />
+    <Compile Include="Cli\AstIdentifier.cs" />
     <Compile Include="Cli\ByRefType.cs" />
     <Compile Include="Cli\CLICommon.cs" />
     <Compile Include="Cli\CLICommon+BinaryOperatorNames.cs">
@@ -99,6 +101,7 @@
     </Compile>
     <Compile Include="Cli\CLIGateway.cs" />
     <Compile Include="Cli\CommonTypeRefs.cs" />
+    <Compile Include="Cli\GenericTypeCache.cs" />
     <Compile Include="Cli\ICompiledAssembly.cs" />
     <Compile Include="Cli\ICompiledClassType.cs" />
     <Compile Include="Cli\ICompiledDelegateType.cs" />
@@ -189,9 +192,9 @@
     <Compile Include="_Internal\Cli\CompiledFullTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\CompiledGenericInstantiableTypeBase.cs" />
     <Compile Include="_Internal\Cli\CompiledGenericTypeBase{TType}+GenericTypeParameter.cs">
-      <DependentUpon>CompiledGenericTypeBase{TType}.cs</DependentUpon>
+      <DependentUpon>CompiledGenericTypeBase{TTypeIdentifier, TType}.cs</DependentUpon>
     </Compile>
-    <Compile Include="_Internal\Cli\CompiledGenericTypeBase{TType}.cs" />
+    <Compile Include="_Internal\Cli\CompiledGenericTypeBase{TTypeIdentifier, TType}.cs" />
     <Compile Include="_Internal\Cli\CompiledInterfaceType+EventMember.cs">
       <DependentUpon>CompiledInterfaceType.cs</DependentUpon>
     </Compile>
@@ -267,22 +270,43 @@
     </Compile>
     <Compile Include="_Internal\Cli\CompiledTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\CompiledTypeGenericParameter.cs" />
-    <Compile Include="_Internal\Cli\CompiledTypes{TType}.cs" />
     <Compile Include="_Internal\Cli\GenericVerificationParameter.cs" />
     <Compile Include="_Internal\Cli\ICompiledTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\ICompiledTypeParent.cs" />
     <Compile Include="_Internal\Cli\LockedConstructorMembers`2.cs" />
+    <Compile Include="_Internal\Cli\LockedDeclarationsBase{TItem}.cs" />
     <Compile Include="_Internal\Cli\LockedEmptyCustomAttributeCollection.cs" />
     <Compile Include="_Internal\Cli\LockedEventMembersBase{2}.cs" />
     <Compile Include="_Internal\Cli\LockedEventSignatureMembersBase{2}.cs" />
     <Compile Include="_Internal\Cli\LockedEventSignatureMembersBase{3}.cs" />
+    <Compile Include="_Internal\Cli\LockedFullDeclarations{TMItemIdentifier, TMItem}.cs" />
+    <Compile Include="_Internal\Cli\LockedFullDeclarations{TMItem}+KeysCollection.cs">
+      <DependentUpon>LockedFullDeclarations{TMItemIdentifier, TMItem}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\LockedFullDeclarations{TMItem}+ValuesCollection.cs">
+      <DependentUpon>LockedFullDeclarations{TMItemIdentifier, TMItem}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\LockedFullMembersBase.cs" />
+    <Compile Include="_Internal\Cli\LockedFullTypes.cs" />
+    <Compile Include="_Internal\Cli\LockedGenericParameters{TGenericParameter, TParent}.cs" />
+    <Compile Include="_Internal\Cli\LockedGroupedDeclarationsBase{3}+KeysCollection.cs">
+      <DependentUpon>LockedGroupedDeclarationsBase{3}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\LockedGroupedDeclarationsBase{3}+ValuesCollection.cs">
+      <DependentUpon>LockedGroupedDeclarationsBase{3}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Cli\LockedGroupedDeclarationsBase{3}.cs" />
+    <Compile Include="_Internal\Cli\LockedGroupedMembersBase{3}.cs" />
     <Compile Include="_Internal\Cli\LockedIndexerMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\LockedIndexerSignatureMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\LockedMembersBase{TParent, TItem}.cs" />
     <Compile Include="_Internal\Cli\LockedMethodMembersBase`2.cs" />
     <Compile Include="_Internal\Cli\LockedMethodSignatureMembersBase{TSignatureParameter, TSignature, TSignatureParent}.cs" />
     <Compile Include="_Internal\Cli\LockedMethodSignatureMembers`2.cs" />
+    <Compile Include="_Internal\Cli\LockedParameterMembersBase{TParent, TParameter}.cs" />
     <Compile Include="_Internal\Cli\LockedPropertySignatureMemberDictionary{4}.cs" />
     <Compile Include="_Internal\Cli\LockedSignatureMembersBase`3.cs" />
+    <Compile Include="_Internal\Cli\Members\BinaryOperatorCoercionMemberBase{TCoercionParent}.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledBinaryOperatorCoercionMemberBase{TCoercionParent}.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledConstructorMemberBase{TCtor, TCtorParent}.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledEventMemberBase{TEvent, TEventParent}+ParameterMember.cs">
@@ -346,20 +370,55 @@
     <Compile Include="_Internal\Cli\Members\CompiledPropertySignatureMemberBase.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledTypeCoercionMemberBase{TCoercionParent}.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledUnaryOperatorCoercionMemberBase{TType}.cs" />
+    <Compile Include="_Internal\Cli\Members\ConstructorMemberBase{TCtor, TCtorParent}.cs" />
     <Compile Include="_Internal\Cli\Members\ConstructorMembers`2.cs" />
+    <Compile Include="_Internal\Cli\Members\EventMemberBase{TEvent, TEventParent}.cs" />
+    <Compile Include="_Internal\Cli\Members\EventSignatureMemberBase{TEvent, TEventParameter, TEventParent}.cs" />
+    <Compile Include="_Internal\Cli\Members\EventSignatureMemberBase{TEvent, TEventParent}.cs" />
+    <Compile Include="_Internal\Cli\Members\FieldMemberBase{TField, TFieldParent}.cs" />
+    <Compile Include="_Internal\Cli\Members\FieldMembersBase{TField, TFieldParent}.cs" />
     <Compile Include="_Internal\Cli\Members\FilteredSignatureMembers.cs" />
+    <Compile Include="_Internal\Cli\Members\FullMembersBase.cs" />
+    <Compile Include="_Internal\Cli\Members\GenericParameterConstructorMemberBase`3.cs" />
+    <Compile Include="_Internal\Cli\Members\GroupedMembersBase{TParent, TItem}.cs" />
+    <Compile Include="_Internal\Cli\Members\IndexerMemberBase.cs" />
+    <Compile Include="_Internal\Cli\Members\IndexerSignatureMemberBase.cs" />
+    <Compile Include="_Internal\Cli\Members\LockedBinaryOperatorCoercionMembers{TType}.cs" />
+    <Compile Include="_Internal\Cli\Members\LockedFieldMembersBase{TField, TFieldParent}.cs" />
     <Compile Include="_Internal\Cli\Members\LockedGenericParameterConstructorMembers.cs" />
     <Compile Include="_Internal\Cli\Members\LockedGenericParameterMethodMembers.cs" />
     <Compile Include="_Internal\Cli\Members\LockedGenericParameterPropertyMembers.cs" />
     <Compile Include="_Internal\Cli\Members\LockedGenericTypeParameterConstructorMembers{1}.cs" />
+    <Compile Include="_Internal\Cli\Members\LockedPropertyMembersBase{TProperty, TPropertyParent}.cs" />
+    <Compile Include="_Internal\Cli\Members\LockedTypeCoercionMemberDictionary{TCoercionParent}.cs" />
+    <Compile Include="_Internal\Cli\Members\LockedUnaryOperatorCoercionMembers{TType}.cs" />
+    <Compile Include="_Internal\Cli\Members\MemberBase{TIdentifier, TParent}+UniqueIdentifier.cs" />
+    <Compile Include="_Internal\Cli\Members\MemberBase{TIdentifier, TParent}.cs" />
+    <Compile Include="_Internal\Cli\Members\MemberExtensions.cs" />
+    <Compile Include="_Internal\Cli\Members\MembersBase{TParent, TItem}.cs" />
+    <Compile Include="_Internal\Cli\Members\MethodMemberBase{TMethod, TMethodParent}.cs" />
     <Compile Include="_Internal\Cli\Members\MethodMembersBase`2.cs" />
+    <Compile Include="_Internal\Cli\Members\MethodSignatureMemberBase{2}.cs" />
+    <Compile Include="_Internal\Cli\Members\MethodSignatureMemberBase{3}.cs" />
     <Compile Include="_Internal\Cli\Members\MethodSignatureMembersBase`6.cs" />
+    <Compile Include="_Internal\Cli\Members\ParameterMemberBase`1.cs" />
+    <Compile Include="_Internal\Cli\Members\ParameterMemberDictionaryTypes.cs" />
+    <Compile Include="_Internal\Cli\Members\ParameterMembersBase`2.cs" />
+    <Compile Include="_Internal\Cli\Members\PropertyMemberBase{TProperty, TPropertyParent}.cs" />
+    <Compile Include="_Internal\Cli\Members\PropertySignatureMemberBase.cs" />
+    <Compile Include="_Internal\Cli\Members\SignatureMemberBase{3}.cs" />
     <Compile Include="_Internal\Cli\Members\SignatureMembersBase{TSignature, TSignatureParameter, TSignatureParent}.cs" />
+    <Compile Include="_Internal\Cli\Members\TypeCoercionMemberBase`1.cs" />
+    <Compile Include="_Internal\Cli\Members\TypeCoercionMembers`1.cs" />
+    <Compile Include="_Internal\Cli\Members\UnaryOperatorCoercionMemberBase{TCoercionParent}.cs" />
     <Compile Include="_Internal\Cli\Modules\CompiledModule.cs" />
     <Compile Include="_Internal\Cli\Modules\CompiledModuleGlobalMethod.cs" />
+    <Compile Include="_Internal\Cli\NamespaceCollectionBase.cs" />
     <Compile Include="_Internal\Cli\_ICompiledAssembly.cs" />
     <Compile Include="_Internal\Cli\_ICompiledNamespaceDeclarations.cs" />
     <Compile Include="_Internal\Cli\_ICompiledNamespaceParent.cs" />
+    <Compile Include="_Internal\Cli\_LockedGroupMembersMasterPass.cs" />
+    <Compile Include="_Internal\Cli\_LockedRelativeHelper.cs" />
     <Compile Include="_Internal\GenericLayer\IGeneralParamsParent{TParam, TParent}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_ConstructorBase{2}+Parameters.cs">
       <DependentUpon>_ConstructorBase{2}.cs</DependentUpon>
@@ -372,10 +431,10 @@
     <Compile Include="_Internal\GenericLayer\Members\_EventMemberBase{2}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_EventMembersBase{2}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_EventSignatureMemberBase{2}+_Parameters[+_Parameter].cs">
-      <DependentUpon>_EventSignatureMemberBase{2}.cs</DependentUpon>
+      <DependentUpon>_EventSignatureMemberBase{3}.cs</DependentUpon>
     </Compile>
-    <Compile Include="_Internal\GenericLayer\Members\_EventSignatureMemberBase{2}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_EventSignatureMemberBase{3}.cs" />
+    <Compile Include="_Internal\GenericLayer\Members\_EventSignatureMemberBase{4}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_EventSignatureMembersBase{2}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_EventSignatureMembersBase{4}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_FieldMemberBase{2}.cs" />
@@ -422,7 +481,7 @@
     <Compile Include="_Internal\GenericLayer\Members\_SignatureMembersBase{4}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_TypeParameterDictionary.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_TypeParameterDictionary+GenericParameterMember.cs">
-        <DependentUpon>_TypeParameterDictionary.cs</DependentUpon>
+      <DependentUpon>_TypeParameterDictionary.cs</DependentUpon>
     </Compile>
     <Compile Include="_Internal\GenericLayer\Modules\_GlobalMethodMember{2}.cs" />
     <Compile Include="_Internal\GenericLayer\_ClassTypeBase+_ConstructorsBase[+_Constructor].cs">
@@ -485,6 +544,7 @@
       <DependentUpon>_GroupedMasterBase{TDeclaration}.cs</DependentUpon>
     </Compile>
     <Compile Include="_Internal\GenericLayer\_IGenericType.cs" />
+    <Compile Include="_Internal\GenericLayer\_IGenericTypeRegistrar.cs" />
     <Compile Include="_Internal\GenericLayer\_InterfaceTypeBase+_Events[+_Event].cs">
       <DependentUpon>_InterfaceTypeBase.cs</DependentUpon>
     </Compile>
@@ -521,6 +581,7 @@
     <Compile Include="_Internal\GenericLayer\_StructTypesBase.cs" />
     <Compile Include="_Internal\GenericLayer\_TopLevelMethod.cs" />
     <Compile Include="_Internal\GenericLayer\_Types{TType, TTypes}.cs" />
+    <Compile Include="_Internal\_CoreHelperMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Allen Copeland.pfx" />

@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         where TSignature :
             IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
         where TSignatureParent :
-            ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
     {
         protected abstract class _Parameters :
             _ParametersBase<TSignature, TSignatureParameter>

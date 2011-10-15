@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 {
     [EditorBrowsable(EditorBrowsableState.Always)]
     public class IntermediateNamespaceDeclaration :
-        IntermediateSegmentableDeclarationBase<IIntermediateNamespaceDeclaration, IntermediateNamespaceDeclaration>,
+        IntermediateSegmentableDeclarationBase<IGeneralDeclarationUniqueIdentifier, IIntermediateNamespaceDeclaration, IntermediateNamespaceDeclaration>,
         IIntermediateNamespaceDeclaration
     {
         /// <summary>
@@ -555,9 +555,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.GetRoot().Name = name;
         }
 
-        private static void SuspendCheck<TType, TIntermediateType>(IntermediateTypeDictionary<TType, TIntermediateType> dictionary, int suspendLevel)
+        private static void SuspendCheck<TTypeIdentifier, TType, TIntermediateType>(IntermediateTypeDictionary<TTypeIdentifier, TType, TIntermediateType> dictionary, int suspendLevel)
+            where TTypeIdentifier :
+                ITypeUniqueIdentifier<TTypeIdentifier>
             where TType :
-                IType<TType>
+                IType<TTypeIdentifier, TType>
             where TIntermediateType :
                 class,
                 IIntermediateType,

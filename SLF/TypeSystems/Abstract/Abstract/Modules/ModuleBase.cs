@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Modules
     /// <see cref="IModule"/>.
     /// </summary>
     public abstract class ModuleBase :
-        DeclarationBase,
+        DeclarationBase<IGeneralDeclarationUniqueIdentifier>,
         IModule
     {
         #region Data members

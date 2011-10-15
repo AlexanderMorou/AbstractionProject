@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -21,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         where TProperty :
             IPropertySignatureMember<TProperty, TPropertyParent>
         where TPropertyParent :
-            IPropertySignatureParentType<TProperty, TPropertyParent>
+            IPropertySignatureParent<TProperty, TPropertyParent>
         where TMethod :
             IMethodSignatureMember<TMethod, TMethodParent>
         where TMethodParent :
@@ -31,6 +30,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             TMethod,
             IPropertySignatureMethodMember
     {
+        private IGeneralMemberUniqueIdentifier uniqueIdentifier = null;
         /// <summary>
         /// Creates a new <see cref="CompiledPropertySignatureMemberBase{TProperty, TPropertyParent, TPropertyMethod, TMethod, TMethodParent}"/>
         /// with the <paramref name="parent"/> provided.
@@ -60,9 +60,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             return this.MemberInfo.Name;
         }
 
-        public override string UniqueIdentifier
+        public override IGeneralMemberUniqueIdentifier UniqueIdentifier
         {
-            get { return this.Name; }
+            get
+            {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                return this.uniqueIdentifier;
+            }
         }
 
         /// <summary>

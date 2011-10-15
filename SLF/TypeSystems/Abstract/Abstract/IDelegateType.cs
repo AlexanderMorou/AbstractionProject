@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// </summary>
     public interface IDelegateType :
         IParameterParent<IDelegateType, IDelegateTypeParameterMember>,
-        IGenericType<IDelegateType>,
+        IGenericType<IDelegateUniqueIdentifier, IDelegateType>,
         IReferenceType
     {
         /// <summary>

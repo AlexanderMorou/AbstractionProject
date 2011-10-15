@@ -18,20 +18,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
     /// Provides an internatl generic type collection for common type 
     /// collections to derive from.
     /// </summary>
-    /// <typeparam name="TType">The type of <see cref="IType{TType}"/>
+    /// <typeparam name="TType">The type of <see cref="IType{TTypeIdentifier, TType}"/>
     /// the <see cref="_Types{TType, TTypes}"/> contains.</typeparam>
     /// <typeparam name="TTypes">The type of dictionary which
     /// contains the original set to reference for generic
     /// instantiations.</typeparam>
-    internal abstract class _Types<TType, TTypes> :
-        _GroupedDeclarations<TType, IGenericType, IType, TTypes>
+    internal abstract class _Types<TTypeIdentifier, TType, TTypes> :
+        _GroupedDeclarations<TTypeIdentifier, TType, IGenericType, IGeneralTypeUniqueIdentifier, IType, TTypes>
+        where TTypeIdentifier :
+            ITypeUniqueIdentifier<TTypeIdentifier>,
+            IGeneralTypeUniqueIdentifier
         where TType :
             class,
-            IType<TType>
+            IType<TTypeIdentifier, TType>
         where TTypes :
             class,
-            ISubordinateDictionary<string, TType, IType>,
-            IGroupedDeclarationDictionary<TType>
+            ISubordinateDictionary<TTypeIdentifier, IGeneralTypeUniqueIdentifier, TType, IType>,
+            IGroupedDeclarationDictionary<TTypeIdentifier, TType>
     {
         public _Types(_FullTypesBase master, TTypes originalSet, IGenericType parent)
             : base(master, originalSet, parent)

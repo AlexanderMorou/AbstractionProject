@@ -10,6 +10,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -21,7 +22,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal sealed partial class CompiledEnumType :
-        CompiledTypeBase<IEnumType>,
+        CompiledTypeBase<IGeneralTypeUniqueIdentifier, IEnumType>,
         ICompiledEnumType
     {
         /// <summary>
@@ -82,11 +83,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return TypeKind.Enumerator; }
         }
 
-        public override IEnumerable<string> AggregateIdentifiers
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get {
                 foreach (var field in this.Fields.Values)
-                    yield return field.Name;
+                    yield return field.UniqueIdentifier;
             }
         }
     }

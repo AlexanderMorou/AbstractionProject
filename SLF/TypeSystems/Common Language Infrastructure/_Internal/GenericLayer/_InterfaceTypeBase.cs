@@ -16,7 +16,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
     internal partial class _InterfaceTypeBase :
-        _GenericTypeBase<IInterfaceType>,
+        _GenericTypeBase<IGeneralGenericTypeUniqueIdentifier, IInterfaceType>,
         IInterfaceType
     {
         private bool checkedFullMembers;
@@ -150,7 +150,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #region IEventSignatureParent<IInterfaceEventMember,IEventSignatureParameterMember<IInterfaceEventMember,IInterfaceType>,IInterfaceType> Members
 
-        IEventSignatureMemberDictionary<IInterfaceEventMember, IEventSignatureParameterMember<IInterfaceEventMember, IInterfaceType>, IInterfaceType> IEventSignatureParent<IInterfaceEventMember,IEventSignatureParameterMember<IInterfaceEventMember,IInterfaceType>,IInterfaceType>.Events
+        IEventSignatureMemberDictionary<IInterfaceEventMember, IEventSignatureParameterMember<IInterfaceEventMember, IInterfaceType>, IInterfaceType> IEventSignatureParent<IInterfaceEventMember, IEventSignatureParameterMember<IInterfaceEventMember, IInterfaceType>, IInterfaceType>.Events
         {
             get
             {
@@ -213,7 +213,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #endregion
 
-        #region IPropertySignatureParentType<IInterfacePropertyMember,IInterfaceType> Members
+        #region IPropertySignatureParent<IInterfacePropertyMember,IInterfaceType> Members
 
         public IPropertySignatureMemberDictionary<IInterfacePropertyMember, IInterfaceType> Properties
         {
@@ -237,9 +237,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #endregion
 
-        #region IPropertySignatureParentType Members
+        #region IPropertySignatureParent Members
 
-        IPropertySignatureMemberDictionary IPropertySignatureParentType.Properties
+        IPropertySignatureMemberDictionary IPropertySignatureParent.Properties
         {
             get { return ((IPropertySignatureMemberDictionary)(this.Properties)); }
         }
@@ -502,6 +502,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         protected override IEnumerable<IDeclaration> OnGetDeclarations()
         {
             return GetTypeParentDeclarations(this);
+        }
+
+        protected override IGeneralGenericTypeUniqueIdentifier OnGetUniqueIdentifier()
+        {
+            return this.Original.UniqueIdentifier;
         }
     }
 }

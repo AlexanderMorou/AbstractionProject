@@ -11,23 +11,25 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
-    partial class SubordinateDictionary<TKey, TSValue, TMValue>
+    partial class SubordinateDictionary<TSKey, TMKey, TSValue, TMValue>
+        where TSKey :
+            TMKey
         where TMValue :
             class
         where TSValue :
             TMValue
     {
         private new class KeysCollection :
-            ControlledStateDictionary<TKey, TSValue>.KeysCollection
+            ControlledStateDictionary<TSKey, TSValue>.KeysCollection
         {
-            private SubordinateDictionary<TKey, TSValue, TMValue> owner;
-            public KeysCollection(SubordinateDictionary<TKey, TSValue, TMValue> owner)
+            private SubordinateDictionary<TSKey, TMKey, TSValue, TMValue> owner;
+            public KeysCollection(SubordinateDictionary<TSKey, TMKey, TSValue, TMValue> owner)
                 : base(owner)
             {
                 this.owner = owner;
             }
 
-            protected internal override void OnSetKey(int index, TKey value)
+            protected internal override void OnSetKey(int index, TSKey value)
             {
                 int masterIndex = this.owner.Master.Keys.IndexOf(base[index]);
                 if (masterIndex > -1)
@@ -35,17 +37,17 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 base[index] = value;
             }
 
-            public override IEnumerator<TKey> GetEnumerator()
+            public override IEnumerator<TSKey> GetEnumerator()
             {
                 return base.GetEnumerator();
             }
 
-            public override void CopyTo(TKey[] array, int arrayIndex)
+            public override void CopyTo(TSKey[] array, int arrayIndex)
             {
                 base.CopyTo(array, arrayIndex);
             }
 
-            public override bool Contains(TKey item)
+            public override bool Contains(TSKey item)
             {
                 return base.Contains(item);
             }

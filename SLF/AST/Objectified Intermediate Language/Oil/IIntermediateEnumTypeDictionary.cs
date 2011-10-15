@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <see cref="IIntermediateFullTypeDictionary"/>.
     /// </summary>
     public interface IIntermediateEnumTypeDictionary :
-        IIntermediateTypeDictionary<IEnumType, IIntermediateEnumType>,
+        IIntermediateTypeDictionary<IGeneralTypeUniqueIdentifier, IEnumType, IIntermediateEnumType>,
         IEnumTypeDictionary
     {
     }

@@ -13,12 +13,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// </summary>
     /// <typeparam name="TType">The type of <see cref="IGenericType{TType}"/> 
     /// which contains the <see cref="IGenericTypeParameter{TType}"/> instances.</typeparam>
-    public interface IGenericTypeParameter<TType> :
-        IGenericParameter<IGenericTypeParameter<TType>, TType>,
-        IType<IGenericTypeParameter<TType>>,
+    public interface IGenericTypeParameter<TTypeIdentifier, TType> :
+        IGenericParameter<IGenericTypeParameter<TTypeIdentifier, TType>, TType>,
         IGenericTypeParameter
+        where TTypeIdentifier :
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>
         where TType :
-            IGenericType<TType>
+            IGenericType<TTypeIdentifier, TType>
     {
 
     }

@@ -14,16 +14,16 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
  \-------------------------------------------------------------------- */
 
 
-namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
     internal class ConstructorMembers<TCtor, TCtorParent> :
-        SignatureMembersBase<TCtor, IConstructorParameterMember<TCtor, TCtorParent>, TCtorParent>,
+        SignatureMembersBase<IGeneralSignatureMemberUniqueIdentifier, TCtor, IConstructorParameterMember<TCtor, TCtorParent>, TCtorParent>,
         IConstructorMemberDictionary<TCtor, TCtorParent>,
         IConstructorMemberDictionary
         where TCtor :
             IConstructorMember<TCtor, TCtorParent>
         where TCtorParent :
-            ICreatableType<TCtor, TCtorParent>
+            ICreatableParent<TCtor, TCtorParent>
     {
         /// <summary>
         /// Creates a new <see cref="ConstructorMembers{TCtor, TCtorParent}"/> initialized to a 

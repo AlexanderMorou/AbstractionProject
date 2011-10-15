@@ -15,19 +15,25 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
-    internal abstract partial class _DeclarationsBase<TDeclaration, TDeclarationSpecific, TOriginalContainer, TDictionary> :
-        SubordinateDictionary<string, TDeclarationSpecific, TDeclaration>,
-        IDeclarationDictionary<TDeclarationSpecific>,
+    internal abstract partial class _DeclarationsBase<TDeclarationIdentifier, TDeclaration, TDeclarationSpecificIdentifier, TDeclarationSpecific, TOriginalContainer, TDictionary> :
+        SubordinateDictionary<TDeclarationSpecificIdentifier, TDeclarationIdentifier, TDeclarationSpecific, TDeclaration>,
+        IDeclarationDictionary<TDeclarationSpecificIdentifier, TDeclarationSpecific>,
         IDeclarationDictionary
+        where TDeclarationIdentifier :
+            IDeclarationUniqueIdentifier<TDeclarationIdentifier>
         where TDeclaration :
             class,
             IDeclaration
+        where TDeclarationSpecificIdentifier :
+            IDeclarationUniqueIdentifier<TDeclarationSpecificIdentifier>,
+            TDeclarationIdentifier
         where TDeclarationSpecific :
             class,
+            IDeclaration<TDeclarationSpecificIdentifier>,
             TDeclaration
         where TDictionary :
             class,
-            IDeclarationDictionary<TDeclarationSpecific>
+            IDeclarationDictionary<TDeclarationSpecificIdentifier, TDeclarationSpecific>
     {
         /// <summary>
         /// Data member for <see cref="Parent"/>.
@@ -42,7 +48,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         {
         }
 
-        internal _DeclarationsBase(MasterDictionaryBase<string, TDeclaration> master, TOriginalContainer parent, TDictionary original)
+        internal _DeclarationsBase(MasterDictionaryBase<TDeclarationIdentifier, TDeclaration> master, TOriginalContainer parent, TDictionary original)
             : base(master)
         {
             this.parent = parent;
@@ -94,12 +100,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             }
         }
 
-        protected override ControlledStateDictionary<string, TDeclarationSpecific>.KeysCollection InitializeKeysCollection()
+        protected override ControlledStateDictionary<TDeclarationSpecificIdentifier, TDeclarationSpecific>.KeysCollection InitializeKeysCollection()
         {
             return new _KeysCollection(this);
         }
 
-        protected override ControlledStateDictionary<string, TDeclarationSpecific>.ValuesCollection InitializeValuesCollection()
+        protected override ControlledStateDictionary<TDeclarationSpecificIdentifier, TDeclarationSpecific>.ValuesCollection InitializeValuesCollection()
         {
             return new _ValuesCollection(this);
         }
@@ -127,31 +133,31 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return -1;
         }
 
-        public override IEnumerator<KeyValuePair<string, TDeclarationSpecific>> GetEnumerator()
+        public override IEnumerator<KeyValuePair<TDeclarationSpecificIdentifier, TDeclarationSpecific>> GetEnumerator()
         {
             var kE = this.Keys.GetEnumerator();
             var vE = this.Values.GetEnumerator();
             while (kE.MoveNext())
             {
                 vE.MoveNext();
-                yield return new KeyValuePair<string, TDeclarationSpecific>(kE.Current, vE.Current);
+                yield return new KeyValuePair<TDeclarationSpecificIdentifier, TDeclarationSpecific>(kE.Current, vE.Current);
             }
             kE.Dispose();
             vE.Dispose();
         }
 
 
-        protected override KeyValuePair<string, TDeclarationSpecific> OnGetThis(int index)
+        protected override KeyValuePair<TDeclarationSpecificIdentifier, TDeclarationSpecific> OnGetThis(int index)
         {
-            return new KeyValuePair<string, TDeclarationSpecific>(this.Keys[index], this.Values[index]);
+            return new KeyValuePair<TDeclarationSpecificIdentifier, TDeclarationSpecific>(this.Keys[index], this.Values[index]);
         }
 
-        public override KeyValuePair<string, TDeclarationSpecific>[] ToArray()
+        public override KeyValuePair<TDeclarationSpecificIdentifier, TDeclarationSpecific>[] ToArray()
         {
             return Enumerable.ToArray(this);
         }
 
-        public override TDeclarationSpecific this[string key]
+        public override TDeclarationSpecific this[TDeclarationSpecificIdentifier key]
         {
             get
             {
@@ -162,27 +168,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 throw new NotSupportedException();
             }
         }
-        public override bool ContainsKey(string key)
+        public override bool ContainsKey(TDeclarationSpecificIdentifier key)
         {
             return this.Keys.Contains(key);
         }
 
-        public override bool Contains(KeyValuePair<string, TDeclarationSpecific> item)
+        public override bool Contains(KeyValuePair<TDeclarationSpecificIdentifier, TDeclarationSpecific> item)
         {
             if (this.Keys.Contains(item.Key))
-                return this.Values[this.Keys.GetIndexOf(item.Key)] == item.Value;
+                return this.Values[this.Keys.IndexOf(item.Key)] == item.Value;
             return false;
         }
 
-        protected override TDeclarationSpecific OnGetThis(string key)
+        protected override TDeclarationSpecific OnGetThis(TDeclarationSpecificIdentifier key)
         {
             if (this.ContainsKey(key))
-                return this.Values[this.Keys.GetIndexOf(key)];
-            throw new KeyNotFoundException(key);
+                return this.Values[this.Keys.IndexOf(key)];
+            throw new KeyNotFoundException();
         }
 
 
-        public override void CopyTo(KeyValuePair<string, TDeclarationSpecific>[] array, int arrayIndex)
+        public override void CopyTo(KeyValuePair<TDeclarationSpecificIdentifier, TDeclarationSpecific>[] array, int arrayIndex)
         {
             this.ToArray().CopyTo(array, arrayIndex);
         }

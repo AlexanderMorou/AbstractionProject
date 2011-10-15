@@ -19,15 +19,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
     /// type-replacements for the type-parameters of a 
     /// <see cref="IPropertySignatureMember.PropertyType"/>.
     /// </summary>
-    /// <typeparam name="TPropertySignature">The type of <see cref="IPropertySignatureMember{TPropertySignature, TPropertySignatureParent}"/>.</typeparam>
-    /// <typeparam name="TPropertySignatureParent">The type of <see cref="IPropertySignatureParentType{TPropertySignature, TPropertySignatureParent}"/>.</typeparam>
-    internal abstract class _PropertySignatureBase<TPropertySignature, TPropertySignatureParent> :
-        _MemberBase<TPropertySignature, TPropertySignatureParent>,
-        IPropertySignatureMember<TPropertySignature, TPropertySignatureParent>
-        where TPropertySignature :
-            IPropertySignatureMember<TPropertySignature, TPropertySignatureParent>
-        where TPropertySignatureParent :
-            IPropertySignatureParentType<TPropertySignature, TPropertySignatureParent>
+    /// <typeparam name="TProperty">The type of <see cref="IPropertySignatureMember{TProperty, TPropertyParent}"/>.</typeparam>
+    /// <typeparam name="TPropertyParent">The type of <see cref="IPropertySignatureParent{TProperty, TPropertyParent}"/>.</typeparam>
+    internal abstract class _PropertySignatureBase<TProperty, TPropertyParent> :
+        _MemberBase<IGeneralMemberUniqueIdentifier, TProperty, TPropertyParent>,
+        IPropertySignatureMember<TProperty, TPropertyParent>
+        where TProperty :
+            IPropertySignatureMember<TProperty, TPropertyParent>
+        where TPropertyParent :
+            IPropertySignatureParent<TProperty, TPropertyParent>
     {
         /// <summary>
         /// Data member for <see cref="GetMethod"/>.
@@ -45,18 +45,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         /// Data member representing the original set method.
         /// </summary>
         private IPropertySignatureMethodMember _setMethod;
-
         /// <summary>
-        /// Creates a new <see cref="_PropertySignatureBase{TPropertySignature, TPropertySignatureParent}"/>
+        /// Creates a new <see cref="_PropertySignatureBase{TProperty, TPropertyParent}"/>
         /// instance with the <paramref name="original"/> and 
         /// <paramref name="parent"/> instances.
         /// </summary>
-        /// <param name="original">The <typeparamref name="TPropertySignature"/> instance
-        /// form which the <see cref="_PropertySignatureBase{TPropertySignature, TPropertySignatureParent}"/>.</param>
-        /// <param name="parent">The <typeparamref name="TPropertySignatureParent"/>
-        /// to which the <see cref="_PropertySignatureBase{TPropertySignature, TPropertySignatureParent}"/> 
+        /// <param name="original">The <typeparamref name="TProperty"/> instance
+        /// form which the <see cref="_PropertySignatureBase{TProperty, TPropertyParent}"/>.</param>
+        /// <param name="parent">The <typeparamref name="TPropertyParent"/>
+        /// to which the <see cref="_PropertySignatureBase{TProperty, TPropertyParent}"/> 
         /// is contained within.</param>
-        public _PropertySignatureBase(TPropertySignature original, TPropertySignatureParent parent)
+        public _PropertySignatureBase(TProperty original, TPropertyParent parent)
             : base(original, parent)
         {
         }
@@ -66,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         /// <summary>
         /// Returns the <see cref="IMethodMember"/> 
         /// which represents the get method of the 
-        /// <see cref="_PropertySignatureBase{TPropertySignature, TPropertySignatureParent}"/>.
+        /// <see cref="_PropertySignatureBase{TProperty, TPropertyParent}"/>.
         /// </summary>
         public IPropertySignatureMethodMember GetMethod
         {
@@ -87,7 +86,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         /// <summary>
         /// Returns the <see cref="IMethodMember"/> 
         /// which represents the set method of the 
-        /// <see cref="_PropertySignatureBase{TPropertySignature, TPropertySignatureParent}"/>.
+        /// <see cref="_PropertySignatureBase{TProperty, TPropertyParent}"/>.
         /// </summary>
         public IPropertySignatureMethodMember SetMethod
         {
@@ -169,5 +168,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         }
 
         #endregion
+
+        public override IGeneralMemberUniqueIdentifier UniqueIdentifier
+        {
+            get { return this.Original.UniqueIdentifier; }
+        }
     }
 }

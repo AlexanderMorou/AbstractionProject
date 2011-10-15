@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
+using AllenCopeland.Abstraction.Slf._Internal.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -14,21 +15,21 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    internal partial class LockedEventSignatureMembersBase<TEventSignature, TEventSignatureParameter, TEventSignatureParent> :
-        LockedSignatureMembersBase<TEventSignature, TEventSignatureParameter, TEventSignatureParent, EventInfo>,
-        IEventSignatureMemberDictionary<TEventSignature, TEventSignatureParameter, TEventSignatureParent>,
+    internal partial class LockedEventSignatureMembersBase<TEvent, TEventSignatureParameter, TEventParent> :
+        LockedSignatureMembersBase<IGeneralSignatureMemberUniqueIdentifier, TEvent, TEventSignatureParameter, TEventParent, EventInfo>,
+        IEventSignatureMemberDictionary<TEvent, TEventSignatureParameter, TEventParent>,
         IEventSignatureMemberDictionary
-        where TEventSignature :
+        where TEvent :
             class,
-            IEventSignatureMember<TEventSignature, TEventSignatureParameter, TEventSignatureParent>
+            IEventSignatureMember<TEvent, TEventSignatureParameter, TEventParent>
         where TEventSignatureParameter :
-            IEventSignatureParameterMember<TEventSignature, TEventSignatureParameter, TEventSignatureParent>
-        where TEventSignatureParent :
-            IEventSignatureParent<TEventSignature, TEventSignatureParameter, TEventSignatureParent>
+            IEventSignatureParameterMember<TEvent, TEventSignatureParameter, TEventParent>
+        where TEventParent :
+            IEventSignatureParent<TEvent, TEventSignatureParameter, TEventParent>
     {
-        internal LockedEventSignatureMembersBase(LockedFullMembersBase master, TEventSignatureParent parent, EventInfo[] sourceData, Func<EventInfo, TEventSignature> fetchImpl)
+        internal LockedEventSignatureMembersBase(LockedFullMembersBase master, TEventParent parent, EventInfo[] sourceData, Func<EventInfo, TEvent> fetchImpl)
             : base(master, parent, sourceData, fetchImpl, GetName)
         {
         }
@@ -36,24 +37,24 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         {
             return @event.Name;
         }
-        internal LockedEventSignatureMembersBase(LockedFullMembersBase master, TEventSignatureParent parent)
+        internal LockedEventSignatureMembersBase(LockedFullMembersBase master, TEventParent parent)
             : base(master, parent)
         {
         }
 
-        protected override string FetchKey(EventInfo item)
+        protected override IGeneralSignatureMemberUniqueIdentifier FetchKey(EventInfo item)
         {
-            return item.Name;
+            return item.GetUniqueIdentifier();
         }
 
-        #region IEventSignatureMemberDictionary<TEventSignature,TEventSignatureParameter,TEventSignatureParent> Members
+        #region IEventSignatureMemberDictionary<TEvent,TEventSignatureParameter,TEventParent> Members
 
-        public TEventSignature Find(string eventName, IDelegateType searchCriteria)
+        public TEvent Find(string eventName, IDelegateType searchCriteria)
         {
             return this.Find(searchCriteria).Filter(@event => @event.Name == eventName).Values.FirstOrDefault();
         }
 
-        public IFilteredSignatureMemberDictionary<TEventSignature, TEventSignatureParameter, TEventSignatureParent> Find(IDelegateType searchCriteria)
+        public IFilteredSignatureMemberDictionary<IGeneralSignatureMemberUniqueIdentifier, TEvent, TEventSignatureParameter, TEventParent> Find(IDelegateType searchCriteria)
         {
             return this.Find(true, searchCriteria.Parameters.ParameterTypes);
         }

@@ -116,20 +116,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #region ICollection<IType> Members
 
-        internal void _Clear(){
-            copy.Clear();
-        }
-
-        internal void _AddRange(IType[] series)
-        {
-            copy.AddRange(series);
-        }
-
-        internal void _Add(IType type)
-        {
-            copy.Add(type);
-        }
-
         public bool Contains(IType item)
         {
             return this.copy.Contains(item);

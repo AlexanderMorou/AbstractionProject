@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// </summary>
     [CLSCompliant(false)]
     public interface IIntermediateEnumFieldMemberDictionary :
-        IIntermediateGroupedMemberDictionary<IEnumType, IIntermediateEnumType, IEnumFieldMember, IIntermediateEnumFieldMember>,
+        IIntermediateGroupedMemberDictionary<IEnumType, IIntermediateEnumType, IGeneralMemberUniqueIdentifier, IEnumFieldMember, IIntermediateEnumFieldMember>,
         IFieldMemberDictionary<IEnumFieldMember, IEnumType>
     {
         /// <summary>

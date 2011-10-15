@@ -138,7 +138,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             where T :
                 IType
         {
-            return new LockedTypeCollection(array.Cast<IType>());
+            return ((array as LockedTypeCollection) ?? (new LockedTypeCollection(array.Cast<IType>())));
         }
 
         /// <summary>

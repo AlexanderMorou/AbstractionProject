@@ -9,17 +9,19 @@
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>
-    /// Defines generic properties and methods for working with a <see cref="IType{TType}"/> which
+    /// Defines generic properties and methods for working with a <see cref="IType{TTypeIdentifier, TType}"/> which
     /// contains generic parameters.
     /// </summary>
-    /// <typeparam name="TType">The type of <see cref="IType{TType}"/> in the current
+    /// <typeparam name="TType">The type of <see cref="IType{TTypeIdentifier, TType}"/> in the current
     /// implementation.</typeparam>
-    public interface IGenericType<TType> :
-        IType<TType>,
-        IGenericParamParent<IGenericTypeParameter<TType>, TType>,
+    public interface IGenericType<TTypeIdentifier, TType> :
+        IType<TTypeIdentifier, TType>,
+        IGenericParamParent<IGenericTypeParameter<TTypeIdentifier, TType>, TType>,
         IGenericType
+        where TTypeIdentifier :
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>
         where TType :
-            IGenericType<TType>
+            IGenericType<TTypeIdentifier, TType>
     {
         /// <summary>
         /// Returns a <typeparamref name="TType"/> instance that is the 

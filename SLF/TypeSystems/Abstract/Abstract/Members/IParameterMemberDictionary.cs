@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <typeparam name="TParameter">The type of <see cref="IParameterMember{TParent}"/> which is contained by the 
     /// <typeparamref name="TParent"/> in the current implementation.</typeparam>
     public interface IParameterMemberDictionary<TParent, TParameter> :
-        IMemberDictionary<TParent, TParameter>
+        IMemberDictionary<TParent, IGeneralMemberUniqueIdentifier, TParameter>
         where TParent :
             IParameterParent<TParent, TParameter>
         where TParameter :

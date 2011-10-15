@@ -14,7 +14,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
     internal class _EnumTypesBase :
-        _Types<IEnumType, IEnumTypeDictionary>,
+        _Types<IGeneralTypeUniqueIdentifier, IEnumType, IEnumTypeDictionary>,
         IEnumTypeDictionary
     {
         internal _EnumTypesBase(_FullTypesBase master, IEnumTypeDictionary originalSet, IGenericType parent)

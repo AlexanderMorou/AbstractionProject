@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         where TSignature :
             IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
         where TSignatureParent :
-            ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
     {
 
     }

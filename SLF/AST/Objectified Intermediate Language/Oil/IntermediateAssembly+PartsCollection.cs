@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -23,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         [DebuggerDisplay("Assembly Files: {Count}")]
         protected class PartsCollection :
             ControlledStateCollection<IIntermediateAssembly>,
-            IIntermediateSegmentableDeclarationPartCollection<IIntermediateAssembly>,
+            IIntermediateSegmentableDeclarationPartCollection<IAssemblyUniqueIdentifier, IIntermediateAssembly>,
             IIntermediateSegmentableDeclarationPartCollection
         {
             private TAssembly root;

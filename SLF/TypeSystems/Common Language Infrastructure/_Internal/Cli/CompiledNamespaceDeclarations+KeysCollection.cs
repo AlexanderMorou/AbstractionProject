@@ -17,13 +17,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     partial class CompiledNamespaceDeclarations
     {
         private class _KeysCollection :
-            ControlledStateDictionary<string, INamespaceDeclaration>.KeysCollection
+            KeysCollection
         {
+            private IGeneralDeclarationUniqueIdentifier[] identifiers;
             private CompiledNamespaceDeclarations parent;
             public _KeysCollection(CompiledNamespaceDeclarations parent)
                 : base(parent)
             {
                 this.parent = parent;
+                this.identifiers = new IGeneralDeclarationUniqueIdentifier[this.parent.baseData.Length];
             }
 
             public override int Count
@@ -34,19 +36,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
             }
 
-            protected override string OnGetKey(int index)
+            protected override IGeneralDeclarationUniqueIdentifier OnGetKey(int index)
             {
                 if (index < 0 || index >= this.parent.baseData.Length)
                     throw new ArgumentOutOfRangeException("index");
-                return this.parent.baseData[index];
+                this.CheckItemAt(index);
+                return this.identifiers[index];
             }
 
-            public override bool Contains(string item)
+            public override bool Contains(IGeneralDeclarationUniqueIdentifier item)
             {
-                return this.parent.baseData.Contains(item);
+                if (item == null)
+                    throw new ArgumentNullException("item");
+                return this.parent.baseData.Contains(item.Name);
             }
 
-            public override string[] ToArray()
+            public override IGeneralDeclarationUniqueIdentifier[] ToArray()
             {
                 /* *
                  * Array references pass the original reference, 
@@ -54,18 +59,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                  * *
                  * That would be bad in this case.
                  * */
-                var r = new string[this.parent.baseData.Length];
+                var r = new IGeneralDeclarationUniqueIdentifier[this.parent.baseData.Length];
                 this.CopyTo(r, 0);
                 return r;
             }
 
-            public override IEnumerator<string> GetEnumerator()
+            public override IEnumerator<IGeneralDeclarationUniqueIdentifier> GetEnumerator()
             {
-                foreach (string s in this.parent.baseData)
-                    yield return s;
-                yield break;
+                for (int i = 0, c=this.Count; i < c; i++)
+                {
+                    this.CheckItemAt(i);
+                    yield return this.identifiers[i];
+                }
             }
-            public override void CopyTo(string[] array, int arrayIndex)
+
+            private void CheckItemAt(int index)
+            {
+                if (this.identifiers[index] == null)
+                    this.identifiers[index] = AstIdentifier.Declaration(this.parent.baseData[index]);
+            }
+
+            public override void CopyTo(IGeneralDeclarationUniqueIdentifier[] array, int arrayIndex)
             {
                 this.parent.baseData.CopyTo(array, arrayIndex);
             }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
 /*---------------------------------------------------------------------\
 | Copyright © 2011 Allen Copeland Jr.                                  |
 |----------------------------------------------------------------------|
@@ -16,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Lambda
     /// a lambda expression where the types of the parameters is inferred.
     /// </summary>
     public interface ILambdaTypeInferredExpressionParameterMemberDictionary :
-        IIntermediateMemberDictionary<ILambdaTypeInferredExpression, ILambdaTypeInferredExpression, ILambdaTypeInferredExpressionParameterMember, ILambdaTypeInferredExpressionParameterMember>
+        IIntermediateMemberDictionary<ILambdaTypeInferredExpression, ILambdaTypeInferredExpression, IGeneralMemberUniqueIdentifier, ILambdaTypeInferredExpressionParameterMember, ILambdaTypeInferredExpressionParameterMember>
     {
 
     }

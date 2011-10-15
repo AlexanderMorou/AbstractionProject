@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
@@ -28,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         where TCtor :
             IConstructorMember<TCtor, TCtorParent>
         where TCtorParent :
-            ICreatableType<TCtor, TCtorParent>
+            ICreatableParent<TCtor, TCtorParent>
     {
         /// <summary>
         /// Data member for <see cref="MemberInfo"/>.
@@ -37,19 +36,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <summary>
         /// Data member for <see cref="DeclarationBase.UniqueIdentifier"/>
         /// </summary>
-        private string uniqueIdentifier;
+        private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
         private bool lastIsParams;
         public CompiledConstructorMemberBase(ConstructorInfo ctorInfo, TCtorParent parent)
             : base(parent)
         {
-            this.uniqueIdentifier = ctorInfo.GetUniqueIdentifier();
             this.ctorInfo = ctorInfo;
             this.lastIsParams = ctorInfo.LastParameterIsParams();
         }
 
         protected override IParameterMemberDictionary<TCtor, IConstructorParameterMember<TCtor, TCtorParent>> InitializeParameters()
         {
-            return new ParametersDictionary(this, this.MemberInfo.GetParameters().OnAll(paramInfo => (IConstructorParameterMember<TCtor, TCtorParent>)new ParameterMember(paramInfo, this)));
+            return new ParametersDictionary(this, from paramInfo in this.MemberInfo.GetParameters()
+                                                  select new ParameterMember(paramInfo, this));
         }
 
         private class ParameterMember :
@@ -101,11 +100,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
-        public override string UniqueIdentifier
+        public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier
         {
             get
             {
-                return uniqueIdentifier;
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = ctorInfo.GetUniqueIdentifier();
+                return this.uniqueIdentifier;
             }
         }
 

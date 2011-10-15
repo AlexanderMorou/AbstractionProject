@@ -34,23 +34,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             IPropertyMember<TProperty, TType>
         where TType :
             class,
-            IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType>,
-            IGenericType<TType>
+            IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, IGeneralGenericTypeUniqueIdentifier, TType>,
+            IGenericType<IGeneralGenericTypeUniqueIdentifier, TType>
     {
         private class _BinaryOperatorsBase :
-            _GroupedMembersBase<TType, IBinaryOperatorCoercionMember<TType>, IBinaryOperatorCoercionMemberDictionary<TType>>,
-            IBinaryOperatorCoercionMemberDictionary<TType>,
+            _GroupedMembersBase<TType, IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>, IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType>>,
+            IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType>,
             IBinaryOperatorCoercionMemberDictionary
         {
 
-            public _BinaryOperatorsBase(_FullMembersBase master,IBinaryOperatorCoercionMemberDictionary<TType> originalSet, TType parent)
+            public _BinaryOperatorsBase(_FullMembersBase master, IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> originalSet, TType parent)
                 : base(master, originalSet, parent)
             {
             }
 
             #region IBinaryOperatorCoercionMemberDictionary<TType> Members
 
-            public IBinaryOperatorCoercionMember<TType> this[CoercibleBinaryOperators op, BinaryOpCoercionContainingSide side, IType otherSide]
+            public IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> this[CoercibleBinaryOperators op, BinaryOpCoercionContainingSide side, IType otherSide]
             {
                 get
                 {
@@ -61,7 +61,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 }
             }
 
-            public IBinaryOperatorCoercionMember<TType> this[CoercibleBinaryOperators op]
+            public IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> this[CoercibleBinaryOperators op]
             {
                 get
                 {
@@ -90,16 +90,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
             #endregion
 
-            protected override IBinaryOperatorCoercionMember<TType> ObtainWrapper(IBinaryOperatorCoercionMember<TType> item)
+            protected override IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> ObtainWrapper(IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> item)
             {
                 return new _BinaryOperator(item, this.Parent);
             }
 
             private class _BinaryOperator :
-                _MemberBase<IBinaryOperatorCoercionMember<TType>, TType>,
-                IBinaryOperatorCoercionMember<TType>
+                _MemberBase<IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>, TType>,
+                IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>
             {
-                internal _BinaryOperator(IBinaryOperatorCoercionMember<TType> original, TType parent)
+                internal _BinaryOperator(IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> original, TType parent)
                     : base(original, parent)
                 {
                 }
@@ -157,32 +157,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
                 #endregion
 
-                public override string UniqueIdentifier
+                public override IBinaryOperatorUniqueIdentifier UniqueIdentifier
                 {
                     get
                     {
-                        StringBuilder sb = new StringBuilder();
-                        switch (this.ContainingSide)
-                        {
-                            case BinaryOpCoercionContainingSide.LeftSide:
-                                sb.Append(this.Parent.Name);
-                                sb.Append(this.Name);
-                                sb.Append(this.OtherSide.Name);
-                                break;
-                            case BinaryOpCoercionContainingSide.RightSide:
-                                sb.Append(this.OtherSide.Name);
-                                sb.Append(this.Name);
-                                sb.Append(this.Parent.Name);
-                                break;
-                            case BinaryOpCoercionContainingSide.Both:
-                                sb.Append(this.Parent.Name);
-                                sb.Append(this.Name);
-                                sb.Append(this.Parent.Name);
-                                break;
-                            default:
-                                return null;
-                        }
-                        return sb.ToString();
+                        return AstIdentifier.BinaryOperator(this.Operator, this.ContainingSide, this.OtherSide);
                     }
                 }
             }

@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IIntermediateNamespaceParent,
         IIntermediateDeclaration,
         INamespaceDeclaration,
-        IIntermediateSegmentableDeclaration<IIntermediateNamespaceDeclaration>
+        IIntermediateSegmentableDeclaration<IGeneralDeclarationUniqueIdentifier, IIntermediateNamespaceDeclaration>
     {
         /// <summary>
         /// Returns the <see cref="IIntermediateAssembly"/> associated

@@ -13,7 +13,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
     public class IntermediateEventSignatureParameterMember<TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent> :
-        IntermediateSignatureParameterMemberBase<TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent>,
+        IntermediateSignatureParameterMemberBase<IGeneralSignatureMemberUniqueIdentifier, TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent>,
         IIntermediateEventSignatureParameterMember<TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent>
         where TEvent :
             IEventSignatureMember<TEvent, TEventParameter, TEventParent>

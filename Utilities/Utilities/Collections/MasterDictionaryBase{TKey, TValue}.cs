@@ -83,35 +83,43 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <summary>
         /// Adds a subordinate to to the <see cref="MasterDictionaryBase{TKey, TValue}"/>.
         /// </summary>
+        /// <typeparam name="TSKey">The kind of key within the subordinate
+        /// dictionary.</typeparam>
         /// <typeparam name="TSValue">The sub-type of <typeparamref name="TValue"/>
         /// that the elements of the <paramref name="subordinate"/>
         /// consist of.</typeparam>
         /// <param name="subordinate">
-        /// The <see cref="ISubordinateDictionary{TKey, TSValue, TValue}"/>
+        /// The <see cref="ISubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/>
         /// which is to become a subordinate of the 
         /// current <see cref="MasterDictionaryBase{TKey, TValue}"/>.
         /// </param>
         /// <exception cref="System.ArgumentNullException">Thrown when <paramref name="subordinate"/> is null.</exception>
         /// <exception cref="System.ArgumentException">
         /// thrown when <paramref name="subordinate"/> is not derived from 
-        /// <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/> or when
+        /// <see cref="SubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/> or when
         /// a subordinate of the given <typeparamref name="TSValue"/> 
         /// already exists.</exception>
-        protected internal void AddSubordinate<TSValue>(ISubordinateDictionary<TKey, TSValue, TValue> subordinate)
+        protected internal void AddSubordinate<TSKey, TSValue>(ISubordinateDictionary<TSKey, TKey, TSValue, TValue> subordinate)
+            where TSKey :
+                TKey
             where TSValue :
                 TValue
         {
-            AddSubordinateImpl<TSValue>(subordinate);
+            AddSubordinateImpl<TSKey, TSValue>(subordinate);
         }
 
-        internal virtual void AddSubordinateImpl<TSValue>(ISubordinateDictionary<TKey, TSValue, TValue> subordinate) where TSValue : TValue
+        internal virtual void AddSubordinateImpl<TSKey, TSValue>(ISubordinateDictionary<TSKey, TKey, TSValue, TValue> subordinate)
+            where TSKey :
+                TKey
+            where TSValue :
+                TValue
         {
             if (subordinate == null)
                 throw new ArgumentNullException("subordinate");
             if (!(subordinate is _ISubordinateDictionaryMasterPass))
                 throw new ArgumentException("subordinate");
             foreach (ISubordinateDictionary isd in this.subordinates)
-                if (isd is ISubordinateDictionary<TKey, TSValue, TValue>)
+                if (isd is ISubordinateDictionary<TSKey, TKey, TSValue, TValue>)
                     throw new ArgumentException("subordinate sub-type exists.");
             this.subordinates.Add((ISubordinateDictionary)subordinate);
         }
@@ -122,17 +130,21 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// Obtains a subordinate dictionary that adheres
         /// to the sub-type (<typeparamref name="TSValue"/>) defined.
         /// </summary>
+        /// <typeparam name="TSKey">The kind of key within the subordinate
+        /// dictionary.</typeparam>
         /// <typeparam name="TSValue">The specific type of value used in the subordinate dictionary, derives
         /// from the master dictionary's <typeparamref name="TValue"/>.</typeparam>
-        /// <returns>A <see cref="ISubordinateDictionary{TKey, TSValue, TMValue}"/> contained 
+        /// <returns>A <see cref="ISubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/> contained 
         /// within the <see cref="MasterDictionaryBase{TKey, TValue}"/></returns>
-        public ISubordinateDictionary<TKey, TSValue, TValue> GetSubordinate<TSValue>() 
+        public ISubordinateDictionary<TSKey, TKey, TSValue, TValue> GetSubordinate<TSKey, TSValue>()
+            where TSKey :
+                TKey
             where TSValue : 
                 TValue
         {
             foreach (ISubordinateDictionary isd in this.subordinates)
-                if (isd is ISubordinateDictionary<TKey, TSValue, TValue>)
-                    return ((ISubordinateDictionary<TKey, TSValue, TValue>)(isd));
+                if (isd is ISubordinateDictionary<TSKey, TKey, TSValue, TValue>)
+                    return ((ISubordinateDictionary<TSKey, TKey, TSValue, TValue>)(isd));
             return null;
         }
 
@@ -159,26 +171,32 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// Notifier for subordinate dictionaries 
         /// indicating that an item has been added.
         /// </summary>
+        /// <typeparam name="TSKey">The kind of key within the subordinate
+        /// dictionary.</typeparam>
         /// <typeparam name="TSValue">
         /// The specific type of value used in the 
         /// subordinate dictionary, derives from the 
         /// master dictionary's <typeparamref name="TValue"/>.
         /// </typeparam>
         /// <param name="subordinate">
-        /// The <see cref="ISubordinateDictionary{TKey, TSValue, TValue}"/>
+        /// The <see cref="ISubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/>
         /// which is a subordinate of the current 
         /// <see cref="MasterDictionaryBase{TKey, TValue}"/>.
         /// </param>
         /// <param name="key">The <typeparamref name="TKey"/> of the item added.</param>
         /// <param name="value">The <typeparamref name="TSValue"/> of the item added.</param>
-        protected internal virtual void Subordinate_ItemAdded<TSValue>(ISubordinateDictionary<TKey, TSValue, TValue> subordinate, TKey key, TSValue value)
+        protected internal virtual void Subordinate_ItemAdded<TSKey, TSValue>(ISubordinateDictionary<TSKey, TKey, TSValue, TValue> subordinate, TSKey key, TSValue value)
+            where TSKey :
+                TKey
             where TSValue :
                 TValue
         {
             base._Add(key, new MasterDictionaryEntry<TValue>((ISubordinateDictionary)subordinate, value));
         }
 
-        protected internal virtual void Subordinate_ItemsAdded<TSValue>(ISubordinateDictionary<TKey, TSValue, TValue> subordinate, IEnumerable<KeyValuePair<TKey, TSValue>> items)
+        protected internal virtual void Subordinate_ItemsAdded<TSKey, TSValue>(ISubordinateDictionary<TSKey, TKey, TSValue, TValue> subordinate, IEnumerable<KeyValuePair<TSKey, TSValue>> items)
+            where TSKey :
+                TKey
             where TSValue :
                 TValue
         {
@@ -190,13 +208,15 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// Notifier for subordinate dictionaries 
         /// indicating that an item has been changed.
         /// </summary>
+        /// <typeparam name="TSKey">The kind of key within the subordinate
+        /// dictionary.</typeparam>
         /// <typeparam name="TSValue">
         /// The specific type of value used in the 
         /// subordinate dictionary, derives from the 
         /// master dictionary's <typeparamref name="TValue"/>.
         /// </typeparam>
         /// <param name="subordinate">
-        /// The <see cref="ISubordinateDictionary{TKey, TSValue, TValue}"/>
+        /// The <see cref="ISubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/>
         /// which is a subordinate of the current 
         /// <see cref="MasterDictionaryBase{TKey, TValue}"/>.
         /// </param>
@@ -207,40 +227,46 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// The <typeparamref name="TSValue"/> of the item 
         /// changed.
         /// </param>
-        protected internal virtual void Subordinate_ItemChanged<TSValue>(ISubordinateDictionary<TKey, TSValue, TValue> subordinate, TKey key, TSValue value)
+        protected internal virtual void Subordinate_ItemChanged<TSKey, TSValue>(ISubordinateDictionary<TSKey, TKey, TSValue, TValue> subordinate, TSKey key, TSValue value)
+            where TSKey :
+                TKey
             where TSValue :
                 TValue
         {
             base[key] = new MasterDictionaryEntry<TValue>((ISubordinateDictionary)subordinate, value);
         }
-       
-        protected internal virtual void Subordinate_ItemsRekeyed<TSValue>(ISubordinateDictionary<TKey, TSValue, TValue> subordinate, IEnumerable<Tuple<TKey, TKey>> oldNewPair)
+
+        protected internal virtual void Subordinate_ItemsRekeyed<TSKey, TSValue>(ISubordinateDictionary<TSKey, TKey, TSValue, TValue> subordinate, IEnumerable<Tuple<TKey, TKey>> oldNewPair)
+            where TSKey :
+                TKey
             where TSValue :
                 TValue
         {
-            var cachedSet = oldNewPair.ToArray();
-            this.Keys.Rekey(from entry in cachedSet
-                            select entry);
+            this.Keys.Rekey(oldNewPair.ToArray());
         }
 
         /// <summary>
         /// Notifier for subordinate dictionaries 
         /// indicating that an item has been removed.
         /// </summary>
+        /// <typeparam name="TSKey">The kind of key within the subordinate
+        /// dictionary.</typeparam>
         /// <typeparam name="TSValue">
         /// The specific type of value used in the 
         /// subordinate dictionary, derives from the 
         /// master dictionary's <typeparamref name="TValue"/>.
         /// </typeparam>
         /// <param name="subordinate">
-        /// The <see cref="ISubordinateDictionary{TKey, TSValue, TValue}"/>
+        /// The <see cref="ISubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/>
         /// which is a subordinate of the current 
         /// <see cref="MasterDictionaryBase{TKey, TValue}"/>.
         /// </param>
         /// <param name="key">
-        /// The <typeparamref name="TKey"/> of the item removed.
+        /// The <typeparamref name="TSKey"/> of the item removed.
         /// </param>
-        protected internal virtual void Subordinate_ItemRemoved<TSValue>(ISubordinateDictionary<TKey, TSValue, TValue> subordinate, TKey key)
+        protected internal virtual void Subordinate_ItemRemoved<TSKey, TSValue>(ISubordinateDictionary<TSKey, TKey, TSValue, TValue> subordinate, TSKey key)
+            where TSKey :
+                TKey
             where TSValue :
                 TValue
         {
@@ -260,12 +286,14 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// master dictionary's <typeparamref name="TValue"/>.
         /// </typeparam>
         /// <param name="subordinate">
-        /// The <see cref="ISubordinateDictionary{TKey, TSValue, TValue}"/>
+        /// The <see cref="ISubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/>
         /// which is a subordinate of the current 
         /// <see cref="MasterDictionaryBase{TKey, TValue}"/> that was
         /// cleared.
         /// </param>
-        protected internal virtual void Subordinate_Cleared<TSValue>(ISubordinateDictionary<TKey, TSValue, TValue> subordinate)
+        protected internal virtual void Subordinate_Cleared<TSKey, TSValue>(ISubordinateDictionary<TSKey, TKey, TSValue, TValue> subordinate)
+            where TSKey :
+                TKey
             where TSValue :
                 TValue
         {

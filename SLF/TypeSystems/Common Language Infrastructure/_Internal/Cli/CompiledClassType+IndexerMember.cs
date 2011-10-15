@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
@@ -21,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     partial class CompiledClassType
     {
         partial class IndexerMember :
-            CompiledIndexerMemberBase<IClassIndexerMember, IClassType, IndexerMember.MethodMember,IClassMethodMember,IClassType>,
+            CompiledIndexerMemberBase<IClassIndexerMember, IClassType, IndexerMember.MethodMember, IClassMethodMember, IClassType>,
             IClassIndexerMember
         {
             internal IndexerMember(PropertyInfo memberInfo, CompiledClassType parent)

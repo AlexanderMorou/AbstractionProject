@@ -19,12 +19,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <typeparam name="TPropertyParent">The type of parent that contains the <see cref="IPropertyMember"/> 
     /// instances in the current implementation.</typeparam>
     public interface IPropertyMember<TProperty, TPropertyParent> :
-        IMember<TPropertyParent>,
+        IMember<IGeneralMemberUniqueIdentifier, TPropertyParent>,
         IPropertyMember
         where TProperty :
             IPropertyMember<TProperty, TPropertyParent>
         where TPropertyParent :
-            IPropertyParentType<TProperty, TPropertyParent>
+            IPropertyParent<TProperty, TPropertyParent>
     {
     }
 

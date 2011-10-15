@@ -15,7 +15,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
     internal abstract class _PropertyMembersBase<TProperty, TPropertyParent> :
-        _GroupedMembersBase<TPropertyParent, TProperty, IPropertyMemberDictionary<TProperty, TPropertyParent>>,
+        _GroupedMembersBase<TPropertyParent, IGeneralMemberUniqueIdentifier, TProperty, IPropertyMemberDictionary<TProperty, TPropertyParent>>,
         IPropertyMemberDictionary<TProperty, TPropertyParent>,
         IPropertyMemberDictionary
         where TProperty :
@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             IPropertyMember<TProperty, TPropertyParent>
         where TPropertyParent :
             class,
-            IPropertyParentType<TProperty, TPropertyParent>
+            IPropertyParent<TProperty, TPropertyParent>
     {
         public _PropertyMembersBase(_FullMembersBase master, IPropertyMemberDictionary<TProperty, TPropertyParent> originalSet, TPropertyParent parent)
             : base(master, originalSet, parent)
@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         #region IPropertyMemberDictionary Members
 
-        IPropertyParentType IPropertyMemberDictionary.Parent
+        IPropertyParent IPropertyMemberDictionary.Parent
         {
             get { return this.Parent; }
         }

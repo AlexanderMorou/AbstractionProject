@@ -17,7 +17,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
     internal partial class _DelegateTypeBase :
-        _GenericTypeBase<IDelegateType>,
+        _GenericTypeBase<IDelegateUniqueIdentifier, IDelegateType>,
         IDelegateType,
         IGeneralDeclarationsParent<IDelegateType, IDelegateTypeParameterMember>
     {
@@ -97,6 +97,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         #endregion
 
         protected override IFullMemberDictionary OnGetMembers()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IDelegateUniqueIdentifier OnGetUniqueIdentifier()
         {
             throw new NotImplementedException();
         }

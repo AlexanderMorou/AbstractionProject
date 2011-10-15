@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TIntermediateParent">The <see cref="IIntermediateParameterParent"/>
     /// which owns the current <see cref="IIntermediateParameterMember{TParent, TIntermediateParent}"/>.</typeparam>
     public interface IIntermediateParameterMember<TParent, TIntermediateParent> :
-        IIntermediateMember<TParent, TIntermediateParent>,
+        IIntermediateMember<IGeneralMemberUniqueIdentifier, TParent, TIntermediateParent>,
         IIntermediateParameterMember,
         IParameterMember<TParent>
         where TParent :

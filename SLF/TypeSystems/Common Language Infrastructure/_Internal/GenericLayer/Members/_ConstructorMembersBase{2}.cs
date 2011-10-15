@@ -15,17 +15,17 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
-    internal abstract class _ConstructorMembersBase<TCtor, TType> :
-        _SignatureMembersBase<TCtor, IConstructorParameterMember<TCtor, TType>, TType, IConstructorMemberDictionary<TCtor, TType>>,
-        IConstructorMemberDictionary<TCtor, TType>,
+    internal abstract class _ConstructorMembersBase<TCtor, TCtorParent> :
+        _SignatureMembersBase<IGeneralSignatureMemberUniqueIdentifier, TCtor, IConstructorParameterMember<TCtor, TCtorParent>, TCtorParent, IConstructorMemberDictionary<TCtor, TCtorParent>>,
+        IConstructorMemberDictionary<TCtor, TCtorParent>,
         IConstructorMemberDictionary
         where TCtor :
             class,
-            IConstructorMember<TCtor, TType>
-        where TType :
-            ICreatableType<TCtor, TType>
+            IConstructorMember<TCtor, TCtorParent>
+        where TCtorParent :
+            ICreatableParent<TCtor, TCtorParent>
     {
-        internal _ConstructorMembersBase(_FullMembersBase fullMembers, IConstructorMemberDictionary<TCtor, TType> originalSet, TType parent)
+        internal _ConstructorMembersBase(_FullMembersBase fullMembers, IConstructorMemberDictionary<TCtor, TCtorParent> originalSet, TCtorParent parent)
             : base(fullMembers, originalSet, parent)
         {
 

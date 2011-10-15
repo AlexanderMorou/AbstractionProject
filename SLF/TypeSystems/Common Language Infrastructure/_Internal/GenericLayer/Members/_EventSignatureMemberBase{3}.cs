@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
@@ -14,124 +15,25 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
-    internal abstract class _EventSignatureMemberBase<TEvent, TEventParameter, TEventParent> :
-        _MemberBase<TEvent, TEventParent>,
-        IEventSignatureMember<TEvent, TEventParameter, TEventParent>
+    internal abstract partial class _EventSignatureMemberBase<TEvent, TEventParent> :
+        _EventSignatureMemberBase<TEvent, IEventSignatureParameterMember<TEvent, TEventParent>, TEventParent>,
+        IEventSignatureMember<TEvent, TEventParent>
         where TEvent :
-            IEventSignatureMember<TEvent, TEventParameter, TEventParent>
-        where TEventParameter :
-            IEventSignatureParameterMember<TEvent, TEventParameter, TEventParent>
+            class,
+            IEventSignatureMember<TEvent, TEventParent>
         where TEventParent :
-            IEventSignatureParent<TEvent, TEventParameter, TEventParent>
+            class,
+            IEventSignatureParent<TEvent, TEventParent>
     {
-        private IParameterMemberDictionary<TEvent, TEventParameter> parameters;
-
-        internal _EventSignatureMemberBase(TEvent original, TEventParent adjustedParent)
+        protected _EventSignatureMemberBase(TEvent original, TEventParent adjustedParent)
             : base(original, adjustedParent)
-        {
+        { 
         }
 
-        #region IParameterParent<TEvent,TEventParameter> Members
-
-        public IParameterMemberDictionary<TEvent, TEventParameter> Parameters
+        protected override IParameterMemberDictionary<TEvent, IEventSignatureParameterMember<TEvent, TEventParent>> InitializeParameters()
         {
-            get
-            {
-                if (this.parameters == null)
-                    this.parameters = this.InitializeParameters();
-                return this.parameters;
-            }
+            return new _Parameters(this.Original.Parameters, this);
         }
 
-        /// <summary>
-        /// Initializes the <see cref="Parameters"/> member.
-        /// </summary>
-        /// <returns>A <see cref="IParameterMemberDictionary{TParent, TParameter}"/>
-        /// instance that represents the parameters for the 
-        /// <see cref="_EventSignatureMemberBase{TEvent, TEventParameter, TEventParent}"/>.
-        /// </returns>
-        protected abstract IParameterMemberDictionary<TEvent, TEventParameter> InitializeParameters();
-
-        protected abstract IMethodSignatureMember OnGetMethod(IMethodSignatureMember original);
-
-        #endregion
-
-        #region IParameterParent Members
-
-        IParameterMemberDictionary IParameterParent.Parameters
-        {
-            get { return ((IParameterMemberDictionary)(this.Parameters)); }
-        }
-
-        public bool LastIsParams
-        {
-            get { return this.Original.LastIsParams; }
-        }
-
-        #endregion
-
-        #region IEventSignatureMember Members
-
-        public EventSignatureSource SignatureSource
-        {
-            get { return this.Original.SignatureSource; }
-        }
-
-        public IDelegateType SignatureType
-        {
-            get
-            {
-                if (Parent is IGenericType)
-                {
-                    IGenericType parent = ((IGenericType)(this.Parent));
-                    if (parent.IsGenericConstruct && !parent.IsGenericDefinition)
-                        return (IDelegateType)this.Original.SignatureType.Disambiguify(parent.GenericParameters, null, TypeParameterSources.Type);
-                }
-                return this.Original.SignatureType;
-            }
-        }
-
-        #endregion
-
-        public override string UniqueIdentifier
-        {
-            get
-            {
-                StringBuilder sb = new StringBuilder();
-                bool first = true;
-                sb.Append(this.SignatureType.ReturnType.BuildTypeName(true));
-                sb.Append(" ");
-                sb.Append(this.Name);
-                sb.Append("(");
-                foreach (var param in this.Parameters.Values)
-                {
-                    if (first)
-                        first = false;
-                    else
-                        sb.Append(", ");
-                    sb.Append(param.ParameterType.BuildTypeName(true));
-                }
-                sb.Append(")");
-                return sb.ToString();
-            }
-        }
-
-        #region IEventSignatureMember Members
-
-
-        public IType ReturnType
-        {
-            get {
-                if (Parent is IGenericType)
-                {
-                    IGenericType parent = ((IGenericType)(this.Parent));
-                    if (parent.IsGenericConstruct && !parent.IsGenericDefinition)
-                        return (IDelegateType)this.Original.ReturnType.Disambiguify(parent.GenericParameters, null, TypeParameterSources.Type);
-                }
-                return this.Original.ReturnType;
-            }
-        }
-
-        #endregion
     }
 }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
@@ -28,6 +27,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
     {
         private Dictionary<ITypeCollectionBase, _GenericParameterMethodMemberBase<TGenericParameter>> genericCache = null;
         private MethodInfo memberInfo;
+        private IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier;
         bool lastIsParams;
 
         internal CompiledGenericParameterMethodMember(TGenericParameter parent, MethodInfo memberInfo)
@@ -120,6 +120,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         protected override string OnGetName()
         {
             return this.MemberInfo.Name;
+        }
+
+        public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier
+        {
+            get {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = this.MemberInfo.GetUniqueIdentifier();
+                return this.uniqueIdentifier;
+            }
         }
     }
 }

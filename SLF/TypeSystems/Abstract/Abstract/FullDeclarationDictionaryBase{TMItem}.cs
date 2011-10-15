@@ -13,10 +13,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// </summary>
     /// <typeparam name="TMItem">The base type of 
     /// <see cref="IDeclaration"/>.</typeparam>
-    internal class FullDeclarationDictionaryBase<TMItem> :
-        MasterDictionaryBase<string, TMItem>,
-        IFullDeclarationDictionary<TMItem>,
+    internal class FullDeclarationDictionaryBase<TIdentifier, TMItem> :
+        MasterDictionaryBase<TIdentifier, TMItem>,
+        IFullDeclarationDictionary<TIdentifier, TMItem>,
         IFullDeclarationDictionary
+        where TIdentifier :
+            IDeclarationUniqueIdentifier<TIdentifier>
         where TMItem :
             class,
             IDeclaration

@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TIntermediateIndexerParent">The type the <typeparamref name="TIntermediateIndexer"/> instances
     /// belong to in the intermediate abstract syntax tree.</typeparam>
     public abstract class IntermediateIndexerMemberDictionary<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> :
-        IntermediateGroupedMemberDictionary<TIndexerParent, TIntermediateIndexerParent, TIndexer, TIntermediateIndexer>,
+        IntermediateGroupedMemberDictionary<TIndexerParent, TIntermediateIndexerParent, IGeneralSignatureMemberUniqueIdentifier, TIndexer, TIntermediateIndexer>,
         IIntermediateIndexerMemberDictionary<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>,
         IIntermediateIndexerMemberDictionary
         where TIndexer :
@@ -44,7 +44,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <paramref name="master"/> and <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
-        /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>
+        /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember}"/>
         /// instances of varying types.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateIndexerParent"/>
         /// which contains the <see cref="IntermediateIndexerMemberDictionary{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent}"/>.</param>
@@ -57,7 +57,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <paramref name="master"/>, <paramref name="parent"/> and <paramref name="root"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
-        /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>
+        /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember}"/>
         /// instances of varying types.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateIndexerParent"/>
         /// which contains the <see cref="IntermediateIndexerMemberDictionary{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent}"/>.</param>

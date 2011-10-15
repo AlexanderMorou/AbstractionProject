@@ -67,13 +67,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IIntermediatePropertyMethodMember
         where TType :
             class,
-            IGenericType<TType>,
-            IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType>
+            IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, IGeneralGenericTypeUniqueIdentifier, TType>,
+            IGenericType<IGeneralGenericTypeUniqueIdentifier, TType>
         where TIntermediateType :
             class,
-            IIntermediateGenericType<TType, TIntermediateType>,
-            IIntermediateSegmentableType<TType, TIntermediateType>,
-            IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType>,
+            IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>,
+            IIntermediateGenericType<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>,
+            IIntermediateSegmentableType<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>,
             TType
         where TInstanceIntermediateType :
             IntermediateGenericSegmentableInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType>,
@@ -83,8 +83,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Provides a dictionary for the binary operator members of an instantiable type.
         /// </summary>
         protected sealed class BinaryOperatorDictionary :
-            IntermediateGroupedMemberDictionary<TType, TIntermediateType, IBinaryOperatorCoercionMember<TType>, IIntermediateBinaryOperatorCoercionMember<TType, TIntermediateType>>,
-            IIntermediateBinaryOperatorCoercionMemberDictionary<TType, TIntermediateType>,
+            IntermediateGroupedMemberDictionary<TType, TIntermediateType, IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>, IIntermediateBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>>,
+            IIntermediateBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>,
             IIntermediateBinaryOperatorCoercionMemberDictionary
         {
             private new IntermediateGenericSegmentableInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType> Parent
@@ -107,7 +107,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             #region IBinaryOperatorCoercionMemberDictionary<TType> Members
 
-            IBinaryOperatorCoercionMember<TType> IBinaryOperatorCoercionMemberDictionary<TType>.this[CoercibleBinaryOperators op, BinaryOpCoercionContainingSide side, IType otherSide]
+            IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> IBinaryOperatorCoercionMemberDictionary<TType>.this[CoercibleBinaryOperators op, BinaryOpCoercionContainingSide side, IType otherSide]
             {
                 get
                 {
@@ -115,7 +115,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
             }
 
-            IBinaryOperatorCoercionMember<TType> IBinaryOperatorCoercionMemberDictionary<TType>.this[CoercibleBinaryOperators op]
+            IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> IBinaryOperatorCoercionMemberDictionary<TType>.this[CoercibleBinaryOperators op]
             {
                 get
                 {
@@ -139,10 +139,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             #endregion
 
-
             #region IIntermediateBinaryOperatorCoercionMemberDictionary<TType,TIntermediateType> Members
 
-            public IIntermediateBinaryOperatorCoercionMember<TType, TIntermediateType> Add(CoercibleBinaryOperators op, BinaryOpCoercionContainingSide containingSide, IType otherSide, IType returnType)
+            public IIntermediateBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType> Add(CoercibleBinaryOperators op, BinaryOpCoercionContainingSide containingSide, IType otherSide, IType returnType)
             {
                 BinaryOperatorMember member = new BinaryOperatorMember(this.Parent);
                 member.Operator = op;
@@ -157,7 +156,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return member;
             }
 
-            public IIntermediateBinaryOperatorCoercionMember<TType, TIntermediateType> Add(CoercibleBinaryOperators op, IType returnType)
+            public IIntermediateBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType> Add(CoercibleBinaryOperators op, IType returnType)
             {
                 BinaryOperatorMember member = new BinaryOperatorMember(this.Parent);
                 member.Operator = op;
@@ -183,20 +182,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             #endregion
             /// <summary>
-            /// Returns the <see cref="IIntermediateBinaryOperatorCoercionMember{TType, TIntermediateType}"/> which
+            /// Returns the <see cref="IIntermediateBinaryOperatorCoercionMemberTTypeIdentifier, {TType, TIntermediateType}"/> which
             /// coerces the <paramref name="op"/> provided with the
             /// parent contained on the <paramref name="side"/> provided with
             /// <paramref name="otherSide"/> provided.
             /// </summary>
             /// <param name="op">The <see cref="CoercibleBinaryOperators"/>
-            /// coerced by the <see cref="IIntermediateBinaryOperatorCoercionMember{TType, TIntermediateType}"/> 
+            /// coerced by the <see cref="IIntermediateBinaryOperatorCoercionMember{TTypeIdentifier, TType, TIntermediateType}"/> 
             /// to find.</param>
             /// <param name="side">The side at which the containing type
             /// is in the coercion.</param>
             /// <param name="otherSide">The type of the other side in the coercion.</param>
-            /// <returns>A <see cref="IIntermediateBinaryOperatorCoercionMember{TType, TIntermediateType}"/> instance
+            /// <returns>A <see cref="IIntermediateBinaryOperatorCoercionMember{TTypeIdentifier, TType, TIntermediateType}"/> instance
             /// that coerces the <paramref name="op"/> provided.</returns>
-            public IIntermediateBinaryOperatorCoercionMember<TType, TIntermediateType> this[CoercibleBinaryOperators op, BinaryOpCoercionContainingSide side, IType otherSide]
+            public IIntermediateBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType> this[CoercibleBinaryOperators op, BinaryOpCoercionContainingSide side, IType otherSide]
             {
                 get
                 {
@@ -207,16 +206,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
             }
             /// <summary>
-            /// Returns the <see cref="IIntermediateBinaryOperatorCoercionMember{TType, TIntermediateType}"/> which
+            /// Returns the <see cref="IIntermediateBinaryOperatorCoercionMember{TTypeIdentifier, TType, TIntermediateType}"/> which
             /// coerces the <paramref name="op"/> provided where
             /// the containing type is used as both operands.
             /// </summary>
             /// <param name="op">The <see cref="CoercibleBinaryOperators"/>
-            /// coerced by the <see cref="IIntermediateBinaryOperatorCoercionMember{TType, TIntermediateType}"/> 
+            /// coerced by the <see cref="IIntermediateBinaryOperatorCoercionMember{TTypeIdentifier, TType, TIntermediateType}"/> 
             /// to find.</param>
-            /// <returns>A <see cref="IIntermediateBinaryOperatorCoercionMember{TType, TIntermediateType}"/> instance
+            /// <returns>A <see cref="IIntermediateBinaryOperatorCoercionMember{TTypeIdentifier, TType, TIntermediateType}"/> instance
             /// that coerces the <paramref name="op"/> provided.</returns>
-            public IIntermediateBinaryOperatorCoercionMember<TType, TIntermediateType> this[CoercibleBinaryOperators op]
+            public IIntermediateBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType> this[CoercibleBinaryOperators op]
             {
                 get
                 {
@@ -349,8 +348,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         protected sealed class TypeCoercionDictionary :
-            IntermediateGroupedMemberDictionary<TType, TIntermediateType, ITypeCoercionMember<TType>, IIntermediateTypeCoercionMember<TType, TIntermediateType>>,
-            IIntermediateTypeCoercionMemberDictionary<TType, TIntermediateType>,
+            IntermediateGroupedMemberDictionary<TType, TIntermediateType, ITypeCoercionUniqueIdentifier, ITypeCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>, IIntermediateTypeCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>>,
+            IIntermediateTypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>,
             IIntermediateTypeCoercionMemberDictionary
         {
             private new TInstanceIntermediateType Parent
@@ -372,7 +371,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             #region IIntermediateTypeCoercionMemberDictionary<TType,TIntermediateType> Members
 
             /// <summary>
-            /// Returns the <see cref="IIntermediateTypeCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/>
+            /// Returns the <see cref="IIntermediateTypeCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/>
             /// which meets the <paramref name="requirement"/> in
             /// the <paramref name="direction"/> for
             /// the <paramref name="target"/> specified.
@@ -384,7 +383,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             /// either from or to the type.</param>
             /// <param name="target">
             /// The <see cref="IType"/> which is coerced.</param>
-            /// <returns>The <see cref="IIntermediateTypeCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/> 
+            /// <returns>The <see cref="IIntermediateTypeCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/> 
             /// which met the <paramref name="requirement"/> in
             /// the <paramref name="direction"/> for
             /// the <paramref name="target"/> specified</returns>
@@ -395,7 +394,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             /// <exception cref="System.ArgumentOutOfRangeException">
             /// thrown when either <paramref name="requirement"/> or 
             /// <paramref name="direction"/> is out of range.</exception>
-            public IIntermediateTypeCoercionMember<TType, TIntermediateType> this[TypeConversionRequirement requirement, TypeConversionDirection direction, IType target]
+            public IIntermediateTypeCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType> this[TypeConversionRequirement requirement, TypeConversionDirection direction, IType target]
             {
                 get {
                     if (target == null)
@@ -426,7 +425,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
 
             /// <summary>
-            /// Adds a new <see cref="IIntermediateTypeCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/>
+            /// Adds a new <see cref="IIntermediateTypeCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/>
             /// with the conversion <paramref name="requirement"/>, <paramref name="direction"/> and target.
             /// </summary>
             /// <param name="requirement">The <see cref="TypeConversionRequirement"/>
@@ -435,7 +434,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             /// either from or to the type.</param>
             /// <param name="target">
             /// The <see cref="IType"/> which is coerced.</param>
-            /// <returns>A new <see cref="IIntermediateTypeCoercionMember{TType, TIntermediateType}"/>
+            /// <returns>A new <see cref="IIntermediateTypeCoercionMember{TCoercionParentIdentifier, TType, TIntermediateType}"/>
             /// instance.</returns>
             /// <exception cref="System.ArgumentException">thrown when <paramref name="target"/>
             /// is an interface.</exception>
@@ -443,7 +442,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             /// thrown when either <paramref name="requirement"/> or 
             /// <paramref name="direction"/> is out of range.</exception>
             /// <exception cref="System.ArgumentNullException">thrown when <paramref name="target"/> is null.</exception>
-            public IIntermediateTypeCoercionMember<TType, TIntermediateType> Add(TypeConversionRequirement requirement, TypeConversionDirection direction, IType target)
+            public IIntermediateTypeCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType> Add(TypeConversionRequirement requirement, TypeConversionDirection direction, IType target)
             {
                 if (target == null)
                     throw new ArgumentNullException("target");
@@ -596,8 +595,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         protected sealed class UnaryOperatorDictionary :
-            IntermediateGroupedMemberDictionary<TType, TIntermediateType, IUnaryOperatorCoercionMember<TType>, IIntermediateUnaryOperatorCoercionMember<TType, TIntermediateType>>,
-            IIntermediateUnaryOperatorCoercionMemberDictionary<TType, TIntermediateType>,
+            IntermediateGroupedMemberDictionary<TType, TIntermediateType, IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>, IIntermediateUnaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>>,
+            IIntermediateUnaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>,
             IIntermediateUnaryOperatorCoercionMemberDictionary
         {
             private new IntermediateGenericSegmentableInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType> Parent
@@ -620,14 +619,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             #region IIntermediateUnaryOperatorCoercionMemberDictionary<TType,TIntermediateType> Members
 
-            public IIntermediateUnaryOperatorCoercionMember<TType, TIntermediateType> Add(CoercibleUnaryOperators op)
+            public IIntermediateUnaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType> Add(CoercibleUnaryOperators op)
             {
                 UnaryOperatorMember member = new UnaryOperatorMember(this.Parent);
                 this.AddDeclaration(member);
                 return member;
             }
 
-            public IIntermediateUnaryOperatorCoercionMember<TType, TIntermediateType> this[CoercibleUnaryOperators op]
+            public IIntermediateUnaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType> this[CoercibleUnaryOperators op]
             {
                 get
                 {
@@ -642,7 +641,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             #region IUnaryOperatorCoercionMemberDictionary<TType> Members
 
-            IUnaryOperatorCoercionMember<TType> IUnaryOperatorCoercionMemberDictionary<TType>.this[CoercibleUnaryOperators op]
+            IUnaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> IUnaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType>.this[CoercibleUnaryOperators op]
             {
                 get {
                     return this[op];

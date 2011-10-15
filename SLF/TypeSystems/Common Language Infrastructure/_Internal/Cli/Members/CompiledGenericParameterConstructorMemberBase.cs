@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf._Internal.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             IGenericParameter<TGenericParameter>
     {
         bool lastIsParams;
-        string uniqueIdentifier = null;
+        IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier = null;
         private ConstructorInfo ctorInfo;
         internal CompiledGenericParameterConstructorMemberBase(TGenericParameter parent, ConstructorInfo ctorInfo)
             : base(parent)
@@ -47,7 +47,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             return new Parameters(this.MemberInfo.GetParameters(), this);
         }
 
-        public override string UniqueIdentifier
+        public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier
         {
             get
             {

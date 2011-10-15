@@ -12,11 +12,11 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
-    partial class _GroupedMasterBase<TDeclaration>
+    partial class _GroupedMasterBase<TDeclarationIdentifier, TDeclaration>
     {
         private _KC keysCollection;
 
-        protected override ControlledStateDictionary<string, MasterDictionaryEntry<TDeclaration>>.KeysCollection InitializeKeysCollection()
+        protected override ControlledStateDictionary<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>.KeysCollection InitializeKeysCollection()
         {
             if (this.keysCollection == null)
                 this.keysCollection = new _KC(this);
@@ -24,11 +24,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         }
 
         private class _KC :
-            _GroupedMasterBase<TDeclaration>.KeysCollection
+            _GroupedMasterBase<TDeclarationIdentifier, TDeclaration>.KeysCollection
         {
-            private _GroupedMasterBase<TDeclaration> master;
+            private _GroupedMasterBase<TDeclarationIdentifier, TDeclaration> master;
 
-            public _KC(_GroupedMasterBase<TDeclaration> master)
+            public _KC(_GroupedMasterBase<TDeclarationIdentifier, TDeclaration> master)
                 : base(master)
             {
                 this.master = master;
@@ -42,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 }
             }
 
-            protected override string OnGetKey(int index)
+            protected override TDeclarationIdentifier OnGetKey(int index)
             {
                 int currentIndexBase = 0;
                 foreach (var subordinate in this.master.Subordinates)
@@ -50,14 +50,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                     if (index >= currentIndexBase &&
                         index < currentIndexBase + subordinate.Count)
                     {
-                        return (string)subordinate.Keys[index - currentIndexBase];
+                        return (TDeclarationIdentifier)subordinate.Keys[index - currentIndexBase];
                     }
                     currentIndexBase += subordinate.Count;
                 }
                 throw new ArgumentOutOfRangeException("index");
             }
 
-            public override void CopyTo(string[] array, int arrayIndex)
+            public override void CopyTo(TDeclarationIdentifier[] array, int arrayIndex)
             {
                 if (array.Length - arrayIndex < this.Count)
                     throw new ArgumentException("array");
@@ -66,29 +66,29 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 CopyToVerified(array, arrayIndex);
             }
 
-            private void CopyToVerified(string[] array, int arrayIndex = 0)
+            private void CopyToVerified(TDeclarationIdentifier[] array, int arrayIndex = 0)
             {
                 var subordinates = this.master.Subordinates.ToArray();
                 for (int i = 0, offset = 0; i < subordinates.Length; offset += subordinates[i++].Count)
                     for (int j = 0; j < subordinates[i].Count; j++)
-                        array[offset + j] = (string)subordinates[i].Keys[j];
+                        array[offset + j] = (TDeclarationIdentifier)subordinates[i].Keys[j];
             }
 
-            public override IEnumerator<string> GetEnumerator()
+            public override IEnumerator<TDeclarationIdentifier> GetEnumerator()
             {
                 foreach (var subordinate in this.master.Subordinates)
                     foreach (var subordinateKey in subordinate.Keys)
-                        yield return (string)subordinateKey;
+                        yield return (TDeclarationIdentifier)subordinateKey;
             }
 
-            public override string[] ToArray()
+            public override TDeclarationIdentifier[] ToArray()
             {
-                string[] result = new string[this.Count];
+                var result = new TDeclarationIdentifier[this.Count];
                 CopyToVerified(result);
                 return result;
             }
 
-            public override bool Contains(string item)
+            public override bool Contains(TDeclarationIdentifier item)
             {
                 foreach (var subordinate in this.master.Subordinates)
                     if (subordinate.ContainsKey(item))

@@ -5,14 +5,15 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Utilities;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -24,7 +25,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal sealed partial class CompiledInterfaceType :
-        CompiledGenericTypeBase<IInterfaceType>,
+        CompiledGenericTypeBase<IGeneralGenericTypeUniqueIdentifier, IInterfaceType>,
         ICompiledInterfaceType,
         IEventSignatureParent,
         _ICompiledTypeParent
@@ -164,7 +165,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region IEventSignatureParent<IInterfaceEventMember,IEventSignatureParameterMember<IInterfaceEventMember,IInterfaceType>,IInterfaceType> Members
 
-        IEventSignatureMemberDictionary<IInterfaceEventMember, IEventSignatureParameterMember<IInterfaceEventMember, IInterfaceType>, IInterfaceType> IEventSignatureParent<IInterfaceEventMember,IEventSignatureParameterMember<IInterfaceEventMember,IInterfaceType>,IInterfaceType>.Events
+        IEventSignatureMemberDictionary<IInterfaceEventMember, IEventSignatureParameterMember<IInterfaceEventMember, IInterfaceType>, IInterfaceType> IEventSignatureParent<IInterfaceEventMember, IEventSignatureParameterMember<IInterfaceEventMember, IInterfaceType>, IInterfaceType>.Events
         {
             get {
                 return this.Events;
@@ -209,7 +210,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return TypeKind.Interface; }
         }
 
-        #region IPropertySignatureParentType<IInterfacePropertyMember,IInterfaceType> Members
+        #region IPropertySignatureParent<IInterfacePropertyMember,IInterfaceType> Members
 
         public IPropertySignatureMemberDictionary<IInterfacePropertyMember, IInterfaceType> Properties
         {
@@ -234,9 +235,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-        #region IPropertySignatureParentType
+        #region IPropertySignatureParent
 
-        IPropertySignatureMemberDictionary IPropertySignatureParentType.Properties
+        IPropertySignatureMemberDictionary IPropertySignatureParent.Properties
         {
             get
             {
@@ -259,7 +260,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         /// <summary>
         /// Returns the <see cref="IClassTypeDictionary"/> associated
-        /// to the <see cref="TypeBase{TType}"/>.
+        /// to the <see cref="TypeBase{TIdentifier, TType}"/>.
         /// </summary>
         public IClassTypeDictionary Classes
         {
@@ -272,7 +273,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         /// <summary>
         /// Returns the <see cref="IDelegateTypeDictionary"/> associated
-        /// to the <see cref="TypeBase{TType}"/>.
+        /// to the <see cref="TypeBase{TIdentifier, TType}"/>.
         /// </summary>
         public IDelegateTypeDictionary Delegates
         {
@@ -285,7 +286,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         /// <summary>
         /// Returns the <see cref="IEnumTypeDictionary"/> associated
-        /// to the <see cref="TypeBase{TType}"/>.
+        /// to the <see cref="TypeBase{TIdentifier, TType}"/>.
         /// </summary>
         public IEnumTypeDictionary Enums
         {
@@ -298,7 +299,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         /// <summary>
         /// Returns the <see cref="IInterfaceTypeDictionary"/> associated
-        /// to the <see cref="TypeBase{TType}"/>.
+        /// to the <see cref="TypeBase{TIdentifier, TType}"/>.
         /// </summary>
         public IInterfaceTypeDictionary Interfaces
         {
@@ -311,7 +312,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         /// <summary>
         /// Returns the <see cref="IStructTypeDictionary"/> associated
-        /// to the <see cref="TypeBase{TType}"/>.
+        /// to the <see cref="TypeBase{TIdentifier, TType}"/>.
         /// </summary>
         public IStructTypeDictionary Structs
         {
@@ -324,7 +325,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         /// <summary>
         /// Returns the <see cref="IFullTypeDictionary"/>  associated to
-        /// the <see cref="TypeBase{TType}"/>.
+        /// the <see cref="TypeBase{TIdentifier, TType}"/>.
         /// </summary>
         public IFullTypeDictionary Types
         {
@@ -446,14 +447,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return GetTypeParentDeclarations(this);
         }
 
-        public override IEnumerable<string> AggregateIdentifiers
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get
             {
-                return (from memberName in (this.Members as LockedFullMembersBase).GetAggregateIdentifiers()
-                        select memberName).Concat(
-                        from typeName in (this.Types as CompiledFullTypeDictionary).GetAggregateIdentifiers()
-                        select typeName).Distinct();
+                return (from identifier in
+                            (from memberName in (this.Members as LockedFullMembersBase).GetAggregateIdentifiers()
+                             select memberName)
+                            .Concat(
+                             from typeName in (this.Types as CompiledFullTypeDictionary).GetAggregateIdentifiers()
+                             select typeName)
+                        orderby identifier.Name
+                        select identifier).SinglePass();
             }
         }
     }

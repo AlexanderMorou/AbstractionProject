@@ -17,22 +17,24 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// to a <typeparamref name="TSignatureParent"/> and contains <typeparamref name="TSignatureParameter"/> 
     /// instances.
     /// </summary>
-    /// <typeparam name="TSignature">The type of <see cref="ISignatureMember{TSignature, TSignatureParameter, TSignatureParent}"/>
+    /// <typeparam name="TSignature">The type of <see cref="ISignatureMember{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/>
     /// contained by the current implementation.</typeparam>
     /// <typeparam name="TSignatureParameter">The type of <see cref="ISignatureParameterMember{TSignature, TSignatureParameter, TSignatureParent}"/>
     /// contained by <typeparamref name="TSignature"/> instances in the current implementation.</typeparam>
     /// <typeparam name="TSignatureParent">The type of <see cref="ISignatureParent{TSignature, TSignatureParameter, TSignatureParent}"/>
     /// that contains <typeparamref name="TSignature"/> instances in the current implementation.</typeparam>
-    public interface ISignatureMember<TSignature, TSignatureParameter, TSignatureParent> :
+    public interface ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> :
         IParameterParent<TSignature, TSignatureParameter>,
-        IMember<TSignatureParent>,
+        IMember<TSignatureIdentifier, TSignatureParent>,
         ISignatureMember
+        where TSignatureIdentifier :
+            ISignatureMemberUniqueIdentifier<TSignatureIdentifier>
         where TSignature :
-            ISignatureMember<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TSignatureParameter :
-            ISignatureParameterMember<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureParameterMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TSignatureParent :
-            ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureParent<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
     {
     }
     /// <summary>

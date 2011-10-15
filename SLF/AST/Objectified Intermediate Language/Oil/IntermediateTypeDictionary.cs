@@ -15,11 +15,14 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
-    public abstract class IntermediateTypeDictionary<TType, TIntermediateType> :
-        IntermediateGroupedDeclarationDictionary<TType, IType, TIntermediateType>,
-        IIntermediateTypeDictionary<TType, TIntermediateType>
+    public abstract class IntermediateTypeDictionary<TTypeIdentifier, TType, TIntermediateType> :
+        IntermediateGroupedDeclarationDictionary<TTypeIdentifier, TType, IGeneralTypeUniqueIdentifier, IType, TIntermediateType>,
+        IIntermediateTypeDictionary<TTypeIdentifier, TType, TIntermediateType>
+        where TTypeIdentifier :
+            ITypeUniqueIdentifier<TTypeIdentifier>,
+            IGeneralTypeUniqueIdentifier
         where TType :
-            IType<TType>
+            IType<TTypeIdentifier, TType>
         where TIntermediateType :
             class,
             IIntermediateType,
@@ -35,7 +38,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             this.parent = parent;
         }
 
-        public IntermediateTypeDictionary(IIntermediateTypeParent parent, IntermediateFullTypeDictionary master, IntermediateTypeDictionary<TType, TIntermediateType> root)
+        public IntermediateTypeDictionary(IIntermediateTypeParent parent, IntermediateFullTypeDictionary master, IntermediateTypeDictionary<TTypeIdentifier, TType, TIntermediateType> root)
             : base(master, root)
         {
             this.parent = parent;
@@ -62,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         /// <param name="types">The <typeparamref name="TIntermediateType"/>
         /// array to insert into the 
-        /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}"/>.</param>
+        /// <see cref="IntermediateTypeDictionary{TTypeIdentifier, TType, TIntermediateType}"/>.</param>
         public void AddRange(params TIntermediateType[] types)
         {
             foreach (var type in types)
@@ -95,7 +98,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Creates and inserts a new <typeparamref name="TIntermediateType"/> instance
-        /// into the current <see cref="IIntermediateTypeDictionary{TType, TIntermediateType}"/>.
+        /// into the current <see cref="IIntermediateTypeDictionary{TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </summary>
         /// <param name="name">The <see cref="String"/> that defines the name of the
         /// new <typeparamref name="TIntermediateType"/> to create.</param>

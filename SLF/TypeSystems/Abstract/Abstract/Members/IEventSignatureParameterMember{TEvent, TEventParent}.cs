@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <typeparam name="TEventParent">The type used as a parent of the <typeparamref name="TEvent"/>
     /// instances in the current implementation.</typeparam>
     public interface IEventSignatureParameterMember<TEvent, TEventParameter, TEventParent> :
-        ISignatureParameterMember<TEvent, TEventParameter, TEventParent>
+        ISignatureParameterMember<IGeneralSignatureMemberUniqueIdentifier, TEvent, TEventParameter, TEventParent>
         where TEvent :
             IEventSignatureMember<TEvent, TEventParameter, TEventParent>
         where TEventParameter :

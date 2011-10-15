@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TMethodMember">The type of method member used within
     /// the property in the intermediate abstract syntax tree.</typeparam>
     public abstract class IntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent, TMethodMember> :
-        IntermediateMemberBase<TPropertyParent, TIntermediatePropertyParent>,
+        IntermediateMemberBase<IGeneralMemberUniqueIdentifier, TPropertyParent, TIntermediatePropertyParent>,
         IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
         where TProperty :
             IPropertyMember<TProperty, TPropertyParent>
@@ -36,10 +36,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TProperty,
             IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
         where TPropertyParent :
-            IPropertyParentType<TProperty, TPropertyParent>
+            IPropertyParent<TProperty, TPropertyParent>
         where TIntermediatePropertyParent :
             TPropertyParent,
-            IIntermediatePropertyParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+            IIntermediatePropertyParent<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
         where TMethodMember :
             class,
             IIntermediatePropertyMethodMember

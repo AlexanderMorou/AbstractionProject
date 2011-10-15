@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -19,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// which are either, explicitly, implicitly or dynamically typed.
     /// </summary>
     public interface ILocalMemberDictionary :
-        IIntermediateMemberDictionary<IBlockStatementParent, IBlockStatementParent, ILocalMember, ILocalMember>
+        IIntermediateMemberDictionary<IBlockStatementParent, IBlockStatementParent, IGeneralMemberUniqueIdentifier, ILocalMember, ILocalMember>
     {
         /// <summary>
         /// Inserts a new <see cref="ITypedLocalMember"/> from the <paramref name="name"/>

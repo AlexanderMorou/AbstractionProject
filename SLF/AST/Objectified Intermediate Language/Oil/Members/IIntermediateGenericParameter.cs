@@ -53,11 +53,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TIntermediateGenericParameter">The type of generic parameter in
     /// the intermediate abstract syntax tree.</typeparam>
     public interface IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter> :
-        IIntermediateCreatableSignatureType<IGenericParameterConstructorMember<TGenericParameter>, IIntermediateGenericParameterConstructorMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>,
+        IIntermediateCreatableSignatureParent<IGenericParameterConstructorMember<TGenericParameter>, IIntermediateGenericParameterConstructorMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>,
         IIntermediateMethodSignatureParent<IGenericParameterMethodMember<TGenericParameter>, IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>,
         IIntermediateEventSignatureParent<IGenericParameterEventMember<TGenericParameter>, IIntermediateGenericParameterEventMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>,
         IIntermediateIndexerSignatureParent<IGenericParameterIndexerMember<TGenericParameter>, IIntermediateGenericParameterIndexerMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>,
-        IIntermediatePropertySignatureParentType<IGenericParameterPropertyMember<TGenericParameter>, IIntermediateGenericParameterPropertyMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>,
+        IIntermediatePropertySignatureParent<IGenericParameterPropertyMember<TGenericParameter>, IIntermediateGenericParameterPropertyMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>,
         IIntermediateGenericParameter,
         IGenericParameter<TGenericParameter>
         where TGenericParameter :
@@ -97,11 +97,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// parameter.
     /// </summary>
     public interface IIntermediateGenericParameter :
-        IIntermediateCreatableSignatureType,
+        IIntermediateCreatableSignatureParent,
         IIntermediateMethodSignatureParent,
         IIntermediateEventSignatureParent,
         IIntermediateIndexerSignatureParent,
-        IIntermediatePropertySignatureParentType,
+        IIntermediatePropertySignatureParent,
         IGenericParameter
     {
         /// <summary>

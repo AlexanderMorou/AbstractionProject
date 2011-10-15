@@ -15,11 +15,16 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <see cref="IFullDeclarationDictionary"/> which indicates verbatim 
     /// order across all declaration serii.
     /// </summary>
+    /// <typeparam name="TIdentifier">The kind of unique identifier
+    /// used to represent the <typeparamref name="TItem"/>
+    /// in simple form.</typeparam>
     /// <typeparam name="TItem">The type of <see cref="IDeclaration"/>
     /// in the current implementation.</typeparam>
-    public interface IGroupedDeclarationDictionary<TItem> :
-        ISubordinateDictionary<string, TItem>,
-        IDeclarationDictionary<TItem>
+    public interface IGroupedDeclarationDictionary<TIdentifier, TItem> :
+        ISubordinateDictionary<TIdentifier, TItem>,
+        IDeclarationDictionary<TIdentifier, TItem>
+        where TIdentifier :
+            IDeclarationUniqueIdentifier<TIdentifier>
         where TItem :
             IDeclaration
     {

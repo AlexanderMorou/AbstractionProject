@@ -15,12 +15,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// </summary>
     /// <typeparam name="TItem">The type of <see cref="IDeclaration"/> the
     /// <see cref="DeclarationDictionaryBase{TItem}"/> is used for.</typeparam>
-    public class DeclarationDictionaryBase<TItem> :
-        ControlledStateDictionary<string, TItem>,
-        IDeclarationDictionary<TItem>,
+    public class DeclarationDictionaryBase<TItemIdentifier, TItem> :
+        ControlledStateDictionary<TItemIdentifier, TItem>,
+        IDeclarationDictionary<TItemIdentifier, TItem>,
         IDeclarationDictionary
+        where TItemIdentifier :
+            IDeclarationUniqueIdentifier<TItemIdentifier>
         where TItem :
-            IDeclaration
+            IDeclaration<TItemIdentifier>
     {
         /// <summary>
         /// Creates a new <see cref="DeclarationDictionaryBase{TItem}"/> 
@@ -74,12 +76,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             int index = 0;
             if (this.valuesInstance == null)
                 return -1;
-            foreach (var item in this.Values)
-                if (object.ReferenceEquals(item, decl))
-                    return index;
-                else
-                    index++;
-            return -1;
+            return this.valuesInstance.IndexOf(decl);
+            //foreach (var item in this.Values)
+            //    if (object.ReferenceEquals(item, decl))
+            //        return index;
+            //    else
+            //        index++;
+            //return -1;
         }
     }
 }

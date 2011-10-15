@@ -19,12 +19,14 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    internal abstract class CompiledGenericTypeParameter<TType> :
-        CompiledGenericParameterMemberBase<IGenericTypeParameter<TType>, TType>,
-        ICompiledGenericTypeParameter<TType>
+    internal abstract class CompiledGenericTypeParameter<TTypeIdentifier, TType> :
+        CompiledGenericParameterMemberBase<IGenericTypeParameter<TTypeIdentifier, TType>, TType>,
+        ICompiledGenericTypeParameter<TTypeIdentifier, TType>
+        where TTypeIdentifier :
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>
         where TType :
             class,
-            IGenericType<TType>
+            IGenericType<TTypeIdentifier, TType>
     {
         protected CompiledGenericTypeParameter(TType parent, Type type)
             : base(parent, type)

@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
     public interface IIntermediateMethodSignatureMemberDictionary<TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent> :
         IIntermediateMethodSignatureMemberDictionary<IMethodSignatureParameterMember<TSignature, TSignatureParent>, IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
-        IIntermediateGroupedMemberDictionary<TSignatureParent, TIntermediateSignatureParent, TSignature, TIntermediateSignature>,
+        IIntermediateGroupedMemberDictionary<TSignatureParent, TIntermediateSignatureParent, IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature>,
         IMethodSignatureMemberDictionary<TSignature, TSignatureParent>
         where TSignature :
             IMethodSignatureMember<TSignature, TSignatureParent>
@@ -32,24 +32,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     }
 
     public interface IIntermediateMethodSignatureMemberDictionary<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent> :
-        IIntermediateSignatureMemberDictionary<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>,
-        IIntermediateMemberDictionary<TSignatureParent, TIntermediateSignatureParent, TSignature, TIntermediateSignature>,
+        IIntermediateSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>,
+        IIntermediateMemberDictionary<TSignatureParent, TIntermediateSignatureParent, IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature>,
         IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>
         where TSignatureParameter :
             IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
         where TIntermediateSignatureParameter :
-            TSignatureParameter,
-            IIntermediateMethodSignatureParameterMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>
+            IIntermediateMethodSignatureParameterMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
+            TSignatureParameter
         where TSignature :
             IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
         where TIntermediateSignature :
-            TSignature,
-            IIntermediateMethodSignatureMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>
+            IIntermediateMethodSignatureMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
+            TSignature
         where TSignatureParent :
-            ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TIntermediateSignatureParent :
             TSignatureParent,
-            IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
+            IIntermediateSignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
     {
         /// <summary>
         /// Adds a new <typeparamref name="TIntermediateSignature"/> with the

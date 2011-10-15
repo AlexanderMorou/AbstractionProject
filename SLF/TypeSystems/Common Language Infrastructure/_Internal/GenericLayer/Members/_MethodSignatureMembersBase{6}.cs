@@ -16,7 +16,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
     internal abstract class _MethodSignatureMembersBase<TSignatureParameter, TSignature, TSignatureParent, TSignatures> :
-        _SignatureMembersBase<TSignature, TSignatureParameter, TSignatureParent, TSignatures>,
+        _SignatureMembersBase<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent, TSignatures>,
         IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>,
         IMethodSignatureMemberDictionary
         where TSignatureParameter :
@@ -25,10 +25,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             class,
             IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
         where TSignatureParent :
-            ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TSignatures :
             class,
-            IGroupedMemberDictionary<TSignatureParent, TSignature>,
+            IGroupedMemberDictionary<TSignatureParent, IGeneralGenericSignatureMemberUniqueIdentifier, TSignature>,
             IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>
     {
         protected _MethodSignatureMembersBase(_FullMembersBase master, TSignatures originalSet, TSignatureParent parent)
@@ -45,10 +45,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         /// <param name="strict">Whether to adhere to the <paramref name="search"/> criteria
         /// strictly.</param>
         /// <param name="search">The <see cref="ITypeCollection"/> that designates the signature to look for.</param>
-        /// <returns>A new <see cref="ISignatureMemberDictionary{TSignature, TSignatureParameter, TSignatureParent}"/> of 
+        /// <returns>A new <see cref="ISignatureMemberDictionary{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> of 
         /// <typeparamref name="TSignature"/> instances that matched the <paramref name="search"/> criteria.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
-        public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, bool strict, ITypeCollection search)
+        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, bool strict, ITypeCollection search)
         {
             return this.Find(name, null, strict, search);
         }
@@ -58,11 +58,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         /// </summary>
         /// <param name="name">The root name of the items to include in the result.</param>
         /// <param name="search">The <see cref="ITypeCollection"/> that designates the signature to look for.</param>
-        /// <returns>A new <see cref="ISignatureMemberDictionary{TSignature, TSignatureParameter, TSignatureParent}"/> of 
+        /// <returns>A new <see cref="ISignatureMemberDictionary{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> of 
         /// <typeparamref name="TSignature"/> instances that matched the <paramref name="search"/> criteria.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
         /// <remarks>Alias for <see cref="Find(string, ITypeCollection)"/> where strict is true.</remarks>
-        public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection search)
+        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection search)
         {
             return this.Find(name, null, true, search);
         }
@@ -74,10 +74,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         /// <param name="strict">Whether to adhere to the <paramref name="search"/> criteria
         /// strictly.</param>
         /// <param name="search">The <see cref="IType"/> array that designates the signature to look for.</param>
-        /// <returns>A new <see cref="ISignatureMemberDictionary{TSignature, TSignatureParameter, TSignatureParent}"/> of 
+        /// <returns>A new <see cref="ISignatureMemberDictionary{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> of 
         /// <typeparamref name="TSignature"/> instances that matched the <paramref name="search"/> criteria.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
-        public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, bool strict, params IType[] search)
+        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, bool strict, params IType[] search)
         {
             return this.Find(name, null, strict, search);
         }
@@ -87,32 +87,32 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         /// </summary>
         /// <param name="name">The root name of the items to include in the result.</param>
         /// <param name="search">The <see cref="IType"/> array that designates the signature to look for.</param>
-        /// <returns>A new <see cref="ISignatureMemberDictionary{TSignature, TSignatureParameter, TSignatureParent}"/> of 
+        /// <returns>A new <see cref="ISignatureMemberDictionary{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> of 
         /// <typeparamref name="TSignature"/> instances that matched the <paramref name="search"/> criteria.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
         /// <remarks>Alias for <see cref="Find(string, IType[])"/> where strict is true.</remarks>
-        public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, params IType[] search)
+        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, params IType[] search)
         {
             return this.Find(name, null, true, search);
         }
 
 
-        public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, ITypeCollection search)
+        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, ITypeCollection search)
         {
             return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, this.Values, name, search, strict);
         }
 
-        public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, ITypeCollection search)
+        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, ITypeCollection search)
         {
             return this.Find(name, genericParameters, true, search);
         }
 
-        public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, params IType[] search)
+        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, params IType[] search)
         {
             return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, this.Values, name, search, strict);
         }
 
-        public IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, params IType[] search)
+        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, params IType[] search)
         {
             return this.Find(name, genericParameters, true, search);
         }

@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// Provides a base class for parameters.
     /// </summary>
     public class IntermediateParameterMemberBase<TParent, TIntermediateParent, TParameter, TIntermediateParameter> :
-        IntermediateMemberBase<TParent, TIntermediateParent>,
+        IntermediateMemberBase<IGeneralMemberUniqueIdentifier, TParent, TIntermediateParent>,
         IIntermediateParameterMember<TParent, TIntermediateParent>
         where TParent :
             IParameterParent<TParent, TParameter>

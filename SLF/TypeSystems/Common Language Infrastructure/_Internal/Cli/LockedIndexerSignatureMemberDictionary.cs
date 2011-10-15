@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
@@ -17,7 +16,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal class LockedIndexerSignatureMemberDictionary<TIndexer, TIndexerParent> :
-        LockedGroupedMembersBase<TIndexerParent, TIndexer, PropertyInfo>,
+        LockedGroupedMembersBase<TIndexerParent, IGeneralSignatureMemberUniqueIdentifier, TIndexer, PropertyInfo>,
         IIndexerSignatureMemberDictionary<TIndexer, TIndexerParent>,
         IIndexerSignatureMemberDictionary
         where TIndexer :
@@ -34,11 +33,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             return indexer.Name;
         }
-        protected override string FetchKey(PropertyInfo item)
+        protected override IGeneralSignatureMemberUniqueIdentifier FetchKey(PropertyInfo item)
         {
-            return item.GetUniqueIdentifier();
+            return item.GetIndexerUniqueIdentifier();
         }
-
 
         #region IIndexerSignatureMemberDictionary Members
 

@@ -27,13 +27,15 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             class
     {
         /// <summary>
-        /// Obtains a <see cref="ISubordinateDictionary{TKey, TSValue, TValue}"/> dictionary at the given index.
+        /// Obtains a <see cref="ISubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/> dictionary at the given index.
         /// </summary>
         /// <typeparam name="TSValue">The specific type of value used in the subordinate dictionary, derives
         /// from the master dictionary's <typeparamref name="TValue"/>.</typeparam>
-        /// <returns>A <see cref="ISubordinateDictionary{TKey, TSValue, TMValue}"/> contained 
+        /// <returns>A <see cref="ISubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/> contained 
         /// within the <see cref="IMasterDictionary{TKey, TValue}"/></returns>
-        ISubordinateDictionary<TKey, TSValue, TValue> GetSubordinate<TSValue>()
+        ISubordinateDictionary<TSKey, TKey, TSValue, TValue> GetSubordinate<TSKey, TSValue>()
+            where TSKey :
+                TKey
             where TSValue :
                 TValue;
         /// <summary>

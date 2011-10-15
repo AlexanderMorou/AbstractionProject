@@ -15,19 +15,22 @@ using AllenCopeland.Abstraction.Utilities.Collections;
  \-------------------------------------------------------------------- */
 
 
-namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    internal abstract class LockedSignatureMembersBase<TSignature, TSignatureParameter, TSignatureParent, TSourceItem> :
-        LockedGroupedMembersBase<TSignatureParent, TSignature, TSourceItem>,
-        ISignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent>,
+    internal abstract class LockedSignatureMembersBase<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent, TSourceItem> :
+        LockedGroupedMembersBase<TSignatureParent, TSignatureIdentifier, TSignature, TSourceItem>,
+        ISignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>,
         ISignatureMemberDictionary
+        where TSignatureIdentifier :
+            ISignatureMemberUniqueIdentifier<TSignatureIdentifier>,
+            IGeneralMemberUniqueIdentifier
         where TSignature :
             class,
-            ISignatureMember<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TSignatureParameter :
-            ISignatureParameterMember<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureParameterMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TSignatureParent :
-            ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureParent<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TSourceItem :
             class
     {
@@ -58,22 +61,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         #region ISignatureMemberDictionary<TSignature,TSignatureParameter,TSignatureParent> Members
 
-        public virtual IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(bool strict, ITypeCollectionBase search)
+        public virtual IFilteredSignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(bool strict, ITypeCollectionBase search)
         {
-            return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(this.Values, search, strict);
+            return CLICommon.FindCache<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(this.Values, search, strict);
         }
 
-        public virtual IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(bool strict, params IType[] search)
+        public virtual IFilteredSignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(bool strict, params IType[] search)
         {
-            return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(this.Values, search, strict);
+            return CLICommon.FindCache<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(this.Values, search, strict);
         }
 
-        public virtual IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(ITypeCollectionBase search)
+        public virtual IFilteredSignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(ITypeCollectionBase search)
         {
             return this.Find(true, search);
         }
 
-        public virtual IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(params IType[] search)
+        public virtual IFilteredSignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(params IType[] search)
         {
             return this.Find(true, search);
         }

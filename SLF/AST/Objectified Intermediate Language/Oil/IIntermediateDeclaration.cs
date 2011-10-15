@@ -11,6 +11,14 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
+    public interface IIntermediateDeclaration<TIdentifier> :
+        IDeclaration<TIdentifier>,
+        IIntermediateDeclaration
+        where TIdentifier :
+            IDeclarationUniqueIdentifier<TIdentifier>
+    {
+
+    }
     /// <summary>
     /// Defines properties and methods for working with an 
     /// intermediate declaration.

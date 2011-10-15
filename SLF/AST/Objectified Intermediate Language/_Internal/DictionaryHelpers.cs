@@ -28,18 +28,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal
             where TSignatureParameter :
                 IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
             where TIntermediateSignatureParameter :
-                TSignatureParameter,
-                IIntermediateMethodSignatureParameterMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>
+                IIntermediateMethodSignatureParameterMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
+                TSignatureParameter
             where TSignature :
                 IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TIntermediateSignature :
-                TSignature,
-                IIntermediateMethodSignatureMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>
+                IIntermediateMethodSignatureMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
+                TSignature
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
             where TIntermediateSignatureParent :
-                TSignatureParent,
-                IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
+                IIntermediateSignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>,
+                TSignatureParent
         {
             /* *
              * If the method being added wants to mirror the declaration 

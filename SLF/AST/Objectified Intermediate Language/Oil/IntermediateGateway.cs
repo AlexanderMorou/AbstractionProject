@@ -402,7 +402,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             where TProperty :
                 IPropertySignatureMember<TProperty, TPropertyParent>
             where TPropertyParent :
-                IPropertySignatureParentType<TProperty, TPropertyParent>
+                IPropertySignatureParent<TProperty, TPropertyParent>
         {
             return new PropertySignatureReferenceExpression<TProperty, TPropertyParent>(source, target);
         }
@@ -411,7 +411,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             where TProperty :
                 IPropertyMember<TProperty, TPropertyParent>
             where TPropertyParent :
-                IPropertyParentType<TProperty, TPropertyParent>
+                IPropertyParent<TProperty, TPropertyParent>
         {
             return new PropertyReferenceExpression<TProperty, TPropertyParent>(source, target);
         }
@@ -518,7 +518,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             where TSignature :
                 IMethodSignatureMember<TSignatureParameter, TSignature, TParent>
             where TParent :
-                ISignatureParent<TSignature, TSignatureParameter, TParent>
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TParent>
         {
             if (target is IIntermediateInstanceMember)
             {

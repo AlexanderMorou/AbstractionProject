@@ -15,7 +15,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
     internal abstract partial class _IndexerSignatureMemberBase<TIndexer, TIndexerParent> :
-        _MemberBase<TIndexer, TIndexerParent>,
+        _MemberBase<IGeneralSignatureMemberUniqueIdentifier, TIndexer, TIndexerParent>,
         IIndexerSignatureMember<TIndexer, TIndexerParent>
         where TIndexer :
             IIndexerSignatureMember<TIndexer, TIndexerParent>
@@ -77,7 +77,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         /// <summary>
         /// Returns the <see cref="IMethodMember"/> 
         /// which represents the get method of the 
-        /// <see cref="_IndexerSignatureMemberBase{TIndexer, TIndexerParent}"/>.
+        /// <see cref="_IndexerSignatureMemberBase{TIndexer, TIndexerParentIdentifier, TIndexerParent}"/>.
         /// </summary>
         public IPropertySignatureMethodMember GetMethod
         {
@@ -98,7 +98,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         /// <summary>
         /// Returns the <see cref="IMethodMember"/> 
         /// which represents the set method of the 
-        /// <see cref="_IndexerSignatureMemberBase{TIndexer, TIndexerParent}"/>.
+        /// <see cref="_IndexerSignatureMemberBase{TIndexer, TIndexerParentIdentifier, TIndexerParent}"/>.
         /// </summary>
         public IPropertySignatureMethodMember SetMethod
         {
@@ -155,7 +155,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         }
 
         /// <summary>
-        /// Returns whether the <see cref="_IndexerSignatureMemberBase{TIndexer, TIndexerParent}"/>
+        /// Returns whether the <see cref="_IndexerSignatureMemberBase{TIndexer, TIndexerParentIdentifier, TIndexerParent}"/>
         /// can be read from.
         /// </summary>
         public bool CanRead
@@ -164,7 +164,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         }
 
         /// <summary>
-        /// Returns whether the <see cref="_IndexerSignatureMemberBase{TIndexer, TIndexerParent}"/> 
+        /// Returns whether the <see cref="_IndexerSignatureMemberBase{TIndexer, TIndexerParentIdentifier, TIndexerParent}"/> 
         /// can be written to.
         /// </summary>
         public bool CanWrite
@@ -173,5 +173,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         }
 
         #endregion
+
+        public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier
+        {
+            get { return AstIdentifier.Signature(this.Name, this.Parameters.ParameterTypes); }
+        }
     }
 }

@@ -18,13 +18,16 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <summary>
     /// Provides a base class for <see cref="IType"/> implementations.
     /// </summary>
-    public abstract class TypeBase :
-        DeclarationBase,
+    [DebuggerDisplay("Name = {Name}, FullName = {FullName}")]
+    public abstract class TypeBase<TIdentifier> :
+        DeclarationBase<TIdentifier>,
         IType,
         ICustomAttributedDeclaration
+        where TIdentifier :
+            ITypeUniqueIdentifier<TIdentifier>
     {
         internal static IEnumerable<IDeclaration> EmptyDeclarations = GetEmptyDeclarations();
-        internal static IEnumerable<string> EmptyIdentifiers = GetEmptyIdentifiers();
+        internal static IEnumerable<IGeneralDeclarationUniqueIdentifier> EmptyIdentifiers = GetEmptyIdentifiers();
         /// <summary>
         /// Data member for <see cref="CustomAttributes"/>.
         /// </summary>
@@ -52,14 +55,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         /// <summary>
         /// Returns the <see cref="IType"/> from which the current
-        /// <see cref="TypeBase"/> is declared.
+        /// <see cref="TypeBase{TIdentifier}"/> is declared.
         /// </summary>
         /// <returns>An <see cref="IType"/> instance denoting
-        /// the current <see cref="TypeBase"/>'s point 
+        /// the current <see cref="TypeBase{TIdentifier}"/>'s point 
         /// of declaration.</returns>
         protected abstract IType OnGetDeclaringType();
         /// <summary>
-        /// Returns the <see cref="TypeKind"/> the <see cref="TypeBase"/>
+        /// Returns the <see cref="TypeKind"/> the <see cref="TypeBase{TIdentifier}"/>
         /// is.
         /// </summary>
         protected abstract TypeKind TypeImpl { get; }
@@ -70,41 +73,41 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         /// <summary>
         /// Returns the <see cref="ITypeCollection"/> which represents
-        /// the interfaces implemented by the current <see cref="TypeBase"/>.
+        /// the interfaces implemented by the current <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
         /// <returns>A <see cref="ITypeCollection"/> instance.</returns>
         protected abstract ILockedTypeCollection OnGetImplementedInterfaces();
 
         /// <summary>
         /// Returns the <see cref="IFullMemberDictionary"/> for the current
-        /// <see cref="TypeBase"/>.
+        /// <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
         /// <returns>An <see cref="IFullMemberDictionary"/> instance.</returns>
         protected abstract IFullMemberDictionary OnGetMembers();
 
         /// <summary>
-        /// Returns the namespace the current <see cref="TypeBase"/> belongs to.
+        /// Returns the namespace the current <see cref="TypeBase{TIdentifier}"/> belongs to.
         /// </summary>
         /// <returns>A <see cref="INamespaceDeclaration"/> value representing the namespace of 
-        /// the current <see cref="TypeBase"/>.</returns>
+        /// the current <see cref="TypeBase{TIdentifier}"/>.</returns>
         protected abstract INamespaceDeclaration OnGetNamespace();
 
         /// <summary>
         /// Returns the <see cref="AccessLevelModifiers"/> which determine
-        /// the accessibility of the current <see cref="TypeBase"/>.
+        /// the accessibility of the current <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
         /// <returns>A <see cref="AccessLevelModifiers"/> value which determine
-        /// the accessibility of the current <see cref="TypeBase"/>.</returns>
+        /// the accessibility of the current <see cref="TypeBase{TIdentifier}"/>.</returns>
         protected abstract AccessLevelModifiers OnGetAccessLevel();
 
         /// <summary>
         /// Implementation version of <see cref="Assembly"/> which obtains 
         /// the <see cref="IAssembly"/> associated
-        /// to the current <see cref="TypeBase"/>.
+        /// to the current <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
         /// <returns>A <see cref="IAssembly"/> instance
         /// of the assembly that defines the
-        /// <see cref="TypeBase"/>.</returns>
+        /// <see cref="TypeBase{TIdentifier}"/>.</returns>
         protected abstract IAssembly OnGetAssembly();
 
         /// <summary>
@@ -120,7 +123,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <paramref name="rank"/> is zero or below.
         /// </exception>
         /// <exception cref="System.InvalidOperationException">
-        /// Thrown when the current <see cref="TypeBase"/>
+        /// Thrown when the current <see cref="TypeBase{TIdentifier}"/>
         /// is a pointer or by-reference type.</exception>
         protected abstract IArrayType OnMakeArray(int rank);
 
@@ -159,11 +162,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         protected abstract IType OnMakePointer();
 
         /// <summary>
-        /// Makes the current <see cref="TypeBase"/> as a 
+        /// Makes the current <see cref="TypeBase{TIdentifier}"/> as a 
         /// nullable <see cref="IType"/>.
         /// </summary>
         /// <returns>A <see cref="IType"/> instance
-        /// which represents the current <see cref="TypeBase"/>
+        /// which represents the current <see cref="TypeBase{TIdentifier}"/>
         /// as a nullable type.</returns>
         protected abstract IType OnMakeNullable();
 
@@ -210,7 +213,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         public abstract bool IsGenericConstruct { get; }
 
         /// <summary>
-        /// Returns the <see cref="IType"/> in which the current <see cref="TypeBase"/> is declared.
+        /// Returns the <see cref="IType"/> in which the current <see cref="TypeBase{TIdentifier}"/> is declared.
         /// </summary>
         public IType DeclaringType
         {
@@ -218,7 +221,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         /// <summary>
-        /// Returns the kind of type the <see cref="TypeBase"/> is.
+        /// Returns the kind of type the <see cref="TypeBase{TIdentifier}"/> is.
         /// </summary>
         public TypeKind Type
         {
@@ -226,7 +229,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         /// <summary>
-        /// Returns whether the current <see cref="TypeBase"/> is nullable.
+        /// Returns whether the current <see cref="TypeBase{TIdentifier}"/> is nullable.
         /// </summary>
         public bool IsNullable
         {
@@ -323,7 +326,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Creates a new nullable <see cref="IType"/>.
         /// </summary>
         /// <returns>A new <see cref="IType"/> as a nullable type relative to the current
-        /// <see cref="TypeBase"/>.</returns>
+        /// <see cref="TypeBase{TIdentifier}"/>.</returns>
         /// <exception cref="System.InvalidOperationException">thrown when the current <see cref="IType"/>
         /// is a poinoter, array, generic type definition, by-reference, or when 
         /// <see cref="Type"/> is something other than <see cref="TypeKind.Struct"/> or when the
@@ -341,13 +344,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         /// <summary>
-        /// Returns whether the <see cref="TypeBase"/> is a 
+        /// Returns whether the <see cref="TypeBase{TIdentifier}"/> is a 
         /// sub-class of the <paramref name="other"/> type provided.
         /// </summary>
         /// <param name="other">The <see cref="IType"/> to check for in the
-        /// current <see cref="TypeBase"/> hierarchy.</param>
+        /// current <see cref="TypeBase{TIdentifier}"/> hierarchy.</param>
         /// <returns>true if <paramref name="other"/> is contained within the 
-        /// current <see cref="TypeBase"/> inheritance hierarchy.</returns>
+        /// current <see cref="TypeBase{TIdentifier}"/> inheritance hierarchy.</returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="other"/> is null.</exception>
         public bool IsSubclassOf(IType other)
         {
@@ -362,28 +365,28 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         /// <summary>
         /// Implementation version of <see cref="IsSubclassOf(IType)"/>
-        /// which returns whether the <see cref="TypeBase"/> is a 
+        /// which returns whether the <see cref="TypeBase{TIdentifier}"/> is a 
         /// sub-class of the <paramref name="other"/> type provided.
         /// </summary>
         /// <param name="other">The <see cref="IType"/> to check for in the
-        /// current <see cref="TypeBase"/> hierarchy.</param>
+        /// current <see cref="TypeBase{TIdentifier}"/> hierarchy.</param>
         /// <returns>true if <paramref name="other"/> is contained within the 
-        /// current <see cref="TypeBase"/> inheritance hierarchy.</returns>
+        /// current <see cref="TypeBase{TIdentifier}"/> inheritance hierarchy.</returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="other"/> is null.</exception>
         protected abstract bool IsSubclassOfImpl(IType other);
 
         /// <summary>
-        /// Returns whether the current <see cref="TypeBase"/> is 
+        /// Returns whether the current <see cref="TypeBase{TIdentifier}"/> is 
         /// assignable from the <paramref name="target"/> provided.
         /// </summary>
         /// <param name="target">The <see cref="IType"/> to see if 
         /// the current type is assignable from.</param>
         /// <returns>
         /// true if <paramref name="target"/> contains the current 
-        /// <see cref="TypeBase"/> in its implemented interfaces, 
+        /// <see cref="TypeBase{TIdentifier}"/> in its implemented interfaces, 
         /// if <paramref name="target"/> inherits the current 
-        /// <see cref="TypeBase"/>, or if <paramref name="target"/> 
-        /// equals the current <see cref="TypeBase"/>; 
+        /// <see cref="TypeBase{TIdentifier}"/>, or if <paramref name="target"/> 
+        /// equals the current <see cref="TypeBase{TIdentifier}"/>; 
         /// false otherwise.</returns>
         /// <exception cref="System.ArgumentNullException">
         /// <paramref name="target"/> is null.</exception>
@@ -399,7 +402,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         /// <summary>
-        /// Returns the full name of the <see cref="TypeBase"/>.
+        /// Returns the full name of the <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
         public virtual string FullName
         {
@@ -407,7 +410,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         /// <summary>
-        /// Returns the namespace in which the <see cref="TypeBase"/> is declared.
+        /// Returns the namespace in which the <see cref="TypeBase{TIdentifier}"/> is declared.
         /// </summary>
         [DebuggerDisplay("{NamespaceName}")]
         public INamespaceDeclaration Namespace
@@ -417,7 +420,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         /// <summary>
         /// Returns the name of the namespace in which the 
-        /// <see cref="TypeBase"/> is declared.
+        /// <see cref="TypeBase{TIdentifier}"/> is declared.
         /// </summary>
         public string NamespaceName
         {
@@ -430,20 +433,20 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         protected abstract string OnGetNamespaceName();
 
         /// <summary>
-        /// Returns the base type of the current <see cref="TypeBase"/>.
+        /// Returns the base type of the current <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
         public IType BaseType { get { return this.BaseTypeImpl; } }
 
         /// <summary>
         /// Implementation version of <see cref="BaseType"/> which 
-        /// returns the base type of the current <see cref="TypeBase"/>
+        /// returns the base type of the current <see cref="TypeBase{TIdentifier}"/>
         /// </summary>
         protected abstract IType BaseTypeImpl { get; }
 
         /// <summary>
         /// Returns a collection of <see cref="IType"/> instances that
         /// are implemented by the current
-        /// <see cref="TypeBase"/>.
+        /// <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
         public ILockedTypeCollection ImplementedInterfaces
         {
@@ -464,7 +467,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         /// <summary>
-        /// Returns the <see cref="IAssembly"/> in which the <see cref="TypeBase"/> is declared
+        /// Returns the <see cref="IAssembly"/> in which the <see cref="TypeBase{TIdentifier}"/> is declared
         /// </summary>
         public IAssembly Assembly
         {
@@ -489,17 +492,17 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Determines whether the <paramref name="other"/>
         /// <see cref="IType"/> is equal to
-        /// the current <see cref="TypeBase"/>.
+        /// the current <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
         /// <param name="other">The other <see cref="IType"/>
         /// to check against.</param>
         /// <returns>true if the <see cref="IType"/> is
-        /// equal to the current <see cref="TypeBase"/>.</returns>
+        /// equal to the current <see cref="TypeBase{TIdentifier}"/>.</returns>
         public bool Equals(IType other)
         {
             if (other.GetType() != this.GetType())
                 return false;
-            return ((TypeBase)other) == this;
+            return object.ReferenceEquals(this, other);
         }
 
         #endregion
@@ -507,7 +510,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         #region IScopedDeclaration Members
 
         /// <summary>
-        /// Returns the access level of the <see cref="TypeBase"/>.
+        /// Returns the access level of the <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
         public AccessLevelModifiers AccessLevel
         {
@@ -517,7 +520,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         #endregion
 
         /// <summary>
-        /// Returns whether the <see cref="TypeBase"/> is 
+        /// Returns whether the <see cref="TypeBase{TIdentifier}"/> is 
         /// an <see cref="IGenericParameter"/>.
         /// </summary>
         public bool IsGenericTypeParameter
@@ -563,20 +566,29 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         /// <summary>
-        /// Returns the unique identifier for the current <see cref="TypeBase"/> where 
+        /// Returns the unique identifier for the current <see cref="TypeBase{TIdentifier}"/> where 
         /// <see cref="DeclarationBase.Name"/> is not enough to distinguish between two 
-        /// <see cref="TypeBase"/> entities.
+        /// <see cref="TypeBase{TIdentifier}"/> entities.
         /// </summary>
-        public override string UniqueIdentifier
+        public override sealed TIdentifier UniqueIdentifier
         {
             get
             {
-                return this.BuildTypeName();
+                return this.OnGetUniqueIdentifier();
             }
         }
 
         /// <summary>
-        /// Converts the <see cref="TypeBase"/> to a <see cref="String"/>
+        /// Obtains the unique identifier for the current <see cref="TypeBase{TIdentifier}"/>.
+        /// </summary>
+        /// <returns>A <typeparamref name="TIdentifier"/> which properly
+        /// represents the <see cref="TypeBase{TIdentifier}"/>.</returns>
+        /// <remarks>Inheritors are required to implement this method
+        /// if not abstract.</remarks>
+        protected abstract TIdentifier OnGetUniqueIdentifier();
+
+        /// <summary>
+        /// Converts the <see cref="TypeBase{TIdentifier}"/> to a <see cref="String"/>
         /// representation.
         /// </summary>
         /// <returns>The full name of the type as a string.</returns>
@@ -589,7 +601,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         /// <summary>
         /// Returns the <see cref="ICustomAttributeCollection"/> associated to the
-        /// <see cref="TypeBase"/>.
+        /// <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
         public ICustomAttributeCollection CustomAttributes
         {
@@ -607,13 +619,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Determines whether the <see cref="IType"/>
         /// is defined within the custom attributes of the 
-        /// <see cref="TypeBase"/>.
+        /// <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
         /// <param name="attributeType">The <see cref="IType"/> which determines
         /// the </param>
         /// <returns>true if <see cref="attributeType"/> can be assigned to
         /// from a type of one of the custom attributes contained within 
-        /// the <see cref="TypeBase"/>.</returns>
+        /// the <see cref="TypeBase{TIdentifier}"/>.</returns>
         public bool IsDefined(IType attributeType)
         {
             foreach (ICustomAttributeInstance inst in this.CustomAttributes)
@@ -626,7 +638,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         /// <summary>
         /// Initializes the <see cref="CustomAttributes"/> for the current
-        /// <see cref="TypeBase"/>.
+        /// <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
         /// <returns>A <see cref="ICustomAttributeCollection"/> of
         /// attributes relative to the current instance.</returns>
@@ -634,7 +646,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         /// <summary>
         /// Returns a <see cref="IEnumerable{T}"/> of the elements
-        /// contained within the <see cref="TypeBase"/>.
+        /// contained within the <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
         public IEnumerable<IDeclaration> Declarations
         {
@@ -646,17 +658,17 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         /// <summary>
         /// Obtains the <see cref="IEnumerable{T}"/> which contains all of the 
-        /// declarations for the <see cref="TypeBase"/>.
+        /// declarations for the <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
         /// <returns>A <see cref="IEnumerable{T}"/> capable of iterating the declarations
-        /// contained within the <see cref="TypeBase"/>.</returns>
+        /// contained within the <see cref="TypeBase{TIdentifier}"/>.</returns>
         protected virtual IEnumerable<IDeclaration> OnGetDeclarations()
         {
             foreach (var member in this.Members.Values)
                 yield return member.Entry;
         }
 
-        private static IEnumerable<string> GetEmptyIdentifiers()
+        private static IEnumerable<IGeneralDeclarationUniqueIdentifier> GetEmptyIdentifiers()
         {
             yield break;
         }
@@ -681,8 +693,18 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Returns a series of string values which relate to the 
         /// identifiers contained within the <see cref="IType"/>.
         /// </summary>
-        public abstract IEnumerable<string> AggregateIdentifiers { get; }
+        public abstract IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers { get; }
 
         protected object SyncObject { get { return this.syncObject; } }
+
+        #region IType Members
+
+
+        IGeneralTypeUniqueIdentifier IType.UniqueIdentifier
+        {
+            get { return (IGeneralTypeUniqueIdentifier)this.UniqueIdentifier; }
+        }
+
+        #endregion
     }
 }

@@ -13,22 +13,21 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Defines generic properties and methods for working with a type that has constructors.
     /// </summary>
     /// <typeparam name="TCtor">The type of <see cref="IConstructorMember{TCtor, TCtorParent}"/> that
-    /// represents the <typeparamref name="TType"/>'s constructors.</typeparam>
-    /// <typeparam name="TType">The type of <see cref="ICreatableType{TCtor, TType}"/> in the
+    /// represents the <typeparamref name="TCtorParent"/>'s constructors.</typeparam>
+    /// <typeparam name="TCtorParent">The type of <see cref="ICreatableParent{TCtor, TCtorParent}"/> in the
     /// current implementation that contains <typeparamref name="TCtor"/> instances.</typeparam>
-    public interface ICreatableType<TCtor, TType> :
-        ISignatureParent<TCtor, IConstructorParameterMember<TCtor, TType>, TType>,
-        ICreatableType,
-        IType<TType>
+    public interface ICreatableParent<TCtor, TCtorParent> :
+        ISignatureParent<IGeneralSignatureMemberUniqueIdentifier, TCtor, IConstructorParameterMember<TCtor, TCtorParent>, TCtorParent>,
+        ICreatableParent
         where TCtor :
-            IConstructorMember<TCtor, TType>
-        where TType :
-            ICreatableType<TCtor, TType>
+            IConstructorMember<TCtor, TCtorParent>
+        where TCtorParent :
+            ICreatableParent<TCtor, TCtorParent>
     {
         /// <summary>
-        /// Returns the constructors contained by the <see cref="ICreatableType{TCtor, TCtorParent}"/>.
+        /// Returns the constructors contained by the <see cref="ICreatableParent{TCtor, TCtorParent}"/>.
         /// </summary>
-        new IConstructorMemberDictionary<TCtor, TType> Constructors { get; }
+        new IConstructorMemberDictionary<TCtor, TCtorParent> Constructors { get; }
         /// <summary>
         /// Returns the <typeparamref name="TCtor"/> which 
         /// represents the type-initializer (static constructor)
@@ -37,14 +36,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         new TCtor TypeInitializer { get; }
     }
     /// <summary>
-    /// Defines properties and methods for working with a <see cref="ICreatableType"/>.
+    /// Defines properties and methods for working with a <see cref="ICreatableParent"/>.
     /// </summary>
-    public interface ICreatableType :
+    public interface ICreatableParent :
         ISignatureParent,
         IType
     {
         /// <summary>
-        /// Returns the constructors contained by the <see cref="ICreatableType"/>.
+        /// Returns the constructors contained by the <see cref="ICreatableParent"/>.
         /// </summary>
         IConstructorMemberDictionary Constructors { get; }
         /// <summary>

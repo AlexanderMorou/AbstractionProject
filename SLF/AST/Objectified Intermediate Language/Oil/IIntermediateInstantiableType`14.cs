@@ -36,21 +36,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <typeparam name="TProperty">The type used for the properties in the current implementation.</typeparam>
     /// <typeparam name="TIntermediateProperty">The type of property member used in the
     /// intermediate abstract syntax tree.</typeparam>
-    /// <typeparam name="TType">The <see cref="IInstantiableType{TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType}"/> 
+    /// <typeparam name="TType">The <see cref="IInstantiableType{TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TTypeIdentifier, TType}"/> 
     /// in the implementation.</typeparam>
     /// <typeparam name="TIntermediateType">The type kind of type used within the intermediate abstract syntax
     /// tree to represent the malleable form of the type during design time.</typeparam>
-    public interface IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> :
-        IIntermediateCreatableType<TCtor, TIntermediateCtor, TType, TIntermediateType>,
+    public interface IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TTypeIdentifier, TType, TIntermediateType> :
+        IIntermediateCreatableParent<TCtor, TIntermediateCtor, TType, TIntermediateType>,
         IIntermediateMethodParent<TMethod, TIntermediateMethod, TType, TIntermediateType>,
-        IIntermediatePropertyParentType<TProperty, TIntermediateProperty, TType, TIntermediateType>,
+        IIntermediatePropertyParent<TProperty, TIntermediateProperty, TType, TIntermediateType>,
         IIntermediateFieldParent<TField, TIntermediateField, TType, TIntermediateType>,
-        IIntermediateCoercibleType<TType, TIntermediateType>,
+        IIntermediateCoercibleType<TTypeIdentifier, TType, TIntermediateType>,
         IIntermediateEventParent<TEvent, TIntermediateEvent, TType, TIntermediateType>,
         IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TType, TIntermediateType>,
-        IIntermediateSegmentableType<TType, TIntermediateType>,
+        IIntermediateSegmentableType<TTypeIdentifier, TType, TIntermediateType>,
         IIntermediateInstantiableType,
-        IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType>
+        IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TTypeIdentifier, TType>
         where TCtor :
             IConstructorMember<TCtor, TType>
         where TIntermediateCtor :
@@ -84,10 +84,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             TProperty,
             IIntermediatePropertyMember<TProperty, TIntermediateProperty, TType, TIntermediateType>
         where TType :
-            IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType>
+            IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TTypeIdentifier, TType>
         where TIntermediateType :
             TType,
-            IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType>
+            IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TTypeIdentifier, TType, TIntermediateType>
     {
         /// <summary>
         /// Returns the <see cref="IIntermediateInstantiableTypeImplementedInterfaces{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType}"/>
@@ -97,8 +97,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         new IIntermediateInstantiableTypeImplementedInterfaces<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> ImplementedInterfaces { get; }
     }
     public interface IIntermediateInstantiableType :
-        IIntermediateCreatableType,
-        IIntermediatePropertyParentType,
+        IIntermediateCreatableParent,
+        IIntermediatePropertyParent,
         IIntermediateFieldParent,
         IIntermediateTypeParent,
         IIntermediateMethodParent,

@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// type container's full set of types.
     /// </summary>
     public interface IFullTypeDictionary :
-        IFullDeclarationDictionary<IType>
+        IFullDeclarationDictionary<IGeneralTypeUniqueIdentifier, IType>
     {
         /// <summary>
         /// Returns a series of <see cref="IType"/> instances under a

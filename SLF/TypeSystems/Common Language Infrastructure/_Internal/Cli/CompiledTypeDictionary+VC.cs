@@ -13,18 +13,21 @@ using AllenCopeland.Abstraction.Utilities.Collections;
  \-------------------------------------------------------------------- */
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    partial class CompiledTypeDictionary<TType>
+    partial class CompiledTypeDictionary<TTypeIdentifier, TType>
+        where TTypeIdentifier :
+            ITypeUniqueIdentifier<TTypeIdentifier>,
+            IGeneralTypeUniqueIdentifier
         where TType :
             class,
-            IType<TType>
+            IType<TTypeIdentifier, TType>
     {
         private class VC :
             ValuesCollection,
             IDisposable
         {
-            private CompiledTypeDictionary<TType> parent;
+            private CompiledTypeDictionary<TTypeIdentifier, TType> parent;
             internal TType[] values;
-            public VC(CompiledTypeDictionary<TType> parent)
+            public VC(CompiledTypeDictionary<TTypeIdentifier, TType> parent)
                 : base(parent)
             {
                 this.parent = parent;

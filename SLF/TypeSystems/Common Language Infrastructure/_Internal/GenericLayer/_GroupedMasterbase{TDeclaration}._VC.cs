@@ -12,11 +12,11 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
-    partial class _GroupedMasterBase<TDeclaration>
+    partial class _GroupedMasterBase<TDeclarationIdentifier, TDeclaration>
     {
         private _VC valuesCollection;
 
-        protected override ControlledStateDictionary<string, MasterDictionaryEntry<TDeclaration>>.ValuesCollection InitializeValuesCollection()
+        protected override ControlledStateDictionary<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>.ValuesCollection InitializeValuesCollection()
         {
             if (this.valuesCollection == null)
                 this.valuesCollection = new _VC(this);
@@ -24,11 +24,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         }
 
         private class _VC :
-            _GroupedMasterBase<TDeclaration>.ValuesCollection
+            _GroupedMasterBase<TDeclarationIdentifier, TDeclaration>.ValuesCollection
         {
-            private _GroupedMasterBase<TDeclaration> master;
+            private _GroupedMasterBase<TDeclarationIdentifier, TDeclaration> master;
 
-            public _VC(_GroupedMasterBase<TDeclaration> master)
+            public _VC(_GroupedMasterBase<TDeclarationIdentifier, TDeclaration> master)
                 : base(master)
             {
                 this.master = master;

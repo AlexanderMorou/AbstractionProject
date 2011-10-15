@@ -17,12 +17,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// </summary>
     /// <typeparam name="TCtor">The type of the constructor in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateCtor">The type of the constructor in the intermediate abstract syntax tree.</typeparam>
-    /// <typeparam name="TType">The type of the owning <see cref="ICreatableType{TCtor, TIntermediateType}"/> in 
+    /// <typeparam name="TType">The type of the owning <see cref="ICreatableParent{TCtor, TIntermediateType}"/> in 
     /// the abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateType">The type of the owning <see cref="IIntermediateCreatableSignatureType{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
+    /// <typeparam name="TIntermediateType">The type of the owning <see cref="IIntermediateCreatableSignatureParent{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
     /// in the intermediate abstract syntax tree.</typeparam>
     public abstract class IntermediateConstructorSignatureMemberDictionary<TCtor, TIntermediateCtor, TType, TIntermediateType> :
-        IntermediateGroupedSignatureMemberDictionary<TCtor, TIntermediateCtor, IConstructorParameterMember<TCtor, TType>, IIntermediateConstructorSignatureParameterMember<TCtor, TIntermediateCtor, TType, TIntermediateType>, TType, TIntermediateType>,
+        IntermediateGroupedSignatureMemberDictionary<TCtor, TIntermediateCtor, IGeneralSignatureMemberUniqueIdentifier, IConstructorParameterMember<TCtor, TType>, IIntermediateConstructorSignatureParameterMember<TCtor, TIntermediateCtor, TType, TIntermediateType>, TType, TIntermediateType>,
         IIntermediateConstructorSignatureMemberDictionary<TCtor, TIntermediateCtor, TType, TIntermediateType>,
         IIntermediateConstructorSignatureMemberDictionary
         where TCtor :
@@ -31,10 +31,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             IIntermediateConstructorSignatureMember<TCtor, TIntermediateCtor, TType, TIntermediateType>,
             TCtor
         where TType :
-            ICreatableType<TCtor, TType>
+            ICreatableParent<TCtor, TType>
         where TIntermediateType :
             class,
-            IIntermediateCreatableSignatureType<TCtor, TIntermediateCtor, TType, TIntermediateType>,
+            IIntermediateCreatableSignatureParent<TCtor, TIntermediateCtor, TType, TIntermediateType>,
             TType
     {
         /// <summary>
@@ -42,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// with the <paramref name="master"/> and <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
-        /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>
+        /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember}"/>
         /// instances of varying types.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateType"/>
         /// which contains the <see cref="IntermediateConstructorSignatureMemberDictionary{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>.</param>
@@ -55,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <paramref name="master"/>, <paramref name="parent"/> and <paramref name="root"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
-        /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>
+        /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember}"/>
         /// instances of varying types.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateType"/>
         /// which contains the <see cref="IntermediateConstructorSignatureMemberDictionary{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>.</param>

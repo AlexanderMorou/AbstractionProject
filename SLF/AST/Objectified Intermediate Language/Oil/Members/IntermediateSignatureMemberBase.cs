@@ -27,44 +27,46 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// abstract type system, which contains the signatured elements.</typeparam>
     /// <typeparam name="TIntermediateSignatureParent">The type, in the intermediate abstract syntax tree,
     /// which contains the signatured elements.</typeparam>
-    public abstract class IntermediateSignatureMemberBase<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent> :
-        IntermediateParameterParentMemberBase<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent,TIntermediateSignatureParent>,
-        IIntermediateSignatureMember<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
+    public abstract class IntermediateSignatureMemberBase<TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent> :
+        IntermediateParameterParentMemberBase<TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent,TIntermediateSignatureParent>,
+        IIntermediateSignatureMember<TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
+        where TSignatureIdentifier :
+            ISignatureMemberUniqueIdentifier<TSignatureIdentifier>
         where TSignature :
-            ISignatureMember<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TIntermediateSignature :
-            TSignature,
-            IIntermediateSignatureMember<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
+            IIntermediateSignatureMember<TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>,
+            TSignature
         where TSignatureParameter :
-            ISignatureParameterMember<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureParameterMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TIntermediateSignatureParameter :
-            TSignatureParameter,
-            IIntermediateSignatureParameterMember<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
+            IIntermediateSignatureParameterMember<TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>,
+            TSignatureParameter
         where TSignatureParent :
-            ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureParent<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TIntermediateSignatureParent :
-            TSignatureParent,
-            IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
+            IIntermediateSignatureParent<TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>,
+            TSignatureParent
     {
         /// <summary>
-        /// Creates a new <see cref="IntermediateSignatureMemberBase{TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/>
+        /// Creates a new <see cref="IntermediateSignatureMemberBase{TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/>
         /// with the <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateSignatureParent"/> which
-        /// contains the <see cref="IntermediateSignatureMemberBase{TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/>.</param>
+        /// contains the <see cref="IntermediateSignatureMemberBase{TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/>.</param>
         protected IntermediateSignatureMemberBase(TIntermediateSignatureParent parent)
             : base(parent)
         {
         }
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateSignatureMemberBase{TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/>
+        /// Creates a new <see cref="IntermediateSignatureMemberBase{TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/>
         /// with the <paramref name="name"/> and <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="name">The <see cref="String"/> representing the unique identifier of the 
-        /// <see cref="IntermediateSignatureMemberBase{TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/>.</param>
+        /// <see cref="IntermediateSignatureMemberBase{TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/>.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateSignatureParent"/> which
-        /// contains the <see cref="IntermediateSignatureMemberBase{TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/>.</param>
+        /// contains the <see cref="IntermediateSignatureMemberBase{TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/>.</param>
         protected IntermediateSignatureMemberBase(string name, TIntermediateSignatureParent parent)
             : base(name, parent)
         {

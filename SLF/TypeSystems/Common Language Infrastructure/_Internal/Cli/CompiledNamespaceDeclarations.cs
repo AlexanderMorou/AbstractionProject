@@ -47,7 +47,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-        public override bool Contains(KeyValuePair<string, INamespaceDeclaration> item)
+        public override bool Contains(KeyValuePair<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration> item)
         {
             if (this.Keys.Contains(item.Key))
                 return this.Values.Contains(item.Value);
@@ -62,19 +62,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        protected override ControlledStateDictionary<string, INamespaceDeclaration>.KeysCollection InitializeKeysCollection()
+        protected override ControlledStateDictionary<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration>.KeysCollection InitializeKeysCollection()
         {
             return new _KeysCollection(this);
         }
-        protected override ControlledStateDictionary<string, INamespaceDeclaration>.ValuesCollection InitializeValuesCollection()
+        protected override ControlledStateDictionary<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration>.ValuesCollection InitializeValuesCollection()
         {
             return new _ValuesCollection(this);
         }
 
-        public override IEnumerator<KeyValuePair<string, INamespaceDeclaration>> GetEnumerator()
+        public override IEnumerator<KeyValuePair<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration>> GetEnumerator()
         {
             for (int i = 0; i < this.Count; i++)
-                yield return new KeyValuePair<string, INamespaceDeclaration>(this.Keys[i], this.Values[i]);
+                yield return new KeyValuePair<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration>(this.Keys[i], this.Values[i]);
             yield break;
         }
 
@@ -84,34 +84,35 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 ((_ValuesCollection)this.Values).Dispose();
             this.baseData = null;
         }
-        public override void CopyTo(KeyValuePair<string, INamespaceDeclaration>[] array, int arrayIndex)
+        public override void CopyTo(KeyValuePair<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration>[] array, int arrayIndex)
         {
             for (int i = 0; i < this.Count; i++)
-                array[i + arrayIndex] = new KeyValuePair<string, INamespaceDeclaration>(this.Keys[i], this.Values[i]);
+                array[i + arrayIndex] = new KeyValuePair<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration>(this.Keys[i], this.Values[i]);
             base.CopyTo(array, arrayIndex);
         }
 
-        protected override INamespaceDeclaration OnGetThis(string key)
+        protected override INamespaceDeclaration OnGetThis(IGeneralDeclarationUniqueIdentifier key)
         {
-            return this.GetThis(key);
+            return this.GetThis(key.Name);
         }
 
-        protected override KeyValuePair<string, INamespaceDeclaration> OnGetThis(int index)
+        protected override KeyValuePair<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration> OnGetThis(int index)
         {
-            return new KeyValuePair<string, INamespaceDeclaration>(this.Keys[index], this.Values[index]);
+            return new KeyValuePair<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration>(this.Keys[index], this.Values[index]);
         }
 
-        public override KeyValuePair<string, INamespaceDeclaration>[] ToArray()
+        public override KeyValuePair<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration>[] ToArray()
         {
-            var result = new KeyValuePair<string, INamespaceDeclaration>[this.Count];
+            var result = new KeyValuePair<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration>[this.Count];
             for (int i = 0; i < this.Count; i++)
-                result[i] = new KeyValuePair<string, INamespaceDeclaration>(this.Keys[i], this.Values[i]);
+                result[i] = new KeyValuePair<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration>(this.Keys[i], this.Values[i]);
             return result;
         }
 
-        public override bool ContainsKey(string key)
+        public override bool ContainsKey(IGeneralDeclarationUniqueIdentifier key)
         {
             return this.Keys.Contains(key);
         }
+
     }
 }

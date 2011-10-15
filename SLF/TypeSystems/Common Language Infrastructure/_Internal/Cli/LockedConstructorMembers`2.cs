@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -17,17 +16,17 @@ using AllenCopeland.Abstraction.Utilities.Collections;
  \-------------------------------------------------------------------- */
 
 
-namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal class LockedConstructorMembers<TCtor, TCtorParent> :
-        LockedSignatureMembersBase<TCtor, IConstructorParameterMember<TCtor, TCtorParent>, TCtorParent, ConstructorInfo>,
+        LockedSignatureMembersBase<IGeneralSignatureMemberUniqueIdentifier, TCtor, IConstructorParameterMember<TCtor, TCtorParent>, TCtorParent, ConstructorInfo>,
         IConstructorMemberDictionary<TCtor, TCtorParent>, 
         IConstructorMemberDictionary
         where TCtor :
             class,
             IConstructorMember<TCtor, TCtorParent>
         where TCtorParent :
-            ICreatableType<TCtor, TCtorParent>
+            ICreatableParent<TCtor, TCtorParent>
     {
         /// <summary>
         /// Creates a new <see cref="LockedConstructorMembers{TCtor, TCtorParent}"/> initialized to a 
@@ -48,7 +47,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         {
         }
 
-        protected override string FetchKey(ConstructorInfo item)
+        protected override IGeneralSignatureMemberUniqueIdentifier FetchKey(ConstructorInfo item)
         {
             return item.GetUniqueIdentifier();
         }

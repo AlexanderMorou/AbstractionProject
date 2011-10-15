@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -17,7 +16,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
     internal abstract class _FieldMembersBase<TField, TFieldParent> :
-        _GroupedMembersBase<TFieldParent, TField, IFieldMemberDictionary<TField, TFieldParent>>,
+        _GroupedMembersBase<TFieldParent, IGeneralMemberUniqueIdentifier, TField, IFieldMemberDictionary<TField, TFieldParent>>,
         IFieldMemberDictionary<TField, TFieldParent>,
         IFieldMemberDictionary
         where TField :

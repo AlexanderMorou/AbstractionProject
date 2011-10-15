@@ -8,6 +8,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -26,13 +27,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <typeparam name="TInstDeclaration">The specific type of <typeparamref name="TDeclaration"/>
     /// used within the parts that is instantiated and used as the root and partial
     /// elements.</typeparam>
-    public class IntermediateSegmentableDeclarationParts<TDeclaration, TInstDeclaration> :
+    public class IntermediateSegmentableDeclarationParts<TIdentifier, TDeclaration, TInstDeclaration> :
         ControlledStateCollection<TDeclaration>,
-        IIntermediateSegmentableDeclarationPartCollection<TDeclaration>,
+        IIntermediateSegmentableDeclarationPartCollection<TIdentifier, TDeclaration>,
         IIntermediateSegmentableDeclarationPartCollection
+        where TIdentifier :
+            IDeclarationUniqueIdentifier<TIdentifier>
         where TDeclaration :
             class,
-            IIntermediateSegmentableDeclaration<TDeclaration>
+            IIntermediateSegmentableDeclaration<TIdentifier, TDeclaration>
         where TInstDeclaration :
             class,
             TDeclaration//,

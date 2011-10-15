@@ -39,7 +39,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         public static T[] AddInlineArray<T>(this IEnumerable<T> target, params T[] inlineElements)
         {
-            return Tweaks.MergeArrays(target.ToArray(), inlineElements);
+            return ArrayExtensions.MergeArrays(target.ToArray(), inlineElements);
         }
         /// <summary>
         /// Performs <paramref name="method"/> on all <typeparamref name="T"/> intances in <paramref name="source"/>.

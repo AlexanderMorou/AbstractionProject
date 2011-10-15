@@ -17,16 +17,18 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// </summary>
     /// <typeparam name="TCtor">The type of <see cref="IConstructorMember{TCtor, TCtorParent}"/>
     /// in the current implementation.</typeparam>
-    /// <typeparam name="TCtorParent">The type of <see cref="ICreatableType{TCtor, TType}"/>
+    /// <typeparam name="TCtorParentIdentifier">The type of <see cref="ITypeUniqueIdentifier{TIdentifier}"/>
+    /// which represents the uniqueness of the parent relative to its siblings.</typeparam>
+    /// <typeparam name="TCtorParent">The type of <see cref="ICreatableParent{TCtor, TCtorParent}"/>
     /// that contains the <typeparamref name="TCtor"/> instances.</typeparam>
     public interface IConstructorMember<TCtor, TCtorParent> :
-        ISignatureMember<TCtor, IConstructorParameterMember<TCtor, TCtorParent>, TCtorParent>,
-        IMember<TCtorParent>,
+        ISignatureMember<IGeneralSignatureMemberUniqueIdentifier, TCtor, IConstructorParameterMember<TCtor, TCtorParent>, TCtorParent>,
+        IMember<IGeneralSignatureMemberUniqueIdentifier, TCtorParent>,
         IConstructorMember
         where TCtor :
             IConstructorMember<TCtor, TCtorParent>
         where TCtorParent :
-            ICreatableType<TCtor, TCtorParent>
+            ICreatableParent<TCtor, TCtorParent>
     {
     }
 }

@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <typeparam name="TIntermediateIndexerParent">The type of indexer signature parent in the intermediate
     /// abstract syntax tree.</typeparam>
     public interface IIntermediateIndexerSignatureParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> :
-        IIntermediateSignatureParent<TIndexer, TIntermediateIndexer, IIndexerSignatureParameterMember<TIndexer, TIndexerParent>, IIntermediateIndexerSignatureParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>, TIndexerParent, TIntermediateIndexerParent>,
+        IIntermediateSignatureParent<IGeneralSignatureMemberUniqueIdentifier, TIndexer, TIntermediateIndexer, IIndexerSignatureParameterMember<TIndexer, TIndexerParent>, IIntermediateIndexerSignatureParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>, TIndexerParent, TIntermediateIndexerParent>,
         IIndexerSignatureParent<TIndexer, TIndexerParent>,
         IIntermediateIndexerSignatureParent
         where TIndexer :

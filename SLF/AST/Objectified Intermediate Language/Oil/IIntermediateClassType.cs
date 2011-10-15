@@ -22,8 +22,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             <IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IClassFieldMember,
              IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IClassMethodMember, 
              IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember,
-             IClassType, IIntermediateClassType>,
-        IIntermediateGenericType<IClassType, IIntermediateClassType>,
+             IClassType, IGeneralGenericTypeUniqueIdentifier, IIntermediateClassType>,
+        IIntermediateGenericType<IGeneralGenericTypeUniqueIdentifier, IClassType, IIntermediateClassType>,
         IClassType
     {
         /// <summary>

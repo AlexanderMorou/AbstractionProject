@@ -14,23 +14,29 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
-    partial class _DeclarationsBase<TDeclaration, TDeclarationSpecific, TOriginalContainer, TDictionary>
+    partial class _DeclarationsBase<TDeclarationIdentifier, TDeclaration, TDeclarationSpecificIdentifier, TDeclarationSpecific, TOriginalContainer, TDictionary>
+        where TDeclarationIdentifier :
+            IDeclarationUniqueIdentifier<TDeclarationIdentifier>
         where TDeclaration :
             class,
             IDeclaration
+        where TDeclarationSpecificIdentifier :
+            IDeclarationUniqueIdentifier<TDeclarationSpecificIdentifier>,
+            TDeclarationIdentifier
         where TDeclarationSpecific :
             class,
+            IDeclaration<TDeclarationSpecificIdentifier>,
             TDeclaration
         where TDictionary :
             class,
-            IDeclarationDictionary<TDeclarationSpecific>
+            IDeclarationDictionary<TDeclarationSpecificIdentifier, TDeclarationSpecific>
     {
         private class _ValuesCollection :
             ValuesCollection
         {
             internal ControlledStateDictionary<TDeclarationSpecific, TDeclarationSpecific> values;
-            private _DeclarationsBase<TDeclaration, TDeclarationSpecific, TOriginalContainer, TDictionary> ParentTypes { get; set; }
-            internal _ValuesCollection(_DeclarationsBase<TDeclaration, TDeclarationSpecific, TOriginalContainer, TDictionary> parentTypes)
+            private _DeclarationsBase<TDeclarationIdentifier, TDeclaration, TDeclarationSpecificIdentifier, TDeclarationSpecific, TOriginalContainer, TDictionary> ParentTypes { get; set; }
+            internal _ValuesCollection(_DeclarationsBase<TDeclarationIdentifier, TDeclaration, TDeclarationSpecificIdentifier, TDeclarationSpecific, TOriginalContainer, TDictionary> parentTypes)
                 : base(parentTypes)
             {
                 this.ParentTypes = parentTypes;

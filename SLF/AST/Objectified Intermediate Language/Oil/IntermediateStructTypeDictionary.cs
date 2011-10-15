@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// </summary>
     [DebuggerDisplay("Data Structures: {Count}")]
     public class IntermediateStructTypeDictionary :
-        IntermediateGenericTypeDictionary<IStructType, IIntermediateStructType>,
+        IntermediateGenericTypeDictionary<IGeneralGenericTypeUniqueIdentifier, IStructType, IIntermediateStructType>,
         IIntermediateStructTypeDictionary
     {
         /// <summary>

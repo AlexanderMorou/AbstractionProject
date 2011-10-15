@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -21,8 +20,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         partial class GenericParameterDictionary
         {
             private class GenericParameterMember :
-                TypeBase<IGenericTypeParameter<ISymbolType>>,
-                IGenericTypeParameter<ISymbolType>
+                TypeBase<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>,
+                IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>
             {
                 private SymbolType Parent { get; set; }
                 internal GenericParameterMember(SymbolType parent, int position)
@@ -31,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     this.Position = position;
                 }
 
-                protected override bool Equals(IGenericTypeParameter<ISymbolType> other)
+                protected override bool Equals(IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType> other)
                 {
                     return ReferenceEquals(other, this);
                 }
@@ -130,84 +129,84 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     return null;
                 }
 
-                #region IGenericParameter<IGenericTypeParameter<ISymbolType>,ISymbolType> Members
+                #region IGenericParameter<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>,ISymbolType> Members
 
-                ISymbolType IGenericParameter<IGenericTypeParameter<ISymbolType>, ISymbolType>.Parent
+                ISymbolType IGenericParameter<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>, ISymbolType>.Parent
                 {
                     get { return this.Parent; }
                 }
 
                 #endregion
 
-                #region IGenericParameter<IGenericTypeParameter<ISymbolType>> Members
+                #region IGenericParameter<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> Members
 
-                public IGenericParameterConstructorMemberDictionary<IGenericTypeParameter<ISymbolType>> Constructors
+                public IGenericParameterConstructorMemberDictionary<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> Constructors
                 {
                     get { return null; }
                 }
 
-                public IGenericParameterEventMemberDictionary<IGenericTypeParameter<ISymbolType>> Events
+                public IGenericParameterEventMemberDictionary<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> Events
                 {
                     get { return null; }
                 }
 
-                public IGenericParameterIndexerMemberDictionary<IGenericTypeParameter<ISymbolType>> Indexers
+                public IGenericParameterIndexerMemberDictionary<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> Indexers
                 {
                     get { return null; }
                 }
 
-                public IGenericParameterMethodMemberDictionary<IGenericTypeParameter<ISymbolType>> Methods
+                public IGenericParameterMethodMemberDictionary<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> Methods
                 {
                     get { return null; }
                 }
 
-                public IGenericParameterPropertyMemberDictionary<IGenericTypeParameter<ISymbolType>> Properties
-                {
-                    get { return null; }
-                }
-
-                #endregion
-
-                #region ICreatableType<IGenericParameterConstructorMember<IGenericTypeParameter<ISymbolType>>,IGenericTypeParameter<ISymbolType>> Members
-
-                IConstructorMemberDictionary<IGenericParameterConstructorMember<IGenericTypeParameter<ISymbolType>>, IGenericTypeParameter<ISymbolType>> ICreatableType<IGenericParameterConstructorMember<IGenericTypeParameter<ISymbolType>>, IGenericTypeParameter<ISymbolType>>.Constructors
-                {
-                    get { return null; }
-                }
-
-                public IGenericParameterConstructorMember<IGenericTypeParameter<ISymbolType>> TypeInitializer
+                public IGenericParameterPropertyMemberDictionary<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> Properties
                 {
                     get { return null; }
                 }
 
                 #endregion
 
-                #region ICreatableType Members
+                #region ICreatableParent<IGenericParameterConstructorMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>,IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> Members
 
-                IConstructorMemberDictionary ICreatableType.Constructors
+                IConstructorMemberDictionary<IGenericParameterConstructorMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> ICreatableParent<IGenericParameterConstructorMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>.Constructors
                 {
                     get { return null; }
                 }
 
-                IConstructorMember ICreatableType.TypeInitializer
-                {
-                    get { return null; }
-                }
-
-                #endregion
-
-                #region IType<IGenericTypeParameter<ISymbolType>> Members
-
-                public new IGenericTypeParameter<ISymbolType> ElementType
+                public IGenericParameterConstructorMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> TypeInitializer
                 {
                     get { return null; }
                 }
 
                 #endregion
 
-                #region IMethodSignatureParent<IGenericParameterMethodMember<IGenericTypeParameter<ISymbolType>>,IGenericTypeParameter<ISymbolType>> Members
+                #region ICreatableParent Members
 
-                IMethodSignatureMemberDictionary<IGenericParameterMethodMember<IGenericTypeParameter<ISymbolType>>, IGenericTypeParameter<ISymbolType>> IMethodSignatureParent<IGenericParameterMethodMember<IGenericTypeParameter<ISymbolType>>, IGenericTypeParameter<ISymbolType>>.Methods
+                IConstructorMemberDictionary ICreatableParent.Constructors
+                {
+                    get { return null; }
+                }
+
+                IConstructorMember ICreatableParent.TypeInitializer
+                {
+                    get { return null; }
+                }
+
+                #endregion
+
+                #region IType<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> Members
+
+                public new IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType> ElementType
+                {
+                    get { return null; }
+                }
+
+                #endregion
+
+                #region IMethodSignatureParent<IGenericParameterMethodMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>,IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> Members
+
+                IMethodSignatureMemberDictionary<IGenericParameterMethodMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> IMethodSignatureParent<IGenericParameterMethodMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>.Methods
                 {
                     get { return null; }
                 }
@@ -223,18 +222,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
                 #endregion
 
-                #region IEventSignatureParent<IGenericParameterEventMember<IGenericTypeParameter<ISymbolType>>,IGenericTypeParameter<ISymbolType>> Members
+                #region IEventSignatureParent<IGenericParameterEventMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>,IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> Members
 
-                IEventSignatureMemberDictionary<IGenericParameterEventMember<IGenericTypeParameter<ISymbolType>>, IGenericTypeParameter<ISymbolType>> IEventSignatureParent<IGenericParameterEventMember<IGenericTypeParameter<ISymbolType>>, IGenericTypeParameter<ISymbolType>>.Events
+                IEventSignatureMemberDictionary<IGenericParameterEventMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> IEventSignatureParent<IGenericParameterEventMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>.Events
                 {
                     get { return null; }
                 }
 
                 #endregion
 
-                #region IEventSignatureParent<IGenericParameterEventMember<IGenericTypeParameter<ISymbolType>>,IEventSignatureParameterMember<IGenericParameterEventMember<IGenericTypeParameter<ISymbolType>>,IGenericTypeParameter<ISymbolType>>,IGenericTypeParameter<ISymbolType>> Members
+                #region IEventSignatureParent<IGenericParameterEventMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>,IEventSignatureParameterMember<IGenericParameterEventMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>,IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>,IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> Members
 
-                IEventSignatureMemberDictionary<IGenericParameterEventMember<IGenericTypeParameter<ISymbolType>>, IEventSignatureParameterMember<IGenericParameterEventMember<IGenericTypeParameter<ISymbolType>>, IGenericTypeParameter<ISymbolType>>, IGenericTypeParameter<ISymbolType>> IEventSignatureParent<IGenericParameterEventMember<IGenericTypeParameter<ISymbolType>>, IEventSignatureParameterMember<IGenericParameterEventMember<IGenericTypeParameter<ISymbolType>>, IGenericTypeParameter<ISymbolType>>, IGenericTypeParameter<ISymbolType>>.Events
+                IEventSignatureMemberDictionary<IGenericParameterEventMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>, IEventSignatureParameterMember<IGenericParameterEventMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> IEventSignatureParent<IGenericParameterEventMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>, IEventSignatureParameterMember<IGenericParameterEventMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>.Events
                 {
                     get { return null; }
                 }
@@ -250,9 +249,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
                 #endregion
 
-                #region IIndexerSignatureParent<IGenericParameterIndexerMember<IGenericTypeParameter<ISymbolType>>,IGenericTypeParameter<ISymbolType>> Members
+                #region IIndexerSignatureParent<IGenericParameterIndexerMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>,IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> Members
 
-                IIndexerSignatureMemberDictionary<IGenericParameterIndexerMember<IGenericTypeParameter<ISymbolType>>, IGenericTypeParameter<ISymbolType>> IIndexerSignatureParent<IGenericParameterIndexerMember<IGenericTypeParameter<ISymbolType>>, IGenericTypeParameter<ISymbolType>>.Indexers
+                IIndexerSignatureMemberDictionary<IGenericParameterIndexerMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> IIndexerSignatureParent<IGenericParameterIndexerMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>.Indexers
                 {
                     get { return null; }
                 }
@@ -268,18 +267,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
                 #endregion
 
-                #region IPropertySignatureParentType<IGenericParameterPropertyMember<IGenericTypeParameter<ISymbolType>>,IGenericTypeParameter<ISymbolType>> Members
+                #region IPropertySignatureParent<IGenericParameterPropertyMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>,IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> Members
 
-                IPropertySignatureMemberDictionary<IGenericParameterPropertyMember<IGenericTypeParameter<ISymbolType>>, IGenericTypeParameter<ISymbolType>> IPropertySignatureParentType<IGenericParameterPropertyMember<IGenericTypeParameter<ISymbolType>>, IGenericTypeParameter<ISymbolType>>.Properties
+                IPropertySignatureMemberDictionary<IGenericParameterPropertyMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> IPropertySignatureParent<IGenericParameterPropertyMember<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>.Properties
                 {
                     get { return null; }
                 }
 
                 #endregion
 
-                #region IPropertySignatureParentType Members
+                #region IPropertySignatureParent Members
 
-                IPropertySignatureMemberDictionary IPropertySignatureParentType.Properties
+                IPropertySignatureMemberDictionary IPropertySignatureParent.Properties
                 {
                     get { return null; }
                 }

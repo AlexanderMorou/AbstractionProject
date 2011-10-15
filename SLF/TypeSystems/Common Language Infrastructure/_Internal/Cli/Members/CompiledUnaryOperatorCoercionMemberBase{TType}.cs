@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -16,12 +15,15 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    internal class CompiledUnaryOperatorCoercionMemberBase<TCoercionParent> :
-        UnaryOperatorCoercionMemberBase<TCoercionParent>,
+    internal class CompiledUnaryOperatorCoercionMemberBase<TCoercionParentIdentifier, TCoercionParent> :
+        UnaryOperatorCoercionMemberBase<TCoercionParentIdentifier, TCoercionParent>,
         ICompiledUnaryOperatorCoercionMember
+        where TCoercionParentIdentifier :
+            ITypeUniqueIdentifier<TCoercionParentIdentifier>
         where TCoercionParent :
-            ICoercibleType<IUnaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>
+            ICoercibleType<IUnaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
     {
+        private IUnaryOperatorUniqueIdentifier uniqueIdentifier;
         /// <summary>
         /// Data member for <see cref="MemberInfo"/>.
         /// </summary>
@@ -117,11 +119,51 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             return this._operator;
         }
 
-        public override string UniqueIdentifier
+        public override IUnaryOperatorUniqueIdentifier UniqueIdentifier
         {
-            get {
-                return string.Format("{0} {1}({2})", this.ResultedType, this.Operator, this.Parent);
+            get
+            {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.UnaryOperator(this.Operator);
+                return this.uniqueIdentifier;
             }
+        }
+
+
+        protected override string OnGetName()
+        {
+            string p = null;
+            switch (this.Operator)
+            {
+                case CoercibleUnaryOperators.Plus:
+                    p = CLICommon.UnaryOperatorNames.Plus;
+                    break;
+                case CoercibleUnaryOperators.Negation:
+                    p = CLICommon.UnaryOperatorNames.Negation;
+                    break;
+                case CoercibleUnaryOperators.EvaluatesToFalse:
+                    p = CLICommon.UnaryOperatorNames.False;
+                    break;
+                case CoercibleUnaryOperators.EvaluatesToTrue:
+                    p = CLICommon.UnaryOperatorNames.True;
+                    break;
+                case CoercibleUnaryOperators.LogicalInvert:
+                    p = CLICommon.UnaryOperatorNames.LogicalNot;
+                    break;
+                case CoercibleUnaryOperators.Complement:
+                    p = CLICommon.UnaryOperatorNames.OnesComplement;
+                    break;
+                case CoercibleUnaryOperators.Increment:
+                    p = CLICommon.UnaryOperatorNames.Increment;
+                    break;
+                case CoercibleUnaryOperators.Decrement:
+                    p = CLICommon.UnaryOperatorNames.Decrement;
+                    break;
+                default:
+                    return null;
+            }
+
+            return string.Format("unary operator {0}", p);
         }
     }
 }

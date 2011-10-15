@@ -42,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// the <typeparamref name="TEvent"/> instances in the current
     /// implementation.</typeparam>
     public interface IEventSignatureMember<TEvent, TEventParameter, TEventParent> :
-        ISignatureMember<TEvent, TEventParameter, TEventParent>,
+        ISignatureMember<IGeneralSignatureMemberUniqueIdentifier, TEvent, TEventParameter, TEventParent>,
         IEventSignatureMember
         where TEvent :
             IEventSignatureMember<TEvent, TEventParameter, TEventParent>

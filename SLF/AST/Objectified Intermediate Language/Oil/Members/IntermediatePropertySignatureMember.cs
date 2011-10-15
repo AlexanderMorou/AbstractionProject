@@ -30,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// the property signatures within the intermediate abstract
     /// syntax tree.</typeparam>
     public abstract class IntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent, TMethodMember> :
-        IntermediateMemberBase<TPropertyParent, TIntermediatePropertyParent>,
+        IntermediateMemberBase<IGeneralMemberUniqueIdentifier, TPropertyParent, TIntermediatePropertyParent>,
         IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
         where TProperty :
             IPropertySignatureMember<TProperty, TPropertyParent>
@@ -38,10 +38,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TProperty,
             IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
         where TPropertyParent :
-            IPropertySignatureParentType<TProperty, TPropertyParent>
+            IPropertySignatureParent<TProperty, TPropertyParent>
         where TIntermediatePropertyParent :
             TPropertyParent,
-            IIntermediatePropertySignatureParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+            IIntermediatePropertySignatureParent<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
         where TMethodMember :
             class,
             IIntermediatePropertySignatureMethodMember

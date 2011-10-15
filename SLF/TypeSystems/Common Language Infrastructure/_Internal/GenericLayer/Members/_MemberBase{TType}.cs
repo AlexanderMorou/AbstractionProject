@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
@@ -15,10 +15,12 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
-    internal abstract class _MemberBase<TMember, TParent> :
-        MemberBase<TParent>
+    internal abstract class _MemberBase<TMemberIdentifier, TMember, TParent> :
+        MemberBase<TMemberIdentifier, TParent>
+        where TMemberIdentifier :
+            IMemberUniqueIdentifier<TMemberIdentifier>
         where TMember :
-            IMember<TParent>
+            IMember<TMemberIdentifier, TParent>
         where TParent :
             IMemberParent
     {
@@ -64,11 +66,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         protected override string OnGetName()
         {
             return this.Original.Name;
-        }
-
-        public override string ToString()
-        {
-            return this.UniqueIdentifier;
         }
     }
 }

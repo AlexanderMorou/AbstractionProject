@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Utilities;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -15,7 +16,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    partial class CompiledEventSignatureMemberBase<TMethod, TEvent, TEventParent>
+    partial class CompiledEventSignatureMemberBase<TMethod, TEvent, TEventParentIdentifier, TEventParent>
         where TEvent :
             IEventSignatureMember<TEvent, TEventParent>
         where TEventParent :
@@ -36,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
             #endregion
 
-            public ParameterMember(IDelegateTypeParameterMember original, CompiledEventSignatureMemberBase<TMethod, TEvent, TEventParent> parent)
+            public ParameterMember(IDelegateTypeParameterMember original, CompiledEventSignatureMemberBase<TMethod, TEvent, TEventParentIdentifier, TEventParent> parent)
                 : base((TEvent)(object)parent)
             {
                 this.original = original;
@@ -62,7 +63,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 return this.original.Name;
             }
 
-            public override string UniqueIdentifier
+            public override IGeneralMemberUniqueIdentifier UniqueIdentifier
             {
                 get { return this.original.UniqueIdentifier; }
             }

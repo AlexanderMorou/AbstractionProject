@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 {
     /// <summary>
     /// Provides a root implementation of 
-    /// <see cref="ISubordinateDictionary{TKey, TSValue, TMValue}"/>
+    /// <see cref="ISubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/>
     /// as a subordinate of a larger 
     /// <see cref="MasterDictionaryBase{TKey, TValue}"/>.
     /// </summary>
@@ -23,15 +23,17 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// subordinate and master dictionaries.</typeparam>
     /// <typeparam name="TSValue">The sub-type of 
     /// <typeparamref name="TMValue"/> that the 
-    /// <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/> 
+    /// <see cref="SubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/> 
     /// uses for its elements.</typeparam>
     /// <typeparam name="TMValue"></typeparam>
     [DebuggerDisplay("Count: {Count}")]
-    public partial class SubordinateDictionary<TKey, TSValue, TMValue> :
-        ControlledStateDictionary<TKey, TSValue>,
-        ISubordinateDictionary<TKey, TSValue, TMValue>,
+    public partial class SubordinateDictionary<TSKey, TMKey, TSValue, TMValue> :
+        ControlledStateDictionary<TSKey, TSValue>,
+        ISubordinateDictionary<TSKey, TMKey, TSValue, TMValue>,
         ISubordinateDictionary,
         _ISubordinateDictionaryMasterPass
+        where TSKey :
+            TMKey
         where TMValue :
             class
         where TSValue :
@@ -41,15 +43,15 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <summary>
         /// Data member for <see cref="Master"/>.
         /// </summary>
-        private MasterDictionaryBase<TKey, TMValue> master;
+        private MasterDictionaryBase<TMKey, TMValue> master;
 
         /// <summary>
-        /// Creates a new <see cref="SubordinateDictionary{TKey, TSValue, TValue}"/> 
+        /// Creates a new <see cref="SubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/> 
         /// with the <paramref name="master"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="MasterDictionaryBase{TKey, TMValue}"/>
-        /// in which the <see cref="SubordinateDictionary{TKey, TSValue, TValue}"/> resides.</param>
-        protected SubordinateDictionary(MasterDictionaryBase<TKey, TMValue> master) 
+        /// in which the <see cref="SubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/> resides.</param>
+        protected SubordinateDictionary(MasterDictionaryBase<TMKey, TMValue> master) 
             : base()
         {
             if (master == null)
@@ -59,15 +61,15 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         }
 
         /// <summary>
-        /// Creates a new <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/>
+        /// Creates a new <see cref="SubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/>
         /// with the <paramref name="master"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="MasterDictionaryBase{TKey, TMValue}"/>
-        /// in which the <see cref="SubordinateDictionary{TKey, TSValue, TValue}"/> resides.</param>
-        /// <param name="sibling">The <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/>
-        /// which is the sibling of the new <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/>
+        /// in which the <see cref="SubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/> resides.</param>
+        /// <param name="sibling">The <see cref="SubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/>
+        /// which is the sibling of the new <see cref="SubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/>
         /// and therefore contains the same dictionary of elements.</param>
-        protected SubordinateDictionary(MasterDictionaryBase<TKey, TMValue> master, SubordinateDictionary<TKey, TSValue, TMValue> sibling)
+        protected SubordinateDictionary(MasterDictionaryBase<TMKey, TMValue> master, SubordinateDictionary<TSKey, TMKey, TSValue, TMValue> sibling)
             : base(sibling)
         {
             this.master = master;
@@ -75,7 +77,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         #region ISubordinateDictionary<TKey,TSValue,TMValue> Members
 
-        public MasterDictionaryBase<TKey, TMValue> Master
+        /// <summary>
+        /// Returns the <see cref="IMasterDictionary{TKey, TValue}"/> which
+        /// contains and moderates the current
+        /// <see cref="SubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/>.
+        /// </summary>
+        public MasterDictionaryBase<TMKey, TMValue> Master
         {
             get
             {
@@ -86,9 +93,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <summary>
         /// Returns the <see cref="IMasterDictionary{TKey, TValue}"/> which
         /// contains and moderates the current
-        /// <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/>.
+        /// <see cref="SubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/>.
         /// </summary>
-        IMasterDictionary<TKey, TMValue> ISubordinateDictionary<TKey,TSValue,TMValue>.Master
+        IMasterDictionary<TMKey, TMValue> ISubordinateDictionary<TSKey, TMKey, TSValue, TMValue>.Master
         {
             get { return this.Master; }
         }
@@ -98,13 +105,13 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <summary>
         /// Adds an element of the provided <paramref name="key"/>
         /// and <paramref name="value"/> to the
-        /// <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/>.
+        /// <see cref="SubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/>.
         /// </summary>
-        /// <param name="key">The <typeparamref name="TKey"/> of the
+        /// <param name="key">The <typeparamref name="TSKey"/> of the
         /// current <paramref name="value"/> inserted.</param>
         /// <param name="value">The <typeparamref name="TSValue"/>
         /// to insert.</param>
-        protected internal override void _Add(TKey key, TSValue value)
+        protected internal override void _Add(TSKey key, TSValue value)
         {
             if (this.Master != null)
                 this.master.Subordinate_ItemAdded(this, key, value);
@@ -113,7 +120,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         /// <summary>
         /// Removes an element with the specified <paramref name="index"/>
-        /// from the <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/>.
+        /// from the <see cref="SubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/>.
         /// </summary>
         /// <param name="index">The <see cref="Int32"/> value of the ordinal index of 
         /// the <typeparamref name="TSValue"/> to remove.</param>
@@ -130,7 +137,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         /// <summary>
         /// Removes all entries from the 
-        /// <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/>.
+        /// <see cref="SubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/>.
         /// </summary>
         protected internal override void _Clear()
         {
@@ -143,11 +150,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// Gets/sets the value associated with the specified 
         /// <paramref name="key"/>.</summary>
         /// <param name="key">The 
-        /// <typeparamref name="TKey"/> 
+        /// <typeparamref name="TSKey"/> 
         /// to look for.</param>
         /// <returns>A <typeparamref name="TSValue"/> relative 
         /// to <paramref name="key"/>.</returns>
-        public new virtual TSValue this[TKey key]
+        public new virtual TSValue this[TSKey key]
         {
             get
             {
@@ -171,10 +178,10 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         #endregion
 
         /// <summary>
-        /// Converts the current <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/> to
+        /// Converts the current <see cref="SubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/> to
         /// a string form.
         /// </summary>
-        /// <returns>A <see cref="System.String"/> representing the current <see cref="SubordinateDictionary{TKey, TSValue, TMValue}"/>
+        /// <returns>A <see cref="System.String"/> representing the current <see cref="SubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/>
         /// instance.</returns>
         public override string ToString()
         {
@@ -185,7 +192,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         void _ISubordinateDictionaryMasterPass.Add(object key, object value)
         {
-            base._Add((TKey)key, (TSValue)value);
+            base._Add((TSKey)key, (TSValue)value);
         }
 
         void _ISubordinateDictionaryMasterPass.Clear()
@@ -195,25 +202,25 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         void _ISubordinateDictionaryMasterPass.Remove(object key)
         {
-            base._Remove((TKey)key);
+            base._Remove((TSKey)key);
         }
 
         object _ISubordinateDictionaryMasterPass.this[object key]
         {
             set
             {
-                base[(TKey)key] = (TSValue)value;
+                base[(TSKey)key] = (TSValue)value;
             }
         }
 
         #endregion
 
-        protected override ControlledStateDictionary<TKey, TSValue>.KeysCollection InitializeKeysCollection()
+        protected override ControlledStateDictionary<TSKey, TSValue>.KeysCollection InitializeKeysCollection()
         {
             return new KeysCollection(this);
         }
 
-        protected virtual TKey RekeyElement(KeyValuePair<TKey, TSValue> kvp)
+        protected virtual TSKey RekeyElement(KeyValuePair<TSKey, TSValue> kvp)
         {
             return kvp.Key;
         }

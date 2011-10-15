@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// </summary>
     [DebuggerDisplay("Types: {Count}")]
     public class IntermediateFullTypeDictionary :
-        IntermediateFullDeclarationDictionary<IType, IIntermediateType>,
+        IntermediateFullDeclarationDictionary<IGeneralTypeUniqueIdentifier, IType, IIntermediateType>,
         IIntermediateFullTypeDictionary,
         IDisposable
     {

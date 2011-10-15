@@ -20,22 +20,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TItem">The type of member in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateItem">The type of member in the intermediate abstract
     /// syntax tree.</typeparam>
-    public interface IIntermediateMemberDictionary<TParent, TIntermediateParent, TItem, TIntermediateItem> :
-        IIntermediateDeclarationDictionary<TItem, TIntermediateItem>,
-        IMemberDictionary<TParent, TItem>
+    public interface IIntermediateMemberDictionary<TParent, TIntermediateParent, TItemIdentifier, TItem, TIntermediateItem> :
+        IIntermediateDeclarationDictionary<TItemIdentifier, TItem, TIntermediateItem>,
+        IMemberDictionary<TParent, TItemIdentifier, TItem>
         where TParent :
             IMemberParent
         where TIntermediateParent :
             TParent,
             IIntermediateMemberParent
+        where TItemIdentifier :
+            IMemberUniqueIdentifier<TItemIdentifier>
         where TItem :
-            IMember<TParent>
+            IMember<TItemIdentifier, TParent>
         where TIntermediateItem :
-            TItem,
-            IIntermediateMember<TParent, TIntermediateParent>
+            IIntermediateMember<TItemIdentifier, TParent, TIntermediateParent>,
+            TItem
     {
         /// <summary>
-        /// Returns the <typeparamref name="TIntermediateParent"/> which contains the <see cref="IIntermediateMemberDictionary{TParent, TIntermediateParent, TItem, TIntermediateItem}"/>.
+        /// Returns the <typeparamref name="TIntermediateParent"/> which contains the <see cref="IIntermediateMemberDictionary{TParent, TIntermediateParent, TItemIdentifier, TItem, TIntermediateItem}"/>.
         /// </summary>
         new TIntermediateParent Parent { get; }
     }

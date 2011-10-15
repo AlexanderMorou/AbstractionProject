@@ -24,11 +24,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TMember">The type of <see cref="IMember{TParent}"/> 
     /// used in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateMember">The type of 
-    /// <see cref="IIntermediateMember{TParent, TIntermediateParent}"/>
+    /// <see cref="IIntermediateMember{TIdentifier, TParent, TIntermediateParent}"/>
     /// used in the intermediate abstract syntax tree.</typeparam>
-    public abstract class IntermediateGroupedMemberDictionary<TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember> :
-        IntermediateGroupedDeclarationDictionary<TMember, IMember, TIntermediateMember>,
-        IIntermediateGroupedMemberDictionary<TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember>,
+    public abstract class IntermediateGroupedMemberDictionary<TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember> :
+        IntermediateGroupedDeclarationDictionary<TMemberIdentifier, TMember, IGeneralMemberUniqueIdentifier, IMember, TIntermediateMember>,
+        IIntermediateGroupedMemberDictionary<TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember>,
         IIntermediateGroupedMemberDictionary
         where TMemberParent :
             IMemberParent
@@ -36,38 +36,40 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             class,
             IIntermediateMemberParent,
             TMemberParent
+        where TMemberIdentifier :
+            IMemberUniqueIdentifier<TMemberIdentifier>
         where TMember :
-            IMember<TMemberParent>
+            IMember<TMemberIdentifier, TMemberParent>
         where TIntermediateMember :
             TMember,
-            IIntermediateMember<TMemberParent, TIntermediateMemberParent>
+            IIntermediateMember<TMemberIdentifier, TMemberParent, TIntermediateMemberParent>
     {
         /// <summary>
-        /// Creates a new <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/> with the 
+        /// Creates a new <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember}"/> with the 
         /// <paramref name="master"/> and <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
-        /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>
+        /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember}"/>
         /// instances of varying types.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateMemberParent"/>
-        /// which contains the <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>.</param>
+        /// which contains the <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember}"/>.</param>
         public IntermediateGroupedMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateMemberParent parent)
             : base(master)
         {
             this.Parent = parent;
         }
         /// <summary>
-        /// Creates a new <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/> with the 
+        /// Creates a new <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember}"/> with the 
         /// <paramref name="master"/>, <paramref name="parent"/>, and <paramref name="root"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
-        /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>
+        /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember}"/>
         /// instances of varying types.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateMemberParent"/>
-        /// which contains the <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>.</param>
-        /// <param name="root">The root <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>
+        /// which contains the <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember}"/>.</param>
+        /// <param name="root">The root <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember}"/>
         /// which the current is based upon.</param>
-        public IntermediateGroupedMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateMemberParent parent, IntermediateGroupedMemberDictionary<TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember> root)
+        public IntermediateGroupedMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateMemberParent parent, IntermediateGroupedMemberDictionary<TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember> root)
             : base(master, root)
         {
             this.Parent = parent;
@@ -76,7 +78,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         #region IIntermediateMemberDictionary<TMemberParent,TIntermediateMemberParent,TMember,TIntermediateMember> Members
 
         /// <summary>
-        /// Returns the <typeparamref name="TIntermediateMemberParent"/> which contains the <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>.
+        /// Returns the <typeparamref name="TIntermediateMemberParent"/> which contains the <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember}"/>.
         /// </summary>
         public TIntermediateMemberParent Parent { get; private set; }
 

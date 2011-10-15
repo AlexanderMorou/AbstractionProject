@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         where TSignature :
             IMethodSignatureMember<TSignatureParameter, TSignature, TParent>
         where TParent :
-            ISignatureParent<TSignature, TSignatureParameter, TParent>
+            ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TParent>
     {
         /// <summary>
         /// Returns the <typeparamref name="TSignature"/>

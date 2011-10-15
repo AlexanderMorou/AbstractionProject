@@ -12,18 +12,21 @@ using AllenCopeland.Abstraction.Slf.Abstract;
  \-------------------------------------------------------------------- */
 
 
-namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    internal class FilteredSignatureMembers<TSignature, TSignatureParameter, TSignatureParent> :
-        SignatureMembersBase<TSignature, TSignatureParameter, TSignatureParent>,
-        IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent>,
+    internal class FilteredSignatureMembers<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> :
+        SignatureMembersBase<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>,
+        IFilteredSignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>,
         IFilteredSignatureMemberDictionary
+        where TSignatureIdentifier :
+            ISignatureMemberUniqueIdentifier<TSignatureIdentifier>,
+            IGeneralMemberUniqueIdentifier
         where TSignature :
-            ISignatureMember<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TSignatureParameter :
-            ISignatureParameterMember<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureParameterMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TSignatureParent :
-            ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureParent<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
     {
         /// <summary>
         /// The data member which holds the 'deviataion' counts for every signature contained.

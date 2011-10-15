@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
 using AllenCopeland.Abstraction.Slf.Abstract;
@@ -24,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     /// Provides a base implementation of <see cref="ICompiledDelegateType"/>.
     /// </summary>
     internal sealed partial class CompiledDelegateType :
-        CompiledGenericTypeBase<IDelegateType>,
+        CompiledGenericTypeBase<IDelegateUniqueIdentifier, IDelegateType>,
         ICompiledDelegateType
     {
         private bool lastIsParams;
@@ -39,7 +38,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         /// <param name="underlyingSystemType">The <see cref="System.Type"/> from which the current
         /// <see cref="CompiledDelegateType"/> is based.</param>
-        internal CompiledDelegateType(System.Type underlyingSystemType)
+        internal CompiledDelegateType(Type underlyingSystemType)
             : base(underlyingSystemType)
         {
         }
@@ -55,7 +54,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         #endregion
-
         private void ParamsAndReturnCheck()
         {
             if (this.parameters == null)
@@ -116,7 +114,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-
         protected override IFullMemberDictionary OnGetMembers()
         {
             return null;
@@ -139,7 +136,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return TypeKind.Delegate; }
         }
 
-        public override IEnumerable<string> AggregateIdentifiers
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get { return EmptyIdentifiers; }
         }

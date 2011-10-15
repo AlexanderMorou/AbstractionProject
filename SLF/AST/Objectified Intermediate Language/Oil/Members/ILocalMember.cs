@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -44,7 +45,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// member.
     /// </summary>
     public interface ILocalMember :
-        IIntermediateMember<IBlockStatementParent, IBlockStatementParent>
+        IIntermediateMember<IGeneralMemberUniqueIdentifier, IBlockStatementParent, IBlockStatementParent>
     {
         /// <summary>
         /// Returns the means to which the local's type is discovered.

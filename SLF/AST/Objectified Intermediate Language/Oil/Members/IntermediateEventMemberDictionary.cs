@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// with the <paramref name="master"/> and <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
-        /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>
+        /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember}"/>
         /// instances of varying types.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateEventParent"/>
         /// which contains the <see cref="IntermediateEventMemberDictionary{TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent}"/>.</param>
@@ -47,7 +47,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <paramref name="master"/>, <paramref name="parent"/> and <paramref name="root"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>
-        /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>
+        /// which contains the current instance's members as well as those of other <see cref="IntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember}"/>
         /// instances of varying types.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateEventParent"/>
         /// which contains the <see cref="IntermediateEventMemberDictionary{TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent}"/>.</param>

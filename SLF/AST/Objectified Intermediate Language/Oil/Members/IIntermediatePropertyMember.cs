@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TIntermediatePropertyParent">The type which owns the properties
     /// in the intermediate abstract syntax tree.</typeparam>
     public interface IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> :
-        IIntermediateMember<TPropertyParent, TIntermediatePropertyParent>,
+        IIntermediateMember<IGeneralMemberUniqueIdentifier, TPropertyParent, TIntermediatePropertyParent>,
         IIntermediatePropertyMember,
         IPropertyMember<TProperty, TPropertyParent>
         where TProperty :
@@ -34,10 +34,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TProperty,
             IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
         where TPropertyParent :
-            IPropertyParentType<TProperty, TPropertyParent>
+            IPropertyParent<TProperty, TPropertyParent>
         where TIntermediatePropertyParent :
             TPropertyParent,
-            IIntermediatePropertyParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+            IIntermediatePropertyParent<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
     {
     }
     /// <summary>

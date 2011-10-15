@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// </summary>
     [DebuggerDisplay("Members: {Count}")]
     public class IntermediateFullMemberDictionary :
-        IntermediateFullDeclarationDictionary<IMember, IIntermediateMember>,
+        IntermediateFullDeclarationDictionary<IGeneralMemberUniqueIdentifier, IMember, IIntermediateMember>,
         IIntermediateFullMemberDictionary
     {
         /// <summary>

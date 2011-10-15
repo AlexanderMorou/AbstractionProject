@@ -69,11 +69,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Defines properties and methods for working with a class type.
     /// </summary>
     public interface IClassType :
-        IGenericType<IClassType>,
+        IGenericType<IGeneralGenericTypeUniqueIdentifier, IClassType>,
         IInstantiableType
             <IClassCtorMember, IClassEventMember, IClassFieldMember, 
-             IClassIndexerMember, IClassMethodMember, IClassPropertyMember, 
-             IClassType>,
+             IClassIndexerMember, IClassMethodMember, IClassPropertyMember,
+             IGeneralGenericTypeUniqueIdentifier, IClassType>,
         IReferenceType
     {
         /// <summary>

@@ -15,7 +15,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
     internal abstract partial class _IndexerMemberBase<TIndexer, TIndexerParent> :
-        _MemberBase<TIndexer, TIndexerParent>,
+        _MemberBase<IGeneralSignatureMemberUniqueIdentifier, TIndexer, TIndexerParent>,
         IIndexerMember<TIndexer, TIndexerParent>
         where TIndexer :
             IIndexerMember<TIndexer, TIndexerParent>
@@ -243,5 +243,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         }
 
         #endregion
+
+        public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier
+        {
+            get { return AstIdentifier.Signature(this.Name, this.Parameters.ParameterTypes); }
+        }
     }
 }

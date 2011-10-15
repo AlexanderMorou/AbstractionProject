@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -16,7 +15,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
  \-------------------------------------------------------------------- */
 
 
-namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     /// <summary>
     /// Provides a root implementation of <see cref="IMethodMemberDictionary{TMethod, TMethodParent}"/> for working
@@ -92,7 +91,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         }
         #endregion
 
-        protected override string FetchKey(MethodInfo item)
+        protected override IGeneralGenericSignatureMemberUniqueIdentifier FetchKey(MethodInfo item)
         {
             return item.GetUniqueIdentifier();
         }

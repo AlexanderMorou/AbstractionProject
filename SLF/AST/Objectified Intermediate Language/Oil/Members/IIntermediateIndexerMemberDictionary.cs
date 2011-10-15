@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TIntermediateIndexerParent">The type the <typeparamref name="TIntermediateIndexer"/> instances
     /// belong to in the intermediate abstract syntax tree.</typeparam>
     public interface IIntermediateIndexerMemberDictionary<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> :
-        IIntermediateGroupedMemberDictionary<TIndexerParent, TIntermediateIndexerParent, TIndexer, TIntermediateIndexer>,
+        IIntermediateGroupedMemberDictionary<TIndexerParent, TIntermediateIndexerParent, IGeneralSignatureMemberUniqueIdentifier, TIndexer, TIntermediateIndexer>,
         IIndexerMemberDictionary<TIndexer, TIndexerParent>
         where TIndexer :
             IIndexerMember<TIndexer, TIndexerParent>

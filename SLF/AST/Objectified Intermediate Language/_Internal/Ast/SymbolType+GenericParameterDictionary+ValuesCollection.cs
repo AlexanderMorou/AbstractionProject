@@ -14,7 +14,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 {
-    using TValueMember = IGenericTypeParameter<ISymbolType>;
+    using TValueMember = IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>;
     partial class SymbolType
     {
         partial class GenericParameterDictionary
@@ -83,7 +83,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
                 #endregion
 
-                #region IControlledStateCollection<IGenericTypeParameter<ISymbolType>> Members
+                #region IControlledStateCollection<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> Members
 
                 public int Count
                 {
@@ -117,7 +117,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     }
                 }
 
-                public IGenericTypeParameter<ISymbolType> this[int index]
+                public IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType> this[int index]
                 {
                     get {
                         if (index < 0 || index >= this.Count)
@@ -146,7 +146,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
                 #endregion
 
-                #region IEnumerable<IGenericTypeParameter<ISymbolType>> Members
+                #region IEnumerable<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> Members
 
                 public IEnumerator<TValueMember> GetEnumerator()
                 {

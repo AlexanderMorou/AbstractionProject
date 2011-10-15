@@ -24,21 +24,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TMember">The type of<see cref="IMember{TParent}"/> 
     /// used in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateMember">The type of 
-    /// <see cref="IIntermediateMember{TParent, TIntermediateParent}"/>
+    /// <see cref="IIntermediateMember{TIdentifier, TParent, TIntermediateParent}"/>
     /// used in the intermediate abstract syntax tree.</typeparam>
-    public interface IIntermediateGroupedMemberDictionary<TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember> :
-        IIntermediateMemberDictionary<TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember>,
-        IGroupedMemberDictionary<TMemberParent, TMember>
+    public interface IIntermediateGroupedMemberDictionary<TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember> :
+        IIntermediateMemberDictionary<TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember>,
+        IGroupedMemberDictionary<TMemberParent, TMemberIdentifier, TMember>
         where TMemberParent :
             IMemberParent
         where TIntermediateMemberParent :
             TMemberParent,
             IIntermediateMemberParent
+        where TMemberIdentifier :
+            IMemberUniqueIdentifier<TMemberIdentifier>
         where TMember :
-            IMember<TMemberParent>
+            IMember<TMemberIdentifier, TMemberParent>
         where TIntermediateMember :
             TMember,
-            IIntermediateMember<TMemberParent, TIntermediateMemberParent>
+            IIntermediateMember<TMemberIdentifier, TMemberParent, TIntermediateMemberParent>
     {
 
         /// <summary>
@@ -62,7 +64,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <param name="member">The <typeparamref name="TIntermediateMember"/>
         /// to remove.</param>
         /// <returns>true if the <paramref name="member"/>
-        /// provided exists within the <see cref="IIntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember}"/>
+        /// provided exists within the <see cref="IIntermediateGroupedMemberDictionary{TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember}"/>
         /// and it was removed successfully; false, otherwise.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when
         /// <paramref name="member"/> is null.</exception>

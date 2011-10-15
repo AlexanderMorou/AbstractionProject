@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <see cref="IGenericParamParent{TGenericParameter, TParent}"/> in the
     /// current implmentation.</typeparam>
     public interface IGenericParameterDictionary<TGenericParameter, TParent> :
-        IDeclarationDictionary<TGenericParameter>
+        IDeclarationDictionary<IGenericParameterUniqueIdentifier, TGenericParameter>
         where TGenericParameter :
             IGenericParameter<TGenericParameter, TParent>
         where TParent :

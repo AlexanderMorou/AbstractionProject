@@ -37,11 +37,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                     return new _Method(Parent, (IClassPropertyMethodMember)originalMethod);
                 }
 
-                public override string UniqueIdentifier
+                public override IGeneralMemberUniqueIdentifier UniqueIdentifier
                 {
                     get
                     {
-                        return this.Name;
+                        return Original.UniqueIdentifier;
                     }
                 }
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
@@ -20,11 +19,11 @@ using AllenCopeland.Abstraction.Slf.Compilers;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    partial class CompiledGenericTypeBase<TType>
+    partial class CompiledGenericTypeBase<TTypeIdentifier, TType>
     {
         protected internal sealed class GenericTypeParameter :
-            CompiledGenericTypeParameter<TType>,
-            IGenericTypeParameter<TType>
+            CompiledGenericTypeParameter<TTypeIdentifier, TType>,
+            IGenericTypeParameter<TTypeIdentifier, TType>
         {
 
             public GenericTypeParameter(TType parent, Type underlyingSystemType)
@@ -45,14 +44,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return AccessLevelModifiers.Public;
             }
 
-            protected override IType BaseTypeImpl
-            {
-                get { return null; }
-            }
-
             /// <summary>
             /// Returns a collection of <see cref="IType"/> instances that are implemented by the current
-            /// <see cref="CompiledGenericTypeBase{TType}.GenericTypeParameter"/>.
+            /// <see cref="CompiledGenericTypeBase{TIdentifier, TType}.GenericTypeParameter"/>.
             /// </summary>
             protected override ILockedTypeCollection OnGetImplementedInterfaces()
             {

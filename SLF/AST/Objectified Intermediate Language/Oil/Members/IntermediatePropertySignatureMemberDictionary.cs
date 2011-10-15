@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TIntermediatePropertyParent">The type which acts as the parent of the 
     /// properties in the intermediate abstract syntax tree.</typeparam>
     public abstract class IntermediatePropertySignatureMemberDictionary<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> :
-        IntermediateGroupedMemberDictionary<TPropertyParent, TIntermediatePropertyParent, TProperty, TIntermediateProperty>,
+        IntermediateGroupedMemberDictionary<TPropertyParent, TIntermediatePropertyParent, IGeneralMemberUniqueIdentifier, TProperty, TIntermediateProperty>,
         IIntermediatePropertySignatureMemberDictionary<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>,
         IIntermediatePropertySignatureMemberDictionary
         where TProperty :
@@ -35,11 +35,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TProperty,
             IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
         where TPropertyParent :
-            IPropertySignatureParentType<TProperty, TPropertyParent>
+            IPropertySignatureParent<TProperty, TPropertyParent>
         where TIntermediatePropertyParent :
             class,
             TPropertyParent,
-            IIntermediatePropertySignatureParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+            IIntermediatePropertySignatureParent<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
     {
         /// <summary>
         /// Creates a new <see cref="IntermediatePropertySignatureMemberDictionary{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/>

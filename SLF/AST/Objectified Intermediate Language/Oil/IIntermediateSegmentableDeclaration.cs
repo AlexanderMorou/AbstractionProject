@@ -15,18 +15,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// Defines generic properties and methods for working with a declaration which can
     /// span multiple instances.
     /// </summary>
-    /// <typeparam name="TDeclaration">The type of <see cref="IIntermediateSegmentableDeclaration{TDeclaration}"/>
+    /// <typeparam name="TDeclaration">The type of <see cref="IIntermediateSegmentableDeclaration{TIdentifier, TDeclaration}"/>
     /// which needs segmentable functionality.</typeparam>
-    public interface IIntermediateSegmentableDeclaration<TDeclaration> :
-        IIntermediateSegmentableDeclaration
+    public interface IIntermediateSegmentableDeclaration<TIdentifier, TDeclaration> :
+        IIntermediateSegmentableDeclaration,
+        IDeclaration<TIdentifier>
+        where TIdentifier :
+            IDeclarationUniqueIdentifier<TIdentifier>
         where TDeclaration :
-            IIntermediateSegmentableDeclaration<TDeclaration>
+            IIntermediateSegmentableDeclaration<TIdentifier, TDeclaration>
     {
         /// <summary>
         /// Returns the parts collection of the
-        /// <see cref="IIntermediateSegmentableDeclaration{TDeclaration}"/>.
+        /// <see cref="IIntermediateSegmentableDeclaration{TIdentifier, TDeclaration}"/>.
         /// </summary>
-        new IIntermediateSegmentableDeclarationPartCollection<TDeclaration> Parts { get; }
+        new IIntermediateSegmentableDeclarationPartCollection<TIdentifier, TDeclaration> Parts { get; }
         /// <summary>
         /// Returns the root <typeparamref name="TDeclaration"/> of the
         /// segmentable declaration.

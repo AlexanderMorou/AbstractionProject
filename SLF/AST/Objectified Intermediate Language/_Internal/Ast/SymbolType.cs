@@ -96,7 +96,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             this.typeParameters = new GenericParameterDictionary(this, tParamNames);
         }
 
-        #region IGenericType<ISymbolType> Members
+        #region IGenericType<IGeneralGenericTypeUniqueIdentifier, ISymbolType> Members
 
         public ISymbolType MakeGenericClosure(ITypeCollectionBase typeParameters)
         {
@@ -138,9 +138,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             }
         }
 
-        #region IGenericParamParent<IGenericTypeParameter<ISymbolType>,ISymbolType> Members
+        #region IGenericParamParent<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>,ISymbolType> Members
 
-        IGenericParameterDictionary<IGenericTypeParameter<ISymbolType>, ISymbolType> IGenericParamParent<IGenericTypeParameter<ISymbolType>, ISymbolType>.TypeParameters
+        IGenericParameterDictionary<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>, ISymbolType> IGenericParamParent<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>, ISymbolType>.TypeParameters
         {
             get { return this.TypeParameters; }
         }

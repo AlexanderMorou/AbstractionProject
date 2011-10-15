@@ -13,16 +13,20 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Defines properties and methods for working with a type that can be instantiated.
     /// </summary>
     public interface IInstantiableType :
-        ICreatableType,
-        IPropertyParentType,
+        ICreatableParent,
+        ICoercibleType,
+        IEventParent,
         IFieldParent,
+        IIndexerParent,
+        IMethodParent,
+        IPropertyParent,
         ITypeParent,
-        IMethodParent
+        IType
     {
         /// <summary>
         /// Returns a series of string values which relate to the 
         /// identifiers contained within the <see cref="IInstantiableType"/>
         /// </summary>
-        new IEnumerable<string> AggregateIdentifiers { get; }
+        new IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers { get; }
     }
 }

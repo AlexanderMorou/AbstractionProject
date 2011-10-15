@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// </summary>
     public interface IIntermediateAssembly :
         IIntermediateNamespaceParent,
-        IIntermediateSegmentableDeclaration<IIntermediateAssembly>,
+        IIntermediateSegmentableDeclaration<IAssemblyUniqueIdentifier, IIntermediateAssembly>,
         IIntermediateCustomAttributedDeclaration,
         IAssembly
     {

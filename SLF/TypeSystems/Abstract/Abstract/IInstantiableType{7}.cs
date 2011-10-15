@@ -22,16 +22,18 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <typeparam name="TIndexer">The type used for the indexers in the current implementation.</typeparam>
     /// <typeparam name="TMethod">The type used for the methods in the current implementation.</typeparam>
     /// <typeparam name="TProperty">The type used for the properties in the current implementation.</typeparam>
-    /// <typeparam name="TType">The <see cref="IInstantiableType{TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType}"/> 
+    /// 
+    /// <typeparam name="TType">The <see cref="IInstantiableType{TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TTypeIdentifier, TType}"/> 
     /// in the implementation.</typeparam>
-    public interface IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType> :
-        ICreatableType<TCtor, TType>,
-        IMethodParent<TMethod, TType>,
-        IPropertyParentType<TProperty, TType>,
+    public interface IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TTypeIdentifier, TType> :
+        ICreatableParent<TCtor, TType>,
+        ICoercibleType<TTypeIdentifier, TType>,
         IFieldParent<TField, TType>,
-        ICoercibleType<TType>,
         IEventParent<TEvent, TType>,
+        IMethodParent<TMethod, TType>,
         IIndexerParent<TIndexer, TType>,
+        IPropertyParent<TProperty, TType>,
+        IType<TTypeIdentifier, TType>,
         IInstantiableType
         where TCtor :
             IConstructorMember<TCtor, TType>
@@ -47,8 +49,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             IExtendedInstanceMember
         where TProperty :
             IPropertyMember<TProperty, TType>
+        where TTypeIdentifier :
+            ITypeUniqueIdentifier<TTypeIdentifier>
         where TType :
-            IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType>
+            IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TTypeIdentifier, TType>
     {
         /// <summary>
         /// Obtains a <see cref="IInterfaceMemberMapping{TMethod, TMethodSig, TProperty, TPropertySig, TEvent, TEventSig, TIndexer, TIndexerSig, TParent, TParentSig}"/> 
@@ -64,7 +68,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             TMethod, IInterfaceMethodMember, 
             TProperty, IInterfacePropertyMember,
             TEvent, IInterfaceEventMember, 
-            TIndexer, IInterfaceIndexerMember, 
+            TIndexer, IInterfaceIndexerMember,
             TType, IInterfaceType> GetInterfaceMap(IInterfaceType type);
     }
 }

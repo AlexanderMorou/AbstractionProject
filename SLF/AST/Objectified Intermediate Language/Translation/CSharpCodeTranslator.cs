@@ -5,6 +5,8 @@ using AllenCopeland.Abstraction.Slf.Oil.Expressions.Lambda;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2011 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -558,17 +560,17 @@ namespace AllenCopeland.Abstraction.Slf.Translation
             throw new NotImplementedException();
         }
 
-        public override void Visit<TCoercionParent>(Abstract.Members.IBinaryOperatorCoercionMember<TCoercionParent> binaryCoercion)
+        public override void Visit<TCoercionParentIdentifier, TCoercionParent>(IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent> binaryCoercion)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TCoercionParent>(Abstract.Members.ITypeCoercionMember<TCoercionParent> typeCoercion)
+        public override void Visit<TCoercionParentIdentifier, TCoercionParent>(ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent> typeCoercion)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TCoercionParent>(Abstract.Members.IUnaryOperatorCoercionMember<TCoercionParent> unaryCoercion)
+        public override void Visit<TCoercionParentIdentifier, TCoercionParent>(IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent> unaryCoercion)
         {
             throw new NotImplementedException();
         }

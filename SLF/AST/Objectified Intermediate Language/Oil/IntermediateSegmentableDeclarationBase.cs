@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 {
     /// <summary>
     /// Provides a base implementation of 
-    /// <see cref="IIntermediateSegmentableDeclaration{TDeclaration}"/>
+    /// <see cref="IIntermediateSegmentableDeclaration{TIdentifier, TDeclaration}"/>
     /// which provides a series of <typeparamref name="TDeclaration"/>
     /// instances which represent a single whole instance.
     /// </summary>
@@ -29,14 +29,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// which represents the implementation of the <typeparamref name="TDeclaration"/>
     /// provided.</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class IntermediateSegmentableDeclarationBase<TDeclaration, TInstDeclaration> :
+    public abstract class IntermediateSegmentableDeclarationBase<TIdentifier, TDeclaration, TInstDeclaration> :
         IntermediateDeclarationBase,
-        IIntermediateSegmentableDeclaration<TDeclaration>
+        IIntermediateSegmentableDeclaration<TIdentifier, TDeclaration>
+        where TIdentifier :
+            IDeclarationUniqueIdentifier<TIdentifier>
         where TDeclaration :
             class,
-            IIntermediateSegmentableDeclaration<TDeclaration>
+            IIntermediateSegmentableDeclaration<TIdentifier, TDeclaration>
         where TInstDeclaration :
-            IntermediateSegmentableDeclarationBase<TDeclaration, TInstDeclaration>,
+            IntermediateSegmentableDeclarationBase<TIdentifier, TDeclaration, TInstDeclaration>,
             TDeclaration/*,
             new (TDeclaration rootDeclaration)*/
     {
@@ -47,22 +49,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Data member for <see cref="Parts"/>.
         /// </summary>
-        private IntermediateSegmentableDeclarationParts<TDeclaration, TInstDeclaration> parts;
+        private IntermediateSegmentableDeclarationParts<TIdentifier, TDeclaration, TInstDeclaration> parts;
         /// <summary>
-        /// Creates a new <see cref="IntermediateSegmentableDeclarationBase{TDeclaration, TInstDeclaration}"/>
+        /// Creates a new <see cref="IntermediateSegmentableDeclarationBase{TIdentifier, TDeclaration, TInstDeclaration}"/>
         /// instance with the <paramref name="rootDeclaration"/> 
         /// provided.
         /// </summary>
         /// <param name="rootDeclaration">The <typeparamref name="TDeclaration"/>
         /// instance that represents the root element of the
-        /// <see cref="IntermediateSegmentableDeclarationBase{TDeclaration, TInstDeclaration}"/>.</param>
+        /// <see cref="IntermediateSegmentableDeclarationBase{TIdentifier, TDeclaration, TInstDeclaration}"/>.</param>
         public IntermediateSegmentableDeclarationBase(TInstDeclaration rootDeclaration)
         {
             this.rootDeclaration = rootDeclaration;
         }
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateSegmentableDeclarationBase{TDeclaration, TInstDeclaration}"/>
+        /// Creates a new <see cref="IntermediateSegmentableDeclarationBase{TIdentifier, TDeclaration, TInstDeclaration}"/>
         /// initialized to a default state.
         /// </summary>
         /// <remarks>Typically reserved for the root instance of a set.</remarks>
@@ -74,7 +76,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Returns the <typeparamref name="TDeclaration"/> that is the root declaration.
         /// </summary>
         /// <returns>An instance of <typeparamref name="TDeclaration"/> relative to the root instance that spawned
-        /// the current <see cref="IntermediateSegmentableDeclarationBase{TDeclaration, TInstDeclaration}"/>.</returns>
+        /// the current <see cref="IntermediateSegmentableDeclarationBase{TIdentifier, TDeclaration, TInstDeclaration}"/>.</returns>
         public TInstDeclaration GetRoot()
         {
             if (this.rootDeclaration == null)
@@ -86,16 +88,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateSegmentableDeclaration<TDeclaration> Members
 
-        TDeclaration IIntermediateSegmentableDeclaration<TDeclaration>.GetRoot()
+        TDeclaration IIntermediateSegmentableDeclaration<TIdentifier, TDeclaration>.GetRoot()
         {
             return this.GetRoot();
         }
 
         /// <summary>
         /// Returns the parts collection of the
-        /// <see cref="IntermediateSegmentableDeclarationBase{TDeclaration, TInstDeclaration}"/>.
+        /// <see cref="IntermediateSegmentableDeclarationBase{TIdentifier, TDeclaration, TInstDeclaration}"/>.
         /// </summary>
-        public IIntermediateSegmentableDeclarationPartCollection<TDeclaration> Parts
+        public IIntermediateSegmentableDeclarationPartCollection<TIdentifier, TDeclaration> Parts
         {
             get
             {
@@ -104,7 +106,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     if (this.IsDisposed)
                         throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                     if (this.parts == null)
-                        this.parts = new IntermediateSegmentableDeclarationParts<TDeclaration, TInstDeclaration>((TInstDeclaration)this, GetNewPartial);
+                        this.parts = new IntermediateSegmentableDeclarationParts<TIdentifier, TDeclaration, TInstDeclaration>((TInstDeclaration)this, GetNewPartial);
                     return this.parts;
                 }
                 else
@@ -124,7 +126,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Returns whether the current <see cref="IntermediateSegmentableDeclarationBase{TDeclaration, TInstDeclaration}"/>
+        /// Returns whether the current <see cref="IntermediateSegmentableDeclarationBase{TIdentifier, TDeclaration, TInstDeclaration}"/>
         /// is the root (first) instance.
         /// </summary>
         public bool IsRoot
@@ -148,7 +150,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         protected abstract TInstDeclaration GetNewPartial();
 
         /// <summary>
-        /// Disposes the <see cref="IntermediateSegmentableDeclarationBase{TDeclaration, TInstDeclaration}"/>
+        /// Disposes the <see cref="IntermediateSegmentableDeclarationBase{TIdentifier, TDeclaration, TInstDeclaration}"/>
         /// </summary>
         /// <param name="disposing">whether to dispose the managed resources as well as
         /// the unmanaged resources.</param>

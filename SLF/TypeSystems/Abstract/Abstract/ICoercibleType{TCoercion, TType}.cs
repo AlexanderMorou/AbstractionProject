@@ -11,23 +11,32 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>
     /// Defines generic properties and methods for working 
-    /// with a coercible <see cref="IType{TType}"/>
+    /// with a coercible <see cref="IType{TCoercionParent}"/>
     /// </summary>
     /// <typeparam name="TCoercion">
     /// The type of <see cref="ICoercionMember"/> used 
     /// in the current implementation.</typeparam>
-    /// <typeparam name="TType">
-    /// The type of coercible <see cref="IType{TType}"/> 
+    /// <typeparam name="TCoercionIdentifier">The kind of unique identifier to use
+    /// relative to the coercion member, to differentiate it from other
+    /// similar coercions, and other members alike.</typeparam>
+    /// <typeparam name="TCoercionParentIdentifier">The kind of unique identifier to use relative
+    /// to the type, to differentiate it between its sibling types.</typeparam>
+    /// <typeparam name="TCoercionParent">
+    /// The type of coercible <see cref="IType{TCoercionParent}"/> 
     /// that contains <typeparamref name="TCoercion"/> 
     /// members in the current implementation.</typeparam>
-    public interface ICoercibleType<TCoercion, TType> :
-        IType<TType>,
+    public interface ICoercibleType<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent> :
+        IType<TCoercionParentIdentifier, TCoercionParent>,
         IMemberParent,
         ICoercibleType
+        where TCoercionIdentifier :
+            IMemberUniqueIdentifier<TCoercionIdentifier>
+        where TCoercionParentIdentifier :
+            ITypeUniqueIdentifier<TCoercionParentIdentifier>
         where TCoercion :
-            ICoercionMember<TCoercion, TType>
-        where TType :
-            ICoercibleType<TCoercion, TType>
+            ICoercionMember<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent>
+        where TCoercionParent :
+            ICoercibleType<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent>
     {
     }
 }

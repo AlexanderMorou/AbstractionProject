@@ -59,7 +59,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        protected override IntermediateGenericTypeBase<IClassType, IIntermediateClassType>.TypeParameterDictionary InitializeTypeParameters()
+        protected override IntermediateGenericSegmentableInstantiableType<Abstract.Members.IClassCtorMember, Members.IIntermediateClassCtorMember, Abstract.Members.IClassEventMember, Members.IIntermediateClassEventMember, IntermediateClassEventMember<AnonymousType>.EventMethodMember, Abstract.Members.IClassFieldMember, Members.IIntermediateClassFieldMember, Abstract.Members.IClassIndexerMember, Members.IIntermediateClassIndexerMember, IntermediateClassIndexerMember<AnonymousType>.IndexerMethodMember, Abstract.Members.IClassMethodMember, Members.IIntermediateClassMethodMember, Abstract.Members.IClassPropertyMember, Members.IIntermediateClassPropertyMember, IntermediateClassPropertyMember<AnonymousType>.PropertyMethodMember, IClassType, IIntermediateClassType, AnonymousType>.PropertyDictionary InitializeProperties()
+        {
+            var result = base.InitializeProperties();
+            
+            return result;
+        }
+
+        protected override IntermediateGenericTypeBase<IGeneralGenericTypeUniqueIdentifier, IClassType, IIntermediateClassType>.TypeParameterDictionary InitializeTypeParameters()
         {
             var result = base.InitializeTypeParameters();
             /* *
@@ -74,14 +81,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                              select new GenericParameterData(string.Format("T{0}", members[i].Name))).ToArray());
             return result;
         }
-
-        protected override IntermediateGenericSegmentableInstantiableType<Abstract.Members.IClassCtorMember, Members.IIntermediateClassCtorMember, Abstract.Members.IClassEventMember, Members.IIntermediateClassEventMember, IntermediateClassEventMember<AnonymousType>.EventMethodMember, Abstract.Members.IClassFieldMember, Members.IIntermediateClassFieldMember, Abstract.Members.IClassIndexerMember, Members.IIntermediateClassIndexerMember, IntermediateClassIndexerMember<AnonymousType>.IndexerMethodMember, Abstract.Members.IClassMethodMember, Members.IIntermediateClassMethodMember, Abstract.Members.IClassPropertyMember, Members.IIntermediateClassPropertyMember, IntermediateClassPropertyMember<AnonymousType>.PropertyMethodMember, IClassType, IIntermediateClassType, AnonymousType>.PropertyDictionary InitializeProperties()
-        {
-            var result = base.InitializeProperties();
-            
-            return result;
-        }
-
 
         protected override AnonymousType GetNewPartial(AnonymousType root, IIntermediateTypeParent parent)
         {

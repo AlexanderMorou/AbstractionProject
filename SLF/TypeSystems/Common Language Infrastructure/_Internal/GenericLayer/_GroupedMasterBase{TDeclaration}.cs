@@ -15,8 +15,10 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
-    internal partial class _GroupedMasterBase<TDeclaration> :
-        MasterDictionaryBase<string, TDeclaration>
+    internal partial class _GroupedMasterBase<TDeclarationIdentifier, TDeclaration> :
+        MasterDictionaryBase<TDeclarationIdentifier, TDeclaration>
+        where TDeclarationIdentifier :
+            IDeclarationUniqueIdentifier<TDeclarationIdentifier>
         where TDeclaration :
             class,
             IDeclaration
@@ -40,23 +42,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             }
         }
 
-        public override IEnumerator<KeyValuePair<string, MasterDictionaryEntry<TDeclaration>>> GetEnumerator()
+        public override IEnumerator<KeyValuePair<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>> GetEnumerator()
         {
             foreach (var subordinate in this.Subordinates)
                 foreach (var element in subordinate.Count.Range())
-                    yield return new KeyValuePair<string, MasterDictionaryEntry<TDeclaration>>((string)subordinate.Keys[element], new MasterDictionaryEntry<TDeclaration>(subordinate, (TDeclaration)subordinate.Values[element]));
+                    yield return new KeyValuePair<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>((TDeclarationIdentifier)subordinate.Keys[element], new MasterDictionaryEntry<TDeclaration>(subordinate, (TDeclaration)subordinate.Values[element]));
         }
 
-        protected override KeyValuePair<string, MasterDictionaryEntry<TDeclaration>> OnGetThis(int index)
+        protected override KeyValuePair<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>> OnGetThis(int index)
         {
             var key = this.Keys[index];
             foreach (var subordinate in this.Subordinates)
                 if (subordinate.ContainsKey(key))
-                    return new KeyValuePair<string, MasterDictionaryEntry<TDeclaration>>(key, new MasterDictionaryEntry<TDeclaration>(subordinate, (TDeclaration)subordinate[key]));
+                    return new KeyValuePair<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>(key, new MasterDictionaryEntry<TDeclaration>(subordinate, (TDeclaration)subordinate[key]));
             throw new KeyNotFoundException();
         }
 
-        public override bool ContainsKey(string key)
+        public override bool ContainsKey(TDeclarationIdentifier key)
         {
             foreach (var subordinate in this.Subordinates)
                 if (subordinate.ContainsKey(key))
@@ -73,7 +75,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             {
                 var currentSubordinate = subordinates[i];
                 for (int j = 0; j < currentSubordinate.Count; j++)
-                    array.SetValue(new KeyValuePair<string, MasterDictionaryEntry<TDeclaration>>((string)currentSubordinate.Keys[j], new MasterDictionaryEntry<TDeclaration>(currentSubordinate, (TDeclaration)currentSubordinate.Values[j])), offset + j);
+                    array.SetValue(new KeyValuePair<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>((TDeclarationIdentifier)currentSubordinate.Keys[j], new MasterDictionaryEntry<TDeclaration>(currentSubordinate, (TDeclaration)currentSubordinate.Values[j])), offset + j);
             }
         }
 

@@ -22,14 +22,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TIntermediateCtor">The type of
     /// <see cref="IIntermediateConstructorSignatureMember{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
     /// in the current implementation.</typeparam>
-    /// <typeparam name="TType">The type of <see cref="ICreatableType{TCtor, TType}"/>
+    /// <typeparam name="TType">The type of <see cref="ICreatableParent{TCtor, TCtorParent}"/>
     /// that contains the <typeparamref name="TCtor"/> instances.</typeparam>
     /// <typeparam name="TIntermediateType">The type of 
-    /// <see cref="IIntermediateCreatableSignatureType{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
+    /// <see cref="IIntermediateCreatableSignatureParent{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
     /// which contains the <typeparamref name="TIntermediateCtor"/>.</typeparam>
     public interface IIntermediateConstructorSignatureMember<TCtor, TIntermediateCtor, TType, TIntermediateType> :
-        IIntermediateSignatureMember<TCtor, TIntermediateCtor, IConstructorParameterMember<TCtor, TType>, IIntermediateConstructorSignatureParameterMember<TCtor, TIntermediateCtor, TType, TIntermediateType>, TType, TIntermediateType>,
-        IIntermediateMember<TType, TIntermediateType>,
+        IIntermediateSignatureMember<IGeneralSignatureMemberUniqueIdentifier, TCtor, TIntermediateCtor, IConstructorParameterMember<TCtor, TType>, IIntermediateConstructorSignatureParameterMember<TCtor, TIntermediateCtor, TType, TIntermediateType>, TType, TIntermediateType>,
+        IIntermediateMember<IGeneralSignatureMemberUniqueIdentifier, TType, TIntermediateType>,
         IIntermediateConstructorSignatureMember,
         IConstructorMember<TCtor, TType>
         where TCtor :
@@ -38,10 +38,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TCtor,
             IIntermediateConstructorSignatureMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
         where TType :
-            ICreatableType<TCtor, TType>
+            ICreatableParent<TCtor, TType>
         where TIntermediateType :
             TType,
-            IIntermediateCreatableSignatureType<TCtor, TIntermediateCtor, TType, TIntermediateType>
+            IIntermediateCreatableSignatureParent<TCtor, TIntermediateCtor, TType, TIntermediateType>
     {
     }
     /// <summary>

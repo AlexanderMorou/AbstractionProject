@@ -14,7 +14,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
     internal class _InterfaceTypesBase :
-        _Types<IInterfaceType, IInterfaceTypeDictionary>,
+        _Types<IGeneralGenericTypeUniqueIdentifier, IInterfaceType, IInterfaceTypeDictionary>,
         IInterfaceTypeDictionary
     {
         private IGenericType _Parent

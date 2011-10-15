@@ -18,12 +18,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// data structure type declaration.
     /// </summary>
     public interface IIntermediateStructType :
-        IIntermediateInstantiableType<IStructCtorMember, IIntermediateStructCtorMember, IStructEventMember, 
+        IIntermediateInstantiableType<IGeneralGenericTypeUniqueIdentifier, IStructCtorMember, IIntermediateStructCtorMember, IStructEventMember, 
             IIntermediateStructEventMember, IStructFieldMember, IIntermediateStructFieldMember, 
             IStructIndexerMember, IIntermediateStructIndexerMember, IStructMethodMember, 
             IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember, 
             IStructType, IIntermediateStructType>,
-        IIntermediateGenericType<IStructType, IIntermediateStructType>,
+        IIntermediateGenericType<IGeneralGenericTypeUniqueIdentifier, IStructType, IIntermediateStructType>,
         IStructType
     {
         /// <summary>

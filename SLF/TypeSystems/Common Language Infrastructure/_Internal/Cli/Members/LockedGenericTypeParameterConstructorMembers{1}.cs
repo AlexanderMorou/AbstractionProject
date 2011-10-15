@@ -7,7 +7,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -23,14 +22,16 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    internal partial class LockedGenericTypeParameterConstructorMembers<TType> :
-        LockedGroupedMembersBase<IGenericTypeParameter<TType>, IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, ConstructorInfo>,
-        IGenericParameterConstructorMemberDictionary<IGenericTypeParameter<TType>>
+    internal partial class LockedGenericTypeParameterConstructorMembers<TTypeIdentifier, TType> :
+        LockedGroupedMembersBase<IGenericTypeParameter<TTypeIdentifier, TType>, IGeneralSignatureMemberUniqueIdentifier, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, ConstructorInfo>,
+        IGenericParameterConstructorMemberDictionary<IGenericTypeParameter<TTypeIdentifier, TType>>
+        where TTypeIdentifier : 
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>
         where TType :
-            IGenericType<TType>
+            IGenericType<TTypeIdentifier, TType>
     {
         private ConstructorInfo[] seriesData;
-        public LockedGenericTypeParameterConstructorMembers(LockedFullMembersBase master, ICompiledGenericTypeParameter<TType> parent, ConstructorInfo[] seriesData, Func<ConstructorInfo, IGenericParameterConstructorMember<IGenericTypeParameter<TType>>> fetchImpl)
+        public LockedGenericTypeParameterConstructorMembers(LockedFullMembersBase master, ICompiledGenericTypeParameter<TTypeIdentifier, TType> parent, ConstructorInfo[] seriesData, Func<ConstructorInfo, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>> fetchImpl)
             : base(master, parent, seriesData, fetchImpl, GetName)
         {
             this.seriesData = seriesData;
@@ -42,11 +43,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             return null;
         }
 
-        #region ICompiledGenericTypeGenericConstructorMembers<TType> Members
+        #region ICompiledGenericTypeGenericConstructorMembers<TTypeIdentifier, TType> Members
 
-        public new ICompiledGenericTypeParameter<TType> Parent
+        public new ICompiledGenericTypeParameter<TTypeIdentifier, TType> Parent
         {
-            get { return (ICompiledGenericTypeParameter<TType>)base.Parent; }
+            get { return (ICompiledGenericTypeParameter<TTypeIdentifier, TType>)base.Parent; }
         }
 
         #endregion
@@ -59,38 +60,38 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             }
         }
 
-        public override IEnumerator<KeyValuePair<string, IGenericParameterConstructorMember<IGenericTypeParameter<TType>>>> GetEnumerator()
+        public override IEnumerator<KeyValuePair<IGeneralSignatureMemberUniqueIdentifier, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>>> GetEnumerator()
         {
             for (int i = 0; i < this.seriesData.Length; i++)
-                yield return new KeyValuePair<string, IGenericParameterConstructorMember<IGenericTypeParameter<TType>>>(this.Keys[i], this.Values[i]);
+                yield return new KeyValuePair<IGeneralSignatureMemberUniqueIdentifier, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>>(this.Keys[i], this.Values[i]);
             yield break;
         }
 
-        #region ISignatureMemberDictionary<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>,IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>,IGenericTypeParameter<TType>>,IGenericTypeParameter<TType>> Members
+        #region ISignatureMemberDictionary<IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>,IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>,IGenericTypeParameter<TTypeIdentifier, TType>>,IGenericTypeParameter<TTypeIdentifier, TType>> Members
 
-        public IFilteredSignatureMemberDictionary<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>> Find(bool strict, ITypeCollectionBase search)
+        public IFilteredSignatureMemberDictionary<IGeneralSignatureMemberUniqueIdentifier, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>> Find(bool strict, ITypeCollectionBase search)
         {
-            return CLICommon.FindCache<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>(this.Values, search, strict);
+            return CLICommon.FindCache<IGeneralSignatureMemberUniqueIdentifier, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>(this.Values, search, strict);
         }
 
-        public IFilteredSignatureMemberDictionary<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>> Find(ITypeCollectionBase search)
+        public IFilteredSignatureMemberDictionary<IGeneralSignatureMemberUniqueIdentifier, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>> Find(ITypeCollectionBase search)
         {
             return this.Find(true, search);
         }
 
-        public IFilteredSignatureMemberDictionary<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>> Find(bool strict, params IType[] search)
+        public IFilteredSignatureMemberDictionary<IGeneralSignatureMemberUniqueIdentifier, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>> Find(bool strict, params IType[] search)
         {
-            return CLICommon.FindCache<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>(this.Values, search, strict);
+            return CLICommon.FindCache<IGeneralSignatureMemberUniqueIdentifier, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>(this.Values, search, strict);
         }
 
-        public IFilteredSignatureMemberDictionary<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>>, IGenericTypeParameter<TType>> Find(params IType[] search)
+        public IFilteredSignatureMemberDictionary<IGeneralSignatureMemberUniqueIdentifier, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>> Find(params IType[] search)
         {
             return this.Find(true, search);
         }
 
         #endregion
 
-        protected override string FetchKey(ConstructorInfo item)
+        protected override IGeneralSignatureMemberUniqueIdentifier FetchKey(ConstructorInfo item)
         {
             return item.GetUniqueIdentifier();
         }

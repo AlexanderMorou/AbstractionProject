@@ -26,29 +26,31 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// partial declaration system; must contain a public constructor with the following parameters:
     /// <typeparamref name="TIntermediateType"/>, <see cref="IIntermediateTypeParent"/></typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class IntermediateGenericSegmentableType<TType, TIntermediateType, TInstanceIntermediateType> :
-        IntermediateGenericTypeBase<TType, TIntermediateType>,
-        IIntermediateSegmentableType<TType, TIntermediateType>
+    public abstract class IntermediateGenericSegmentableType<TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType> :
+        IntermediateGenericTypeBase<TTypeIdentifier, TType, TIntermediateType>,
+        IIntermediateSegmentableType<TTypeIdentifier, TType, TIntermediateType>
+        where TTypeIdentifier : 
+            ITypeUniqueIdentifier<TTypeIdentifier>
         where TType :
             class,
-            IGenericType<TType>
+            IGenericType<TTypeIdentifier, TType>
         where TIntermediateType :
             class,
-            IIntermediateGenericType<TType, TIntermediateType>,
-            IIntermediateSegmentableType<TType, TIntermediateType>,
+            IIntermediateGenericType<TTypeIdentifier, TType, TIntermediateType>,
+            IIntermediateSegmentableType<TTypeIdentifier, TType, TIntermediateType>,
             TType
         where TInstanceIntermediateType :
-            IntermediateGenericSegmentableType<TType, TIntermediateType, TInstanceIntermediateType>,
+            IntermediateGenericSegmentableType<TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType>,
             TIntermediateType
     {
         private TInstanceIntermediateType rootType;
-        private IIntermediateSegmentableDeclarationPartCollection<TIntermediateType> parts;
+        private IIntermediateSegmentableDeclarationPartCollection<TTypeIdentifier, TIntermediateType> parts;
         /// <summary>
-        /// Creates a new <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}"/> with the 
+        /// Creates a new <see cref="IntermediateGenericSegmentableType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/> with the 
         /// <paramref name="name"/> and <paramref name="parent"/> provided.
         /// </summary>
-        /// <param name="name">The name of the current <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
-        /// <param name="parent">The <see cref="IIntermediateTypeParent"/> which contains the current <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
+        /// <param name="name">The name of the current <see cref="IntermediateGenericSegmentableType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
+        /// <param name="parent">The <see cref="IIntermediateTypeParent"/> which contains the current <see cref="IntermediateGenericSegmentableType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/>, or <paramref name="parent"/>, is null.</exception>
         /// <exception cref="System.ArgumentException">thrown when <paramref name="name"/> is 
         /// <see cref="String.Empty"/></exception>
@@ -64,14 +66,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// Creates a new <see cref="IntermediateGenericSegmentableType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// with the <paramref name="rootType"/> and <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="rootType">The root <typeparamref name="TInstanceIntermediateType"/>
-        /// from which the current <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// from which the current <see cref="IntermediateGenericSegmentableType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// is a part of.</param>
         /// <param name="parent">The <see cref="IIntermediateTypeParent"/> in which the 
-        /// current <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}"/> 
+        /// current <see cref="IntermediateGenericSegmentableType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/> 
         /// is contained.</param>
         /// <exception cref="System.ArgumentNullException">thrown when the <paramref name="rootType"/> or
         /// <paramref name="parent"/> is null.</exception>
@@ -125,7 +127,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateSegmentableDeclaration<TIntermediateType> Members
 
-        public IIntermediateSegmentableDeclarationPartCollection<TIntermediateType> Parts
+        public IIntermediateSegmentableDeclarationPartCollection<TTypeIdentifier, TIntermediateType> Parts
         {
             get {
                 if (this.IsRoot)
@@ -134,7 +136,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     {
                         if (this.IsDisposed)
                             throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                        this.parts = new IntermediateSegmentableTypePartCollection<TType, TIntermediateType, TInstanceIntermediateType>(((TInstanceIntermediateType)(this)), GetNewPartial);
+                        this.parts = new IntermediateSegmentableTypePartCollection<TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType>(((TInstanceIntermediateType)(this)), GetNewPartial);
                     }
                     return this.parts;
                 }
@@ -143,7 +145,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        TIntermediateType IIntermediateSegmentableDeclaration<TIntermediateType>.GetRoot()
+        TIntermediateType IIntermediateSegmentableDeclaration<TTypeIdentifier, TIntermediateType>.GetRoot()
         {
             return this.GetRoot();
         }

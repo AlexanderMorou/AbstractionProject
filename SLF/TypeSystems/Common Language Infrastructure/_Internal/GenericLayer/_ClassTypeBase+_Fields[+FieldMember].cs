@@ -54,11 +54,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
                 #endregion
 
-                public override string UniqueIdentifier
-                {
-                    get { return this.Name; }
-                }
-
                 #region IScopedDeclaration Members
 
                 public AccessLevelModifiers AccessLevel

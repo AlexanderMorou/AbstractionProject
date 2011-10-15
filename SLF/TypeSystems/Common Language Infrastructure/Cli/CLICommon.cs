@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Diagnostics;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2011 Allen Copeland Jr.                                  |
  |----------------------------------------------------------------------|
@@ -84,44 +84,50 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             return array.OnAll(u => u.GetTypeReference()).ToArray().ToLockedCollection();
         }
 
-        internal static IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Filter<TSignature, TSignatureParameter, TSignatureParent>(this IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> source, Predicate<TSignature> predicate)
+        internal static IFilteredSignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> Filter<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(this IFilteredSignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> source, Predicate<TSignature> predicate)
+            where TSignatureIdentifier :
+                ISignatureMemberUniqueIdentifier<TSignatureIdentifier>,
+                IGeneralMemberUniqueIdentifier
             where TSignature :
-                ISignatureMember<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
             where TSignatureParameter :
-                ISignatureParameterMember<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParameterMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
-            return new FilteredSignatureMembers<TSignature, TSignatureParameter, TSignatureParent>(source.Values.Filter(predicate));
+            return new FilteredSignatureMembers<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(source.Values.Filter(predicate));
         }
 
-        internal static IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> FindCache<TSignature, TSignatureParameter, TSignatureParent>(IEnumerable<TSignature> values, IEnumerable<IType> search, bool strict)
+        internal static IFilteredSignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> FindCache<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(IEnumerable<TSignature> values, IEnumerable<IType> search, bool strict)
+            where TSignatureIdentifier :
+                ISignatureMemberUniqueIdentifier<TSignatureIdentifier>,
+                IGeneralMemberUniqueIdentifier
             where TSignature :
-                ISignatureMember<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
             where TSignatureParameter :
-                ISignatureParameterMember<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParameterMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
             int searchCount = search.Count();
             if (strict)
             {
                 //So simple and straightforward.
-                return new FilteredSignatureMembers<TSignature, TSignatureParameter, TSignatureParent>(
+                return new FilteredSignatureMembers<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(
                     //Filter the signatures...
                     values.Filter(t =>
                     {
-                        return ParametersTypeCheck<TSignature, TSignatureParameter, TSignatureParent>(search, searchCount, null, t, (a, b) => a.Equals(b));
+                        return ParametersTypeCheck<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(search, searchCount, null, t, (a, b) => a.Equals(b));
                     }));
             }
             else
             {
                 IDictionary<TSignature, int> deviations = new Dictionary<TSignature, int>();
-                FilteredSignatureMembers<TSignature, TSignatureParameter, TSignatureParent> result = new FilteredSignatureMembers<TSignature, TSignatureParameter, TSignatureParent>(
+                FilteredSignatureMembers<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> result = new FilteredSignatureMembers<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(
                     //Filter the signatures...
                     values.Filter(t =>
                     {
-                        return ParametersTypeCheck<TSignature, TSignatureParameter, TSignatureParent>(search, searchCount, deviations, t, (a, b) => TypeToParamCheck<TSignature>(deviations, t, a, b));
+                        return ParametersTypeCheck<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(search, searchCount, deviations, t, (a, b) => TypeToParamCheck<TSignature>(deviations, t, a, b));
                     }));
                 result.deviations = deviations;
                 result.SortByDeviations();
@@ -129,13 +135,16 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
         }
 
-        private static bool ParametersTypeCheck<TSignature, TSignatureParameter, TSignatureParent>(IEnumerable<IType> search, int searchCount, IDictionary<TSignature, int> deviations, TSignature t, Func<IType, IType, bool> typeChecker)
+        private static bool ParametersTypeCheck<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(IEnumerable<IType> search, int searchCount, IDictionary<TSignature, int> deviations, TSignature t, Func<IType, IType, bool> typeChecker)
+            where TSignatureIdentifier :
+                ISignatureMemberUniqueIdentifier<TSignatureIdentifier>,
+                IGeneralMemberUniqueIdentifier
             where TSignature :
-                ISignatureMember<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
             where TSignatureParameter :
-                ISignatureParameterMember<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParameterMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
             bool strict = (deviations == null);
             if (!strict)
@@ -201,18 +210,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 deviations.Remove(t);
             return bResult;
         }
-        internal static IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> FindCache<TSignature, TSignatureParameter, TSignatureParent>(ITypeCollection genericParameters, IControlledStateCollection<TSignature> values, string name, IEnumerable<IType> search, bool strict)
+
+        internal static IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> FindCache<TSignature, TSignatureParameter, TSignatureParent>(ITypeCollection genericParameters, IControlledStateCollection<TSignature> values, string name, IEnumerable<IType> search, bool strict)
             where TSignatureParameter :
                 IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignature :
                 IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
             int searchCount = search.Count();
             if (strict)
             {
-                return new FilteredSignatureMembers<TSignature, TSignatureParameter, TSignatureParent>(
+                return new FilteredSignatureMembers<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>(
                     values.Filter(t =>
                     {
                         if (genericParameters != null && genericParameters.Count > 0)
@@ -236,7 +246,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
                         if (t.Name != name)
                             return false;
-                        return ParametersTypeCheck<TSignature, TSignatureParameter, TSignatureParent>(search, searchCount, null, t, (a, b) => a.Equals(b));
+                        return ParametersTypeCheck<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>(search, searchCount, null, t, (a, b) => a.Equals(b));
                     }).OnAll(e =>
                     {
                         //Transform the methods if they're generics.
@@ -251,7 +261,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             {
                 Dictionary<TSignature, Tuple<ITypeCollection, ITypeCollection>> successfulPermutations = new Dictionary<TSignature, Tuple<ITypeCollection, ITypeCollection>>();
                 IDictionary<TSignature, int> deviations = new Dictionary<TSignature, int>();
-                FilteredSignatureMembers<TSignature, TSignatureParameter, TSignatureParent> result = new FilteredSignatureMembers<TSignature, TSignatureParameter, TSignatureParent>(
+                FilteredSignatureMembers<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> result = new FilteredSignatureMembers<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>(
                     //Filter the signatures...
                     values.Filter(t =>
                     {
@@ -267,7 +277,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                         }
                         if (t.Name != name)
                             return false;
-                        if (ParametersTypeCheck<TSignature, TSignatureParameter, TSignatureParent>(search, searchCount, deviations, t, (a, b) => MethodMemberParameterTypeCheck<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, deviations, t, a, b, methodGenericParameters)))
+                        if (ParametersTypeCheck<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>(search, searchCount, deviations, t, (a, b) => MethodMemberParameterTypeCheck<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, deviations, t, a, b, methodGenericParameters)))
                         {
                             if (methodGenericParameters != null)
                                 successfulPermutations.Add(t, methodGenericParameters);
@@ -289,7 +299,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             where TSignature :
                 IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
             if (method.IsGenericConstruct && method.IsGenericDefinition && parameterType.ContainsGenericParameters() &&
                 !((genericParameters == null) || (genericParameters.Count == 0)))
@@ -309,7 +319,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             where TSignature :
                 IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
             if (method.Parent is IGenericType)
             {
@@ -339,15 +349,18 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 return false;
         }
 
-        public static ISignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> FilterByName<TSignature, TSignatureParameter, TSignatureParent>(this ISignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> criteria, string name)
+        public static ISignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> FilterByName<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(this ISignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> criteria, string name)
+            where TSignatureIdentifier :
+                ISignatureMemberUniqueIdentifier<TSignatureIdentifier>,
+                IGeneralMemberUniqueIdentifier
             where TSignature :
-                ISignatureMember<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
             where TSignatureParameter :
-                ISignatureParameterMember<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParameterMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
-            return new FilteredSignatureMembers<TSignature, TSignatureParameter, TSignatureParent>(criteria.Values.Filter(j => j.Name == name));
+            return new FilteredSignatureMembers<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(criteria.Values.Filter(j => j.Name == name));
         }
 
         /// <summary>
@@ -402,7 +415,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             where TSignature :
                 IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
             if (signature == null)
                 throw new ArgumentNullException("signature");
@@ -617,7 +630,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 param.Dispose();
             }//);
         }
-        public static IFilteredSignatureMemberDictionary<IClassEventMember, IEventParameterMember<IClassEventMember, IClassType>, IClassType> FindInFamily(this IEventMemberDictionary<IClassEventMember, IClassType> target, IDelegateType searchCriteria)
+        public static IFilteredSignatureMemberDictionary<IGeneralSignatureMemberUniqueIdentifier, IClassEventMember, IEventParameterMember<IClassEventMember, IClassType>, IClassType> FindInFamily(this IEventMemberDictionary<IClassEventMember, IClassType> target, IDelegateType searchCriteria)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
@@ -628,7 +641,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 foreach (var matchedItem in current.Events.Find(searchCriteria).Values)
                     if (result.FirstOrDefault(m => m.Name == matchedItem.Name) == null)
                         result.Add(matchedItem);
-            return new FilteredSignatureMembers<IClassEventMember, IEventParameterMember<IClassEventMember, IClassType>, IClassType>(result.ToArray());
+            return new FilteredSignatureMembers<IGeneralSignatureMemberUniqueIdentifier, IClassEventMember, IEventParameterMember<IClassEventMember, IClassType>, IClassType>(result.ToArray());
         }
 
         public static IClassMethodMember FindInFamily(this IMethodMemberDictionary<IClassMethodMember, IClassType> target, string methodName, params IType[] signature)
@@ -642,8 +655,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public static IClassEventMember FindInFamily(this IEventMemberDictionary<IClassEventMember, IClassType> target, string eventName, IDelegateType searchCriteria)
         {
+            var generalIdentifier = AstIdentifier.Member(eventName);
             for (IClassType current = target.Parent; current != null; current = current.BaseType)
-                if (current.Events.Keys.Contains(eventName))
+                if (current.Events.Keys.Contains(generalIdentifier))
                     foreach (var @event in current.Events.Values)
                         if (@event.Name == eventName)
                             if (@event.SignatureSource == EventSignatureSource.Delegate)

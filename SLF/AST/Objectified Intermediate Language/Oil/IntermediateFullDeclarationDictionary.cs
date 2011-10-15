@@ -19,9 +19,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// type system.</typeparam>
     /// <typeparam name="TIntermediateDeclaration">The type of declaration in the intermediate
     /// abstract syntax tree.</typeparam>
-    public abstract partial class IntermediateFullDeclarationDictionary<TDeclaration, TIntermediateDeclaration> :
-        MasterDictionaryBase<string, TDeclaration>,
-        IIntermediateFullDeclarationDictionary<TDeclaration, TIntermediateDeclaration>
+    public abstract partial class IntermediateFullDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration> :
+        MasterDictionaryBase<TIdentifier, TDeclaration>,
+        IIntermediateFullDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration>
+        where TIdentifier :
+            IDeclarationUniqueIdentifier<TIdentifier>
         where TDeclaration :
             class,
             IDeclaration
@@ -53,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #endregion
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateFullDeclarationDictionary{TDeclaration, TIntermediateDeclaration}"/>
+        /// Creates a new <see cref="IntermediateFullDeclarationDictionary{TIdentifier, TDeclaration, TIntermediateDeclaration}"/>
         /// initialized to a default state.
         /// </summary>
         public IntermediateFullDeclarationDictionary()
@@ -62,14 +64,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateFullDeclarationDictionary{TDeclaration, TIntermediateDeclaration}"/>
+        /// Creates a new <see cref="IntermediateFullDeclarationDictionary{TIdentifier, TDeclaration, TIntermediateDeclaration}"/>
         /// with the <paramref name="sibling"/> provided.
         /// </summary>
-        /// <param name="sibling">The <see cref="IntermediateFullDeclarationDictionary{TDeclaration, TIntermediateDeclaration}"/> 
+        /// <param name="sibling">The <see cref="IntermediateFullDeclarationDictionary{TIdentifier, TDeclaration, TIntermediateDeclaration}"/> 
         /// as the sibling of the active instance.</param>
         /// <remarks>Siblings contain the same underlying data 
         /// for their dictionary.</remarks>
-        public IntermediateFullDeclarationDictionary(IntermediateFullDeclarationDictionary<TDeclaration, TIntermediateDeclaration> sibling)
+        public IntermediateFullDeclarationDictionary(IntermediateFullDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration> sibling)
             : base(sibling)
         {
         }

@@ -66,12 +66,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.attributeType is ICompiledType)
             {
-                if (this.attributeType is ICreatableType)
+                if (this.attributeType is ICreatableParent)
                 {
                     if (this.parameters != null)
                     {
                         if (this.Parameters.Any(q => q is ICustomAttributeDefinitionNamedParameter))
-                            if (!(this.attributeType is IPropertyParentType))
+                            if (!(this.attributeType is IPropertyParent))
                                 return false;
                             else
                             {
@@ -79,7 +79,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                                     from p in this.Parameters
                                     where p is ICustomAttributeDefinitionNamedParameter
                                     select (ICustomAttributeDefinitionNamedParameter)p;
-                                IPropertyParentType propertyParent = ((IPropertyParentType)(this.attributeType));
+                                IPropertyParent propertyParent = ((IPropertyParent)(this.attributeType));
                                 foreach (var propertyValue in namedParameters)
                                     if (!propertyParent.Properties.ContainsKey(propertyValue.Name))
                                         return false;
@@ -94,7 +94,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                             select r.Value.GetType().GetTypeReference();
                     else
                         ctorSignature = TypeCollection.Empty;
-                    ICreatableType creatableParent = (ICreatableType)this.attributeType;
+                    ICreatableParent creatableParent = (ICreatableParent)this.attributeType;
                     if (creatableParent.Constructors.Find(false, ctorSignature.ToCollection()).Count == 0)
                         return false;
                 }
@@ -172,9 +172,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return;
             if (this.attributeType is ICompiledType)
             {
-                if (!(this.attributeType is IPropertyParentType))
+                if (!(this.attributeType is IPropertyParent))
                     throw new InvalidOperationException();
-                IPropertyParentType parent = ((IPropertyParentType)(this.attributeType));
+                IPropertyParent parent = ((IPropertyParent)(this.attributeType));
                 if (parent.Properties.ContainsKey(e.Arg1.Name))
                 {
                     ICompiledPropertyMember property = (ICompiledPropertyMember)parent.Properties[e.Arg1.Name];
@@ -213,17 +213,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         }
                         else
                             ctorParamNamedValues.Add(((ICustomAttributeDefinitionNamedParameter)(item)).Name, item.Value);
-                    if (this.Type is ICreatableType)
+                    if (this.Type is ICreatableParent)
                     {
-                        ICreatableType creatableType = (ICreatableType)this.Type;
+                        ICreatableParent creatableType = (ICreatableParent)this.Type;
                         var matches = creatableType.Constructors.Find(false, ctorParamTypes.ToArray());
                         if (matches.Count == 0)
                             throw new InvalidOperationException("No constructor for the attribute could be found");
                         ICompiledCtorMember ctor = (ICompiledCtorMember)matches.Values[0];
                         var attribute = (Attribute)ctor.MemberInfo.Invoke(ctorParamValues.ToArray());
-                        if (this.Type is IPropertyParentType)
+                        if (this.Type is IPropertyParent)
                         {
-                            IPropertyParentType parent = ((IPropertyParentType)(this.Type));
+                            IPropertyParent parent = ((IPropertyParent)(this.Type));
                             foreach (var prop in ctorParamNamedValues)
                             {
                                 ICompiledPropertyMember propMember = ((ICompiledPropertyMember)(parent.Properties[prop.Key]));

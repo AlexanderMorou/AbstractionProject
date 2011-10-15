@@ -15,8 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// of types.
     /// </summary>
     public interface IDelegateTypeDictionary :
-        ISubordinateDictionary<string, IDelegateType, IType>,
-        IGroupedDeclarationDictionary<IDelegateType>
+        IGroupedTypeDictionary<IDelegateUniqueIdentifier, IDelegateType>
     {
         /// <summary>
         /// Returns the <see cref="ITypeParent"/>

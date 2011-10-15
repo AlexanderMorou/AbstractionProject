@@ -14,7 +14,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
     public interface IIntermediateMethodSignatureMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> :
-        IIntermediateSignatureMember<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TParent, TIntermediateParent>,
+        IIntermediateSignatureMember<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TParent, TIntermediateParent>,
         IIntermediateMethodSignatureMember,
         IMethodSignatureMember<TSignatureParameter, TSignature, TParent>
         where TSignatureParameter :
@@ -28,10 +28,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TSignature,
             IIntermediateMethodSignatureMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>
         where TParent :
-            ISignatureParent<TSignature, TSignatureParameter,  TParent>
+            ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter,  TParent>
         where TIntermediateParent :
             TParent,
-            IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TParent, TIntermediateParent>
+            IIntermediateSignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TParent, TIntermediateParent>
     {
         new IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> GetReference(IMemberParentReferenceExpression source = null);
         new IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent> GetReference(IMemberParentReferenceExpression source, IEnumerable<IType> typeParameters);

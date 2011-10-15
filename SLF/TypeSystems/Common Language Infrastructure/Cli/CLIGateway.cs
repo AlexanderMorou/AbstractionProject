@@ -81,6 +81,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
         }
 
+        internal static bool CacheContains(this Type target)
+        {
+            return CompiledTypeCache.ContainsKey(target);
+        }
+
         /// <summary>
         /// Obtains a <typeparamref name="TType"/> for a compiled type.
         /// </summary>
@@ -92,9 +97,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// <exception cref="System.ArgumentException">thrown when the <paramref name="type"/>
         /// provided did not yield a <see cref="IType"/> instance of the
         /// <typeparamref name="TType"/> type provided.</exception>
-        public static TType GetTypeReference<TType>(this Type type)
+        public static TType GetTypeReference<TTypeIdentifier, TType>(this Type type)
+            where TTypeIdentifier :
+                ITypeUniqueIdentifier<TTypeIdentifier>
             where TType :
-                IType<TType>
+                IType<TTypeIdentifier, TType>
         {
             IType ict = (type.GetTypeReference());
             if (!(ict is TType))
@@ -115,21 +122,26 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 return ((IGenericType)type.GetTypeReference()).MakeGenericClosure(typeParameters);
             throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
         }
-        public static TType GetTypeReference<TType>(this Type type, ITypeCollection typeParameters)
+
+        public static TType GetTypeReference<TTypeIdentifier, TType>(this Type type, ITypeCollection typeParameters)
+            where TTypeIdentifier :
+                IGenericTypeUniqueIdentifier<TTypeIdentifier>
             where TType :
-                IGenericType<TType>
+                IGenericType<TTypeIdentifier, TType>
         {
             if (type.IsGenericType && type.IsGenericTypeDefinition)
-                return type.GetTypeReference<TType>().MakeGenericClosure(typeParameters);
+                return type.GetTypeReference<TTypeIdentifier, TType>().MakeGenericClosure(typeParameters);
             throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
         }
 
-        public static TType GetTypeReference<TType>(this Type type, params IType[] typeParameters)
+        public static TType GetTypeReference<TTypeIdentifier, TType>(this Type type, params IType[] typeParameters)
+            where TTypeIdentifier :
+                IGenericTypeUniqueIdentifier<TTypeIdentifier>
             where TType :
-                IGenericType<TType>
+                IGenericType<TTypeIdentifier, TType>
         {
             if (type.IsGenericType && type.IsGenericTypeDefinition)
-                return type.GetTypeReference<TType>().MakeGenericClosure(typeParameters);
+                return type.GetTypeReference<TTypeIdentifier, TType>().MakeGenericClosure(typeParameters);
             throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
         }
 
@@ -378,9 +390,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             return new TypedName(name, type.GetTypeReference());
         }
 
-        public static TType MakeGenericClosure<TType>(this IGenericType<TType> target, params Type[] typeParameters)
+        public static TType MakeGenericClosure<TTypeIdentifier, TType>(this IGenericType<TTypeIdentifier, TType> target, params Type[] typeParameters)
+            where TTypeIdentifier :
+                IGenericTypeUniqueIdentifier<TTypeIdentifier>
             where TType :
-                IGenericType<TType>
+                IGenericType<TTypeIdentifier, TType>
         {
             if (!target.IsGenericConstruct)
                 throw new InvalidOperationException(Resources.MustBeGenericType);

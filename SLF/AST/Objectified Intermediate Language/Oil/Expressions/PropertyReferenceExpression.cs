@@ -30,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         where TProperty :
             IPropertyMember<TProperty, TPropertyParent>
         where TPropertyParent :
-            IPropertyParentType<TProperty, TPropertyParent>
+            IPropertyParent<TProperty, TPropertyParent>
     {
 
         public PropertyReferenceExpression(IMemberParentReferenceExpression source, TProperty member, MethodReferenceType referenceType = MethodReferenceType.VirtualMethodReference)
@@ -145,7 +145,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         where TProperty :
             IPropertySignatureMember<TProperty, TPropertyParent>
         where TPropertyParent :
-            IPropertySignatureParentType<TProperty, TPropertyParent>
+            IPropertySignatureParent<TProperty, TPropertyParent>
     {
         /// <summary>
         /// Data member for <see cref="ReferenceType"/>.

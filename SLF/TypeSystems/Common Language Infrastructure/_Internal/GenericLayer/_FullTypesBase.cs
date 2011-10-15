@@ -14,7 +14,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
     internal class _FullTypesBase :
-        _GroupedMasterBase<IType>,
+        _GroupedMasterBase<IGeneralTypeUniqueIdentifier, IType>,
         IFullTypeDictionary
     {
         internal _FullTypesBase()

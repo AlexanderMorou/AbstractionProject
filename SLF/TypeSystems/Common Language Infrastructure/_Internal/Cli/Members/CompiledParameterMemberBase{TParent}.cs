@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -28,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// Data member for <see cref="MemberInfo"/>
         /// </summary>
         private ParameterInfo parameterInfo;
-
+        private IGeneralMemberUniqueIdentifier uniqueIdentifier;
         protected CompiledParameterMemberBase(ParameterInfo parameterInfo, TParent parent) 
             : base(parent)
         {
@@ -70,9 +69,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             return this.ParameterInfo.Name;
         }
 
-        public sealed override string UniqueIdentifier
+        public sealed override IGeneralMemberUniqueIdentifier UniqueIdentifier
         {
-            get { return this.Name; }
+            get {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                return this.uniqueIdentifier;
+            }
         }
         public override string ToString()
         {

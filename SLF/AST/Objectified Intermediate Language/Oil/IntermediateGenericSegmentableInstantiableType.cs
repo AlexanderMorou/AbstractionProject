@@ -59,8 +59,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// and will be instanced by the parts helper class.</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract partial class IntermediateGenericSegmentableInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType> :
-        IntermediateGenericSegmentableParentType<TType, TIntermediateType, TInstanceIntermediateType>,
-        IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType>,
+        IntermediateGenericSegmentableParentType<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType, TInstanceIntermediateType>,
+        IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>,
         IIntermediateInstantiableType
         where TCtor :
             IConstructorMember<TCtor, TType>
@@ -113,13 +113,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IIntermediatePropertyMethodMember
         where TType :
             class,
-            IGenericType<TType>,
-            IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType>
+            IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, IGeneralGenericTypeUniqueIdentifier, TType>,
+            IGenericType<IGeneralGenericTypeUniqueIdentifier, TType>
         where TIntermediateType :
             class,
-            IIntermediateGenericType<TType, TIntermediateType>,
-            IIntermediateSegmentableType<TType, TIntermediateType>,
-            IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType>,
+            IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>,
+            IIntermediateGenericType<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>,
+            IIntermediateSegmentableType<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>,
             TType
         where TInstanceIntermediateType :
             IntermediateGenericSegmentableInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType>,
@@ -206,7 +206,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         }
 
-        #region IIntermediateCreatableType<TCtor,TIntermediateCtor,TType,TIntermediateType> Members
+        #region IIntermediateCreatableParent<TCtor,TIntermediateCtor,TType,TIntermediateType> Members
 
         /// <summary>
         /// Returns the constructors contained by the 
@@ -243,9 +243,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        #region IIntermediateCreatableSignatureType<TCtor,TIntermediateCtor,TType,TIntermediateType> Members
+        #region IIntermediateCreatableSignatureParent<TCtor,TIntermediateCtor,TType,TIntermediateType> Members
 
-        IIntermediateConstructorSignatureMemberDictionary<TCtor, TIntermediateCtor, TType, TIntermediateType> IIntermediateCreatableSignatureType<TCtor, TIntermediateCtor, TType, TIntermediateType>.Constructors
+        IIntermediateConstructorSignatureMemberDictionary<TCtor, TIntermediateCtor, TType, TIntermediateType> IIntermediateCreatableSignatureParent<TCtor, TIntermediateCtor, TType, TIntermediateType>.Constructors
         {
             get
             {
@@ -255,22 +255,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        #region IIntermediateCreatableSignatureType Members
+        #region IIntermediateCreatableSignatureParent Members
 
-        IIntermediateConstructorSignatureMemberDictionary IIntermediateCreatableSignatureType.Constructors
+        IIntermediateConstructorSignatureMemberDictionary IIntermediateCreatableSignatureParent.Constructors
         {
             get { return (IIntermediateConstructorSignatureMemberDictionary)this.Constructors; }
         }
 
         #endregion
-        #region IIntermediateCreatableType Members
+        #region IIntermediateCreatableParent Members
 
-        IIntermediateConstructorMemberDictionary IIntermediateCreatableType.Constructors
+        IIntermediateConstructorMemberDictionary IIntermediateCreatableParent.Constructors
         {
             get { return (IIntermediateConstructorMemberDictionary)this.Constructors; }
         }
 
-        IIntermediateConstructorMember IIntermediateCreatableType.TypeInitializer
+        IIntermediateConstructorMember IIntermediateCreatableParent.TypeInitializer
         {
             get
             {
@@ -280,23 +280,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        #region ICreatableType Members
+        #region ICreatableParent Members
 
-        IConstructorMemberDictionary ICreatableType.Constructors
+        IConstructorMemberDictionary ICreatableParent.Constructors
         {
             get { return (IConstructorMemberDictionary)this.Constructors; }
         }
 
-        IConstructorMember ICreatableType.TypeInitializer
+        IConstructorMember ICreatableParent.TypeInitializer
         {
             get { return this.TypeInitializer; }
         }
 
         #endregion
 
-        #region ICreatableType<TCtor,TType> Members
+        #region ICreatableParent<TCtor,TType> Members
 
-        IConstructorMemberDictionary<TCtor, TType> ICreatableType<TCtor, TType>.Constructors
+        IConstructorMemberDictionary<TCtor, TType> ICreatableParent<TCtor, TType>.Constructors
         {
             get
             {
@@ -304,7 +304,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        TCtor ICreatableType<TCtor, TType>.TypeInitializer
+        TCtor ICreatableParent<TCtor, TType>.TypeInitializer
         {
             get { return this.TypeInitializer; }
         }
@@ -342,7 +342,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        #region IIntermediatePropertyParentType<TProperty,TIntermediateProperty,TType,TIntermediateType> Members
+        #region IIntermediatePropertyParent<TProperty,TIntermediateProperty,TType,TIntermediateType> Members
 
         public IIntermediatePropertyMemberDictionary<TProperty, TIntermediateProperty, TType, TIntermediateType> Properties
         {
@@ -355,27 +355,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        #region IPropertyParentType<TProperty,TType> Members
+        #region IPropertyParent<TProperty,TType> Members
 
-        IPropertyMemberDictionary<TProperty, TType> IPropertyParentType<TProperty, TType>.Properties
+        IPropertyMemberDictionary<TProperty, TType> IPropertyParent<TProperty, TType>.Properties
         {
             get { return this.Properties; }
         }
 
         #endregion
 
-        #region IPropertyParentType Members
+        #region IPropertyParent Members
 
-        IPropertyMemberDictionary IPropertyParentType.Properties
+        IPropertyMemberDictionary IPropertyParent.Properties
         {
             get { return (IPropertyMemberDictionary)this.Properties; }
         }
 
         #endregion
 
-        #region IIntermediatePropertyParentType Members
+        #region IIntermediatePropertyParent Members
 
-        IIntermediatePropertyMemberDictionary IIntermediatePropertyParentType.Properties
+        IIntermediatePropertyMemberDictionary IIntermediatePropertyParent.Properties
         {
             get { return ((IIntermediatePropertyMemberDictionary)(this.Properties)); }
         }
@@ -424,7 +424,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateCoercibleType<TType,TIntermediateType> Members
 
-        public IIntermediateBinaryOperatorCoercionMemberDictionary<TType, TIntermediateType> BinaryOperatorCoercions
+        public IIntermediateBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType> BinaryOperatorCoercions
         {
             get
             {
@@ -433,7 +433,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        public IIntermediateTypeCoercionMemberDictionary<TType, TIntermediateType> TypeCoercions
+        public IIntermediateTypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType> TypeCoercions
         {
             get
             {
@@ -442,7 +442,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        public IIntermediateUnaryOperatorCoercionMemberDictionary<TType, TIntermediateType> UnaryOperatorCoercions
+        public IIntermediateUnaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType> UnaryOperatorCoercions
         {
             get
             {
@@ -493,17 +493,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region ICoercibleType<TType> Members
 
-        IBinaryOperatorCoercionMemberDictionary<TType> ICoercibleType<TType>.BinaryOperatorCoercions
+        IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> ICoercibleType<IGeneralGenericTypeUniqueIdentifier, TType>.BinaryOperatorCoercions
         {
             get { return this.BinaryOperatorCoercions; }
         }
 
-        ITypeCoercionMemberDictionary<TType> ICoercibleType<TType>.TypeCoercions
+        ITypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> ICoercibleType<IGeneralGenericTypeUniqueIdentifier, TType>.TypeCoercions
         {
             get { return this.TypeCoercions; }
         }
 
-        IUnaryOperatorCoercionMemberDictionary<TType> ICoercibleType<TType>.UnaryOperatorCoercions
+        IUnaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> ICoercibleType<IGeneralGenericTypeUniqueIdentifier, TType>.UnaryOperatorCoercions
         {
             get { return this.unaryOperatorCoercions; }
         }
@@ -745,17 +745,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <returns>A new <see cref="FieldMember"/> instance.</returns>
         protected abstract FieldMember GetNewField(TypedName nameAndType);
         #region Member Check Methods
-        private static void SuspendCheck<TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember>(IntermediateGroupedMemberDictionary<TMemberParent, TIntermediateMemberParent, TMember, TIntermediateMember> target, int suspendLevel)
+        private static void SuspendCheck<TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember>(IntermediateGroupedMemberDictionary<TMemberParent, TIntermediateMemberParent, TMemberIdentifier, TMember, TIntermediateMember> target, int suspendLevel)
             where TMemberParent :
                 IMemberParent
             where TIntermediateMemberParent :
                 class,
                 IIntermediateMemberParent,
                 TMemberParent
+            where TMemberIdentifier :
+                IMemberUniqueIdentifier<TMemberIdentifier>
             where TMember :
-                IMember<TMemberParent>
+                IMember<TMemberIdentifier, TMemberParent>
             where TIntermediateMember :
-                IIntermediateMember<TMemberParent, TIntermediateMemberParent>,
+                IIntermediateMember<TMemberIdentifier, TMemberParent, TIntermediateMemberParent>,
                 TMember
         {
             if (suspendLevel <= 0)

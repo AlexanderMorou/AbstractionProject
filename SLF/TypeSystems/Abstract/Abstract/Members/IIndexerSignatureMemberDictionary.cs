@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <typeparam name="TIndexer">The type of indexer in the current implementation.</typeparam>
     /// <typeparam name="TIndexerParent">The type of indexer parent in the current implementation.</typeparam>
     public interface IIndexerSignatureMemberDictionary<TIndexer, TIndexerParent> :
-        IGroupedMemberDictionary<TIndexerParent, TIndexer>
+        IGroupedMemberDictionary<TIndexerParent, IGeneralSignatureMemberUniqueIdentifier, TIndexer>
         where TIndexer :
             IIndexerSignatureMember<TIndexer, TIndexerParent>
         where TIndexerParent :

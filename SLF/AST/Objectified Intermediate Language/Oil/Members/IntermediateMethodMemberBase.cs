@@ -733,7 +733,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 class, 
                 IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
             return this.StatementContainer.AddHandler<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(@event, method);
         }
@@ -778,7 +778,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 class, 
                 IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
             return this.StatementContainer.AddHandler(targetEvent, methodPtr);
         }

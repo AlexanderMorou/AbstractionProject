@@ -66,11 +66,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                     return new _MethodMember(this.Parent, (IClassMethodMember)originalMethod);
                 }
 
-                public override string UniqueIdentifier
-                {
-                    get {
-                        return string.Format("{0}[{1}]", this.Name, string.Join(",", this.Parameters.Values)); }
-                }
             }
 
             protected override IClassIndexerMember ObtainWrapper(IClassIndexerMember item)

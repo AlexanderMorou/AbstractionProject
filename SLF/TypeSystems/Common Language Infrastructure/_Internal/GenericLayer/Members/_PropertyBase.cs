@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -21,15 +20,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
     /// <see cref="IPropertySignatureMember.PropertyType"/>.
     /// </summary>
     /// <typeparam name="TProperty">The type of <see cref="IPropertyMember{TProperty, TPropertyParent}"/>.</typeparam>
-    /// <typeparam name="TPropertyParent">The type of <see cref="IPropertyParentType{TProperty, TPropertyParent}"/>.</typeparam>
+    /// <typeparam name="TPropertyParent">The type of <see cref="IPropertyParent{TProperty, TPropertyParent}"/>.</typeparam>
     internal abstract class _PropertyBase<TProperty, TPropertyParent> :
-        _MemberBase<TProperty, TPropertyParent>,
+        _MemberBase<IGeneralMemberUniqueIdentifier, TProperty, TPropertyParent>,
         IPropertyMember<TProperty, TPropertyParent>
         where TProperty :
             IPropertyMember<TProperty, TPropertyParent>
         where TPropertyParent :
-            IPropertyParentType<TProperty, TPropertyParent>
+            IPropertyParent<TProperty, TPropertyParent>
     {
+        private IGeneralMemberUniqueIdentifier uniqueIdentifier;
         /// <summary>
         /// Data member for <see cref="GetMethod"/>.
         /// </summary>
@@ -261,5 +261,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         }
 
         #endregion
+
+
+        public override IGeneralMemberUniqueIdentifier UniqueIdentifier
+        {
+            get
+            {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                return this.uniqueIdentifier;
+            }
+        }
     }
 }

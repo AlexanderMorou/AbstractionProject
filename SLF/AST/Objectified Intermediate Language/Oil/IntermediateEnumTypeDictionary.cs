@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 {
     [DebuggerDisplay("Enumerations: {Count}")]
     public class IntermediateEnumTypeDictionary :
-        IntermediateTypeDictionary<IEnumType, IIntermediateEnumType>,
+        IntermediateTypeDictionary<IGeneralTypeUniqueIdentifier, IEnumType, IIntermediateEnumType>,
         IIntermediateEnumTypeDictionary
     {
         public IntermediateEnumTypeDictionary(IIntermediateTypeParent parent, IntermediateFullTypeDictionary master)

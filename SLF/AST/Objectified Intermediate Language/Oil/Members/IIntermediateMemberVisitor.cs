@@ -34,10 +34,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <typeparam name="TIntermediateCtor">The type of
         /// <see cref="IIntermediateConstructorSignatureMember{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
         /// in the current implementation.</typeparam>
-        /// <typeparam name="TType">The type of <see cref="ICreatableType{TCtor, TType}"/>
+        /// <typeparam name="TType">The type of <see cref="ICreatableParent{TCtor, TCtorParent}"/>
         /// that contains the <typeparamref name="TCtor"/> instances.</typeparam>
         /// <typeparam name="TIntermediateType">The type of 
-        /// <see cref="IIntermediateCreatableSignatureType{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
+        /// <see cref="IIntermediateCreatableSignatureParent{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
         /// which contains the <typeparamref name="TIntermediateCtor"/>.</typeparam>
         /// <param name="ctor">The <see cref="IIntermediateConstructorSignatureMember{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
         /// to visit.</param>
@@ -48,18 +48,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 TCtor,
                 IIntermediateConstructorSignatureMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
             where TType :
-                ICreatableType<TCtor, TType>
+                ICreatableParent<TCtor, TType>
             where TIntermediateType :
                 TType,
-                IIntermediateCreatableSignatureType<TCtor, TIntermediateCtor, TType, TIntermediateType>;
+                IIntermediateCreatableSignatureParent<TCtor, TIntermediateCtor, TType, TIntermediateType>;
         /// <summary>
         /// Visits the <paramref name="ctor"/> provided.
         /// </summary>
         /// <typeparam name="TCtor">The type of the constructor in the abstract type system.</typeparam>
         /// <typeparam name="TIntermediateCtor">The type of the constructor in the intermediate type system.</typeparam>
-        /// <typeparam name="TType">The type of the owning <see cref="ICreatableType{TCtor, TIntermediateType}"/> in 
+        /// <typeparam name="TType">The type of the owning <see cref="ICreatableParent{TCtor, TIntermediateType}"/> in 
         /// the abstract type system.</typeparam>
-        /// <typeparam name="TIntermediateType">The type of the owning <see cref="IIntermediateCreatableType{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
+        /// <typeparam name="TIntermediateType">The type of the owning <see cref="IIntermediateCreatableParent{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
         /// in the intermediate abstract syntax tree.</typeparam>
         /// <param name="ctor">The <see cref="IIntermediateConstructorMember{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
         /// to visit.</param>
@@ -70,10 +70,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 TCtor,
                 IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
             where TType :
-                ICreatableType<TCtor, TType>
+                ICreatableParent<TCtor, TType>
             where TIntermediateType :
                 TType,
-                IIntermediateCreatableType<TCtor, TIntermediateCtor, TType, TIntermediateType>;
+                IIntermediateCreatableParent<TCtor, TIntermediateCtor, TType, TIntermediateType>;
         #endregion
         #region Events members
         /// <summary>
@@ -131,15 +131,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// coercion member in the current implementation.</typeparam>
         /// <param name="binaryCoercion">The <see cref="IBinaryOperatorCoercionMember{TCoercionParent}"/>
         /// to visit.</param>
-        void Visit<TCoercionParent>(IBinaryOperatorCoercionMember<TCoercionParent> binaryCoercion)
+        void Visit<TCoercionParentIdentifier, TCoercionParent>(IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent> binaryCoercion)
+            where TCoercionParentIdentifier :
+                ITypeUniqueIdentifier<TCoercionParentIdentifier>
             where TCoercionParent :
-                ICoercibleType<IBinaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>;
-        void Visit<TCoercionParent>(ITypeCoercionMember<TCoercionParent> typeCoercion)
+                ICoercibleType<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>;
+        void Visit<TCoercionParentIdentifier, TCoercionParent>(ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent> typeCoercion)
+            where TCoercionParentIdentifier :
+                ITypeUniqueIdentifier<TCoercionParentIdentifier>
             where TCoercionParent :
-                ICoercibleType<ITypeCoercionMember<TCoercionParent>, TCoercionParent>;
-        void Visit<TCoercionParent>(IUnaryOperatorCoercionMember<TCoercionParent> unaryCoercion)
+                ICoercibleType<ITypeCoercionUniqueIdentifier, TCoercionParentIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>;
+        void Visit<TCoercionParentIdentifier, TCoercionParent>(IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent> unaryCoercion)
+            where TCoercionParentIdentifier :
+                ITypeUniqueIdentifier<TCoercionParentIdentifier>
             where TCoercionParent :
-                ICoercibleType<IUnaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>;
+                ICoercibleType<IUnaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>;
         #endregion
         #region Field member
         void Visit<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>(IIntermediateFieldMember<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent> field)
@@ -211,10 +217,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 TProperty,
                 IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
             where TPropertyParent :
-                IPropertySignatureParentType<TProperty, TPropertyParent>
+                IPropertySignatureParent<TProperty, TPropertyParent>
             where TIntermediatePropertyParent :
                 TPropertyParent,
-                IIntermediatePropertySignatureParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>;
+                IIntermediatePropertySignatureParent<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>;
         void Visit<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> property)
             where TProperty :
                 IPropertyMember<TProperty, TPropertyParent>
@@ -222,10 +228,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 TProperty,
                 IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
             where TPropertyParent :
-                IPropertyParentType<TProperty, TPropertyParent>
+                IPropertyParent<TProperty, TPropertyParent>
             where TIntermediatePropertyParent :
                 TPropertyParent,
-                IIntermediatePropertyParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>;
+                IIntermediatePropertyParent<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>;
         #endregion
         /// <summary>
         /// Visits the <paramref name="parameter"/> provided.

@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         where TProperty :
             IPropertySignatureMember<TProperty, TPropertyParent>
         where TPropertyParent :
-            IPropertySignatureParentType<TProperty, TPropertyParent>
+            IPropertySignatureParent<TProperty, TPropertyParent>
     {
         /// <summary>
         /// Returns the <typeparamref name="TProperty"/> member to which the 
@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         where TProperty :
             IPropertyMember<TProperty, TPropertyParent>
         where TPropertyParent :
-            IPropertyParentType<TProperty, TPropertyParent>
+            IPropertyParent<TProperty, TPropertyParent>
     {
         /// <summary>
         /// Returns the <typeparamref name="TProperty"/> member to which the 

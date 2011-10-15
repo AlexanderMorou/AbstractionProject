@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
     /// </summary>
     [DebuggerDisplay("Global Fields: {Count}")]
     public class IntermediateModuleGlobalFieldDictionary :
-        IntermediateGroupedMemberDictionary<IModule, IIntermediateModule, IModuleGlobalField, IIntermediateModuleGlobalField>,
+        IntermediateGroupedMemberDictionary<IModule, IIntermediateModule, IGeneralMemberUniqueIdentifier, IModuleGlobalField, IIntermediateModuleGlobalField>,
         IIntermediateModuleGlobalFieldDictionary
     {
         /// <summary>

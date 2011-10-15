@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         where TSignature :
             IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
         where TSignatureParent :
-            ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
     {
         /// <summary>
         /// Data member which links to the original signature.
@@ -185,6 +185,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
                 return this.Original;
             else
                 return default(TSignature);
+        }
+
+        public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier
+        {
+            get { return AstIdentifier.GenericSignature(this.Name, this.TypeParameters.Count, this.Parameters.ParameterTypes); }
         }
     }
 }

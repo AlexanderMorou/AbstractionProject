@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <typeparam name="TParent">The type of <see cref="IMethodParent{TMethod, TParent}"/> that contains
     /// the <typeparamref name="TMethod"/> instances in the current implementation.</typeparam>
     public interface IMethodParent<TMethod, TParent> :
-        ISignatureParent<TMethod, IMethodParameterMember<TMethod, TParent>, TParent>,
+        ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TMethod, IMethodParameterMember<TMethod, TParent>, TParent>,
         IMethodParent
         where TMethod :
             IMethodMember<TMethod, TParent>

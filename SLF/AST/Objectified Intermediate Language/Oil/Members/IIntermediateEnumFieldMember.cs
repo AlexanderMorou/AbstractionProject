@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// defined on an intermediate enumeration.
     /// </summary>
     public interface IIntermediateEnumFieldMember :
-        IIntermediateMember<IEnumType, IIntermediateEnumType>,
+        IIntermediateMember<IGeneralMemberUniqueIdentifier, IEnumType, IIntermediateEnumType>,
         IIntermediateFieldMember,
         IEnumFieldMember
     {

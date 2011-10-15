@@ -14,23 +14,23 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    internal class LockedEventSignatureMembersBase<TEventSignature, TEventSignatureParent> :
-        LockedEventSignatureMembersBase<TEventSignature, IEventSignatureParameterMember<TEventSignature, TEventSignatureParent>, TEventSignatureParent>,
-        IEventSignatureMemberDictionary<TEventSignature, TEventSignatureParent>
+    internal class LockedEventSignatureMembersBase<TEventSignature, TEventParent> :
+        LockedEventSignatureMembersBase<TEventSignature, IEventSignatureParameterMember<TEventSignature, TEventParent>, TEventParent>,
+        IEventSignatureMemberDictionary<TEventSignature, TEventParent>
         where TEventSignature :
             class,
-            IEventSignatureMember<TEventSignature, TEventSignatureParent>
-        where TEventSignatureParent :
-            IEventSignatureParent<TEventSignature, TEventSignatureParent>
+            IEventSignatureMember<TEventSignature, TEventParent>
+        where TEventParent :
+            IEventSignatureParent<TEventSignature, TEventParent>
     {
-        internal LockedEventSignatureMembersBase(LockedFullMembersBase master, TEventSignatureParent parent)
+        internal LockedEventSignatureMembersBase(LockedFullMembersBase master, TEventParent parent)
             : base(master, parent)
         {
         }
 
-        internal LockedEventSignatureMembersBase(LockedFullMembersBase master, TEventSignatureParent parent, EventInfo[] sourceData, Func<EventInfo, TEventSignature> fetchImpl)
+        internal LockedEventSignatureMembersBase(LockedFullMembersBase master, TEventParent parent, EventInfo[] sourceData, Func<EventInfo, TEventSignature> fetchImpl)
             : base(master, parent, sourceData, fetchImpl)
         {
         }

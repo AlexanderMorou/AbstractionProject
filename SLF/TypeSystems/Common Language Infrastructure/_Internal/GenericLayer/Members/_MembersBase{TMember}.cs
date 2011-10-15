@@ -14,18 +14,21 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
-    internal abstract class _MembersBase<TParent, TMember, TDictionary> :
-        _DeclarationsBase<IMember, TMember, TParent, TDictionary>,
-        IMemberDictionary<TParent, TMember>,
+    internal abstract class _MembersBase<TParent, TMemberIdentifier, TMember, TDictionary> :
+        _DeclarationsBase<IGeneralMemberUniqueIdentifier, IMember, TMemberIdentifier, TMember, TParent, TDictionary>,
+        IMemberDictionary<TParent, TMemberIdentifier, TMember>,
         IMemberDictionary
+        where TMemberIdentifier :
+            IMemberUniqueIdentifier<TMemberIdentifier>,
+            IGeneralMemberUniqueIdentifier
         where TMember :
             class,
-            IMember<TParent>
+            IMember<TMemberIdentifier, TParent>
         where TParent :
             IMemberParent
         where TDictionary :
             class,
-            IMemberDictionary<TParent, TMember>
+            IMemberDictionary<TParent, TMemberIdentifier, TMember>
     {
         protected _MembersBase(TParent parent, TDictionary original)
             : base(parent, original)

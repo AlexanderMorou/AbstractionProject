@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 {
     [DebuggerDisplay("Namespaces: {Count}")]
     public class IntermediateNamespaceDictionary :
-        IntermediateDeclarationDictionary<INamespaceDeclaration, IIntermediateNamespaceDeclaration>,
+        IntermediateDeclarationDictionary<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration, IIntermediateNamespaceDeclaration>,
         IIntermediateNamespaceDictionary
     {
         private IIntermediateNamespaceParent parent;

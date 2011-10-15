@@ -178,7 +178,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return result;
                 }
 
-                protected override void ICollection_CopyTo(Array array, int arrayIndex)
+                protected override void GeneralCopyTo(Array array, int arrayIndex)
                 {
                     if (this.Count == 0)
                         return;

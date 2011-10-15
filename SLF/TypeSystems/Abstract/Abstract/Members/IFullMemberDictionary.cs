@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <see cref="IMemberDictionary"/> in the local scope.
     /// </summary>
     public interface IFullMemberDictionary :
-        IFullDeclarationDictionary<IMember>
+        IFullDeclarationDictionary<IGeneralMemberUniqueIdentifier, IMember>
     {
     }
 }

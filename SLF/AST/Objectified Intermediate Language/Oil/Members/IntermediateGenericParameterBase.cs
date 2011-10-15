@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TIntermediateParent">The type which owns the generic parameters in the intermediate
     /// abstract syntax tree.</typeparam>
     public abstract partial class IntermediateGenericParameterBase<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent> :
-        IntermediateTypeBase<TGenericParameter, TIntermediateGenericParameter>,
+        IntermediateTypeBase<IGenericParameterUniqueIdentifier, TGenericParameter, TIntermediateGenericParameter>,
         IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>
         where TGenericParameter :
             class,
@@ -322,45 +322,45 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
-        #region IIntermediateCreatableSignatureType<IGenericParameterConstructorMember<TGenericParameter>,IIntermediateGenericParameterConstructorMember<TGenericParameter,TIntermediateGenericParameter>,TGenericParameter,TIntermediateGenericParameter> Members
+        #region IIntermediateCreatableSignatureParent<IGenericParameterConstructorMember<TGenericParameter>,IIntermediateGenericParameterConstructorMember<TGenericParameter,TIntermediateGenericParameter>,TGenericParameter,TIntermediateGenericParameter> Members
 
-        IIntermediateConstructorSignatureMemberDictionary<IGenericParameterConstructorMember<TGenericParameter>, IIntermediateGenericParameterConstructorMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter> IIntermediateCreatableSignatureType<IGenericParameterConstructorMember<TGenericParameter>, IIntermediateGenericParameterConstructorMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>.Constructors
+        IIntermediateConstructorSignatureMemberDictionary<IGenericParameterConstructorMember<TGenericParameter>, IIntermediateGenericParameterConstructorMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter> IIntermediateCreatableSignatureParent<IGenericParameterConstructorMember<TGenericParameter>, IIntermediateGenericParameterConstructorMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>.Constructors
         {
             get { return this.Constructors; }
         }
         #endregion
 
-        #region IIntermediateCreatableSignatureType Members
+        #region IIntermediateCreatableSignatureParent Members
 
-        IIntermediateConstructorSignatureMemberDictionary IIntermediateCreatableSignatureType.Constructors
+        IIntermediateConstructorSignatureMemberDictionary IIntermediateCreatableSignatureParent.Constructors
         {
             get { return this.Constructors; }
         }
 
         #endregion
 
-        #region ICreatableType Members
+        #region ICreatableParent Members
 
-        IConstructorMemberDictionary ICreatableType.Constructors
+        IConstructorMemberDictionary ICreatableParent.Constructors
         {
             get { return this.Constructors; }
         }
 
-        IConstructorMember ICreatableType.TypeInitializer
+        IConstructorMember ICreatableParent.TypeInitializer
         {
             get { return null; }
         }
 
         #endregion
 
-        #region ICreatableType<IGenericParameterConstructorMember<TGenericParameter>,TGenericParameter> Members
+        #region ICreatableParent<IGenericParameterConstructorMember<TGenericParameter>,TGenericParameter> Members
 
-        IConstructorMemberDictionary<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter> ICreatableType<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter>.Constructors
+        IConstructorMemberDictionary<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter> ICreatableParent<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter>.Constructors
         {
             get { return this.Constructors; }
         }
 
-        IGenericParameterConstructorMember<TGenericParameter> ICreatableType<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter>.TypeInitializer
+        IGenericParameterConstructorMember<TGenericParameter> ICreatableParent<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter>.TypeInitializer
         {
             get { return null; }
         }
@@ -439,36 +439,36 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
-        #region IIntermediatePropertySignatureParentType<IGenericParameterPropertyMember<TGenericParameter>,IIntermediateGenericParameterPropertyMember<TGenericParameter,TIntermediateGenericParameter>,TGenericParameter,TIntermediateGenericParameter> Members
+        #region IIntermediatePropertySignatureParent<IGenericParameterPropertyMember<TGenericParameter>,IIntermediateGenericParameterPropertyMember<TGenericParameter,TIntermediateGenericParameter>,TGenericParameter,TIntermediateGenericParameter> Members
 
-        IIntermediatePropertySignatureMemberDictionary<IGenericParameterPropertyMember<TGenericParameter>, IIntermediateGenericParameterPropertyMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter> IIntermediatePropertySignatureParentType<IGenericParameterPropertyMember<TGenericParameter>, IIntermediateGenericParameterPropertyMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>.Properties
+        IIntermediatePropertySignatureMemberDictionary<IGenericParameterPropertyMember<TGenericParameter>, IIntermediateGenericParameterPropertyMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter> IIntermediatePropertySignatureParent<IGenericParameterPropertyMember<TGenericParameter>, IIntermediateGenericParameterPropertyMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>.Properties
         {
             get { return this.Properties; }
         }
 
         #endregion
 
-        #region IIntermediatePropertySignatureParentType Members
+        #region IIntermediatePropertySignatureParent Members
 
-        IIntermediatePropertySignatureMemberDictionary IIntermediatePropertySignatureParentType.Properties
+        IIntermediatePropertySignatureMemberDictionary IIntermediatePropertySignatureParent.Properties
         {
             get { return this.Properties; }
         }
 
         #endregion
 
-        #region IPropertySignatureParentType Members
+        #region IPropertySignatureParent Members
 
-        IPropertySignatureMemberDictionary IPropertySignatureParentType.Properties
+        IPropertySignatureMemberDictionary IPropertySignatureParent.Properties
         {
             get { return this.Properties; }
         }
 
         #endregion
 
-        #region IPropertySignatureParentType<IGenericParameterPropertyMember<TGenericParameter>,TGenericParameter> Members
+        #region IPropertySignatureParent<IGenericParameterPropertyMember<TGenericParameter>,TGenericParameter> Members
 
-        IPropertySignatureMemberDictionary<IGenericParameterPropertyMember<TGenericParameter>, TGenericParameter> IPropertySignatureParentType<IGenericParameterPropertyMember<TGenericParameter>, TGenericParameter>.Properties
+        IPropertySignatureMemberDictionary<IGenericParameterPropertyMember<TGenericParameter>, TGenericParameter> IPropertySignatureParent<IGenericParameterPropertyMember<TGenericParameter>, TGenericParameter>.Properties
         {
             get { return this.Properties; }
         }

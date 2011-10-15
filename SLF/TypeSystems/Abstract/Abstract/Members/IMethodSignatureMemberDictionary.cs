@@ -22,14 +22,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <typeparam name="TSignatureParent">The type of signature parent which contains the 
     /// <typeparamref name="TSignature"/> instances in the current implementation.</typeparam>
     public interface IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent> :
-        ISignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent>,
-        IMemberDictionary<TSignatureParent, TSignature>
+        ISignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>,
+        IMemberDictionary<TSignatureParent, IGeneralGenericSignatureMemberUniqueIdentifier, TSignature>
         where TSignatureParameter :
             IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
         where TSignature :
             IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
         where TSignatureParent :
-            ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
     {
         /// <summary>
         /// Searches for <typeparamref name="TSignature"/> instances that match the <paramref name="search"/> criteria.
@@ -38,20 +38,20 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <param name="strict">Whether to adhere to the <paramref name="search"/> criteria
         /// strictly.</param>
         /// <param name="search">The <see cref="ITypeCollection"/> that designates the signature to look for.</param>
-        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignature, TSignatureParameter, TSignatureParent}"/> of 
+        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> of 
         /// <typeparamref name="TSignature"/> instances that matched the <paramref name="search"/> criteria.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
-        IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, bool strict, ITypeCollection search);
+        IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, bool strict, ITypeCollection search);
         /// <summary>
         /// Searches for <typeparamref name="TSignature"/> instances that match the <paramref name="search"/> criteria.
         /// </summary>
         /// <param name="name">The root name of the items to include in the result.</param>
         /// <param name="search">The <see cref="ITypeCollection"/> that designates the signature to look for.</param>
-        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignature, TSignatureParameter, TSignatureParent}"/> of 
+        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> of 
         /// <typeparamref name="TSignature"/> instances that matched the <paramref name="search"/> criteria.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
         /// <remarks>Alias for <see cref="Find(string, ITypeCollection)"/> where strict is true.</remarks>
-        IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection search);
+        IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection search);
         /// <summary>
         /// Searches for <typeparamref name="TSignature"/> instances that match the <paramref name="search"/> criteria.
         /// </summary>
@@ -59,20 +59,20 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <param name="strict">Whether to adhere to the <paramref name="search"/> criteria
         /// strictly.</param>
         /// <param name="search">The <see cref="IType"/> array that designates the signature to look for.</param>
-        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignature, TSignatureParameter, TSignatureParent}"/> of 
+        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> of 
         /// <typeparamref name="TSignature"/> instances that matched the <paramref name="search"/> criteria.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
-        IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, bool strict, params IType[] search);
+        IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, bool strict, params IType[] search);
         /// <summary>
         /// Searches for <typeparamref name="TSignature"/> instances that match the <paramref name="search"/> criteria.
         /// </summary>
         /// <param name="name">The root name of the items to include in the result.</param>
         /// <param name="search">The <see cref="IType"/> array that designates the signature to look for.</param>
-        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignature, TSignatureParameter, TSignatureParent}"/> of 
+        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> of 
         /// <typeparamref name="TSignature"/> instances that matched the <paramref name="search"/> criteria.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
         /// <remarks>Alias for <see cref="Find(string, IType[])"/> where strict is true.</remarks>
-        IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, params IType[] search);
+        IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, params IType[] search);
 
 
         /// <summary>
@@ -84,10 +84,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <param name="strict">Whether to adhere to the <paramref name="search"/> criteria
         /// strictly.</param>
         /// <param name="search">The <see cref="ITypeCollection"/> that designates the signature to look for.</param>
-        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignature, TSignatureParameter, TSignatureParent}"/> of 
+        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> of 
         /// <typeparamref name="TSignature"/> instances that matched the <paramref name="search"/> criteria.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
-        IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, ITypeCollection search);
+        IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, ITypeCollection search);
         /// <summary>
         /// Searches for <typeparamref name="TSignature"/> instances that match the <paramref name="search"/> criteria.
         /// </summary>
@@ -95,11 +95,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <param name="genericParameters">The number of generic parameters the <typeparamref name="TSignature"/> instances
         /// contain.</param>
         /// <param name="search">The <see cref="ITypeCollection"/> that designates the signature to look for.</param>
-        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignature, TSignatureParameter, TSignatureParent}"/> of 
+        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> of 
         /// <typeparamref name="TSignature"/> instances that matched the <paramref name="search"/> criteria.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
         /// <remarks>Alias for <see cref="Find(string, ITypeCollection)"/> where strict is true.</remarks>
-        IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, ITypeCollection search);
+        IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, ITypeCollection search);
         /// <summary>
         /// Searches for <typeparamref name="TSignature"/> instances that match the <paramref name="search"/> criteria.
         /// </summary>
@@ -109,10 +109,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <param name="strict">Whether to adhere to the <paramref name="search"/> criteria
         /// strictly.</param>
         /// <param name="search">The <see cref="IType"/> array that designates the signature to look for.</param>
-        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignature, TSignatureParameter, TSignatureParent}"/> of 
+        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> of 
         /// <typeparamref name="TSignature"/> instances that matched the <paramref name="search"/> criteria.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
-        IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, params IType[] search);
+        IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, params IType[] search);
         /// <summary>
         /// Searches for <typeparamref name="TSignature"/> instances that match the <paramref name="search"/> criteria.
         /// </summary>
@@ -120,11 +120,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <param name="genericParameters">The number of generic parameters the <typeparamref name="TSignature"/> instances
         /// contain.</param>
         /// <param name="search">The <see cref="IType"/> array that designates the signature to look for.</param>
-        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignature, TSignatureParameter, TSignatureParent}"/> of 
+        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> of 
         /// <typeparamref name="TSignature"/> instances that matched the <paramref name="search"/> criteria.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
         /// <remarks>Alias for <see cref="Find(string, IType[])"/> where strict is true.</remarks>
-        IFilteredSignatureMemberDictionary<TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, params IType[] search);
+        IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, params IType[] search);
 
     }
 
@@ -136,7 +136,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <typeparam name="TSignatureParent">The type of signature parent in the current implementation.</typeparam>
     public interface IMethodSignatureMemberDictionary<TSignature, TSignatureParent> :
         IMethodSignatureMemberDictionary<IMethodSignatureParameterMember<TSignature, TSignatureParent>, TSignature, TSignatureParent>,
-        IGroupedMemberDictionary<TSignatureParent, TSignature>
+        IGroupedMemberDictionary<TSignatureParent, IGeneralGenericSignatureMemberUniqueIdentifier, TSignature>
         where TSignature :
             IMethodSignatureMember<TSignature, TSignatureParent>
         where TSignatureParent :

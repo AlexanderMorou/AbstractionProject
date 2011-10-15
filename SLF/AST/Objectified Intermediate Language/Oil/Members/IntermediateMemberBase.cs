@@ -12,9 +12,11 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
-    public abstract class IntermediateMemberBase<TParent, TIntermediateParent> :
+    public abstract class IntermediateMemberBase<TIdentifier, TParent, TIntermediateParent> :
         IntermediateDeclarationBase,
-        IIntermediateMember<TParent, TIntermediateParent>
+        IIntermediateMember<TIdentifier, TParent, TIntermediateParent>
+        where TIdentifier :
+            IMemberUniqueIdentifier<TIdentifier>
         where TParent :
             IMemberParent
         where TIntermediateParent :
@@ -27,11 +29,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         private TIntermediateParent parent;
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateMemberBase{TParent, TIntermediateParent}"/>
+        /// Creates a new <see cref="IntermediateMemberBase{TIdentifier, TParent, TIntermediateParent}"/>
         /// with the <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateParent"/> which
-        /// contains the <see cref="IntermediateMemberBase{TParent, TIntermediateParent}"/></param>
+        /// contains the <see cref="IntermediateMemberBase{TIdentifier, TParent, TIntermediateParent}"/></param>
         public IntermediateMemberBase(TIntermediateParent parent)
             : base()
         {
@@ -39,13 +41,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateMemberBase{TParent, TIntermediateParent}"/>
+        /// Creates a new <see cref="IntermediateMemberBase{TIdentifier, TParent, TIntermediateParent}"/>
         /// with the <paramref name="name"/> and <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="name">The <see cref="String"/> representing the unique identifier of the 
-        /// <see cref="IntermediateMemberBase{TParent, TIntermediateParent}"/>.</param>
+        /// <see cref="IntermediateMemberBase{TIdentifier, TParent, TIntermediateParent}"/>.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateParent"/> which
-        /// contains the <see cref="IntermediateMemberBase{TParent, TIntermediateParent}"/></param>
+        /// contains the <see cref="IntermediateMemberBase{TIdentifier, TParent, TIntermediateParent}"/></param>
         public IntermediateMemberBase(string name, TIntermediateParent parent)
             : base()
         {
@@ -57,7 +59,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         /// <summary>
         /// Returns the parent of the 
-        /// <see cref="IntermediateMemberBase{TParent, TIntermediateParent}"/>.
+        /// <see cref="IntermediateMemberBase{TIdentifier, TParent, TIntermediateParent}"/>.
         /// </summary>
         public TIntermediateParent Parent
         {
@@ -124,7 +126,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         #endregion
 
         /// <summary>
-        /// Disposes the <see cref="IntermediateMemberBase{TParent, TIntermediateParent}"/>
+        /// Disposes the <see cref="IntermediateMemberBase{TIdentifier, TParent, TIntermediateParent}"/>
         /// </summary>
         /// <param name="disposing">whether to dispose the managed 
         /// resources as well as the unmanaged resources.</param>

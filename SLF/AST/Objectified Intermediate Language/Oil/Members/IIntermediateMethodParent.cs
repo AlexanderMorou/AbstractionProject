@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateParent">The type of the parent that contains the <see cref="IIntermediateMethodMember{TMethod, TIntermediateMethod, TParent, TIntermediateParent}"/>.</typeparam>
     public interface IIntermediateMethodParent<TMethod, TIntermediateMethod, TParent, TIntermediateParent> :
-        IIntermediateSignatureParent<TMethod, TIntermediateMethod, IMethodParameterMember<TMethod, TParent>, IIntermediateMethodParameterMember<TMethod, TIntermediateMethod, TParent, TIntermediateParent>, TParent, TIntermediateParent>,
+        IIntermediateSignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TMethod, TIntermediateMethod, IMethodParameterMember<TMethod, TParent>, IIntermediateMethodParameterMember<TMethod, TIntermediateMethod, TParent, TIntermediateParent>, TParent, TIntermediateParent>,
         IIntermediateMethodParent,
         IMethodParent<TMethod, TParent>
         where TMethod :
