@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// intermediate assemblies.
     /// </summary>
     public interface IIntermediateAssemblySet :
-        IIntermediateDeclarationDictionary<IAssembly, IIntermediateAssembly>
+        IIntermediateDeclarationDictionary<IAssemblyUniqueIdentifier, IAssembly, IIntermediateAssembly>
     {
         /// <summary>
         /// Adds a <typeparamref name="TAssembly"/> instance

@@ -72,13 +72,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IIntermediatePropertyMethodMember
         where TType :
             class,
-            IGenericType<TType>,
-            IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType>
+            IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, IGeneralGenericTypeUniqueIdentifier, TType>,
+            IGenericType<IGeneralGenericTypeUniqueIdentifier, TType>
         where TIntermediateType :
             class,
-            IIntermediateGenericType<TType, TIntermediateType>,
-            IIntermediateSegmentableType<TType, TIntermediateType>,
-            IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType>,
+            IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>,
+            IIntermediateGenericType<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>,
+            IIntermediateSegmentableType<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>,
             TType
         where TInstanceIntermediateType :
             IntermediateGenericSegmentableInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType>,
@@ -89,8 +89,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// an instantiable type.
         /// </summary>
         public class BinaryOperatorMember :
-            IntermediateCoercionMemberBase<IBinaryOperatorCoercionMember<TType>, IIntermediateBinaryOperatorCoercionMember<TType, TIntermediateType>, TType, TIntermediateType>,
-            IIntermediateBinaryOperatorCoercionMember<TType, TIntermediateType>
+            IntermediateCoercionMemberBase<IBinaryOperatorUniqueIdentifier, IGeneralGenericTypeUniqueIdentifier, IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>, IIntermediateBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>, TType, TIntermediateType>,
+            IIntermediateBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>
         {
             private BinaryOpCoercionContainingSide containingSide;
             private CoercibleBinaryOperators _operator;
@@ -322,8 +322,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Provides a  base implementation of a type coercion member defined within an instantiable type.
         /// </summary>
         public class TypeCoercionMember :
-            IntermediateCoercionMemberBase<ITypeCoercionMember<TType>, IIntermediateTypeCoercionMember<TType, TIntermediateType>, TType, TIntermediateType>,
-            IIntermediateTypeCoercionMember<TType, TIntermediateType>
+            IntermediateCoercionMemberBase<ITypeCoercionUniqueIdentifier, IGeneralGenericTypeUniqueIdentifier, ITypeCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>, IIntermediateTypeCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>, TType, TIntermediateType>,
+            IIntermediateTypeCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>
         {
             private TypeConversionRequirement requirement;
             private TypeConversionDirection direction;
@@ -415,8 +415,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// within an instantiable type.
         /// </summary>
         public sealed class UnaryOperatorMember :
-            IntermediateCoercionMemberBase<IUnaryOperatorCoercionMember<TType>, IIntermediateUnaryOperatorCoercionMember<TType, TIntermediateType>, TType, TIntermediateType>,
-            IIntermediateUnaryOperatorCoercionMember<TType, TIntermediateType>
+            IntermediateCoercionMemberBase<IUnaryOperatorUniqueIdentifier, IGeneralGenericTypeUniqueIdentifier, IUnaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>, IIntermediateUnaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>, TType, TIntermediateType>,
+            IIntermediateUnaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>
         {
             private IType resultedType;
             private CoercibleUnaryOperators _operator;

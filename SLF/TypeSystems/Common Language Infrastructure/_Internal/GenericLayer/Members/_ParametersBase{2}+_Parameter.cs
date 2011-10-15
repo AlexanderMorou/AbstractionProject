@@ -24,9 +24,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
     {
 
         protected internal class _Parameter :
-            _MemberBase<TParameter, TParent>,
+            _MemberBase<IGeneralMemberUniqueIdentifier, TParameter, TParent>,
             IParameterMember<TParent>
         {
+
             internal _Parameter(TParameter original, TParent adjustedParent)
                 : base(original, adjustedParent)
             {
@@ -76,7 +77,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
             #endregion
 
-            public override string UniqueIdentifier
+            public override IGeneralMemberUniqueIdentifier UniqueIdentifier
             {
                 get { return this.Original.UniqueIdentifier; }
             }

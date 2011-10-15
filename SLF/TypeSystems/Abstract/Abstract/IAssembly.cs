@@ -26,6 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Defines properties and methods for working with an assembly.
     /// </summary>
     public interface IAssembly :
+        IDeclaration<IAssemblyUniqueIdentifier>,
         INamespaceParent,
         ICustomAttributedDeclaration,
         IDisposable

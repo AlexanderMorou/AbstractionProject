@@ -38,14 +38,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <remarks>Common interface for full method signature members and 
     /// method members.</remarks>
     public interface IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent> :
-        ISignatureParameterMember<TSignature, TSignatureParameter, TSignatureParent>,
+        ISignatureParameterMember<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>,
         IMethodSignatureParameterMember
         where TSignatureParameter :
             IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
         where TSignature :
             IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
         where TSignatureParent :
-            ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
     {
     }
     /// <summary>

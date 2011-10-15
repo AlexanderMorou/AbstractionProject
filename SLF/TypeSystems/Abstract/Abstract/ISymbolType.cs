@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// a type that is resolved during compilation.
     /// </summary>
     public interface ISymbolType :
-        IGenericType<ISymbolType>
+        IGenericType<IGeneralGenericTypeUniqueIdentifier, ISymbolType>
     {
     }
 }

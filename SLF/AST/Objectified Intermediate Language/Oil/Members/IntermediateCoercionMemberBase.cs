@@ -15,28 +15,32 @@ using AllenCopeland.Abstraction.Slf.Oil.Statements;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
-    public abstract class IntermediateCoercionMemberBase<TCoercion, TIntermediateCoercion, TType, TIntermediateType> :
-        IntermediateMemberBase<TType, TIntermediateType>,
-        IIntermediateCoercionMember<TCoercion, TIntermediateCoercion, TType, TIntermediateType>,
+    public abstract class IntermediateCoercionMemberBase<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent> :
+        IntermediateMemberBase<TCoercionIdentifier, TCoercionParent, TIntermediateCoercionParent>,
+        IIntermediateCoercionMember<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent>,
         ITopBlockStatement
+        where TCoercionIdentifier : 
+            IMemberUniqueIdentifier<TCoercionIdentifier>
+        where TCoercionParentIdentifier :
+            ITypeUniqueIdentifier<TCoercionParentIdentifier>
         where TCoercion :
-            ICoercionMember<TCoercion, TType>
+            ICoercionMember<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent>
         where TIntermediateCoercion :
-            TCoercion,
-            IIntermediateCoercionMember<TCoercion, TIntermediateCoercion, TType, TIntermediateType>
-        where TType :
-            ICoercibleType<TCoercion, TType>
-        where TIntermediateType :
-            TType,
-            IIntermediateCoercibleType<TCoercion, TIntermediateCoercion, TType, TIntermediateType>
+            IIntermediateCoercionMember<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent>,
+            TCoercion
+        where TCoercionParent :
+            ICoercibleType<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent>
+        where TIntermediateCoercionParent :
+            IIntermediateCoercibleType<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent>,
+            TCoercionParent
     {
         /// <summary>
-        /// Creates a new <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/>
+        /// Creates a new <see cref="IntermediateCoercionMemberBase{TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent}"/>
         /// with the <paramref name="parent"/> provided.
         /// </summary>
-        /// <param name="parent">The <typeparamref name="TIntermediateType"/> which contains the 
-        /// <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/>.</param>
-        protected IntermediateCoercionMemberBase(TIntermediateType parent)
+        /// <param name="parent">The <typeparamref name="TIntermediateCoercionParent"/> which contains the 
+        /// <see cref="IntermediateCoercionMemberBase{TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent}"/>.</param>
+        protected IntermediateCoercionMemberBase(TIntermediateCoercionParent parent)
             : base(parent)
         {
         }
@@ -739,7 +743,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 class, 
                 IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
             return this.StatementContainer.AddHandler<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(@event, method);
         }
@@ -1088,9 +1092,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         #region IControlledStateCollection<IStatement> Members
 
         /// <summary>
-        /// Gets the number of elements contained in the <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/>.</summary>
+        /// Gets the number of elements contained in the <see cref="IntermediateCoercionMemberBase{TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent}"/>.</summary>
         /// <returns>
-        /// The number of elements contained in the <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/>.</returns>
+        /// The number of elements contained in the <see cref="IntermediateCoercionMemberBase{TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent}"/>.</returns>
         public int Count
         {
             get
@@ -1105,12 +1109,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         /// <summary>
-        /// Determines whether the <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/> contains a specific 
+        /// Determines whether the <see cref="IntermediateCoercionMemberBase{TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent}"/> contains a specific 
         /// value.</summary>
         /// <param name="item">
-        /// The object to locate in the <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/>.</param>
+        /// The object to locate in the <see cref="IntermediateCoercionMemberBase{TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent}"/>.</param>
         /// <returns>
-        /// true if <paramref name="item"/> is found in the <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/>;
+        /// true if <paramref name="item"/> is found in the <see cref="IntermediateCoercionMemberBase{TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent}"/>;
         /// otherwise, false.
         /// </returns>
         public bool Contains(IStatement item)
@@ -1124,13 +1128,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         /// <summary>
-        /// Copies the elements of the <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/> to an
+        /// Copies the elements of the <see cref="IntermediateCoercionMemberBase{TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent}"/> to an
         /// <see cref="System.Array"/>, starting at a particular <see cref="System.Array"/> 
         /// index.
         /// </summary>
         /// <param name="array">
         /// The one-dimensional <see cref="System.Array"/> that is the destination of the 
-        /// elements copied from <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/>. The 
+        /// elements copied from <see cref="IntermediateCoercionMemberBase{TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent}"/>. The 
         /// <see cref="System.Array"/> must
         /// have zero-based indexing.</param>
         /// <param name="arrayIndex">
@@ -1142,7 +1146,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <exception cref="System.ArgumentException">
         /// <paramref name="array"/> is multidimensional.-or-<paramref name="arrayIndex"/> 
         /// is equal to or greater than the length of <paramref name="array"/>.-or-The 
-        /// number of elements in the source <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/> is greater 
+        /// number of elements in the source <see cref="IntermediateCoercionMemberBase{TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent}"/> is greater 
         /// than the available space from <paramref name="arrayIndex"/> to the 
         /// end of the destination <paramref name="array"/>.</exception>
         public void CopyTo(IStatement[] array, int arrayIndex = 0)
@@ -1163,7 +1167,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <returns>The instance of <see cref="IStatement"/> at the index provided.</returns>
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// <paramref name="index"/> is  beyond the range of the 
-        /// <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/>.
+        /// <see cref="IntermediateCoercionMemberBase{TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent}"/>.
         /// </exception>
         public IStatement this[int index]
         {
@@ -1180,7 +1184,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         /// <summary>
-        /// Translates the <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/> into a flat <see cref="System.Array"/>
+        /// Translates the <see cref="IntermediateCoercionMemberBase{TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent}"/> into a flat <see cref="System.Array"/>
         /// of <see cref="IStatement"/> elements.
         /// </summary>
         /// <returns>A new <see cref="System.Array"/> of <see cref="IStatement"/> instances.</returns>
@@ -1200,9 +1204,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <paramref name="element"/> provided.
         /// </summary>
         /// <param name="element">The <see cref="IStatement"/>
-        /// instance to find within the <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/>.</param>
+        /// instance to find within the <see cref="IntermediateCoercionMemberBase{TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent}"/>.</param>
         /// <returns>-1 if the <paramref name="element"/> was not found within
-        /// the <see cref="IntermediateCoercionMemberBase{TCoercion, TIntermediateCoercion, TType, TIntermediateType}"/>; a positive <see cref="Int32"/>
+        /// the <see cref="IntermediateCoercionMemberBase{TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent}"/>; a positive <see cref="Int32"/>
         /// value indicating the ordinal index of <paramref name="element"/>
         /// otherwise.</returns>
         public int IndexOf(IStatement element)

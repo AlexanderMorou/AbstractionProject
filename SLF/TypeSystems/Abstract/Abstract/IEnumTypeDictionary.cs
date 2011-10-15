@@ -15,8 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// of types.
     /// </summary>
     public interface IEnumTypeDictionary :
-        ISubordinateDictionary<string, IEnumType, IType>,
-        IGroupedDeclarationDictionary<IEnumType>
+        IGroupedTypeDictionary<IGeneralTypeUniqueIdentifier, IEnumType>
     {
         /// <summary>
         /// Returns the <see cref="ITypeParent"/>

@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <typeparam name="TIndexerParent">The type of indexer parent in the abstract
     /// type system.</typeparam>
     public interface IIndexerSignatureParameterMember<TIndexer, TIndexerParent> :
-        ISignatureParameterMember<TIndexer, IIndexerSignatureParameterMember<TIndexer, TIndexerParent>, TIndexerParent>
+        ISignatureParameterMember<IGeneralSignatureMemberUniqueIdentifier, TIndexer, IIndexerSignatureParameterMember<TIndexer, TIndexerParent>, TIndexerParent>
         where TIndexer :
             IIndexerSignatureMember<TIndexer, TIndexerParent>
         where TIndexerParent :

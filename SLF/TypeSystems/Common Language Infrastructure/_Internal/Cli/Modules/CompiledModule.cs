@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
         /// Data member storing the underlying module.
         /// </summary>
         private Module underlyingModule;
-
+        private IGeneralDeclarationUniqueIdentifier uniqueIdentifier;
         internal CompiledModule(ICompiledAssembly parent, Module underlyingModule)
             : base(parent)
         {
@@ -50,9 +50,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
         {
             return this.UnderlyingModule.ScopeName;
         }
-        public override string UniqueIdentifier
+        public override IGeneralDeclarationUniqueIdentifier UniqueIdentifier
         {
-            get { return this.Name; }
+            get
+            {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Declaration(this.Name);
+                return this.uniqueIdentifier;
+            }
         }
 
         #region ICompiledModule Members

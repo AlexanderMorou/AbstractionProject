@@ -13,16 +13,18 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
     /// <summary>
-    /// Defines properties and methods for working with a <see cref="IIntermediateMember{TParent, TIntermediateParent}"/>
+    /// Defines properties and methods for working with an intermediate member
     /// which belongs to a <typeparamref name="TIntermediateParent"/> instance.
     /// </summary>
     /// <typeparam name="TParent">The type of <see cref="IMemberParent"/> in the abstract
     /// sense.</typeparam>
     /// <typeparam name="TIntermediateParent">The type of <see cref="IIntermediateMemberParent"/> 
     /// in the intermediate sense.</typeparam>
-    public interface IIntermediateMember<TParent, TIntermediateParent> :
+    public interface IIntermediateMember<TIdentifier, TParent, TIntermediateParent> :
         IIntermediateMember,
-        IMember<TParent>
+        IMember<TIdentifier, TParent>
+        where TIdentifier :
+            IMemberUniqueIdentifier<TIdentifier>
         where TParent :
             IMemberParent
         where TIntermediateParent :
@@ -31,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     {
         /// <summary>
         /// Returns the parent of the 
-        /// <see cref="IIntermediateMember{TParent, TIntermediateParent}"/>.
+        /// <see cref="IIntermediateMember{TIdentifier, TParent, TIntermediateParent}"/>.
         /// </summary>
         new TIntermediateParent Parent { get; }
     }

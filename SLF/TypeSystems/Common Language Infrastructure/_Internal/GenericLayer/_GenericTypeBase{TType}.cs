@@ -25,14 +25,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
      * since the generics of the intermediate system are not 
      * malleable like the generic definitions are.
      * */
-    internal abstract class _GenericTypeBase<TType> :
-        TypeBase<TType>,
-        IGenericType<TType>,
+    internal abstract class _GenericTypeBase<TTypeIdentifier, TType> :
+        TypeBase<TTypeIdentifier, TType>,
+        IGenericType<TTypeIdentifier, TType>,
         _IGenericType,
         IMassTargetHandler
+        where TTypeIdentifier :
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>
         where TType :
             class,
-            IGenericType<TType>
+            IGenericType<TTypeIdentifier, TType>
     {
         private bool disposed;
         /// <summary>
@@ -51,11 +53,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         private LockedTypeCollection genericParameters;
 
         /// <summary>
-        /// Creates a new <see cref="_GenericTypeBase{TType}"/> with the
+        /// Creates a new <see cref="_GenericTypeBase{TIdentifier, TType}"/> with the
         /// <paramref name="original"/> provided.
         /// </summary>
         /// <param name="original">The <typeparamref name="TType"/>
-        /// from which the <see cref="_GenericTypeBase{TType}"/> operates.</param>
+        /// from which the <see cref="_GenericTypeBase{TIdentifier, TType}"/> operates.</param>
         public _GenericTypeBase(TType original, ITypeCollectionBase genericParameters)
             : base()
         {
@@ -99,12 +101,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         }
 
         
-        public override IEnumerable<string> AggregateIdentifiers
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get { return this.Original.AggregateIdentifiers; }
         }
 
-        #region IGenericType<TType> Members
+        #region IGenericType<TTypeIdentifier, TType> Members
 
         public TType MakeGenericClosure(ITypeCollectionBase typeParameters)
         {
@@ -118,9 +120,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #endregion
 
-        #region IGenericParamParent<IGenericTypeParameter<TType>,IGenericTypeGenericCtorMember<TType>,IGenericTypeGenericCtorParameterMember<TType>,TType> Members
+        #region IGenericParamParent<IGenericTypeParameter<TTypeIdentifier, TType>,IGenericTypeGenericCtorMember<TType>,IGenericTypeGenericCtorParameterMember<TType>,TType> Members
 
-        public IGenericParameterDictionary<IGenericTypeParameter<TType>, TType> TypeParameters
+        public IGenericParameterDictionary<IGenericTypeParameter<TTypeIdentifier, TType>, TType> TypeParameters
         {
             get { throw new InvalidOperationException(Resources.MakeGenericTypeError_IsGenericTypeDefFalse); }
         }
@@ -439,11 +441,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                     items[i] = items[i + 1];
             
             items[to] = item;
-            var unlockedGenericParams = ((LockedTypeCollection)this.genericParameters);
-
-            unlockedGenericParams._Clear();
-            unlockedGenericParams._AddRange(items);
-
+            this.genericParameters = new LockedTypeCollection(items);
         }
 
         #endregion

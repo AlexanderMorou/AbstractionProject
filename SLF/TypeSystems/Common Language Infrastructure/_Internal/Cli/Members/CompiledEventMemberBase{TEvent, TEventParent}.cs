@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
+using AllenCopeland.Abstraction.Slf._Internal.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
     /// <typeparam name="TEventParent">The type of 
     /// <see cref="IEventParent{TEvent, TEventParent}"/>
     /// used in the current implementation.</typeparam>
-    internal abstract partial class CompiledEventMemberBase<TMethod, TEvent, TEventParent> :
+    internal abstract partial class CompiledEventMemberBase<TMethod, TEvent, TEventParentIdentifier, TEventParent> :
         EventMemberBase<TEvent, TEventParent>,
         ICompiledEventMember
         where TMethod :
@@ -256,7 +256,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override IParameterMemberDictionary<TEvent, IEventParameterMember<TEvent, TEventParent>> InitializeParameters()
         {
-            var delegateType = this.memberInfo.EventHandlerType.GetTypeReference<IDelegateType>();
+            var delegateType = this.memberInfo.EventHandlerType.GetTypeReference<IDelegateUniqueIdentifier, IDelegateType>();
             return new ParameterMemberDictionary(this, from delegateParameter in delegateType.Parameters.Values
                                                        select new ParameterMember(delegateParameter, this));
         }
@@ -283,12 +283,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override IDelegateType SignatureTypeImpl
         {
-            get { return this.memberInfo.EventHandlerType.GetTypeReference<IDelegateType>(); }
+            get { return this.memberInfo.EventHandlerType.GetTypeReference<IDelegateUniqueIdentifier, IDelegateType>(); }
         }
 
         public override IType ReturnType
         {
             get { return this.SignatureTypeImpl.ReturnType; }
+        }
+
+        public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier
+        {
+            get { return this.memberInfo.GetUniqueIdentifier(); }
         }
     }
 }

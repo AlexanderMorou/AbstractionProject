@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 {
     [DebuggerDisplay("Interfaces: {Count}")]
     public class IntermediateInterfaceTypeDictionary :
-        IntermediateGenericTypeDictionary<IInterfaceType, IIntermediateInterfaceType>,
+        IntermediateGenericTypeDictionary<IGeneralGenericTypeUniqueIdentifier, IInterfaceType, IIntermediateInterfaceType>,
         IIntermediateInterfaceTypeDictionary
     {
         public IntermediateInterfaceTypeDictionary(IIntermediateTypeParent parent, IntermediateFullTypeDictionary master)

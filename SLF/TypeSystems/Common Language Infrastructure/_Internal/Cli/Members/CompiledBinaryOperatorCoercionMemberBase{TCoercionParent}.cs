@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -20,26 +19,29 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    internal class CompiledBinaryOperatorCoercionMemberBase<TCoercionParent> :
-        BinaryOperatorCoercionMemberBase<TCoercionParent>,
+    internal class CompiledBinaryOperatorCoercionMemberBase<TCoercionParentIdentifier, TCoercionParent> :
+        BinaryOperatorCoercionMemberBase<TCoercionParentIdentifier, TCoercionParent>,
         ICompiledBinaryOperatorCoercionMember
+        where TCoercionParentIdentifier :
+            ITypeUniqueIdentifier<TCoercionParentIdentifier>
         where TCoercionParent :
-            ICoercibleType<IBinaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>
+            ICoercibleType<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
     {
+        private IBinaryOperatorUniqueIdentifier uniqueIdentifier;
         private MethodInfo memberInfo;
         private IType returnType = null;
         /// <summary>
-        /// Data member for <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}.ContainingSide"/>
+        /// Data member for <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}.ContainingSide"/>
         /// </summary>
         private BinaryOpCoercionContainingSide containingSide;
 
         /// <summary>
-        /// Data member for <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}.Operator"/>
+        /// Data member for <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}.Operator"/>
         /// </summary>
         private CoercibleBinaryOperators _operator;
 
         /// <summary>
-        /// Data member for <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}.OtherSide"/>.
+        /// Data member for <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}.OtherSide"/>.
         /// </summary>
         private IType otherSide = null;
         /// <summary>
@@ -57,7 +59,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         /// <summary>
         /// Returns the <see cref="System.Reflection.MethodInfo"/> associated to the 
-        /// <see cref="CompiledBinaryOperatorCoercionMemberBase{TCoercionParent}"/>.
+        /// <see cref="CompiledBinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>.
         /// </summary>
         public MethodInfo MemberInfo
         {
@@ -66,7 +68,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         /// <summary>
         /// Obtains the <see cref="IType"/> that the 
-        /// <see cref="CompiledBinaryOperatorCoercionMemberBase{TCoercionParent}"/>
+        /// <see cref="CompiledBinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>
         /// yields upon return.
         /// </summary>
         protected override IType OnGetReturnType()
@@ -85,6 +87,52 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
+        /// <summary>
+        /// Obtains the <see cref="DeclarationBase.Name"/> for the <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>.
+        /// </summary>
+        /// <returns>A <see cref="System.String"/> that contains 
+        /// the name of the 
+        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>.</returns>
+        protected override sealed string OnGetName()
+        {
+            switch (this.Operator)
+            {
+                case CoercibleBinaryOperators.Add:
+                    return CLICommon.BinaryOperatorNames.Addition;
+                case CoercibleBinaryOperators.Subtract:
+                    return CLICommon.BinaryOperatorNames.Subtraction;
+                case CoercibleBinaryOperators.Multiply:
+                    return CLICommon.BinaryOperatorNames.Multiply;
+                case CoercibleBinaryOperators.Divide:
+                    return CLICommon.BinaryOperatorNames.Division;
+                case CoercibleBinaryOperators.Modulus:
+                    return CLICommon.BinaryOperatorNames.Modulus;
+                case CoercibleBinaryOperators.BitwiseAnd:
+                    return CLICommon.BinaryOperatorNames.BitwiseAnd;
+                case CoercibleBinaryOperators.BitwiseOr:
+                    return CLICommon.BinaryOperatorNames.BitwiseOr;
+                case CoercibleBinaryOperators.ExclusiveOr:
+                    return CLICommon.BinaryOperatorNames.ExclusiveOr;
+                case CoercibleBinaryOperators.LeftShift:
+                    return CLICommon.BinaryOperatorNames.LeftShift;
+                case CoercibleBinaryOperators.RightShift:
+                    return CLICommon.BinaryOperatorNames.RightShift;
+                case CoercibleBinaryOperators.IsEqualTo:
+                    return CLICommon.BinaryOperatorNames.Equality;
+                case CoercibleBinaryOperators.IsNotEqualTo:
+                    return CLICommon.BinaryOperatorNames.Inequality;
+                case CoercibleBinaryOperators.LessThan:
+                    return CLICommon.BinaryOperatorNames.LessThan;
+                case CoercibleBinaryOperators.GreaterThan:
+                    return CLICommon.BinaryOperatorNames.GreaterThan;
+                case CoercibleBinaryOperators.LessThanOrEqualTo:
+                    return CLICommon.BinaryOperatorNames.LessThanOrEqual;
+                case CoercibleBinaryOperators.GreaterThanOrEqualTo:
+                    return CLICommon.BinaryOperatorNames.GreaterThanOrEqual;
+                default:
+                    return null;
+            }
+        }
         /* *
          * Obtains the pertinent information for the binary operation coercion member. 
          * */
@@ -171,7 +219,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <summary>
         /// Obtains the <see cref="BinaryOpCoercionContainingSide"/> which
         /// denotes which side the type that contains the
-        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}"/>
+        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>
         /// is on.
         /// </summary>
         /// <returns>A <see cref="BinaryOpCoercionContainingSide"/> value
@@ -186,11 +234,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         /// <summary>
         /// Obtains the <see cref="CoercibleBinaryOperators"/> which
-        /// is overridden by the <see cref="CompiledBinaryOperatorCoercionMemberBase{TCoercionParent}"/>.
+        /// is overridden by the <see cref="CompiledBinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>.
         /// </summary>
         /// <returns>A <see cref="CoercibleBinaryOperators"/> value
         /// indicating which binary operator is coerced by the 
-        /// <see cref="CompiledBinaryOperatorCoercionMemberBase{TCoercionParent}"/>.</returns>
+        /// <see cref="CompiledBinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>.</returns>
         protected override CoercibleBinaryOperators OnGetOperator()
         {
             if (!this.obtainedData)
@@ -201,13 +249,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <summary>
         /// Obtains the alternate side's <see cref="IType"/> which
         /// is the <see cref="MemberBase{TParent}.Parent"/> if
-        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}.ContainingSide"/> is 
+        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}.ContainingSide"/> is 
         /// <see cref="BinaryOpCoercionContainingSide.Both"/>
         /// </summary>
         /// <returns>An <see cref="IType"/> which
         /// relates to the alternate side's <see cref="IType"/> which
         /// is the <see cref="MemberBase{TParent}.Parent"/> if
-        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}.ContainingSide"/> is 
+        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}.ContainingSide"/> is 
         /// <see cref="BinaryOpCoercionContainingSide.Both"/></returns>
         protected override IType OnGetOtherSide()
         {
@@ -218,41 +266,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         /// <summary>
         /// Obtains the access level of the current 
-        /// <see cref="CompiledBinaryOperatorCoercionMemberBase{TCoercionParent}"/>.
+        /// <see cref="CompiledBinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>.
         /// </summary>
         /// <returns>A <see cref="AccessLevelModifiers"/> value representing
         /// the accessibility of the current 
-        /// <see cref="CompiledBinaryOperatorCoercionMemberBase{TCoercionParent}"/>.</returns>
+        /// <see cref="CompiledBinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>.</returns>
         protected override AccessLevelModifiers OnGetAccessLevel()
         {
             return this.MemberInfo.GetAccessModifiers();
         }
 
-        public override string UniqueIdentifier
+        public override IBinaryOperatorUniqueIdentifier UniqueIdentifier
         {
-            get {
-                StringBuilder sb = new StringBuilder();
-                switch (this.ContainingSide)
+            get
+            {
+                if (this.uniqueIdentifier == null)
                 {
-                    case BinaryOpCoercionContainingSide.LeftSide:
-                        sb.Append(this.Parent.Name);
-                        sb.Append(this.Name);
-                        sb.Append(this.OtherSide.Name);
-                        break;
-                    case BinaryOpCoercionContainingSide.RightSide:
-                        sb.Append(this.OtherSide.Name);
-                        sb.Append(this.Name);
-                        sb.Append(this.Parent.Name);
-                        break;
-                    case BinaryOpCoercionContainingSide.Both:
-                        sb.Append(this.Parent.Name);
-                        sb.Append(this.Name);
-                        sb.Append(this.Parent.Name);
-                        break;
-                    default:
-                        return null;
+                    if (!this.obtainedData)
+                        this.GetData();
+                    this.uniqueIdentifier = AstIdentifier.BinaryOperator(this._operator, this.containingSide, this.otherSide);
                 }
-                return sb.ToString();
+                return this.uniqueIdentifier;
             }
         }
     }

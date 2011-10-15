@@ -35,14 +35,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <typeparam name="TSignatureParent">The parent that contains the <typeparamref name="TSignature"/> 
     /// instances.</typeparam>
     public interface IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent> :
-        ISignatureMember<TSignature, TSignatureParameter, TSignatureParent>,
+        ISignatureMember<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>,
         IMethodSignatureMember
         where TSignatureParameter :
             IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
         where TSignature :
             IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
         where TSignatureParent :
-            ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
     {
         /// <summary>
         /// Obtains a variant of the current 

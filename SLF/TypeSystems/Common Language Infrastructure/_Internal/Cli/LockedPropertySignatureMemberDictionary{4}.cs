@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -16,14 +16,14 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal class LockedPropertySignatureMemberDictionary<TProperty, TPropertyParent> :
-        LockedGroupedMembersBase<TPropertyParent, TProperty, PropertyInfo>,
+        LockedGroupedMembersBase<TPropertyParent, IGeneralMemberUniqueIdentifier, TProperty, PropertyInfo>,
         IPropertySignatureMemberDictionary<TProperty, TPropertyParent>,
         IPropertySignatureMemberDictionary
         where TProperty :
             class,
             IPropertySignatureMember<TProperty, TPropertyParent>
         where TPropertyParent :
-            IPropertySignatureParentType<TProperty, TPropertyParent>
+            IPropertySignatureParent<TProperty, TPropertyParent>
     {
         internal LockedPropertySignatureMemberDictionary(LockedFullMembersBase master, TPropertyParent parent, PropertyInfo[] properties, Func<PropertyInfo, TProperty> fetchImpl)
             : base(master, parent, properties, fetchImpl, GetName)
@@ -35,9 +35,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return property.Name;
         }
 
-        protected override string FetchKey(PropertyInfo item)
+        protected override IGeneralMemberUniqueIdentifier FetchKey(PropertyInfo item)
         {
-            return item.GetUniqueIdentifier();
+            return AstIdentifier.Member(item.Name);
         }
 
     }

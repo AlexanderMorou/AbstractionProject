@@ -88,24 +88,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IEventParent<TEvent,TParent>,
             IIndexerParent<TIndexer, TParent>,
             IMethodParent<TMethod, TParent>,
-            IPropertyParentType<TProperty, TParent>
+            IPropertyParent<TProperty, TParent>
         where TParentSig :
             IEventSignatureParent<TEventSig, TParentSig>,
             IIndexerSignatureParent<TIndexerSig, TParentSig>,
             IMethodSignatureParent<TMethodSig, TParentSig>,
-            IPropertySignatureParentType<TPropertySig, TParentSig>
+            IPropertySignatureParent<TPropertySig, TParentSig>
         where TIntermediateParent :
             TParent,
             IIntermediateEventParent<TEvent, TIntermediateEvent, TParent, TIntermediateParent>,
             IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TParent, TIntermediateParent>,
             IIntermediateMethodParent<TMethod, TIntermediateMethod, TParent, TIntermediateParent>,
-            IIntermediatePropertyParentType<TProperty, TIntermediateProperty, TParent, TIntermediateParent>
+            IIntermediatePropertyParent<TProperty, TIntermediateProperty, TParent, TIntermediateParent>
         where TIntermediateParentSig :
             TParentSig,
             IIntermediateEventSignatureParent<TEventSig, TIntermediateEventSig, TParentSig, TIntermediateParentSig>,
             IIntermediateIndexerSignatureParent<TIndexerSig, TIntermediateIndexerSig, TParentSig, TIntermediateParentSig>,
             IIntermediateMethodSignatureParent<TMethodSig, TIntermediateMethodSig, TParentSig, TIntermediateParentSig>,
-            IIntermediatePropertySignatureParentType<TPropertySig, TIntermediatePropertySig, TParentSig, TIntermediateParentSig>
+            IIntermediatePropertySignatureParent<TPropertySig, TIntermediatePropertySig, TParentSig, TIntermediateParentSig>
     {
         /// <summary>
         /// Returns the list of implemented properties with

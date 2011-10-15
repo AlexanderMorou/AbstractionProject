@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         where TSignature :
             IMethodSignatureMember<TSignatureParameter, TSignature, TParent>
         where TParent :
-            ISignatureParent<TSignature, TSignatureParameter, TParent>
+            ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TParent>
     {
         /// <summary>
         /// Returns the <see cref="IMethodReferenceStub{TSignatureParameter, TSignature, TParent}"/>
@@ -50,13 +50,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         IFusionCommaTargetExpression
         /* ILinkableExpression*/
     {
-        /*
-        /// <summary>
-        /// Returns the member associated to the 
-        /// <see cref="IMemberReferenceExpression"/>.
-        /// </summary>
-        IMethodSignatureMember AssociatedMember { get; }
-         */
         /// <summary>
         /// Returns the <see cref="IMethodReferenceStub"/>
         /// associated to the <see cref="IMethodPointerReferenceExpression"/>.

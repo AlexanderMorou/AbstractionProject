@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TIntermediateFieldParent">The type which owns the fields
     /// in the intermediate abstract syntax tree.</typeparam>
     public interface IIntermediateFieldMember<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent> :
-        IIntermediateMember<TFieldParent, TIntermediateFieldParent>,
+        IIntermediateMember<IGeneralMemberUniqueIdentifier, TFieldParent, TIntermediateFieldParent>,
         IIntermediateFieldMember,
         IFieldMember<TField, TFieldParent>
         where TField :

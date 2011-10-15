@@ -41,10 +41,13 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
         }
     }
 
-    internal class DerivedDefinitionTest<T2> :
+    internal class DerivedDefinitionTest<T2, T3> :
         BaseDefinitionTest<T2>
         where T2 :
-            IEnumerable<BaseDefinitionTest<T2>>
+            IEnumerable<DerivedDefinitionTest<T2, T3>>,
+            new()
+        where T3 :
+            Dictionary<string, DerivedDefinitionTest<T2, T3>>
     {
         public override void Test<T3>(T2 t2, T3 t3)
         {
@@ -52,7 +55,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             base.Test<T3>(t2, t3);
         }
     }
-    internal class Program
+    internal static class Program
     {
         private static void Main()
         {
@@ -88,18 +91,18 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 
         private static void UnitTestForCompiledGenericConstraints()
         {
-            var targetType = typeof(BaseDefinitionTest<>);
-            var targetTypeRef = targetType.GetTypeReference<IClassType>();
+            var targetType = typeof(ISignatureMember<,,>);
+            var targetTypeRef = targetType.GetTypeReference<IInterfaceType>();
             var targetTypeGenericParameters =
                     (from genericParameter in targetType.GetGenericArguments()
                      select new { Parameter = genericParameter, UnderlyingType = genericParameter, ParameterConstraints = genericParameter.GetGenericParameterConstraints(), Constructors = genericParameter.GetConstructors() }).ToArray();
             var targetTypeRefGenericParameters =
                     (from genericParameter in targetTypeRef.TypeParameters.Values
-                     let compiledParameter = genericParameter as ICompiledGenericTypeParameter<IClassType>
+                     let compiledParameter = genericParameter as ICompiledGenericTypeParameter<IInterfaceType>
                      where compiledParameter != null
                      select new { Parameter = genericParameter, UnderlyingType = compiledParameter.UnderlyingSystemType, ParameterConstraints = genericParameter.Constraints.ToArray(), Constructors = genericParameter.Constructors.Values.ToArray() }).ToArray();
             Console.WriteLine("{0},{1}", targetTypeGenericParameters, targetTypeRefGenericParameters);
-            Console.WriteLine(targetTypeRefGenericParameters[0].Constructors[0].UniqueIdentifier);
+            Console.WriteLine(targetTypeRefGenericParameters[1].Parameter.BaseType);
         }
 
         private static void CheckDisambiguation()
@@ -256,7 +259,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             sw.Restart();
             for (int i = 0; i < testCount; i++)
             {
-                var ag = Tweaks.MergeArrays(ds);
+                var ag = ArrayExtensions.MergeArrays(ds);
                 ag.ToString();
             }
             sw.Stop();

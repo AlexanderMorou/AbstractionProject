@@ -20,7 +20,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
     internal abstract class CompiledGenericParameterMemberBase<TGenericParameter, TParent> :
-        CompiledTypeBase<TGenericParameter>,
+        CompiledTypeBase<IGenericParameterUniqueIdentifier, TGenericParameter>,
         IGenericParameter<TGenericParameter, TParent>,
         ICompiledGenericParameter
         where TGenericParameter :
@@ -116,7 +116,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /*
         /// <summary>
         /// Returns the unique identifier for the current <see cref="CompiledGenericTypeParameter{TType}"/> where 
-        /// <see cref="TypeBase{TType}.Name"/> is not enough to distinguish between two <see cref="IDeclaration"/> entities.
+        /// <see cref="TypeBase{TIdentifier, TType}.Name"/> is not enough to distinguish between two <see cref="IDeclaration"/> entities.
         /// </summary>
         public string UniqueIdentifier
         {
@@ -168,7 +168,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                     this._constraints[i] = DisambiguateConstraint(this._constraints[i], this.Parent, this.Parent.GenericParameters);
             }
         }
-
+        protected override IType BaseTypeImpl
+        {
+            get
+            {
+                var baseType = base.BaseTypeImpl;
+                if (NeedsDisambiguated(baseType, this.Parent))
+                    baseType = DisambiguateConstraint(baseType, this.Parent, this.Parent.GenericParameters);
+                return baseType;
+            }
+        }
         private static bool NeedsDisambiguated(IType constraint, TParent parent)
         {
             switch (constraint.ElementClassification)
@@ -215,7 +224,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                         return constraint;
                     return ((IGenericType)genericType.ElementType).MakeGenericClosure(
                         (from genericParameter in genericType.GenericParameters
-                         select DisambiguateConstraint(genericParameter, parent, genericParameters)).ToArray());
+                         let needsDisambiguated = NeedsDisambiguated(genericParameter, parent)
+                         select needsDisambiguated ? DisambiguateConstraint(genericParameter, parent, genericParameters) : genericParameter).ToArray());
                 default:
                     return constraint;
             }
@@ -429,7 +439,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         IEventSignatureMemberDictionary<IGenericParameterEventMember<TGenericParameter>, IEventSignatureParameterMember<IGenericParameterEventMember<TGenericParameter>, TGenericParameter>, TGenericParameter> IEventSignatureParent<IGenericParameterEventMember<TGenericParameter>, IEventSignatureParameterMember<IGenericParameterEventMember<TGenericParameter>, TGenericParameter>, TGenericParameter>.Events
         {
-            get { return this.Events; ; }
+            get { return this.Events; }
         }
 
         #endregion
@@ -461,18 +471,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
-        #region IPropertySignatureParentType<IGenericParameterPropertyMember<TGenericParameter,TGenericParameterConstructor,TGenericParameterConstructorParameter>,TGenericParameter> Members
+        #region IPropertySignatureParent<IGenericParameterPropertyMember<TGenericParameter,TGenericParameterConstructor,TGenericParameterConstructorParameter>,TGenericParameter> Members
 
-        IPropertySignatureMemberDictionary<IGenericParameterPropertyMember<TGenericParameter>, TGenericParameter> IPropertySignatureParentType<IGenericParameterPropertyMember<TGenericParameter>, TGenericParameter>.Properties
+        IPropertySignatureMemberDictionary<IGenericParameterPropertyMember<TGenericParameter>, TGenericParameter> IPropertySignatureParent<IGenericParameterPropertyMember<TGenericParameter>, TGenericParameter>.Properties
         {
             get { return this.Properties; }
         }
 
         #endregion
 
-        #region IPropertySignatureParentType Members
+        #region IPropertySignatureParent Members
 
-        IPropertySignatureMemberDictionary IPropertySignatureParentType.Properties
+        IPropertySignatureMemberDictionary IPropertySignatureParent.Properties
         {
             get { return ((IPropertySignatureMemberDictionary)(this.Properties)); }
         }
@@ -523,9 +533,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         ////
 
-        #region ICreatableType<IGenericParameterConstructorMember<TGenericParameter>,TGenericParameter> Members
+        #region ICreatableParent<IGenericParameterConstructorMember<TGenericParameter>,TGenericParameter> Members
 
-        IConstructorMemberDictionary<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter> ICreatableType<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter>.Constructors
+        IConstructorMemberDictionary<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter> ICreatableParent<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter>.Constructors
         {
             get { return this.Constructors; }
         }
@@ -537,14 +547,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
-        #region ICreatableType Members
+        #region ICreatableParent Members
 
-        IConstructorMemberDictionary ICreatableType.Constructors
+        IConstructorMemberDictionary ICreatableParent.Constructors
         {
             get { return ((IConstructorMemberDictionary)(this.Constructors)); }
         }
 
-        IConstructorMember ICreatableType.TypeInitializer
+        IConstructorMember ICreatableParent.TypeInitializer
         {
             get { return this.TypeInitializer; }
         }
@@ -560,7 +570,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
-        public override IEnumerable<string> AggregateIdentifiers
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get { throw new NotImplementedException(); }
         }

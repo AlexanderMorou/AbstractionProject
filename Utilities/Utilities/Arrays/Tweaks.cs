@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
     /// <summary>
     /// Provides methods that give small case changes to arrays.
     /// </summary>
-    public static partial class Tweaks
+    public static partial class ArrayExtensions
     {
         public static T[] Add<T>(this T[] target, params T[] elements)
         {
@@ -557,6 +557,45 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                     current[j] = series[min + j];
             }
             return result;
+        }
+
+        /// <summary>
+        /// Determines whether the <paramref name="series"/> contains
+        /// enough space to hold the <paramref name="numberOfNew"/> elements 
+        /// relative to the actual <paramref name="itemCount"/> and the
+        /// array <see cref="Array.Length"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of element
+        /// within the series.</typeparam>
+        /// <param name="series">The series of <typeparamref name="T"/>
+        /// elements to work with.</param>
+        /// <param name="itemCount">The number of items actually contained within
+        /// the <paramref name="series"/>.</param>
+        /// <param name="numberOfNew">The <see cref="Int32"/> value representing
+        /// the number of elements to introduce into the <paramref name="series"/>.</param>
+        /// <returns>An array of <typeparamref name="T"/> elements representing
+        /// the new buffer.</returns>
+        internal static T[] EnsureSpaceExists<T>(this T[] series, int itemCount, int numberOfNew)
+        {
+            if (series == null)
+            {
+                var result = new T[(itemCount + numberOfNew) * 2];
+                return result;
+            }
+            else if (series.Length < itemCount + numberOfNew)
+            {
+                int newLength = series.Length * 2;
+                if (newLength < itemCount + numberOfNew)
+                    /* *
+                     * Ensures the next growth isn't the next item entered.
+                     * */
+                    newLength = (itemCount + numberOfNew) * 2;
+                var copy = new T[newLength];
+                for (int i = 0; i < series.Length; i++)
+                    copy[i] = series[i];
+                return copy;
+            }
+            return series;
         }
 
     }

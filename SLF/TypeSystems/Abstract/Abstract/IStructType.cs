@@ -17,8 +17,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Defines properties and methods for working with a simple data structure.
     /// </summary>
     public interface IStructType :
-        IGenericType<IStructType>,
-        IInstantiableType<IStructCtorMember, IStructEventMember, IStructFieldMember, IStructIndexerMember, IStructMethodMember, IStructPropertyMember, IStructType>
+        IInstantiableType<IStructCtorMember, IStructEventMember, IStructFieldMember, IStructIndexerMember, IStructMethodMember, IStructPropertyMember, IGeneralGenericTypeUniqueIdentifier, IStructType>,
+        IGenericType<IGeneralGenericTypeUniqueIdentifier, IStructType>
     {
         /// <summary>
         /// Obtains a <see cref="IStructInterfaceMapping"/> 

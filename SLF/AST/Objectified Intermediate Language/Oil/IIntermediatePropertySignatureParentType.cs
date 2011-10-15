@@ -25,24 +25,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediatePropertyParent">The type which acts as the parent of the 
     /// properties in the intermediate abstract syntax tree.</typeparam>
-    public interface IIntermediatePropertySignatureParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> :
+    public interface IIntermediatePropertySignatureParent<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> :
         IIntermediateType,
-        IIntermediatePropertySignatureParentType,
-        IPropertySignatureParentType<TProperty, TPropertyParent>
+        IIntermediatePropertySignatureParent,
+        IPropertySignatureParent<TProperty, TPropertyParent>
         where TProperty :
             IPropertySignatureMember<TProperty, TPropertyParent>
         where TIntermediateProperty :
             TProperty,
             IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
         where TPropertyParent :
-            IPropertySignatureParentType<TProperty, TPropertyParent>
+            IPropertySignatureParent<TProperty, TPropertyParent>
         where TIntermediatePropertyParent :
             TPropertyParent,
-            IIntermediatePropertySignatureParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+            IIntermediatePropertySignatureParent<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
     {
         /// <summary>
         /// Returns the <see cref="IIntermediatePropertySignatureMemberDictionary{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/> contained on the 
-        /// current <see cref="IIntermediatePropertySignatureParentType{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/>
+        /// current <see cref="IIntermediatePropertySignatureParent{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent}"/>
         /// </summary>
         new IIntermediatePropertySignatureMemberDictionary<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> Properties { get; }
     }
@@ -50,14 +50,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// Defines properties and methods for working with the parent of a series of
     /// property signatures.
     /// </summary>
-    public interface IIntermediatePropertySignatureParentType :
+    public interface IIntermediatePropertySignatureParent :
         IIntermediateMemberParent,
         IIntermediateType,
-        IPropertySignatureParentType
+        IPropertySignatureParent
     {
         /// <summary>
         /// Returns the <see cref="IIntermediatePropertySignatureMemberDictionary"/> contained on the 
-        /// current <see cref="IIntermediatePropertySignatureParentType"/>
+        /// current <see cref="IIntermediatePropertySignatureParent"/>
         /// </summary>
         new IIntermediatePropertySignatureMemberDictionary Properties { get; }
     }

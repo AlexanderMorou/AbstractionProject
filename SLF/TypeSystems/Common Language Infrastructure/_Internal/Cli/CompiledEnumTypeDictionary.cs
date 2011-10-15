@@ -13,10 +13,10 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal class CompiledEnumTypeDictionary :
-        CompiledTypeDictionary<IEnumType>,
+        CompiledTypeDictionary<IGeneralTypeUniqueIdentifier, IEnumType>,
         IEnumTypeDictionary
     {
-        internal CompiledEnumTypeDictionary(_ICompiledTypeParent parent, MasterDictionaryBase<string, IType> master)
+        internal CompiledEnumTypeDictionary(_ICompiledTypeParent parent, MasterDictionaryBase<IGeneralTypeUniqueIdentifier, IType> master)
             : base(parent, master, parent.UnderlyingSystemTypes.Filter(p => p.IsEnum))
         {
         }

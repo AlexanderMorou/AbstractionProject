@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TIntermediatePropertyParent">The type which acts as the parent of the 
     /// properties in the intermediate abstract syntax tree.</typeparam>
     public interface IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> :
-        IIntermediateMember<TPropertyParent, TIntermediatePropertyParent>,
+        IIntermediateMember<IGeneralMemberUniqueIdentifier, TPropertyParent, TIntermediatePropertyParent>,
         IIntermediatePropertySignatureMember,
         IPropertySignatureMember<TProperty, TPropertyParent>
         where TProperty :
@@ -35,10 +35,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TProperty,
             IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
         where TPropertyParent :
-            IPropertySignatureParentType<TProperty, TPropertyParent>
+            IPropertySignatureParent<TProperty, TPropertyParent>
         where TIntermediatePropertyParent :
             TPropertyParent,
-            IIntermediatePropertySignatureParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+            IIntermediatePropertySignatureParent<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
     {
     }
     /// <summary>

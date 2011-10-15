@@ -20,25 +20,29 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// type system.</typeparam>
     /// <typeparam name="TIntermediateCoercion">The type of coercion in the
     /// intermediate abstract syntax tree.</typeparam>
-    /// <typeparam name="TType">The type which owns the <typeparamref name="TCoercion"/>
+    /// <typeparam name="TCoercionParent">The type which owns the <typeparamref name="TCoercion"/>
     /// members in the abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateType">The intermediate type which owns the
+    /// <typeparam name="TIntermediateCoercionParent">The intermediate type which owns the
     /// <typeparamref name="TIntermediateCoercion"/> members in the intermediate
     /// abstract syntax tree.</typeparam>
-    public interface IIntermediateCoercionMember<TCoercion, TIntermediateCoercion, TType, TIntermediateType> :
-        IIntermediateMember<TType, TIntermediateType>,
+    public interface IIntermediateCoercionMember<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent> :
+        IIntermediateMember<TCoercionIdentifier, TCoercionParent, TIntermediateCoercionParent>,
         IIntermediateCoercionMember,
-        ICoercionMember<TCoercion, TType>
+        ICoercionMember<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent>
+        where TCoercionIdentifier :
+            IMemberUniqueIdentifier<TCoercionIdentifier>
+        where TCoercionParentIdentifier :   
+            ITypeUniqueIdentifier<TCoercionParentIdentifier>
         where TCoercion :
-            ICoercionMember<TCoercion, TType>
+            ICoercionMember<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent>
         where TIntermediateCoercion :
-            TCoercion,
-            IIntermediateCoercionMember<TCoercion, TIntermediateCoercion, TType, TIntermediateType>
-        where TType :
-            ICoercibleType<TCoercion, TType>
-        where TIntermediateType :
-            TType,
-            IIntermediateCoercibleType<TCoercion, TIntermediateCoercion, TType, TIntermediateType>
+            IIntermediateCoercionMember<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent>,
+            TCoercion
+        where TCoercionParent :
+            ICoercibleType<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent>
+        where TIntermediateCoercionParent :
+            IIntermediateCoercibleType<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent>,
+            TCoercionParent
     {
     }
     /// <summary>

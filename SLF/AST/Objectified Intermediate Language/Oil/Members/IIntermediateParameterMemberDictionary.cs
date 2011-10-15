@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TIntermediateParameter">The type of parameter in the intermediate
     /// abstract syntax tree.</typeparam>
     public interface IIntermediateParameterMemberDictionary<TParent, TIntermediateParent, TParameter, TIntermediateParameter> :
-        IIntermediateMemberDictionary<TParent, TIntermediateParent, TParameter, TIntermediateParameter>,
+        IIntermediateMemberDictionary<TParent, TIntermediateParent, IGeneralMemberUniqueIdentifier, TParameter, TIntermediateParameter>,
         IParameterMemberDictionary<TParent, TParameter>
         where TParent :
             IParameterParent<TParent, TParameter>

@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
+using AllenCopeland.Abstraction.Slf._Internal.Cli;
+using AllenCopeland.Abstraction.Utilities;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -16,25 +18,26 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
-    internal partial class _ConstructorBase<TCtor, TType> :
-        _MemberBase<TCtor, TType>,
-        IConstructorMember<TCtor, TType>,
-        IGeneralDeclarationsParent<TCtor, IConstructorParameterMember<TCtor, TType>>
+    internal partial class _ConstructorBase<TCtor, TCtorParent> :
+        _MemberBase<IGeneralSignatureMemberUniqueIdentifier, TCtor, TCtorParent>,
+        IConstructorMember<TCtor, TCtorParent>,
+        IGeneralDeclarationsParent<TCtor, IConstructorParameterMember<TCtor, TCtorParent>>
         where TCtor :
-            IConstructorMember<TCtor, TType>
-        where TType :
-            ICreatableType<TCtor, TType>
+            IConstructorMember<TCtor, TCtorParent>
+        where TCtorParent :
+            ICreatableParent<TCtor, TCtorParent>
     {
         private _Parameters parameters;
-        protected _ConstructorBase(TCtor original, TType adjustedParent)
+        private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
+        protected _ConstructorBase(TCtor original, TCtorParent adjustedParent)
             : base(original, adjustedParent)
         {
 
         }
 
-        #region IParameterParent<TCtor,IConstructorParameterMember<TCtor,TType>> Members
+        #region IParameterParent<TCtor,IConstructorParameterMember<TCtor,TCtorParent>> Members
 
-        public IParameterMemberDictionary<TCtor, IConstructorParameterMember<TCtor, TType>> Parameters
+        public IParameterMemberDictionary<TCtor, IConstructorParameterMember<TCtor, TCtorParent>> Parameters
         {
             get
             {
@@ -76,15 +79,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             return new _Parameters(this, this.Original.Parameters);
         }
 
-        public override string UniqueIdentifier
+        public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier
         {
             get
             {
-                return string.Format(MemberExtensions.GetUniqueIdentifier<TCtor, IConstructorParameterMember<TCtor, TType>>((TCtor)(object)this), ".ctor");
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Signature(".ctor", this.Parameters.ParameterTypes.SinglePass());
+                return this.uniqueIdentifier;
             }
         }
 
-        TCtor IGeneralDeclarationsParent<TCtor, IConstructorParameterMember<TCtor, TType>>.Original
+        TCtor IGeneralDeclarationsParent<TCtor, IConstructorParameterMember<TCtor, TCtorParent>>.Original
         {
             get
             {
@@ -94,7 +99,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         public override string ToString()
         {
-            return this.UniqueIdentifier;
+            return this.UniqueIdentifier.ToString();
         }
 
     }

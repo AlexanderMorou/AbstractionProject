@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// added to the respective type-specific dictionaries and occlude,
     /// differing kind, name collisions.</remarks>
     public interface IIntermediateFullTypeDictionary :
-        IIntermediateFullDeclarationDictionary<IType, IIntermediateType>,
+        IIntermediateFullDeclarationDictionary<IGeneralTypeUniqueIdentifier, IType, IIntermediateType>,
         IFullTypeDictionary,
         IDisposable
     {

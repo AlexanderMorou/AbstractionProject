@@ -17,15 +17,19 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// with a series of <see cref="IBinaryOperatorCoercionMember{TCoercionParent}"/>
     /// instances.
     /// </summary>
+    /// <typeparam name="TCoercionParentIdentifier">The type of the identifier that represents
+    /// the parent's uniqueness from the other types.</typeparam>
     /// <typeparam name="TCoercionParent">
     /// The type of <see cref="ICoercibleType{TType}"/>
     /// which contains the 
-    /// <see cref="IBinaryOperatorCoercionMemberDictionary{TCoercionParent}"/>.
+    /// <see cref="IBinaryOperatorCoercionMemberDictionary{TCoercionParentIdentifier, TCoercionParent}"/>.
     /// </typeparam>
-    public interface IBinaryOperatorCoercionMemberDictionary<TCoercionParent> :
-        IGroupedMemberDictionary<TCoercionParent, IBinaryOperatorCoercionMember<TCoercionParent>>
+    public interface IBinaryOperatorCoercionMemberDictionary<TCoercionParentIdentifier, TCoercionParent> :
+        IGroupedMemberDictionary<TCoercionParent, IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>>
+        where TCoercionParentIdentifier :
+            ITypeUniqueIdentifier<TCoercionParentIdentifier>
         where TCoercionParent :
-            ICoercibleType<IBinaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>
+            ICoercibleType<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
     {
         /// <summary>
         /// Returns the <see cref="IBinaryOperatorCoercionMember{TCoercionParent}"/> which
@@ -41,7 +45,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <param name="otherSide">The type of the other side in the coercion.</param>
         /// <returns>A <see cref="IBinaryOperatorCoercionMember{TCoercionParent}"/> instance
         /// that coerces the <paramref name="op"/> provided.</returns>
-        IBinaryOperatorCoercionMember<TCoercionParent> this[CoercibleBinaryOperators op, BinaryOpCoercionContainingSide side, IType otherSide] { get; }
+        IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent> this[CoercibleBinaryOperators op, BinaryOpCoercionContainingSide side, IType otherSide] { get; }
         /// <summary>
         /// Returns the <see cref="IBinaryOperatorCoercionMember{TCoercionParent}"/> which
         /// coerces the <paramref name="op"/> provided where
@@ -52,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// to find.</param>
         /// <returns>A <see cref="IBinaryOperatorCoercionMember{TCoercionParent}"/> instance
         /// that coerces the <paramref name="op"/> provided.</returns>
-        IBinaryOperatorCoercionMember<TCoercionParent> this[CoercibleBinaryOperators op] { get; }
+        IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent> this[CoercibleBinaryOperators op] { get; }
     }
 
     /// <summary>

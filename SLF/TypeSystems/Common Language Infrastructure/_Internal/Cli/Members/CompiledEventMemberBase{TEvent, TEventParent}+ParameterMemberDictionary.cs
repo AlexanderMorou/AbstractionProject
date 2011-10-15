@@ -14,7 +14,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    partial class CompiledEventMemberBase<TMethod, TEvent, TEventParent>
+    partial class CompiledEventMemberBase<TMethod, TEvent, TEventParentIdentifier, TEventParent>
         where TMethod :
             class,
             IMethodMember<TMethod, TEventParent>,
@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private class ParameterMemberDictionary :
             LockedParameterMembersBase<TEvent, IEventParameterMember<TEvent, TEventParent>>
         {
-            internal ParameterMemberDictionary(CompiledEventMemberBase<TMethod, TEvent, TEventParent> parent, IEnumerable<IEventParameterMember<TEvent, TEventParent>> parameters)
+            internal ParameterMemberDictionary(CompiledEventMemberBase<TMethod, TEvent, TEventParentIdentifier, TEventParent> parent, IEnumerable<IEventParameterMember<TEvent, TEventParent>> parameters)
                 : base(((TEvent)(object)(parent)), parameters)
             {
             }

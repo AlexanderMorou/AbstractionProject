@@ -14,7 +14,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal class LockedEventMembersBase<TEvent, TEventParent> :
         LockedEventSignatureMembersBase<TEvent, IEventParameterMember<TEvent, TEventParent>, TEventParent>,

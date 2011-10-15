@@ -23,7 +23,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         where TGenericParameter :
             IGenericParameter<TGenericParameter>
     {
-
     }
     /// <summary>
     /// Defines properties and methods for working with a series

@@ -149,7 +149,7 @@
     <Compile Include="Utilities\Collections\IReadOnlyDictionary.cs" />
     <Compile Include="Utilities\Collections\IReadOnlyDictionary{TKey, TValue}.cs" />
     <Compile Include="Utilities\Collections\ISubordinateDictionary.cs" />
-    <Compile Include="Utilities\Collections\ISubordinateDictionary{TKey, TSValue, TMValue}.cs" />
+    <Compile Include="Utilities\Collections\ISubordinateDictionary{4}.cs" />
     <Compile Include="Utilities\Collections\ISubordinateDictionary{TKey, TValue}.cs" />
     <Compile Include="Utilities\Collections\KeyedTree.cs" />
     <Compile Include="Utilities\Collections\KeyedTreeNode.cs" />
@@ -177,6 +177,8 @@
     <Compile Include="Utilities\Common\SeptemvigesimalBase.cs" />
     <Compile Include="Utilities\Common\SexatrigesimalBase.cs" />
     <Compile Include="Utilities\Common\StringHandling.cs" />
+    <Compile Include="Utilities\EnumerableExtensions+SinglePass{T}.cs" />
+    <Compile Include="Utilities\EnumerableExtensions.cs" />
     <Compile Include="Utilities\Events\EventArgs{T}.cs" />
     <Compile Include="Utilities\Events\EventArgs{T1, T2}.cs" />
     <Compile Include="Utilities\Events\EventArgsR1{T}.cs" />

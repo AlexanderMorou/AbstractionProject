@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// </summary>
     public interface IIntermediateDelegateType :
         IIntermediateParameterParent<IDelegateType, IIntermediateDelegateType, IDelegateTypeParameterMember, IIntermediateDelegateTypeParameterMember>,
-        IIntermediateGenericType<IDelegateType, IIntermediateDelegateType>,
+        IIntermediateGenericType<IDelegateUniqueIdentifier, IDelegateType, IIntermediateDelegateType>,
         IDelegateType
     {
         /// <summary>

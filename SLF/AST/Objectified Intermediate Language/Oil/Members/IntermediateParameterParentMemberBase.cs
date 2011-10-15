@@ -28,15 +28,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TGrandParent">The type which contains the parameter parent in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateGrandParent">The type which contains the
     /// parameter parent in the intermediate abstract syntax tree.</typeparam>
-    public abstract class IntermediateParameterParentMemberBase<TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent> :
-        IntermediateMemberBase<TGrandParent, TIntermediateGrandParent>,
+    public abstract class IntermediateParameterParentMemberBase<TParentIdentifier, TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent> :
+        IntermediateMemberBase<TParentIdentifier, TGrandParent, TIntermediateGrandParent>,
         IIntermediateParameterParent<TParent, TIntermediateParent, TParameter, TIntermediateParameter>
+        where TParentIdentifier :
+            IMemberUniqueIdentifier<TParentIdentifier>
         where TParent :
             IParameterParent<TParent, TParameter>,
-            IMember<TGrandParent>
+            IMember<TParentIdentifier, TGrandParent>
         where TIntermediateParent :
             IIntermediateParameterParent<TParent, TIntermediateParent, TParameter, TIntermediateParameter>,
-            IIntermediateMember<TGrandParent, TIntermediateGrandParent>,
+            IIntermediateMember<TParentIdentifier, TGrandParent, TIntermediateGrandParent>,
             TParent
         where TParameter :
             IParameterMember<TParent>
@@ -52,31 +54,31 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         private IntermediateParameterMemberDictionary<TParent, TIntermediateParent, TParameter, TIntermediateParameter> parameters;
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateParameterParentMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>
+        /// Creates a new <see cref="IntermediateParameterParentMemberBase{TParentIdentifier, TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>
         /// with the <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateGrandParent"/>
-        /// which contains the <see cref="IntermediateParameterParentMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>.</param>
+        /// which contains the <see cref="IntermediateParameterParentMemberBase{TParentIdentifier, TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>.</param>
         public IntermediateParameterParentMemberBase(TIntermediateGrandParent parent)
             : base(parent)
         {
         }
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateParameterParentMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>
+        /// Creates a new <see cref="IntermediateParameterParentMemberBase{TParentIdentifier, TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>
         /// with the <paramref name="name"/> and <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="name">The <see cref="String"/> representing the unique identifier of the 
-        /// <see cref="IntermediateParameterParentMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>.</param>
+        /// <see cref="IntermediateParameterParentMemberBase{TParentIdentifier, TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateGrandParent"/>
-        /// which contains the <see cref="IntermediateParameterParentMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>.</param>
+        /// which contains the <see cref="IntermediateParameterParentMemberBase{TParentIdentifier, TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>.</param>
         public IntermediateParameterParentMemberBase(string name, TIntermediateGrandParent parent)
             : base(name, parent)
         {
         }
 
         /// <summary>
-        /// Returns the dictionary of <typeparamref name="TIntermediateParameter"/> instances for the current <see cref="IntermediateParameterParentMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>.
+        /// Returns the dictionary of <typeparamref name="TIntermediateParameter"/> instances for the current <see cref="IntermediateParameterParentMemberBase{TParentIdentifier, TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>.
         /// </summary>
         public IntermediateParameterMemberDictionary<TParent, TIntermediateParent, TParameter, TIntermediateParameter> Parameters
         {
@@ -185,7 +187,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         #endregion
 
         /// <summary>
-        /// Disposes the <see cref="IntermediateParameterParentMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>
+        /// Disposes the <see cref="IntermediateParameterParentMemberBase{TParentIdentifier, TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>
         /// </summary>
         /// <param name="disposing">whether to dispose the managed 
         /// resources as well as the unmanaged resources.</param>

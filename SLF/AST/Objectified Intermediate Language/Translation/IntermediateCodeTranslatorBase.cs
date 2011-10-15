@@ -615,7 +615,7 @@ namespace AllenCopeland.Abstraction.Slf.Translation
             where TSignature :
                 IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>;
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>;
 
         /// <summary>
         /// Visits the comment <paramref name="statement"/> provided.
@@ -670,10 +670,10 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                 TCtor,
                 IIntermediateConstructorSignatureMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
             where TType :
-                ICreatableType<TCtor, TType>
+                ICreatableParent<TCtor, TType>
             where TIntermediateType :
                 TType,
-                IIntermediateCreatableSignatureType<TCtor, TIntermediateCtor, TType, TIntermediateType>;
+                IIntermediateCreatableSignatureParent<TCtor, TIntermediateCtor, TType, TIntermediateType>;
 
         public abstract void Visit<TCtor, TIntermediateCtor, TType, TIntermediateType>(IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType> ctor)
             where TCtor :
@@ -682,10 +682,10 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                 TCtor,
                 IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
             where TType :
-                ICreatableType<TCtor, TType>
+                ICreatableParent<TCtor, TType>
             where TIntermediateType :
                 TType,
-                IIntermediateCreatableType<TCtor, TIntermediateCtor, TType, TIntermediateType>;
+                IIntermediateCreatableParent<TCtor, TIntermediateCtor, TType, TIntermediateType>;
 
         public abstract void Visit<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>(IIntermediateEventMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> @event)
             where TEvent :
@@ -711,17 +711,23 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                 TEventParent,
                 IIntermediateEventSignatureParent<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>;
 
-        public abstract void Visit<TCoercionParent>(IBinaryOperatorCoercionMember<TCoercionParent> binaryCoercion)
+        public abstract void Visit<TCoercionParentIdentifier, TCoercionParent>(IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent> binaryCoercion)
+            where TCoercionParentIdentifier :
+                ITypeUniqueIdentifier<TCoercionParentIdentifier>
             where TCoercionParent :
-                ICoercibleType<IBinaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>;
+                ICoercibleType<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>;
 
-        public abstract void Visit<TCoercionParent>(ITypeCoercionMember<TCoercionParent> typeCoercion)
+        public abstract void Visit<TCoercionParentIdentifier, TCoercionParent>(ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent> typeCoercion)
+            where TCoercionParentIdentifier :
+                ITypeUniqueIdentifier<TCoercionParentIdentifier>
             where TCoercionParent :
-                ICoercibleType<ITypeCoercionMember<TCoercionParent>, TCoercionParent>;
+                ICoercibleType<ITypeCoercionUniqueIdentifier, TCoercionParentIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>;
 
-        public abstract void Visit<TCoercionParent>(IUnaryOperatorCoercionMember<TCoercionParent> unaryCoercion)
+        public abstract void Visit<TCoercionParentIdentifier, TCoercionParent>(IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent> unaryCoercion)
+            where TCoercionParentIdentifier :
+                ITypeUniqueIdentifier<TCoercionParentIdentifier>
             where TCoercionParent :
-                ICoercibleType<Abstract.Members.IUnaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>;
+                ICoercibleType<IUnaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>;
 
         public abstract void Visit<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>(IIntermediateFieldMember<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent> field)
             where TField :
@@ -792,10 +798,10 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                 TProperty,
                 IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
             where TPropertyParent :
-                IPropertySignatureParentType<TProperty, TPropertyParent>
+                IPropertySignatureParent<TProperty, TPropertyParent>
             where TIntermediatePropertyParent :
                 TPropertyParent,
-                IIntermediatePropertySignatureParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>;
+                IIntermediatePropertySignatureParent<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>;
 
         public abstract void Visit<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> property)
             where TProperty :
@@ -804,10 +810,10 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                 TProperty,
                 IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
             where TPropertyParent :
-                IPropertyParentType<TProperty, TPropertyParent>
+                IPropertyParent<TProperty, TPropertyParent>
             where TIntermediatePropertyParent :
                 TPropertyParent,
-                IIntermediatePropertyParentType<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>;
+                IIntermediatePropertyParent<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>;
 
         public abstract void Visit<TParent, TIntermediateParent>(IIntermediateParameterMember<TParent, TIntermediateParent> parameter)
             where TParent :

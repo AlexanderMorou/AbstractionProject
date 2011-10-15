@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -17,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
     partial class _EnumTypeBase
     {
         private class FieldMemberDictionary :
-            _GroupedMembersBase<IEnumType, IEnumFieldMember, IFieldMemberDictionary<IEnumFieldMember, IEnumType>>,
+            _GroupedMembersBase<IEnumType, IGeneralMemberUniqueIdentifier, IEnumFieldMember, IFieldMemberDictionary<IEnumFieldMember, IEnumType>>,
             IFieldMemberDictionary<IEnumFieldMember, IEnumType>,
             IFieldMemberDictionary
         {
@@ -49,9 +50,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
                 }
 
-                public override string UniqueIdentifier
+                public override IGeneralMemberUniqueIdentifier UniqueIdentifier
                 {
-                    get { return this.Name; }
+                    get { return AstIdentifier.Member(this.Name); }
                 }
 
                 #region IInstanceMember Members

@@ -20,11 +20,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <typeparam name="TPropertyParent">The type of parent that contains the <see cref="IPropertySignatureMember"/> 
     /// instances in the current implementation.</typeparam>
     public interface IPropertySignatureMemberDictionary<TProperty, TPropertyParent> :
-        IGroupedMemberDictionary<TPropertyParent, TProperty>
+        IGroupedMemberDictionary<TPropertyParent, IGeneralMemberUniqueIdentifier, TProperty>
         where TProperty :
             IPropertySignatureMember<TProperty, TPropertyParent>
         where TPropertyParent :
-            IPropertySignatureParentType<TProperty, TPropertyParent>
+            IPropertySignatureParent<TProperty, TPropertyParent>
     {
 
     }

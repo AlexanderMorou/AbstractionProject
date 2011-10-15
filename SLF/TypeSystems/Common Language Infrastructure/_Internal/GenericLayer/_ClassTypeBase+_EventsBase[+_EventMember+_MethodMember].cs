@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             {
             }
 
-            private class _EventMember : 
+            private class _EventMember :
                 _EventMemberBase<IClassEventMember, IClassType>,
                 IClassEventMember
             {

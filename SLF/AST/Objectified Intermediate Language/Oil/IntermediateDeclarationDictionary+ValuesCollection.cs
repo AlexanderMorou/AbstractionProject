@@ -14,7 +14,9 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
-    partial class IntermediateDeclarationDictionary<TDeclaration, TIntermediateDeclaration>
+    partial class IntermediateDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration>
+        where TIdentifier :
+            IDeclarationUniqueIdentifier<TIdentifier>
         where TDeclaration :
             IDeclaration
         where TIntermediateDeclaration :
@@ -23,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     {
         /// <summary>
         /// The values collection used by the 
-        /// <see cref="IntermediateDeclarationDictionary{TDeclaration, TIntermediateDeclaration}"/>
+        /// <see cref="IntermediateDeclarationDictionary{TIdentifier, TDeclaration, TIntermediateDeclaration}"/>
         /// to mask the original <typeparamref name="TDeclaration"/> set of values
         /// with the more accurate <typeparamref name="TIntermediateDeclaration"/>.
         /// </summary>
@@ -31,8 +33,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IControlledStateCollection<TIntermediateDeclaration>,
             IControlledStateCollection
         {
-            private IntermediateDeclarationDictionary<TDeclaration, TIntermediateDeclaration> owner;
-            public ValuesCollection(IntermediateDeclarationDictionary<TDeclaration, TIntermediateDeclaration> owner)
+            private IntermediateDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration> owner;
+            public ValuesCollection(IntermediateDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration> owner)
             {
                 this.owner = owner;
             }
@@ -46,7 +48,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public bool Contains(TIntermediateDeclaration item)
             {
-                return ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values.Contains(item);
+                return ((ControlledStateDictionary<TIdentifier, TDeclaration>)(this.owner)).Values.Contains(item);
             }
 
             public void CopyTo(TIntermediateDeclaration[] array, int arrayIndex = 0)
@@ -63,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public TIntermediateDeclaration this[int index]
             {
-                get { return ((TIntermediateDeclaration)(((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values[index])); }
+                get { return ((TIntermediateDeclaration)(((ControlledStateDictionary<TIdentifier, TDeclaration>)(this.owner)).Values[index])); }
             }
 
             public TIntermediateDeclaration[] ToArray()
@@ -78,7 +80,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public int IndexOf(TIntermediateDeclaration element)
             {
-                return ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values.IndexOf(element);
+                return ((ControlledStateDictionary<TIdentifier, TDeclaration>)(this.owner)).Values.IndexOf(element);
             }
 
             #endregion

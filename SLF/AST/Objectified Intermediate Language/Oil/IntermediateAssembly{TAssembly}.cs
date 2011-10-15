@@ -746,7 +746,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Returns the part collection associated to the
         /// <see cref="IntermediateAssembly{TAssembly}"/>.
         /// </summary>
-        public IIntermediateSegmentableDeclarationPartCollection<IIntermediateAssembly> Parts
+        public IIntermediateSegmentableDeclarationPartCollection<IAssemblyUniqueIdentifier, IIntermediateAssembly> Parts
         {
             get
             {
@@ -767,7 +767,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return this.rootAssembly;
         }
 
-        IIntermediateAssembly IIntermediateSegmentableDeclaration<IIntermediateAssembly>.GetRoot()
+        IIntermediateAssembly IIntermediateSegmentableDeclaration<IAssemblyUniqueIdentifier, IIntermediateAssembly>.GetRoot()
         {
             return this.GetRoot();
         }

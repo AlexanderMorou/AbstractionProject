@@ -20,10 +20,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// abstract type system.</typeparam>
     /// <typeparam name="TIntermediateType">The type used in the dictionary by the
     /// intermediate abstract syntax tree.</typeparam>
-    public interface IIntermediateTypeDictionary<TType, TIntermediateType> :
-        IIntermediateGroupedDeclarationDictionary<TType, TIntermediateType>
+    public interface IIntermediateTypeDictionary<TTypeIdentifier, TType, TIntermediateType> :
+        IIntermediateGroupedDeclarationDictionary<TTypeIdentifier, TType, TIntermediateType>
+        where TTypeIdentifier :
+            ITypeUniqueIdentifier<TTypeIdentifier>
         where TType :
-            IType<TType>
+            IType<TTypeIdentifier, TType>
         where TIntermediateType :
             IIntermediateType,
             TType
@@ -51,7 +53,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         /// <param name="types">The <typeparamref name="TIntermediateType"/>
         /// array to insert into the 
-        /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}"/>.</param>
+        /// <see cref="IIntermediateTypeDictionary{TTypeIdentifier, TType, TIntermediateType}"/>.</param>
         void AddRange(params TIntermediateType[] types);
         /// <summary>
         /// Creates and adds a new <typeparamref name="TIntermediateType"/> 
@@ -67,7 +69,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         TIntermediateType Add(string name);
         /// <summary>
         /// Creates and inserts a new <typeparamref name="TIntermediateType"/> instance
-        /// into the current <see cref="IIntermediateTypeDictionary{TType, TIntermediateType}"/>.
+        /// into the current <see cref="IIntermediateTypeDictionary{TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </summary>
         /// <param name="name">The <see cref="String"/> that defines the name of the
         /// new <typeparamref name="TIntermediateType"/> to create.</param>
@@ -84,7 +86,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         TIntermediateType Add(string name, IIntermediateModule module);
         /// <summary>
         /// Removes the provided <typeparamref name="TIntermediateType"/> from the
-        /// <see cref="IIntermediateTypeDictionary{TType, TIntermediateType}"/>.
+        /// <see cref="IIntermediateTypeDictionary{TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </summary>
         /// <param name="type">The <typeparamref name="TIntermediateType"/> 
         /// to remove.</param>
@@ -99,17 +101,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         void RemoveAt(int index);
         /// <summary>
         /// Returns the <see cref="IIntermediateTypeParent"/>
-        /// which contains the <see cref="IIntermediateTypeDictionary{TType, TIntermediateType}"/>.
+        /// which contains the <see cref="IIntermediateTypeDictionary{TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </summary>
         IIntermediateTypeParent Parent { get; }
         /// <summary>
         /// Removes the provided <typeparamref name="TIntermediateType"/> from the
-        /// <see cref="IIntermediateTypeDictionary{TType, TIntermediateType}"/>
+        /// <see cref="IIntermediateTypeDictionary{TTypeIdentifier, TType, TIntermediateType}"/>
         /// </summary>
         /// <param name="type">The <typeparamref name="TIntermediateType"/> 
         /// to remove.</param>
         /// <exception cref="System.ArgumentNullException"><paramref name="type"/> is null or not
-        /// contained within the <see cref="IIntermediateTypeDictionary{TType, TIntermediateType}"/>.</exception>
+        /// contained within the <see cref="IIntermediateTypeDictionary{TTypeIdentifier, TType, TIntermediateType}"/>.</exception>
         void RemoveSoft(TIntermediateType type);
         /// <summary>
         /// Returns the <typeparamref name="TIntermediateType"/> which 

@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     partial class CompiledInterfaceType
     {
         private class EventMember :
-            CompiledEventSignatureMemberBase<IInterfaceMethodMember, IInterfaceEventMember, IInterfaceType>,
+            CompiledEventSignatureMemberBase<IInterfaceMethodMember, IInterfaceEventMember, IGeneralGenericTypeUniqueIdentifier, IInterfaceType>,
             IInterfaceEventMember
         {
             public EventMember(EventInfo source, IInterfaceType parent)

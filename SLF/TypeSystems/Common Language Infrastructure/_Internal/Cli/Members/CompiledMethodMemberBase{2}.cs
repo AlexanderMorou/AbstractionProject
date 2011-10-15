@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
@@ -42,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <summary>
         /// Data member used to store the unique identifier of the <see cref="CompiledMethodMemberBase{TMethod, TMethodParent}"/>.
         /// </summary>
-        private string uniqueIdentifier;
+        private IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier;
 
         /// <summary>
         /// Creates a new <see cref="CompiledMethodMemberBase{TMethod, TMethodParent}"/> with the
@@ -55,28 +54,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         public CompiledMethodMemberBase(MethodInfo memberInfo, TMethodParent parent)
             : base(parent)
         {
-            this.flagA = 0;
             this.uniqueIdentifier = memberInfo.GetUniqueIdentifier();
-            this.memberInfo = memberInfo;
-            this.lastIsParams = memberInfo.LastParameterIsParams();
         }
 
-        public override string UniqueIdentifier
+        public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier
         {
             get
             {
-                if (flagA == 0)
-                {
-                    string uniqueIdentifier = this.uniqueIdentifier;
-                    flagA = 1;
-                    this.uniqueIdentifier = null;
-                    return uniqueIdentifier;
-                }
-                else if (flagA == 1)
-                {
-                    flagA = 2;
-                    this.uniqueIdentifier = this.GetUniqueIdentifier();
-                }
                 return this.uniqueIdentifier;
             }
         }

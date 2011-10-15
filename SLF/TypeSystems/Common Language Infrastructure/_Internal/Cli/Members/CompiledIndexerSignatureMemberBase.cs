@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -35,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             IMethodSignatureParent<TMethod, TMethodParent>
     {
         private PropertyInfo memberInfo;
-
+        private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
         public CompiledIndexerSignatureMemberBase(PropertyInfo memberInfo, TIndexerParent parent)
             : base(parent)
         {
@@ -132,6 +131,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         }
 
         #endregion
-
+        
+        public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier
+        {
+            get
+            {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = CliAssist.GetIndexerUniqueIdentifier(this.memberInfo);
+                return this.uniqueIdentifier;
+            }
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <typeparam name="TParent">The type of parent that contains the <see cref="IParameterMember{TParent}"/> instances
     /// in the current implementation.</typeparam>
     public interface IParameterMember<TParent> :
-        IMember<TParent>,
+        IMember<IGeneralMemberUniqueIdentifier, TParent>,
         IParameterMember
         where TParent :
             IParameterParent

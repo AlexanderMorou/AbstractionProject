@@ -17,20 +17,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// Defines generic properties and methods for working with an <see cref="IIntermediateType"/>
     /// which contains generic parameters.
     /// </summary>
-    /// <typeparam name="TGenericType">The generic type as it exists 
+    /// <typeparam name="TType">The generic type as it exists 
     /// in the abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateGenericType">The type of generic type as it
+    /// <typeparam name="TIntermediateType">The type of generic type as it
     /// exists in the intermediate abstract syntax tree.</typeparam>
-    public interface IIntermediateGenericType<TGenericType, TIntermediateGenericType> :
+    public interface IIntermediateGenericType<TTypeIdentifier, TType, TIntermediateType> :
         IIntermediateType,
-        IIntermediateGenericParameterParent<IGenericTypeParameter<TGenericType>, IIntermediateGenericTypeParameter<TGenericType, TIntermediateGenericType>, TGenericType, TIntermediateGenericType>,
+        IIntermediateGenericParameterParent<IGenericTypeParameter<TTypeIdentifier, TType>, IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>, TType, TIntermediateType>,
         IIntermediateGenericType,
-        IGenericType<TGenericType>
-        where TGenericType :
-            IGenericType<TGenericType>
-        where TIntermediateGenericType :
-            IIntermediateGenericType<TGenericType, TIntermediateGenericType>,
-            TGenericType
+        IGenericType<TTypeIdentifier, TType>
+        where TTypeIdentifier :
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>
+        where TType :
+            IGenericType<TTypeIdentifier, TType>
+        where TIntermediateType :
+            IIntermediateGenericType<TTypeIdentifier, TType, TIntermediateType>,
+            TType
     {
     }
 

@@ -19,8 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// of types.
     /// </summary>
     public interface IInterfaceTypeDictionary :
-        ISubordinateDictionary<string, IInterfaceType, IType>,
-        IGroupedDeclarationDictionary<IInterfaceType>
+        IGroupedTypeDictionary<IGeneralGenericTypeUniqueIdentifier, IInterfaceType>
     {
         /// <summary>
         /// Returns the <see cref="ITypeParent"/>

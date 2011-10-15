@@ -20,13 +20,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <summary>
     /// Provides a base grouped declaration dictionary.
     /// </summary>
-    /// <typeparam name="TDeclaration"></typeparam>
-    /// <typeparam name="TMDeclaration"></typeparam>
-    /// <typeparam name="TIntermediateDeclaration"></typeparam>
-    public abstract partial class IntermediateGroupedDeclarationDictionary<TDeclaration, TMDeclaration, TIntermediateDeclaration> :
-        SubordinateDictionary<string, TDeclaration, TMDeclaration>,
-        IIntermediateGroupedDeclarationDictionary<TDeclaration, TIntermediateDeclaration>,
+    /// <typeparam name="TDeclarationIdentifier">The kind of unique identifier
+    /// used to differentiate the <typeparamref name="TDeclaration"/>
+    /// elements from their siblings.</typeparam>
+    /// <typeparam name="TDeclaration">The specific kind of declaration in the abstract
+    /// type system.</typeparam>
+    /// <typeparam name="TMDeclarationIdentifier">The kind of unique identifier
+    /// used to differentiate the <typeparamref name="TMDeclaration"/>
+    /// elements from all of their siblings.</typeparam>
+    /// <typeparam name="TMDeclaration">The kind of declaration used to represent
+    /// all of the elements combined.</typeparam>
+    /// <typeparam name="TIntermediateDeclaration">The intermediate variant of the
+    /// current <typeparamref name="TDeclaration"/>.</typeparam>
+    public abstract partial class IntermediateGroupedDeclarationDictionary<TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration> :
+        SubordinateDictionary<TDeclarationIdentifier, TMDeclarationIdentifier, TDeclaration, TMDeclaration>,
+        IIntermediateGroupedDeclarationDictionary<TDeclarationIdentifier, TDeclaration, TIntermediateDeclaration>,
         IIntermediateGroupedDeclarationDictionary
+        where TDeclarationIdentifier :
+            TMDeclarationIdentifier,
+            IDeclarationUniqueIdentifier<TDeclarationIdentifier>
+        where TMDeclarationIdentifier :
+            IDeclarationUniqueIdentifier<TMDeclarationIdentifier>
         where TDeclaration :
             TMDeclaration
         where TMDeclaration :
@@ -39,33 +53,33 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private bool isLockApplied = false;
         private int suspensionLevel = 0;
         private List<TDeclaration> suspendedMembers = new List<TDeclaration>();
-        //private IDictionary<string, TDeclaration> suspendedMembers = new Dictionary<string,TDeclaration>();
+        //private IDictionary<TDeclarationIdentifier, TDeclaration> suspendedMembers = new Dictionary<TDeclarationIdentifier,TDeclaration>();
         
         private ValuesCollection valuesCollection;
         /// <summary>
-        /// Creates a new <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>
+        /// Creates a new <see cref="IntermediateGroupedDeclarationDictionary{TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration}"/>
         /// with the <paramref name="master"/> dictionary provided.
         /// </summary>
         /// <param name="master">The <see cref="MasterDictionaryBase{TKey, TValue}"/> which owns
-        /// the full grouping of members the <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>
+        /// the full grouping of members the <see cref="IntermediateGroupedDeclarationDictionary{TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration}"/>
         /// will contain.</param>
-        public IntermediateGroupedDeclarationDictionary(MasterDictionaryBase<string, TMDeclaration> master)
+        public IntermediateGroupedDeclarationDictionary(MasterDictionaryBase<TMDeclarationIdentifier, TMDeclaration> master)
             : base(master)
         {
         }
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>
+        /// Creates a new <see cref="IntermediateGroupedDeclarationDictionary{TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration}"/>
         /// with the <paramref name="master"/> dictionary provided.
         /// </summary>
         /// <param name="master">The <see cref="MasterDictionaryBase{TKey, TValue}"/> which owns
-        /// the full grouping of members the <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>
+        /// the full grouping of members the <see cref="IntermediateGroupedDeclarationDictionary{TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration}"/>
         /// will contain.</param>
-        /// <param name="root">The <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>
+        /// <param name="root">The <see cref="IntermediateGroupedDeclarationDictionary{TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration}"/>
         /// which the current is based upon.</param>
         /// <remarks>To establish separation of parent, in multi-instance parents, and unity amongst the 
         /// elements.</remarks>
-        public IntermediateGroupedDeclarationDictionary(MasterDictionaryBase<string, TMDeclaration> master, IntermediateGroupedDeclarationDictionary<TDeclaration, TMDeclaration, TIntermediateDeclaration> root)
+        public IntermediateGroupedDeclarationDictionary(MasterDictionaryBase<TMDeclarationIdentifier, TMDeclaration> master, IntermediateGroupedDeclarationDictionary<TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration> root)
             : base(master, root)
         {
         }
@@ -83,53 +97,53 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        public new TIntermediateDeclaration this[string identifier]
+        public new TIntermediateDeclaration this[TDeclarationIdentifier identifier]
         {
             get
             {
                 if (!this.Keys.Contains(identifier))
                     throw new ArgumentOutOfRangeException("identifier");
-                return ((TIntermediateDeclaration)(base.Values[this.Keys.GetIndexOf(identifier)]));
+                return ((TIntermediateDeclaration)(base.Values[this.Keys.IndexOf(identifier)]));
             }
         }
 
-        public new virtual KeyValuePair<string, TIntermediateDeclaration>[] ToArray()
+        public new virtual KeyValuePair<TDeclarationIdentifier, TIntermediateDeclaration>[] ToArray()
         {
-            KeyValuePair<string, TIntermediateDeclaration>[] result = new KeyValuePair<string, TIntermediateDeclaration>[this.Count];
+            KeyValuePair<TDeclarationIdentifier, TIntermediateDeclaration>[] result = new KeyValuePair<TDeclarationIdentifier, TIntermediateDeclaration>[this.Count];
             this.CopyTo(result);
             return result;
         }
 
-        public void CopyTo(KeyValuePair<string, TIntermediateDeclaration>[] result, int index = 0)
+        public void CopyTo(KeyValuePair<TDeclarationIdentifier, TIntermediateDeclaration>[] result, int index = 0)
         {
             var copy = base.ToArray();
             for (int i = 0; i < this.Count; i++)
             {
                 var copyElement = copy[i];
-                result[i + index] = new KeyValuePair<string, TIntermediateDeclaration>(copyElement.Key, (TIntermediateDeclaration)copyElement.Value);
+                result[i + index] = new KeyValuePair<TDeclarationIdentifier, TIntermediateDeclaration>(copyElement.Key, (TIntermediateDeclaration)copyElement.Value);
             }
         }
-        public new KeyValuePair<string, TIntermediateDeclaration> this[int index]
+        public new KeyValuePair<TDeclarationIdentifier, TIntermediateDeclaration> this[int index]
         {
-            get { return new KeyValuePair<string, TIntermediateDeclaration>(this.Keys[index], this.Values[index]); }
+            get { return new KeyValuePair<TDeclarationIdentifier, TIntermediateDeclaration>(this.Keys[index], this.Values[index]); }
         }
 
-        public new IEnumerator<KeyValuePair<string, TIntermediateDeclaration>> GetEnumerator()
+        public new IEnumerator<KeyValuePair<TDeclarationIdentifier, TIntermediateDeclaration>> GetEnumerator()
         {
-            foreach (var item in ((IEnumerable<KeyValuePair<string, TDeclaration>>)(this)))
-                yield return new KeyValuePair<string, TIntermediateDeclaration>(item.Key, (TIntermediateDeclaration)item.Value);
+            foreach (var item in ((IEnumerable<KeyValuePair<TDeclarationIdentifier, TDeclaration>>)(this)))
+                yield return new KeyValuePair<TDeclarationIdentifier, TIntermediateDeclaration>(item.Key, (TIntermediateDeclaration)item.Value);
             yield break;
         }
 
         /// <summary>
         /// Occurs when an item is added to the 
-        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>.
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration}"/>.
         /// </summary>
         public event EventHandler<EventArgsR1<TIntermediateDeclaration>> ItemAdded;
 
         /// <summary>
         /// Occurs when an item is removed from the 
-        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>.
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration}"/>.
         /// </summary>
         public event EventHandler<EventArgsR1<TIntermediateDeclaration>> ItemRemoved;
 
@@ -169,7 +183,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IDisposable Members
         /// <summary>
-        /// Disposes the <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>.
+        /// Disposes the <see cref="IntermediateGroupedDeclarationDictionary{TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration}"/>.
         /// </summary>
         public void Dispose()
         {
@@ -187,7 +201,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Disposes the current 
-        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration}"/>
         /// with further context on whether managed resources should be disposed.
         /// </summary>
         /// <param name="disposing">Whether to release managed memory.  If true, all data
@@ -240,10 +254,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Returns the index of the <paramref name="decl"/> provided.
         /// </summary>
         /// <param name="decl">The <see cref="IDeclaration"/> in the 
-        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration}"/>
         /// to return the index of.</param>
         /// <returns>An <see cref="Int32"/> value representing the index of the <paramref name="decl"/> in the
-        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>,
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration}"/>,
         /// if present; -1, otherwise.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="decl"/> is null.</exception>
         public int IndexOf(TDeclaration decl)
@@ -279,7 +293,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Suspends the duality of the 
-        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>.
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration}"/>.
         /// </summary>
         protected internal void Suspend()
         {
@@ -288,7 +302,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Resumes the duality of the 
-        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>.
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration}"/>.
         /// </summary>
         protected internal void Resume()
         {
@@ -305,13 +319,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Adds an element of the provided <paramref name="key"/>
         /// and <paramref name="value"/> to the
-        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>.
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration}"/>.
         /// </summary>
-        /// <param name="key">The <see cref="string"/> key of the
+        /// <param name="key">The <see cref="TDeclarationIdentifier"/> key of the
         /// current <paramref name="value"/> inserted.</param>
         /// <param name="value">The <typeparamref name="TDeclaration"/>
         /// to insert.</param>
-        protected internal override void _Add(string key, TDeclaration value)
+        protected internal override void _Add(TDeclarationIdentifier key, TDeclaration value)
         {
             this.OnItemAdded(new EventArgsR1<TIntermediateDeclaration>(((TIntermediateDeclaration)(value))));
             if (!this.Suspended)
@@ -324,7 +338,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Removes an element with the specified <paramref name="index"/>
         /// from the
-        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>.
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration}"/>.
         /// </summary>
         /// <param name="index">The <see cref="Int32"/> value of the ordinal index of 
         /// the <typeparamref name="TIntermediateDeclaration"/> to remove.</param>
@@ -357,36 +371,36 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// set of elements that was inserted during the suspension.</param>
         protected virtual void ProcessSuspendedDeclarations(IEnumerable<TDeclaration> declarations)
         {
-            List<KeyValuePair<string, TDeclaration>> processedDeclarations = new List<KeyValuePair<string, TDeclaration>>();
+            List<KeyValuePair<TDeclarationIdentifier, TDeclaration>> processedDeclarations = new List<KeyValuePair<TDeclarationIdentifier, TDeclaration>>();
             foreach (var declaration in declarations)
-                processedDeclarations.Add(new KeyValuePair<string, TDeclaration>(declaration.UniqueIdentifier, declaration));
+                processedDeclarations.Add(new KeyValuePair<TDeclarationIdentifier, TDeclaration>((TDeclarationIdentifier)declaration.UniqueIdentifier, declaration));
             if (this.Master != null)
                 this.Master.Subordinate_ItemsAdded(this, processedDeclarations);
             base._AddRange(processedDeclarations);
         }
 
-        protected override TDeclaration OnGetThis(string key)
+        protected override TDeclaration OnGetThis(TDeclarationIdentifier key)
         {
             if (Suspended)
             {
                 if (base.ContainsKey(key))
                     return base[key];
                 foreach (var suspendedMember in this.suspendedMembers)
-                    if (suspendedMember.UniqueIdentifier == key)
+                    if (suspendedMember.UniqueIdentifier.Equals(key))
                         return suspendedMember;
                 throw new KeyNotFoundException("key");
             }
             return base.OnGetThis(key);
         }
 
-        public override bool ContainsKey(string key)
+        public override bool ContainsKey(TDeclarationIdentifier key)
         {
             if (this.Suspended)
             {
                 if (base.ContainsKey(key))
                     return true;
                 foreach (var member in this.suspendedMembers)
-                    if (member.UniqueIdentifier == key)
+                    if (member.UniqueIdentifier.Equals(key))
                         return true;
                 return false;
             }
@@ -438,7 +452,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             else
             {
                 base._AddRange(from declaration in declarations
-                               select new KeyValuePair<string, TDeclaration>(declaration.UniqueIdentifier, declaration));
+                               select new KeyValuePair<TDeclarationIdentifier, TDeclaration>((TDeclarationIdentifier)declaration.UniqueIdentifier, declaration));
             }
         }
 
@@ -452,7 +466,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 lock (suspendedMembers)
                     this.suspendedMembers.Add(declaration);
             else
-                base._Add(new KeyValuePair<string, TDeclaration>(declaration.UniqueIdentifier, declaration));
+                base._Add(new KeyValuePair<TDeclarationIdentifier, TDeclaration>((TDeclarationIdentifier)declaration.UniqueIdentifier, declaration));
         }
 
         internal void Lock()

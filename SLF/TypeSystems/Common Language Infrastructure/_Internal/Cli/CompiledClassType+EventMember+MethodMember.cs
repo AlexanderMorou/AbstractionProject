@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     partial class CompiledClassType
     {
         internal sealed class EventMember :
-            CompiledEventMemberBase<IClassMethodMember, IClassEventMember, IClassType>,
+            CompiledEventMemberBase<IClassMethodMember, IClassEventMember, IGeneralGenericTypeUniqueIdentifier, IClassType>,
             IClassEventMember
         {
             public EventMember(EventInfo memberInfo, CompiledClassType parent)

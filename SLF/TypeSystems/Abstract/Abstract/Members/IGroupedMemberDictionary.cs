@@ -20,16 +20,21 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// </summary>
     /// <typeparam name="TParent">The type of the parent that contains the <typeparamref name="TItem"/>
     /// instances in the current implementation.</typeparam>
+    /// <typeparam name="TItemIdentifier">The type of identifier used to represent the members
+    /// of the <see cref="IGroupedMemberDictionary{TParent, TItemIdentifier, TItem}"/>.</typeparam>
     /// <typeparam name="TItem">The type of <see cref="IMember{TParent}"/> contained within the 
     /// current <see cref="IGroupedMemberDictionary{TParent, TItem}"/> implementation.</typeparam>
-    public interface IGroupedMemberDictionary<TParent, TItem> :
-        ISubordinateDictionary<string, TItem, IMember>,
-        IGroupedDeclarationDictionary<TItem>,
-        IMemberDictionary<TParent, TItem>
+    public interface IGroupedMemberDictionary<TParent, TItemIdentifier, TItem> :
+        ISubordinateDictionary<TItemIdentifier, IGeneralMemberUniqueIdentifier, TItem, IMember>,
+        IGroupedDeclarationDictionary<TItemIdentifier, TItem>,
+        IMemberDictionary<TParent, TItemIdentifier, TItem>
         where TParent :
             IMemberParent
+        where TItemIdentifier :
+            IMemberUniqueIdentifier<TItemIdentifier>,
+            IGeneralMemberUniqueIdentifier
         where TItem :
-            IMember<TParent>
+            IMember<TItemIdentifier, TParent>
     {
     }
     /// <summary>

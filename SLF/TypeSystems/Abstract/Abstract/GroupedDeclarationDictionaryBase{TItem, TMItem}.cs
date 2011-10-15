@@ -16,12 +16,17 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <typeparam name="TItem">The type of <see cref="IDeclaration"/> in the current
     /// implementation.</typeparam>
     /// <typeparam name="TMItem">The base type of <typeparamref name="TItem"/>.</typeparam>
-    internal partial class GroupedDeclarationDictionaryBase<TItem, TMItem> :
-        SubordinateDictionary<string, TItem, TMItem>,
-        IGroupedDeclarationDictionary<TItem>,
+    internal partial class GroupedDeclarationDictionaryBase<TItemIdentifier, TItem, TMItemIdentifier, TMItem> :
+        SubordinateDictionary<TItemIdentifier, TMItemIdentifier, TItem, TMItem>,
+        IGroupedDeclarationDictionary<TItemIdentifier, TItem>,
         IGroupedDeclarationDictionary
+        where TItemIdentifier :
+            IDeclarationUniqueIdentifier<TItemIdentifier>,
+            TMItemIdentifier
         where TItem :
             TMItem
+        where TMItemIdentifier :
+            IDeclarationUniqueIdentifier<TMItemIdentifier>
         where TMItem :
             class,
             IDeclaration
@@ -33,7 +38,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <param name="master">The <see cref="FullDeclarationDictionaryBase{TMItem}"/>
         /// in which the <see cref="GroupedDeclarationDictionaryBase{TItem, TMItem}"/> 
         /// synchronizes with.</param>
-        public GroupedDeclarationDictionaryBase(FullDeclarationDictionaryBase<TMItem> master)
+        public GroupedDeclarationDictionaryBase(FullDeclarationDictionaryBase<TMItemIdentifier, TMItem> master)
             : base(master)
         {
 

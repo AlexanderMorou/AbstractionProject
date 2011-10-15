@@ -49,7 +49,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Always)]
     public abstract partial class IntermediateInterfaceType<TInstanceType> :
-        IntermediateGenericSegmentableParentType<IInterfaceType, IIntermediateInterfaceType, TInstanceType>,
+        IntermediateGenericSegmentableParentType<IGeneralGenericTypeUniqueIdentifier, IInterfaceType, IIntermediateInterfaceType, TInstanceType>,
         IIntermediateInterfaceType
         where TInstanceType :
             IntermediateInterfaceType<TInstanceType>
@@ -236,7 +236,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        #region IIntermediatePropertySignatureParentType<IInterfacePropertyMember,IIntermediateInterfacePropertyMember,IInterfaceType,IIntermediateInterfaceType> Members
+        #region IIntermediatePropertySignatureParent<IInterfacePropertyMember,IIntermediateInterfacePropertyMember,IInterfaceType,IIntermediateInterfaceType> Members
 
         /// <summary>
         /// Returns the properties associated to the current
@@ -307,27 +307,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        #region IIntermediatePropertySignatureParentType Members
+        #region IIntermediatePropertySignatureParent Members
 
-        IIntermediatePropertySignatureMemberDictionary IIntermediatePropertySignatureParentType.Properties
+        IIntermediatePropertySignatureMemberDictionary IIntermediatePropertySignatureParent.Properties
         {
             get { return (IIntermediatePropertySignatureMemberDictionary)this.Properties; }
         }
 
         #endregion
 
-        #region IPropertySignatureParentType Members
+        #region IPropertySignatureParent Members
 
-        IPropertySignatureMemberDictionary IPropertySignatureParentType.Properties
+        IPropertySignatureMemberDictionary IPropertySignatureParent.Properties
         {
             get { return (IPropertySignatureMemberDictionary)this.Properties; }
         }
 
         #endregion
 
-        #region IPropertySignatureParentType<IInterfacePropertyMember,IInterfaceType> Members
+        #region IPropertySignatureParent<IInterfacePropertyMember,IInterfaceType> Members
 
-        IPropertySignatureMemberDictionary<IInterfacePropertyMember, IInterfaceType> IPropertySignatureParentType<IInterfacePropertyMember, IInterfaceType>.Properties
+        IPropertySignatureMemberDictionary<IInterfacePropertyMember, IInterfaceType> IPropertySignatureParent<IInterfacePropertyMember, IInterfaceType>.Properties
         {
             get { return this.Properties; }
         }

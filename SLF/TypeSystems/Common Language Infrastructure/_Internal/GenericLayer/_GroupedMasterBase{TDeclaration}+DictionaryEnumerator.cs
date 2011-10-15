@@ -13,14 +13,14 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
-    partial class _GroupedMasterBase<TDeclaration>
+    partial class _GroupedMasterBase<TDeclarationIdentifier, TDeclaration>
     {
         private class _DictionaryEnumerator :
             IDictionaryEnumerator
         {
-            private _GroupedMasterBase<TDeclaration> master;
-            private IEnumerator<KeyValuePair<string, MasterDictionaryEntry<TDeclaration>>> enumerator;
-            public _DictionaryEnumerator(_GroupedMasterBase<TDeclaration> master)
+            private _GroupedMasterBase<TDeclarationIdentifier, TDeclaration> master;
+            private IEnumerator<KeyValuePair<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>> enumerator;
+            public _DictionaryEnumerator(_GroupedMasterBase<TDeclarationIdentifier, TDeclaration> master)
             {
                 this.master = master;
             }

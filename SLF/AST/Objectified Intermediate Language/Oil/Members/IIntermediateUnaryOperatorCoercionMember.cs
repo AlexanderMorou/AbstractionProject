@@ -24,14 +24,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// unary operation coercion member in the abstract type system.</typeparam>
     /// <typeparam name="TInterCoercionParent">The type of parent that contains 
     /// the unary operation coercion member in the intermediate abstract syntax tree.</typeparam>
-    public interface IIntermediateUnaryOperatorCoercionMember<TCoercionParent, TInterCoercionParent> :
-        IIntermediateCoercionMember<IUnaryOperatorCoercionMember<TCoercionParent>, IIntermediateUnaryOperatorCoercionMember<TCoercionParent, TInterCoercionParent>, TCoercionParent, TInterCoercionParent>,
+    public interface IIntermediateUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TInterCoercionParent> :
+        IIntermediateCoercionMember<IUnaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, IIntermediateUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TInterCoercionParent>, TCoercionParent, TInterCoercionParent>,
         IIntermediateUnaryOperatorCoercionMember,
-        IUnaryOperatorCoercionMember<TCoercionParent>
+        IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>
+        where TCoercionParentIdentifier :
+            ITypeUniqueIdentifier<TCoercionParentIdentifier>
         where TCoercionParent :
-            ICoercibleType<IUnaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>
+            ICoercibleType<IUnaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
         where TInterCoercionParent :
-            IIntermediateCoercibleType<IUnaryOperatorCoercionMember<TCoercionParent>, IIntermediateUnaryOperatorCoercionMember<TCoercionParent, TInterCoercionParent>, TCoercionParent, TInterCoercionParent>,
+            IIntermediateCoercibleType<IUnaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, IIntermediateUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TInterCoercionParent>, TCoercionParent, TInterCoercionParent>,
             TCoercionParent
     {
     }

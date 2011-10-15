@@ -12,12 +12,12 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
-    partial class _ConstructorBase<TCtor, TType>
+    partial class _ConstructorBase<TCtor, TCtorParent>
     {
         private class _Parameters :
-            _ParametersBase<TCtor, IConstructorParameterMember<TCtor, TType>>
+            _ParametersBase<TCtor, IConstructorParameterMember<TCtor, TCtorParent>>
         {
-            internal _Parameters(_ConstructorBase<TCtor, TType> parent, IParameterMemberDictionary<TCtor, IConstructorParameterMember<TCtor, TType>> original)
+            internal _Parameters(_ConstructorBase<TCtor, TCtorParent> parent, IParameterMemberDictionary<TCtor, IConstructorParameterMember<TCtor, TCtorParent>> original)
                 : base((TCtor)(object)parent, original)
             {
 
@@ -25,10 +25,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
 
             private new class _Parameter :
-                _ParametersBase<TCtor, IConstructorParameterMember<TCtor, TType>>._Parameter,
-                IConstructorParameterMember<TCtor, TType>
+                _ParametersBase<TCtor, IConstructorParameterMember<TCtor, TCtorParent>>._Parameter,
+                IConstructorParameterMember<TCtor, TCtorParent>
             {
-                internal _Parameter(IConstructorParameterMember<TCtor, TType> original, TCtor parent)
+                internal _Parameter(IConstructorParameterMember<TCtor, TCtorParent> original, TCtor parent)
                     : base(original, parent)
                 {
                 }
@@ -43,7 +43,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
                 #endregion
             }
 
-            protected override IConstructorParameterMember<TCtor, TType> GetWrapper(IConstructorParameterMember<TCtor, TType> parameter, TCtor parent)
+            protected override IConstructorParameterMember<TCtor, TCtorParent> GetWrapper(IConstructorParameterMember<TCtor, TCtorParent> parameter, TCtor parent)
             {
                 return new _Parameter(parameter, parent);
             }

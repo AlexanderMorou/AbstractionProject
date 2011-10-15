@@ -43,7 +43,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <summary>
         /// Returns the parent of the <see cref="IIntermediateMethodMember{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/>.
         /// </summary>
-        /// <remarks>Resolves ambiguity between <see cref="IIntermediateMember{TParent, TIntermediateParent}"/>
+        /// <remarks>Resolves ambiguity between <see cref="IIntermediateMember{TIdentifier, TParent, TIntermediateParent}"/>
         /// and <see cref="IIntermediateMethodMember"/>.</remarks>
         new TIntermediateMethodParent Parent { get; }
     }

@@ -22,12 +22,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// Provides a base class for intermediate types.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class IntermediateTypeBase<TType, TIntermediateType> :
+    public abstract class IntermediateTypeBase<TTypeIdentifier, TType, TIntermediateType> :
         TypeBase<TType>,
         IIntermediateType
+        where TTypeIdentifier :
+            ITypeUniqueIdentifier<TTypeIdentifier>
         where TType :
             class,
-            IType<TType>
+            IType<TTypeIdentifier, TType>
         where TIntermediateType :
             IIntermediateType,
             TType
@@ -55,17 +57,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private bool isLocked;
         private byte isDisposed = 0;
         /// <summary>
-        /// Returns the <see cref="String"/> name of the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>.
+        /// Returns the <see cref="String"/> name of the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </summary>
         /// <returns>A <see cref="String"/> value indicating the name
-        /// of the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>.</returns>
+        /// of the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.</returns>
         protected override string OnGetName()
         {
             return this.name;
         }
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>
+        /// Creates a new <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>
         /// initialized to a default state.
         /// </summary>
         internal IntermediateTypeBase()
@@ -73,13 +75,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>
+        /// Creates a new <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>
         /// with the <paramref name="name"/> and <paramref name="parent"/>
         /// provided.
         /// </summary>
         /// <param name="name">The <see cref="String"/> representing the type's name.</param>
         /// <param name="parent">The <see cref="IIntermediateTypeParent"/>
-        /// which conatins the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/></param>
+        /// which conatins the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/></param>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/>
         /// or <paramref name="parent"/> is null.</exception>
         /// <exception cref="System.ArgumentException">thrown when <paramref name="name"/> is
@@ -95,12 +97,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>
+        /// Creates a new <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>
         /// with the <paramref name="parent"/>
         /// provided.
         /// </summary>
         /// <param name="parent">The <see cref="IIntermediateTypeParent"/>
-        /// which conatins the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/></param>
+        /// which conatins the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/></param>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="parent"/>
         /// is null.</exception>
         public IntermediateTypeBase(IIntermediateTypeParent parent)
@@ -127,7 +129,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns the <see cref="IIntermediateType"/> in which the current
-        /// <see cref="IntermediateTypeBase{TType, TIntermediateType}"/> is declared.
+        /// <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/> is declared.
         /// </summary>
         public new IIntermediateType DeclaringType
         {
@@ -141,7 +143,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns the <see cref="IIntermediateTypeParent"/> which
-        /// contains the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>.
+        /// contains the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </summary>
         public IIntermediateTypeParent Parent
         {
@@ -157,7 +159,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns the <see cref="IIntermediateAssembly"/> to which
-        /// the current <see cref="IntermediateTypeBase{TType, TIntermediateType}"/> belongs.
+        /// the current <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/> belongs.
         /// </summary>
         public virtual new IIntermediateAssembly Assembly
         {
@@ -170,7 +172,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Returns/sets the module which declared the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>.
+        /// Returns/sets the module which declared the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </summary>
         /// <exception cref="System.ArgumentNullException">thrown when a null value is assigned.</exception>
         public virtual IIntermediateModule DeclaringModule
@@ -207,7 +209,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #region IEquatable<IIntermediateType> Members
 
         /// <summary>
-        /// Returns whether the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/> is equal to the
+        /// Returns whether the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/> is equal to the
         /// <paramref name="other"/> type.
         /// </summary>
         /// <param name="other">The intermediate type to check against.</param>
@@ -223,7 +225,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns/sets the access level of the
-        /// <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>.
+        /// <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </summary>
         public new AccessLevelModifiers AccessLevel
         {
@@ -243,7 +245,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns/sets the name of the
-        /// <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>.
+        /// <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </summary>
         public new string Name
         {
@@ -258,7 +260,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Implementation which sets the name of the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>.
+        /// Implementation which sets the name of the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </summary>
         /// <param name="value">The <see cref="String"/> value representing the unique
         /// name of the type within the current context.</param>
@@ -278,7 +280,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Raises the <see cref="Renaming"/> event.
         /// </summary>
         /// <param name="e">The <see cref="DeclarationRenamingEventArgs"/> which
-        /// indicate the old and new name of the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/> and
+        /// indicate the old and new name of the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/> and
         /// whether the change should take place.</param>
         protected virtual void OnRenaming(DeclarationRenamingEventArgs e)
         {
@@ -291,7 +293,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Raises the <see cref="Renamed"/> event.
         /// </summary>
         /// <param name="e">The <see cref="DeclarationNameChangedEventArgs"/> which
-        /// indicate the old and new name of the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>.</param>
+        /// indicate the old and new name of the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.</param>
         protected virtual void OnRenamed(DeclarationNameChangedEventArgs e)
         {
             var renamed = this.Renamed;
@@ -305,12 +307,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Occurs when the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/> is renamed.
+        /// Occurs when the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/> is renamed.
         /// </summary>
         public event EventHandler<DeclarationNameChangedEventArgs> Renamed;
 
         /// <summary>
-        /// Occurs when the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/> is being
+        /// Occurs when the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/> is being
         /// renamed.
         /// </summary>
         public event EventHandler<DeclarationRenamingEventArgs> Renaming;
@@ -319,10 +321,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns the <see cref="IType"/> from which the current
-        /// <see cref="TypeBase"/> is declared.
+        /// <see cref="TypeBase{TIdentifier}"/> is declared.
         /// </summary>
         /// <returns>An <see cref="IType"/> instance denoting
-        /// the current <see cref="TypeBase"/>'s point 
+        /// the current <see cref="TypeBase{TIdentifier}"/>'s point 
         /// of declaration.</returns>
         protected override IType OnGetDeclaringType()
         {
@@ -331,7 +333,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns whether the set of interfaces implemented by
-        /// the <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>
+        /// the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>
         /// can be cached.
         /// </summary>
         protected override bool CanCacheImplementsList
@@ -447,11 +449,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Returns the dictionary of full members which denotes the
         /// verbatim order listing of all members within the current
-        /// <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>.
+        /// <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </summary>
         /// <returns>An <see cref="IIntermediateFullMemberDictionary"/> 
         /// instance which denotes the verbatim order listing of all 
-        /// members within the current <see cref="IntermediateTypeBase{TType, TIntermediateType}"/>.
+        /// members within the current <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </returns>
         protected abstract IIntermediateFullMemberDictionary OnGetIntermediateMembers();
 
@@ -460,14 +462,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             get
             {
                 return this.OnGetIntermediateMembers();
-            }
-        }
-
-        public override string UniqueIdentifier
-        {
-            get
-            {
-                return base.UniqueIdentifier;
             }
         }
 

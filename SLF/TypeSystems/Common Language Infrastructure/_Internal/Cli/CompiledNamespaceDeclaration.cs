@@ -10,6 +10,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Reflection;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
 
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
@@ -21,7 +22,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal partial class CompiledNamespaceDeclaration :
-        DeclarationBase,
+        DeclarationBase<IGeneralDeclarationUniqueIdentifier>,
         INamespaceDeclaration,
         _ICompiledNamespaceParent,
         _ICompiledTypeParent
@@ -208,9 +209,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.name;
         }
 
-        public override string UniqueIdentifier
+        public override IGeneralDeclarationUniqueIdentifier UniqueIdentifier
         {
-            get { return this.GetFullName(); }
+            get { return AstIdentifier.Declaration(this.Name); }
         }
 
         public override void Dispose()
@@ -405,11 +406,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.FullName;
         }
 
-        public IEnumerable<string> AggregateIdentifiers
+        public IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get
             {
-
                 return this.GetAggregateIdentifiers();
             }
         }

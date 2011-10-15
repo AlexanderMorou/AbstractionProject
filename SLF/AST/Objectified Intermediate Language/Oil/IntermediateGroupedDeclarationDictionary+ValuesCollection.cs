@@ -13,7 +13,12 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
-    partial class IntermediateGroupedDeclarationDictionary<TDeclaration, TMDeclaration, TIntermediateDeclaration>
+    partial class IntermediateGroupedDeclarationDictionary<TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration>
+        where TDeclarationIdentifier :
+            TMDeclarationIdentifier,
+            IDeclarationUniqueIdentifier<TDeclarationIdentifier>
+        where TMDeclarationIdentifier :
+            IDeclarationUniqueIdentifier<TMDeclarationIdentifier>
         where TDeclaration :
             TMDeclaration
         where TMDeclaration :
@@ -25,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     {
         /// <summary>
         /// The values collection used by the 
-        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclaration, TMDeclaration, TIntermediateDeclaration}"/>
+        /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration}"/>
         /// to mask the original <typeparamref name="TDeclaration"/> set of values
         /// with the more accurate <typeparamref name="TIntermediateDeclaration"/>.
         /// </summary>
@@ -33,8 +38,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IControlledStateCollection<TIntermediateDeclaration>,
             IControlledStateCollection
         {
-            private IntermediateGroupedDeclarationDictionary<TDeclaration, TMDeclaration, TIntermediateDeclaration> owner;
-            public ValuesCollection(IntermediateGroupedDeclarationDictionary<TDeclaration, TMDeclaration, TIntermediateDeclaration> owner)
+            private IntermediateGroupedDeclarationDictionary<TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration> owner;
+            public ValuesCollection(IntermediateGroupedDeclarationDictionary<TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration> owner)
             {
                 this.owner = owner;
             }
@@ -50,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 if (this.owner.Suspended)
                 {
-                    var originalContains = ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values.Contains(item);
+                    var originalContains = ((ControlledStateDictionary<TDeclarationIdentifier, TDeclaration>)(this.owner)).Values.Contains(item);
                     if (originalContains)
                         return true;
                     if (owner.suspendedMembers.Contains(item))
@@ -58,14 +63,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     return false;
                 }
                 else
-                    return ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values.Contains(item);
+                    return ((ControlledStateDictionary<TDeclarationIdentifier, TDeclaration>)(this.owner)).Values.Contains(item);
             }
 
             public void CopyTo(TIntermediateDeclaration[] array, int arrayIndex = 0)
             {
                 if ((arrayIndex + this.Count) > array.Length)
                     throw new ArgumentException("array");
-                var ownerValuesCollection = ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values;
+                var ownerValuesCollection = ((ControlledStateDictionary<TDeclarationIdentifier, TDeclaration>)(this.owner)).Values;
                 IEnumerator<TDeclaration> valuesEnum = ownerValuesCollection.GetEnumerator();
 
                 int index = arrayIndex;
@@ -81,7 +86,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public TIntermediateDeclaration this[int index]
             {
-                get { return ((TIntermediateDeclaration)(((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values[index])); }
+                get { return ((TIntermediateDeclaration)(((ControlledStateDictionary<TDeclarationIdentifier, TDeclaration>)(this.owner)).Values[index])); }
             }
 
             public TIntermediateDeclaration[] ToArray()
@@ -95,7 +100,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 if (this.owner.Suspended)
                 {
-                    int ownerIndex = ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values.IndexOf(element);
+                    int ownerIndex = ((ControlledStateDictionary<TDeclarationIdentifier, TDeclaration>)(this.owner)).Values.IndexOf(element);
                     if (ownerIndex == -1)
                     {
                         int suspendedIndex = this.owner.suspendedMembers.IndexOf(element);
@@ -105,7 +110,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     }
                     return ownerIndex;
                 }
-                return ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values.IndexOf(element);
+                return ((ControlledStateDictionary<TDeclarationIdentifier, TDeclaration>)(this.owner)).Values.IndexOf(element);
             }
             #endregion
 
@@ -113,7 +118,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public IEnumerator<TIntermediateDeclaration> GetEnumerator()
             {
-                foreach (var item in ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values)
+                foreach (var item in ((ControlledStateDictionary<TDeclarationIdentifier, TDeclaration>)(this.owner)).Values)
                     yield return ((TIntermediateDeclaration)(item));
                 if (owner.Suspended)
                     foreach (var item in this.owner.suspendedMembers)

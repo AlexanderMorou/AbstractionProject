@@ -11,7 +11,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>
-    /// Defines properties and methods for working with a series of <see cref="IDeclaration"/> instances.
+    /// Defines properties and methods for working with a series of <see cref="IDeclaration{TIdentifier}"/> instances.
     /// </summary>
     public interface IDeclarationDictionary :
         IControlledStateDictionary

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -43,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         where TProperty :
             IPropertyMember<TProperty, TPropertyParent>
         where TPropertyParent :
-            IPropertyParentType<TProperty, TPropertyParent>
+            IPropertyParent<TProperty, TPropertyParent>
     {
         private PropertyInfo memberInfo;
 
@@ -85,10 +84,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             return this.OnGetMethod(methodType, mi);
         }
 
-        public override string UniqueIdentifier
-        {
-            get { return this.Name; }
-        }
 
         #region ICompiledPropertyMember Members
 

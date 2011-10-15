@@ -12,8 +12,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <summary>
     /// Provides a root partial implementation of <see cref="IDeclaration"/>.
     /// </summary>
-    public abstract class DeclarationBase :
-        IDeclaration
+    public abstract partial class DeclarationBase<TIdentifier> :
+        IDeclaration<TIdentifier>
+        where TIdentifier :
+            IDeclarationUniqueIdentifier<TIdentifier>
     {
         /// <summary>
         /// Creates a new <see cref="DeclarationBase"/> initialized to a default state.
@@ -30,6 +32,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #region IDeclaration Members
 
+        IGeneralDeclarationUniqueIdentifier IDeclaration.UniqueIdentifier
+        {
+            get { return (IGeneralDeclarationUniqueIdentifier)this.UniqueIdentifier; }
+        }
+
         /// <summary>
         /// Returns the name of the <see cref="DeclarationBase"/>.
         /// </summary>
@@ -42,12 +49,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         /// <returns>A <see cref="System.String"/> that contains the name of the <see cref="DeclarationBase"/>.</returns>
         protected abstract string OnGetName();
-
-        /// <summary>
-        /// Returns the unique identifier for the current <see cref="DeclarationBase"/> where 
-        /// <see cref="Name"/> is not enough to distinguish between two <see cref="IDeclaration"/> entities.
-        /// </summary>
-        public abstract string UniqueIdentifier { get; }
 
         #endregion
 
@@ -74,5 +75,19 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         #endregion
+
+        #region IDeclaration<TIdentifier> Members
+
+        /// <summary>
+        /// Returns the unique identifier for the current 
+        /// <see cref="DeclarationBase{TIdentifier}"/> where <see cref="Name"/>
+        /// is not enough to distinguish between two 
+        /// <see cref="IDeclaration{TIdentifier}"/> entities.
+        /// </summary>
+        public abstract TIdentifier UniqueIdentifier { get; }
+
+        #endregion
+
+
     }
 }

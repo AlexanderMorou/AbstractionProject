@@ -42,7 +42,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <typeparam name="TParent">The type of <see cref="IGenericParamParent{TGenericParameter, TParent}"/> in the
     /// current implmentation.</typeparam>
     public interface IGenericParameter<TGenericParameter, TParent> :
-        IGenericParameter<TGenericParameter>
+        IGenericParameter<TGenericParameter>,
+        IType<IGenericParameterUniqueIdentifier, TGenericParameter>
         where TGenericParameter :
             IGenericParameter<TGenericParameter, TParent>
         where TParent :
@@ -53,6 +54,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// contains the <see cref="IGenericParameter{TGenericParameter, TParent}"/>.
         /// </summary>
         new TParent Parent { get; }
+        /// <summary>
+        /// Returns the unique identifier for the current
+        /// <see cref="IGenericParameter{TGenericParameter}"/> in its general case form.
+        /// </summary>
+        new IGenericParameterUniqueIdentifier UniqueIdentifier { get; }
     }
     /// <summary>
     /// Defines generic properties and methods for working 
@@ -62,11 +68,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <see cref="IGenericParameter{TGenericParameter}"/> in the current implementation.
     /// </typeparam>
     public interface IGenericParameter<TGenericParameter> :
-        ICreatableType<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter>,
+        ICreatableParent<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter>,
         IMethodSignatureParent<IGenericParameterMethodMember<TGenericParameter>, TGenericParameter>,
         IEventSignatureParent<IGenericParameterEventMember<TGenericParameter>, TGenericParameter>,
         IIndexerSignatureParent<IGenericParameterIndexerMember<TGenericParameter>, TGenericParameter>,
-        IPropertySignatureParentType<IGenericParameterPropertyMember<TGenericParameter>, TGenericParameter>,
+        IPropertySignatureParent<IGenericParameterPropertyMember<TGenericParameter>, TGenericParameter>,
         IGenericParameter
         where TGenericParameter :
             IGenericParameter<TGenericParameter>
@@ -96,16 +102,22 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// associated to the current <see cref="IGenericParameter{TGenericParameter}"/>.
         /// </summary>
         new IGenericParameterPropertyMemberDictionary<TGenericParameter> Properties { get; }
+        /// <summary>
+        /// Returns the unique identifier for the current
+        /// <see cref="IGenericParameter{TGenericParameter}"/> in its general case form.
+        /// </summary>
+        new IGenericParameterUniqueIdentifier UniqueIdentifier { get; }
     }
     /// <summary>
     /// Defines properties and methods for working with a generic's parameter.
     /// </summary>
     public interface IGenericParameter :
-        ICreatableType,
+        ICreatableParent,
         IMethodSignatureParent,
         IEventSignatureParent,
         IIndexerSignatureParent,
-        IPropertySignatureParentType
+        IPropertySignatureParent,
+        IDeclaration<IGenericParameterUniqueIdentifier>
     {
         /// <summary>
         /// Returns the direction of allowed variance of the
@@ -160,5 +172,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// associated to the current <see cref="IGenericParameter"/>.
         /// </summary>
         new IGenericParameterPropertyMemberDictionary Properties { get; }
+        /// <summary>
+        /// Returns the unique identifier for the current
+        /// <see cref="IGenericParameter"/> in its general case form.
+        /// </summary>
+        new IGenericParameterUniqueIdentifier UniqueIdentifier { get; }
+        
     }
 }

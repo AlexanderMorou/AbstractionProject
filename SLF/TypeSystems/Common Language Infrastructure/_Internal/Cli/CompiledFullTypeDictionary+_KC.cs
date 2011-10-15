@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -19,16 +21,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IDisposable
         {
             private CompiledFullTypeDictionary parent;
-            private string[] dataCopy;
+            private IGeneralTypeUniqueIdentifier[] dataCopy;
             internal _KC(CompiledFullTypeDictionary parent)
                 : base(parent)
             {
                 this.parent = parent;
-                this.dataCopy = new string[this.parent.parent.UnderlyingSystemTypes.Length];
+                this.dataCopy = new IGeneralTypeUniqueIdentifier[this.parent.parent.UnderlyingSystemTypes.Length];
             }
 
 
-            public override bool Contains(string item)
+            public override bool Contains(IGeneralTypeUniqueIdentifier item)
             {
                 bool containsUnloaded = false;
                 for (int i = 0; i < this.dataCopy.Length; i++)
@@ -55,9 +57,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (index < 0 || index >= this.Count)
                     throw new ArgumentOutOfRangeException("index");
-                this.dataCopy[index] = this.parent.parent.UnderlyingSystemTypes[index].Name;
+                this.dataCopy[index] = this.parent.parent.UnderlyingSystemTypes[index].GetUniqueIdentifier();
             }
-            public override void CopyTo(string[] array, int arrayIndex = 0)
+            public override void CopyTo(IGeneralTypeUniqueIdentifier[] array, int arrayIndex = 0)
             {
                 if (this.Count == 0)
                     return;
@@ -92,14 +94,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 get { return this.dataCopy.Length; }
             }
 
-            public override string[] ToArray()
+            public override IGeneralTypeUniqueIdentifier[] ToArray()
             {
-                var result = new string[this.Count];
+                var result = new IGeneralTypeUniqueIdentifier[this.Count];
                 this.CopyTo(result);
                 return result;
             }
 
-            public override int IndexOf(string key)
+            public override int IndexOf(IGeneralTypeUniqueIdentifier key)
             {
                 for (int i = 0; i < this.Count; i++)
                     if (this.dataCopy[i] == key)
@@ -107,21 +109,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return -1;
             }
 
-            protected override string OnGetKey(int index)
+            protected override IGeneralTypeUniqueIdentifier OnGetKey(int index)
             {
                 if (index < 0 || index >= this.Count)
                     throw new ArgumentOutOfRangeException("index");
                 return this.dataCopy[index];
             }
 
-            #region IEnumerable<string> Members
+            #region IEnumerable<IGeneralTypeUniqueIdentifier> Members
 
-            public override IEnumerator<string> GetEnumerator()
+            public override IEnumerator<IGeneralTypeUniqueIdentifier> GetEnumerator()
             {
                 for (int i = 0; i < this.dataCopy.Length; i++)
                 {
                     if (dataCopy[i] == null)
-                        dataCopy[i] = this.parent.parent.UnderlyingSystemTypes[i].Name;
+                        dataCopy[i] = AstIdentifier.Type(this.parent.parent.UnderlyingSystemTypes[i].Name);
                     yield return dataCopy[i];
                 }
                 yield break;

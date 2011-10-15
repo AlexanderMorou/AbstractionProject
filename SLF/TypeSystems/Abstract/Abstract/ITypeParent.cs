@@ -55,6 +55,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Returns a series of string values which relate to the 
         /// identifiers contained within the <see cref="ITypeParent"/>
         /// </summary>
-        IEnumerable<string> AggregateIdentifiers { get; }
+        IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers { get; }
     }
 }

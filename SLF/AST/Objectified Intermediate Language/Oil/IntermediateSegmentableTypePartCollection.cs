@@ -17,15 +17,17 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
-    public sealed class IntermediateSegmentableTypePartCollection<TType, TIntermediateType, TSpecificIntermediateType> :
-        IntermediateSegmentableDeclarationParts<TIntermediateType, TSpecificIntermediateType>,
-        IIntermediateSegmentableDeclarationPartCollection<TIntermediateType>
+    public sealed class IntermediateSegmentableTypePartCollection<TTypeIdentifier, TType, TIntermediateType, TSpecificIntermediateType> :
+        IntermediateSegmentableDeclarationParts<TTypeIdentifier, TIntermediateType, TSpecificIntermediateType>,
+        IIntermediateSegmentableDeclarationPartCollection<TTypeIdentifier, TIntermediateType>
+        where TTypeIdentifier :
+            ITypeUniqueIdentifier<TTypeIdentifier>
         where TType :
             class,
-            IType<TType>
+            IType<TTypeIdentifier, TType>
         where TIntermediateType :
             class,
-            IIntermediateSegmentableType<TType, TIntermediateType>,
+            IIntermediateSegmentableType<TTypeIdentifier, TType, TIntermediateType>,
             TType
         where TSpecificIntermediateType :
             class,

@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -15,7 +16,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Statements;
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
     public partial class LocalMember :
-        IntermediateMemberBase<IBlockStatementParent, IBlockStatementParent>,
+        IntermediateMemberBase<IGeneralMemberUniqueIdentifier, IBlockStatementParent, IBlockStatementParent>,
         ILocalMember
     {
         private IBoundLocalReferenceExpression singletonLocal = null;

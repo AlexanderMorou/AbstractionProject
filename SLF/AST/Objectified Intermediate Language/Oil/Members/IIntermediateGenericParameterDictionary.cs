@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <see cref="IIntermediateGenericParameterParent{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>
     /// in the intermediate abstract syntax tree.</typeparam>
     public interface IIntermediateGenericParameterDictionary<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent> :
-        IIntermediateDeclarationDictionary<TGenericParameter, TIntermediateGenericParameter>,
+        IIntermediateDeclarationDictionary<IGenericParameterUniqueIdentifier,TGenericParameter, TIntermediateGenericParameter>,
         IGenericParameterDictionary<TGenericParameter, TParent>
         where TGenericParameter :
             IGenericParameter<TGenericParameter, TParent>

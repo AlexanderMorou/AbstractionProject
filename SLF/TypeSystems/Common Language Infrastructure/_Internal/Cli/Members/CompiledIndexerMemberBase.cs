@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -36,6 +35,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             IMethodParent<TMethod, TMethodParent>
     {
         private PropertyInfo memberInfo;
+        private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
         private bool lastIsParams;
         public CompiledIndexerMemberBase(PropertyInfo memberInfo, TIndexerParent parent)
             : base(parent)
@@ -224,5 +224,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         }
 
         #endregion
+        public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier
+        {
+            get
+            {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = this.MemberInfo.GetIndexerUniqueIdentifier();
+                return this.uniqueIdentifier;
+            }
+        }
     }
 }

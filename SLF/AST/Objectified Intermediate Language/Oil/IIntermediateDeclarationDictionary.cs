@@ -20,8 +20,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <typeparam name="TDeclaration">The type of declaration in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateDeclaration">The type of declaration in the intermediate
     /// abstract syntax tree.</typeparam>
-    public interface IIntermediateDeclarationDictionary<TDeclaration, TIntermediateDeclaration> :
-        IDeclarationDictionary<TDeclaration>
+    public interface IIntermediateDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration> :
+        IDeclarationDictionary<TIdentifier, TDeclaration>
+        where TIdentifier :
+            IDeclarationUniqueIdentifier<TIdentifier>
         where TDeclaration :
             IDeclaration
         where TIntermediateDeclaration :
@@ -30,33 +32,33 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     {
         /// <summary>
         /// Returns the <see cref="IControlledStateCollection{T}"/> of <typeparamref name="TIntermediateDeclaration"/>
-        /// instances related to the current <see cref="IIntermediateDeclarationDictionary{TDeclaration, TIntermediateDeclaration}"/>.
+        /// instances related to the current <see cref="IIntermediateDeclarationDictionary{TIdentifier, TDeclaration, TIntermediateDeclaration}"/>.
         /// </summary>
         new IControlledStateCollection<TIntermediateDeclaration> Values { get; }
         /// <summary>
         /// Returns the <typeparamref name="TIntermediateDeclaration"/> by the given
         /// <paramref name="identifier"/>.
         /// </summary>
-        /// <param name="identifier">The unique <see cref="String"/> given to the member
+        /// <param name="identifier">The unique <typeparamref name="TIdentifier"/> given to the member
         /// to retrieve.</param>
         /// <returns>A <typeparamref name="TIntermediateDeclaration"/> instance if
-        /// a member exists in the <see cref="IIntermediateDeclarationDictionary{TDeclaration, TIntermediateDeclaration}"/>.</returns>
-        new TIntermediateDeclaration this[string identifier] { get; }
+        /// a member exists in the <see cref="IIntermediateDeclarationDictionary{TIdentifier, TDeclaration, TIntermediateDeclaration}"/>.</returns>
+        new TIntermediateDeclaration this[TIdentifier identifier] { get; }
         /// <summary>
         /// Returns the <see cref="KeyValuePair{TKey, TValue}"/> at the specified <paramref name="index"/>.
         /// </summary>
         /// <param name="index">The zero-based <see cref="Int32"/> index of the member to retrieve.</param>
         /// <returns>A <see cref="KeyValuePair{TKey, TValue}"/> if successful.</returns>
         /// <exception cref="System.ArgumentOutOfRangeException">thrown when <paramref name="index"/> is below zero
-        /// or beyond the end of the <see cref="IIntermediateDeclarationDictionary{TDeclaration, TIntermediateDeclaration}"/>.</exception>
-        new KeyValuePair<string, TIntermediateDeclaration> this[int index] { get; }
+        /// or beyond the end of the <see cref="IIntermediateDeclarationDictionary{TIdentifier, TDeclaration, TIntermediateDeclaration}"/>.</exception>
+        new KeyValuePair<TIdentifier, TIntermediateDeclaration> this[int index] { get; }
         /// <summary>
         /// Returns an <see cref="IEnumerator{T}"/> for the 
         /// <see cref="IIntermediateDeclarationDictionary"/>.
         /// </summary>
         /// <returns>An <see cref="IEnumerator{T}"/> instance for the 
         /// <see cref="IIntermediateDeclarationDictionary"/>.</returns>
-        new IEnumerator<KeyValuePair<string, TIntermediateDeclaration>> GetEnumerator();
+        new IEnumerator<KeyValuePair<TIdentifier, TIntermediateDeclaration>> GetEnumerator();
         event EventHandler<EventArgsR1<TIntermediateDeclaration>> ItemAdded;
         event EventHandler<EventArgsR1<TIntermediateDeclaration>> ItemRemoved;
     }

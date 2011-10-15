@@ -14,7 +14,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
     internal class _StructTypesBase :
-        _Types<IStructType, IStructTypeDictionary>,
+        _Types<IGeneralGenericTypeUniqueIdentifier, IStructType, IStructTypeDictionary>,
         IStructTypeDictionary
     {
         internal _StructTypesBase(_FullTypesBase master, IStructTypeDictionary originalSet, IGenericType parent)

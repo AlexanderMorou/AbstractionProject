@@ -17,9 +17,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Defines properties and methods for working with an interface type.
     /// </summary>
     public interface IInterfaceType :
-        IGenericType<IInterfaceType>,
+        IGenericType<IGeneralGenericTypeUniqueIdentifier, IInterfaceType>,
         IMethodSignatureParent<IInterfaceMethodMember, IInterfaceType>,
-        IPropertySignatureParentType<IInterfacePropertyMember, IInterfaceType>,
+        IPropertySignatureParent<IInterfacePropertyMember, IInterfaceType>,
         IEventSignatureParent<IInterfaceEventMember, IInterfaceType>,
         IIndexerSignatureParent<IInterfaceIndexerMember, IInterfaceType>,
         IReferenceType,
@@ -29,6 +29,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Returns a series of string values which relate to the 
         /// identifiers contained within the <see cref="IInterfaceType"/>
         /// </summary>
-        new IEnumerable<string> AggregateIdentifiers { get; }
+        new IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers { get; }
     }
 }

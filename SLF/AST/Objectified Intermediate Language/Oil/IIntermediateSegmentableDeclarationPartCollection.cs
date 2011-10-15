@@ -19,28 +19,30 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// </summary>
     /// <typeparam name="TDeclaration">The type of declaration that needs
     /// segmentation functionality.</typeparam>
-    public interface IIntermediateSegmentableDeclarationPartCollection<TDeclaration> :
+    public interface IIntermediateSegmentableDeclarationPartCollection<TIdentifier, TDeclaration> :
         IControlledStateCollection<TDeclaration>
+        where TIdentifier :
+            IDeclarationUniqueIdentifier<TIdentifier>
         where TDeclaration :
-            IIntermediateSegmentableDeclaration<TDeclaration>
+            IIntermediateSegmentableDeclaration<TIdentifier, TDeclaration>
     {
         /// <summary>
         /// Returns the <typeparamref name="TDeclaration"/> which
-        /// owns the <see cref="IIntermediateSegmentableDeclarationPartCollection{TDeclaration}"/>.
+        /// owns the <see cref="IIntermediateSegmentableDeclarationPartCollection{TIdentifier, TDeclaration}"/>.
         /// </summary>
         /// <remarks>The <see cref="Root"/> is not a part of the 
-        /// <see cref="IIntermediateSegmentableDeclarationPartCollection{TDeclaration}"/>.</remarks>
+        /// <see cref="IIntermediateSegmentableDeclarationPartCollection{TIdentifier, TDeclaration}"/>.</remarks>
         TDeclaration Root { get; }
         /// <summary>
         /// Adds a <typeparamref name="TDeclaration"/> part to the
-        /// current <see cref="IIntermediateSegmentableDeclarationPartCollection{TDeclaration}"/>.
+        /// current <see cref="IIntermediateSegmentableDeclarationPartCollection{TIdentifier, TDeclaration}"/>.
         /// </summary>
         /// <returns>A new <typeparamref name="TDeclaration"/> instance
         /// if successful.</returns>
         TDeclaration Add();
         /// <summary>
         /// Adds a <typeparamref name="TDeclaration"/> <paramref name="part"/> to the
-        /// current <see cref="IIntermediateSegmentableDeclarationPartCollection{TDeclaration}"/>.
+        /// current <see cref="IIntermediateSegmentableDeclarationPartCollection{TIdentifier, TDeclaration}"/>.
         /// </summary>
         /// <param name="part">A <typeparamref name="TDeclaration"/>
         /// instance as a part of the <see cref="Root"/> <typeparamref name="TDeclaration"/>.</param>

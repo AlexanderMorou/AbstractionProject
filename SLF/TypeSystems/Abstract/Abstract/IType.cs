@@ -190,6 +190,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Returns a series of string values which relate to the 
         /// identifiers contained within the <see cref="IType"/>.
         /// </summary>
-        IEnumerable<string> AggregateIdentifiers { get; }
+        IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers { get; }
+
+        /// <summary>
+        /// Returns the unique identifier for the current
+        /// <see cref="IType"/> in its general case form.
+        /// </summary>
+        new IGeneralTypeUniqueIdentifier UniqueIdentifier { get; }
+
     }
 }

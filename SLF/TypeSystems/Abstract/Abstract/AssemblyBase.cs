@@ -316,7 +316,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Returns a series of string values which relate to the 
         /// identifiers contained within the <see cref="AssemblyBase"/>
         /// </summary>
-        public abstract IEnumerable<string> AggregateIdentifiers { get; }
+        public abstract IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers { get; }
 
         /// <summary>
         /// Returns the <see cref="IClassTypeDictionary"/> associated
@@ -624,10 +624,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             get { return this.AssemblyInformation.AssemblyName; }
         }
 
-        string IDeclaration.UniqueIdentifier
+        IGeneralDeclarationUniqueIdentifier IDeclaration.UniqueIdentifier
         {
-            get { return this.ToString(); }
+            get { return this.UniqueIdentifier; }
         }
+
+        public abstract IAssemblyUniqueIdentifier UniqueIdentifier { get; }
 
         /// <summary>
         /// Occurs when the <see cref="AssemblyBase"/> is disposed.

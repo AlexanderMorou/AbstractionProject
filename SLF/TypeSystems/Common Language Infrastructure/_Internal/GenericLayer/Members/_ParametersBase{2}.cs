@@ -5,7 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -16,7 +16,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
     internal abstract partial class _ParametersBase<TParent, TParameter> :
-        _MembersBase<TParent, TParameter, IParameterMemberDictionary<TParent, TParameter>>,
+        _MembersBase<TParent, IGeneralMemberUniqueIdentifier, TParameter, IParameterMemberDictionary<TParent, TParameter>>,
         IParameterMemberDictionary<TParent, TParameter>,
         IParameterMemberDictionary
         where TParent :

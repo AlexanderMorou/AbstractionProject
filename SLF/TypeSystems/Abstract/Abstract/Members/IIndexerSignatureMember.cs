@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <typeparam name="TIndexer">The type of indexer member used in the abstact type system.</typeparam>
     /// <typeparam name="TIndexerParent">The type of indexer parent used in the abstact type system.</typeparam>
     public interface IIndexerSignatureMember<TIndexer, TIndexerParent> :
-        ISignatureMember<TIndexer, IIndexerSignatureParameterMember<TIndexer, TIndexerParent>, TIndexerParent>,
+        ISignatureMember<IGeneralSignatureMemberUniqueIdentifier, TIndexer, IIndexerSignatureParameterMember<TIndexer, TIndexerParent>, TIndexerParent>,
         IPropertySignatureMember,
         IMember
         where TIndexer :

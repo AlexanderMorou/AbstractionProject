@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
             IClassMethodMember, IInterfaceMethodMember, 
             IClassPropertyMember, IInterfacePropertyMember, 
             IClassEventMember, IInterfaceEventMember, 
-            IClassIndexerMember, IInterfaceIndexerMember, 
+            IClassIndexerMember, IInterfaceIndexerMember,
             IClassType, IInterfaceType>
     {
 

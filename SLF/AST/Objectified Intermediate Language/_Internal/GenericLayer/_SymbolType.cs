@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
+using AllenCopeland.Abstraction.Slf._Internal.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -17,7 +17,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
     internal class _SymbolType :
-        _GenericTypeBase<ISymbolType>,
+        _GenericTypeBase<IGeneralGenericTypeUniqueIdentifier, ISymbolType>,
         ISymbolType,
         IExpression,
         ITypeReferenceExpression

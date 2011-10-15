@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
+using System.Diagnostics;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
@@ -69,28 +70,28 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
             #endregion
 
-            #region ICreatableType<IGenericParameterConstructorMember<TGenericParameter>,TGenericParameter> Members
+            #region ICreatableParent<IGenericParameterConstructorMember<TGenericParameter>,TGenericParameter> Members
 
-            IConstructorMemberDictionary<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter> ICreatableType<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter>.Constructors
+            IConstructorMemberDictionary<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter> ICreatableParent<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter>.Constructors
             {
                 get { return this.Constructors; }
             }
 
             public IGenericParameterConstructorMember<TGenericParameter> TypeInitializer
             {
-                get { throw new NotImplementedException(); }
+                get { return null; }
             }
 
             #endregion
 
-            #region ICreatableType Members
+            #region ICreatableParent Members
 
-            IConstructorMemberDictionary ICreatableType.Constructors
+            IConstructorMemberDictionary ICreatableParent.Constructors
             {
                 get { return (IConstructorMemberDictionary)this.Constructors; }
             }
 
-            IConstructorMember ICreatableType.TypeInitializer
+            IConstructorMember ICreatableParent.TypeInitializer
             {
                 get { return this.TypeInitializer; }
             }
@@ -124,7 +125,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
             public IType DeclaringType
             {
-                get {
+                get
+                {
                     if (this.Parent is IType)
                         return (IType)this.Parent;
                     return null;
@@ -225,7 +227,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             /// Creates a new nullable <see cref="IType"/>.
             /// </summary>
             /// <returns>A new <see cref="IType"/> as a nullable type relative to the current
-            /// <see cref="TypeBase"/>.</returns>
+            /// <see cref="TypeParameter"/>.</returns>
             /// <exception cref="System.InvalidOperationException">thrown when the current <see cref="IType"/>
             /// is a poinoter, array, generic type definition, by-reference, or when 
             /// <see cref="Type"/> is something other than <see cref="TypeKind.Struct"/> or when the
@@ -287,7 +289,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
                 get { throw new NotImplementedException(); }
             }
 
-            public IEnumerable<string> AggregateIdentifiers
+            public IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
             {
                 get { return this.original.AggregateIdentifiers; }
             }
@@ -324,9 +326,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
                 get { return this.original.Name; }
             }
 
-            public string UniqueIdentifier
+            public IGenericParameterUniqueIdentifier UniqueIdentifier
             {
                 get { return this.original.UniqueIdentifier; }
+            }
+
+            IGeneralDeclarationUniqueIdentifier IDeclaration.UniqueIdentifier
+            {
+                get
+                {
+                    return this.UniqueIdentifier;
+                }
+            }
+
+            IGeneralTypeUniqueIdentifier IType.UniqueIdentifier
+            {
+                get
+                {
+                    return this.UniqueIdentifier;
+                }
             }
 
             public event EventHandler Disposed;
@@ -426,18 +444,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
             #endregion
 
-            #region IPropertySignatureParentType<IGenericParameterPropertyMember<TGenericParameter>,TGenericParameter> Members
+            #region IPropertySignatureParent<IGenericParameterPropertyMember<TGenericParameter>,TGenericParameter> Members
 
-            IPropertySignatureMemberDictionary<IGenericParameterPropertyMember<TGenericParameter>, TGenericParameter> IPropertySignatureParentType<IGenericParameterPropertyMember<TGenericParameter>, TGenericParameter>.Properties
+            IPropertySignatureMemberDictionary<IGenericParameterPropertyMember<TGenericParameter>, TGenericParameter> IPropertySignatureParent<IGenericParameterPropertyMember<TGenericParameter>, TGenericParameter>.Properties
             {
                 get { return this.Properties; }
             }
 
             #endregion
 
-            #region IPropertySignatureParentType Members
+            #region IPropertySignatureParent Members
 
-            IPropertySignatureMemberDictionary IPropertySignatureParentType.Properties
+            IPropertySignatureMemberDictionary IPropertySignatureParent.Properties
             {
                 get { return (IPropertySignatureMemberDictionary)this.Properties; }
             }
@@ -514,7 +532,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             /// <paramref name="rank"/> is zero or below.
             /// </exception>
             /// <exception cref="System.InvalidOperationException">
-            /// Thrown when the current <see cref="TypeBase"/>
+            /// Thrown when the current <see cref="TypeParameter"/>
             /// is a pointer or by-reference type.</exception>
             protected IArrayType OnMakeArray(int rank)
             {
@@ -565,11 +583,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             }
 
             /// <summary>
-            /// Makes the current <see cref="TypeBase"/> as a 
+            /// Makes the current <see cref="TypeParameter"/> as a 
             /// nullable <see cref="IType"/>.
             /// </summary>
             /// <returns>A <see cref="IType"/> instance
-            /// which represents the current <see cref="TypeBase"/>
+            /// which represents the current <see cref="TypeParameter"/>
             /// as a nullable type.</returns>
             protected IType OnMakeNullable()
             {

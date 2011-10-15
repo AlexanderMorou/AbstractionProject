@@ -14,7 +14,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
     internal class _ClassTypesBase :
-        _Types<IClassType, IClassTypeDictionary>,
+        _Types<IGeneralGenericTypeUniqueIdentifier, IClassType, IClassTypeDictionary>,
         IClassTypeDictionary
     {
         private IGenericType _Parent

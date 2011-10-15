@@ -13,28 +13,30 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
-    partial class IntermediateGenericTypeBase<TType, TIntermediateType>
+    partial class IntermediateGenericTypeBase<TTypeIdentifier, TType, TIntermediateType>
+        where TTypeIdentifier :
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>
         where TType :
             class,
-            IGenericType<TType>
+            IGenericType<TTypeIdentifier, TType>
         where TIntermediateType :
             class,
-            TType,
-            IIntermediateGenericType<TType, TIntermediateType>
+            IIntermediateGenericType<TTypeIdentifier, TType, TIntermediateType>,
+            TType
     {
         protected partial class TypeParameterDictionary :
-            IntermediateGenericParameterDictionary<IGenericTypeParameter<TType>, IIntermediateGenericTypeParameter<TType, TIntermediateType>, TType, TIntermediateType>
+            IntermediateGenericParameterDictionary<IGenericTypeParameter<TTypeIdentifier, TType>, IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>, TType, TIntermediateType>
         {
-            protected internal TypeParameterDictionary(IntermediateGenericTypeBase<TType, TIntermediateType> parent)
+            protected internal TypeParameterDictionary(IntermediateGenericTypeBase<TTypeIdentifier, TType, TIntermediateType> parent)
                 : base((TIntermediateType)(object)parent)
             {
             }
 
-            private new IntermediateGenericTypeBase<TType, TIntermediateType> Parent
+            private new IntermediateGenericTypeBase<TTypeIdentifier, TType, TIntermediateType> Parent
             {
                 get
                 {
-                    return (IntermediateGenericTypeBase<TType, TIntermediateType>)(object)base.Parent;
+                    return (IntermediateGenericTypeBase<TTypeIdentifier, TType, TIntermediateType>)(object)base.Parent;
                 }
             }
 
@@ -51,12 +53,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 base.OnRearranged(e);
             }
 
-            protected override IIntermediateGenericTypeParameter<TType, TIntermediateType> GetNew(string name)
+            protected override IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType> GetNew(string name)
             {
-                return new TypeParameter(name, (IntermediateGenericTypeBase<TType, TIntermediateType>)(object)this.Parent);
+                return new TypeParameter(name, (IntermediateGenericTypeBase<TTypeIdentifier, TType, TIntermediateType>)(object)this.Parent);
             }
 
-            protected internal override void _Add(string key, IGenericTypeParameter<TType> value)
+            protected internal override void _Add(string key, IGenericTypeParameter<TTypeIdentifier, TType> value)
             {
                 _Parent.ItemAdded(value);
                 base._Add(key, value);

@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     partial class IntermediateEnumType
     {
         public class FieldMemberDictionary :
-            IntermediateGroupedMemberDictionary<IEnumType, IIntermediateEnumType, IEnumFieldMember, IIntermediateEnumFieldMember>,
+            IntermediateGroupedMemberDictionary<IEnumType, IIntermediateEnumType, IGeneralMemberUniqueIdentifier, IEnumFieldMember, IIntermediateEnumFieldMember>,
             IIntermediateEnumFieldMemberDictionary,
             IFieldMemberDictionary
         {

@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// implementation.</typeparam>
     public interface IMethodMemberDictionary<TMethod, TMethodParent> :
         IMethodSignatureMemberDictionary<IMethodParameterMember<TMethod, TMethodParent>, TMethod, TMethodParent>,
-        IGroupedMemberDictionary<TMethodParent, TMethod>
+        IGroupedMemberDictionary<TMethodParent, IGeneralGenericSignatureMemberUniqueIdentifier, TMethod>
         where TMethod :
             IMethodMember<TMethod, TMethodParent>
         where TMethodParent :

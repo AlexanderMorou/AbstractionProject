@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         [DebuggerDisplay("{Name} = {Value},")]
         protected sealed partial class FieldMember :
-            IntermediateMemberBase<IEnumType, IIntermediateEnumType>,
+            IntermediateMemberBase<IGeneralMemberUniqueIdentifier, IEnumType, IIntermediateEnumType>,
             IIntermediateEnumFieldMember
         {
             private IIntermediateEnumFieldValue value;

@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     partial class CompiledNamespaceDeclarations
     {
         private class _ValuesCollection :
-            ControlledStateDictionary<string, INamespaceDeclaration>.ValuesCollection
+            ValuesCollection
         {
             private CompiledNamespaceDeclaration[] dataCopy;
             private CompiledNamespaceDeclarations parent;

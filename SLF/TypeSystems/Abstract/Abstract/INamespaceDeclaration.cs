@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// </summary>
     public interface INamespaceDeclaration :
         INamespaceParent,
-        IDeclaration
+        IDeclaration<IGeneralDeclarationUniqueIdentifier>
     {
         /// <summary>
         /// Returns the <see cref="IAssembly"/> associated

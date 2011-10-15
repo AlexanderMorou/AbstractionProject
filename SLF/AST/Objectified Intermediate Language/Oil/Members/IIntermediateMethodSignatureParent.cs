@@ -65,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// contains the method signature members in the intermediate
     /// abstract syntax tree.</typeparam>
     public interface IIntermediateMethodSignatureParent<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent> :
-        IIntermediateSignatureParent<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>,
+        IIntermediateSignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>,
         IIntermediateMethodSignatureParent
         where TSignatureParameter :
             IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
@@ -78,10 +78,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TSignature,
             IIntermediateMethodSignatureMember<TSignatureParameter,TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>
         where TSignatureParent :
-            ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+            ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TIntermediateSignatureParent :
             TSignatureParent,
-            IIntermediateMethodSignatureParent<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>
+            IIntermediateMethodSignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>
     {
         /// <summary>
         /// Returns the <see cref="IIntermediateMethodSignatureMemberDictionary{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent}"/> that 

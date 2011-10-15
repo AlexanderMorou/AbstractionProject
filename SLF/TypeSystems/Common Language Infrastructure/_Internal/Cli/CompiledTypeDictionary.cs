@@ -13,18 +13,21 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    internal partial class CompiledTypeDictionary<TType> :
-        SubordinateDictionary<string, TType, IType>,
-        IGroupedDeclarationDictionary<TType>,
+    internal partial class CompiledTypeDictionary<TTypeIdentifier, TType> :
+        SubordinateDictionary<TTypeIdentifier, IGeneralTypeUniqueIdentifier, TType, IType>,
+        IGroupedDeclarationDictionary<TTypeIdentifier, TType>,
         IGroupedDeclarationDictionary,
         ICompiledTypeDictionary
+        where TTypeIdentifier :
+            ITypeUniqueIdentifier<TTypeIdentifier>,
+            IGeneralTypeUniqueIdentifier
         where TType :
             class,
-            IType<TType>
+            IType<TTypeIdentifier, TType>
     {
         private Type[] filteredSeries;
         internal _ICompiledTypeParent parent;
-        public CompiledTypeDictionary(_ICompiledTypeParent parent, MasterDictionaryBase<string, IType> master, Type[] filteredSeries)
+        public CompiledTypeDictionary(_ICompiledTypeParent parent, MasterDictionaryBase<IGeneralTypeUniqueIdentifier, IType> master, Type[] filteredSeries)
             : base(master)
         {
             this.parent = parent;
@@ -57,53 +60,53 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public override void CopyTo(KeyValuePair<string, TType>[] array, int arrayIndex)
+        public override void CopyTo(KeyValuePair<TTypeIdentifier, TType>[] array, int arrayIndex)
         {
             for (int i = 0; i < this.Count; i++)
             {
-                array[i + arrayIndex] = new KeyValuePair<string, TType>(this.Keys[i], this.Values[i]);
+                array[i + arrayIndex] = new KeyValuePair<TTypeIdentifier, TType>(this.Keys[i], this.Values[i]);
             }
         }
 
-        public override bool Contains(KeyValuePair<string, TType> item)
+        public override bool Contains(KeyValuePair<TTypeIdentifier, TType> item)
         {
             if (Keys.Contains(item.Key))
                 return this.Values.Contains(item.Value);
             return false;
         }
 
-        protected override ControlledStateDictionary<string, TType>.KeysCollection InitializeKeysCollection()
+        protected override ControlledStateDictionary<TTypeIdentifier, TType>.KeysCollection InitializeKeysCollection()
         {
             return new KC(this);
         }
 
-        protected override ControlledStateDictionary<string, TType>.ValuesCollection InitializeValuesCollection()
+        protected override ControlledStateDictionary<TTypeIdentifier, TType>.ValuesCollection InitializeValuesCollection()
         {
             return new VC(this);
         }
 
-        public override IEnumerator<KeyValuePair<string, TType>> GetEnumerator()
+        public override IEnumerator<KeyValuePair<TTypeIdentifier, TType>> GetEnumerator()
         {
             for (int i = 0; i < this.Count; i++)
             {
-                yield return new KeyValuePair<string, TType>(this.Keys[i], this.Values[i]);
+                yield return new KeyValuePair<TTypeIdentifier, TType>(this.Keys[i], this.Values[i]);
             }
             yield break;
         }
 
-        protected override TType OnGetThis(string key)
+        protected override TType OnGetThis(TTypeIdentifier key)
         {
             if (!this.Keys.Contains(key))
                 throw new KeyNotFoundException("key");
-            return this.Values[this.Keys.GetIndexOf(key)];
+            return this.Values[this.Keys.IndexOf(key)];
         }
 
-        protected override KeyValuePair<string, TType> OnGetThis(int index)
+        protected override KeyValuePair<TTypeIdentifier, TType> OnGetThis(int index)
         {
-            return new KeyValuePair<string, TType>(this.Keys[index], this.Values[index]);
+            return new KeyValuePair<TTypeIdentifier, TType>(this.Keys[index], this.Values[index]);
         }
 
-        public override TType this[string key]
+        public override TType this[TTypeIdentifier key]
         {
             get
             {
@@ -114,12 +117,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 throw new InvalidOperationException("Readonly");
             }
         }
-        public override KeyValuePair<string, TType>[] ToArray()
+        public override KeyValuePair<TTypeIdentifier, TType>[] ToArray()
         {
-            var result = new KeyValuePair<string, TType>[this.Count];
+            var result = new KeyValuePair<TTypeIdentifier, TType>[this.Count];
             for (int i = 0; i < this.Count; i++)
             {
-                result[i] = new KeyValuePair<string, TType>(this.Keys[i], this.Values[i]);
+                result[i] = new KeyValuePair<TTypeIdentifier, TType>(this.Keys[i], this.Values[i]);
             }
             return result;
         }

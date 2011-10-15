@@ -117,7 +117,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public IEnumerable<IDeclaration> Declarations
         {
-            get { return TypeBase.EmptyDeclarations; }
+            get { return TypeBase<IGeneralTypeUniqueIdentifier>.EmptyDeclarations; }
         }
 
         public TypeElementClassification ElementClassification
@@ -277,7 +277,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             get { return LockedFullMembersBase.Empty; }
         }
 
-        public IEnumerable<string> AggregateIdentifiers
+        public IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get
             {
@@ -352,9 +352,14 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             get { return string.Format("{0}[{1}]", this.ElementType.Name, ','.Repeat(this.ArrayRank - 1)); }
         }
 
-        public string UniqueIdentifier
+        public IGeneralTypeUniqueIdentifier UniqueIdentifier
         {
-            get { return this.FullName; }
+            get { return this.elementType.UniqueIdentifier; }
+        }
+
+        IGeneralDeclarationUniqueIdentifier IDeclaration.UniqueIdentifier
+        {
+            get { return this.UniqueIdentifier; }
         }
 
         #endregion

@@ -14,10 +14,10 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal class CompiledDelegateTypeDictionary :
-        CompiledTypeDictionary<IDelegateType>,
+        CompiledTypeDictionary<IDelegateUniqueIdentifier, IDelegateType>,
         IDelegateTypeDictionary
     {
-        internal CompiledDelegateTypeDictionary(_ICompiledTypeParent parent, MasterDictionaryBase<string, IType> master)
+        internal CompiledDelegateTypeDictionary(_ICompiledTypeParent parent, MasterDictionaryBase<IGeneralTypeUniqueIdentifier, IType> master)
             : base(parent, master, parent.UnderlyingSystemTypes.Filter(p => p.IsSubclassOf(typeof(Delegate))))
         {
         }

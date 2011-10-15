@@ -257,7 +257,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 #if DEBUG
                     Debug.WriteLine("ExtensionAttribute initialized.");
 #endif
-                    CommonTypeRefs.extensionAttribute = typeof(ExtensionAttribute).GetTypeReference<IClassType>();
+                    CommonTypeRefs.extensionAttribute = typeof(ExtensionAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
                     CommonTypeRefs.extensionAttribute.Disposed += CommonTypeRefs.extensionAttribute_Disposed;
                 }
                 return CommonTypeRefs.extensionAttribute;
@@ -278,7 +278,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 #if DEBUG
                     Debug.WriteLine("StandardModuleAttribute initialized.");
 #endif
-                    CommonTypeRefs.standardModuleAttribute = typeof(StandardModuleAttribute).GetTypeReference<IClassType>();
+                    CommonTypeRefs.standardModuleAttribute = typeof(StandardModuleAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
                     CommonTypeRefs.standardModuleAttribute.Disposed += CommonTypeRefs.standardModuleAttribute_Disposed;
                 }
                 return CommonTypeRefs.standardModuleAttribute;
@@ -298,7 +298,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 #if DEBUG
                     Debug.WriteLine("ParameterArrayAttribute initialized.");
 #endif
-                    CommonTypeRefs.parameterArrayAttribute = typeof(ParamArrayAttribute).GetTypeReference<IClassType>();
+                    CommonTypeRefs.parameterArrayAttribute = typeof(ParamArrayAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
                     CommonTypeRefs.parameterArrayAttribute.Disposed += CommonTypeRefs.parameterArrayAttribute_Disposed;
                 }
                     
@@ -319,7 +319,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 #if DEBUG
                     Debug.WriteLine("Object initialized.");
 #endif
-                    CommonTypeRefs.@object = typeof(Object).GetTypeReference<IClassType>();
+                    CommonTypeRefs.@object = typeof(Object).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
                     CommonTypeRefs.@object.Disposed += CommonTypeRefs.object_Disposed;
                 }
                 return CommonTypeRefs.@object;
@@ -351,7 +351,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 #if DEBUG
                     Debug.WriteLine("Void initialized.");
 #endif
-                    CommonTypeRefs.@void = typeof(void).GetTypeReference<IStructType>();
+                    CommonTypeRefs.@void = typeof(void).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IStructType>();
                     CommonTypeRefs.@void.Disposed += CommonTypeRefs.void_Disposed;
                 }
                 return CommonTypeRefs.@void;
@@ -371,7 +371,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 #if DEBUG
                     Debug.WriteLine("ValueType initialized.");
 #endif
-                    CommonTypeRefs.valueType = typeof(ValueType).GetTypeReference<IClassType>();
+                    CommonTypeRefs.valueType = typeof(ValueType).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
                     CommonTypeRefs.valueType.Disposed += CommonTypeRefs.valueType_Disposed;
                 }
                 return CommonTypeRefs.valueType;
@@ -391,7 +391,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 #if DEBUG
                     Debug.WriteLine("Enum initialized.");
 #endif
-                    CommonTypeRefs.@enum = typeof(Enum).GetTypeReference<IClassType>();
+                    CommonTypeRefs.@enum = typeof(Enum).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
                     CommonTypeRefs.@enum.Disposed += CommonTypeRefs.enum_Disposed;
                 }
                 return CommonTypeRefs.@enum;
@@ -411,7 +411,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 #if DEBUG
                     Debug.WriteLine("Delegate initialized.");
 #endif
-                    CommonTypeRefs.@delegate = typeof(Delegate).GetTypeReference<IClassType>();
+                    CommonTypeRefs.@delegate = typeof(Delegate).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
                     CommonTypeRefs.@delegate.Disposed += CommonTypeRefs.delegate_Disposed;
                 }
                 return CommonTypeRefs.@delegate;
@@ -431,7 +431,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 #if DEBUG
                     Debug.WriteLine("MulticastDelegate initialized.");
 #endif
-                    CommonTypeRefs.multicastDelegate = typeof(MulticastDelegate).GetTypeReference<IClassType>();
+                    CommonTypeRefs.multicastDelegate = typeof(MulticastDelegate).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
                     CommonTypeRefs.multicastDelegate.Disposed += CommonTypeRefs.multicastDelegate_Disposed;
                 }
                 return CommonTypeRefs.multicastDelegate;
@@ -452,7 +452,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 #if DEBUG
                     Debug.WriteLine("String initialized.");
 #endif
-                    CommonTypeRefs.@string = typeof(string).GetTypeReference<IClassType>();
+                    CommonTypeRefs.@string = typeof(string).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
                     CommonTypeRefs.@string.Disposed += string_Disposed;
                 }
                 return CommonTypeRefs.@string;
@@ -474,7 +474,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 #if DEBUG
                     Debug.WriteLine("CompilerGeneratedAttribute initialized.");
 #endif
-                    CommonTypeRefs.compilerGeneratedAttribute = typeof(CompilerGeneratedAttribute).GetTypeReference<IClassType>();
+                    CommonTypeRefs.compilerGeneratedAttribute = typeof(CompilerGeneratedAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
                     CommonTypeRefs.compilerGeneratedAttribute.Disposed += compilerGeneratedAttribute_Disposed;
                 }
                 return CommonTypeRefs.compilerGeneratedAttribute;
@@ -506,7 +506,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 #if DEBUG
                     Debug.WriteLine("Boolean initialized.");
 #endif
-                    CommonTypeRefs.boolean = typeof(bool).GetTypeReference<IStructType>();
+                    CommonTypeRefs.boolean = typeof(bool).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IStructType>();
                     CommonTypeRefs.boolean.Disposed += new EventHandler(boolean_Disposed);
                 }
                 return CommonTypeRefs.boolean;
@@ -538,7 +538,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 #if DEBUG
                     Debug.WriteLine("HideModuleNameAttribute initialized.");
 #endif
-                    CommonTypeRefs.hideModuleNameAttribute = typeof(HideModuleNameAttribute).GetTypeReference<IClassType>();
+                    CommonTypeRefs.hideModuleNameAttribute = typeof(HideModuleNameAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
                     CommonTypeRefs.hideModuleNameAttribute.Disposed += new EventHandler(hideModuleNameAttribute_Disposed);
                 }
                 return CommonTypeRefs.hideModuleNameAttribute;

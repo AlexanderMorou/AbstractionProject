@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         new IIntermediateEventSignatureMemberDictionary<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> Events { get; }
     }
     public interface IIntermediateEventSignatureParent<TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent> :
-        IIntermediateSignatureParent<TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent>,
+        IIntermediateSignatureParent<IGeneralSignatureMemberUniqueIdentifier, TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent>,
         IIntermediateType,
         IEventSignatureParent<TEvent, TEventParameter, TEventParent>,
         IIntermediateEventSignatureParent

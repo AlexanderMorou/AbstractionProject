@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         {
             private _InterfaceTypeBase _Parent { get { return (_InterfaceTypeBase)base.Parent; } }
 
-            internal _IndexersBase(_FullMembersBase master, IIndexerSignatureMemberDictionary<IInterfaceIndexerMember,IInterfaceType> originalSet, _InterfaceTypeBase parent)
+            internal _IndexersBase(_FullMembersBase master, IIndexerSignatureMemberDictionary<IInterfaceIndexerMember, IInterfaceType> originalSet, _InterfaceTypeBase parent)
                 : base(master, originalSet, parent)
             {
             }
@@ -45,10 +45,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                     return new _MethodMember(this._Parent, ((IInterfaceMethodMember)originalMethod));
                 }
 
-                public override string UniqueIdentifier
-                {
-                    get { return string.Format("{0}[{1}]", this.Name, string.Join(",", this.Parameters.Values)); }
-                }
                 internal new class _MethodMember :
                     _MethodsBase._Method,
                     IPropertySignatureMethodMember

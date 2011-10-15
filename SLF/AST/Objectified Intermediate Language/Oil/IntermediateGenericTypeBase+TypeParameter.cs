@@ -12,20 +12,22 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
-    partial class IntermediateGenericTypeBase<TType, TIntermediateType>
+    partial class IntermediateGenericTypeBase<TTypeIdentifier, TType, TIntermediateType>
+        where TTypeIdentifier :
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>
         where TType :
             class,
-            IGenericType<TType>
+            IGenericType<TTypeIdentifier, TType>
         where TIntermediateType :
             class,
-            TType,
-            IIntermediateGenericType<TType, TIntermediateType>
+            IIntermediateGenericType<TTypeIdentifier, TType, TIntermediateType>,
+            TType
     {
         protected partial class TypeParameterDictionary
         {
             private class TypeParameter :
-                IntermediateGenericTypeParameterBase<TType, TIntermediateType>,
-                IIntermediateGenericTypeParameter<TType, TIntermediateType>
+                IntermediateGenericTypeParameterBase<TTypeIdentifier, TType, TIntermediateType>,
+                IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>
             {
                 /// <summary>
                 /// Creates a new <see cref="TypeParameter"/> instance
@@ -33,9 +35,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 /// </summary>
                 /// <param name="name">The <see cref="String"/> representing the unique
                 /// name of the <see cref="TypeParameter"/>.</param>
-                /// <param name="parent">The <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/> 
+                /// <param name="parent">The <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/> 
                 /// which contains the <see cref="TypeParameter"/>.</param>
-                public TypeParameter(string name, IntermediateGenericTypeBase<TType, TIntermediateType> parent)
+                public TypeParameter(string name, IntermediateGenericTypeBase<TTypeIdentifier, TType, TIntermediateType> parent)
                     : base(name, (TIntermediateType)(object)parent)
                 {
                 }

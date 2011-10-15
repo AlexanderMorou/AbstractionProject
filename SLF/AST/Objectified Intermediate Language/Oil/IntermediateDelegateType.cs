@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Always)]
     public partial class IntermediateDelegateType :
-        IntermediateGenericTypeBase<IDelegateType, IIntermediateDelegateType>,
+        IntermediateGenericTypeBase<IDelegateUniqueIdentifier, IDelegateType, IIntermediateDelegateType>,
         IIntermediateDelegateType
     {
         private IntermediateFullMemberDictionary members;

@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\AbstractGateway.cs" />
+    <Compile Include="Abstract\DeclarationBase+UniqueID.cs" />
     <Compile Include="Abstract\Documentation\IDocComment.cs" />
     <Compile Include="Abstract\Documentation\IDocCommentCodeElement.cs" />
     <Compile Include="Abstract\Documentation\IDocCommentCodeReference.cs" />
@@ -106,13 +107,29 @@
     <Compile Include="Abstract\Documentation\IMethodDocComment.cs" />
     <Compile Include="Abstract\Documentation\IPropertyDocComment.cs" />
     <Compile Include="Abstract\Documentation\ISignatureMemberDocComment.cs" />
+    <Compile Include="Abstract\IAssemblyUniqueIdentifier.cs" />
+    <Compile Include="Abstract\IDelegateUniqueIdentifier.cs" />
+    <Compile Include="Abstract\IGeneralDeclarationUniqueIdentifier.cs" />
+    <Compile Include="Abstract\IGeneralGenericTypeUniqueIdentifier.cs" />
+    <Compile Include="Abstract\IGeneralTypeUniqueIdentifier.cs" />
+    <Compile Include="Abstract\IGenericParameterUniqueIdentifier.cs" />
+    <Compile Include="Abstract\IGenericParamParentUniqueIdentifier{TIdentifier}.cs" />
+    <Compile Include="Abstract\IGroupedTypeDictionary.cs" />
+    <Compile Include="Abstract\Members\IBinaryOperatorUniqueIdentifier.cs" />
+    <Compile Include="Abstract\Members\IGeneralGenericSignatureMemberUniqueIdentifier.cs" />
+    <Compile Include="Abstract\Members\IGeneralMemberUniqueIdentifier.cs" />
+    <Compile Include="Abstract\Members\IGenericMethodMemberUniqueIdentifier.cs" />
+    <Compile Include="Abstract\IGenericTypeUniqueIdentifier.cs" />
     <Compile Include="Abstract\ISourceElement.cs" />
     <Compile Include="Abstract\ISymbolType.cs" />
     <Compile Include="Abstract\ITopLevelFieldMember.cs" />
     <Compile Include="Abstract\ITopLevelMethodMember.cs" />
     <Compile Include="Abstract\LineColumnPair.cs" />
+    <Compile Include="Abstract\Members\IMemberUniqueIdentifier.cs" />
+    <Compile Include="Abstract\Members\ISignatureMemberUniqueIdentifier.cs" />
+    <Compile Include="Abstract\Members\ITypeCoercionUniqueIdentifier.cs" />
+    <Compile Include="Abstract\Members\IUnaryOperatorUniqueIdentifier.cs" />
     <Compile Include="IProtectableComponent.cs" />
-    <Compile Include="Abstract\GenericTypeCache.cs" />
     <Compile Include="Abstract\IMassTargetHandler.cs" />
     <Compile Include="Abstract\MassDisposalAid.cs" />
     <Compile Include="Abstract\Members\IGenericParameterPropertyMethodMember{1}.cs" />
@@ -165,7 +182,7 @@
     <Compile Include="Abstract\IGenericType{TType}.cs" />
     <Compile Include="Abstract\IGroupedDeclarationDictionary.cs" />
     <Compile Include="Abstract\IIndexerParent.cs" />
-    <Compile Include="Abstract\IIndexerParent{TIndexer, TIndexerParent}.cs" />
+    <Compile Include="Abstract\IIndexerParent{2}.cs" />
     <Compile Include="Abstract\IIndexerSignatureParent.cs" />
     <Compile Include="Abstract\IIndexerSignatureParent{TIndexer, TIndexerParent}.cs" />
     <Compile Include="Abstract\IInstantiableType.cs" />
@@ -178,8 +195,8 @@
     <Compile Include="Abstract\INamespaceDeclaration.cs" />
     <Compile Include="Abstract\INamespaceDictionary.cs" />
     <Compile Include="Abstract\INamespaceParent.cs" />
-    <Compile Include="Abstract\IPropertyParentType.cs" />
-    <Compile Include="Abstract\IPropertySignatureParentType.cs" />
+    <Compile Include="Abstract\IPropertyParent.cs" />
+    <Compile Include="Abstract\IPropertySignatureParent.cs" />
     <Compile Include="Abstract\IReferenceType.cs" />
     <Compile Include="Abstract\IScopedDeclaration.cs" />
     <Compile Include="Abstract\IStructInterfaceMapping.cs" />
@@ -207,7 +224,7 @@
     <Compile Include="Abstract\Members\ICoercionMember.cs" />
     <Compile Include="Abstract\Members\IConstructorMember.cs" />
     <Compile Include="Abstract\Members\IConstructorMember{TCtor, TCtorParent}.cs" />
-    <Compile Include="Abstract\Members\IConstructorMembers.cs" />
+    <Compile Include="Abstract\Members\IConstructorMemberDictionary.cs" />
     <Compile Include="Abstract\Members\IConstructorParameterMember.cs" />
     <Compile Include="Abstract\Members\IDelegateTypeParameterMember.cs" />
     <Compile Include="Abstract\Members\IDelegateTypeParameterMembers.cs" />
@@ -221,7 +238,7 @@
     <Compile Include="Abstract\Members\IEventSignatureParameterMember{TEvent, TEventParent}.cs" />
     <Compile Include="Abstract\Members\IExtendedInstanceMember.cs" />
     <Compile Include="Abstract\Members\IFieldMember.cs" />
-    <Compile Include="Abstract\Members\IFieldMembers.cs" />
+    <Compile Include="Abstract\Members\IFieldMemberDictionary.cs" />
     <Compile Include="Abstract\Members\IFilteredSignatureMemberDictionary.cs" />
     <Compile Include="Abstract\Members\IFullMemberDictionary.cs" />
     <Compile Include="Abstract\Members\IGenericParameterConstructorMember.cs" />
@@ -249,7 +266,7 @@
     <Compile Include="Abstract\Members\IInterfacePropertyMember.cs" />
     <Compile Include="Abstract\Members\IMember.cs" />
     <Compile Include="Abstract\IMemberParent.cs" />
-    <Compile Include="Abstract\Members\IMembers.cs" />
+    <Compile Include="Abstract\Members\IMemberDictionary.cs" />
     <Compile Include="Abstract\Members\IMethodMember.cs" />
     <Compile Include="Abstract\Members\IMethodMembers.cs" />
     <Compile Include="Abstract\Members\IMethodParameterMember.cs" />
@@ -279,12 +296,12 @@
     <Compile Include="Abstract\Members\IStructPropertyMethodMember.cs" />
     <Compile Include="Abstract\Members\ITypeCoercionMember.cs" />
     <Compile Include="Abstract\Members\ITypeCoercionMemberDictionary.cs" />
-    <Compile Include="Abstract\Members\ITypeCoercionMemberDictionary`1.cs" />
-    <Compile Include="Abstract\Members\ITypeCoercionMember`1.cs" />
+    <Compile Include="Abstract\Members\ITypeCoercionMemberDictionary{2}.cs" />
+    <Compile Include="Abstract\Members\ITypeCoercionMember{2}.cs" />
     <Compile Include="Abstract\Members\IUnaryOperatorCoercionMember.cs" />
     <Compile Include="Abstract\Members\IUnaryOperatorCoercionMemberDictionary.cs" />
     <Compile Include="Abstract\Members\IUnaryOperatorCoercionMemberDictionary`1.cs" />
-    <Compile Include="Abstract\Members\IUnaryOperatorCoercionMember`1.cs" />
+    <Compile Include="Abstract\Members\IUnaryOperatorCoercionMember{2}.cs" />
     <Compile Include="Abstract\Members\MemberKind.cs" />
     <Compile Include="Abstract\Members\ParameterDirection.cs" />
     <Compile Include="Abstract\Members\SignatureData.cs" />
@@ -297,7 +314,7 @@
     <Compile Include="Abstract\Modules\IModuleDictionary.cs" />
     <Compile Include="Abstract\Modules\ModuleBase.cs" />
     <Compile Include="Abstract\TypeBase.cs" />
-    <Compile Include="Abstract\TypeBase{TType}.cs" />
+    <Compile Include="Abstract\TypeBase{Tidentifier, TType}.cs" />
     <Compile Include="Abstract\TypeCollection.cs" />
     <Compile Include="Abstract\TypeElementClassification.cs" />
     <Compile Include="Abstract\TypeExtensions %28Conversions%29.cs" />
@@ -306,65 +323,9 @@
     <Compile Include="Abstract\TypeKindGeneric.cs" />
     <Compile Include="Abstract\TypedName.cs" />
     <Compile Include="Abstract\TypedNameSeries.cs" />
-    <Compile Include="_Internal\Abstract\LockedBinaryOperatorCoercionMembers{TType}.cs" />
-    <Compile Include="_Internal\Abstract\LockedDeclarationsBase{TItem}.cs" />
-    <Compile Include="_Internal\Abstract\LockedFieldMembersBase{TField, TFieldParent}.cs" />
-    <Compile Include="_Internal\Abstract\LockedFullDeclarations{TMItem}+KeysCollection.cs">
-      <DependentUpon>LockedFullDeclarations{TMItem}.cs</DependentUpon>
-    </Compile>
-    <Compile Include="_Internal\Abstract\LockedFullDeclarations{TMItem}+ValuesCollection.cs">
-      <DependentUpon>LockedFullDeclarations{TMItem}.cs</DependentUpon>
-    </Compile>
-    <Compile Include="_Internal\Abstract\LockedFullDeclarations{TMItem}.cs" />
-    <Compile Include="_Internal\Abstract\LockedFullMembersBase.cs" />
-    <Compile Include="_Internal\Abstract\LockedFullTypes.cs" />
-    <Compile Include="_Internal\Abstract\LockedGenericParameters{TGenericParameter, TParent}.cs" />
-    <Compile Include="_Internal\Abstract\LockedGroupedDeclarationsBase{3}+KeysCollection.cs">
-      <DependentUpon>LockedGroupedDeclarationsBase{3}.cs</DependentUpon>
-    </Compile>
-    <Compile Include="_Internal\Abstract\LockedGroupedDeclarationsBase{3}+ValuesCollection.cs">
-      <DependentUpon>LockedGroupedDeclarationsBase{3}.cs</DependentUpon>
-    </Compile>
-    <Compile Include="_Internal\Abstract\LockedGroupedDeclarationsBase{3}.cs" />
-    <Compile Include="_Internal\Abstract\LockedGroupedMembersBase{3}.cs" />
-    <Compile Include="_Internal\Abstract\LockedMembersBase{TParent, TItem}.cs" />
-    <Compile Include="_Internal\Abstract\LockedParameterMembersBase{TParent, TParameter}.cs" />
-    <Compile Include="_Internal\Abstract\LockedPropertyMembersBase{TProperty, TPropertyParent}.cs" />
-    <Compile Include="_Internal\Abstract\LockedTypeCoercionMemberDictionary{TCoercionParent}.cs" />
-    <Compile Include="_Internal\Abstract\LockedUnaryOperatorCoercionMembers{TType}.cs" />
-    <Compile Include="_Internal\Abstract\Members\BinaryOperatorCoercionMemberBase{TCoercionParent}.cs" />
-    <Compile Include="_Internal\Abstract\Members\ConstructorMemberBase{TCtor, TCtorParent}.cs" />
-    <Compile Include="_Internal\Abstract\Members\EventMemberBase{TEvent, TEventParent}.cs" />
-    <Compile Include="_Internal\Abstract\Members\EventSignatureMemberBase{TEvent, TEventParent}.cs" />
-    <Compile Include="_Internal\Abstract\Members\EventSignatureMemberBase{TEvent, TEventParameter, TEventParent}.cs" />
-    <Compile Include="_Internal\Abstract\Members\FieldMemberBase{TField, TFieldParent}.cs" />
-    <Compile Include="_Internal\Abstract\Members\FieldMembersBase{TField, TFieldParent}.cs" />
-    <Compile Include="_Internal\Abstract\Members\FullMembersBase.cs" />
-    <Compile Include="_Internal\Abstract\Members\GenericParameterConstructorMemberBase`3.cs" />
-    <Compile Include="_Internal\Abstract\Members\GroupedMembersBase{TParent, TItem}.cs" />
-    <Compile Include="_Internal\Abstract\Members\IndexerMemberBase.cs" />
-    <Compile Include="_Internal\Abstract\Members\IndexerSignatureMemberBase.cs" />
-    <Compile Include="_Internal\Abstract\Members\MemberBase{TParent}.cs" />
-    <Compile Include="_Internal\Abstract\Members\MemberExtensions.cs" />
-    <Compile Include="_Internal\Abstract\Members\MembersBase{TParent, TItem}.cs" />
-    <Compile Include="_Internal\Abstract\Members\MethodMemberBase{TMethod, TMethodParent}.cs" />
-    <Compile Include="_Internal\Abstract\Members\MethodSignatureMemberBase{2}.cs" />
-    <Compile Include="_Internal\Abstract\Members\MethodSignatureMemberBase{3}.cs" />
-    <Compile Include="_Internal\Abstract\Members\ParameterMemberBase`1.cs" />
-    <Compile Include="_Internal\Abstract\Members\ParameterMemberDictionaryTypes.cs" />
-    <Compile Include="_Internal\Abstract\Members\ParameterMembersBase`2.cs" />
-    <Compile Include="_Internal\Abstract\Members\PropertyMemberBase{TProperty, TPropertyParent}.cs" />
-    <Compile Include="_Internal\Abstract\Members\PropertySignatureMemberBase.cs" />
-    <Compile Include="_Internal\Abstract\Members\SignatureMemberBase{3}.cs" />
-    <Compile Include="_Internal\Abstract\Members\TypeCoercionMemberBase`1.cs" />
-    <Compile Include="_Internal\Abstract\Members\TypeCoercionMembers`1.cs" />
-    <Compile Include="_Internal\Abstract\Members\UnaryOperatorCoercionMemberBase{TCoercionParent}.cs" />
-    <Compile Include="_Internal\Abstract\NamespaceCollectionBase.cs" />
+    <Compile Include="Abstract\IDeclarationUniqueIdentifier.cs" />
+    <Compile Include="Abstract\ITypeUniqueIdentifier.cs" />
     <Compile Include="_Internal\Abstract\TypeArrayCache.cs" />
-    <Compile Include="_Internal\Abstract\_LockedGroupMembersMasterPass.cs" />
-    <Compile Include="_Internal\Abstract\_LockedRelativeHelper.cs" />
-    <Compile Include="_Internal\GenericLayer\_IGenericTypeRegistrar.cs" />
-    <Compile Include="_Internal\_CoreHelperMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Common Utilities.csproj">
@@ -382,6 +343,12 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <CustomToolNamespace>AllenCopeland.Abstraction.Slf.Abstract.Properties</CustomToolNamespace>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Abstract\Members\IGeneralSignatureMemberUniqueIdentifier.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="_Internal\GenericLayer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

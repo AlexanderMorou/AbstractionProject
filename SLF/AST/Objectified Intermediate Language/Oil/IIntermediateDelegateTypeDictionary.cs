@@ -12,7 +12,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
     public interface IIntermediateDelegateTypeDictionary :
-        IIntermediateGenericTypeDictionary<IDelegateType, IIntermediateDelegateType>,
+        IIntermediateGenericTypeDictionary<IDelegateUniqueIdentifier, IDelegateType, IIntermediateDelegateType>,
         IDelegateTypeDictionary
     {
     }

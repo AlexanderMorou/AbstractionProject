@@ -8,7 +8,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
     internal partial class _TypeParameterDictionary<TGenericParameter, TParent, TInternalParent> :
-        _DeclarationsBase<IGenericParameter, TGenericParameter, TParent, IGenericParameterDictionary<TGenericParameter, TParent>>
+        _DeclarationsBase<IGeneralDeclarationUniqueIdentifier, IGenericParameter, IGenericParameterUniqueIdentifier, TGenericParameter, TParent, IGenericParameterDictionary<TGenericParameter, TParent>>
         where TGenericParameter :
             class,
             IGenericParameter<TGenericParameter, TParent>

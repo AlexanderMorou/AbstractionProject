@@ -35,8 +35,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <typeparam name="TEventParent">The type used as a parent of the <typeparamref name="TEvent"/>
     /// instances in the current implementation.</typeparam>
     public interface IEventSignatureMemberDictionary<TEvent, TEventParameter, TEventParent> :
-        ISignatureMemberDictionary<TEvent, TEventParameter, TEventParent>,
-        IGroupedMemberDictionary<TEventParent, TEvent>
+        ISignatureMemberDictionary<IGeneralSignatureMemberUniqueIdentifier, TEvent, TEventParameter, TEventParent>,
+        IGroupedMemberDictionary<TEventParent, IGeneralSignatureMemberUniqueIdentifier, TEvent>
         where TEvent :
             IEventSignatureMember<TEvent, TEventParameter, TEventParent>
         where TEventParameter :
@@ -51,12 +51,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <param name="searchCriteria">The <see cref="IDelegateType"/> 
         /// that designates the signature to look for.</param>
         /// <returns>A new 
-        /// <see cref="IFilteredSignatureMemberDictionary{TSignature, TSignatureParameter, TSignatureParent}"/> of 
+        /// <see cref="IFilteredSignatureMemberDictionary{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> of 
         /// <typeparamref name="TEvent"/> instances that matched the
         /// <paramref name="searchCriteria"/>.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when
         /// <paramref name="searchCriteria"/> is null.</exception>
-        IFilteredSignatureMemberDictionary<TEvent, TEventParameter, TEventParent> Find(IDelegateType searchCriteria);
+        IFilteredSignatureMemberDictionary<IGeneralSignatureMemberUniqueIdentifier, TEvent, TEventParameter, TEventParent> Find(IDelegateType searchCriteria);
         /// <summary>
         /// Searches for the <typeparamref name="TEvent"/> instance that match 
         /// the <paramref name="searchCriteria"/> with the given
@@ -65,12 +65,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <param name="searchCriteria">The <see cref="IDelegateType"/> that designates the signature to look for.</param>
         /// <param name="eventName">The <see cref="String"/> value representing the unique
         /// identifier of the event that matches the <paramref name="searchCriteria"/>.</param>
-        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignature, TSignatureParameter, TSignatureParent}"/> of 
+        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> of 
         /// <typeparamref name="TEvent"/> instances that matched the <paramref name="searchCriteria"/>.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when 
         /// <paramref name="eventName"/> or <paramref name="searchCriteria"/> is null.</exception>
         TEvent Find(string eventName, IDelegateType searchCriteria);
-
     }
     /// <summary>
     /// Defines properties and methods for working with a series of <see cref="IEventSignatureMember"/>

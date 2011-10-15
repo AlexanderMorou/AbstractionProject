@@ -14,10 +14,10 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal class CompiledInterfaceTypeDictionary :
-        CompiledTypeDictionary<IInterfaceType>,
+        CompiledTypeDictionary<IGeneralGenericTypeUniqueIdentifier, IInterfaceType>,
         IInterfaceTypeDictionary
     {
-        internal CompiledInterfaceTypeDictionary(_ICompiledTypeParent parent, MasterDictionaryBase<string, IType> master)
+        internal CompiledInterfaceTypeDictionary(_ICompiledTypeParent parent, MasterDictionaryBase<IGeneralTypeUniqueIdentifier, IType> master)
             : base(parent, master, parent.UnderlyingSystemTypes.Filter(p => p.IsInterface))
         {
         }

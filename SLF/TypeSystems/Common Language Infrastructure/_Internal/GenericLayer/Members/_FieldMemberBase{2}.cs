@@ -15,19 +15,30 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
     internal abstract class _FieldMemberBase<TField, TFieldParent> :
-        _MemberBase<TField, TFieldParent>,
+        _MemberBase<IGeneralMemberUniqueIdentifier, TField, TFieldParent>,
         IFieldMember<TField, TFieldParent>
         where TField :
             IFieldMember<TField, TFieldParent>
         where TFieldParent :
             IFieldParent<TField, TFieldParent>
     {
+        private IGeneralMemberUniqueIdentifier member;
+        private IGeneralMemberUniqueIdentifier uniqueIdentifier;
         protected _FieldMemberBase(TField original, TFieldParent parent)
             : base(original, parent)
         {
 
         }
 
+        public override IGeneralMemberUniqueIdentifier UniqueIdentifier
+        {
+            get
+            {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                return this.uniqueIdentifier;
+            }
+        }
         #region IFieldMember Members
 
         public IType FieldType

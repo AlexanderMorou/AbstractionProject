@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Modules;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
@@ -54,6 +54,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// Data member storing the <see cref="UnderlyingAssembly"/>.
         /// </summary>
         private Assembly underlyingAssembly;
+        private IAssemblyUniqueIdentifier uniqueIdentifier;
         /// <summary>
         /// Creates a new <see cref="CompiledAssembly"/> with the <paramref name="underlyingAssembly"/> 
         /// provided.
@@ -163,6 +164,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             var pkt = this.PublicKeyToken;
             string pktStr = pkt.Length == 0 ? "null" : pkt.FormatHexadecimal().ToLower();
             return string.Format("{0}, Version={1}, Culture={2}, PublicKeyToken={3}", this.AssemblyInformation.AssemblyName, this.AssemblyInformation.AssemblyVersion, string.IsNullOrEmpty(this.AssemblyInformation.Culture.Name) ? "neutral" : this.AssemblyInformation.Culture.Name, pktStr);
+        }
+
+        public override IAssemblyUniqueIdentifier UniqueIdentifier
+        {
+            get {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Assembly(this.AssemblyInformation.AssemblyName, this.AssemblyInformation.AssemblyVersion, this.AssemblyInformation.Culture, this.PublicKeyToken);
+                return this.uniqueIdentifier;
+            }
         }
 
         private byte[] PublicKeyToken
@@ -486,7 +496,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             });
             return new Tuple<FieldInfo[], MethodInfo[]>(fields, methods);
         }
-        public override IEnumerable<string> AggregateIdentifiers
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get {
                 return this.GetAggregateIdentifiers();

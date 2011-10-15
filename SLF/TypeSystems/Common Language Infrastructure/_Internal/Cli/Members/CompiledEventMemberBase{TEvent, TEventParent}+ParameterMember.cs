@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -15,7 +15,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    partial class CompiledEventMemberBase<TMethod, TEvent, TEventParent>
+    partial class CompiledEventMemberBase<TMethod, TEvent, TEventParentIdentifier, TEventParent>
         where TMethod :
             class,
             IMethodMember<TMethod, TEventParent>,
@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             IEventParameterMember<TEvent, TEventParent>
         {
             private IDelegateTypeParameterMember original;
-
+            private IGeneralMemberUniqueIdentifier uniqueIdentifier;
             #region ISignatureParameterMember Members
 
             ISignatureMember ISignatureParameterMember.Parent
@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
             #endregion
 
-            public ParameterMember(IDelegateTypeParameterMember original, CompiledEventMemberBase<TMethod, TEvent, TEventParent> parent)
+            public ParameterMember(IDelegateTypeParameterMember original, CompiledEventMemberBase<TMethod, TEvent, TEventParentIdentifier, TEventParent> parent)
                 : base((TEvent)(object)parent)
             {
                 this.original = original;
@@ -67,9 +67,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 return this.original.Name;
             }
 
-            public override string UniqueIdentifier
+            public override IGeneralMemberUniqueIdentifier UniqueIdentifier
             {
-                get { return this.original.UniqueIdentifier; }
+                get
+                {
+                    if (this.uniqueIdentifier == null)
+                        this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                    return this.uniqueIdentifier;
+                }
             }
         }
     }

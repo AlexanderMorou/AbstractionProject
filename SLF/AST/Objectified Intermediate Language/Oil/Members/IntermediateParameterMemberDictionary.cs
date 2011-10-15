@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Properties;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TIntermediateParameter">The type of parameter in the intermediate
     /// abstract syntax tree.</typeparam>
     public abstract class IntermediateParameterMemberDictionary<TParent, TIntermediateParent, TParameter, TIntermediateParameter> :
-        IntermediateMemberDictionary<TParent, TIntermediateParent, TParameter, TIntermediateParameter>,
+        IntermediateMemberDictionary<TParent, TIntermediateParent, IGeneralMemberUniqueIdentifier, TParameter, TIntermediateParameter>,
         IIntermediateParameterMemberDictionary<TParent, TIntermediateParent, TParameter, TIntermediateParameter>,
         IIntermediateParameterMemberDictionary
         where TParent :
@@ -132,7 +132,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                     result[i] = this.GetNewParameter(currentParamInfo.Name, currentParamType, currentParamInfo.Direction);
                 });
             foreach (var element in result)
-                this._Add(element.Name, element);
+                this._Add(element.UniqueIdentifier, element);
             return result;
         }
         
@@ -202,7 +202,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         internal bool Changed { get; set; }
 
-        protected internal override void _Add(string key, TParameter value)
+        protected internal override void _Add(IGeneralMemberUniqueIdentifier key, TParameter value)
         {
             this.Changed = true;
             base._Add(key, value);

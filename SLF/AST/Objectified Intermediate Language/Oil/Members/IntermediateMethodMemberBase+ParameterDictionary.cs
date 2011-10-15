@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TMethodParent
     {
         /// <summary>
-        /// Initializes the <see cref="IntermediateParameterParentMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}.Parameters"/> property.
+        /// Initializes the <see cref="IntermediateParameterParentMemberBase{TParentIdentifier, TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}.Parameters"/> property.
         /// </summary>
         /// <returns>An instance of <see cref="ParameterDictionary"/>.</returns>
         protected override IntermediateParameterMemberDictionary<TMethod, TIntermediateMethod, IMethodParameterMember<TMethod, TMethodParent>, IIntermediateMethodParameterMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>> InitializeParameters()

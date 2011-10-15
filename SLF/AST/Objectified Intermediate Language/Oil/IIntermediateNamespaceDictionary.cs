@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// instances.
     /// </summary>
     public interface IIntermediateNamespaceDictionary :
-        IIntermediateDeclarationDictionary<INamespaceDeclaration, IIntermediateNamespaceDeclaration>,
+        IIntermediateDeclarationDictionary<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration, IIntermediateNamespaceDeclaration>,
         INamespaceDictionary
     {
         /// <summary>

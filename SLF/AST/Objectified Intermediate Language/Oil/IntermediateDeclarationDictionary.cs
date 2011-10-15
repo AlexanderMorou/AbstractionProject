@@ -22,10 +22,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <typeparam name="TDeclaration">The type of declaration in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateDeclaration">The type of declaration in the intermediate
     /// abstract syntax tree.</typeparam>
-    public abstract partial class IntermediateDeclarationDictionary<TDeclaration, TIntermediateDeclaration> :
-        ControlledStateDictionary<string, TDeclaration>,
-        IIntermediateDeclarationDictionary<TDeclaration, TIntermediateDeclaration>,
+    public abstract partial class IntermediateDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration> :
+        ControlledStateDictionary<TIdentifier, TDeclaration>,
+        IIntermediateDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration>,
         IIntermediateDeclarationDictionary
+        where TIdentifier :
+            IDeclarationUniqueIdentifier<TIdentifier>
         where TDeclaration :
             IDeclaration
         where TIntermediateDeclaration :
@@ -38,18 +40,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private bool locked;
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateDeclarationDictionary{TDeclaration, TIntermediateDeclaration}"/> initialized to its default state.
+        /// Creates a new <see cref="IntermediateDeclarationDictionary{TIdentifier, TDeclaration, TIntermediateDeclaration}"/> initialized to its default state.
         /// </summary>
         public IntermediateDeclarationDictionary() :
             base()
         {
         }
         /// <summary>
-        /// Creates a new <see cref="IntermediateDeclarationDictionary{TDeclaration, TIntermediateDeclaration}"/> 
+        /// Creates a new <see cref="IntermediateDeclarationDictionary{TIdentifier, TDeclaration, TIntermediateDeclaration}"/> 
         /// with the <see cref="Dictionary{TKey, TValue}"/> <paramref name="toWrap"/>.
         /// </summary>
         /// <param name="toWrap">The <see cref="Dictionary{TKey, TValue}"/> to encapsulate.</param>
-        public IntermediateDeclarationDictionary(IntermediateDeclarationDictionary<TDeclaration, TIntermediateDeclaration> toWrap) :
+        public IntermediateDeclarationDictionary(IntermediateDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration> toWrap) :
             base(toWrap)
         {
         }
@@ -61,12 +63,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             get
             {
                 if (this.valuesCollection == null)
-                    this.valuesCollection = new IntermediateDeclarationDictionary<TDeclaration, TIntermediateDeclaration>.ValuesCollection(this);
+                    this.valuesCollection = new IntermediateDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration>.ValuesCollection(this);
                 return this.valuesCollection;
             }
         }
 
-        public new TIntermediateDeclaration this[string identifier]
+        public new TIntermediateDeclaration this[TIdentifier identifier]
         {
             get
             {
@@ -76,35 +78,35 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        public new virtual KeyValuePair<string, TIntermediateDeclaration>[] ToArray()
+        public new virtual KeyValuePair<TIdentifier, TIntermediateDeclaration>[] ToArray()
         {
-            KeyValuePair<string, TIntermediateDeclaration>[] result = new KeyValuePair<string, TIntermediateDeclaration>[this.Count];
+            KeyValuePair<TIdentifier, TIntermediateDeclaration>[] result = new KeyValuePair<TIdentifier, TIntermediateDeclaration>[this.Count];
             this.CopyTo(result);
             return result;
         }
 
-        public void CopyTo(KeyValuePair<string, TIntermediateDeclaration>[] result, int index = 0)
+        public void CopyTo(KeyValuePair<TIdentifier, TIntermediateDeclaration>[] result, int index = 0)
         {
             var copy = base.ToArray();
             for (int i = 0; i < this.Count; i++)
             {
                 var copyElement = copy[i];
-                result[i + index] = new KeyValuePair<string, TIntermediateDeclaration>(copyElement.Key, (TIntermediateDeclaration)copyElement.Value);
+                result[i + index] = new KeyValuePair<TIdentifier, TIntermediateDeclaration>(copyElement.Key, (TIntermediateDeclaration)copyElement.Value);
             }
         }
 
-        public new KeyValuePair<string, TIntermediateDeclaration> this[int index]
+        public new KeyValuePair<TIdentifier, TIntermediateDeclaration> this[int index]
         {
             get {
                 var original = base[index];
-                return new KeyValuePair<string, TIntermediateDeclaration>(original.Key, (TIntermediateDeclaration)original.Value);
+                return new KeyValuePair<TIdentifier, TIntermediateDeclaration>(original.Key, (TIntermediateDeclaration)original.Value);
             }
         }
 
-        public new IEnumerator<KeyValuePair<string, TIntermediateDeclaration>> GetEnumerator()
+        public new IEnumerator<KeyValuePair<TIdentifier, TIntermediateDeclaration>> GetEnumerator()
         {
-            foreach (var item in ((IEnumerable<KeyValuePair<string, TDeclaration>>)(this)))
-                yield return new KeyValuePair<string, TIntermediateDeclaration>(item.Key, (TIntermediateDeclaration)item.Value);
+            foreach (var item in ((IEnumerable<KeyValuePair<TIdentifier, TDeclaration>>)(this)))
+                yield return new KeyValuePair<TIdentifier, TIntermediateDeclaration>(item.Key, (TIntermediateDeclaration)item.Value);
             yield break;
         }
 
@@ -148,7 +150,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IDisposable Members
         /// <summary>
-        /// Disposes the <see cref="IntermediateDeclarationDictionary{TDeclaration, TIntermediateDeclaration}"/>.
+        /// Disposes the <see cref="IntermediateDeclarationDictionary{TIdentifier, TDeclaration, TIntermediateDeclaration}"/>.
         /// </summary>
         public void Dispose()
         {
@@ -158,7 +160,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #endregion
 
         /// <summary>
-        /// Disposes the current <see cref="IntermediateDeclarationDictionary{TDeclaration, TIntermediateDeclaration}"/>.
+        /// Disposes the current <see cref="IntermediateDeclarationDictionary{TIdentifier, TDeclaration, TIntermediateDeclaration}"/>.
         /// </summary>
         /// <param name="disposing">Whether to release managed memory.  If true, all data should be disposed; otherwise, only unmanaged memory should be disposed.</param>
         protected virtual void Dispose(bool disposing)
@@ -232,13 +234,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         #endregion
-        protected internal override void _Add(string key, TDeclaration value)
+        protected internal override void _Add(TIdentifier key, TDeclaration value)
         {
             base._Add(key, value);
             this.OnItemAdded(new EventArgsR1<TIntermediateDeclaration>(((TIntermediateDeclaration)(value))));
         }
 
-        protected override void _AddRange(KeyValuePair<string, TDeclaration>[] elements)
+        protected override void _AddRange(KeyValuePair<TIdentifier, TDeclaration>[] elements)
         {
             base._AddRange(elements);
             foreach (var element in elements)

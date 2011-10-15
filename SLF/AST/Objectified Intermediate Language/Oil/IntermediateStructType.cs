@@ -45,7 +45,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <typeparam name="TInstanceIntermediateType">The specific kind of
     /// <see cref="IIntermediateStructType"/>
     /// within the intermediate abstract syntax tree for segmentation
-    /// across multiple instances through <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}.GetNewPartial(TInstanceIntermediateType,IIntermediateTypeParent)"/>.</typeparam>
+    /// across multiple instances through <see cref="IntermediateGenericSegmentableType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}.GetNewPartial(TInstanceIntermediateType,IIntermediateTypeParent)"/>.</typeparam>
     [EditorBrowsable(EditorBrowsableState.Always)]
     public abstract class IntermediateStructType<TInstanceIntermediateType> :
         IntermediateGenericSegmentableInstantiableType<IStructCtorMember, IIntermediateStructCtorMember, IStructEventMember, IIntermediateStructEventMember, IntermediateStructEventMember<TInstanceIntermediateType>.EventMethodMember, IStructFieldMember, IIntermediateStructFieldMember, IStructIndexerMember, IIntermediateStructIndexerMember, IntermediateStructIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IStructMethodMember, IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember, IntermediateStructPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IStructType, IIntermediateStructType, TInstanceIntermediateType>,

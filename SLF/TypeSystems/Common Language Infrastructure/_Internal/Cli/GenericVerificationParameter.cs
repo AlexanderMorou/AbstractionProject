@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
+using AllenCopeland.Abstraction.Slf._Internal.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -21,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
     /// verify the type-parameters passed on a generic type instance.
     /// </summary>
     internal class GenericVerificationParameter :
-        TypeBase,
+        TypeBase<IGenericParameterUniqueIdentifier>,
         IGenericTestCaseParameter
     {
         private ITypeCollection newConstraints;
@@ -249,18 +250,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         #endregion
 
-        #region IPropertySignatureParentType Members
+        #region IPropertySignatureParent Members
 
-        IPropertySignatureMemberDictionary IPropertySignatureParentType.Properties
+        IPropertySignatureMemberDictionary IPropertySignatureParent.Properties
         {
             get { throw new NotImplementedException(); }
         }
 
         #endregion
 
-        #region ICreatableType Members
+        #region ICreatableParent Members
 
-        IConstructorMemberDictionary ICreatableType.Constructors
+        IConstructorMemberDictionary ICreatableParent.Constructors
         {
             get { return (IConstructorMemberDictionary)this.Constructors; }
         }
@@ -271,6 +272,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         }
 
         #endregion
+
+        protected override IGenericParameterUniqueIdentifier OnGetUniqueIdentifier()
+        {
+            return this.original.UniqueIdentifier;
+        }
 
         protected override ICustomAttributeCollection InitializeCustomAttributes()
         {
@@ -290,7 +296,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             return null;
         }
 
-        public override IEnumerable<string> AggregateIdentifiers
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get { return EmptyIdentifiers; }
         }

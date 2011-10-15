@@ -20,23 +20,25 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TMember">The type of member in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateMember">The type of member in the intermediate abstract
     /// syntax tree.</typeparam>
-    public abstract class IntermediateMemberDictionary<TParent, TIntermediateParent, TMember, TIntermediateMember> :
-        IntermediateDeclarationDictionary<TMember, TIntermediateMember>,
-        IIntermediateMemberDictionary<TParent, TIntermediateParent, TMember, TIntermediateMember>,
+    public abstract class IntermediateMemberDictionary<TParent, TIntermediateParent, TMemberIdentifier, TMember, TIntermediateMember> :
+        IntermediateDeclarationDictionary<TMemberIdentifier, TMember, TIntermediateMember>,
+        IIntermediateMemberDictionary<TParent, TIntermediateParent, TMemberIdentifier, TMember, TIntermediateMember>,
         IIntermediateMemberDictionary
         where TParent :
             IMemberParent
         where TIntermediateParent :
             IIntermediateMemberParent,
             TParent
+        where TMemberIdentifier :
+            IMemberUniqueIdentifier<TMemberIdentifier>
         where TMember :
-            IMember<TParent>
+            IMember<TMemberIdentifier, TParent>
         where TIntermediateMember :
-            IIntermediateMember<TParent, TIntermediateParent>,
+            IIntermediateMember<TParent, TMemberIdentifier, TIntermediateParent>,
             TMember
     {
         /// <summary>
-        /// Creates a new <see cref="IntermediateMemberDictionary{TParent, TIntermediateParent, TMember, TIntermediateMember}"/>
+        /// Creates a new <see cref="IntermediateMemberDictionary{TParent, TIntermediateParent, TMemberIdentifier, TMember, TIntermediateMember}"/>
         /// initialized to its default state.
         /// </summary>
         public IntermediateMemberDictionary(TIntermediateParent parent) :
@@ -45,13 +47,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             this.Parent = parent;
         }
         /// <summary>
-        /// Creates a new <see cref="IntermediateMemberDictionary{TParent, TIntermediateParent, TMember, TIntermediateMember}"/> 
+        /// Creates a new <see cref="IntermediateMemberDictionary{TParent, TIntermediateParent, TMemberIdentifier, TMember, TIntermediateMember}"/> 
         /// with the <see cref="Dictionary{TKey, TValue}"/> <paramref name="toWrap"/>.
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateParent"/>
-        /// which contains the <see cref="IntermediateMemberDictionary{TParent, TIntermediateParent, TMember, TIntermediateMember}"/>.</param>
+        /// which contains the <see cref="IntermediateMemberDictionary{TParent, TIntermediateParent, TMemberIdentifier, TMember, TIntermediateMember}"/>.</param>
         /// <param name="toWrap">The <see cref="Dictionary{TKey, TValue}"/> to encapsulate.</param>
-        public IntermediateMemberDictionary(TIntermediateParent parent, IntermediateMemberDictionary<TParent, TIntermediateParent, TMember, TIntermediateMember> toWrap) :
+        public IntermediateMemberDictionary(TIntermediateParent parent, IntermediateMemberDictionary<TParent, TIntermediateParent, TMemberIdentifier, TMember, TIntermediateMember> toWrap) :
             base(toWrap)
         {
             this.Parent = parent;

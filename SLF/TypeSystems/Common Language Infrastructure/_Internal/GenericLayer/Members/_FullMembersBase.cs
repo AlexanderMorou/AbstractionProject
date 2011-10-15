@@ -14,7 +14,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
     internal class _FullMembersBase :
-        _GroupedMasterBase<IMember>,
+        _GroupedMasterBase<IGeneralMemberUniqueIdentifier, IMember>,
         IFullMemberDictionary
     {
         internal _FullMembersBase()

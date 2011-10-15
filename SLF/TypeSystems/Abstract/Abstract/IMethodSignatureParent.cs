@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <typeparam name="TSignatureParent">The type of parent that contains teh <typeparamref name="TSignature"/>
     /// instances.</typeparam>
     public interface IMethodSignatureParent<TSignature, TSignatureParent> :
-        ISignatureParent<TSignature, IMethodSignatureParameterMember<TSignature, TSignatureParent>, TSignatureParent>,
+        ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, IMethodSignatureParameterMember<TSignature, TSignatureParent>, TSignatureParent>,
         IMethodSignatureParent
         where TSignature :
             IMethodSignatureMember<TSignature, TSignatureParent>

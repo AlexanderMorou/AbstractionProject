@@ -14,14 +14,16 @@ using AllenCopeland.Abstraction.Utilities.Events;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
-    public abstract class IntermediateGenericTypeDictionary<TType, TIntermediateType> :
-        IntermediateTypeDictionary<TType, TIntermediateType>,
-        IIntermediateGenericTypeDictionary<TType, TIntermediateType>
+    public abstract class IntermediateGenericTypeDictionary<TTypeIdentifier, TType, TIntermediateType> :
+        IntermediateTypeDictionary<TTypeIdentifier, TType, TIntermediateType>,
+        IIntermediateGenericTypeDictionary<TTypeIdentifier, TType, TIntermediateType>
+        where TTypeIdentifier :
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>
         where TType :
-            IGenericType<TType>
+            IGenericType<TTypeIdentifier, TType>
         where TIntermediateType :
             class,
-            IIntermediateGenericType<TType, TIntermediateType>,
+            IIntermediateGenericType<TTypeIdentifier, TType, TIntermediateType>,
             TType
     {
         public IntermediateGenericTypeDictionary(IIntermediateTypeParent parent, IntermediateFullTypeDictionary master)
@@ -29,25 +31,25 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
         }
 
-        public IntermediateGenericTypeDictionary(IIntermediateTypeParent parent, IntermediateFullTypeDictionary master, IntermediateTypeDictionary<TType, TIntermediateType> root)
+        public IntermediateGenericTypeDictionary(IIntermediateTypeParent parent, IntermediateFullTypeDictionary master, IntermediateGenericTypeDictionary<TTypeIdentifier, TType, TIntermediateType> root)
             : base(parent, master, root)
         {
         }
 
-        protected internal override void _Add(string key, TType value)
+        protected internal override void _Add(TTypeIdentifier key, TType value)
         {
             if (value == null)
                 throw new ArgumentNullException("value");
             else
             {
                 var intermediateType = (TIntermediateType)value;
-                intermediateType.TypeParameterAdded += new EventHandler<EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>>(intermediateType_TypeParameterAddOrRemove);
-                intermediateType.TypeParameterRemoved += new EventHandler<EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>>(intermediateType_TypeParameterAddOrRemove);
+                intermediateType.TypeParameterAdded += new EventHandler<EventArgsR1<IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>>>(intermediateType_TypeParameterAddOrRemove);
+                intermediateType.TypeParameterRemoved += new EventHandler<EventArgsR1<IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>>>(intermediateType_TypeParameterAddOrRemove);
             }
             base._Add(key, value);
         }
 
-        void intermediateType_TypeParameterAddOrRemove(object sender, EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>> e)
+        void intermediateType_TypeParameterAddOrRemove(object sender, EventArgsR1<IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>> e)
         {
             if (sender is TIntermediateType)
                 this.RekeyElement((TIntermediateType)sender);
@@ -65,8 +67,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             if (index >= 0 && index < this.Count)
             {
                 var element = base[index].Value;
-                element.TypeParameterAdded -= new EventHandler<EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>>(intermediateType_TypeParameterAddOrRemove);
-                element.TypeParameterRemoved -= new EventHandler<EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>>(intermediateType_TypeParameterAddOrRemove);
+                element.TypeParameterAdded -= new EventHandler<EventArgsR1<IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>>>(intermediateType_TypeParameterAddOrRemove);
+                element.TypeParameterRemoved -= new EventHandler<EventArgsR1<IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>>>(intermediateType_TypeParameterAddOrRemove);
             }
             return base._Remove(index);
         }

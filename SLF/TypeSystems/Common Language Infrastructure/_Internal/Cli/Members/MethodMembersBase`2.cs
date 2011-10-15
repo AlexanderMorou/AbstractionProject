@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -14,7 +15,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
  \-------------------------------------------------------------------- */
 
 
-namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
     /// <summary>
     /// Provides a root implementation of <see cref="IMethodMemberDictionary{TMethod, TMethodParent}"/> for working

@@ -19,14 +19,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateDeclaration">The type of declaration as it exists in the
     /// intermediate abstract syntax tree.</typeparam>
-    public interface IIntermediateGroupedDeclarationDictionary<TDeclaration, TIntermediateDeclaration> :
-        IIntermediateDeclarationDictionary<TDeclaration, TIntermediateDeclaration>,
-        IGroupedDeclarationDictionary<TDeclaration>
+    public interface IIntermediateGroupedDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration> :
+        IIntermediateDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration>,
+        IGroupedDeclarationDictionary<TIdentifier, TDeclaration>
+        where TIdentifier :
+            IDeclarationUniqueIdentifier<TIdentifier>
         where TDeclaration :
             IDeclaration
         where TIntermediateDeclaration :
-            TDeclaration,
-            IIntermediateDeclaration
+            IIntermediateDeclaration,
+            TDeclaration
     {
 
     }

@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <see cref="INamespaceParent"/>.
     /// </summary>
     public interface INamespaceDictionary :
-        IDeclarationDictionary<INamespaceDeclaration>
+        IDeclarationDictionary<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration>
     {
         /// <summary>
         /// Returns the <see cref="INamespaceParent"/>
@@ -41,5 +41,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// quantifiable namespace names delimited by a
         /// period.</remarks>
         bool PathExists(string path);
+        /// <summary>
+        /// Returns the <see cref="INamespaceDeclaration"/>
+        /// based off of the <paramref name="path"/> provided.
+        /// </summary>
+        /// <param name="path">The <see cref="String"/> value denoting the
+        /// potentially dotted trail of declaration identifiers that represent
+        /// the path of the <see cref="INamespaceDeclaration"/> to retrieve.</param>
+        /// <returns></returns>
+        INamespaceDeclaration this[string path] { get; }
     }
 }

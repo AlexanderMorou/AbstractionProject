@@ -15,18 +15,21 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
-    internal abstract class _GroupedMembersBase<TParent, TMember, TMembers> :
-        _GroupedDeclarations<TMember, TParent, IMember, TMembers>,
-        IGroupedMemberDictionary<TParent, TMember>,
+    internal abstract class _GroupedMembersBase<TParent, TMemberIdentifier, TMember, TMembers> :
+        _GroupedDeclarations<TMemberIdentifier, TMember, TParent, IGeneralMemberUniqueIdentifier, IMember, TMembers>,
+        IGroupedMemberDictionary<TParent, TMemberIdentifier, TMember>,
         IGroupedMemberDictionary
+        where TMemberIdentifier :
+            IMemberUniqueIdentifier<TMemberIdentifier>,
+            IGeneralMemberUniqueIdentifier
         where TMember :
             class,
-            IMember<TParent>
+            IMember<TMemberIdentifier, TParent>
         where TParent :
             IMemberParent
         where TMembers :
             class,
-            IGroupedMemberDictionary<TParent, TMember>
+            IGroupedMemberDictionary<TParent, TMemberIdentifier, TMember>
     {
         internal _GroupedMembersBase(_FullMembersBase master, TMembers originalSet, TParent parent)
             : base(master, originalSet, parent)

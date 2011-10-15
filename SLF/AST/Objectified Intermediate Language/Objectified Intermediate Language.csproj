@@ -543,7 +543,7 @@
     <Compile Include="Oil\IIntermediateNamespaceDeclaration.cs" />
     <Compile Include="Oil\IIntermediateNamespaceDictionary.cs" />
     <Compile Include="Oil\IIntermediateNamespaceParent.cs" />
-    <Compile Include="Oil\IIntermediatePropertyParentType.cs" />
+    <Compile Include="Oil\IIntermediatePropertyParent.cs" />
     <Compile Include="Oil\IIntermediatePropertySignatureParentType.cs" />
     <Compile Include="Oil\IIntermediateScopedDeclaration.cs" />
     <Compile Include="Oil\IIntermediateSegmentableDeclaration.cs" />
@@ -554,7 +554,6 @@
     <Compile Include="Oil\IIntermediateTopLevelFieldMember.cs" />
     <Compile Include="Oil\IIntermediateTopLevelMethodMember.cs" />
     <Compile Include="Oil\IIntermediateType.cs" />
-    <Compile Include="Oil\IIntermediateTypeCollection.cs" />
     <Compile Include="Oil\IIntermediateTypeDictionary.cs" />
     <Compile Include="Oil\IIntermediateTypeParent.cs" />
     <Compile Include="Oil\IIntermediateTypeVisitor.cs" />

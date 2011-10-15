@@ -22,23 +22,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <typeparam name="TType">The type of creatable type in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateType">The type of creatable type in the intermediate abstract syntax
     /// tree.</typeparam>
-    public interface IIntermediateCreatableType<TCtor, TIntermediateCtor, TType, TIntermediateType> :
-        IIntermediateCreatableSignatureType<TCtor, TIntermediateCtor, TType, TIntermediateType>,
-        ICreatableType<TCtor, TType>,
-        IIntermediateCreatableType
+    public interface IIntermediateCreatableParent<TCtor, TIntermediateCtor, TType, TIntermediateType> :
+        IIntermediateCreatableSignatureParent<TCtor, TIntermediateCtor, TType, TIntermediateType>,
+        ICreatableParent<TCtor, TType>,
+        IIntermediateCreatableParent
         where TCtor :
             IConstructorMember<TCtor, TType>
         where TIntermediateCtor :
             TCtor,
             IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
         where TType :
-            ICreatableType<TCtor, TType>
+            ICreatableParent<TCtor, TType>
         where TIntermediateType :
             TType,
-            IIntermediateCreatableType<TCtor, TIntermediateCtor, TType, TIntermediateType>
+            IIntermediateCreatableParent<TCtor, TIntermediateCtor, TType, TIntermediateType>
     {
         /// <summary>
-        /// Returns the constructors contained by the <see cref="IIntermediateCreatableType{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>.
+        /// Returns the constructors contained by the <see cref="IIntermediateCreatableParent{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>.
         /// </summary>
         new IIntermediateConstructorMemberDictionary<TCtor, TIntermediateCtor, TType, TIntermediateType> Constructors { get; }
         /// <summary>
@@ -51,14 +51,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <summary>
     /// Defines properties and methods for working with a creatable (instantiable) type.
     /// </summary>
-    public interface IIntermediateCreatableType :
-        IIntermediateCreatableSignatureType,
+    public interface IIntermediateCreatableParent :
+        IIntermediateCreatableSignatureParent,
         IIntermediateSignatureParent,
         IIntermediateType,
-        ICreatableType
+        ICreatableParent
     {
         /// <summary>
-        /// Returns the constructors contained by the <see cref="IIntermediateCreatableType"/>.
+        /// Returns the constructors contained by the <see cref="IIntermediateCreatableParent"/>.
         /// </summary>
         new IIntermediateConstructorMemberDictionary Constructors { get; }
         /// <summary>

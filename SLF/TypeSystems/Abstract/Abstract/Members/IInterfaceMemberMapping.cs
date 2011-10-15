@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         where TIndexer :
             IIndexerMember<TIndexer, TParent>
         where TIndexerSig :
-            IIndexerSignatureMember<TIndexerSig,TParentSig>
+            IIndexerSignatureMember<TIndexerSig, TParentSig>
         where TEvent :
             IEventMember<TEvent, TParent>,
             IExtendedInstanceMember
@@ -61,12 +61,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         where TParent :
             IEventParent<TEvent, TParent>,
             IMethodParent<TMethod, TParent>,
-            IPropertyParentType<TProperty, TParent>,
+            IPropertyParent<TProperty, TParent>,
             IIndexerParent<TIndexer, TParent>
         where TParentSig :
             IEventSignatureParent<TEventSig, TParentSig>,
             IMethodSignatureParent<TMethodSig, TParentSig>,
-            IPropertySignatureParentType<TPropertySig, TParentSig>,
+            IPropertySignatureParent<TPropertySig, TParentSig>,
             IIndexerSignatureParent<TIndexerSig, TParentSig>
     {
         /// <summary>

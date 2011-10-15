@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 {
     [EditorBrowsable(EditorBrowsableState.Always)]
     public partial class IntermediateEnumType :
-        IntermediateTypeBase<IEnumType, IIntermediateEnumType>,
+        IntermediateTypeBase<IGeneralTypeUniqueIdentifier, IEnumType, IIntermediateEnumType>,
         IIntermediateEnumType
     {
         private FieldMemberDictionary fields;

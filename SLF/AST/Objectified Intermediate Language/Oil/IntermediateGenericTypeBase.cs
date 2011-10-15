@@ -12,6 +12,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Events;
 using System.ComponentModel;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -22,33 +23,35 @@ using System.ComponentModel;
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract partial class IntermediateGenericTypeBase<TType, TIntermediateType> :
-        IntermediateTypeBase<TType, TIntermediateType>,
-        IIntermediateGenericType<TType, TIntermediateType>,
+    public abstract partial class IntermediateGenericTypeBase<TTypeIdentifier, TType, TIntermediateType> :
+        IntermediateTypeBase<TTypeIdentifier, TType, TIntermediateType>,
+        IIntermediateGenericType<TTypeIdentifier, TType, TIntermediateType>,
         _IGenericClosureRegistrar,
         _IIntermediateGenericType,
         IMassTargetHandler
+        where TTypeIdentifier :
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>
         where TType :
             class,
-            IGenericType<TType>
+            IGenericType<TTypeIdentifier, TType>
         where TIntermediateType :
             class,
-            TType,
-            IIntermediateGenericType<TType, TIntermediateType>
+            IIntermediateGenericType<TTypeIdentifier, TType, TIntermediateType>,
+            TType
     {
         private GenericTypeCache genericCache = null;
         private GenericParameterCollection genericParameters;
-        private IIntermediateGenericParameterDictionary<IGenericTypeParameter<TType>, IIntermediateGenericTypeParameter<TType, TIntermediateType>, TType, TIntermediateType> typeParameters;
+        private IIntermediateGenericParameterDictionary<IGenericTypeParameter<TTypeIdentifier, TType>, IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>, TType, TIntermediateType> typeParameters;
         private byte disposeState;
         /// <summary>
-        /// Creates a new <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>
+        /// Creates a new <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>
         /// with the <paramref name="name"/> and <paramref name="parent"/> 
         /// provided.
         /// </summary>
-        /// <param name="name">The <see cref="String"/> in which the <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>
+        /// <param name="name">The <see cref="String"/> in which the <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>
         /// is referred to by.</param>
         /// <param name="parent">The <see cref="IIntermediateTypeParent"/> which 
-        /// contains the <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>.</param>
+        /// contains the <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.</param>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/>, or <paramref name="parent"/>, is null.</exception>
         /// <exception cref="System.ArgumentException">thrown when <paramref name="name"/> is 
         /// <see cref="String.Empty"/></exception>
@@ -58,11 +61,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>
+        /// Creates a new <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>
         /// with the <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="parent">The <see cref="IIntermediateTypeParent"/>
-        /// which contians the <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>.</param>
+        /// which contians the <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.</param>
         /// <exception cref="System.ArgumentNullException">thrown when
         /// <paramref name="parent"/> is null.</exception>
         internal IntermediateGenericTypeBase(IIntermediateTypeParent parent)
@@ -88,25 +91,25 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        #region IIntermediateGenericParameterParent<IGenericTypeParameter<TType>,IIntermediateGenericTypeParameter<TType,TIntermediateType>,TType,TIntermediateType> Members
+        #region IIntermediateGenericParameterParent<IGenericTypeParameter<TTypeIdentifier, TType>,IIntermediateGenericTypeParameter<TType,TIntermediateType>,TType,TIntermediateType> Members
 
         /// <summary>
         /// Occurs when a type-parameter is inserted into the 
-        /// <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>.
+        /// <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </summary>
-        public event EventHandler<EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>> TypeParameterAdded;
+        public event EventHandler<EventArgsR1<IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>>> TypeParameterAdded;
 
         /// <summary>
         /// Occurs when a type-parameter is removed from the 
-        /// <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>.
+        /// <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </summary>
-        public event EventHandler<EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>> TypeParameterRemoved;
+        public event EventHandler<EventArgsR1<IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>>> TypeParameterRemoved;
 
         /// <summary>
         /// Returns the type parameter dictionary which manages
         /// the current generic type's type-parameters.
         /// </summary>
-        public IIntermediateGenericParameterDictionary<IGenericTypeParameter<TType>, IIntermediateGenericTypeParameter<TType, TIntermediateType>, TType, TIntermediateType> TypeParameters
+        public IIntermediateGenericParameterDictionary<IGenericTypeParameter<TTypeIdentifier, TType>, IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>, TType, TIntermediateType> TypeParameters
         {
             get
             {
@@ -125,9 +128,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        #region IGenericParamParent<IGenericTypeParameter<TType>,TType> Members
+        #region IGenericParamParent<IGenericTypeParameter<TTypeIdentifier, TType>,TType> Members
 
-        IGenericParameterDictionary<IGenericTypeParameter<TType>, TType> IGenericParamParent<IGenericTypeParameter<TType>, TType>.TypeParameters
+        IGenericParameterDictionary<IGenericTypeParameter<TTypeIdentifier, TType>, TType> IGenericParamParent<IGenericTypeParameter<TTypeIdentifier, TType>, TType>.TypeParameters
         {
             get { return this.TypeParameters; }
         }
@@ -162,11 +165,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        #region IGenericType<TType> Members
+        #region IGenericType<TTypeIdentifier, TType> Members
 
         /// <summary>
         /// Returns a <typeparamref name="TType"/> instance that is the 
-        /// closed generic form of the current <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>
+        /// closed generic form of the current <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>
         /// using the <paramref name="typeParameters"/> provided.
         /// </summary>
         /// <param name="typeParameters">The <see cref="ILockedTypeCollection"/> 
@@ -174,7 +177,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <returns>A new closed <typeparamref name="TType"/> instance with
         /// the <paramref name="typeParameters"/> provided.</returns>
         /// <exception cref="System.InvalidOperationException">
-        /// The current <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>'s 
+        /// The current <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>'s 
         /// <seealso cref="IsGenericDefinition"/>
         /// is false.</exception>
         public TType MakeGenericClosure(ITypeCollectionBase typeParameters)
@@ -189,7 +192,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns a <typeparamref name="TType"/> instance that is the 
-        /// closed generic form of the current <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/> 
+        /// closed generic form of the current <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/> 
         /// using the <paramref name="typeParameters"/> provided.
         /// </summary>
         /// <param name="typeParameters">The <see cref="IType"/> 
@@ -197,7 +200,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <returns>A new closed <typeparamref name="TType"/> instance with 
         /// the <paramref name="typeParameters"/> provided.</returns>
         /// <exception cref="System.InvalidOperationException">
-        /// The current <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>'s 
+        /// The current <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>'s 
         /// <seealso cref="IsGenericDefinition"/>
         /// is false.</exception>
         public TType MakeGenericClosure(params IType[] typeParameters)
@@ -220,7 +223,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Returns whether the <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/> contains
+        /// Returns whether the <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/> contains
         /// generic parameters.
         /// </summary>
         public bool ContainsGenericParameters
@@ -234,7 +237,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         /// <remarks>Differs from <see cref="TypeParameters"/>
         /// by containing a full series of type-parameters, including those
-        /// of the parent which defined the <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>.</remarks>
+        /// of the parent which defined the <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.</remarks>
         public ILockedTypeCollection GenericParameters
         {
             get
@@ -282,12 +285,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// series from which to create the generic type.</param>
         /// <returns>A <typeparamref name="TType"/>
         /// instance which replaces the type-parameters
-        /// contained within the <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>.</returns>
+        /// contained within the <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.</returns>
         /// <remarks>Performs no type-parameter check.</remarks>
         protected abstract TType OnMakeGenericClosure(ITypeCollectionBase typeParameters);
 
         /// <summary>
-        /// Disposes the <see cref="IntermediateGenericTypeBase{TType, TIntermediateType}"/>.
+        /// Disposes the <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </summary>
         public override void Dispose()
         {
@@ -424,32 +427,32 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         void _IIntermediateGenericType.ItemAdded(IGenericParameter parameter)
         {
-            this.OnTypeParameterAdded(arg1:(IIntermediateGenericTypeParameter<TType, TIntermediateType>)parameter);
+            this.OnTypeParameterAdded(arg1: (IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>)parameter);
         }
 
         void _IIntermediateGenericType.ItemRemoved(IGenericParameter parameter)
         {
-            this.OnTypeParameterRemoved(arg1: (IIntermediateGenericTypeParameter<TType, TIntermediateType>)parameter);
+            this.OnTypeParameterRemoved(arg1: (IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>)parameter);
         }
 
-        protected virtual void OnTypeParameterAdded(IIntermediateGenericTypeParameter<TType, TIntermediateType> arg1)
+        protected virtual void OnTypeParameterAdded(IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType> arg1)
         {
             var _typeParameterAdded = this._TypeParameterAdded;
             if (_typeParameterAdded != null)
                 _typeParameterAdded(this, new EventArgsR1<IIntermediateGenericParameter>(arg1));
             var typeParameterAdded = this.TypeParameterAdded;
             if (typeParameterAdded != null)
-                typeParameterAdded(this, new EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>(arg1));
+                typeParameterAdded(this, new EventArgsR1<IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>>(arg1));
         }
 
-        protected virtual void OnTypeParameterRemoved(IIntermediateGenericTypeParameter<TType, TIntermediateType> arg1)
+        protected virtual void OnTypeParameterRemoved(IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType> arg1)
         {
             var _typeParameterRemoved = this._TypeParameterRemoved;
             if (_typeParameterRemoved != null)
                 _typeParameterRemoved(this, new EventArgsR1<IIntermediateGenericParameter>(arg1));
             var typeParameterRemoved = this.TypeParameterRemoved;
             if (typeParameterRemoved != null)
-                typeParameterRemoved(this, new EventArgsR1<IIntermediateGenericTypeParameter<TType, TIntermediateType>>(arg1));
+                typeParameterRemoved(this, new EventArgsR1<IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>>(arg1));
         }
         #endregion
 

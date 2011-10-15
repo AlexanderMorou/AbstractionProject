@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -16,7 +17,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Statements;
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
     public class LocalMemberDictionary :
-        IntermediateMemberDictionary<IBlockStatementParent, IBlockStatementParent, ILocalMember, ILocalMember>,
+        IntermediateMemberDictionary<IBlockStatementParent, IBlockStatementParent, IGeneralMemberUniqueIdentifier, ILocalMember, ILocalMember>,
         ILocalMemberDictionary
     {
         /// <summary>

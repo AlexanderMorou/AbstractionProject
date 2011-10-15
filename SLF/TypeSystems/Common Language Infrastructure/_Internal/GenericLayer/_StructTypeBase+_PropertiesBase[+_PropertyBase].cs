@@ -37,14 +37,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                     return new _Method(Parent, (IStructPropertyMethodMember)originalMethod);
                 }
 
-                public override string UniqueIdentifier
-                {
-                    get
-                    {
-                        return this.Name;
-                    }
-                }
-
                 private class _Method :
                     _MethodsBase._Method,
                     IStructPropertyMethodMember

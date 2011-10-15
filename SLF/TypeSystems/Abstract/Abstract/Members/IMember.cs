@@ -16,8 +16,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// specific type of <see cref="IMember{TParent}.Parent"/> (<typeparamref name="TParent"/>).
     /// </summary>
     /// <typeparam name="TParent">The type of <see cref="IMemberParent"/>, in the current implementation, which contains the <see cref="IMember{TParent}"/>.</typeparam>
-    public interface IMember<TParent> :
+    public interface IMember<TIdentifier, TParent> :
+        IDeclaration<TIdentifier>,
         IMember
+        where TIdentifier :
+            IMemberUniqueIdentifier<TIdentifier>
         where TParent :
             IMemberParent
     {

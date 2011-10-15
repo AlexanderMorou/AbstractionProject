@@ -32,7 +32,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <see cref="IEventSignatureMember{TEvent, TEventParent}"/>
     /// in the current implementation as only the signature
     /// of the <typeparamref name="TEvent"/>.</typeparam>
-    /// <typeparam name="TEventParent">The <see cref="IType{TType}"/>
+    /// <typeparam name="TEventParent">The <see cref="IType{TTypeIdentifier, TType}"/>
     /// which parents the <typeparamref name="TEvent"/>
     /// instances in the current implementation.</typeparam>
     public interface IEventSignatureParent<TEvent, TEventParent> :
@@ -43,7 +43,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             IEventSignatureParent<TEvent, TEventParent>
     {
         /// <summary>
-        /// Returns the <see cref="IEventSignatureMemberDictionary{TEvent, TEventParent}"/>
+        /// Returns the <see cref="IEventSignatureMemberDictionary{TEvent, TEventParentIdentifier, TEventParent}"/>
         /// associated to the current <typeparamref name="TEventParent"/>
         /// implementation.
         /// </summary>
@@ -61,12 +61,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <see cref="IEventSignatureParameterMember{TEvent, TEventParameter, TEventParent}"/>
     /// in the current implementation that acts as a parameter
     /// of <typeparamref name="TEvent"/> instances.</typeparam>
-    /// <typeparam name="TEventParent">The <see cref="IType{TType}"/>
+    /// <typeparam name="TEventParent">The <see cref="IType{TTypeIdentifier, TType}"/>
     /// which parents the <typeparamref name="TEvent"/>
     /// instances in the current implementation.</typeparam>
     public interface IEventSignatureParent<TEvent, TEventParameter, TEventParent> :
-        ISignatureParent<TEvent, TEventParameter, TEventParent>,
-        IType<TEventParent>,
+        ISignatureParent<IGeneralSignatureMemberUniqueIdentifier, TEvent, TEventParameter, TEventParent>,
         IEventSignatureParent
         where TEvent :
             IEventSignatureMember<TEvent, TEventParameter, TEventParent>
@@ -76,7 +75,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             IEventSignatureParent<TEvent, TEventParameter, TEventParent>
     {
         /// <summary>
-        /// Returns the <see cref="IEventSignatureMemberDictionary{TEvent, TEventParameter, TEventParent}"/>
+        /// Returns the <see cref="IEventSignatureMemberDictionary{TEvent, TEventParameter, TEventParentIdentifier, TEventParent}"/>
         /// associated to the current <typeparamref name="TEventParent"/>
         /// implementation.
         /// </summary>

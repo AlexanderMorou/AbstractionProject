@@ -27,21 +27,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <typeparam name="TInstanceIntermediateType">The direct kind of type
     /// used to instantiate the partial elements within the system.</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class IntermediateGenericSegmentableParentType<TType, TIntermediateType, TInstanceIntermediateType> :
-        IntermediateGenericSegmentableType<TType, TIntermediateType, TInstanceIntermediateType>,
+    public abstract class IntermediateGenericSegmentableParentType<TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType> :
+        IntermediateGenericSegmentableType<TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType>,
         IIntermediateTypeParent
+        where TTypeIdentifier :
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>
         where TType :
             class,
-            IGenericType<TType>,
+            IGenericType<TTypeIdentifier, TType>,
             ITypeParent
         where TIntermediateType :
             class,
-            IIntermediateGenericType<TType, TIntermediateType>,
-            IIntermediateSegmentableType<TType, TIntermediateType>,
+            IIntermediateGenericType<TTypeIdentifier, TType, TIntermediateType>,
+            IIntermediateSegmentableType<TTypeIdentifier, TType, TIntermediateType>,
             IIntermediateTypeParent,
             TType
         where TInstanceIntermediateType :
-            IntermediateGenericSegmentableType<TType, TIntermediateType, TInstanceIntermediateType>,
+            IntermediateGenericSegmentableParentType<TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType>,
             TIntermediateType
     {
         #region IntermediateGenericSegmentableParentType data members
@@ -76,37 +78,37 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #endregion
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// Creates a new <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// instance with the <paramref name="name"/> and <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="name">The <see cref="String"/> value representing the unique name
-        /// of the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
+        /// of the <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
         /// <param name="parent">The <see cref="IIntermediateTypeParent"/>
-        /// which contains the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
+        /// which contains the <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
         protected IntermediateGenericSegmentableParentType(string name, IIntermediateTypeParent parent)
             : base(name, parent)
         {
         }
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// Creates a new <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// instance with the <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="parent">The <see cref="IIntermediateTypeParent"/>
-        /// which contains the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
+        /// which contains the <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
         protected IntermediateGenericSegmentableParentType(IIntermediateTypeParent parent)
             : base(parent)
         {
 
         }
         /// <summary>
-        /// Creates a new <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// Creates a new <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// with the <paramref name="rootType"/> and <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="rootType">The <typeparamref name="TInstanceIntermediateType"/> which
-        /// represents the root instance of the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
+        /// represents the root instance of the <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
         /// <param name="parent">The <see cref="IIntermediateTypeParent"/>
-        /// which contains the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
+        /// which contains the <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>.</param>
         protected IntermediateGenericSegmentableParentType(TInstanceIntermediateType rootType, IIntermediateTypeParent parent)
             : base(rootType, parent)
         {
@@ -117,7 +119,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns the classes associated
-        /// to the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.
+        /// to the <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>.
         /// </summary>
         public IIntermediateClassTypeDictionary Classes
         {
@@ -130,7 +132,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns the delegates associated
-        /// to the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.
+        /// to the <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>.
         /// </summary>
         public IIntermediateDelegateTypeDictionary Delegates
         {
@@ -143,7 +145,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns the enumerations associated
-        /// to the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.
+        /// to the <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>.
         /// </summary>
         public IIntermediateEnumTypeDictionary Enums
         {
@@ -156,7 +158,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns the interfaces associated
-        /// to the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.
+        /// to the <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>.
         /// </summary>
         public IIntermediateInterfaceTypeDictionary Interfaces
         {
@@ -169,7 +171,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns the data structures associated
-        /// to the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.
+        /// to the <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>.
         /// </summary>
         public IIntermediateStructTypeDictionary Structs
         {
@@ -182,7 +184,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns the full set of types associated to the 
-        /// <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// which doesn't check the individual sub-type dictionaries
         /// prior to retrieval.
         /// </summary>
@@ -197,7 +199,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns the full set of types associated to
-        /// the <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.
+        /// the <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>.
         /// </summary>
         public IIntermediateFullTypeDictionary Types
         {
@@ -250,9 +252,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region Member Check Methods
 
-        private static void SuspendCheck<TNestedType, TIntermediateNestedType>(IntermediateTypeDictionary<TNestedType, TIntermediateNestedType> dictionary, int suspendLevel)
+        private static void SuspendCheck<TNestedTypeIdentifier, TNestedType, TIntermediateNestedType>(IntermediateTypeDictionary<TNestedTypeIdentifier, TNestedType, TIntermediateNestedType> dictionary, int suspendLevel)
+            where TNestedTypeIdentifier :
+                ITypeUniqueIdentifier<TNestedTypeIdentifier>
             where TNestedType :
-                IType<TNestedType>
+                IType<TNestedTypeIdentifier, TNestedType>
             where TIntermediateNestedType :
                 class,
                 IIntermediateType,
@@ -338,12 +342,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Initializes the <see cref="Classes"/> property.
         /// </summary>
         /// <returns>A new <see cref="IntermediateClassTypeDictionary"/> instance.</returns>
-        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
+        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
         /// is true, this creates a new standalone class type dictionary linked to the master
         /// <see cref="Types"/> dictionary; however, if false, it creates a dependent 
         /// class type dictionary which mirrors the members of the root declaration and all other
         /// partial instances.  Parent target discernment is provided by the 
-        /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
+        /// <see cref="IntermediateTypeDictionary{TTypeIdentifier, TType, TIntermediateType}.Parent"/>
         /// of the dictionary for the current instance.  Add methods called upon the
         /// instance provided here report the current partial instance as the parent.</remarks>
         protected virtual IntermediateClassTypeDictionary InitializeClasses()
@@ -362,12 +366,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Initializes the <see cref="Delegates"/> property.
         /// </summary>
         /// <returns>A new <see cref="IntermediateDelegateTypeDictionary"/> instance</returns>
-        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
+        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
         /// is true, this creates a new standalone delegate type dictionary linked to the master
         /// <see cref="Types"/> dictionary; however, if false, it creates a dependent 
         /// delegate type dictionary which mirrors the members of the root declaration and all other
         /// partial instances.  Parent target discernment is provided by the 
-        /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
+        /// <see cref="IntermediateTypeDictionary{TTypeIdentifier, TType, TIntermediateType}.Parent"/>
         /// of the dictionary for the current instance.  Add methods called upon the
         /// instance provided here report the current partial instance as the parent.</remarks>
         protected virtual IntermediateDelegateTypeDictionary InitializeDelegates()
@@ -386,12 +390,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Initializes the <see cref="Enums"/> property.
         /// </summary>
         /// <returns>A new <see cref="IntermediateEnumTypeDictionary"/> instance</returns>
-        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
+        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
         /// is true, this creates a new standalone enum type dictionary linked to the master
         /// <see cref="Types"/> dictionary; however, if false, it creates a dependent 
         /// enum type dictionary which mirrors the members of the root declaration and all other
         /// partial instances.  Parent target discernment is provided by the 
-        /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
+        /// <see cref="IntermediateTypeDictionary{TTypeIdentifier, TType, TIntermediateType}.Parent"/>
         /// of the dictionary for the current instance.  Add methods called upon the
         /// instance provided here report the current partial instance as the parent.</remarks>
         protected virtual IntermediateEnumTypeDictionary InitializeEnums()
@@ -410,12 +414,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Initializes the <see cref="Interfaces"/> property.
         /// </summary>
         /// <returns>A new <see cref="IntermediateInterfaceTypeDictionary"/> instance</returns>
-        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
+        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
         /// is true, this creates a new standalone interface type dictionary linked to the master
         /// <see cref="Types"/> dictionary; however, if false, it creates a dependent 
         /// interface type dictionary which mirrors the members of the root declaration and all other
         /// partial instances.  Parent target discernment is provided by the 
-        /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
+        /// <see cref="IntermediateTypeDictionary{TTypeIdentifier, TType, TIntermediateType}.Parent"/>
         /// of the dictionary for the current instance.  Add methods called upon the
         /// instance provided here report the current partial instance as the parent.</remarks>
         protected virtual IntermediateInterfaceTypeDictionary InitializeInterfaces()
@@ -434,12 +438,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Initializes the <see cref="Structs"/> property.
         /// </summary>
         /// <returns>A new <see cref="IntermediateStructTypeDictionary"/> instance</returns>
-        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
+        /// <remarks>If <see cref="IntermediateGenericSegmentableType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}.IsRoot"/>
         /// is true, this creates a new standalone struct type dictionary linked to the master
         /// <see cref="Types"/> dictionary; however, if false, it creates a dependent 
         /// struct type dictionary which mirrors the members of the root declaration and all other
         /// partial instances.  Parent target discernment is provided by the 
-        /// <see cref="IntermediateTypeDictionary{TType, TIntermediateType}.Parent"/>
+        /// <see cref="IntermediateTypeDictionary{TTypeIdentifier, TType, TIntermediateType}.Parent"/>
         /// of the dictionary for the current instance.  Add methods called upon the
         /// instance provided here report the current partial instance as the parent.</remarks>
         protected virtual IntermediateStructTypeDictionary InitializeStructs()
@@ -466,7 +470,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             if (this.IsRoot)
                 return new IntermediateFullTypeDictionary(this);
             else
-                return new IntermediateFullTypeDictionary(this, ((IntermediateGenericSegmentableParentType<TType, TIntermediateType, TInstanceIntermediateType>)(object)this.GetRoot())._Types);
+                return new IntermediateFullTypeDictionary(this, ((IntermediateGenericSegmentableParentType<TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType>)(object)this.GetRoot())._Types);
         }
 
         #endregion
@@ -496,7 +500,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Frees managed resources used by the 
-        /// <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>.
+        /// <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>.
         /// </summary>
         public override void Dispose()
         {
@@ -651,35 +655,35 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns whether the classes of the 
-        /// <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// have been initialized.
         /// </summary>
         protected bool AreClassesInitialized { get { return this.classes != null; } }
 
         /// <summary>
         /// Returns whether the delegates of the 
-        /// <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// have been initialized.
         /// </summary>
         protected bool AreDelegatesInitialized { get { return this.delegates != null; } }
 
         /// <summary>
         /// Returns whether the enums of the 
-        /// <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// have been initialized.
         /// </summary>
         protected bool AreEnumsInitialized { get { return this.enums != null; } }
 
         /// <summary>
         /// Returns whether the interfaces of the 
-        /// <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// have been initialized.
         /// </summary>
         protected bool AreInterfacesInitialized { get { return this.interfaces != null; } }
 
         /// <summary>
         /// Returns whether the structs of the 
-        /// <see cref="IntermediateGenericSegmentableParentType{TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// have been initialized.
         /// </summary>
         protected bool AreStructsInitialized { get { return this.structs != null; } }

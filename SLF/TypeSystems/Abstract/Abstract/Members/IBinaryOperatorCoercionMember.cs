@@ -124,16 +124,24 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// Defines generic properties and methods for a member which coerces
     /// binary operations relative to the target in the expression.
     /// </summary>
+    /// <typeparam name="TCoercionParentIdentifier">The type of the identifier that represents
+    /// the parent's uniqueness from the other types.</typeparam>
     /// <typeparam name="TCoercionParent">
     /// The type of parent that contains the binary operation 
     /// coercion member in the current implementation.</typeparam>
-    public interface IBinaryOperatorCoercionMember<TCoercionParent> :
-        ICoercionMember<IBinaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>,
+    public interface IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent> :
+        ICoercionMember<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>,
         IBinaryOperatorCoercionMember
+        where TCoercionParentIdentifier :
+            ITypeUniqueIdentifier<TCoercionParentIdentifier>
         where TCoercionParent :
-            ICoercibleType<IBinaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>
+            ICoercibleType<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
     {
-
+        /// <summary>
+        /// Returns the <see cref="IBinaryOperatorUniqueIdentifier"/> which
+        /// represents the <see cref="IBinaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent}"/>.
+        /// </summary>
+        new IBinaryOperatorUniqueIdentifier UniqueIdentifier { get; }
     }
 
     /// <summary>
@@ -167,5 +175,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <see cref="Operator"/>.
         /// </summary>
         IType ReturnType { get; }
+
+        /// <summary>
+        /// Returns the <see cref="IBinaryOperatorUniqueIdentifier"/> which
+        /// represents the <see cref="IBinaryOperatorCoercionMember"/>.
+        /// </summary>
+        new IBinaryOperatorUniqueIdentifier UniqueIdentifier { get; }
     }
 }

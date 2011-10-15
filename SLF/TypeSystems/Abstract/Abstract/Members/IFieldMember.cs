@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <typeparamref name="TField"/> instances
     /// in the current implementation.</typeparam>
     public interface IFieldMember<TField, TFieldParent> :
-        IMember<TFieldParent>,
+        IMember<IGeneralMemberUniqueIdentifier, TFieldParent>,
         IFieldMember
         where TField :
             IFieldMember<TField, TFieldParent>

@@ -18,7 +18,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <typeparam name="TEvent">The type of 
     /// <see cref="IEventMember{TEvent, TEventParent}"/>
     /// in the current implementation.</typeparam>
-    /// <typeparam name="TEventParent">The <see cref="IType{TType}"/>
+    /// <typeparam name="TEventParentIdentifier">The kind of unique identifier used 
+    /// to differentiate between the event parent and its siblings.</typeparam>
+    /// <typeparam name="TEventParent">The <see cref="IType{TTypeIdentifier, TType}"/>
     /// which parents the <typeparamref name="TEvent"/>
     /// instances in the current implementation.</typeparam>
     public interface IEventParameterMember<TEvent, TEventParent> :

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
 using AllenCopeland.Abstraction.Slf.Abstract;
@@ -168,7 +167,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         //Obtain the base definition from the member info.
                         var baseMember = this.MemberInfo.GetBaseDefinition();
                         //Obtain the type containing the base member.
-                        IClassType baseDefinitionType = baseMember.DeclaringType.GetTypeReference<IClassType>();
+                        IClassType baseDefinitionType = baseMember.DeclaringType.GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
                         //Iterate through its methods.
                         var baseMethodParameterTypes = 
                             (from p in baseMember.GetParameters()

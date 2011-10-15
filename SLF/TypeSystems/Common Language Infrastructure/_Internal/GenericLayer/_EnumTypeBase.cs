@@ -17,7 +17,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
     internal partial class _EnumTypeBase :
-        TypeBase<IEnumType>,
+        TypeBase<IGeneralTypeUniqueIdentifier, IEnumType>,
         _DummyEnumType
     {
         private object disposeLock = new object();
@@ -422,9 +422,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #endregion
 
-        public override IEnumerable<string> AggregateIdentifiers
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get { return this.Original.AggregateIdentifiers; }
+        }
+
+        protected override IGeneralTypeUniqueIdentifier OnGetUniqueIdentifier()
+        {
+            return AstIdentifier.Type(this.Name);
         }
     }
 }

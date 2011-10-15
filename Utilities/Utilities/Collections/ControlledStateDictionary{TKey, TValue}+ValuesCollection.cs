@@ -45,7 +45,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             public virtual int IndexOf(TValue element)
             {
                 for (int i = 0; i < this.Count; i++)
-                    if (this.locals.entries[i].Value.Equals(element))
+                    if (object.ReferenceEquals(element, this.locals.entries[i].Value))
                         return i;
                 return -1;
             }
@@ -71,7 +71,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             public virtual bool Contains(TValue item)
             {
                 for (int i = 0; i < this.Count; i++)
-                    if (this.locals.entries[i].Value.Equals(item))
+                    if (object.ReferenceEquals(item, this.locals.entries[i].Value))
                         return true;
                 return false;
             }
@@ -197,10 +197,10 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
             void IControlledStateCollection.CopyTo(Array array, int arrayIndex)
             {
-                ICollection_CopyTo(array, arrayIndex);
+                GeneralCopyTo(array, arrayIndex);
             }
 
-            protected virtual void ICollection_CopyTo(Array array, int arrayIndex)
+            protected virtual void GeneralCopyTo(Array array, int arrayIndex)
             {
                 if (arrayIndex < 0 || arrayIndex >= array.Length)
                     throw new ArgumentException("arrayIndex");

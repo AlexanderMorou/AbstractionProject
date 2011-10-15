@@ -14,10 +14,10 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal class CompiledStructTypeDictionary :
-        CompiledTypeDictionary<IStructType>,
+        CompiledTypeDictionary<IGeneralGenericTypeUniqueIdentifier, IStructType>,
         IStructTypeDictionary
     {
-        internal CompiledStructTypeDictionary(_ICompiledTypeParent parent, MasterDictionaryBase<string, IType> master)
+        internal CompiledStructTypeDictionary(_ICompiledTypeParent parent, MasterDictionaryBase<IGeneralTypeUniqueIdentifier, IType> master)
             : base(parent, master, parent.UnderlyingSystemTypes.Filter(p => p.IsValueType && !p.IsEnum))
         {
         }

@@ -63,7 +63,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public IEnumerable<IDeclaration> Declarations
         {
-            get { return TypeBase.EmptyDeclarations; }
+            get { return TypeBase<IGeneralTypeUniqueIdentifier>.EmptyDeclarations; }
         }
 
         public TypeElementClassification ElementClassification
@@ -187,7 +187,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public string FullName
         {
-            get { return string.Format("{0}?",this.ElementType.FullName); }
+            get { return string.Format("{0}?", this.ElementType.FullName); }
         }
 
         public INamespaceDeclaration Namespace
@@ -274,7 +274,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
         }
 
-        public IEnumerable<string> AggregateIdentifiers
+        public IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get {
                 this.ActualTypeCheck();
@@ -356,11 +356,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             get { return string.Format("{0}?", this.ElementType.Name); }
         }
 
-        public string UniqueIdentifier
-        {
-            get { return this.FullName; }
-        }
-
         #endregion
 
         private void CacheCheck()
@@ -393,5 +388,38 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             return this.BuildTypeName(true);
         }
 
+
+        #region IType Members
+
+
+        IEnumerable<IGeneralDeclarationUniqueIdentifier> IType.AggregateIdentifiers
+        {
+            get
+            {
+                this.ActualTypeCheck();
+                return this.actualType.AggregateIdentifiers;
+            }
+        }
+
+        public IGeneralTypeUniqueIdentifier UniqueIdentifier
+        {
+            get 
+            {
+                this.ActualTypeCheck();
+                return this.actualType.UniqueIdentifier;
+            }
+        }
+
+        #endregion
+
+        #region IDeclaration Members
+
+
+        IGeneralDeclarationUniqueIdentifier IDeclaration.UniqueIdentifier
+        {
+            get { return this.UniqueIdentifier; }
+        }
+
+        #endregion
     }
 }

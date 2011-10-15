@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// Defines properties and methods for working with a full series of members.
     /// </summary>
     public interface IIntermediateFullMemberDictionary :
-        IIntermediateFullDeclarationDictionary<IMember, IIntermediateMember>,
+        IIntermediateFullDeclarationDictionary<IGeneralMemberUniqueIdentifier, IMember, IIntermediateMember>,
         IFullMemberDictionary,
         IDisposable
     {

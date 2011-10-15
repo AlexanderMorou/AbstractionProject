@@ -20,10 +20,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TCtor,
             IIntermediateConstructorSignatureMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
         where TType :
-            ICreatableType<TCtor, TType>
+            ICreatableParent<TCtor, TType>
         where TIntermediateType :
             TType,
-            IIntermediateCreatableSignatureType<TCtor, TIntermediateCtor, TType, TIntermediateType>
+            IIntermediateCreatableSignatureParent<TCtor, TIntermediateCtor, TType, TIntermediateType>
     {
         protected class ParameterDictionary :
             IntermediateParameterMemberDictionary<TCtor, TIntermediateCtor, IConstructorParameterMember<TCtor, TType>, IIntermediateConstructorSignatureParameterMember<TCtor, TIntermediateCtor, TType, TIntermediateType>>

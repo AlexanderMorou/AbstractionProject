@@ -13,22 +13,25 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    partial class CompiledTypeDictionary<TType>
+    partial class CompiledTypeDictionary<TTypeIdentifier, TType>
+        where TTypeIdentifier :
+            ITypeUniqueIdentifier<TTypeIdentifier>,
+            IGeneralTypeUniqueIdentifier
         where TType :
             class,
-            IType<TType>
+            IType<TTypeIdentifier, TType>
     {
         private class KC :
             KeysCollection,
             IDisposable
         {
-            private CompiledTypeDictionary<TType> parent;
-            private string[] names;
-            public KC(CompiledTypeDictionary<TType> parent)
+            private CompiledTypeDictionary<TTypeIdentifier, TType> parent;
+            private TTypeIdentifier[] names;
+            public KC(CompiledTypeDictionary<TTypeIdentifier, TType> parent)
                 : base(parent)
             {
                 this.parent = parent;
-                this.names = new string[this.parent.Count];
+                this.names = new TTypeIdentifier[this.parent.Count];
             }
             public override int Count
             {
@@ -37,7 +40,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return this.names.Length;
                 }
             }
-            public override bool Contains(string item)
+            public override bool Contains(TTypeIdentifier item)
             {
                 bool containsUnloaded = false;
                 for (int i = 0; i < this.names.Length; i++)
@@ -47,7 +50,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         containsUnloaded = true;
                         continue;
                     }
-                    else if (this.names[i] == item)
+                    else if (this.names[i].Equals(item))
                         return true;
                 }
                 if (containsUnloaded)
@@ -57,14 +60,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         if (this.names[i] == null)
                         {
                             this.CheckItemAt(i);
-                            if (this.names[i] == item)
+                            if (this.names[i].Equals(item))
                                 return true;
                         }
                     }
                 }
                 return false;
             }
-            public override void CopyTo(string[] array, int arrayIndex)
+            public override void CopyTo(TTypeIdentifier[] array, int arrayIndex)
             {
                 for (int i = 0; i < this.Count; i++)
                 {
@@ -73,9 +76,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
             }
 
-            public override string[] ToArray()
+            public override TTypeIdentifier[] ToArray()
             {
-                var result = new string[this.Count];
+                var result = new TTypeIdentifier[this.Count];
                 for (int i = 0; i < this.Count; i++)
                 {
                     CheckItemAt(i);
@@ -93,7 +96,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     {
                         if (i == index)
                         {
-                            this.names[i] = v.Name;
+                            this.names[i] = (TTypeIdentifier)v.GetUniqueIdentifier();
                             break;
                         }
                         i++;
@@ -101,7 +104,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
             }
 
-            public override IEnumerator<string> GetEnumerator()
+            public override IEnumerator<TTypeIdentifier> GetEnumerator()
             {
                 for (int i = 0; i < this.names.Length; i++)
                 {
@@ -111,7 +114,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 yield break;
             }
 
-            protected override string OnGetKey(int index)
+            protected override TTypeIdentifier OnGetKey(int index)
             {
                 if (index < 0 ||
                     index >= this.Count)

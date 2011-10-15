@@ -17,19 +17,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// Defines generic properties and methods for an intermediate member which coerces
     /// binary operations relative to the target in the expression.
     /// </summary>
-    /// <typeparam name="TType">The type which contains the binary operation 
+    /// <typeparam name="TCoercionParent">The type which contains the binary operation 
     /// coercion member in the abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateType">The type which contains the intermediate binary operation
+    /// <typeparam name="TIntermediateCoercionParent">The type which contains the intermediate binary operation
     /// coercion member in the intermediate abstract syntax tree.</typeparam>
-    public interface IIntermediateBinaryOperatorCoercionMember<TType, TIntermediateType> :
-        IIntermediateCoercionMember<IBinaryOperatorCoercionMember<TType>, IIntermediateBinaryOperatorCoercionMember<TType, TIntermediateType>, TType, TIntermediateType>,
+    public interface IIntermediateBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent> :
+        IIntermediateCoercionMember<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, IIntermediateBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>,
         IIntermediateBinaryOperatorCoercionMember,
-        IBinaryOperatorCoercionMember<TType>
-        where TType :
-            ICoercibleType<IBinaryOperatorCoercionMember<TType>, TType>
-        where TIntermediateType :
-            TType,
-            IIntermediateCoercibleType<IBinaryOperatorCoercionMember<TType>, IIntermediateBinaryOperatorCoercionMember<TType, TIntermediateType>, TType, TIntermediateType>
+        IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>
+        where TCoercionParentIdentifier :
+            ITypeUniqueIdentifier<TCoercionParentIdentifier>
+        where TCoercionParent :
+            ICoercibleType<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
+        where TIntermediateCoercionParent :
+            IIntermediateCoercibleType<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, IIntermediateBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParentIdentifier, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>,
+            TCoercionParent
     {
     }
 

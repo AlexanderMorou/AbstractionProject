@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using System.Runtime.CompilerServices;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -16,7 +17,7 @@ using System.Runtime.CompilerServices;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal partial class CompiledFullTypeDictionary :
-        MasterDictionaryBase<string, IType>,
+        MasterDictionaryBase<IGeneralTypeUniqueIdentifier, IType>,
         IFullTypeDictionary,
         IDisposable
     {
@@ -28,24 +29,24 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             this.parent = parent;
         }
-        public override bool ContainsKey(string key)
+        public override bool ContainsKey(IGeneralTypeUniqueIdentifier key)
         {
-            foreach (IType t in this.parent.UnderlyingSystemTypes)
-                if (t.Name == key)
+            foreach (var t in this.parent.UnderlyingSystemTypes)
+                if (t.GetTypeReference().UniqueIdentifier.Equals(key))
                     return true;
             return false;
         }
 
-        protected override KeyValuePair<string, MasterDictionaryEntry<IType>> OnGetThis(int index)
+        protected override KeyValuePair<IGeneralTypeUniqueIdentifier, MasterDictionaryEntry<IType>> OnGetThis(int index)
         {
             if (index < 0 || index >= this.Count)
                 throw new ArgumentOutOfRangeException("index");
             var key = this.Keys[index];
-            return new KeyValuePair<string, MasterDictionaryEntry<IType>>(key, ((_VC)this.Values)[index]);
+            return new KeyValuePair<IGeneralTypeUniqueIdentifier, MasterDictionaryEntry<IType>>(key, ((_VC)this.Values)[index]);
             throw new KeyNotFoundException();
         }
 
-        protected override MasterDictionaryEntry<IType> OnGetThis(string key)
+        protected override MasterDictionaryEntry<IType> OnGetThis(IGeneralTypeUniqueIdentifier key)
         {
             return ((_VC)this.Values)[this.Keys.IndexOf(key)];
         }
@@ -61,11 +62,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public override IEnumerator<KeyValuePair<string, MasterDictionaryEntry<IType>>> GetEnumerator()
+        public override IEnumerator<KeyValuePair<IGeneralTypeUniqueIdentifier, MasterDictionaryEntry<IType>>> GetEnumerator()
         {
             foreach (IGroupedDeclarationDictionary igd in this.Subordinates)
                 foreach (var t in igd.Values.Cast<IType>())
-                    yield return new KeyValuePair<string, MasterDictionaryEntry<IType>>(t.Name, new MasterDictionaryEntry<IType>((ISubordinateDictionary)igd, t));
+                    yield return new KeyValuePair<IGeneralTypeUniqueIdentifier, MasterDictionaryEntry<IType>>(t.UniqueIdentifier, new MasterDictionaryEntry<IType>((ISubordinateDictionary)igd, t));
             yield break;
         }
 
@@ -80,10 +81,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             var kCopy = this.Keys.ToArray();
             var vCopy = this.Values.ToArray();
             for (int i = 0; i < kCopy.Length; i++)
-                array.SetValue(new KeyValuePair<string, MasterDictionaryEntry<IType>>(kCopy[i], vCopy[i]), arrayIndex + i);
+                array.SetValue(new KeyValuePair<IGeneralTypeUniqueIdentifier, MasterDictionaryEntry<IType>>(kCopy[i], vCopy[i]), arrayIndex + i);
         }
 
-        public override void CopyTo(KeyValuePair<string, MasterDictionaryEntry<IType>>[] array, int arrayIndex)
+        public override void CopyTo(KeyValuePair<IGeneralTypeUniqueIdentifier, MasterDictionaryEntry<IType>>[] array, int arrayIndex)
         {
             if (this.Count == 0)
                 return;
@@ -94,17 +95,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             var kCopy = this.Keys.ToArray();
             var vCopy = this.Values.ToArray();
             for (int i = 0; i < kCopy.Length; i++)
-                array[arrayIndex + i] = new KeyValuePair<string, MasterDictionaryEntry<IType>>(kCopy[i], vCopy[i]);
+                array[arrayIndex + i] = new KeyValuePair<IGeneralTypeUniqueIdentifier, MasterDictionaryEntry<IType>>(kCopy[i], vCopy[i]);
         }
 
-        protected override ControlledStateDictionary<string, MasterDictionaryEntry<IType>>.KeysCollection InitializeKeysCollection()
+        protected override ControlledStateDictionary<IGeneralTypeUniqueIdentifier, MasterDictionaryEntry<IType>>.KeysCollection InitializeKeysCollection()
         {
             if (kc == null)
                 this.kc = new _KC(this);
             return this.kc;
         }
 
-        protected override ControlledStateDictionary<string, MasterDictionaryEntry<IType>>.ValuesCollection InitializeValuesCollection()
+        protected override ControlledStateDictionary<IGeneralTypeUniqueIdentifier, MasterDictionaryEntry<IType>>.ValuesCollection InitializeValuesCollection()
         {
             if (this.vc == null)
                 this.vc = new _VC(this);
@@ -131,30 +132,24 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public IType[] GetTypesByName(string name)
         {
             /* *
-             * Pick out the compiled types from the parent's type cache
-             * and use their actual names which will become the unique
-             * names used to refer to the types when retrieving them.
+             * Obtain the members where their unique identifiers
+             * contain the name specified.
+             * *
+             * Much easier than change sets 565 through 9844.
              * */
-            return (from matchingName in
-                        (from t in this.parent.UnderlyingSystemTypes
-                         let typeName = t.IsGenericType ? t.Name.Substring(0, t.Name.LastIndexOf('`')) : t.Name
-                         where typeName == name
-                         select t.Name)
-                    select this[matchingName].Entry).ToArray();
+            return (from identifier in this.Keys
+                    where identifier.Name == name
+                    select this[identifier].Entry).ToArray();
         }
 
         #endregion
-        internal IEnumerable<String> GetAggregateIdentifiers()
+        internal IEnumerable<IGeneralDeclarationUniqueIdentifier> GetAggregateIdentifiers()
         {
             /* *
              * Ignore types which are compiler generated and yield a null
              * name.
              * */
-            return (from t in this.parent.UnderlyingSystemTypes
-                    let typeName = t.IsGenericType ?  t.Name.Contains('`') ? t.Name.Substring(0, t.Name.LastIndexOf('`')) : t.Name : t.Name
-                    where !(t.IsDefined(typeof(CompilerGeneratedAttribute), true))
-                    where !string.IsNullOrEmpty(typeName)
-                    select typeName).Distinct();
+            return this.Keys.Cast<IGeneralDeclarationUniqueIdentifier>();
         }
     }
 }

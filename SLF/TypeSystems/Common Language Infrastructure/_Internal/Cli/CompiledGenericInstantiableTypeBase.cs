@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
-using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
@@ -31,11 +30,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     /// <typeparam name="TIndexer">The type used for the indexers in the current implementation.</typeparam>
     /// <typeparam name="TMethod">The type used for the methods in the current implementation.</typeparam>
     /// <typeparam name="TProperty">The type used for the properties in the current implementation.</typeparam>
-    /// <typeparam name="TType">The <see cref="IInstantiableType{TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType}"/> 
+    /// <typeparam name="TType">The <see cref="IInstantiableType{TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TTypeIdentifier, TType}"/> 
     /// in the implementation.</typeparam>
     internal abstract partial class CompiledGenericInstantiableTypeBase<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType> :
-        CompiledGenericTypeBase<TType>,
-        IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType>,
+        CompiledGenericTypeBase<IGeneralGenericTypeUniqueIdentifier, TType>,
+        IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, IGeneralGenericTypeUniqueIdentifier, TType>,
         IEventSignatureParent,
         _ICompiledTypeParent
         where TIndexer :
@@ -60,8 +59,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IEventMember<TEvent, TType>
         where TType :
             class,
-            IGenericType<TType>,
-            IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType>
+            IGenericType<IGeneralGenericTypeUniqueIdentifier, TType>,
+            IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, IGeneralGenericTypeUniqueIdentifier, TType>
     {
         #region CompiledGenericInstantiableTypeBase<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType> Data Members
         /// <summary>
@@ -97,15 +96,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// <summary>
         /// Data member for <see cref="BinaryOperatorCoercions"/>.
         /// </summary>
-        private IBinaryOperatorCoercionMemberDictionary<TType> binaryOperatorCoercions;
+        private IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> binaryOperatorCoercions;
         /// <summary>
         /// Data member for <see cref="TypeCoercions"/>.
         /// </summary>
-        private ITypeCoercionMemberDictionary<TType> typeCoercions;
+        private ITypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> typeCoercions;
         /// <summary>
         /// Data member for <see cref="UnaryOperatorCoercions"/>.
         /// </summary>
-        private IUnaryOperatorCoercionMemberDictionary<TType> unaryOperatorCoercions;
+        private IUnaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> unaryOperatorCoercions;
         /// <summary>
         /// Data member for <see cref="Constructors"/>.
         /// </summary>
@@ -199,7 +198,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region Initialize Members
 
-        private IBinaryOperatorCoercionMemberDictionary<TType> InitializeBinaryOperatorCoercions()
+        private IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> InitializeBinaryOperatorCoercions()
         {
             List<string> opNames = new List<string>() { 
                 CLICommon.BinaryOperatorNames.Addition, CLICommon.BinaryOperatorNames.Subtraction, CLICommon.BinaryOperatorNames.Multiply,
@@ -208,18 +207,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 CLICommon.BinaryOperatorNames.RightShift, CLICommon.BinaryOperatorNames.Equality, CLICommon.BinaryOperatorNames.Inequality,
                 CLICommon.BinaryOperatorNames.LessThan, CLICommon.BinaryOperatorNames.GreaterThan, CLICommon.BinaryOperatorNames.LessThanOrEqual, 
                 CLICommon.BinaryOperatorNames.GreaterThanOrEqual };
-            return new LockedBinaryOperatorCoercionMembers<TType>(this._Members, ((TType)(object)(this)),
-                UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledBinaryOperatorCoercionMemberBase<TType>(methInfo, ((TType)(object)(this))));
+            return new LockedBinaryOperatorCoercionMembers<IGeneralGenericTypeUniqueIdentifier, TType>(this._Members, ((TType)(object)(this)),
+                UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledBinaryOperatorCoercionMemberBase<IGeneralGenericTypeUniqueIdentifier, TType>(methInfo, ((TType)(object)(this))));
         }
 
-        private ITypeCoercionMemberDictionary<TType> InitializeTypeCoercions()
+        private ITypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> InitializeTypeCoercions()
         {
             List<string> opNames = new List<string>() { CLICommon.TypeCoercionNames.Implicit, CLICommon.TypeCoercionNames.Explicit };
-            return new LockedTypeCoercionMemberDictionary<TType>(this._Members, ((TType)(object)(this)),
-                UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledTypeCoercionMemberBase<TType>(methInfo, ((TType)(object)(this))));
+            return new LockedTypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType>(this._Members, ((TType)(object)(this)),
+                UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledTypeCoercionMemberBase<IGeneralGenericTypeUniqueIdentifier, TType>(methInfo, ((TType)(object)(this))));
         }
 
-        private IUnaryOperatorCoercionMemberDictionary<TType> InitializeUnaryOperatorCoercions()
+        private IUnaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> InitializeUnaryOperatorCoercions()
         {
             
             /* *
@@ -234,8 +233,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 CLICommon.UnaryOperatorNames.Plus, CLICommon.UnaryOperatorNames.Negation, CLICommon.UnaryOperatorNames.False, 
                 CLICommon.UnaryOperatorNames.True, CLICommon.UnaryOperatorNames.LogicalNot, CLICommon.UnaryOperatorNames.OnesComplement, 
                 CLICommon.UnaryOperatorNames.Increment, CLICommon.UnaryOperatorNames.Decrement };
-            return new LockedUnaryOperatorCoercionMembers<TType>(this._Members, ((TType)(object)(this)),
-                UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledUnaryOperatorCoercionMemberBase<TType>(methInfo, ((TType)(object)(this))));
+            return new LockedUnaryOperatorCoercionMembers<IGeneralGenericTypeUniqueIdentifier, TType>(this._Members, ((TType)(object)(this)),
+                UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledUnaryOperatorCoercionMemberBase<IGeneralGenericTypeUniqueIdentifier, TType>(methInfo, ((TType)(object)(this))));
         }
 
         /// <summary>
@@ -284,7 +283,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         /// <summary>
         /// Returns the <see cref="IClassTypeDictionary"/> associated
-        /// to the <see cref="TypeBase{TType}"/>.
+        /// to the <see cref="TypeBase{TIdentifier, TType}"/>.
         /// </summary>
         public IClassTypeDictionary Classes
         {
@@ -297,7 +296,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         /// <summary>
         /// Returns the <see cref="IDelegateTypeDictionary"/> associated
-        /// to the <see cref="TypeBase{TType}"/>.
+        /// to the <see cref="TypeBase{TIdentifier, TType}"/>.
         /// </summary>
         public IDelegateTypeDictionary Delegates
         {
@@ -310,7 +309,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         /// <summary>
         /// Returns the <see cref="IEnumTypeDictionary"/> associated
-        /// to the <see cref="TypeBase{TType}"/>.
+        /// to the <see cref="TypeBase{TIdentifier, TType}"/>.
         /// </summary>
         public IEnumTypeDictionary Enums
         {
@@ -323,7 +322,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         /// <summary>
         /// Returns the <see cref="IInterfaceTypeDictionary"/> associated
-        /// to the <see cref="TypeBase{TType}"/>.
+        /// to the <see cref="TypeBase{TIdentifier, TType}"/>.
         /// </summary>
         public IInterfaceTypeDictionary Interfaces
         {
@@ -336,7 +335,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         /// <summary>
         /// Returns the <see cref="IStructTypeDictionary"/> associated
-        /// to the <see cref="TypeBase{TType}"/>.
+        /// to the <see cref="TypeBase{TIdentifier, TType}"/>.
         /// </summary>
         public IStructTypeDictionary Structs
         {
@@ -349,7 +348,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         /// <summary>
         /// Returns the <see cref="IFullTypeDictionary"/>  associated to
-        /// the <see cref="TypeBase{TType}"/>.
+        /// the <see cref="TypeBase{TIdentifier, TType}"/>.
         /// </summary>
         public IFullTypeDictionary Types
         {
@@ -512,7 +511,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         protected abstract TIndexer GetIndexer(PropertyInfo info);
         #endregion
 
-        #region ICreatableType<TCtor,TType> Members
+        #region ICreatableParent<TCtor,TType> Members
 
         /// <summary>
         /// Returns the <see cref="IConstructorMemberDictionary{TCtor, TType}"/> 
@@ -564,9 +563,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-        #region ICreatableType Members
+        #region ICreatableParent Members
 
-        IConstructorMemberDictionary ICreatableType.Constructors
+        IConstructorMemberDictionary ICreatableParent.Constructors
         {
             get { return (IConstructorMemberDictionary)this.Constructors; }
         }
@@ -584,7 +583,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region IPropertyParent Members
 
-        IPropertyMemberDictionary IPropertyParentType.Properties
+        IPropertyMemberDictionary IPropertyParent.Properties
         {
             get { return (IPropertyMemberDictionary)this.Properties; }
         }
@@ -605,10 +604,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         #region ICoercibleType<TType> Members
 
         /// <summary>
-        /// Returns the <see cref="IBinaryOperatorCoercionMemberDictionary{TCoercionParent}"/> 
+        /// Returns the <see cref="IBinaryOperatorCoercionMemberDictionary{TCoercionParentIdentifier, TCoercionParent}"/> 
         /// assocaited to the <typeparamref name="TType"/>.
         /// </summary>
-        public IBinaryOperatorCoercionMemberDictionary<TType> BinaryOperatorCoercions
+        public IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> BinaryOperatorCoercions
         {
             get {
                 if (this.binaryOperatorCoercions == null)
@@ -618,10 +617,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         /// <summary>
-        /// Returns the <see cref="ITypeCoercionMemberDictionary{TCoercionParent}"/> 
+        /// Returns the <see cref="ITypeCoercionMemberDictionary{TCoercionParentIdentifier, TCoercionParent}"/> 
         /// assocaited to the <typeparamref name="TType"/>.
         /// </summary>
-        public ITypeCoercionMemberDictionary<TType> TypeCoercions
+        public ITypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> TypeCoercions
         {
             get
             {
@@ -635,7 +634,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// Returns the <see cref="IUnaryOperatorCoercionMemberDictionary{TCoercionParent}"/> 
         /// assocaited to the <typeparamref name="TType"/>.
         /// </summary>
-        public IUnaryOperatorCoercionMemberDictionary<TType> UnaryOperatorCoercions
+        public IUnaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> UnaryOperatorCoercions
         {
             get
             {
@@ -834,7 +833,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-        #region ICreatableType<TCtor,TType> Members
+        #region ICreatableParent<TCtor,TType> Members
 
         public TCtor TypeInitializer
         {
@@ -855,7 +854,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// <summary>
         /// Initializes the type initializer for the current 
         /// <see cref="CompiledGenericInstantiableTypeBase{TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType}"/>'s
-        /// <see cref="CompiledTypeBase{TType}.UnderlyingSystemType"/>
+        /// <see cref="CompiledTypeBase{TIdentifier, TType}.UnderlyingSystemType"/>
         /// </summary>
         /// <returns>A <typeparamref name="TCtor"/> instance if the current type
         /// has a non-compiler-generated type initializer.</returns>
@@ -877,10 +876,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-        #region ICreatableType Members
+        #region ICreatableParent Members
 
 
-        IConstructorMember ICreatableType.TypeInitializer
+        IConstructorMember ICreatableParent.TypeInitializer
         {
             get { return this.TypeInitializer; }
         }
@@ -934,15 +933,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { throw new NotImplementedException(); }
         }
 
-        public override IEnumerable<string> AggregateIdentifiers
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get {
-                return (from identifier in (from memberName in (this.Members as LockedFullMembersBase).GetAggregateIdentifiers()
-                        select memberName).Concat(
-                        from typeName in (this.Types as CompiledFullTypeDictionary).GetAggregateIdentifiers()
-                        select typeName)
-                        orderby identifier ascending
-                        select identifier).Distinct();
+                return (from identifier in 
+                            (from memberName in (this.Members as LockedFullMembersBase).GetAggregateIdentifiers()
+                             select memberName)
+                            .Concat(
+                             from typeName in (this.Types as CompiledFullTypeDictionary).GetAggregateIdentifiers()
+                             select typeName)
+                        orderby identifier.Name ascending
+                        select identifier);
             }
         }
     }

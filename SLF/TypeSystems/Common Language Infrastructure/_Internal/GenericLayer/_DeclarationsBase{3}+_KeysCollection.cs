@@ -14,37 +14,43 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
-    partial class _DeclarationsBase<TDeclaration, TDeclarationSpecific, TOriginalContainer, TDictionary>
+    partial class _DeclarationsBase<TDeclarationIdentifier, TDeclaration, TDeclarationSpecificIdentifier, TDeclarationSpecific, TOriginalContainer, TDictionary>
+        where TDeclarationIdentifier :
+            IDeclarationUniqueIdentifier<TDeclarationIdentifier>
         where TDeclaration :
             class,
             IDeclaration
+        where TDeclarationSpecificIdentifier :
+            IDeclarationUniqueIdentifier<TDeclarationSpecificIdentifier>,
+            TDeclarationIdentifier
         where TDeclarationSpecific :
             class,
+            IDeclaration<TDeclarationSpecificIdentifier>,
             TDeclaration
         where TDictionary :
             class,
-            IDeclarationDictionary<TDeclarationSpecific>
+            IDeclarationDictionary<TDeclarationSpecificIdentifier, TDeclarationSpecific>
     {
         private class _KeysCollection :
             KeysCollection
         {
-            private _DeclarationsBase<TDeclaration, TDeclarationSpecific, TOriginalContainer, TDictionary> ParentTypes { get; set; }
-            private ControlledStateDictionary<TDeclarationSpecific, string> values;
-            internal _KeysCollection(_DeclarationsBase<TDeclaration, TDeclarationSpecific, TOriginalContainer, TDictionary> parentTypes)
+            private _DeclarationsBase<TDeclarationIdentifier, TDeclaration, TDeclarationSpecificIdentifier, TDeclarationSpecific, TOriginalContainer, TDictionary> ParentTypes { get; set; }
+            private ControlledStateDictionary<TDeclarationSpecific, TDeclarationSpecificIdentifier> values;
+            internal _KeysCollection(_DeclarationsBase<TDeclarationIdentifier, TDeclaration, TDeclarationSpecificIdentifier, TDeclarationSpecific, TOriginalContainer, TDictionary> parentTypes)
                 : base(parentTypes)
             {
-                this.values = new ControlledStateDictionary<TDeclarationSpecific, string>();
+                this.values = new ControlledStateDictionary<TDeclarationSpecific, TDeclarationSpecificIdentifier>();
                 this.ParentTypes = parentTypes;
             }
 
-            public override bool Contains(string key)
+            public override bool Contains(TDeclarationSpecificIdentifier key)
             {
                 if (this.values.Values.Contains(key))
                     return true;
                 //For those unloaded...
                 foreach (var item in this.ParentTypes.Original.Values)
                 {
-                    if (CheckItemAt(item) && item.UniqueIdentifier == key)
+                    if (CheckItemAt(item) && item.UniqueIdentifier.Equals(key))
                         return true;
                 }
                 return false;
@@ -81,12 +87,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 }
             }
 
-            public override void CopyTo(string[] array, int arrayIndex)
+            public override void CopyTo(TDeclarationSpecificIdentifier[] array, int arrayIndex)
             {
                 this.ToArray().CopyTo(array, arrayIndex);
             }
 
-            protected override string OnGetKey(int index)
+            protected override TDeclarationSpecificIdentifier OnGetKey(int index)
             {
                 if (index < 0 || index >= this.Count)
                     throw new ArgumentOutOfRangeException("index");
@@ -99,12 +105,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 return this.values.Values[index];
             }
 
-            public override string[] ToArray()
+            public override TDeclarationSpecificIdentifier[] ToArray()
             {
                 return Enumerable.ToArray(this);
             }
 
-            public override IEnumerator<string> GetEnumerator()
+            public override IEnumerator<TDeclarationSpecificIdentifier> GetEnumerator()
             {
                 foreach (var item in this.ParentTypes.Original.Values)
                 {

@@ -18,8 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <typeparam name="TIndexerParent">The type of indexer parent
     /// used in the abstact type system.</typeparam>
     public interface IIndexerSignatureParent<TIndexer, TIndexerParent> :
-        ISignatureParent<TIndexer, IIndexerSignatureParameterMember<TIndexer, TIndexerParent>, TIndexerParent>,
-        IType<TIndexerParent>,
+        ISignatureParent<IGeneralSignatureMemberUniqueIdentifier, TIndexer, IIndexerSignatureParameterMember<TIndexer, TIndexerParent>, TIndexerParent>,
         IIndexerSignatureParent
         where TIndexer :
             IIndexerSignatureMember<TIndexer, TIndexerParent>
@@ -27,8 +26,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             IIndexerSignatureParent<TIndexer, TIndexerParent>
     {
         /// <summary>
-        /// Returns the <see cref="IIndexerSignatureMemberDictionary{TIndexer, TIndexerParent}"/>
-        /// contained within the <see cref="IIndexerSignatureParent{TIndexer, TIndexerParent}"/>.
+        /// Returns the <see cref="IIndexerSignatureMemberDictionary{TIndexer, TIndexerParentIdentifier, TIndexerParent}"/>
+        /// contained within the <see cref="IIndexerSignatureParent{TIndexer, TIndexerParentIdentifier, TIndexerParent}"/>.
         /// </summary>
         new IIndexerSignatureMemberDictionary<TIndexer, TIndexerParent> Indexers { get; }
     }

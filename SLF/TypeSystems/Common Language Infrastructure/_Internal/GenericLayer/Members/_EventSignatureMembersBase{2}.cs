@@ -28,5 +28,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             : base(master, originalSet, parent)
         {
         }
+
     }
 }

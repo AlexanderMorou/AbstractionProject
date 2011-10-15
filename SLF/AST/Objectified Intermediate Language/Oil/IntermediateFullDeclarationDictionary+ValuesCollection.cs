@@ -14,7 +14,9 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
-    partial class IntermediateFullDeclarationDictionary<TDeclaration, TIntermediateDeclaration>
+    partial class IntermediateFullDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration>
+        where TIdentifier :
+            IDeclarationUniqueIdentifier<TIdentifier>
         where TDeclaration :
             class,
             IDeclaration
@@ -27,9 +29,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IControlledStateCollection<MasterDictionaryEntry<TIntermediateDeclaration>>,
             IControlledStateCollection
         {
-            private IntermediateFullDeclarationDictionary<TDeclaration, TIntermediateDeclaration> owner;
+            private IntermediateFullDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration> owner;
 
-            public ValuesCollection(IntermediateFullDeclarationDictionary<TDeclaration, TIntermediateDeclaration> owner)
+            public ValuesCollection(IntermediateFullDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration> owner)
             {
                 this.owner = owner;
             }
@@ -42,7 +44,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public bool Contains(MasterDictionaryEntry<TIntermediateDeclaration> item)
             {
-                return ((MasterDictionaryBase<string, TDeclaration>)(this.owner)).Values.Contains(new MasterDictionaryEntry<TDeclaration>(item.Subordinate, item.Entry));
+                return ((MasterDictionaryBase<TIdentifier, TDeclaration>)(this.owner)).Values.Contains(new MasterDictionaryEntry<TDeclaration>(item.Subordinate, item.Entry));
             }
 
             public void CopyTo(MasterDictionaryEntry<TIntermediateDeclaration>[] array, int arrayIndex = 0)
@@ -58,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 get {
                     if (index < 0 || index > this.Count)
                         throw new ArgumentOutOfRangeException("index");
-                    var item = ((MasterDictionaryBase<string, TDeclaration>)(this.owner)).Values.ElementAt(index);
+                    var item = ((MasterDictionaryBase<TIdentifier, TDeclaration>)(this.owner)).Values.ElementAt(index);
 
                     return new MasterDictionaryEntry<TIntermediateDeclaration>(item.Subordinate, ((TIntermediateDeclaration)(item.Entry)));
                 }
@@ -74,7 +76,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public int IndexOf(MasterDictionaryEntry<TIntermediateDeclaration> element)
             {
-                return ((MasterDictionaryBase<string, TDeclaration>)(this.owner)).Values.IndexOf(new MasterDictionaryEntry<TDeclaration>(element.Subordinate, element.Entry));
+                return ((MasterDictionaryBase<TIdentifier, TDeclaration>)(this.owner)).Values.IndexOf(new MasterDictionaryEntry<TDeclaration>(element.Subordinate, element.Entry));
             }
             #endregion
 
@@ -82,7 +84,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public IEnumerator<MasterDictionaryEntry<TIntermediateDeclaration>> GetEnumerator()
             {
-                foreach (var item in ((MasterDictionaryBase<string, TDeclaration>)(this.owner)).Values)
+                foreach (var item in ((MasterDictionaryBase<TIdentifier, TDeclaration>)(this.owner)).Values)
                     yield return new MasterDictionaryEntry<TIntermediateDeclaration>(item.Subordinate, ((TIntermediateDeclaration)(item.Entry)));
                 yield break;
             }

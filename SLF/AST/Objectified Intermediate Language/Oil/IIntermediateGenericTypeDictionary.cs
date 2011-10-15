@@ -13,12 +13,14 @@ using AllenCopeland.Abstraction.Slf.Oil.Modules;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
-    public interface IIntermediateGenericTypeDictionary<TType, TIntermediateType> :
-        IIntermediateTypeDictionary<TType, TIntermediateType>
+    public interface IIntermediateGenericTypeDictionary<TTypeIdentifier, TType, TIntermediateType> :
+        IIntermediateTypeDictionary<TTypeIdentifier, TType, TIntermediateType>
+        where TTypeIdentifier :
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>
         where TType :
-            IGenericType<TType>
+            IGenericType<TTypeIdentifier, TType>
         where TIntermediateType :
-            IIntermediateGenericType<TType, TIntermediateType>,
+            IIntermediateGenericType<TTypeIdentifier, TType, TIntermediateType>,
             TType
     {
         /// <summary>
@@ -39,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         TIntermediateType Add(string name, params GenericParameterData[] typeParameters);
         /// <summary>
         /// Creates and inserts a new <typeparamref name="TIntermediateType"/> instance
-        /// into the current <see cref="IIntermediateTypeDictionary{TType, TIntermediateType}"/>
+        /// into the current <see cref="IIntermediateTypeDictionary{TTypeIdentifier, TType, TIntermediateType}"/>
         /// with the <paramref name="name"/>, <paramref name="module"/> and
         /// <paramref name="typeParameters"/> provided.
         /// </summary>

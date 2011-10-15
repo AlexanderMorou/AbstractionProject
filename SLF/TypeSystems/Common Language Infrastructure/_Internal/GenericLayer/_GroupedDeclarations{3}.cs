@@ -14,20 +14,26 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
-    internal abstract partial class _GroupedDeclarations<TDeclarationSpecific, TParent, TDeclaration, TDictionary> :
-        _DeclarationsBase<TDeclaration, TDeclarationSpecific, TParent, TDictionary>,
-        ISubordinateDictionary<string, TDeclarationSpecific, TDeclaration>,
-        IGroupedDeclarationDictionary<TDeclarationSpecific>
-        where TDeclarationSpecific :
-            class,
-            TDeclaration
+    internal abstract partial class _GroupedDeclarations<TDeclarationSpecificIdentifier, TDeclarationSpecific, TParent, TDeclarationIdentifier, TDeclaration, TDictionary> :
+        _DeclarationsBase<TDeclarationIdentifier, TDeclaration, TDeclarationSpecificIdentifier, TDeclarationSpecific, TParent, TDictionary>,
+        ISubordinateDictionary<TDeclarationSpecificIdentifier, TDeclarationIdentifier, TDeclarationSpecific, TDeclaration>,
+        IGroupedDeclarationDictionary<TDeclarationSpecificIdentifier, TDeclarationSpecific>
+        where TDeclarationIdentifier :
+            IDeclarationUniqueIdentifier<TDeclarationIdentifier>
         where TDeclaration :
             class,
             IDeclaration
+        where TDeclarationSpecificIdentifier :
+            IDeclarationUniqueIdentifier<TDeclarationSpecificIdentifier>,
+            TDeclarationIdentifier
+        where TDeclarationSpecific :
+            class,
+            IDeclaration<TDeclarationSpecificIdentifier>,
+            TDeclaration
         where TDictionary :
             class,
-            ISubordinateDictionary<string, TDeclarationSpecific, TDeclaration>,
-            IGroupedDeclarationDictionary<TDeclarationSpecific>
+            ISubordinateDictionary<TDeclarationSpecificIdentifier, TDeclarationIdentifier, TDeclarationSpecific, TDeclaration>,
+            IGroupedDeclarationDictionary<TDeclarationSpecificIdentifier, TDeclarationSpecific>
     {
         /// <summary>
         /// Creates a new <see cref="_GroupedDeclarations{TDeclarationSpecific, TParent, TDeclaration, TDictionary}"/>
@@ -37,7 +43,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// <param name="originalSet">The <typeparamref name="TDictionary"/>
         /// from which the <see cref="_GroupedDeclarations{TDeclarationSpecific, TParent, TDeclaration, TDictionary}"/>
         /// operates.</param>
-        protected _GroupedDeclarations(_GroupedMasterBase<TDeclaration> master, TDictionary originalSet, TParent parent)
+        protected _GroupedDeclarations(_GroupedMasterBase<TDeclarationIdentifier, TDeclaration> master, TDictionary originalSet, TParent parent)
             : base(master, parent, originalSet)
         {
         }
@@ -51,19 +57,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #endregion
 
-        public override bool ContainsKey(string key)
+        public override bool ContainsKey(TDeclarationSpecificIdentifier key)
         {
             return this.Keys.Contains(key);
         }
 
-        public override bool Contains(KeyValuePair<string, TDeclarationSpecific> item)
+        public override bool Contains(KeyValuePair<TDeclarationSpecificIdentifier, TDeclarationSpecific> item)
         {
             if (this.Keys.Contains(item.Key))
-                return this.Values[this.Keys.GetIndexOf(item.Key)] == item.Value;
+                return this.Values[this.Keys.IndexOf(item.Key)] == item.Value;
             return false;
         }
 
-        public override TDeclarationSpecific this[string key]
+        public override TDeclarationSpecific this[TDeclarationSpecificIdentifier key]
         {
             get
             {
@@ -75,11 +81,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             }
         }
 
-        protected override KeyValuePair<string, TDeclarationSpecific> OnGetThis(int index)
+        protected override KeyValuePair<TDeclarationSpecificIdentifier, TDeclarationSpecific> OnGetThis(int index)
         {
             if (index < 0 && index >= this.Count)
                 throw new ArgumentOutOfRangeException("index");
-            return new KeyValuePair<string, TDeclarationSpecific>(this.Keys[index], this.Values[index]);
+            return new KeyValuePair<TDeclarationSpecificIdentifier, TDeclarationSpecific>(this.Keys[index], this.Values[index]);
         }
 
         protected abstract TDeclarationSpecific ObtainWrapper(TDeclarationSpecific item);

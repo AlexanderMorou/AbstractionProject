@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// constant fields.
     /// </summary>
     public interface IEnumType :
-        IType<IEnumType>,
+        IType<IGeneralTypeUniqueIdentifier, IEnumType>,
         IFieldParent<IEnumFieldMember, IEnumType>
     {
     }

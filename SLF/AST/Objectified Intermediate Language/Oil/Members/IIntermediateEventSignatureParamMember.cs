@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparamref name="TIntermediateEvent"/> instances in the intermediate
     /// abstract syntax tree.</typeparam>
     public interface IIntermediateEventSignatureParameterMember<TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent> :
-        IIntermediateSignatureParameterMember<TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent>,
+        IIntermediateSignatureParameterMember<IGeneralSignatureMemberUniqueIdentifier, TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent>,
         IEventSignatureParameterMember<TEvent, TEventParameter, TEventParent>
         where TEvent :
             IEventSignatureMember<TEvent, TEventParameter, TEventParent>

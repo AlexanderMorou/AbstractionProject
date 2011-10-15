@@ -19,6 +19,18 @@ namespace AllenCopeland.Abstraction.Utilities.Common
     public static class StringHandling
     {
         /// <summary>
+        /// Indicates whether the <paramref name="value"/> provided
+        /// is <see cref="String.Empty"/> or null.
+        /// </summary>
+        /// <param name="value">The <see cref="String"/> to check</param>
+        /// <returns>true if <paramref name="value"/> is null
+        /// or if it is <see cref="String.Empty"/>.</returns>
+        internal static bool IsEmptyOrNull(this string value)
+        {
+            return string.IsNullOrEmpty(value);
+        }
+
+        /// <summary>
         /// Joins a <paramref name="series"/> of <see cref="String"/> values with the 
         /// <paramref name="separator"/> provided, appending a <paramref name="sectionSeparator"/>
         /// when <paramref name="maxWidth"/> is reached for that section.

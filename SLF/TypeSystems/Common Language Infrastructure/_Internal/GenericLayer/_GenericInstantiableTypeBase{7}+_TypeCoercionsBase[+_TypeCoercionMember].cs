@@ -34,55 +34,33 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             IPropertyMember<TProperty, TType>
         where TType :
             class,
-            IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType>,
-            IGenericType<TType>
+            IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, IGeneralGenericTypeUniqueIdentifier, TType>,
+            IGenericType<IGeneralGenericTypeUniqueIdentifier, TType>
     {
         private class _TypeCoercionsBase :
-            _GroupedMembersBase<TType, ITypeCoercionMember<TType>, ITypeCoercionMemberDictionary<TType>>,
-            ITypeCoercionMemberDictionary<TType>,
+            _GroupedMembersBase<TType, ITypeCoercionUniqueIdentifier, ITypeCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>, ITypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType>>,
+            ITypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType>,
             ITypeCoercionMemberDictionary
         {
 
-            internal _TypeCoercionsBase(_FullMembersBase master, ITypeCoercionMemberDictionary<TType> originalSet, TType parent)
+            internal _TypeCoercionsBase(_FullMembersBase master, ITypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> originalSet, TType parent)
                 : base(master, originalSet, parent)
             {
             }
             private class _TypeCoercionMember :
-                _MemberBase<ITypeCoercionMember<TType>, TType>,
-                ITypeCoercionMember<TType>
+                _MemberBase<ITypeCoercionUniqueIdentifier, ITypeCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>, TType>,
+                ITypeCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>
             {
 
-                public _TypeCoercionMember(ITypeCoercionMember<TType> original, TType parent)
+                public _TypeCoercionMember(ITypeCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> original, TType parent)
                     : base(original, parent)
                 {
                 }
 
-                public override string UniqueIdentifier
+                public override ITypeCoercionUniqueIdentifier UniqueIdentifier
                 {
                     get {
-                        var opName = string.Empty;
-                        switch (this.Requirement)
-                        {
-                            case TypeConversionRequirement.Implicit:
-                                opName = "op_Implicit";
-                                break;
-                            case TypeConversionRequirement.Explicit:
-                            default:
-                                opName = "op_Explicit";
-                                break;
-                        }
-                        string result;
-                        switch (this.Direction)
-                        {
-                            case TypeConversionDirection.FromContainingType:
-                                result = string.Format("{0} {1}({2})", this.CoercionType, opName, this.Parent);
-                                break;
-                            case TypeConversionDirection.ToContainingType:
-                            default:
-                                result = string.Format("{0} {1}({2})", this.Parent, opName, this.CoercionType);
-                                break;
-                        }
-                        return result;
+                        return AstIdentifier.TypeOperator(this.Requirement, this.Direction, this.CoercionType);
                     }
                 }
 
@@ -170,7 +148,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 return false;
             }
 
-            public ITypeCoercionMember<TType> this[TypeConversionRequirement requirement, TypeConversionDirection direction, IType target]
+            public ITypeCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> this[TypeConversionRequirement requirement, TypeConversionDirection direction, IType target]
             {
                 get
                 {
@@ -207,7 +185,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
             #endregion
 
-            protected override ITypeCoercionMember<TType> ObtainWrapper(ITypeCoercionMember<TType> item)
+            protected override ITypeCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> ObtainWrapper(ITypeCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> item)
             {
                 return new _TypeCoercionMember(original:item, parent:this.Parent);
             }

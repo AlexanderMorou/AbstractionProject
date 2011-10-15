@@ -14,20 +14,22 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
-    partial class IntermediateGenericTypeBase<TType, TIntermediateType>
+    partial class IntermediateGenericTypeBase<TTypeIdentifier, TType, TIntermediateType>
+        where TTypeIdentifier :
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>
         where TType :
             class,
-            IGenericType<TType>
+            IGenericType<TTypeIdentifier, TType>
         where TIntermediateType :
             class,
-            TType,
-            IIntermediateGenericType<TType, TIntermediateType>
+            IIntermediateGenericType<TTypeIdentifier, TType, TIntermediateType>,
+            TType
     {
         protected sealed class GenericParameterCollection :
             ILockedTypeCollection
         {
-            private IntermediateGenericTypeBase<TType, TIntermediateType> owner;
-            public GenericParameterCollection(IntermediateGenericTypeBase<TType, TIntermediateType> owner)
+            private IntermediateGenericTypeBase<TTypeIdentifier, TType, TIntermediateType> owner;
+            public GenericParameterCollection(IntermediateGenericTypeBase<TTypeIdentifier, TType, TIntermediateType> owner)
             {
                 this.owner = owner;
             }
@@ -61,8 +63,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public bool Contains(IType item)
             {
-                if (item is IIntermediateGenericTypeParameter<TType, TIntermediateType>)
-                    return this.owner.TypeParameters.Values.Contains(((IIntermediateGenericTypeParameter<TType, TIntermediateType>)(item)));
+                if (item is IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>)
+                    return this.owner.TypeParameters.Values.Contains(((IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>)(item)));
                 return false;
             }
 

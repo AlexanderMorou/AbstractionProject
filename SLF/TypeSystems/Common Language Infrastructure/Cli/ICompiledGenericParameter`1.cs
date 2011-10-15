@@ -14,12 +14,14 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
-    public interface ICompiledGenericTypeParameter<TType> :
+    public interface ICompiledGenericTypeParameter<TTypeIdentifier, TType> :
         ICompiledType,
-        IGenericTypeParameter<TType>,
+        IGenericTypeParameter<TTypeIdentifier, TType>,
         ICompiledGenericParameter
+        where TTypeIdentifier :
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>
         where TType :
-            IGenericType<TType>
+            IGenericType<TTypeIdentifier, TType>
     {
 
     }

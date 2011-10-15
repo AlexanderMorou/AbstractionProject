@@ -18,14 +18,16 @@ using AllenCopeland.Abstraction.Utilities.Collections;
  \-------------------------------------------------------------------- */
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    internal abstract class CompiledTypeBase<TType> :
-        TypeBase<TType>,
+    internal abstract class CompiledTypeBase<TTypeIdentifier, TType> :
+        TypeBase<TTypeIdentifier, TType>,
         ICompiledType
+        where TTypeIdentifier :
+            ITypeUniqueIdentifier<TTypeIdentifier>
         where TType :
             class,
-            IType<TType>
+            IType<TTypeIdentifier, TType>
     {
-        #region CompiledTypeBase{TType} Data members
+        #region CompiledTypeBase{TIdentifier, TType} Data members
         private INamespaceDeclaration nameSpace;
         /// <summary>
         /// Data member for <see cref="_Members"/>.
@@ -42,11 +44,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         #endregion
 
         /// <summary>
-        /// Creates a new <see cref="CompiledTypeBase{TType}"/> with the 
+        /// Creates a new <see cref="CompiledTypeBase{TIdentifier, TType}"/> with the 
         /// <paramref name="underlyingSystemType"/> provided.
         /// </summary>
         /// <param name="underlyingSystemType">The <see cref="System.Type"/> from which the current
-        /// <see cref="CompiledTypeBase{TType}"/> is based.</param>
+        /// <see cref="CompiledTypeBase{TIdentifier, TType}"/> is based.</param>
         internal CompiledTypeBase(Type underlyingSystemType)
             : base()
         {
@@ -76,7 +78,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         #region ICompiledType Members
 
         /// <summary>
-        /// Returns the <see cref="System.Type"/> which the <see cref="CompiledTypeBase{TType}"/> refers to.
+        /// Returns the <see cref="System.Type"/> which the <see cref="CompiledTypeBase{TIdentifier, TType}"/> refers to.
         /// </summary>
         public Type UnderlyingSystemType
         {
@@ -91,15 +93,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         protected override bool Equals(TType other)
         {
             if (other.GetType() == this.GetType())
-                return this.UnderlyingSystemType != ((CompiledTypeBase<TType>)(object)(other)).UnderlyingSystemType;
+                return this.UnderlyingSystemType != ((CompiledTypeBase<TTypeIdentifier, TType>)(object)(other)).UnderlyingSystemType;
             else
                 return false;
         }
 
         /// <summary>
-        /// Obtains the name of the <see cref="CompiledTypeBase{TType}"/>.
+        /// Obtains the name of the <see cref="CompiledTypeBase{TIdentifier, TType}"/>.
         /// </summary>
-        /// <returns>A <see cref="System.String"/> containing the name of the <see cref="CompiledTypeBase{TType}"/>.</returns>
+        /// <returns>A <see cref="System.String"/> containing the name of the <see cref="CompiledTypeBase{TIdentifier, TType}"/>.</returns>
         protected override string OnGetName()
         {
             if (this.UnderlyingSystemType.IsGenericType)
@@ -117,7 +119,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (nameSpace == null)
             {
                 var namespaceName = this.UnderlyingSystemType.Namespace;
-                this.nameSpace = this.Assembly.Namespaces[namespaceName];
+                this.nameSpace = this.Assembly.Namespaces[AstIdentifier.Declaration(namespaceName)];
             }
             return nameSpace;
         }
@@ -143,7 +145,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         /// <summary>
-        /// Returns the base type of the current <see cref="CompiledTypeBase{TType}"/>.
+        /// Returns the base type of the current <see cref="CompiledTypeBase{TIdentifier, TType}"/>.
         /// </summary>
         protected override IType BaseTypeImpl
         {
@@ -157,7 +159,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         /// <summary>
         /// Returns a collection of <see cref="IType"/> instances that are implemented by the current
-        /// <see cref="CompiledTypeBase{TType}"/>.
+        /// <see cref="CompiledTypeBase{TIdentifier, TType}"/>.
         /// </summary>
         protected override ILockedTypeCollection OnGetImplementedInterfaces()
         {
@@ -197,7 +199,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         /// <returns>A new <see cref="IFullMemberDictionary"/> 
         /// instance that contains the members of 
-        /// the <see cref="CompiledTypeBase{TType}"/>.</returns>
+        /// the <see cref="CompiledTypeBase{TIdentifier, TType}"/>.</returns>
         protected override IFullMemberDictionary OnGetMembers()
         {
             return _Members;
@@ -245,7 +247,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         /// <summary>
         /// Initializes the <see cref="TypeBase.CustomAttributes"/> for the current
-        /// <see cref="CompiledTypeBase{TType}"/>.
+        /// <see cref="CompiledTypeBase{TIdentifier, TType}"/>.
         /// </summary>
         /// <returns>A <see cref="ICustomAttributeCollection"/> of
         /// attributes relative to the current compiled type's
@@ -264,8 +266,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                return base.FullName;
+                return this.UnderlyingSystemType.FullName;
             }
+        }
+
+        protected override TTypeIdentifier OnGetUniqueIdentifier()
+        {
+            return (TTypeIdentifier)this.underlyingSystemType.GetUniqueIdentifier();
         }
     }
 }

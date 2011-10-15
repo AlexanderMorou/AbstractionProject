@@ -16,7 +16,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 {
     internal abstract class _EventSignatureMembersBase<TEvent, TEventParameter, TEventParent, TDictionary> :
-        _SignatureMembersBase<TEvent, TEventParameter, TEventParent, TDictionary>,
+        _SignatureMembersBase<IGeneralSignatureMemberUniqueIdentifier, TEvent, TEventParameter, TEventParent, TDictionary>,
         IEventSignatureMemberDictionary<TEvent, TEventParameter, TEventParent>,
         IEventSignatureMemberDictionary
         where TEvent :
@@ -43,7 +43,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             return this.Find(searchCriteria).Filter(@event => @event.Name == eventName).Values.FirstOrDefault();
         }
 
-        public IFilteredSignatureMemberDictionary<TEvent, TEventParameter, TEventParent> Find(IDelegateType searchCriteria)
+        public IFilteredSignatureMemberDictionary<IGeneralSignatureMemberUniqueIdentifier, TEvent, TEventParameter, TEventParent> Find(IDelegateType searchCriteria)
         {
             return this.Find(true, searchCriteria.Parameters.ParameterTypes);
         }
