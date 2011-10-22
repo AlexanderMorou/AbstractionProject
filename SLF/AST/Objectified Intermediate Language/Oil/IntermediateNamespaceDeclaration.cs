@@ -10,8 +10,9 @@ using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using System.ComponentModel;
 using AllenCopeland.Abstraction.Utilities.Properties;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -24,6 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IntermediateSegmentableDeclarationBase<IGeneralDeclarationUniqueIdentifier, IIntermediateNamespaceDeclaration, IntermediateNamespaceDeclaration>,
         IIntermediateNamespaceDeclaration
     {
+        private IGeneralDeclarationUniqueIdentifier uniqueIdentifier;
         /// <summary>
         /// Data member for <see cref="Classes"/>.
         /// </summary>
@@ -160,13 +162,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Returns the unique identifier for the current 
         /// <see cref="IntermediateNamespaceDeclaration"/> where 
-        /// <see cref="IntermediateDeclarationBase.Name"/> is not enough
+        /// <see cref="IntermediateDeclarationBase{TIdentifier}.Name"/> is not enough
         /// to distinguish between two 
         /// <see cref="IntermediateNamespaceDeclaration"/> entities.
         /// </summary>
-        public override string UniqueIdentifier
+        public override IGeneralDeclarationUniqueIdentifier UniqueIdentifier
         {
-            get { return this.Name; }
+            get {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Declaration(this.Name);
+                return this.uniqueIdentifier;
+            }
         }
 
 

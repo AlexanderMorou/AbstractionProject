@@ -4,7 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -13,7 +13,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
     public abstract class IntermediateMemberBase<TIdentifier, TParent, TIntermediateParent> :
-        IntermediateDeclarationBase,
+        IntermediateDeclarationBase<TIdentifier>,
         IIntermediateMember<TIdentifier, TParent, TIntermediateParent>
         where TIdentifier :
             IMemberUniqueIdentifier<TIdentifier>
@@ -107,17 +107,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region IMember<TParent> Members
 
-        TParent IMember<TParent>.Parent
+        TParent IMember<TIdentifier, TParent>.Parent
         {
             get { return this.Parent; }
         }
 
         #endregion
-
-        public override string UniqueIdentifier
-        {
-            get { return this.Name; }
-        }
 
         #region IIntermediateMember Members
 

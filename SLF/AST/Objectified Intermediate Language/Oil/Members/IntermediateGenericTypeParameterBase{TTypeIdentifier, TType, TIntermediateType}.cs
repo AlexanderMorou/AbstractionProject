@@ -8,7 +8,7 @@ using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -16,6 +16,17 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
+    /// <summary>
+    /// Provides a base implementation of a type's generic parameter.
+    /// </summary>
+    /// <typeparam name="TTypeIdentifier">The type of identifier used
+    /// to differentiate the type from its siblings within the local
+    /// scope.</typeparam>
+    /// <typeparam name="TType">The kind of type which represents
+    /// the type construct in the abstract type system.</typeparam>
+    /// <typeparam name="TIntermediateType">The kind of type which
+    /// represents the type construct in the abstract syntax tree.
+    /// </typeparam>
     public class IntermediateGenericTypeParameterBase<TTypeIdentifier, TType, TIntermediateType> :
         IntermediateGenericParameterBase<IGenericTypeParameter<TTypeIdentifier, TType>, IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>, TType, TIntermediateType>,
         IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>

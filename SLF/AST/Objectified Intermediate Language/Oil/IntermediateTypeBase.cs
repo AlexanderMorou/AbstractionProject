@@ -10,7 +10,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Modules;
 using System.ComponentModel;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class IntermediateTypeBase<TTypeIdentifier, TType, TIntermediateType> :
-        TypeBase<TType>,
+        TypeBase<TTypeIdentifier, TType>,
         IIntermediateType
         where TTypeIdentifier :
             ITypeUniqueIdentifier<TTypeIdentifier>
@@ -501,5 +501,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
         public bool IsDisposed { get { return this.isDisposed == 1; } }
+
     }
 }

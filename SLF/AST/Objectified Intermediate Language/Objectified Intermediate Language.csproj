@@ -95,6 +95,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Oil\DeclarationIdentifierChangeEventArgs.cs" />
     <Compile Include="Oil\DynamicType.cs" />
     <Compile Include="Oil\IntermediateGateway+SimpleSymbolDisambiguationWorker.cs" />
     <Compile Include="Oil\Statements\BoundChangeEventSignatureHandlerStatement.cs" />
@@ -814,7 +815,7 @@
       <DependentUpon>IntermediateGenericParameterBase.cs</DependentUpon>
     </Compile>
     <Compile Include="Oil\Members\IntermediateGenericParameterDictionary.cs" />
-    <Compile Include="Oil\Members\IntermediateGenericTypeParameterBase{TType, TInterType}.cs" />
+    <Compile Include="Oil\Members\IntermediateGenericTypeParameterBase{TTypeIdentifier, TType, TIntermediateType}.cs" />
     <Compile Include="Oil\Members\IntermediateGroupedMemberDictionary.cs" />
     <Compile Include="Oil\Members\IntermediateGroupedSignatureMemberDictionary.cs" />
     <Compile Include="Oil\Members\IntermediateIndexerMember.cs" />

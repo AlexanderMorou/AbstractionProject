@@ -15,11 +15,34 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             throw new NotImplementedException();
         }
 
-        public static IGenericParameterUniqueIdentifier Type(int index)
+        /// <summary>
+        /// Obtains a unique identifier for a generic parameter at the
+        /// <paramref name="index"/> provided; when <paramref name="onType"/>
+        /// is true, it indicates that the type-parameter is contained within
+        /// a type.
+        /// </summary>
+        /// <param name="index">The <see cref="Int32"/> value representing the ordinal
+        /// index of the type-parameter relative to its siblings.</param>
+        /// <param name="name">The <see cref="String"/> value denoting the display
+        /// name of the generic parameter.</param>
+        /// <param name="onType">Whether the generic-parameter exists on a type, if true
+        /// the indexing of the generic-parameter is handled differently.</param>
+        /// <returns>A <see cref="IGenericParameterUniqueIdentifier"/> which represents 
+        /// the generic parameter described relative to local context.
+        /// </returns>
+        public static IGenericParameterUniqueIdentifier Type(int index, string name = null, bool onType = true)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Obtains a unique identifier for a type with the <paramref name="name"/>
+        /// provided.
+        /// </summary>
+        /// <param name="name">The display name of the type which differentiates
+        /// it from its siblings.</param>
+        /// <returns>A <see cref="IGeneralTypeUniqueIdentifier"/>
+        /// which represents the type.</returns>
         public static IGeneralTypeUniqueIdentifier Type(string name)
         {
             throw new NotImplementedException();

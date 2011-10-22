@@ -8,11 +8,12 @@ using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Oil.Properties;
 using AllenCopeland.Abstraction.Slf.Compilers;
+using AllenCopeland.Abstraction.Slf._Internal.Cli;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
     public class DynamicType :
-        TypeBase<DynamicType>
+        TypeBase<IGeneralTypeUniqueIdentifier, DynamicType>
     {
         internal static DynamicType SingleTon = new DynamicType();
 
@@ -113,14 +114,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return null;
         }
 
-        public override IEnumerable<string> AggregateIdentifiers
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
-            get { return TypeBase.EmptyIdentifiers; }
+            get { return TypeBase<IGeneralTypeUniqueIdentifier>.EmptyIdentifiers; }
         }
 
         protected override string OnGetName()
         {
             return "dynamic";
+        }
+
+        protected override IGeneralTypeUniqueIdentifier OnGetUniqueIdentifier()
+        {
+            return AstIdentifier.Type("dynamic");
         }
     }
 }

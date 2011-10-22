@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
            AssemblyConfiguration(""),
            AssemblyCompany(""),
            AssemblyProduct("Bug Test Application"),
-           AssemblyCopyright("Copyright © Allen Copeland Jr. 2011"),
+           AssemblyCopyright("Copyright © Allen Copeland Jr. 2012"),
            AssemblyTrademark(""),
            AssemblyCulture("")]
 

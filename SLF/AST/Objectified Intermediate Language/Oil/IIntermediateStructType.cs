@@ -5,7 +5,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -18,11 +18,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// data structure type declaration.
     /// </summary>
     public interface IIntermediateStructType :
-        IIntermediateInstantiableType<IGeneralGenericTypeUniqueIdentifier, IStructCtorMember, IIntermediateStructCtorMember, IStructEventMember, 
+        IIntermediateInstantiableType<IStructCtorMember, IIntermediateStructCtorMember, IStructEventMember, 
             IIntermediateStructEventMember, IStructFieldMember, IIntermediateStructFieldMember, 
             IStructIndexerMember, IIntermediateStructIndexerMember, IStructMethodMember, 
-            IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember, 
-            IStructType, IIntermediateStructType>,
+            IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember,
+            IGeneralGenericTypeUniqueIdentifier, IStructType, IIntermediateStructType>,
         IIntermediateGenericType<IGeneralGenericTypeUniqueIdentifier, IStructType, IIntermediateStructType>,
         IStructType
     {
@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         new IIntermediateAssembly Assembly { get; }
 
         /// <summary>
-        /// Returns the <see cref="IIntermediateInstantiableTypeImplementedInterfaces{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType}"/>
+        /// Returns the <see cref="IIntermediateInstantiableTypeImplementedInterfaces{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TTypeIdentifier, TType, TIntermediateType}"/>
         /// which represents the interfaces implemented by the current 
         /// <see cref="IIntermediateStructType"/>.
         /// </summary>
@@ -41,6 +41,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                                                                IIntermediateStructEventMember, IStructFieldMember, IIntermediateStructFieldMember,
                                                                IStructIndexerMember, IIntermediateStructIndexerMember, IStructMethodMember,
                                                                IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember,
-                                                               IStructType, IIntermediateStructType> ImplementedInterfaces { get; }
+                                                               IGeneralGenericTypeUniqueIdentifier, IStructType, IIntermediateStructType> ImplementedInterfaces { get; }
     }
 }

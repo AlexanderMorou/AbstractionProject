@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil.Properties;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -10803,13 +10803,13 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS2008;
 
-        /// <summary><para>C&#9839; compiler error &#35;2011:</para><para>Unable to open response file {0}</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;2012:</para><para>Unable to open response file {0}</para></summary>
         public static ICompilerReferenceError CS2011
         {
             get
             {
                 if (_CS2011 == null)
-                    _CS2011 = new CompilerReferenceError(Resources.CSharpErrors_CS2011, 2011);
+                    _CS2011 = new CompilerReferenceError(Resources.CSharpErrors_CS2011, 2012);
                 return _CS2011;
             }
         }
