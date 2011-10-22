@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -12,12 +12,13 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
     /// <summary>
-    /// Defines generic properties and methods for working with an intermediate generic
-    /// type's type-parameter.
+    /// Defines generic properties and methods for working with an intermediate 
+    /// type's generic parameter.
     /// </summary>
-    /// <typeparam name="TType">The type of generic type in the abstract type system.</typeparam>
-    /// <typeparam name="TIntermediateType">The type of generic type in the intermediate
-    /// abstract syntax tree.</typeparam>
+    /// <typeparam name="TType">The type of generic type in the abstract
+    /// type system.</typeparam>
+    /// <typeparam name="TIntermediateType">The type of generic type in
+    /// the intermediate abstract syntax tree.</typeparam>
     public interface IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType> :
         IIntermediateGenericParameter<IGenericTypeParameter<TTypeIdentifier, TType>, IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>, TType, TIntermediateType>,
         IIntermediateType,

@@ -8,8 +8,10 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Utilities;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -42,6 +44,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             IIntermediateMethodParent<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>,
             TMethodParent
     {
+        private IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier;
 
         /// <summary>
         /// Creates a new <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/> with the
@@ -861,7 +864,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 class, 
                 IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
             return this.StatementContainer.ChangeHandler<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(@event, changeKind, method);
         }
@@ -880,7 +883,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 class, 
                 IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
             return this.StatementContainer.ChangeHandler(targetEvent, changeKind, methodPtr);
         }
@@ -979,7 +982,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 class, 
                 IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
             return this.StatementContainer.RemoveHandler<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(@event, method);
         }
@@ -998,7 +1001,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 class, 
                 IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
             return this.StatementContainer.RemoveHandler(targetEvent, methodPtr);
         }
@@ -1240,11 +1243,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
-        public override string UniqueIdentifier
+        public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier
         {
             get
             {
-                return this.GetUniqueIdentifier();
+                if (this.uniqueIdentifier == null)
+                    if (this.IsGenericConstruct)
+                        this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name, this.TypeParameters.Count, this.Parameters.ParameterTypes.SinglePass());
+                    else
+                        this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name, this.Parameters.ParameterTypes.SinglePass());
+                return this.uniqueIdentifier;
             }
         }
 

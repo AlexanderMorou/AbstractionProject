@@ -23,7 +23,17 @@ namespace AllenCopeland.Abstraction.Utilities
             private const int StateFinished = 2;
             public SinglePassEnumerable(IEnumerable<T> target)
             {
-                this.original = target;
+                var singlePassTarget = target as SinglePassEnumerable<T>;
+                if (singlePassTarget != null)
+                    if (singlePassTarget.state == StateFinished)
+                    {
+                        this.state = StateFinished;
+                        this.finished = singlePassTarget.finished;
+                    }
+                    else
+                        this.original = singlePassTarget.original;
+                else
+                    this.original = target;
             }
 
             #region IEnumerable<T> Members

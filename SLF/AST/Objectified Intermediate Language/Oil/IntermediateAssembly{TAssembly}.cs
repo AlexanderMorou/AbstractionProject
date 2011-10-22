@@ -14,7 +14,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -572,7 +572,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #region IIntermediateDeclaration Members
 
         /// <summary>
-        /// Returns/sets the name of the <see cref="IntermediateDeclarationBase"/>.
+        /// Returns/sets the name of the <see cref="IntermediateDeclarationBase{TIdentifier}"/>.
         /// </summary>
         public string Name
         {
@@ -605,7 +605,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Raises the <see cref="Renaming"/> event.
         /// </summary>
         /// <param name="e">The <see cref="DeclarationRenamingEventArgs"/> which
-        /// indicate the old and new name of the <see cref="IntermediateDeclarationBase"/> and
+        /// indicate the old and new name of the <see cref="IntermediateDeclarationBase{TIdentifier}"/> and
         /// whether the change should take place.</param>
         protected virtual void OnRenaming(DeclarationRenamingEventArgs e)
         {

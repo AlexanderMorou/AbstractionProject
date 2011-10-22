@@ -12,7 +12,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Arrays;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -303,6 +303,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         #endregion 
 
         #region MembetReference conversion
+
+        /// <summary>
+        /// Obtains a method expression relative to a <paramref name="target"/>
+        /// <see cref="Type"/> which points to the method group
+        /// provided through <paramref name="methodName"/>.
+        /// </summary>
+        /// <param name="target">The <see cref="Type"/> which contains
+        /// the method group under the alias <see cref="methodName"/>.</param>
+        /// <param name="methodName">The alias or identifier of the method group
+        /// from the <paramref name="target"/> <see cref="Type"/>.</param>
+        /// <returns>A <see cref="IMethodReferenceStub"/>
+        /// which denotes a stub reference to the method group
+        /// by the alias <paramref name="methodName"/>.</returns>
         public static IMethodReferenceStub GetMethodExpression(this Type target, string methodName)
         {
             if (target == null)
@@ -313,33 +326,44 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             return target.GetTypeExpression().GetMethod(methodName);
         }
 
-        public static IMethodInvokeExpression GetInvokeMethodExpression(this Type target, string methodName, params IExpression[] parameters)
+        /// <summary>
+        /// Obtains an <see cref="IMethodInvokeExpression"/> from the 
+        /// <paramref name="target"/> <see cref="Type"/> under the 
+        /// method group provided by <paramref name="methodName"/> with the
+        /// <paramref name="parenters"/> that denote the information to pass.
+        /// </summary>
+        /// <param name="target">The <see cref="Type"/> which contains
+        /// the method group under the alias <paramref name="methodName"/>.</param>
+        /// <param name="methodName">The alias or identifier of the method group
+        /// from the <paramref name="target"/> <see cref="Type"/>.</param>
+        /// <param name="parameters">The <see cref="IExpression"/> array of 
+        /// parameters which denote the information to pass to the method group
+        /// under the <paramref name="methodName"/> alias.</param>
+        /// <returns>A <see cref="IMethodInvokeExpression"/> which expresses
+        /// the invocation.</returns>
+        public static IMethodInvokeExpression GetMethodInvokeExpression(this Type target, string methodName, params IExpression[] parameters)
         {
             return target.GetMethodExpression(methodName).Invoke(parameters);
         }
 
-        public static IMethodInvokeExpression GetInvokeMethodExpression<T1>(this Type target, string methodName, params IExpression[] parameters)
+        public static IMethodInvokeExpression GetMethodInvokeExpression<T1>(this Type target, string methodName, params IExpression[] parameters)
         {
-            var result = new UnboundMethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1) }.ToCollection());
-            return result.Invoke(parameters);
+            return (new UnboundMethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1) }.ToCollection())).Invoke(parameters);
         }
 
-        public static IMethodInvokeExpression GetInvokeMethodExpression<T1, T2>(this Type target, string methodName, params IExpression[] parameters)
+        public static IMethodInvokeExpression GetMethodInvokeExpression<T1, T2>(this Type target, string methodName, params IExpression[] parameters)
         {
-            var result = new UnboundMethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1), typeof(T2) }.ToCollection());
-            return result.Invoke(parameters);
+            return new UnboundMethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1), typeof(T2) }.ToCollection()).Invoke(parameters);
         }
 
-        public static IMethodInvokeExpression GetInvokeMethodExpression<T1, T2, T3>(this Type target, string methodName, params IExpression[] parameters)
+        public static IMethodInvokeExpression GetMethodInvokeExpression<T1, T2, T3>(this Type target, string methodName, params IExpression[] parameters)
         {
-            var result = new UnboundMethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1), typeof(T2), typeof(T3) }.ToCollection());
-            return result.Invoke(parameters);
+            return new UnboundMethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1), typeof(T2), typeof(T3) }.ToCollection()).Invoke(parameters);
         }
 
-        public static IMethodInvokeExpression GetInvokeMethodExpression<T1, T2, T3, T4>(this Type target, string methodName, params IExpression[] parameters)
+        public static IMethodInvokeExpression GetMethodInvokeExpression<T1, T2, T3, T4>(this Type target, string methodName, params IExpression[] parameters)
         {
-            var result = new UnboundMethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4) }.ToCollection());
-            return result.Invoke(parameters);
+            return new UnboundMethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4) }.ToCollection()).Invoke(parameters);
         }
 
         public static IPropertyReferenceExpression GetPropertyExpression(this Type target, string propertyName)
@@ -537,18 +561,48 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             return new ExpressionToCommaFusionExpression(target, terms);
         }
 
+        /// <summary>
+        /// Fuses a <see cref="String"/> to a series of <paramref name="terms"/> which are indictive 
+        /// of a message transfer of some kind, either through a method call, indexer access,
+        /// array access or other undescribed means of transferring the <paramref name="terms"/>.
+        /// </summary>
+        /// <param name="target">The target <see cref="String"/> which denotes
+        /// the name of the call to make.</param>
+        /// <param name="terms">The <see cref="IExpression"/> array which denotes 
+        /// the information associated to the message.</param>
+        /// <returns>A <see cref="IExpressionToCommaFusion"/> which fuses the 
+        /// <paramref name="target"/> string as a <see cref="ISymbolExpression"/> 
+        /// to the <paramref name="terms"/> provided.</returns>
         public static IExpressionToCommaFusionExpression Fuse(this string target, params IExpression[] terms)
         {
             return new ExpressionToCommaFusionExpression(target.GetSymbolExpression(), terms);
         }
 
-        public static IExpressionToCommaTypeReferenceFusionExpression Fuse(this IFusionTypeCollectionTargetExpression target, params IType[] terms)
+        /// <summary>
+        /// Fuses a <see cref="IFusionTypeCollectionTargetExpression"/>
+        /// to a series of <paramref name="types"/>, notable use is when
+        /// an identifier is accompanied by a series of types, which may
+        /// then be accompanied by a series of expressions, denoting a
+        /// message target which offers variable parameter types.
+        /// </summary>
+        /// <param name="target">The 
+        /// <see cref="IFusionTypeCollectionTargetExpression"/> to fuse
+        /// the <paramref name="types"/> to.</param>
+        /// <param name="terms">The <see cref="IType"/> array which denotes
+        /// the types to fuse to the <paramref name="target"/>
+        /// expression.</param>
+        /// <returns>
+        /// A <see cref="IExpressionToCommaTypeReferenceFusionExpression"/>
+        /// which denotes the fusion of the <paramref name="target"/>
+        /// message provider and the <paramref name="types"/> which
+        /// denote the potential variable parameter types</returns>
+        public static IExpressionToCommaTypeReferenceFusionExpression Fuse(this IFusionTypeCollectionTargetExpression target, params IType[] types)
         {
-            return new ExpressionToCommaTypeReferenceFusionExpression(target, terms);
+            return new ExpressionToCommaTypeReferenceFusionExpression(target, types);
         }
-        public static IExpressionToCommaTypeReferenceFusionExpression Fuse(this IFusionTypeCollectionTargetExpression target, params Type[] terms)
+        public static IExpressionToCommaTypeReferenceFusionExpression Fuse(this IFusionTypeCollectionTargetExpression target, params Type[] types)
         {
-            return new ExpressionToCommaTypeReferenceFusionExpression(target, terms.ToCollection());
+            return new ExpressionToCommaTypeReferenceFusionExpression(target, types.ToCollection());
         }
 
         public static IExpressionToCommaTypeReferenceFusionExpression Fuse(this string target, params IType[] terms)

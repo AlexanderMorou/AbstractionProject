@@ -15,7 +15,7 @@ using AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Example
 using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Common;
  /*---------------------------------------------------------------------\
- | Copyright © 2011 Allen Copeland Jr.                                  |
+ | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -71,7 +71,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 
         private static void UnitTest_Direction()
         {
-            var typeRef = typeof(ExpressionExtensions).GetTypeReference<IClassType>();
+            var typeRef = typeof(ExpressionExtensions).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
             var methods =
                 (from m in typeRef.Methods.Values
                  let parameters = (from param in m.Parameters.Values
@@ -84,21 +84,21 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
         private static void UnitTest_GenericCache()
         {
             var testType = typeof(Dictionary<string, IClassType>).GetTypeReference();
-            var testType2 = typeof(Dictionary<,>).GetTypeReference<IClassType>().MakeGenericClosure(typeof(string), typeof(IClassType));
+            var testType2 = typeof(Dictionary<,>).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>().MakeGenericClosure(typeof(string), typeof(IClassType));
 
             testType.ElementType.Dispose();
         }
 
         private static void UnitTestForCompiledGenericConstraints()
         {
-            var targetType = typeof(ISignatureMember<,,>);
-            var targetTypeRef = targetType.GetTypeReference<IInterfaceType>();
+            var targetType = typeof(ISignatureMember<,,,>);
+            var targetTypeRef = targetType.GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IInterfaceType>();
             var targetTypeGenericParameters =
                     (from genericParameter in targetType.GetGenericArguments()
                      select new { Parameter = genericParameter, UnderlyingType = genericParameter, ParameterConstraints = genericParameter.GetGenericParameterConstraints(), Constructors = genericParameter.GetConstructors() }).ToArray();
             var targetTypeRefGenericParameters =
                     (from genericParameter in targetTypeRef.TypeParameters.Values
-                     let compiledParameter = genericParameter as ICompiledGenericTypeParameter<IInterfaceType>
+                     let compiledParameter = genericParameter as ICompiledGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, IInterfaceType>
                      where compiledParameter != null
                      select new { Parameter = genericParameter, UnderlyingType = compiledParameter.UnderlyingSystemType, ParameterConstraints = genericParameter.Constraints.ToArray(), Constructors = genericParameter.Constructors.Values.ToArray() }).ToArray();
             Console.WriteLine("{0},{1}", targetTypeGenericParameters, targetTypeRefGenericParameters);
@@ -113,7 +113,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             testMethod.IsVirtual = true;
             testMethod.AccessLevel = AccessLevelModifiers.ProtectedOrInternal;
             var testDerivedClass = testAssembly.Classes.Add("TestDerivedClass", new GenericParameterData("TE", SignaturesData.DefaultConstructorSet));
-            var typeParamTE = testDerivedClass.TypeParameters["TE"];
+            var typeParamTE = testDerivedClass.TypeParameters[AstIdentifier.Type()];
             var tbReplacement = typeof(Tuple<>).GetTypeReference<IClassType>().MakeGenericClosure(typeParamTE.MakeArray());
             testDerivedClass.BaseType = testClass.MakeGenericClosure(typeParamTE, tbReplacement);
             var testDerivedMethod = testDerivedClass.Methods.Add("TE".GetSymbolType().GetTypedName("TestMethod"), new TypedNameSeries { { "p1", "TF".GetSymbolType() }, { "p2", "TG".GetSymbolType() }, { "p3", tbReplacement } }, new GenericParameterData("TF"), new GenericParameterData("TG", new IType[] { "TF".GetSymbolType() }));

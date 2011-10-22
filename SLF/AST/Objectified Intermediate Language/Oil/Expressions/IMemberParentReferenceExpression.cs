@@ -6,7 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// Obtains a <see cref="IMethodReferenceStub"/> for
         /// a method with the <paramref name="name"/> provided.
         /// </summary>
-        /// <param name="name">The <see cref="System.String"/>
+        /// <param name="name">The <see cref="String"/>
         /// of the method to reference.</param>
         /// <returns>A <see cref="IMethodReferenceStub"/> instance
         /// which points to a series of methods named '<paramref name="name"/>'.</returns>

@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -237,6 +237,38 @@ namespace AllenCopeland.Abstraction.Utilities.Common
                 }
             }
             return new string(items, 0, len);
+        }
+
+        /// <summary>
+        /// Breaks up a string into its individual prongs of varying <paramref name="lengths"/>.
+        /// </summary>
+        /// <param name="target">The target <see cref="String"/> to break up.</param>
+        /// <param name="lengths">The <see cref="Int32"/> array  
+        /// which determine the individual prong lengths.</param>
+        /// <returns>An array of <see cref="String"/> values which represent
+        /// the branches of the original <paramref name="target"/> <see cref="String"/>.</returns>
+        public static string[] Polyfurcate(this string target, params int[] lengths)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (lengths == null)
+                throw new ArgumentNullException("lengths");
+            int len = 0;
+
+            for (int i = 0; i < lengths.Length; len += lengths[i++])
+                ;
+            if (len != target.Length)
+                throw new ArgumentException("target string didn't match the lenghts provided.", "target");
+            string[] result = new string[lengths.Length];
+            for (int i = 0, position = 0; i < lengths.Length; )
+            {
+                int length;
+                char[] current = new char[length = lengths[i]];
+                for (int j = 0; j < length; position++)
+                    current[j++] = target[position];
+                result[i++] = new string(current);
+            }
+            return result;
         }
 
     }

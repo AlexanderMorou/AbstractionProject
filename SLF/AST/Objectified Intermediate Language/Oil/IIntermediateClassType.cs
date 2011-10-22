@@ -5,7 +5,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             <IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IClassFieldMember,
              IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IClassMethodMember, 
              IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember,
-             IClassType, IGeneralGenericTypeUniqueIdentifier, IIntermediateClassType>,
+             IGeneralGenericTypeUniqueIdentifier, IClassType, IIntermediateClassType>,
         IIntermediateGenericType<IGeneralGenericTypeUniqueIdentifier, IClassType, IIntermediateClassType>,
         IClassType
     {
@@ -47,14 +47,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         new IIntermediateAssembly Assembly { get; }
 
         /// <summary>
-        /// Returns the <see cref="IIntermediateInstantiableTypeImplementedInterfaces{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType}"/>
+        /// Returns the <see cref="IIntermediateInstantiableTypeImplementedInterfaces{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TTypeIdentifier, TType, TIntermediateType}"/>
         /// which represents the interfaces implemented by the current 
         /// <see cref="IIntermediateClassType"/>.
         /// </summary>
         new IIntermediateInstantiableTypeImplementedInterfaces<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IClassFieldMember,
                                                                IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IClassMethodMember,
                                                                IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember,
-                                                               IClassType, IIntermediateClassType> ImplementedInterfaces { get; }
+                                                               IGeneralGenericTypeUniqueIdentifier, IClassType, IIntermediateClassType> ImplementedInterfaces { get; }
 
         /// <summary>
         /// Returns the <see cref="IIntermediateClassCtorMember"/> which denotes the

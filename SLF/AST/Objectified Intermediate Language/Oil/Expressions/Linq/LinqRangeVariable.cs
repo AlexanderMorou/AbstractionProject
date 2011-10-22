@@ -5,8 +5,9 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
- | Copyright © 2011 Allen Copeland Jr.                                  |
+ | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -15,9 +16,10 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
 {
     public partial class LinqRangeVariable :
-        IntermediateDeclarationBase,
+        IntermediateDeclarationBase<IGeneralMemberUniqueIdentifier>,
         ILinqRangeVariable
     {
+        private IGeneralMemberUniqueIdentifier uniqueIdentifier;
         private Reference _reference;
         public LinqRangeVariable(ILinqClause parent, string name)
         {
@@ -68,9 +70,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions.Linq
 
         #endregion
 
-        public override string UniqueIdentifier
+
+        public override IGeneralMemberUniqueIdentifier UniqueIdentifier
         {
-            get { return this.Name; }
+            get 
+            {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                return this.uniqueIdentifier;
+            }
         }
     }
 }

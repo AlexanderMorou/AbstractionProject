@@ -11,7 +11,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities;
 using System.Globalization;
 /*----------------------------------------\
-| Copyright © 2011 Allen Copeland Jr.     |
+| Copyright © 2012 Allen Copeland Jr.     |
 |-----------------------------------------|
 | The Abstraction Project's code is prov- |
 | -ided under a contract-release basis.   |

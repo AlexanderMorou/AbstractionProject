@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2011 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -788,7 +788,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 class, 
                 IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
             return this.StatementContainer.AddHandler(targetEvent, methodPtr);
         }
@@ -871,7 +871,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 class, 
                 IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
             return this.StatementContainer.ChangeHandler<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(@event, changeKind, method);
         }
@@ -890,7 +890,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 class, 
                 IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
             return this.StatementContainer.ChangeHandler(targetEvent, changeKind, methodPtr);
         }
@@ -988,8 +988,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             where TSignature : 
                 class, 
                 IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
-            where TSignatureParent : 
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+            where TSignatureParent :
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
             return this.StatementContainer.RemoveHandler<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(@event, method);
         }
@@ -1008,7 +1008,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 class, 
                 IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<TSignature, TSignatureParameter, TSignatureParent>
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
             return this.StatementContainer.RemoveHandler(targetEvent, methodPtr);
         }

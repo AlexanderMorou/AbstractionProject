@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
  /*---------------------------------------------------------------------\
- | Copyright © 2011 Allen Copeland Jr.                                  |
+ | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
