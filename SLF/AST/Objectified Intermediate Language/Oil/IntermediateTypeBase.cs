@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Modules;
 using System.ComponentModel;
+using AllenCopeland.Abstraction.Utilities;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -24,9 +25,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class IntermediateTypeBase<TTypeIdentifier, TType, TIntermediateType> :
         TypeBase<TTypeIdentifier, TType>,
-        IIntermediateType
+        IIntermediateType<TTypeIdentifier, TType, TIntermediateType>,
+        IIntermediateDeclaration<TTypeIdentifier>
         where TTypeIdentifier :
-            ITypeUniqueIdentifier<TTypeIdentifier>
+            ITypeUniqueIdentifier<TTypeIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
         where TType :
             class,
             IType<TTypeIdentifier, TType>
@@ -268,12 +271,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (value == this.name)
                 return;
+            var uniqueIdentifier = this.UniqueIdentifier;
             DeclarationRenamingEventArgs renaming = new DeclarationRenamingEventArgs(this.name, value);
             this.OnRenaming(renaming);
             if (!renaming.Change)
                 return;
             AssignName(value);
             this.OnRenamed(new DeclarationNameChangedEventArgs(renaming.OldName, renaming.NewName));
+            this.OnIdentifierChanged(uniqueIdentifier, DeclarationChangeCause.Name);
         }
 
         /// <summary>
@@ -467,7 +472,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateType Members
 
-
         public abstract void Visit(IIntermediateTypeVisitor visitor);
 
         #endregion
@@ -500,7 +504,36 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return this.isLocked;
             }
         }
+
         public bool IsDisposed { get { return this.isDisposed == 1; } }
 
+
+        #region IIntermediateDeclaration<TTypeIdentifier> Members
+
+        public event EventHandler<DeclarationIdentifierChangeEventArgs<TTypeIdentifier>> IdentifierChanged;
+
+        #endregion
+
+        #region IIntermediateDeclaration Members
+        private event EventHandler<DeclarationIdentifierChangeEventArgs<IGeneralDeclarationUniqueIdentifier>> _IdentifierChanged;
+
+        event EventHandler<DeclarationIdentifierChangeEventArgs<IGeneralDeclarationUniqueIdentifier>> IIntermediateDeclaration.IdentifierChanged
+        {
+            add { this._IdentifierChanged += value; }
+            remove { this._IdentifierChanged -= value; }
+        }
+
+        #endregion
+
+        protected virtual void OnIdentifierChanged(TTypeIdentifier oldIdentifier, DeclarationChangeCause cause)
+        {
+            var newIdentifier = this.UniqueIdentifier;
+            var _identifierChanged = this._IdentifierChanged;
+            if (_identifierChanged != null)
+                _identifierChanged(this, new DeclarationIdentifierChangeEventArgs<IGeneralDeclarationUniqueIdentifier>(oldIdentifier, newIdentifier, cause));
+            var identifierChanged = this.IdentifierChanged;
+            if (identifierChanged != null)
+                identifierChanged(this, new DeclarationIdentifierChangeEventArgs<TTypeIdentifier>(oldIdentifier, newIdentifier, cause));
+        }
     }
 }

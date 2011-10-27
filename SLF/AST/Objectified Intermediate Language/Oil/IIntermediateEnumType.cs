@@ -72,8 +72,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// specified common data type.
     /// </summary>
     public interface IIntermediateEnumType :
+        IIntermediateType<IGeneralTypeUniqueIdentifier, IEnumType, IIntermediateEnumType>,
         IIntermediateMemberParent,
-        IIntermediateType,
         IFieldParent<IEnumFieldMember, IEnumType>,
         IEnumType
     {

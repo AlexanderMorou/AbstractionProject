@@ -261,7 +261,7 @@
     <Compile Include="Abstract\Members\IInstanceMember.cs" />
     <Compile Include="Abstract\Members\IInterfaceEventMember.cs" />
     <Compile Include="Abstract\Members\IInterfaceIndexerMember.cs" />
-    <Compile Include="Abstract\Members\IInterfaceMemberMapping.cs" />
+    <Compile Include="Abstract\Members\ISignatureMemberMapping.cs" />
     <Compile Include="Abstract\Members\IInterfaceMethodMember.cs" />
     <Compile Include="Abstract\Members\IInterfacePropertyMember.cs" />
     <Compile Include="Abstract\Members\IMember.cs" />

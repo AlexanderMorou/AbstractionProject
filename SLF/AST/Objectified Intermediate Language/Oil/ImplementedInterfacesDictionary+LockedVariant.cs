@@ -16,62 +16,56 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
-    public partial class ImplementedInterfacesDictionary<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TTypeIdentifier, TType, TIntermediateType>
-        where TCtor :
-            IConstructorMember<TCtor, TType>
-        where TIntermediateCtor :
-            TCtor,
-            IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
+    public partial class ImplementedInterfacesDictionary<TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType>
         where TEvent :
             IEventMember<TEvent, TType>
         where TIntermediateEvent :
-            TEvent,
-            IIntermediateEventMember<TEvent, TIntermediateEvent, TType, TIntermediateType>
-        where TField :
-            IFieldMember<TField, TType>,
-            IInstanceMember
-        where TIntermediateField :
-            TField,
-            IIntermediateFieldMember<TField, TIntermediateField, TType, TIntermediateType>
+            IIntermediateEventMember<TEvent, TIntermediateEvent, TType, TIntermediateType>,
+            TEvent
         where TIndexer :
             IIndexerMember<TIndexer, TType>
         where TIntermediateIndexer :
-            TIndexer,
-            IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TType, TIntermediateType>
+            IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TType, TIntermediateType>,
+            TIndexer
         where TMethod :
             IMethodMember<TMethod, TType>,
             IExtendedInstanceMember
         where TIntermediateMethod :
-            TMethod,
-            IIntermediateMethodMember<TMethod, TIntermediateMethod, TType, TIntermediateType>
+            IIntermediateMethodMember<TMethod, TIntermediateMethod, TType, TIntermediateType>,
+            TMethod
         where TProperty :
             IPropertyMember<TProperty, TType>
         where TIntermediateProperty :
-            TProperty,
-            IIntermediatePropertyMember<TProperty, TIntermediateProperty, TType, TIntermediateType>
-        where TTypeIdentifier :
-            ITypeUniqueIdentifier<TTypeIdentifier>
+            IIntermediatePropertyMember<TProperty, TIntermediateProperty, TType, TIntermediateType>,
+            TProperty
         where TType :
-            IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TTypeIdentifier, TType>
+            IEventParent<TEvent, TType>,
+            IIndexerParent<TIndexer, TType>,
+            IMethodParent<TMethod, TType>,
+            IPropertyParent<TProperty, TType>
         where TIntermediateType :
-            TType,
-            IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TTypeIdentifier, TType, TIntermediateType>
+            IIntermediateEventParent<TEvent, TIntermediateEvent, TType, TIntermediateType>,
+            IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TType, TIntermediateType>,
+            IIntermediateMethodParent<TMethod, TIntermediateMethod, TType, TIntermediateType>,
+            IIntermediatePropertyParent<TProperty, TIntermediateProperty, TType, TIntermediateType>,
+            TType
     {
         internal class LockedVariant :
             ILockedTypeCollection
         {
-            private ImplementedInterfacesDictionary<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TTypeIdentifier, TType, TIntermediateType> parent;
 
-            public LockedVariant(ImplementedInterfacesDictionary<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TTypeIdentifier, TType, TIntermediateType> parent)
+            public LockedVariant(ImplementedInterfacesDictionary<TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> parent)
             {
-                this.parent = parent;
+                this.Parent = parent;
             }
+
+            public ImplementedInterfacesDictionary<TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> Parent { get; private set; }
 
             #region ILockedTypeCollection Members
 
             public bool IsDisposed
             {
-                get { return this.parent == null; }
+                get { return this.Parent == null; }
             }
 
             #endregion

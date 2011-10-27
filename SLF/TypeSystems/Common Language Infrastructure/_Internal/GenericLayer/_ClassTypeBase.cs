@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #endregion
 
-        protected override IInterfaceMemberMapping<IClassMethodMember, IInterfaceMethodMember, IClassPropertyMember, IInterfacePropertyMember, IClassEventMember, IInterfaceEventMember, IClassIndexerMember, IInterfaceIndexerMember, IClassType, IInterfaceType> OnGetInterfaceMapping(IInterfaceType type)
+        protected override ISignatureMemberMapping<IClassMethodMember, IInterfaceMethodMember, IClassPropertyMember, IInterfacePropertyMember, IClassEventMember, IInterfaceEventMember, IClassIndexerMember, IInterfaceIndexerMember, IClassType, IInterfaceType> OnGetInterfaceMapping(IInterfaceType type)
         {
             return this.GetInterfaceMap(type);
         }

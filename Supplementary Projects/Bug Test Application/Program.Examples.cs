@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Languages;
 using AllenCopeland.Abstraction.Slf.Languages.Cil;
 using AllenCopeland.Abstraction.Slf.Languages.CSharp;
+using AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions;
 using AllenCopeland.Abstraction.Slf.Languages.VisualBasic;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
@@ -108,17 +109,20 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
         private static void CheckDisambiguation()
         {
             var testAssembly = LanguageVendors.Microsoft.GetVisualBasicLanguage().CreateAssembly("TestAssembly");
-            var testClass = testAssembly.Classes.Add("TestGenericClass", new GenericParameterData("TA", SignaturesData.DefaultConstructorSet), new GenericParameterData("TB", new IType[] { typeof(Tuple<>).GetTypeReference<IClassType>().MakeGenericClosure("TA".GetSymbolType().MakeArray()) }));
+            var testClass = testAssembly.Classes.Add("TestGenericClass", new GenericParameterData("TA", SignaturesData.DefaultConstructorSet), new GenericParameterData("TB", new IType[] { typeof(Tuple<>).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>().MakeGenericClosure("TA".GetSymbolType().MakeArray()) }));
             var testMethod = testClass.Methods.Add("TA".GetSymbolType().GetTypedName("TestMethod"), new TypedNameSeries { { "p1", "TC".GetSymbolType() }, { "p2", "TD".GetSymbolType() }, { "p3", "TB".GetSymbolType() } }, new GenericParameterData("TC"), new GenericParameterData("TD", new IType[] { "TC".GetSymbolType() }));
             testMethod.IsVirtual = true;
             testMethod.AccessLevel = AccessLevelModifiers.ProtectedOrInternal;
             var testDerivedClass = testAssembly.Classes.Add("TestDerivedClass", new GenericParameterData("TE", SignaturesData.DefaultConstructorSet));
-            var typeParamTE = testDerivedClass.TypeParameters[AstIdentifier.Type()];
-            var tbReplacement = typeof(Tuple<>).GetTypeReference<IClassType>().MakeGenericClosure(typeParamTE.MakeArray());
+            var typeParamTE = testDerivedClass.TypeParameters[AstIdentifier.Type(0)];
+            var tbReplacement = typeof(Tuple<>).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>().MakeGenericClosure(typeParamTE.MakeArray());
             testDerivedClass.BaseType = testClass.MakeGenericClosure(typeParamTE, tbReplacement);
             var testDerivedMethod = testDerivedClass.Methods.Add("TE".GetSymbolType().GetTypedName("TestMethod"), new TypedNameSeries { { "p1", "TF".GetSymbolType() }, { "p2", "TG".GetSymbolType() }, { "p3", tbReplacement } }, new GenericParameterData("TF"), new GenericParameterData("TG", new IType[] { "TF".GetSymbolType() }));
             testDerivedMethod.AccessLevel = AccessLevelModifiers.ProtectedOrInternal;
             testDerivedMethod.IsOverride = true;
+            var testMapping = testDerivedClass.ImplementedInterfaces.ImplementInterface((IInterfaceType)typeof(IDisposable).GetTypeReference(), true);
+            var methods = testMapping.IntermediateMethods.ToArray();
+            
             var testDerivedClosure = testDerivedClass.MakeGenericClosure(typeof(int));
             var testDerivedClosureMethod = testDerivedClosure.Methods[testDerivedClass.Methods.Values.IndexOf(testDerivedMethod)].Value;
             var testDerivedClosureMethodClosure = testDerivedClosureMethod.MakeGenericClosure(typeof(IClassType).GetTypeReference(), typeof(IIntermediateClassType).GetTypeReference());

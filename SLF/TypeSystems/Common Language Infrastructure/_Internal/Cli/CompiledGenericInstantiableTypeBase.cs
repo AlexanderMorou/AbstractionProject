@@ -68,7 +68,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         private TCtor typeInitializer;
         private bool bCheckedInitializer;
-        private IDictionary<IInterfaceType, IInterfaceMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType>> interfaceMaps = null;
+        private IDictionary<IInterfaceType, ISignatureMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType>> interfaceMaps = null;
         /// <summary>
         /// Data member for <see cref="Classes"/>.
         /// </summary>
@@ -668,16 +668,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         #region IInstantiableType<TCtor,TEvent,TField,TIndexer,TMethod,TProperty,TType> Members
 
         /// <summary>
-        /// Obtains a <see cref="IInterfaceMemberMapping{TMethod, TMethodSig, TProperty, TPropertySig, TEvent, TEventSig, TIndexer, TIndexerSig, TParent, TParentSig}"/> 
+        /// Obtains a <see cref="ISignatureMemberMapping{TMethod, TMethodSig, TProperty, TPropertySig, TEvent, TEventSig, TIndexer, TIndexerSig, TParent, TParentSig}"/> 
         /// related to the <paramref name="type"/> provided.
         /// </summary>
         /// <param name="type">The <see cref="IInterfaceType"/> 
         /// to obtain the map of.</param>
-        /// <returns>A <see cref="IInterfaceMemberMapping{TMethod, TMethodSig, TProperty, TPropertySig, TEvent, TEventSig, TIndexer, TIndexerSig, TParent, TParentSig}"/> relative
+        /// <returns>A <see cref="ISignatureMemberMapping{TMethod, TMethodSig, TProperty, TPropertySig, TEvent, TEventSig, TIndexer, TIndexerSig, TParent, TParentSig}"/> relative
         /// to the properties and methods implemented
         /// by the <typeparamref name="TType"/> with regards
         /// to <paramref name="type"/>.</returns>
-        public IInterfaceMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType> GetInterfaceMap(IInterfaceType type)
+        public ISignatureMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType> GetInterfaceMap(IInterfaceType type)
         {
             if (type == null)
                 throw new ArgumentNullException("type");
@@ -693,7 +693,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private void CheckInterfaceMap()
         {
             if (this.interfaceMaps == null)
-                this.interfaceMaps = new Dictionary<IInterfaceType, IInterfaceMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType>>();
+                this.interfaceMaps = new Dictionary<IInterfaceType, ISignatureMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType>>();
             else
                 return;
             foreach (IInterfaceType iit in this.ImplementedInterfaces)
@@ -705,11 +705,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         /// <param name="type">The <see cref="IInterfaceType"/> 
         /// to obtain the map of.</param>
-        /// <returns>A <see cref="IInterfaceMemberMapping{TMethod, TMethodSig, TProperty, TPropertySig, TEvent, TEventSig, TIndexer, TIndexerSig, TParent, TParentSig}"/> relative
+        /// <returns>A <see cref="ISignatureMemberMapping{TMethod, TMethodSig, TProperty, TPropertySig, TEvent, TEventSig, TIndexer, TIndexerSig, TParent, TParentSig}"/> relative
         /// to the properties and methods implemented
         /// by the <typeparamref name="TType"/> with regards
         /// to <paramref name="type"/>.</returns>
-        protected abstract IInterfaceMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType> OnGetInterfaceMap(IInterfaceType type);
+        protected abstract ISignatureMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType> OnGetInterfaceMap(IInterfaceType type);
 
         #region IEventParent<TEvent,TType> Members
 

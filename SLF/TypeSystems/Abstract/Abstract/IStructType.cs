@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IGenericType<IGeneralGenericTypeUniqueIdentifier, IStructType>
     {
         /// <summary>
-        /// Obtains a <see cref="IStructInterfaceMapping"/> 
+        /// Obtains a <see cref="IStructInterfaceMapping"/>
         /// related to the <paramref name="type"/> provided.
         /// </summary>
         /// <param name="type">The <see cref="IInterfaceType"/> 

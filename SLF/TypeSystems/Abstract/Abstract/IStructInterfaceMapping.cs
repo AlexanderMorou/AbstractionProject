@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// mapping for a data structure type declaration.
     /// </summary>
     public interface IStructInterfaceMapping :
-        IInterfaceMemberMapping<IStructMethodMember, IInterfaceMethodMember, IStructPropertyMember, IInterfacePropertyMember, IStructEventMember, IInterfaceEventMember, IStructIndexerMember, IInterfaceIndexerMember, IStructType, IInterfaceType>
+        ISignatureMemberMapping<IStructMethodMember, IInterfaceMethodMember, IStructPropertyMember, IInterfacePropertyMember, IStructEventMember, IInterfaceEventMember, IStructIndexerMember, IInterfaceIndexerMember, IStructType, IInterfaceType>
     {
 
     }

@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <typeparam name="TIntermediateType">The type of generic type as it
     /// exists in the intermediate abstract syntax tree.</typeparam>
     public interface IIntermediateGenericType<TTypeIdentifier, TType, TIntermediateType> :
-        IIntermediateType,
+        IIntermediateType<TTypeIdentifier, TType, TIntermediateType>,
         IIntermediateGenericParameterParent<IGenericTypeParameter<TTypeIdentifier, TType>, IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>, TType, TIntermediateType>,
         IIntermediateGenericType,
         IGenericType<TTypeIdentifier, TType>

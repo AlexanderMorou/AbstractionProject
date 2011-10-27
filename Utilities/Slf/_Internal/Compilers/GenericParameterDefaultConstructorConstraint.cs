@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Compilers
         {
             throw new NotSupportedException();
         }
-
+        
         public override MethodAttributes Attributes
         {
             get { return MethodAttributes.Public | MethodAttributes.RTSpecialName | MethodAttributes.HideBySig | MethodAttributes.SpecialName; }

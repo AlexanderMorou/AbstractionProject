@@ -452,10 +452,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             visitor.Visit(this);
         }
 
-        IIntermediateInstantiableTypeImplementedInterfaces<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IClassFieldMember,
-                                                           IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IClassMethodMember,
-                                                           IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember,
-                                                           IGeneralGenericTypeUniqueIdentifier, IClassType, IIntermediateClassType> IIntermediateClassType.ImplementedInterfaces
+        IIntermediateInstantiableTypeImplementedInterfaces<IClassEventMember, IIntermediateClassEventMember, IClassIndexerMember, IIntermediateClassIndexerMember, 
+                                                           IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember,
+                                                           IClassType, IIntermediateClassType> IIntermediateClassType.ImplementedInterfaces
         {
             get
             {

@@ -64,7 +64,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     public interface IIntermediateCoercibleType<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent> :
         IIntermediateType,
         IIntermediateMemberParent,
-        ICoercibleType<TCoercion, TCoercionParent>,
+        ICoercibleType<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent>,
         IIntermediateCoercibleType
         where TCoercion :
             ICoercionMember<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent>

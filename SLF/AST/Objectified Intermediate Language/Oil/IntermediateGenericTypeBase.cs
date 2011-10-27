@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IntermediateTypeBase<TTypeIdentifier, TType, TIntermediateType>,
         IIntermediateGenericType<TTypeIdentifier, TType, TIntermediateType>,
         _IGenericClosureRegistrar,
-        _IIntermediateGenericType,
+        _IIntermediateGenericType<TTypeIdentifier>,
         IMassTargetHandler
         where TTypeIdentifier :
             IGenericTypeUniqueIdentifier<TTypeIdentifier>
@@ -420,17 +420,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region _IIntermediateGenericType Members
 
-        void _IIntermediateGenericType.Rearranged(int from, int to)
+        void _IIntermediateGenericType<TTypeIdentifier>.CardinalityChanged(TTypeIdentifier oldIdentifier)
+        {
+            this.OnIdentifierChanged(oldIdentifier, DeclarationChangeCause.IdentityCardinality);
+        }
+        void _IIntermediateGenericType<TTypeIdentifier>.Rearranged(int from, int to)
         {
             this.OnRearrangedInner(from, to);
         }
 
-        void _IIntermediateGenericType.ItemAdded(IGenericParameter parameter)
+        void _IIntermediateGenericType<TTypeIdentifier>.ItemAdded(IGenericParameter parameter)
         {
             this.OnTypeParameterAdded(arg1: (IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>)parameter);
         }
 
-        void _IIntermediateGenericType.ItemRemoved(IGenericParameter parameter)
+        void _IIntermediateGenericType<TTypeIdentifier>.ItemRemoved(IGenericParameter parameter)
         {
             this.OnTypeParameterRemoved(arg1: (IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>)parameter);
         }

@@ -12,10 +12,11 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 {
-    interface _IIntermediateGenericType
+    interface _IIntermediateGenericType<TTypeIdentifier>
     {
         void ItemAdded(IGenericParameter parameter);
         void ItemRemoved(IGenericParameter parameter);
+        void CardinalityChanged(TTypeIdentifier oldIdentifier);
         void Rearranged(int from, int to);
     }
 }
