@@ -16,68 +16,71 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
-    public partial class ImplementedInterfacesDictionary<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TTypeIdentifier, TType, TIntermediateType> :
-        ControlledStateDictionary<IInterfaceType, IIntermediateInterfaceMemberMapping<TEvent, IInterfaceEventMember, TIntermediateEvent, IIntermediateInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TIntermediateIndexer, IIntermediateInterfaceIndexerMember, TMethod, IInterfaceMethodMember, TIntermediateMethod, IIntermediateInterfaceMethodMember, TProperty, IInterfacePropertyMember, TIntermediateProperty, IIntermediateInterfacePropertyMember, TType, IInterfaceType, TIntermediateType, IIntermediateInterfaceType>>,
-        IIntermediateInstantiableTypeImplementedInterfaces<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TTypeIdentifier, TType, TIntermediateType>,
+    public abstract partial class ImplementedInterfacesDictionary<TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> :
+        ControlledStateDictionary<IInterfaceType, IIntermediateSignatureMemberMapping<TEvent, IInterfaceEventMember, TIntermediateEvent, IIntermediateInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TIntermediateIndexer, IIntermediateInterfaceIndexerMember, TMethod, IInterfaceMethodMember, TIntermediateMethod, IIntermediateInterfaceMethodMember, TProperty, IInterfacePropertyMember, TIntermediateProperty, IIntermediateInterfacePropertyMember, TType, IInterfaceType, TIntermediateType, IIntermediateInterfaceType>>,
+        IIntermediateInstantiableTypeImplementedInterfaces<TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType>,
         ITypeCollectionBase
-        where TCtor :
-            IConstructorMember<TCtor, TType>
-        where TIntermediateCtor :
-            TCtor,
-            IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
         where TEvent :
             IEventMember<TEvent, TType>
         where TIntermediateEvent :
-            TEvent,
-            IIntermediateEventMember<TEvent, TIntermediateEvent, TType, TIntermediateType>
-        where TField :
-            IFieldMember<TField, TType>,
-            IInstanceMember
-        where TIntermediateField :
-            TField,
-            IIntermediateFieldMember<TField, TIntermediateField, TType, TIntermediateType>
+            IIntermediateEventMember<TEvent, TIntermediateEvent, TType, TIntermediateType>,
+            TEvent
         where TIndexer :
             IIndexerMember<TIndexer, TType>
         where TIntermediateIndexer :
-            TIndexer,
-            IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TType, TIntermediateType>
+            IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TType, TIntermediateType>,
+            TIndexer
         where TMethod :
             IMethodMember<TMethod, TType>,
             IExtendedInstanceMember
         where TIntermediateMethod :
-            TMethod,
-            IIntermediateMethodMember<TMethod, TIntermediateMethod, TType, TIntermediateType>
+            IIntermediateMethodMember<TMethod, TIntermediateMethod, TType, TIntermediateType>,
+            TMethod
         where TProperty :
             IPropertyMember<TProperty, TType>
         where TIntermediateProperty :
-            TProperty,
-            IIntermediatePropertyMember<TProperty, TIntermediateProperty, TType, TIntermediateType>
-        where TTypeIdentifier :
-            ITypeUniqueIdentifier<TTypeIdentifier>
+            IIntermediatePropertyMember<TProperty, TIntermediateProperty, TType, TIntermediateType>,
+            TProperty
         where TType :
-            IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TTypeIdentifier, TType>
+            IEventParent<TEvent, TType>,
+            IIndexerParent<TIndexer, TType>,
+            IMethodParent<TMethod, TType>,
+            IPropertyParent<TProperty, TType>
         where TIntermediateType :
-            TType,
-            IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TTypeIdentifier, TType, TIntermediateType>
+            IIntermediateEventParent<TEvent, TIntermediateEvent, TType, TIntermediateType>,
+            IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TType, TIntermediateType>,
+            IIntermediateMethodParent<TMethod, TIntermediateMethod, TType, TIntermediateType>,
+            IIntermediatePropertyParent<TProperty, TIntermediateProperty, TType, TIntermediateType>,
+            TType
     {
         private TIntermediateType parent;
         private ITypeCollection copy;
         private LockedVariant locked;
+        /// <summary>
+        /// Creates a new <see cref="IntermediateInstantiableTypeImplementedInterfaces{TEvent,TIntermediateEvent,TIndexer,TIntermediateIndexer,TMethod,TIntermediateMethod,TProperty,TIntermediateProperty,TType,TIntermediateType}"/>
+        /// with the <paramref name="parent"/> provided.
+        /// </summary>
+        /// <param name="parent">The <typeparamref name="TIntermediateType"/>
+        /// which owns the 
+        /// <see cref="IntermediateInstantiableTypeImplementedInterfaces{TEvent,TIntermediateEvent,TIndexer,TIntermediateIndexer,TMethod,TIntermediateMethod,TProperty,TIntermediateProperty,TType,TIntermediateType}"/>.</param>
         internal ImplementedInterfacesDictionary(TIntermediateType parent)
         {
             this.parent = parent;
         }
 
-        #region IIntermediateInstantiableTypeImplementedInterfaces<TCtor,TIntermediateCtor,TEvent,TIntermediateEvent,TField,TIntermediateField,TIndexer,TIntermediateIndexer,TMethod,TIntermediateMethod,TProperty,TIntermediateProperty,TType,TIntermediateType> Members
+        #region IIntermediateInstantiableTypeImplementedInterfaces<TEvent,TIntermediateEvent,TIndexer,TIntermediateIndexer,TMethod,TIntermediateMethod,TProperty,TIntermediateProperty,TType,TIntermediateType> Members
 
         public void ImplementInterfaceQuick(IInterfaceType @interface)
         {
             this.Copy.Add(@interface);
         }
-        public IIntermediateInterfaceMemberMapping<TEvent, IInterfaceEventMember, TIntermediateEvent, IIntermediateInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TIntermediateIndexer, IIntermediateInterfaceIndexerMember, TMethod, IInterfaceMethodMember, TIntermediateMethod, IIntermediateInterfaceMethodMember, TProperty, IInterfacePropertyMember, TIntermediateProperty, IIntermediateInterfacePropertyMember, TType, IInterfaceType, TIntermediateType, IIntermediateInterfaceType> ImplementInterface(IInterfaceType @interface, bool insertPlaceholders = false)
+
+        public IIntermediateSignatureMemberMapping<TEvent, IInterfaceEventMember, TIntermediateEvent, IIntermediateInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TIntermediateIndexer, IIntermediateInterfaceIndexerMember, TMethod, IInterfaceMethodMember, TIntermediateMethod, IIntermediateInterfaceMethodMember, TProperty, IInterfacePropertyMember, TIntermediateProperty, IIntermediateInterfacePropertyMember, TType, IInterfaceType, TIntermediateType, IIntermediateInterfaceType> ImplementInterface(IInterfaceType @interface, bool insertPlaceholders = false)
         {
-            throw new NotImplementedException();
+            return OnCreateMemberMapping(@interface, insertPlaceholders);
         }
+
+        protected abstract IIntermediateSignatureMemberMapping<TEvent, IInterfaceEventMember, TIntermediateEvent, IIntermediateInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TIntermediateIndexer, IIntermediateInterfaceIndexerMember, TMethod, IInterfaceMethodMember, TIntermediateMethod, IIntermediateInterfaceMethodMember, TProperty, IInterfacePropertyMember, TIntermediateProperty, IIntermediateInterfacePropertyMember, TType, IInterfaceType, TIntermediateType, IIntermediateInterfaceType> OnCreateMemberMapping(IInterfaceType @interface, bool insertPlaceholders);
 
         #endregion
         
@@ -211,8 +214,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Creates a new ImplementedInterfacesCollection with the <paramref name="parent"/> provided.
         /// </summary>
-        /// <param name="parent">The <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
-        /// which owns the <see cref="ImplementedInterfacesCollection"/></param>
+        /// <param name="parent">The <see cref="IType"/>
+        /// which owns the <see cref="ImplementedInterfacesCollection"/>.</param>
         protected internal ImplementedInterfacesCollection(IType parent)
         {
             this.parent = parent;

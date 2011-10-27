@@ -14,8 +14,19 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
     public class PrivateImplementationDetails :
-        IntermediateClassType<PrivateImplementationDetails>,
+        PrivateImplementationDetails<PrivateImplementationDetails>
+    {
+
+        protected override PrivateImplementationDetails GetNewPartial(PrivateImplementationDetails root, IIntermediateTypeParent parent)
+        {
+            return new PrivateImplementationDetails(root, parent);
+        }
+    }
+    public abstract class PrivateImplementationDetails<TInstanceIntermediateType> :
+        IntermediateClassType<TInstanceIntermediateType>,
         IPrivateImplementationDetails
+        where TInstanceIntermediateType :
+            PrivateImplementationDetails<TInstanceIntermediateType>
     {
         private Guid detailGuid;
         private ControlledStateDictionary<int, DataSizeType> dataSizeTypes = new ControlledStateDictionary<int, DataSizeType>();
@@ -24,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             DetailGuid = Guid.NewGuid();
         }
-        protected PrivateImplementationDetails(PrivateImplementationDetails root, IIntermediateTypeParent parent)
+        protected PrivateImplementationDetails(TInstanceIntermediateType root, IIntermediateTypeParent parent)
             : base(root, parent)
         {
         }
@@ -66,10 +77,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        protected override PrivateImplementationDetails GetNewPartial(PrivateImplementationDetails root, IIntermediateTypeParent parent)
-        {
-            return new PrivateImplementationDetails(root, parent);
-        }
 
         #region IPrivateImplementationDetails Members
 
@@ -81,7 +88,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         #endregion
-
 
         internal void KillSizeDataType(int dataSize)
         {

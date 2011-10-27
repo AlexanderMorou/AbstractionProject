@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Utilities.Properties;
 using System.ComponentModel;
+using AllenCopeland.Abstraction.Slf.Oil.Modules;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -183,7 +184,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         protected abstract TInstanceIntermediateType GetNewPartial(TInstanceIntermediateType root, IIntermediateTypeParent parent);
 
-        public override AllenCopeland.Abstraction.Slf.Oil.Modules.IIntermediateModule DeclaringModule
+        public override IIntermediateModule DeclaringModule
         {
             get
             {
@@ -207,6 +208,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return base.InitializeTypeParameters();
             else
                 return (TypeParameterDictionary)this.GetRoot().TypeParameters;
+        }
+
+        protected bool ArePartsInitialized
+        {
+            get
+            {
+                return this.parts == null;
+            }
         }
     }
 }

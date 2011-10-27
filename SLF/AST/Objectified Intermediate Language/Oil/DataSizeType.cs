@@ -27,6 +27,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     {
         private int fieldRefCount;
         private int dataSize;
+
         public DataSizeType(IPrivateImplementationDetails parent, int dataSize)
             : base(parent.Parent)
         {
@@ -58,7 +59,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
              * Ref counting for the sake of determining whether
              * the assembly needs a data type of this particular size.
              * */
-            fieldRefCount++;
+            lock (this.SyncObject)
+                fieldRefCount++;
         }
         internal bool RemoveReference()
         {
@@ -66,14 +68,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
              * Whether the data size type should
              * be deleted, since no fields refer to it.
              * */
-            return (--fieldRefCount) <= 0;
+            lock (this.SyncObject)
+                return (--fieldRefCount) <= 0;
         }
 
         internal bool IsNeeded
         {
             get
             {
-                return this.fieldRefCount > 0;
+                lock (this.SyncObject)
+                    return this.fieldRefCount > 0;
             }
         }
 

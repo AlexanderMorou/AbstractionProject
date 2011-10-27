@@ -110,12 +110,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #region IInstantiableType<TCtor,TEvent,TField,TIndexer,TMethod,TProperty,TType> Members
 
-        public IInterfaceMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType> GetInterfaceMap(IInterfaceType type)
+        public ISignatureMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType> GetInterfaceMap(IInterfaceType type)
         {
             return this.OnGetInterfaceMapping(type);
         }
 
-        protected abstract IInterfaceMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType> OnGetInterfaceMapping(IInterfaceType type);
+        protected abstract ISignatureMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType> OnGetInterfaceMapping(IInterfaceType type);
 
         #endregion
 

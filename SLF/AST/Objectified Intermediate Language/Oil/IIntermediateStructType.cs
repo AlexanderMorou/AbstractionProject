@@ -33,14 +33,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         new IIntermediateAssembly Assembly { get; }
 
         /// <summary>
-        /// Returns the <see cref="IIntermediateInstantiableTypeImplementedInterfaces{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TTypeIdentifier, TType, TIntermediateType}"/>
+        /// Returns the <see cref="IIntermediateStructImplementedInterfaces"/>
         /// which represents the interfaces implemented by the current 
         /// <see cref="IIntermediateStructType"/>.
         /// </summary>
-        new IIntermediateInstantiableTypeImplementedInterfaces<IStructCtorMember, IIntermediateStructCtorMember, IStructEventMember,
-                                                               IIntermediateStructEventMember, IStructFieldMember, IIntermediateStructFieldMember,
-                                                               IStructIndexerMember, IIntermediateStructIndexerMember, IStructMethodMember,
-                                                               IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember,
-                                                               IGeneralGenericTypeUniqueIdentifier, IStructType, IIntermediateStructType> ImplementedInterfaces { get; }
+        new IIntermediateStructImplementedInterfaces ImplementedInterfaces { get; }
     }
 }

@@ -55,16 +55,16 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TTypeIdentifier, TType>
     {
         /// <summary>
-        /// Obtains a <see cref="IInterfaceMemberMapping{TMethod, TMethodSig, TProperty, TPropertySig, TEvent, TEventSig, TIndexer, TIndexerSig, TParent, TParentSig}"/> 
+        /// Obtains a <see cref="ISignatureMemberMapping{TMethod, TMethodSig, TProperty, TPropertySig, TEvent, TEventSig, TIndexer, TIndexerSig, TParent, TParentSig}"/> 
         /// related to the <paramref name="type"/> provided.
         /// </summary>
         /// <param name="type">The <see cref="IInterfaceType"/> 
         /// to obtain the map of.</param>
-        /// <returns>A <see cref="IInterfaceMemberMapping{TMethod, TMethodSig, TProperty, TPropertySig, TEvent, TEventSig, TIndexer, TIndexerSig, TParent, TParentSig}"/> relative
+        /// <returns>A <see cref="ISignatureMemberMapping{TMethod, TMethodSig, TProperty, TPropertySig, TEvent, TEventSig, TIndexer, TIndexerSig, TParent, TParentSig}"/> relative
         /// to the properties and methods implemented
         /// by the <typeparamref name="TType"/> with regards
         /// to <paramref name="type"/>.</returns>
-        IInterfaceMemberMapping<
+        ISignatureMemberMapping<
             TMethod, IInterfaceMethodMember, 
             TProperty, IInterfacePropertyMember,
             TEvent, IInterfaceEventMember, 

@@ -47,14 +47,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         new IIntermediateAssembly Assembly { get; }
 
         /// <summary>
-        /// Returns the <see cref="IIntermediateInstantiableTypeImplementedInterfaces{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TTypeIdentifier, TType, TIntermediateType}"/>
+        /// Returns the <see cref="IIntermediateInstantiableTypeImplementedInterfaces{TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TParent, TIntermediateParent}"/>
         /// which represents the interfaces implemented by the current 
         /// <see cref="IIntermediateClassType"/>.
         /// </summary>
-        new IIntermediateInstantiableTypeImplementedInterfaces<IClassCtorMember, IIntermediateClassCtorMember, IClassEventMember, IIntermediateClassEventMember, IClassFieldMember,
-                                                               IIntermediateClassFieldMember, IClassIndexerMember, IIntermediateClassIndexerMember, IClassMethodMember,
-                                                               IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember,
-                                                               IGeneralGenericTypeUniqueIdentifier, IClassType, IIntermediateClassType> ImplementedInterfaces { get; }
+        new IIntermediateInstantiableTypeImplementedInterfaces<IClassEventMember, IIntermediateClassEventMember, IClassIndexerMember, IIntermediateClassIndexerMember, 
+                                                               IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember,
+                                                               IClassType, IIntermediateClassType> ImplementedInterfaces { get; }
 
         /// <summary>
         /// Returns the <see cref="IIntermediateClassCtorMember"/> which denotes the

@@ -86,7 +86,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region IMemberDictionary<TMemberParent,TMember> Members
 
-        TMemberParent IMemberDictionary<TMemberParent, TMember>.Parent
+        TMemberParent IMemberDictionary<TMemberParent, TMemberIdentifier, TMember>.Parent
         {
             get { return this.Parent; }
         }

@@ -47,7 +47,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// within the intermediate abstract syntax tree for segmentation
     /// across multiple instances through <see cref="IntermediateGenericSegmentableType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}.GetNewPartial(TInstanceIntermediateType,IIntermediateTypeParent)"/>.</typeparam>
     [EditorBrowsable(EditorBrowsableState.Always)]
-    public abstract class IntermediateStructType<TInstanceIntermediateType> :
+    public abstract partial class IntermediateStructType<TInstanceIntermediateType> :
         IntermediateGenericSegmentableInstantiableType<IStructCtorMember, IIntermediateStructCtorMember, IStructEventMember, IIntermediateStructEventMember, IntermediateStructEventMember<TInstanceIntermediateType>.EventMethodMember, IStructFieldMember, IIntermediateStructFieldMember, IStructIndexerMember, IIntermediateStructIndexerMember, IntermediateStructIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IStructMethodMember, IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember, IntermediateStructPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IStructType, IIntermediateStructType, TInstanceIntermediateType>,
         IIntermediateStructType
         where TInstanceIntermediateType :
@@ -188,11 +188,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             visitor.Visit(this);
         }
 
-        IIntermediateInstantiableTypeImplementedInterfaces<IStructCtorMember, IIntermediateStructCtorMember, IStructEventMember,
-                                                           IIntermediateStructEventMember, IStructFieldMember, IIntermediateStructFieldMember,
-                                                           IStructIndexerMember, IIntermediateStructIndexerMember, IStructMethodMember,
-                                                           IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember,
-                                                           IGeneralGenericTypeUniqueIdentifier, IStructType, IIntermediateStructType> IIntermediateStructType.ImplementedInterfaces
+        public ImplementedInterfacesDictionary ImplementedInterfaces
+        {
+            get
+            {
+                return (ImplementedInterfacesDictionary)base.ImplementedInterfaces;
+            }
+        }
+
+        IIntermediateStructImplementedInterfaces IIntermediateStructType.ImplementedInterfaces
         {
             get
             {
@@ -200,14 +204,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-
         #region IStructType Members
 
         public new IStructInterfaceMapping GetInterfaceMap(IInterfaceType type)
         {
-            throw new NotImplementedException();
+            if (this.ImplementedInterfaces.ContainsKey(type))
+                return this.ImplementedInterfaces[type];
+            throw new KeyNotFoundException();
         }
 
         #endregion
+
+        /// <summary>
+        /// Obtains the instance for <see cref="ImplementedInterfaces"/>
+        /// </summary>
+        /// <returns></returns>
+        protected override ImplementedInterfacesDictionary<IStructEventMember, IIntermediateStructEventMember, IStructIndexerMember, IIntermediateStructIndexerMember, IStructMethodMember, IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember, IStructType, IIntermediateStructType> InitializeImplementedInterfaces()
+        {
+            return new ImplementedInterfacesDictionary((TInstanceIntermediateType)this);
+        }
     }
 }

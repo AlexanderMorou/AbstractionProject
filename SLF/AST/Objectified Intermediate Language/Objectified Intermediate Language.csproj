@@ -97,7 +97,13 @@
   <ItemGroup>
     <Compile Include="Oil\DeclarationIdentifierChangeEventArgs.cs" />
     <Compile Include="Oil\DynamicType.cs" />
+    <Compile Include="Oil\IIntermediateInstantiableType`15.cs" />
+    <Compile Include="Oil\IIntermediateStructImplementedInterfaces.cs" />
+    <Compile Include="Oil\IIntermediateStructInterfaceMapping.cs" />
     <Compile Include="Oil\IntermediateGateway+SimpleSymbolDisambiguationWorker.cs" />
+    <Compile Include="Oil\IntermediateStructType+ImplementedInterfacesDictionary+Map.cs" />
+    <Compile Include="Oil\IntermediateStructType+ImplementedInterfacesDictionary.cs" />
+    <Compile Include="Oil\IntermediateSignatureMemberMapping.cs" />
     <Compile Include="Oil\Statements\BoundChangeEventSignatureHandlerStatement.cs" />
     <Compile Include="Oil\Statements\IBoundChangeEventSignatureHandlerStatement.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -536,7 +542,6 @@
     <Compile Include="Oil\IIntermediateInclusionVisitor.cs" />
     <Compile Include="Oil\IIntermediateIndexerParent.cs" />
     <Compile Include="Oil\IIntermediateIndexerSignatureParent.cs" />
-    <Compile Include="Oil\IIntermediateInstantiableType`14.cs" />
     <Compile Include="Oil\IIntermediateInstantiableTypeImplementedInterfaces.cs" />
     <Compile Include="Oil\IIntermediateInterfaceMemberMapping.cs" />
     <Compile Include="Oil\IIntermediateInterfaceType.cs" />

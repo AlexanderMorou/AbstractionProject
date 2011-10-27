@@ -4,6 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Modules;
+using AllenCopeland.Abstraction.Utilities;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -13,6 +14,21 @@ using AllenCopeland.Abstraction.Slf.Oil.Modules;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
+    public interface IIntermediateType<TTypeIdentifier, TType, TIntermediateType> :
+        IIntermediateType,
+        IIntermediateDeclaration<TTypeIdentifier>,
+        IType<TTypeIdentifier, TType>
+        where TTypeIdentifier :
+            ITypeUniqueIdentifier<TTypeIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
+        where TType :
+            IType<TTypeIdentifier,TType>
+        where TIntermediateType :
+            IIntermediateType<TTypeIdentifier, TType, TIntermediateType>
+    {
+
+    }
+
     /// <summary>
     /// Defines properties and methods for working with an intermediate type.
     /// </summary>

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using AllenCopeland.Abstraction.Slf._Internal;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
@@ -1332,9 +1333,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         #region ITypeParent Members
 
 
-        public IEnumerable<string> AggregateIdentifiers
+        public IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
-            get { return this.StatementContainer.AggregateIdentifiers; }
+            get { return this.StatementContainer.AggregateIdentifiers.Concat(this.Parameters.Keys); }
         }
 
         IClassTypeDictionary ITypeParent.Classes

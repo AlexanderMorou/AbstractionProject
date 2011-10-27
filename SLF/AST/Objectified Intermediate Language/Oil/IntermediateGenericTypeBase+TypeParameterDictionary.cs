@@ -40,7 +40,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
             }
 
-            private _IIntermediateGenericType _Parent
+            private _IIntermediateGenericType<TTypeIdentifier> _Parent
             {
                 get
                 {
@@ -58,18 +58,28 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return new TypeParameter(name, (IntermediateGenericTypeBase<TTypeIdentifier, TType, TIntermediateType>)(object)this.Parent);
             }
 
-            protected internal override void _Add(string key, IGenericTypeParameter<TTypeIdentifier, TType> value)
+            protected internal override void _Add(IGenericParameterUniqueIdentifier key, IGenericTypeParameter<TTypeIdentifier, TType> value)
             {
+                var oldIdentifier = this.Parent.UniqueIdentifier;
                 _Parent.ItemAdded(value);
                 base._Add(key, value);
+                this._Parent.CardinalityChanged(oldIdentifier);
             }
 
             protected internal override bool _Remove(int index)
             {
                 if (index < 0 || index >= this.Count)
                     return false;
+                var oldIdentifier = this.Parent.UniqueIdentifier;
                 _Parent.ItemRemoved(base[index].Value);
-                return base._Remove(index);
+                try
+                {
+                    return base._Remove(index);
+                }
+                finally
+                {
+                    this._Parent.CardinalityChanged(oldIdentifier);
+                }
             }
 
         }

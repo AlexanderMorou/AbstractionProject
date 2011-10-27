@@ -16,6 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <summary>
     /// Defines properties and methods for a type-strict interface member mapping.
     /// </summary>
+    /// <remarks>A vigenuple of type-parameters is required to create a generic closure.</remarks>
     /// <typeparam name="TEvent">The type of event represented by the mapping.</typeparam>
     /// <typeparam name="TEventSig">The type of event signature represented by the mapping.</typeparam>
     /// <typeparam name="TIntermediateEvent">The type of intermediate event represented by the mapping.</typeparam>
@@ -36,13 +37,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <typeparam name="TParentSig">The base type of the member signature parent represented by the mapping.</typeparam>
     /// <typeparam name="TIntermediateParent">The type of intermediate member parent represented by the mapping.</typeparam>
     /// <typeparam name="TIntermediateParentSig">The type of intermediate member signature parent represented by the mapping.</typeparam>
-    public interface IIntermediateInterfaceMemberMapping<
+    public interface IIntermediateSignatureMemberMapping<
             TEvent, TEventSig, TIntermediateEvent, TIntermediateEventSig, 
             TIndexer, TIndexerSig, TIntermediateIndexer, TIntermediateIndexerSig,
             TMethod, TMethodSig, TIntermediateMethod, TIntermediateMethodSig,
             TProperty, TPropertySig, TIntermediateProperty, TIntermediatePropertySig, 
             TParent, TParentSig, TIntermediateParent, TIntermediateParentSig> :
-        IInterfaceMemberMapping<TMethod, TMethodSig, TProperty, TPropertySig, TEvent, TEventSig, TIndexer, TIndexerSig, TParent, TParentSig>
+        ISignatureMemberMapping<TMethod, TMethodSig, TProperty, TPropertySig, TEvent, TEventSig, TIndexer, TIndexerSig, TParent, TParentSig>
         where TEvent :
             IEventMember<TEvent, TParent>
         where TEventSig :
@@ -95,38 +96,38 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IMethodSignatureParent<TMethodSig, TParentSig>,
             IPropertySignatureParent<TPropertySig, TParentSig>
         where TIntermediateParent :
-            TParent,
             IIntermediateEventParent<TEvent, TIntermediateEvent, TParent, TIntermediateParent>,
             IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TParent, TIntermediateParent>,
             IIntermediateMethodParent<TMethod, TIntermediateMethod, TParent, TIntermediateParent>,
-            IIntermediatePropertyParent<TProperty, TIntermediateProperty, TParent, TIntermediateParent>
+            IIntermediatePropertyParent<TProperty, TIntermediateProperty, TParent, TIntermediateParent>,
+            TParent
         where TIntermediateParentSig :
-            TParentSig,
             IIntermediateEventSignatureParent<TEventSig, TIntermediateEventSig, TParentSig, TIntermediateParentSig>,
             IIntermediateIndexerSignatureParent<TIndexerSig, TIntermediateIndexerSig, TParentSig, TIntermediateParentSig>,
             IIntermediateMethodSignatureParent<TMethodSig, TIntermediateMethodSig, TParentSig, TIntermediateParentSig>,
-            IIntermediatePropertySignatureParent<TPropertySig, TIntermediatePropertySig, TParentSig, TIntermediateParentSig>
+            IIntermediatePropertySignatureParent<TPropertySig, TIntermediatePropertySig, TParentSig, TIntermediateParentSig>,
+            TParentSig
     {
         /// <summary>
         /// Returns the list of implemented properties with
         /// a link back to the original interface member.
         /// </summary>
-        IEnumerable<MemberMap<TIntermediateProperty, TIntermediatePropertySig>> IntermediateProperties { get; }
+        IEnumerable<MemberMap<IGeneralMemberUniqueIdentifier, TIntermediateProperty, TIntermediatePropertySig>> IntermediateProperties { get; }
         /// <summary>
         /// Returns the list of implemented methods
         /// with a link back to the original interface 
         /// member.
         /// </summary>
-        IEnumerable<MemberMap<TIntermediateMethod, TIntermediateMethodSig>> IntermediateMethods { get; }
+        IEnumerable<MemberMap<IGeneralGenericSignatureMemberUniqueIdentifier, TIntermediateMethod, TIntermediateMethodSig>> IntermediateMethods { get; }
         /// <summary>
         /// Returns the list of implemented indexers with
         /// a link back to the original interface member.
         /// </summary>
-        IEnumerable<MemberMap<TIntermediateIndexer, TIntermediateIndexerSig>> IntermediateIndexers { get; }
+        IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TIntermediateIndexer, TIntermediateIndexerSig>> IntermediateIndexers { get; }
         /// <summary>
         /// Returns the list of implemented indexers with
         /// a link back to the original interface member.
         /// </summary>
-        IEnumerable<MemberMap<TIntermediateEvent, TIntermediateEventSig>> IntermediateEvents { get; }
+        IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TIntermediateEvent, TIntermediateEventSig>> IntermediateEvents { get; }
     }
 }
