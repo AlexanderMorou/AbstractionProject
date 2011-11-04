@@ -6,6 +6,7 @@ using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Compilers;
+using AllenCopeland.Abstraction.Utilities.Properties;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
@@ -56,7 +57,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             //Obtain the method call parameters.
             var ctorParameters = ctor.GetParameters();
             if (delegateTypes.Length != ctorParameters.Length)
-                throw new ArgumentException("ctor");
+
+                throw new ArgumentException(Resources.AE_DelegateTypeParameterMismatch, "ctor");
 
             var optimizedCtor = new DynamicMethod(string.Format(".ctor@{0}({1})", ctor.DeclaringType.Name, GetStringFormSignature(delegateTypes)), delegateInvoke.ReturnType, delegateTypes, ctor.DeclaringType, true);
             int argIndex = 0;

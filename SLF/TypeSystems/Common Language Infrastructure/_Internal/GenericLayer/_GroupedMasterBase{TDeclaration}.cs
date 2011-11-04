@@ -69,7 +69,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         protected override void CopyToArray(Array array, int arrayIndex)
         {
             if (array.Length - arrayIndex < this.Count)
-                throw new ArgumentException("array");
+                throw new ArgumentOutOfRangeException("array");
             var subordinates = this.Subordinates.ToArray();
             for (int i = 0, offset = arrayIndex; i < subordinates.Length; offset += subordinates[i++].Count)
             {

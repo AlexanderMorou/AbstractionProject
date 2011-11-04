@@ -80,9 +80,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             public override void CopyTo(MasterDictionaryEntry<IType>[] array, int arrayIndex = 0)
             {
                 if (arrayIndex < 0 || arrayIndex >= array.Length)
-                    throw new ArgumentException("arrayIndex");
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 if (this.Count + arrayIndex >= array.Length)
-                    throw new ArgumentException("array");
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 for (int i = 0; i < this.Count; i++)
                 {
                     CheckItemAt(i);
@@ -94,9 +94,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             protected override void GeneralCopyTo(Array array, int arrayIndex)
             {
                 if (arrayIndex < 0 || arrayIndex >= array.Length)
-                    throw new ArgumentException("arrayIndex");
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 if (this.Count + arrayIndex >= array.Length)
-                    throw new ArgumentException("array");
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 for (int i = 0; i < this.Count; i++)
                 {
                     CheckItemAt(i);

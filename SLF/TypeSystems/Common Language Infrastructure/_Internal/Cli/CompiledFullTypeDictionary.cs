@@ -77,7 +77,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (arrayIndex < 0 || arrayIndex >= array.Length)
                 throw new ArgumentOutOfRangeException("arrayIndex");
             if (this.Count + arrayIndex > array.Length)
-                throw new ArgumentException("array");
+                throw new ArgumentOutOfRangeException("arrayIndex");
             var kCopy = this.Keys.ToArray();
             var vCopy = this.Values.ToArray();
             for (int i = 0; i < kCopy.Length; i++)
@@ -91,7 +91,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (arrayIndex < 0 || arrayIndex >= array.Length)
                 throw new ArgumentOutOfRangeException("arrayIndex");
             if (this.Count + arrayIndex > array.Length)
-                throw new ArgumentException("array");
+                throw new ArgumentOutOfRangeException("arrayIndex");
             var kCopy = this.Keys.ToArray();
             var vCopy = this.Values.ToArray();
             for (int i = 0; i < kCopy.Length; i++)

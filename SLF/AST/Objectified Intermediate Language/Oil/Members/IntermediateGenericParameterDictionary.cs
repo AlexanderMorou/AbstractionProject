@@ -91,7 +91,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 throw new ArgumentNullException("name");
             TIntermediateGenericParameter result = this.GetNew(name);
             if (this.ContainsKey(result.UniqueIdentifier))
-                throw new ArgumentException("Name");
+                throw new ArgumentException("name");
             this._Add(result.UniqueIdentifier, result);
             return result;
         }
@@ -213,7 +213,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             if (genericParameterData == null)
                 throw new ArgumentNullException("genericParameterData");
             TIntermediateGenericParameter[] result = new TIntermediateGenericParameter[genericParameterData.Length];
-            string[] currentKeys = new string[result.Length];
+            IGenericParameterUniqueIdentifier[] currentKeys = new IGenericParameterUniqueIdentifier[result.Length];
             Parallel.For(0, genericParameterData.Length, i =>
             {
                 var currentParameterData = genericParameterData[i];

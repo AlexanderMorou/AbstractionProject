@@ -49,6 +49,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// to be made into a <see cref="NullableType"/>.</param>
         internal NullableType(IType elementType)
         {
+            if (elementType == null)
+                throw new ArgumentNullException("elementType");
             if (!(elementType.ElementClassification == TypeElementClassification.None ||
                   elementType.ElementClassification == TypeElementClassification.GenericTypeDefinition))
                 throw new ArgumentException("Nullable types must be normal types, array, by-reference, nullable, and pointer types are not allowed.");

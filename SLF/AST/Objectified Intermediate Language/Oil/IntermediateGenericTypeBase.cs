@@ -43,6 +43,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private GenericParameterCollection genericParameters;
         private IIntermediateGenericParameterDictionary<IGenericTypeParameter<TTypeIdentifier, TType>, IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>, TType, TIntermediateType> typeParameters;
         private byte disposeState;
+
         /// <summary>
         /// Creates a new <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>
         /// with the <paramref name="name"/> and <paramref name="parent"/> 

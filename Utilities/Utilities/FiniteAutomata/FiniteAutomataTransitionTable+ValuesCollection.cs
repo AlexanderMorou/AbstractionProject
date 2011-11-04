@@ -68,7 +68,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 if (array == null)
                     throw new ArgumentNullException("array");
                 if (arrayIndex + this.Count > array.Length)
-                    throw new ArgumentException("array");
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 int index = 0;
                 foreach (var node in this.owner.backup.Values)
                     array[arrayIndex + index++] = node.Target;

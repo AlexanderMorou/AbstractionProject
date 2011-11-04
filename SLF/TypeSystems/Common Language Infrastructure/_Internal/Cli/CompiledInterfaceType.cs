@@ -69,6 +69,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal CompiledInterfaceType(Type underlyingSystemType) 
             : base(underlyingSystemType)
         {
+            if (!underlyingSystemType.IsInterface)
+                throw new ArgumentException("Not a {0} type", "underlyingSystemType");
         }
 
         protected override IInterfaceType OnMakeGenericClosure(ITypeCollectionBase typeParameters)

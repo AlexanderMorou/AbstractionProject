@@ -47,6 +47,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public virtual IType FieldType { get; set; }
 
+        IFieldReferenceExpression IIntermediateFieldMember.GetReference(IMemberParentReferenceExpression source)
+        {
+            return ((TField)(object)this).GetFieldReference<TField, TFieldParent>(source);
+        }
+
         #endregion
 
         #region IIntermediateFieldMember<TField,TIntermediateField,TFieldParent,TIntermediateFieldParent> Members
@@ -57,18 +62,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <see cref="IntermediateFieldMemberBase{TField, TIntermediateField, TFieldParent, TIntermediateFieldParent}"/>.
         /// </summary>
         public IExpression InitializationExpression { get; set; }
-
-        #endregion
-
-        #region IIntermediateFieldMember Members
-
-
-        IFieldReferenceExpression IIntermediateFieldMember.GetReference(IMemberParentReferenceExpression source)
-        {
-            return ((TField)(object)this).GetFieldReference<TField, TFieldParent>(source);
-        }
-
-        public string Summary { get; set; }
 
         #endregion
 

@@ -183,7 +183,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             if (array == null)
                 throw new ArgumentNullException("array");
             if (arrayIndex + this.Count > array.Length)
-                throw new ArgumentException("array");
+                throw new ArgumentOutOfRangeException("arrayIndex");
             int i = 0;
             foreach (var item in this)
                 array[arrayIndex + i++] = item;

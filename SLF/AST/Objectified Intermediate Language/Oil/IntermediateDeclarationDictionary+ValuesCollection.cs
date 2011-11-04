@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             public void CopyTo(TIntermediateDeclaration[] array, int arrayIndex = 0)
             {
                 if ((arrayIndex + this.Count) >= array.Length)
-                    throw new ArgumentException("array");
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 var valueEnum = this.owner.Values.GetEnumerator();
                 int index = 0;
                 while (valueEnum.MoveNext())
@@ -117,7 +117,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             void IControlledStateCollection.CopyTo(Array array, int arrayIndex)
             {
                 if ((arrayIndex + this.Count) >= array.Length)
-                    throw new ArgumentException("array");
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 for (int i = 0; i < this.Count; i++)
                     array.SetValue(this[i], i + arrayIndex);
             }

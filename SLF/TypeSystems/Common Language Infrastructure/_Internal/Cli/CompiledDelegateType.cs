@@ -41,6 +41,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal CompiledDelegateType(Type underlyingSystemType)
             : base(underlyingSystemType)
         {
+            if (!(underlyingSystemType.IsSubclassOf(typeof(Delegate)) && underlyingSystemType != typeof(MulticastDelegate)))
+                throw new ArgumentException("Not a {0} type","underlyingSystemType");
         }
         #region IDelegateType Members
 

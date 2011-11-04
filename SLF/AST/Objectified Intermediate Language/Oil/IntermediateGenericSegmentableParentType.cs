@@ -599,18 +599,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        public override IEnumerable<string> AggregateIdentifiers
-        {
-            get {
-                return (from memberEntry in this.Members.Values
-                        let member = memberEntry.Entry
-                        where !((member is IConstructorMember) || (member is ICoercionMember))
-                        select member.Name).Concat
-                       (from type in this.Types.Values
-                        select type.Entry.Name).Distinct();
-            }
-        }
-
         internal override void OnLocked()
         {
             try
@@ -687,5 +675,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// have been initialized.
         /// </summary>
         protected bool AreStructsInitialized { get { return this.structs != null; } }
+
+        /// <summary>
+        /// Returns whether the group type dictionary of the 
+        /// <see cref="IntermediateGenericSegmentableParentType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// has been initialized
+        /// </summary>
+        protected bool AreTypesInitialized { get { return this.types != null; } }
     }
 }

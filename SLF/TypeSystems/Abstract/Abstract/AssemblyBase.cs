@@ -723,5 +723,159 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 return this.isDisposed == 1;
             }
         }
+
+        /// <summary>
+        /// Returns whether the <see cref="Classes"/> have been initialized
+        /// for the <see cref="AssemblyBase"/>.
+        /// </summary>
+        protected bool AreClassesInitialized
+        {
+            get
+            {
+                return classes != null;
+            }
+        }
+        /// <summary>
+        /// Returns whether the <see cref="Delegates"/> have been initialized
+        /// for the <see cref="AssemblyBase"/>.
+        /// </summary>
+        protected bool AreDelegatesInitialized
+        {
+            get
+            {
+                return delegates != null;
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the <see cref="Enums"/> have been initialized
+        /// for the <see cref="AssemblyBase"/>.
+        /// </summary>
+        protected bool AreEnumsInitialized
+        {
+            get
+            {
+                return enums != null;
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the <see cref="Interfaces"/> have been initialized
+        /// for the <see cref="AssemblyBase"/>.
+        /// </summary>
+        protected bool AreInterfacesInitialized
+        {
+            get
+            {
+                return interfaces != null;
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the <see cref="Structs"/> have been initialized
+        /// for the <see cref="AssemblyBase"/>.
+        /// </summary>
+        protected bool AreStructsInitialized
+        {
+            get
+            {
+                return structs != null;
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the <see cref="Types"/> have been initialized
+        /// for the <see cref="AssemblyBase"/>.
+        /// </summary>
+        protected bool AreTypesInitialized
+        {
+            get
+            {
+                return types != null;
+            }
+        }
+        /// <summary>
+        /// Returns whether the <see cref="ManifestModule"/> has been
+        /// initialized for the <see cref="AssemblyBase"/>.
+        /// </summary>
+        protected bool IsManifestModuleInitialized
+        {
+            get
+            {
+                return manifestModule != null;
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the <see cref="Namespaces"/> have been initialized
+        /// for the <see cref="AssemblyBase"/>.
+        /// </summary>
+        protected bool AreNamespacesInitialized
+        {
+            get
+            {
+                return namespaces != null;
+            }
+        }
+        /// <summary>
+        /// Returns whether the <see cref="CustomAttributes"/> have been initialized
+        /// for the <see cref="AssemblyBase"/>.
+        /// </summary>
+        protected bool AreCustomAttributesInitialized
+        {
+            get
+            {
+                return attributes != null;
+            }
+        }
+
+        /// <summary>
+        /// Returns  whether the <see cref="Modules"/> have been initialized
+        /// for the <see cref="AssemblyBase"/>.
+        /// </summary>
+        protected bool AreModulesInitialized
+        {
+            get
+            {
+                return modules != null;
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the <see cref="Members"/> have been initialized
+        /// for the <see cref="AssemblyBase"/>.
+        /// </summary>
+        protected bool AreMembersInitialized
+        {
+            get
+            {
+                return members != null;
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the <see cref="Methods"/> have been initialized
+        /// for the <see cref="AssemblyBase"/>.
+        /// </summary>
+        protected bool AreMethodsInitialized
+        {
+            get
+            {
+                return methods != null;
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the <see cref="Fields"/> have been initialized 
+        /// for the <see cref="AssemblyBase"/>.
+        /// </summary>
+        protected bool AreFieldsInitialized
+        {
+            get
+            {
+                return fields != null;
+            }
+        }
+
     }
 }

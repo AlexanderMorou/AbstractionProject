@@ -173,7 +173,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
         /// <returns>A new <see cref="IExpression"/> affixed to the 
         /// <paramref name="targetPrecedence"/> for use in a binary 
         /// operation.</returns>
-        private static IExpression AffixTo(this IExpression target, CSharpOperatorPrecedences targetPrecedence)
+        internal static IExpression AffixTo(this IExpression target, CSharpOperatorPrecedences targetPrecedence)
         {
             CSharpOperatorPrecedences currentPrecedence = target.GetPrecedence();
             if (currentPrecedence == targetPrecedence)
@@ -231,7 +231,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
         /// called on it.</param>
         /// <returns>The <see cref="IExpression"/> instance as it was 
         /// before the <see cref="AffixTo"/> was called on it..</returns>
-        internal static IExpression Disfix(this IExpression target)
+        internal static IExpression Detach(this IExpression target)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
@@ -239,27 +239,27 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
             if (targetKind == ExpressionKind.BinaryForwardTerm)
             {
                 if (target is ICSharpAssignExpression)
-                    return ((ICSharpAssignExpression)(target)).LeftSide.Disfix();
+                    return ((ICSharpAssignExpression)(target)).LeftSide.Detach();
                 else if (target is ICSharpAddSubtExpression)
-                    return ((ICSharpAddSubtExpression)(target)).RightSide.Disfix();
+                    return ((ICSharpAddSubtExpression)(target)).RightSide.Detach();
                 else if (target is ICSharpMulDivExpression)
-                    return ((ICSharpMulDivExpression)(target)).RightSide.Disfix();
+                    return ((ICSharpMulDivExpression)(target)).RightSide.Detach();
                 else if (target is ICSharpLogicalOrExpression)
-                    return ((ICSharpLogicalOrExpression)(target)).RightSide.Disfix();
+                    return ((ICSharpLogicalOrExpression)(target)).RightSide.Detach();
                 else if (target is ICSharpLogicalAndExpression)
-                    return ((ICSharpLogicalAndExpression)(target)).RightSide.Disfix();
+                    return ((ICSharpLogicalAndExpression)(target)).RightSide.Detach();
                 else if (target is ICSharpBitwiseOrExpression)
-                    return ((ICSharpBitwiseOrExpression)(target)).RightSide.Disfix();
+                    return ((ICSharpBitwiseOrExpression)(target)).RightSide.Detach();
                 else if (target is ICSharpBitwiseAndExpression)
-                    return ((ICSharpBitwiseAndExpression)(target)).RightSide.Disfix();
+                    return ((ICSharpBitwiseAndExpression)(target)).RightSide.Detach();
                 else if (target is ICSharpBitwiseExclusiveOrExpression)
-                    return ((ICSharpBitwiseExclusiveOrExpression)(target)).RightSide.Disfix();
+                    return ((ICSharpBitwiseExclusiveOrExpression)(target)).RightSide.Detach();
                 else if (target is ICSharpInequalityExpression)
-                    return ((ICSharpInequalityExpression)(target)).RightSide.Disfix();
+                    return ((ICSharpInequalityExpression)(target)).RightSide.Detach();
                 else if (target is ICSharpRelationalExpression)
-                    return ((ICSharpRelationalExpression)(target)).RightSide.Disfix();
+                    return ((ICSharpRelationalExpression)(target)).RightSide.Detach();
                 else if (target is ICSharpShiftExpression)
-                    return ((ICSharpShiftExpression)(target)).RightSide.Disfix();
+                    return ((ICSharpShiftExpression)(target)).RightSide.Detach();
             }
             else if (targetKind == ExpressionKind.UnaryForwardTerm)
                 return ((IUnaryOperationExpression)(target)).Term;

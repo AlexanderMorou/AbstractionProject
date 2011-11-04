@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using System.Linq;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -81,6 +82,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public TIntermediateCtor Add(TypedNameSeries parameters)
         {
             TIntermediateCtor item = this.GetConstructor();
+            item.Parameters.AddRange(parameters.Data.ToArray());
             if (this.ContainsKey(item.UniqueIdentifier))
                 throw new ArgumentException("parameters");
             this.AddDeclaration(item);

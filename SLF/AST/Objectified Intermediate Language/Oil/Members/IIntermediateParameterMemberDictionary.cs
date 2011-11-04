@@ -83,6 +83,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// instances created from the <paramref name="parameterInfo"/>
         /// provided.</returns>
         TIntermediateParameter[] AddRange(params TypedName[] parameterInfo);
+        bool Remove(TIntermediateParameter parameter);
+
+        bool Remove(IGeneralMemberUniqueIdentifier identifier);
     }
     /// <summary>
     /// Defines properties and methods for working with a dictionary of
@@ -142,6 +145,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <returns>The <see cref="IIntermediateParameterMember"/> instance
         /// resulted from the add operation.</returns>
         IIntermediateParameterMember Add(TypedName parameterInfo);
+
+        bool Remove(IIntermediateParameterMember parameter);
+        bool Remove(IGeneralMemberUniqueIdentifier identifier);
 
     }
 }

@@ -45,7 +45,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
         /// <see cref="CSharpRelationalOperation.Term"/>.</exception>
         /// <exception cref="System.ArgumentException">thrown when <paramref name="operation"/> is
         /// <see cref="CSharpRelationalOperation.TypeCastOrNull"/> or <see cref="CSharpRelationalOperation.TypeCheck"/>
-        /// and <paramref name="rightSide"/> does not <see cref="CSharpExpressionExtensions.Disfix(IExpression)"/>
+        /// and <paramref name="rightSide"/> does not <see cref="CSharpExpressionExtensions.Detach(IExpression)"/>
         /// to an <see cref="ITypeReferenceExpression"/>.</exception>
         public CSharpRelationalExpression(ICSharpRelationalExpression leftSide, CSharpRelationalOperation operation, ICSharpShiftExpression rightSide)
             : base(leftSide, rightSide)
@@ -53,7 +53,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
             if (rightSide == null)
                 throw new ArgumentNullException("rightSide");
             if (leftSide == null && operation != CSharpRelationalOperation.Term)
-                throw new ArgumentNullException("Only nullable on term pass-throughs.", "leftSide");
+                throw new ArgumentNullException("leftSide", "Only nullable on term pass-throughs.");
             this.operation = operation;
             switch (operation)
             {
@@ -61,28 +61,28 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
                 case CSharpRelationalOperation.LessThanOrEqualTo:
                 case CSharpRelationalOperation.GreaterThan:
                 case CSharpRelationalOperation.GreaterThanOrEqualTo:
-                {
-                    IExpression disfix = rightSide.Disfix();
-                    if (disfix is ITypeReferenceExpression)
-                        throw new ArgumentException("rightSide", "Cannot relationally check a type against another expression.");
-                    break;
-                }
+                    {
+                        IExpression detached = rightSide.Detach();
+                        if (detached is ITypeReferenceExpression)
+                            throw new ArgumentException("Cannot relationally check a type against another expression.", "rightSide");
+                        break;
+                    }
                 case CSharpRelationalOperation.TypeCheck:
                 case CSharpRelationalOperation.TypeCastOrNull:
-                {
-                    IExpression disfix = rightSide.Disfix();
-                    if (!(disfix is ITypeReferenceExpression))
-                        throw new ArgumentException("rightSide", "Type-relational checks require a type on the rightSide.");
-                    ITypeReferenceExpression itre = ((ITypeReferenceExpression)(disfix));
-                    if (itre.ReferenceType == null)
-                        throw new ArgumentException("rightSide", "Type-relational check invalid.  Target type cannot be null.");
-                    if ((!(itre.ReferenceType is IReferenceType)) && (operation == CSharpRelationalOperation.TypeCastOrNull))
-                        throw new ArgumentException("rightSide", "Type-Cast (or null) expression requires a reference type to work.");
-                    break;
-                }
+                    {
+                        IExpression detached = rightSide.Detach();
+                        if (!(detached is ITypeReferenceExpression))
+                            throw new ArgumentException("Type-relational checks require a type on the rightSide.", "rightSide");
+                        ITypeReferenceExpression itre = ((ITypeReferenceExpression)(detached));
+                        if (itre.ReferenceType == null)
+                            throw new ArgumentException("Type-relational check invalid.  Target type cannot be null.", "rightSide");
+                        if ((!(itre.ReferenceType is IReferenceType)) && (operation == CSharpRelationalOperation.TypeCastOrNull))
+                            throw new ArgumentException("Type-Cast (or null) expression requires a reference type to work.", "rightSide");
+                        break;
+                    }
                 case CSharpRelationalOperation.Term:
                     if (leftSide != null)
-                        throw new ArgumentException("Term is used when leftSide is null","operation");
+                        throw new ArgumentException("Term is used when leftSide is null", "operation");
                     break;
                 default:
                     break;

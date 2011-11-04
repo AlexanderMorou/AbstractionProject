@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -179,6 +180,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #endregion
 
         private int suspendLevel = 0;
+
+        /// <summary>
+        /// Data member for <see cref="TypeBase{TIdentifier}.UniqueIdentifier"/> via
+        /// <see cref="OnGetUniqueIdentifier()"/>.
+        /// </summary>
+        private IGeneralGenericTypeUniqueIdentifier uniqueIdentifier;
 
         #endregion
 
@@ -1019,6 +1026,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
        
         #region IIntermediateInstantiableType Members
         private IBoundSpecialReferenceExpression thisReference;
+        
         public IBoundSpecialReferenceExpression GetThis()
         {
             if (this.thisReference == null)
@@ -1218,6 +1226,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        protected override IGeneralGenericTypeUniqueIdentifier OnGetUniqueIdentifier()
+        {
+            if (this.uniqueIdentifier == null)
+                this.uniqueIdentifier = AstIdentifier.Type(this.Name, this.TypeParametersInitialized ? this.TypeParameters.Count : 0);
+            return this.uniqueIdentifier;
+        }
+
         /// <summary>
         /// Returns whether the binary operator coercions of the 
         /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
@@ -1280,5 +1295,48 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// have been initialized.
         /// </summary>
         protected bool AreUnaryOperatorCoercionsInitialized { get { return this.unaryOperatorCoercions != null; } }
+
+        /// <summary>
+        /// Returns whether the members of the 
+        /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool AreMembersInitialized { get { return this._members != null; } }
+
+        protected override void OnIdentifierChanged(IGeneralGenericTypeUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+        {
+            if (this.uniqueIdentifier != null)
+                this.uniqueIdentifier = null;
+            base.OnIdentifierChanged(oldIdentifier, cause);
+        }
+
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
+        {
+            get
+            {
+                if (this.AreMembersInitialized)
+                    if (this.AreTypesInitialized)
+                        if (this.TypeParametersInitialized)
+                            return this._Members.Keys.Concat(this._Types.Keys.Cast<IGeneralDeclarationUniqueIdentifier>()).Concat(this.TypeParameters.Keys);
+                        else
+                            return this._Members.Keys.Concat(this._Types.Keys.Cast<IGeneralDeclarationUniqueIdentifier>());
+                    else
+                        if (this.TypeParametersInitialized)
+                            return this._Members.Keys.Concat(this.TypeParameters.Keys);
+                        else
+                            return this._Members.Keys;
+                else
+                    if (this.AreTypesInitialized)
+                        if (this.TypeParametersInitialized)
+                            return this._Types.Keys.Concat(this.TypeParameters.Keys);
+                        else
+                            return this._Types.Keys;
+                    else
+                        if (this.TypeParametersInitialized)
+                            return this.TypeParameters.Keys;
+                        else
+                            return TypeBase<IGeneralGenericTypeUniqueIdentifier, TType>.EmptyIdentifiers;
+            }
+        }
     }
 }

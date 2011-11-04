@@ -221,7 +221,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             if (array == null)
                 throw new ArgumentNullException("array");
             if (this.Count + arrayIndex > array.Length)
-                throw new ArgumentException("array");
+                throw new ArgumentOutOfRangeException("arrayIndex");
             for (int i = 0; i < this.Count; i++)
                 array[i + arrayIndex] = this.data[i];
         }

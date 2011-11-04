@@ -313,7 +313,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast.Expressions.Linq
             return null;
         }
 
-
         #endregion
 
         private static ILinqFromClause BuildFromClause(LinqFromBodyBuilder builder)

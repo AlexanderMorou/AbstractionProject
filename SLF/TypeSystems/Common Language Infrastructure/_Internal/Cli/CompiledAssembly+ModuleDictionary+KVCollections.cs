@@ -65,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     if (arrayIndex < 0 || arrayIndex >= array.Length)
                         throw new ArgumentOutOfRangeException("arrayIndex");
                     if (this.Count + arrayIndex > array.Length)
-                        throw new ArgumentException("array");
+                        throw new ArgumentOutOfRangeException("arrayIndex");
                     for (int i = 0; i < this.Count; i++)
                         array[i + arrayIndex] = this.owner.moduleData[i].Name;
                 }
@@ -90,7 +90,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     if (arrayIndex < 0 || arrayIndex >= array.Length)
                         throw new ArgumentOutOfRangeException("arrayIndex");
                     if (this.Count + arrayIndex > array.Length)
-                        throw new ArgumentException("array");
+                        throw new ArgumentOutOfRangeException("arrayIndex");
                     for (int i = 0; i < this.Count; i++)
                         array.SetValue(this.owner.moduleData[i].Name, i + arrayIndex);
                 }
@@ -133,7 +133,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     if (arrayIndex < 0 || arrayIndex >= array.Length)
                         throw new ArgumentOutOfRangeException("arrayIndex");
                     if (this.Count + arrayIndex > array.Length)
-                        throw new ArgumentException("array");
+                        throw new ArgumentOutOfRangeException("arrayIndex");
                     for (int i = 0; i < this.Count; i++)
                     {
                         this.owner.CheckItemAt(i);
@@ -185,7 +185,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     if (arrayIndex < 0 || arrayIndex >= array.Length)
                         throw new ArgumentOutOfRangeException("arrayIndex");
                     if (this.Count + arrayIndex > array.Length)
-                        throw new ArgumentException("array");
+                        throw new ArgumentOutOfRangeException("arrayIndex");
                     for (int i = 0; i < this.Count; i++)
                     {
                         this.owner.CheckItemAt(i);

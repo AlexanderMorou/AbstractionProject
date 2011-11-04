@@ -4,6 +4,9 @@ using System.Globalization;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Oil.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -16,10 +19,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     public class PrivateImplementationDetails :
         PrivateImplementationDetails<PrivateImplementationDetails>
     {
-
+        public PrivateImplementationDetails(IIntermediateAssembly parent) : base(parent) { }
+        public PrivateImplementationDetails(PrivateImplementationDetails root, IIntermediateAssembly parent) : base(root, parent) { }
         protected override PrivateImplementationDetails GetNewPartial(PrivateImplementationDetails root, IIntermediateTypeParent parent)
         {
-            return new PrivateImplementationDetails(root, parent);
+            if (parent is IIntermediateAssembly)
+                return new PrivateImplementationDetails(root, (IIntermediateAssembly)parent);
+            else
+                throw new ArgumentException("parent must be an intermediate assembly.","parent");
         }
     }
     public abstract class PrivateImplementationDetails<TInstanceIntermediateType> :
@@ -101,5 +108,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
             }
         }
+
     }
 }

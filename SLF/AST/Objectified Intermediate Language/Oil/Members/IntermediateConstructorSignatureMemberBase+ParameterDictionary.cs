@@ -28,12 +28,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         protected class ParameterDictionary :
             IntermediateParameterMemberDictionary<TCtor, TIntermediateCtor, IConstructorParameterMember<TCtor, TType>, IIntermediateConstructorSignatureParameterMember<TCtor, TIntermediateCtor, TType, TIntermediateType>>
         {
-            
-            public ParameterDictionary(TIntermediateCtor parent)
-                : base(parent)
+
+            public ParameterDictionary(IntermediateConstructorSignatureMemberBase<TCtor, TIntermediateCtor, TType, TIntermediateType> parent)
+                : base((TIntermediateCtor)(object)parent)
             {
-                if (!(parent is IntermediateConstructorSignatureMemberBase<TCtor, TIntermediateCtor, TType, TIntermediateType>))
-                    throw new ArgumentException("Argument is of an invalid type.", "parent");
             }
 
             private IntermediateConstructorSignatureMemberBase<TCtor, TIntermediateCtor, TType, TIntermediateType> _Parent
@@ -52,14 +50,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 p.ParameterType = parameterType;
                 return p;
             }
-            protected internal override void _Add(string key, IConstructorParameterMember<TCtor, TType> value)
+            protected internal override void _Add(IGeneralMemberUniqueIdentifier key, IConstructorParameterMember<TCtor, TType> value)
             {
                 if (this._Parent.typeInitializer)
                     throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 base._Add(key, value);
             }
 
-            protected override void _AddRange(KeyValuePair<string, IConstructorParameterMember<TCtor, TType>>[] elements)
+            protected override void _AddRange(KeyValuePair<IGeneralMemberUniqueIdentifier, IConstructorParameterMember<TCtor, TType>>[] elements)
             {
                 if (this._Parent.typeInitializer)
                     throw new InvalidOperationException(Resources.ObjectStateThrowMessage);

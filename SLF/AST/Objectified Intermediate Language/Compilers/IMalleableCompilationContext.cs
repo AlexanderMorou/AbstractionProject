@@ -11,6 +11,9 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IMalleableCompilationContext :
         ICompilationContext
     {
@@ -27,8 +30,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// </summary>
         new bool AllowUnsafeCode { get; set; }
         /// <summary>
-        /// Returns/sets whether the compiler should generate an accompanying 
-        /// XML documentation set.
+        /// Returns/sets whether the compiler should generate an
+        /// accompanying XML documentation set.
         /// </summary>
         new bool GenerateXMLDocs { get; set; }
         /// <summary>
@@ -36,7 +39,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// </summary>
         new DebugSupport DebugSupport { get; set; }
         /// <summary>
-        /// Returns/sets the type of assembly that will result from the compile operation.
+        /// Returns/sets the type of assembly that will result from
+        /// the compile operation.
         /// </summary>
         new AssemblyOutputType OutputType { get; set; }
         /// <summary>
@@ -44,21 +48,21 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// </summary>
         new WarningLevel WarnLevel { get; set; }
         /// <summary>
-        /// Returns/sets whether arithmetic overflow checks are on by default.
+        /// Returns/sets whether arithmetic overflow checks are on by
+        /// default.
         /// </summary>
         new bool ArithmeticOverflowChecks { get; set; }
-
         /// <summary>
-        /// Returns the immutable <see cref="ICompilationContext"/> associated to the
-        /// current <see cref="IMalleableCompilationContext"/>.
+        /// Returns the immutable <see cref="ICompilationContext"/>
+        /// associated to the current
+        /// <see cref="IMalleableCompilationContext"/>.
         /// </summary>
         /// <remarks>Typically used by a language's compiler to fix
-        /// the details of the resultant assembly such that changes 
-        /// to the original 
-        /// <see cref="IMalleableCompilationContext"/>
+        /// the details of the resultant assembly such that changes
+        /// to the original <see cref="IMalleableCompilationContext"/>
         /// are ignored.</remarks>
-        /// <returns>A <see cref="ICompilationContext"/>
-        /// whose members cannot be changed.</returns>
+        /// <returns>A <see cref="ICompilationContext"/> whose members
+        /// cannot be changed.</returns>
         ICompilationContext GetImmutableContext();
     }
 }

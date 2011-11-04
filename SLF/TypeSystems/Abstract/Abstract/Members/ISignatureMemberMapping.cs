@@ -96,6 +96,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// </summary>
         IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TEvent, TEventSig>> Events { get; }
     }
+    
     /// <summary>
     /// Provides a member mapping from the signature variety to the
     /// implementation variety.
@@ -109,6 +110,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
             IExtendedInstanceMember
         where TB :
             IMember
+        where TIdentifier :
+            IMemberUniqueIdentifier<TIdentifier>,
+            IGeneralMemberUniqueIdentifier
     {
         private TA _implementedMember;
         private TB _interfaceMember;

@@ -329,9 +329,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             visitor.Visit(this);
         }
 
-        public override IEnumerable<string> AggregateIdentifiers
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
-            get { return EmptyIdentifiers; }
+            get
+            {
+                return TypeBase<IDelegateUniqueIdentifier>.EmptyIdentifiers;
+            }
+        }
+
+        protected override IDelegateUniqueIdentifier OnGetUniqueIdentifier()
+        {
+            if (this.TypeParametersInitialized)
+                return AstIdentifier.Delegate(this.Name, this.TypeParameters.Count, this.Parameters.ParameterTypes);
+            else
+                return AstIdentifier.Delegate(this.Name, 0, this.Parameters.ParameterTypes);
         }
     }
 }

@@ -31,6 +31,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal CompiledStructType(System.Type underlyingSystemType)
             : base(underlyingSystemType)
         {
+            if (!underlyingSystemType.IsValueType)
+                throw new ArgumentException("Not a {0} type", "underlyingSystemType");
         }
 
         /// <summary>

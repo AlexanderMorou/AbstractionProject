@@ -166,7 +166,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 throw new InvalidOperationException("type already exists.");
             if (type.Parent != this.Parent)
                 throw new ArgumentException("type's parent must be equal to dictionary parent.", "type");
-            this._Add(new KeyValuePair<string, TType>(type.UniqueIdentifier, type));
+            this._Add(new KeyValuePair<TTypeIdentifier, TType>(type.UniqueIdentifier, type));
         }
         #endregion
 

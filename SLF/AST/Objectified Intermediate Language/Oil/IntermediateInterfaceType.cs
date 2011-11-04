@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
@@ -407,7 +408,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #endregion
         #endregion
 
-
         #region Member Check Methods
 
         private void CheckEvents()
@@ -474,6 +474,75 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public override void Visit(IIntermediateTypeVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        /// <summary>
+        /// Returns whether the events of the 
+        /// <see cref="IntermediateInterfaceType{TInstanceType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool AreEventsInitialized { get { return this.events != null; } }
+
+        /// <summary>
+        /// Returns whether the indexers of the 
+        /// <see cref="IntermediateInterfaceType{TInstanceType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool AreIndexersInitialized { get { return this.indexers != null; } }
+
+        /// <summary>
+        /// Returns whether the methods of the 
+        /// <see cref="IntermediateInterfaceType{TInstanceType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool AreMethodsInitialized { get { return this.methods != null; } }
+
+        /// <summary>
+        /// Returns whether the properties of the 
+        /// <see cref="IntermediateInterfaceType{TInstanceType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool ArePropertiesInitialized { get { return this.properties != null; } }
+
+        /// <summary>
+        /// Returns whether the members of the 
+        /// <see cref="IIntermediateInterfaceType{TInstanceType}"/>
+        /// have been initialized.
+        /// </summary>
+        protected bool AreMembersInitialized { get { return this.members != null; } }
+
+        /// <summary>
+        /// Returns the aggregate identifiers of the elements within the active scope
+        /// of the <see cref="IntermediateInterfaceType{TInstanceType}"/>.
+        /// </summary>
+        /// <remarks>Purely for compliance with </remarks>
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
+        {
+            get
+            {
+                if (this.AreMembersInitialized)
+                    if (this.AreTypesInitialized)
+                        if (this.TypeParametersInitialized)
+                            return this._Members.Keys.Concat(this._Types.Keys.Cast<IGeneralDeclarationUniqueIdentifier>()).Concat(this.TypeParameters.Keys);
+                        else
+                            return this._Members.Keys.Concat(this._Types.Keys.Cast<IGeneralDeclarationUniqueIdentifier>());
+                    else
+                        if (this.TypeParametersInitialized)
+                            return this._Members.Keys.Concat(this.TypeParameters.Keys);
+                        else
+                            return this._Members.Keys;
+                else
+                    if (this.AreTypesInitialized)
+                        if (this.TypeParametersInitialized)
+                            return this._Types.Keys.Concat(this.TypeParameters.Keys);
+                        else
+                            return this._Types.Keys;
+                    else
+                        if (this.TypeParametersInitialized)
+                            return this.TypeParameters.Keys;
+                        else
+                            return TypeBase<IGeneralGenericTypeUniqueIdentifier>.EmptyIdentifiers;
+            }
         }
     }
 }

@@ -60,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             public override void CopyTo(TDeclarationIdentifier[] array, int arrayIndex)
             {
                 if (array.Length - arrayIndex < this.Count)
-                    throw new ArgumentException("array");
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 if (arrayIndex < 0)
                     throw new ArgumentOutOfRangeException("arrayIndex");
                 CopyToVerified(array, arrayIndex);

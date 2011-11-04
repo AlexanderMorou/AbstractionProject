@@ -496,5 +496,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        protected override ImplementedInterfacesDictionary<IClassEventMember, IIntermediateClassEventMember, IClassIndexerMember, IIntermediateClassIndexerMember, IClassMethodMember, IIntermediateClassMethodMember, IClassPropertyMember, IIntermediateClassPropertyMember, IClassType, IIntermediateClassType> InitializeImplementedInterfaces()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
