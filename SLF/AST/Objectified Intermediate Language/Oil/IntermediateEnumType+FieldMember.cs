@@ -27,6 +27,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IntermediateMemberBase<IGeneralMemberUniqueIdentifier, IEnumType, IIntermediateEnumType>,
             IIntermediateEnumFieldMember
         {
+            private IGeneralMemberUniqueIdentifier uniqueIdentifier;
             private IIntermediateEnumFieldValue value;
             internal FieldMember(string name, IntermediateEnumType parent)
                 : base(parent)
@@ -126,11 +127,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
             }
 
-            #endregion
-
-
-            #region IIntermediateFieldMember Members
-
             /// <summary>
             /// Obtains a reference expression which refers to the current
             /// <see cref="FieldMember"/> with the <paramref name="source"/>
@@ -148,16 +144,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             #endregion
 
-
-            #region IIntermediateFieldMember Members
-
-            public string Summary { get; set; }
-
-            #endregion
-
             public override void Visit(IIntermediateMemberVisitor visitor)
             {
                 visitor.Visit(this);
+            }
+
+            public override IGeneralMemberUniqueIdentifier UniqueIdentifier
+            {
+                get {
+                    if (this.uniqueIdentifier == null)
+                        this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                    return this.uniqueIdentifier; }
             }
         }
     }

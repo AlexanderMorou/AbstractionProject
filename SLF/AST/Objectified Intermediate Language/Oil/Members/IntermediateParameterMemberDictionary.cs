@@ -200,22 +200,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
-        internal bool Changed { get; set; }
-
         protected internal override void _Add(IGeneralMemberUniqueIdentifier key, TParameter value)
         {
-            this.Changed = true;
             base._Add(key, value);
         }
         protected internal override bool _Remove(int index)
         {
-            this.Changed = true;
             return base._Remove(index);
         }
 
         protected internal override void _Clear()
         {
-            this.Changed = true;
             base._Clear();
         }
     }

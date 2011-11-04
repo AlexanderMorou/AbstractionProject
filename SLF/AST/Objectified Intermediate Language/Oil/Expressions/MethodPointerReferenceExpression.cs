@@ -148,9 +148,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             {
                 if (array == null)
                     throw new ArgumentNullException("array");
-                if (this.Count + arrayIndex > array.Length)
-                    throw new ArgumentException(string.Format("array cannot contain necessary elements based off of arrayIndex ({0}) provided", arrayIndex), "array");
-                if (arrayIndex < 0)
+                if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
                     throw new ArgumentOutOfRangeException("arrayIndex");
                 for (int i = 0; i < this.source.Parameters.Count; i++)
                     array[i + arrayIndex] = this.source.Parameters.Values[i].ParameterType;

@@ -49,8 +49,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public void CopyTo(MasterDictionaryEntry<TIntermediateDeclaration>[] array, int arrayIndex = 0)
             {
-                if (arrayIndex + this.Count >= array.Length)
-                    throw new ArgumentException("array");
+                if (arrayIndex < 0 || arrayIndex + this.Count >= array.Length)
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 for (int i = 0; i < this.Count; i++)
                     array[i + arrayIndex] = this[i];
             }
@@ -111,8 +111,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             void IControlledStateCollection.CopyTo(Array array, int arrayIndex)
             {
-                if (arrayIndex + this.Count >= array.Length)
-                    throw new ArgumentException("array");
+                if (arrayIndex<0 || arrayIndex + this.Count >= array.Length)
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 for (int i = 0; i < this.Count; i++)
                     array.SetValue(this[i], i + arrayIndex);
             }

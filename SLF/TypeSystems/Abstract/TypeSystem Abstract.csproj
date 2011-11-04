@@ -103,7 +103,8 @@
     <Compile Include="Abstract\Documentation\IDocCommentTextElement.cs" />
     <Compile Include="Abstract\Documentation\IDocCommentTypeParameterSection.cs" />
     <Compile Include="Abstract\Documentation\IDocCommentExceptionSection.cs" />
-    <Compile Include="Abstract\Documentation\IMemberDocComment.cs" />
+    <Compile Include="Abstract\Documentation\IFieldDocComment.cs" />
+    <Compile Include="Abstract\Documentation\ICodeMemberDocComment.cs" />
     <Compile Include="Abstract\Documentation\IMethodDocComment.cs" />
     <Compile Include="Abstract\Documentation\IPropertyDocComment.cs" />
     <Compile Include="Abstract\Documentation\ISignatureMemberDocComment.cs" />

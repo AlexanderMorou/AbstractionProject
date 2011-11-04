@@ -13,6 +13,9 @@ using AllenCopeland.Abstraction.Slf.Linkers;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Utilities.Properties;
+using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Utilities.Events;
+using AllenCopeland.Abstraction.Globalization;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -76,6 +79,41 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private event EventHandler<DeclarationRenamingEventArgs> _Renaming;
         private IAssemblyReferenceCollection references;
         private IMalleableCompilationContext compilationContext;
+
+        private IAssemblyUniqueIdentifier uniqueIdentifier;
+        private event EventHandler<DeclarationIdentifierChangeEventArgs<IGeneralDeclarationUniqueIdentifier>> _IdentifierChanged;
+
+        event EventHandler<DeclarationIdentifierChangeEventArgs<IGeneralDeclarationUniqueIdentifier>> IIntermediateDeclaration.IdentifierChanged
+        {
+            add
+            {
+                if (this.IsRoot)
+                    this._IdentifierChanged += value;
+                else
+                {
+                    var root = this.GetRoot();
+                    if (root != null)
+                        root._IdentifierChanged += value;
+                }
+            }
+            remove
+            {
+                if (this.IsRoot)
+                    this._IdentifierChanged -= value;
+                else
+                {
+                    var root = this.GetRoot();
+                    if (root != null)
+                        root._IdentifierChanged -= value;
+                }
+            }
+        }
+
+        IGeneralDeclarationUniqueIdentifier IDeclaration.UniqueIdentifier
+        {
+            get { return this.UniqueIdentifier; }
+        }
+
         /// <summary>
         /// Creates a new <see cref="IntermediateAssembly{TAssembly}"/> with the 
         /// <paramref name="rootAssembly"/> provided.
@@ -141,6 +179,41 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             if (this.types == null)
                 this.types = this.Initialize_Types();
         }
+
+        private void CheckAssemblyInformation()
+        {
+            if (this.assemblyInformation == null)
+            {
+                this.assemblyInformation = InitializeAssemblyInformation();
+                this.assemblyInformation.AssemblyVersionChanged += new EventHandler<EventArgsR1R2<Version, Version>>(assemblyInformation_AssemblyVersionChanged);
+                this.assemblyInformation.CultureChanged += new EventHandler<EventArgsR1R2<ICultureIdentifier, ICultureIdentifier>>(assemblyInformation_CultureChanged);
+            }
+        }
+
+        void assemblyInformation_CultureChanged(object sender, EventArgsR1R2<ICultureIdentifier, ICultureIdentifier> e)
+        {
+            if (this.uniqueIdentifier == null)
+                this.OnIdentifierChanged(AstIdentifier.Assembly(this.Name, this.AssemblyInformation.AssemblyVersion, e.Arg1, this.PublicKey), DeclarationChangeCause.Signature);
+            else
+            {
+                var uniqueIdBackup = this.uniqueIdentifier;
+                this.uniqueIdentifier = null;
+                this.OnIdentifierChanged(uniqueIdBackup, DeclarationChangeCause.Signature);
+            }
+        }
+
+        void assemblyInformation_AssemblyVersionChanged(object sender, EventArgsR1R2<Version, Version> e)
+        {
+            if (this.uniqueIdentifier == null)
+                this.OnIdentifierChanged(AstIdentifier.Assembly(this.Name, e.Arg1, this.AssemblyInformation.Culture, this.PublicKey), DeclarationChangeCause.Signature);
+            else
+            {
+                var uniqueIdBackup = this.uniqueIdentifier;
+                this.uniqueIdentifier = null;
+                this.OnIdentifierChanged(uniqueIdBackup, DeclarationChangeCause.Signature);
+            }
+        }
+
 
         protected sealed override IModuleDictionary InitializeModules()
         {
@@ -226,7 +299,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return this._Members;
         }
 
+        protected virtual IntermediateAssemblyInformation<TAssembly> InitializeAssemblyInformation()
+        {
+            return new IntermediateAssemblyInformation<TAssembly>((TAssembly)this);
+        }
+
         /// <summary>
+
         /// Initializes the <see cref="IClassTypeDictionary"/> for holding
         /// the classes defined outside of a namespace.
         /// </summary>
@@ -292,6 +371,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         protected virtual IntermediateFullTypeDictionary InitializeIntermediateTypes()
         {
+            /* *
+             * Ensure that each variation of the subordinate set
+             * is present
+             * */
             this.CheckClasses();
             this.CheckDelegates();
             this.CheckEnumerators();
@@ -354,8 +437,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 if (this.IsRoot)
                 {
-                    if (this.assemblyInformation == null)
-                        this.assemblyInformation = new IntermediateAssemblyInformation<TAssembly>((TAssembly)this);
+                    CheckAssemblyInformation();
                     return this.assemblyInformation;
                 }
                 else
@@ -864,21 +946,46 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        public override IEnumerable<string> AggregateIdentifiers
+        /// <summary>
+        /// Returns the <see cref="IEnumerable{T}"/> of 
+        /// <see cref="IGeneralDeclarationUniqueIdentifier"/> instances
+        /// which denote the identifiers of the active elements within scope.
+        /// </summary>
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
-            get { return this.GetNamespaceParentIdentifiers(); }
+            get { return this.GetNamespaceParentIdentifiers(this.AreNamespacesInitialized, this.AreIntermediateTypesInitialized, this.AreIntermediateMembersInitialized); }
         }
 
+        /// <summary>
+        /// Initializes the <see cref="IMethodMemberDictionary{TMethod, TMethodParent}"/>
+        /// for holding the methods defined outside of a namespace.
+        /// </summary>
+        /// <returns>A new <see cref="IMethodMemberDictionary{TMethod, TMethodParent}"/> instance.</returns>
+        /// <remarks>Calls <see cref="InitializeIntermediateMethods()"/>.</remarks>
         protected sealed override IMethodMemberDictionary<ITopLevelMethodMember, INamespaceParent> InitializeMethods()
         {
             return InitializeIntermediateMethods();
         }
 
+        /// <summary>
+        /// Initializes the <see cref="IFieldMemberDictionary{TField, TFieldParent}"/>
+        /// for holding the fields defined outside of a namespace.
+        /// </summary>
+        /// <returns>A new <see cref="IFieldMemberDictionary{TField, TFieldParent}"/> instance.</returns>
+        /// <remarks>Calls <see cref="InitializeIntermediateFields()"/>.</remarks>
         protected sealed override IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> InitializeFields()
         {
             return InitializeIntermediateFields();
         }
 
+        /// <summary>
+        /// Obtains the <see cref="IFullMemberDictionary"/> instance
+        /// which initializes the <see cref="Members"/> of the
+        /// <see cref="IntermediateAssembly{TAssembly}"/>.
+        /// </summary>
+        /// <returns>The <see cref="IFullMemberDictionary"/>
+        /// instance which initializes the <see cref="Members"/>.</returns>
+        /// <remarks>Calls <see cref="InitializeIntermediateMembers()"/>.</remarks>
         protected override sealed IFullMemberDictionary InitializeMembers()
         {
             return InitializeIntermediateMembers();
@@ -976,6 +1083,99 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             get
             {
                 return (IIntermediateFullMemberDictionary)base.Members;
+            }
+        }
+
+        private event EventHandler<DeclarationIdentifierChangeEventArgs<IAssemblyUniqueIdentifier>> identifierChanged;
+
+        /// <summary>
+        /// Occurs after the 
+        /// <see cref="IntermediateAssemblyBase{TIdentifier}"/>
+        /// has changed in a way which invalidates the previous unique
+        /// identifier.
+        /// </summary>
+        public event EventHandler<DeclarationIdentifierChangeEventArgs<IAssemblyUniqueIdentifier>> IdentifierChanged
+        {
+            add
+            {
+                if (this.IsRoot)
+                    this.identifierChanged += value;
+                else
+                {
+                    var root = this.GetRoot();
+                    if (root != null)
+                        root.identifierChanged += value;
+                }
+            }
+            remove
+            {
+                if (this.IsRoot)
+                    this.identifierChanged -= value;
+                else
+                {
+                    var root = this.GetRoot();
+                    if (root != null)
+                        root.identifierChanged -= value;
+                }
+            }
+        }
+
+        public override IAssemblyUniqueIdentifier UniqueIdentifier
+        {
+            get {
+                if (this.IsRoot)
+                {
+                    if (this.uniqueIdentifier == null)
+                        this.uniqueIdentifier = AstIdentifier.Assembly(this.Name, this.AssemblyInformation.AssemblyVersion, this.AssemblyInformation.Culture);
+                    return this.uniqueIdentifier;
+                }
+                else
+                    return this.GetRoot().UniqueIdentifier;
+            }
+        }
+
+        protected virtual void OnIdentifierChanged(IAssemblyUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+        {
+            if (!this.IsRoot)
+                return;
+            var newIdentifier = this.UniqueIdentifier;
+            var _identifierChanged = this._IdentifierChanged;
+            if (_identifierChanged != null)
+                _identifierChanged(this, new DeclarationIdentifierChangeEventArgs<IGeneralDeclarationUniqueIdentifier>(oldIdentifier, newIdentifier, cause));
+            var identifierChanged = this.identifierChanged;
+            if (identifierChanged != null)
+                identifierChanged(this, new DeclarationIdentifierChangeEventArgs<IAssemblyUniqueIdentifier>(oldIdentifier, newIdentifier, cause));
+        }
+
+        public byte[] PublicKey
+        {
+            get
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the <see cref="Members"/> have been initialized
+        /// for the <see cref="IntermediateAssemblyBase{TAssembly}"/>.
+        /// </summary>
+        protected bool AreIntermediateMembersInitialized
+        {
+            get
+            {
+                return this.members != null;
+            }
+        }
+
+        /// <summary>
+        /// Returns whether the <see cref="Types"/> have been initialized
+        /// for the <see cref="IntermediateAssemblyBase{TAssembly}"/>.
+        /// </summary>
+        protected bool AreIntermediateTypesInitialized
+        {
+            get
+            {
+                return this.types != null;
             }
         }
     }

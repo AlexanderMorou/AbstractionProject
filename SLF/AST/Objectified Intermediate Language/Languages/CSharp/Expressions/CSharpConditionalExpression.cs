@@ -207,7 +207,13 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
                 if (value is ICSharpLogicalOrExpression)
                     this.CheckPart = (ICSharpLogicalOrExpression)value;
                 else
-                    throw new ArgumentException("value");
+                {
+                    var result = value.AffixTo(CSharpOperatorPrecedences.LogicalOrOperation);
+                    if (result is ICSharpLogicalOrExpression)
+                        this.CheckPart = (ICSharpLogicalOrExpression)result;
+                    else
+                        throw new ArgumentException("value");
+                }
             }
         }
 
@@ -222,7 +228,13 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
                 if (value is ICSharpConditionalExpression)
                     this.TruePart = (ICSharpConditionalExpression)value;
                 else
-                    throw new ArgumentException("value");
+                {
+                    var result = value.AffixTo(CSharpOperatorPrecedences.ConditionalOperation);
+                    if (result is ICSharpConditionalExpression)
+                        this.TruePart = (ICSharpConditionalExpression)result;
+                    else
+                        throw new ArgumentException("value");
+                }
             }
         }
 
@@ -237,7 +249,13 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
                 if (value is ICSharpConditionalExpression)
                     this.FalsePart = (ICSharpConditionalExpression)value;
                 else
-                    throw new ArgumentException("value");
+                {
+                    var result = value.AffixTo(CSharpOperatorPrecedences.ConditionalOperation);
+                    if (result is ICSharpConditionalExpression)
+                        this.FalsePart = (ICSharpConditionalExpression)result;
+                    else
+                        throw new ArgumentException("value");
+                }
             }
         }
 
@@ -251,7 +269,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
                 return string.Format(CultureInfo.CurrentCulture, "{0} ? {1} : {2}", this.CheckPart, this.TruePart, this.FalsePart);
 
         }
-
 
         public override void Visit(IExpressionVisitor visitor)
         {

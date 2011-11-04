@@ -175,7 +175,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 {
                     if (this.ContainsKey(key))
                         return this.Values[((_KeysCollection)this.Keys).IndexOf(key)];
-                    throw new ArgumentException("key");
+                    throw new KeyNotFoundException();
                 }
                 else
                     return base[key];
@@ -321,7 +321,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.ContainsKey(key))
                     return this.Values[((_KeysCollection)this.Keys).IndexOf(key)];
-                throw new ArgumentException("key");
+                throw new KeyNotFoundException();
             }
             else
                 return base[key];

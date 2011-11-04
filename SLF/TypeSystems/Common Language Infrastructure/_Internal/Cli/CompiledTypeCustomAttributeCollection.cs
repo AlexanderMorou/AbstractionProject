@@ -32,7 +32,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public CompiledTypeCustomAttributeCollection(ICompiledType parent)
         {
             if (parent == null)
-                throw new ArgumentException("parent");
+                throw new ArgumentNullException("parent");
             parentRelationships = CliAssist.GetHierarchicalMap(parent.UnderlyingSystemType);
             this.parent = parent;
             attributeWrappers = new ICustomAttributeInstance[parentRelationships.Count];
@@ -41,8 +41,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public CompiledTypeCustomAttributeCollection(ICustomAttributedDeclaration parent, Attribute[] attributes)
         {
             if (parent == null)
-                throw new ArgumentException("parent");
-            if (attributes == null && !(parent is IType))
+                throw new ArgumentNullException("parent");
+            if (attributes == null)
+                throw new ArgumentNullException("attributes");
+            if (!(parent is IType))
                 throw new ArgumentException("attributes");
             this.parent = parent;
             attributeWrappers = new ICustomAttributeInstance[attributes.Length];

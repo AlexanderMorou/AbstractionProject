@@ -69,7 +69,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             public void CopyTo(TIntermediateDeclaration[] array, int arrayIndex = 0)
             {
                 if ((arrayIndex + this.Count) > array.Length)
-                    throw new ArgumentException("array");
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 var ownerValuesCollection = ((ControlledStateDictionary<TDeclarationIdentifier, TDeclaration>)(this.owner)).Values;
                 IEnumerator<TDeclaration> valuesEnum = ownerValuesCollection.GetEnumerator();
 
@@ -148,8 +148,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             void IControlledStateCollection.CopyTo(Array array, int arrayIndex)
             {
-                if ((arrayIndex + this.Count) >= array.Length)
-                    throw new ArgumentException("array");
+                if (arrayIndex < 0 || this.Count + arrayIndex >= array.Length)
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 if (!(array is TIntermediateDeclaration[]))
                     throw new ArgumentException("array");
                 this.CopyTo((TIntermediateDeclaration[])array, arrayIndex);

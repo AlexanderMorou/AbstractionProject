@@ -33,6 +33,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal CompiledEnumType(Type underlyingSystemType)
             : base(underlyingSystemType)
         {
+            if (!underlyingSystemType.IsEnum)
+                throw new ArgumentException("Not a {0} type", "underlyingSystemType");
         }
 
         private IFieldMemberDictionary<IEnumFieldMember, IEnumType> InitializeFields()

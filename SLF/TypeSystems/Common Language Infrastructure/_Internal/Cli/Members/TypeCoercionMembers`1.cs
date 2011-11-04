@@ -169,11 +169,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                         {
                             case TypeConversionDirection.ToContainingType:
                                 if (!this.HasImplicitCoercionTo(target))
-                                    throw new ArgumentException("No explicit coercion to target type.", "target");
+                                    throw new ArgumentException("No implicit coercion to target type.", "target");
                                 break;
                             case TypeConversionDirection.FromContainingType:
                                 if (!this.HasImplicitCoercionFrom(target))
-                                    throw new ArgumentException("No explicit coercion from target type.", "target");
+                                    throw new ArgumentException("No implicit coercion from target type.", "target");
                                 break;
                             default:
                                 throw new ArgumentOutOfRangeException("direction");

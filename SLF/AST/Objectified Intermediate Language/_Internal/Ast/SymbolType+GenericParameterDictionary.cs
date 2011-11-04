@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -21,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             IGenericParameterDictionary<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>, ISymbolType>,
             IGenericParameterDictionary
         {
-            private string[] tParamNames;
+            private IGenericParameterUniqueIdentifier[] tParamNames;
             private KeysCollection keys;
             private ValuesCollection values;
             private GenericParameterMember[] elements;
@@ -29,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 : base()
             {
                 this.Parent = parent;
-                this.tParamNames = new string[0];
+                this.tParamNames = new IGenericParameterUniqueIdentifier[0];
                 this.elements = new GenericParameterMember[0];
             }
 
@@ -38,8 +39,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             {
                 if (tParamNames != null)
                 {
-                    this.tParamNames = new string[tParamNames.Length];
-                    tParamNames.CopyTo(this.tParamNames, 0);
+                    this.tParamNames = new IGenericParameterUniqueIdentifier[tParamNames.Length];
+                    for (int i = 0; i < tParamNames.Length; i++)
+                        this.tParamNames[i] = AstIdentifier.Type(i, tParamNames[i], true);
                     this.elements = new GenericParameterMember[tParamNames.Length];
                 }
             }
@@ -95,23 +97,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 }
             }
 
-            public IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType> this[string key]
+            public IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType> this[IGenericParameterUniqueIdentifier key]
             {
                 get {
                     for (int i = 0; i <this.Count; i++)
-                        if (this.tParamNames[i] == key)
+                        if (this.tParamNames[i].Equals(key))
                         {
                             this.CheckItemAt(i);
                             return this.elements[i];
                         }
-                    throw new ArgumentException("parameterName");
+                    throw new KeyNotFoundException();
                 }
             }
 
-            public bool ContainsKey(string key)
+            public bool ContainsKey(IGenericParameterUniqueIdentifier key)
             {
                 for (int i = 0; i < this.Count; i++)
-                    if (this.tParamNames[i] == key)
+                    if (this.tParamNames[i].Equals(key))
                         return true;
                 return false;
             }
@@ -119,7 +121,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             public bool TryGetValue(string key, out IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType> value)
             {
                 for (int i = 0; i < this.Count; i++)
-                    if (this.tParamNames[i] == key)
+                    if (this.tParamNames[i].Equals(key))
                     {
                         this.CheckItemAt(i);
                         value = this.elements[i];
@@ -138,12 +140,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 get { return this.tParamNames.Length; }
             }
 
-            public bool Contains(KeyValuePair<string, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> item)
+            public bool Contains(KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> item)
             {
                 var vkI = item;
                 int index = -1;
                 for (int i = 0; i < this.Count; i++)
-                    if (this.tParamNames[i] == vkI.Key)
+                    if (this.tParamNames[i].Equals(vkI.Key))
                     {
                         index = i;
                         break;
@@ -155,39 +157,39 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 return vkI.Value == this.elements[index];
             }
 
-            public void CopyTo(KeyValuePair<string, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>[] array, int arrayIndex = 0)
+            public void CopyTo(KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>[] array, int arrayIndex = 0)
             {
                 if (arrayIndex < 0)
                     throw new IndexOutOfRangeException("arrayIndex");
                 if (array == null)
                     throw new ArgumentNullException("array");
                 if (arrayIndex + this.Count > array.Length)
-                    throw new ArgumentException("array");
+                    throw new IndexOutOfRangeException("arrayIndex");
                 for (int i = 0; i < this.Count; i++)
                 {
                     this.CheckItemAt(i);
-                    array[i + arrayIndex] = new KeyValuePair<string, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>(this.tParamNames[i], this.elements[i]);
+                    array[i + arrayIndex] = new KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>(this.tParamNames[i], this.elements[i]);
                 }
             }
 
-            public KeyValuePair<string, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> this[int index]
+            public KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> this[int index]
             {
                 get {
                     if (index < 0 || index >= this.Count)
                         throw new ArgumentOutOfRangeException("index");
                     this.CheckItemAt(index);
-                    return new KeyValuePair<string, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>(this.tParamNames[index], this.elements[index]);
+                    return new KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>(this.tParamNames[index], this.elements[index]);
                 }
             }
 
-            public KeyValuePair<string, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>[] ToArray()
+            public KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>[] ToArray()
             {
-                var result = new KeyValuePair<string, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>[this.Count];
+                var result = new KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>[this.Count];
                 this.CopyTo(result, 0);
                 return result;
             }
 
-            public int IndexOf(KeyValuePair<string, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> element)
+            public int IndexOf(KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> element)
             {
                 for (int i = 0; i < this.Count; i++)
                     if (this.elements[i] == null)
@@ -199,14 +201,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             }
             #endregion
 
-            #region IEnumerable<KeyValuePair<string,IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>> Members
+            #region IEnumerable<KeyValuePair<IGenericParameterUniqueIdentifier,IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>> Members
 
-            public IEnumerator<KeyValuePair<string, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>> GetEnumerator()
+            public IEnumerator<KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>> GetEnumerator()
             {
                 for (int i = 0; i < this.Count; i++)
                 {
                     this.CheckItemAt(i);
-                    yield return new KeyValuePair<string, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>(this.tParamNames[i], this.elements[i]);
+                    yield return new KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>(this.tParamNames[i], this.elements[i]);
                 }
                 yield break;
             }
@@ -265,25 +267,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 get
                 {
                     if (key == null)
-                        throw new ArgumentNullException("parameterName");
-                    if (!(key is string))
-                        throw new ArgumentException("parameterName");
-                    return this[(string)key];
+                        throw new ArgumentNullException("key");
+                    if (!(key is IGenericParameterUniqueIdentifier))
+                        throw new ArgumentException("key");
+                    return this[(IGenericParameterUniqueIdentifier)key];
                 }
             }
 
             bool IControlledStateDictionary.ContainsKey(object key)
             {
                 if (key == null)
-                    throw new ArgumentNullException("parameterName");
-                if (!(key is string))
-                    throw new ArgumentException("parameterName");
-                return this.ContainsKey((string)key);
+                    throw new ArgumentNullException("key");
+                if (!(key is IGenericParameterUniqueIdentifier))
+                    throw new ArgumentException("key");
+                return this.ContainsKey((IGenericParameterUniqueIdentifier)key);
             }
 
             IDictionaryEnumerator IControlledStateDictionary.GetEnumerator()
             {
-                return new SimpleDictionaryEnumerator<string, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>(this.GetEnumerator());
+                return new SimpleDictionaryEnumerator<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>(this.GetEnumerator());
             }
 
             #endregion
@@ -297,9 +299,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
             bool IControlledStateCollection.Contains(object item)
             {
-                if (!(item is KeyValuePair<string, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>))
+                if (!(item is KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>))
                     throw new ArgumentException("item");
-                return this.Contains((KeyValuePair<string, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>)(item));
+                return this.Contains((KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>)(item));
             }
 
             private void SimpleCopyTo(Array array, int arrayIndex)
@@ -309,11 +311,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 if (array == null)
                     throw new ArgumentNullException("array");
                 if (arrayIndex + this.Count > array.Length)
-                    throw new ArgumentException("array");
+                    throw new IndexOutOfRangeException("arrayIndex");
                 for (int i = 0; i < this.Count; i++)
                 {
                     this.CheckItemAt(i);
-                    array.SetValue(new KeyValuePair<string, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>(this.tParamNames[i], this.elements[i]), i + arrayIndex);
+                    array.SetValue(new KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>(this.tParamNames[i], this.elements[i]), i + arrayIndex);
                 }
             }
 
@@ -329,8 +331,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
             int IControlledStateCollection.IndexOf(object element)
             {
-                if (element is KeyValuePair<string, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>)
-                    return this.IndexOf((KeyValuePair<string, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>)element);
+                if (element is KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>)
+                    return this.IndexOf((KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>)element);
                 else if (element is IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>)
                     return this.IndexOf((IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>)element);
                 return -1;

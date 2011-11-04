@@ -6,6 +6,8 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
+using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Utilities;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -40,6 +42,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     {
         private bool naming = false;
         private bool typeInitializer;
+        private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
         /// <summary>
         /// Creates a new <see cref="IntermediateConstructorSignatureMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
         /// with the <paramref name="parent"/> provdied.
@@ -70,27 +73,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         protected override IntermediateParameterMemberDictionary<TCtor, TIntermediateCtor, IConstructorParameterMember<TCtor, TType>, IIntermediateConstructorSignatureParameterMember<TCtor, TIntermediateCtor, TType, TIntermediateType>> InitializeParameters()
         {
-            return new ParameterDictionary(((TIntermediateCtor)((object)(this))));
+            return new ParameterDictionary(this);
         }
 
-        public override string UniqueIdentifier
+        public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier
         {
             get {
-                StringBuilder uid = new StringBuilder();
-                bool first = true;
-                foreach (var p in this.Parameters.Values)
-                {
-                    if (first)
-                        first = false;
-                    else
-                        uid.Append(", ");
-                    if (p.ParameterType.FullName == null)
-                        uid.Append(p.ParameterType.Name);
-                    else
-                        uid.Append(p.ParameterType.FullName);
-                }
-                return string.Format("{0}({1})", this.Name, uid.ToString());
-
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Signature(this.Name, this.Parameters.ParameterTypes.SinglePass());
+                return this.uniqueIdentifier;
             }
         }
         protected override void OnRenaming(DeclarationRenamingEventArgs e)

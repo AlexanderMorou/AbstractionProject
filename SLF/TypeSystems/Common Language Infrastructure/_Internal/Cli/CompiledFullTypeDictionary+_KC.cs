@@ -66,7 +66,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (arrayIndex < 0 || arrayIndex >= array.Length)
                     throw new ArgumentOutOfRangeException("arrayIndex");
                 if (this.Count + arrayIndex > array.Length)
-                    throw new ArgumentException("array");
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 for (int i = 0; i < this.Count; i++)
                 {
                     CheckItemAt(i);
@@ -81,7 +81,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (arrayIndex < 0 || arrayIndex >= array.Length)
                     throw new ArgumentOutOfRangeException("arrayIndex");
                 if (this.Count + arrayIndex > array.Length)
-                    throw new ArgumentException("array");
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 for (int i = 0; i < this.Count; i++)
                 {
                     CheckItemAt(i);

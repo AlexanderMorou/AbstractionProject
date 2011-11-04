@@ -181,7 +181,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (state == USE_FETCH)
             {
                 if (arrayIndex + this.Count > array.Length)
-                    throw new ArgumentException("array");
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 this.FetchKeysCheck();
                 this.FetchValuesCheck();
                 for (int i = 0; i < this.Count; i++)

@@ -6,12 +6,13 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Globalization;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+using AllenCopeland.Abstraction.Utilities.Events;
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
@@ -70,6 +71,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (this.identifier == value)
                     return;
                 this.identifier = value;
+
             }
         }
 
@@ -181,5 +183,54 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 GC.SuppressFinalize(this);
             }
         }
+
+        #region IIntermediateAssemblyInformation Members
+
+        /// <summary>
+        /// Occurs when the title of the assembly changes.
+        /// </summary>
+        public event EventHandler<EventArgsR1R2<string, string>> TitleChanged;
+
+        /// <summary>
+        /// Occurs when the description of the assembly changes.
+        /// </summary>
+        public event EventHandler<EventArgsR1R2<string, string>> DescriptionChanged;
+
+        /// <summary>
+        /// Returns/sets the company name of the assembly.
+        /// </summary>
+        public event EventHandler<EventArgsR1R2<string, string>> CompanyChanged;
+
+        /// <summary>
+        /// Returns/sets the product name of the assembly.
+        /// </summary>
+        public event EventHandler<EventArgsR1R2<string, string>> ProductChanged;
+
+        /// <summary>
+        /// Occurs when the copyright of the assembly changes.
+        /// </summary>
+        public event EventHandler<EventArgsR1R2<string, string>> CopyrightChanged;
+
+        /// <summary>
+        /// Occurs when the trademark of the assembly changes.
+        /// </summary>
+        public event EventHandler<EventArgsR1R2<string, string>> TrademarkChanged;
+
+        /// <summary>
+        /// Occurs when the culture of the assembly changes.
+        /// </summary>
+        public event EventHandler<EventArgsR1R2<ICultureIdentifier, ICultureIdentifier>> CultureChanged;
+
+        /// <summary>
+        /// Occurs when the file version of the assembly changes.
+        /// </summary>
+        public event EventHandler<EventArgsR1R2<Version, Version>> FileVersionChanged;
+
+        /// <summary>
+        /// Occurs when the assembly version changes.
+        /// </summary>
+        public event EventHandler<EventArgsR1R2<Version, Version>> AssemblyVersionChanged;
+
+        #endregion
     }
 }

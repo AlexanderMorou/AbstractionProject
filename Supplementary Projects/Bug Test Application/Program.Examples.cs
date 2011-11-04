@@ -157,7 +157,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             /* *
              * ToDo: Fix parameters dictionary to have Remove method.
              * */
-            //ti.Parameters.Remove(p1);
+            ti.Parameters.Remove(p1);
         }
 
         private static void RunExamples()

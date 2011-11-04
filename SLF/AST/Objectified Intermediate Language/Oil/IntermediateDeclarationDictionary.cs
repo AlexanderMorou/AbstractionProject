@@ -247,6 +247,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.OnItemAdded(new EventArgsR1<TIntermediateDeclaration>(((TIntermediateDeclaration)(element.Value))));
         }
 
+        protected internal override bool _Remove(int index)
+        {
+            var element = this.Values[index];
+            try
+            {
+                return base._Remove(index);
+            }
+            finally
+            {
+                if (element != null)
+                    this.OnItemRemoved(new EventArgsR1<TIntermediateDeclaration>(element));
+            }
+        }
+
         internal void Lock()
         {
             this.locked = true;

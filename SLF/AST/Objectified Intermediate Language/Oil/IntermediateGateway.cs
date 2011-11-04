@@ -867,23 +867,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     select type.Entry.Name).Distinct();
         }
 
-        internal static IEnumerable<string> GetNamespaceNames(this IIntermediateNamespaceDictionary namespaces)
+        internal static IEnumerable<IGeneralDeclarationUniqueIdentifier> GetNamespaceParentIdentifiers(this IIntermediateNamespaceParent parent, bool namespaces, bool types, bool members)
         {
-            return (from @namespace in namespaces.Values
-                    select @namespace.Name);
-        }
-
-        internal static IEnumerable<string> GetNamespaceParentIdentifiers(this IIntermediateNamespaceParent parent)
-        {
-            return (from name in
-                        ((from ns in parent.Namespaces.GetNamespaceNames()
-                          select ns).Concat(
-                            from t in parent.Types.GetTypeNames()
-                            select t).Concat(
-                              from member in parent.Members.Values
-                              select member.Entry.Name)).Distinct()
-                    orderby name
-                    select name);
+            if (namespaces)
+                if (types)
+                    if (members)
+                        return parent.Namespaces.Keys.Concat(parent.Types.Keys).Concat(parent.Members.Keys);
+                    else
+                        return parent.Namespaces.Keys.Concat(parent.Types.Keys);
+                else if (members)
+                    return parent.Namespaces.Keys.Concat(parent.Members.Keys);
+                else
+                    return parent.Namespaces.Keys;
+            else if (types)
+                if (members)
+                    return parent.Members.Keys.Concat<IGeneralDeclarationUniqueIdentifier>(parent.Types.Keys);
+                else
+                    return parent.Types.Keys;
+            else if (members)
+                return parent.Members.Keys;
+            else
+                return Enumerable.Empty<IGeneralDeclarationUniqueIdentifier>();
         }
 
         public static ICreateArrayExpression MakeArrayExpression(this Type underlyingSystemType, IExpression size = null)

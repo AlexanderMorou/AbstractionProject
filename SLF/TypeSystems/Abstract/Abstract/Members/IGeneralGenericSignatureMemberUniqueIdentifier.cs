@@ -5,6 +5,9 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract.Members
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IGeneralGenericSignatureMemberUniqueIdentifier :
         IGenericSignatureMemberUniqueIdentifier<IGeneralGenericSignatureMemberUniqueIdentifier>,
         IGeneralSignatureMemberUniqueIdentifier

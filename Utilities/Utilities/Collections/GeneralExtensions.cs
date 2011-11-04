@@ -71,7 +71,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 method(t);
         }
 
-
         public static void OnAll<TItem, TArg1>(this IEnumerable<TItem> source, Action<TItem, TArg1> method, TArg1 arg1)
         {
             foreach (TItem t in source)
@@ -130,7 +129,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         public static Tuple<TKey[], TValue[]> SplitKeyValueSets<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> set)
         {
-            var copy=set.ToArray();
+            var copy = set.ToArray();
             TKey[] resultA = new TKey[copy.Length];
             TValue[] resultB = new TValue[copy.Length];
             for (int i = 0; i < copy.Length; i++)
@@ -254,7 +253,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         /// <summary>
         /// Takes the <typeparamref name="T"/> elements from the <paramref name="target"/>
-        /// from the <paramref name="start"/> and ending after there the <paramref name="count"/>
+        /// from the <paramref name="start"/> and ending after the <paramref name="count"/>
         /// is reached or until the <paramref name="target"/> is expended.
         /// </summary>
         /// <typeparam name="T"></typeparam>

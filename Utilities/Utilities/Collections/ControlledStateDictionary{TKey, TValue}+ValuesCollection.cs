@@ -102,9 +102,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 if (array == null)
                     throw new ArgumentNullException("array");
                 if (arrayIndex < 0 || arrayIndex >= array.Length)
-                    throw new ArgumentException("arrayIndex");
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 if (this.Count + arrayIndex > array.Length)
-                    throw new ArgumentException("array");
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 lock (this.locals.syncObject)
                     for (int i = 0; i < this.Count; i++)
                         array[arrayIndex + i] = this.locals.entries[i].Value;
@@ -203,9 +203,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             protected virtual void GeneralCopyTo(Array array, int arrayIndex)
             {
                 if (arrayIndex < 0 || arrayIndex >= array.Length)
-                    throw new ArgumentException("arrayIndex");
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 if (this.Count + arrayIndex > array.Length)
-                    throw new ArgumentException("array");
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 lock (this.locals.syncObject)
                     for (int i = 0; i < this.Count; i++)
                         array.SetValue(this.locals.entries[i].Value, i + arrayIndex);

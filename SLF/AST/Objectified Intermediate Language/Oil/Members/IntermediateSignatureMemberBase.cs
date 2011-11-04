@@ -72,37 +72,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
         }
 
-        public override string UniqueIdentifier
-        {
-            get
-            {
-                return string.Format("{0}{1}", base.UniqueIdentifier, UniqueIdentifier_Parameters());
 
-            }
-        }
-
-        private string uniqueIdentifier_Parameters_Cache = null;
-
-        protected string UniqueIdentifier_Parameters()
-        {
-            if (this.Parameters.Changed || uniqueIdentifier_Parameters_Cache == null)
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("(");
-                bool first = true;
-                foreach (var param in this.Parameters.Values)
-                {
-                    if (first)
-                        first = false;
-                    else
-                        sb.Append(", ");
-                    sb.Append(param.UniqueIdentifier);
-                }
-                sb.Append(")");
-                uniqueIdentifier_Parameters_Cache = sb.ToString();
-            }
-
-            return uniqueIdentifier_Parameters_Cache;
-        }
     }
 }

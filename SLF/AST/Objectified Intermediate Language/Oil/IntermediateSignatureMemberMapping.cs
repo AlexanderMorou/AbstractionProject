@@ -84,5 +84,57 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IIntermediatePropertySignatureParent<TPropertySig, TIntermediatePropertySig, TParentSig, TIntermediateParentSig>,
             TParentSig
     {
+        #region IIntermediateSignatureMemberMapping<TEvent,TEventSig,TIntermediateEvent,TIntermediateEventSig,TIndexer,TIndexerSig,TIntermediateIndexer,TIntermediateIndexerSig,TMethod,TMethodSig,TIntermediateMethod,TIntermediateMethodSig,TProperty,TPropertySig,TIntermediateProperty,TIntermediatePropertySig,TParent,TParentSig,TIntermediateParent,TIntermediateParentSig> Members
+
+        public IEnumerable<MemberMap<IGeneralMemberUniqueIdentifier, TIntermediateProperty, TIntermediatePropertySig>> IntermediateProperties
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IEnumerable<MemberMap<IGeneralGenericSignatureMemberUniqueIdentifier, TIntermediateMethod, TIntermediateMethodSig>> IntermediateMethods
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TIntermediateIndexer, TIntermediateIndexerSig>> IntermediateIndexers
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TIntermediateEvent, TIntermediateEventSig>> IntermediateEvents
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        #endregion
+
+        #region ISignatureMemberMapping<TMethod,TMethodSig,TProperty,TPropertySig,TEvent,TEventSig,TIndexer,TIndexerSig,TParent,TParentSig> Members
+
+        public IInterfaceType Target
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IEnumerable<MemberMap<IGeneralMemberUniqueIdentifier, TProperty, TPropertySig>> Properties
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IEnumerable<MemberMap<IGeneralGenericSignatureMemberUniqueIdentifier, TMethod, TMethodSig>> Methods
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TIndexer, TIndexerSig>> Indexers
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TEvent, TEventSig>> Events
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        #endregion
     }
 }

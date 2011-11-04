@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="leftSide"/> or 
         /// <paramref name="rightSide"/> is null.</exception>
         /// <exception cref="System.ArgumentException">thrown when <paramref name="leftSide"/> is not
-        /// an <see cref="IAssignTargetExpression"/> when deaffixed.</exception>
+        /// an <see cref="IAssignTargetExpression"/> when detached.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">thrown when <paramref name="operation"/>
         /// is a value not within the <see cref="AssignmentOperation"/> enumeration; or when
         /// <paramref name="operation"/> is <see cref="AssignmentOperation.Term"/>.</exception>
@@ -76,7 +76,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
                 default:
                     throw new ArgumentOutOfRangeException("operation");
             }
-            IExpression dixfixedLeft = leftSide.Disfix();
+            IExpression dixfixedLeft = leftSide.Detach();
             if (!(dixfixedLeft is IBinaryOperationExpression) && !(dixfixedLeft is IAssignTargetExpression))
                 throw new ArgumentException("leftSide");
             this.operation = operation;
@@ -222,7 +222,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
                     case AssignmentOperation.BitwiseExclusiveOrAssign:
                         return true;
                     case AssignmentOperation.Term:
-                        var leftDisfixed = this.LeftSide.Disfix();
+                        var leftDisfixed = this.LeftSide.Detach();
                         return (leftDisfixed is IStatementExpression) &&  ((IStatementExpression)leftDisfixed).ValidAsStatement;
                     default:
                         return false;

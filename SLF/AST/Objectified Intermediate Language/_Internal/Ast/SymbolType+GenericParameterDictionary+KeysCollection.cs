@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -17,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         partial class GenericParameterDictionary
         {
             private class KeysCollection :
-                IControlledStateCollection<string>,
+                IControlledStateCollection<IGenericParameterUniqueIdentifier>,
                 IControlledStateCollection
             {
                 private GenericParameterDictionary container;
@@ -26,19 +27,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     this.container = container;
                 }
 
-                #region IControlledStateCollection<string> Members
+                #region IControlledStateCollection<IGenericParameterUniqueIdentifier> Members
 
                 public int Count
                 {
                     get { return this.container.Count; }
                 }
 
-                public bool Contains(string item)
+                public bool Contains(IGenericParameterUniqueIdentifier item)
                 {
                     return this.container.ContainsKey(item);
                 }
 
-                public void CopyTo(string[] array, int arrayIndex = 0)
+                public void CopyTo(IGenericParameterUniqueIdentifier[] array, int arrayIndex = 0)
                 {
                     if (arrayIndex < 0)
                         throw new ArgumentOutOfRangeException("arrayIndex");
@@ -52,7 +53,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                         array[i+arrayIndex] = this.container.tParamNames[i];
                 }
 
-                public string this[int index]
+                public IGenericParameterUniqueIdentifier this[int index]
                 {
                     get {
                         if (index < 0 || index >= this.Count)
@@ -61,14 +62,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     }
                 }
 
-                public string[] ToArray()
+                public IGenericParameterUniqueIdentifier[] ToArray()
                 {
-                    string[] result = new string[this.Count];
+                    IGenericParameterUniqueIdentifier[] result = new IGenericParameterUniqueIdentifier[this.Count];
                     this.CopyTo(result, 0);
                     return result;
                 }
 
-                public int IndexOf(string key)
+                public int IndexOf(IGenericParameterUniqueIdentifier key)
                 {
                     for (int i = 0; i < this.Count; i++)
                         if (this.container.tParamNames[i] == key)
@@ -78,9 +79,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
                 #endregion
 
-                #region IEnumerable<string> Members
+                #region IEnumerable<IGenericParameterUniqueIdentifier> Members
 
-                public IEnumerator<string> GetEnumerator()
+                public IEnumerator<IGenericParameterUniqueIdentifier> GetEnumerator()
                 {
                     for (int i = 0; i < this.Count; i++)
                         yield return this.container.tParamNames[i];
@@ -102,9 +103,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
                 bool IControlledStateCollection.Contains(object item)
                 {
-                    if (!(item is string))
+                    if (!(item is IGenericParameterUniqueIdentifier))
                         return false;
-                    return this.Contains((string)item);
+                    return this.Contains((IGenericParameterUniqueIdentifier)item);
                 }
 
                 private void SimpleCopyTo(Array array, int arrayIndex)
@@ -133,8 +134,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
                 int IControlledStateCollection.IndexOf(object element)
                 {
-                    if (element is string)
-                        return this.IndexOf((string)element);
+                    if (element is IGenericParameterUniqueIdentifier)
+                        return this.IndexOf((IGenericParameterUniqueIdentifier)element);
                     return -1;
                 }
                 #endregion

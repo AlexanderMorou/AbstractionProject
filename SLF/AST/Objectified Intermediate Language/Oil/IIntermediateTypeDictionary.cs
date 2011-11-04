@@ -117,11 +117,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Returns the <typeparamref name="TIntermediateType"/> which 
         /// has the <paramref name="uniqueID"/> provided.
         /// </summary>
-        /// <param name="uniqueID">The <see cref="String"/> form of the type's name
-        /// and potentially the number of generic parameters delimited with a grave accent.</param>
+        /// <param name="uniqueID">The <typeparamref name="TTypeIdentifier"/> form of the type's name
+        /// and potentially the number of generic parameters (depending on the type identifier
+        /// used.)</param>
         /// <returns>A <typeparamref name="TIntermediateType"/> which contains the 
         /// <paramref name="uniqueID"/> provided.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="uniqueID"/> is null.</exception>
-        new TIntermediateType this[string uniqueID] { get; }
+        new TIntermediateType this[TTypeIdentifier uniqueID] { get; }
     }
 }

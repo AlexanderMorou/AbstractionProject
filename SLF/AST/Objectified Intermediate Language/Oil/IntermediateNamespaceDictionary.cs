@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Linq;
 using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -66,12 +68,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 throw new ArgumentException("name");
             if (name.Contains("."))
             {
-                string[] names = name.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+                IGeneralDeclarationUniqueIdentifier[] names =
+                    (from subKey in name.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)
+                     select AstIdentifier.Declaration(subKey)).ToArray();
                 //It was comprised of dots only.
                 if (names.Length == 0)
                     throw new ArgumentException("name");
                 if (names.Length == 1)
-                    return this.Add(names[0]);
+                    return this.Add(names[0].Name);
                 IIntermediateNamespaceParent parent = this.Parent;
                 bool hadNonExistant = false;
                 for (int i = 0; i < names.Length; i++)
@@ -81,7 +85,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     {
                         if (!hadNonExistant)
                             hadNonExistant = true;
-                        parent = parent.Namespaces.Add(names[i]);
+                        parent = parent.Namespaces.Add(names[i].Name);
                     }
                 //The path already exists.
                 if (!hadNonExistant)
@@ -91,24 +95,35 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             else
             {
                 if (this.ContainsKey(name))
-                    throw new ArgumentException(string.Format("The provided name {0} already exists.", name),"name");
+                    throw new ArgumentException(string.Format("The provided name {0} already exists.", name), "name");
                 IntermediateNamespaceDeclaration ind = new IntermediateNamespaceDeclaration(name, this.Parent);
-                this._Add(name, ind);
+                this._Add(ind.UniqueIdentifier, ind);
                 return ind;
             }
         }
 
-        public override bool ContainsKey(string key)
+        public bool ContainsKey(string key)
         {
             if (key == null)
-                throw new ArgumentNullException("parameterName");
+                throw new ArgumentNullException("key");
             if (key == string.Empty)
-                throw new ArgumentException("parameterName");
-            if (!key.Contains("."))
+                throw new ArgumentException("key");
+            return this.ContainsKey(AstIdentifier.Declaration(key));
+        }
+
+        public override bool ContainsKey(IGeneralDeclarationUniqueIdentifier key)
+        {
+            if (key == null)
+                throw new ArgumentNullException("key");
+            if (key.Name == string.Empty)
+                throw new ArgumentException("key");
+            if (!key.Name.Contains("."))
                 return base.ContainsKey(key);
             else
             {
-                string[] keys = key.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+                IGeneralDeclarationUniqueIdentifier[] keys =
+                    (from subKey in key.Name.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)
+                     select AstIdentifier.Declaration(subKey)).ToArray();
                 if (keys.Length == 0)
                     throw new ArgumentException("parameterName");
                 if (keys.Length == 1)

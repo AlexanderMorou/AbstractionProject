@@ -86,6 +86,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgumentWithException.cs" />
     <Compile Include="Globalization\CultureIdentifier.cs" />
     <Compile Include="Globalization\CultureIdentifiers.cs" />
     <Compile Include="Globalization\CultureIdentifiers+CountryRegions.cs">
@@ -116,6 +117,7 @@
     <Compile Include="Slf\Compilers\StaticContainerExtensionAttribute.cs" />
     <Compile Include="Slf\Compilers\TypeParameterBridgeExtensions.cs" />
     <Compile Include="Slf\_Internal\Compilers\GenericParameterDefaultConstructorConstraint.cs" />
+    <Compile Include="ThrowHelper.cs" />
     <Compile Include="Utilities\Arrays\Tweaks.cs" />
     <Compile Include="Utilities\Collections\_ISubordinateDictionaryMasterPass.cs" />
     <Compile Include="Utilities\Collections\ControlledStateCollection{T}.cs" />
