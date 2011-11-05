@@ -118,16 +118,16 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 return this.locals.entries[index].Key;
             }
 
-            protected internal virtual void OnSetKey(int index, TKey value)
+            protected internal virtual void OnSetKey(int index, TKey key)
             {
                 if (index < 0 || index >= this.Count)
                     throw new ArgumentOutOfRangeException("index");
                 var currentElement = this.locals.entries[index];
-                if (this.locals.orderings.ContainsKey(value))
-                    throw new ArgumentException("element with key already exists", "value");
+                if (this.locals.orderings.ContainsKey(key))
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.key, ArgumentExceptionMessage.DuplicateKeyExists);
                 this.locals.orderings.Remove(currentElement.Key);
-                this.locals.orderings.Add(value, index);
-                this.locals.entries[index] = new KeyValuePair<TKey, TValue>(value, currentElement.Value);
+                this.locals.orderings.Add(key, index);
+                this.locals.entries[index] = new KeyValuePair<TKey, TValue>(key, currentElement.Value);
             }
 
             /// <summary>
@@ -189,8 +189,10 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
             bool IControlledStateCollection.Contains(object item)
             {
+                if (item == null)
+                    return false;
                 if (!(item is TKey))
-                    throw new ArgumentException("item");
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.item, ArgumentExceptionMessage.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.item), item.GetType().ToString(), typeof(TKey).GetType().ToString());
                 return this.Contains((TKey)item);
             }
 

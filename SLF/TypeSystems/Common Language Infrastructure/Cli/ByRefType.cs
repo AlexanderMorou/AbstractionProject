@@ -38,7 +38,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         internal ByRefType(IType elementType)
         {
             if (elementType.ElementClassification == TypeElementClassification.Reference)
-                throw new ArgumentException("elementType");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.elementType, ArgumentExceptionMessage.TypeInvalidElementType, ThrowHelper.GetArgumentExceptionWord(ArgumentExceptionWord.by_reference_type), ThrowHelper.GetArgumentExceptionWord(ArgumentExceptionWord.by_reference_type));
+            //throw new ArgumentException("elementType");
             this.elementType = elementType;
         }
 

@@ -70,7 +70,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             {
                 foreach (char c in value)
                     if (!this.baseEntities.Contains(c))
-                        throw new ArgumentException("value");
+                        throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ArgumentExceptionMessage.NumericValueParseError, c.ToString());
                 for (byte b = 0; b < value.Length; b++)
                     r += ShiftBaseValue((int)baseEntities.IndexOf(value[b]), (byte)(value.Length - (b + 1)));
             }
@@ -79,10 +79,10 @@ namespace AllenCopeland.Abstraction.Utilities.Common
                 value = value.ToUpper();
                 for (byte b = 0; b < value.Length; b++)
                 {
-                    char current = value[b];
-                    if (!this.baseEntities.Contains(current))
-                        throw new ArgumentException("value");
-                    r += ShiftBaseValue((int)baseEntities.IndexOf(current), (byte)(value.Length - (b + 1)));
+                    char c = value[b];
+                    if (!this.baseEntities.Contains(c))
+                        throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ArgumentExceptionMessage.NumericValueParseError, c.ToString());
+                    r += ShiftBaseValue((int)baseEntities.IndexOf(c), (byte)(value.Length - (b + 1)));
                 }
             }
             return (BigInteger)r;

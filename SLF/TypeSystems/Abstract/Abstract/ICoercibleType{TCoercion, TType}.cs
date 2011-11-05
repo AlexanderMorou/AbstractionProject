@@ -11,7 +11,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>
     /// Defines generic properties and methods for working 
-    /// with a coercible <see cref="IType{TCoercionParent}"/>
+    /// with a coercible <see cref="IType{TTypeIdentifier, TType}"/>
     /// </summary>
     /// <typeparam name="TCoercion">
     /// The type of <see cref="ICoercionMember"/> used 
@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <typeparam name="TCoercionParentIdentifier">The kind of unique identifier to use relative
     /// to the type, to differentiate it between its sibling types.</typeparam>
     /// <typeparam name="TCoercionParent">
-    /// The type of coercible <see cref="IType{TCoercionParent}"/> 
+    /// The type of coercible <see cref="IType{TTypeIdentifier, TType}"/> 
     /// that contains <typeparamref name="TCoercion"/> 
     /// members in the current implementation.</typeparam>
     public interface ICoercibleType<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent> :

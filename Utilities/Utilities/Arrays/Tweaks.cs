@@ -222,7 +222,7 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             int fullLength = 0;
             for (int i = 0; i < series.Length; i++)
                 if (series[i] == null)
-                    throw new ArgumentException("A member of series was null", "series");
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.series, ArgumentExceptionMessage.MemberOfSeriesNull, ThrowHelper.GetArgumentName(ArgumentWithException.series));
                 else
                     fullLength += series[i].Length;
             T[] result = new T[fullLength];

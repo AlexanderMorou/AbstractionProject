@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -78,20 +79,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             var seriesElements = namesAndTypes.ToArray();
             Stack<ILocalMemberDictionary> memberScopes = GetFullScope();
+            IGeneralMemberUniqueIdentifier[] ids = new IGeneralMemberUniqueIdentifier[namesAndTypes.Count];
+            for (int i = 0; i < seriesElements.Length; i++)
+                ids[i] = AstIdentifier.Member(seriesElements[i].Name);
             for (int i = 0; i < seriesElements.Length; i++)
             {
-                var iElementName = seriesElements[i].Name;
+                var iElementIdentifier = ids[i];
                 /* *
                  * First check for name collisions within the series itself.
                  * */
                 for (int j = i + 1; j < seriesElements.Length; j++)
-                    if (iElementName == seriesElements[j].Name)
+                    if (iElementIdentifier.Equals(ids[j]))
                         throw new ArgumentException("Duplicate name detected");
                 /* *
                  * Next, check for collisions within the scope.
                  * */
                 foreach (var scope in memberScopes)
-                    if (scope.ContainsKey(iElementName))
+                    if (scope.ContainsKey(iElementIdentifier))
                         throw new ArgumentException("Duplicate name detected");
             }
             var parentMember = this.GetTopParent() as IIntermediateMember;
@@ -105,7 +109,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 locals[i] = new TypedLocalMember(current.Name, this.Parent, localType);
             });
             this._AddRange(from local in locals
-                           select new KeyValuePair<string, ILocalMember>(local.Name, local));
+                           select new KeyValuePair<IGeneralMemberUniqueIdentifier, ILocalMember>(local.UniqueIdentifier, local));
             return locals;
         }
 

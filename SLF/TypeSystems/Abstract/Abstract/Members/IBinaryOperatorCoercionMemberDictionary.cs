@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <typeparam name="TCoercionParentIdentifier">The type of the identifier that represents
     /// the parent's uniqueness from the other types.</typeparam>
     /// <typeparam name="TCoercionParent">
-    /// The type of <see cref="ICoercibleType{TType}"/>
+    /// The type of <see cref="ICoercibleType{TTypeIdentifier, TType}"/>
     /// which contains the 
     /// <see cref="IBinaryOperatorCoercionMemberDictionary{TCoercionParentIdentifier, TCoercionParent}"/>.
     /// </typeparam>

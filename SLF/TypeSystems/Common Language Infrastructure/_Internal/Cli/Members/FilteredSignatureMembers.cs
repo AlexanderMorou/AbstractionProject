@@ -83,8 +83,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get
             {
+                if (deviant == null)
+                    return -1;
                 if (!(deviant is TSignature))
-                    throw new ArgumentException(string.Format("must be a TSignature ({0})", typeof(TSignature)), "deviant");
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.deviant, ArgumentExceptionMessage.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.deviant), deviant.GetType().ToString(), typeof(TSignature).ToString());
                 return this[(TSignature)deviant];
             }
         }

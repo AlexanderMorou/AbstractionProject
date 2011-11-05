@@ -117,10 +117,10 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             if (subordinate == null)
                 throw new ArgumentNullException("subordinate");
             if (!(subordinate is _ISubordinateDictionaryMasterPass))
-                throw new ArgumentException("subordinate");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.subordinate, ArgumentExceptionMessage.SubordinateInvalid);
             foreach (ISubordinateDictionary isd in this.subordinates)
                 if (isd is ISubordinateDictionary<TSKey, TKey, TSValue, TValue>)
-                    throw new ArgumentException("subordinate sub-type exists.");
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.subordinate, ArgumentExceptionMessage.SubordinateSubTypeDuplicate);
             this.subordinates.Add((ISubordinateDictionary)subordinate);
         }
 
@@ -271,7 +271,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 TValue
         {
             if (this[key].Subordinate != subordinate)
-                throw new ArgumentException("subordinate");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.subordinate, ArgumentExceptionMessage.SubordinateMismatch);
             this._Remove(key);
         }
 
@@ -337,9 +337,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         protected internal override void _Add(TKey key, MasterDictionaryEntry<TValue> value)
         {
             if (value.Subordinate == null)
-                throw new ArgumentException("value");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ArgumentExceptionMessage.SubordinateNull);
             if (!this.subordinates.Contains(value.Subordinate))
-                throw new ArgumentException("value");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ArgumentExceptionMessage.SubordinateDoesNotExist);
             /* *
              * Don't call base class' add, the subordinate will 
              * invoke Subordinate_ItemAdded<TSValue> which will
@@ -400,11 +400,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         protected override void OnSetThis(TKey key, MasterDictionaryEntry<TValue> value)
         {
             if (value.Subordinate == null)
-                throw new ArgumentException("value");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ArgumentExceptionMessage.SubordinateNull);
             if (!this.subordinates.Contains(value.Subordinate))
-                throw new ArgumentException("value");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ArgumentExceptionMessage.SubordinateDoesNotExist);
             if (base[key].Subordinate != value.Subordinate)
-                throw new ArgumentException("value");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ArgumentExceptionMessage.SubordinateCannotChange);
             /* *
              * This is the primary reason that 
              * MasterDictionaryEntry<TEntry> contains

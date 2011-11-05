@@ -56,10 +56,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         internal ArrayType(IType elementType, int rank)
         {
             if (elementType.ElementClassification == TypeElementClassification.Reference)
-                throw new ArgumentException("elementType");
-
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.elementType, ArgumentExceptionMessage.TypeInvalidElementType, ThrowHelper.GetArgumentExceptionWord(ArgumentExceptionWord.by_reference_type), ThrowHelper.GetArgumentExceptionWord(ArgumentExceptionWord.array));
             if (rank < 1)
-                throw new ArgumentOutOfRangeException("rank");
+                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.rank, ArgumentExceptionMessage.RankMustBeOneOrGreater, rank.ToString());
             this.rank = rank;
             this.elementType = elementType;
             this.lowerBounds = new int[this.rank];
@@ -70,7 +69,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         internal ArrayType(IType elementType)
             : this(elementType, 1)
         {
-
         }
 
         internal ArrayType(IType elementType, params int[] lowerBounds)
@@ -85,6 +83,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         #region IArrayType Members
 
+        /// <summary>
+        /// Returns whether every dimension has a zero-based index.
+        /// </summary>
         public bool IsZeroBased
         {
             get
@@ -96,6 +97,16 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
         }
 
+        /// <summary>
+        /// Returns the <see cref="System.Int32"/> series
+        /// representing the lower bound values for the 
+        /// <see cref="ArrayType"/>.
+        /// </summary>
+        /// <remarks>
+        /// Arrays which define a specialized lower bounds will have
+        /// associated field, parameter, property, and return type
+        /// marked with the <see cref="LowerBoundTargetAttribute"/>.
+        /// </remarks>
         public int[] LowerBounds
         {
             get
@@ -106,11 +117,25 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
         }
 
+        /// <summary>
+        /// Returns the array rank of the <see cref="ArrayType"/>.
+        /// </summary>
         public int ArrayRank
         {
             get { return this.rank; }
         }
 
+        /// <summary>
+        /// Returns whether the <see cref="ArrayType"/>
+        /// is a single-dimensional zero-based indexing array.
+        /// </summary>
+        public bool IsVectorArray
+        {
+            get
+            {
+                return this.isVectorArray;
+            }
+        }
         #endregion
 
         #region IType Members
@@ -393,12 +418,5 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         #endregion
 
-        public bool IsVectorArray
-        {
-            get
-            {
-                return this.isVectorArray;
-            }
-        }
     }
 }

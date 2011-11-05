@@ -42,12 +42,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
 
             public void CopyTo(IModule[] array, int arrayIndex = 0)
             {
-                if (arrayIndex < 0 || arrayIndex >= array.Length)
+                if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
                     throw new ArgumentOutOfRangeException("arrayIndex");
-                if (this.Count + arrayIndex > array.Length)
-                    throw new ArgumentException("array");
                 for (int i = 0; i < this.Count; i++)
-                    array[i+arrayIndex] = this.owner.Values[i];
+                    array[i + arrayIndex] = this.owner.Values[i];
             }
 
             public IModule this[int index]

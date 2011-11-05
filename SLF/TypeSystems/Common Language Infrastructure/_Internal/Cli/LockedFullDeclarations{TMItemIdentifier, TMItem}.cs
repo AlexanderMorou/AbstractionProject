@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (subordinate == null)
                 throw new ArgumentNullException("subordinate");
             if (!this.Subordinates.Contains((ISubordinateDictionary)subordinate))
-                throw new ArgumentException("subordinate");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.subordinate, ArgumentExceptionMessage.SubordinateDoesNotExist);
             lock (syncObject)
                 if (this.state != USE_FETCH)
                     this.state = USE_FETCH;
@@ -120,10 +120,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal MasterDictionaryEntry<TMItem> Fetch(MasterDictionaryEntry<object> sourceElement)
         {
             if (sourceElement.Subordinate == null)
-                throw new ArgumentException("sourceElement");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.sourceElement, ArgumentExceptionMessage.SubordinateNull);
             ISubordinateDictionary isd = sourceElement.Subordinate;
             if (!(isd is _LockedGroupDeclarationsMasterPass<TMItemIdentifier, TMItem>))
-                throw new ArgumentException("sourceElement");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.sourceElement, ArgumentExceptionMessage.SubordinateInvalid);
             _LockedGroupDeclarationsMasterPass<TMItemIdentifier, TMItem> lgdmp = (_LockedGroupDeclarationsMasterPass<TMItemIdentifier, TMItem>)isd;
             return new MasterDictionaryEntry<TMItem>(sourceElement.Subordinate, (TMItem)lgdmp.Fetch(sourceElement.Entry));
         }
@@ -131,10 +131,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal TMItemIdentifier FetchKey(MasterDictionaryEntry<object> sourceElement)
         {
             if (sourceElement.Subordinate == null)
-                throw new ArgumentException("sourceElement");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.sourceElement, ArgumentExceptionMessage.SubordinateNull);
             ISubordinateDictionary isd = sourceElement.Subordinate;
             if (!(isd is _LockedGroupDeclarationsMasterPass<TMItemIdentifier, TMItem>))
-                throw new ArgumentException("sourceElement");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.sourceElement, ArgumentExceptionMessage.SubordinateInvalid);
             _LockedGroupDeclarationsMasterPass<TMItemIdentifier, TMItem> lgdmp = (_LockedGroupDeclarationsMasterPass<TMItemIdentifier, TMItem>)isd;
             return lgdmp.FetchKey(sourceElement.Entry);
         }
