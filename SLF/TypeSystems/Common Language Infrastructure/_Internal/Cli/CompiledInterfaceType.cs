@@ -70,7 +70,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             : base(underlyingSystemType)
         {
             if (!underlyingSystemType.IsInterface)
-                throw new ArgumentException("Not a {0} type", "underlyingSystemType");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.underlyingSystemType, ArgumentExceptionMessage.CompiledType_NotProperKind, "interface");
         }
 
         protected override IInterfaceType OnMakeGenericClosure(ITypeCollectionBase typeParameters)

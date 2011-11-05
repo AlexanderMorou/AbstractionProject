@@ -53,12 +53,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 throw new ArgumentNullException("elementType");
             if (!(elementType.ElementClassification == TypeElementClassification.None ||
                   elementType.ElementClassification == TypeElementClassification.GenericTypeDefinition))
-                throw new ArgumentException("Nullable types must be normal types, array, by-reference, nullable, and pointer types are not allowed.");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.elementType, ArgumentExceptionMessage.NonNullableTypeProvided);
             if (elementType.Type != TypeKind.Struct &&
                 !(elementType is IGenericParameter &&
                   ((IGenericParameter)(elementType)).SpecialConstraint == GenericTypeParameterSpecialConstraint.Struct))
-                throw new ArgumentException("elementType");
-            this.elementType = elementType;
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.elementType, ArgumentExceptionMessage.TypeMustNotBeAReferenceType);
+            this.elementType = elementType; 
         }
 
         #region IType Members

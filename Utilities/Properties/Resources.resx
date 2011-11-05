@@ -118,19 +118,65 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AE_ArgumentCannotBeEmpty" xml:space="preserve">
+    <value>The argument {0} can't be String.Empty.</value>
+    <comment>Relates to ArgumentExceptionMessage.ArgumentCannotBeEmpty.</comment>
+  </data>
+  <data name="AE_CannotTermBinaryOperation" xml:space="preserve">
+    <value>Both operands of the binary operation are present; thus, an operation of 'Term' is invalid in this context.</value>
+    <comment>Relates to ArgumentExceptionMessage.CannotTermBinaryOperation.</comment>
+  </data>
+  <data name="AE_CoercionDoesNotExist" xml:space="preserve">
+    <value>No {0} coercion {1} target type.</value>
+    <comment>Relates to ArgumentExceptionMessage.CoercionDoesNotExist.</comment>
+  </data>
+  <data name="AE_CompiledType_NotProperKind" xml:space="preserve">
+    <value>Type is not a(n) {0}.</value>
+    <comment>Relates to ArgumentExceptionMessage.CompiledType_NotProperKind.</comment>
+  </data>
+  <data name="AE_ConditionMustBeBreakable" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AE_DataCannotBeEmpty" xml:space="preserve">
     <value />
   </data>
   <data name="AE_DelegateTypeParameterMismatch" xml:space="preserve">
     <value>The provided constructor contains a different number of parameters than the Delegate type.</value>
+    <comment>Relates to ArgumentExceptionMessage.DelegateTypeParameterMismatch.</comment>
+  </data>
+  <data name="AE_DetachedExpressionNotValidFor" xml:space="preserve">
+    <value />
   </data>
   <data name="AE_DuplicateKeyExists" xml:space="preserve">
-    <value />
+    <value>An item with the key provided already exists.</value>
+    <comment>Relates to ArgumentExceptionMessage.DuplicateKeyExists.</comment>
+  </data>
+  <data name="AE_ElementTypeMustBeGivenKind" xml:space="preserve">
+    <value>The element type on '{0}' must be '{1}'.</value>
+    <comment>Relates to ArgumentExceptionMessage.ElementTypeMustBeGivenKind.</comment>
+  </data>
+  <data name="AE_GenericClosureReplacementCount" xml:space="preserve">
+    <value>There are '{0}' parameters within the generic closure, but {1} were provided.</value>
+    <comment>Relates to ArgumentExceptionMessage.GenericClosureReplacementCount.</comment>
   </data>
   <data name="AE_GenericParameterRequiresName" xml:space="preserve">
     <value />
   </data>
+  <data name="AE_InsufficientSpaceForCopy" xml:space="preserve">
+    <value>{0} not large enough to hold elements.</value>
+    <comment>Relates to ArgumentExceptionMessage.InsufficientSpaceForCopy.</comment>
+  </data>
+  <data name="AE_InvalidTCheckDerivation" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AE_JumpTargetMustBeLabel" xml:space="preserve">
+    <value />
+  </data>
   <data name="AE_ManifestModuleTarget" xml:space="preserve">
     <value />
+  </data>
+  <data name="AE_MemberOfSeriesNull" xml:space="preserve">
+    <value>A member of {0} was null.</value>
+    <comment>Relates to ArgumentExceptionMessage.MemberOfSeriesNull.</comment>
   </data>
   <data name="AE_NamedGenericParameterExists" xml:space="preserve">
     <value />
@@ -138,17 +184,130 @@
   <data name="AE_NamespacePathAlreadyPresent" xml:space="preserve">
     <value />
   </data>
+  <data name="AE_NonNullableTypeProvided" xml:space="preserve">
+    <value>Nullable types must be normal types, array, by-reference, nullable, and pointer types are not allowed.</value>
+    <comment>Relates to ArgumentExceptionMessage.NonNullableTypeProvided.</comment>
+  </data>
+  <data name="AE_NumericControllerMismatch" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AE_NumericValueParseError" xml:space="preserve">
+    <value>The character '{0}' was not found within the base entities for the current numeric controller.</value>
+    <comment>Relates to ArgumentExceptionMessage.NumericValueParseError.</comment>
+  </data>
+  <data name="AE_OnlyNullableOnTerm" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AE_OperationMustBeTerm" xml:space="preserve">
+    <value>Operand relative to associativity is 'null'; thus, operation of 'Term' is required in this context.</value>
+    <comment>Relates to ArgumentExceptionMessage.OperationMustBeTerm.</comment>
+  </data>
+  <data name="AE_ParentMustBeEqual" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AE_Part_CannotBeRoot" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AE_Part_MustReferenceRoot" xml:space="preserve">
+    <value />
+  </data>
   <data name="AE_PathCannotBeDotsOnly" xml:space="preserve">
     <value />
+  </data>
+  <data name="AE_Primitive_Invalid" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AE_Primitive_NonStringObject" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AE_ProvidedExpressionCannotBe" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AE_RelationalInvalidOnExpression" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AE_RemoveFailed_CustomAttributeNotFound" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AE_Remove_ValueNotFound" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AE_SourceStringInvalid" xml:space="preserve">
+    <value>String {0} doesn't match the lengths provided.</value>
+    <comment>Relates to ArgumentExceptionMessage.SourceStringInvalid.</comment>
+  </data>
+  <data name="AE_SubordinateCannotChange" xml:space="preserve">
+    <value>The provided subordinate does not match the subordinate contained; thus, the change action cannot proceed.</value>
+    <comment>Relates to ArgumentExceptionMessage.SubordinateCannotChange.</comment>
+  </data>
+  <data name="AE_SubordinateDoesNotExist" xml:space="preserve">
+    <value>The provided subordinate does not exist within the current context.</value>
+    <comment>Relates to ArgumentExceptionMessage.SubordinateDoesNotExist.</comment>
+  </data>
+  <data name="AE_SubordinateInvalid" xml:space="preserve">
+    <value>The provided subordinate dictionary is not valid within the current context.</value>
+    <comment>Relates to ArgumentExceptionMessage.SubordinateInvalid.</comment>
+  </data>
+  <data name="AE_SubordinateNull" xml:space="preserve">
+    <value>The subordinate associated to the value provided is null, and thus cannot be entered.</value>
+    <comment>Relates to ArgumentExceptionMessage.SubordinateNull.</comment>
+  </data>
+  <data name="AE_TransitionKeyCollision" xml:space="preserve">
+    <value>The provided transitionary condition collides with an existing condition.  On a deterministic system this is invalid.</value>
+    <comment>Relates to ArgumentExceptionMessage.TransitionKeyCollision.</comment>
+  </data>
+  <data name="AE_TypeAlreadyGenericClosure" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AE_TypedName_ImplicitConversion" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AE_TypedName_Invalid" xml:space="preserve">
+    <value>The reference source of the TypedName within {0} is invalid.</value>
+    <comment>Relates to ArgumentExceptionMessage.TypedName_Invalid.</comment>
+  </data>
+  <data name="AE_TypedName_InvalidElement" xml:space="preserve">
+    <value>Invalid reference in a member of {0}</value>
+    <comment>Relates to ArgumentExceptionMessage.TypedName_InvalidElement.</comment>
+  </data>
+  <data name="AE_TypedName_ReferenceKind" xml:space="preserve">
+    <value>Invalid reference, {0} must be a {1}.</value>
+    <comment>Relates to ArgumentExceptionMessage.TypedName_ReferenceKind.</comment>
+  </data>
+  <data name="AE_TypeMustBeCompilerGenerated" xml:space="preserve">
+    <value>Invalid target container type, must be generated by a compiler.</value>
+    <comment>Relates to ArgumentExceptionMessage.TypeMustBeCompilerGenerated.</comment>
+  </data>
+  <data name="AE_TypeMustBeGenericParameter" xml:space="preserve">
+    <value>Provided type must be a generic parameter.</value>
+    <comment>Relates to ArgumentExceptionMessage.TypeMustBeGenericParameter.</comment>
+  </data>
+  <data name="AE_TypeMustBeStaticClass" xml:space="preserve">
+    <value>Invalid target container type, must be a static (abstract sealed) class.</value>
+    <comment>Relates to ArgumentExceptionMessage.TypeMustBeStaticClass.</comment>
+  </data>
+  <data name="AE_TypeNotGeneric" xml:space="preserve">
+    <value>Type not generic.</value>
+    <comment>Relates to ArgumentExceptionMessage.TypeNotGeneric.</comment>
+  </data>
+  <data name="AE_TypeNotGivenKind" xml:space="preserve">
+    <value>The compiled type '{0}' cannot be wrapped into a '{1}'.</value>
+    <comment>Relates to ArgumentExceptionMessage.TypeNotGivenKind.</comment>
   </data>
   <data name="AE_TypesAssemblyIsFixed" xml:space="preserve">
     <value />
   </data>
   <data name="AE_UnknownArgument" xml:space="preserve">
     <value>Unknown argument identifier provided.</value>
+    <comment>Relates to ArgumentExceptionMessage.UnknownArgument.</comment>
   </data>
   <data name="AE_UnknownArgumentMessage" xml:space="preserve">
     <value>Unknown argument message identifier provided.</value>
+    <comment>Relates to ArgumentExceptionMessage.UnknownArgumentMessage.</comment>
+  </data>
+  <data name="AE_ValueIsWrongType" xml:space="preserve">
+    <value>{0}, of type '{1}', is of the wrong type; expected: '{2}'.</value>
+    <comment>Relates to ArgumentExceptionMessage.ValueIsWrongType.</comment>
   </data>
   <data name="LockableChangeThrowMessage" xml:space="preserve">
     <value>Cannot alter a {0} while it is locked.</value>
@@ -157,5 +316,45 @@
   <data name="ObjectStateThrowMessage" xml:space="preserve">
     <value>Object not in a valid state.</value>
     <comment>Used by the lockable collection, list and dictionary classes when the object isn't in a valid state to continue.</comment>
+  </data>
+  <data name="AE_TypeMustBeGenericChild" xml:space="preserve">
+    <value>Provided type must be the child of a generic.</value>
+    <comment>Relates to ArgumentExceptionMessage.TypeMustBeGenericChild.</comment>
+  </data>
+  <data name="AE_TypeParameterInfoError" xml:space="preserve">
+    <value>Type provided represents an informational type, and must contain only the generic arguments of declaring generic type.</value>
+    <comment>Relates to ArgumentExceptionMessage.TypeParameterInfoError.</comment>
+  </data>
+  <data name="AE_SourceStreamInvalidLength" xml:space="preserve">
+    <value>Data length inappropriate for conversion into a unicode string.</value>
+    <comment>Relates to ArgumentExceptionMessage.SourceStreamInvalidLength.</comment>
+  </data>
+  <data name="AE_SubordinateMismatch" xml:space="preserve">
+    <value>The provided subordinate does not match the subordinate contained.</value>
+    <comment>Relates to ArgumentExceptionMessage.SubordinateMismatch.</comment>
+  </data>
+  <data name="AE_SubordinateSubTypeDuplicate" xml:space="preserve">
+    <value>The subordinate sub-type already exists within the current context.</value>
+    <comment>Relates to ArgumentExceptionMessage.SubordinateSubTypeDuplicate.</comment>
+  </data>
+  <data name="AE_InterfaceNotImplemented" xml:space="preserve">
+    <value>'{0}' does not implement '{1}'</value>
+    <comment>Relates to ArgumentExceptionMessage.InterfaceNotImplemented.</comment>
+  </data>
+  <data name="AE_TypeInvalidElementType" xml:space="preserve">
+    <value>Type is a {0} which is not valid on a(n) {1} type.</value>
+    <comment>Relates to ArgumentExceptionMessage.TypeInvalidElementType.</comment>
+  </data>
+  <data name="AE_UnknownArgumentWord" xml:space="preserve">
+    <value>Unknown argument word provided.</value>
+    <comment>Relates to ArgumentExceptionMessage.UnknownArgumentWord.</comment>
+  </data>
+  <data name="AE_RankMustBeOneOrGreater" xml:space="preserve">
+    <value>The rank '{0}' provided is invalid, it must be one (1) or greater.</value>
+    <comment>Relates to ArgumentExceptionMessage.RankMustBeOneOrGreater.</comment>
+  </data>
+  <data name="AE_TypeMustNotBeAReferenceType" xml:space="preserve">
+    <value>The type provided is a reference type, only value types (structs) are allowed.</value>
+    <comment>Relates to ArgumentExceptionMessage.TypeMustNotBeAReferenceType.</comment>
   </data>
 </root>

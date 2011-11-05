@@ -105,7 +105,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         {
             IType ict = (type.GetTypeReference());
             if (!(ict is TType))
-                throw new ArgumentException("type");
+                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.type, ArgumentExceptionMessage.TypeNotGivenKind, type.GetType().ToString(), typeof(TType).ToString());
             return ((TType)ict);
         }
 
@@ -174,6 +174,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli
              *             per stage.
              * */
             Type t = type;
+            if (t == null)
+                throw new ArgumentNullException("type");
             //lock (CLIGateway.CompiledTypeCache)
             IType result;
             lock (CLIGateway.CompiledTypeCache)

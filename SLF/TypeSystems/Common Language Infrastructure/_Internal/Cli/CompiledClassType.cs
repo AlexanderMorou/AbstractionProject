@@ -46,7 +46,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             : base(underlyingSystemType)
         {
             if (!underlyingSystemType.IsClass)
-                throw new ArgumentException("Not a {0} type", "underlyingSystemType");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.underlyingSystemType, ArgumentExceptionMessage.CompiledType_NotProperKind, "class");
         }
 
         /// <summary>

@@ -42,13 +42,13 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                     t = t.GetGenericTypeDefinition();
                 Type tDecl = t.DeclaringType;
                 if (!tDecl.IsGenericTypeDefinition)
-                    throw new ArgumentException("Provided type must be child of a generic.","genericLocalType");
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.genericLocalType, ArgumentExceptionMessage.TypeMustBeGenericChild);
                 if (tDecl.GetGenericArguments().Length != t.GetGenericArguments().Length)
-                    throw new ArgumentException("Provided type must contain only the generic arguments of declaring generic type.");
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.genericLocalType, ArgumentExceptionMessage.TypeParameterInfoError);
                 this.genericLocalType = genericLocalType;
             }
             else
-                throw new ArgumentException("genericLocalType");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.genericLocalType, ArgumentExceptionMessage.TypeNotGeneric);
         }
 
         /// <summary>

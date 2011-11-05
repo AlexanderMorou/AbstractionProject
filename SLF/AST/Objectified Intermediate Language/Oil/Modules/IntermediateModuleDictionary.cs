@@ -90,10 +90,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
 
         void IControlledStateCollection<KeyValuePair<string, IModule>>.CopyTo(KeyValuePair<string, IModule>[] array, int arrayIndex)
         {
-            if (arrayIndex < 0 || arrayIndex >= array.Length)
+            if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
                 throw new ArgumentOutOfRangeException("arrayIndex");
-            if (this.Count + arrayIndex > array.Length)
-                throw new ArgumentException("array");
             ((IControlledStateDictionary<string, IModule>)(this)).ToArray().CopyTo(array, arrayIndex);
         }
 

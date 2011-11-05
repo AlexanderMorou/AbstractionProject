@@ -19,10 +19,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
     /// instances.
     /// </summary>
     /// <typeparam name="TCoercionParent">
-    /// The type of <see cref="ICoercibleType{TType}"/>
+    /// The type of <see cref="ICoercibleType{TTypeIdentifier, TType}"/>
     /// which contains the 
-    /// <see cref="TypeCoercionMembers{TCoercionParent}"/>.
+    /// <see cref="TypeCoercionMembers{TCoercionParentIdentifier, TCoercionParent}"/>.
     /// </typeparam>
+    /// <typeparam name="TCoercionParentIdentifier">The kind of unique
+    /// identifier used to differentiate the container of the coercible
+    /// type members from its siblings.</typeparam>
     internal class TypeCoercionMembers<TCoercionParentIdentifier, TCoercionParent> :
         GroupedMembersBase<TCoercionParent, ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>>,
         ITypeCoercionMemberDictionary<TCoercionParentIdentifier, TCoercionParent>,
@@ -30,20 +33,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         where TCoercionParentIdentifier :
             ITypeUniqueIdentifier<TCoercionParentIdentifier>
         where TCoercionParent :
-            ICoercibleType<TCoercionParentIdentifier, TCoercionParent>
+            ICoercibleType<ITypeCoercionUniqueIdentifier, TCoercionParentIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
     {
         /// <summary>
-        /// Creates a new <see cref="TypeCoercionMembers{TCoercionParent}"/>
+        /// Creates a new <see cref="TypeCoercionMembers{TCoercionParentIdentifier, TCoercionParent}"/>
         /// with the <paramref name="master"/> and <paramref name="parent"/>
         /// provided.
         /// </summary>
         /// <param name="master">The <see cref="FullMembersBase"/>
         /// which contains all of the 
-        /// <see cref="TypeCoercionMembers{TCoercionParent}"/> 
-        /// members and other <see cref="ICoercibleType{TType}"/> members 
-        /// amongst others.</param>
+        /// <see cref="TypeCoercionMembers{TCoercionParentIdentifier, TCoercionParent}"/> 
+        /// members and other members of the <typeparamref name="TCoercionParent"/>.</param>
         /// <param name="parent">The <typeparamref name="TCoercionParent"/> which contains
-        /// the <see cref="TypeCoercionMembers{TCoercionParent}"/>.</param>
+        /// the <see cref="TypeCoercionMembers{TCoercionParentIdentifier, TCoercionParent}"/>.</param>
         public TypeCoercionMembers(FullMembersBase master, TCoercionParent parent)
             : base(master, parent)
         {
@@ -62,8 +64,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// to the <paramref name="target"/> type; false otherwise.</returns>
         public bool HasExplicitCoercionTo(IType target)
         {
-            foreach (ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent> member in this.Values)
-                if (member.CoercionType.Equals(target) && member.Direction == TypeConversionDirection.ToContainingType && member.Requirement == TypeConversionRequirement.Explicit)
+            foreach (var identifier in this.Keys)
+                if (identifier.CoercionType.Equals(target) && identifier.Direction == TypeConversionDirection.ToContainingType && identifier.Requirement == TypeConversionRequirement.Explicit)
                     return true;
             return false;
         }
@@ -79,8 +81,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// to the <paramref name="target"/> type; false otherwise.</returns>
         public bool HasImplicitCoercionTo(IType target)
         {
-            foreach (ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent> member in this.Values)
-                if (member.CoercionType.Equals(target) && member.Direction == TypeConversionDirection.ToContainingType && member.Requirement == TypeConversionRequirement.Implicit)
+            foreach (var identifier in this.Keys)
+                if (identifier.CoercionType.Equals(target) && identifier.Direction == TypeConversionDirection.ToContainingType && identifier.Requirement == TypeConversionRequirement.Implicit)
                     return true;
             return false;
         }
@@ -96,8 +98,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// from the <paramref name="target"/> type; false otherwise.</returns>
         public bool HasExplicitCoercionFrom(IType target)
         {
-            foreach (ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent> member in this.Values)
-                if (member.CoercionType.Equals(target) && member.Direction == TypeConversionDirection.FromContainingType && member.Requirement == TypeConversionRequirement.Explicit)
+            foreach (var identifier in this.Keys)
+                if (identifier.CoercionType.Equals(target) && identifier.Direction == TypeConversionDirection.FromContainingType && identifier.Requirement == TypeConversionRequirement.Explicit)
                     return true;
             return false;
         }
@@ -113,8 +115,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// from the <paramref name="target"/> type; false otherwise.</returns>
         public bool HasImplicitCoercionFrom(IType target)
         {
-            foreach (ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent> member in this.Values)
-                if (member.CoercionType.Equals(target) && member.Direction == TypeConversionDirection.FromContainingType && member.Requirement == TypeConversionRequirement.Implicit)
+            foreach (var identifier in this.Keys)
+                if (identifier.CoercionType.Equals(target) && identifier.Direction == TypeConversionDirection.FromContainingType && identifier.Requirement == TypeConversionRequirement.Implicit)
                     return true;
             return false;
         }
@@ -154,14 +156,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                         {
                             case TypeConversionDirection.ToContainingType:
                                 if (!this.HasExplicitCoercionTo(target))
-                                    throw new ArgumentException("No explicit coercion to target type.", "target");
+                                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.target, ArgumentExceptionMessage.CoercionDoesNotExist, ThrowHelper.GetArgumentExceptionWord(ArgumentExceptionWord.@explicit), ThrowHelper.GetArgumentExceptionWord(ArgumentExceptionWord.to));
                                 break;
                             case TypeConversionDirection.FromContainingType:
                                 if (!this.HasExplicitCoercionFrom(target))
-                                    throw new ArgumentException("No explicit coercion from target type.", "target");
+                                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.target, ArgumentExceptionMessage.CoercionDoesNotExist, ThrowHelper.GetArgumentExceptionWord(ArgumentExceptionWord.@explicit), ThrowHelper.GetArgumentExceptionWord(ArgumentExceptionWord.from));
                                 break;
                             default:
-                                throw new ArgumentOutOfRangeException("direction");
+                                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.direction);
                         }
                         break;
                     case TypeConversionRequirement.Implicit:
@@ -169,18 +171,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                         {
                             case TypeConversionDirection.ToContainingType:
                                 if (!this.HasImplicitCoercionTo(target))
-                                    throw new ArgumentException("No implicit coercion to target type.", "target");
+                                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.target, ArgumentExceptionMessage.CoercionDoesNotExist, ThrowHelper.GetArgumentExceptionWord(ArgumentExceptionWord.@implicit), ThrowHelper.GetArgumentExceptionWord(ArgumentExceptionWord.to));
                                 break;
                             case TypeConversionDirection.FromContainingType:
                                 if (!this.HasImplicitCoercionFrom(target))
-                                    throw new ArgumentException("No implicit coercion from target type.", "target");
+                                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.target, ArgumentExceptionMessage.CoercionDoesNotExist, ThrowHelper.GetArgumentExceptionWord(ArgumentExceptionWord.@implicit), ThrowHelper.GetArgumentExceptionWord(ArgumentExceptionWord.from));
                                 break;
                             default:
-                                throw new ArgumentOutOfRangeException("direction");
+                                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.direction);
                         }
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException("requirement");
+                        throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.requirement);
                 }
                 foreach (ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent> member in this.Values)
                     if (member.CoercionType.Equals(target) && member.Direction == direction && member.Requirement == requirement)
@@ -192,7 +194,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         #endregion
 
         #region ITypeCoercionMemberDictionary Members
-
 
         ITypeCoercionMember ITypeCoercionMemberDictionary.this[TypeConversionRequirement requirement, TypeConversionDirection direction, IType target]
         {

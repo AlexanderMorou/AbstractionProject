@@ -39,7 +39,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
         public CSharpInequalityExpression(ICSharpInequalityExpression leftSide, bool equals, ICSharpRelationalExpression rightSide)
             : base(leftSide, rightSide)
         {
-            if (equals)
+            if (leftSide == null)
+                throw new ArgumentNullException("leftSide");
+            else if (rightSide == null)
+                throw new ArgumentNullException("rightSide");
+            else if (equals)
                 this.operation = CSharpInequalityOperation.Equality;
             else
                 this.operation = CSharpInequalityOperation.Inequality;
@@ -107,9 +111,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
             set
             {
                 if (LeftSide == null && value != CSharpInequalityOperation.Term)
-                    throw new ArgumentException("Operation must be 'Term' on non-binary expression.");
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ArgumentExceptionMessage.OperationMustBeTerm);
                 else if (LeftSide != null && value == CSharpInequalityOperation.Term)
-                    throw new ArgumentException("Binary operations cannot be a term.");
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ArgumentExceptionMessage.CannotTermBinaryOperation);
                 switch (value)
                 {
                     case CSharpInequalityOperation.Term:

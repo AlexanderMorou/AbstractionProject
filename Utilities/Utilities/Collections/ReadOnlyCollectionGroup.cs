@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 throw new ArgumentNullException("collections");
             for (int i = 0; i < collections.Length; i++)
                 if (collections[i] == null)
-                    throw new ArgumentException("an element of collections was null.", "collections");
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.collections, ArgumentExceptionMessage.MemberOfSeriesNull, ThrowHelper.GetArgumentName(ArgumentWithException.collections));
             this.collections = (IControlledStateCollection[])collections.Clone();
         }
         #region IControlledStateCollection<TItem> Members
@@ -53,10 +53,10 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         public void CopyTo(TItem[] array, int arrayIndex = 0)
         {
             IControlledStateCollection current = this.collections[0];
-            for (int i = 0, offset = 0, len = this.collections.Length; i < this.collections.Length; current = (i+1) < len ?  this.collections[++i] : null, offset += current.Count)
+            for (int i = 0, offset = 0, len = this.collections.Length; i < this.collections.Length; current = (i + 1) < len ? this.collections[++i] : null, offset += current.Count)
             {
                 if (offset + current.Count > array.Length)
-                    throw new ArgumentException("array not large enough to hold elements.", "array");
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.array, ArgumentExceptionMessage.InsufficientSpaceForCopy, ThrowHelper.GetArgumentName(ArgumentWithException.array));
                 current.CopyTo(array, offset);
             }
         }
@@ -65,19 +65,13 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             get
             {
-                if (index < 0 ||
-                    index >= this.Count)
+                if (index < 0 || index >= this.Count)
                     throw new ArgumentOutOfRangeException("index");
-                for (
-                        int i = 0,
-                        rangeStart = 0,
+                for (int i = 0, rangeStart = 0,
                         rangeEnd = (this.collections.Length > 0) ?
                             this.collections[0].Count : 0;
                         i < this.collections.Length;
-                        rangeStart = rangeEnd,
-                        i++,
-                        rangeEnd += (i < this.collections.Length)
-                            ? this.collections[i].Count : 0)
+                        rangeStart = rangeEnd, i++, rangeEnd += (i < this.collections.Length) ? this.collections[i].Count : 0)
                 {
                     if (index >= rangeStart && index < rangeEnd)
                         return (TItem)collections[i][index - rangeStart];

@@ -191,7 +191,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             bool IControlledStateCollection.Contains(object item)
             {
                 if (!(item is TValue))
-                    throw new ArgumentException("item");
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.item, ArgumentExceptionMessage.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.item), item.GetType().ToString(), typeof(TValue).GetType().ToString());
                 return this.Contains((TValue)item);
             }
 

@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             : base(underlyingSystemType)
         {
             if (!underlyingSystemType.IsEnum)
-                throw new ArgumentException("Not a {0} type", "underlyingSystemType");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.underlyingSystemType, ArgumentExceptionMessage.CompiledType_NotProperKind, "enum");
         }
 
         private IFieldMemberDictionary<IEnumFieldMember, IEnumType> InitializeFields()

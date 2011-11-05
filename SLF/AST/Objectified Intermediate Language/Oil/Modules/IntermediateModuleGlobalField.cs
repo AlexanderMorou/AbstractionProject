@@ -69,7 +69,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
             set
             {
                 PrivateImplementationDetails piDetails = this.PIDetails;
-                if (value==null)
+                if (value == null)
                     throw new ArgumentNullException("data cannot be null");
                 if (value.Length == 0)
                     throw new ArgumentException("data cannot be empty.");

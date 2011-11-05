@@ -37,19 +37,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.parent = parent;
             attributeWrappers = new ICustomAttributeInstance[parentRelationships.Count];
         }
-
-        public CompiledTypeCustomAttributeCollection(ICustomAttributedDeclaration parent, Attribute[] attributes)
-        {
-            if (parent == null)
-                throw new ArgumentNullException("parent");
-            if (attributes == null)
-                throw new ArgumentNullException("attributes");
-            if (!(parent is IType))
-                throw new ArgumentException("attributes");
-            this.parent = parent;
-            attributeWrappers = new ICustomAttributeInstance[attributes.Length];
-        }
-
+        
         #region IDisposable Members
 
         public void Dispose()

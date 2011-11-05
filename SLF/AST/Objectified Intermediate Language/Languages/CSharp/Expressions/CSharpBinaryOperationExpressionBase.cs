@@ -48,7 +48,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
 
         protected CSharpBinaryOperationExpressionBase(TRight term)
         {
-            this.rightSide = term;
+            if (this.Associativity == BinaryOperationAssociativity.Left)
+                this.rightSide = term;
+            else
+                this.leftSide = term;
         }
 
         #region IBinaryOperationExpression<TLeft,TRight> Members

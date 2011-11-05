@@ -57,8 +57,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             //Obtain the method call parameters.
             var ctorParameters = ctor.GetParameters();
             if (delegateTypes.Length != ctorParameters.Length)
-
-                throw new ArgumentException(Resources.AE_DelegateTypeParameterMismatch, "ctor");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.ctor, ArgumentExceptionMessage.DelegateTypeParameterMismatch);
 
             var optimizedCtor = new DynamicMethod(string.Format(".ctor@{0}({1})", ctor.DeclaringType.Name, GetStringFormSignature(delegateTypes)), delegateInvoke.ReturnType, delegateTypes, ctor.DeclaringType, true);
             int argIndex = 0;
@@ -182,7 +181,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                 }
             }
             else
-                throw new ArgumentException("parameter");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.parameter, ArgumentExceptionMessage.TypeMustBeGenericParameter);
         yieldNone:
             if ((parameter.GenericParameterAttributes & GenericParameterAttributes.DefaultConstructorConstraint) == GenericParameterAttributes.DefaultConstructorConstraint)
                 return new ConstructorInfo [] { new GenericParameterDefaultConstructorConstraint(parameter) };
@@ -210,7 +209,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                 }
             }
             else
-                throw new ArgumentException("parameter");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.parameter, ArgumentExceptionMessage.TypeMustBeGenericParameter);
         yieldNone:
             return new MethodInfo[0];
         }
@@ -238,7 +237,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                 }
             }
             else
-                throw new ArgumentException("parameter");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.parameter, ArgumentExceptionMessage.TypeMustBeGenericParameter);
         yieldNone:
             return new PropertyInfo[0];
         }
@@ -265,7 +264,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                         select indexer).ToArray();
             }
             else
-                throw new ArgumentException("parameter");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.parameter, ArgumentExceptionMessage.TypeMustBeGenericParameter);
         yieldNone:
             return new PropertyInfo[0];
         }
@@ -291,8 +290,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                 }
             }
             else
-                throw new ArgumentException("parameter");
-            yieldNone:
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.parameter, ArgumentExceptionMessage.TypeMustBeGenericParameter);
+        yieldNone:
             return new EventInfo[0];
         }
 

@@ -13,7 +13,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Defines generic properties and methods for working with
     /// a type which can be coerced in special expression contexts.
     /// </summary>
-    /// <typeparam name="TType">The type of <see cref="ICoercibleType{TType}"/>
+    /// <typeparam name="TType">The type of <see cref="ICoercibleType{TTypeIdentifier, TType}"/>
     /// that needs the coercion members.</typeparam>
     public interface ICoercibleType<TTypeIdentifier, TType> :
         ICoercibleType<ITypeCoercionUniqueIdentifier, TTypeIdentifier, ITypeCoercionMember<TTypeIdentifier, TType>, TType>,

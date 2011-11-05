@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TMember :
             IMember<TMemberIdentifier, TParent>
         where TIntermediateMember :
-            IIntermediateMember<TParent, TMemberIdentifier, TIntermediateParent>,
+            IIntermediateMember<TMemberIdentifier, TParent, TIntermediateParent>,
             TMember
     {
         /// <summary>
@@ -93,7 +93,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region IIntermediateMemberDictionary Members
 
-        public bool Remove(string uniqueId)
+        public bool Remove(TMemberIdentifier uniqueId)
         {
             if (!this.ContainsKey(uniqueId))
                 throw new KeyNotFoundException();
@@ -110,7 +110,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 throw new ArgumentNullException("member");
             if (!this.Values.Contains(member))
                 throw new ArgumentException("member");
-            return this.Remove(member.UniqueIdentifier);
+            var key = this.Keys[this.Values.IndexOf(member)];
+            return this.Remove(key);
         }
 
         bool IIntermediateMemberDictionary.Remove(IIntermediateMember member)

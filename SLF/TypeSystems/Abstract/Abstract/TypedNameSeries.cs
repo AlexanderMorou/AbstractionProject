@@ -55,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             this.data = new TypedName[data.Length];
             for (int i = 0; i < data.Length; i++)
                 if (data[i].Source == TypedNameSource.InvalidReference)
-                    throw new ArgumentException("Invalid reference in a member of the data.", "data");
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.data, ArgumentExceptionMessage.TypedName_InvalidElement, ThrowHelper.GetArgumentName(ArgumentWithException.data));
                 else
                     this.data[i] = data[i];
             actualLength = data.Length;
@@ -175,7 +175,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             if (this.data == null)
                 this.data = new TypedName[1];
             if (value.Source == TypedNameSource.InvalidReference)
-                throw new ArgumentException("value");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ArgumentExceptionMessage.TypedName_Invalid, ThrowHelper.GetArgumentName(ArgumentWithException.value));
             this.data = this.data.EnsureSpaceExists(this.actualLength, 1);
             this.data[this.actualLength++] = value;
         }
@@ -196,7 +196,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             this.data = this.data.EnsureSpaceExists(this.actualLength, data.Length);
             for (int i = 0; i < data.Length; i++)
                 if (data[i].Source == TypedNameSource.InvalidReference)
-                    throw new ArgumentException("Invalid reference in a member of the data.", "data");
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.data, ArgumentExceptionMessage.TypedName_InvalidElement, ThrowHelper.GetArgumentName(ArgumentWithException.data));
                 else
                     this.data[this.actualLength++] = data[i];
         }

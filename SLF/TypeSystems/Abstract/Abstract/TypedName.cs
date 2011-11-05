@@ -268,7 +268,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         public static implicit operator KeyValuePair<string, IType>(TypedName typedName)
         {
             if (typedName.Source != TypedNameSource.TypeReference)
-                throw new ArgumentException("Invalid reference, Source must be a TypeReference.", "typedName");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.typedName, ArgumentExceptionMessage.TypedName_ReferenceKind, "Source", TypedNameSource.TypeReference.ToString());
             return new KeyValuePair<string, IType>(typedName.Name, typedName.TypeReference);
         }
 
