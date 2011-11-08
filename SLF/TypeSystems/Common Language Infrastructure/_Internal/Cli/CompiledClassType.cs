@@ -46,7 +46,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             : base(underlyingSystemType)
         {
             if (!underlyingSystemType.IsClass)
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.underlyingSystemType, ArgumentExceptionMessage.CompiledType_NotProperKind, "class");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.underlyingSystemType, ExceptionMessageId.CompiledType_NotProperKind, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.@class));
         }
 
         /// <summary>
@@ -188,10 +188,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             if (attributeType == null)
                 throw new ArgumentNullException("attributeType");
-            foreach (ICustomAttributeInstance icai in this.CustomAttributes)
-                if (attributeType.IsAssignableFrom(icai.Type))
-                    if (icai.DeclarationPoint == this ||
-                        inherit)
+            foreach (ICustomAttributeInstance attributeInstance in this.CustomAttributes)
+                if (attributeType.IsAssignableFrom(attributeInstance.Type))
+                    if (inherit || attributeInstance.DeclarationPoint == this)
                         return true;
             return false;
         }
@@ -201,7 +200,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return (IClassType)base.BaseType; }
         }
         #endregion
-
 
         protected override TypeKind TypeImpl
         {

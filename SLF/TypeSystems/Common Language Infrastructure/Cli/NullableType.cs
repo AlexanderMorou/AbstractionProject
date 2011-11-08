@@ -53,11 +53,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 throw new ArgumentNullException("elementType");
             if (!(elementType.ElementClassification == TypeElementClassification.None ||
                   elementType.ElementClassification == TypeElementClassification.GenericTypeDefinition))
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.elementType, ArgumentExceptionMessage.NonNullableTypeProvided);
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.elementType, ExceptionMessageId.NonNullableTypeProvided);
             if (elementType.Type != TypeKind.Struct &&
                 !(elementType is IGenericParameter &&
                   ((IGenericParameter)(elementType)).SpecialConstraint == GenericTypeParameterSpecialConstraint.Struct))
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.elementType, ArgumentExceptionMessage.TypeMustNotBeAReferenceType);
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.elementType, ExceptionMessageId.TypeMustNotBeAReferenceType);
             this.elementType = elementType; 
         }
 

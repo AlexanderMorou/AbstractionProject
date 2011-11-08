@@ -30,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TCoercionParent :
             ICoercibleType<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
         where TIntermediateCoercionParent :
-            IIntermediateCoercibleType<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, IIntermediateBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParentIdentifier, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>,
+            IIntermediateCoercibleType<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, IIntermediateBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>,
             TCoercionParent
     {
     }

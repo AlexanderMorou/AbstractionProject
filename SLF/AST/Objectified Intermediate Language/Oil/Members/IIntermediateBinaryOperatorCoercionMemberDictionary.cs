@@ -25,8 +25,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TCoercionParent :
             ICoercibleType<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
         where TIntermediateCoercionParent :
-            TCoercionParent,
-            IIntermediateCoercibleType<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, IIntermediateBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>
+            IIntermediateCoercibleType<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, IIntermediateBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>,
+            TCoercionParent
     {
         /// <summary>
         /// Adds a <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/>, to the

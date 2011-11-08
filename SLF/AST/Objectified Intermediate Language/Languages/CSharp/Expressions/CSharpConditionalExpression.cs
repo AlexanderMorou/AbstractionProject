@@ -212,7 +212,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
                     if (result is ICSharpLogicalOrExpression)
                         this.CheckPart = (ICSharpLogicalOrExpression)result;
                     else
-                        throw new ArgumentException("value");
+                        throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ExceptionMessageId.ProvidedExpressionCannotBe, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.cs_logical_or));
                 }
             }
         }
@@ -233,7 +233,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
                     if (result is ICSharpConditionalExpression)
                         this.TruePart = (ICSharpConditionalExpression)result;
                     else
-                        throw new ArgumentException("value");
+                        throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ExceptionMessageId.ProvidedExpressionCannotBe, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.cs_conditional));
                 }
             }
         }
@@ -254,7 +254,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
                     if (result is ICSharpConditionalExpression)
                         this.FalsePart = (ICSharpConditionalExpression)result;
                     else
-                        throw new ArgumentException("value");
+                        throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ExceptionMessageId.ProvidedExpressionCannotBe, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.cs_conditional));
                 }
             }
         }

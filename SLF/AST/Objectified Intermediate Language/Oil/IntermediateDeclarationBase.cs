@@ -69,8 +69,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
             var oldIdentifier = this.UniqueIdentifier;
             this.name = value;
-            if (!oldIdentifier.Equals(newIdentifier))
-                this.OnIdentifierChanged(oldIdentifier, DeclarationChangeCause.Name);
+            this.OnIdentifierChanged(oldIdentifier, DeclarationChangeCause.Name);
         }
 
         /// <summary>

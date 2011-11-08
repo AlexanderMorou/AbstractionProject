@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Modules
     /// instances for an <see cref="IAssembly"/>.
     /// </summary>
     public interface IModuleDictionary :
-        IControlledStateDictionary<string, IModule>
+        IControlledStateDictionary<IGeneralDeclarationUniqueIdentifier, IModule>
     {
         /// <summary>
         /// Returns the <see cref="IAssembly"/> that contains the <see cref="IModuleDictionary"/>.

@@ -64,8 +64,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public void Add(IIntermediateAssembly part)
             {
-                if (part.IsRoot || part.GetRoot() != this.Root)
-                    throw new ArgumentException("part");
+                if (part.IsRoot)
+                    if (part == this.Root)
+                        throw ThrowHelper.ObtainArgumentException(ArgumentWithException.part, ExceptionMessageId.Part_CannotBeRoot, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.assembly));
+                    else
+                        throw ThrowHelper.ObtainArgumentException(ArgumentWithException.part, ExceptionMessageId.Part_RootOfASeparateSeries, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.assembly));
+                if (part.GetRoot() != this.Root)
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.part, ExceptionMessageId.Part_MustReferenceRoot, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.assembly));
                 base.AddImpl(part);
             }
 

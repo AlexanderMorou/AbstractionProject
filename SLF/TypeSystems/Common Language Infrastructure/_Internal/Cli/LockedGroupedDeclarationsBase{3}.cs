@@ -219,7 +219,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         TMItem _LockedGroupDeclarationsMasterPass<TMItemIdentifier, TMItem>.Fetch(object source)
         {
             if (!(source is TSourceItem))
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.source, ArgumentExceptionMessage.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.source), source.GetType().ToString(), typeof(TSourceItem).ToString());
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.source, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.source), source.GetType().ToString(), typeof(TSourceItem).ToString());
             for (int i = 0; i < this.sourceData.Length; i++)
                 if (this.sourceData[i] == source)
                     return this.Values[i];
@@ -229,7 +229,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         TMItemIdentifier _LockedGroupDeclarationsMasterPass<TMItemIdentifier, TMItem>.FetchKey(object source)
         {
             if (!(source is TSourceItem))
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.source, ArgumentExceptionMessage.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.source), source.GetType().ToString(), typeof(TSourceItem).ToString());
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.source, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.source), source.GetType().ToString(), typeof(TSourceItem).ToString());
             for (int i = 0; i < this.sourceData.Length; i++)
                 if (this.sourceData[i] == source)
                     return this.Keys[i];
@@ -333,7 +333,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return -1;
             if (decl is TItem)
                 return this.IndexOf((TItem)(decl));
-            throw ThrowHelper.ObtainArgumentException(ArgumentWithException.decl, ArgumentExceptionMessage.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.decl), decl.GetType().ToString(), typeof(TItem).ToString());
+            throw ThrowHelper.ObtainArgumentException(ArgumentWithException.decl, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.decl), decl.GetType().ToString(), typeof(TItem).ToString());
         }
 
         public int IndexOf(TItem decl)

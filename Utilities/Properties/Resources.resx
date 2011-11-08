@@ -172,7 +172,8 @@
     <value />
   </data>
   <data name="AE_ManifestModuleTarget" xml:space="preserve">
-    <value />
+    <value>Target manifest module must belong to the current assembly.</value>
+    <comment>Relates to ArgumentExceptionMessage.ManifestModuleTarget.</comment>
   </data>
   <data name="AE_MemberOfSeriesNull" xml:space="preserve">
     <value>A member of {0} was null.</value>
@@ -206,25 +207,31 @@
     <value />
   </data>
   <data name="AE_Part_CannotBeRoot" xml:space="preserve">
-    <value />
+    <value>Root {0} instance of the series is implicitly a part of the series, adding it to the {0} part collection is unnecessary.</value>
+    <comment>Relates to ArgumentExceptionMessage.Part_CannotBeRoot.</comment>
   </data>
   <data name="AE_Part_MustReferenceRoot" xml:space="preserve">
-    <value />
+    <value>Adding a part to the series of a(n) {0} requires that the new {0} part reference the root {0} of the series.</value>
+    <comment>Relates to ArgumentExceptionMessage.Part_MustReferenceRoot.</comment>
   </data>
   <data name="AE_PathCannotBeDotsOnly" xml:space="preserve">
     <value />
   </data>
   <data name="AE_Primitive_Invalid" xml:space="preserve">
-    <value />
+    <value>Cannot have primitive values of any other type than listed in the PrimitiveType enum.</value>
+    <comment>Relates to ArgumentExceptionMessage.Primitive_Primitive_Invalid.</comment>
   </data>
   <data name="AE_Primitive_NonStringObject" xml:space="preserve">
-    <value />
+    <value>Cannot have object primitives of anything other than string.</value>
+    <comment>Relates to ArgumentExceptionMessage.Primitive_NonStringObject.</comment>
   </data>
   <data name="AE_ProvidedExpressionCannotBe" xml:space="preserve">
-    <value />
+    <value>The provided expression '{0}' cannot be affixed into a(n) {1} expression.</value>
+    <comment>Relates to ArgumentExceptionMessage.ProvidedExpressionCannotBe.</comment>
   </data>
   <data name="AE_RelationalInvalidOnExpression" xml:space="preserve">
-    <value />
+    <value>Cannot relationally check a type against another expression.</value>
+    <comment>Relates to ArgumentExceptionMessage.RelationalInvalidOnExpression.</comment>
   </data>
   <data name="AE_RemoveFailed_CustomAttributeNotFound" xml:space="preserve">
     <value />
@@ -257,7 +264,8 @@
     <comment>Relates to ArgumentExceptionMessage.TransitionKeyCollision.</comment>
   </data>
   <data name="AE_TypeAlreadyGenericClosure" xml:space="preserve">
-    <value />
+    <value>The provided type '{0}' is already a generic closure, retrieve the generic definition prior to making a new closure.</value>
+    <comment>Relates to ArgumentExceptionMessage.TypeAlreadyGenericClosure.</comment>
   </data>
   <data name="AE_TypedName_ImplicitConversion" xml:space="preserve">
     <value />
@@ -356,5 +364,21 @@
   <data name="AE_TypeMustNotBeAReferenceType" xml:space="preserve">
     <value>The type provided is a reference type, only value types (structs) are allowed.</value>
     <comment>Relates to ArgumentExceptionMessage.TypeMustNotBeAReferenceType.</comment>
+  </data>
+  <data name="AE_TypeRelationalCheckRequiresType" xml:space="preserve">
+    <value>Type-relational checks require a type on the {0}.</value>
+    <comment>Relates to ArgumentExceptionMessage.TypeRelationalCheckRequiresType.</comment>
+  </data>
+  <data name="AE_TypeRelationalTypeCannotBeNull" xml:space="preserve">
+    <value>Type-relational check invalid.  Target type on the type reference expression cannot be null.</value>
+    <comment>Relates to ArgumentExceptionMessage.TypeRelationalTypeCannotBeNull.</comment>
+  </data>
+  <data name="AE_TypeRelationalOrNullCastMustBeReference" xml:space="preserve">
+    <value>Type-Cast (or null) expression requires a reference type to work.</value>
+    <comment>Relates to ArgumentExceptionMessage.TypeRelationalOrNullCastMustBeReference.</comment>
+  </data>
+  <data name="AE_Part_RootOfASeparateSeries" xml:space="preserve">
+    <value>The {0} part provided is the root of another {0} and cannot be added to this sequence.</value>
+    <comment>Relates to ArgumentExceptionMessage.Part_RootOfASeparateSeries.</comment>
   </data>
 </root>

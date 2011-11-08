@@ -258,7 +258,7 @@ namespace AllenCopeland.Abstraction.Utilities.Common
             for (int i = 0; i < lengths.Length; len += lengths[i++])
                 ;
             if (len != target.Length)
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.target, ArgumentExceptionMessage.SourceStringInvalid, ThrowHelper.GetArgumentName(ArgumentWithException.target));
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.target, ExceptionMessageId.SourceStringInvalid, ThrowHelper.GetArgumentName(ArgumentWithException.target));
             string[] result = new string[lengths.Length];
             for (int i = 0, position = 0; i < lengths.Length; )
             {

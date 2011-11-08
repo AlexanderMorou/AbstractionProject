@@ -67,7 +67,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             if (name == null)
                 throw new ArgumentNullException("name");
             if (name == string.Empty)
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.name, ArgumentExceptionMessage.ArgumentCannotBeEmpty, ThrowHelper.GetArgumentName(ArgumentWithException.name));
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.name, ExceptionMessageId.ArgumentCannotBeEmpty, ThrowHelper.GetArgumentName(ArgumentWithException.name));
             return new TypedName(name, type);
         }
 
@@ -95,7 +95,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             if (typeParameters == null)
                 throw new ArgumentNullException("typeParameters");
             if (name == string.Empty)
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.name, ArgumentExceptionMessage.ArgumentCannotBeEmpty, ThrowHelper.GetArgumentName(ArgumentWithException.name));
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.name, ExceptionMessageId.ArgumentCannotBeEmpty, ThrowHelper.GetArgumentName(ArgumentWithException.name));
             if (type.IsGenericConstruct && type is IGenericType)
             {
                 if (type.IsGenericConstruct && !((IGenericType)(type)).IsGenericDefinition)
@@ -104,7 +104,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     type = ((IGenericType)(type)).MakeGenericClosure(typeParameters.ToCollection());
             }
             else if (typeParameters.Length == 0)
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.typeParameters, ArgumentExceptionMessage.TypeNotGeneric);
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.typeParameters, ExceptionMessageId.TypeNotGeneric);
             return new TypedName(name, type);
         }
 
@@ -354,7 +354,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             if (array == null)
                 throw new ArgumentNullException("array");
             if (array.ElementClassification != TypeElementClassification.Array)
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.array, ArgumentExceptionMessage.ElementTypeMustBeGivenKind, ThrowHelper.GetArgumentName(ArgumentWithException.array), TypeElementClassification.Array.ToString());
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.array, ExceptionMessageId.ElementTypeMustBeGivenKind, ThrowHelper.GetArgumentName(ArgumentWithException.array), TypeElementClassification.Array.ToString());
             IType lastType = array;
             while (lastType != null && lastType.ElementClassification == TypeElementClassification.Array)
                 lastType = lastType.ElementType;

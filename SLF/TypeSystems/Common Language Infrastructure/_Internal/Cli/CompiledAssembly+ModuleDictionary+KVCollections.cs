@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Modules;
+using System.Reflection;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -18,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         partial class ModuleDictionary
         {
             private new sealed class KeysCollection :
-                ControlledStateDictionary<string, IModule>.KeysCollection
+                ControlledStateDictionary<IGeneralDeclarationUniqueIdentifier, IModule>.KeysCollection
             {
                 private ModuleDictionary owner;
 
@@ -32,64 +36,64 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 {
                     get
                     {
-                        return this.owner.moduleData.Length;
+                        return this.owner.identifierCopy.Length;
                     }
                 }
-                public override bool Contains(string item)
+                public override bool Contains(IGeneralDeclarationUniqueIdentifier item)
                 {
+                    if (item == null)
+                        throw new ArgumentNullException(ThrowHelper.GetArgumentName(ArgumentWithException.item));
                     for (int i = 0; i < this.Count; i++)
-                        if (this.owner.moduleData[i].Name == item)
+                        if (this.owner.identifierCopy[i].Equals(item))
                             return true;
                     return false;
                 }
 
-                public override int IndexOf(string key)
+                public override int IndexOf(IGeneralDeclarationUniqueIdentifier key)
                 {
+                    if (key == null)
+                        throw new ArgumentNullException(ThrowHelper.GetArgumentName(ArgumentWithException.key));
                     for (int i = 0; i < this.Count; i++)
-                        if (this.owner.moduleData[i].Name == key)
+                        if (this.owner.identifierCopy[i].Equals(key))
                             return i;
                     return -1;
                 }
 
-                protected override string OnGetKey(int index)
+                protected override IGeneralDeclarationUniqueIdentifier OnGetKey(int index)
                 {
                     if (index < 0 || index >= this.Count)
                         throw new ArgumentOutOfRangeException("index");
-                    return this.owner.moduleData[index].Name;
+                    return this.owner.identifierCopy[index];
                 }
 
-                public override void CopyTo(string[] array, int arrayIndex = 0)
+                public override void CopyTo(IGeneralDeclarationUniqueIdentifier[] array, int arrayIndex = 0)
                 {
                     if (this.Count == 0)
                         return;
-                    if (arrayIndex < 0 || arrayIndex >= array.Length)
-                        throw new ArgumentOutOfRangeException("arrayIndex");
-                    if (this.Count + arrayIndex > array.Length)
+                    if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
                         throw new ArgumentOutOfRangeException("arrayIndex");
                     for (int i = 0; i < this.Count; i++)
-                        array[i + arrayIndex] = this.owner.moduleData[i].Name;
+                        array[i + arrayIndex] = this.owner.identifierCopy[i];
                 }
 
-                public override string[] ToArray()
+                public override IGeneralDeclarationUniqueIdentifier[] ToArray()
                 {
-                    string[] result = new String[this.Count];
+                    IGeneralDeclarationUniqueIdentifier[] result = new IGeneralDeclarationUniqueIdentifier[this.Count];
                     this.CopyTo(result);
                     return result;
                 }
 
-                public override IEnumerator<string> GetEnumerator()
+                public override IEnumerator<IGeneralDeclarationUniqueIdentifier> GetEnumerator()
                 {
-                    foreach (var module in this.owner.moduleData)
-                        yield return module.Name;
+                    foreach (var moduleIdentifier in this.owner.identifierCopy)
+                        yield return moduleIdentifier;
                 }
 
                 protected override void GeneralCopyTo(Array array, int arrayIndex)
                 {
                     if (this.Count == 0)
                         return;
-                    if (arrayIndex < 0 || arrayIndex >= array.Length)
-                        throw new ArgumentOutOfRangeException("arrayIndex");
-                    if (this.Count + arrayIndex > array.Length)
+                    if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
                         throw new ArgumentOutOfRangeException("arrayIndex");
                     for (int i = 0; i < this.Count; i++)
                         array.SetValue(this.owner.moduleData[i].Name, i + arrayIndex);
@@ -97,7 +101,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
 
             private new sealed class ValuesCollection :
-                ControlledStateDictionary<string, IModule>.ValuesCollection
+                ControlledStateDictionary<IGeneralDeclarationUniqueIdentifier, IModule>.ValuesCollection
             {
                 private ModuleDictionary owner;
 
@@ -117,12 +121,42 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
                 public override bool Contains(IModule item)
                 {
-                    if (!this.owner.Keys.Contains(item.Name))
+                    if (item == null)
+                        throw new ArgumentNullException(ThrowHelper.GetArgumentName(ArgumentWithException.item));
+                    if (!this.owner.Keys.Contains(item.UniqueIdentifier))
                         return false;
+                    var iCompiledItem = item as ICompiledModule;
+                    CompiledModule compiledItem;
+                    Module cliModule;
+                    if (iCompiledItem != null)
+                    {
+                        compiledItem = iCompiledItem as CompiledModule;
+                        cliModule = iCompiledItem.UnderlyingModule;
+                    }
+                    else
+                    {
+                        compiledItem = null;
+                        cliModule = null;
+                    }
                     for (int i = 0; i < this.Count; i++)
-                        if (this.owner.moduleCopy[i] != null && 
-                            this.owner.moduleCopy[i] == item)
-                            return true;
+                    {
+                        if (this.owner.moduleCopy[i] != null)
+                        {
+                            if (this.owner.moduleCopy[i] == item)
+                                return true;
+                            else if (this.owner.moduleData[i] == cliModule)
+                                return true;
+                        }
+                        else
+                        {
+                            if (this.owner.moduleData[i] == cliModule)
+                            {
+                                if (compiledItem != null)
+                                    this.owner.moduleCopy[i] = compiledItem;
+                                return true;
+                            }
+                        }
+                    }
                     return false;
                 }
 
@@ -141,13 +175,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     }
                 }
 
-                public override int IndexOf(IModule element)
+                public override int IndexOf(IModule item)
                 {
-                    if (!this.owner.Keys.Contains(element.Name))
+                    if (!this.owner.Keys.Contains(item.UniqueIdentifier))
                         return -1;
+                    int index = this.owner.Keys.IndexOf(item.UniqueIdentifier);
                     for (int i = 0; i < this.Count; i++)
                         if (this.owner.moduleCopy[i] != null &&
-                            this.owner.moduleCopy[i] == element)
+                            this.owner.moduleCopy[i] == item)
                             return i;
                     return -1;
                 }

@@ -137,7 +137,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     {
                         if (this.IsDisposed)
                             throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                        this.parts = new IntermediateSegmentableTypePartCollection<TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType>(((TInstanceIntermediateType)(this)), GetNewPartial);
+                        this.parts = new IntermediateSegmentableTypePartCollection<TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType>(((TInstanceIntermediateType)(this)), GetNewPartial, this.OnGetIdentityName());
                     }
                     return this.parts;
                 }
@@ -145,6 +145,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     return this.GetRoot().Parts;
             }
         }
+        /// <summary>
+        /// Obtains a the <see cref="String"/> value that identifies the 
+        /// sequence as a concept.
+        /// </summary>
+        /// <returns>A <see cref="String"/> value that identifies the 
+        /// sequence as a concept.</returns>
+        protected abstract string OnGetIdentityName();
 
         TIntermediateType IIntermediateSegmentableDeclaration<TTypeIdentifier, TIntermediateType>.GetRoot()
         {

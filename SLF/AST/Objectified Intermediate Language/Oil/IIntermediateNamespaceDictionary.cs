@@ -24,18 +24,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Adds a new <see cref="IIntermediateNamespaceDeclaration"/> to the
         /// <see cref="IIntermediateNamespaceDictionary"/>.
         /// </summary>
-        /// <param name="name">The <see cref="String"/> representing the namespace's
+        /// <param name="path">The <see cref="String"/> representing the namespace's
         /// fully qualified path.</param>
         /// <returns>A new <see cref="IIntermediateNamespaceDeclaration"/>
         /// instance that results from the operation.</returns>
-        /// <remarks>The <paramref name="name"/> is segmented and delimited by periods (Full Stops, U+002E)
+        /// <remarks>The <paramref name="path"/> is segmented and delimited by periods (Full Stops, U+002E)
         /// which make up the invidual sub-namespaces of the <see cref="IIntermediateNamespaceDeclaration"/>
         /// that results.</remarks>
-        /// <exception cref="System.ArgumentException"><paramref name="name"/> exists
-        /// already; or <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
-        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/>
+        /// <exception cref="System.ArgumentException"><paramref name="path"/> exists
+        /// already; or <paramref name="path"/> is <see cref="String.Empty"/>.</exception>
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="path"/>
         /// is null.</exception>
-        IIntermediateNamespaceDeclaration Add(string name);
+        IIntermediateNamespaceDeclaration Add(string path);
         /// <summary>
         /// Adds an existing <see cref="IIntermediateNamespaceDeclaration"/>
         /// instance to the <see cref="IIntermediateNamespaceDictionary"/>.
@@ -49,5 +49,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <see cref="IIntermediateNamespaceDictionary"/>.
         /// </summary>
         new IIntermediateNamespaceParent Parent { get; }
+        /// <summary>
+        /// Returns the <see cref="IIntermediateNamespaceDeclaration"/>
+        /// based off of the <paramref name="path"/> provided.
+        /// </summary>
+        /// <param name="path">The <see cref="String"/> value denoting the
+        /// potentially dotted trail of declaration identifiers that represent
+        /// the path of the <see cref="IIntermediateNamespaceDeclaration"/> to retrieve.</param>
+        /// <returns></returns>
+        IIntermediateNamespaceDeclaration this[string path] { get; }
     }
 }

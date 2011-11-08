@@ -145,7 +145,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                     this.primitiveType = PrimitiveType.Int64;
                     break;
                 case TypeCode.Object:
-                    throw new ArgumentException("Cannot have object primitives of anything other than string.", "value");
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ExceptionMessageId.Primitive_NonStringObject);
                 case TypeCode.SByte:
                     this.primitiveType = PrimitiveType.SByte;
                     break;
@@ -165,7 +165,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
                     this.primitiveType = PrimitiveType.UInt64;
                     break;
                 default:
-                    throw new ArgumentException("Cannot have primitive values of any other type than listed in the PrimitiveType enum.", "value");
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ExceptionMessageId.Primitive_Invalid);
             }
             this.value = value;
         }
@@ -196,8 +196,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
             }
             set
             {
-                if (!(value is T))
-                    throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Must be of type T ({0}).", typeof(T)));
+                if (value != null && !(value is T))
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.value), value.GetType().ToString(), typeof(T).ToString());
+                    //throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Must be of type T ({0}).", typeof(T)));
                 this.value = (T)value;
             }
         }

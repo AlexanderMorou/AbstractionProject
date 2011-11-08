@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 throw new ArgumentNullException("collections");
             for (int i = 0; i < collections.Length; i++)
                 if (collections[i] == null)
-                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.collections, ArgumentExceptionMessage.MemberOfSeriesNull, ThrowHelper.GetArgumentName(ArgumentWithException.collections));
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.collections, ExceptionMessageId.MemberOfSeriesNull, ThrowHelper.GetArgumentName(ArgumentWithException.collections));
             this.collections = (IControlledStateCollection[])collections.Clone();
         }
         #region IControlledStateCollection<TItem> Members
@@ -56,7 +56,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             for (int i = 0, offset = 0, len = this.collections.Length; i < this.collections.Length; current = (i + 1) < len ? this.collections[++i] : null, offset += current.Count)
             {
                 if (offset + current.Count > array.Length)
-                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.array, ArgumentExceptionMessage.InsufficientSpaceForCopy, ThrowHelper.GetArgumentName(ArgumentWithException.array));
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.array, ExceptionMessageId.InsufficientSpaceForCopy, ThrowHelper.GetArgumentName(ArgumentWithException.array));
                 current.CopyTo(array, offset);
             }
         }

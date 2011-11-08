@@ -268,7 +268,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         public static implicit operator KeyValuePair<string, IType>(TypedName typedName)
         {
             if (typedName.Source != TypedNameSource.TypeReference)
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.typedName, ArgumentExceptionMessage.TypedName_ReferenceKind, "Source", TypedNameSource.TypeReference.ToString());
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.typedName, ExceptionMessageId.TypedName_ReferenceKind, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.Source), TypedNameSource.TypeReference.ToString());
             return new KeyValuePair<string, IType>(typedName.Name, typedName.TypeReference);
         }
 

@@ -76,9 +76,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     this.elements[i] = new GenericParameterMember(this.Parent,  i);
             }
 
-            #region IControlledStateDictionary<string,IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> Members
+            #region IControlledStateDictionary<IGenericParameterUniqueIdentifier,IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>> Members
 
-            public IControlledStateCollection<string> Keys
+            public IControlledStateCollection<IGenericParameterUniqueIdentifier> Keys
             {
                 get {
                     if (this.keys == null)
@@ -269,7 +269,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     if (key == null)
                         throw new ArgumentNullException("key");
                     if (!(key is IGenericParameterUniqueIdentifier))
-                        throw new ArgumentException("key");
+                        throw ThrowHelper.ObtainArgumentException(ArgumentWithException.key, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.key), key.GetType().ToString(), typeof(IGenericParameterUniqueIdentifier).ToString());
                     return this[(IGenericParameterUniqueIdentifier)key];
                 }
             }
@@ -279,7 +279,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 if (key == null)
                     throw new ArgumentNullException("key");
                 if (!(key is IGenericParameterUniqueIdentifier))
-                    throw new ArgumentException("key");
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.key, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.key), key.GetType().ToString(), typeof(IGenericParameterUniqueIdentifier).ToString());
                 return this.ContainsKey((IGenericParameterUniqueIdentifier)key);
             }
 
@@ -300,18 +300,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             bool IControlledStateCollection.Contains(object item)
             {
                 if (!(item is KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>))
-                    throw new ArgumentException("item");
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.item, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.item), item.GetType().ToString(), typeof(KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>).ToString());
                 return this.Contains((KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>)(item));
             }
 
             private void SimpleCopyTo(Array array, int arrayIndex)
             {
-                if (arrayIndex < 0)
-                    throw new IndexOutOfRangeException("arrayIndex");
                 if (array == null)
                     throw new ArgumentNullException("array");
-                if (arrayIndex + this.Count > array.Length)
-                    throw new IndexOutOfRangeException("arrayIndex");
+                if (arrayIndex < 0 || arrayIndex + this.Count > array.Length)
+                    throw new ArgumentOutOfRangeException("arrayIndex");
                 for (int i = 0; i < this.Count; i++)
                 {
                     this.CheckItemAt(i);

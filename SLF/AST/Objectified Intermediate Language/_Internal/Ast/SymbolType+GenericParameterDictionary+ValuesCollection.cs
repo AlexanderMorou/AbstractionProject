@@ -45,7 +45,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     if (array == null)
                         throw new ArgumentNullException("array");
                     if (array.Length < this.Count)
-                        throw new ArgumentException("array");
+                        throw ThrowHelper.ObtainArgumentException(ArgumentWithException.array, ExceptionMessageId.InsufficientSpaceForCopy, ThrowHelper.GetArgumentName(ArgumentWithException.array));
                     if (array.Length < this.Count + arrayIndex)
                         throw new ArgumentOutOfRangeException("arrayIndex");
                     for (int i = 0; i < this.Count; i++)
@@ -107,7 +107,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     if (array == null)
                         throw new ArgumentNullException("array");
                     if (array.Length < this.Count)
-                        throw new ArgumentException("array");
+                        throw ThrowHelper.ObtainArgumentException(ArgumentWithException.array, ExceptionMessageId.InsufficientSpaceForCopy, ThrowHelper.GetArgumentName(ArgumentWithException.array));
                     if (array.Length < this.Count + arrayIndex)
                         throw new ArgumentOutOfRangeException("arrayIndex");
                     for (int i = 0; i < this.Count; i++)

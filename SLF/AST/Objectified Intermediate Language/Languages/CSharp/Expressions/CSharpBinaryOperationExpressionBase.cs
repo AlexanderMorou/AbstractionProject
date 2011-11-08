@@ -48,10 +48,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
 
         protected CSharpBinaryOperationExpressionBase(TRight term)
         {
-            if (this.Associativity == BinaryOperationAssociativity.Left)
-                this.rightSide = term;
-            else
-                this.leftSide = term;
+            this.rightSide = term;
         }
 
         #region IBinaryOperationExpression<TLeft,TRight> Members
@@ -127,9 +124,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
             }
             set
             {
-                if (value is TLeft)
+                if (value == null || value is TLeft)
                     this.LeftSide = (TLeft)value;
-                throw new ArgumentException("value");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.value), value.GetType().ToString(), typeof(TLeft).ToString());
             }
         }
 
@@ -141,9 +138,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
             }
             set
             {
-                if (value is TRight)
+                if (value == null || value is TRight)
                     this.RightSide = (TRight)value;
-                throw new ArgumentException("value");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.value), value.GetType().ToString(), typeof(TRight).ToString());
             }
         }
 

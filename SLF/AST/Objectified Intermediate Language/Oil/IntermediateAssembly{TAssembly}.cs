@@ -470,7 +470,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     if (value == null)
                         throw new ArgumentNullException("value");
                     if (value.Parent != this)
-                        throw new ArgumentException("Target manifest module must belong to the current assembly.");
+                        throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ExceptionMessageId.ManifestModuleTarget);
                     this.manifestModule = value;
                 }
                 else

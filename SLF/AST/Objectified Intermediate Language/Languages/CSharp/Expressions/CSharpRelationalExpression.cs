@@ -64,7 +64,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
                     {
                         IExpression detached = rightSide.Detach();
                         if (detached is ITypeReferenceExpression)
-                            throw new ArgumentException("Cannot relationally check a type against another expression.", "rightSide");
+                            throw ThrowHelper.ObtainArgumentException(ArgumentWithException.rightSide, ExceptionMessageId.RelationalInvalidOnExpression);
                         break;
                     }
                 case CSharpRelationalOperation.TypeCheck:
@@ -72,17 +72,17 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
                     {
                         IExpression detached = rightSide.Detach();
                         if (!(detached is ITypeReferenceExpression))
-                            throw new ArgumentException("Type-relational checks require a type on the rightSide.", "rightSide");
+                            throw ThrowHelper.ObtainArgumentException(ArgumentWithException.rightSide, ExceptionMessageId.TypeRelationalCheckRequiresType, ThrowHelper.GetArgumentName(ArgumentWithException.rightSide));
                         ITypeReferenceExpression itre = ((ITypeReferenceExpression)(detached));
                         if (itre.ReferenceType == null)
-                            throw new ArgumentException("Type-relational check invalid.  Target type cannot be null.", "rightSide");
+                            throw ThrowHelper.ObtainArgumentException(ArgumentWithException.rightSide, ExceptionMessageId.TypeRelationalTypeCannotBeNull);
                         if ((!(itre.ReferenceType is IReferenceType)) && (operation == CSharpRelationalOperation.TypeCastOrNull))
-                            throw new ArgumentException("Type-Cast (or null) expression requires a reference type to work.", "rightSide");
+                            throw ThrowHelper.ObtainArgumentException(ArgumentWithException.rightSide, ExceptionMessageId.TypeRelationalOrNullCastMustBeReference);
                         break;
                     }
                 case CSharpRelationalOperation.Term:
                     if (leftSide != null)
-                        throw new ArgumentException("Term is used when leftSide is null", "operation");
+                        throw ThrowHelper.ObtainArgumentException(ArgumentWithException.operation, ExceptionMessageId.CannotTermBinaryOperation);
                     break;
                 default:
                     break;

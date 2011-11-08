@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -19,6 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IntermediateMemberBase<IGeneralMemberUniqueIdentifier, IBlockStatementParent, IBlockStatementParent>,
         ILocalMember
     {
+        private IGeneralMemberUniqueIdentifier uniqueIdentifier;
         private IBoundLocalReferenceExpression singletonLocal = null;
         private ILocalDeclarationStatement singletonDeclaration = null;
         public LocalMember(string name, IBlockStatementParent parent, LocalTypingKind typingMethod)
@@ -97,5 +99,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
          * Examples include symbol types being present within the initialization expression.
          * */
         internal IType InferredType { get; set; }
+
+        public override IGeneralMemberUniqueIdentifier UniqueIdentifier
+        {
+            get
+            {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                return this.uniqueIdentifier;
+            }
+        }
+
+        protected override void OnIdentifierChanged(IGeneralMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+        {
+            if (this.uniqueIdentifier != null)
+                this.uniqueIdentifier = null;
+            base.OnIdentifierChanged(oldIdentifier, cause);
+        }
     }
 }

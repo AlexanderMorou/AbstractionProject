@@ -34,8 +34,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             TIntermediateType
     {
 
-        public IntermediateSegmentableTypePartCollection(TSpecificIntermediateType root, Func<TSpecificIntermediateType, IIntermediateTypeParent, TSpecificIntermediateType> creator)
-            : base(root, new GetNewTHolder(root, creator).GetNewT)
+        public IntermediateSegmentableTypePartCollection(TSpecificIntermediateType root, Func<TSpecificIntermediateType, IIntermediateTypeParent, TSpecificIntermediateType> creator, string identityName)
+            : base(root, new GetNewTHolder(root, creator).GetNewT, identityName)
         {
         }
 

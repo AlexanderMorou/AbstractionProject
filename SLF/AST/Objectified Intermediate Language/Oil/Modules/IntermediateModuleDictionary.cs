@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
 {
     [DebuggerDisplay("Modules: {Count}")]
     public partial class IntermediateModuleDictionary :
-        ControlledStateDictionary<string, IIntermediateModule>,
+        ControlledStateDictionary<IGeneralDeclarationUniqueIdentifier, IIntermediateModule>,
         IIntermediateModuleDictionary,
         IModuleDictionary
     {
@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         public IIntermediateModule Add(string moduleName)
         {
             var result = new IntermediateModule(moduleName, this.assembly);
-            this._Add(moduleName, result);
+            this._Add(result.UniqueIdentifier, result);
             return result;
         }
 
@@ -50,13 +50,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         #endregion
 
 
-        #region IControlledStateDictionary<string,IModule> Members
+        #region IControlledStateDictionary<IGeneralDeclarationUniqueIdentifier,IModule> Members
 
-        IControlledStateCollection<string> IControlledStateDictionary<string, IModule>.Keys
+        IControlledStateCollection<IGeneralDeclarationUniqueIdentifier> IControlledStateDictionary<IGeneralDeclarationUniqueIdentifier, IModule>.Keys
         {
             get { return this.Keys; }
         }
-        IControlledStateCollection<IModule> IControlledStateDictionary<string, IModule>.Values
+        IControlledStateCollection<IModule> IControlledStateDictionary<IGeneralDeclarationUniqueIdentifier, IModule>.Values
         {
             get {
                 if (abstractValueCollection == null)
@@ -65,12 +65,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
             }
         }
 
-        IModule IControlledStateDictionary<string,IModule>.this[string key]
+        IModule IControlledStateDictionary<IGeneralDeclarationUniqueIdentifier,IModule>.this[IGeneralDeclarationUniqueIdentifier key]
         {
             get { return this[key]; }
         }
 
-        bool IControlledStateDictionary<string,IModule>.TryGetValue(string key, out IModule value)
+        bool IControlledStateDictionary<IGeneralDeclarationUniqueIdentifier,IModule>.TryGetValue(IGeneralDeclarationUniqueIdentifier key, out IModule value)
         {
             IIntermediateModule iValue;
             this.TryGetValue(key, out iValue);
@@ -80,39 +80,39 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
 
         #endregion
 
-        #region IControlledStateCollection<KeyValuePair<string,IModule>> Members
+        #region IControlledStateCollection<KeyValuePair<IGeneralDeclarationUniqueIdentifier,IModule>> Members
 
 
-        bool IControlledStateCollection<KeyValuePair<string, IModule>>.Contains(KeyValuePair<string, IModule> item)
+        bool IControlledStateCollection<KeyValuePair<IGeneralDeclarationUniqueIdentifier, IModule>>.Contains(KeyValuePair<IGeneralDeclarationUniqueIdentifier, IModule> item)
         {
             throw new NotImplementedException();
         }
 
-        void IControlledStateCollection<KeyValuePair<string, IModule>>.CopyTo(KeyValuePair<string, IModule>[] array, int arrayIndex)
+        void IControlledStateCollection<KeyValuePair<IGeneralDeclarationUniqueIdentifier, IModule>>.CopyTo(KeyValuePair<IGeneralDeclarationUniqueIdentifier, IModule>[] array, int arrayIndex)
         {
             if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
                 throw new ArgumentOutOfRangeException("arrayIndex");
-            ((IControlledStateDictionary<string, IModule>)(this)).ToArray().CopyTo(array, arrayIndex);
+            ((IControlledStateDictionary<IGeneralDeclarationUniqueIdentifier, IModule>)(this)).ToArray().CopyTo(array, arrayIndex);
         }
 
-        KeyValuePair<string, IModule> IControlledStateCollection<KeyValuePair<string, IModule>>.this[int index]
+        KeyValuePair<IGeneralDeclarationUniqueIdentifier, IModule> IControlledStateCollection<KeyValuePair<IGeneralDeclarationUniqueIdentifier, IModule>>.this[int index]
         {
             get {
                 var currentElement = this[index];
-                return new KeyValuePair<string, IModule>(currentElement.Key, currentElement.Value);
+                return new KeyValuePair<IGeneralDeclarationUniqueIdentifier, IModule>(currentElement.Key, currentElement.Value);
             }
         }
 
-        KeyValuePair<string, IModule>[] IControlledStateCollection<KeyValuePair<string,IModule>>.ToArray()
+        KeyValuePair<IGeneralDeclarationUniqueIdentifier, IModule>[] IControlledStateCollection<KeyValuePair<IGeneralDeclarationUniqueIdentifier,IModule>>.ToArray()
         {
-            KeyValuePair<string, IModule>[] result = new KeyValuePair<string,IModule>[this.Count];
+            KeyValuePair<IGeneralDeclarationUniqueIdentifier, IModule>[] result = new KeyValuePair<IGeneralDeclarationUniqueIdentifier,IModule>[this.Count];
             var currentSet = this.ToArray();
             for (int i = 0; i < this.Count; i++)
-                result[i] = new KeyValuePair<string, IModule>(currentSet[i].Key, currentSet[i].Value);
+                result[i] = new KeyValuePair<IGeneralDeclarationUniqueIdentifier, IModule>(currentSet[i].Key, currentSet[i].Value);
             return result;
         }
 
-        int IControlledStateCollection<KeyValuePair<string, IModule>>.IndexOf(KeyValuePair<string, IModule> element)
+        int IControlledStateCollection<KeyValuePair<IGeneralDeclarationUniqueIdentifier, IModule>>.IndexOf(KeyValuePair<IGeneralDeclarationUniqueIdentifier, IModule> element)
         {
             int kIndex = this.Keys.IndexOf(element.Key);
             if (kIndex == -1)
@@ -124,12 +124,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
 
         #endregion
 
-        #region IEnumerable<KeyValuePair<string,IModule>> Members
+        #region IEnumerable<KeyValuePair<IGeneralDeclarationUniqueIdentifier,IModule>> Members
 
-        IEnumerator<KeyValuePair<string, IModule>> IEnumerable<KeyValuePair<string, IModule>>.GetEnumerator()
+        IEnumerator<KeyValuePair<IGeneralDeclarationUniqueIdentifier, IModule>> IEnumerable<KeyValuePair<IGeneralDeclarationUniqueIdentifier, IModule>>.GetEnumerator()
         {
             foreach (var kvp in this)
-                yield return new KeyValuePair<string, IModule>(kvp.Key, kvp.Value);
+                yield return new KeyValuePair<IGeneralDeclarationUniqueIdentifier, IModule>(kvp.Key, kvp.Value);
         }
 
         #endregion

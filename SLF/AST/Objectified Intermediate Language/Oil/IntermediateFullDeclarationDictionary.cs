@@ -45,10 +45,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        public new IEnumerator<KeyValuePair<string, MasterDictionaryEntry<TIntermediateDeclaration>>> GetEnumerator()
+        public new IEnumerator<KeyValuePair<TIdentifier, MasterDictionaryEntry<TIntermediateDeclaration>>> GetEnumerator()
         {
-            foreach (var item in ((IEnumerable<KeyValuePair<string, MasterDictionaryEntry<TDeclaration>>>)(this)))
-                yield return new KeyValuePair<string, MasterDictionaryEntry<TIntermediateDeclaration>>(item.Key, new MasterDictionaryEntry<TIntermediateDeclaration>(item.Value.Subordinate, ((TIntermediateDeclaration)(item.Value.Entry))));
+            foreach (var item in ((IEnumerable<KeyValuePair<TIdentifier, MasterDictionaryEntry<TDeclaration>>>)(this)))
+                yield return new KeyValuePair<TIdentifier, MasterDictionaryEntry<TIntermediateDeclaration>>(item.Key, new MasterDictionaryEntry<TIntermediateDeclaration>(item.Value.Subordinate, ((TIntermediateDeclaration)(item.Value.Entry))));
             yield break;
         }
 

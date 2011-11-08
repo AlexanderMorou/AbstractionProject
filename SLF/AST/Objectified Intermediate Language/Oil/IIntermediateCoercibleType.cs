@@ -72,7 +72,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IIntermediateCoercionMember<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent>,
             TCoercion
         where TCoercionParent :
-            ICoercibleType<TCoercion, TCoercionParent>
+            ICoercibleType<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent>
         where TIntermediateCoercionParent :
             IIntermediateCoercibleType<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent>,
             TCoercionParent

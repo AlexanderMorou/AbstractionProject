@@ -243,7 +243,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         public static string ConvertToString(this byte[] source)
         {
             if (source.Length % 2 != 0)
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.source, ArgumentExceptionMessage.SourceStreamInvalidLength);
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.source, ExceptionMessageId.SourceStreamInvalidLength);
 
             char[] r = new char[source.Length / 2];
             for (int i = 0, i2 = 0; i < r.Length; i++, i2 += 2)
