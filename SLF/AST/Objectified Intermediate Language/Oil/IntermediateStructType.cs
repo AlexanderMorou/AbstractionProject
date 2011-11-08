@@ -223,5 +223,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             return new ImplementedInterfacesDictionary((TInstanceIntermediateType)this);
         }
+
+        protected override string OnGetIdentityName()
+        {
+            return ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.@struct);
+        }
+
     }
 }

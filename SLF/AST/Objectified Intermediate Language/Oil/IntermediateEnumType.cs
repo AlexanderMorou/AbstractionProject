@@ -205,5 +205,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                        select f.Name;
             }
         }
+
+        protected override string OnGetIdentityName()
+        {
+            return ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.@enum);
+        }
+
     }
 }

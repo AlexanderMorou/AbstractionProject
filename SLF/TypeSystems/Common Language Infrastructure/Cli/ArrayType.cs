@@ -56,9 +56,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         internal ArrayType(IType elementType, int rank)
         {
             if (elementType.ElementClassification == TypeElementClassification.Reference)
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.elementType, ArgumentExceptionMessage.TypeInvalidElementType, ThrowHelper.GetArgumentExceptionWord(ArgumentExceptionWord.by_reference_type), ThrowHelper.GetArgumentExceptionWord(ArgumentExceptionWord.array));
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.elementType, ExceptionMessageId.TypeInvalidElementType, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.by_reference_type), ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.array));
             if (rank < 1)
-                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.rank, ArgumentExceptionMessage.RankMustBeOneOrGreater, rank.ToString());
+                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.rank, ExceptionMessageId.RankMustBeOneOrGreater, rank.ToString());
             this.rank = rank;
             this.elementType = elementType;
             this.lowerBounds = new int[this.rank];

@@ -106,7 +106,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     if (this.IsDisposed)
                         throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                     if (this.parts == null)
-                        this.parts = new IntermediateSegmentableDeclarationParts<TIdentifier, TDeclaration, TInstDeclaration>((TInstDeclaration)this, GetNewPartial);
+                        this.parts = new IntermediateSegmentableDeclarationParts<TIdentifier, TDeclaration, TInstDeclaration>((TInstDeclaration)this, GetNewPartial, this.OnGetIdentityName());
                     return this.parts;
                 }
                 else
@@ -115,6 +115,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
             }
         }
+
+        /// <summary>
+        /// Obtains a the <see cref="String"/> value that identifies the 
+        /// sequence as a concept.
+        /// </summary>
+        /// <returns>A <see cref="String"/> value that identifies the 
+        /// sequence as a concept.</returns>
+        protected abstract string OnGetIdentityName();
 
         #endregion
 

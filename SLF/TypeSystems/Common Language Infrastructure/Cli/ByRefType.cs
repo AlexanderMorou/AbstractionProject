@@ -38,7 +38,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         internal ByRefType(IType elementType)
         {
             if (elementType.ElementClassification == TypeElementClassification.Reference)
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.elementType, ArgumentExceptionMessage.TypeInvalidElementType, ThrowHelper.GetArgumentExceptionWord(ArgumentExceptionWord.by_reference_type), ThrowHelper.GetArgumentExceptionWord(ArgumentExceptionWord.by_reference_type));
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.elementType, ExceptionMessageId.TypeInvalidElementType, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.by_reference_type), ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.by_reference_type));
             //throw new ArgumentException("elementType");
             this.elementType = elementType;
         }
@@ -107,32 +107,32 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public IArrayType MakeArray(int rank)
         {
-            throw new NotSupportedException(Resources.MakeArrayError_ByReferenceType);
+            throw ThrowHelper.ObtainNotSupportedException(ExceptionMessageId.TypeInvalidElementType, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.by_reference_type), ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.array));
         }
 
         public IArrayType MakeArray()
         {
-            throw new NotSupportedException(Resources.MakeArrayError_ByReferenceType);
+            throw ThrowHelper.ObtainNotSupportedException(ExceptionMessageId.TypeInvalidElementType, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.by_reference_type), ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.array));
         }
 
         public IArrayType MakeArray(params int[] lowerBounds)
         {
-            throw new NotSupportedException(Resources.MakeArrayError_ByReferenceType);
+            throw ThrowHelper.ObtainNotSupportedException(ExceptionMessageId.TypeInvalidElementType, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.by_reference_type), ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.array));
         }
 
         public IType MakePointer()
         {
-            throw new NotSupportedException();
+            throw ThrowHelper.ObtainNotSupportedException(ExceptionMessageId.TypeInvalidElementType, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.by_reference_type), ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.pointer));
         }
 
         public IType MakeByReference()
         {
-            throw new NotSupportedException();
+            throw ThrowHelper.ObtainNotSupportedException(ExceptionMessageId.TypeInvalidElementType, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.by_reference_type), ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.by_reference_type));
         }
 
         public IType MakeNullable()
         {
-            throw new NotSupportedException();
+            throw ThrowHelper.ObtainNotSupportedException(ExceptionMessageId.TypeInvalidElementType, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.by_reference_type), ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.nullable));
         }
 
         public bool IsSubclassOf(IType other)
@@ -261,6 +261,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             get { return this.UniqueIdentifier; }
         }
         #endregion
+
         #region ICustomAttributedDeclaration Members
 
         public ICustomAttributeCollection CustomAttributes

@@ -89,7 +89,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public IEnumerator<TIntermediateDeclaration> GetEnumerator()
             {
-                foreach (var item in ((ControlledStateDictionary<string, TDeclaration>)(this.owner)).Values)
+                foreach (var item in ((ControlledStateDictionary<TIdentifier, TDeclaration>)(this.owner)).Values)
                     yield return ((TIntermediateDeclaration)(item));
                 yield break;
             }

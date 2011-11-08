@@ -124,7 +124,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                     throw new ArgumentOutOfRangeException("index");
                 var currentElement = this.locals.entries[index];
                 if (this.locals.orderings.ContainsKey(key))
-                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.key, ArgumentExceptionMessage.DuplicateKeyExists);
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.key, ExceptionMessageId.DuplicateKeyExists);
                 this.locals.orderings.Remove(currentElement.Key);
                 this.locals.orderings.Add(key, index);
                 this.locals.entries[index] = new KeyValuePair<TKey, TValue>(key, currentElement.Value);
@@ -192,7 +192,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 if (item == null)
                     return false;
                 if (!(item is TKey))
-                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.item, ArgumentExceptionMessage.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.item), item.GetType().ToString(), typeof(TKey).GetType().ToString());
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.item, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.item), item.GetType().ToString(), typeof(TKey).GetType().ToString());
                 return this.Contains((TKey)item);
             }
 

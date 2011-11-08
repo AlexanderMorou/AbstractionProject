@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             IDictionary<TCheck, IFiniteAutomataTransitionNode<TCheck, TState>> colliders;
             var remainder = base.GetColliders(check, out colliders);
             if (colliders.Count > 0)
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.target, ArgumentExceptionMessage.TransitionKeyCollision);
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.target, ExceptionMessageId.TransitionKeyCollision);
             base.AddInternal(check, target);
         }
 

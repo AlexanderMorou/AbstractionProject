@@ -49,7 +49,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// Data member storing the modules that have been
         /// wrapped thus far.
         /// </summary>
-        private IDictionary<Module, ICompiledModule> internalModuleCache;
+        private IDictionary<Module, CompiledModule> internalModuleCache;
         /// <summary>
         /// Data member storing the <see cref="UnderlyingAssembly"/>.
         /// </summary>
@@ -142,14 +142,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return true; }
         }
 
-        private ICompiledModule GetCompiledModule(Module m)
+        private CompiledModule GetCompiledModule(Module m)
         {
             if (this.internalModuleCache == null)
-                this.internalModuleCache = new Dictionary<Module, ICompiledModule>();
+                this.internalModuleCache = new Dictionary<Module, CompiledModule>();
             if (this.internalModuleCache.ContainsKey(m))
                 return this.internalModuleCache[m];
-            ICompiledModule icm = null;
-            icm = new CompiledModule(this, m);
+            CompiledModule icm = new CompiledModule(this, m);
             this.internalModuleCache.Add(m, icm);
             return icm;
         }

@@ -66,7 +66,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             if (name == null)
                 throw new ArgumentNullException("name");
             if (name == string.Empty)
-                throw new ArgumentException("name");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.name, ExceptionMessageId.ArgumentCannotBeEmpty, ThrowHelper.GetArgumentName(ArgumentWithException.name));
             return new IntermediateInterfaceType(name, this.Parent);
         }
     }

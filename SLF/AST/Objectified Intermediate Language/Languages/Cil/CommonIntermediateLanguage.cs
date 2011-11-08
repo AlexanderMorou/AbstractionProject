@@ -113,7 +113,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
             if (name == null)
                 throw new ArgumentNullException(name);
             if (name == string.Empty)
-                throw new ArgumentException("name");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.name, ExceptionMessageId.ArgumentCannotBeEmpty, ThrowHelper.GetArgumentName(ArgumentWithException.name));
             return this.GetProvider().CreateAssembly(name);
         }
 

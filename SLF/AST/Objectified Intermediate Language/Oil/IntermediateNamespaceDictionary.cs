@@ -15,17 +15,37 @@ using AllenCopeland.Abstraction.Slf.Cli;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
+    /// <summary>
+    /// Provides a base implementation of an intermediate namespace
+    /// dictionary.
+    /// </summary>
     [DebuggerDisplay("Namespaces: {Count}")]
     public class IntermediateNamespaceDictionary :
         IntermediateDeclarationDictionary<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration, IIntermediateNamespaceDeclaration>,
         IIntermediateNamespaceDictionary
     {
         private IIntermediateNamespaceParent parent;
+        /// <summary>
+        /// Creates a new instance of an <see cref="IntermediateNamespaceDictionary"/> with
+        /// the <paramref name="parent"/> provided.
+        /// </summary>
+        /// <param name="parent">The <see cref="IIntermediateNamespaceParent"/>
+        /// which contains the <see cref="IntermediateNamespaceDictionary"/> 
+        /// and its elements.</param>
         public IntermediateNamespaceDictionary(IIntermediateNamespaceParent parent) :
             base()
         {
             this.parent = parent;
         }
+        /// <summary>
+        /// Creates a new instance of an <see cref="IntermediateNamespaceDictionary"/>
+        /// with the <paramref name="parent"/> provided.
+        /// </summary>
+        /// <param name="parent">The <see cref="IIntermediateNamespaceParent"/>
+        /// which contains the <see cref="IntermediateNamespaceDictionary"/>
+        /// and its elements.</param>
+        /// <param name="toWrap">The <see cref="IntermediateNamespaceDictionary"/> 
+        /// to wrap the elements of.</param>
         public IntermediateNamespaceDictionary(IIntermediateNamespaceParent parent, IntermediateNamespaceDictionary toWrap) :
             base(toWrap)
         {
@@ -46,34 +66,34 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Adds a new <see cref="IIntermediateNamespaceDeclaration"/> to the
-        /// <see cref="IIntermediateNamespaceDictionary"/>.
+        /// <see cref="IntermediateNamespaceDictionary"/>.
         /// </summary>
-        /// <param name="name">The <see cref="String"/> representing the namespace's
+        /// <param name="path">The <see cref="String"/> representing the namespace's
         /// fully qualified path.</param>
         /// <returns>A new <see cref="IIntermediateNamespaceDeclaration"/>
         /// instance that results from the operation.</returns>
         /// <remarks>The <paramref name="name"/> is segmented and delimited by periods (Full Stops, U+002E)
         /// which make up the invidual sub-namespaces of the <see cref="IIntermediateNamespaceDeclaration"/>
         /// that results.</remarks>
-        /// <exception cref="System.ArgumentException"><paramref name="name"/> exists
-        /// already; <paramref name="name"/> is <see cref="String.Empty"/>; or
-        /// <paramref name="name"/> consists of periods (Full Stops, U+002E) only.</exception>
+        /// <exception cref="System.ArgumentException"><paramref name="path"/> exists
+        /// already; <paramref name="path"/> is <see cref="String.Empty"/>; or
+        /// <paramref name="path"/> consists of periods (Full Stops, U+002E) only.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/>
         /// is null.</exception>
-        public IIntermediateNamespaceDeclaration Add(string name)
+        public IIntermediateNamespaceDeclaration Add(string path)
         {
-            if (name == null)
-                throw new ArgumentNullException("name");
-            if (name == string.Empty)
-                throw new ArgumentException("name");
-            if (name.Contains("."))
+            if (path == null)
+                throw new ArgumentNullException("path");
+            if (path == string.Empty)
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.path, ExceptionMessageId.ArgumentCannotBeEmpty, ThrowHelper.GetArgumentName(ArgumentWithException.path));
+            if (path.Contains("."))
             {
                 IGeneralDeclarationUniqueIdentifier[] names =
-                    (from subKey in name.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)
+                    (from subKey in path.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)
                      select AstIdentifier.Declaration(subKey)).ToArray();
                 //It was comprised of dots only.
                 if (names.Length == 0)
-                    throw new ArgumentException("name");
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.path, ExceptionMessageId.PathCannotBeDotsOnly);
                 if (names.Length == 1)
                     return this.Add(names[0].Name);
                 IIntermediateNamespaceParent parent = this.Parent;
@@ -89,14 +109,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     }
                 //The path already exists.
                 if (!hadNonExistant)
-                    throw new ArgumentException("name");
+                    throw new ArgumentException("path");
                 return (IIntermediateNamespaceDeclaration)parent;
             }
             else
             {
-                if (this.ContainsKey(name))
-                    throw new ArgumentException(string.Format("The provided name {0} already exists.", name), "name");
-                IntermediateNamespaceDeclaration ind = new IntermediateNamespaceDeclaration(name, this.Parent);
+                if (this.ContainsKey(path))
+                    throw new ArgumentException(string.Format("The provided path {0} already exists.", path), "path");
+                IntermediateNamespaceDeclaration ind = new IntermediateNamespaceDeclaration(path, this.Parent);
                 this._Add(ind.UniqueIdentifier, ind);
                 return ind;
             }
@@ -107,7 +127,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             if (key == null)
                 throw new ArgumentNullException("key");
             if (key == string.Empty)
-                throw new ArgumentException("key");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.key, ExceptionMessageId.ArgumentCannotBeEmpty, ThrowHelper.GetArgumentName(ArgumentWithException.key));
             return this.ContainsKey(AstIdentifier.Declaration(key));
         }
 
@@ -116,7 +136,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             if (key == null)
                 throw new ArgumentNullException("key");
             if (key.Name == string.Empty)
-                throw new ArgumentException("key");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.key, ExceptionMessageId.ArgumentCannotBeEmpty, ThrowHelper.GetArgumentName(ArgumentWithException.key));
             if (!key.Name.Contains("."))
                 return base.ContainsKey(key);
             else
@@ -125,7 +145,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     (from subKey in key.Name.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)
                      select AstIdentifier.Declaration(subKey)).ToArray();
                 if (keys.Length == 0)
-                    throw new ArgumentException("parameterName");
+                    throw new ArgumentException("keys");
                 if (keys.Length == 1)
                     return this.ContainsKey(keys[0]);
                 IIntermediateNamespaceParent parent = this.parent;

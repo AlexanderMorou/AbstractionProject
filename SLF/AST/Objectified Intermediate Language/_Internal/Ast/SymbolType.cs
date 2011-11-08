@@ -105,7 +105,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             if (!this.IsGenericDefinition)
                 throw new System.InvalidOperationException();
             if (typeParameters.Count != this.GenericParameters.Count)
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.typeParameters, ArgumentExceptionMessage.GenericClosureReplacementCount);
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.typeParameters, ExceptionMessageId.GenericClosureReplacementCount);
             var lockedTypeParameters = typeParameters.ToLockedCollection();
             lock (this.SyncObject)
                 if (this.genericCache != null && this.genericCache.ContainsGenericClosure(lockedTypeParameters))

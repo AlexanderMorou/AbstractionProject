@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
+using System.ComponentModel;
 #if DEBUG
 using System.Diagnostics;
 #endif
@@ -40,6 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// <summary>
         /// Clears the cache.
         /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static void ClearCache()
         {
             if (assemblyCache != null)
@@ -105,22 +107,28 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         {
             IType ict = (type.GetTypeReference());
             if (!(ict is TType))
-                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.type, ArgumentExceptionMessage.TypeNotGivenKind, type.GetType().ToString(), typeof(TType).ToString());
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.type, ExceptionMessageId.TypeNotGivenKind, type.GetType().ToString(), typeof(TType).ToString());
             return ((TType)ict);
         }
 
         public static IType GetTypeReference(this Type type, ITypeCollection typeParameters)
         {
-            if (type.IsGenericType && type.IsGenericTypeDefinition)
+            if (!type.IsGenericType)
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.type, ExceptionMessageId.TypeNotGeneric);
+            else if (!type.IsGenericTypeDefinition)
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.type, ExceptionMessageId.TypeAlreadyGenericClosure, type.ToString());
+            else
                 return ((IGenericType)type.GetTypeReference()).MakeGenericClosure(typeParameters);
-            throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
         }
 
         public static IType GetTypeReference(this Type type, params IType[] typeParameters)
         {
-            if (type.IsGenericType && type.IsGenericTypeDefinition)
+            if (!type.IsGenericType)
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.type, ExceptionMessageId.TypeNotGeneric);
+            else if (!type.IsGenericTypeDefinition)
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.type, ExceptionMessageId.TypeAlreadyGenericClosure, type.ToString());
+            else
                 return ((IGenericType)type.GetTypeReference()).MakeGenericClosure(typeParameters);
-            throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
         }
 
         public static TType GetTypeReference<TTypeIdentifier, TType>(this Type type, ITypeCollection typeParameters)
@@ -129,9 +137,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             where TType :
                 IGenericType<TTypeIdentifier, TType>
         {
-            if (type.IsGenericType && type.IsGenericTypeDefinition)
+            if (!type.IsGenericType)
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.type, ExceptionMessageId.TypeNotGeneric);
+            else if (!type.IsGenericTypeDefinition)
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.type, ExceptionMessageId.TypeAlreadyGenericClosure, type.ToString());
+            else
                 return type.GetTypeReference<TTypeIdentifier, TType>().MakeGenericClosure(typeParameters);
-            throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
         }
 
         public static TType GetTypeReference<TTypeIdentifier, TType>(this Type type, params IType[] typeParameters)
@@ -140,9 +151,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             where TType :
                 IGenericType<TTypeIdentifier, TType>
         {
-            if (type.IsGenericType && type.IsGenericTypeDefinition)
+            if (!type.IsGenericType)
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.type, ExceptionMessageId.TypeNotGeneric);
+            else if (!type.IsGenericTypeDefinition)
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.type, ExceptionMessageId.TypeAlreadyGenericClosure, type.ToString());
+            else
                 return type.GetTypeReference<TTypeIdentifier, TType>().MakeGenericClosure(typeParameters);
-            throw new ArgumentException("type is not a generic type or is already an instance of a generic type.", "type");
         }
 
         /// <summary>

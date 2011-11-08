@@ -205,7 +205,7 @@ namespace AllenCopeland.Abstraction.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Target manifest module must belong to the current assembly..
         /// </summary>
         internal static string AE_ManifestModuleTarget {
             get {
@@ -295,7 +295,7 @@ namespace AllenCopeland.Abstraction.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Root {0} instance of the series is implicitly a part of the series, adding it to the {0} part collection is unnecessary..
         /// </summary>
         internal static string AE_Part_CannotBeRoot {
             get {
@@ -304,11 +304,20 @@ namespace AllenCopeland.Abstraction.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Adding a part to the series of a(n) {0} requires that the new {0} part reference the root {0} of the series..
         /// </summary>
         internal static string AE_Part_MustReferenceRoot {
             get {
                 return ResourceManager.GetString("AE_Part_MustReferenceRoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The {0} part provided is the root of another {0} and cannot be added to this sequence..
+        /// </summary>
+        internal static string AE_Part_RootOfASeparateSeries {
+            get {
+                return ResourceManager.GetString("AE_Part_RootOfASeparateSeries", resourceCulture);
             }
         }
         
@@ -322,7 +331,7 @@ namespace AllenCopeland.Abstraction.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Cannot have primitive values of any other type than listed in the PrimitiveType enum..
         /// </summary>
         internal static string AE_Primitive_Invalid {
             get {
@@ -331,7 +340,7 @@ namespace AllenCopeland.Abstraction.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Cannot have object primitives of anything other than string..
         /// </summary>
         internal static string AE_Primitive_NonStringObject {
             get {
@@ -340,7 +349,7 @@ namespace AllenCopeland.Abstraction.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to The provided expression &apos;{0}&apos; cannot be affixed into a(n) {1} expression..
         /// </summary>
         internal static string AE_ProvidedExpressionCannotBe {
             get {
@@ -358,7 +367,7 @@ namespace AllenCopeland.Abstraction.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Cannot relationally check a type against another expression..
         /// </summary>
         internal static string AE_RelationalInvalidOnExpression {
             get {
@@ -466,7 +475,7 @@ namespace AllenCopeland.Abstraction.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to The provided type &apos;{0}&apos; is already a generic closure, retrieve the generic definition prior to making a new closure..
         /// </summary>
         internal static string AE_TypeAlreadyGenericClosure {
             get {
@@ -588,6 +597,33 @@ namespace AllenCopeland.Abstraction.Utilities.Properties {
         internal static string AE_TypeParameterInfoError {
             get {
                 return ResourceManager.GetString("AE_TypeParameterInfoError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type-relational checks require a type on the {0}..
+        /// </summary>
+        internal static string AE_TypeRelationalCheckRequiresType {
+            get {
+                return ResourceManager.GetString("AE_TypeRelationalCheckRequiresType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type-Cast (or null) expression requires a reference type to work..
+        /// </summary>
+        internal static string AE_TypeRelationalOrNullCastMustBeReference {
+            get {
+                return ResourceManager.GetString("AE_TypeRelationalOrNullCastMustBeReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type-relational check invalid.  Target type on the type reference expression cannot be null..
+        /// </summary>
+        internal static string AE_TypeRelationalTypeCannotBeNull {
+            get {
+                return ResourceManager.GetString("AE_TypeRelationalTypeCannotBeNull", resourceCulture);
             }
         }
         

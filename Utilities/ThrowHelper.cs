@@ -10,199 +10,259 @@ namespace AllenCopeland.Abstraction
     {
         private static readonly string[] emptyReplacements = new string[0];
 
+        public static NotSupportedException ObtainNotSupportedException(ExceptionMessageId message, string replacement)
+        {
+            return new NotSupportedException(GetExceptionMessage(message, new[] { replacement }));
+        }
+
+        public static NotSupportedException ObtainNotSupportedException(ExceptionMessageId message, string replacement1, string replacement2)
+        {
+            return new NotSupportedException(GetExceptionMessage(message, new[] { replacement1, replacement2 }));
+        }
+
+        public static NotSupportedException ObtainNotSupportedException(ExceptionMessageId message, string replacement1, string replacement2, string replacement3)
+        {
+            return new NotSupportedException(GetExceptionMessage(message, new[] { replacement1, replacement2, replacement3 }));
+        }
+
+        public static NotSupportedException ObtainNotSupportedException(ExceptionMessageId message, params string[] replacements)
+        {
+            return new NotSupportedException(GetExceptionMessage(message, replacements ?? emptyReplacements));
+        }
+
         public static ArgumentOutOfRangeException ObtainArgumentOutOfRangeException(ArgumentWithException argument)
         {
             return new ArgumentOutOfRangeException(GetArgumentName(argument));
         }
 
-        public static ArgumentOutOfRangeException ObtainArgumentOutOfRangeException(ArgumentWithException argument, ArgumentExceptionMessage message)
+        public static ArgumentOutOfRangeException ObtainArgumentOutOfRangeException(ArgumentWithException argument, ExceptionMessageId message)
         {
             return ObtainArgumentOutOfRangeException(argument, message, emptyReplacements);
         }
-        public static ArgumentOutOfRangeException ObtainArgumentOutOfRangeException(ArgumentWithException argument, ArgumentExceptionMessage message, params string[] replacements)
+        public static ArgumentOutOfRangeException ObtainArgumentOutOfRangeException(ArgumentWithException argument, ExceptionMessageId message, params string[] replacements)
         {
-            return new ArgumentOutOfRangeException(GetArgumentName(argument), GetArgumentMessage(message, replacements ?? emptyReplacements));
+            return new ArgumentOutOfRangeException(GetArgumentName(argument), GetExceptionMessage(message, replacements ?? emptyReplacements));
         }
 
-        public static ArgumentException ObtainArgumentException(ArgumentWithException argument, ArgumentExceptionMessage message)
+        public static ArgumentException ObtainArgumentException(ArgumentWithException argument, ExceptionMessageId message)
         {
             return ObtainArgumentException(argument, message, emptyReplacements);
         }
-        public static ArgumentException ObtainArgumentException(ArgumentWithException argument, ArgumentExceptionMessage message, string replacement)
+        public static ArgumentException ObtainArgumentException(ArgumentWithException argument, ExceptionMessageId message, string replacement)
         {
             return ObtainArgumentException(argument, message, new[] { replacement });
         }
 
-        public static ArgumentException ObtainArgumentException(ArgumentWithException argument, ArgumentExceptionMessage message, string replacement1, string replacement2)
+        public static ArgumentException ObtainArgumentException(ArgumentWithException argument, ExceptionMessageId message, string replacement1, string replacement2)
         {
             return ObtainArgumentException(argument, message, new[] { replacement1, replacement2 });
         }
 
-        public static ArgumentException ObtainArgumentException(ArgumentWithException argument, ArgumentExceptionMessage message, string replacement1, string replacement2, string replacement3)
+        public static ArgumentException ObtainArgumentException(ArgumentWithException argument, ExceptionMessageId message, string replacement1, string replacement2, string replacement3)
         {
             return ObtainArgumentException(argument, message, new[] { replacement1, replacement2, replacement3 });
         }
 
-        public static ArgumentException ObtainArgumentException(ArgumentWithException argument, ArgumentExceptionMessage message, params string[] replacements)
+        public static ArgumentException ObtainArgumentException(ArgumentWithException argument, ExceptionMessageId message, params string[] replacements)
         {
-            return new ArgumentException(GetArgumentMessage(message, replacements ?? emptyReplacements), GetArgumentName(argument));
+            return new ArgumentException(GetExceptionMessage(message, replacements ?? emptyReplacements), GetArgumentName(argument));
         }
 
-        public static string GetArgumentExceptionWord(ArgumentExceptionWord word)
+        public static string GetArgumentExceptionWord(ExceptionWordId word)
         {
             switch (word)
             {
-                case ArgumentExceptionWord.array:
+                case ExceptionWordId.array:
                     return "array";
-                case ArgumentExceptionWord.by_reference_type:
+                case ExceptionWordId.assembly:
+                    return "assembly";
+                case ExceptionWordId.by_reference_type:
                     return "by reference type";
-                case ArgumentExceptionWord.@explicit:
+                case ExceptionWordId.@class:
+                    return "class";
+                case ExceptionWordId.cs_bitwise_and:
+                    return "C\u266F bitwise and";
+                case ExceptionWordId.cs_bitwise_or:
+                    return "C\u266F bitwise or";
+                case ExceptionWordId.cs_bitwise_xor:
+                    return "C\u266F bitwise exclusive or";
+                case ExceptionWordId.cs_conditional:
+                    return "C\u266F conditional";
+                case ExceptionWordId.cs_logical_and:
+                    return "C\u266F logical and";
+                case ExceptionWordId.cs_logical_or:
+                    return "C\u266F logical or";
+                case ExceptionWordId.@delegate:
+                    return "delegate";
+                case ExceptionWordId.@enum:
+                    return "enum";
+                case ExceptionWordId.@explicit:
                     return "explicit";
-                case ArgumentExceptionWord.from:
+                case ExceptionWordId.from:
                     return "from";
-                case ArgumentExceptionWord.@implicit:
+                case ExceptionWordId.@implicit:
                     return "implicit";
-                case ArgumentExceptionWord.to:
+                case ExceptionWordId.@interface:
+                    return "interface";
+                case ExceptionWordId.@namespace:
+                    return "namespace";
+                case ExceptionWordId.nullable:
+                    return "nullable";
+                case ExceptionWordId.pointer:
+                    return "pointer";
+                case ExceptionWordId.Source:
+                    return "Source";
+                case ExceptionWordId.@struct:
+                    return "struct";
+                case ExceptionWordId.to:
                     return "to";
                 default:
-                    throw ObtainArgumentOutOfRangeException(ArgumentWithException.word, ArgumentExceptionMessage.UnknownArgumentWord);
+                    throw ObtainArgumentOutOfRangeException(ArgumentWithException.word, ExceptionMessageId.UnknownArgumentWord);
             }
         }
 
-        private static string GetArgumentMessage(ArgumentExceptionMessage message, params string[] replacements)
+        private static string GetExceptionMessage(ExceptionMessageId message, params string[] replacements)
         {
             switch (message)
             {
-                case ArgumentExceptionMessage.ArgumentCannotBeEmpty:
+                case ExceptionMessageId.ArgumentCannotBeEmpty:
                     return string.Format(Resources.AE_ArgumentCannotBeEmpty, replacements);
-                case ArgumentExceptionMessage.CannotTermBinaryOperation:
+                case ExceptionMessageId.CannotTermBinaryOperation:
                     return string.Format(Resources.AE_CannotTermBinaryOperation, replacements);
-                case ArgumentExceptionMessage.CoercionDoesNotExist:
+                case ExceptionMessageId.CoercionDoesNotExist:
                     return string.Format(Resources.AE_CoercionDoesNotExist, replacements);
-                case ArgumentExceptionMessage.CompiledType_NotProperKind:
+                case ExceptionMessageId.CompiledType_NotProperKind:
                     return string.Format(Resources.AE_CompiledType_NotProperKind, replacements);
-                case ArgumentExceptionMessage.ConditionMustBeBreakable:
+                case ExceptionMessageId.ConditionMustBeBreakable:
                     return string.Format(Resources.AE_ConditionMustBeBreakable, replacements);
-                case ArgumentExceptionMessage.DataCannotBeEmpty:
+                case ExceptionMessageId.DataCannotBeEmpty:
                     return string.Format(Resources.AE_DataCannotBeEmpty, replacements);
-                case ArgumentExceptionMessage.DelegateTypeParameterMismatch:
+                case ExceptionMessageId.DelegateTypeParameterMismatch:
                     return string.Format(Resources.AE_DelegateTypeParameterMismatch, replacements);
-                case ArgumentExceptionMessage.DetachedExpressionNotValidFor:
+                case ExceptionMessageId.DetachedExpressionNotValidFor:
                     return string.Format(Resources.AE_DetachedExpressionNotValidFor, replacements);
-                case ArgumentExceptionMessage.DuplicateKeyExists:
+                case ExceptionMessageId.DuplicateKeyExists:
                     return string.Format(Resources.AE_DuplicateKeyExists, replacements);
-                case ArgumentExceptionMessage.ElementTypeMustBeGivenKind:
+                case ExceptionMessageId.ElementTypeMustBeGivenKind:
                     return string.Format(Resources.AE_ElementTypeMustBeGivenKind, replacements);
-                case ArgumentExceptionMessage.GenericClosureReplacementCount:
+                case ExceptionMessageId.GenericClosureReplacementCount:
                     return string.Format(Resources.AE_GenericClosureReplacementCount, replacements);
-                case ArgumentExceptionMessage.GenericParameterRequiresName:
+                case ExceptionMessageId.GenericParameterRequiresName:
                     return string.Format(Resources.AE_GenericParameterRequiresName, replacements);
-                case ArgumentExceptionMessage.InsufficientSpaceForCopy:
+                case ExceptionMessageId.InsufficientSpaceForCopy:
                     return string.Format(Resources.AE_InsufficientSpaceForCopy, replacements);
-                case ArgumentExceptionMessage.InterfaceNotImplemented:
+                case ExceptionMessageId.InterfaceNotImplemented:
                     return string.Format(Resources.AE_InterfaceNotImplemented, replacements);
-                case ArgumentExceptionMessage.InvalidTCheckDerivation:
+                case ExceptionMessageId.InvalidTCheckDerivation:
                     return string.Format(Resources.AE_InvalidTCheckDerivation, replacements);
-                case ArgumentExceptionMessage.JumpTargetMustBeLabel:
+                case ExceptionMessageId.JumpTargetMustBeLabel:
                     return string.Format(Resources.AE_JumpTargetMustBeLabel, replacements);
-                case ArgumentExceptionMessage.ManifestModuleTarget:
+                case ExceptionMessageId.ManifestModuleTarget:
                     return string.Format(Resources.AE_ManifestModuleTarget, replacements);
-                case ArgumentExceptionMessage.MemberOfSeriesNull:
+                case ExceptionMessageId.MemberOfSeriesNull:
                     return string.Format(Resources.AE_MemberOfSeriesNull, replacements);
-                case ArgumentExceptionMessage.NamedGenericParameterExists:
+                case ExceptionMessageId.NamedGenericParameterExists:
                     return string.Format(Resources.AE_NamedGenericParameterExists, replacements);
-                case ArgumentExceptionMessage.NamespacePathAlreadyPresent:
+                case ExceptionMessageId.NamespacePathAlreadyPresent:
                     return string.Format(Resources.AE_NamespacePathAlreadyPresent, replacements);
-                case ArgumentExceptionMessage.NonNullableTypeProvided:
+                case ExceptionMessageId.NonNullableTypeProvided:
                     return string.Format(Resources.AE_NonNullableTypeProvided, replacements);
-                case ArgumentExceptionMessage.NumericControllerMismatch:
+                case ExceptionMessageId.NumericControllerMismatch:
                     return string.Format(Resources.AE_NumericControllerMismatch, replacements);
-                case ArgumentExceptionMessage.NumericValueParseError:
+                case ExceptionMessageId.NumericValueParseError:
                     return string.Format(Resources.AE_NumericValueParseError, replacements);
-                case ArgumentExceptionMessage.OnlyNullableOnTerm:
+                case ExceptionMessageId.OnlyNullableOnTerm:
                     return string.Format(Resources.AE_OnlyNullableOnTerm, replacements);
-                case ArgumentExceptionMessage.OperationMustBeTerm:
+                case ExceptionMessageId.OperationMustBeTerm:
                     return string.Format(Resources.AE_OperationMustBeTerm, replacements);
-                case ArgumentExceptionMessage.ParentMustBeEqual:
+                case ExceptionMessageId.ParentMustBeEqual:
                     return string.Format(Resources.AE_ParentMustBeEqual, replacements);
-                case ArgumentExceptionMessage.Part_CannotBeRoot:
+                case ExceptionMessageId.Part_CannotBeRoot:
                     return string.Format(Resources.AE_Part_CannotBeRoot, replacements);
-                case ArgumentExceptionMessage.Part_MustReferenceRoot:
+                case ExceptionMessageId.Part_MustReferenceRoot:
                     return string.Format(Resources.AE_Part_MustReferenceRoot, replacements);
-                case ArgumentExceptionMessage.PathCannotBeDotsOnly:
+                case ExceptionMessageId.Part_RootOfASeparateSeries:
+                    return string.Format(Resources.AE_Part_RootOfASeparateSeries, replacements);
+                case ExceptionMessageId.PathCannotBeDotsOnly:
                     return string.Format(Resources.AE_PathCannotBeDotsOnly, replacements);
-                case ArgumentExceptionMessage.Primitive_Invalid:
+                case ExceptionMessageId.Primitive_Invalid:
                     return string.Format(Resources.AE_Primitive_Invalid, replacements);
-                case ArgumentExceptionMessage.Primitive_NonStringObject:
+                case ExceptionMessageId.Primitive_NonStringObject:
                     return string.Format(Resources.AE_Primitive_NonStringObject, replacements);
-                case ArgumentExceptionMessage.ProvidedExpressionCannotBe:
+                case ExceptionMessageId.ProvidedExpressionCannotBe:
                     return string.Format(Resources.AE_ProvidedExpressionCannotBe, replacements);
-                case ArgumentExceptionMessage.RankMustBeOneOrGreater:
+                case ExceptionMessageId.RankMustBeOneOrGreater:
                     return string.Format(Resources.AE_RankMustBeOneOrGreater, replacements);
-                case ArgumentExceptionMessage.RelationalInvalidOnExpression:
+                case ExceptionMessageId.RelationalInvalidOnExpression:
                     return string.Format(Resources.AE_RelationalInvalidOnExpression, replacements);
-                case ArgumentExceptionMessage.Remove_ValueNotFound:
+                case ExceptionMessageId.Remove_ValueNotFound:
                     return string.Format(Resources.AE_Remove_ValueNotFound, replacements);
-                case ArgumentExceptionMessage.RemoveFailed_CustomAttributeNotFound:
+                case ExceptionMessageId.RemoveFailed_CustomAttributeNotFound:
                     return string.Format(Resources.AE_RemoveFailed_CustomAttributeNotFound, replacements);
-                case ArgumentExceptionMessage.SourceStringInvalid:
+                case ExceptionMessageId.SourceStringInvalid:
                     return string.Format(Resources.AE_SourceStringInvalid, replacements);
-                case ArgumentExceptionMessage.SubordinateCannotChange:
+                case ExceptionMessageId.SubordinateCannotChange:
                     return string.Format(Resources.AE_SubordinateCannotChange, replacements);
-                case ArgumentExceptionMessage.SubordinateDoesNotExist:
+                case ExceptionMessageId.SubordinateDoesNotExist:
                     return string.Format(Resources.AE_SubordinateDoesNotExist, replacements);
-                case ArgumentExceptionMessage.SubordinateInvalid:
+                case ExceptionMessageId.SubordinateInvalid:
                     return string.Format(Resources.AE_SubordinateInvalid, replacements);
-                case ArgumentExceptionMessage.SubordinateMismatch:
+                case ExceptionMessageId.SubordinateMismatch:
                     return string.Format(Resources.AE_SubordinateMismatch, replacements);
-                case ArgumentExceptionMessage.SubordinateNull:
+                case ExceptionMessageId.SubordinateNull:
                     return string.Format(Resources.AE_SubordinateNull, replacements);
-                case ArgumentExceptionMessage.SubordinateSubTypeDuplicate:
+                case ExceptionMessageId.SubordinateSubTypeDuplicate:
                     return string.Format(Resources.AE_SubordinateSubTypeDuplicate, replacements);
-                case ArgumentExceptionMessage.SourceStreamInvalidLength:
+                case ExceptionMessageId.SourceStreamInvalidLength:
                     return string.Format(Resources.AE_SourceStreamInvalidLength, replacements);
-                case ArgumentExceptionMessage.TransitionKeyCollision:
+                case ExceptionMessageId.TransitionKeyCollision:
                     return string.Format(Resources.AE_TransitionKeyCollision, replacements);
-                case ArgumentExceptionMessage.TypeAlreadyGenericClosure:
+                case ExceptionMessageId.TypeAlreadyGenericClosure:
                     return string.Format(Resources.AE_TypeAlreadyGenericClosure, replacements);
-                case ArgumentExceptionMessage.TypedName_ImplicitConversion:
+                case ExceptionMessageId.TypedName_ImplicitConversion:
                     return string.Format(Resources.AE_TypedName_ImplicitConversion, replacements);
-                case ArgumentExceptionMessage.TypedName_Invalid:
+                case ExceptionMessageId.TypedName_Invalid:
                     return string.Format(Resources.AE_TypedName_Invalid, replacements);
-                case ArgumentExceptionMessage.TypedName_InvalidElement:
+                case ExceptionMessageId.TypedName_InvalidElement:
                     return string.Format(Resources.AE_TypedName_InvalidElement, replacements);
-                case ArgumentExceptionMessage.TypedName_ReferenceKind:
+                case ExceptionMessageId.TypedName_ReferenceKind:
                     return string.Format(Resources.AE_TypedName_ReferenceKind, replacements);
-                case ArgumentExceptionMessage.TypeInvalidElementType:
+                case ExceptionMessageId.TypeInvalidElementType:
                     return string.Format(Resources.AE_TypeInvalidElementType, replacements);
-                case ArgumentExceptionMessage.TypeMustBeCompilerGenerated:
+                case ExceptionMessageId.TypeMustBeCompilerGenerated:
                     return string.Format(Resources.AE_TypeMustBeCompilerGenerated, replacements);
-                case ArgumentExceptionMessage.TypeMustNotBeAReferenceType:
+                case ExceptionMessageId.TypeMustNotBeAReferenceType:
                     return string.Format(Resources.AE_TypeMustNotBeAReferenceType, replacements);
-                case ArgumentExceptionMessage.TypeMustBeGenericParameter:
+                case ExceptionMessageId.TypeMustBeGenericParameter:
                     return string.Format(Resources.AE_TypeMustBeGenericParameter, replacements);
-                case ArgumentExceptionMessage.TypeMustBeStaticClass :
+                case ExceptionMessageId.TypeMustBeStaticClass :
                     return string.Format(Resources.AE_TypeMustBeStaticClass, replacements);
-                case ArgumentExceptionMessage.TypeMustBeGenericChild:
+                case ExceptionMessageId.TypeMustBeGenericChild:
                     return string.Format(Resources.AE_TypeMustBeGenericChild, replacements);
-                case ArgumentExceptionMessage.TypeParameterInfoError:
+                case ExceptionMessageId.TypeParameterInfoError:
                     return string.Format(Resources.AE_TypeParameterInfoError, replacements);
-                case ArgumentExceptionMessage.TypeNotGeneric:
+                case ExceptionMessageId.TypeNotGeneric:
                     return string.Format(Resources.AE_TypeNotGeneric, replacements);
-                case ArgumentExceptionMessage.TypeNotGivenKind:
+                case ExceptionMessageId.TypeNotGivenKind:
                     return string.Format(Resources.AE_TypeNotGivenKind, replacements);
-                case ArgumentExceptionMessage.TypesAssemblyIsFixed:
+                case ExceptionMessageId.TypeRelationalCheckRequiresType:
+                    return string.Format(Resources.AE_TypeRelationalCheckRequiresType, replacements);
+                case ExceptionMessageId.TypeRelationalTypeCannotBeNull:
+                    return string.Format(Resources.AE_TypeRelationalTypeCannotBeNull, replacements);
+                case ExceptionMessageId.TypeRelationalOrNullCastMustBeReference:
+                    return string.Format(Resources.AE_TypeRelationalOrNullCastMustBeReference, replacements);
+                case ExceptionMessageId.TypesAssemblyIsFixed:
                     return string.Format(Resources.AE_TypesAssemblyIsFixed, replacements);
-                case ArgumentExceptionMessage.UnknownArgument:
+                case ExceptionMessageId.UnknownArgument:
                     return string.Format(Resources.AE_UnknownArgument, replacements);
-                case ArgumentExceptionMessage.UnknownArgumentMessage:
+                case ExceptionMessageId.UnknownArgumentMessage:
                     return string.Format(Resources.AE_UnknownArgumentMessage, replacements);
-                case ArgumentExceptionMessage.UnknownArgumentWord:
+                case ExceptionMessageId.UnknownArgumentWord:
                     return string.Format(Resources.AE_UnknownArgumentWord, replacements);
-                case ArgumentExceptionMessage.ValueIsWrongType:
+                case ExceptionMessageId.ValueIsWrongType:
                     return string.Format(Resources.AE_ValueIsWrongType, replacements);
                 default:
-                    throw ObtainArgumentException(ArgumentWithException.message, ArgumentExceptionMessage.UnknownArgumentMessage);
+                    throw ObtainArgumentException(ArgumentWithException.message, ExceptionMessageId.UnknownArgumentMessage);
             }
         }
 
@@ -256,6 +316,8 @@ namespace AllenCopeland.Abstraction
                     return "items";
                 case ArgumentWithException.key:
                     return "key";
+                case ArgumentWithException.leftSide:
+                    return "leftSide";
                 case ArgumentWithException.length:
                     return "length";
                 case ArgumentWithException.message:
@@ -270,14 +332,22 @@ namespace AllenCopeland.Abstraction
                     return "nameAndType";
                 case ArgumentWithException.@namespace:
                     return "namespace";
+                case ArgumentWithException.operation:
+                    return "operation";
                 case ArgumentWithException.owner:
                     return "owner";
                 case ArgumentWithException.parameter:
                     return "parameter";
+                case ArgumentWithException.part:
+                    return "part";
+                case ArgumentWithException.path:
+                    return "path";
                 case ArgumentWithException.rank:
                     return "rank";
                 case ArgumentWithException.requirement:
                     return "requirement";
+                case ArgumentWithException.rightSide:
+                    return "rightSide";
                 case ArgumentWithException.searchCriteria:
                     return "searchCriteria";
                 case ArgumentWithException.series:
@@ -308,12 +378,14 @@ namespace AllenCopeland.Abstraction
                     return "typeSymbol";
                 case ArgumentWithException.underlyingSystemType:
                     return "underlyingSystemType";
+                case ArgumentWithException.uniqueId:
+                    return "uniqueId";
                 case ArgumentWithException.value:
                     return "value";
                 case ArgumentWithException.word:
                     return "word";
                 default:
-                    throw ObtainArgumentException(ArgumentWithException.argument, ArgumentExceptionMessage.UnknownArgument);
+                    throw ObtainArgumentException(ArgumentWithException.argument, ExceptionMessageId.UnknownArgument);
             }
         }
     }

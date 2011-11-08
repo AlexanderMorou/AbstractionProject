@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// Removes the member with the
         /// <paramref name="uniqueId"/> provided.
         /// </summary>
-        /// <param name="uniqueId">The <see cref="String"/> value
+        /// <param name="uniqueId">The <see cref="IGeneralMemberUniqueIdentifier"/> value
         /// representing the unique identifier of the 
         /// <see cref="IIntermediateMember"/>
         /// to remove.</param>
@@ -59,7 +59,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// removed; false, otherwise.</returns>
         /// <exception cref="System.ArgumentNullException">thrown
         /// when <paramref name="uniqueId"/> is null.</exception>
-        bool Remove(string uniqueId);
+        bool Remove(IGeneralMemberUniqueIdentifier uniqueId);
 
         /// <summary>
         /// Removes the <paramref name="member"/>

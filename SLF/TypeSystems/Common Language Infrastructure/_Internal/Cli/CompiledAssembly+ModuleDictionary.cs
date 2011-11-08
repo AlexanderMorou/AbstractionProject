@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Modules;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -19,17 +20,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     partial class CompiledAssembly
     {
         private partial class ModuleDictionary :
-            ControlledStateDictionary<string, IModule>,
+            ControlledStateDictionary<IGeneralDeclarationUniqueIdentifier, IModule>,
             IModuleDictionary
         {
             private CompiledAssembly parent;
             private Module[] moduleData;
-            private ICompiledModule[] moduleCopy;
+            private IGeneralDeclarationUniqueIdentifier[] identifierCopy;
+            private CompiledModule[] moduleCopy;
             public ModuleDictionary(CompiledAssembly parent)
             {
                 this.moduleData = parent.UnderlyingAssembly.GetModules(true);
-                this.moduleCopy = new ICompiledModule[this.moduleData.Length];
-                
+                this.identifierCopy = new IGeneralDeclarationUniqueIdentifier[this.moduleData.Length];
+                this.moduleCopy = new CompiledModule[this.moduleData.Length];
+                for (int i = 0; i < identifierCopy.Length; i++)
+                    identifierCopy[i] = AstIdentifier.Declaration(this.moduleData[i].Name);
                 this.parent = parent;
             }
 

@@ -685,7 +685,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             foreach (IInterfaceType iit in this.interfaceMaps.Keys)
                 if (iit.Equals(type))
                     return this.interfaceMaps[iit];
-            throw ThrowHelper.ObtainArgumentException(ArgumentWithException.type, ArgumentExceptionMessage.InterfaceNotImplemented, this.FullName, type.FullName);
+            throw ThrowHelper.ObtainArgumentException(ArgumentWithException.type, ExceptionMessageId.InterfaceNotImplemented, this.FullName, type.FullName);
         }
 
         #endregion

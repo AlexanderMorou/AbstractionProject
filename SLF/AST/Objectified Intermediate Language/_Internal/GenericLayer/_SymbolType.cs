@@ -129,5 +129,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         public LineColumnPair? End { get; set; }
 
         #endregion
+
+        protected override IGeneralGenericTypeUniqueIdentifier OnGetUniqueIdentifier()
+        {
+            return this.Original.UniqueIdentifier;
+        }
     }
 }

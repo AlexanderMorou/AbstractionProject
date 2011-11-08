@@ -31,9 +31,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         public GlobalMemberContainerAttribute(Type globalMemberType)
         {
             if (!globalMemberType.IsDefined(typeof(CompilerGeneratedAttribute), false))
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.globalMemberType, ArgumentExceptionMessage.TypeMustBeCompilerGenerated);
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.globalMemberType, ExceptionMessageId.TypeMustBeCompilerGenerated);
             if (!(globalMemberType.IsClass && ((globalMemberType.Attributes & (TypeAttributes.Abstract | TypeAttributes.Sealed)) != (TypeAttributes)0)))
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.globalMemberType, ArgumentExceptionMessage.TypeMustBeStaticClass);
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.globalMemberType, ExceptionMessageId.TypeMustBeStaticClass);
             this.GlobalMemberType = globalMemberType;
         }
 

@@ -88,6 +88,10 @@ namespace AllenCopeland.Abstraction
         /// </summary>
         key,
         /// <summary>
+        /// Parameter 'leftSide'.
+        /// </summary>
+        leftSide,
+        /// <summary>
         /// Parameter 'length'.
         /// </summary>
         length,
@@ -116,6 +120,10 @@ namespace AllenCopeland.Abstraction
         /// </summary>
         @namespace,
         /// <summary>
+        /// Parameter 'operation'.
+        /// </summary>
+        operation,
+        /// <summary>
         /// Parameter 'owner'.
         /// </summary>
         owner,
@@ -124,6 +132,10 @@ namespace AllenCopeland.Abstraction
         /// </summary>
         parameter,
         /// <summary>
+        /// Parameter 'part'.
+        /// </summary>
+        part,
+        /// <summary>
         /// Parameter 'rank'.
         /// </summary>
         rank,
@@ -131,6 +143,10 @@ namespace AllenCopeland.Abstraction
         /// Parameter 'requirement'.
         /// </summary>
         requirement,
+        /// <summary>
+        /// Parameter 'rightSide'.
+        /// </summary>
+        rightSide,
         /// <summary>
         /// Parameter 'searchCriteria'.
         /// </summary>
@@ -192,6 +208,10 @@ namespace AllenCopeland.Abstraction
         /// </summary>
         underlyingSystemType,
         /// <summary>
+        /// Parameter 'uniqueId'.
+        /// </summary>
+        uniqueId,
+        /// <summary>
         /// Parameter 'value'.
         /// </summary>
         value,
@@ -199,21 +219,65 @@ namespace AllenCopeland.Abstraction
         /// Parameter 'word'.
         /// </summary>
         word,
+        /// <summary>
+        /// Parameter 'path'.
+        /// </summary>
+        path,
     }
 
     /// <summary>
     /// The words used by argument exceptions.
     /// </summary>
-    internal enum ArgumentExceptionWord
+    internal enum ExceptionWordId
     {
         /// <summary>
         /// Word 'array'.
         /// </summary>
         array,
         /// <summary>
+        /// Word 'assembly'.
+        /// </summary>
+        assembly,
+        /// <summary>
         /// Words 'by reference type'.
         /// </summary>
         by_reference_type,
+        /// <summary>
+        /// Word 'class'.
+        /// </summary>
+        @class,
+        /// <summary>
+        /// Words 'C&#9839; bitwise and'.
+        /// </summary>
+        cs_bitwise_and,
+        /// <summary>
+        /// Words 'C&#9839; bitwise or'.
+        /// </summary>
+        cs_bitwise_or,
+        /// <summary>
+        /// Words 'C&#9839; bitwise exclusive or'.
+        /// </summary>
+        cs_bitwise_xor,
+        /// <summary>
+        /// Words 'C&#9839; conditional'.
+        /// </summary>
+        cs_conditional,
+        /// <summary>
+        /// Words 'C&#9839; logical or'.
+        /// </summary>
+        cs_logical_and,
+        /// <summary>
+        /// Words 'C&#9839; logical or'.
+        /// </summary>
+        cs_logical_or,
+        /// <summary>
+        /// Word 'delegate'.
+        /// </summary>
+        @delegate,
+        /// <summary>
+        /// Word 'enum'.
+        /// </summary>
+        @enum,
         /// <summary>
         /// Word 'explicit'.
         /// </summary>
@@ -227,6 +291,30 @@ namespace AllenCopeland.Abstraction
         /// </summary>
         @implicit,
         /// <summary>
+        /// Word 'interface'.
+        /// </summary>
+        @interface,
+        /// <summary>
+        /// Word 'namespace'.
+        /// </summary>
+        @namespace,
+        /// <summary>
+        /// Word 'nullable'.
+        /// </summary>
+        nullable,
+        /// <summary>
+        /// Word 'pointer'.
+        /// </summary>
+        pointer,
+        /// <summary>
+        /// Word 'Source'.
+        /// </summary>
+        Source,
+        /// <summary>
+        /// Word 'struct'.
+        /// </summary>
+        @struct,
+        /// <summary>
         /// Word 'to'.
         /// </summary>
         to,
@@ -234,7 +322,7 @@ namespace AllenCopeland.Abstraction
     /// <summary>
     /// The <see cref="ArgumentException"/> message.
     /// </summary>
-    internal enum ArgumentExceptionMessage
+    internal enum ExceptionMessageId
     {
         /// <summary>
         /// The argument '{0}' can't be <see cref="String.Empty"/>.
@@ -287,6 +375,9 @@ namespace AllenCopeland.Abstraction
         InsufficientSpaceForCopy,
         InvalidTCheckDerivation,
         JumpTargetMustBeLabel,
+        /// <summary>
+        /// Target manifest module must belong to the current assembly.
+        /// </summary>
         ManifestModuleTarget,
         /// <summary>
         /// A member of {0} was null.
@@ -307,6 +398,10 @@ namespace AllenCopeland.Abstraction
         /// </summary>
         /// <remarks>Requires one (1) replacement.</remarks>
         NumericValueParseError,
+        /// <summary>
+        /// Term is used when {0} is null.
+        /// </summary>
+        /// <remarks>Requires one (1) replacement.</remarks>
         OnlyNullableOnTerm,
         /// <summary>
         /// Operand relative to associativity is 'null'; thus, operation
@@ -314,17 +409,43 @@ namespace AllenCopeland.Abstraction
         /// </summary>
         OperationMustBeTerm,
         ParentMustBeEqual,
+        /// <summary>
+        /// Root {0} instance of the series is implicitly a part of the series, adding it to the {0} part collection is unnecessary.
+        /// </summary>
+        /// <remarks>Requires one (1) replacement.</remarks>
         Part_CannotBeRoot,
+        /// <summary>
+        /// Adding a part to the series of a(n) {0} requires that the new {0} part reference the root {0} of the series.
+        /// </summary>
+        /// <remarks>Requires one (1) replacement.</remarks>
         Part_MustReferenceRoot,
+        /// <summary>
+        /// The {0} part provided is the root of another {0} and cannot be added to this sequence.
+        /// </summary>
+        /// <remarks>Requires one (1) replacement.</remarks>
+        Part_RootOfASeparateSeries,
         PathCannotBeDotsOnly,
+        /// <summary>
+        /// Cannot have primitive values of any other type than listed in the PrimitiveType enum.
+        /// </summary>
         Primitive_Invalid,
+        /// <summary>
+        /// Cannot have object primitives of anything other than string.
+        /// </summary>
         Primitive_NonStringObject,
+        /// <summary>
+        /// The provided expression '{0}' cannot be affixed into a(n)
+        /// {1} expression.
+        /// </summary>
         ProvidedExpressionCannotBe,
         /// <summary>
         /// The rank '{0}' provided is invalid, it must be one (1) or greater.
         /// </summary>
         /// <remarks>Requires one (1) replacement.</remarks>
         RankMustBeOneOrGreater,
+        /// <summary>
+        /// Cannot relationally check a type against another expression.
+        /// </summary>
         RelationalInvalidOnExpression,
         Remove_ValueNotFound,
         RemoveFailed_CustomAttributeNotFound,
@@ -371,6 +492,9 @@ namespace AllenCopeland.Abstraction
         /// condition.  On a deterministic system this is invalid.
         /// </summary>
         TransitionKeyCollision,
+        /// <summary>
+        /// The provided type '{0}' is already a generic closure, retrieve the generic definition prior to making a new closure.
+        /// </summary>
         TypeAlreadyGenericClosure,
         TypedName_ImplicitConversion,
         /// <summary>
@@ -430,6 +554,19 @@ namespace AllenCopeland.Abstraction
         /// type.
         /// </summary>
         TypeParameterInfoError,
+        /// <summary>
+        /// Type-relational checks require a type on the {0}.
+        /// </summary>
+        /// <remarks>Requires one (1) replacement.</remarks>
+        TypeRelationalCheckRequiresType,
+        /// <summary>
+        /// Type-relational check invalid.  Target type on the type reference expression cannot be null.
+        /// </summary>
+        TypeRelationalTypeCannotBeNull,
+        /// <summary>
+        /// Type-Cast (or null) expression requires a reference type to work.
+        /// </summary>
+        TypeRelationalOrNullCastMustBeReference,
         TypesAssemblyIsFixed,
         /// <summary>
         /// Unknown argument identifier provided.

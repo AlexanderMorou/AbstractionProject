@@ -6,6 +6,8 @@ using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil.Modules;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -20,6 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IIntermediateTopLevelFieldMember
     {
         private IIntermediateModule declaringModule;
+        private IGeneralMemberUniqueIdentifier uniqueIdentifier;
         public IntermediateTopLevelFieldMember(string name, IIntermediateNamespaceParent parent)
             : base(name, parent)
         {
@@ -61,5 +64,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         #endregion
+
+        public override IGeneralMemberUniqueIdentifier UniqueIdentifier
+        {
+            get
+            {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                return this.uniqueIdentifier;
+            }
+        }
+
+        protected override void OnIdentifierChanged(IGeneralMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+        {
+            if (this.uniqueIdentifier != null)
+                this.uniqueIdentifier = null;
+            base.OnIdentifierChanged(oldIdentifier, cause);
+        }
     }
 }

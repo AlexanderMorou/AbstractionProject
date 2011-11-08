@@ -109,9 +109,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         #endregion
 
         #region IIntermediateMemberDictionary Members
-
+        bool IIntermediateMemberDictionary.Remove(IGeneralMemberUniqueIdentifier uniqueId)
+        {
+            if (uniqueId == null)
+                throw new ArgumentNullException("uniqueId");
+            if (uniqueId is TMemberIdentifier)
+                return this.Remove((TMemberIdentifier)uniqueId);
+            throw ThrowHelper.ObtainArgumentException(ArgumentWithException.uniqueId, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.uniqueId), uniqueId.GetType().ToString(), typeof(TMemberIdentifier).ToString());
+        }
         public bool Remove(TMemberIdentifier uniqueId)
         {
+            if (uniqueId == null)
+                throw new ArgumentNullException("uniqueId");
             if (!this.ContainsKey(uniqueId))
                 throw new KeyNotFoundException();
             var dummy = this[uniqueId];

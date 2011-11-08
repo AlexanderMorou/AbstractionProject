@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private ICustomAttributeDefinitionNamedParameter<T> AddInternal<T>(string name, T value)
         {
             if (namedParameterNames.Contains(name))
-                throw new ArgumentException("name");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.name, ExceptionMessageId.DuplicateKeyExists);
             CustomAttributeDefinitionNamedParameter<T> parameter = new CustomAttributeDefinitionNamedParameter<T>(name, value, this);
             base.baseList.Add(parameter);
             this.namedParameterNames.Add(name);
@@ -585,8 +585,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (name == null)
                 throw new ArgumentNullException("name");
+            if (name == string.Empty)
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.name, ExceptionMessageId.ArgumentCannotBeEmpty, ThrowHelper.GetArgumentName(ArgumentWithException.name));
             if (!this.namedParameterNames.Contains(name))
-                throw new ArgumentException("name");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.name, ExceptionMessageId.DuplicateKeyExists);
             foreach (var item in this)
                 if (item is ICustomAttributeDefinitionNamedParameter && ((ICustomAttributeDefinitionNamedParameter)(item)).Name == name)
                 {

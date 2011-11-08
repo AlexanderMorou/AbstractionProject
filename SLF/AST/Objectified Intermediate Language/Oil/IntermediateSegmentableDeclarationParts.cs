@@ -43,6 +43,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     {
         private TDeclaration rootDeclaration;
         private Func<TInstDeclaration> creator;
+        private string identityName;
 
         #region IIntermediateSegmentableDeclarationParts<TDeclaration> Members
 
@@ -95,10 +96,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IntermediateSegmentableDeclarationParts{TDeclaration} Constructors
 
-        public IntermediateSegmentableDeclarationParts(TDeclaration rootDeclaration, Func<TInstDeclaration> creator)
+        /// <summary>
+        /// Creates a new <see cref="IntermediateSegmentableDeclarationParts{TIdentifier, TDeclaration, TInstDeclaration}"/>
+        /// with the <paramref name="rootDeclaration"/>, <paramref name="creator"/>, and <paramref name="identityName"/> provided.
+        /// </summary>
+        /// <param name="rootDeclaration">The <typeparamref name="TDeclaration"/> which is the root instance
+        /// of the series.</param>
+        /// <param name="creator">The <see cref="Func{T}"/> which handles object creation, providing the root instance
+        /// to obtain the partial instance.</param>
+        /// <param name="identityName">The <see cref="String"/> value that identifies the 
+        /// sequence as a concept.</param>
+        public IntermediateSegmentableDeclarationParts(TDeclaration rootDeclaration, Func<TInstDeclaration> creator, string identityName)
         {
             this.creator = creator;
             this.rootDeclaration = rootDeclaration;
+            this.identityName = identityName;
         }
 
         #endregion
@@ -129,13 +141,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        #region IIntermediateSegmentableDeclarationPartCollection<TDeclaration> Members
+        /// <summary>
+        /// Obtains the word used to describe the elements of the sequence.
+        /// </summary>
+        /// <returns>The <see cref="String"/> value that describes the instance
+        /// in readable form.</returns>
+        protected abstract string GetIdentityName();
 
+        #region IIntermediateSegmentableDeclarationPartCollection<TDeclaration> Members
 
         public void Add(TDeclaration part)
         {
-            if (part.IsRoot || part.GetRoot() != this.Root)
-                throw new ArgumentException("root");
+            if (part.IsRoot)
+                if (part == this.Root)
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.part, ExceptionMessageId.Part_CannotBeRoot, this.identityName);
+                else
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.part, ExceptionMessageId.Part_RootOfASeparateSeries, this.identityName);
+            if (part.GetRoot() != this.Root)
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.part, ExceptionMessageId.Part_MustReferenceRoot, this.identityName);
             this.baseList.Add(part);
         }
 

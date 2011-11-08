@@ -501,5 +501,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             throw new NotImplementedException();
         }
 
+        protected override string OnGetIdentityName()
+        {
+            return ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.@class);
+        }
     }
 }

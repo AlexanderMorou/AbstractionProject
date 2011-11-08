@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Compilers;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -38,6 +39,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         /// Data member for <see cref="Name"/>.
         /// </summary>
         private string name;
+
+        private IGeneralDeclarationUniqueIdentifier uniqueIdentifier;
 
         /// <summary>
         /// Data member for <see cref="_Members"/> and 
@@ -102,9 +105,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         /// Returns the <see cref="String"/> representing the
         /// name by which the module is uniquely referred to.
         /// </summary>
-        public override string UniqueIdentifier
+        public override IGeneralDeclarationUniqueIdentifier UniqueIdentifier
         {
-            get { return this.Name; }
+            get {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Declaration(this.Name);
+                return this.uniqueIdentifier;
+            }
         }
 
         #region IIntermediateModule Members
@@ -123,6 +130,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
             }
         }
 
+        public event EventHandler<DeclarationIdentifierChangeEventArgs<IGeneralDeclarationUniqueIdentifier>> IdentifierChanged;
+
+        protected virtual void OnIdentifierChanged(IGeneralDeclarationUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+        {
+            this.uniqueIdentifier = null;
+            var newIdentifier = this.UniqueIdentifier;
+            var identifierChanged = this.IdentifierChanged;
+            if (identifierChanged != null)
+                identifierChanged(this, new DeclarationIdentifierChangeEventArgs<IGeneralDeclarationUniqueIdentifier>(oldIdentifier, newIdentifier, cause));
+        }
 
         /// <summary>
         /// Returns the global methods defined on the current <see cref="IntermediateModule"/>.
@@ -263,17 +280,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
             }
             set
             {
-                string oN = this.Name;
-                if (oN == value)
+                string originalName = this.Name;
+                if (originalName == value)
                     return;
-                
-                if (!this.OnRenaming(value, oN))
+
+                if (!this.OnRenaming(value, originalName))
                     return;
                 if (this.IsManifestModule)
                     this.Parent.Name = value;
                 else
                     this.name = value;
-                this.OnRenamed(value, oN);
+                this.OnIdentifierChanged(this.UniqueIdentifier, DeclarationChangeCause.Name);
+                this.OnRenamed(value, originalName);
             }
         }
 
@@ -324,5 +342,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         {
             return this.Name;
         }
+
     }
 }

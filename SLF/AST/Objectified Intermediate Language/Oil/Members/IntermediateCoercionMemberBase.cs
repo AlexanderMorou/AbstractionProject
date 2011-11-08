@@ -20,7 +20,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IIntermediateCoercionMember<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent>,
         ITopBlockStatement
         where TCoercionIdentifier : 
-            IMemberUniqueIdentifier<TCoercionIdentifier>
+            IMemberUniqueIdentifier<TCoercionIdentifier>,
+            IGeneralMemberUniqueIdentifier
         where TCoercionParentIdentifier :
             ITypeUniqueIdentifier<TCoercionParentIdentifier>
         where TCoercion :
@@ -1307,7 +1308,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region ITypeParent Members
 
-        public IEnumerable<string> AggregateIdentifiers
+        public IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get { return this.StatementContainer.AggregateIdentifiers; }
         }

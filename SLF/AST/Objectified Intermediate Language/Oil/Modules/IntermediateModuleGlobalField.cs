@@ -2,6 +2,8 @@ using System;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
 /*---------------------------------------------------------------------\
 | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
@@ -19,6 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         IntermediateFieldMemberBase<IModuleGlobalField, IIntermediateModuleGlobalField, IModule, IIntermediateModule>,
         IIntermediateModuleGlobalField
     {
+        private IGeneralMemberUniqueIdentifier uniqueIdentifier;
         private IDataSizeType fieldType;
         private Byte[] data;
         /// <summary>
@@ -109,6 +112,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
                     return null;
                 return this.Parent.Parent.PrivateImplementationDetails as PrivateImplementationDetails;
             }
+        }
+
+        public override IGeneralMemberUniqueIdentifier UniqueIdentifier
+        {
+            get
+            {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                return this.uniqueIdentifier;
+            }
+        }
+
+        protected override void OnIdentifierChanged(IGeneralMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+        {
+            if (this.uniqueIdentifier != null)
+                this.uniqueIdentifier = null;
+            base.OnIdentifierChanged(oldIdentifier, cause);
         }
     }
 }

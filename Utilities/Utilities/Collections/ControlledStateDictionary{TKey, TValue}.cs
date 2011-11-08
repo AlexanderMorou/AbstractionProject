@@ -369,7 +369,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             get {
                 if (!(key is TKey))
-                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.key, ArgumentExceptionMessage.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.key), key.GetType().ToString(), typeof(TKey).ToString());
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.key, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.key), key.GetType().ToString(), typeof(TKey).ToString());
                 return this[(TKey)key];
             }
         }
@@ -377,7 +377,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         bool IControlledStateDictionary.ContainsKey(object key)
         {
             if (!(key is TKey))
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.key, ArgumentExceptionMessage.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.key), key.GetType().ToString(), typeof(TKey).ToString());
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.key, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.key), key.GetType().ToString(), typeof(TKey).ToString());
             return this.ContainsKey((TKey)key);
         }
 
@@ -393,7 +393,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         bool IControlledStateCollection.Contains(object item)
         {
             if (!(item is KeyValuePair<TKey, TValue>))
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.item, ArgumentExceptionMessage.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.item), item.GetType().ToString(), typeof(KeyValuePair<TKey, TValue>).ToString());
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.item, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.item), item.GetType().ToString(), typeof(KeyValuePair<TKey, TValue>).ToString());
             return this.Contains((KeyValuePair<TKey, TValue>)item);
         }
 

@@ -111,9 +111,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
             set
             {
                 if (LeftSide == null && value != CSharpInequalityOperation.Term)
-                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ArgumentExceptionMessage.OperationMustBeTerm);
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ExceptionMessageId.OperationMustBeTerm);
                 else if (LeftSide != null && value == CSharpInequalityOperation.Term)
-                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ArgumentExceptionMessage.CannotTermBinaryOperation);
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ExceptionMessageId.CannotTermBinaryOperation);
                 switch (value)
                 {
                     case CSharpInequalityOperation.Term:

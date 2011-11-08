@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Abstract;
 /*---------------------------------------------------------------------\
 | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
@@ -12,7 +13,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf.Oil.Modules
 {
     public interface IIntermediateModuleDictionary :
-        IControlledStateDictionary<string, IIntermediateModule>
+        IControlledStateDictionary<IGeneralDeclarationUniqueIdentifier, IIntermediateModule>
     {
         IIntermediateModule Add(string moduleName);
     }

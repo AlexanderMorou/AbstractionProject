@@ -58,6 +58,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #region IntermediateInterfaceType Data members
 
         #region Member Data Members
+        private IGeneralGenericTypeUniqueIdentifier uniqueIdentifier;
         private ImplementedInterfacesCollection _implementedInterfaces;
         private ITypeCollection implementedInterfaces;
 
@@ -436,6 +437,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
+        protected override void OnIdentifierChanged(IGeneralGenericTypeUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+        {
+            if (this.uniqueIdentifier != null)
+                this.uniqueIdentifier = null;
+            base.OnIdentifierChanged(oldIdentifier, cause);
+        }
+
         #region Initializers
 
         protected virtual IIntermediateEventSignatureMemberDictionary<IInterfaceEventMember, IIntermediateInterfaceEventMember, IInterfaceType, IIntermediateInterfaceType> InitializeEvents()
@@ -544,5 +552,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                             return TypeBase<IGeneralGenericTypeUniqueIdentifier>.EmptyIdentifiers;
             }
         }
+
+        protected override string OnGetIdentityName()
+        {
+            return ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.@interface);
+        }
+
+        protected override IGeneralGenericTypeUniqueIdentifier OnGetUniqueIdentifier()
+        {
+            if (this.uniqueIdentifier == null)
+            {
+                if (this.TypeParametersInitialized)
+                    this.uniqueIdentifier = AstIdentifier.Type(this.Name, this.TypeParameters.Count);
+                else
+                    this.uniqueIdentifier = AstIdentifier.Type(this.Name, 0);
+            }
+            return this.uniqueIdentifier;
+        }
+
     }
 }
