@@ -15,6 +15,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <summary>
     /// Provides a base full declaration dictionary.
     /// </summary>
+    /// <typeparam name="TIdentifier">The kind of identifier used to differentiate the <typeparamref name="TDeclaration"/>
+    /// instances from one another.</typeparam>
     /// <typeparam name="TDeclaration">The type of declaration in the abstract
     /// type system.</typeparam>
     /// <typeparam name="TIntermediateDeclaration">The type of declaration in the intermediate

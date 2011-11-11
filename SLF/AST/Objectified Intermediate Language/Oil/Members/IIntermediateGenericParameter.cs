@@ -58,6 +58,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IIntermediateEventSignatureParent<IGenericParameterEventMember<TGenericParameter>, IIntermediateGenericParameterEventMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>,
         IIntermediateIndexerSignatureParent<IGenericParameterIndexerMember<TGenericParameter>, IIntermediateGenericParameterIndexerMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>,
         IIntermediatePropertySignatureParent<IGenericParameterPropertyMember<TGenericParameter>, IIntermediateGenericParameterPropertyMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>,
+        IIntermediateType<IGenericParameterUniqueIdentifier, TGenericParameter, TIntermediateGenericParameter>,
         IIntermediateGenericParameter,
         IGenericParameter<TGenericParameter>
         where TGenericParameter :

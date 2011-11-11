@@ -4,6 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
+using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -51,6 +52,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// is defined as.
         /// </summary>
         new IType ParameterType { get; set; }
+        /// <summary>
+        /// Occurs when the parameter type changes.
+        /// </summary>
+        event EventHandler<EventArgsR1R2<IType, IType>> ParameterTypeChanged;
         /// <summary>
         /// Returns/sets the direction the parameter is coerced.
         /// </summary>

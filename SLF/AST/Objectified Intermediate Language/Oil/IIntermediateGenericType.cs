@@ -17,6 +17,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// Defines generic properties and methods for working with an <see cref="IIntermediateType"/>
     /// which contains generic parameters.
     /// </summary>
+    /// <typeparam name="TTypeIdentifier">The kind of type identifier used
+    /// to differentiate the <typeparamref name="TIntermediateType"/>
+    /// instance from its siblings.</typeparam>
     /// <typeparam name="TType">The generic type as it exists 
     /// in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateType">The type of generic type as it
@@ -27,7 +30,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IIntermediateGenericType,
         IGenericType<TTypeIdentifier, TType>
         where TTypeIdentifier :
-            IGenericTypeUniqueIdentifier<TTypeIdentifier>
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
         where TType :
             IGenericType<TTypeIdentifier, TType>
         where TIntermediateType :

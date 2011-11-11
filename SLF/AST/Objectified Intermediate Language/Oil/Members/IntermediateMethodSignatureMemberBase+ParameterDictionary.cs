@@ -168,12 +168,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 : base(parent)
             {
                 this.sourceData = sourceData;
-                KeyValuePair<string, TSignatureParameter>[] sourceParameters = new KeyValuePair<string, TSignatureParameter>[sourceData.Count];
+                KeyValuePair<IGeneralMemberUniqueIdentifier, TSignatureParameter>[] sourceParameters = new KeyValuePair<IGeneralMemberUniqueIdentifier, TSignatureParameter>[sourceData.Count];
                 int index = 0;
                 foreach (var original in sourceData.Values)
                 {
                     var wrapper = GetNewWrapperParameter(original);;
-                    sourceParameters[index++] = new KeyValuePair<string, TSignatureParameter>(wrapper.UniqueIdentifier, wrapper);
+                    sourceParameters[index++] = new KeyValuePair<IGeneralMemberUniqueIdentifier, TSignatureParameter>(wrapper.UniqueIdentifier, wrapper);
                 }
                 base._AddRange(sourceParameters);
 

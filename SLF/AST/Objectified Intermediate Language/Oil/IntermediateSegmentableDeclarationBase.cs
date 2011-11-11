@@ -23,6 +23,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// which provides a series of <typeparamref name="TDeclaration"/>
     /// instances which represent a single whole instance.
     /// </summary>
+    /// <typeparam name="TIdentifier">The kind of identifier used to differentiate the
+    /// <typeparamref name="TInstDeclaration"/> instances from one another.</typeparam>
     /// <typeparam name="TDeclaration">The type of <see cref="IIntermediateSegmentableDeclaration"/>
     /// which needs partialalbe functionality</typeparam>
     /// <typeparam name="TInstDeclaration">The specific <typeparamref name="TInstDeclaration"/>
@@ -33,7 +35,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IntermediateDeclarationBase<TIdentifier>,
         IIntermediateSegmentableDeclaration<TIdentifier, TDeclaration>
         where TIdentifier :
-            IDeclarationUniqueIdentifier<TIdentifier>
+            IDeclarationUniqueIdentifier<TIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
         where TDeclaration :
             class,
             IIntermediateSegmentableDeclaration<TIdentifier, TDeclaration>

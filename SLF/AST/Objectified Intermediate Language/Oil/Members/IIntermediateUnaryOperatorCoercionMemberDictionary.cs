@@ -16,6 +16,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// Defines properties and methods for working with a series of intermediate unary operator
     /// coercion members.
     /// </summary>
+    /// <typeparam name="TCoercionParentIdentifier">The kind of identifier used
+    /// to differentiate the <typeparamref name="TIntermediateCoercionParent"/>
+    /// instance from its siblings.</typeparam>
     /// <typeparam name="TCoercionParent">The kind of coercible type in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateCoercionParent">The kind of coercible type in the intermediate
     /// abstract syntax tree.</typeparam>
@@ -23,7 +26,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IIntermediateGroupedMemberDictionary<TCoercionParent, TIntermediateCoercionParent, IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, IIntermediateUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent>>,
         IUnaryOperatorCoercionMemberDictionary<TCoercionParentIdentifier, TCoercionParent>
         where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>
+            ITypeUniqueIdentifier<TCoercionParentIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
         where TCoercionParent :
             ICoercibleType<IUnaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
         where TIntermediateCoercionParent :

@@ -1298,7 +1298,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region ITypeParent Members
 
-        public IEnumerable<string> AggregateIdentifiers
+        public IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get { return this.StatementContainer.AggregateIdentifiers; }
         }

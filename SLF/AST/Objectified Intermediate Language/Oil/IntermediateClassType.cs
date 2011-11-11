@@ -106,7 +106,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         internal protected IntermediateClassType(TInstanceIntermediateType root, IIntermediateTypeParent parent)
             : base(root, parent)
         {
-            
         }
 
         /// <summary>

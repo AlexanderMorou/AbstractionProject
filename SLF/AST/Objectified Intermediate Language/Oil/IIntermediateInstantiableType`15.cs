@@ -36,6 +36,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <typeparam name="TProperty">The type used for the properties in the current implementation.</typeparam>
     /// <typeparam name="TIntermediateProperty">The type of property member used in the
     /// intermediate abstract syntax tree.</typeparam>
+    /// <typeparam name="TTypeIdentifier">The kind of type identifier used
+    /// to differentiate the <typeparamref name="TIntermediateType"/>
+    /// instance from its siblings.</typeparam>
     /// <typeparam name="TType">The <see cref="IInstantiableType{TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TTypeIdentifier, TType}"/> 
     /// in the implementation.</typeparam>
     /// <typeparam name="TIntermediateType">The type kind of type used within the intermediate abstract syntax
@@ -54,40 +57,43 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         where TCtor :
             IConstructorMember<TCtor, TType>
         where TIntermediateCtor :
-            TCtor,
-            IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType>
+            IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType>,
+            TCtor
         where TEvent :
             IEventMember<TEvent, TType>
         where TIntermediateEvent :
-            TEvent, 
-            IIntermediateEventMember<TEvent, TIntermediateEvent, TType, TIntermediateType>
+            IIntermediateEventMember<TEvent, TIntermediateEvent, TType, TIntermediateType>,
+            TEvent
         where TField :
             IFieldMember<TField, TType>,
             IInstanceMember
         where TIntermediateField :
-            TField, 
-            IIntermediateFieldMember<TField, TIntermediateField, TType, TIntermediateType>
+            IIntermediateFieldMember<TField, TIntermediateField, TType, TIntermediateType>,
+            TField
         where TIndexer :
             IIndexerMember<TIndexer, TType>
         where TIntermediateIndexer :
-            TIndexer,
-            IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TType, TIntermediateType>
+            IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TType, TIntermediateType>,
+            TIndexer
         where TMethod :
             IMethodMember<TMethod, TType>,
             IExtendedInstanceMember
         where TIntermediateMethod :
-            TMethod,
-            IIntermediateMethodMember<TMethod, TIntermediateMethod, TType, TIntermediateType>
+            IIntermediateMethodMember<TMethod, TIntermediateMethod, TType, TIntermediateType>,
+            TMethod
         where TProperty :
             IPropertyMember<TProperty, TType>
         where TIntermediateProperty :
-            TProperty,
-            IIntermediatePropertyMember<TProperty, TIntermediateProperty, TType, TIntermediateType>
+            IIntermediatePropertyMember<TProperty, TIntermediateProperty, TType, TIntermediateType>,
+            TProperty
+        where TTypeIdentifier :
+            ITypeUniqueIdentifier<TTypeIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
         where TType :
             IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TTypeIdentifier, TType>
         where TIntermediateType :
-            TType,
-            IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TTypeIdentifier, TType, TIntermediateType>
+            IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TTypeIdentifier, TType, TIntermediateType>,
+            TType
     {
         /// <summary>
         /// Returns the <see cref="IIntermediateInstantiableTypeImplementedInterfaces{TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TParent, TIntermediateParent}"/>

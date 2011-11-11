@@ -16,6 +16,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// Defines properties and methods for working with a series of specifically
     /// typed <see cref="IIntermediateType"/> instances.
     /// </summary>
+    /// <typeparam name="TTypeIdentifier">The kind of type identifier used
+    /// to differentiate the <typeparamref name="TIntermediateType"/>
+    /// instances from one another.</typeparam>
     /// <typeparam name="TType">The type used in the dictionary by the
     /// abstract type system.</typeparam>
     /// <typeparam name="TIntermediateType">The type used in the dictionary by the

@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Utilities.Events;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -75,6 +76,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// Data member for <see cref="CanWrite"/>.
         /// </summary>
         private bool canWrite;
+
+        /// <summary>
+        /// Data member for <see cref="UniqueIdentifier"/>.
+        /// </summary>
+        private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
 
         /// <summary>
         /// Creates a new <see cref="IntermediateIndexerMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>
@@ -581,5 +587,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         #endregion
+
+        public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier
+        {
+            get {
+                if (this.uniqueIdentifier == null)
+                    if (this.AreParametersInitialized)
+                        this.uniqueIdentifier = AstIdentifier.Signature(this.Name, this.Parameters.ParameterTypes.ToArray());
+                    else
+                        this.uniqueIdentifier = AstIdentifier.Signature(this.Name);
+                return this.uniqueIdentifier;
+            }
+        }
+
+        protected override void OnIdentifierChanged(IGeneralSignatureMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+        {
+            if (this.uniqueIdentifier != null)
+                this.uniqueIdentifier = null;
+            base.OnIdentifierChanged(oldIdentifier, cause);
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -62,6 +63,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         private TMethodMember removeMethod;
         private TMethodMember raiseMethod;
         private bool emitRaiseMethod;
+        private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
         /// <summary>
         /// Creates a new <see cref="IntermediateEventMember{TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent, TMethodMember}"/> instance
         /// with the <paramref name="parent"/> provided.
@@ -407,6 +409,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public override void Visit(IIntermediateMemberVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier
+        {
+            get
+            {
+                if (this.uniqueIdentifier == null)
+                    if (this.AreParametersInitialized)
+                        this.uniqueIdentifier = AstIdentifier.Signature(this.Name, this.Parameters.ParameterTypes.ToArray());
+                    else
+                        this.uniqueIdentifier = AstIdentifier.Signature(this.Name);
+                return this.uniqueIdentifier;
+            }
         }
     }
 }

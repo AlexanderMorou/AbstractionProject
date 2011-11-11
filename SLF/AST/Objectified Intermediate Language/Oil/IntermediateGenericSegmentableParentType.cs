@@ -21,6 +21,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// Provides a generic base class for intermediate types which are generic,
     /// can span multiple instances, and can contain types of their own.
     /// </summary>
+    /// <typeparam name="TTypeIdentifier">The kind of type identifier used
+    /// to differentiate the <typeparamref name="TIntermediateType"/>
+    /// instance from its siblings.</typeparam>
     /// <typeparam name="TType">The kind of type as it exists in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateType">The kind of type as it exists in the 
     /// intermediate abstract syntax tree.</typeparam>
@@ -31,7 +34,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IntermediateGenericSegmentableType<TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType>,
         IIntermediateTypeParent
         where TTypeIdentifier :
-            IGenericTypeUniqueIdentifier<TTypeIdentifier>
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
         where TType :
             class,
             IGenericType<TTypeIdentifier, TType>,
@@ -254,7 +258,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         private static void SuspendCheck<TNestedTypeIdentifier, TNestedType, TIntermediateNestedType>(IntermediateTypeDictionary<TNestedTypeIdentifier, TNestedType, TIntermediateNestedType> dictionary, int suspendLevel)
             where TNestedTypeIdentifier :
-                ITypeUniqueIdentifier<TNestedTypeIdentifier>
+                ITypeUniqueIdentifier<TNestedTypeIdentifier>,
+                IGeneralTypeUniqueIdentifier
             where TNestedType :
                 IType<TNestedTypeIdentifier, TNestedType>
             where TIntermediateNestedType :
@@ -491,7 +496,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             int realTo = baseLine + to;
             foreach (var element in from subTypeEntry in this._Types.Values
                                     let subType = subTypeEntry.Entry
-                                    let genericSubType = subType as _IIntermediateGenericType
+                                    let genericSubType = subType as _IIntermediateGenericType<TTypeIdentifier>
                                     where genericSubType != null
                                     select genericSubType)
                 element.Rearranged(realFrom, realTo);

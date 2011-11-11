@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             class,
             IType<TTypeIdentifier, TType>
         where TIntermediateType :
-            IIntermediateType,
+            IIntermediateType<TTypeIdentifier, TType, TIntermediateType>,
             TType
     {
         /// <summary>
@@ -46,7 +46,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         private AccessLevelModifiers accessLevel;
         /// <summary>
-        /// Data member for <see cref="DeclarationBase.Name"/>.
+        /// Data member for <see cref="DeclarationBase{TIdentifier}.Name"/>.
         /// </summary>
         private string name;
         /// <summary>

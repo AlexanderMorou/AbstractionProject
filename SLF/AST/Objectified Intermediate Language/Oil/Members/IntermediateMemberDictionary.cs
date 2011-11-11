@@ -17,6 +17,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// </summary>
     /// <typeparam name="TParent">The type of parent in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateParent">The type of parent in the intermediate abstract syntax tree.</typeparam>
+    /// <typeparam name="TMemberIdentifier">The kind of identifier used to differentiate the
+    /// <typeparamref name="TIntermediateMember"/> instances from one another.</typeparam>
     /// <typeparam name="TMember">The type of member in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateMember">The type of member in the intermediate abstract
     /// syntax tree.</typeparam>
@@ -30,7 +32,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             IIntermediateMemberParent,
             TParent
         where TMemberIdentifier :
-            IMemberUniqueIdentifier<TMemberIdentifier>
+            IMemberUniqueIdentifier<TMemberIdentifier>,
+            IGeneralMemberUniqueIdentifier
         where TMember :
             IMember<TMemberIdentifier, TParent>
         where TIntermediateMember :
@@ -68,7 +71,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region IMemberDictionary<TParent,TMember> Members
 
-        TParent IMemberDictionary<TParent, TMember>.Parent
+        TParent IMemberDictionary<TParent, TMemberIdentifier, TMember>.Parent
         {
             get { return this.Parent; }
         }
@@ -93,6 +96,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region IIntermediateMemberDictionary Members
 
+        bool IIntermediateMemberDictionary.Remove(IGeneralMemberUniqueIdentifier uniqueId)
+        {
+            if (uniqueId == null)
+                throw new ArgumentNullException(ThrowHelper.GetArgumentName(ArgumentWithException.uniqueId));
+            if (uniqueId is TMemberIdentifier)
+                return this.Remove((TMemberIdentifier)uniqueId);
+            throw ThrowHelper.ObtainArgumentException(ArgumentWithException.uniqueId, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.uniqueId), uniqueId.GetType().ToString(), typeof(TMemberIdentifier).ToString());
+        }
+
         public bool Remove(TMemberIdentifier uniqueId)
         {
             if (!this.ContainsKey(uniqueId))
@@ -107,9 +119,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public bool Remove(TIntermediateMember member)
         {
             if (member == null)
-                throw new ArgumentNullException("member");
+                throw new ArgumentNullException(ThrowHelper.GetArgumentName(ArgumentWithException.member));
             if (!this.Values.Contains(member))
-                throw new ArgumentException("member");
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.member, ExceptionMessageId.Remove_ValueNotFound, ThrowHelper.GetArgumentName(ArgumentWithException.member));
             var key = this.Keys[this.Values.IndexOf(member)];
             return this.Remove(key);
         }

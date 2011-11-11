@@ -826,19 +826,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         public GenericParameterVariance Variance { get; set; }
 
-        public override string UniqueIdentifier
-        {
-            get
-            {
-                return this.Name;
-            }
-        }
-
-        public override IEnumerable<string> AggregateIdentifiers
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get {
-                return (from member in this.Members.Values
-                        select member.Entry.Name).Distinct();
+                return this.Members.Keys;
             }
         }
 
@@ -846,6 +837,5 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             visitor.Visit(this);
         }
-
     }
 }

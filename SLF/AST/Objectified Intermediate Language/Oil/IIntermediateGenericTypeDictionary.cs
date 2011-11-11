@@ -16,7 +16,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     public interface IIntermediateGenericTypeDictionary<TTypeIdentifier, TType, TIntermediateType> :
         IIntermediateTypeDictionary<TTypeIdentifier, TType, TIntermediateType>
         where TTypeIdentifier :
-            IGenericTypeUniqueIdentifier<TTypeIdentifier>
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
         where TType :
             IGenericType<TTypeIdentifier, TType>
         where TIntermediateType :

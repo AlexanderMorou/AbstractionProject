@@ -17,6 +17,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// Defines generic properties and methods for working with the
     /// parts of a segmentable declaration.
     /// </summary>
+    /// <typeparam name="TIdentifier">The kind of identifier
+    /// used to differentiate the <typeparamref name="TDeclaration"/>
+    /// instances from one another.</typeparam>
     /// <typeparam name="TDeclaration">The type of declaration that needs
     /// segmentation functionality.</typeparam>
     public interface IIntermediateSegmentableDeclarationPartCollection<TIdentifier, TDeclaration> :

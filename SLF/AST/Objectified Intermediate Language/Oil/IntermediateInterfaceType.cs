@@ -514,7 +514,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns whether the members of the 
-        /// <see cref="IIntermediateInterfaceType{TInstanceType}"/>
+        /// <see cref="IntermediateInterfaceType{TInstanceType}"/>
         /// have been initialized.
         /// </summary>
         protected bool AreMembersInitialized { get { return this.members != null; } }

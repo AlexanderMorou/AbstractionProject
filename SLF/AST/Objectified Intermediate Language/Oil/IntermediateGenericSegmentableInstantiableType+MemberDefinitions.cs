@@ -96,14 +96,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             private CoercibleBinaryOperators _operator;
             private IType returnType;
             private IType otherSide;
-
+            private IBinaryOperatorUniqueIdentifier uniqueIdentifier;
             internal BinaryOperatorMember(IntermediateGenericSegmentableInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType> parent)
                 : base(((TIntermediateType)(((object)(parent)))))
             {
             }
 
             /// <summary>
-            /// Obtains the <see cref="DeclarationBase.Name"/> for the <see cref="BinaryOperatorMember"/>.
+            /// Obtains the <see cref="DeclarationBase{TIdentifier}.Name"/> for the <see cref="BinaryOperatorMember"/>.
             /// </summary>
             /// <returns>A <see cref="System.String"/> that contains 
             /// the name of the 
@@ -177,7 +177,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         case CoercibleBinaryOperators.GreaterThan:
                         case CoercibleBinaryOperators.LessThanOrEqualTo:
                         case CoercibleBinaryOperators.GreaterThanOrEqualTo:
+                            if (value == this._operator)
+                                return;
+                            var oldId = this.UniqueIdentifier;
                             this._operator = value;
+                            this.OnIdentifierChanged(oldId, DeclarationChangeCause.Signature);
                             break;
                         default:
                             throw new ArgumentOutOfRangeException("value");
@@ -198,7 +202,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         case BinaryOpCoercionContainingSide.LeftSide:
                         case BinaryOpCoercionContainingSide.RightSide:
                         case BinaryOpCoercionContainingSide.Both:
+                            if (value == this.containingSide)
+                                return;
+                            var oldId = this.UniqueIdentifier;
                             this.containingSide = value;
+                            this.OnIdentifierChanged(oldId, DeclarationChangeCause.Signature);
                             break;
                         default:
                             throw new ArgumentOutOfRangeException("value");
@@ -216,10 +224,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
                 set
                 {
+                    if (value == otherSide)
+                        return;
                     if (this.ContainingSide == BinaryOpCoercionContainingSide.Both)
                         throw new InvalidOperationException(Resources.Exception_InvalidOperation_ContainingSideIsBoth);
+                    var oldId = this.UniqueIdentifier;
                     this.otherSide = value;
+                    this.OnIdentifierChanged(oldId, DeclarationChangeCause.Signature);
                 }
+            }
+
+            protected override void OnIdentifierChanged(IBinaryOperatorUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+            {
+                if (this.uniqueIdentifier != null)
+                    this.uniqueIdentifier = null;
+                base.OnIdentifierChanged(oldIdentifier, cause);
             }
 
             public IType ReturnType
@@ -236,27 +255,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             #endregion
 
-            public override string UniqueIdentifier
+            public override IBinaryOperatorUniqueIdentifier UniqueIdentifier
             {
-                get
-                {
-                    switch (this.ContainingSide)
-                    {
-                        case BinaryOpCoercionContainingSide.LeftSide:
-                            return string.Format("{0} operator {1}({2}, {3})", this.ReturnType, this.Name, this.Parent.FullName, this.OtherSide.FullName);
-                        case BinaryOpCoercionContainingSide.RightSide:
-                            return string.Format("{0} operator {1}({2}, {3})", this.ReturnType, this.Name, this.OtherSide.FullName, this.Parent.FullName);
-                        case BinaryOpCoercionContainingSide.Both:
-                            return string.Format("{0} operator {1}({2}, {2})", this.ReturnType, this.Name, this.Parent.FullName);
-                        default:
-                            return string.Format(this.Name);
-                    }
+                get {
+                    if (this.uniqueIdentifier == null)
+                        this.uniqueIdentifier = AstIdentifier.BinaryOperator(this.Operator, this.ContainingSide, this.OtherSide);
+                    return this.uniqueIdentifier;
                 }
             }
 
             public override string ToString()
             {
-                return this.UniqueIdentifier;
+                return this.UniqueIdentifier.ToString();
             }
 
             public override IIntermediateAssembly Assembly
@@ -328,6 +338,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             private TypeConversionRequirement requirement;
             private TypeConversionDirection direction;
             private IType coercionType;
+
+            private ITypeCoercionUniqueIdentifier uniqueIdentifier;
             internal TypeCoercionMember(TInstanceIntermediateType parent)
                 : base(parent)
             {
@@ -343,11 +355,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
                 set
                 {
+                    if (value == this.requirement)
+                        return;
                     switch (value)
                     {
                         case TypeConversionRequirement.Explicit:
                         case TypeConversionRequirement.Implicit:
+                            var oldIdentifier = this.UniqueIdentifier;
                             this.requirement = value;
+                            this.OnIdentifierChanged(oldIdentifier, DeclarationChangeCause.Signature);
                             break;
                         default:
                             throw new ArgumentOutOfRangeException("value");
@@ -363,11 +379,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
                 set
                 {
+                    if (value == this.direction)
+                        return;
                     switch (value)
                     {
                         case TypeConversionDirection.ToContainingType:
                         case TypeConversionDirection.FromContainingType:
+                            var oldIdentifier = this.UniqueIdentifier;
                             this.direction = value;
+                            this.OnIdentifierChanged(oldIdentifier, DeclarationChangeCause.Signature);
                             break;
                         default:
                             throw new ArgumentOutOfRangeException("value");
@@ -392,7 +412,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         throw new ArgumentNullException("value");
                     if (value is IInterfaceType)
                         throw new ArgumentException(Resources.Exception_Argument_CoercionType_CannotBeInterface, "value");
+                    if (value == this.coercionType)
+                        return;
+                    var oldIdentifier = this.UniqueIdentifier;
                     this.coercionType = value;
+                    this.OnIdentifierChanged(oldIdentifier, DeclarationChangeCause.Signature);
                 }
             }
 
@@ -408,6 +432,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 visitor.Visit(this);
             }
+
+            protected override void OnIdentifierChanged(ITypeCoercionUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+            {
+                if (this.uniqueIdentifier != null)
+                    this.uniqueIdentifier = null;
+                base.OnIdentifierChanged(oldIdentifier, cause);
+            }
+
+            public override ITypeCoercionUniqueIdentifier UniqueIdentifier
+            {
+                get {
+                    if (this.uniqueIdentifier == null)
+                        this.uniqueIdentifier = AstIdentifier.TypeOperator(this.Requirement, this.Direction, this.CoercionType);
+                    return this.uniqueIdentifier;
+                }
+            }
         }
 
         /// <summary>
@@ -420,6 +460,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             private IType resultedType;
             private CoercibleUnaryOperators _operator;
+            private IUnaryOperatorUniqueIdentifier uniqueIdentifier;
+
             internal UnaryOperatorMember(IntermediateGenericSegmentableInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType> parent)
                 : base(((TIntermediateType)(((object)(parent)))))
             {
@@ -473,6 +515,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
                 set
                 {
+                    if (value == this._operator)
+                        return;
                     switch (value)
                     {
                         case CoercibleUnaryOperators.Plus:
@@ -483,7 +527,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         case CoercibleUnaryOperators.Complement:
                         case CoercibleUnaryOperators.Increment:
                         case CoercibleUnaryOperators.Decrement:
+                            var oldIdentifier = this.UniqueIdentifier;
                             this._operator = value;
+                            this.OnIdentifierChanged(oldIdentifier, DeclarationChangeCause.Signature);
                             break;
                         default:
                             throw new ArgumentOutOfRangeException("value");
@@ -516,6 +562,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
 
             #endregion
+
+            public override IUnaryOperatorUniqueIdentifier UniqueIdentifier
+            {
+                get {
+                    if (this.uniqueIdentifier == null)
+                        this.uniqueIdentifier = AstIdentifier.UnaryOperator(this.Operator);
+                    return this.uniqueIdentifier;
+                }
+            }
 
             public override IIntermediateAssembly Assembly
             {
@@ -550,6 +605,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public abstract class IndexerMember :
             IntermediateIndexerMember<TIndexer, TIntermediateIndexer, TType, TIntermediateType, TIntermediateIndexerMethod>
         {
+            
             /// <summary>
             /// Creates a new <see cref="IndexerMember"/> with the <paramref name="parent"/>
             /// provided.
@@ -577,15 +633,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 
             }
 
-            protected override void OnParameterAdded(EventArgsR1<IIntermediateIndexerParameterMember<TIndexer, TIntermediateIndexer, TType, TIntermediateType>> e)
-            {
-                base.OnParameterAdded(e);
-            }
-
-            protected override void OnParameterRemoved(EventArgsR1<IIntermediateIndexerParameterMember<TIndexer, TIntermediateIndexer, TType, TIntermediateType>> e)
-            {
-                base.OnParameterRemoved(e);
-            }
         }
 
         public abstract class FieldMember :

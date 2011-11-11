@@ -16,6 +16,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// Defines properties and methods for working with an intermediate member
     /// which belongs to a <typeparamref name="TIntermediateParent"/> instance.
     /// </summary>
+    /// <typeparam name="TIdentifier">The kind of identifier used to differentiate
+    /// the member from its siblings.</typeparam>
     /// <typeparam name="TParent">The type of <see cref="IMemberParent"/> in the abstract
     /// sense.</typeparam>
     /// <typeparam name="TIntermediateParent">The type of <see cref="IIntermediateMemberParent"/> 
@@ -25,7 +27,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IIntermediateMember,
         IMember<TIdentifier, TParent>
         where TIdentifier :
-            IMemberUniqueIdentifier<TIdentifier>
+            IMemberUniqueIdentifier<TIdentifier>,
+            IGeneralMemberUniqueIdentifier
         where TParent :
             IMemberParent
         where TIntermediateParent :

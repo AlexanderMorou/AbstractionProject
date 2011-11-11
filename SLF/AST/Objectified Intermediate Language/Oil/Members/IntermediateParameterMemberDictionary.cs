@@ -60,6 +60,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region IIntermediateParameterMemberDictionary<TParent,TIntermediateParent,TParameter,TIntermediateParameter> Members
 
+        public TIntermediateParameter this[string name]
+        {
+            get
+            {
+                for (int i = 0, c = this.Count; i < c; i++)
+                    if (this.Keys[i].Name == name)
+                        return this.Values[i];
+                throw new KeyNotFoundException();
+            }
+        }
+
         /// <summary>
         /// Adds a new <typeparamref name="TIntermediateParameter"/> instance
         /// with the <paramref name="name"/> and <paramref name="parameterType"/>
@@ -169,6 +180,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #region IIntermediateParameterMemberDictionary Members
 
+        IIntermediateParameterMember IIntermediateParameterMemberDictionary.this[string name]
+        {
+            get
+            {
+                return this[name];
+            }
+        }
+
+        bool IIntermediateParameterMemberDictionary.Remove(IIntermediateParameterMember member)
+        {
+            if (member == null || member is TIntermediateParameter)
+                return this.Remove((TIntermediateParameter)member);
+            throw ThrowHelper.ObtainArgumentException(ArgumentWithException.member, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.member), member.GetType().ToString(), typeof(TIntermediateParameter).ToString());
+        }
         IIntermediateParameterParent IIntermediateParameterMemberDictionary.Parent
         {
             get { return base.Parent; }

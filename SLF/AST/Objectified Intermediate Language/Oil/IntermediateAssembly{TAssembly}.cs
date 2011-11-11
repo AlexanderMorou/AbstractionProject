@@ -1090,7 +1090,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Occurs after the 
-        /// <see cref="IntermediateAssemblyBase{TIdentifier}"/>
+        /// <see cref="IntermediateAssembly{TAssembly}"/>
         /// has changed in a way which invalidates the previous unique
         /// identifier.
         /// </summary>
@@ -1157,7 +1157,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns whether the <see cref="Members"/> have been initialized
-        /// for the <see cref="IntermediateAssemblyBase{TAssembly}"/>.
+        /// for the <see cref="IntermediateAssembly{TAssembly}"/>.
         /// </summary>
         protected bool AreIntermediateMembersInitialized
         {
@@ -1169,7 +1169,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns whether the <see cref="Types"/> have been initialized
-        /// for the <see cref="IntermediateAssemblyBase{TAssembly}"/>.
+        /// for the <see cref="IntermediateAssembly{TAssembly}"/>.
         /// </summary>
         protected bool AreIntermediateTypesInitialized
         {

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Linq;
+using System.Text;
+using AllenCopeland.Abstraction.Slf._Internal;
 using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -53,6 +54,19 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         #region IIntermediateNamespaceDictionary Members
+
+        public IIntermediateNamespaceDeclaration this[string path]
+        {
+            get
+            {
+                return (IIntermediateNamespaceDeclaration)this.GetThis(path);
+            }
+        }
+
+        protected override INamespaceDeclaration OnGetThis(IGeneralDeclarationUniqueIdentifier key)
+        {
+            return this[key.Name];
+        }
 
         /// <summary>
         /// Returns the <see cref="IIntermediateNamespaceParent"/>
@@ -174,7 +188,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-
         #region INamespaceDictionary Members
 
         INamespaceParent INamespaceDictionary.Parent
@@ -185,6 +198,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public bool PathExists(string path)
         {
             return this.ContainsKey(path);
+        }
+
+        INamespaceDeclaration INamespaceDictionary.this[string path]
+        {
+            get
+            {
+                return this[path];
+            }
         }
 
         #endregion

@@ -478,5 +478,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             this.isLockApplied = false;
         }
+
+        #region IIntermediateDeclarationDictionary Members
+
+        public bool ContainsName(string name)
+        {
+            for (int i = 0, c = this.Count; i < c; i++)
+                if (this.Keys[i].Name == name)
+                    return true;
+            return false;
+        }
+
+        #endregion
     }
 }

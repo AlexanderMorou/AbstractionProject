@@ -18,6 +18,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <summary>
     /// Provides an implementation of a parameter parent as a member.
     /// </summary>
+    /// <typeparam name="TParentIdentifier">The kind of identifier used to differentiate
+    /// the <typeparamref name="TIntermediateParent"/> from its siblings.</typeparam>
     /// <typeparam name="TParent">The type which parents the <typeparamref name="TParameter"/> 
     /// in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateParent">The type which parents the <typeparamref name="TIntermediateParameter"/>
@@ -32,7 +34,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IntermediateMemberBase<TParentIdentifier, TGrandParent, TIntermediateGrandParent>,
         IIntermediateParameterParent<TParent, TIntermediateParent, TParameter, TIntermediateParameter>
         where TParentIdentifier :
-            IMemberUniqueIdentifier<TParentIdentifier>
+            IMemberUniqueIdentifier<TParentIdentifier>,
+            IGeneralMemberUniqueIdentifier
         where TParent :
             IParameterParent<TParent, TParameter>,
             IMember<TParentIdentifier, TGrandParent>
@@ -43,8 +46,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TParameter :
             IParameterMember<TParent>
         where TIntermediateParameter :
-            TParameter,
-            IIntermediateParameterMember<TParent, TIntermediateParent>
+            IIntermediateParameterMember<TParent, TIntermediateParent>,
+            TParameter
         where TGrandParent :
             IMemberParent
         where TIntermediateGrandParent :
@@ -89,6 +92,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
+        /// <summary>
+        /// Returns whether the <see cref="Parameters"/> have been
+        /// initialized.
+        /// </summary>
+        protected bool AreParametersInitialized { get { return this.parameters != null; } }
+
         private void CheckParameters()
         {
             if (this.parameters == null)
@@ -99,9 +108,29 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
+        private EventHandler<EventArgsR1R2<IType, IType>> _parameter_ParameterTypeChangedPtr;
+        private EventHandler<EventArgsR1R2<IType, IType>> parameter_ParameterTypeChangedPtr
+        {
+            get
+            {
+                if (!this.IsDisposed && this._parameter_ParameterTypeChangedPtr == null)
+                    this._parameter_ParameterTypeChangedPtr = this.parameter_ParameterTypeChanged;
+                return this._parameter_ParameterTypeChangedPtr;
+            }
+        }
+
         void parameters_ItemRemoved(object sender, EventArgsR1<TIntermediateParameter> e)
         {
             this.OnParameterRemoved(e);
+            if (e != null && e.Arg1 != null)
+            {
+                var ptr = parameter_ParameterTypeChangedPtr;
+                if (ptr != null)
+                {
+                    var parameter = e.Arg1;
+                    parameter.ParameterTypeChanged -= parameter_ParameterTypeChangedPtr;
+                }
+            }
         }
 
         protected virtual void OnParameterAdded(EventArgsR1<TIntermediateParameter> e)
@@ -112,11 +141,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             var parameterAdded = this.ParameterAdded;
             if (parameterAdded != null)
                 parameterAdded(this, new EventArgsR1<TIntermediateParameter>(e.Arg1));
+            this.OnIdentifierChanged(this.UniqueIdentifier, DeclarationChangeCause.IdentityCardinality);
         }
 
         void parameters_ItemAdded(object sender, EventArgsR1<TIntermediateParameter> e)
         {
+            if (e != null && e.Arg1 != null)
+            {
+                var ptr = parameter_ParameterTypeChangedPtr;
+                if (ptr != null)
+                {
+                    var parameter = e.Arg1;
+                    parameter.ParameterTypeChanged += parameter_ParameterTypeChangedPtr;
+                }
+            }
             this.OnParameterAdded(e);
+        }
+
+        void parameter_ParameterTypeChanged(object sender, EventArgsR1R2<IType, IType> e)
+        {
+            if ((e == null || e.Arg1 == null || e.Arg2 == null) && sender is TIntermediateParameter)
+                this.OnIdentifierChanged(this.UniqueIdentifier, DeclarationChangeCause.Signature);
         }
 
         protected virtual void OnParameterRemoved(EventArgsR1<TIntermediateParameter> e)
@@ -127,6 +172,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             var parameterRemoved = this.ParameterRemoved;
             if (parameterRemoved != null)
                 parameterRemoved(this, new EventArgsR1<TIntermediateParameter>(e.Arg1));
+            this.OnIdentifierChanged(this.UniqueIdentifier, DeclarationChangeCause.IdentityCardinality);
         }
 
         /// <summary>
@@ -197,6 +243,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 if (disposing)
                 {
+                    if (this._parameter_ParameterTypeChangedPtr != null)
+                        this._parameter_ParameterTypeChangedPtr = null;
                     if (this.parameters != null)
                     {
                         this.parameters.ItemAdded -= new EventHandler<EventArgsR1<TIntermediateParameter>>(parameters_ItemAdded);

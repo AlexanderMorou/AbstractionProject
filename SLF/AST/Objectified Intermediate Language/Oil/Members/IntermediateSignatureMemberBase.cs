@@ -15,6 +15,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <summary>
     /// Provides an implementation of an intermediate signature member.
     /// </summary>
+    /// <typeparam name="TSignatureIdentifier">The kind of identifier used to differentiate the
+    /// <typeparamref name="TIntermediateSignature"/> instance from
+    /// its siblings.</typeparam>
     /// <typeparam name="TSignature">The type of the signature as defined in the 
     /// abstract type system.</typeparam>
     /// <typeparam name="TIntermediateSignature">The type of the signature in the intermediate
@@ -31,7 +34,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IntermediateParameterParentMemberBase<TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent,TIntermediateSignatureParent>,
         IIntermediateSignatureMember<TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
         where TSignatureIdentifier :
-            ISignatureMemberUniqueIdentifier<TSignatureIdentifier>
+            ISignatureMemberUniqueIdentifier<TSignatureIdentifier>,
+            IGeneralMemberUniqueIdentifier
         where TSignature :
             ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TIntermediateSignature :

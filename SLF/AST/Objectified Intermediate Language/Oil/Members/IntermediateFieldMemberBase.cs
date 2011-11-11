@@ -4,6 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -37,6 +38,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             TFieldParent,
             IIntermediateFieldParent<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>
     {
+        private IGeneralMemberUniqueIdentifier uniqueIdentifier;
+
         protected IntermediateFieldMemberBase(string name, TIntermediateFieldParent parent)
             : base(parent)
         {
@@ -68,6 +71,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public override void Visit(IIntermediateMemberVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        public override IGeneralMemberUniqueIdentifier UniqueIdentifier
+        {
+            get {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                return this.uniqueIdentifier;
+            }
+        }
+
+        protected override void OnIdentifierChanged(IGeneralMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+        {
+            if (this.uniqueIdentifier != null)
+                this.uniqueIdentifier = null;
+            base.OnIdentifierChanged(oldIdentifier, cause);
         }
     }
 }

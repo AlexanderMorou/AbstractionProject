@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -71,6 +72,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         private bool canWrite;
 
         /// <summary>
+        /// Data member for <see cref="UniqueIdentifier"/>.
+        /// </summary>
+        private IGeneralMemberUniqueIdentifier uniqueIdentifier;
+
+        /// <summary>
         /// Creates a new <see cref="IntermediatePropertySignatureMember{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent, TMethodMember}"/>
         /// with the <paramref name="name"/> and <paramref name="parent"/> provided.
         /// </summary>
@@ -79,9 +85,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <param name="parent">The <typeparamref name="TIntermediatePropertyParent"/> which contains the
         /// <see cref="IntermediatePropertySignatureMember{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent, TMethodMember}"/>.</param>
         public IntermediatePropertySignatureMember(string name, TIntermediatePropertyParent parent)
-            : base(parent)
+            : base(name, parent)
         {
-            base.OnSetName(name);
         }
 
         #region IIntermediatePropertySignatureMember Members
@@ -223,6 +228,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         #endregion
-    
+
+        protected override void OnIdentifierChanged(IGeneralMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+        {
+            if (this.uniqueIdentifier != null)
+                this.uniqueIdentifier = null;
+            base.OnIdentifierChanged(oldIdentifier, cause);
+        }
+
+        public override IGeneralMemberUniqueIdentifier UniqueIdentifier
+        {
+            get {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                return this.uniqueIdentifier;
+            }
+        }
     }
 }

@@ -16,6 +16,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// Defines generic properties and methods for working with a series of 
     /// intermediate type coercion members.
     /// </summary>
+    /// <typeparam name="TCoercionParentIdentifier">The kind of identifier used
+    /// to differentiate the <typeparamref name="TIntermediateCoercionParent"/>
+    /// instance from its siblings.</typeparam>
     /// <typeparam name="TCoercionParent">The type of parent that contains the 
     /// type coercion member in abstract type system.</typeparam>
     /// <typeparam name="TIntermediateCoercionParent">The type of parent that contains the 
@@ -24,7 +27,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IIntermediateGroupedMemberDictionary<TCoercionParent, TIntermediateCoercionParent, ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>, IIntermediateTypeCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent>>,
         ITypeCoercionMemberDictionary<TCoercionParentIdentifier, TCoercionParent>
         where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>
+            ITypeUniqueIdentifier<TCoercionParentIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
         where TCoercionParent :
             ICoercibleType<ITypeCoercionUniqueIdentifier, TCoercionParentIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
         where TIntermediateCoercionParent :

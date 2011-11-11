@@ -376,7 +376,7 @@ namespace AllenCopeland.Abstraction.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Cannot remove value in parameter &apos;{0}&apos;, member not found..
         /// </summary>
         internal static string AE_Remove_ValueNotFound {
             get {

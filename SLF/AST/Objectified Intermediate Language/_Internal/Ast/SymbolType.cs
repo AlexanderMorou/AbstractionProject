@@ -11,6 +11,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
+using AllenCopeland.Abstraction.Slf._Internal.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -27,6 +28,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         _IGenericClosureRegistrar,
         IMassTargetHandler
     {
+        private IGeneralGenericTypeUniqueIdentifier uniqueIdentifier;
         private int sourceSelector = NameSelection;
         private const int NameSelection = 1;
         private const int ExpressionSelection = 2;
@@ -493,9 +495,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         #endregion
 
-        public override IEnumerable<string> AggregateIdentifiers
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
-            get { return TypeBase.EmptyIdentifiers; }
+            get { return TypeBase<IGeneralGenericTypeUniqueIdentifier>.EmptyIdentifiers; }
+        }
+
+        protected override IGeneralGenericTypeUniqueIdentifier OnGetUniqueIdentifier()
+        {
+            if (this.uniqueIdentifier == null)
+            {
+                int typeParamCount;
+                lock (this.SyncObject)
+                    typeParamCount = this.typeParameters == null ? 0 : this.typeParameters.Count;
+                this.uniqueIdentifier = AstIdentifier.Type(this.Name, typeParamCount);
+            }
+            return this.uniqueIdentifier;
         }
     }
 }

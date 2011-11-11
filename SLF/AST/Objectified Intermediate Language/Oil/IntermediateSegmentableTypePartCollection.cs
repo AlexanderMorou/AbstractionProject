@@ -21,7 +21,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IntermediateSegmentableDeclarationParts<TTypeIdentifier, TIntermediateType, TSpecificIntermediateType>,
         IIntermediateSegmentableDeclarationPartCollection<TTypeIdentifier, TIntermediateType>
         where TTypeIdentifier :
-            ITypeUniqueIdentifier<TTypeIdentifier>
+            ITypeUniqueIdentifier<TTypeIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
         where TType :
             class,
             IType<TTypeIdentifier, TType>

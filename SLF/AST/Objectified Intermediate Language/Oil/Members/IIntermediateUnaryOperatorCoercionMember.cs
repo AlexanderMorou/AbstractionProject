@@ -20,6 +20,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// interpretation of the containing type with regards to unary operator 
     /// expressions.
     /// </summary>
+    /// <typeparam name="TCoercionParentIdentifier">The kind of identifier used
+    /// to differentiate the <typeparamref name="TIntermediateCoercionParent"/>
+    /// instance from its siblings.</typeparam>
     /// <typeparam name="TCoercionParent">The type of parent that contains the 
     /// unary operation coercion member in the abstract type system.</typeparam>
     /// <typeparam name="TInterCoercionParent">The type of parent that contains 
@@ -29,7 +32,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IIntermediateUnaryOperatorCoercionMember,
         IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>
         where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>
+            ITypeUniqueIdentifier<TCoercionParentIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
         where TCoercionParent :
             ICoercibleType<IUnaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
         where TInterCoercionParent :

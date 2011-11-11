@@ -563,7 +563,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         private static void SuspendCheck<TTypeIdentifier, TType, TIntermediateType>(IntermediateTypeDictionary<TTypeIdentifier, TType, TIntermediateType> dictionary, int suspendLevel)
             where TTypeIdentifier :
-                ITypeUniqueIdentifier<TTypeIdentifier>
+                ITypeUniqueIdentifier<TTypeIdentifier>,
+                IGeneralTypeUniqueIdentifier
             where TType :
                 IType<TTypeIdentifier, TType>
             where TIntermediateType :
@@ -861,11 +862,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Returns a series of string values which relate to the 
         /// identifiers contained within the <see cref="IntermediateNamespaceDeclaration"/>.
         /// </summary>
-        public IEnumerable<string> AggregateIdentifiers
+        public IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get
             {
-                return this.GetNamespaceParentIdentifiers();
+                return this.GetNamespaceParentIdentifiers(this.namespaces != null, this.types != null, this.members != null);
             }
         }
 
@@ -1003,5 +1004,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         #endregion
+
+        protected override string OnGetIdentityName()
+        {
+            return ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.@namespace);
+        }
     }
 }

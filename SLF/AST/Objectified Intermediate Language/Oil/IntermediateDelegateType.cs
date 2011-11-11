@@ -345,10 +345,5 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return AstIdentifier.Delegate(this.Name, 0, this.Parameters.ParameterTypes);
         }
 
-        protected override string OnGetIdentityName()
-        {
-            return ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.@delegate);
-        }
-
     }
 }

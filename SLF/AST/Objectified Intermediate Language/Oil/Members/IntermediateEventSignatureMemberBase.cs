@@ -4,6 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Properties;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -93,6 +94,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         private EventSignatureSource signatureSource;
         private IType returnType;
         private IDelegateType signatureType;
+        private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
         /// <summary>
         /// Creates a new <see cref="IntermediateEventSignatureMemberBase{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent}"/>
         /// instance with the <paramref name="parent"/> provided.
@@ -178,6 +180,25 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 }
             }
         }
+        
+        protected override void OnIdentifierChanged(IGeneralSignatureMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+        {
+            if (this.uniqueIdentifier != null)
+                this.uniqueIdentifier = null;
+            base.OnIdentifierChanged(oldIdentifier, cause);
+        }
 
+        public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier
+        {
+            get
+            {
+                if (this.uniqueIdentifier == null)
+                    if (this.AreParametersInitialized)
+                        this.uniqueIdentifier = AstIdentifier.Signature(this.Name, this.Parameters.ParameterTypes.ToArray());
+                    else
+                        this.uniqueIdentifier = AstIdentifier.Signature(this.Name);
+                return this.uniqueIdentifier;
+            }
+        }
     }
 }

@@ -96,6 +96,10 @@ namespace AllenCopeland.Abstraction
         /// </summary>
         length,
         /// <summary>
+        /// Parameter 'member'.
+        /// </summary>
+        member,
+        /// <summary>
         /// Parameter 'message'.
         /// </summary>
         message,
@@ -447,6 +451,9 @@ namespace AllenCopeland.Abstraction
         /// Cannot relationally check a type against another expression.
         /// </summary>
         RelationalInvalidOnExpression,
+        /// <summary>
+        /// Cannot remove value in parameter '{0}', member not found.
+        /// </summary>
         Remove_ValueNotFound,
         RemoveFailed_CustomAttributeNotFound,
         /// <summary>

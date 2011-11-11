@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -36,6 +37,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 IntermediateGenericParameterBase<IMethodSignatureGenericTypeParameterMember, IIntermediateMethodSignatureGenericTypeParameterMember, IMethodSignatureMember, IIntermediateMethodSignatureMember>,
                 IIntermediateMethodSignatureGenericTypeParameterMember
             {
+                private IGenericParameterUniqueIdentifier uniqueIdentifier;
                 public TypeParameter(string name, IntermediateMethodSignatureMemberBase<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> parent)
                     : base(name, parent)
                 {
@@ -46,6 +48,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                     return object.ReferenceEquals(other, this);
                 }
 
+
+                protected override IGenericParameterUniqueIdentifier OnGetUniqueIdentifier()
+                {
+                    if (this.uniqueIdentifier == null)
+                        this.uniqueIdentifier = AstIdentifier.Type(this.Position, this.Name, false);
+                    return this.uniqueIdentifier;
+                }
+
+                protected override void OnIdentifierChanged(IGenericParameterUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+                {
+                    if (this.uniqueIdentifier != null)
+                        this.uniqueIdentifier = null;
+                    base.OnIdentifierChanged(oldIdentifier, cause);
+                }
             }
         }
     }

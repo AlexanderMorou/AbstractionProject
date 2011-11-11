@@ -19,6 +19,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <summary>
     /// Provides a base declaration dictionary.
     /// </summary>
+    /// <typeparam name="TIdentifier">The kind of identifier used to differentiate
+    /// the <typeparamref name="TIntermediateDeclaration"/> instances from one another.</typeparam>
     /// <typeparam name="TDeclaration">The type of declaration in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateDeclaration">The type of declaration in the intermediate
     /// abstract syntax tree.</typeparam>
@@ -278,5 +280,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 return this.locked;
             }
         }
+    
+        #region IIntermediateDeclarationDictionary Members
+
+        public bool ContainsName(string name)
+        {
+            for (int i = 0, c = this.Count; i < c; i++)
+                if (this.Keys[i].Name == name)
+                    return true;
+            return false;
+        }
+
+        #endregion
     }
 }

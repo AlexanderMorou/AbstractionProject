@@ -541,7 +541,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
             where TSignatureParameter :
                 IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<IGeneralSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>;
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>;
 
         /// <summary>
         /// Creates, inserts and returns a <see cref="IBoundChangeEventSignatureHandlerStatement{TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent}"/>
@@ -682,7 +682,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
             where TSignatureParameter :
                 IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
             where TSignatureParent :
-                ISignatureParent<IGeneralSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>;
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>;
 
         /// <summary>
         /// Creates, inserts and returns a <see cref="IBoundChangeEventSignatureHandlerStatement{TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent}"/>
