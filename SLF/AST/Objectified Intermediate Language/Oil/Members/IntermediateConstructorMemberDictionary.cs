@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
         }
         /// <summary>
-        /// Creates a new <see cref="IntermediateGroupedSignatureMemberDictionary{TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/> with the 
+        /// Creates a new <see cref="IntermediateGroupedSignatureMemberDictionary{TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/> with the 
         /// <paramref name="master"/>, <paramref name="parent"/> and <paramref name="root"/> provided.
         /// </summary>
         /// <param name="master">The <see cref="IntermediateFullMemberDictionary"/>

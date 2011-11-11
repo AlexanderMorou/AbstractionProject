@@ -20,6 +20,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// Provides a base implementation of an intermediate generic type which can be segmented
     /// into multiple instances.
     /// </summary>
+    /// <typeparam name="TTypeIdentifier">The kind of type identifier used
+    /// to differentiate the <typeparamref name="TIntermediateType"/>
+    /// instance from its siblings.</typeparam>
     /// <typeparam name="TType">The type of generic type in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateType">The type of generic segmentable type in the intermediate
     /// abstract syntax tree.</typeparam>
@@ -31,7 +34,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IntermediateGenericTypeBase<TTypeIdentifier, TType, TIntermediateType>,
         IIntermediateSegmentableType<TTypeIdentifier, TType, TIntermediateType>
         where TTypeIdentifier : 
-            IGenericTypeUniqueIdentifier<TTypeIdentifier>
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
         where TType :
             class,
             IGenericType<TTypeIdentifier, TType>

@@ -107,7 +107,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             #region IBinaryOperatorCoercionMemberDictionary<TType> Members
 
-            IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> IBinaryOperatorCoercionMemberDictionary<TType>.this[CoercibleBinaryOperators op, BinaryOpCoercionContainingSide side, IType otherSide]
+            IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType>.this[CoercibleBinaryOperators op, BinaryOpCoercionContainingSide side, IType otherSide]
             {
                 get
                 {
@@ -115,7 +115,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
             }
 
-            IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> IBinaryOperatorCoercionMemberDictionary<TType>.this[CoercibleBinaryOperators op]
+            IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType>.this[CoercibleBinaryOperators op]
             {
                 get
                 {

@@ -22,6 +22,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// Provides a base implementation of 
     /// <see cref="IIntermediateSegmentableDeclarationPartCollection"/>.
     /// </summary>
+    /// <typeparam name="TIdentifier">The kind of identifier
+    /// used to differentiate the <typeparamref name="TInstDeclaration"/>
+    /// instances from one another.</typeparam>
     /// <typeparam name="TDeclaration">The type of <see cref="IIntermediateSegmentableDeclaration"/>
     /// which needs partialalbe functionality</typeparam>
     /// <typeparam name="TInstDeclaration">The specific type of <typeparamref name="TDeclaration"/>
@@ -140,13 +143,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         #endregion
-
-        /// <summary>
-        /// Obtains the word used to describe the elements of the sequence.
-        /// </summary>
-        /// <returns>The <see cref="String"/> value that describes the instance
-        /// in readable form.</returns>
-        protected abstract string GetIdentityName();
 
         #region IIntermediateSegmentableDeclarationPartCollection<TDeclaration> Members
 

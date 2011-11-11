@@ -73,6 +73,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IEventSignatureParent<IGenericParameterEventMember<TGenericParameter>, TGenericParameter>,
         IIndexerSignatureParent<IGenericParameterIndexerMember<TGenericParameter>, TGenericParameter>,
         IPropertySignatureParent<IGenericParameterPropertyMember<TGenericParameter>, TGenericParameter>,
+        IType<IGenericParameterUniqueIdentifier, TGenericParameter>,
         IGenericParameter
         where TGenericParameter :
             IGenericParameter<TGenericParameter>
@@ -117,6 +118,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IEventSignatureParent,
         IIndexerSignatureParent,
         IPropertySignatureParent,
+        IType,
         IDeclaration<IGenericParameterUniqueIdentifier>
     {
         /// <summary>

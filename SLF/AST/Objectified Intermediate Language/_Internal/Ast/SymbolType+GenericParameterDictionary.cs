@@ -118,7 +118,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 return false;
             }
 
-            public bool TryGetValue(string key, out IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType> value)
+            public bool TryGetValue(IGenericParameterUniqueIdentifier key, out IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType> value)
             {
                 for (int i = 0; i < this.Count; i++)
                     if (this.tParamNames[i].Equals(key))

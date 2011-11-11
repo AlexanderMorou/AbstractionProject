@@ -15,17 +15,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// Defines generic properties and methods for working with an intermediate
     /// type which can span multiple instances.
     /// </summary>
+    /// <typeparam name="TTypeIdentifier">The kind of type identifier used
+    /// to differentiate the <typeparamref name="TIntermediateType"/>
+    /// instance from its siblings.</typeparam>
     /// <typeparam name="TType">The type of <see cref="IType{TTypeIdentifier, TType}"/> in the
     /// abstract type sytem.</typeparam>
     /// <typeparam name="TIntermediateType">The type of <see cref="IIntermediateType"/>
     /// which needs segmentation functionality.</typeparam>
     public interface IIntermediateSegmentableType<TTypeIdentifier, TType, TIntermediateType> :
         IIntermediateSegmentableDeclaration<TTypeIdentifier, TIntermediateType>,
-        IIntermediateType,
+        IIntermediateType<TTypeIdentifier, TType, TIntermediateType>,
         IType<TTypeIdentifier, TType>,
         IIntermediateSegmentableType
         where TTypeIdentifier :
-            ITypeUniqueIdentifier<TTypeIdentifier>
+            ITypeUniqueIdentifier<TTypeIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
         where TType :
             IType<TTypeIdentifier, TType>
         where TIntermediateType :

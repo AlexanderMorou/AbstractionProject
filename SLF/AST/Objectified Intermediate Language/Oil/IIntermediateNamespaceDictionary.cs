@@ -57,6 +57,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// potentially dotted trail of declaration identifiers that represent
         /// the path of the <see cref="IIntermediateNamespaceDeclaration"/> to retrieve.</param>
         /// <returns></returns>
-        IIntermediateNamespaceDeclaration this[string path] { get; }
+        new IIntermediateNamespaceDeclaration this[string path] { get; }
     }
 }

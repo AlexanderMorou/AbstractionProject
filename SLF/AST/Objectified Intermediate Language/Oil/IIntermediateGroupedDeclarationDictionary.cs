@@ -15,6 +15,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// Defines generic properties and methods for working with
     /// an intermediate series of grouped declarations.
     /// </summary>
+    /// <typeparam name="TIdentifier">The kind of identifier used
+    /// to differentiate the <typeparamref name="TIntermediateDeclaration"/>
+    /// instances from one another.</typeparam>
     /// <typeparam name="TDeclaration">The type of declaration in the grouped declarations
     /// in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateDeclaration">The type of declaration as it exists in the

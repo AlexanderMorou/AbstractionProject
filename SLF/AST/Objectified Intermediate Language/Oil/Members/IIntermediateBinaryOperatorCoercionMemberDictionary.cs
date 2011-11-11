@@ -13,15 +13,25 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 namespace AllenCopeland.Abstraction.Slf.Oil.Members
 {
     /// <summary>
-    /// 
+    /// Defines properties and methods for working with a dictionary that
+    /// contains a series of intermediate binary operator coercion members
+    /// used to coerce binary operations within mathematical expressions
+    /// based off of the types of the operands.
     /// </summary>
-    /// <typeparam name="TCoercionParent"></typeparam>
-    /// <typeparam name="TIntermediateCoercionParent"></typeparam>
+    /// <typeparam name="TCoercionParentIdentifier">The kind of identifier used
+    /// to differentiate the <typeparamref name="TIntermediateCoercionParent"/>
+    /// instance from its siblings.</typeparam>
+    /// <typeparam name="TCoercionParent">The type of coercion parent which
+    /// contains the binary operator coercion members.</typeparam>
+    /// <typeparam name="TIntermediateCoercionParent">The type of the 
+    /// intermediate coercion parent which contains the intermediate 
+    /// (malleable) binary operator coercion members.</typeparam>
     public interface IIntermediateBinaryOperatorCoercionMemberDictionary<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent> :
         IIntermediateGroupedMemberDictionary<TCoercionParent, TIntermediateCoercionParent, IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, IIntermediateBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent>>,
         IBinaryOperatorCoercionMemberDictionary<TCoercionParentIdentifier, TCoercionParent>
         where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>
+            ITypeUniqueIdentifier<TCoercionParentIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
         where TCoercionParent :
             ICoercibleType<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
         where TIntermediateCoercionParent :

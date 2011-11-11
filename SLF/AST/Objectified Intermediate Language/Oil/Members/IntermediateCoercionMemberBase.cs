@@ -23,7 +23,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             IMemberUniqueIdentifier<TCoercionIdentifier>,
             IGeneralMemberUniqueIdentifier
         where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>
+            ITypeUniqueIdentifier<TCoercionParentIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
         where TCoercion :
             ICoercionMember<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent>
         where TIntermediateCoercion :

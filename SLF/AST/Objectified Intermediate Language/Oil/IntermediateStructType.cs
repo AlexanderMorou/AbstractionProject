@@ -188,7 +188,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             visitor.Visit(this);
         }
 
-        public ImplementedInterfacesDictionary ImplementedInterfaces
+        public new ImplementedInterfacesDictionary ImplementedInterfaces
         {
             get
             {

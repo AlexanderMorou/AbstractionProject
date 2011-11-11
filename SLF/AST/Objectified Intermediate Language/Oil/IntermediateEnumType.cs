@@ -22,6 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IntermediateTypeBase<IGeneralTypeUniqueIdentifier, IEnumType, IIntermediateEnumType>,
         IIntermediateEnumType
     {
+        private IGeneralTypeUniqueIdentifier uniqueIdentifier;
         private FieldMemberDictionary fields;
         private IntermediateFullMemberDictionary members;
         /// <summary>
@@ -152,7 +153,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Implementation version of <see cref="TypeBase.BaseType"/> which 
+        /// Implementation version of <see cref="TypeBase{TIdentifier}.BaseType"/> which 
         /// returns the base type of the current <see cref="IntermediateEnumType"/>
         /// </summary>
         protected override IType BaseTypeImpl
@@ -198,18 +199,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Returns a series of string values which relate to the 
         /// identifiers contained within the <see cref="IntermediateEnumType"/>.
         /// </summary>
-        public override IEnumerable<string> AggregateIdentifiers
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get {
-                return from f in this.Fields.Values
-                       select f.Name;
+                if (this.fields == null)
+                    return TypeBase<IGeneralTypeUniqueIdentifier>.EmptyIdentifiers;
+                return this.Fields.Keys;
             }
         }
 
-        protected override string OnGetIdentityName()
+        protected override IGeneralTypeUniqueIdentifier OnGetUniqueIdentifier()
         {
-            return ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.@enum);
+            if (this.uniqueIdentifier == null)
+                this.uniqueIdentifier = AstIdentifier.Type(this.Name);
+            return this.uniqueIdentifier;
         }
 
+        protected override void OnIdentifierChanged(IGeneralTypeUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+        {
+            if (this.uniqueIdentifier != null)
+                this.uniqueIdentifier = null;
+            base.OnIdentifierChanged(oldIdentifier, cause);
+        }
     }
 }

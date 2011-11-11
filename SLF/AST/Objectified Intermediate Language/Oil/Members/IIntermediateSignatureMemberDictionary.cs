@@ -16,8 +16,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// Defines generic properties and methods for working 
     /// with a series of signature members.
     /// </summary>
+    /// <typeparam name="TSignatureIdentifier">The kind of identifier used to differentiate
+    /// the <typeparamref name="TIntermediateSignature"/> instances
+    /// from one another.</typeparam>
     /// <typeparam name="TSignature">The type of 
-    /// <see cref="ISignatureMember{TSignatureIdentifier, TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> 
+    /// <see cref="ISignatureMember{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> 
     /// in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateSignature">The type of 
     /// <see cref="IIntermediateSignatureMember{TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/> 
@@ -38,7 +41,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IIntermediateMemberDictionary<TSignatureParent, TIntermediateSignatureParent, TSignatureIdentifier, TSignature, TIntermediateSignature>,
         ISignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TSignatureIdentifier  :
-            ISignatureMemberUniqueIdentifier<TSignatureIdentifier>
+            ISignatureMemberUniqueIdentifier<TSignatureIdentifier>,
+            IGeneralMemberUniqueIdentifier
         where TSignature :
             ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TIntermediateSignature :

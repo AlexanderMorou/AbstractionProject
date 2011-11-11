@@ -126,10 +126,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <summary>
         /// Visits the <paramref name="binaryCoercion"/> provided.
         /// </summary>
+        /// <typeparam name="TCoercionParentIdentifier">The kind of identifier used to differentiate the
+        /// <paramref name="binaryCoercion"/> instance from its siblings.</typeparam>
         /// <typeparam name="TCoercionParent">
         /// The type of parent that contains the binary operation 
         /// coercion member in the current implementation.</typeparam>
-        /// <param name="binaryCoercion">The <see cref="IBinaryOperatorCoercionMember{TCoercionParent}"/>
+        /// <param name="binaryCoercion">The <see cref="IBinaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent}"/>
         /// to visit.</param>
         void Visit<TCoercionParentIdentifier, TCoercionParent>(IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent> binaryCoercion)
             where TCoercionParentIdentifier :

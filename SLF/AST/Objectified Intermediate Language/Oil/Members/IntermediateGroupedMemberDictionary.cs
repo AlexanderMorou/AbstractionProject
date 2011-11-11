@@ -21,7 +21,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TIntermediateMemberParent">The type of
     /// <see cref="IIntermediateMemberParent"/> in the intermediate
     /// abstract syntax tree.</typeparam>
-    /// <typeparam name="TMember">The type of <see cref="IMember{TParent}"/> 
+    /// <typeparam name="TMemberIdentifier">The kind of identifier used to differentiate the 
+    /// <typeparamref name="TIntermediateMember"/> instances from one another.</typeparam>
+    /// <typeparam name="TMember">The type of <see cref="IMember{TMemberIdentifier, TParent}"/> 
     /// used in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateMember">The type of 
     /// <see cref="IIntermediateMember{TIdentifier, TParent, TIntermediateParent}"/>
@@ -37,7 +39,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             IIntermediateMemberParent,
             TMemberParent
         where TMemberIdentifier :
-            IMemberUniqueIdentifier<TMemberIdentifier>
+            IMemberUniqueIdentifier<TMemberIdentifier>,
+            IGeneralMemberUniqueIdentifier
         where TMember :
             IMember<TMemberIdentifier, TMemberParent>
         where TIntermediateMember :

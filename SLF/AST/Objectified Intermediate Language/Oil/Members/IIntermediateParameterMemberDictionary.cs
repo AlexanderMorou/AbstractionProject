@@ -83,9 +83,24 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// instances created from the <paramref name="parameterInfo"/>
         /// provided.</returns>
         TIntermediateParameter[] AddRange(params TypedName[] parameterInfo);
+        /// <summary>
+        /// Removes the <paramref name="parameter"/> provided from the 
+        /// <see cref="IIntermediateParameterMemberDictionary{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>.
+        /// </summary>
+        /// <param name="parameter">The <typeparamref name="TIntermediateParameter"/>
+        /// to remove from the 
+        /// <see cref="IIntermediateParameterMemberDictionary{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>.</param>
+        /// <returns></returns>
         bool Remove(TIntermediateParameter parameter);
-
-        bool Remove(IGeneralMemberUniqueIdentifier identifier);
+        /// <summary>
+        /// Obtains the <typeparamref name="TIntermediateParameter"/> by the
+        /// <paramref name="name"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value representing the 
+        /// name of the parameter to retrieve.</param>
+        /// <returns>A <typeparamref name="TIntermediateParameter"/> by the
+        /// <paramref name="name"/> provided.</returns>
+        TIntermediateParameter this[string name] { get; }
     }
     /// <summary>
     /// Defines properties and methods for working with a dictionary of
@@ -147,7 +162,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IIntermediateParameterMember Add(TypedName parameterInfo);
 
         bool Remove(IIntermediateParameterMember parameter);
-        bool Remove(IGeneralMemberUniqueIdentifier identifier);
+
+        /// <summary>
+        /// Obtains the <see cref="IIntermediateParameterMember"/> by the
+        /// <paramref name="name"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value representing the 
+        /// name of the parameter to retrieve.</param>
+        /// <returns>A <see cref="IIntermediateParameterMember"/> by the
+        /// <paramref name="name"/> provided.</returns>
+        IIntermediateParameterMember this[string name] { get; }
 
     }
 }

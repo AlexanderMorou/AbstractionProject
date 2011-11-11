@@ -17,6 +17,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// Defines generic properties and methods for working with
     /// an intermediate series of declarations.
     /// </summary>
+    /// <typeparam name="TIdentifier">The kind of identifier used to differentiate
+    /// the <typeparamref name="TIntermediateDeclaration"/> instances from one another.</typeparam>
     /// <typeparam name="TDeclaration">The type of declaration in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateDeclaration">The type of declaration in the intermediate
     /// abstract syntax tree.</typeparam>
@@ -61,6 +63,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         new IEnumerator<KeyValuePair<TIdentifier, TIntermediateDeclaration>> GetEnumerator();
         event EventHandler<EventArgsR1<TIntermediateDeclaration>> ItemAdded;
         event EventHandler<EventArgsR1<TIntermediateDeclaration>> ItemRemoved;
+        /// <summary>
+        /// Returns whether a member of the <see cref="IIntermediateDeclarationDictionary{TIdentifier, TDeclaration, TIntermediateDeclaration}"/>
+        /// has a <paramref name="name"/> that equals the one provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value representing the name to check for.</param>
+        /// <returns>true, if there exists an element within the <see cref="IIntermediateDeclarationDictionary{TIdentifier, TDeclaration, TIntermediateDeclaration}"/>
+        /// that has the <paramref name="name"/> provided; false, otherwise.</returns>
+        bool ContainsName(string name);
     }
     /// <summary>
     /// Defines properties and methods for working with 
@@ -69,6 +79,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     public interface IIntermediateDeclarationDictionary :
         IDeclarationDictionary
     {
-
+        /// <summary>
+        /// Returns whether a member of the <see cref="IIntermediateDeclarationDictionary"/>
+        /// has a <paramref name="name"/> that equals the one provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value representing the name to check for.</param>
+        /// <returns>true, if there exists an element within the <see cref="IIntermediateDeclarationDictionary"/>
+        /// that has the <paramref name="name"/> provided; false, otherwise.</returns>
+        bool ContainsName(string name);
     }
 }

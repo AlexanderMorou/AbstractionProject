@@ -22,7 +22,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <typeparam name="TIndexer">The type used for the indexers in the current implementation.</typeparam>
     /// <typeparam name="TMethod">The type used for the methods in the current implementation.</typeparam>
     /// <typeparam name="TProperty">The type used for the properties in the current implementation.</typeparam>
-    /// 
     /// <typeparam name="TType">The <see cref="IInstantiableType{TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TTypeIdentifier, TType}"/> 
     /// in the implementation.</typeparam>
     public interface IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TTypeIdentifier, TType> :

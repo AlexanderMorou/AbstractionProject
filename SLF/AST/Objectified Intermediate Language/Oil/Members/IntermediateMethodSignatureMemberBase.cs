@@ -106,6 +106,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             IIntermediateSignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TParent, TIntermediateParent>,
             TParent
     {
+        private IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier;
         private GenericParameterCollection genericParameters;
         private IDictionary<ITypeCollectionBase, TSignature> genericCache;
         private IType returnType;
@@ -325,35 +326,30 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             }
         }
 
-        public override string UniqueIdentifier
+        public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier
         {
-            get
-            {
-                return string.Format("{0} {1}{2}{3}", this.ReturnType.BuildTypeName(true), base.Name, this.UniqueIdentifier_TypeParameters(), base.UniqueIdentifier_Parameters());
+            get {
+                if (this.uniqueIdentifier == null)
+                {
+                    if (this.typeParameters != null)
+                        if (this.AreParametersInitialized)
+                            return AstIdentifier.GenericSignature(this.Name, this.typeParameters.Count, this.Parameters.ParameterTypes.ToArray());
+                        else
+                            return AstIdentifier.GenericSignature(this.Name, this.typeParameters.Count);
+                    else if (this.AreParametersInitialized)
+                        return AstIdentifier.GenericSignature(this.Name, this.Parameters.ParameterTypes.ToArray());
+                    else
+                        return AstIdentifier.GenericSignature(this.Name);
+                }
+                return this.uniqueIdentifier;
             }
         }
 
-        private string UniqueIdentifier_TypeParameters()
+        protected override void OnIdentifierChanged(IGeneralGenericSignatureMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
         {
-            if (this.typeParameters == null || this.typeParameters.Count == 0)
-                return string.Empty;
-            else
-            {
-                return string.Format("`{0}", this.typeParameters.Count);
-                //StringBuilder sb = new StringBuilder();
-                //sb.Append("<");
-                //bool first = true;
-                //foreach (var typeParameter in this.TypeParameters.Values)
-                //{
-                //    if (first)
-                //        first = false;
-                //    else
-                //        sb.Append(", ");
-                //    sb.Append(typeParameter.UniqueIdentifier);
-                //}
-                //sb.Append(">");
-                //return sb.ToString();
-            }
+            if (this.uniqueIdentifier != null)
+                this.uniqueIdentifier = null;
+            base.OnIdentifierChanged(oldIdentifier, cause);
         }
 
         protected virtual void OnTypeParameterAdded(IIntermediateMethodSignatureGenericTypeParameterMember arg1)
@@ -364,6 +360,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             var typeParameterAdded = this.TypeParameterAdded;
             if (typeParameterAdded != null)
                 typeParameterAdded(this, new EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>(arg1));
+            if (this.uniqueIdentifier != null)
+                this.OnIdentifierChanged(this.UniqueIdentifier, DeclarationChangeCause.IdentityCardinality);
         }
 
         protected virtual void OnTypeParameterRemoved(IIntermediateMethodSignatureGenericTypeParameterMember arg1)
@@ -374,8 +372,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             var typeParameterRemoved = this.TypeParameterRemoved;
             if (typeParameterRemoved != null)
                 typeParameterRemoved(this, new EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>(arg1));
+            if (this.uniqueIdentifier != null)
+                this.OnIdentifierChanged(this.UniqueIdentifier, DeclarationChangeCause.IdentityCardinality);
         }
-
 
         #region IIntermediateGenericParameterParent<IMethodSignatureGenericTypeParameterMember,IIntermediateMethodSignatureGenericTypeParameterMember,IMethodSignatureMember,IIntermediateMethodSignatureMember> Members
 

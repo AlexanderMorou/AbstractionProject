@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -31,7 +32,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IntermediateGenericParameterBase<IGenericTypeParameter<TTypeIdentifier, TType>, IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>, TType, TIntermediateType>,
         IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>
         where TTypeIdentifier :
-            IGenericTypeUniqueIdentifier<TTypeIdentifier>
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
         where TType :
             IGenericType<TTypeIdentifier, TType>
         where TIntermediateType :
@@ -39,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             IIntermediateGenericType<TTypeIdentifier, TType, TIntermediateType>,
             TType
     {
-
+        private IGenericParameterUniqueIdentifier uniqueIdentifier;
         /// <summary>
         /// Creates a new <see cref="IntermediateGenericTypeParameterBase{TTypeIdentifier, TType, TIntermediateType}"/>
         /// with the <paramref name="name"/> and <paramref name="parent"/> provided.
@@ -95,6 +97,20 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 else
                     base.Position = value;
             }
+        }
+
+        protected override void OnIdentifierChanged(IGenericParameterUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+        {
+            if (uniqueIdentifier != null)
+                this.uniqueIdentifier = null;
+            base.OnIdentifierChanged(oldIdentifier, cause);
+        }
+
+        protected override IGenericParameterUniqueIdentifier OnGetUniqueIdentifier()
+        {
+            if (this.uniqueIdentifier == null)
+                this.uniqueIdentifier = AstIdentifier.Type(this.Position, this.Name, true);
+            return this.uniqueIdentifier;
         }
     }
 }

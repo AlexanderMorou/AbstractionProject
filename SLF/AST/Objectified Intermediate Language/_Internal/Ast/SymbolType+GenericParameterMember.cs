@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Slf._Internal.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -20,9 +21,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         partial class GenericParameterDictionary
         {
             private class GenericParameterMember :
-                TypeBase<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>,
+                TypeBase<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>,
                 IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>
             {
+                private IGenericParameterUniqueIdentifier uniqueIdentifier;
                 private SymbolType Parent { get; set; }
                 internal GenericParameterMember(SymbolType parent, int position)
                 {
@@ -120,15 +122,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     return new CustomAttributeCollection(this);
                 }
 
+
                 protected override string OnGetName()
                 {
                     if (this.Parent == null)
                         return null;
                     if (this.Parent.typeParameters != null)
-                        return this.Parent.typeParameters.tParamNames[this.Position];
+                        return this.Parent.typeParameters.tParamNames[this.Position].Name;
                     return null;
                 }
-
                 #region IGenericParameter<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>,ISymbolType> Members
 
                 ISymbolType IGenericParameter<IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>, ISymbolType>.Parent
@@ -353,9 +355,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     return null;
                 }
 
-                public override IEnumerable<string> AggregateIdentifiers
+                public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
                 {
-                    get { return TypeBase.EmptyIdentifiers; }
+                    get { return TypeBase<IGeneralGenericTypeUniqueIdentifier>.EmptyIdentifiers; }
+                }
+
+                protected override IGenericParameterUniqueIdentifier OnGetUniqueIdentifier()
+                {
+                    if (this.uniqueIdentifier == null)
+                        this.uniqueIdentifier = AstIdentifier.Type(this.Position, this.Name, true);
+                    return this.uniqueIdentifier;
                 }
             }
         }

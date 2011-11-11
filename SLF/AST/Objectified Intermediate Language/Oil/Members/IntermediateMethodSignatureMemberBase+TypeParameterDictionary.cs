@@ -47,13 +47,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 : base(parent)
             {
             }
-
-            protected internal override void _Add(string key, IMethodSignatureGenericTypeParameterMember value)
+            protected internal override void _Add(IGenericParameterUniqueIdentifier key, IMethodSignatureGenericTypeParameterMember value)
             {
                 Parent.OnTypeParameterAdded((IIntermediateMethodSignatureGenericTypeParameterMember)value);
                 base._Add(key, value);
             }
-
 
             protected internal override bool _Remove(int index)
             {

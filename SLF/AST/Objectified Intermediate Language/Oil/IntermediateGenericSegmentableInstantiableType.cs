@@ -768,7 +768,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 IIntermediateMemberParent,
                 TMemberParent
             where TMemberIdentifier :
-                IMemberUniqueIdentifier<TMemberIdentifier>
+                IMemberUniqueIdentifier<TMemberIdentifier>,
+                IGeneralMemberUniqueIdentifier
             where TMember :
                 IMember<TMemberIdentifier, TMemberParent>
             where TIntermediateMember :

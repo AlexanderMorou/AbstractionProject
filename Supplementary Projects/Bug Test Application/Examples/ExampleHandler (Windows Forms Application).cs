@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
 
                 //Define the main dialog.
                 var mainDialog = @namespace.Classes.Add("MainDialog");
-                mainDialog.BaseType = typeof(Form).GetTypeReference<IClassType>();
+                mainDialog.BaseType = typeof(Form).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
                 mainDialog.AccessLevel = AccessLevelModifiers.Internal;
                 var mainMethod = CreateMainMethod(assembly, @namespace, mainDialog);
 
@@ -65,7 +65,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 //private System.Windows.Forms.Button ClickMeButton;
                 var mdClickMeButton = mainDialogDesigner.Fields.Add(new TypedName(clickMeButtonName, typeof(Button).GetTypeReference()));
 
-                var mdClickMeClick = mainDialog.Methods.Add(clickMeButtonClickName, typeof(EventHandler).GetTypeReference<IDelegateType>());
+                var mdClickMeClick = mainDialog.Methods.Add(clickMeButtonClickName, typeof(EventHandler).GetTypeReference<IDelegateUniqueIdentifier, IDelegateType>());
                 mdClickMeClick.Call("Close");
 
                 var mdInitializeComponent = CreateInitializeComponentMethod(mainDialogDesigner, mdClickMeButton, mdClickMeClick);
@@ -129,7 +129,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 //this.ClickMeButton.UseVisualStyleBackColor = true;
                 mdInitializeComponent.Assign(clickMeReference.Fuse("UseVisualStyleBackColor"), IntermediateGateway.TrueValue);
                 //this.ClickMeButton.Click += ClickMeButton_Click;
-                mdInitializeComponent.AddHandler(((IClassType)(mdClickMeButton.FieldType)).Events.FindInFamily("Click", typeof(EventHandler).GetTypeReference<IDelegateType>()).GetReference(mdClickMeButton.GetReference()), mdClickMeClick.GetReference());
+                mdInitializeComponent.AddHandler(((IClassType)(mdClickMeButton.FieldType)).Events.FindInFamily("Click", typeof(EventHandler).GetTypeReference<IDelegateUniqueIdentifier, IDelegateType>()).GetReference(mdClickMeButton.GetReference()), mdClickMeClick.GetReference());
                 mdInitializeComponent.Comment("MainDialog setup");
                 //this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
                 mdInitializeComponent.Assign(thisReference.Fuse("AutoScaleDimensions"), "SizeF".GetSymbolType().GetNewExpression(6F.ToPrimitive(), 13F.ToPrimitive()));

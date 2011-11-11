@@ -38,8 +38,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         where TGenericParameter :
             IGenericParameter<TGenericParameter, TParent>
         where TIntermediateGenericParameter :
-            TGenericParameter,
-            IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>
+            IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>,
+            TGenericParameter
         where TParent :
             IGenericParamParent<TGenericParameter, TParent>
         where TIntermediateParent :
@@ -125,6 +125,25 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         }
 
         #endregion
+
+        /// <summary>
+        /// Obtains the <typeparamref name="TIntermediateGenericParameter"/>
+        /// by the <paramref name="name"/> provided..
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value used to differentiate the 
+        /// <typeparamref name="TIntermediateGenericParameter"/> elements.</param>
+        /// <returns>The <typeparamref name="TIntermediateGenericParameter"/>
+        /// with the <paramref name="name"/> provided.</returns>
+        public TIntermediateGenericParameter this[string name]
+        {
+            get
+            {
+                for (int i = 0, c = this.Count; i < c; i++)
+                    if (this.Keys[i].Name == name)
+                        return this.Values[i];
+                throw new KeyNotFoundException();
+            }
+        }
 
         /// <summary>
         /// Obtains a new <typeparamref name="TIntermediateGenericParameter"/> with

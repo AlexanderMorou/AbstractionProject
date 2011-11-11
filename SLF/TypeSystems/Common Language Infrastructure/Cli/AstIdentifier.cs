@@ -83,7 +83,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             return GenericSignature(name, 0, signature);
         }
 
-        public static IGeneralGenericSignatureMemberUniqueIdentifier GenericSignature(string name, IType[] signature)
+        public static IGeneralGenericSignatureMemberUniqueIdentifier GenericSignature(string name, params IType[] signature)
         {
             return GenericSignature(name, 0, (IEnumerable<IType>)signature);
         }

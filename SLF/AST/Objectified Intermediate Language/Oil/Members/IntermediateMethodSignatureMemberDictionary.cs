@@ -136,14 +136,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// insert the <paramref name="value"/> provided.</param>
         /// <param name="value">The <typeparamref name="TSignature"/> 
         /// to insert.</param>
-        protected internal override void _Add(string key, TSignature value)
+        protected internal override void _Add(IGeneralGenericSignatureMemberUniqueIdentifier key, TSignature value)
         {
+            if (value == null)
+                throw new ArgumentNullException("value");
+            if (!(value is TIntermediateSignature))
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.value), value.GetType().ToString(), typeof(TIntermediateSignature).ToString());
             var method = (TIntermediateSignature)value;
             method.TypeParameterAdded += new EventHandler<EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>>(method_TypeParameterAddOrRemove);
             method.TypeParameterRemoved += new EventHandler<EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>>(method_TypeParameterAddOrRemove);
             base._Add(key, value);
         }
-
         protected internal override bool _Remove(int index)
         {
             if (index > 0 && index < this.Count)
@@ -497,7 +500,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 Parallel.For(0, parameters.Count, i =>
                 {
                     TypedName currentItem = parameters[i];
-                    IType paramType = GetTypeReference(currentItem, p => method.TypeParameters.ContainsKey(p) ? method.TypeParameters[p] : null);
+                    IType paramType = GetTypeReference(currentItem, p => method.TypeParameters.ContainsName(p) ? method.TypeParameters[p] : null);
                     paramType = AdjustTypeReference(paramType, currentItem.Direction);
                     adjustedParameters[i] = new TypedName(currentItem.Name, paramType);
                 });
@@ -682,7 +685,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public TIntermediateSignature Add(TypedName nameAndReturn, TypedNameSeries parameters, params GenericParameterData[] typeParameters)
         {
             TIntermediateSignature method = this.Add(nameAndReturn.Name, parameters, typeParameters);
-            method.ReturnType = GetTypeReference(nameAndReturn, p => method.TypeParameters.ContainsKey(p) ? method.TypeParameters[p] : null);
+            method.ReturnType = GetTypeReference(nameAndReturn, p => method.TypeParameters.ContainsName(p) ? method.TypeParameters[p] : null);
             return method;
         }
 

@@ -74,7 +74,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public void Dispose()
             {
-                this.parent = null;
+                this.Parent = null;
             }
 
             #endregion
@@ -83,7 +83,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public int IndexOf(IType item)
             {
-                return this.parent.IndexOf(item);
+                return this.Parent.IndexOf(item);
             }
 
             #endregion
@@ -92,27 +92,27 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public int Count
             {
-                get { return this.parent.Count; }
+                get { return this.Parent.Count; }
             }
 
             public bool Contains(IType item)
             {
-                return this.parent.Contains(item);
+                return this.Parent.Contains(item);
             }
 
             public void CopyTo(IType[] array, int arrayIndex = 0)
             {
-                ((ITypeCollectionBase)this.parent).CopyTo(array, arrayIndex);
+                ((ITypeCollectionBase)this.Parent).CopyTo(array, arrayIndex);
             }
 
             public IType this[int index]
             {
-                get { return ((ITypeCollectionBase)this.parent)[index]; }
+                get { return ((ITypeCollectionBase)this.Parent)[index]; }
             }
 
             public IType[] ToArray()
             {
-                return ((ITypeCollectionBase)this.parent).ToArray();
+                return ((ITypeCollectionBase)this.Parent).ToArray();
             }
 
             #endregion
@@ -121,7 +121,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public IEnumerator<IType> GetEnumerator()
             {
-                return ((ITypeCollectionBase)this.parent).GetEnumerator();
+                return ((ITypeCollectionBase)this.Parent).GetEnumerator();
             }
 
             #endregion

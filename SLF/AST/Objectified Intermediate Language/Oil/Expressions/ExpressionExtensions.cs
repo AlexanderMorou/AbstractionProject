@@ -310,7 +310,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// provided through <paramref name="methodName"/>.
         /// </summary>
         /// <param name="target">The <see cref="Type"/> which contains
-        /// the method group under the alias <see cref="methodName"/>.</param>
+        /// the method group under the alias <paramref name="methodName"/>.</param>
         /// <param name="methodName">The alias or identifier of the method group
         /// from the <paramref name="target"/> <see cref="Type"/>.</param>
         /// <returns>A <see cref="IMethodReferenceStub"/>
@@ -570,7 +570,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// the name of the call to make.</param>
         /// <param name="terms">The <see cref="IExpression"/> array which denotes 
         /// the information associated to the message.</param>
-        /// <returns>A <see cref="IExpressionToCommaFusion"/> which fuses the 
+        /// <returns>A <see cref="IExpressionToCommaFusionExpression"/> which fuses the 
         /// <paramref name="target"/> string as a <see cref="ISymbolExpression"/> 
         /// to the <paramref name="terms"/> provided.</returns>
         public static IExpressionToCommaFusionExpression Fuse(this string target, params IExpression[] terms)
@@ -588,7 +588,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// <param name="target">The 
         /// <see cref="IFusionTypeCollectionTargetExpression"/> to fuse
         /// the <paramref name="types"/> to.</param>
-        /// <param name="terms">The <see cref="IType"/> array which denotes
+        /// <param name="types">The <see cref="IType"/> array which denotes
         /// the types to fuse to the <paramref name="target"/>
         /// expression.</param>
         /// <returns>

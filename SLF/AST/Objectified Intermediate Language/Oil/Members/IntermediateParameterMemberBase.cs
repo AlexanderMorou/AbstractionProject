@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
+using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -35,7 +36,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         private IType parameterType;
         private ParameterDirection direction;
         private ICustomAttributeDefinitionCollectionSeries customAttributes;
+
         private ICustomAttributeCollection customAttributesBack;
+        private IGeneralMemberUniqueIdentifier uniqueIdentifier;
         /// <summary>
         /// Creates a new <see cref="IntermediateParameterMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>
         /// with the <paramref name="parent"/> provided.
@@ -98,7 +101,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                     if (this.CustomAttributes.Contains(lowerBoundsTargetType))
                         this.CustomAttributes.Remove(this.CustomAttributes[lowerBoundsTargetType]);
                 }
+                var originalType = this.parameterType;
                 this.parameterType = value;
+                this.OnParameterTypeChanged(originalType, value);
             }
         }
 
@@ -174,18 +179,42 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
         #endregion
 
-        public override string ToString()
+        public override IGeneralMemberUniqueIdentifier UniqueIdentifier
         {
-            return string.Format("{0} {1}", this.ParameterType.BuildTypeName(true, true), base.UniqueIdentifier);;
+            get
+            {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                return this.uniqueIdentifier;
+            }
         }
 
         #region IIntermediateParameterMember Members
+
+        public event EventHandler<EventArgsR1R2<IType, IType>> ParameterTypeChanged;
+
+        protected virtual void OnParameterTypeChanged(IType originalType, IType newType)
+        {
+            if (originalType == null || originalType == newType)
+                return;
+            if (newType == null)
+                throw new ArgumentNullException("newType");
+            var parameterTypeChanged = this.ParameterTypeChanged;
+            if (parameterTypeChanged != null)
+                parameterTypeChanged(this, new EventArgsR1R2<IType, IType>(originalType, newType));
+        }
 
         IParameterReferenceExpression IIntermediateParameterMember.GetReference()
         {
             return this.GetReference();
         }
 
+        /// <summary>
+        /// Obtains a <see cref="IParameterReferenceExpression{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/> for the
+        /// current <see cref="IntermediateParameterMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>.
+        /// </summary>
+        /// <returns>A <see cref="IParameterReferenceExpression{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/> for the
+        /// current <see cref="IntermediateParameterMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>.</returns>
         public IParameterReferenceExpression<TParent, TIntermediateParent, TParameter, TIntermediateParameter> GetReference()
         {
             return new ParameterReferenceExpression<TParent, TIntermediateParent, TParameter, TIntermediateParameter>(((TIntermediateParameter)(object)(this)));

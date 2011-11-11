@@ -867,6 +867,22 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                     select type.Entry.Name).Distinct();
         }
 
+        internal static IEnumerable<IGeneralDeclarationUniqueIdentifier> GetTypeIdentifiers<TParent>(this TParent parent, bool types, bool members)
+            where TParent :
+                IType,
+                ITypeParent
+        {
+            if (types)
+                if (members)
+                    return parent.Members.Keys.Concat<IGeneralDeclarationUniqueIdentifier>(parent.Types.Keys);
+                else
+                    return parent.Types.Keys;
+            else if (members)
+                return parent.Members.Keys;
+            else
+                return Enumerable.Empty<IGeneralDeclarationUniqueIdentifier>();
+        }
+
         internal static IEnumerable<IGeneralDeclarationUniqueIdentifier> GetNamespaceParentIdentifiers(this IIntermediateNamespaceParent parent, bool namespaces, bool types, bool members)
         {
             if (namespaces)

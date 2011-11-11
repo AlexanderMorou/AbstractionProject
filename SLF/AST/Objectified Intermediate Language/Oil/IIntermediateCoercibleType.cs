@@ -17,6 +17,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// Defines generic properties and methods for working with an intermediate type which supports
     /// expression coercion against it.
     /// </summary>
+    /// <typeparam name="TCoercionParentIdentifier">The kind of identifier used to 
+    /// differentiate the <typeparamref name="TIntermediateCoercionParent"/>
+    /// instance from its siblings.</typeparam>
     /// <typeparam name="TCoercionParent">The kind of coercible type in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateCoercionParent">The kind of coercible type in the intermediate
     /// abstract syntax tree.</typeparam>
@@ -27,7 +30,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         ICoercibleType<TCoercionParentIdentifier, TCoercionParent>,
         IIntermediateCoercibleType
         where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>
+            ITypeUniqueIdentifier<TCoercionParentIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
         where TCoercionParent :
             ICoercibleType<TCoercionParentIdentifier, TCoercionParent>
         where TIntermediateCoercionParent :
@@ -55,6 +59,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// Defines generic properties and methods for working with an intermediate type which supports
     /// base expression coercion against it.
     /// </summary>
+    /// <typeparam name="TCoercionIdentifier">The kind of identifier used to
+    /// differentiate the <typeparamref name="TIntermediateCoercion"/> from its 
+    /// siblings.</typeparam>
+    /// <typeparam name="TCoercionParentIdentifier">The kind of identifier used
+    /// to differentiate the <typeparamref name="TIntermediateCoercionParent"/>
+    /// instance from its siblings.</typeparam>
     /// <typeparam name="TCoercion">The type of coercion in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateCoercion">The type of coercion in the intermediate
     /// abstract syntax tree.</typeparam>
@@ -66,11 +76,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IIntermediateMemberParent,
         ICoercibleType<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent>,
         IIntermediateCoercibleType
+        where TCoercionIdentifier :
+            IMemberUniqueIdentifier<TCoercionIdentifier>,
+            IGeneralMemberUniqueIdentifier
         where TCoercion :
             ICoercionMember<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent>
         where TIntermediateCoercion :
             IIntermediateCoercionMember<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent>,
             TCoercion
+        where TCoercionParentIdentifier :
+            ITypeUniqueIdentifier<TCoercionParentIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
         where TCoercionParent :
             ICoercibleType<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent>
         where TIntermediateCoercionParent :

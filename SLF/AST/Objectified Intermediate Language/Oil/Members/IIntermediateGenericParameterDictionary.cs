@@ -91,6 +91,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <returns>A series of <typeparamref name="TIntermediateGenericParameter"/>
         /// elements resulted from the operation.</returns>
         TIntermediateGenericParameter[] AddRange(params GenericParameterData[] genericParameterData);
+
+        /// <summary>
+        /// Obtains the <typeparamref name="TIntermediateGenericParameter"/>
+        /// by the <paramref name="name"/> provided..
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value used to differentiate the 
+        /// <typeparamref name="TIntermediateGenericParameter"/> elements.</param>
+        /// <returns>The <typeparamref name="TIntermediateGenericParameter"/>
+        /// with the <paramref name="name"/> provided.</returns>
+        TIntermediateGenericParameter this[string name] { get; }
     }
     /// <summary>
     /// Defines properties and methods for working with a series of

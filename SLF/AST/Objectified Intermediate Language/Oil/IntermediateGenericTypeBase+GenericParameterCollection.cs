@@ -16,7 +16,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 {
     partial class IntermediateGenericTypeBase<TTypeIdentifier, TType, TIntermediateType>
         where TTypeIdentifier :
-            IGenericTypeUniqueIdentifier<TTypeIdentifier>
+            IGenericTypeUniqueIdentifier<TTypeIdentifier>,
+            IGeneralDeclarationUniqueIdentifier
         where TType :
             class,
             IGenericType<TTypeIdentifier, TType>

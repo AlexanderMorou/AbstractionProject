@@ -16,6 +16,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <summary>
     /// Provides a default intermediate signature member dictionary.
     /// </summary>
+    /// <typeparam name="TSignatureIdentifier">The kind of identifier used to differentiate the
+    /// <typeparamref name="TIntermediateSignature"/> instance from
+    /// its siblings.</typeparam>
     /// <typeparam name="TSignature">The type of 
     /// <see cref="ISignatureMember{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> 
     /// in the abstract type system.</typeparam>
@@ -39,7 +42,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IIntermediateSignatureMemberDictionary<TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>,
         IIntermediateSignatureMemberDictionary
         where TSignatureIdentifier :
-            ISignatureMemberUniqueIdentifier<TSignatureIdentifier>
+            ISignatureMemberUniqueIdentifier<TSignatureIdentifier>,
+            IGeneralMemberUniqueIdentifier
         where TSignature :
             ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TIntermediateSignature :
@@ -116,7 +120,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
         public IFilteredSignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(bool strict, params IType[] search)
         {
-            return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(((ISignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>)this).Values, search, strict);
+            return CLICommon.FindCache<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(((ISignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>)this).Values, search, strict);
         }
 
         /// <summary>

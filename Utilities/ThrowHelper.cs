@@ -320,6 +320,8 @@ namespace AllenCopeland.Abstraction
                     return "leftSide";
                 case ArgumentWithException.length:
                     return "length";
+                case ArgumentWithException.member:
+                    return "member";
                 case ArgumentWithException.message:
                     return "message";
                 case ArgumentWithException.methodReplacements:

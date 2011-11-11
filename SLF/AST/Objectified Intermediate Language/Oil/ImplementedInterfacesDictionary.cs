@@ -57,12 +57,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private ITypeCollection copy;
         private LockedVariant locked;
         /// <summary>
-        /// Creates a new <see cref="IntermediateInstantiableTypeImplementedInterfaces{TEvent,TIntermediateEvent,TIndexer,TIntermediateIndexer,TMethod,TIntermediateMethod,TProperty,TIntermediateProperty,TType,TIntermediateType}"/>
+        /// Creates a new <see cref="ImplementedInterfacesDictionary{TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType}"/>
         /// with the <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateType"/>
         /// which owns the 
-        /// <see cref="IntermediateInstantiableTypeImplementedInterfaces{TEvent,TIntermediateEvent,TIndexer,TIntermediateIndexer,TMethod,TIntermediateMethod,TProperty,TIntermediateProperty,TType,TIntermediateType}"/>.</param>
+        /// <see cref="ImplementedInterfacesDictionary{TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType}"/>.</param>
         internal ImplementedInterfacesDictionary(TIntermediateType parent)
         {
             this.parent = parent;
