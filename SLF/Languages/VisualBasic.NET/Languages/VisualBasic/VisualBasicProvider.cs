@@ -16,8 +16,12 @@ using AllenCopeland.Abstraction.Slf.Compilers;
 
 namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 {
-    internal class VisualBasicProvider :
-        IVisualBasicProvider
+    internal abstract class VisualBasicProvider<TAssembly, TProvider> :
+        IVisualBasicProvider<TAssembly, TProvider>
+        where TAssembly :
+            IVisualBasicAssembly<TAssembly, TProvider>
+        where TProvider :
+            IVisualBasicProvider<TAssembly, TProvider>
     {
         internal VisualBasicProvider(VisualBasicVersion version)
         {
@@ -37,22 +41,18 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         }
 
         /// <summary>
-        /// Creates a new <see cref="IVisualBasicAssembly"/>
+        /// Creates a new <typeparamref name="TAssembly"/>
         /// with the <paramref name="name"/> provided.
         /// </summary>
         /// <param name="name">The <see cref="String"/> value
         /// representing part of the identity of the assembly.</param>
-        /// <returns>A new <see cref="IVisualBasicAssembly"/>
+        /// <returns>A new <typeparamref name="TAssembly"/>
         /// with the <paramref name="name"/> provided.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when 
         /// <paramref name="name"/> is null.</exception>
         /// <exception cref="System.ArgumentException">thrown when
         /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
-        public IVisualBasicAssembly CreateAssembly(string name)
-        {
-            VisualBasicAssemblyBridge.Register();
-            return IntermediateGateway.CreateAssembly<VisualBasicAssembly, IVisualBasicLanguage, IVisualBasicProvider>(name, this);
-        }
+        public abstract TAssembly CreateAssembly(string name);
 
         #endregion
 
@@ -134,6 +134,35 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         IIntermediateAssembly ILanguageProvider.CreateAssembly(string name)
         {
             return this.CreateAssembly(name);
+        }
+
+        #endregion
+
+        #region IIntermediateLanguageTypeProvider Members
+
+        public virtual IIntermediateClassType CreateClass(string name, IIntermediateTypeParent parent)
+        {
+            return new IntermediateClassType(name, parent);
+        }
+
+        public virtual IIntermediateDelegateType CreateDelegate(string name, IIntermediateTypeParent parent)
+        {
+            return new IntermediateDelegateType(name, parent);
+        }
+
+        public virtual IIntermediateEnumType CreateEnum(string name, IIntermediateTypeParent parent)
+        {
+            return new IntermediateEnumType(name, parent);
+        }
+
+        public virtual IIntermediateInterfaceType CreateInterface(string name, IIntermediateTypeParent parent)
+        {
+            return new IntermediateInterfaceType(name, parent);
+        }
+
+        public virtual IIntermediateStructType CreateStruct(string name, IIntermediateTypeParent parent)
+        {
+            return new IntermediateStructType(name, parent);
         }
 
         #endregion

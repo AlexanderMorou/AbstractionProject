@@ -63,7 +63,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.Count == 0)
                     return;
-                if (arrayIndex < 0 || arrayIndex >= array.Length)
+                if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
                     throw new ArgumentOutOfRangeException("arrayIndex");
                 if (this.Count + arrayIndex > array.Length)
                     throw new ArgumentOutOfRangeException("arrayIndex");
@@ -78,7 +78,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.Count == 0)
                     return;
-                if (arrayIndex < 0 || arrayIndex >= array.Length)
+                if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
                     throw new ArgumentOutOfRangeException("arrayIndex");
                 if (this.Count + arrayIndex > array.Length)
                     throw new ArgumentOutOfRangeException("arrayIndex");

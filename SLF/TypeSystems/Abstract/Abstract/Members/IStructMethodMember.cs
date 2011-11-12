@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// </summary>
     public interface IStructMethodMember :
         IMethodMember<IStructMethodMember, IStructType>,
-        IExtendedInstanceMember
+        IExtendedMethodMember
     {
         /// <summary>
         /// Returns the base definition of a virtual method that is an override

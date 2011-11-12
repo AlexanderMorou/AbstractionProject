@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Oil.Statements;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -238,7 +239,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Data member for <see cref="InstanceFlags"/>.
         /// </summary>
-        private ExtendedInstanceMemberFlags instanceFlags;
+        private ExtendedMethodMemberFlags instanceFlags;
 
         public IntermediateStructMethodMember(TInstanceIntermediateType parent)
             : base(parent)
@@ -274,16 +275,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get
             {
-                return ((this.instanceFlags & ExtendedInstanceMemberFlags.Abstract) == ExtendedInstanceMemberFlags.Abstract);
+                return ((this.instanceFlags & ExtendedMethodMemberFlags.Abstract) == ExtendedMethodMemberFlags.Abstract);
             }
             set
             {
                 if (this.IsAbstract == value)
                     return;
                 if (value)
-                    this.instanceFlags |= ExtendedInstanceMemberFlags.Abstract;
+                    this.instanceFlags |= ExtendedMethodMemberFlags.Abstract;
                 else
-                    this.instanceFlags &= ~ExtendedInstanceMemberFlags.Abstract;
+                    this.instanceFlags &= ~ExtendedMethodMemberFlags.Abstract;
             }
         }
 
@@ -295,7 +296,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get
             {
-                return ((this.instanceFlags & ExtendedInstanceMemberFlags.Virtual) == ExtendedInstanceMemberFlags.Virtual);
+                return ((this.instanceFlags & ExtendedMethodMemberFlags.Virtual) == ExtendedMethodMemberFlags.Virtual);
             }
             set
             {
@@ -312,16 +313,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get
             {
-                return ((this.instanceFlags & ExtendedInstanceMemberFlags.Final) == ExtendedInstanceMemberFlags.Final);
+                return ((this.instanceFlags & ExtendedMethodMemberFlags.Final) == ExtendedMethodMemberFlags.Final);
             }
             set
             {
                 if (this.IsFinal == value)
                     return;
                 if (value)
-                    this.instanceFlags |= ExtendedInstanceMemberFlags.Final;
+                    this.instanceFlags |= ExtendedMethodMemberFlags.Final;
                 else
-                    this.instanceFlags &= ~ExtendedInstanceMemberFlags.Final;
+                    this.instanceFlags &= ~ExtendedMethodMemberFlags.Final;
             }
         }
 
@@ -333,16 +334,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get
             {
-                return ((this.instanceFlags & ExtendedInstanceMemberFlags.Override) == ExtendedInstanceMemberFlags.Override);
+                return ((this.instanceFlags & ExtendedMethodMemberFlags.Override) == ExtendedMethodMemberFlags.Override);
             }
             set
             {
                 if (this.IsOverride == value)
                     return;
                 if (value)
-                    this.instanceFlags |= ExtendedInstanceMemberFlags.Override;
+                    this.instanceFlags |= ExtendedMethodMemberFlags.Override;
                 else
-                    this.instanceFlags &= ~ExtendedInstanceMemberFlags.Override;
+                    this.instanceFlags &= ~ExtendedMethodMemberFlags.Override;
             }
         }
 
@@ -358,16 +359,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get
             {
-                return ((this.instanceFlags & ExtendedInstanceMemberFlags.HideBySignature) == ExtendedInstanceMemberFlags.HideBySignature);
+                return ((this.instanceFlags & ExtendedMethodMemberFlags.HideBySignature) == ExtendedMethodMemberFlags.HideBySignature);
             }
             set
             {
                 if (this.IsHideBySignature == value)
                     return;
                 if (value)
-                    this.instanceFlags |= ExtendedInstanceMemberFlags.HideBySignature;
+                    this.instanceFlags |= ExtendedMethodMemberFlags.HideBySignature;
                 else
-                    this.instanceFlags &= ~ExtendedInstanceMemberFlags.HideBySignature;
+                    this.instanceFlags &= ~ExtendedMethodMemberFlags.HideBySignature;
             }
         }
 
@@ -386,9 +387,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (this.IsStatic == value)
                     return;
                 if (value)
-                    this.instanceFlags |= ExtendedInstanceMemberFlags.Static;
+                    this.instanceFlags |= ExtendedMethodMemberFlags.Static;
                 else
-                    this.instanceFlags &= ~ExtendedInstanceMemberFlags.Static;
+                    this.instanceFlags &= ~ExtendedMethodMemberFlags.Static;
             }
         }
 
@@ -396,7 +397,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get
             {
-                return ((this.instanceFlags & ExtendedInstanceMemberFlags.Static) == ExtendedInstanceMemberFlags.Static);
+                return ((this.instanceFlags & ExtendedMethodMemberFlags.Static) == ExtendedMethodMemberFlags.Static);
             }
         }
 
@@ -409,30 +410,74 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get
             {
-                return (InstanceMemberFlags)(this.instanceFlags & (ExtendedInstanceMemberFlags)(InstanceMemberFlags.InstanceMemberFlagsMask));
+                return ((InstanceMemberFlags)this.instanceFlags) & InstanceMemberFlags.FlagsMask;
             }
         }
 
         #endregion
 
-        /// <summary>
-        /// Returns/sets whether the <see cref="IntermediateStructMethodMember{TInstanceIntermediateType}"/> is asynchronous.
-        /// </summary>
-        public bool IsAsync { get; set; }
-
-
         #region IExtendedInstanceMember Members
+
+        public bool IsAsynchronous
+        {
+            get
+            {
+                return (this.instanceFlags & ExtendedMethodMemberFlags.Async) == ExtendedMethodMemberFlags.Async;
+            }
+            set
+            {
+                if (value)
+                    this.instanceFlags |= ExtendedMethodMemberFlags.Async;
+                else
+                    this.instanceFlags &= ~ExtendedMethodMemberFlags.Async;
+            }
+        }
+
+        public ExtendedMethodMemberFlags InstanceFlags
+        {
+            get
+            {
+                return this.instanceFlags;
+            }
+        }
+        protected override void OnSetReturnType(IType value)
+        {
+            base.OnSetReturnType(value);
+            var returnType = value;
+            if (returnType != null)
+            {
+                bool isAsync = this.IsAsynchronous;
+                if (returnType == CommonTypeRefs.Void)
+                {
+                    if (this.Name.Substring(this.Name.Length - 5).ToLower() == "async")
+                        this.IsAsynchronousCandidate = true;
+                }
+                else if (returnType == CommonTypeRefs.Task)
+                {
+                    this.IsAsynchronousCandidate = true;
+                }
+                else if (returnType.ElementClassification == TypeElementClassification.GenericTypeDefinition && returnType.ElementType != null && returnType.ElementType == CommonTypeRefs.TaskOfT)
+                {
+                    this.IsAsynchronousCandidate = true;
+                }
+                else
+                {
+                    this.IsAsynchronousCandidate = false;
+                }
+            }
+        }
+
 
         /// <summary>
         /// Returns the <see cref="ExtendedInstanceMemberFlags"/> that determine how the
         /// <see cref="IntermediateClassMethodMember{TInstanceIntermediateType}"/> is shown in its scope and inherited 
         /// scopes.
         /// </summary>
-        public ExtendedInstanceMemberFlags InstanceFlags
+        ExtendedInstanceMemberFlags IExtendedInstanceMember.InstanceFlags
         {
             get
             {
-                return this.instanceFlags;
+                return (ExtendedInstanceMemberFlags)this.InstanceFlags & ExtendedInstanceMemberFlags.FlagsMask;
             }
         }
 
@@ -447,6 +492,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get { return this.Parent.Assembly; }
         }
+
+        /// <summary>
+        /// Returns whether the <see cref="IntermediateStructMethodMember{TInstanceIntermediateType}"/> 
+        /// is a candidate for asynchrony.
+        /// </summary>
+        public bool IsAsynchronousCandidate { get; private set; }
     }
 
     public class IntermediateStructFieldMember<TInstanceIntermediateType> :

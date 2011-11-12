@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
         IIntermediateTypeParent
     {
         private IBlockStatementParent owner;
-        #region Nested Type Data Members
+        #region Nested GenericParameter Data Members
         /// <summary>
         /// Data member fro <see cref="Classes"/>.
         /// </summary>

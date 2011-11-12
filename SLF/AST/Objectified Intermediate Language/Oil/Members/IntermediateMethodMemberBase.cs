@@ -45,7 +45,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             IIntermediateMethodParent<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>,
             TMethodParent
     {
-        private IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier;
 
         /// <summary>
         /// Creates a new <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/> with the
@@ -1243,19 +1242,6 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public virtual AccessLevelModifiers AccessLevel { get; set; }
 
         #endregion
-
-        public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier
-        {
-            get
-            {
-                if (this.uniqueIdentifier == null)
-                    if (this.IsGenericConstruct)
-                        this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name, this.TypeParameters.Count, this.Parameters.ParameterTypes.SinglePass());
-                    else
-                        this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name, this.Parameters.ParameterTypes.SinglePass());
-                return this.uniqueIdentifier;
-            }
-        }
 
         #region IIntermediateMethodMember Members
         IIntermediateMethodParent IIntermediateMethodMember.Parent

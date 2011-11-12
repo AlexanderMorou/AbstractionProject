@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     {
         #region IntermediateGenericSegmentableParentType data members
         private IScopeCoercionCollection scopeCoercions;
-        #region Nested Type Data Members
+        #region Nested GenericParameter Data Members
         /// <summary>
         /// Data member fro <see cref="Classes"/>.
         /// </summary>

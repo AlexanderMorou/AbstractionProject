@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic.My
     public interface IMyApplicationClass :
         IIntermediateClassType
     {
-        new IVisualBasicAssembly Assembly { get; }
+        new IMyVisualBasicAssembly Assembly { get; }
 
         new IMyNamespaceDeclaration Parent { get; }
     }

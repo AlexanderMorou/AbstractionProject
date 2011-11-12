@@ -101,7 +101,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
              * < 0 is a valid check since non-vector arrays are typed
              * elementType[*] not elementType[].
              * */
-            if (arrayIndex < 0 || this.Count + arrayIndex >= array.Length)
+            if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
                 throw new ArgumentOutOfRangeException("arrayIndex");
             for (int i = 0; i < this.Count; i++)
             {
@@ -156,7 +156,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
              * < 0 is a valid check since non-vector arrays are typed
              * elementType[*] not elementType[].
              * */
-            if (arrayIndex < 0 || this.Count + arrayIndex >= array.Length)
+            if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
                 throw new ArgumentOutOfRangeException("arrayIndex");
             for (int i = 0; i < this.Count; i++)
             {

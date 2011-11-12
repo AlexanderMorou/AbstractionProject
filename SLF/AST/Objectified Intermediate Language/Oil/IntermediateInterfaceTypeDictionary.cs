@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Languages;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -67,6 +68,13 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 throw new ArgumentNullException("name");
             if (name == string.Empty)
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.name, ExceptionMessageId.ArgumentCannotBeEmpty, ThrowHelper.GetArgumentName(ArgumentWithException.name));
+            var assembly = this.Parent.Assembly;
+            if (assembly != null)
+            {
+                var assemblyProvider = assembly.Provider as IIntermediateLanguageTypeProvider;
+                if (assemblyProvider != null)
+                    return assemblyProvider.CreateInterface(name, this.Parent);
+            }
             return new IntermediateInterfaceType(name, this.Parent);
         }
     }

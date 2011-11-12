@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
             {
 
                 var @namespace = assembly.Namespaces.Add("WindowsFormsApplication1");
-
+                var n = assembly.Modules;
                 //Define the main dialog.
                 var mainDialog = @namespace.Classes.Add("MainDialog");
                 mainDialog.BaseType = typeof(Form).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();

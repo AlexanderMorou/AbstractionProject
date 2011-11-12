@@ -36,11 +36,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <see cref="IIntermediateAssembly{TLanguage, TProvider}"/>
         /// is written in.
         /// </summary>
-        TLanguage Language { get; }
+        new TLanguage Language { get; }
         /// <summary>
         /// Returns the <typeparamref name="TProvider"/>
         /// which created the <see cref="IIntermediateAssembly{TLanguage, TProvider}"/>.
         /// </summary>
-        TProvider Provider { get; }
+        new TProvider Provider { get; }
     }
 }

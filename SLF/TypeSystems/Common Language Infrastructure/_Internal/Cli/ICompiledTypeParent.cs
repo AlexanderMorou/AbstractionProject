@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         ITypeParent
     {
         /// <summary>
-        /// Returns the <see cref="Type"/> series which is associated
+        /// Returns the <see cref="GenericParameter"/> series which is associated
         /// to the underlying implementation of the <see cref="_ICompiledTypeParent"/>.
         /// </summary>
         Type[] UnderlyingSystemTypes { get; }

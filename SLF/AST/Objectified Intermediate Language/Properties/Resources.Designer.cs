@@ -628,7 +628,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type parameter declaration must be an identifier not a type.
+        ///   Looks up a localized string similar to GenericParameter parameter declaration must be an identifier not a type.
         /// </summary>
         internal static string CSharpErrors_CS0081 {
             get {
@@ -637,7 +637,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type {0} already reserves a member called {1} with the same parameter types.
+        ///   Looks up a localized string similar to GenericParameter {0} already reserves a member called {1} with the same parameter types.
         /// </summary>
         internal static string CSharpErrors_CS0082 {
             get {
@@ -718,7 +718,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type {0} already defines a member called {1} with the same parameter types.
+        ///   Looks up a localized string similar to GenericParameter {0} already defines a member called {1} with the same parameter types.
         /// </summary>
         internal static string CSharpErrors_CS0111 {
             get {
@@ -1141,7 +1141,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type of conditional expression cannot be determined because {0} and {1} implicitly convert to one another.
+        ///   Looks up a localized string similar to GenericParameter of conditional expression cannot be determined because {0} and {1} implicitly convert to one another.
         /// </summary>
         internal static string CSharpErrors_CS0172 {
             get {
@@ -1150,7 +1150,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type of conditional expression cannot be determined because there is no implicit conversion between {0} and {1}.
+        ///   Looks up a localized string similar to GenericParameter of conditional expression cannot be determined because there is no implicit conversion between {0} and {1}.
         /// </summary>
         internal static string CSharpErrors_CS0173 {
             get {
@@ -1528,7 +1528,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type and identifier are both required in a foreach statement.
+        ///   Looks up a localized string similar to GenericParameter and identifier are both required in a foreach statement.
         /// </summary>
         internal static string CSharpErrors_CS0230 {
             get {
@@ -2356,7 +2356,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type parameter {0} inherits conflicting constraints {1} and {2}.
+        ///   Looks up a localized string similar to GenericParameter parameter {0} inherits conflicting constraints {1} and {2}.
         /// </summary>
         internal static string CSharpErrors_CS0455 {
             get {
@@ -2365,7 +2365,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type parameter {0} has the &apos;struct&apos; constraint so {0} cannot be used as a constraint for {1}.
+        ///   Looks up a localized string similar to GenericParameter parameter {0} has the &apos;struct&apos; constraint so {0} cannot be used as a constraint for {1}.
         /// </summary>
         internal static string CSharpErrors_CS0456 {
             get {
@@ -2662,7 +2662,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type {0} in interface list is not an interface.
+        ///   Looks up a localized string similar to GenericParameter {0} in interface list is not an interface.
         /// </summary>
         internal static string CSharpErrors_CS0527 {
             get {
@@ -3652,7 +3652,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type parameter {0} has the same name as the containing type, or method.
+        ///   Looks up a localized string similar to GenericParameter parameter {0} has the same name as the containing type, or method.
         /// </summary>
         internal static string CSharpErrors_CS0694 {
             get {
@@ -3886,7 +3886,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type {0} is defined in this assembly, but a type forwarder is specified for it.
+        ///   Looks up a localized string similar to GenericParameter {0} is defined in this assembly, but a type forwarder is specified for it.
         /// </summary>
         internal static string CSharpErrors_CS0729 {
             get {
@@ -4453,7 +4453,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type byte, sbyte, short, ushort, int, uint, long, or ulong expected.
+        ///   Looks up a localized string similar to GenericParameter byte, sbyte, short, ushort, int, uint, long, or ulong expected.
         /// </summary>
         internal static string CSharpErrors_CS1008 {
             get {
@@ -4579,7 +4579,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type or namespace definition, or end-of-file expected.
+        ///   Looks up a localized string similar to GenericParameter or namespace definition, or end-of-file expected.
         /// </summary>
         internal static string CSharpErrors_CS1022 {
             get {
@@ -4651,7 +4651,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type expected.
+        ///   Looks up a localized string similar to GenericParameter expected.
         /// </summary>
         internal static string CSharpErrors_CS1031 {
             get {
@@ -6631,7 +6631,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type of one of the expressions in the {0} clause is incorrect. Type inference failed in the call to {1}..
+        ///   Looks up a localized string similar to The type of one of the expressions in the {0} clause is incorrect. GenericParameter inference failed in the call to {1}..
         /// </summary>
         internal static string CSharpErrors_CS1941 {
             get {
@@ -6640,7 +6640,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type of the expression in the {0} clause is incorrect. Type inference failed in the call to {1}..
+        ///   Looks up a localized string similar to The type of the expression in the {0} clause is incorrect. GenericParameter inference failed in the call to {1}..
         /// </summary>
         internal static string CSharpErrors_CS1942 {
             get {
@@ -6649,7 +6649,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An expression of type {0} is not allowed in a subsequent from clause in a query expression with source type {1}. Type inference failed in the call to {2}..
+        ///   Looks up a localized string similar to An expression of type {0} is not allowed in a subsequent from clause in a query expression with source type {1}. GenericParameter inference failed in the call to {2}..
         /// </summary>
         internal static string CSharpErrors_CS1943 {
             get {
@@ -7495,7 +7495,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type parameter {0} has the same name as the type parameter from outer type {1}.
+        ///   Looks up a localized string similar to GenericParameter parameter {0} has the same name as the type parameter from outer type {1}.
         /// </summary>
         internal static string CSharpWarnings_CS0693 {
             get {
@@ -7963,7 +7963,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type parameter {0} has no matching typeparam tag in the XML comment on {1} (but other type parameters do).
+        ///   Looks up a localized string similar to GenericParameter parameter {0} has no matching typeparam tag in the XML comment on {1} (but other type parameters do).
         /// </summary>
         internal static string CSharpWarnings_CS1712 {
             get {
@@ -8107,7 +8107,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type of {0} is not CLS-compliant.
+        ///   Looks up a localized string similar to GenericParameter of {0} is not CLS-compliant.
         /// </summary>
         internal static string CSharpWarnings_CS3003 {
             get {

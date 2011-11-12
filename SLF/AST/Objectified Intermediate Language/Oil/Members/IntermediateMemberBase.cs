@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public IntermediateMemberBase(string name, TIntermediateParent parent)
             : base()
         {
-            base.OnSetName(name);
+            base.AssignName(name);
             this.parent = parent;
         }
 

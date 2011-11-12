@@ -27,14 +27,29 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 
         #region IVisualBasicLanguage Members
 
-        public IVisualBasicProvider GetProvider()
+        public ICoreVisualBasicProvider GetProvider()
         {
             return this.GetProvider(VisualBasicLanguage.DefaultVersion);
         }
 
-        public IVisualBasicProvider GetProvider(VisualBasicVersion version)
+        public ICoreVisualBasicProvider GetProvider(VisualBasicVersion version)
         {
-            return new VisualBasicProvider(version);
+            return new CoreVisualBasicProvider(version);
+        }
+
+        public IMyVisualBasicProvider GetMyProvider(VisualBasicVersion version)
+        {
+            return new MyVisualBasicProvider(version);
+        }
+
+        public ICoreVisualBasicAssembly CreateAssembly(string name, VisualBasicVersion version)
+        {
+            return this.GetProvider(version).CreateAssembly(name);
+        }
+
+        public ICoreVisualBasicAssembly CreateAssembly(string name)
+        {
+            return this.GetProvider(DefaultVersion).CreateAssembly(name);
         }
 
         #endregion
@@ -43,7 +58,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 
         IVersionedHighLevelLanguageProvider<VisualBasicVersion, Cst.IVisualBasicStart> IVersionedHighLevelLanguage<VisualBasicVersion, Cst.IVisualBasicStart>.GetProvider(VisualBasicVersion version)
         {
-            return new VisualBasicProvider(version);
+            return this.GetProvider(version);
         }
 
         IIntermediateAssembly IVersionedHighLevelLanguage<VisualBasicVersion,IVisualBasicStart>.CreateAssembly(string name, VisualBasicVersion version)
@@ -117,33 +132,14 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         {
             get
             {
-                yield return VisualBasicVersion.Version08 | VisualBasicVersion.VersionCore;
-                yield return VisualBasicVersion.Version09 | VisualBasicVersion.VersionCore;
-                yield return VisualBasicVersion.Version10 | VisualBasicVersion.VersionCore;
-                yield return VisualBasicVersion.Version11 | VisualBasicVersion.VersionCore;
-
-                yield return VisualBasicVersion.Version08 | VisualBasicVersion.VersionRegular;
-                yield return VisualBasicVersion.Version09 | VisualBasicVersion.VersionRegular;
-                yield return VisualBasicVersion.Version10 | VisualBasicVersion.VersionRegular;
-                yield return VisualBasicVersion.Version11 | VisualBasicVersion.VersionRegular;
+                yield return VisualBasicVersion.Version08;
+                yield return VisualBasicVersion.Version09;
+                yield return VisualBasicVersion.Version10;
+                yield return VisualBasicVersion.Version11;
             }
         }
 
         #endregion
 
-        #region IVisualBasicLanguage Members
-
-
-        public IVisualBasicAssembly CreateAssembly(string name, VisualBasicVersion version)
-        {
-            return this.GetProvider(version).CreateAssembly(name);
-        }
-
-        public IVisualBasicAssembly CreateAssembly(string name)
-        {
-            return this.GetProvider(DefaultVersion).CreateAssembly(name);
-        }
-
-        #endregion
     }
 }

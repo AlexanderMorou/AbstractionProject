@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         _ICompiledNamespaceParent
     {
         /// <summary>
-        /// Returns the <see cref="Type"/> array relative to the types
+        /// Returns the <see cref="GenericParameter"/> array relative to the types
         /// contained within the <see cref="_ICompiledAssembly"/>.
         /// </summary>
         Type[] AssemblyTypes { get; }

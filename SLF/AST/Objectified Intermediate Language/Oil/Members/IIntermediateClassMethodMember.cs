@@ -28,8 +28,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// </summary>
         new bool IsExtensionMethod { get; set; }
         /// <summary>
-        /// Returns/sets whether the <see cref="IIntermediateClassMethodMember"/> is asynchronous.
+        /// Returns whether the <see cref="IIntermediateClassMethodMember"/> is
+        /// asynchronous.
         /// </summary>
-        bool IsAsync { get; set; }
+        new bool IsAsynchronous { get; set; }
+        /// <summary>
+        /// Returns whether the <see cref="IIntermediateClassMethodMember"/> 
+        /// is a candidate for asynchrony.
+        /// </summary>
+        bool IsAsynchronousCandidate { get; }
     }
 }

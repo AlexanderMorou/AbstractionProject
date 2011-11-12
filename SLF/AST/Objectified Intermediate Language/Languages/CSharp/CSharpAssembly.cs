@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
     /// defined within the C&#9839; language.
     /// </summary>
     public class CSharpAssembly :
-        IntermediateAssembly<CSharpAssembly>,
+        IntermediateAssembly<ICSharpLanguage, ICSharpProvider, CSharpAssembly>,
         ICSharpAssembly
     {
         private ICSharpProvider provider;
@@ -65,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
 
         #region IIntermediateAssembly<ICSharpLanguage,ICSharpCompilationUnit,ICSharpProvider> Members
 
-        public ICSharpLanguage Language
+        public override ICSharpLanguage Language
         {
             get {
                 if (this.IsRoot)
@@ -75,7 +75,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
             }
         }
 
-        public ICSharpProvider Provider
+        public override ICSharpProvider Provider
         {
             get {
                 if (this.IsRoot)

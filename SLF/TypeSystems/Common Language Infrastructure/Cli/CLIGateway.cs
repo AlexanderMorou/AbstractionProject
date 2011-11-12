@@ -161,9 +161,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         /// <summary>
         /// Obtains a <see cref="IType"/> reference for the associated
-        /// <see cref="Type"/> provided.
+        /// <see cref="GenericParameter"/> provided.
         /// </summary>
-        /// <param name="type">The <see cref="Type"/> to obtain a <see cref="IType"/>
+        /// <param name="type">The <see cref="GenericParameter"/> to obtain a <see cref="IType"/>
         /// for.</param>
         /// <returns>An <see cref="IType"/> instance that wraps the <paramref name="type"/>
         /// provided.</returns>
@@ -196,7 +196,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 if (CLIGateway.CompiledTypeCache.TryGetValue(t, out result))
                     return result;
             Type byRefType = null;
-            #region Type breakdown
+            #region GenericParameter breakdown
 
             #region ByReference
             bool byRef = t.IsByRef;
@@ -274,7 +274,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 result = CompiledTypeCache[t];
             else if (t.IsGenericParameter)
             {
-                #region Type-Parameter resolution.
+                #region GenericParameter-Parameter resolution.
                 bool positiveMatch = true;
                 if (t.DeclaringMethod == null && t.DeclaringType != null)
                 {
@@ -332,7 +332,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             CacheAdd(t, result);
 
-            #region Type production
+            #region GenericParameter production
             IGenericType gType;
             if (typeParameters != null && result.IsGenericConstruct && result is IGenericType && (gType = ((IGenericType)(result))).IsGenericDefinition)
             {

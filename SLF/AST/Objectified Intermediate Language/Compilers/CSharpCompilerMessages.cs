@@ -674,7 +674,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceWarning _CS0675;
 
-        /// <summary><para>C&#9839; compiler warning (level 3) &#35;693:</para><para>Type parameter {0} has the same name as the type parameter from outer type {1}</para></summary>
+        /// <summary><para>C&#9839; compiler warning (level 3) &#35;693:</para><para>GenericParameter parameter {0} has the same name as the type parameter from outer type {1}</para></summary>
         public static ICompilerReferenceWarning CS0693
         {
             get
@@ -1299,7 +1299,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceWarning _CS1711;
 
-        /// <summary><para>C&#9839; compiler warning (level 4) &#35;1712:</para><para>Type parameter {0} has no matching typeparam tag in the XML comment on {1} (but other type parameters do)</para></summary>
+        /// <summary><para>C&#9839; compiler warning (level 4) &#35;1712:</para><para>GenericParameter parameter {0} has no matching typeparam tag in the XML comment on {1} (but other type parameters do)</para></summary>
         public static ICompilerReferenceWarning CS1712
         {
             get
@@ -1491,7 +1491,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceWarning _CS3002;
 
-        /// <summary><para>C&#9839; compiler warning (level 1) &#35;3003:</para><para>Type of {0} is not CLS-compliant</para></summary>
+        /// <summary><para>C&#9839; compiler warning (level 1) &#35;3003:</para><para>GenericParameter of {0} is not CLS-compliant</para></summary>
         public static ICompilerReferenceWarning CS3003
         {
             get
@@ -2523,7 +2523,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0080;
 
-        /// <summary><para>C&#9839; compiler error &#35;81:</para><para>Type parameter declaration must be an identifier not a type</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;81:</para><para>GenericParameter parameter declaration must be an identifier not a type</para></summary>
         public static ICompilerReferenceError CS0081
         {
             get
@@ -2535,7 +2535,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0081;
 
-        /// <summary><para>C&#9839; compiler error &#35;82:</para><para>Type {0} already reserves a member called {1} with the same parameter types</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;82:</para><para>GenericParameter {0} already reserves a member called {1} with the same parameter types</para></summary>
         public static ICompilerReferenceError CS0082
         {
             get
@@ -2643,7 +2643,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0110;
 
-        /// <summary><para>C&#9839; compiler error &#35;111:</para><para>Type {0} already defines a member called {1} with the same parameter types</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;111:</para><para>GenericParameter {0} already defines a member called {1} with the same parameter types</para></summary>
         public static ICompilerReferenceError CS0111
         {
             get
@@ -3207,7 +3207,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0171;
 
-        /// <summary><para>C&#9839; compiler error &#35;172:</para><para>Type of conditional expression cannot be determined because {0} and {1} implicitly convert to one another</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;172:</para><para>GenericParameter of conditional expression cannot be determined because {0} and {1} implicitly convert to one another</para></summary>
         public static ICompilerReferenceError CS0172
         {
             get
@@ -3219,7 +3219,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0172;
 
-        /// <summary><para>C&#9839; compiler error &#35;173:</para><para>Type of conditional expression cannot be determined because there is no implicit conversion between {0} and {1}</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;173:</para><para>GenericParameter of conditional expression cannot be determined because there is no implicit conversion between {0} and {1}</para></summary>
         public static ICompilerReferenceError CS0173
         {
             get
@@ -3723,7 +3723,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0229;
 
-        /// <summary><para>C&#9839; compiler error &#35;230:</para><para>Type and identifier are both required in a foreach statement</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;230:</para><para>GenericParameter and identifier are both required in a foreach statement</para></summary>
         public static ICompilerReferenceError CS0230
         {
             get
@@ -4827,7 +4827,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0454;
 
-        /// <summary><para>C&#9839; compiler error &#35;455:</para><para>Type parameter {0} inherits conflicting constraints {1} and {2}</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;455:</para><para>GenericParameter parameter {0} inherits conflicting constraints {1} and {2}</para></summary>
         public static ICompilerReferenceError CS0455
         {
             get
@@ -4839,7 +4839,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0455;
 
-        /// <summary><para>C&#9839; compiler error &#35;456:</para><para>Type parameter {0} has the 'struct' constraint so {0} cannot be used as a constraint for {1}</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;456:</para><para>GenericParameter parameter {0} has the 'struct' constraint so {0} cannot be used as a constraint for {1}</para></summary>
         public static ICompilerReferenceError CS0456
         {
             get
@@ -5235,7 +5235,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0526;
 
-        /// <summary><para>C&#9839; compiler error &#35;527:</para><para>Type {0} in interface list is not an interface</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;527:</para><para>GenericParameter {0} in interface list is not an interface</para></summary>
         public static ICompilerReferenceError CS0527
         {
             get
@@ -6555,7 +6555,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0692;
 
-        /// <summary><para>C&#9839; compiler error &#35;694:</para><para>Type parameter {0} has the same name as the containing type, or method</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;694:</para><para>GenericParameter parameter {0} has the same name as the containing type, or method</para></summary>
         public static ICompilerReferenceError CS0694
         {
             get
@@ -6867,7 +6867,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS0724;
 
-        /// <summary><para>C&#9839; compiler error &#35;729:</para><para>Type {0} is defined in this assembly, but a type forwarder is specified for it</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;729:</para><para>GenericParameter {0} is defined in this assembly, but a type forwarder is specified for it</para></summary>
         public static ICompilerReferenceError CS0729
         {
             get
@@ -7623,7 +7623,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1007;
 
-        /// <summary><para>C&#9839; compiler error &#35;1008:</para><para>Type byte, sbyte, short, ushort, int, uint, long, or ulong expected</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1008:</para><para>GenericParameter byte, sbyte, short, ushort, int, uint, long, or ulong expected</para></summary>
         public static ICompilerReferenceError CS1008
         {
             get
@@ -7791,7 +7791,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1021;
 
-        /// <summary><para>C&#9839; compiler error &#35;1022:</para><para>Type or namespace definition, or end-of-file expected</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1022:</para><para>GenericParameter or namespace definition, or end-of-file expected</para></summary>
         public static ICompilerReferenceError CS1022
         {
             get
@@ -7887,7 +7887,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1029;
 
-        /// <summary><para>C&#9839; compiler error &#35;1031:</para><para>Type expected</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1031:</para><para>GenericParameter expected</para></summary>
         public static ICompilerReferenceError CS1031
         {
             get
@@ -10527,7 +10527,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1940;
 
-        /// <summary><para>C&#9839; compiler error &#35;1941:</para><para>The type of one of the expressions in the {0} clause is incorrect. Type inference failed in the call to {1}.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1941:</para><para>The type of one of the expressions in the {0} clause is incorrect. GenericParameter inference failed in the call to {1}.</para></summary>
         public static ICompilerReferenceError CS1941
         {
             get
@@ -10539,7 +10539,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1941;
 
-        /// <summary><para>C&#9839; compiler error &#35;1942:</para><para>The type of the expression in the {0} clause is incorrect. Type inference failed in the call to {1}.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1942:</para><para>The type of the expression in the {0} clause is incorrect. GenericParameter inference failed in the call to {1}.</para></summary>
         public static ICompilerReferenceError CS1942
         {
             get
@@ -10551,7 +10551,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         }
         private static ICompilerReferenceError _CS1942;
 
-        /// <summary><para>C&#9839; compiler error &#35;1943:</para><para>An expression of type {0} is not allowed in a subsequent from clause in a query expression with source type {1}. Type inference failed in the call to {2}.</para></summary>
+        /// <summary><para>C&#9839; compiler error &#35;1943:</para><para>An expression of type {0} is not allowed in a subsequent from clause in a query expression with source type {1}. GenericParameter inference failed in the call to {2}.</para></summary>
         public static ICompilerReferenceError CS1943
         {
             get

@@ -95,6 +95,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Languages\IIntermediateTypeProvider.cs" />
     <Compile Include="Oil\DeclarationIdentifierChangeEventArgs.cs" />
     <Compile Include="Oil\DynamicType.cs" />
     <Compile Include="Oil\IIntermediateInstantiableType`15.cs" />

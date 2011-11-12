@@ -109,7 +109,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         protected override IGenericParameterUniqueIdentifier OnGetUniqueIdentifier()
         {
             if (this.uniqueIdentifier == null)
-                this.uniqueIdentifier = AstIdentifier.Type(this.Position, this.Name, true);
+            {
+                if (this.Position > -1)
+                    this.uniqueIdentifier = AstIdentifier.GenericParameter(this.Position, this.Name, true);
+                else
+                    this.uniqueIdentifier = AstIdentifier.GenericParameter(this.Name, true);
+            }
             return this.uniqueIdentifier;
         }
     }

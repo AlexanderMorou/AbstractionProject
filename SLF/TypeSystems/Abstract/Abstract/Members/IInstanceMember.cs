@@ -19,23 +19,23 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <summary>
         /// Member is a static member.
         /// </summary>
-        /* 0000001110000001 */
-        Static      = 0x0381,
+        /* 0000000000111000000001 */
+        Static      = 0xe01,
         /// <summary>
         /// Member hides base's definition by signature only.
         /// </summary>
-        /* 1000000000010000 */
-        HideBySignature = 0x8010,
+        /* 0011000000000000010000 */
+        HideBySignature = 0xc0010,
         /// <summary>
         /// Member hides base's definition by name, removing all
         /// previous identities under the name.
         /// </summary>
-        /* 1000000000100000 */
-        HideByName = 0x8020,
+        /* 0101000000000000100000 */
+        HideByName = 0x140020,
         /// <summary>
         /// The instance member flags mask.
         /// </summary>
-        InstanceMemberFlagsMask = Static | HideBySignature | HideByName,
+        FlagsMask = Static | HideBySignature | HideByName,
     }
 
     /// <summary>

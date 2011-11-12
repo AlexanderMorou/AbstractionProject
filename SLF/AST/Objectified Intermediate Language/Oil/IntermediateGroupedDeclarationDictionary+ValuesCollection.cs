@@ -148,7 +148,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             void IControlledStateCollection.CopyTo(Array array, int arrayIndex)
             {
-                if (arrayIndex < 0 || this.Count + arrayIndex >= array.Length)
+                if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
                     throw new ArgumentOutOfRangeException("arrayIndex");
                 if (!(array is TIntermediateDeclaration[]))
                     throw new ArgumentException("array");

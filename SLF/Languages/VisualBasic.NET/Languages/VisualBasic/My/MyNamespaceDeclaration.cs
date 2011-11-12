@@ -11,25 +11,26 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic.My
         IntermediateNamespaceDeclaration,
         IMyNamespaceDeclaration
     {
-        private MyNamespaceDeclaration(MyNamespaceDeclaration rootDeclaration, IVisualBasicAssembly parent)
+        private MyNamespaceDeclaration(MyNamespaceDeclaration rootDeclaration, IMyVisualBasicAssembly parent)
             : base(rootDeclaration, parent)
         {
         }
 
-        internal MyNamespaceDeclaration(IVisualBasicAssembly parent)
+        internal MyNamespaceDeclaration(IMyVisualBasicAssembly parent)
             : base("My", parent)
         {
         }
 
         protected override IntermediateNamespaceDeclaration GetNewPartial()
         {
-            return new MyNamespaceDeclaration(this, (IVisualBasicAssembly)ObtainParentPartial());
+            return new MyNamespaceDeclaration(this, (IMyVisualBasicAssembly)ObtainParentPartial());
         }
 
         protected override IntermediateClassTypeDictionary InitializeClasses()
         {
             var result = base.InitializeClasses();
-            //ToDo: Add code here to initialize base classes of the my namespace.
+            IIntermediateClassType myApplicationClass = new MyApplicationClass(this);
+            result._Add(myApplicationClass.UniqueIdentifier, myApplicationClass);
             return result;
         }
 

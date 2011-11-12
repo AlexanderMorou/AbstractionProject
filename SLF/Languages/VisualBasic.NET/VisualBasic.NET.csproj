@@ -69,6 +69,7 @@
     <DocumentationFile>bin\x86\Release\_abs.slf.languages.vb.net.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -79,14 +80,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cst\IVisualBasicStart.cs" />
+    <Compile Include="Languages\VisualBasic\CommonVBTypeRefs.cs" />
+    <Compile Include="Languages\VisualBasic\CoreVisualBasicAssembly.cs" />
+    <Compile Include="Languages\VisualBasic\CoreVisualBasicProvider.cs" />
+    <Compile Include="Languages\VisualBasic\ICoreVisualBasicAssembly.cs" />
+    <Compile Include="Languages\VisualBasic\ICoreVisualBasicProvider.cs" />
+    <Compile Include="Languages\VisualBasic\IMyVisualBasicProvider.cs" />
     <Compile Include="Languages\VisualBasic\IVisualBasicAssembly.cs" />
     <Compile Include="Languages\VisualBasic\IVisualBasicLanguage.cs" />
     <Compile Include="Languages\VisualBasic\IVisualBasicProvider.cs" />
+    <Compile Include="Languages\VisualBasic\MyVisualBasicAssembly.cs" />
+    <Compile Include="Languages\VisualBasic\MyVisualBasicProvider.cs" />
     <Compile Include="Languages\VisualBasic\My\IMyApplicationClass.cs" />
     <Compile Include="Languages\VisualBasic\My\IMyNamespaceDeclaration.cs" />
+    <Compile Include="Languages\VisualBasic\My\MyApplicationClass.cs" />
     <Compile Include="Languages\VisualBasic\My\MyNamespaceDeclaration.cs" />
     <Compile Include="Languages\VisualBasic\VisualBasicAssembly.cs" />
-    <Compile Include="Languages\VisualBasic\VisualBasicAssemblyBridge.cs" />
+    <Compile Include="Languages\VisualBasic\MyVisualBasicClass.cs" />
     <Compile Include="Languages\VisualBasic\VisualBasicLanguage.cs" />
     <Compile Include="Languages\VisualBasic\VisualBasicProvider.cs" />
     <Compile Include="Languages\VisualBasic\VisualBasicVendorProvider.cs" />

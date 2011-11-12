@@ -53,7 +53,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public static readonly IPrimitiveExpression<int> NumberZero = 0.ToPrimitive();
 
         /// <summary>
-        /// Type-reference expression cache.
+        /// GenericParameter-reference expression cache.
         /// </summary>
         private static IDictionary<IType, TypeReferenceExpression> typeReferenceCache = new Dictionary<IType, TypeReferenceExpression>();
 
@@ -679,8 +679,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (containingType is IIntermediateGenericType)
                 {
                     var topScopeGenericType = (IIntermediateGenericType)containingType;
-                    if (topScopeGenericType.TypeParameters.ContainsKey(symbolReference))
-                        return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[symbolReference];
+                    if (topScopeGenericType.TypeParameters.ContainsName(symbolReference))
+                        return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[AstIdentifier.GenericParameter(symbolReference, true)];
                 }
                 if (containingType.Parent is IIntermediateType)
                     containingType = (IIntermediateType)containingType.Parent;
@@ -696,8 +696,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         if (containingMember is IIntermediateGenericParameterParent)
                         {
                             var topScopeGenericMember = (IIntermediateGenericParameterParent)containingMember;
-                            if (topScopeGenericMember.TypeParameters.ContainsKey(symbolReference))
-                                return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[symbolReference];
+                            if (topScopeGenericMember.TypeParameters.ContainsName(symbolReference))
+                                return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[AstIdentifier.GenericParameter(symbolReference, false)];
                         }
                         if (containingMember.Parent == null)
                             break;
@@ -740,8 +740,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 if (containingMember is IIntermediateGenericParameterParent)
                 {
                     var topScopeGenericMember = (IIntermediateGenericParameterParent)containingMember;
-                    if (topScopeGenericMember.TypeParameters.ContainsKey(symbolReference))
-                        return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[symbolReference];
+                    if (topScopeGenericMember.TypeParameters.ContainsName(symbolReference))
+                        return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[AstIdentifier.GenericParameter(symbolReference, false)];
                 }
                 if (containingMember.Parent == null)
                     break;
@@ -762,8 +762,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         if (topScopeType is IIntermediateGenericType)
                         {
                             var topScopeGenericType = (IIntermediateGenericType)topScopeType;
-                            if (topScopeGenericType.TypeParameters.ContainsKey(symbolReference))
-                                return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[symbolReference];
+                            if (topScopeGenericType.TypeParameters.ContainsName(symbolReference))
+                                return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[AstIdentifier.GenericParameter(symbolReference, true)];
                         }
                         if (topScopeType.Parent is IIntermediateType)
                             topScopeType = (IIntermediateType)topScopeType.Parent;
@@ -787,6 +787,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         private static DisambiguateFromSelector GetSelector(this IIntermediateDeclaration declaration)
         {
+
             if (declaration is IIntermediateType)
                 return TypeSelector;
             else if (declaration is IIntermediateMember)
@@ -940,6 +941,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             {
                 {
                     var currentType = current as IIntermediateType;
+                    if (currentType == null)
+                        goto notType;
                     if (currentType != null && currentType.IsGenericConstruct)
                         return true;
                     var currentTypeParent = currentType.Parent;
@@ -949,6 +952,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                         continue;
                     }
                 }
+            notType:
                 {
                     var currentGenericParent = current as IIntermediateGenericParameterParent;
                     if (currentGenericParent != null && currentGenericParent.IsGenericConstruct)
@@ -956,6 +960,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 }
                 {
                     var currentMember = current as IIntermediateMember;
+                    if (currentMember == null)
+                        break;
                     var currentMemberParent = currentMember.Parent;
                     if (currentMemberParent is IIntermediateDeclaration)
                     {

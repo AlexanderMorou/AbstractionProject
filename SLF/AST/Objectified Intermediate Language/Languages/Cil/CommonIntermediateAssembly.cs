@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
     /// Provides a default base type for an intermediate assembly.
     /// </summary>
     public sealed class CommonIntermediateAssembly :
-        IntermediateAssembly<CommonIntermediateAssembly>,
+        IntermediateAssembly<ICommonIntermediateLanguage, ICommonIntermediateProvider, CommonIntermediateAssembly>,
         ICommonIntermediateAssembly
     {
         /// <summary>
@@ -81,7 +81,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         /// Returns the <see cref="ICommonIntermediateLanguage">language</see> in which the 
         /// <see cref="CommonIntermediateAssembly"/> is written in.
         /// </summary>
-        public ICommonIntermediateLanguage Language
+        public override ICommonIntermediateLanguage Language
         {
             get
             {
@@ -93,7 +93,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         /// Returns the <see cref="ICommonIntermediateProvider">provider</see>
         /// which created the <see cref="CommonIntermediateAssembly"/>.
         /// </summary>
-        public ICommonIntermediateProvider Provider
+        public override ICommonIntermediateProvider Provider
         {
             get
             {

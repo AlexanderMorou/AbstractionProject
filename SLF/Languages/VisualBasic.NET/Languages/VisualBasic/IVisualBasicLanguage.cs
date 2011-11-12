@@ -20,47 +20,59 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
     public interface IVisualBasicLanguage :
         IVersionedHighLevelLanguage<VisualBasicVersion, IVisualBasicStart>
     {
-        new IVisualBasicProvider GetProvider();
         /// <summary>
-        /// Returns a new <see cref="IVisualBasicProvider"/> associated to the
+        /// Returns a new <see cref="IICoreVisualBasicProvider"/> associated to the current
+        /// <see cref="IVisualBasicLanguage"/>.
+        /// </summary>
+        /// <returns>A new <see cref="ICoreVisualBasicProvider"/> for the
+        /// <see cref="IVisualBasicLanguage"/>.</returns>
+        new ICoreVisualBasicProvider GetProvider();
+        /// <summary>
+        /// Returns a new <see cref="ICoreVisualBasicProvider"/> associated to the
         /// <see cref="IVisualBasicLanguage"/>.
         /// </summary>
         /// <param name="version">The <see cref="VisualBasicVersion"/>
         /// value which denotes what version of the visual basic 
         /// language to return the provider for.</param>
-        /// <returns>A new <see cref="IVisualBasicProvider"/> for the current
+        /// <returns>A new <see cref="ICoreVisualBasicProvider"/> for the current
         /// <see cref="IVisualBasicLanguage"/>.</returns>
-        new IVisualBasicProvider GetProvider(VisualBasicVersion version);
+        new ICoreVisualBasicProvider GetProvider(VisualBasicVersion version);
         /// <summary>
-        /// Creates a new <see cref="IVisualBasicAssembly"/>
+        /// 
+        /// </summary>
+        /// <param name="version"></param>
+        /// <returns></returns>
+        IMyVisualBasicProvider GetMyProvider(VisualBasicVersion version = VisualBasicLanguage.DefaultVersion);
+        /// <summary>
+        /// Creates a new <see cref="ICoreVisualBasicAssembly"/>
         /// with the <paramref name="name"/> and 
         /// <paramref name="version"/> provided.
         /// </summary>
         /// <param name="name">The <see cref="String"/> value
         /// representing part of the identity of the assembly.</param>
         /// <param name="version">The <see cref="VisualBasicVersion"/>
-        /// of the language to which the <see cref="IVisualBasicAssembly"/>
+        /// of the language to which the <see cref="ICoreVisualBasicAssembly"/>
         /// is built against.</param>
-        /// <returns>A new <see cref="IIntermediateAssembly"/>
+        /// <returns>A new <see cref="ICoreVisualBasicAssembly"/>
         /// with the <paramref name="name"/> provided.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when 
         /// <paramref name="name"/> is null.</exception>
         /// <exception cref="System.ArgumentException">thrown when
         /// <paramref name="name"/> is <see cref="String.Empty"/>
         /// or <paramref name="version"/> is out of the values allowed.</exception>
-        new IVisualBasicAssembly CreateAssembly(string name, VisualBasicVersion version);
+        new ICoreVisualBasicAssembly CreateAssembly(string name, VisualBasicVersion version);
         /// <summary>
-        /// Creates a new <see cref="IVisualBasicAssembly"/>
+        /// Creates a new <see cref="ICoreVisualBasicAssembly"/>
         /// with the <paramref name="name"/> provided.
         /// </summary>
         /// <param name="name">The <see cref="String"/> value
         /// representing part of the identity of the assembly.</param>
-        /// <returns>A new <see cref="IVisualBasicAssembly"/>
+        /// <returns>A new <see cref="ICoreVisualBasicAssembly"/>
         /// with the <paramref name="name"/> provided.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when 
         /// <paramref name="name"/> is null.</exception>
         /// <exception cref="System.ArgumentException">thrown when
         /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
-        new IVisualBasicAssembly CreateAssembly(string name);
+        new ICoreVisualBasicAssembly CreateAssembly(string name);
     }
 }

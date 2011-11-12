@@ -109,7 +109,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Modules
         {
             get {
                 if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = AstIdentifier.Declaration(this.Name);
+                    this.uniqueIdentifier = AstIdentifier.Declaration(this.name);
                 return this.uniqueIdentifier;
             }
         }

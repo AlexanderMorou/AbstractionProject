@@ -55,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public void CopyTo(IType[] array, int arrayIndex = 0)
         {
-            if (arrayIndex < 0 || arrayIndex >= array.Length)
+            if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
                 throw new ArgumentOutOfRangeException("arrayIndex");
             if (this.Count + arrayIndex > array.Length)
                 throw new ArgumentOutOfRangeException("arrayIndex");

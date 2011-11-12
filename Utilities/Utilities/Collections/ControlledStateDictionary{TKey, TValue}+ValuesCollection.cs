@@ -101,7 +101,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             {
                 if (array == null)
                     throw new ArgumentNullException("array");
-                if (arrayIndex < 0 || arrayIndex >= array.Length)
+                if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
                     throw new ArgumentOutOfRangeException("arrayIndex");
                 if (this.Count + arrayIndex > array.Length)
                     throw new ArgumentOutOfRangeException("arrayIndex");
@@ -202,7 +202,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
             protected virtual void GeneralCopyTo(Array array, int arrayIndex)
             {
-                if (arrayIndex < 0 || arrayIndex >= array.Length)
+                if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
                     throw new ArgumentOutOfRangeException("arrayIndex");
                 if (this.Count + arrayIndex > array.Length)
                     throw new ArgumentOutOfRangeException("arrayIndex");

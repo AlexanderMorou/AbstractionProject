@@ -57,7 +57,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             naming = true;
             this.typeInitializer = typeInitializer;
-            this.Name = typeInitializer ? ".cctor" : ".ctor";
+            this.AssignName(typeInitializer ? ".cctor" : ".ctor");
             naming = false;
         }
 
@@ -80,7 +80,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         {
             get {
                 if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = AstIdentifier.Signature(this.Name, this.Parameters.ParameterTypes.SinglePass());
+                    if (this.AreParametersInitialized)
+                        this.uniqueIdentifier = AstIdentifier.Signature(this.Name, this.Parameters.ParameterTypes.ToArray());
+                    else
+                        this.uniqueIdentifier = AstIdentifier.Signature(this.Name);
                 return this.uniqueIdentifier;
             }
         }

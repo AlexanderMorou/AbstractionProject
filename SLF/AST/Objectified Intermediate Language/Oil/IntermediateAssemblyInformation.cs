@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Globalization;
 using AllenCopeland.Abstraction.Utilities.Events;
+using AllenCopeland.Abstraction.Slf.Languages;
 /*---------------------------------------------------------------------\
 | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
@@ -16,10 +17,14 @@ using AllenCopeland.Abstraction.Utilities.Events;
 
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
-    public sealed class IntermediateAssemblyInformation<TAssembly> :
+    public sealed class IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly> :
         IIntermediateAssemblyInformation
+        where TLanguage :
+            ILanguage
+        where TProvider :
+            ILanguageProvider
         where TAssembly :
-            IntermediateAssembly<TAssembly>
+            IntermediateAssembly<TLanguage, TProvider, TAssembly>
     {
         private static readonly Version defaultVersion = new Version(1, 0, 0, 0);
         private Version fileVersion;
@@ -80,14 +85,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             get
             {
                 if (this.fileVersion == null)
-                    return IntermediateAssemblyInformation<TAssembly>.defaultVersion;
+                    return IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly>.defaultVersion;
                 return this.fileVersion;
             }
             set
             {
                 if (fileVersion == value)
                     return;
-                if (value == IntermediateAssemblyInformation<TAssembly>.defaultVersion)
+                if (value == IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly>.defaultVersion)
                 {
                     this.fileVersion = null;
                     return;
@@ -101,14 +106,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             get
             {
                 if (this.assemblyVersion == null)
-                    return IntermediateAssemblyInformation<TAssembly>.defaultVersion;
+                    return IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly>.defaultVersion;
                 return this.assemblyVersion;
             }
             set
             {
                 if (this.assemblyVersion == value) 
                     return;
-                if (Object.ReferenceEquals(value, IntermediateAssemblyInformation<TAssembly>.defaultVersion))
+                if (Object.ReferenceEquals(value, IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly>.defaultVersion))
                 {
                     this.assemblyVersion = null;
                     return;
