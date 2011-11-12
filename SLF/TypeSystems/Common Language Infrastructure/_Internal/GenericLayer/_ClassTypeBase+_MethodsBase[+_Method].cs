@@ -47,9 +47,33 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
                 #region IExtendedInstanceMember Members
 
-                public ExtendedInstanceMemberFlags InstanceFlags
+                public bool IsAsynchronous
                 {
-                    get { return this.Original.InstanceFlags; ; }
+                    get
+                    {
+                        return this.Original.IsAsynchronous;
+                    }
+                }
+
+                public ClassMethodMemberFlags InstanceFlags
+                {
+                    get
+                    {
+                        return this.Original.InstanceFlags;
+                    }
+                }
+
+                ExtendedMethodMemberFlags IExtendedMethodMember.InstanceFlags
+                {
+                    get
+                    {
+                        return (ExtendedMethodMemberFlags)this.InstanceFlags & ExtendedMethodMemberFlags.FlagsMask;
+                    }
+                }
+
+                ExtendedInstanceMemberFlags IExtendedInstanceMember.InstanceFlags
+                {
+                    get { return (ExtendedInstanceMemberFlags)this.InstanceFlags ^ ExtendedInstanceMemberFlags.FlagsMask; }
                 }
 
                 public bool IsStatic

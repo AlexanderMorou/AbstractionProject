@@ -16,7 +16,8 @@ using AllenCopeland.Abstraction.Slf.Translation;
 namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
 {
     public interface ICSharpProvider :
-        IVersionedHighLevelLanguageProvider<CSharpLanguageVersion, ICSharpCompilationUnit>
+        IVersionedHighLevelLanguageProvider<CSharpLanguageVersion, ICSharpCompilationUnit>,
+        IIntermediateLanguageTypeProvider
     {
         new ICSharpParser Parser { get; }
         new ICSharpCSTTranslator CSTTranslator { get; }

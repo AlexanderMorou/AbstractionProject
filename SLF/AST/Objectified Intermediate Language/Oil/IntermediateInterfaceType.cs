@@ -271,7 +271,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
-        #region Simpler intermediate and Abstract Type System Event, Indexer, Property and Method Defs
+        #region Simpler intermediate and Abstract GenericParameter System Event, Indexer, Property and Method Defs
 
         #region IIntermediateMethodSignatureParent<IMethodSignatureParameterMember<IInterfaceMethodMember,IInterfaceType>,IIntermediateMethodSignatureParameterMember<IInterfaceMethodMember,IIntermediateInterfaceMethodMember,IInterfaceType,IIntermediateInterfaceType>,IInterfaceMethodMember,IIntermediateInterfaceMethodMember,IInterfaceType,IIntermediateInterfaceType> Members
 

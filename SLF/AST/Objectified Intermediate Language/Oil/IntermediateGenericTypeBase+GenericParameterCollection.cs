@@ -71,7 +71,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             public void CopyTo(IType[] array, int arrayIndex = 0)
             {
-                if (arrayIndex < 0 || this.Count + arrayIndex >= array.Length)
+                if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
                     throw new ArgumentOutOfRangeException("arrayIndex");
                 for (int i = 0; i < this.Count; i++)
                     array[arrayIndex + i] = this[i];

@@ -632,7 +632,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                     {
                         IGenericType t = ((IGenericType)(this.Parent));
                         for (; t != null; t = (((t.DeclaringType != null) && (t.DeclaringType is IGenericType)) ? (IGenericType)t.DeclaringType : null))
-                            if (t.TypeParameters.ContainsKey(source.SymbolReference))
+                            if (t.TypeParameters.ContainsName(source.SymbolReference))
                                 return ((IGenericTypeParameter)t.TypeParameters[source.SymbolReference]);
                         IType q = null;
                         if (altGetter != null)

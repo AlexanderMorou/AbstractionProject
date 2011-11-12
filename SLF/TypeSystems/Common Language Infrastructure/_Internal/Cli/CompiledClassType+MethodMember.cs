@@ -27,6 +27,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IClassMethodMember,
             ICompiledMethodMember
         {
+            private bool? isAsync;
             private bool? hasBaseDefinition;
             private IClassMethodMember baseDefinition;
             public MethodMember(MethodInfo methodInfo, CompiledClassType @class)
@@ -36,6 +37,30 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             #region IInstantiableMember Members
 
+            public ClassMethodMemberFlags InstanceFlags
+            {
+                get
+                {
+                    ClassMethodMemberFlags imfs = ClassMethodMemberFlags.None;
+                    if (this.IsStatic)
+                        imfs |= ClassMethodMemberFlags.Static;
+                    if (this.IsVirtual)
+                        imfs |= ClassMethodMemberFlags.Virtual;
+                    if (this.IsOverride)
+                        imfs |= ClassMethodMemberFlags.Override;
+                    if (this.IsFinal)
+                        imfs |= ClassMethodMemberFlags.Final;
+                    if (this.IsHideBySignature)
+                        imfs |= ClassMethodMemberFlags.HideBySignature;
+                    if (this.IsAbstract)
+                        imfs |= ClassMethodMemberFlags.Abstract;
+                    if (this.IsAsynchronous)
+                        imfs |= ClassMethodMemberFlags.Async;
+                    if (this.IsExtensionMethod)
+                        imfs |= ClassMethodMemberFlags.Extension;
+                    return imfs;
+                }
+            }
             /// <summary>
             /// Returns whether the <see cref="CompiledClassType.MethodMember"/> is
             /// static.
@@ -102,24 +127,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 get { return this.MemberInfo.IsAbstract; }
             }
 
-            public ExtendedInstanceMemberFlags InstanceFlags
+            ExtendedInstanceMemberFlags IExtendedInstanceMember.InstanceFlags
             {
                 get
                 {
-                    ExtendedInstanceMemberFlags imfs = ExtendedInstanceMemberFlags.None;
-                    if (this.IsStatic)
-                        imfs |= ExtendedInstanceMemberFlags.Static;
-                    if (this.IsVirtual && !IsOverride)
-                        imfs |= ExtendedInstanceMemberFlags.Virtual;
-                    if (this.IsOverride)
-                        imfs |= ExtendedInstanceMemberFlags.Override;
-                    if (this.IsFinal)
-                        imfs |= ExtendedInstanceMemberFlags.Final;
-                    if (this.IsHideBySignature)
-                        imfs |= ExtendedInstanceMemberFlags.HideBySignature;
-                    if (this.IsAbstract)
-                        imfs |= ExtendedInstanceMemberFlags.Abstract;
-                    return imfs;
+                    return ((ExtendedInstanceMemberFlags)this.InstanceFlags) & ExtendedInstanceMemberFlags.FlagsMask;
+                }
+            }
+
+            ExtendedMethodMemberFlags IExtendedMethodMember.InstanceFlags
+            {
+                get
+                {
+                    return (ExtendedMethodMemberFlags)this.InstanceFlags & ExtendedMethodMemberFlags.FlagsMask;
                 }
             }
             #endregion
@@ -130,24 +150,54 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
 
             #region IClassMethodMember Members
-
+            private bool? isExtensionMethod;
             public bool IsExtensionMethod
             {
                 get
                 {
-                    if (this.Parent.SpecialModifier == SpecialClassModifier.TypeExtensionSource && this.IsStatic)
-                        return this.MemberInfo.IsDefined(typeof(ExtensionAttribute), false);
-                    return false;
+
+                    if (this.isExtensionMethod == null)
+                        if (this.Parent.SpecialModifier == SpecialClassModifier.TypeExtensionSource && this.IsStatic)
+                            isExtensionMethod = this.MemberInfo.IsDefined(typeof(ExtensionAttribute), false);
+                        else
+                            isExtensionMethod = false;
+                    return this.isExtensionMethod.Value;
                 }
             }
 
             #endregion
+            /// <summary>
+            /// Returns whether the <see cref="CompiledStructType.MethodMember"/>
+            /// is an asynchronous method.
+            /// </summary>
+            public bool IsAsynchronous
+            {
+                get
+                {
+                    if (isAsync == null)
+                    {
+                        var returnType = this.ReturnType;
+                        if (returnType == CommonTypeRefs.Void)
+                        {
+                            if (this.Name.Substring(this.Name.Length - 5).ToLower() == "async")
+                                this.isAsync = true;
+                        }
+                        else if (returnType == CommonTypeRefs.Task)
+                            this.isAsync = true;
+                        else if (returnType.ElementClassification == TypeElementClassification.GenericTypeDefinition && returnType.ElementType != null && returnType.ElementType == CommonTypeRefs.TaskOfT)
+                            this.isAsync = true;
+                        else
+                            this.isAsync = false;
+                    }
+                    return this.isAsync.Value;
+                }
+            }
 
             #region IInstanceMember Members
 
             InstanceMemberFlags IInstanceMember.InstanceFlags
             {
-                get { return (InstanceMemberFlags)(this.InstanceFlags & (ExtendedInstanceMemberFlags)(InstanceMemberFlags.InstanceMemberFlagsMask)); }
+                get { return (InstanceMemberFlags)this.InstanceFlags & InstanceMemberFlags.FlagsMask; }
             }
 
             #endregion

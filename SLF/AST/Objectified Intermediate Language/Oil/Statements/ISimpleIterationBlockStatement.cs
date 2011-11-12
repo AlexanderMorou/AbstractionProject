@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Statements
     /// <para>Used in Visual Basic for 
     ///     'For Target = Start To End [STEP Incremental]'.</para>
     /// <para>Simplest implementation in C&#9839;: 
-    ///     'for (Type Target = Start; Target &lt;=? Start; Target+[+ | =Incremental])'.</para>
+    ///     'for (GenericParameter Target = Start; Target &lt;=? Start; Target+[+ | =Incremental])'.</para>
     /// </remarks>
     public interface ISimpleIterationBlockStatement :
         IBreakableBlockStatement

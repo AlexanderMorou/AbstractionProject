@@ -16,6 +16,7 @@ using AllenCopeland.Abstraction.Utilities.Properties;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Utilities.Events;
 using AllenCopeland.Abstraction.Globalization;
+using AllenCopeland.Abstraction.Slf.Languages;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -29,12 +30,23 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <summary>
     /// Provides a generic base type for an intermediate assembly.
     /// </summary>
-    /// <typeparam name="TAssembly">The kind of assembly represented by the </typeparam>
-    public abstract partial class IntermediateAssembly<TAssembly> :
+    /// <typeparam name="TLanguage">The type of the language
+    /// which yields information and services pertinent to the 
+    /// tools which build the assembly.</typeparam>
+    /// <typeparam name="TProvider">The language service provider
+    /// which yields a set of services to aid in compilation
+    /// of the <typeparamref name="TAssembly">assembly</see>.</typeparam>
+    /// <typeparam name="TAssembly">The kind of assembly represented by the 
+    /// intermediate abstract syntax tree.</typeparam>
+    public abstract partial class IntermediateAssembly<TLanguage, TProvider, TAssembly> :
         AssemblyBase,
-        IIntermediateAssembly
+        IIntermediateAssembly<TLanguage, TProvider>
+        where TLanguage :
+            ILanguage
+        where TProvider :
+            ILanguageProvider
         where TAssembly :
-            IntermediateAssembly<TAssembly>
+            IntermediateAssembly<TLanguage, TProvider, TAssembly>
     {
         /// <summary>
         /// Data member for <see cref="CustomAttributes"/>.
@@ -47,7 +59,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Data member for <see cref="AssemblyInformation"/>.
         /// </summary>
-        private IntermediateAssemblyInformation<TAssembly> assemblyInformation;
+        private IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly> assemblyInformation;
         /// <summary>
         /// Data member for <see cref="PrivateImplementationDetails"/>
         /// </summary>
@@ -115,17 +127,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateAssembly{TAssembly}"/> with the 
+        /// Creates a new <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/> with the 
         /// <paramref name="rootAssembly"/> provided.
         /// </summary>
         /// <param name="rootAssembly">The <typeparamref name="TAssembly"/> from which
-        /// the current <see cref="IntermediateAssembly{TAssembly}"/> is a part of.</param>
+        /// the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/> is a part of.</param>
         internal protected IntermediateAssembly(TAssembly rootAssembly)
         {
             this.rootAssembly = rootAssembly;
         }
         /// <summary>
-        /// Creates a new <see cref="IntermediateAssembly{TAssembly}"/> with the
+        /// Creates a new <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/> with the
         /// <paramref name="name"/> provided.
         /// </summary>
         /// <param name="name">The <see cref="String"/> representing the name of the
@@ -136,7 +148,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Returns whether the manifest module of the <see cref="IntermediateAssembly{TAssembly}"/>
+        /// Returns whether the manifest module of the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>
         /// can be cached.
         /// </summary>
         /// <remarks>Returns false, the manifest module can change in an intermediate
@@ -151,7 +163,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns the <see cref="IAssemblyInformation"/> associated to the
-        /// current <see cref="IntermediateAssembly{TAssembly}"/>.
+        /// current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.
         /// </summary>
         /// <returns>An instance of <see cref="IIntermediateAssemblyInformation"/> from
         /// the new member <see cref="AssemblyInformation"/>.</returns>
@@ -299,9 +311,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             return this._Members;
         }
 
-        protected virtual IntermediateAssemblyInformation<TAssembly> InitializeAssemblyInformation()
+        protected virtual IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly> InitializeAssemblyInformation()
         {
-            return new IntermediateAssemblyInformation<TAssembly>((TAssembly)this);
+            return new IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly>((TAssembly)this);
         }
 
         /// <summary>
@@ -429,7 +441,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
         /// <summary>
         /// Returns the <see cref="IIntermediateAssemblyInformation"/> about 
-        /// the current <see cref="IntermediateAssembly{TAssembly}"/> instance.
+        /// the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/> instance.
         /// </summary>
         public new IIntermediateAssemblyInformation AssemblyInformation
         {
@@ -448,7 +460,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Returns the <see cref="IIntermediateModule"/> which exposes
         /// the manifest data for the current 
-        /// <see cref="IntermediateAssembly{TAssembly}"/>.
+        /// <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.
         /// </summary>
         public new IIntermediateModule ManifestModule
         {
@@ -614,7 +626,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Disposes the current <see cref="IntermediateAssembly{TAssembly}"/>.
+        /// Disposes the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.
         /// </summary>
         /// <param name="disposing">whether to dispose managed data or not.</param>
         protected override void Dispose(bool disposing)
@@ -705,7 +717,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Raises the <see cref="Renamed"/> event.
         /// </summary>
         /// <param name="e">The <see cref="DeclarationNameChangedEventArgs"/> which
-        /// indicate the old and new name of the <see cref="IntermediateAssembly{TAssembly}"/>.</param>
+        /// indicate the old and new name of the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.</param>
         protected virtual void OnRenamed(DeclarationNameChangedEventArgs e)
         {
             if (this.IsRoot)
@@ -719,7 +731,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Occurs when the name of the <see cref="IntermediateAssembly{TAssembly}"/>
+        /// Occurs when the name of the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>
         /// has changed.
         /// </summary>
         public event EventHandler<DeclarationNameChangedEventArgs> Renamed
@@ -744,7 +756,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         /// <summary>
-        /// Occurs when the name of the <see cref="IntermediateAssembly{TAssembly}"/>
+        /// Occurs when the name of the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>
         /// is in the process of being changed.
         /// </summary>
         public event EventHandler<DeclarationRenamingEventArgs> Renaming
@@ -826,7 +838,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns the part collection associated to the
-        /// <see cref="IntermediateAssembly{TAssembly}"/>.
+        /// <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.
         /// </summary>
         public IIntermediateSegmentableDeclarationPartCollection<IAssemblyUniqueIdentifier, IIntermediateAssembly> Parts
         {
@@ -860,7 +872,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns whether or not the current 
-        /// <see cref="IntermediateAssembly{TAssembly}"/> is the root
+        /// <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/> is the root
         /// instance.
         /// </summary>
         public bool IsRoot
@@ -884,10 +896,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         #endregion
         /// <summary>
         /// Returns a <see cref="System.String"/> which 
-        /// represents the current <see cref="IntermediateAssembly{TAssembly}"/>.
+        /// represents the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.
         /// </summary>
         /// <returns>A <see cref="System.String"/>which 
-        /// represents the current <see cref="IntermediateAssembly{TAssembly}"/>.</returns>
+        /// represents the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.</returns>
         public override string ToString()
         {
             return string.Format("{0}, Version={1}, Culture={2}, PublicKeyToken={3}", this.AssemblyInformation.AssemblyName, this.AssemblyInformation.AssemblyVersion, string.IsNullOrEmpty(this.AssemblyInformation.Culture.Name) ? "neutral" : this.AssemblyInformation.Culture.Name, "null");
@@ -919,7 +931,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns the <see cref="IScopeCoercionCollection"/>
-        /// associated to the scope coercions of the <see cref="IntermediateAssembly{TAssembly}"/>.
+        /// associated to the scope coercions of the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.
         /// </summary>
         public IScopeCoercionCollection ScopeCoercions
         {
@@ -981,7 +993,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <summary>
         /// Obtains the <see cref="IFullMemberDictionary"/> instance
         /// which initializes the <see cref="Members"/> of the
-        /// <see cref="IntermediateAssembly{TAssembly}"/>.
+        /// <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.
         /// </summary>
         /// <returns>The <see cref="IFullMemberDictionary"/>
         /// instance which initializes the <see cref="Members"/>.</returns>
@@ -1019,7 +1031,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateFieldParent<ITopLevelFieldMember,IIntermediateTopLevelFieldMember,INamespaceParent,IIntermediateNamespaceParent> Members
 
-        IIntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent> IIntermediateFieldParent<ITopLevelFieldMember,IIntermediateTopLevelFieldMember,INamespaceParent,IIntermediateNamespaceParent>.Fields
+        IIntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent> IIntermediateFieldParent<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent>.Fields
         {
             get
             {
@@ -1049,7 +1061,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateMethodParent<ITopLevelMethodMember,IIntermediateTopLevelMethodMember,INamespaceParent,IIntermediateNamespaceParent> Members
 
-        IIntermediateMethodMemberDictionary<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent> IIntermediateMethodParent<ITopLevelMethodMember,IIntermediateTopLevelMethodMember,INamespaceParent,IIntermediateNamespaceParent>.Methods
+        IIntermediateMethodMemberDictionary<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent> IIntermediateMethodParent<ITopLevelMethodMember, IIntermediateTopLevelMethodMember, INamespaceParent, IIntermediateNamespaceParent>.Methods
         {
             get
             {
@@ -1090,7 +1102,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Occurs after the 
-        /// <see cref="IntermediateAssembly{TAssembly}"/>
+        /// <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>
         /// has changed in a way which invalidates the previous unique
         /// identifier.
         /// </summary>
@@ -1122,7 +1134,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         public override IAssemblyUniqueIdentifier UniqueIdentifier
         {
-            get {
+            get
+            {
                 if (this.IsRoot)
                 {
                     if (this.uniqueIdentifier == null)
@@ -1157,7 +1170,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns whether the <see cref="Members"/> have been initialized
-        /// for the <see cref="IntermediateAssembly{TAssembly}"/>.
+        /// for the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.
         /// </summary>
         protected bool AreIntermediateMembersInitialized
         {
@@ -1169,13 +1182,37 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         /// <summary>
         /// Returns whether the <see cref="Types"/> have been initialized
-        /// for the <see cref="IntermediateAssembly{TAssembly}"/>.
+        /// for the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.
         /// </summary>
         protected bool AreIntermediateTypesInitialized
         {
             get
             {
                 return this.types != null;
+            }
+        }
+
+        #region IIntermediateAssembly<TLanguage,TProvider> Members
+
+        public abstract TLanguage Language { get; }
+
+        public abstract TProvider Provider { get; }
+
+        #endregion
+
+        ILanguageProvider IIntermediateAssembly.Provider
+        {
+            get
+            {
+                return this.Provider;
+            }
+        }
+
+        ILanguage IIntermediateAssembly.Language
+        {
+            get
+            {
+                return this.Language;
             }
         }
     }

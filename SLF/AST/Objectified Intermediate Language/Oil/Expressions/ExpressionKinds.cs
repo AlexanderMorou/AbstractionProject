@@ -224,8 +224,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         /// An expression which checks the type of another expression.
         /// </summary>
         /// <remarks>
-        /// <para>C#: Expression "is" Type</para>
-        /// <para>Visual Basic.NET: "TypeOf" expression "Is" Type
+        /// <para>C#: Expression "is" GenericParameter</para>
+        /// <para>Visual Basic.NET: "TypeOf" expression "Is" GenericParameter
         /// </para></remarks>
         TypeCheckOperation,
         /// <summary>

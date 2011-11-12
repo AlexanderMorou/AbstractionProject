@@ -21,8 +21,18 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
     /// </summary>
     /// <remarks>Relative to Start in Visual Basic Language 
     /// Specification Version 10.0</remarks>
-    public interface IVisualBasicAssembly :
-        IVersionedHighLevelIntermediateAssembly<IVisualBasicLanguage, IVisualBasicStart, IVisualBasicProvider, VisualBasicVersion>
+    public interface IVisualBasicAssembly<TAssembly, TProvider> :
+        IVersionedHighLevelIntermediateAssembly<IVisualBasicLanguage, IVisualBasicStart, TProvider, VisualBasicVersion>
+        where TAssembly :
+            IVisualBasicAssembly<TAssembly, TProvider>
+        where TProvider :
+            IVisualBasicProvider<TAssembly, TProvider>
+    {
+
+    }
+
+    public interface IMyVisualBasicAssembly :
+        IVisualBasicAssembly<IMyVisualBasicAssembly, IMyVisualBasicProvider>
     {
         /// <summary>
         /// Returns the <see cref="IMyNamespaceDeclaration"/> which

@@ -38,12 +38,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         }
 
         /// <summary>
-        /// Adds a series of <see cref="Type"/> references to the <see cref="ITypeCollection"/>
+        /// Adds a series of <see cref="GenericParameter"/> references to the <see cref="ITypeCollection"/>
         /// <paramref name="target"/>.
         /// </summary>
         /// <param name="target">The target <see cref="ITypeCollection"/> to receive the series of
         /// <see cref="IType"/> reference wrappers.</param>
-        /// <param name="types">The zero-based index <see cref="Type"/> array 
+        /// <param name="types">The zero-based index <see cref="GenericParameter"/> array 
         /// to add to the <paramref name="target"/>.</param>
         /// <returns></returns>
         public static IType[] AddRange(this ITypeCollection target, params Type[] types)
@@ -305,7 +305,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 !((genericParameters == null) || (genericParameters.Count == 0)))
             {
                 /* *
-                 * The unthinkable... Type-Parameter inferrence, 
+                 * The unthinkable... GenericParameter-Parameter inferrence, 
                  * GREAT FUN.
                  * */
                 return CompareAndContrast<TSignature, TSignatureParameter, TSignatureParent>(parameterType, sourceType, methodGenericParameters, method, deviations);
@@ -369,7 +369,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// </summary>
         /// <param name="target">The <see cref="TypedNameSeries"/> to add the typed name to.</param>
         /// <param name="name">The name of the type name pair.</param>
-        /// <param name="type">The <see cref="Type"/> of the type name pair.</param>
+        /// <param name="type">The <see cref="GenericParameter"/> of the type name pair.</param>
         public static void Add(this TypedNameSeries target, string name, Type type)
         {
             target.Add(name, type.GetTypeReference());
@@ -381,7 +381,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// </summary>
         /// <param name="target">The <see cref="TypedNameSeries"/> to add the typed name to.</param>
         /// <param name="name">The name of the type name pair.</param>
-        /// <param name="type">The <see cref="Type"/> of the type name pair.</param>
+        /// <param name="type">The <see cref="GenericParameter"/> of the type name pair.</param>
         /// <param name="direction">The <see cref="ParameterDirection"/> which determines
         /// how the type should be coerced when using the type in an input position.</param>
         public static void Add(this TypedNameSeries target, string name, Type type, ParameterDirection direction)

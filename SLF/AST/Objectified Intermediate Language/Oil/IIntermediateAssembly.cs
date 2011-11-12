@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.Slf.Cst;
 using AllenCopeland.Abstraction.Slf.Oil.Modules;
 using AllenCopeland.Abstraction.Slf.Linkers;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
+using AllenCopeland.Abstraction.Slf.Languages;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -85,5 +86,18 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// resulted assembly.
         /// </summary>
         IMalleableCompilationContext CompilationContext { get; }
+        /// <summary>
+        /// Returns the <see cref="ILanguageProvider"/>
+        /// which made the assembly and denotes information about the
+        /// source language.
+        /// </summary>
+        /// <remarks>May be null.</remarks>
+        ILanguageProvider Provider { get; }
+        /// <summary>
+        /// Returns the <see cref="ILanguage"/> which denotes information
+        /// about the source language.
+        /// </summary>
+        /// <remarks>May be null.</remarks>
+        ILanguage Language { get; }
     }
 }

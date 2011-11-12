@@ -63,9 +63,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <param name="parent">The <typeparamref name="TIntermediateParent"/>
         /// which contains the <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>.</param>
         protected IntermediateGenericParameterBase(string name, TIntermediateParent parent)
-            : base()
         {
-            base.Name = name;
+            base.AssignName(name);
             if (parent is IIntermediateTypeParent)
                 base.Parent = (IIntermediateTypeParent)parent;
             this.Parent = parent;
@@ -568,8 +567,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             get
             {
                 int index = -1;
-                foreach (var item in ((IGenericParameterDictionary<TGenericParameter, TParent>)this.Parent.TypeParameters))
-                    if (item.Value == this)
+                foreach (var item in this.Parent.TypeParameters.Values)
+                    if (item == this)
                         return ++index;
                     else
                         index++;

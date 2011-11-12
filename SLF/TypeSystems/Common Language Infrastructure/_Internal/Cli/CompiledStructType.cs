@@ -165,7 +165,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             if (this.UnderlyingSystemType == typeof(TypedReference) ||
                 this.UnderlyingSystemType == typeof(ArgIterator))
-                throw new InvalidOperationException("Type cannot be an array.");
+                throw new InvalidOperationException("GenericParameter cannot be an array.");
             return base.OnMakeArray(rank);
         }
     }

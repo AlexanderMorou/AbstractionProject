@@ -138,5 +138,35 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         }
 
         #endregion
+
+        #region IIntermediateLanguageTypeProvider Members
+
+        public virtual IIntermediateClassType CreateClass(string name, IIntermediateTypeParent parent)
+        {
+            return new IntermediateClassType(name, parent);
+        }
+
+        public virtual IIntermediateDelegateType CreateDelegate(string name, IIntermediateTypeParent parent)
+        {
+            return new IntermediateDelegateType(name, parent);
+        }
+
+        public virtual IIntermediateEnumType CreateEnum(string name, IIntermediateTypeParent parent)
+        {
+            return new IntermediateEnumType(name, parent);
+        }
+
+        public virtual IIntermediateInterfaceType CreateInterface(string name, IIntermediateTypeParent parent)
+        {
+            return new IntermediateInterfaceType(name, parent);
+        }
+
+        public virtual IIntermediateStructType CreateStruct(string name, IIntermediateTypeParent parent)
+        {
+            return new IntermediateStructType(name, parent);
+        }
+
+        #endregion
+
     }
 }

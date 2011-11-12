@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Utilities.Properties;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -102,8 +103,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
             if (string.IsNullOrEmpty(genericParameterData.Name))
                 throw new ArgumentException("genericParameterData");
+            int index = this.Count;
+            var defaultParamId = AstIdentifier.GenericParameter(index, this.Parent is IType);
             var result = this.GetNew(genericParameterData.Name);
-            if (this.ContainsKey(result.UniqueIdentifier))
+            if (this.ContainsKey(defaultParamId))
                 throw new ArgumentException("genericParameterData");
             foreach (var ctorSig in genericParameterData.Constructors.Signatures)
                 result.Constructors.Add(ctorSig.Parameters.ToSeries());
@@ -120,7 +123,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 //result.Properties.Add
             foreach (var method in genericParameterData.Methods.Signatures)
                 result.Methods.Add(new TypedName(method.Name, method.ReturnType), method.Parameters.ToSeries());
-            this._Add(result.UniqueIdentifier, result);
+            this._Add(defaultParamId, result);
+            this.Keys[index] = result.UniqueIdentifier;
             return result;
         }
 
@@ -237,7 +241,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
             {
                 var currentParameterData = genericParameterData[i];
                 var current = this.GetNew(currentParameterData.Name);
-                var currentUniqueId = current.UniqueIdentifier;
+                var currentUniqueId = AstIdentifier.GenericParameter(i + this.Count, currentParameterData.Name, Parent is IType);
                 if (this.ContainsKey(currentUniqueId) ||
                     currentKeys.Contains(currentUniqueId))
                     throw new ArgumentException("genericParameterData");
@@ -251,6 +255,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                 currentKeys[i] = currentUniqueId;
                 result[i] = current;
             });
+            
             //Parallel.For(0, genericParameterData.Length, i =>
             for (int i = 0; i < genericParameterData.Length; i++)
                 this._Add(currentKeys[i], result[i]);

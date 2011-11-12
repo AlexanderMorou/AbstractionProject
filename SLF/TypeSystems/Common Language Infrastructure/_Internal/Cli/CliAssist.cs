@@ -169,7 +169,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 else
                 {
                     if (target.IsGenericParameter)
-                        return AstIdentifier.Type(target.GenericParameterPosition);
+                        return AstIdentifier.GenericParameter(target.GenericParameterPosition);
                     int tpCnt = 0;
                     if (target.IsGenericType)
                     {

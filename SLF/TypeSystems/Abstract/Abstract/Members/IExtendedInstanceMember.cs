@@ -16,22 +16,25 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     //[FlagsAttribute]
     //public enum NameHere
     //{
-    //    /* 0000001110000001 */
-    //    Static = 0x381,
-    //    /* 0001110010000010 */
-    //    Virtual = 0x1c82,
-    //    /* 0110010100000100 */
-    //    Abstract = 0x6504,
-    //    /* 0010101000001000 */
-    //    Override = 0x2a08,
-    //    /* 1000000000010000 */
-    //    HideBySignature = 0x8010,
-    //    /* 1000000000100000 */
-    //    HideByName = 0x8020,
-    //    /* 0101000001000000 */
-    //    Final = 0x5040,
+    //    /* 0000000000111000000001 */
+    //    Static = 0xe01,
+    //    /* 0000000111001000000010 */
+    //    Virtual = 0x7202,
+    //    /* 0000011001010000000100 */
+    //    Abstract = 0x19404,
+    //    /* 0000101010100000001000 */
+    //    Override = 0x2a808,
+    //    /* 0011000000000000010000 */
+    //    HideBySig = 0xc0010,
+    //    /* 0101000000000000100000 */
+    //    HideByName = 0x140020,
+    //    /* 1000000000000001000000 */
+    //    Final = 0x200040,
+    //    /* 1110110100000010000000 */
+    //    Extension = 0x3b4080,
+    //    /* 0000000000000100000000 */
+    //    Async = 0x100,
     //}
-
     /// <summary>
     /// Flags relative to the management of 
     /// current member status and future
@@ -51,36 +54,36 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <summary>
         /// Member is a static member.
         /// </summary>
-        /* 0000001110000001 */
+        /* 0000000000111000000001 */
         Static = InstanceMemberFlags.Static,
         /* 00111001000010 */
         /// <summary>
         /// Member is a virtual (overridable) member.
         /// </summary>
-        /* 0001110010000010 */
+        /* 0000000111001000000010 */
         /* *
          * virtual methods declare 'virtual' and 'newslot'.
          * */
-        Virtual   = 0x1c82,
+        Virtual   = 0x7202,
         /// <summary>
         /// Member is an abstract member.
         /// </summary>
-        /* 0110010100000100 */
-        Abstract  = 0x6504,
+        /* 0000011001010000000100 */
+        Abstract  = 0x19404,
         /// <summary>
         /// Member is an overridden member.
         /// </summary>
-        /* 0010101000001000 */
+        /* 0000101010100000001000 */
         /* *
          * overridden members declare 'virtual' and no
          * 'newslot'.
          * */
-        Override  = 0x2a08,
+        Override  = 0x2a808,
         /// <summary>
         /// Member hides base's definition
         /// by signature.
         /// </summary>
-        /* 1000000000010000 */
+        /* 0011000000000000010000 */
         /* *
          * Hides the previous definition by signature.
          * Default value for instance/static members;
@@ -88,7 +91,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
          * by default.
          * */
         HideBySignature = InstanceMemberFlags.HideBySignature,
-        /* 1000000000100000 */
+        /* 0101000000000000100000 */
         /// <summary>
         /// Member hides base's definition by name.
         /// </summary>
@@ -97,13 +100,18 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// Member is final (removes the ability for 
         /// inheritors to override).
         /// </summary>
-        /* 0101000001000000 */
+        /* 1000000000000001000000 */
         /* *
          * As the name implies, final specifies the final 
          * attribute along with virtual, to indicate
          * that it's a sealed override.
          * */
-        Final     = 0x5040,
+        Final     = 0x200040,
+        /// <summary>
+        /// The mask which selects the members from the current
+        /// enumeration.
+        /// </summary>
+        FlagsMask = InstanceMemberFlags.FlagsMask | Virtual | Abstract | Override | Final,
     }
     /// <summary>
     /// Defines properties and methods for working with an extended 

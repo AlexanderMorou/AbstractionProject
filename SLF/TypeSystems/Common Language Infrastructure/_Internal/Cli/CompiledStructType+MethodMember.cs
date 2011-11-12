@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
+using System.Threading.Tasks;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -33,6 +34,33 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             #region IInstantiableMember Members
 
+            private bool? isAsync;
+            /// <summary>
+            /// Returns whether the <see cref="CompiledStructType.MethodMember"/>
+            /// is an asynchronous method.
+            /// </summary>
+            public bool IsAsynchronous
+            {
+                get
+                {
+                    if (isAsync == null)
+                    {
+                        var returnType = this.ReturnType;
+                        if (returnType == CommonTypeRefs.Void)
+                        {
+                            if (this.Name.Substring(this.Name.Length - 5).ToLower() == "async")
+                                this.isAsync = true;
+                        }
+                        else if (returnType == CommonTypeRefs.Task)
+                            this.isAsync = true;
+                        else if (returnType.ElementClassification == TypeElementClassification.GenericTypeDefinition && returnType.ElementType == CommonTypeRefs.TaskOfT)
+                            this.isAsync = true;
+                        else
+                            this.isAsync = false;
+                    }
+                    return this.isAsync.Value;
+                }
+            }
             /// <summary>
             /// Returns whether the <see cref="CompiledStructType.MethodMember"/> is
             /// static.
@@ -80,26 +108,37 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 get { return this.MemberInfo.IsAbstract; }
             }
 
-            public ExtendedInstanceMemberFlags InstanceFlags
+            ExtendedInstanceMemberFlags IExtendedInstanceMember.InstanceFlags
             {
                 get
                 {
-                    ExtendedInstanceMemberFlags imfs = ExtendedInstanceMemberFlags.None;
+                    return ((ExtendedInstanceMemberFlags)(this.InstanceFlags) & ExtendedInstanceMemberFlags.FlagsMask);
+                }
+            }
+
+            public ExtendedMethodMemberFlags InstanceFlags
+            {
+                get
+                {
+                    ExtendedMethodMemberFlags imfs = ExtendedMethodMemberFlags.None;
                     if (this.IsStatic)
-                        imfs |= ExtendedInstanceMemberFlags.Static;
+                        imfs |= ExtendedMethodMemberFlags.Static;
                     if (this.IsVirtual)
-                        imfs |= ExtendedInstanceMemberFlags.Virtual;
+                        imfs |= ExtendedMethodMemberFlags.Virtual;
                     if (this.IsOverride)
-                        imfs |= ExtendedInstanceMemberFlags.Override;
+                        imfs |= ExtendedMethodMemberFlags.Override;
                     if (this.IsFinal)
-                        imfs |= ExtendedInstanceMemberFlags.Final;
+                        imfs |= ExtendedMethodMemberFlags.Final;
                     if (this.IsHideBySignature)
-                        imfs |= ExtendedInstanceMemberFlags.HideBySignature;
+                        imfs |= ExtendedMethodMemberFlags.HideBySignature;
                     if (this.IsAbstract)
-                        imfs |= ExtendedInstanceMemberFlags.Abstract;
+                        imfs |= ExtendedMethodMemberFlags.Abstract;
+                    if (this.IsAsynchronous)
+                        imfs |= ExtendedMethodMemberFlags.Async;
                     return imfs;
                 }
             }
+
             #endregion
 
             protected override IStructMethodMember OnMakeGenericClosure(ITypeCollectionBase genericReplacements)
@@ -110,7 +149,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             InstanceMemberFlags IInstanceMember.InstanceFlags
             {
-                get { return (InstanceMemberFlags)this.InstanceFlags; }
+                get { return ((InstanceMemberFlags)this.InstanceFlags) & InstanceMemberFlags.FlagsMask; }
             }
 
             #endregion
@@ -133,6 +172,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
 
             #endregion
+
 
         }
     }

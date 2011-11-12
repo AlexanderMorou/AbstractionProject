@@ -71,7 +71,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
 
             #endregion
 
-            protected override IIntermediateMethodSignatureGenericTypeParameterMember GetNew(string name)
+            protected override sealed IIntermediateMethodSignatureGenericTypeParameterMember GetNew(string name)
             {
                 return new TypeParameter(name, this.Parent);
             }

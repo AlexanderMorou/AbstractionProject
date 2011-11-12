@@ -54,6 +54,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         public CompiledMethodMemberBase(MethodInfo memberInfo, TMethodParent parent)
             : base(parent)
         {
+            this.memberInfo = memberInfo;
             this.uniqueIdentifier = memberInfo.GetUniqueIdentifier();
         }
 

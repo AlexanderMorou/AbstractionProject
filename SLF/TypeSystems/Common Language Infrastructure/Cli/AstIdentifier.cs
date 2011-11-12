@@ -12,7 +12,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
     {
         public static IGeneralGenericTypeUniqueIdentifier Type(string name, int typeParameters)
         {
-            throw new NotImplementedException();
+            return new DefaultGenericTypeUniqueIdentifier(name, typeParameters);
         }
 
         /// <summary>
@@ -30,9 +30,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// <returns>A <see cref="IGenericParameterUniqueIdentifier"/> which represents 
         /// the generic parameter described relative to local context.
         /// </returns>
-        public static IGenericParameterUniqueIdentifier Type(int index, string name = null, bool onType = true)
+        public static IGenericParameterUniqueIdentifier GenericParameter(int index, string name, bool onType = true)
         {
-            throw new NotImplementedException();
+            return new DefaultGenericParameterUniqueIdentifier(index, name, onType);
+        }
+
+        public static IGenericParameterUniqueIdentifier GenericParameter(int index, bool onType = true)
+        {
+            return new DefaultGenericParameterUniqueIdentifier(index, onType);
+        }
+
+        public static IGenericParameterUniqueIdentifier GenericParameter(string name, bool onType = true)
+        {
+            return new DefaultGenericParameterUniqueIdentifier(name, onType);
         }
 
         /// <summary>
@@ -45,12 +55,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// which represents the type.</returns>
         public static IGeneralTypeUniqueIdentifier Type(string name)
         {
-            throw new NotImplementedException();
+            return new DefaultTypeUniqueIdentifier(name);
         }
 
         public static IGeneralSignatureMemberUniqueIdentifier Signature(string name, IEnumerable<IType> signature)
         {
-            throw new NotImplementedException();
+            return new DefaultSignatureMemberUniqueIdentifier(name, signature);
         }
 
         public static IGeneralSignatureMemberUniqueIdentifier Signature(string name, params IType[] signature)
@@ -75,7 +85,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public static IGeneralMemberUniqueIdentifier Member(string name)
         {
-            throw new NotImplementedException();
+            return new DefaultMemberUniqueIdentifier(name);
         }
 
         public static IGeneralGenericSignatureMemberUniqueIdentifier GenericSignature(string name, IEnumerable<IType> signature)
@@ -90,7 +100,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public static IGeneralGenericSignatureMemberUniqueIdentifier GenericSignature(string name, int typeParams, IEnumerable<IType> signature)
         {
-            throw new NotImplementedException();
+            return new DefaultGenericSignatureMemberUniqueIdentifier(name, typeParameters:typeParams, parameters: signature);
         }
 
         public static IGeneralGenericSignatureMemberUniqueIdentifier GenericSignature(string name, int typeParams, params IType[] signature)
@@ -120,12 +130,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public static IUnaryOperatorUniqueIdentifier UnaryOperator(CoercibleUnaryOperators @operator)
         {
-            throw new NotImplementedException();
+            return new DefaultUnaryOperatorUniqueIdentifier(@operator);
         }
 
         public static ITypeCoercionUniqueIdentifier TypeOperator(TypeConversionRequirement requirement, TypeConversionDirection direction, IType coercionType)
         {
-            throw new NotImplementedException();
+            return new DefaultTypeCoercionUniqueIdentifier(requirement, direction, coercionType);
         }
 
         public static ITypeCoercionUniqueIdentifier TypeOperatorTo(TypeConversionRequirement requirement, IType coercionType)

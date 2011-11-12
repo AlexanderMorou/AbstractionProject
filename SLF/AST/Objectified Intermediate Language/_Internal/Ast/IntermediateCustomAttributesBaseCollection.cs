@@ -245,7 +245,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 throw new ArgumentNullException("array");
 
             ICustomAttributeInstance[] insts = this.ToArray();
-            if (insts.Length + arrayIndex >= array.Length)
+            if (insts.Length + arrayIndex > array.Length)
                 throw new ArgumentOutOfRangeException("arrayIndex");
             for (int i = 0; i < insts.Length; i++)
                 array.SetValue(insts[i], i + arrayIndex);

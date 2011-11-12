@@ -26,47 +26,18 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 {
     using linqExample = ExampleHandler.LanguageIntegratedQuery;
     using winformExample = ExampleHandler.WindowsFormsApplication;
-    using AllenCopeland.Abstraction.Utilities.Collections;
-    internal class Test1
-    {
-        public void Test2(ref int t3) { }
-        public void Test4(out int t4) { t4 = 0; }
-    }
-    internal class BaseDefinitionTest<T1>
-        where T1 :
-            IEnumerable<BaseDefinitionTest<T1>>
-    {
-        public virtual void Test<T3>(T1 t1, T3 t3)
-        {
-            Console.WriteLine("Test");
-        }
-    }
 
-    internal class DerivedDefinitionTest<T2, T3> :
-        BaseDefinitionTest<T2>
-        where T2 :
-            IEnumerable<DerivedDefinitionTest<T2, T3>>,
-            new()
-        where T3 :
-            Dictionary<string, DerivedDefinitionTest<T2, T3>>
-    {
-        public override void Test<T3>(T2 t2, T3 t3)
-        {
-            Console.WriteLine("Test");
-            base.Test<T3>(t2, t3);
-        }
-    }
     internal static class Program
     {
         private static void Main()
         {
             //UnitTest_GenericCache();
             //UnitTest_Direction();
-            UnitTestForCompiledGenericConstraints();
+            //UnitTestForCompiledGenericConstraints();
             //CheckDisambiguation(); return;
             //FullName(); return;
             //arr1(); return;
-            //RunExamples();
+            RunExamples();
             //Fix001();
         }
 
@@ -114,7 +85,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             testMethod.IsVirtual = true;
             testMethod.AccessLevel = AccessLevelModifiers.ProtectedOrInternal;
             var testDerivedClass = testAssembly.Classes.Add("TestDerivedClass", new GenericParameterData("TE", SignaturesData.DefaultConstructorSet));
-            var typeParamTE = testDerivedClass.TypeParameters[AstIdentifier.Type(0)];
+            var typeParamTE = testDerivedClass.TypeParameters[AstIdentifier.GenericParameter(0)];
             var tbReplacement = typeof(Tuple<>).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>().MakeGenericClosure(typeParamTE.MakeArray());
             testDerivedClass.BaseType = testClass.MakeGenericClosure(typeParamTE, tbReplacement);
             var testDerivedMethod = testDerivedClass.Methods.Add("TE".GetSymbolType().GetTypedName("TestMethod"), new TypedNameSeries { { "p1", "TF".GetSymbolType() }, { "p2", "TG".GetSymbolType() }, { "p3", tbReplacement } }, new GenericParameterData("TF"), new GenericParameterData("TG", new IType[] { "TF".GetSymbolType() }));
@@ -163,10 +134,10 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
         private static void RunExamples()
         {
             var msLangVendor = LanguageVendors.Microsoft;
-            IVisualBasicAssembly vbAssem = null;
+            IMyVisualBasicAssembly vbAssem = null;
             ICSharpAssembly csAssem = null;
 
-            var winFormsVB = MiscHelperMethods.TimeResultFunc(winformExample.CreateStructureVB, () => vbAssem = msLangVendor.GetVisualBasicLanguage().CreateAssembly("VB.Net examples"));
+            var winFormsVB = MiscHelperMethods.TimeResultFunc(winformExample.CreateStructureVB, () => vbAssem = msLangVendor.GetVisualBasicLanguage().GetMyProvider().CreateAssembly("VB.Net examples"));
             var winFormsCS = MiscHelperMethods.TimeResultFunc(winformExample.CreateStructureCSharp, () => csAssem = msLangVendor.GetCSharpLanguage().CreateAssembly("CSharp examples"));
 
             var linqVB = MiscHelperMethods.TimeResultFunc(linqExample.CreateStructureVB, () => vbAssem);

@@ -66,7 +66,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             this.frozen = true;
             this.actualLength = 0;
-            this.data = null;
+            this.data = new TypedName[0];
         }
 
         /// <summary>
@@ -77,8 +77,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             get
             {
+
                 if (this.data == null)
-                    throw new InvalidOperationException("Invalid series.");
+                    this.data = Empty.data;
                 for (int i = 0; i < this.actualLength; i++)
                     yield return this.data[i];
                 yield break;

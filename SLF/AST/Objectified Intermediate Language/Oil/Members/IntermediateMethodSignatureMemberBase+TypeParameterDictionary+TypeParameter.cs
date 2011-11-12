@@ -48,11 +48,15 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
                     return object.ReferenceEquals(other, this);
                 }
 
-
                 protected override IGenericParameterUniqueIdentifier OnGetUniqueIdentifier()
                 {
                     if (this.uniqueIdentifier == null)
-                        this.uniqueIdentifier = AstIdentifier.Type(this.Position, this.Name, false);
+                    {
+                        if (this.Position > -1)
+                            this.uniqueIdentifier = AstIdentifier.GenericParameter(this.Position, this.Name, false);
+                        else
+                            this.uniqueIdentifier = AstIdentifier.GenericParameter(this.Name, false);
+                    }
                     return this.uniqueIdentifier;
                 }
 

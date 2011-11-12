@@ -363,7 +363,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 protected override IGenericParameterUniqueIdentifier OnGetUniqueIdentifier()
                 {
                     if (this.uniqueIdentifier == null)
-                        this.uniqueIdentifier = AstIdentifier.Type(this.Position, this.Name, true);
+                        this.uniqueIdentifier = this.Parent.TypeParameters.Keys[this.Position];
                     return this.uniqueIdentifier;
                 }
             }

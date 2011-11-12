@@ -51,6 +51,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         public IntermediateParameterMemberDictionary(TIntermediateParent parent)
             : base(parent)
         {
+            /* *
+             * Initializes the unique identifier, this is a hack.
+             * */
+            var m = parent.UniqueIdentifier;
         }
 
         protected override bool ShouldDispose(TIntermediateParameter declaration)

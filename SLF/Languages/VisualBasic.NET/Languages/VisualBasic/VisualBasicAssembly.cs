@@ -18,57 +18,37 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
     /// <summary>
     /// 
     /// </summary>
-    public class VisualBasicAssembly :
-        IntermediateAssembly<VisualBasicAssembly>,
-        IVisualBasicAssembly
+    public abstract class VisualBasicAssembly<TAssembly, TProvider, TInstanceAssembly> :
+        IntermediateAssembly<IVisualBasicLanguage, TProvider, TInstanceAssembly>,
+        IVisualBasicAssembly<TAssembly, TProvider>
+        where TInstanceAssembly :
+            VisualBasicAssembly<TAssembly, TProvider, TInstanceAssembly>,
+            TAssembly
+        where TAssembly :
+            IVisualBasicAssembly<TAssembly, TProvider>
+        where TProvider :
+            IVisualBasicProvider<TAssembly, TProvider>
     {
-        private IVisualBasicProvider provider;
-        public VisualBasicAssembly(string name)
-            : this(name, VisualBasicLanguage.Singleton.GetProvider())
-        {
-        }
-
-        private VisualBasicAssembly(VisualBasicAssembly root)
-            : base(root)
-        {
-        }
-
-        internal protected VisualBasicAssembly(string name, IVisualBasicProvider provider)
+        private TProvider provider;
+        protected VisualBasicAssembly(string name, TProvider provider)
             : base(name)
         {
             this.provider = provider;
         }
 
-        protected override VisualBasicAssembly GetNewPart()
+        protected VisualBasicAssembly(TInstanceAssembly root)
+            : base(root)
         {
-            return new VisualBasicAssembly(this);
         }
-
-        protected override IntermediateNamespaceDictionary InitializeIntermediateNamespaces()
-        {
-            var results = base.InitializeIntermediateNamespaces();
-            if (this.IsRoot)
-                results.Add(new MyNamespaceDeclaration(this));
-            return results;
-        }
-
-        #region IVisualBasicAssembly Members
-
-        public IMyNamespaceDeclaration MyNamespace
-        {
-            get { return (IMyNamespaceDeclaration)this.Namespaces["My"]; }
-        }
-
-        #endregion
 
         #region IIntermediateAssembly<IVisualBasicLanguage,IVisualBasicStart,IVisualBasicProvider> Members
 
-        public IVisualBasicLanguage Language
+        public override IVisualBasicLanguage Language
         {
             get { return this.Provider.Language; }
         }
 
-        public IVisualBasicProvider Provider
+        public override TProvider Provider
         {
             get {
                 if (this.IsRoot)
@@ -80,9 +60,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 
         #endregion
 
-        static VisualBasicAssembly()
-        {
-            VisualBasicAssemblyBridge.Register();
-        }
+
     }
 }

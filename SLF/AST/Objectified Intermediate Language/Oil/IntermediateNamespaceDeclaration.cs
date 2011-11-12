@@ -83,7 +83,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         public IntermediateNamespaceDeclaration(string name, IIntermediateNamespaceParent parent)
             : base()
         {
-            base.Name = name;
+            base.AssignName(name);
             this.parent = parent;
         }
 

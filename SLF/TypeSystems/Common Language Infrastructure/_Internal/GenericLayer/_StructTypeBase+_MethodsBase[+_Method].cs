@@ -45,11 +45,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
                 }
 
+                public ExtendedMethodMemberFlags InstanceFlags
+                {
+                    get
+                    {
+                        return this.Original.InstanceFlags;
+                    }
+                }
+
                 #region IExtendedInstanceMember Members
 
-                public ExtendedInstanceMemberFlags InstanceFlags
+                public bool IsAsynchronous
                 {
-                    get { return this.Original.InstanceFlags; ; }
+                    get
+                    {
+                        return this.Original.IsAsynchronous;
+                    }
+                }
+
+                ExtendedInstanceMemberFlags IExtendedInstanceMember.InstanceFlags
+                {
+                    get { return (ExtendedInstanceMemberFlags)this.InstanceFlags ^ ExtendedInstanceMemberFlags.FlagsMask; }
                 }
 
                 public bool IsStatic
@@ -94,12 +110,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 InstanceMemberFlags IInstanceMember.InstanceFlags
                 {
                     get {
-                        InstanceMemberFlags imfs = InstanceMemberFlags.None;
-                        if (this.IsStatic)
-                            imfs |= InstanceMemberFlags.Static;
-                        if (this.IsHideBySignature)
-                            imfs |= InstanceMemberFlags.HideBySignature;
-                        return imfs;
+                        return ((InstanceMemberFlags)this.Original.InstanceFlags) & InstanceMemberFlags.FlagsMask;
                     }
                 }
 

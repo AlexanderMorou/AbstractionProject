@@ -225,7 +225,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             get
             {
-                return this.parts == null;
+                return this.parts != null;
             }
         }
     }

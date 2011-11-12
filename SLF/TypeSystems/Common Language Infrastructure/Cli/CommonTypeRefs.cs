@@ -7,6 +7,9 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using Microsoft.VisualBasic.CompilerServices;
 using Microsoft.VisualBasic;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using System.ComponentModel;
+using System.CodeDom.Compiler;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -21,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
     /// </summary>
     public class CommonTypeRefs
     {
-        #region Data members for Commonly Used Type References
+        #region Data members for Commonly Used GenericParameter References
         /// <summary>
         /// Data member for <see cref="ParameterArrayAttribute"/>.
         /// </summary>
@@ -44,11 +47,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Data member for <see cref="CommonTypeRefs.Void"/>.
         /// </summary>
         private static IStructType @void;
-
-        /// <summary>
-        /// Data member for <see cref="StandardModuleAttribute"/>
-        /// </summary>
-        private static IClassType standardModuleAttribute;
 
         /// <summary>
         /// Data member for <see cref="ExtensionAttribute"/>.
@@ -76,14 +74,16 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         private static IStructType boolean;
 
         /// <summary>
-        /// Data member for <see cref="HideModuleNameAttribute"/>
-        /// </summary>
-        private static IClassType hideModuleNameAttribute;
-
-        /// <summary>
         /// Data member for <see cref="CompilerGeneratedAttribute"/>
         /// </summary>
         private static IClassType compilerGeneratedAttribute;
+
+        private static IClassType task;
+        private static IClassType taskOfT;
+        /// <summary>
+        /// Data member for <see cref="EditorBrowsableAttribute"/>
+        /// </summary>
+        private static IClassType editorBrowsableAttribute;
         #endregion
 
         #region IType Dispose section
@@ -132,18 +132,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 #endif
                 CommonTypeRefs.extensionAttribute.Disposed -= new EventHandler(extensionAttribute_Disposed);
                 CommonTypeRefs.extensionAttribute = null;
-            }
-        }
-
-        static void standardModuleAttribute_Disposed(object sender, EventArgs e)
-        {
-            if (CommonTypeRefs.standardModuleAttribute != null)
-            {
-#if DEBUG
-                Debug.WriteLine("StandardModuleAttribute Disposed.");
-#endif
-                CommonTypeRefs.standardModuleAttribute.Disposed -= standardModuleAttribute_Disposed;
-                CommonTypeRefs.standardModuleAttribute = null;
             }
         }
 
@@ -219,17 +207,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
         }
 
-        static void hideModuleNameAttribute_Disposed(object sender, EventArgs e)
-        {
-            if (CommonTypeRefs.hideModuleNameAttribute != null)
-            {
-#if DEBUG
-                Debug.WriteLine("HideModuleNameAttribute Disposed.");
-#endif
-                CommonTypeRefs.hideModuleNameAttribute.Disposed -= hideModuleNameAttribute_Disposed;
-                CommonTypeRefs.hideModuleNameAttribute = null;
-            }
-        }
         static void compilerGeneratedAttribute_Disposed(object sender, EventArgs e)
         {
             if (CommonTypeRefs.compilerGeneratedAttribute != null)
@@ -241,6 +218,44 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 CommonTypeRefs.compilerGeneratedAttribute = null;
             }
         }
+
+
+        static void task_Disposed(object sender, EventArgs e)
+        {
+            if (CommonTypeRefs.task != null)
+            {
+#if DEBUG
+                Debug.WriteLine("Task Disposed.");
+#endif
+                CommonTypeRefs.task.Disposed -= task_Disposed;
+                CommonTypeRefs.task = null;
+            }
+        }
+
+        static void taskOfT_Disposed(object sender, EventArgs e)
+        {
+            if (CommonTypeRefs.taskOfT != null)
+            {
+#if DEBUG
+                Debug.WriteLine("Task<TResult> Disposed.");
+#endif
+                CommonTypeRefs.taskOfT.Disposed -= taskOfT_Disposed;
+                CommonTypeRefs.taskOfT = null;
+            }
+        }
+
+        static void editorBrowsableAttribute_Disposed(object sender, EventArgs e)
+        {
+            if (CommonTypeRefs.editorBrowsableAttribute != null)
+            {
+#if DEBUG
+                Debug.WriteLine("EditorBrowsableAttribute Disposed.");
+#endif
+                CommonTypeRefs.editorBrowsableAttribute.Disposed -= editorBrowsableAttribute_Disposed;
+                CommonTypeRefs.editorBrowsableAttribute = null;
+            }
+        }
+
         #endregion
 
         /// <summary>
@@ -265,27 +280,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         }
 
         /// <summary>
-        /// Returns the <see cref="IClassType"/> reference wrapper for the 
-        /// <see cref="Microsoft.VisualBasic.CompilerServices.StandardModuleAttribute"/>
-        /// system type.
-        /// </summary>
-        public static IClassType StandardModuleAttribute
-        {
-            get
-            {
-                if (CommonTypeRefs.standardModuleAttribute == null)
-                {
-#if DEBUG
-                    Debug.WriteLine("StandardModuleAttribute initialized.");
-#endif
-                    CommonTypeRefs.standardModuleAttribute = typeof(StandardModuleAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonTypeRefs.standardModuleAttribute.Disposed += CommonTypeRefs.standardModuleAttribute_Disposed;
-                }
-                return CommonTypeRefs.standardModuleAttribute;
-            }
-        }
-
-        /// <summary>
         /// Returns the <see cref="IClassType"/> reference wrapper for the <see cref="System.ParamArrayAttribute"/>
         /// system type.
         /// </summary>
@@ -301,10 +295,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                     CommonTypeRefs.parameterArrayAttribute = typeof(ParamArrayAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
                     CommonTypeRefs.parameterArrayAttribute.Disposed += CommonTypeRefs.parameterArrayAttribute_Disposed;
                 }
-                    
+
                 return CommonTypeRefs.parameterArrayAttribute;
             }
         }
+
 
         /// <summary>
         /// Returns the <see cref="IClassType"/> reference wrapper for the <see cref="System.Object"/>
@@ -526,22 +521,58 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         }
 
         /// <summary>
-        /// Returns the <see cref="IClassType"/> reference wrapper for the <see cref="HideModuleNameAttribute"/>
+        /// Returns the <see cref="IClassType"/> reference wrapper for the <see cref="Task"/>
         /// system type.
         /// </summary>
-        public static IClassType HideModuleNameAttribute
+        public static IClassType Task
         {
             get
             {
-                if (CommonTypeRefs.hideModuleNameAttribute == null)
+                if (CommonTypeRefs.task == null)
                 {
 #if DEBUG
-                    Debug.WriteLine("HideModuleNameAttribute initialized.");
+                    Debug.WriteLine("Task initialized");
 #endif
-                    CommonTypeRefs.hideModuleNameAttribute = typeof(HideModuleNameAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonTypeRefs.hideModuleNameAttribute.Disposed += new EventHandler(hideModuleNameAttribute_Disposed);
+                    CommonTypeRefs.task = typeof(Task).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
+                    CommonTypeRefs.task.Disposed += new EventHandler(task_Disposed);
                 }
-                return CommonTypeRefs.hideModuleNameAttribute;
+                return task;
+            }
+        }
+
+        /// <summary>
+        /// Returns the <see cref="IClassType"/> reference wrapper for the <see cref="Task{T}"/>
+        /// system type.
+        /// </summary>
+        public static IClassType TaskOfT
+        {
+            get
+            {
+                if (CommonTypeRefs.taskOfT == null)
+                {
+#if DEBUG
+                    Debug.WriteLine("Task<TResult> initialized");
+#endif
+                    CommonTypeRefs.taskOfT = typeof(Task<>).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
+                    CommonTypeRefs.taskOfT.Disposed += new EventHandler(taskOfT_Disposed);
+                }
+                return taskOfT;
+            }
+        }
+
+        public static IClassType EditorBrowsableAttribute
+        {
+            get
+            {
+                if (CommonTypeRefs.editorBrowsableAttribute == null)
+                {
+#if DEBUG
+                    Debug.WriteLine("EditorBrowsableAttribute initialized");
+#endif
+                    CommonTypeRefs.editorBrowsableAttribute = typeof(EditorBrowsableAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
+                    CommonTypeRefs.editorBrowsableAttribute.Disposed += new EventHandler(editorBrowsableAttribute_Disposed);
+                }
+                return CommonTypeRefs.editorBrowsableAttribute;
             }
         }
 

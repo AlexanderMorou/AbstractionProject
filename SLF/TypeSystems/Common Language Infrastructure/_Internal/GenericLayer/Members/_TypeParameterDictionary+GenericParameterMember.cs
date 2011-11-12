@@ -217,7 +217,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             public IType MakeByReference()
             {
                 if (this.ElementClassification == TypeElementClassification.Reference)
-                    throw new InvalidOperationException("Type is already a by-reference type.");
+                    throw new InvalidOperationException("GenericParameter is already a by-reference type.");
                 if (this.byRefType == null)
                     this.byRefType = this.OnMakeByReference();
                 return this.byRefType;
@@ -230,7 +230,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             /// <see cref="TypeParameter"/>.</returns>
             /// <exception cref="System.InvalidOperationException">thrown when the current <see cref="IType"/>
             /// is a poinoter, array, generic type definition, by-reference, or when 
-            /// <see cref="Type"/> is something other than <see cref="TypeKind.Struct"/> or when the
+            /// <see cref="GenericParameter"/> is something other than <see cref="TypeKind.Struct"/> or when the
             /// special restriction on a generic parameter does not include struct as a condition.</exception>
             public IType MakeNullable()
             {

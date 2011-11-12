@@ -48,7 +48,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
         /// <remarks>
         ///     C&#9839;: Term "as" TypeIdentifier
         ///     VB: "Dim" Temp "As" TermType '=' Term
-        ///         ... IIf(Temp TypeOf Type, Temp, Null) ...
+        ///         ... IIf(Temp TypeOf GenericParameter, Temp, Null) ...
         /// </remarks>
         TypeCastOrNull,
         /// <summary>

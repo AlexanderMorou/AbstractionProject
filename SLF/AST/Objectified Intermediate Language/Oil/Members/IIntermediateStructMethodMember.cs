@@ -22,8 +22,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IStructMethodMember
     {
         /// <summary>
-        /// Returns/sets whether the <see cref="IIntermediateStructMethodMember"/> is asynchronous.
+        /// Returns whether the <see cref="IIntermediateStructMethodMember"/> is
+        /// asynchronous.
         /// </summary>
-        bool IsAsync { get; set; }
+        new bool IsAsynchronous { get; set; }
+        /// <summary>
+        /// Returns whether the <see cref="IIntermediateStructMethodMember"/> 
+        /// is a candidate for asynchrony.
+        /// </summary>
+        bool IsAsynchronousCandidate { get; }
     }
 }

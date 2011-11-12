@@ -59,7 +59,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             this.OnRenaming(renaming);
             if (!renaming.Change)
                 return;
+            var oldIdentifier = this.UniqueIdentifier;
             AssignName(name);
+            this.OnIdentifierChanged(oldIdentifier, DeclarationChangeCause.Name);
             this.OnRenamed(new DeclarationNameChangedEventArgs(renaming.OldName, renaming.NewName));
         }
 
@@ -67,9 +69,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         {
             if (this.IsDisposed)
                 throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-            var oldIdentifier = this.UniqueIdentifier;
             this.name = value;
-            this.OnIdentifierChanged(oldIdentifier, DeclarationChangeCause.Name);
         }
 
         /// <summary>
