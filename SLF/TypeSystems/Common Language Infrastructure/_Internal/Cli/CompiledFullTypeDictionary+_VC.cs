@@ -74,7 +74,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     Type t = this.parent.parent.UnderlyingSystemTypes[index];
                     foreach (ISubordinateDictionary isd in this.parent.Subordinates)
                         if (((ICompiledTypeDictionary)isd).FilteredSeries.Contains(t))
+                        {
                             this.dataCopy[index] = new MasterDictionaryEntry<IType>(isd, t.GetTypeReference());
+                            break;
+                        }
                 }
             }
             public override void CopyTo(MasterDictionaryEntry<IType>[] array, int arrayIndex = 0)

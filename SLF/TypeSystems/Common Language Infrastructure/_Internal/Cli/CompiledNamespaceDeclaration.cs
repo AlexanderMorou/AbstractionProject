@@ -299,19 +299,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (thatFullName.Length <= thisFullName.Length)
                     continue;
                 bool match = true;
-                if (thatFullName.Count('.') > depth + 1)
+                int thatFullCount = thatFullName.Count('.');
+                if (thatFullCount > depth + 1)
                 {
-                    match = InitialPartsMatch(thisFullName, thatFullName);
-                    var rightSide = thatFullName.Substring(thisFullName.Length + 1);
-                    if (match)
+                    if (match = InitialPartsMatch(thisFullName, thatFullName))
                     {
+                        var rightSide = thatFullName.Substring(thisFullName.Length + 1);
                         var leftSide = rightSide.Substring(0, rightSide.IndexOf('.'));
                         if (!result.Contains(leftSide))
                             result.Add(leftSide);
                     }
                     continue;
                 }
-                else if (thatFullName.Count('.') <= depth)
+                else if (thatFullCount <= depth)
                     continue;
                 else
                     match = InitialPartsMatch(thisFullName, thatFullName);

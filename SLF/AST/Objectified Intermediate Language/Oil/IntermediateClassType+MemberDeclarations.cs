@@ -469,7 +469,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             if (returnType != null)
             {
                 bool isAsync = this.IsAsynchronous;
-                if (returnType == CommonTypeRefs.Void)
+                if (returnType == CommonTypeRefs.Void && this.Name.Length >= 5)
                 {
                     if (this.Name.Substring(this.Name.Length - 5).ToLower() == "async")
                         this.IsAsynchronousCandidate = true;

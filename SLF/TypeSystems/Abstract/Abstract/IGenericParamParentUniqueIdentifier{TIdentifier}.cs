@@ -6,9 +6,13 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     public interface IGenericParamParentUniqueIdentifier<TIdentifier> :
-        IDeclarationUniqueIdentifier<TIdentifier>
+        IDeclarationUniqueIdentifier<TIdentifier>,
+        IGenericParamParentUniqueIdentifier
         where TIdentifier :
             IGenericParamParentUniqueIdentifier<TIdentifier>
+    {
+    }
+    public interface IGenericParamParentUniqueIdentifier
     {
         /// <summary>
         /// Returns whether the type represented by the

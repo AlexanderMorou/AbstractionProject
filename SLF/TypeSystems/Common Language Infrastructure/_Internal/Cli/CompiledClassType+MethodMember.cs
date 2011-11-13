@@ -177,7 +177,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     if (isAsync == null)
                     {
                         var returnType = this.ReturnType;
-                        if (returnType == CommonTypeRefs.Void)
+                        if (returnType == CommonTypeRefs.Void && this.Name.Length >= 5)
                         {
                             if (this.Name.Substring(this.Name.Length - 5).ToLower() == "async")
                                 this.isAsync = true;
