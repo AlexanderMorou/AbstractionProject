@@ -15,7 +15,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         where TParameter :
             IParameterMember<TParent>
     {
-
         private IParameterMemberDictionary<TParent, TParameter> owner;
 
         public ParameterMemberDictionaryTypes(IParameterMemberDictionary<TParent, TParameter> owner)
@@ -62,8 +61,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             using (var enumerator = this.owner.Values.GetEnumerator())
                 for (int i = 0; enumerator.MoveNext(); i++)
                     array[arrayIndex + i] = enumerator.Current.ParameterType;
-            //for (int i = 0, c = this.Count; i < c; i++)
-            //    array[arrayIndex + i] = this.owner.Values[i].ParameterType;
         }
 
         public IType this[int index]

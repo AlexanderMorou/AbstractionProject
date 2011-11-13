@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// tools which build the assembly.</typeparam>
     /// <typeparam name="TProvider">The language service provider
     /// which yields a set of services to aid in compilation
-    /// of the <typeparamref name="TAssembly">assembly</see>.</typeparam>
+    /// of the <typeparamref name="TAssembly">assembly</typeparamref>.</typeparam>
     /// <typeparam name="TAssembly">The kind of assembly represented by the 
     /// intermediate abstract syntax tree.</typeparam>
     public abstract partial class IntermediateAssembly<TLanguage, TProvider, TAssembly> :

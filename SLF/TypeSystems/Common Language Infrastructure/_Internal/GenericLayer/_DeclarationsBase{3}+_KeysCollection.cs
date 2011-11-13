@@ -45,26 +45,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
             public override bool Contains(TDeclarationSpecificIdentifier key)
             {
-                if (this.values.Values.Contains(key))
-                    return true;
-                //For those unloaded...
-                foreach (var item in this.ParentTypes.Original.Values)
+                foreach (var item in this.ParentTypes.Values)
                 {
-                    if (CheckItemAt(item) && item.UniqueIdentifier.Equals(key))
+                    CheckItemAt(item);
+                    if (item.UniqueIdentifier.Equals(key))
                         return true;
                 }
                 return false;
             }
 
-            private bool CheckItemAt(TDeclarationSpecific item)
+            private void CheckItemAt(TDeclarationSpecific item)
             {
-                if (this.values.ContainsKey(item))
-                    return false;
-                else
+                if (!this.values.ContainsKey(item))
                 {
                     item.Disposed += item_Disposed;
                     this.values._Add(item, this.ParentTypes.Values[this.values.Count].UniqueIdentifier);
-                    return true;
                 }
             }
 
@@ -87,6 +82,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 }
             }
 
+            public override int IndexOf(TDeclarationSpecificIdentifier key)
+            {
+                int index = 0;
+                foreach (var element in this.values.Values)
+                    if (element.Equals(key))
+                        return index;
+                    else
+                        index++;
+                return -1;
+            }
+
             public override void CopyTo(TDeclarationSpecificIdentifier[] array, int arrayIndex)
             {
                 this.ToArray().CopyTo(array, arrayIndex);
@@ -100,7 +106,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 {
                     int oldCount = this.values.Count;
                     for (int i = oldCount; i <= index; i++)
-                        this.CheckItemAt(this.ParentTypes.Original.Values[i]);
+                        this.CheckItemAt(this.ParentTypes.Values[i]);
                 }
                 return this.values.Values[index];
             }
@@ -112,7 +118,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
             public override IEnumerator<TDeclarationSpecificIdentifier> GetEnumerator()
             {
-                foreach (var item in this.ParentTypes.Original.Values)
+                foreach (var item in this.ParentTypes.Values)
                 {
                     this.CheckItemAt(item);
                     yield return this.values[item];

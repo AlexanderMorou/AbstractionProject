@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
+using AllenCopeland.Abstraction.Slf._Internal.Cli;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Oil;
@@ -681,6 +682,16 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
+        public IClassMethodMember PreviousDefinition
+        {
+            get
+            {
+                if (!this.IsOverride)
+                    throw new InvalidOperationException();
+                return this.ObtainPreviousDefinition();
+            }
+        }
+
         /// <summary>
         /// Returns the base definition of a virtual method that is an override
         /// of the original.
@@ -765,7 +776,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                                     break;
                             }
                             if (match)
-                                return methodMember;
+                                if (methodMember.IsOverride)
+                                    return methodMember.BaseDefinition;
+                                else
+                                    return methodMember;
                         }
                 throw new InvalidOperationException("match not found");
             }

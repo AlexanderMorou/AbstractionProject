@@ -370,6 +370,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         #endregion
 
         #region IDeclaration Members
+
         public event EventHandler Disposed;
 
         public string Name
@@ -388,6 +389,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         }
 
         #endregion
+
         public override string ToString()
         {
             return this.BuildTypeName(true);

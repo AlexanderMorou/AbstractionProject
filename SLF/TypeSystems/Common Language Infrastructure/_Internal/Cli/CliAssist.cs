@@ -165,7 +165,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             else
             {
                 if (target.IsSubclassOf(typeof(Delegate)) && target != typeof(MulticastDelegate))
-                    return AstIdentifier.Delegate(target.Name, target.GetGenericArguments().Length, target.GetTypeReference<IDelegateUniqueIdentifier, IDelegateType>().Parameters.ParameterTypes.ToArray());
+                    return AstIdentifier.Delegate(target.Name, target.GetGenericArguments().Length, target.GetTypeReference<IDelegateUniqueIdentifier, IDelegateType>().Parameters.ParameterTypes.SinglePass());
                 else
                 {
                     if (target.IsGenericParameter)
@@ -284,6 +284,88 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 current = current.BaseType;
             }
             return results;
+        }
+
+
+        public static IClassMethodMember ObtainPreviousDefinition(this IClassMethodMember target)
+        {
+            for (IClassType p = target.Parent.BaseType; p != null; p = p.BaseType)
+                foreach (var methodMember in p.Methods.Values)
+                    if (methodMember.Name != target.Name ||
+                        methodMember.Parameters.Count != target.Parameters.Count ||
+                        methodMember.IsGenericConstruct != target.IsGenericConstruct ||
+                        target.IsGenericConstruct && methodMember.TypeParameters.Count != target.TypeParameters.Count)
+                        continue;
+                    else
+                    {
+                        bool match = true;
+                        /* *
+                         * For the sake of this find operation,
+                         * the type-parameters will be mostly ignored to 
+                         * ensure that the base declaration is found.
+                         * *
+                         * If the signature matches, it's a valid override;
+                         * however, if the constraints upon the type-parameter
+                         * don't match, then that's the compiler's domain to
+                         * notify.
+                         * */
+                        for (int i = 0; i < target.Parameters.Count; i++)
+                        {
+                            /* *
+                             * Var variable declaration is helpful for 
+                             * cases like this.
+                             * */
+                            var targetParam = methodMember.Parameters.Values[i];
+                            var sourceParam = target.Parameters.Values[i];
+                            if (targetParam.Direction != sourceParam.Direction)
+                            {
+                                match = false;
+                                break;
+                            }
+                            else if (targetParam.ParameterType.IsGenericTypeParameter)
+                            {
+                                /* *
+                                 * Rewrite this code so that when the source parameter
+                                 * is a generic parameter, and its parent is the enclosing
+                                 * type, that the newly declared version is equal to the
+                                 * generic parameter defined in the inheritance chain.
+                                 * */
+                                if (!sourceParam.ParameterType.IsGenericTypeParameter)
+                                {
+                                    match = false;
+                                    break;
+                                }
+
+                                IGenericParameter sourceTParam = (IGenericParameter)sourceParam.ParameterType,
+                                                  targetTParam = (IGenericParameter)targetParam.ParameterType;
+                                if (targetTParam.Parent == methodMember)
+                                {
+                                    if (sourceTParam.Parent != target)
+                                    {
+                                        match = false;
+                                        break;
+                                    }
+                                    match = sourceTParam.Position == targetTParam.Position;
+                                }
+                                else if (targetTParam.Parent == target.Parent)
+                                {
+                                    if (sourceTParam.Parent != target.Parent)
+                                    {
+                                        match = false;
+                                        break;
+                                    }
+                                    match = sourceTParam.Position == targetTParam.Position;
+                                }
+                            }
+                            else
+                                match = targetParam.ParameterType.Equals(sourceParam.ParameterType);
+                            if (!match)
+                                break;
+                        }
+                        if (match)
+                            return methodMember;
+                    }
+            throw new InvalidOperationException("match not found");
         }
     }
 }

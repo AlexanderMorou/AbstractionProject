@@ -32,6 +32,5 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         }
 
         #endregion
-
     }
 }
