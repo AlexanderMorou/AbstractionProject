@@ -902,7 +902,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// represents the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.</returns>
         public override string ToString()
         {
-            return string.Format("{0}, Version={1}, Culture={2}, PublicKeyToken={3}", this.AssemblyInformation.AssemblyName, this.AssemblyInformation.AssemblyVersion, string.IsNullOrEmpty(this.AssemblyInformation.Culture.Name) ? "neutral" : this.AssemblyInformation.Culture.Name, "null");
+            return this.UniqueIdentifier.ToString();
         }
 
         IIntermediateAssembly IIntermediateTypeParent.Assembly

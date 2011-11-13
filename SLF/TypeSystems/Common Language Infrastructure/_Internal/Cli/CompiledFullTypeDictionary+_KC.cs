@@ -39,14 +39,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         containsUnloaded = true;
                         continue;
                     }
-                    else if (this.dataCopy[i] == item)
+                    else if (this.dataCopy[i].Equals(item))
                         return true;
                 if (containsUnloaded)
                 {
                     for (int i = 0; i < this.dataCopy.Length; i++)
                     {
                         CheckItemAt(i);
-                        if (this.dataCopy[i] == item)
+                        if (this.dataCopy[i].Equals(item))
                             return true;
                     }
                 }
@@ -104,8 +104,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             public override int IndexOf(IGeneralTypeUniqueIdentifier key)
             {
                 for (int i = 0; i < this.Count; i++)
-                    if (this.dataCopy[i] == key)
+                {
+                    this.CheckItemAt(i);
+                    if (this.dataCopy[i].Equals(key))
                         return i;
+                }
                 return -1;
             }
 
@@ -120,10 +123,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             public override IEnumerator<IGeneralTypeUniqueIdentifier> GetEnumerator()
             {
+                var types = this.parent.parent.UnderlyingSystemTypes;
                 for (int i = 0; i < this.dataCopy.Length; i++)
                 {
-                    if (dataCopy[i] == null)
-                        dataCopy[i] = AstIdentifier.Type(this.parent.parent.UnderlyingSystemTypes[i].Name);
+                    this.dataCopy[i] = types[i].GetUniqueIdentifier();
                     yield return dataCopy[i];
                 }
                 yield break;

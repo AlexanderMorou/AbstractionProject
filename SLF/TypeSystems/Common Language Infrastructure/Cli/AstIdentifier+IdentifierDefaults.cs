@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Globalization;
+using AllenCopeland.Abstraction.Utilities.Common;
 
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
@@ -713,7 +715,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                         first = false;
                     else
                         builder.Append(", ");
-                    builder.Append(element.FullName);
+                    if (element.FullName == null || element.FullName == string.Empty)
+                        builder.Append(element.Name);
+                    else
+                        builder.Append(element.FullName);
                 }
                 builder.Append(')');
                 return builder.ToString();
@@ -857,7 +862,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             #endregion
 
-            #region IGenericParamParentUniqueIdentifier<IGeneralGenericSignatureMemberUniqueIdentifier> Members
+            #region IGenericParamParentUniqueIdentifier Members
 
             public bool IsGenericConstruct
             {
@@ -930,6 +935,259 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 this.Name = name;
                 this.TypeParameters = typeParameters;
                 this.Parameters = parameters;
+            }
+
+            public override int GetHashCode()
+            {
+                if (this.Name == null)
+                    return -2 ^ this.IsGenericConstruct.GetHashCode() ^ this.ParameterCount.GetHashCode() ^ this.TypeParameters.GetHashCode() ^ -3;
+                else
+                    return this.Name.GetHashCode() ^ this.IsGenericConstruct.GetHashCode() ^ this.ParameterCount.GetHashCode() ^ this.TypeParameters.GetHashCode() ^ -3;
+            }
+
+            public override string ToString()
+            {
+                StringBuilder builder = new StringBuilder();
+                builder.Append(this.Name);
+                if (this.IsGenericConstruct)
+                    builder.AppendFormat("`{0}", this.TypeParameters);
+                builder.Append('(');
+                bool first = true;
+                foreach (var element in this.Parameters)
+                {
+                    if (first)
+                        first = false;
+                    else
+                        builder.Append(", ");
+                    if (element.FullName == null || element.FullName == string.Empty)
+                        builder.Append(element.Name);
+                    else
+                        builder.Append(element.FullName);
+                }
+                builder.Append(')');
+                return builder.ToString();
+            }
+        }
+
+        private class DefaultDelegateUniqueIdentifier :
+            IDelegateUniqueIdentifier
+        {
+            public DefaultDelegateUniqueIdentifier(string name, IEnumerable<IType> parameters, int typeParameters)
+            {
+                this.Name = name;
+                this.Parameters = parameters;
+                this.TypeParameters = typeParameters;
+            }
+            #region IDeclarationUniqueIdentifier Members
+
+            public string Name { get; private set; }
+
+            #endregion
+
+            #region IEquatable<IDelegateUniqueIdentifier> Members
+
+            public bool Equals(IDelegateUniqueIdentifier other)
+            {
+                return other.TypeParameters == this.TypeParameters && other.Name == this.Name && other.ParameterCount == this.ParameterCount && other.Parameters.SequenceEqual(this.Parameters);
+            }
+
+            #endregion
+
+            #region ISignatureMemberUniqueIdentifier Members
+
+            public IEnumerable<IType> Parameters { get; private set; }
+            private int? parameterCount;
+            public int ParameterCount
+            {
+                get
+                {
+                    if (this.parameterCount == null)
+                        this.parameterCount = this.Parameters.Count();
+                    return this.parameterCount.Value;
+                }
+            }
+
+            #endregion
+
+            #region IGenericParamParentUniqueIdentifier<IDelegateUniqueIdentifier> Members
+
+            public bool IsGenericConstruct
+            {
+                get { return this.TypeParameters > 0; }
+            }
+
+            public int TypeParameters { get; private set; }
+
+            #endregion
+
+            #region IEquatable<IGeneralGenericTypeUniqueIdentifier> Members
+
+            public bool Equals(IGeneralGenericTypeUniqueIdentifier other)
+            {
+                if (other is IDelegateUniqueIdentifier)
+                    return this.Equals((IDelegateUniqueIdentifier)other);
+                return false;
+            }
+
+            #endregion
+
+            #region IEquatable<IGeneralTypeUniqueIdentifier> Members
+
+            public bool Equals(IGeneralTypeUniqueIdentifier other)
+            {
+                if (other is IDelegateUniqueIdentifier)
+                    return this.Equals((IDelegateUniqueIdentifier)other);
+                return false;
+            }
+
+            #endregion
+
+            #region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
+
+            public bool Equals(IGeneralDeclarationUniqueIdentifier other)
+            {
+                if (other is IDelegateUniqueIdentifier)
+                    return this.Equals((IDelegateUniqueIdentifier)other);
+                return false;
+            }
+
+            #endregion
+
+            #region IEquatable<IGeneralGenericSignatureMemberUniqueIdentifier> Members
+
+            public bool Equals(IGeneralGenericSignatureMemberUniqueIdentifier other)
+            {
+                if (other is IDelegateUniqueIdentifier)
+                    return this.Equals((IDelegateUniqueIdentifier)other);
+                return false;
+            }
+
+            #endregion
+
+            #region IEquatable<IGeneralSignatureMemberUniqueIdentifier> Members
+
+            public bool Equals(IGeneralSignatureMemberUniqueIdentifier other)
+            {
+                if (other is IDelegateUniqueIdentifier)
+                    return this.Equals((IDelegateUniqueIdentifier)other);
+                return false;
+            }
+
+            #endregion
+
+            #region IEquatable<IGeneralMemberUniqueIdentifier> Members
+
+            public bool Equals(IGeneralMemberUniqueIdentifier other)
+            {
+                if (other is IDelegateUniqueIdentifier)
+                    return this.Equals((IDelegateUniqueIdentifier)other);
+                return false;
+            }
+
+            #endregion
+
+            public override int GetHashCode()
+            {
+                if (this.Name == null)
+                    return -4 ^ this.IsGenericConstruct.GetHashCode() ^ this.ParameterCount.GetHashCode() ^ this.TypeParameters.GetHashCode() ^ -3;
+                else
+                    return this.Name.GetHashCode() ^ this.IsGenericConstruct.GetHashCode() ^ this.ParameterCount.GetHashCode() ^ this.TypeParameters.GetHashCode() ^ -3;
+            }
+
+            public override string ToString()
+            {
+                StringBuilder builder = new StringBuilder();
+                builder.Append("delegate ");
+                builder.Append(this.Name);
+                if (this.IsGenericConstruct)
+                    builder.AppendFormat("`{0}", this.TypeParameters);
+                builder.Append('(');
+                bool first = true;
+                foreach (var element in this.Parameters)
+                {
+                    if (first)
+                        first = false;
+                    else
+                        builder.Append(", ");
+                    if (element.FullName == null || element.FullName == string.Empty)
+                        builder.Append(element.Name);
+                    else
+                        builder.Append(element.FullName);
+                }
+                builder.Append(')');
+                return builder.ToString();
+            }
+        }
+
+        private class DefaultAssemblyUniqueIdentifier :
+            IAssemblyUniqueIdentifier
+        {
+
+            public DefaultAssemblyUniqueIdentifier(string name, Version version, ICultureIdentifier cultureIdentifier, byte[] publicKeyToken = null)
+            {
+                this.Name = name;
+                this.Version = version;
+                this.Culture = cultureIdentifier;
+                this.PublicKeyToken = publicKeyToken;
+            }
+            #region IAssemblyUniqueIdentifier Members
+
+            public Version Version { get; private set; }
+
+            public ICultureIdentifier Culture { get; private set; }
+
+            public byte[] PublicKeyToken { get; private set; }
+
+            #endregion
+
+            #region IDeclarationUniqueIdentifier Members
+
+            public string Name { get; private set; }
+
+            #endregion
+
+            #region IEquatable<IAssemblyUniqueIdentifier> Members
+
+            public bool Equals(IAssemblyUniqueIdentifier other)
+            {
+                return other.Name == this.Name && other.Version.Equals(this.Version) && other.Culture == this.Culture && other.PublicKeyToken.SequenceEqual(this.PublicKeyToken);
+            }
+
+            #endregion
+
+            #region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
+
+            public bool Equals(IGeneralDeclarationUniqueIdentifier other)
+            {
+                if (other is IAssemblyUniqueIdentifier)
+                    return this.Equals((IAssemblyUniqueIdentifier)other);
+                return false;
+            }
+
+            #endregion
+
+            public override string ToString()
+            {
+                return string.Format("{0}, Version={1}, Culture={2}, PublicKeyToken={3}", this.Name, this.Version, string.IsNullOrEmpty(this.Culture.Name) ? "neutral" : this.Culture.Name, this.PublicKeyToken != null ? this.PublicKeyToken.FormatHexadecimal() : "null");
+            }
+
+            public override bool Equals(object other)
+            {
+                if (other is IAssemblyUniqueIdentifier)
+                    return this.Equals((IAssemblyUniqueIdentifier)other);
+                return false;
+            }
+
+            public override int GetHashCode()
+            {
+                if (this.PublicKeyToken != null)
+                {
+                    int hashResult = 0;
+                    for (int i = 0; i < this.PublicKeyToken.Length; i++)
+                        hashResult ^= PublicKeyToken[i];
+                    return hashResult ^ this.Name.GetHashCode() ^ this.Culture.GetHashCode() ^ this.Version.GetHashCode();
+                }
+                return this.Name.GetHashCode() ^ this.Culture.GetHashCode() ^ this.Version.GetHashCode();
             }
         }
     }

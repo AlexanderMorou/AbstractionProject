@@ -178,7 +178,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public static IAssemblyUniqueIdentifier Assembly(string name, Version assemblyVersion, ICultureIdentifier culture, byte[] publicKey = null)
         {
-            throw new NotImplementedException();
+            if (publicKey != null && publicKey.Length != 8)
+                throw new ArgumentOutOfRangeException("publicKey");
+            return new DefaultAssemblyUniqueIdentifier(name, assemblyVersion, culture, publicKey);
         }
 
         public static IGeneralDeclarationUniqueIdentifier Declaration(string name)
@@ -188,7 +190,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public static IDelegateUniqueIdentifier Delegate(string name, int typeParameterCount, IEnumerable<IType> signature)
         {
-            throw new NotImplementedException();
+            return new DefaultDelegateUniqueIdentifier(name, signature, typeParameterCount);
         }
 
         public static IDelegateUniqueIdentifier Delegate(string name, int typeParameterCount, params IType[] signature)

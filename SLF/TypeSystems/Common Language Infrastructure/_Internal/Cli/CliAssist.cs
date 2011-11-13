@@ -165,7 +165,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             else
             {
                 if (target.IsSubclassOf(typeof(Delegate)) && target != typeof(MulticastDelegate))
-                    return AstIdentifier.Delegate(target.Name, target.GetGenericArguments().Length, target.GetTypeReference<IDelegateUniqueIdentifier, IDelegateType>().Parameters.ParameterTypes);
+                    return AstIdentifier.Delegate(target.Name, target.GetGenericArguments().Length, target.GetTypeReference<IDelegateUniqueIdentifier, IDelegateType>().Parameters.ParameterTypes.ToArray());
                 else
                 {
                     if (target.IsGenericParameter)
@@ -176,6 +176,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         tpCnt = target.GetGenericArguments().Length;
                         if (target.DeclaringType != null && target.IsGenericType)
                             tpCnt -= target.DeclaringType.GetGenericArguments().Length;
+                        string nameModifier = string.Format("`{0}", tpCnt);
+                        string name = target.Name;
+                        if (tpCnt > 0 && name.Length >= nameModifier.Length)
+                            name = name.Substring(0, name.Length - nameModifier.Length);
+                        return AstIdentifier.Type(name, tpCnt);
                     }
                     return AstIdentifier.Type(target.Name, tpCnt);
                 }

@@ -101,5 +101,10 @@ namespace AllenCopeland.Abstraction.Globalization
         {
             return this.LocalizedName == null ? this.CountryRegion : this.LocalizedName;
         }
+
+        public override int GetHashCode()
+        {
+            return this.culture;
+        }
     }
 }

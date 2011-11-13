@@ -12,6 +12,8 @@ using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.Slf.Oil.Members;
 using AllenCopeland.Abstraction.Slf.Languages.CSharp;
 using AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions;
+using System.Collections.Generic;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -34,7 +36,6 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
             {
 
                 var @namespace = assembly.Namespaces.Add("WindowsFormsApplication1");
-                var n = assembly.Modules;
                 //Define the main dialog.
                 var mainDialog = @namespace.Classes.Add("MainDialog");
                 mainDialog.BaseType = typeof(Form).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
