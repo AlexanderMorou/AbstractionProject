@@ -58,6 +58,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             throw new KeyNotFoundException();
         }
 
+        protected override MasterDictionaryEntry<TDeclaration> OnGetThis(TDeclarationIdentifier key)
+        {
+            foreach (var subordinate in this.Subordinates)
+                if (subordinate.ContainsKey(key))
+                    return new MasterDictionaryEntry<TDeclaration>(subordinate, (TDeclaration)subordinate[key]);
+            throw new KeyNotFoundException();
+        }
+
         public override bool ContainsKey(TDeclarationIdentifier key)
         {
             foreach (var subordinate in this.Subordinates)

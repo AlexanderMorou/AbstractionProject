@@ -26,18 +26,51 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 {
     using linqExample = ExampleHandler.LanguageIntegratedQuery;
     using winformExample = ExampleHandler.WindowsFormsApplication;
+    using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
+    using AllenCopeland.Abstraction.Globalization;
+    using AllenCopeland.Abstraction.Utilities.Collections;
+    using AllenCopeland.Abstraction.Slf.Oil.Members;
 
     internal static class Program
     {
         private static void Main()
         {
+            //var intermediateAssem = typeof(CoreVisualBasicAssembly).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>().BaseType.BaseType;
+            //var parts = intermediateAssem.Types[AstIdentifier.Type("PartsCollection", 0)].Entry as IClassType;
+            //var method = parts.Methods[1].Value;
+            //var methodAsyncValue = method.IsAsynchronous;
+            var time = MiscHelperMethods.TimeAction(() =>
+            {
+                var m = typeof(Dictionary<,>).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
+                var n = m.Namespace;
+            });
+            var time2 = MiscHelperMethods.TimeAction(() =>
+            {
+                var ci = typeof(IntermediateParameterMemberDictionary<IClassMethodMember, IIntermediateClassMethodMember, IMethodParameterMember<IClassMethodMember, IClassType>, IIntermediateMethodParameterMember<IClassMethodMember, IIntermediateClassMethodMember, IClassType, IIntermediateClassType>>).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
+                var _add = ci.Methods[AstIdentifier.GenericSignature("_Add", new IType[] { typeof(IGeneralMemberUniqueIdentifier).GetTypeReference(), typeof(IMethodParameterMember<IClassMethodMember, IClassType>).GetTypeReference() })];
+                Console.WriteLine(_add.Parent.UniqueIdentifier);
+                Console.WriteLine(_add.PreviousDefinition.Parent.UniqueIdentifier);
+                Console.WriteLine(_add.PreviousDefinition.PreviousDefinition.Parent.UniqueIdentifier);
+            });
+            Console.WriteLine();
+            var time3 = MiscHelperMethods.TimeAction(() =>
+            {
+                var ci = typeof(IntermediateParameterMemberDictionary<IStructMethodMember, IIntermediateStructMethodMember, IMethodParameterMember<IStructMethodMember, IStructType>, IIntermediateMethodParameterMember<IStructMethodMember, IIntermediateStructMethodMember, IStructType, IIntermediateStructType>>).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
+                var _add = ci.Methods[AstIdentifier.GenericSignature("_Add", new IType[] { typeof(IGeneralMemberUniqueIdentifier).GetTypeReference(), typeof(IMethodParameterMember<IStructMethodMember, IStructType>).GetTypeReference() })];
+                Console.WriteLine(_add.Parent.UniqueIdentifier);
+                Console.WriteLine(_add.PreviousDefinition.Parent.UniqueIdentifier);
+                Console.WriteLine(_add.PreviousDefinition.PreviousDefinition.Parent.UniqueIdentifier);
+            });
+            Console.WriteLine("First time: {0}", time2);
+            Console.WriteLine("Namespace time: {0}", time);
+            Console.WriteLine("Second time: {0}", time3);
             //UnitTest_GenericCache();
             //UnitTest_Direction();
             //UnitTestForCompiledGenericConstraints();
             //CheckDisambiguation(); return;
             //FullName(); return;
             //arr1(); return;
-            RunExamples();
+            //RunExamples();
             //Fix001();
         }
 
@@ -63,14 +96,14 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 
         private static void UnitTestForCompiledGenericConstraints()
         {
-            var targetType = typeof(ISignatureMember<,,,>);
-            var targetTypeRef = targetType.GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IInterfaceType>();
+            var targetType = typeof(IntermediateAssembly<,,>);
+            var targetTypeRef = targetType.GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
             var targetTypeGenericParameters =
                     (from genericParameter in targetType.GetGenericArguments()
                      select new { Parameter = genericParameter, UnderlyingType = genericParameter, ParameterConstraints = genericParameter.GetGenericParameterConstraints(), Constructors = genericParameter.GetConstructors() }).ToArray();
             var targetTypeRefGenericParameters =
                     (from genericParameter in targetTypeRef.TypeParameters.Values
-                     let compiledParameter = genericParameter as ICompiledGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, IInterfaceType>
+                     let compiledParameter = genericParameter as ICompiledGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, IClassType>
                      where compiledParameter != null
                      select new { Parameter = genericParameter, UnderlyingType = compiledParameter.UnderlyingSystemType, ParameterConstraints = genericParameter.Constraints.ToArray(), Constructors = genericParameter.Constructors.Values.ToArray() }).ToArray();
             Console.WriteLine("{0},{1}", targetTypeGenericParameters, targetTypeRefGenericParameters);

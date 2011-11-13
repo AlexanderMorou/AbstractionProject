@@ -98,7 +98,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         public override bool IsGenericConstruct
         {
-            get {
+            get
+            {
                 return this.original.IsGenericConstruct;
             }
         }
@@ -189,7 +190,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier
         {
-            get { return AstIdentifier.GenericSignature(this.Name, this.TypeParameters.Count, this.Parameters.ParameterTypes); }
+            get
+            {
+                if (this.IsGenericConstruct)
+                    return AstIdentifier.GenericSignature(this.Name, this.TypeParameters.Count, this.Parameters.ParameterTypes);
+                else
+                    return AstIdentifier.GenericSignature(this.Name, 0, this.Parameters.ParameterTypes);
+            }
         }
     }
 }

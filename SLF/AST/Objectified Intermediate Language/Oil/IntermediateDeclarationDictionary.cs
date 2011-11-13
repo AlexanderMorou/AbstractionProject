@@ -236,6 +236,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         #endregion
+
         protected internal override void _Add(TIdentifier key, TDeclaration value)
         {
             base._Add(key, value);

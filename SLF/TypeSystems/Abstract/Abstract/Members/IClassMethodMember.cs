@@ -97,11 +97,17 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     {
         /// <summary>
         /// Returns the base definition of a virtual method that is an override
-        /// of the original.
+        /// of the original on the type in which it was first declared.
         /// </summary>
         /// <exception cref="System.InvalidOperationException">thrown when the <see cref="IClassMethodMember"/>
         /// is not an overridden member.</exception>
         IClassMethodMember BaseDefinition { get; }
+        /// <summary>
+        /// Returns the previous definition of a virtual method that is an override
+        /// of the original on the next highest point in the hierarchy in which it was either
+        /// declared or overridden.
+        /// </summary>
+        IClassMethodMember PreviousDefinition { get; }
         /// <summary>
         /// Returns whether the current <see cref="IClassMethodMember"/>
         /// is an extension method.

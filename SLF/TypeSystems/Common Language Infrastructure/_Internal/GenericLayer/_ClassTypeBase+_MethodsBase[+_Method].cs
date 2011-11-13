@@ -139,6 +139,30 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
                 #region IClassMethodMember Members
 
+                public IClassMethodMember PreviousDefinition
+                {
+                    get
+                    {
+                        if (!this.IsOverride)
+                            throw new InvalidOperationException();
+                        var originalPreviousDefinition = this.Original.PreviousDefinition;
+                        /* *
+                         * This lookup sucks.
+                         * *
+                         * ToDo: Make the BaseDefinition lookup not suck.
+                         * */
+                        IClassType parentB = this.Parent;
+                        IClassType parentA = Original.Parent;
+                        for (; parentA != originalPreviousDefinition.Parent;
+                            parentA = parentA.BaseType, parentB = parentB.BaseType) ;
+                        var previousDefinition = parentB.Methods.Values[parentA.Methods.IndexOf(originalPreviousDefinition)];
+                        if (this.IsGenericConstruct && !this.IsGenericDefinition)
+                            return previousDefinition.MakeGenericClosure(this.GenericParameters.ToLockedCollection());
+                        else
+                            return previousDefinition;
+                    }
+                }
+
                 public IClassMethodMember BaseDefinition
                 {
                     get {
@@ -159,44 +183,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                             return current.MakeGenericClosure(this.GenericParameters.ToLockedCollection());
                         else
                             return current;
-                        /* 
-                        //A product of over-thought.
-                        if (parentA == parentB)
-                        {
-                            if (this.IsGenericConstruct)
-                            {
-                                if (this.IsGenericDefinition)
-                                    return baseDefinition;
-                                else
-                                    /* *
-                                     * The current instance is a closed generic method; thus
-                                     * resulting in a base definition that must also be 
-                                     * a closed generic method.
-                                     * * /
-                                    return this.BaseDefinition.MakeGenericClosure(this.GenericParameters.ToCollection());
-                            }
-                            else
-                                return baseDefinition;
-                        }
-                        else
-                        {
-                            /* *
-                             * Occurs when the parent decided upon is a generic type, like the
-                             * current member's parent.
-                             * *
-                             * This complicates things a little.
-                             * * /
-                            if (this.IsGenericConstruct)
-                            {
-                                /* *
-                                 * Only consider the type-parameters when necessary.
-                                 * *
-                                 * Especially important for the cache system used in the 
-                                 * CLI type system wrapper.
-                                 * * /
-                            }
-                        }
-                        */
                     }
                 }
 

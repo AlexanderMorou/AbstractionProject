@@ -29,6 +29,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             private bool? isAsync;
             private bool? hasBaseDefinition;
+            private bool? hasPreviousDefinition;
             private IClassMethodMember baseDefinition;
             public MethodMember(MethodInfo methodInfo, CompiledClassType @class)
                 : base(methodInfo, @class)
@@ -151,6 +152,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             #region IClassMethodMember Members
             private bool? isExtensionMethod;
+            private IClassMethodMember previousDefinition;
             public bool IsExtensionMethod
             {
                 get
@@ -174,13 +176,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get
                 {
-                    if (isAsync == null)
+                    if (this.isAsync == null)
                     {
                         var returnType = this.ReturnType;
                         if (returnType == CommonTypeRefs.Void && this.Name.Length >= 5)
                         {
                             if (this.Name.Substring(this.Name.Length - 5).ToLower() == "async")
                                 this.isAsync = true;
+                            else
+                                this.isAsync = false;
                         }
                         else if (returnType == CommonTypeRefs.Task)
                             this.isAsync = true;
@@ -203,6 +207,36 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             #endregion
 
             #region IClassMethodMember Members
+
+            public IClassMethodMember PreviousDefinition
+            {
+                get
+                {
+                    if (this.hasPreviousDefinition == null)
+                    {
+                        if (!this.IsOverride)
+                        {
+                            this.hasPreviousDefinition = false;
+                            throw new InvalidOperationException();
+                        }
+                        try
+                        {
+                            this.previousDefinition = this.ObtainPreviousDefinition();
+                            this.hasPreviousDefinition = true;
+                            return previousDefinition;
+                        }
+                        catch (InvalidOperationException e)
+                        {
+                            this.hasPreviousDefinition = false;
+                            throw e;
+                        }
+                    }
+                    else if (hasPreviousDefinition.Value)
+                        return this.previousDefinition;
+                    else
+                        throw new InvalidOperationException();
+                }
+            }
 
             public IClassMethodMember BaseDefinition
             {

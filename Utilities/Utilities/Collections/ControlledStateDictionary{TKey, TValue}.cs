@@ -377,7 +377,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         bool IControlledStateDictionary.ContainsKey(object key)
         {
             if (!(key is TKey))
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.key, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.key), key.GetType().ToString(), typeof(TKey).ToString());
+                return false;
             return this.ContainsKey((TKey)key);
         }
 

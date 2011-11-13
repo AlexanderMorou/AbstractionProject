@@ -42,11 +42,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return this.Parent; }
         }
 
-        #endregion
-
-        #region IParameterMemberDictionary Members
-
-
         public ITypeCollectionBase ParameterTypes
         {
             get {
