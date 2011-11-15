@@ -31,137 +31,15 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     using AllenCopeland.Abstraction.Utilities.Collections;
     using AllenCopeland.Abstraction.Slf.Oil.Members;
 
+    internal class TestClass {
+        public virtual event EventHandler Test;
+    }
+
     internal static class Program
     {
         private static void Main()
         {
-            //var intermediateAssem = typeof(CoreVisualBasicAssembly).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>().BaseType.BaseType;
-            //var parts = intermediateAssem.Types[AstIdentifier.Type("PartsCollection", 0)].Entry as IClassType;
-            //var method = parts.Methods[1].Value;
-            //var methodAsyncValue = method.IsAsynchronous;
-            var time = MiscHelperMethods.TimeAction(() =>
-            {
-                var m = typeof(Dictionary<,>).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                var n = m.Namespace;
-            });
-            var time2 = MiscHelperMethods.TimeAction(() =>
-            {
-                var ci = typeof(IntermediateParameterMemberDictionary<IClassMethodMember, IIntermediateClassMethodMember, IMethodParameterMember<IClassMethodMember, IClassType>, IIntermediateMethodParameterMember<IClassMethodMember, IIntermediateClassMethodMember, IClassType, IIntermediateClassType>>).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                var _add = ci.Methods[AstIdentifier.GenericSignature("_Add", new IType[] { typeof(IGeneralMemberUniqueIdentifier).GetTypeReference(), typeof(IMethodParameterMember<IClassMethodMember, IClassType>).GetTypeReference() })];
-                Console.WriteLine(_add.Parent.UniqueIdentifier);
-                Console.WriteLine(_add.PreviousDefinition.Parent.UniqueIdentifier);
-                Console.WriteLine(_add.PreviousDefinition.PreviousDefinition.Parent.UniqueIdentifier);
-            });
-            Console.WriteLine();
-            var time3 = MiscHelperMethods.TimeAction(() =>
-            {
-                var ci = typeof(IntermediateParameterMemberDictionary<IStructMethodMember, IIntermediateStructMethodMember, IMethodParameterMember<IStructMethodMember, IStructType>, IIntermediateMethodParameterMember<IStructMethodMember, IIntermediateStructMethodMember, IStructType, IIntermediateStructType>>).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                var _add = ci.Methods[AstIdentifier.GenericSignature("_Add", new IType[] { typeof(IGeneralMemberUniqueIdentifier).GetTypeReference(), typeof(IMethodParameterMember<IStructMethodMember, IStructType>).GetTypeReference() })];
-                Console.WriteLine(_add.Parent.UniqueIdentifier);
-                Console.WriteLine(_add.PreviousDefinition.Parent.UniqueIdentifier);
-                Console.WriteLine(_add.PreviousDefinition.PreviousDefinition.Parent.UniqueIdentifier);
-            });
-            Console.WriteLine("First time: {0}", time2);
-            Console.WriteLine("Namespace time: {0}", time);
-            Console.WriteLine("Second time: {0}", time3);
-            //UnitTest_GenericCache();
-            //UnitTest_Direction();
-            //UnitTestForCompiledGenericConstraints();
-            //CheckDisambiguation(); return;
-            //FullName(); return;
-            //arr1(); return;
-            //RunExamples();
-            //Fix001();
-        }
-
-        private static void UnitTest_Direction()
-        {
-            var typeRef = typeof(ExpressionExtensions).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-            var methods =
-                (from m in typeRef.Methods.Values
-                 let parameters = (from param in m.Parameters.Values
-                                   select new { Name = param.Name, Direction = param.Direction, Type = param.ParameterType }).ToList()
-                 orderby m.Name ascending, parameters.Count ascending
-                 select new { Name = m.Name, Parameters = parameters, ReturnType = m.ReturnType }).ToList();
-
-        }
-
-        private static void UnitTest_GenericCache()
-        {
-            var testType = typeof(Dictionary<string, IClassType>).GetTypeReference();
-            var testType2 = typeof(Dictionary<,>).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>().MakeGenericClosure(typeof(string), typeof(IClassType));
-
-            testType.ElementType.Dispose();
-        }
-
-        private static void UnitTestForCompiledGenericConstraints()
-        {
-            var targetType = typeof(IntermediateAssembly<,,>);
-            var targetTypeRef = targetType.GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-            var targetTypeGenericParameters =
-                    (from genericParameter in targetType.GetGenericArguments()
-                     select new { Parameter = genericParameter, UnderlyingType = genericParameter, ParameterConstraints = genericParameter.GetGenericParameterConstraints(), Constructors = genericParameter.GetConstructors() }).ToArray();
-            var targetTypeRefGenericParameters =
-                    (from genericParameter in targetTypeRef.TypeParameters.Values
-                     let compiledParameter = genericParameter as ICompiledGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, IClassType>
-                     where compiledParameter != null
-                     select new { Parameter = genericParameter, UnderlyingType = compiledParameter.UnderlyingSystemType, ParameterConstraints = genericParameter.Constraints.ToArray(), Constructors = genericParameter.Constructors.Values.ToArray() }).ToArray();
-            Console.WriteLine("{0},{1}", targetTypeGenericParameters, targetTypeRefGenericParameters);
-            Console.WriteLine(targetTypeRefGenericParameters[1].Parameter.BaseType);
-        }
-
-        private static void CheckDisambiguation()
-        {
-            var testAssembly = LanguageVendors.Microsoft.GetVisualBasicLanguage().CreateAssembly("TestAssembly");
-            var testClass = testAssembly.Classes.Add("TestGenericClass", new GenericParameterData("TA", SignaturesData.DefaultConstructorSet), new GenericParameterData("TB", new IType[] { typeof(Tuple<>).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>().MakeGenericClosure("TA".GetSymbolType().MakeArray()) }));
-            var testMethod = testClass.Methods.Add("TA".GetSymbolType().GetTypedName("TestMethod"), new TypedNameSeries { { "p1", "TC".GetSymbolType() }, { "p2", "TD".GetSymbolType() }, { "p3", "TB".GetSymbolType() } }, new GenericParameterData("TC"), new GenericParameterData("TD", new IType[] { "TC".GetSymbolType() }));
-            testMethod.IsVirtual = true;
-            testMethod.AccessLevel = AccessLevelModifiers.ProtectedOrInternal;
-            var testDerivedClass = testAssembly.Classes.Add("TestDerivedClass", new GenericParameterData("TE", SignaturesData.DefaultConstructorSet));
-            var typeParamTE = testDerivedClass.TypeParameters[AstIdentifier.GenericParameter(0)];
-            var tbReplacement = typeof(Tuple<>).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>().MakeGenericClosure(typeParamTE.MakeArray());
-            testDerivedClass.BaseType = testClass.MakeGenericClosure(typeParamTE, tbReplacement);
-            var testDerivedMethod = testDerivedClass.Methods.Add("TE".GetSymbolType().GetTypedName("TestMethod"), new TypedNameSeries { { "p1", "TF".GetSymbolType() }, { "p2", "TG".GetSymbolType() }, { "p3", tbReplacement } }, new GenericParameterData("TF"), new GenericParameterData("TG", new IType[] { "TF".GetSymbolType() }));
-            testDerivedMethod.AccessLevel = AccessLevelModifiers.ProtectedOrInternal;
-            testDerivedMethod.IsOverride = true;
-            var testMapping = testDerivedClass.ImplementedInterfaces.ImplementInterface((IInterfaceType)typeof(IDisposable).GetTypeReference(), true);
-            var methods = testMapping.IntermediateMethods.ToArray();
-            
-            var testDerivedClosure = testDerivedClass.MakeGenericClosure(typeof(int));
-            var testDerivedClosureMethod = testDerivedClosure.Methods[testDerivedClass.Methods.Values.IndexOf(testDerivedMethod)].Value;
-            var testDerivedClosureMethodClosure = testDerivedClosureMethod.MakeGenericClosure(typeof(IClassType).GetTypeReference(), typeof(IIntermediateClassType).GetTypeReference());
-            var testDerivedClosureMethodClosureBaseDefinition = testDerivedClosureMethodClosure.BaseDefinition;
-            var testEnum = testDerivedClass.Enums.Add("TestEnumeration");
-            var testEnumField = testEnum.Fields.Add("TestField", 0);
-            //var testEnumClosureField = testDerivedClosure.Enums.Values[0].Fields.Values[0].GetReference();
-            var testEnumClosureField = ((IEnumType)((IGenericType)(testEnum)).MakeGenericClosure(typeof(int).GetTypeReference())).Fields.Values[0].GetReference();
-            var testEnumFieldReference = testEnumField.GetReference();
-            Console.WriteLine(testEnumFieldReference.Fuse("ToString").Fuse(new IExpression[0]));
-            Console.WriteLine(testDerivedMethod.BaseDefinition);
-        }
-
-        private static void Fix001()
-        {
-            var testAssembly = LanguageVendors.Microsoft.GetVisualBasicLanguage().CreateAssembly("TestAssembly");
-            var testClass = testAssembly.Classes.Add("TestClass");
-            /* *
-             * Fixed type initializers, so they can't have parameters.
-             * */
-            //var ti = testClass.TypeInitializer;
-            /* *
-             * Fixed post-creation parameter injection, ensures
-             * it doesn't throw an exception due to an event being
-             * called prior to the parameter actually being added.
-             * *
-             * This caused the signature to be incorrect when it was
-             * rekeying the dictionary
-             * */
-            var ti = testClass.Constructors.Add();
-            var p1 = ti.Parameters.Add("Test", typeof(int).GetTypeReference());
-            /* *
-             * ToDo: Fix parameters dictionary to have Remove method.
-             * */
-            ti.Parameters.Remove(p1);
+            RunExamples();
         }
 
         private static void RunExamples()
@@ -218,62 +96,5 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             CLIGateway.ClearCache();
         }
 
-        private static void FullName()
-        {
-            var Test = LanguageVendors.Microsoft.GetCSharpLanguage().CreateAssembly("TestAssembly");
-            var class1 = Test.Classes.Add("Class1", new GenericParameterData("T1"));
-            var method1 = class1.Methods.Add("Method1", new TypedNameSeries() { { "param1", "T1" }, { "param2", "T2" } }, new GenericParameterData("T2"));
-            method1.Name = "What'cha?";
-            Console.WriteLine(method1.UniqueIdentifier);
-            var class2 = method1.Classes.Add("Class2", new GenericParameterData("T3"));
-            Console.WriteLine(class2.FullName);
-        }
-
-        private static void arr1()
-        {
-            Console.WriteLine("Chunk copy.");
-            Random r = new Random();
-            int[][] ds = new int[800][];
-            int value = 0;
-            for (int i = 0; i < ds.Length; i++)
-            {
-                var dsCurrent = new int[80];
-                for (int j = 0; j < dsCurrent.Length; j++)
-                    dsCurrent[j] = ++value;
-                ds[i] = dsCurrent;
-                value++;
-            }
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            const int testCount = 0x10000;
-            for (int i = 0; i < testCount; i++)
-            {
-                var ag = ds.AsParallel().Aggregate((a3, a4) =>
-                {
-                    if (i == 1)
-                        Console.Write("{0}-{1} ",a3.Length, a4.Length);
-                    var a5 = new int[a3.Length + a4.Length];
-                    a3.CopyTo(a5, 0);
-                    a4.CopyTo(a5, a3.Length);
-                    return a5;
-                });
-                ag.ToString();
-            }
-            sw.Stop();
-            var chunkCopy = sw.Elapsed;
-            Console.WriteLine("Press any key to start alternative copy.");
-            Console.ReadKey(true);
-            Console.WriteLine("Alternative copy.");
-            sw.Restart();
-            for (int i = 0; i < testCount; i++)
-            {
-                var ag = ArrayExtensions.MergeArrays(ds);
-                ag.ToString();
-            }
-            sw.Stop();
-            var fullCopy = sw.Elapsed;
-            Console.WriteLine("Chunk copy took {0} for {1} iterations on {3} items whereas\r\nInline group copy took {2}.", chunkCopy, testCount, fullCopy, (from a in ds
-                                                                                                                                                             select a.Length).Sum());
-        }
     }
 }

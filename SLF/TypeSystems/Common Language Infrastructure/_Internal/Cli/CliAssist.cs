@@ -150,12 +150,63 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         internal static ITypeCoercionUniqueIdentifier GetTypeCoercionUniqueIdentifier(this MethodInfo target)
         {
-            throw new NotImplementedException();
+            IType coercionType = null;
+            TypeConversionDirection direction;
+            var declaringType = target.DeclaringType;
+            var firstParam = target.GetParameters().First();
+            if (declaringType == target.ReturnType)
+            {
+                coercionType = firstParam.ParameterType.GetTypeReference();
+                direction = TypeConversionDirection.ToContainingType;
+            }
+            else
+            {
+                coercionType = target.ReturnType.GetTypeReference();
+                direction = TypeConversionDirection.FromContainingType;
+            }
+            return AstIdentifier.TypeOperator(target.GetTypeCoercionRequirement(), direction, coercionType);
+        }
+
+        internal static TypeConversionRequirement GetTypeCoercionRequirement(this MethodInfo target)
+        {
+            if (target != null &&
+               !string.IsNullOrEmpty(target.Name))
+                switch (target.Name)
+                {
+                    case CLICommon.TypeCoercionNames.Explicit:
+                        return TypeConversionRequirement.Explicit;
+                    case CLICommon.TypeCoercionNames.Implicit:
+                        return TypeConversionRequirement.Implicit;
+                }
+            throw new InvalidOperationException();
         }
 
         internal static IUnaryOperatorUniqueIdentifier GetUnaryOperatorUniqueIdentifier(this MethodInfo target)
         {
-            throw new NotImplementedException();
+            switch (target.Name)
+            {
+                case CLICommon.UnaryOperatorNames.Plus:
+                    return AstIdentifier.UnaryOperator(CoercibleUnaryOperators.Plus);
+                case CLICommon.UnaryOperatorNames.Negation:
+                    return AstIdentifier.UnaryOperator(CoercibleUnaryOperators.Negation);
+                case CLICommon.UnaryOperatorNames.False:
+                    return AstIdentifier.UnaryOperator(CoercibleUnaryOperators.EvaluatesToFalse);
+                case CLICommon.UnaryOperatorNames.True:
+                    return AstIdentifier.UnaryOperator(CoercibleUnaryOperators.EvaluatesToTrue);
+                case CLICommon.UnaryOperatorNames.LogicalNot:
+                    return AstIdentifier.UnaryOperator(CoercibleUnaryOperators.LogicalInvert);
+                case CLICommon.UnaryOperatorNames.OnesComplement:
+                    return AstIdentifier.UnaryOperator(CoercibleUnaryOperators.Complement);
+                case CLICommon.UnaryOperatorNames.Increment:
+                    return AstIdentifier.UnaryOperator(CoercibleUnaryOperators.Increment);
+                case CLICommon.UnaryOperatorNames.Decrement:
+                    return AstIdentifier.UnaryOperator(CoercibleUnaryOperators.Decrement);
+                default:
+                    if (target.Name.Length < 3)
+                        throw new InvalidOperationException(string.Format("object in invalid state, unary operation ({0}) not supported.", target.Name));
+                    else
+                        throw new InvalidOperationException(string.Format("object in invalid state, unary operation ({0}) not supported.", target.Name.Substring(3)));
+            }
         }
 
         internal static IGeneralTypeUniqueIdentifier GetUniqueIdentifier(this Type target)

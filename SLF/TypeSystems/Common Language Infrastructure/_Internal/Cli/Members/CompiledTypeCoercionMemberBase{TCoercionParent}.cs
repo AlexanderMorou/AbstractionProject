@@ -25,9 +25,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         where TCoercionParent :
             ICoercibleType<ITypeCoercionUniqueIdentifier, TCoercionParentIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
     {
-        private IType coercionType;
         private ITypeCoercionUniqueIdentifier uniqueIdentifier;
+        private IType coercionType;
         private TypeConversionDirection direction;
+        TypeConversionRequirement? requirement;
         public CompiledTypeCoercionMemberBase(MethodInfo memberInfo, TCoercionParent parent)
             : base(parent)
         {
@@ -51,16 +52,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get
             {
-                if (this.MemberInfo != null &&
-                   !string.IsNullOrEmpty(this.MemberInfo.Name))
-                    switch (this.MemberInfo.Name)
-                    {
-                        case CLICommon.TypeCoercionNames.Explicit:
-                            return TypeConversionRequirement.Explicit;
-                        case CLICommon.TypeCoercionNames.Implicit:
-                            return TypeConversionRequirement.Implicit;
-                    }
-                throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                if (this.requirement == null)
+                    this.requirement = this.MemberInfo.GetTypeCoercionRequirement();
+                return this.requirement.Value;
             }
         }
 

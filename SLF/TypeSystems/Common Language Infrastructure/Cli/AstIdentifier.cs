@@ -5,14 +5,28 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Globalization;
+using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
     public static partial class AstIdentifier
     {
+        private static MultikeyedTree<string, int, IGeneralGenericTypeUniqueIdentifier> GenericTypeCache = new MultikeyedTree<string,int,IGeneralGenericTypeUniqueIdentifier>();
+        //private static Dictionary<string, Dictionary<int, IGeneralGenericTypeUniqueIdentifier>> GenericTypeCache = new Dictionary<string, Dictionary<int, IGeneralGenericTypeUniqueIdentifier>>();
+        private static Dictionary<int, Dictionary<string, IGenericParameterUniqueIdentifier>> GenericTypeParameterCache = new Dictionary<int, Dictionary<string, IGenericParameterUniqueIdentifier>>();
+        private static Dictionary<int, Dictionary<string, IGenericParameterUniqueIdentifier>> MemberGenericParameterCache = new Dictionary<int, Dictionary<string, IGenericParameterUniqueIdentifier>>();
+        private static Dictionary<string, IGeneralTypeUniqueIdentifier> GeneralTypeCache = new Dictionary<string, IGeneralTypeUniqueIdentifier>();
         public static IGeneralGenericTypeUniqueIdentifier Type(string name, int typeParameters)
         {
-            return new DefaultGenericTypeUniqueIdentifier(name, typeParameters);
+            IGeneralGenericTypeUniqueIdentifier result;
+            if (!GenericTypeCache.TryGetValue(name, typeParameters, out result))
+                GenericTypeCache.Add(name, typeParameters, result = new DefaultGenericTypeUniqueIdentifier(name, typeParameters));
+            return result;
+            //if (!GenericTypeCache.ContainsKey(name))
+            //    GenericTypeCache.Add(name, new Dictionary<int, IGeneralGenericTypeUniqueIdentifier>());
+            //if (!GenericTypeCache[name].ContainsKey(typeParameters))
+            //    GenericTypeCache[name].Add(typeParameters, new DefaultGenericTypeUniqueIdentifier(name, typeParameters));
+            //return GenericTypeCache[name][typeParameters];
         }
 
         /// <summary>
@@ -32,7 +46,22 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// </returns>
         public static IGenericParameterUniqueIdentifier GenericParameter(int index, string name, bool onType = true)
         {
-            return new DefaultGenericParameterUniqueIdentifier(index, name, onType);
+            if (onType)
+            {
+                if (!GenericTypeParameterCache.ContainsKey(index))
+                    GenericTypeParameterCache.Add(index, new Dictionary<string, IGenericParameterUniqueIdentifier>());
+                if (!GenericTypeParameterCache[index].ContainsKey(name))
+                    GenericTypeParameterCache[index].Add(name, new DefaultGenericParameterUniqueIdentifier(index, name, true));
+                return GenericTypeParameterCache[index][name];
+            }
+            else
+            {
+                if (!MemberGenericParameterCache.ContainsKey(index))
+                    MemberGenericParameterCache.Add(index, new Dictionary<string, IGenericParameterUniqueIdentifier>());
+                if (!MemberGenericParameterCache[index].ContainsKey(name))
+                    MemberGenericParameterCache[index].Add(name, new DefaultGenericParameterUniqueIdentifier(index, name, false));
+                return MemberGenericParameterCache[index][name];
+            }
         }
 
         public static IGenericParameterUniqueIdentifier GenericParameter(int index, bool onType = true)
@@ -55,7 +84,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// which represents the type.</returns>
         public static IGeneralTypeUniqueIdentifier Type(string name)
         {
-            return new DefaultTypeUniqueIdentifier(name);
+            if (!GeneralTypeCache.ContainsKey(name))
+                GeneralTypeCache.Add(name, new DefaultTypeUniqueIdentifier(name));
+            return GeneralTypeCache[name];
         }
 
         public static IGeneralSignatureMemberUniqueIdentifier Signature(string name, IEnumerable<IType> signature)

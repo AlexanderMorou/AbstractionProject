@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Utilities;
 using System.Diagnostics;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
  /*---------------------------------------------------------------------\
@@ -655,18 +656,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public static IClassEventMember FindInFamily(this IEventMemberDictionary<IClassEventMember, IClassType> target, string eventName, IDelegateType searchCriteria)
         {
-            var generalIdentifier = AstIdentifier.Member(eventName);
+            var generalIdentifier = AstIdentifier.Signature(eventName, searchCriteria.Parameters.ParameterTypes.SinglePass());
             for (IClassType current = target.Parent; current != null; current = current.BaseType)
                 if (current.Events.Keys.Contains(generalIdentifier))
-                    foreach (var @event in current.Events.Values)
-                        if (@event.Name == eventName)
-                            if (@event.SignatureSource == EventSignatureSource.Delegate)
-                            {
-                                if (@event.SignatureType == searchCriteria)
-                                    return @event;
-                            }
-                            else if (searchCriteria.Parameters.ParameterTypes.SequenceEqual(@event.Parameters.ParameterTypes))
-                                return @event;
+                {
+                    var @event = current.Events[generalIdentifier];
+                    if (@event.SignatureSource == EventSignatureSource.Delegate)
+                    {
+                        if (@event.SignatureType == searchCriteria)
+                            return @event;
+                    }
+                    else if (searchCriteria.Parameters.ParameterTypes.SequenceEqual(@event.Parameters.ParameterTypes))
+                        return @event;
+                }
             return null;
         }
     }

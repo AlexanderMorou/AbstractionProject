@@ -56,22 +56,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
             {
                 if (!this.IsRoot)
                     return this.GetRoot().SpecialModifier;
-                if (base.SpecialModifier != SpecialClassModifier.None)
-                {
-                    if (this.IsDefined(CommonVBTypeRefs.StandardModuleAttribute, false))
-                        if (this.IsDefined(CommonTypeRefs.ExtensionAttribute, false))
-                            return SpecialClassModifier.TypeExtensionSource;
-                        else if (this.IsDefined(CommonVBTypeRefs.HideModuleNameAttribute, false))
-                            return SpecialClassModifier.HiddenModule;
-                        else
-                            return SpecialClassModifier.Module;
-                    else if (this.IsDefined(CommonTypeRefs.ExtensionAttribute, false))
-                        return SpecialClassModifier.TypeExtensionSource;
-                    else
-                        return SpecialClassModifier.Static;
-                }
-                else
-                    return SpecialClassModifier.None;
+                return base.SpecialModifier;
             }
             set
             {
@@ -80,74 +65,56 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
                     this.GetRoot().SpecialModifier = value;
                     return;
                 }
-                const int NONE = 0;
-                const int STATIC = 1;
-                const int MODULE = 2;
-                const int EXTENSION = 4;
-                const int HIDDENMODULE = 10;
-                if (value == SpecialModifier)
-                    return;
-                if ((value == SpecialClassModifier.Static) ||
-                    (value == SpecialClassModifier.None))
+                bool isAbstract = (value & SpecialClassModifier.Abstract) == SpecialClassModifier.Abstract;
+                bool isSealed = (value & SpecialClassModifier.Sealed) == SpecialClassModifier.Sealed;
+                bool isModule = (value & SpecialClassModifier.Module) == SpecialClassModifier.Module;
+                bool isHidden = (value & SpecialClassModifier.Hidden) == SpecialClassModifier.Hidden;
+                bool isExtensionSource = (value & SpecialClassModifier.TypeExtensionSource) == SpecialClassModifier.TypeExtensionSource;
+                if (isExtensionSource && isModule)
                 {
-                    int current = NONE;
-                    if (this.IsDefined(CommonVBTypeRefs.StandardModuleAttribute, false))
-                        if (this.IsDefined(CommonTypeRefs.ExtensionAttribute, false))
-                            if (this.IsDefined(CommonVBTypeRefs.HideModuleNameAttribute, false))
-                                current = EXTENSION | HIDDENMODULE;
-                            else
-                                current = EXTENSION | MODULE;
-                        else if (this.IsDefined(CommonVBTypeRefs.HideModuleNameAttribute, false))
-                            current = HIDDENMODULE;
-                        else
-                            current = MODULE;
-                    else if (this.IsDefined(CommonTypeRefs.ExtensionAttribute, false))
-                        current = EXTENSION;
-                    else
-                        current = STATIC;
-                    List<ICustomAttributeDefinition> toRemove = new List<ICustomAttributeDefinition>();
-                    if ((current & EXTENSION) == EXTENSION)
-                        toRemove.Add(this.CustomAttributes[CommonTypeRefs.ExtensionAttribute]);
-                    if ((current & MODULE) == MODULE)
-                        toRemove.Add(this.CustomAttributes[CommonVBTypeRefs.StandardModuleAttribute]);
-                    if ((current & HIDDENMODULE) == HIDDENMODULE)
-                        toRemove.Add(this.CustomAttributes[CommonVBTypeRefs.HideModuleNameAttribute]);
-                    if (toRemove.Count > 0)
-                        this.CustomAttributes.RemoveSet(toRemove.ToArray());
+                    value = (value & ~SpecialClassModifier.TypeExtensionSource) | SpecialClassModifier.Module;
+                    isExtensionSource = false;
                 }
-                else if (value == SpecialClassModifier.HiddenModule)
+                IList<ICustomAttributeDefinition> toRemove = new List<ICustomAttributeDefinition>();
+                IList<CustomAttributeDefinition.ParameterValueCollection> toAdd = new List<CustomAttributeDefinition.ParameterValueCollection>();
+                if (isModule)
                 {
-                    List<CustomAttributeDefinition.ParameterValueCollection> toAdd = new List<CustomAttributeDefinition.ParameterValueCollection>();
-
-                    if (!this.IsDefined(CommonVBTypeRefs.StandardModuleAttribute, false))
+                    if (!this.IsDefined(CommonVBTypeRefs.StandardModuleAttribute))
                         toAdd.Add(new CustomAttributeDefinition.ParameterValueCollection(CommonVBTypeRefs.StandardModuleAttribute));
-                    if (!this.IsDefined(CommonVBTypeRefs.HideModuleNameAttribute, false))
+                    if (isHidden && !this.IsDefined(CommonVBTypeRefs.HideModuleNameAttribute))
                         toAdd.Add(new CustomAttributeDefinition.ParameterValueCollection(CommonVBTypeRefs.HideModuleNameAttribute));
-
-                    /* *
-                     * This ensures that both attributes are added in unison.
-                     * */
-                    this.CustomAttributes.Add(toAdd.ToArray());
-
-                    if (this.IsDefined(CommonTypeRefs.ExtensionAttribute, false))
-                        this.CustomAttributes.Remove(this.CustomAttributes[CommonTypeRefs.ExtensionAttribute]);
-                }
-                else if (value == SpecialClassModifier.Module)
-                {
-                    List<ICustomAttributeDefinition> toRemove = new List<ICustomAttributeDefinition>();
-                    if (!this.IsDefined(CommonVBTypeRefs.StandardModuleAttribute, false))
-                        this.CustomAttributes.Add(new CustomAttributeDefinition.ParameterValueCollection(CommonVBTypeRefs.StandardModuleAttribute));
-                    if (this.IsDefined(CommonTypeRefs.ExtensionAttribute, false))
-                        toRemove.Add(this.CustomAttributes[CommonTypeRefs.ExtensionAttribute]);
-                    if (this.IsDefined(CommonVBTypeRefs.HideModuleNameAttribute, false))
+                    else if (!isHidden && this.IsDefined(CommonVBTypeRefs.HideModuleNameAttribute))
                         toRemove.Add(this.CustomAttributes[CommonVBTypeRefs.HideModuleNameAttribute]);
-                    if (toRemove.Count > 0)
-                        this.CustomAttributes.RemoveSet(toRemove.ToArray());
                 }
-                else if (value == SpecialClassModifier.TypeExtensionSource)
-                    if (!this.IsDefined(CommonTypeRefs.ExtensionAttribute, false))
-                        this.CustomAttributes.Add(new CustomAttributeDefinition.ParameterValueCollection(CommonTypeRefs.ExtensionAttribute));
-                base.SpecialModifier = value;
+                else if (this.IsDefined(CommonVBTypeRefs.StandardModuleAttribute))
+                {
+                    toRemove.Add(this.CustomAttributes[CommonVBTypeRefs.StandardModuleAttribute]);
+                    if (this.IsDefined(CommonVBTypeRefs.HideModuleNameAttribute))
+                        toRemove.Add(this.CustomAttributes[CommonVBTypeRefs.HideModuleNameAttribute]);
+                }
+                else if (this.IsDefined(CommonVBTypeRefs.HideModuleNameAttribute))
+                    toRemove.Add(this.CustomAttributes[CommonVBTypeRefs.HideModuleNameAttribute]);
+                if (isHidden && !isModule)
+                {
+                    if (!this.IsDefined(CommonTypeRefs.ClassIsHiddenAttribute))
+                        toAdd.Add(new CustomAttributeDefinition.ParameterValueCollection(CommonTypeRefs.ClassIsHiddenAttribute));
+                }
+                else if (!(isHidden || isModule))
+                {
+                    if (!isHidden && this.IsDefined(CommonTypeRefs.ClassIsHiddenAttribute))
+                        toRemove.Add(this.CustomAttributes[CommonTypeRefs.ClassIsHiddenAttribute]);
+                }
+                if (isExtensionSource)
+                {
+                    if (!this.IsDefined(CommonTypeRefs.ExtensionAttribute))
+                        toAdd.Add(new CustomAttributeDefinition.ParameterValueCollection(CommonTypeRefs.ExtensionAttribute));
+                }
+                else if (this.IsDefined(CommonTypeRefs.ExtensionAttribute))
+                    toRemove.Add(this.CustomAttributes[CommonTypeRefs.ExtensionAttribute]);
+                if (toRemove.Count > 0)
+                    this.CustomAttributes.RemoveSet(toRemove.ToArray());
+                if (toAdd.Count > 0)
+                    this.CustomAttributes.Add(toAdd.ToArray());
             }
         }
     }

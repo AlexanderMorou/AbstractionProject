@@ -149,7 +149,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             {
                 return OnGetThis(key);
             }
-            protected set
+            internal protected set
             {
                 OnSetThis(key, value);
             }

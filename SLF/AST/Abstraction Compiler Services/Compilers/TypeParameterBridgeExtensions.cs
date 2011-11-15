@@ -5,8 +5,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Compilers;
-using AllenCopeland.Abstraction.Utilities.Properties;
+using AllenCopeland.Abstraction.Slf._Internal.CompilerServices;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
@@ -51,7 +50,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             if (!delegateType.IsSubclassOf(typeof(Delegate)))
                 throw new ArgumentException("TDelegate");
             //Obtain the invoke method on the delegate and obtain its signature.
-            var delegateInvoke = delegateType.GetMethod("Invoke");
+            var delegateInvoke = delegateType.GetMethod("Invoke", BindingFlags.Instance | BindingFlags.Public);
             var delegateTypes = delegateInvoke.GetParameters().GetParameterTypes();
 
             //Obtain the method call parameters.

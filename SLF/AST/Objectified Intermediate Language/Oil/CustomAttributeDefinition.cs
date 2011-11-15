@@ -272,5 +272,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 this.parameters.AddSeries(values);
             }
         }
+
+        public override string ToString()
+        {
+            return string.Format("{0}({1})", this.Type.BuildTypeName(true, false, TypeParameterDisplayMode.DebuggerStandard), string.Join(", ", this.Parameters));
+        }
     }
 }

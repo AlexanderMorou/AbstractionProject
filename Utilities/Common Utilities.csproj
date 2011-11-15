@@ -109,16 +109,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Slf\Compilers\GenericParamCtorFailureException.cs" />
-    <Compile Include="Slf\Compilers\GenericParamDataTargetAttribute.cs" />
-    <Compile Include="Slf\Compilers\GlobalMemberContainerAttribute.cs" />
-    <Compile Include="Slf\Compilers\InferredAttribute.cs" />
-    <Compile Include="Slf\Compilers\LowerBoundTargetAttribute.cs" />
-    <Compile Include="Slf\Compilers\StaticContainerExtensionAttribute.cs" />
-    <Compile Include="Slf\Compilers\TypeParameterBridgeExtensions.cs" />
-    <Compile Include="Slf\_Internal\Compilers\GenericParameterDefaultConstructorConstraint.cs" />
     <Compile Include="ThrowHelper.cs" />
     <Compile Include="Utilities\Arrays\Tweaks.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateMultikeyedTreeLevel.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateMultikeyedTree.cs" />
+    <Compile Include="Utilities\Collections\IMultikeyedTree.cs" />
+    <Compile Include="Utilities\Collections\IMultikeyedTreeLevel.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedTree.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedTreeLevel.cs" />
     <Compile Include="Utilities\Collections\_ISubordinateDictionaryMasterPass.cs" />
     <Compile Include="Utilities\Collections\ControlledStateCollection{T}.cs" />
     <Compile Include="Utilities\Collections\ControlledStateDictionary{TKey, TValue}.cs" />
@@ -241,7 +239,12 @@
   <ItemGroup>
     <None Include="Allen Copeland.pfx" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SLF\Metadata\Metadata Library\Metadata Library.csproj">
+      <Project>{A94A88DA-2500-4372-A433-A07AC3BFA05F}</Project>
+      <Name>Metadata Library</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>$(SolutionDir)BuildAssistant.bat $(PlatformName) "$(TargetDir)$(TargetFileName)" "$(ProjectName)" uninstall</PreBuildEvent>
