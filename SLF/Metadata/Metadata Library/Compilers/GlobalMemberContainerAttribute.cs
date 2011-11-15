@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.CompilerServices;
 using System.Reflection;
+using AllenCopeland.Abstraction.Slf._Internal.Metadata;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -22,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         Attribute
     {
         /// <summary>
-        /// Creates a new <see cref="GlobalFieldContainerAttribute"/>
+        /// Creates a new <see cref="GlobalMemberContainerAttribute"/>
         /// which denotes the <paramref name="globalMemberType"/>
         /// which contains the members that have global visibility.
         /// </summary>

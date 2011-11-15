@@ -20,7 +20,20 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// No special modifier is placed upon the type;
         /// it is a standard instantiable type.
         /// </summary>
-        None,
+        None = 0x0,
+        /// <summary>
+        /// Defines a class which requires an inheritor to
+        /// derive from it and implement elements marked as
+        /// abstract; classes which are abstract cannot be
+        /// instantiated until the inheritors fill in all 
+        /// necessary functionality.
+        /// </summary>
+        Abstract = 0x21,
+        /// <summary>
+        /// Defines a class whose static components are in scope
+        /// when the class itself is within scope.
+        /// </summary>
+        Hidden = 0x2,
         /// <summary>
         /// Defines a <see cref="Static"/>
         /// class which cannot have type-parameters
@@ -30,7 +43,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// with the <see cref="StandardModuleAttribute"/>.</para>
         /// <para>Classes marked with this cannot be generics
         /// nor can they be nested.</para></remarks>
-        Module,
+        Module = 0xe4,
         /// <summary>
         /// Defines a <see cref="Static"/> class which cannot
         /// have type-parameters or be a nested type.  Further
@@ -43,13 +56,26 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// the <see cref="HideModuleNameAttribute"/>.</para>
         /// <para>Classes marked with this cannot be generics
         /// nor can they be nested.</para></remarks>
-        HiddenModule,
+        HiddenModule = Hidden | Module,
         /// <summary>
-        /// Defines a static class
-        /// which can have type-parameters, but can not be
-        /// instantiated.
+        /// Defines a class which has been sealed, no further
+        /// inheritance can branch from this point.
         /// </summary>
-        Static,
+        Sealed = 0x48,
+        /// <summary>
+        /// Defines a static class which can have type-parameters,
+        /// can not be derived from or be instantiated, and is thusly
+        /// <see cref="Abstract"/> and <see cref="Sealed"/>.
+        /// </summary>
+        Static = Abstract | Sealed,
+        /// <summary>
+        /// Defines a static class which can not have type-parameters,
+        /// can not be derived from, or be instantiated, where its members
+        /// are in scope when the class itself is within scope; it is
+        /// thusly <see cref="Hidden"/>, <see cref="Sealed"/> and
+        /// <see cref="Abstract"/>.
+        /// </summary>
+        HiddenStatic = Hidden | Static,
         /// <summary>
         /// Defines a <see cref="Module"/>-based class which
         /// can not have type-parameters; however, it can
@@ -62,9 +88,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <para>Classes marked with this cannot be generics
         /// nor can they be nested.</para>
         /// </remarks>
-        TypeExtensionSource
+        TypeExtensionSource = 0x90,
     }
-    
     /// <summary>
     /// Defines properties and methods for working with a class type.
     /// </summary>

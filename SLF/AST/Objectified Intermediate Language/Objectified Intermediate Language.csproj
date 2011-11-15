@@ -1000,6 +1000,10 @@
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
       <Name>Common Utilities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Metadata\Metadata Library\Metadata Library.csproj">
+      <Project>{A94A88DA-2500-4372-A433-A07AC3BFA05F}</Project>
+      <Name>Metadata Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\TypeSystems\Abstract\TypeSystem Abstract.csproj">
       <Project>{161EAA8C-20C6-4B82-925A-4B8B112910AB}</Project>
       <Name>TypeSystem Abstract</Name>
@@ -1007,6 +1011,10 @@
     <ProjectReference Include="..\..\TypeSystems\Common Language Infrastructure\Common Language Infrastructure.csproj">
       <Project>{4FF91A45-B361-4D8F-8C5B-03D11E5291E6}</Project>
       <Name>Common Language Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Abstraction Compiler Services\Abstraction Compiler Services.csproj">
+      <Project>{DF6044A9-AE48-4AC2-A170-EB839BB0058C}</Project>
+      <Name>Abstraction Compiler Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

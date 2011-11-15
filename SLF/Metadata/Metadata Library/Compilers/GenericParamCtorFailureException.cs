@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf._Internal.Metadata;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -32,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <param name="failedType">The <see cref="System.Type"/> passed
         /// that failed the constraint check.</param>
         public GenericParamCtorFailureException(string typeParameter, Type failedType)
-            : base(string.Format("Constraints on generic parameter {0} failed on the type provided ({1}).", typeParameter, failedType.FullName == null ? failedType.Name : failedType.FullName))
+            : base(string.Format(ThrowHelper.GetExceptionMessage(ExceptionMessageId.GenericParameterFailureException, typeParameter, failedType.FullName == null ? failedType.Name : failedType.FullName)))
         {
             this.typeParameter = typeParameter;
             this.failedType = failedType;

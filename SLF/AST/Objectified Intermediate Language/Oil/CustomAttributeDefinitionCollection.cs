@@ -98,6 +98,21 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         }
 
         #endregion
+        public override string ToString()
+        {
+
+            StringBuilder builder = new StringBuilder();
+            bool first = true;
+            foreach (var item in this)
+            {
+                if (first)
+                    first = false;
+                else
+                    builder.Append(", ");
+                builder.Append(item);
+            }
+            return builder.ToString();
+        }
 
     }
 }

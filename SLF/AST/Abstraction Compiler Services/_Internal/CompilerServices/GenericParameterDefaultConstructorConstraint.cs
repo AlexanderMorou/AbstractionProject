@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-using AllenCopeland.Abstraction.Utilities.Properties;
 
-namespace AllenCopeland.Abstraction.Slf._Internal.Compilers
+namespace AllenCopeland.Abstraction.Slf._Internal.CompilerServices
 {
     /* *
      * Dummy constructor information to represent

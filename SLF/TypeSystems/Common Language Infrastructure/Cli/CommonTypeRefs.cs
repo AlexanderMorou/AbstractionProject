@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.CodeDom.Compiler;
+using AllenCopeland.Abstraction.Slf.Compilers;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -84,6 +85,14 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Data member for <see cref="EditorBrowsableAttribute"/>
         /// </summary>
         private static IClassType editorBrowsableAttribute;
+        /// <summary>
+        /// Data member for <see cref="ClassIsModuleAttribute"/>.
+        /// </summary>
+        private static IClassType classIsModuleAttribute;
+        /// <summary>
+        /// Data member for <see cref="ClassIsHiddenAttribute"/>
+        /// </summary>
+        private static IClassType classIsHiddenAttribute;
         #endregion
 
         #region IType Dispose section
@@ -253,6 +262,30 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 #endif
                 CommonTypeRefs.editorBrowsableAttribute.Disposed -= editorBrowsableAttribute_Disposed;
                 CommonTypeRefs.editorBrowsableAttribute = null;
+            }
+        }
+
+        static void classIsModuleAttribute_Disposed(object sender, EventArgs e)
+        {
+            if (CommonTypeRefs.classIsModuleAttribute != null)
+            {
+#if DEBUG
+                Debug.WriteLine("ClassIsModuleAttribute Disposed.");
+#endif
+                CommonTypeRefs.classIsModuleAttribute.Disposed -= classIsModuleAttribute_Disposed;
+                CommonTypeRefs.classIsModuleAttribute = null;
+            }
+        }
+
+        static void classIsHiddenAttribute_Disposed(object sender, EventArgs e)
+        {
+            if (CommonTypeRefs.classIsHiddenAttribute != null)
+            {
+#if DEBUG
+                Debug.WriteLine("ClassIsHiddenAttribute Disposed.");
+#endif
+                CommonTypeRefs.classIsHiddenAttribute.Disposed -= classIsHiddenAttribute_Disposed;
+                CommonTypeRefs.classIsHiddenAttribute = null;
             }
         }
 
@@ -560,6 +593,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
         }
 
+        /// <summary>
+        /// Returns the <see cref="IClassType"/> reference wrapper for the
+        /// <see cref="EditorBrowsableAttribute"/> system type.
+        /// </summary>
         public static IClassType EditorBrowsableAttribute
         {
             get
@@ -573,6 +610,46 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                     CommonTypeRefs.editorBrowsableAttribute.Disposed += new EventHandler(editorBrowsableAttribute_Disposed);
                 }
                 return CommonTypeRefs.editorBrowsableAttribute;
+            }
+        }
+
+        /// <summary>
+        /// Returns the <see cref="IClassType"/> reference wrapper for the 
+        /// <see cref="ClassIsModuleAttribute"/> metadata type.
+        /// </summary>
+        public static IClassType ClassIsModuleAttribute
+        {
+            get
+            {
+                if (CommonTypeRefs.classIsModuleAttribute == null)
+                {
+#if DEBUG
+                    Debug.WriteLine("ClassIsModuleAttribute initialized");
+#endif
+                    CommonTypeRefs.classIsModuleAttribute = typeof(ClassIsModuleAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
+                    CommonTypeRefs.classIsModuleAttribute.Disposed += new EventHandler(classIsModuleAttribute_Disposed);
+                }
+                return CommonTypeRefs.classIsModuleAttribute;
+            }
+        }
+
+        /// <summary>
+        /// Returns the <see cref="IClassType"/> reference wrapper for the 
+        /// <see cref="ClassIsHiddenAttribute"/> metadata type.
+        /// </summary>
+        public static IClassType ClassIsHiddenAttribute
+        {
+            get
+            {
+                if (CommonTypeRefs.classIsHiddenAttribute == null)
+                {
+#if DEBUG
+                    Debug.WriteLine("ClassIsHiddenAttribute initialized");
+#endif
+                    CommonTypeRefs.classIsHiddenAttribute = typeof(ClassIsHiddenAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
+                    CommonTypeRefs.classIsHiddenAttribute.Disposed += new EventHandler(classIsHiddenAttribute_Disposed);
+                }
+                return CommonTypeRefs.classIsHiddenAttribute;
             }
         }
 

@@ -137,8 +137,6 @@ namespace AllenCopeland.Abstraction
                     return string.Format(Resources.AE_ConditionMustBeBreakable, replacements);
                 case ExceptionMessageId.DataCannotBeEmpty:
                     return string.Format(Resources.AE_DataCannotBeEmpty, replacements);
-                case ExceptionMessageId.DelegateTypeParameterMismatch:
-                    return string.Format(Resources.AE_DelegateTypeParameterMismatch, replacements);
                 case ExceptionMessageId.DetachedExpressionNotValidFor:
                     return string.Format(Resources.AE_DetachedExpressionNotValidFor, replacements);
                 case ExceptionMessageId.DuplicateKeyExists:
@@ -229,18 +227,8 @@ namespace AllenCopeland.Abstraction
                     return string.Format(Resources.AE_TypedName_ReferenceKind, replacements);
                 case ExceptionMessageId.TypeInvalidElementType:
                     return string.Format(Resources.AE_TypeInvalidElementType, replacements);
-                case ExceptionMessageId.TypeMustBeCompilerGenerated:
-                    return string.Format(Resources.AE_TypeMustBeCompilerGenerated, replacements);
                 case ExceptionMessageId.TypeMustNotBeAReferenceType:
                     return string.Format(Resources.AE_TypeMustNotBeAReferenceType, replacements);
-                case ExceptionMessageId.TypeMustBeGenericParameter:
-                    return string.Format(Resources.AE_TypeMustBeGenericParameter, replacements);
-                case ExceptionMessageId.TypeMustBeStaticClass :
-                    return string.Format(Resources.AE_TypeMustBeStaticClass, replacements);
-                case ExceptionMessageId.TypeMustBeGenericChild:
-                    return string.Format(Resources.AE_TypeMustBeGenericChild, replacements);
-                case ExceptionMessageId.TypeParameterInfoError:
-                    return string.Format(Resources.AE_TypeParameterInfoError, replacements);
                 case ExceptionMessageId.TypeNotGeneric:
                     return string.Format(Resources.AE_TypeNotGeneric, replacements);
                 case ExceptionMessageId.TypeNotGivenKind:

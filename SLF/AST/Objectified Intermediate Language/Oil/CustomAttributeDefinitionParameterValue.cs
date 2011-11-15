@@ -46,5 +46,10 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #endregion
 
+        public override string ToString()
+        {
+            return this.Value.ToString();
+        }
+
     }
 }
