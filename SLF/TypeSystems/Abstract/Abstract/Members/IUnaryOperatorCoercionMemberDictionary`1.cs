@@ -19,22 +19,20 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <typeparam name="TCoercionParent">The type of 
     /// parent that contains the unary operator coercion 
     /// members in the current implementation.</typeparam>
-    public interface IUnaryOperatorCoercionMemberDictionary<TCoercionParentIdentifier, TCoercionParent> :
-        IGroupedMemberDictionary<TCoercionParent, IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>>
-        where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>
+    public interface IUnaryOperatorCoercionMemberDictionary<TCoercionParent> :
+        IGroupedMemberDictionary<TCoercionParent, IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TCoercionParent>>
         where TCoercionParent :
-            ICoercibleType<IUnaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
+            ICoercibleType<IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>
     {
         /// <summary>
-        /// Returns the <see cref="IUnaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent}"/>
+        /// Returns the <see cref="IUnaryOperatorCoercionMember{TCoercionParent}"/>
         /// which coerces the <paramref name="op"/>erator provided.
         /// </summary>
         /// <param name="op">The <see cref="CoercibleUnaryOperators"/> constant
-        /// relative to the <see cref="IUnaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent}"/> to 
+        /// relative to the <see cref="IUnaryOperatorCoercionMember{TCoercionParent}"/> to 
         /// return.</param>
-        /// <returns>A <see cref="IUnaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent}"/>
+        /// <returns>A <see cref="IUnaryOperatorCoercionMember{TCoercionParent}"/>
         /// instance relative to <paramref name="op"/>.</returns>
-        IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent> this[CoercibleUnaryOperators op] { get; }
+        IUnaryOperatorCoercionMember<TCoercionParent> this[CoercibleUnaryOperators op] { get; }
     }
 }

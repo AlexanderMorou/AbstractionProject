@@ -16,14 +16,12 @@ using AllenCopeland.Abstraction.Utilities.Properties;
  \-------------------------------------------------------------------- */
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    internal class CompiledTypeCoercionMemberBase<TCoercionParentIdentifier, TCoercionParent> :
-        TypeCoercionMemberBase<TCoercionParentIdentifier, TCoercionParent>,
-        ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>,
+    internal class CompiledTypeCoercionMemberBase<TCoercionParent> :
+        TypeCoercionMemberBase<TCoercionParent>,
+        ITypeCoercionMember<TCoercionParent>,
         ICompiledTypeCoercionMember
-        where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>
         where TCoercionParent :
-            ICoercibleType<ITypeCoercionUniqueIdentifier, TCoercionParentIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
+            ICoercibleType<ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParent>, TCoercionParent>
     {
         private ITypeCoercionUniqueIdentifier uniqueIdentifier;
         private IType coercionType;

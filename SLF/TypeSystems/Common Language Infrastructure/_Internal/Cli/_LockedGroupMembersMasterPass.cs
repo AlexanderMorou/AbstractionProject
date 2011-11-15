@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             class,
             IDeclaration
         where TMItemIdentifier :
-            IDeclarationUniqueIdentifier<TMItemIdentifier>
+            IDeclarationUniqueIdentifier
     {
         TMItem Fetch(object source);
         TMItemIdentifier FetchKey(object source);

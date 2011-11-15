@@ -11,22 +11,20 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    internal abstract class BinaryOperatorCoercionMemberBase<TCoercionParentIdentifier, TCoercionParent> :
+    internal abstract class BinaryOperatorCoercionMemberBase<TCoercionParent> :
         MemberBase<IBinaryOperatorUniqueIdentifier, TCoercionParent>,
-        IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>
-        where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>
+        IBinaryOperatorCoercionMember<TCoercionParent>
         where TCoercionParent :
-            ICoercibleType<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
+            ICoercibleType<IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>
     {
 
         /// <summary>
-        /// Creates a new <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/> instance
+        /// Creates a new <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}"/> instance
         /// with the <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="parent">The <typeparamref name="TCoercionParent"/>
         /// which contains the 
-        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>.</param>
+        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}"/>.</param>
         public BinaryOperatorCoercionMemberBase(TCoercionParent parent)
             : base(parent)
         {
@@ -36,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         /// <summary>
         /// Returns the <see cref="CoercibleBinaryOperators"/> coerced
-        /// by the <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>.
+        /// by the <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}"/>.
         /// </summary>
         public CoercibleBinaryOperators Operator
         {
@@ -45,7 +43,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         /// <summary>
         /// Returns which side the required self reference
-        /// the <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>'s
+        /// the <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}"/>'s
         /// parent is on.
         /// </summary>
         public BinaryOpCoercionContainingSide ContainingSide
@@ -81,7 +79,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <summary>
         /// Obtains the <see cref="BinaryOpCoercionContainingSide"/> which
         /// denotes which side the type that contains the
-        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>
+        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}"/>
         /// is on.
         /// </summary>
         /// <returns>A <see cref="BinaryOpCoercionContainingSide"/> value
@@ -91,11 +89,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         /// <summary>
         /// Obtains the <see cref="CoercibleBinaryOperators"/> which
-        /// is overridden by the <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>.
+        /// is overridden by the <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}"/>.
         /// </summary>
         /// <returns>A <see cref="CoercibleBinaryOperators"/> value
         /// indicating which binary operator is coerced by the 
-        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>.</returns>
+        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}"/>.</returns>
         protected abstract CoercibleBinaryOperators OnGetOperator();
 
         /// <summary>
@@ -113,16 +111,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         /// <summary>
         /// Obtains the access level of the current 
-        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>.
+        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}"/>.
         /// </summary>
         /// <returns>A <see cref="AccessLevelModifiers"/> value representing
         /// the accessibility of the current 
-        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>.</returns>
+        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}"/>.</returns>
         protected abstract AccessLevelModifiers OnGetAccessLevel();
 
         /// <summary>
         /// Obtains the <see cref="IType"/> that the 
-        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>
+        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}"/>
         /// yields upon return.
         /// </summary>
         protected abstract IType OnGetReturnType();
@@ -139,10 +137,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         /// <summary>
         /// Obtains a <see cref="String"/> value that represents the current
-        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>.
+        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}"/>.
         /// </summary>
         /// <returns>A <see cref="String"/> value that represents the current
-        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>.</returns>
+        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}"/>.</returns>
         public override string ToString()
         {
             IType l, r = l = null;

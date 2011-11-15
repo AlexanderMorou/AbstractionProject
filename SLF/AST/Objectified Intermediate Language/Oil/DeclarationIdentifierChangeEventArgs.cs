@@ -50,7 +50,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     public class DeclarationIdentifierChangeEventArgs<TIdentifier> :
             EventArgs
         where TIdentifier :
-            IDeclarationUniqueIdentifier<TIdentifier>
+            IDeclarationUniqueIdentifier
     {
 
         /// <summary>

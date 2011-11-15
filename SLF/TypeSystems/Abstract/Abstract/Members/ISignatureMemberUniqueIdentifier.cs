@@ -12,15 +12,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <typeparam name="TIdentifier">The kind of identifier
     /// represented by the <see cref="ISignatureMemberUniqueIdentifier"/>.
     /// </typeparam>
-    public interface ISignatureMemberUniqueIdentifier<TIdentifier> :
-        IMemberUniqueIdentifier<TIdentifier>,
-        ISignatureMemberUniqueIdentifier
-        where TIdentifier :
-            ISignatureMemberUniqueIdentifier<TIdentifier>
-    {
-    }
-
-    public interface ISignatureMemberUniqueIdentifier
+    public interface ISignatureMemberUniqueIdentifier :
+        IMemberUniqueIdentifier
     {
         /// <summary>
         /// Returns the types of the parameters represented

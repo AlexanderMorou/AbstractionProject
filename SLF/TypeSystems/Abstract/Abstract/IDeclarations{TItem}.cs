@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IControlledStateDictionary<TIdentifier, TItem>,
         IDisposable
         where TIdentifier :
-            IDeclarationUniqueIdentifier<TIdentifier>
+            IDeclarationUniqueIdentifier
         where TItem :
             IDeclaration
     {

@@ -392,7 +392,6 @@
     <Compile Include="_Internal\Cli\Members\LockedPropertyMembersBase{TProperty, TPropertyParent}.cs" />
     <Compile Include="_Internal\Cli\Members\LockedTypeCoercionMemberDictionary{TCoercionParent}.cs" />
     <Compile Include="_Internal\Cli\Members\LockedUnaryOperatorCoercionMembers{TType}.cs" />
-    <Compile Include="_Internal\Cli\Members\MemberBase{TIdentifier, TParent}+UniqueIdentifier.cs" />
     <Compile Include="_Internal\Cli\Members\MemberBase{TIdentifier, TParent}.cs" />
     <Compile Include="_Internal\Cli\Members\MemberExtensions.cs" />
     <Compile Include="_Internal\Cli\Members\MembersBase{TParent, TItem}.cs" />

@@ -431,7 +431,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IIntermediateCoercibleType<TType,TIntermediateType> Members
 
-        public IIntermediateBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType> BinaryOperatorCoercions
+        public IIntermediateBinaryOperatorCoercionMemberDictionary<TType, TIntermediateType> BinaryOperatorCoercions
         {
             get
             {
@@ -440,7 +440,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        public IIntermediateTypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType> TypeCoercions
+        public IIntermediateTypeCoercionMemberDictionary<TType, TIntermediateType> TypeCoercions
         {
             get
             {
@@ -449,7 +449,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             }
         }
 
-        public IIntermediateUnaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType> UnaryOperatorCoercions
+        public IIntermediateUnaryOperatorCoercionMemberDictionary<TType, TIntermediateType> UnaryOperatorCoercions
         {
             get
             {
@@ -500,17 +500,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region ICoercibleType<TType> Members
 
-        IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> ICoercibleType<IGeneralGenericTypeUniqueIdentifier, TType>.BinaryOperatorCoercions
+        IBinaryOperatorCoercionMemberDictionary<TType> ICoercibleType<TType>.BinaryOperatorCoercions
         {
             get { return this.BinaryOperatorCoercions; }
         }
 
-        ITypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> ICoercibleType<IGeneralGenericTypeUniqueIdentifier, TType>.TypeCoercions
+        ITypeCoercionMemberDictionary<TType> ICoercibleType<TType>.TypeCoercions
         {
             get { return this.TypeCoercions; }
         }
 
-        IUnaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> ICoercibleType<IGeneralGenericTypeUniqueIdentifier, TType>.UnaryOperatorCoercions
+        IUnaryOperatorCoercionMemberDictionary<TType> ICoercibleType<TType>.UnaryOperatorCoercions
         {
             get { return this.unaryOperatorCoercions; }
         }
@@ -626,7 +626,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         #region IInstantiableType<TCtor,TEvent,TField,TIndexer,TMethod,TProperty,TType> Members
 
-        public ISignatureMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType> GetInterfaceMap(IInterfaceType type)
+        public IInterfaceMemberMapping<TMethod, TProperty, TEvent, TIndexer, TType> GetInterfaceMap(IInterfaceType type)
         {
             
             throw new NotImplementedException();
@@ -768,7 +768,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
                 IIntermediateMemberParent,
                 TMemberParent
             where TMemberIdentifier :
-                IMemberUniqueIdentifier<TMemberIdentifier>,
+                IMemberUniqueIdentifier,
                 IGeneralMemberUniqueIdentifier
             where TMember :
                 IMember<TMemberIdentifier, TMemberParent>

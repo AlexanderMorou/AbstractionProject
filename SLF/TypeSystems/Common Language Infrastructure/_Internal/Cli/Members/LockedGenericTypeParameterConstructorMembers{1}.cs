@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         LockedGroupedMembersBase<IGenericTypeParameter<TTypeIdentifier, TType>, IGeneralSignatureMemberUniqueIdentifier, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, ConstructorInfo>,
         IGenericParameterConstructorMemberDictionary<IGenericTypeParameter<TTypeIdentifier, TType>>
         where TTypeIdentifier : 
-            IGenericTypeUniqueIdentifier<TTypeIdentifier>
+            IGenericTypeUniqueIdentifier
         where TType :
             IGenericType<TTypeIdentifier, TType>
     {

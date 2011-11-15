@@ -19,29 +19,27 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    internal class CompiledBinaryOperatorCoercionMemberBase<TCoercionParentIdentifier, TCoercionParent> :
-        BinaryOperatorCoercionMemberBase<TCoercionParentIdentifier, TCoercionParent>,
+    internal class CompiledBinaryOperatorCoercionMemberBase<TCoercionParent> :
+        BinaryOperatorCoercionMemberBase<TCoercionParent>,
         ICompiledBinaryOperatorCoercionMember
-        where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>
         where TCoercionParent :
-            ICoercibleType<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
+            ICoercibleType<IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>
     {
         private IBinaryOperatorUniqueIdentifier uniqueIdentifier;
         private MethodInfo memberInfo;
         private IType returnType = null;
         /// <summary>
-        /// Data member for <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}.ContainingSide"/>
+        /// Data member for <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}.ContainingSide"/>
         /// </summary>
         private BinaryOpCoercionContainingSide containingSide;
 
         /// <summary>
-        /// Data member for <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}.Operator"/>
+        /// Data member for <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}.Operator"/>
         /// </summary>
         private CoercibleBinaryOperators _operator;
 
         /// <summary>
-        /// Data member for <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}.OtherSide"/>.
+        /// Data member for <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}.OtherSide"/>.
         /// </summary>
         private IType otherSide = null;
         /// <summary>
@@ -88,11 +86,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         #endregion
 
         /// <summary>
-        /// Obtains the <see cref="DeclarationBase.Name"/> for the <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>.
+        /// Obtains the <see cref="DeclarationBase.Name"/> for the <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}"/>.
         /// </summary>
         /// <returns>A <see cref="System.String"/> that contains 
         /// the name of the 
-        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>.</returns>
+        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}"/>.</returns>
         protected override sealed string OnGetName()
         {
             switch (this.Operator)
@@ -219,7 +217,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <summary>
         /// Obtains the <see cref="BinaryOpCoercionContainingSide"/> which
         /// denotes which side the type that contains the
-        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}"/>
+        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}"/>
         /// is on.
         /// </summary>
         /// <returns>A <see cref="BinaryOpCoercionContainingSide"/> value
@@ -249,13 +247,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <summary>
         /// Obtains the alternate side's <see cref="IType"/> which
         /// is the <see cref="MemberBase{TParent}.Parent"/> if
-        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}.ContainingSide"/> is 
+        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}.ContainingSide"/> is 
         /// <see cref="BinaryOpCoercionContainingSide.Both"/>
         /// </summary>
         /// <returns>An <see cref="IType"/> which
         /// relates to the alternate side's <see cref="IType"/> which
         /// is the <see cref="MemberBase{TParent}.Parent"/> if
-        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParentIdentifier, TCoercionParent}.ContainingSide"/> is 
+        /// <see cref="BinaryOperatorCoercionMemberBase{TCoercionParent}.ContainingSide"/> is 
         /// <see cref="BinaryOpCoercionContainingSide.Both"/></returns>
         protected override IType OnGetOtherSide()
         {

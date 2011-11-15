@@ -10,8 +10,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// unique identifier that represents a binary operator coercion member.
     /// </summary>
     public interface IBinaryOperatorUniqueIdentifier :
-        IMemberUniqueIdentifier<IBinaryOperatorUniqueIdentifier>,
-        IGeneralMemberUniqueIdentifier
+        IGeneralMemberUniqueIdentifier,
+        IEquatable<IBinaryOperatorUniqueIdentifier>
     {
         /// <summary>
         /// Returns the <see cref="CoercibleBinaryOperators"/> coerced

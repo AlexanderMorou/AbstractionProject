@@ -11,16 +11,14 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
  \-------------------------------------------------------------------- */
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    internal class LockedTypeCoercionMemberDictionary<TCoercionParentIdentifier, TCoercionParent> :
-        LockedGroupedMembersBase<TCoercionParent, ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>, MethodInfo>,
-        ITypeCoercionMemberDictionary<TCoercionParentIdentifier, TCoercionParent>,
+    internal class LockedTypeCoercionMemberDictionary<TCoercionParent> :
+        LockedGroupedMembersBase<TCoercionParent, ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParent>, MethodInfo>,
+        ITypeCoercionMemberDictionary<TCoercionParent>,
         ITypeCoercionMemberDictionary
-        where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>
         where TCoercionParent :
-            ICoercibleType<ITypeCoercionUniqueIdentifier, TCoercionParentIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
+            ICoercibleType<ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParent>, TCoercionParent>
     {
-        public LockedTypeCoercionMemberDictionary(LockedFullMembersBase master, TCoercionParent parent, MethodInfo[] sourceData, Func<MethodInfo, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>> fetchImpl)
+        public LockedTypeCoercionMemberDictionary(LockedFullMembersBase master, TCoercionParent parent, MethodInfo[] sourceData, Func<MethodInfo, ITypeCoercionMember<TCoercionParent>> fetchImpl)
             : base(master, parent, sourceData, fetchImpl, null)
         {
         }
@@ -73,7 +71,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             return false;
         }
 
-        public ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent> this[TypeConversionRequirement requirement, TypeConversionDirection direction, IType target]
+        public ITypeCoercionMember<TCoercionParent> this[TypeConversionRequirement requirement, TypeConversionDirection direction, IType target]
         {
             get { 
                 foreach (var coercion in this.Values)

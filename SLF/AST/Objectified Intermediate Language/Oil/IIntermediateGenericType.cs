@@ -30,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IIntermediateGenericType,
         IGenericType<TTypeIdentifier, TType>
         where TTypeIdentifier :
-            IGenericTypeUniqueIdentifier<TTypeIdentifier>,
+            IGenericTypeUniqueIdentifier,
             IGeneralDeclarationUniqueIdentifier
         where TType :
             IGenericType<TTypeIdentifier, TType>

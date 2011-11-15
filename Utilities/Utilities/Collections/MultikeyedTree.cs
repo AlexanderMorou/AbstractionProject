@@ -5,6 +5,7 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
+#if REQUIRE_NGEN
     public class MultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TValue> :
         ControlledStateDictionary<TKey1, MultikeyedTreeLevel<TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TValue, MultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TValue>, MultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TValue>>>,
         IMultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, MultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TValue>,
@@ -633,6 +634,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         #endregion
 
     }
+#endif
     public class MultikeyedTree<TKey1, TKey2, TKey3, TValue> :
         ControlledStateDictionary<TKey1, MultikeyedTreeLevel<TKey2, TKey3, TValue, MultikeyedTree<TKey1, TKey2, TKey3, TValue>, MultikeyedTree<TKey1, TKey2, TKey3, TValue>>>,
         IMultikeyedTree<TKey1, TKey2, TKey3,

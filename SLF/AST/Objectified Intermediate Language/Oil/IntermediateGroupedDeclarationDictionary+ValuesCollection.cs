@@ -16,9 +16,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     partial class IntermediateGroupedDeclarationDictionary<TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration>
         where TDeclarationIdentifier :
             TMDeclarationIdentifier,
-            IDeclarationUniqueIdentifier<TDeclarationIdentifier>
+            IDeclarationUniqueIdentifier
         where TMDeclarationIdentifier :
-            IDeclarationUniqueIdentifier<TMDeclarationIdentifier>
+            IDeclarationUniqueIdentifier
         where TDeclaration :
             TMDeclaration
         where TMDeclaration :

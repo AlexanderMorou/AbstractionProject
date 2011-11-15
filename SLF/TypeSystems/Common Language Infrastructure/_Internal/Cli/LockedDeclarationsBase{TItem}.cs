@@ -32,7 +32,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         IDeclarationDictionary<TIdentifier, TItem>,
         IDeclarationDictionary
         where TIdentifier :
-            IDeclarationUniqueIdentifier<TIdentifier>
+            IDeclarationUniqueIdentifier
         where TItem :
             IDeclaration<TIdentifier>
     {

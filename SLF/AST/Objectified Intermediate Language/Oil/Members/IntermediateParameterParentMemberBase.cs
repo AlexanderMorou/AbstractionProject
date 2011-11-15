@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IntermediateMemberBase<TParentIdentifier, TGrandParent, TIntermediateGrandParent>,
         IIntermediateParameterParent<TParent, TIntermediateParent, TParameter, TIntermediateParameter>
         where TParentIdentifier :
-            IMemberUniqueIdentifier<TParentIdentifier>,
+            IMemberUniqueIdentifier,
             IGeneralMemberUniqueIdentifier
         where TParent :
             IParameterParent<TParent, TParameter>,

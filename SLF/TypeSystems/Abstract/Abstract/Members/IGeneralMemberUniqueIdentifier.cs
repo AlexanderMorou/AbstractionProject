@@ -11,8 +11,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// differentiates it between other kinds of declarations.
     /// </summary>
     public interface IGeneralMemberUniqueIdentifier :
-        IMemberUniqueIdentifier<IGeneralMemberUniqueIdentifier>,
-        IGeneralDeclarationUniqueIdentifier
+        IMemberUniqueIdentifier,
+        IGeneralDeclarationUniqueIdentifier,
+        IEquatable<IGeneralMemberUniqueIdentifier>
     {
+
     }
 }

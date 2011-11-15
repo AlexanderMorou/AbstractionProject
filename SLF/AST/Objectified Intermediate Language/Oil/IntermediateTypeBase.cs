@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IIntermediateType<TTypeIdentifier, TType, TIntermediateType>,
         IIntermediateDeclaration<TTypeIdentifier>
         where TTypeIdentifier :
-            ITypeUniqueIdentifier<TTypeIdentifier>,
+            ITypeUniqueIdentifier,
             IGeneralDeclarationUniqueIdentifier
         where TType :
             class,

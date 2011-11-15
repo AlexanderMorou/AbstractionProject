@@ -19,12 +19,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         ISubordinateDictionary<TDeclarationSpecificIdentifier, TDeclarationIdentifier, TDeclarationSpecific, TDeclaration>,
         IGroupedDeclarationDictionary<TDeclarationSpecificIdentifier, TDeclarationSpecific>
         where TDeclarationIdentifier :
-            IDeclarationUniqueIdentifier<TDeclarationIdentifier>
+            IDeclarationUniqueIdentifier
         where TDeclaration :
             class,
             IDeclaration
         where TDeclarationSpecificIdentifier :
-            IDeclarationUniqueIdentifier<TDeclarationSpecificIdentifier>,
+            IDeclarationUniqueIdentifier,
             TDeclarationIdentifier
         where TDeclarationSpecific :
             class,

@@ -36,14 +36,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         IGroupedDeclarationDictionary,
         _LockedGroupDeclarationsMasterPass<TMItemIdentifier, TMItem>
         where TItemIdentifier :
-            IDeclarationUniqueIdentifier<TItemIdentifier>,
+            IDeclarationUniqueIdentifier,
             TMItemIdentifier
         where TItem :
             class,
             IDeclaration<TItemIdentifier>,
             TMItem
         where TMItemIdentifier :
-            IDeclarationUniqueIdentifier<TMItemIdentifier>
+            IDeclarationUniqueIdentifier
         where TMItem :
             class,
             IDeclaration

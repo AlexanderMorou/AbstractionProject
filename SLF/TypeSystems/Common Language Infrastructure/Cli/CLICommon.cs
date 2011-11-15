@@ -87,7 +87,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         internal static IFilteredSignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> Filter<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(this IFilteredSignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> source, Predicate<TSignature> predicate)
             where TSignatureIdentifier :
-                ISignatureMemberUniqueIdentifier<TSignatureIdentifier>,
+                ISignatureMemberUniqueIdentifier,
                 IGeneralMemberUniqueIdentifier
             where TSignature :
                 ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
@@ -101,7 +101,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         internal static IFilteredSignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> FindCache<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(IEnumerable<TSignature> values, IEnumerable<IType> search, bool strict)
             where TSignatureIdentifier :
-                ISignatureMemberUniqueIdentifier<TSignatureIdentifier>,
+                ISignatureMemberUniqueIdentifier,
                 IGeneralMemberUniqueIdentifier
             where TSignature :
                 ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
@@ -138,7 +138,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         private static bool ParametersTypeCheck<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(IEnumerable<IType> search, int searchCount, IDictionary<TSignature, int> deviations, TSignature t, Func<IType, IType, bool> typeChecker)
             where TSignatureIdentifier :
-                ISignatureMemberUniqueIdentifier<TSignatureIdentifier>,
+                ISignatureMemberUniqueIdentifier,
                 IGeneralMemberUniqueIdentifier
             where TSignature :
                 ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
@@ -352,7 +352,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public static ISignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> FilterByName<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(this ISignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> criteria, string name)
             where TSignatureIdentifier :
-                ISignatureMemberUniqueIdentifier<TSignatureIdentifier>,
+                ISignatureMemberUniqueIdentifier,
                 IGeneralMemberUniqueIdentifier
             where TSignature :
                 ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>

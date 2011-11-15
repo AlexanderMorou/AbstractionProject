@@ -5,6 +5,7 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
+#if REQUIRE_NGEN
     public interface IMultikeyedTreeLevel<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TLevel6, TLevel5, TLevel4, TLevel3, TLevel2, TLevel1, TValue, TPrevious, TTopLevel> :
         IControlledStateMultikeyedTreeLevel<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TLevel6, TLevel5, TLevel4, TLevel3, TLevel2, TLevel1, TValue, TPrevious, TTopLevel>,
         IMultikeyedTreeChildLevel
@@ -119,6 +120,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// </summary>
         new TTopLevel TopLevel { get; }
     }
+#endif
     public interface IMultikeyedTreeLevel<TKey1, TKey2, TLevel2, TLevel1, TValue, TPrevious, TTopLevel> :
         IControlledStateMultikeyedTreeLevel<TKey1, TKey2, TLevel2, TLevel1, TValue, TPrevious, TTopLevel>,
         IMultikeyedTreeChildLevel

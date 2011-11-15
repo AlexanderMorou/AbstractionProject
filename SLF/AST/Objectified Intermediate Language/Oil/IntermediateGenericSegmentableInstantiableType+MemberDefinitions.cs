@@ -89,8 +89,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// an instantiable type.
         /// </summary>
         public class BinaryOperatorMember :
-            IntermediateCoercionMemberBase<IBinaryOperatorUniqueIdentifier, IGeneralGenericTypeUniqueIdentifier, IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>, IIntermediateBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>, TType, TIntermediateType>,
-            IIntermediateBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>
+            IntermediateCoercionMemberBase<IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TType>, IIntermediateBinaryOperatorCoercionMember<TType, TIntermediateType>, TType, TIntermediateType>,
+            IIntermediateBinaryOperatorCoercionMember<TType, TIntermediateType>
         {
             private BinaryOpCoercionContainingSide containingSide;
             private CoercibleBinaryOperators _operator;
@@ -332,8 +332,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// Provides a  base implementation of a type coercion member defined within an instantiable type.
         /// </summary>
         public class TypeCoercionMember :
-            IntermediateCoercionMemberBase<ITypeCoercionUniqueIdentifier, IGeneralGenericTypeUniqueIdentifier, ITypeCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>, IIntermediateTypeCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>, TType, TIntermediateType>,
-            IIntermediateTypeCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>
+            IntermediateCoercionMemberBase<ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TType>, IIntermediateTypeCoercionMember<TType, TIntermediateType>, TType, TIntermediateType>,
+            IIntermediateTypeCoercionMember<TType, TIntermediateType>
         {
             private TypeConversionRequirement requirement;
             private TypeConversionDirection direction;
@@ -455,8 +455,8 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// within an instantiable type.
         /// </summary>
         public sealed class UnaryOperatorMember :
-            IntermediateCoercionMemberBase<IUnaryOperatorUniqueIdentifier, IGeneralGenericTypeUniqueIdentifier, IUnaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>, IIntermediateUnaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>, TType, TIntermediateType>,
-            IIntermediateUnaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType, TIntermediateType>
+            IntermediateCoercionMemberBase<IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TType>, IIntermediateUnaryOperatorCoercionMember<TType, TIntermediateType>, TType, TIntermediateType>,
+            IIntermediateUnaryOperatorCoercionMember<TType, TIntermediateType>
         {
             private IType resultedType;
             private CoercibleUnaryOperators _operator;

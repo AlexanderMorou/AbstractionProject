@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         IMember<TSignatureIdentifier, TSignatureParent>,
         ISignatureMember
         where TSignatureIdentifier :
-            ISignatureMemberUniqueIdentifier<TSignatureIdentifier>
+            ISignatureMemberUniqueIdentifier
         where TSignature :
             ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TSignatureParameter :

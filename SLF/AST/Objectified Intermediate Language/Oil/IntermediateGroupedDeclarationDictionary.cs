@@ -38,9 +38,9 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IIntermediateGroupedDeclarationDictionary
         where TDeclarationIdentifier :
             TMDeclarationIdentifier,
-            IDeclarationUniqueIdentifier<TDeclarationIdentifier>
+            IDeclarationUniqueIdentifier
         where TMDeclarationIdentifier :
-            IDeclarationUniqueIdentifier<TMDeclarationIdentifier>
+            IDeclarationUniqueIdentifier
         where TDeclaration :
             TMDeclaration
         where TMDeclaration :

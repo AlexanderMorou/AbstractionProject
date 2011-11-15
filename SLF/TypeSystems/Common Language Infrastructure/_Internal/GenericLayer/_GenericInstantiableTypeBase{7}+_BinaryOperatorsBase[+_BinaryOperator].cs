@@ -38,19 +38,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             IGenericType<IGeneralGenericTypeUniqueIdentifier, TType>
     {
         private class _BinaryOperatorsBase :
-            _GroupedMembersBase<TType, IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>, IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType>>,
-            IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType>,
+            _GroupedMembersBase<TType, IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TType>, IBinaryOperatorCoercionMemberDictionary<TType>>,
+            IBinaryOperatorCoercionMemberDictionary<TType>,
             IBinaryOperatorCoercionMemberDictionary
         {
 
-            public _BinaryOperatorsBase(_FullMembersBase master, IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> originalSet, TType parent)
+            public _BinaryOperatorsBase(_FullMembersBase master, IBinaryOperatorCoercionMemberDictionary<TType> originalSet, TType parent)
                 : base(master, originalSet, parent)
             {
             }
 
             #region IBinaryOperatorCoercionMemberDictionary<TType> Members
 
-            public IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> this[CoercibleBinaryOperators op, BinaryOpCoercionContainingSide side, IType otherSide]
+            public IBinaryOperatorCoercionMember<TType> this[CoercibleBinaryOperators op, BinaryOpCoercionContainingSide side, IType otherSide]
             {
                 get
                 {
@@ -61,7 +61,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 }
             }
 
-            public IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> this[CoercibleBinaryOperators op]
+            public IBinaryOperatorCoercionMember<TType> this[CoercibleBinaryOperators op]
             {
                 get
                 {
@@ -90,16 +90,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
             #endregion
 
-            protected override IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> ObtainWrapper(IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> item)
+            protected override IBinaryOperatorCoercionMember<TType> ObtainWrapper(IBinaryOperatorCoercionMember<TType> item)
             {
                 return new _BinaryOperator(item, this.Parent);
             }
 
             private class _BinaryOperator :
-                _MemberBase<IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>, TType>,
-                IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>
+                _MemberBase<IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TType>, TType>,
+                IBinaryOperatorCoercionMember<TType>
             {
-                internal _BinaryOperator(IBinaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> original, TType parent)
+                internal _BinaryOperator(IBinaryOperatorCoercionMember<TType> original, TType parent)
                     : base(original, parent)
                 {
                 }

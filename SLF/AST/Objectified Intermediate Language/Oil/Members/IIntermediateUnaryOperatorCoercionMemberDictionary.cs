@@ -22,37 +22,34 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// <typeparam name="TCoercionParent">The kind of coercible type in the abstract type system.</typeparam>
     /// <typeparam name="TIntermediateCoercionParent">The kind of coercible type in the intermediate
     /// abstract syntax tree.</typeparam>
-    public interface IIntermediateUnaryOperatorCoercionMemberDictionary<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent> :
-        IIntermediateGroupedMemberDictionary<TCoercionParent, TIntermediateCoercionParent, IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, IIntermediateUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent>>,
-        IUnaryOperatorCoercionMemberDictionary<TCoercionParentIdentifier, TCoercionParent>
-        where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>,
-            IGeneralDeclarationUniqueIdentifier
+    public interface IIntermediateUnaryOperatorCoercionMemberDictionary<TCoercionParent, TIntermediateCoercionParent> :
+        IIntermediateGroupedMemberDictionary<TCoercionParent, TIntermediateCoercionParent, IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TCoercionParent>, IIntermediateUnaryOperatorCoercionMember<TCoercionParent, TIntermediateCoercionParent>>,
+        IUnaryOperatorCoercionMemberDictionary<TCoercionParent>
         where TCoercionParent :
-            ICoercibleType<IUnaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
+            ICoercibleType<IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>
         where TIntermediateCoercionParent :
             TCoercionParent,
-            IIntermediateCoercibleType<IUnaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, IIntermediateUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>
+            IIntermediateCoercibleType<IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TCoercionParent>, IIntermediateUnaryOperatorCoercionMember<TCoercionParent, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>
     {
         /// <summary>
-        /// Returns the <see cref="IIntermediateUnaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/>
+        /// Returns the <see cref="IIntermediateUnaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/>
         /// which coerces the <paramref name="op"/>erator provided.
         /// </summary>
         /// <param name="op">The <see cref="CoercibleUnaryOperators"/> constant
-        /// relative to the <see cref="IIntermediateUnaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/> to 
+        /// relative to the <see cref="IIntermediateUnaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/> to 
         /// return.</param>
-        /// <returns>A <see cref="IIntermediateUnaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/>
+        /// <returns>A <see cref="IIntermediateUnaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/>
         /// instance relative to <paramref name="op"/>.</returns>
-        new IIntermediateUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent> this[CoercibleUnaryOperators op] { get; }
+        new IIntermediateUnaryOperatorCoercionMember<TCoercionParent, TIntermediateCoercionParent> this[CoercibleUnaryOperators op] { get; }
         /// <summary>
-        /// Adds a <see cref="IIntermediateUnaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/> with the
+        /// Adds a <see cref="IIntermediateUnaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/> with the
         /// <paramref name="op"/> provided.
         /// </summary>
         /// <param name="op">The <see cref="CoercibleUnaryOperators"/> which the
-        /// new <see cref="IIntermediateUnaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/> will coerce.</param>
-        /// <returns>A new <see cref="IIntermediateUnaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/>, if successful.</returns>
+        /// new <see cref="IIntermediateUnaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/> will coerce.</param>
+        /// <returns>A new <see cref="IIntermediateUnaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/>, if successful.</returns>
         /// <exception cref="System.ArgumentOutOfRangeException">thrown when <paramref name="op"/> is invalid.</exception>
-        IIntermediateUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent> Add(CoercibleUnaryOperators op);
+        IIntermediateUnaryOperatorCoercionMember<TCoercionParent, TIntermediateCoercionParent> Add(CoercibleUnaryOperators op);
     }
     /// <summary>
     /// Defines properties and methods for working with a series of intermediate unary operator

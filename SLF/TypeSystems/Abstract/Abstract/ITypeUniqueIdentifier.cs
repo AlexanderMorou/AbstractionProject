@@ -5,10 +5,8 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
-    public interface ITypeUniqueIdentifier<TIdentifier> :
-        IDeclarationUniqueIdentifier<TIdentifier>
-        where TIdentifier :
-            ITypeUniqueIdentifier<TIdentifier>
+    public interface ITypeUniqueIdentifier :
+        IDeclarationUniqueIdentifier
     {
     }
 }

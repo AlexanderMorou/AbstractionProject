@@ -70,15 +70,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// <summary>
         /// Data member for <see cref="BinaryOperatorCoercions"/>.
         /// </summary>
-        private IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> binaryOperatorCoercions;
+        private IBinaryOperatorCoercionMemberDictionary<TType> binaryOperatorCoercions;
         /// <summary>
         /// Data member for <see cref="TypeCoercions"/>.
         /// </summary>
-        private ITypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> typeCoercions;
+        private ITypeCoercionMemberDictionary<TType> typeCoercions;
         /// <summary>
         /// Data member for <see cref="UnaryOperatorCoercions"/>.
         /// </summary>
-        private IUnaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> unaryOperatorCoercions;
+        private IUnaryOperatorCoercionMemberDictionary<TType> unaryOperatorCoercions;
         /// <summary>
         /// Data member for <see cref="Constructors"/>.
         /// </summary>
@@ -110,12 +110,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #region IInstantiableType<TCtor,TEvent,TField,TIndexer,TMethod,TProperty,TType> Members
 
-        public ISignatureMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType> GetInterfaceMap(IInterfaceType type)
+        public IInterfaceMemberMapping<TMethod, TProperty, TEvent, TIndexer, TType> GetInterfaceMap(IInterfaceType type)
         {
             return this.OnGetInterfaceMapping(type);
         }
 
-        protected abstract ISignatureMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType> OnGetInterfaceMapping(IInterfaceType type);
+        protected abstract IInterfaceMemberMapping<TMethod, TProperty, TEvent, TIndexer, TType> OnGetInterfaceMapping(IInterfaceType type);
 
         #endregion
 
@@ -310,7 +310,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #region ICoercibleType<TType> Members
 
-        public IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> BinaryOperatorCoercions
+        public IBinaryOperatorCoercionMemberDictionary<TType> BinaryOperatorCoercions
         {
             get
             {
@@ -344,12 +344,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// <returns>
         /// A <see cref="IBinaryOperatorCoercionMemberDictionary{TType}"/> instance.
         /// </returns>
-        protected IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> InitializeBinaryOperatorCoercions()
+        protected IBinaryOperatorCoercionMemberDictionary<TType> InitializeBinaryOperatorCoercions()
         {
             return new _BinaryOperatorsBase(this._Members, this.Original.BinaryOperatorCoercions, (TType)(object)this);
         }
 
-        public ITypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> TypeCoercions
+        public ITypeCoercionMemberDictionary<TType> TypeCoercions
         {
             get
             {
@@ -383,12 +383,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// <returns>
         /// A <see cref="ITypeCoercionMemberDictionary{TType}"/> instance.
         /// </returns>
-        protected ITypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> InitializeTypeCoercions()
+        protected ITypeCoercionMemberDictionary<TType> InitializeTypeCoercions()
         {
             return new _TypeCoercionsBase(this._Members, this.Original.TypeCoercions, ((TType)(object)this));
         }
 
-        public IUnaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> UnaryOperatorCoercions
+        public IUnaryOperatorCoercionMemberDictionary<TType> UnaryOperatorCoercions
         {
             get
             {
@@ -422,7 +422,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// <returns>
         /// A <see cref="IUnaryOperatorCoercionMemberDictionary{TType}"/> instance.
         /// </returns>
-        protected IUnaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> InitializeUnaryOperatorCoercions()
+        protected IUnaryOperatorCoercionMemberDictionary<TType> InitializeUnaryOperatorCoercions()
         {
             return new _UnaryOperatorsBase(master:this._Members, originalSet:this.Original.UnaryOperatorCoercions, parent:this);
         }

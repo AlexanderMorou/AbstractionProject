@@ -48,7 +48,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IIntermediateMethodParent<TMethod, TIntermediateMethod, TType, TIntermediateType>,
         IIntermediatePropertyParent<TProperty, TIntermediateProperty, TType, TIntermediateType>,
         IIntermediateFieldParent<TField, TIntermediateField, TType, TIntermediateType>,
-        IIntermediateCoercibleType<TTypeIdentifier, TType, TIntermediateType>,
+        IIntermediateCoercibleType<TType, TIntermediateType>,
         IIntermediateEventParent<TEvent, TIntermediateEvent, TType, TIntermediateType>,
         IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TType, TIntermediateType>,
         IIntermediateSegmentableType<TTypeIdentifier, TType, TIntermediateType>,
@@ -87,7 +87,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
             IIntermediatePropertyMember<TProperty, TIntermediateProperty, TType, TIntermediateType>,
             TProperty
         where TTypeIdentifier :
-            ITypeUniqueIdentifier<TTypeIdentifier>,
+            ITypeUniqueIdentifier,
             IGeneralDeclarationUniqueIdentifier
         where TType :
             IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TTypeIdentifier, TType>

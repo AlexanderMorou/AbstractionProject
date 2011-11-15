@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         IDeclaration<TIdentifier>,
         IMember
         where TIdentifier :
-            IMemberUniqueIdentifier<TIdentifier>
+            IMemberUniqueIdentifier
         where TParent :
             IMemberParent
     {

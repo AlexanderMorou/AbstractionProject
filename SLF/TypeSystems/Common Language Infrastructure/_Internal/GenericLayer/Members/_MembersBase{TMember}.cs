@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         IMemberDictionary<TParent, TMemberIdentifier, TMember>,
         IMemberDictionary
         where TMemberIdentifier :
-            IMemberUniqueIdentifier<TMemberIdentifier>,
+            IMemberUniqueIdentifier,
             IGeneralMemberUniqueIdentifier
         where TMember :
             class,

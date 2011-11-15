@@ -11,11 +11,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// </summary>
     /// <typeparam name="TIdentifier">The specific kind of unique identifier
     /// used for comparison purposes.</typeparam>
-    public interface IGenericTypeUniqueIdentifier<TIdentifier> :
-        ITypeUniqueIdentifier<TIdentifier>,
-        IGenericParamParentUniqueIdentifier<TIdentifier>
-        where TIdentifier :
-            IGenericTypeUniqueIdentifier<TIdentifier>
+    public interface IGenericTypeUniqueIdentifier :
+        ITypeUniqueIdentifier,
+        IGenericParamParentUniqueIdentifier
     {
     }
 }

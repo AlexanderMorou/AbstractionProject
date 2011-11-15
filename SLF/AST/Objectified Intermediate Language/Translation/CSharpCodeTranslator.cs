@@ -560,17 +560,17 @@ namespace AllenCopeland.Abstraction.Slf.Translation
             throw new NotImplementedException();
         }
 
-        public override void Visit<TCoercionParentIdentifier, TCoercionParent>(IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent> binaryCoercion)
+        public override void Visit<TCoercionParent>(IBinaryOperatorCoercionMember<TCoercionParent> binaryCoercion)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TCoercionParentIdentifier, TCoercionParent>(ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent> typeCoercion)
+        public override void Visit<TCoercionParent>(ITypeCoercionMember<TCoercionParent> typeCoercion)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TCoercionParentIdentifier, TCoercionParent>(IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent> unaryCoercion)
+        public override void Visit<TCoercionParent>(IUnaryOperatorCoercionMember<TCoercionParent> unaryCoercion)
         {
             throw new NotImplementedException();
         }
@@ -664,5 +664,6 @@ namespace AllenCopeland.Abstraction.Slf.Translation
         {
             throw new NotImplementedException();
         }
+
     }
 }

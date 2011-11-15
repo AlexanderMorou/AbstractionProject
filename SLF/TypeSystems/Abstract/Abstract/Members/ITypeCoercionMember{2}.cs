@@ -19,13 +19,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// the parent's uniqueness from the other types.</typeparam>
     /// <typeparam name="TCoercionParent">The type of parent that contains the 
     /// type coercion member in the current implementation.</typeparam>
-    public interface ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent> :
-        ICoercionMember<ITypeCoercionUniqueIdentifier, TCoercionParentIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>,
+    public interface ITypeCoercionMember<TCoercionParent> :
+        ICoercionMember<ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParent>, TCoercionParent>,
         ITypeCoercionMember
-        where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>
         where TCoercionParent :
-            ICoercibleType<ITypeCoercionUniqueIdentifier, TCoercionParentIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
+            ICoercibleType<ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParent>, TCoercionParent>
     {
     }
 }

@@ -22,11 +22,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             if (!GenericTypeCache.TryGetValue(name, typeParameters, out result))
                 GenericTypeCache.Add(name, typeParameters, result = new DefaultGenericTypeUniqueIdentifier(name, typeParameters));
             return result;
-            //if (!GenericTypeCache.ContainsKey(name))
-            //    GenericTypeCache.Add(name, new Dictionary<int, IGeneralGenericTypeUniqueIdentifier>());
-            //if (!GenericTypeCache[name].ContainsKey(typeParameters))
-            //    GenericTypeCache[name].Add(typeParameters, new DefaultGenericTypeUniqueIdentifier(name, typeParameters));
-            //return GenericTypeCache[name][typeParameters];
         }
 
         /// <summary>

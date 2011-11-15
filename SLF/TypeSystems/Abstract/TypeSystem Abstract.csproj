@@ -85,7 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\AbstractGateway.cs" />
-    <Compile Include="Abstract\DeclarationBase+UniqueID.cs" />
     <Compile Include="Abstract\Documentation\IDocComment.cs" />
     <Compile Include="Abstract\Documentation\IDocCommentCodeElement.cs" />
     <Compile Include="Abstract\Documentation\IDocCommentCodeReference.cs" />
@@ -354,9 +353,7 @@
   <ItemGroup>
     <Compile Include="Abstract\Members\IGeneralSignatureMemberUniqueIdentifier.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="_Internal\GenericLayer\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

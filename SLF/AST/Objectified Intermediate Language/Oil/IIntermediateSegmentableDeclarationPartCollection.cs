@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     public interface IIntermediateSegmentableDeclarationPartCollection<TIdentifier, TDeclaration> :
         IControlledStateCollection<TDeclaration>
         where TIdentifier :
-            IDeclarationUniqueIdentifier<TIdentifier>
+            IDeclarationUniqueIdentifier
         where TDeclaration :
             IIntermediateSegmentableDeclaration<TIdentifier, TDeclaration>
     {

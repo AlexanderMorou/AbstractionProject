@@ -38,11 +38,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             IGenericType<IGeneralGenericTypeUniqueIdentifier, TType>
     {
         private class _UnaryOperatorsBase :
-            _GroupedMembersBase<TType, IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>, IUnaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType>>,
-            IUnaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType>,
+            _GroupedMembersBase<TType, IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TType>, IUnaryOperatorCoercionMemberDictionary<TType>>,
+            IUnaryOperatorCoercionMemberDictionary<TType>,
             IUnaryOperatorCoercionMemberDictionary
         {
-            public _UnaryOperatorsBase(_FullMembersBase master, IUnaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> originalSet, _GenericInstantiableTypeBase<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType> parent)
+            public _UnaryOperatorsBase(_FullMembersBase master, IUnaryOperatorCoercionMemberDictionary<TType> originalSet, _GenericInstantiableTypeBase<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType> parent)
                 : base(master, originalSet, ((TType)(object)(parent)))
             {
             }
@@ -56,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
             #region IUnaryOperatorCoercionMemberDictionary<TType> Members
 
-            public IUnaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> this[CoercibleUnaryOperators op]
+            public IUnaryOperatorCoercionMember<TType> this[CoercibleUnaryOperators op]
             {
                 get
                 {
@@ -90,14 +90,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
             #endregion
 
-            protected override IUnaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> ObtainWrapper(IUnaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> item)
+            protected override IUnaryOperatorCoercionMember<TType> ObtainWrapper(IUnaryOperatorCoercionMember<TType> item)
             {
                 return new _UnaryOperatorMember(item, this.Parent);
             }
 
             private class _UnaryOperatorMember :
-                _MemberBase<IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>, TType>,
-                IUnaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType>
+                _MemberBase<IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TType>, TType>,
+                IUnaryOperatorCoercionMember<TType>
             {
                 private new _GenericInstantiableTypeBase<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType> Parent
                 {
@@ -106,7 +106,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                         return (_GenericInstantiableTypeBase<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType>)(object)base.Parent;
                     }
                 }
-                internal _UnaryOperatorMember(IUnaryOperatorCoercionMember<IGeneralGenericTypeUniqueIdentifier, TType> original, _GenericInstantiableTypeBase<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType> parent)
+                internal _UnaryOperatorMember(IUnaryOperatorCoercionMember<TType> original, _GenericInstantiableTypeBase<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType> parent)
                     : base(original, ((TType)(object)(parent)))
                 {
                 }

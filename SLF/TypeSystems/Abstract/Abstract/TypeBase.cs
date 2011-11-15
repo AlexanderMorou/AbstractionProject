@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IType,
         ICustomAttributedDeclaration
         where TIdentifier :
-            ITypeUniqueIdentifier<TIdentifier>
+            ITypeUniqueIdentifier
     {
         internal static IEnumerable<IDeclaration> EmptyDeclarations = GetEmptyDeclarations();
         internal static IEnumerable<IGeneralDeclarationUniqueIdentifier> EmptyIdentifiers = GetEmptyIdentifiers();

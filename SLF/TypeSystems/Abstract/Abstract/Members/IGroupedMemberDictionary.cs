@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         where TParent :
             IMemberParent
         where TItemIdentifier :
-            IMemberUniqueIdentifier<TItemIdentifier>,
+            IMemberUniqueIdentifier,
             IGeneralMemberUniqueIdentifier
         where TItem :
             IMember<TItemIdentifier, TParent>

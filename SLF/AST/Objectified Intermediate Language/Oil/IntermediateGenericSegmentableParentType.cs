@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IntermediateGenericSegmentableType<TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType>,
         IIntermediateTypeParent
         where TTypeIdentifier :
-            IGenericTypeUniqueIdentifier<TTypeIdentifier>,
+            IGenericTypeUniqueIdentifier,
             IGeneralDeclarationUniqueIdentifier
         where TType :
             class,
@@ -258,7 +258,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         private static void SuspendCheck<TNestedTypeIdentifier, TNestedType, TIntermediateNestedType>(IntermediateTypeDictionary<TNestedTypeIdentifier, TNestedType, TIntermediateNestedType> dictionary, int suspendLevel)
             where TNestedTypeIdentifier :
-                ITypeUniqueIdentifier<TNestedTypeIdentifier>,
+                ITypeUniqueIdentifier,
                 IGeneralTypeUniqueIdentifier
             where TNestedType :
                 IType<TNestedTypeIdentifier, TNestedType>

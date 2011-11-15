@@ -1,5 +1,6 @@
 ﻿using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -18,7 +19,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         where TFieldParent :
             IFieldParent<TField, TFieldParent>
     {
-        private IGeneralMemberUniqueIdentifier uniqueIdentifier;
         /// <summary>
         /// Creates a new <see cref="FieldMemberBase{TField, TParent}"/> instance
         /// with the <paramref name="parent"/> provided.
@@ -28,24 +28,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         protected FieldMemberBase(TFieldParent parent)
             : base(parent)
         {
-        }
-
-        /// <summary>
-        /// Returns the unique identifier for the current 
-        /// <see cref="FieldMemberBase{TField, TFieldParent}"/> 
-        /// where  <see cref="DeclarationBase.Name"/> is not enough to 
-        /// distinguish between two <typeparamref name="TField"/> 
-        /// entities.
-        /// </summary>
-        /// <remarks>Returns <see cref="DeclarationBase.Name"/>.</remarks>
-        public override IGeneralMemberUniqueIdentifier UniqueIdentifier
-        {
-            get
-            {
-                if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = new GeneralMemberUniqueIdentifier(this);
-                return this.uniqueIdentifier;
-            }
         }
 
         #region IFieldMember Members

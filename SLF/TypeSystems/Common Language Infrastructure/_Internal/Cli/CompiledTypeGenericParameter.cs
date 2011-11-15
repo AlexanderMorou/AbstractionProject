@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         CompiledGenericParameterMemberBase<IGenericTypeParameter<TTypeIdentifier, TType>, TType>,
         ICompiledGenericTypeParameter<TTypeIdentifier, TType>
         where TTypeIdentifier :
-            IGenericTypeUniqueIdentifier<TTypeIdentifier>
+            IGenericTypeUniqueIdentifier
         where TType :
             class,
             IGenericType<TTypeIdentifier, TType>

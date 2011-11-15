@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         TypeBase<TIdentifier>,
         IType<TIdentifier, TType>
         where TIdentifier :
-            ITypeUniqueIdentifier<TIdentifier>
+            ITypeUniqueIdentifier
         where TType :
             class,
             IType<TIdentifier, TType>

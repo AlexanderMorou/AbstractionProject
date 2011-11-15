@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IntermediateGenericTypeBase<TTypeIdentifier, TType, TIntermediateType>,
         IIntermediateSegmentableType<TTypeIdentifier, TType, TIntermediateType>
         where TTypeIdentifier : 
-            IGenericTypeUniqueIdentifier<TTypeIdentifier>,
+            IGenericTypeUniqueIdentifier,
             IGeneralDeclarationUniqueIdentifier
         where TType :
             class,

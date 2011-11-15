@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         _IGenericType,
         IMassTargetHandler
         where TTypeIdentifier :
-            IGenericTypeUniqueIdentifier<TTypeIdentifier>
+            IGenericTypeUniqueIdentifier
         where TType :
             class,
             IGenericType<TTypeIdentifier, TType>

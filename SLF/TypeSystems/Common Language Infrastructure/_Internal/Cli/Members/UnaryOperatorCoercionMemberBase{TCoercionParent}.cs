@@ -9,13 +9,11 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    internal abstract class UnaryOperatorCoercionMemberBase<TCoercionParentIdentifier, TCoercionParent> :
+    internal abstract class UnaryOperatorCoercionMemberBase<TCoercionParent> :
         MemberBase<IUnaryOperatorUniqueIdentifier, TCoercionParent>,
-        IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>
-        where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>
+        IUnaryOperatorCoercionMember<TCoercionParent>
         where TCoercionParent :
-            ICoercibleType<IUnaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
+            ICoercibleType<IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>
     {
         public UnaryOperatorCoercionMemberBase(TCoercionParent parent)
             : base(parent)
@@ -50,6 +48,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         public abstract IType ResultedType { get; }
 
         #endregion
+
         protected abstract AccessLevelModifiers OnGetAccessLevel();
 
         protected abstract CoercibleUnaryOperators OnGetOperator();

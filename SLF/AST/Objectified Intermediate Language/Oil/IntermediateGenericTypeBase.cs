@@ -30,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         _IIntermediateGenericType<TTypeIdentifier>,
         IMassTargetHandler
         where TTypeIdentifier :
-            IGenericTypeUniqueIdentifier<TTypeIdentifier>,
+            IGenericTypeUniqueIdentifier,
             IGeneralDeclarationUniqueIdentifier
         where TType :
             class,

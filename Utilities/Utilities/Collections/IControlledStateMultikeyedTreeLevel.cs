@@ -26,6 +26,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// </summary>
         IControlledStateMultikeyedTreeLevel Previous { get; }
     }
+#if REQUIRE_NGEN
     public interface IControlledStateMultikeyedTreeLevel<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TLevel6, TLevel5, TLevel4, TLevel3, TLevel2, TLevel1, TValue, TPrevious, TTopLevel> :
         IControlledStateDictionary<TKey1, TLevel5>,
         IControlledStateMultikeyedTreeChildLevel
@@ -140,6 +141,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// </summary>
         new TTopLevel TopLevel { get; }
     }
+#endif
     public interface IControlledStateMultikeyedTreeLevel<TKey1, TKey2, TLevel2, TLevel1, TValue, TPrevious, TTopLevel> :
         IControlledStateDictionary<TKey1, TLevel1>,
         IControlledStateMultikeyedTreeChildLevel
