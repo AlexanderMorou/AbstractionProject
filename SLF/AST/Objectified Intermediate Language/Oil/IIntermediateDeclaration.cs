@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IDeclaration<TIdentifier>,
         IIntermediateDeclaration
         where TIdentifier :
-            IDeclarationUniqueIdentifier<TIdentifier>,
+            IDeclarationUniqueIdentifier,
             IGeneralDeclarationUniqueIdentifier
     {
         /// <summary>

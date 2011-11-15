@@ -6,7 +6,8 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     public interface IGeneralDeclarationUniqueIdentifier :
-        IDeclarationUniqueIdentifier<IGeneralDeclarationUniqueIdentifier>
+        IDeclarationUniqueIdentifier,
+        IEquatable<IGeneralDeclarationUniqueIdentifier>
     {
     }
 }

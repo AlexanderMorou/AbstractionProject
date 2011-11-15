@@ -21,53 +21,30 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// </summary>
     /// <typeparam name="TMethod">The type of extended
     /// instance method member in the abstract type system.</typeparam>
-    /// <typeparam name="TMethodSig">The type of the 
-    /// method signature member in the abstract type system.</typeparam>
     /// <typeparam name="TProperty">The type of the property member
     /// in the abstract type system.</typeparam>
-    /// <typeparam name="TPropertySig">The type of the
-    /// property signature member in the abstract type system.</typeparam>
     /// <typeparam name="TEvent">The type of the event member in the
     /// abstract type system.</typeparam>
-    /// <typeparam name="TEventSig">The type of the event signature
-    /// member in the abstract type system.</typeparam>
     /// <typeparam name="TIndexer">The type of the indexer member
     /// in the abstract type system.</typeparam>
-    /// <typeparam name="TIndexerSig">The type of the indexer
-    /// signature member in the abstract type system.</typeparam>
     /// <typeparam name="TParent">The type of parent which contains
     /// the concrete members in the abstract type system.</typeparam>
-    /// <typeparam name="TParentSig">The type of parent which contains
-    /// the signature members in the abstract type system.</typeparam>
-    public interface ISignatureMemberMapping<TMethod, TMethodSig, TProperty, TPropertySig, TEvent, TEventSig, TIndexer, TIndexerSig, TParent, TParentSig>
+    public interface IInterfaceMemberMapping<TMethod, TProperty, TEvent, TIndexer, TParent>
         where TMethod :
             IMethodMember<TMethod, TParent>,
             IExtendedInstanceMember
-        where TMethodSig :
-            IMethodSignatureMember<TMethodSig, TParentSig>
         where TProperty :
             IPropertyMember<TProperty, TParent>
-        where TPropertySig :
-            IPropertySignatureMember<TPropertySig, TParentSig>
         where TIndexer :
             IIndexerMember<TIndexer, TParent>
-        where TIndexerSig :
-            IIndexerSignatureMember<TIndexerSig, TParentSig>
         where TEvent :
             IEventMember<TEvent, TParent>,
             IExtendedInstanceMember
-        where TEventSig :
-            IEventSignatureMember<TEventSig, TParentSig>
         where TParent :
             IEventParent<TEvent, TParent>,
             IMethodParent<TMethod, TParent>,
             IPropertyParent<TProperty, TParent>,
             IIndexerParent<TIndexer, TParent>
-        where TParentSig :
-            IEventSignatureParent<TEventSig, TParentSig>,
-            IMethodSignatureParent<TMethodSig, TParentSig>,
-            IPropertySignatureParent<TPropertySig, TParentSig>,
-            IIndexerSignatureParent<TIndexerSig, TParentSig>
     {
         /// <summary>
         /// Returns the <see cref="IInterfaceType"/> which is represented by
@@ -78,23 +55,23 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// Returns the list of implemented properties with
         /// a link back to the original interface member.
         /// </summary>
-        IEnumerable<MemberMap<IGeneralMemberUniqueIdentifier, TProperty, TPropertySig>> Properties { get; }
+        IEnumerable<MemberMap<IGeneralMemberUniqueIdentifier, TProperty, IInterfacePropertyMember>> Properties { get; }
         /// <summary>
         /// Returns the list of implemented methods
         /// with a link back to the original interface 
         /// member.
         /// </summary>
-        IEnumerable<MemberMap<IGeneralGenericSignatureMemberUniqueIdentifier, TMethod, TMethodSig>> Methods { get; }
+        IEnumerable<MemberMap<IGeneralGenericSignatureMemberUniqueIdentifier, TMethod, IInterfaceMethodMember>> Methods { get; }
         /// <summary>
         /// Returns the list of implemented indexers with
         /// a link back to the original interface member.
         /// </summary>
-        IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TIndexer, TIndexerSig>> Indexers { get; }
+        IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TIndexer, IInterfaceIndexerMember>> Indexers { get; }
         /// <summary>
         /// Returns the list of implemented indexers with
         /// a link back to the original interface member.
         /// </summary>
-        IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TEvent, TEventSig>> Events { get; }
+        IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TEvent, IInterfaceEventMember>> Events { get; }
     }
     
     /// <summary>
@@ -111,8 +88,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         where TB :
             IMember
         where TIdentifier :
-            IMemberUniqueIdentifier<TIdentifier>,
-            IGeneralMemberUniqueIdentifier
+            IMemberUniqueIdentifier
     {
         private TA _implementedMember;
         private TB _interfaceMember;

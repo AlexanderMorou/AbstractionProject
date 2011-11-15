@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     public abstract partial class DeclarationBase<TIdentifier> :
         IDeclaration<TIdentifier>
         where TIdentifier :
-            IDeclarationUniqueIdentifier<TIdentifier>
+            IDeclarationUniqueIdentifier
     {
         /// <summary>
         /// Creates a new <see cref="DeclarationBase"/> initialized to a default state.

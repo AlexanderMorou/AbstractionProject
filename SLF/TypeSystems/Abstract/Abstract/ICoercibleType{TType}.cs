@@ -13,35 +13,33 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Defines generic properties and methods for working with
     /// a type which can be coerced in special expression contexts.
     /// </summary>
-    /// <typeparam name="TType">The type of <see cref="ICoercibleType{TTypeIdentifier, TType}"/>
+    /// <typeparam name="TType">The type of <see cref="ICoercibleType{TType}"/>
     /// that needs the coercion members.</typeparam>
-    public interface ICoercibleType<TTypeIdentifier, TType> :
-        ICoercibleType<ITypeCoercionUniqueIdentifier, TTypeIdentifier, ITypeCoercionMember<TTypeIdentifier, TType>, TType>,
-        ICoercibleType<IBinaryOperatorUniqueIdentifier, TTypeIdentifier, IBinaryOperatorCoercionMember<TTypeIdentifier, TType>, TType>,
-        ICoercibleType<IUnaryOperatorUniqueIdentifier, TTypeIdentifier, IUnaryOperatorCoercionMember<TTypeIdentifier, TType>, TType>,
+    public interface ICoercibleType<TType> :
+        ICoercibleType<ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TType>, TType>,
+        ICoercibleType<IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TType>, TType>,
+        ICoercibleType<IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TType>, TType>,
         ICoercibleType
-        where TTypeIdentifier :
-            ITypeUniqueIdentifier<TTypeIdentifier>
         where TType :
-            ICoercibleType<TTypeIdentifier, TType>
+            ICoercibleType<TType>
     {
         /// <summary>
         /// Returns the 
-        /// <see cref="IBinaryOperatorCoercionMemberDictionary{TCoercionParentIdentifier, TCoercionParent}"/>
+        /// <see cref="IBinaryOperatorCoercionMemberDictionary{TCoercionParent}"/>
         /// assocaited to the <typeparamref name="TType"/>.
         /// </summary>
-        new IBinaryOperatorCoercionMemberDictionary<TTypeIdentifier, TType> BinaryOperatorCoercions { get; }
+        new IBinaryOperatorCoercionMemberDictionary<TType> BinaryOperatorCoercions { get; }
         /// <summary>
         /// Returns the 
-        /// <see cref="ITypeCoercionMemberDictionary{TCoercionParentIdentifier, TCoercionParent}"/>
+        /// <see cref="ITypeCoercionMemberDictionary{TCoercionParent}"/>
         /// assocaited to the <typeparamref name="TType"/>.
         /// </summary>
-        new ITypeCoercionMemberDictionary<TTypeIdentifier, TType> TypeCoercions { get; }
+        new ITypeCoercionMemberDictionary<TType> TypeCoercions { get; }
         /// <summary>
         /// Returns the
         /// <see cref="IUnaryOperatorCoercionMemberDictionary{TCoercionParent}"/>
         /// assocaited to the <typeparamref name="TType"/>.
         /// </summary>
-        new IUnaryOperatorCoercionMemberDictionary<TTypeIdentifier, TType> UnaryOperatorCoercions { get; }
+        new IUnaryOperatorCoercionMemberDictionary<TType> UnaryOperatorCoercions { get; }
     }
 }

@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IGenericParamParent<IGenericTypeParameter<TTypeIdentifier, TType>, TType>,
         IGenericType
         where TTypeIdentifier :
-            IGenericTypeUniqueIdentifier<TTypeIdentifier>
+            IGenericTypeUniqueIdentifier
         where TType :
             IGenericType<TTypeIdentifier, TType>
     {

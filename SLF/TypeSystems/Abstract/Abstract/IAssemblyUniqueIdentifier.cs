@@ -7,8 +7,8 @@ using AllenCopeland.Abstraction.Globalization;
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     public interface IAssemblyUniqueIdentifier :
-        IDeclarationUniqueIdentifier<IAssemblyUniqueIdentifier>,
-        IGeneralDeclarationUniqueIdentifier
+        IGeneralDeclarationUniqueIdentifier,
+        IEquatable<IAssemblyUniqueIdentifier>
     {
         /// <summary>
         /// Returns the <see cref="Version"/> of the assembly.

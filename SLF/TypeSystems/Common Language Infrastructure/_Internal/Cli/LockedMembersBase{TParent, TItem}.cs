@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         where TParent :
             IMemberParent
         where TItemIdentifier :
-            IMemberUniqueIdentifier<TItemIdentifier>
+            IMemberUniqueIdentifier
         where TItem :
             IMember<TItemIdentifier, TParent>
     {

@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IntermediateDeclarationBase<TIdentifier>,
         IIntermediateMember<TIdentifier, TParent, TIntermediateParent>
         where TIdentifier :
-            IMemberUniqueIdentifier<TIdentifier>,
+            IMemberUniqueIdentifier,
             IGeneralMemberUniqueIdentifier
         where TParent :
             IMemberParent

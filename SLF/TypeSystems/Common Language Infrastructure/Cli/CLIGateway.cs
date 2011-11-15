@@ -101,7 +101,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// <typeparamref name="TType"/> type provided.</exception>
         public static TType GetTypeReference<TTypeIdentifier, TType>(this Type type)
             where TTypeIdentifier :
-                ITypeUniqueIdentifier<TTypeIdentifier>
+                ITypeUniqueIdentifier
             where TType :
                 IType<TTypeIdentifier, TType>
         {
@@ -133,7 +133,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public static TType GetTypeReference<TTypeIdentifier, TType>(this Type type, ITypeCollection typeParameters)
             where TTypeIdentifier :
-                IGenericTypeUniqueIdentifier<TTypeIdentifier>
+                IGenericTypeUniqueIdentifier
             where TType :
                 IGenericType<TTypeIdentifier, TType>
         {
@@ -147,7 +147,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public static TType GetTypeReference<TTypeIdentifier, TType>(this Type type, params IType[] typeParameters)
             where TTypeIdentifier :
-                IGenericTypeUniqueIdentifier<TTypeIdentifier>
+                IGenericTypeUniqueIdentifier
             where TType :
                 IGenericType<TTypeIdentifier, TType>
         {
@@ -408,7 +408,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public static TType MakeGenericClosure<TTypeIdentifier, TType>(this IGenericType<TTypeIdentifier, TType> target, params Type[] typeParameters)
             where TTypeIdentifier :
-                IGenericTypeUniqueIdentifier<TTypeIdentifier>
+                IGenericTypeUniqueIdentifier
             where TType :
                 IGenericType<TTypeIdentifier, TType>
         {

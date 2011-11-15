@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IntermediateParameterMemberBase<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter>,
         IIntermediateSignatureParameterMember<TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
         where TSignatureIdentifier :
-            ISignatureMemberUniqueIdentifier<TSignatureIdentifier>,
+            ISignatureMemberUniqueIdentifier,
             IGeneralMemberUniqueIdentifier
         where TSignature :
             ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>

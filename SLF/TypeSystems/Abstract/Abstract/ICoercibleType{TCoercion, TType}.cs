@@ -25,18 +25,15 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// The type of coercible <see cref="IType{TTypeIdentifier, TType}"/> 
     /// that contains <typeparamref name="TCoercion"/> 
     /// members in the current implementation.</typeparam>
-    public interface ICoercibleType<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent> :
-        IType<TCoercionParentIdentifier, TCoercionParent>,
+    public interface ICoercibleType<TCoercionIdentifier, TCoercion, TCoercionParent> :
         IMemberParent,
         ICoercibleType
         where TCoercionIdentifier :
-            IMemberUniqueIdentifier<TCoercionIdentifier>
-        where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>
+            IMemberUniqueIdentifier
         where TCoercion :
-            ICoercionMember<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent>
+            ICoercionMember<TCoercionIdentifier, TCoercion, TCoercionParent>
         where TCoercionParent :
-            ICoercibleType<TCoercionIdentifier, TCoercionParentIdentifier, TCoercion, TCoercionParent>
+            ICoercibleType<TCoercionIdentifier, TCoercion, TCoercionParent>
     {
     }
 }

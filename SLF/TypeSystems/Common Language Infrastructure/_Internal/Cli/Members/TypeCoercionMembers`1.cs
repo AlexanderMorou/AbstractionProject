@@ -13,39 +13,37 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
     /// <summary>
     /// Provides a base implementation of 
-    /// <see cref="ITypeCoercionMemberDictionary{TCoercionParentIdentifier, TCoercionParent}"/>
+    /// <see cref="ITypeCoercionMemberDictionary{TCoercionParent}"/>
     /// for working with a series of 
-    /// <see cref="ITypeCoercionMember{TCoercionParentIdentifier, TCoercionParent}"/>
+    /// <see cref="ITypeCoercionMember{TCoercionParent}"/>
     /// instances.
     /// </summary>
     /// <typeparam name="TCoercionParent">
-    /// The type of <see cref="ICoercibleType{TTypeIdentifier, TType}"/>
+    /// The type of <see cref="ICoercibleType{TType}"/>
     /// which contains the 
-    /// <see cref="TypeCoercionMembers{TCoercionParentIdentifier, TCoercionParent}"/>.
+    /// <see cref="TypeCoercionMembers{TCoercionParent}"/>.
     /// </typeparam>
     /// <typeparam name="TCoercionParentIdentifier">The kind of unique
     /// identifier used to differentiate the container of the coercible
     /// type members from its siblings.</typeparam>
-    internal class TypeCoercionMembers<TCoercionParentIdentifier, TCoercionParent> :
-        GroupedMembersBase<TCoercionParent, ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>>,
-        ITypeCoercionMemberDictionary<TCoercionParentIdentifier, TCoercionParent>,
+    internal class TypeCoercionMembers<TCoercionParent> :
+        GroupedMembersBase<TCoercionParent, ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParent>>,
+        ITypeCoercionMemberDictionary<TCoercionParent>,
         ITypeCoercionMemberDictionary
-        where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>
         where TCoercionParent :
-            ICoercibleType<ITypeCoercionUniqueIdentifier, TCoercionParentIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
+            ICoercibleType<ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParent>, TCoercionParent>
     {
         /// <summary>
-        /// Creates a new <see cref="TypeCoercionMembers{TCoercionParentIdentifier, TCoercionParent}"/>
+        /// Creates a new <see cref="TypeCoercionMembers{TCoercionParent}"/>
         /// with the <paramref name="master"/> and <paramref name="parent"/>
         /// provided.
         /// </summary>
         /// <param name="master">The <see cref="FullMembersBase"/>
         /// which contains all of the 
-        /// <see cref="TypeCoercionMembers{TCoercionParentIdentifier, TCoercionParent}"/> 
+        /// <see cref="TypeCoercionMembers{TCoercionParent}"/> 
         /// members and other members of the <typeparamref name="TCoercionParent"/>.</param>
         /// <param name="parent">The <typeparamref name="TCoercionParent"/> which contains
-        /// the <see cref="TypeCoercionMembers{TCoercionParentIdentifier, TCoercionParent}"/>.</param>
+        /// the <see cref="TypeCoercionMembers{TCoercionParent}"/>.</param>
         public TypeCoercionMembers(FullMembersBase master, TCoercionParent parent)
             : base(master, parent)
         {
@@ -60,7 +58,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <param name="target">The <see cref="IType"/> to 
         /// coerce explicitly to.</param>
         /// <returns>True if the <typeparamref name="TCoercionParent"/>
-        /// contains an explicit <see cref="ITypeCoercionMember{TTypeIdentifier, TCoercionParent}"/>
+        /// contains an explicit <see cref="ITypeCoercionMember{TCoercionParent}"/>
         /// to the <paramref name="target"/> type; false otherwise.</returns>
         public bool HasExplicitCoercionTo(IType target)
         {
@@ -77,7 +75,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <param name="target">The <see cref="IType"/> to 
         /// coerce implicitly to.</param>
         /// <returns>True if the <typeparamref name="TCoercionParent"/>
-        /// contains an implicit <see cref="ITypeCoercionMember{TTypeIdentifier, TCoercionParent}"/>
+        /// contains an implicit <see cref="ITypeCoercionMember{TCoercionParent}"/>
         /// to the <paramref name="target"/> type; false otherwise.</returns>
         public bool HasImplicitCoercionTo(IType target)
         {
@@ -94,7 +92,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <param name="target">The <see cref="IType"/> to 
         /// coerce explicitly from.</param>
         /// <returns>True if the <typeparamref name="TCoercionParent"/>
-        /// contains an explicit <see cref="ITypeCoercionMember{TTypeIdentifier, TCoercionParent}"/>
+        /// contains an explicit <see cref="ITypeCoercionMember{TCoercionParent}"/>
         /// from the <paramref name="target"/> type; false otherwise.</returns>
         public bool HasExplicitCoercionFrom(IType target)
         {
@@ -111,7 +109,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <param name="target">The <see cref="IType"/> to 
         /// coerce implicitly from.</param>
         /// <returns>True if the <typeparamref name="TCoercionParent"/>
-        /// contains an implicit <see cref="ITypeCoercionMember{TTypeIdentifier, TCoercionParent}"/>
+        /// contains an implicit <see cref="ITypeCoercionMember{TCoercionParent}"/>
         /// from the <paramref name="target"/> type; false otherwise.</returns>
         public bool HasImplicitCoercionFrom(IType target)
         {
@@ -122,7 +120,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         }
 
         /// <summary>
-        /// Returns the <see cref="ITypeCoercionMember{TTypeIdentifier, TCoercionParent}"/>
+        /// Returns the <see cref="ITypeCoercionMember{TCoercionParent}"/>
         /// which meets the <paramref name="requirement"/> in
         /// the <paramref name="direction"/> for
         /// the <paramref name="target"/> specified.
@@ -134,7 +132,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// either from or to the type.</param>
         /// <param name="target">
         /// The <see cref="IType"/> which is coerced.</param>
-        /// <returns>The <see cref="ITypeCoercionMember{TTypeIdentifier, TCoercionParent}"/> 
+        /// <returns>The <see cref="ITypeCoercionMember{TCoercionParent}"/> 
         /// which met the <paramref name="requirement"/> in
         /// the <paramref name="direction"/> for
         /// the <paramref name="target"/> specified</returns>
@@ -145,7 +143,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// thrown when either <paramref name="requirement"/> or 
         /// <paramref name="direction"/> is out of range.</exception>
-        public ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent> this[TypeConversionRequirement requirement, TypeConversionDirection direction, IType target]
+        public ITypeCoercionMember<TCoercionParent> this[TypeConversionRequirement requirement, TypeConversionDirection direction, IType target]
         {
             get
             {
@@ -184,7 +182,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                     default:
                         throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.requirement);
                 }
-                foreach (ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent> member in this.Values)
+                foreach (ITypeCoercionMember<TCoercionParent> member in this.Values)
                     if (member.CoercionType.Equals(target) && member.Direction == direction && member.Requirement == requirement)
                         return member;
                 return null;

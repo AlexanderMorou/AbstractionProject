@@ -23,20 +23,17 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// type coercion member in abstract type system.</typeparam>
     /// <typeparam name="TIntermediateCoercionParent">The type of parent that contains the 
     /// type coercion member in intermediate abstract syntax tree.</typeparam>
-    public interface IIntermediateTypeCoercionMemberDictionary<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent> :
-        IIntermediateGroupedMemberDictionary<TCoercionParent, TIntermediateCoercionParent, ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>, IIntermediateTypeCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent>>,
-        ITypeCoercionMemberDictionary<TCoercionParentIdentifier, TCoercionParent>
-        where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>,
-            IGeneralDeclarationUniqueIdentifier
+    public interface IIntermediateTypeCoercionMemberDictionary<TCoercionParent, TIntermediateCoercionParent> :
+        IIntermediateGroupedMemberDictionary<TCoercionParent, TIntermediateCoercionParent, ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParent>, IIntermediateTypeCoercionMember<TCoercionParent, TIntermediateCoercionParent>>,
+        ITypeCoercionMemberDictionary<TCoercionParent>
         where TCoercionParent :
-            ICoercibleType<ITypeCoercionUniqueIdentifier, TCoercionParentIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
+            ICoercibleType<ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParent>, TCoercionParent>
         where TIntermediateCoercionParent :
             TCoercionParent,
-            IIntermediateCoercibleType<ITypeCoercionUniqueIdentifier, TCoercionParentIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>, IIntermediateTypeCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>
+            IIntermediateCoercibleType<ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParent>, IIntermediateTypeCoercionMember<TCoercionParent, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>
     {
         /// <summary>
-        /// Returns the <see cref="IIntermediateTypeCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/>
+        /// Returns the <see cref="IIntermediateTypeCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/>
         /// which meets the <paramref name="requirement"/> in
         /// the <paramref name="direction"/> for
         /// the <paramref name="target"/> specified.
@@ -48,7 +45,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// either from or to the type.</param>
         /// <param name="target">
         /// The <see cref="IType"/> which is coerced.</param>
-        /// <returns>The <see cref="IIntermediateTypeCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/> 
+        /// <returns>The <see cref="IIntermediateTypeCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/> 
         /// which met the <paramref name="requirement"/> in
         /// the <paramref name="direction"/> for
         /// the <paramref name="target"/> specified</returns>
@@ -59,12 +56,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// thrown when either <paramref name="requirement"/> or 
         /// <paramref name="direction"/> is out of range.</exception>
-        new IIntermediateTypeCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent> this[
+        new IIntermediateTypeCoercionMember<TCoercionParent, TIntermediateCoercionParent> this[
             TypeConversionRequirement requirement,
             TypeConversionDirection direction,
             IType target] { get; }
         /// <summary>
-        /// Adds a new <see cref="IIntermediateTypeCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/>
+        /// Adds a new <see cref="IIntermediateTypeCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/>
         /// with the conversion <paramref name="requirement"/>, <paramref name="direction"/> and target.
         /// </summary>
         /// <param name="requirement">The <see cref="TypeConversionRequirement"/>
@@ -73,7 +70,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// either from or to the type.</param>
         /// <param name="target">
         /// The <see cref="IType"/> which is coerced.</param>
-        /// <returns>A new <see cref="IIntermediateTypeCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/>
+        /// <returns>A new <see cref="IIntermediateTypeCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/>
         /// instance.</returns>
         /// <exception cref="System.ArgumentException">thrown when <paramref name="target"/>
         /// is an interface.</exception>
@@ -81,7 +78,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// thrown when either <paramref name="requirement"/> or 
         /// <paramref name="direction"/> is out of range.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="target"/> is null.</exception>
-        IIntermediateTypeCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent> Add(TypeConversionRequirement requirement, TypeConversionDirection direction, IType target);
+        IIntermediateTypeCoercionMember<TCoercionParent, TIntermediateCoercionParent> Add(TypeConversionRequirement requirement, TypeConversionDirection direction, IType target);
     }
     /// <summary>
     /// Defines properties and methods for working with a series of 

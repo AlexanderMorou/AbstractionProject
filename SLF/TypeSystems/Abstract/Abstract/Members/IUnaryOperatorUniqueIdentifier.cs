@@ -10,8 +10,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// representing a unary operator.
     /// </summary>
     public interface IUnaryOperatorUniqueIdentifier :
-        IMemberUniqueIdentifier<IUnaryOperatorUniqueIdentifier>,
-        IGeneralMemberUniqueIdentifier
+        IGeneralMemberUniqueIdentifier,
+        IEquatable<IUnaryOperatorUniqueIdentifier>
     {
         /// <summary>
         /// Returns the coerced operator represented

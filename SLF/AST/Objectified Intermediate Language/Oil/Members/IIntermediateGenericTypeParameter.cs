@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         IGenericTypeParameter<TTypeIdentifier, TType>,
         IIntermediateGenericTypeParameter
         where TTypeIdentifier :
-            IGenericTypeUniqueIdentifier<TTypeIdentifier>,
+            IGenericTypeUniqueIdentifier,
             IGeneralDeclarationUniqueIdentifier
         where TType :
             IGenericType<TTypeIdentifier, TType>

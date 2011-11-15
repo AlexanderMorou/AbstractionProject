@@ -152,7 +152,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         #endregion
 
 
-        protected override ISignatureMemberMapping<IClassMethodMember, IInterfaceMethodMember, IClassPropertyMember, IInterfacePropertyMember, IClassEventMember, IInterfaceEventMember, IClassIndexerMember, IInterfaceIndexerMember, IClassType, IInterfaceType> OnGetInterfaceMap(IInterfaceType type)
+        protected override IInterfaceMemberMapping<IClassMethodMember, IClassPropertyMember, IClassEventMember, IClassIndexerMember, IClassType> OnGetInterfaceMap(IInterfaceType type)
         {
             return this.GetInterfaceMap(type);
         }

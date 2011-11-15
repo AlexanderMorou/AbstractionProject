@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IFullDeclarationDictionary<TIdentifier, TMItem>,
         IFullDeclarationDictionary
         where TIdentifier :
-            IDeclarationUniqueIdentifier<TIdentifier>
+            IDeclarationUniqueIdentifier
         where TMItem :
             class,
             IDeclaration

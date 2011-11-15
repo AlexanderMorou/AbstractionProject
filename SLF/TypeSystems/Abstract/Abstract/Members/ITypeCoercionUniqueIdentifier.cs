@@ -6,7 +6,7 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Abstract.Members
 {
     public interface ITypeCoercionUniqueIdentifier :
-        IMemberUniqueIdentifier<ITypeCoercionUniqueIdentifier>,
+        IMemberUniqueIdentifier,
         IGeneralMemberUniqueIdentifier
     {
         /// <summary>

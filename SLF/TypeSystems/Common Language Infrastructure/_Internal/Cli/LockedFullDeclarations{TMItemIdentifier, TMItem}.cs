@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         MasterDictionaryBase<TMItemIdentifier, TMItem>,
         _LockedRelativeHelper<TMItemIdentifier, TMItem>
         where TMItemIdentifier :
-            IDeclarationUniqueIdentifier<TMItemIdentifier>
+            IDeclarationUniqueIdentifier
         where TMItem :
             class,
             IDeclaration,

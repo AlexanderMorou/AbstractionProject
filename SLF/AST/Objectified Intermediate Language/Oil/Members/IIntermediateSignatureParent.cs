@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         ISignatureParent<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>,
         IIntermediateSignatureParent
         where TSignatureIdentifier :
-            ISignatureMemberUniqueIdentifier<TSignatureIdentifier>,
+            ISignatureMemberUniqueIdentifier,
             IGeneralMemberUniqueIdentifier
         where TSignature :
             ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>

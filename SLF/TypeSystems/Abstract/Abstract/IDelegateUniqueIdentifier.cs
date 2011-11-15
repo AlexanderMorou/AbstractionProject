@@ -7,10 +7,11 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     public interface IDelegateUniqueIdentifier  :
-        IGenericSignatureMemberUniqueIdentifier<IDelegateUniqueIdentifier>,
-        IGenericTypeUniqueIdentifier<IDelegateUniqueIdentifier>,
+        IGenericSignatureMemberUniqueIdentifier,
+        IGenericTypeUniqueIdentifier,
         IGeneralGenericTypeUniqueIdentifier,
-        IGeneralGenericSignatureMemberUniqueIdentifier
+        IGeneralGenericSignatureMemberUniqueIdentifier,
+        IEquatable<IDelegateUniqueIdentifier>
     {
     }
 }

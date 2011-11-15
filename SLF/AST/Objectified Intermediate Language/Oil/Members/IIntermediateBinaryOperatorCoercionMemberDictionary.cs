@@ -18,38 +18,32 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
     /// used to coerce binary operations within mathematical expressions
     /// based off of the types of the operands.
     /// </summary>
-    /// <typeparam name="TCoercionParentIdentifier">The kind of identifier used
-    /// to differentiate the <typeparamref name="TIntermediateCoercionParent"/>
-    /// instance from its siblings.</typeparam>
     /// <typeparam name="TCoercionParent">The type of coercion parent which
     /// contains the binary operator coercion members.</typeparam>
     /// <typeparam name="TIntermediateCoercionParent">The type of the 
     /// intermediate coercion parent which contains the intermediate 
     /// (malleable) binary operator coercion members.</typeparam>
-    public interface IIntermediateBinaryOperatorCoercionMemberDictionary<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent> :
-        IIntermediateGroupedMemberDictionary<TCoercionParent, TIntermediateCoercionParent, IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, IIntermediateBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent>>,
-        IBinaryOperatorCoercionMemberDictionary<TCoercionParentIdentifier, TCoercionParent>
-        where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>,
-            IGeneralDeclarationUniqueIdentifier
+    public interface IIntermediateBinaryOperatorCoercionMemberDictionary<TCoercionParent, TIntermediateCoercionParent> :
+        IIntermediateGroupedMemberDictionary<TCoercionParent, TIntermediateCoercionParent, IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TCoercionParent>, IIntermediateBinaryOperatorCoercionMember<TCoercionParent, TIntermediateCoercionParent>>,
+        IBinaryOperatorCoercionMemberDictionary<TCoercionParent>
         where TCoercionParent :
-            ICoercibleType<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
+            ICoercibleType<IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>
         where TIntermediateCoercionParent :
-            IIntermediateCoercibleType<IBinaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, IIntermediateBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>,
+            IIntermediateCoercibleType<IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TCoercionParent>, IIntermediateBinaryOperatorCoercionMember<TCoercionParent, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>,
             TCoercionParent
     {
         /// <summary>
-        /// Adds a <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/>, to the
-        /// <see cref="IIntermediateBinaryOperatorCoercionMemberDictionary{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/>,
+        /// Adds a <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/>, to the
+        /// <see cref="IIntermediateBinaryOperatorCoercionMemberDictionary{TCoercionParent, TIntermediateCoercionParent}"/>,
         /// with the <paramref name="op"/>, <paramref name="containingSide"/>,
         /// <paramref name="otherSide"/>, <paramref name="returnType"/> provided.
         /// </summary>
-        /// <param name="op">The <see cref="CoercibleBinaryOperators"/> that is coerced by the <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/>.</param>
-        /// <param name="containingSide">Which side the containing type of the <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/>
+        /// <param name="op">The <see cref="CoercibleBinaryOperators"/> that is coerced by the <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/>.</param>
+        /// <param name="containingSide">Which side the containing type of the <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/>
         /// resides on in the overload.</param>
         /// <param name="otherSide">The <see cref="IType"/> which exists on the other side of the <paramref name="containingSide"/>.</param>
         /// <param name="returnType">The type that results from the binary operation coercion.</param>
-        /// <returns>An instance of <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/>, if successful.</returns>
+        /// <returns>An instance of <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/>, if successful.</returns>
         /// <remarks>If <paramref name="containingSide"/> is <see cref="BinaryOpCoercionContainingSide.Both"/>,
         /// <paramref name="otherSide"/> is ignored.</remarks>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="otherSide"/> is null and <paramref name="containingSide"/> is NOT <see cref="BinaryOpCoercionContainingSide.Both"/>; -or- <paramref name="returnType"/>
@@ -57,46 +51,46 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Members
         /// <exception cref="System.ArgumentOutOfRangeException">thrown when either <paramref name="op"/> or <paramref name="containingSide"/> is invalid.</exception>
         /// <exception cref="System.ArgumentException">thrown when <paramref name="otherSide"/>
         /// is an interface, a static class, or an unknown kind of type; or <paramref name="returnType"/> is a static class, or an unknown kind of type.</exception>
-        IIntermediateBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent> Add(CoercibleBinaryOperators op, BinaryOpCoercionContainingSide containingSide, IType otherSide, IType returnType);
+        IIntermediateBinaryOperatorCoercionMember<TCoercionParent, TIntermediateCoercionParent> Add(CoercibleBinaryOperators op, BinaryOpCoercionContainingSide containingSide, IType otherSide, IType returnType);
         /// <summary>
-        /// Adds a <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/>, to the
-        /// <see cref="IIntermediateBinaryOperatorCoercionMemberDictionary{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/>,
+        /// Adds a <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/>, to the
+        /// <see cref="IIntermediateBinaryOperatorCoercionMemberDictionary{TCoercionParent, TIntermediateCoercionParent}"/>,
         /// with the <paramref name="op"/> and <paramref name="returnType"/> provided.
         /// </summary>
-        /// <param name="op">The <see cref="CoercibleBinaryOperators"/> that is coerced by the <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/>.</param>
+        /// <param name="op">The <see cref="CoercibleBinaryOperators"/> that is coerced by the <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/>.</param>
         /// <param name="returnType">The type that results from the binary operation coercion.</param>
-        /// <returns>An instance of <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/>, if successful.</returns>
+        /// <returns>An instance of <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/>, if successful.</returns>
         /// <exception cref="System.ArgumentException">thrown when <paramref name="returnType"/> is a static class, or an unknown kind of type.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="returnType"/> is null.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">thrown when <paramref name="op"/> is invalid.</exception>
-        IIntermediateBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent> Add(CoercibleBinaryOperators op, IType returnType);
+        IIntermediateBinaryOperatorCoercionMember<TCoercionParent, TIntermediateCoercionParent> Add(CoercibleBinaryOperators op, IType returnType);
 
         /// <summary>
-        /// Returns the <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/> which
+        /// Returns the <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/> which
         /// coerces the <paramref name="op"/> provided with the
         /// parent contained on the <paramref name="side"/> provided with
         /// <paramref name="otherSide"/> provided.
         /// </summary>
         /// <param name="op">The <see cref="CoercibleBinaryOperators"/>
-        /// coerced by the <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/> 
+        /// coerced by the <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/> 
         /// to find.</param>
         /// <param name="side">The side at which the containing type
         /// is in the coercion.</param>
         /// <param name="otherSide">The type of the other side in the coercion.</param>
-        /// <returns>A <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/> instance
+        /// <returns>A <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/> instance
         /// that coerces the <paramref name="op"/> provided.</returns>
-        new IIntermediateBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent> this[CoercibleBinaryOperators op, BinaryOpCoercionContainingSide side, IType otherSide] { get; }
+        new IIntermediateBinaryOperatorCoercionMember<TCoercionParent, TIntermediateCoercionParent> this[CoercibleBinaryOperators op, BinaryOpCoercionContainingSide side, IType otherSide] { get; }
         /// <summary>
-        /// Returns the <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/> which
+        /// Returns the <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/> which
         /// coerces the <paramref name="op"/> provided where
         /// the containing type is used as both operands.
         /// </summary>
         /// <param name="op">The <see cref="CoercibleBinaryOperators"/>
-        /// coerced by the <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/> 
+        /// coerced by the <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/> 
         /// to find.</param>
-        /// <returns>A <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent}"/> instance
+        /// <returns>A <see cref="IIntermediateBinaryOperatorCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/> instance
         /// that coerces the <paramref name="op"/> provided.</returns>
-        new IIntermediateBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent, TIntermediateCoercionParent> this[CoercibleBinaryOperators op] { get; }
+        new IIntermediateBinaryOperatorCoercionMember<TCoercionParent, TIntermediateCoercionParent> this[CoercibleBinaryOperators op] { get; }
 
     }
     /// <summary>

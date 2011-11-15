@@ -32,7 +32,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #endregion
 
-        protected override ISignatureMemberMapping<IStructMethodMember, IInterfaceMethodMember, IStructPropertyMember, IInterfacePropertyMember, IStructEventMember, IInterfaceEventMember, IStructIndexerMember, IInterfaceIndexerMember, IStructType, IInterfaceType> OnGetInterfaceMapping(IInterfaceType type)
+        protected override IInterfaceMemberMapping<IStructMethodMember, IStructPropertyMember, IStructEventMember, IStructIndexerMember, IStructType> OnGetInterfaceMapping(IInterfaceType type)
         {
             return this.GetInterfaceMap(type);
         }

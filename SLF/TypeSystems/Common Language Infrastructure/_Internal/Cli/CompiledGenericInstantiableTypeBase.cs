@@ -68,7 +68,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         private TCtor typeInitializer;
         private bool bCheckedInitializer;
-        private IDictionary<IInterfaceType, ISignatureMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType>> interfaceMaps = null;
+        private IDictionary<IInterfaceType, IInterfaceMemberMapping<TMethod, TProperty, TEvent, TIndexer, TType>> interfaceMaps = null;
         /// <summary>
         /// Data member for <see cref="Classes"/>.
         /// </summary>
@@ -96,15 +96,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// <summary>
         /// Data member for <see cref="BinaryOperatorCoercions"/>.
         /// </summary>
-        private IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> binaryOperatorCoercions;
+        private IBinaryOperatorCoercionMemberDictionary<TType> binaryOperatorCoercions;
         /// <summary>
         /// Data member for <see cref="TypeCoercions"/>.
         /// </summary>
-        private ITypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> typeCoercions;
+        private ITypeCoercionMemberDictionary<TType> typeCoercions;
         /// <summary>
         /// Data member for <see cref="UnaryOperatorCoercions"/>.
         /// </summary>
-        private IUnaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> unaryOperatorCoercions;
+        private IUnaryOperatorCoercionMemberDictionary<TType> unaryOperatorCoercions;
         /// <summary>
         /// Data member for <see cref="Constructors"/>.
         /// </summary>
@@ -198,7 +198,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region Initialize Members
 
-        private IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> InitializeBinaryOperatorCoercions()
+        private IBinaryOperatorCoercionMemberDictionary<TType> InitializeBinaryOperatorCoercions()
         {
             List<string> opNames = new List<string>() { 
                 CLICommon.BinaryOperatorNames.Addition, CLICommon.BinaryOperatorNames.Subtraction, CLICommon.BinaryOperatorNames.Multiply,
@@ -207,18 +207,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 CLICommon.BinaryOperatorNames.RightShift, CLICommon.BinaryOperatorNames.Equality, CLICommon.BinaryOperatorNames.Inequality,
                 CLICommon.BinaryOperatorNames.LessThan, CLICommon.BinaryOperatorNames.GreaterThan, CLICommon.BinaryOperatorNames.LessThanOrEqual, 
                 CLICommon.BinaryOperatorNames.GreaterThanOrEqual };
-            return new LockedBinaryOperatorCoercionMembers<IGeneralGenericTypeUniqueIdentifier, TType>(this._Members, ((TType)(object)(this)),
-                UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledBinaryOperatorCoercionMemberBase<IGeneralGenericTypeUniqueIdentifier, TType>(methInfo, ((TType)(object)(this))));
+            return new LockedBinaryOperatorCoercionMembers<TType>(this._Members, ((TType)(object)(this)),
+                UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledBinaryOperatorCoercionMemberBase<TType>(methInfo, ((TType)(object)(this))));
         }
 
-        private ITypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> InitializeTypeCoercions()
+        private ITypeCoercionMemberDictionary<TType> InitializeTypeCoercions()
         {
             List<string> opNames = new List<string>() { CLICommon.TypeCoercionNames.Implicit, CLICommon.TypeCoercionNames.Explicit };
-            return new LockedTypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType>(this._Members, ((TType)(object)(this)),
-                UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledTypeCoercionMemberBase<IGeneralGenericTypeUniqueIdentifier, TType>(methInfo, ((TType)(object)(this))));
+            return new LockedTypeCoercionMemberDictionary<TType>(this._Members, ((TType)(object)(this)),
+                UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledTypeCoercionMemberBase<TType>(methInfo, ((TType)(object)(this))));
         }
 
-        private IUnaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> InitializeUnaryOperatorCoercions()
+        private IUnaryOperatorCoercionMemberDictionary<TType> InitializeUnaryOperatorCoercions()
         {
             
             /* *
@@ -233,8 +233,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 CLICommon.UnaryOperatorNames.Plus, CLICommon.UnaryOperatorNames.Negation, CLICommon.UnaryOperatorNames.False, 
                 CLICommon.UnaryOperatorNames.True, CLICommon.UnaryOperatorNames.LogicalNot, CLICommon.UnaryOperatorNames.OnesComplement, 
                 CLICommon.UnaryOperatorNames.Increment, CLICommon.UnaryOperatorNames.Decrement };
-            return new LockedUnaryOperatorCoercionMembers<IGeneralGenericTypeUniqueIdentifier, TType>(this._Members, ((TType)(object)(this)),
-                UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledUnaryOperatorCoercionMemberBase<IGeneralGenericTypeUniqueIdentifier, TType>(methInfo, ((TType)(object)(this))));
+            return new LockedUnaryOperatorCoercionMembers<TType>(this._Members, ((TType)(object)(this)),
+                UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledUnaryOperatorCoercionMemberBase<TType>(methInfo, ((TType)(object)(this))));
         }
 
         /// <summary>
@@ -604,10 +604,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         #region ICoercibleType<TType> Members
 
         /// <summary>
-        /// Returns the <see cref="IBinaryOperatorCoercionMemberDictionary{TCoercionParentIdentifier, TCoercionParent}"/> 
+        /// Returns the <see cref="IBinaryOperatorCoercionMemberDictionary{TCoercionParent}"/> 
         /// assocaited to the <typeparamref name="TType"/>.
         /// </summary>
-        public IBinaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> BinaryOperatorCoercions
+        public IBinaryOperatorCoercionMemberDictionary<TType> BinaryOperatorCoercions
         {
             get {
                 if (this.binaryOperatorCoercions == null)
@@ -617,10 +617,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         /// <summary>
-        /// Returns the <see cref="ITypeCoercionMemberDictionary{TCoercionParentIdentifier, TCoercionParent}"/> 
+        /// Returns the <see cref="ITypeCoercionMemberDictionary{TCoercionParent}"/> 
         /// assocaited to the <typeparamref name="TType"/>.
         /// </summary>
-        public ITypeCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> TypeCoercions
+        public ITypeCoercionMemberDictionary<TType> TypeCoercions
         {
             get
             {
@@ -634,7 +634,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// Returns the <see cref="IUnaryOperatorCoercionMemberDictionary{TCoercionParent}"/> 
         /// assocaited to the <typeparamref name="TType"/>.
         /// </summary>
-        public IUnaryOperatorCoercionMemberDictionary<IGeneralGenericTypeUniqueIdentifier, TType> UnaryOperatorCoercions
+        public IUnaryOperatorCoercionMemberDictionary<TType> UnaryOperatorCoercions
         {
             get
             {
@@ -668,16 +668,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         #region IInstantiableType<TCtor,TEvent,TField,TIndexer,TMethod,TProperty,TType> Members
 
         /// <summary>
-        /// Obtains a <see cref="ISignatureMemberMapping{TMethod, TMethodSig, TProperty, TPropertySig, TEvent, TEventSig, TIndexer, TIndexerSig, TParent, TParentSig}"/> 
+        /// Obtains a <see cref="IInterfaceMemberMapping{TMethod, TProperty, TEvent, TIndexer, TParent}"/> 
         /// related to the <paramref name="type"/> provided.
         /// </summary>
         /// <param name="type">The <see cref="IInterfaceType"/> 
         /// to obtain the map of.</param>
-        /// <returns>A <see cref="ISignatureMemberMapping{TMethod, TMethodSig, TProperty, TPropertySig, TEvent, TEventSig, TIndexer, TIndexerSig, TParent, TParentSig}"/> relative
+        /// <returns>A <see cref="IInterfaceMemberMapping{TMethod, TProperty, TEvent, TIndexer, TParent}"/> relative
         /// to the properties and methods implemented
         /// by the <typeparamref name="TType"/> with regards
         /// to <paramref name="type"/>.</returns>
-        public ISignatureMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType> GetInterfaceMap(IInterfaceType type)
+        public IInterfaceMemberMapping<TMethod, TProperty, TEvent, TIndexer, TType> GetInterfaceMap(IInterfaceType type)
         {
             if (type == null)
                 throw new ArgumentNullException("type");
@@ -693,7 +693,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private void CheckInterfaceMap()
         {
             if (this.interfaceMaps == null)
-                this.interfaceMaps = new Dictionary<IInterfaceType, ISignatureMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType>>();
+                this.interfaceMaps = new Dictionary<IInterfaceType, IInterfaceMemberMapping<TMethod, TProperty, TEvent, TIndexer, TType>>();
             else
                 return;
             foreach (IInterfaceType iit in this.ImplementedInterfaces)
@@ -705,11 +705,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         /// <param name="type">The <see cref="IInterfaceType"/> 
         /// to obtain the map of.</param>
-        /// <returns>A <see cref="ISignatureMemberMapping{TMethod, TMethodSig, TProperty, TPropertySig, TEvent, TEventSig, TIndexer, TIndexerSig, TParent, TParentSig}"/> relative
+        /// <returns>A <see cref="IInterfaceMemberMapping{TMethod, TProperty, TEvent, TIndexer, TParent}"/> relative
         /// to the properties and methods implemented
         /// by the <typeparamref name="TType"/> with regards
         /// to <paramref name="type"/>.</returns>
-        protected abstract ISignatureMemberMapping<TMethod, IInterfaceMethodMember, TProperty, IInterfacePropertyMember, TEvent, IInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TType, IInterfaceType> OnGetInterfaceMap(IInterfaceType type);
+        protected abstract IInterfaceMemberMapping<TMethod, TProperty, TEvent, TIndexer, TType> OnGetInterfaceMap(IInterfaceType type);
 
         #region IEventParent<TEvent,TType> Members
 

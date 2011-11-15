@@ -7,10 +7,11 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     public interface IGenericParameterUniqueIdentifier :
-        ITypeUniqueIdentifier<IGenericParameterUniqueIdentifier>,
-        IMemberUniqueIdentifier<IGenericParameterUniqueIdentifier>,
+        ITypeUniqueIdentifier,
+        IMemberUniqueIdentifier,
         IGeneralTypeUniqueIdentifier,
-        IGeneralMemberUniqueIdentifier
+        IGeneralMemberUniqueIdentifier,
+        IEquatable<IGenericParameterUniqueIdentifier>
     {
         /// <summary>
         /// The <see cref="Int32"/> index of the generic parameter.

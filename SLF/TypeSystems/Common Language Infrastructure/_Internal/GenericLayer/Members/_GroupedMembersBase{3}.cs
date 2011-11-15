@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         IGroupedMemberDictionary<TParent, TMemberIdentifier, TMember>,
         IGroupedMemberDictionary
         where TMemberIdentifier :
-            IMemberUniqueIdentifier<TMemberIdentifier>,
+            IMemberUniqueIdentifier,
             IGeneralMemberUniqueIdentifier
         where TMember :
             class,

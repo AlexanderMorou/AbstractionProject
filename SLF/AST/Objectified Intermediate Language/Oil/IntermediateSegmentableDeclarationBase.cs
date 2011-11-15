@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IntermediateDeclarationBase<TIdentifier>,
         IIntermediateSegmentableDeclaration<TIdentifier, TDeclaration>
         where TIdentifier :
-            IDeclarationUniqueIdentifier<TIdentifier>,
+            IDeclarationUniqueIdentifier,
             IGeneralDeclarationUniqueIdentifier
         where TDeclaration :
             class,

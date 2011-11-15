@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     public interface IMemberDictionary<TParent, TItemIdentifier, TItem> :
         IDeclarationDictionary<TItemIdentifier, TItem>
         where TItemIdentifier :
-            IMemberUniqueIdentifier<TItemIdentifier>
+            IMemberUniqueIdentifier
         where TParent :
             IMemberParent
         where TItem :

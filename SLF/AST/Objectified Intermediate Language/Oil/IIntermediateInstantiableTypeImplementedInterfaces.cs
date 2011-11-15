@@ -15,7 +15,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
     public interface IIntermediateInstantiableTypeImplementedInterfaces<TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> :
-        IControlledStateDictionary<IInterfaceType, IIntermediateSignatureMemberMapping<TEvent, IInterfaceEventMember, TIntermediateEvent,IIntermediateInterfaceEventMember, TIndexer, IInterfaceIndexerMember, TIntermediateIndexer, IIntermediateInterfaceIndexerMember, TMethod, IInterfaceMethodMember, TIntermediateMethod, IIntermediateInterfaceMethodMember, TProperty, IInterfacePropertyMember, TIntermediateProperty, IIntermediateInterfacePropertyMember, TType, IInterfaceType, TIntermediateType, IIntermediateInterfaceType>>,
+        IControlledStateDictionary<IInterfaceType, IIntermediateInterfaceMemberMapping<TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType>>,
         ITypeCollectionBase
         where TEvent :
             IEventMember<TEvent, TType>
@@ -57,11 +57,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// <param name="interface"></param>
         /// <param name="insertPlaceholders"></param>
         /// <returns></returns>
-        IIntermediateSignatureMemberMapping<TEvent, IInterfaceEventMember, TIntermediateEvent, IIntermediateInterfaceEventMember, 
-                                            TIndexer, IInterfaceIndexerMember, TIntermediateIndexer, IIntermediateInterfaceIndexerMember, 
-                                            TMethod, IInterfaceMethodMember, TIntermediateMethod, IIntermediateInterfaceMethodMember, 
-                                            TProperty, IInterfacePropertyMember, TIntermediateProperty, IIntermediateInterfacePropertyMember,
-                                            TType, IInterfaceType, TIntermediateType, IIntermediateInterfaceType> ImplementInterface(IInterfaceType @interface, bool insertPlaceholders = false);
+        IIntermediateInterfaceMemberMapping<TEvent, TIntermediateEvent, 
+                                            TIndexer, TIntermediateIndexer, 
+                                            TMethod, TIntermediateMethod, 
+                                            TProperty, TIntermediateProperty,
+                                            TType, TIntermediateType> ImplementInterface(IInterfaceType @interface, bool insertPlaceholders = false);
         /// <summary>
         /// Implements an interface quickly versus enumerating through
         /// its elements and inserting placeholders.

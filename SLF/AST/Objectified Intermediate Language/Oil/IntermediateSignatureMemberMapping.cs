@@ -9,128 +9,97 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 namespace AllenCopeland.Abstraction.Slf.Oil
 {
     public class IntermediateSignatureMemberMapping<
-            TEvent, TEventSig, TIntermediateEvent, TIntermediateEventSig, 
-            TIndexer, TIndexerSig, TIntermediateIndexer, TIntermediateIndexerSig,
-            TMethod, TMethodSig, TIntermediateMethod, TIntermediateMethodSig,
-            TProperty, TPropertySig, TIntermediateProperty, TIntermediatePropertySig, 
-            TParent, TParentSig, TIntermediateParent, TIntermediateParentSig> :
-        IIntermediateSignatureMemberMapping<
-                TEvent, TEventSig, TIntermediateEvent, TIntermediateEventSig,
-                TIndexer, TIndexerSig, TIntermediateIndexer, TIntermediateIndexerSig,
-                TMethod, TMethodSig, TIntermediateMethod, TIntermediateMethodSig,
-                TProperty, TPropertySig, TIntermediateProperty, TIntermediatePropertySig,
-                TParent, TParentSig, TIntermediateParent, TIntermediateParentSig>
+            TEvent, TIntermediateEvent, 
+            TIndexer, TIntermediateIndexer,
+            TMethod, TIntermediateMethod,
+            TProperty, TIntermediateProperty, 
+            TParent, TIntermediateParent> :
+        IIntermediateInterfaceMemberMapping<
+                TEvent, TIntermediateEvent,
+                TIndexer, TIntermediateIndexer,
+                TMethod, TIntermediateMethod,
+                TProperty, TIntermediateProperty,
+                TParent, TIntermediateParent>
         where TEvent :
             IEventMember<TEvent, TParent>
-        where TEventSig :
-            IEventSignatureMember<TEventSig, TParentSig>
         where TIntermediateEvent :
             TEvent,
             IIntermediateEventMember<TEvent, TIntermediateEvent, TParent, TIntermediateParent>
-        where TIntermediateEventSig :
-            TEventSig,
-            IIntermediateEventSignatureMember<TEventSig, TIntermediateEventSig, TParentSig, TIntermediateParentSig>
         where TIndexer :
             IIndexerMember<TIndexer, TParent>
-        where TIndexerSig :
-            IIndexerSignatureMember<TIndexerSig, TParentSig>
         where TIntermediateIndexer :
             TIndexer,
             IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TParent, TIntermediateParent>
-        where TIntermediateIndexerSig :
-            TIndexerSig,
-            IIntermediateIndexerSignatureMember<TIndexerSig, TIntermediateIndexerSig, TParentSig, TIntermediateParentSig>
         where TMethod :
             IMethodMember<TMethod, TParent>,
             IExtendedInstanceMember
-        where TMethodSig :
-            IMethodSignatureMember<TMethodSig, TParentSig>
         where TIntermediateMethod :
             TMethod,
             IIntermediateMethodMember<TMethod, TIntermediateMethod, TParent, TIntermediateParent>
-        where TIntermediateMethodSig :
-            TMethodSig,
-            IIntermediateMethodSignatureMember<TMethodSig, TIntermediateMethodSig, TParentSig, TIntermediateParentSig>
         where TProperty :
             IPropertyMember<TProperty, TParent>
-        where TPropertySig :
-            IPropertySignatureMember<TPropertySig, TParentSig>
         where TIntermediateProperty :
             TProperty,
             IIntermediatePropertyMember<TProperty, TIntermediateProperty, TParent, TIntermediateParent>
-        where TIntermediatePropertySig :
-            TPropertySig,
-            IIntermediatePropertySignatureMember<TPropertySig, TIntermediatePropertySig, TParentSig, TIntermediateParentSig>
         where TParent :
             IEventParent<TEvent,TParent>,
             IIndexerParent<TIndexer, TParent>,
             IMethodParent<TMethod, TParent>,
             IPropertyParent<TProperty, TParent>
-        where TParentSig :
-            IEventSignatureParent<TEventSig, TParentSig>,
-            IIndexerSignatureParent<TIndexerSig, TParentSig>,
-            IMethodSignatureParent<TMethodSig, TParentSig>,
-            IPropertySignatureParent<TPropertySig, TParentSig>
         where TIntermediateParent :
             IIntermediateEventParent<TEvent, TIntermediateEvent, TParent, TIntermediateParent>,
             IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TParent, TIntermediateParent>,
             IIntermediateMethodParent<TMethod, TIntermediateMethod, TParent, TIntermediateParent>,
             IIntermediatePropertyParent<TProperty, TIntermediateProperty, TParent, TIntermediateParent>,
             TParent
-        where TIntermediateParentSig :
-            IIntermediateEventSignatureParent<TEventSig, TIntermediateEventSig, TParentSig, TIntermediateParentSig>,
-            IIntermediateIndexerSignatureParent<TIndexerSig, TIntermediateIndexerSig, TParentSig, TIntermediateParentSig>,
-            IIntermediateMethodSignatureParent<TMethodSig, TIntermediateMethodSig, TParentSig, TIntermediateParentSig>,
-            IIntermediatePropertySignatureParent<TPropertySig, TIntermediatePropertySig, TParentSig, TIntermediateParentSig>,
-            TParentSig
     {
-        #region IIntermediateSignatureMemberMapping<TEvent,TEventSig,TIntermediateEvent,TIntermediateEventSig,TIndexer,TIndexerSig,TIntermediateIndexer,TIntermediateIndexerSig,TMethod,TMethodSig,TIntermediateMethod,TIntermediateMethodSig,TProperty,TPropertySig,TIntermediateProperty,TIntermediatePropertySig,TParent,TParentSig,TIntermediateParent,TIntermediateParentSig> Members
+        #region IIntermediateInterfaceMemberMapping<TEvent,TIntermediateEvent,TIndexer,TIntermediateIndexer,TMethod,TIntermediateMethod,TProperty,TIntermediateProperty,TParent,TIntermediateParent> Members
 
-        public IEnumerable<MemberMap<IGeneralMemberUniqueIdentifier, TIntermediateProperty, TIntermediatePropertySig>> IntermediateProperties
+        public IEnumerable<MemberMap<IGeneralMemberUniqueIdentifier, TIntermediateProperty, IInterfacePropertyMember>> IntermediateProperties
         {
             get { throw new NotImplementedException(); }
         }
 
-        public IEnumerable<MemberMap<IGeneralGenericSignatureMemberUniqueIdentifier, TIntermediateMethod, TIntermediateMethodSig>> IntermediateMethods
+        public IEnumerable<MemberMap<IGeneralGenericSignatureMemberUniqueIdentifier, TIntermediateMethod, IInterfaceMethodMember>> IntermediateMethods
         {
             get { throw new NotImplementedException(); }
         }
 
-        public IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TIntermediateIndexer, TIntermediateIndexerSig>> IntermediateIndexers
+        public IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TIntermediateIndexer, IInterfaceIndexerMember>> IntermediateIndexers
         {
             get { throw new NotImplementedException(); }
         }
 
-        public IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TIntermediateEvent, TIntermediateEventSig>> IntermediateEvents
+        public IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TIntermediateEvent, IInterfaceEventMember>> IntermediateEvents
         {
             get { throw new NotImplementedException(); }
         }
 
         #endregion
 
-        #region ISignatureMemberMapping<TMethod,TMethodSig,TProperty,TPropertySig,TEvent,TEventSig,TIndexer,TIndexerSig,TParent,TParentSig> Members
+        #region IInterfaceMemberMapping<TMethod,TMethodSig,TProperty,TPropertySig,TEvent,TEventSig,TIndexer,TIndexerSig,TParent,TParentSig> Members
 
         public IInterfaceType Target
         {
             get { throw new NotImplementedException(); }
         }
 
-        public IEnumerable<MemberMap<IGeneralMemberUniqueIdentifier, TProperty, TPropertySig>> Properties
+        public IEnumerable<MemberMap<IGeneralMemberUniqueIdentifier, TProperty, IInterfacePropertyMember>> Properties
         {
             get { throw new NotImplementedException(); }
         }
 
-        public IEnumerable<MemberMap<IGeneralGenericSignatureMemberUniqueIdentifier, TMethod, TMethodSig>> Methods
+        public IEnumerable<MemberMap<IGeneralGenericSignatureMemberUniqueIdentifier, TMethod, IInterfaceMethodMember>> Methods
         {
             get { throw new NotImplementedException(); }
         }
 
-        public IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TIndexer, TIndexerSig>> Indexers
+        public IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TIndexer, IInterfaceIndexerMember>> Indexers
         {
             get { throw new NotImplementedException(); }
         }
 
-        public IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TEvent, TEventSig>> Events
+        public IEnumerable<MemberMap<IGeneralSignatureMemberUniqueIdentifier, TEvent, IInterfaceEventMember>> Events
         {
             get { throw new NotImplementedException(); }
         }

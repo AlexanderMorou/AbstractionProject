@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     public interface IDeclaration<TIdentifier> :
         IDeclaration
         where TIdentifier :
-            IDeclarationUniqueIdentifier<TIdentifier>
+            IDeclarationUniqueIdentifier
     {
         /// <summary>
         /// Returns the unique identifier for the current <see cref="IDeclaration{TIdentifier}"/> where 

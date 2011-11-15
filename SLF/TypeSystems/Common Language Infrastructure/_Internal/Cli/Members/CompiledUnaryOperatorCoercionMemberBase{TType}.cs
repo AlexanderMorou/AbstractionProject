@@ -15,13 +15,11 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    internal class CompiledUnaryOperatorCoercionMemberBase<TCoercionParentIdentifier, TCoercionParent> :
-        UnaryOperatorCoercionMemberBase<TCoercionParentIdentifier, TCoercionParent>,
+    internal class CompiledUnaryOperatorCoercionMemberBase<TCoercionParent> :
+        UnaryOperatorCoercionMemberBase<TCoercionParent>,
         ICompiledUnaryOperatorCoercionMember
-        where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>
         where TCoercionParent :
-            ICoercibleType<IUnaryOperatorUniqueIdentifier, TCoercionParentIdentifier, IUnaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
+            ICoercibleType<IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>
     {
         private IUnaryOperatorUniqueIdentifier uniqueIdentifier;
         /// <summary>

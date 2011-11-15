@@ -21,12 +21,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IGroupedDeclarationDictionary<TItemIdentifier, TItem>,
         IGroupedDeclarationDictionary
         where TItemIdentifier :
-            IDeclarationUniqueIdentifier<TItemIdentifier>,
+            IDeclarationUniqueIdentifier,
             TMItemIdentifier
         where TItem :
             TMItem
         where TMItemIdentifier :
-            IDeclarationUniqueIdentifier<TMItemIdentifier>
+            IDeclarationUniqueIdentifier
         where TMItem :
             class,
             IDeclaration

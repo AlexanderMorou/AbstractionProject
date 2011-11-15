@@ -5,6 +5,7 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
+#if REQUIRE_NGEN
     /// <summary>
     /// Defines properties and methods for working with a multikeyed tree.
     /// </summary>
@@ -346,6 +347,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <paramref name="key3"/> and <paramref name="key4"/>.</returns>
         new TValue this[TKey1 key1, TKey2 key2, TKey3 key3, TKey4 key4] { get; set; }
     }
+#endif
     /// <summary>
     /// Defines properties and methods for working with a multikeyed tree.
     /// </summary>

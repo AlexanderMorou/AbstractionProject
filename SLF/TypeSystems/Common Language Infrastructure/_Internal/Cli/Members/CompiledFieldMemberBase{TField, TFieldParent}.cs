@@ -37,6 +37,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         where TFieldParent :
             IFieldParent<TField, TFieldParent>
     {
+        private IGeneralMemberUniqueIdentifier uniqueIdentifier;
         /// <summary>
         /// Data member for <see cref="FieldInfo"/>.
         /// </summary>
@@ -114,6 +115,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         public override void Dispose()
         {
             this.memberInfo = null;
+        }
+
+        public override IGeneralMemberUniqueIdentifier UniqueIdentifier
+        {
+            get {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                return this.uniqueIdentifier;
+            }
         }
     }
 }

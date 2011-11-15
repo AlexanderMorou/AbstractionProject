@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         MasterDictionaryBase<TIdentifier, TDeclaration>,
         IIntermediateFullDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration>
         where TIdentifier :
-            IDeclarationUniqueIdentifier<TIdentifier>
+            IDeclarationUniqueIdentifier
         where TDeclaration :
             class,
             IDeclaration

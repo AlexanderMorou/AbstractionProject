@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         ISignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>,
         ISignatureMemberDictionary
         where TSignatureIdentifier :
-            ISignatureMemberUniqueIdentifier<TSignatureIdentifier>,
+            ISignatureMemberUniqueIdentifier,
             IGeneralMemberUniqueIdentifier
         where TSignature :
             ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>

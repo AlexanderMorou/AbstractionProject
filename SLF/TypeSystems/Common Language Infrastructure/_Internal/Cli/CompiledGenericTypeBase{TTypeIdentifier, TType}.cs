@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         IGenericType<TTypeIdentifier, TType>,
         _IGenericClosureRegistrar
         where TTypeIdentifier :
-            IGenericTypeUniqueIdentifier<TTypeIdentifier>
+            IGenericTypeUniqueIdentifier
         where TType :
             class,
             IGenericType<TTypeIdentifier, TType>

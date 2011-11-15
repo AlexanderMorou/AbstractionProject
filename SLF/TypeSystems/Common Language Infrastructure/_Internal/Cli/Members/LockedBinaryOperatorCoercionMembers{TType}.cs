@@ -12,16 +12,14 @@ using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    internal class LockedBinaryOperatorCoercionMembers<TCoercionParentIdentifier, TCoercionParent> :
-        LockedGroupedMembersBase<TCoercionParent, IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>, MethodInfo>,
-        IBinaryOperatorCoercionMemberDictionary<TCoercionParentIdentifier, TCoercionParent>,
+    internal class LockedBinaryOperatorCoercionMembers<TCoercionParent> :
+        LockedGroupedMembersBase<TCoercionParent, IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TCoercionParent>, MethodInfo>,
+        IBinaryOperatorCoercionMemberDictionary<TCoercionParent>,
         IBinaryOperatorCoercionMemberDictionary
-        where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>
         where TCoercionParent :
-            ICoercibleType<TCoercionParentIdentifier, TCoercionParent>
+            ICoercibleType<TCoercionParent>
     {
-        public LockedBinaryOperatorCoercionMembers(LockedFullMembersBase master, TCoercionParent parent, MethodInfo[] sourceData, Func<MethodInfo, IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent>> fetchImpl)
+        public LockedBinaryOperatorCoercionMembers(LockedFullMembersBase master, TCoercionParent parent, MethodInfo[] sourceData, Func<MethodInfo, IBinaryOperatorCoercionMember<TCoercionParent>> fetchImpl)
             : base(master, parent, sourceData, fetchImpl, null)
         {
         }
@@ -33,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #region IBinaryOperatorCoercionMemberDictionary<TCoercionParent> Members
 
-        public IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent> this[CoercibleBinaryOperators op, BinaryOpCoercionContainingSide side, IType otherSide]
+        public IBinaryOperatorCoercionMember<TCoercionParent> this[CoercibleBinaryOperators op, BinaryOpCoercionContainingSide side, IType otherSide]
         {
             get
             {
@@ -44,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             }
         }
 
-        public IBinaryOperatorCoercionMember<TCoercionParentIdentifier, TCoercionParent> this[CoercibleBinaryOperators op]
+        public IBinaryOperatorCoercionMember<TCoercionParent> this[CoercibleBinaryOperators op]
         {
             get
             {

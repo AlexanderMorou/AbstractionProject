@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         DeclarationBase<TIdentifier>,
         IMember<TIdentifier, TParent>
         where TIdentifier :
-            IMemberUniqueIdentifier<TIdentifier>
+            IMemberUniqueIdentifier
         where TParent :
             IMemberParent
     {

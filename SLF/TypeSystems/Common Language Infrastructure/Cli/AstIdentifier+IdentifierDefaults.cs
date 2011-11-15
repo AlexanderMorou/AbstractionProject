@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             IGeneralDeclarationUniqueIdentifier
         {
 
-            #region IDeclarationUniqueIdentifier<IGeneralDeclarationUniqueIdentifier> Members
+            #region IDeclarationUniqueIdentifier Members
 
             public string Name { get; private set; }
             #endregion
@@ -86,7 +86,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             #endregion
 
-            #region IGenericParamParentUniqueIdentifier<IGeneralGenericTypeUniqueIdentifier> Members
+            #region IGenericParamParentUniqueIdentifier Members
 
             public bool IsGenericConstruct
             {
@@ -426,7 +426,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 }
             }
 
-            #region IDeclarationUniqueIdentifier<IBinaryOperatorUniqueIdentifier> Members
+            #region IDeclarationUniqueIdentifier Members
 
             public string Name
             {
@@ -646,7 +646,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 this.Parameters = parameters;
             }
 
-            #region ISignatureMemberUniqueIdentifier<IGeneralSignatureMemberUniqueIdentifier> Members
+            #region ISignatureMemberUniqueIdentifier Members
 
             public IEnumerable<IType> Parameters { get; private set; }
             private int? parameterCount;
@@ -874,7 +874,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             #endregion
 
 
-            #region ISignatureMemberUniqueIdentifier<IGeneralSignatureMemberUniqueIdentifier> Members
+            #region ISignatureMemberUniqueIdentifier Members
 
             public IEnumerable<IType> Parameters { get; private set; }
             private int? parameterCount;
@@ -1009,7 +1009,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             #endregion
 
-            #region IGenericParamParentUniqueIdentifier<IDelegateUniqueIdentifier> Members
+            #region IGenericParamParentUniqueIdentifier Members
 
             public bool IsGenericConstruct
             {

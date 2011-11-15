@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     public interface ISignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> :
         IMemberDictionary<TSignatureParent, TSignatureIdentifier, TSignature>
         where TSignatureIdentifier :
-            ISignatureMemberUniqueIdentifier<TSignatureIdentifier>
+            ISignatureMemberUniqueIdentifier
         where TSignature :
             ISignatureMember<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         where TSignatureParameter :

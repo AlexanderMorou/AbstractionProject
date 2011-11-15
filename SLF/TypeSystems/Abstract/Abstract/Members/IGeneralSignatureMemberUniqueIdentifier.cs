@@ -10,8 +10,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// a signature, identifier that differentiates it from its siblings. 
     /// </summary>
 	public interface IGeneralSignatureMemberUniqueIdentifier :
-        ISignatureMemberUniqueIdentifier<IGeneralSignatureMemberUniqueIdentifier>,
-        IGeneralMemberUniqueIdentifier
+        ISignatureMemberUniqueIdentifier,
+        IGeneralMemberUniqueIdentifier,
+        IEquatable<IGeneralSignatureMemberUniqueIdentifier>
 	{
 	}
 }

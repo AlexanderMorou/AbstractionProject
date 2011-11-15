@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
     internal abstract class _MemberBase<TMemberIdentifier, TMember, TParent> :
         MemberBase<TMemberIdentifier, TParent>
         where TMemberIdentifier :
-            IMemberUniqueIdentifier<TMemberIdentifier>
+            IMemberUniqueIdentifier
         where TMember :
             IMember<TMemberIdentifier, TParent>
         where TParent :

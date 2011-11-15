@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IDeclarationDictionary<TItemIdentifier, TItem>,
         IDeclarationDictionary
         where TItemIdentifier :
-            IDeclarationUniqueIdentifier<TItemIdentifier>
+            IDeclarationUniqueIdentifier
         where TItem :
             IDeclaration<TItemIdentifier>
     {

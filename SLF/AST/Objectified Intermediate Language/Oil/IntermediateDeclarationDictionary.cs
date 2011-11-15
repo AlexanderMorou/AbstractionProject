@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IIntermediateDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration>,
         IIntermediateDeclarationDictionary
         where TIdentifier :
-            IDeclarationUniqueIdentifier<TIdentifier>
+            IDeclarationUniqueIdentifier
         where TDeclaration :
             IDeclaration
         where TIntermediateDeclaration :

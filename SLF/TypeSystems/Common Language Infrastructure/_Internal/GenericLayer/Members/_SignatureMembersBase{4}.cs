@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         ISignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>,
         ISignatureMemberDictionary
         where TSignatureIdentifier :
-            ISignatureMemberUniqueIdentifier<TSignatureIdentifier>,
+            ISignatureMemberUniqueIdentifier,
             IGeneralMemberUniqueIdentifier
         where TSignature :
             class,

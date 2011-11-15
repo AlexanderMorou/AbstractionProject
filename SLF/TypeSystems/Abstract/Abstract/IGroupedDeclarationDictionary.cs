@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         ISubordinateDictionary<TIdentifier, TItem>,
         IDeclarationDictionary<TIdentifier, TItem>
         where TIdentifier :
-            IDeclarationUniqueIdentifier<TIdentifier>
+            IDeclarationUniqueIdentifier
         where TItem :
             IDeclaration
     {

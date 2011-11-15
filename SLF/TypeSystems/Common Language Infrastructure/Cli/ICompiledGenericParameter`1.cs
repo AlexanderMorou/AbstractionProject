@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         IGenericTypeParameter<TTypeIdentifier, TType>,
         ICompiledGenericParameter
         where TTypeIdentifier :
-            IGenericTypeUniqueIdentifier<TTypeIdentifier>
+            IGenericTypeUniqueIdentifier
         where TType :
             IGenericType<TTypeIdentifier, TType>
     {

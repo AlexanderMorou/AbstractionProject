@@ -17,12 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// mapping for a class type declaration.
     /// </summary>
     public interface IClassInterfaceMapping :
-        ISignatureMemberMapping<
-            IClassMethodMember, IInterfaceMethodMember, 
-            IClassPropertyMember, IInterfacePropertyMember, 
-            IClassEventMember, IInterfaceEventMember, 
-            IClassIndexerMember, IInterfaceIndexerMember,
-            IClassType, IInterfaceType>
+        IInterfaceMemberMapping<IClassMethodMember, IClassPropertyMember, IClassEventMember, IClassIndexerMember, IClassType>
     {
 
     }

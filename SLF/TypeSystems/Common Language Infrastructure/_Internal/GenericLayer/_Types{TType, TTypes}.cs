@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
     internal abstract class _Types<TTypeIdentifier, TType, TTypes> :
         _GroupedDeclarations<TTypeIdentifier, TType, IGenericType, IGeneralTypeUniqueIdentifier, IType, TTypes>
         where TTypeIdentifier :
-            ITypeUniqueIdentifier<TTypeIdentifier>,
+            ITypeUniqueIdentifier,
             IGeneralTypeUniqueIdentifier
         where TType :
             class,

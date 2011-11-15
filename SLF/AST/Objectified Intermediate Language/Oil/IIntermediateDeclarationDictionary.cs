@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     public interface IIntermediateDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration> :
         IDeclarationDictionary<TIdentifier, TDeclaration>
         where TIdentifier :
-            IDeclarationUniqueIdentifier<TIdentifier>
+            IDeclarationUniqueIdentifier
         where TDeclaration :
             IDeclaration
         where TIntermediateDeclaration :

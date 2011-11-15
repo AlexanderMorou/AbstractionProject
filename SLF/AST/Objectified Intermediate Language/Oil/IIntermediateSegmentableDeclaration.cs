@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         IIntermediateSegmentableDeclaration,
         IDeclaration<TIdentifier>
         where TIdentifier :
-            IDeclarationUniqueIdentifier<TIdentifier>
+            IDeclarationUniqueIdentifier
         where TDeclaration :
             IIntermediateSegmentableDeclaration<TIdentifier, TDeclaration>
     {

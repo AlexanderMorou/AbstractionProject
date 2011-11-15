@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     partial class CompiledTypeDictionary<TTypeIdentifier, TType>
         where TTypeIdentifier :
-            ITypeUniqueIdentifier<TTypeIdentifier>,
+            ITypeUniqueIdentifier,
             IGeneralTypeUniqueIdentifier
         where TType :
             class,

@@ -10,7 +10,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         ISubordinateDictionary<TIdentifier, IGeneralTypeUniqueIdentifier, TType, IType>,
         IGroupedDeclarationDictionary<TIdentifier, TType>
         where TIdentifier :
-            ITypeUniqueIdentifier<TIdentifier>,
+            ITypeUniqueIdentifier,
             IGeneralTypeUniqueIdentifier
         where TType :
             IType<TIdentifier, TType>

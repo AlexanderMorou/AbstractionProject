@@ -15,11 +15,11 @@ namespace AllenCopeland.Abstraction.Slf.Oil
     /// <remarks>Used to simplify typename associated to
     /// interface->struct signature->member mapping.</remarks>
     public interface IIntermediateStructInterfaceMapping :
-        IIntermediateSignatureMemberMapping<IStructEventMember, IInterfaceEventMember, IIntermediateStructEventMember, IIntermediateInterfaceEventMember,
-                                            IStructIndexerMember, IInterfaceIndexerMember, IIntermediateStructIndexerMember, IIntermediateInterfaceIndexerMember,
-                                            IStructMethodMember, IInterfaceMethodMember, IIntermediateStructMethodMember, IIntermediateInterfaceMethodMember, 
-                                            IStructPropertyMember, IInterfacePropertyMember, IIntermediateStructPropertyMember, IIntermediateInterfacePropertyMember,
-                                            IStructType, IInterfaceType, IIntermediateStructType, IIntermediateInterfaceType>,
+        IIntermediateInterfaceMemberMapping<IStructEventMember, IIntermediateStructEventMember,
+                                            IStructIndexerMember, IIntermediateStructIndexerMember,
+                                            IStructMethodMember, IIntermediateStructMethodMember, 
+                                            IStructPropertyMember, IIntermediateStructPropertyMember,
+                                            IStructType, IIntermediateStructType>,
         IStructInterfaceMapping
     {
     }

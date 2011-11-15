@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
             #endregion
 
-            protected override IIntermediateSignatureMemberMapping<IStructEventMember, IInterfaceEventMember, IIntermediateStructEventMember, IIntermediateInterfaceEventMember, IStructIndexerMember, IInterfaceIndexerMember, IIntermediateStructIndexerMember, IIntermediateInterfaceIndexerMember, IStructMethodMember, IInterfaceMethodMember, IIntermediateStructMethodMember, IIntermediateInterfaceMethodMember, IStructPropertyMember, IInterfacePropertyMember, IIntermediateStructPropertyMember, IIntermediateInterfacePropertyMember, IStructType, IInterfaceType, IIntermediateStructType, IIntermediateInterfaceType> OnCreateMemberMapping(IInterfaceType @interface, bool insertPlaceholders)
+            protected override IIntermediateInterfaceMemberMapping<IStructEventMember, IIntermediateStructEventMember, IStructIndexerMember, IIntermediateStructIndexerMember, IStructMethodMember, IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember, IStructType, IIntermediateStructType> OnCreateMemberMapping(IInterfaceType @interface, bool insertPlaceholders)
             {
                 throw new NotImplementedException();
             }

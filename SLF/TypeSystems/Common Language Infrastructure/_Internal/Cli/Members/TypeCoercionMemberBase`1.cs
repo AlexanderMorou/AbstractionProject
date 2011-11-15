@@ -12,18 +12,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
     /// <summary>
     /// Provides a base implementation of 
-    /// <see cref="ITypeCoercionMember{TTypeIdentifier, TCoercionParent}"/> 
+    /// <see cref="ITypeCoercionMember{TCoercionParent}"/> 
     /// for working with a type-coercion member.
     /// </summary>
     /// <typeparam name="TCoercionParent">The type of parent that contains the 
     /// type coercion member in the current implementation.</typeparam>
-    internal abstract class TypeCoercionMemberBase<TCoercionParentIdentifier, TCoercionParent> :
+    internal abstract class TypeCoercionMemberBase<TCoercionParent> :
         MemberBase<ITypeCoercionUniqueIdentifier, TCoercionParent>,
-        ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>
-        where TCoercionParentIdentifier :
-            ITypeUniqueIdentifier<TCoercionParentIdentifier>
+        ITypeCoercionMember<TCoercionParent>
         where TCoercionParent :
-            ICoercibleType<ITypeCoercionUniqueIdentifier, TCoercionParentIdentifier, ITypeCoercionMember<TCoercionParentIdentifier, TCoercionParent>, TCoercionParent>
+            ICoercibleType<ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParent>, TCoercionParent>
     {
 
         /// <summary>

@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
     internal partial class _GroupedMasterBase<TDeclarationIdentifier, TDeclaration> :
         MasterDictionaryBase<TDeclarationIdentifier, TDeclaration>
         where TDeclarationIdentifier :
-            IDeclarationUniqueIdentifier<TDeclarationIdentifier>
+            IDeclarationUniqueIdentifier
         where TDeclaration :
             class,
             IDeclaration

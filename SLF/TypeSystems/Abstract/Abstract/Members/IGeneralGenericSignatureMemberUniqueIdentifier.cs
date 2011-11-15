@@ -9,8 +9,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// 
     /// </summary>
     public interface IGeneralGenericSignatureMemberUniqueIdentifier :
-        IGenericSignatureMemberUniqueIdentifier<IGeneralGenericSignatureMemberUniqueIdentifier>,
-        IGeneralSignatureMemberUniqueIdentifier
+        IGenericSignatureMemberUniqueIdentifier,
+        IGeneralSignatureMemberUniqueIdentifier,
+        IEquatable<IGeneralGenericSignatureMemberUniqueIdentifier>
     {
     }
 }

@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     public interface IFullDeclarationDictionary<TUniqueIdentifier, TMItem> :
         IMasterDictionary<TUniqueIdentifier, TMItem>
         where TUniqueIdentifier :
-            IDeclarationUniqueIdentifier<TUniqueIdentifier>
+            IDeclarationUniqueIdentifier
         where TMItem :
             class,
             IDeclaration

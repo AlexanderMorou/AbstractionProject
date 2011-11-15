@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         TypeBase<TTypeIdentifier, TType>,
         ICompiledType
         where TTypeIdentifier :
-            ITypeUniqueIdentifier<TTypeIdentifier>
+            ITypeUniqueIdentifier
         where TType :
             class,
             IType<TTypeIdentifier, TType>

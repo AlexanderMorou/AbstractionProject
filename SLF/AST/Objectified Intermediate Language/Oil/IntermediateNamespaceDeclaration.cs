@@ -563,7 +563,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
 
         private static void SuspendCheck<TTypeIdentifier, TType, TIntermediateType>(IntermediateTypeDictionary<TTypeIdentifier, TType, TIntermediateType> dictionary, int suspendLevel)
             where TTypeIdentifier :
-                ITypeUniqueIdentifier<TTypeIdentifier>,
+                ITypeUniqueIdentifier,
                 IGeneralTypeUniqueIdentifier
             where TType :
                 IType<TTypeIdentifier, TType>

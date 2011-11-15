@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IDeclaration<TIdentifier>,
         IType
         where TIdentifier :
-            ITypeUniqueIdentifier<TIdentifier>
+            ITypeUniqueIdentifier
         where TType :
             IType<TIdentifier, TType>
     {

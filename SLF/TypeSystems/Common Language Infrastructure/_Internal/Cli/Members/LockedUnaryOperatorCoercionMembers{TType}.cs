@@ -13,32 +13,30 @@ using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    internal class LockedUnaryOperatorCoercionMembers<TTypeIdentifier, TType> :
-        LockedGroupedMembersBase<TType, IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TTypeIdentifier, TType>, MethodInfo>,
-        IUnaryOperatorCoercionMemberDictionary<TTypeIdentifier, TType>,
+    internal class LockedUnaryOperatorCoercionMembers<TType> :
+        LockedGroupedMembersBase<TType, IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TType>, MethodInfo>,
+        IUnaryOperatorCoercionMemberDictionary<TType>,
         IUnaryOperatorCoercionMemberDictionary
-        where TTypeIdentifier :
-            ITypeUniqueIdentifier<TTypeIdentifier>
         where TType :
-            ICoercibleType<IUnaryOperatorUniqueIdentifier, TTypeIdentifier, IUnaryOperatorCoercionMember<TTypeIdentifier, TType>, TType>
+            ICoercibleType<IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TType>, TType>
     {
 
-        public LockedUnaryOperatorCoercionMembers(LockedFullMembersBase master, TType parent, MethodInfo[] sourceData, Func<MethodInfo, IUnaryOperatorCoercionMember<TTypeIdentifier, TType>> fetchImpl)
+        public LockedUnaryOperatorCoercionMembers(LockedFullMembersBase master, TType parent, MethodInfo[] sourceData, Func<MethodInfo, IUnaryOperatorCoercionMember<TType>> fetchImpl)
             : base(master, parent, sourceData, fetchImpl, null)
         {
         }
 
         #region IUnaryOperatorCoercionMemberDictionary<TType> Members
         /// <summary>
-        /// Returns the <see cref="IUnaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent}"/>
+        /// Returns the <see cref="IUnaryOperatorCoercionMember{TCoercionParent}"/>
         /// which coerces the <paramref name="op"/>erator provided.
         /// </summary>
         /// <param name="op">The <see cref="CoercibleUnaryOperators"/> constant
-        /// relative to the <see cref="IUnaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent}"/> to 
+        /// relative to the <see cref="IUnaryOperatorCoercionMember{TCoercionParent}"/> to 
         /// return.</param>
-        /// <returns>A <see cref="IUnaryOperatorCoercionMember{TCoercionParentIdentifier, TCoercionParent}"/>
+        /// <returns>A <see cref="IUnaryOperatorCoercionMember{TCoercionParent}"/>
         /// instance relative to <paramref name="op"/>.</returns>
-        public IUnaryOperatorCoercionMember<TTypeIdentifier, TType> this[CoercibleUnaryOperators op]
+        public IUnaryOperatorCoercionMember<TType> this[CoercibleUnaryOperators op]
         {
             get {
                 foreach (var unop in this.Values)
