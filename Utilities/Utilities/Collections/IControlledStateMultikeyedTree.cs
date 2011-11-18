@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
-#if REQUIRE_NGEN
+#if MKD_SEVEN
     /// <summary>
     /// Defines properties and methods for working with a controlled-state multikeyed tree.
     /// </summary>
@@ -115,6 +115,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <paramref name="key2"/>; false, otherwise.</returns>
         bool TryGetValue(TKey1 key1, TKey2 key2, TKey3 key3, TKey4 key4, TKey5 key5, TKey6 key6, TKey7 key7, out TValue value);
     }
+#endif
+#if MKD_SIX
     /// <summary>
     /// Defines properties and methods for working with a controlled-state multikeyed tree.
     /// </summary>
@@ -214,6 +216,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <paramref name="key2"/>; false, otherwise.</returns>
         bool TryGetValue(TKey1 key1, TKey2 key2, TKey3 key3, TKey4 key4, TKey5 key5, TKey6 key6, out TValue value);
     }
+#endif
+#if MKD_FIVE
     /// <summary>
     /// Defines properties and methods for working with a controlled-state multikeyed tree.
     /// </summary>
@@ -301,6 +305,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <paramref name="key2"/>; false, otherwise.</returns>
         bool TryGetValue(TKey1 key1, TKey2 key2, TKey3 key3, TKey4 key4, TKey5 key5, out TValue value);
     }
+#endif
+#if MKD_FOUR
     /// <summary>
     /// Defines properties and methods for working with a controlled-state multikeyed tree.
     /// </summary>

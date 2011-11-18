@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
-#if REQUIRE_NGEN
+#if MKD_SEVEN
     public class MultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TValue> :
         ControlledStateDictionary<TKey1, MultikeyedTreeLevel<TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TValue, MultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TValue>, MultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TValue>>>,
         IMultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, MultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TValue>,
@@ -189,6 +189,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         #endregion
     }
+#endif
+#if MKD_SIX
     public class MultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TValue> :
         ControlledStateDictionary<TKey1, MultikeyedTreeLevel<TKey2, TKey3, TKey4, TKey5, TKey6, TValue, MultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TValue>, MultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TValue>>>,
         IMultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, 
@@ -357,6 +359,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         #endregion
 
     }
+#endif
+#if MKD_FIVE
     public class MultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TValue> :
         ControlledStateDictionary<TKey1, MultikeyedTreeLevel<TKey2, TKey3, TKey4, TKey5, TValue, MultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TValue>, MultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TValue>>>,
         IMultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, MultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TValue>,
@@ -503,6 +507,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         #endregion
     }
+#endif
+#if MKD_FOUR
     public class MultikeyedTree<TKey1, TKey2, TKey3, TKey4, TValue> :
         ControlledStateDictionary<TKey1, MultikeyedTreeLevel<TKey2, TKey3, TKey4, TValue, MultikeyedTree<TKey1, TKey2, TKey3, TKey4, TValue>, MultikeyedTree<TKey1, TKey2, TKey3, TKey4, TValue>>>,
         IMultikeyedTree<TKey1, TKey2, TKey3, TKey4,
