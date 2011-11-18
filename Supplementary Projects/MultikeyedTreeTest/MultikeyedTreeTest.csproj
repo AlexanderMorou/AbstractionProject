@@ -24,7 +24,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;MKD_FOUR</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;MKD_FOUR, MKD_FIVE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -51,10 +51,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="_abs.util, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9f6ec7b8ea170809, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Utilities\bin\x86\Release\_abs.util.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FiveTest.cs" />
@@ -67,6 +63,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Allen Copeland.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SLF\Metadata\Metadata Library\Metadata Library.csproj">
+      <Project>{A94A88DA-2500-4372-A433-A07AC3BFA05F}</Project>
+      <Name>Metadata Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\Common\Utilities - Common.csproj">
+      <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
+      <Name>Utilities - Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

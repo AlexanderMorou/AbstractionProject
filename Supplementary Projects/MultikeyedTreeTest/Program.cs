@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Globalization;
-using AllenCopeland.Abstraction.Utilities.Common;
+using AllenCopeland.Abstraction.Utilities.Misc;
 using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace MultikeyedTreeTest

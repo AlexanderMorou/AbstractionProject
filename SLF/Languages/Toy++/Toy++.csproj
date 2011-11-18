@@ -110,14 +110,6 @@
       <Project>{02607DC2-E98B-43AE-B906-FE151A70A68D}</Project>
       <Name>Objectified Intermediate Language</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common Intermediate Language\Common Intermediate Language.csproj">
-      <Project>{DF059670-2803-4B58-BF97-A5322DAA8CC0}</Project>
-      <Name>Common Intermediate Language</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Language Metadata Library\Language Services.csproj">
-      <Project>{41C87F7B-840B-4237-AEED-A471955AB3D7}</Project>
-      <Name>Language Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\TypeSystems\Abstract\TypeSystem Abstract.csproj">
       <Project>{161EAA8C-20C6-4B82-925A-4B8B112910AB}</Project>
       <Name>TypeSystem Abstract</Name>
@@ -126,7 +118,7 @@
       <Project>{4FF91A45-B361-4D8F-8C5B-03D11E5291E6}</Project>
       <Name>Common Language Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Utilities\Common Utilities.csproj">
+    <ProjectReference Include="..\..\..\Utilities\Common\Utilities - Common.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
       <Name>Common Utilities</Name>
     </ProjectReference>

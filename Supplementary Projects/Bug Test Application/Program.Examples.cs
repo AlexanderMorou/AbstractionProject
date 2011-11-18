@@ -14,7 +14,7 @@ using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Slf.Oil.Expressions;
 using AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples;
 using AllenCopeland.Abstraction.Utilities.Arrays;
-using AllenCopeland.Abstraction.Utilities.Common;
+using AllenCopeland.Abstraction.Utilities.Miscellaneous;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
