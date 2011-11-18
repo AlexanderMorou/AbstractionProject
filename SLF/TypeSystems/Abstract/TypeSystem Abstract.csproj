@@ -330,9 +330,9 @@
     <Compile Include="_Internal\Abstract\TypeArrayCache.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Utilities\Common Utilities.csproj">
+    <ProjectReference Include="..\..\..\Utilities\Common\Utilities - Common.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
-      <Name>Common Utilities</Name>
+      <Name>Utilities - Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Metadata\Metadata Library\Metadata Library.csproj">
       <Project>{A94A88DA-2500-4372-A433-A07AC3BFA05F}</Project>

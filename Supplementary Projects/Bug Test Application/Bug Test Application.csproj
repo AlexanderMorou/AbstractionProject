@@ -170,9 +170,9 @@
       <Name>Common Language Infrastructure</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
-    <ProjectReference Include="..\..\Utilities\Common Utilities.csproj">
+    <ProjectReference Include="..\..\Utilities\Common\Utilities - Common.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
-      <Name>Common Utilities</Name>
+      <Name>Utilities - Common</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
   </ItemGroup>

@@ -42,12 +42,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil.Expressions
         Remainder,
         /// <summary>
         /// The <see cref="ITPPMulDivExpression"/> represents a non-operational term as a pointer to a 
-        /// <see cref="ITPPUnaryOperationExpression"/>
+        /// <see cref="IUnaryOperationExpression"/>
         /// </summary>
         Term,
     }
     public interface ITPPMulDivExpression :
-        IBinaryOperationExpression<ITPPMulDivExpression, ITPPUnaryOperationExpression>,
+        IBinaryOperationExpression<ITPPMulDivExpression, IUnaryOperationExpression>,
         ITPPExpression
     {
         /// <summary>
