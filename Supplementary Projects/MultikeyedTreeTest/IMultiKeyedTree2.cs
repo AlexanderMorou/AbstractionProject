@@ -25,23 +25,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// of the multikeyed tree.</typeparam>
     /// <typeparam name="TValue">The type of the value held on the last
     /// level of the multikeyed tree.</typeparam>
-    public interface IMultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TTop, TLevel6, TLevel5, TLevel4, TLevel3, TLevel2, TLevel1, TValue> :
-        IMultikeyedTreeTopLevel,
-        IControlledStateMultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TTop, TLevel6, TLevel5, TLevel4, TLevel3, TLevel2, TLevel1, TValue>
-        where TTop :
-            IMultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TTop, TLevel6, TLevel5, TLevel4, TLevel3, TLevel2, TLevel1, TValue>
-        where TLevel6 :
-            IMultikeyedTreeLevel<TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TLevel6, TLevel5, TLevel4, TLevel3, TLevel2, TLevel1, TValue, TTop, TTop>
-        where TLevel5 :
-            IMultikeyedTreeLevel<TKey3, TKey4, TKey5, TKey6, TKey7, TLevel5, TLevel4, TLevel3, TLevel2, TLevel1, TValue, TLevel6, TTop>
-        where TLevel4 :
-            IMultikeyedTreeLevel<TKey4, TKey5, TKey6, TKey7, TLevel4, TLevel3, TLevel2, TLevel1, TValue, TLevel5, TTop>
-        where TLevel3 :
-            IMultikeyedTreeLevel<TKey5, TKey6, TKey7, TLevel3, TLevel2, TLevel1, TValue, TLevel4, TTop>
-        where TLevel2 :
-            IMultikeyedTreeLevel<TKey6, TKey7, TLevel2, TLevel1, TValue, TLevel3, TTop>
-        where TLevel1 :
-            IMultikeyedTreeLevel<TKey7, TValue, TLevel2, TTop>
+    public interface IMultikeyedTree2<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TValue> :
+        IControlledStateDictionary<TKey1, IMultikeyedTreeLevel2<TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TValue, IMultikeyedTree2<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TValue>, IMultikeyedTree2<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TValue>>>,
+        IMultikeyedTreeTopLevel2
     {
         /// <summary>
         /// Adds the <paramref name="value"/> at keys
@@ -77,7 +63,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <returns>true if the item was present and removed; false otherwise.</returns>
         bool Remove(TKey1 key1, TKey2 key2, TKey3 key3, TKey4 key4, TKey5 key5, TKey6 key6, TKey7 key7);
         /// <summary>
-        /// Clears the <see cref="IMultikeyedTree{TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TValue}"/>
+        /// Clears the <see cref="IMultikeyedTree2{TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TKey7, TValue}"/>
         /// of all its elements.
         /// </summary>
         void Clear();
@@ -106,6 +92,25 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         new TValue this[TKey1 key1, TKey2 key2, TKey3 key3, TKey4 key4, TKey5 key5, TKey6 key6, TKey7 key7] { get; set; }
 
     }
+    public interface IMultikeyedTreeLevel2<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TValue, TPrevious, TTopLevel> :
+        IControlledStateDictionary<TKey1, IMultikeyedTreeLevel2<TKey2, TKey3, TKey4, TKey5, TKey6, TValue, IMultikeyedTreeLevel2<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TValue, TPrevious, TTopLevel>, TTopLevel>>,
+        IMultikeyedTreeChildLevel2
+        where TPrevious :
+            IMultikeyedTreeLevel2
+        where TTopLevel :
+            IMultikeyedTreeTopLevel2
+    {
+        /// <summary>
+        /// Returns the <typeparamref name="TPrevious"/> that
+        /// sits a level above the current point in the hierarchy.
+        /// </summary>
+        new TPrevious Previous { get; }
+        /// <summary>
+        /// Returns the <typeparamref name="TTopLevel"/> section 
+        /// of the multikeyed tree.
+        /// </summary>
+        new TTopLevel TopLevel { get; }
+    }
 #endif
 #if MKD_SIX
     /// <summary>
@@ -125,21 +130,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// of the multikeyed tree.</typeparam>
     /// <typeparam name="TValue">The type of the value held on the last
     /// level of the multikeyed tree.</typeparam>
-    public interface IMultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TTop, TLevel5, TLevel4, TLevel3, TLevel2, TLevel1, TValue> :
-        IMultikeyedTreeTopLevel,
-        IControlledStateMultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TTop, TLevel5, TLevel4, TLevel3, TLevel2, TLevel1, TValue>
-        where TTop :
-            IMultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TTop, TLevel5, TLevel4, TLevel3, TLevel2, TLevel1, TValue>
-        where TLevel5 :
-            IMultikeyedTreeLevel<TKey2, TKey3, TKey4, TKey5, TKey6, TLevel5, TLevel4, TLevel3, TLevel2, TLevel1, TValue, TTop, TTop>
-        where TLevel4 :
-            IMultikeyedTreeLevel<TKey3, TKey4, TKey5, TKey6, TLevel4, TLevel3, TLevel2, TLevel1, TValue, TLevel5, TTop>
-        where TLevel3 :
-            IMultikeyedTreeLevel<TKey4, TKey5, TKey6, TLevel3, TLevel2, TLevel1, TValue, TLevel4, TTop>
-        where TLevel2 :
-            IMultikeyedTreeLevel<TKey5, TKey6, TLevel2, TLevel1, TValue, TLevel3, TTop>
-        where TLevel1 :
-            IMultikeyedTreeLevel<TKey6, TValue, TLevel2, TTop>
+    public interface IMultikeyedTree2<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TValue> :
+        IControlledStateDictionary<TKey1, IMultikeyedTreeLevel2<TKey2, TKey3, TKey4, TKey5, TKey6, TValue, IMultikeyedTree2<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TValue>, IMultikeyedTree2<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TValue>>>,
+        IMultikeyedTreeTopLevel2
     {
         /// <summary>
         /// Adds the <paramref name="value"/> at keys
@@ -171,7 +164,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <returns>true if the item was present and removed; false otherwise.</returns>
         bool Remove(TKey1 key1, TKey2 key2, TKey3 key3, TKey4 key4, TKey5 key5, TKey6 key6);
         /// <summary>
-        /// Clears the <see cref="IMultikeyedTree{TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TValue}"/>
+        /// Clears the <see cref="IMultikeyedTree2{TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TValue}"/>
         /// of all its elements.
         /// </summary>
         void Clear();
@@ -197,6 +190,25 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// denoted by <paramref name="key1"/> and <paramref name="key2"/>.</returns>
         new TValue this[TKey1 key1, TKey2 key2, TKey3 key3, TKey4 key4, TKey5 key5, TKey6 key6] { get; set; }
     }
+    public interface IMultikeyedTreeLevel2<TKey1, TKey2, TKey3, TKey4, TKey5, TValue, TPrevious, TTopLevel> :
+        IControlledStateDictionary<TKey1, IMultikeyedTreeLevel2<TKey2, TKey3, TKey4, TKey5, TValue, IMultikeyedTreeLevel2<TKey1, TKey2, TKey3, TKey4, TKey5, TValue, TPrevious, TTopLevel>, TTopLevel>>,
+        IMultikeyedTreeChildLevel2
+        where TPrevious :
+            IMultikeyedTreeLevel2
+        where TTopLevel :
+            IMultikeyedTreeTopLevel2
+    {
+        /// <summary>
+        /// Returns the <typeparamref name="TPrevious"/> that
+        /// sits a level above the current point in the hierarchy.
+        /// </summary>
+        new TPrevious Previous { get; }
+        /// <summary>
+        /// Returns the <typeparamref name="TTopLevel"/> section 
+        /// of the multikeyed tree.
+        /// </summary>
+        new TTopLevel TopLevel { get; }
+    }
 #endif
 #if MKD_FIVE
     /// <summary>
@@ -214,19 +226,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// of the multikeyed tree.</typeparam>
     /// <typeparam name="TValue">The type of the value held on the last
     /// level of the multikeyed tree.</typeparam>
-    public interface IMultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TTop, TLevel4, TLevel3, TLevel2, TLevel1, TValue> :
-        IMultikeyedTreeTopLevel,
-        IControlledStateMultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TTop, TLevel4, TLevel3, TLevel2, TLevel1, TValue>
-        where TTop :
-            IMultikeyedTree<TKey1, TKey2, TKey3, TKey4, TKey5, TTop, TLevel4, TLevel3, TLevel2, TLevel1, TValue>
-        where TLevel4 :
-            IMultikeyedTreeLevel<TKey2, TKey3, TKey4, TKey5, TLevel4, TLevel3, TLevel2, TLevel1, TValue, TTop, TTop>
-        where TLevel3 :
-            IMultikeyedTreeLevel<TKey3, TKey4, TKey5, TLevel3, TLevel2, TLevel1, TValue, TLevel4, TTop>
-        where TLevel2 :
-            IMultikeyedTreeLevel<TKey4, TKey5, TLevel2, TLevel1, TValue, TLevel3, TTop>
-        where TLevel1 :
-            IMultikeyedTreeLevel<TKey5, TValue, TLevel2, TTop>
+    public interface IMultikeyedTree2<TKey1, TKey2, TKey3, TKey4, TKey5, TValue> :
+        IControlledStateDictionary<TKey1, IMultikeyedTreeLevel2<TKey2, TKey3, TKey4, TKey5, TValue, IMultikeyedTree2<TKey1, TKey2, TKey3, TKey4, TKey5, TValue>, IMultikeyedTree2<TKey1, TKey2, TKey3, TKey4, TKey5, TValue>>>,
+        IMultikeyedTreeTopLevel2
     {
         /// <summary>
         /// Adds the <paramref name="value"/> at keys
@@ -256,7 +258,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <returns>true if the item was present and removed; false otherwise.</returns>
         bool Remove(TKey1 key1, TKey2 key2, TKey3 key3, TKey4 key4, TKey5 key5);
         /// <summary>
-        /// Clears the <see cref="IMultikeyedTree{TKey1, TKey2, TKey3, TKey4, TKey5, TValue}"/>
+        /// Clears the <see cref="IMultikeyedTree2{TKey1, TKey2, TKey3, TKey4, TKey5, TValue}"/>
         /// of all its elements.
         /// </summary>
         void Clear();
@@ -279,6 +281,25 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// denoted by <paramref name="key1"/> and <paramref name="key2"/>.</returns>
         new TValue this[TKey1 key1, TKey2 key2, TKey3 key3, TKey4 key4, TKey5 key5] { get; set; }
     }
+    public interface IMultikeyedTreeLevel2<TKey1, TKey2, TKey3, TKey4, TValue, TPrevious, TTopLevel> :
+        IControlledStateDictionary<TKey1, IMultikeyedTreeLevel2<TKey2, TKey3, TKey4, TValue, IMultikeyedTreeLevel2<TKey1, TKey2, TKey3, TKey4, TValue, TPrevious, TTopLevel>, TTopLevel>>,
+        IMultikeyedTreeChildLevel2
+        where TPrevious :
+            IMultikeyedTreeLevel2
+        where TTopLevel :
+            IMultikeyedTreeTopLevel2
+    {
+        /// <summary>
+        /// Returns the <typeparamref name="TPrevious"/> that
+        /// sits a level above the current point in the hierarchy.
+        /// </summary>
+        new TPrevious Previous { get; }
+        /// <summary>
+        /// Returns the <typeparamref name="TTopLevel"/> section 
+        /// of the multikeyed tree.
+        /// </summary>
+        new TTopLevel TopLevel { get; }
+    }
 #endif
 #if MKD_FOUR
     /// <summary>
@@ -294,17 +315,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// of the multikeyed tree.</typeparam>
     /// <typeparam name="TValue">The type of the value held on the last
     /// level of the multikeyed tree.</typeparam>
-    public interface IMultikeyedTree<TKey1, TKey2, TKey3, TKey4, TTop, TLevel3, TLevel2, TLevel1, TValue> :
-        IMultikeyedTreeTopLevel,
-        IControlledStateMultikeyedTree<TKey1, TKey2, TKey3, TKey4, TTop, TLevel3, TLevel2, TLevel1, TValue>
-        where TTop :
-            IMultikeyedTree<TKey1, TKey2, TKey3, TKey4, TTop, TLevel3, TLevel2, TLevel1, TValue>
-        where TLevel3 :
-            IMultikeyedTreeLevel<TKey2, TKey3, TKey4, TLevel3, TLevel2, TLevel1, TValue, TTop, TTop>
-        where TLevel2 :
-            IMultikeyedTreeLevel<TKey3, TKey4, TLevel2, TLevel1, TValue, TLevel3, TTop>
-        where TLevel1 :
-            IMultikeyedTreeLevel<TKey4, TValue, TLevel2, TTop>
+    public interface IMultikeyedTree2<TKey1, TKey2, TKey3, TKey4, TValue> :
+        IControlledStateDictionary<TKey1, IMultikeyedTreeLevel2<TKey2, TKey3, TKey4, TValue, IMultikeyedTree2<TKey1, TKey2, TKey3, TKey4, TValue>, IMultikeyedTree2<TKey1, TKey2, TKey3, TKey4, TValue>>>,
+        IMultikeyedTreeTopLevel2
     {
         /// <summary>
         /// Adds the <paramref name="value"/> at keys
@@ -330,7 +343,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <returns>true if the item was present and removed; false otherwise.</returns>
         bool Remove(TKey1 key1, TKey2 key2, TKey3 key3, TKey4 key4);
         /// <summary>
-        /// Clears the <see cref="IMultikeyedTree{TKey1, TKey2, TKey3, TKey4, TValue}"/>
+        /// Clears the <see cref="IMultikeyedTree2{TKey1, TKey2, TKey3, TKey4, TValue}"/>
         /// of all its elements.
         /// </summary>
         void Clear();
@@ -353,6 +366,25 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <paramref name="key3"/> and <paramref name="key4"/>.</returns>
         new TValue this[TKey1 key1, TKey2 key2, TKey3 key3, TKey4 key4] { get; set; }
     }
+    public interface IMultikeyedTreeLevel2<TKey1, TKey2, TKey3, TValue, TPrevious, TTopLevel> :
+        IControlledStateDictionary<TKey1, IMultikeyedTreeLevel2<TKey2, TKey3, TValue, IMultikeyedTreeLevel2<TKey1, TKey2, TKey3, TValue, TPrevious, TTopLevel>, TTopLevel>>,
+        IMultikeyedTreeChildLevel2
+        where TPrevious :
+            IMultikeyedTreeLevel2
+        where TTopLevel :
+            IMultikeyedTreeTopLevel2
+    {
+        /// <summary>
+        /// Returns the <typeparamref name="TPrevious"/> that
+        /// sits a level above the current point in the hierarchy.
+        /// </summary>
+        new TPrevious Previous { get; }
+        /// <summary>
+        /// Returns the <typeparamref name="TTopLevel"/> section 
+        /// of the multikeyed tree.
+        /// </summary>
+        new TTopLevel TopLevel { get; }
+    }
 #endif
     /// <summary>
     /// Defines properties and methods for working with a multikeyed tree.
@@ -365,15 +397,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// of the multikeyed tree.</typeparam>
     /// <typeparam name="TValue">The type of the value held on the last
     /// level of the multikeyed tree.</typeparam>
-    public interface IMultikeyedTree<TKey1, TKey2, TKey3, TTop, TLevel2, TLevel1, TValue> :
-        IMultikeyedTreeTopLevel,
-        IControlledStateMultikeyedTree<TKey1, TKey2, TKey3, TTop, TLevel2, TLevel1, TValue>
-        where TTop :
-            IMultikeyedTree<TKey1, TKey2, TKey3, TTop, TLevel2, TLevel1, TValue>
-        where TLevel2 :
-            IMultikeyedTreeLevel<TKey2, TKey3, TLevel2, TLevel1, TValue, TTop, TTop>
-        where TLevel1 :
-            IMultikeyedTreeLevel<TKey3, TValue, TLevel2, TTop>
+    public interface IMultikeyedTree2<TKey1, TKey2, TKey3, TValue> :
+        IControlledStateDictionary<TKey1, IMultikeyedTreeLevel2<TKey2, TKey3, TValue, IMultikeyedTree2<TKey1, TKey2, TKey3, TValue>, IMultikeyedTree2<TKey1, TKey2, TKey3, TValue>>>,
+        IMultikeyedTreeTopLevel2
     {
         /// <summary>
         /// Adds the <paramref name="value"/> at keys
@@ -397,7 +423,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <returns>true if the item was present and removed; false otherwise.</returns>
         bool Remove(TKey1 key1, TKey2 key2, TKey3 key3);
         /// <summary>
-        /// Clears the <see cref="IMultikeyedTree{TKey1, TKey2, TKey3, TValue}"/>
+        /// Clears the <see cref="IMultikeyedTree2{TKey1, TKey2, TKey3, TValue}"/>
         /// of all its elements.
         /// </summary>
         void Clear();
@@ -425,13 +451,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// of the multikeyed tree.</typeparam>
     /// <typeparam name="TValue">The type of the value held on the last
     /// level of the multikeyed tree.</typeparam>
-    public interface IMultikeyedTree<TKey1, TKey2, TTop, TLevel1, TValue> :
-        IMultikeyedTreeTopLevel,
-        IControlledStateMultikeyedTree<TKey1, TKey2, TTop, TLevel1, TValue>
-        where TTop :
-            IMultikeyedTree<TKey1, TKey2, TTop, TLevel1, TValue>
-        where TLevel1 :
-            IMultikeyedTreeLevel<TKey2, TValue, TTop, TTop>
+    public interface IMultikeyedTree2<TKey1, TKey2, TValue> :
+        IControlledStateDictionary<TKey1, IMultikeyedTreeLevel2<TKey2, TValue,IMultikeyedTree2<TKey1, TKey2, TValue>,IMultikeyedTree2<TKey1, TKey2, TValue>>>,
+        IMultikeyedTreeTopLevel2
     {
         /// <summary>
         /// Adds the <paramref name="value"/> at keys
@@ -452,7 +474,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <returns>true if the item was present and removed; false otherwise.</returns>
         bool Remove(TKey1 key1, TKey2 key2);
         /// <summary>
-        /// Clears the <see cref="IMultikeyedTree{TKey1, TKey2, TValue}"/>
+        /// Clears the <see cref="IMultikeyedTree2{TKey1, TKey2, TValue}"/>
         /// of all its elements.
         /// </summary>
         void Clear();
@@ -468,10 +490,72 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// denoted by <paramref name="key1"/> and <paramref name="key2"/>.</returns>
         TValue this[TKey1 key1, TKey2 key2] { get; set; }
     }
-    public interface IMultikeyedTreeTopLevel :
-        IMultikeyedTreeLevel,
-        IControlledStateMultikeyedTreeTopLevel
+    public interface IMultikeyedTreeTopLevel2 :
+        IMultikeyedTreeLevel2
     {
 
     }
+#if MKD_FIVE
+#endif
+    public interface IMultikeyedTreeLevel2<TKey1, TKey2, TValue, TPrevious, TTopLevel> :
+        IControlledStateDictionary<TKey1, IMultikeyedTreeLevel2<TKey2, TValue, IMultikeyedTreeLevel2<TKey1, TKey2, TValue, TPrevious, TTopLevel>, TTopLevel>>,
+        IMultikeyedTreeChildLevel2
+        where TPrevious :
+            IMultikeyedTreeLevel2
+        where TTopLevel :
+            IMultikeyedTreeTopLevel2
+    {
+        /// <summary>
+        /// Returns the <typeparamref name="TPrevious"/> that
+        /// sits a level above the current point in the hierarchy.
+        /// </summary>
+        new TPrevious Previous { get; }
+        /// <summary>
+        /// Returns the <typeparamref name="TTopLevel"/> section 
+        /// of the multikeyed tree.
+        /// </summary>
+        new TTopLevel TopLevel { get; }
+    }
+    public interface IMultikeyedTreeLevel2<TKey, TValue, TPrevious, TTopLevel> :
+        IControlledStateDictionary<TKey, TValue>,
+        IMultikeyedTreeChildLevel2
+        where TPrevious :
+            IMultikeyedTreeLevel2
+        where TTopLevel :
+            IMultikeyedTreeTopLevel2
+    {
+        /// <summary>
+        /// Returns the <typeparamref name="TPrevious"/> that
+        /// sits a level above the current point in the hierarchy.
+        /// </summary>
+        new TPrevious Previous { get; }
+        /// <summary>
+        /// Returns the <typeparamref name="TTopLevel"/> section 
+        /// of the multikeyed tree.
+        /// </summary>
+        new TTopLevel TopLevel { get; }
+    }
+
+    public interface IMultikeyedTreeLevel2
+    {
+        /// <summary>
+        /// Returns the toplevel section of the multikeyed tree.
+        /// </summary>
+        new IMultikeyedTreeTopLevel2 TopLevel { get; }
+        /// <summary>
+        /// Returns the <see cref="Int32"/> value denoting the level 
+        /// on which the <see cref="IMultikeyedTreeLevel2"/> is.
+        /// </summary>
+        int Level { get; }
+    }
+    public interface IMultikeyedTreeChildLevel2 :
+        IMultikeyedTreeLevel2
+    {
+        /// <summary>
+        /// Returns the <see cref="IMultikeyedTreeLevel2"/> that
+        /// sits a level above the current point in the hierarchy.
+        /// </summary>
+        new IMultikeyedTreeLevel2 Previous { get; }
+    }
+
 }

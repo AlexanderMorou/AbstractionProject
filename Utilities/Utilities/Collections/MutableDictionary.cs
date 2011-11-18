@@ -76,5 +76,17 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             base._Clear();
         }
+
+        public new TValue this[TKey key]
+        {
+            get
+            {
+                return base[key];
+            }
+            set
+            {
+                base[key] = value;
+            }
+        }
     }
 }

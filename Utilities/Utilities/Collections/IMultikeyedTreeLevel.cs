@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
-#if REQUIRE_NGEN
+#if MKD_SEVEN
     public interface IMultikeyedTreeLevel<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TLevel6, TLevel5, TLevel4, TLevel3, TLevel2, TLevel1, TValue, TPrevious, TTopLevel> :
         IControlledStateMultikeyedTreeLevel<TKey1, TKey2, TKey3, TKey4, TKey5, TKey6, TLevel6, TLevel5, TLevel4, TLevel3, TLevel2, TLevel1, TValue, TPrevious, TTopLevel>,
         IMultikeyedTreeChildLevel
@@ -37,7 +37,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// </summary>
         new TTopLevel TopLevel { get; }
     }
-
+#endif
+#if MKD_SIX
     public interface IMultikeyedTreeLevel<TKey1, TKey2, TKey3, TKey4, TKey5, TLevel5, TLevel4, TLevel3, TLevel2, TLevel1, TValue, TPrevious, TTopLevel> :
         IControlledStateMultikeyedTreeLevel<TKey1, TKey2, TKey3, TKey4, TKey5, TLevel5, TLevel4, TLevel3, TLevel2, TLevel1, TValue, TPrevious, TTopLevel>,
         IMultikeyedTreeChildLevel
@@ -67,7 +68,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// </summary>
         new TTopLevel TopLevel { get; }
     }
-
+#endif
+#if MKD_FIVE
     public interface IMultikeyedTreeLevel<TKey1, TKey2, TKey3, TKey4, TLevel4, TLevel3, TLevel2, TLevel1, TValue, TPrevious, TTopLevel> :
         IControlledStateMultikeyedTreeLevel<TKey1, TKey2, TKey3, TKey4, TLevel4, TLevel3, TLevel2, TLevel1, TValue, TPrevious, TTopLevel>,
         IMultikeyedTreeChildLevel
@@ -95,6 +97,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// </summary>
         new TTopLevel TopLevel { get; }
     }
+#endif
+#if MKD_FOUR
     public interface IMultikeyedTreeLevel<TKey1, TKey2, TKey3, TLevel3, TLevel2, TLevel1, TValue, TPrevious, TTopLevel> :
         IControlledStateMultikeyedTreeLevel<TKey1, TKey2, TKey3, TLevel3, TLevel2, TLevel1, TValue, TPrevious, TTopLevel>,
         IMultikeyedTreeChildLevel

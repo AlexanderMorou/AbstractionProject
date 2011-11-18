@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -53,7 +53,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS, x86</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS, x86, MKD_FOUR, MKD_FIVE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -65,7 +65,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;x86</DefineConstants>
+    <DefineConstants>TRACE;x86,MKD_FOUR</DefineConstants>
     <Optimize>true</Optimize>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -193,40 +193,6 @@
     <Compile Include="Utilities\Events\EventArgsR1R3{T1, T2, T3}.cs" />
     <Compile Include="Utilities\Events\EventArgsR2{T1, T2}.cs" />
     <Compile Include="Utilities\Events\EventArgsR2R3{T1, T2, T3}.cs" />
-    <Compile Include="Utilities\FiniteAutomata\DFAState.cs" />
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataBitSet.cs" />
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataMultiTargetTransitionTable{2}.cs" />
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataSingleTargetTransitionTable.cs" />
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataState{4}.cs" />
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataTransitionNode{TCheck, TTarget}.cs" />
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataTransitionTable{3}.cs" />
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataTransitionTable+KeysCollection.cs">
-      <DependentUpon>FiniteAutomataTransitionTable{3}.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomataTransitionTable+ValuesCollection.cs">
-      <DependentUpon>FiniteAutomataTransitionTable{3}.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Utilities\FiniteAutomata\FiniteAutomationSourceKind.cs" />
-    <Compile Include="Utilities\FiniteAutomata\IDFAState.cs" />
-    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataMultiTargetTransitionTable.cs" />
-    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataSection.cs" />
-    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataSet.cs" />
-    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataSingleTargetTransitionTable.cs" />
-    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataSource.cs" />
-    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataState.cs" />
-    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataTransitionNode.cs" />
-    <Compile Include="Utilities\FiniteAutomata\IFiniteAutomataTransitionTable.cs" />
-    <Compile Include="Utilities\FiniteAutomata\INFAState.cs" />
-    <Compile Include="Utilities\FiniteAutomata\NFAState{4}.cs" />
-    <Compile Include="Utilities\FiniteAutomata\NFAState+DFAEntry.cs">
-      <DependentUpon>NFAState{4}.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Utilities\FiniteAutomata\NFAState+DFAEntrySet.cs">
-      <DependentUpon>NFAState{4}.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Utilities\FiniteAutomata\NFAState+DFAEntryTable.cs">
-      <DependentUpon>NFAState{4}.cs</DependentUpon>
-    </Compile>
     <Compile Include="Utilities\Tuples\TupleHelper.cs" />
   </ItemGroup>
   <ItemGroup>
