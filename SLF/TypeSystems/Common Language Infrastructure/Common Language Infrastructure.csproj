@@ -587,9 +587,9 @@
     <None Include="CLI TypeSystem Addendum.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Utilities\Common\Utilities - Common.csproj">
+    <ProjectReference Include="..\..\..\Utilities\Common\Common.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
-      <Name>Utilities - Common</Name>
+      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\AST\Abstraction Compiler Services\Abstraction Compiler Services.csproj">
       <Project>{DF6044A9-AE48-4AC2-A170-EB839BB0058C}</Project>

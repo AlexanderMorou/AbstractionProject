@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -8,7 +8,7 @@
     <ProjectGuid>{A94A88DA-2500-4372-A433-A07AC3BFA05F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AllenCopeland.Abstraction.Slf</RootNamespace>
+    <RootNamespace>AllenCopeland.Abstraction</RootNamespace>
     <AssemblyName>_abs.slf.metadata</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -77,16 +77,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="_Internal\Metadata\ExceptionMessage.cs" />
-    <Compile Include="Compilers\ClassIsHiddenAttribute.cs" />
-    <Compile Include="Compilers\ClassIsModuleAttribute.cs" />
-    <Compile Include="_Internal\Metadata\ArgumentWithException.cs" />
-    <Compile Include="Compilers\GenericParamCtorFailureException.cs" />
-    <Compile Include="Compilers\GenericParamDataTargetAttribute.cs" />
-    <Compile Include="Compilers\GlobalMemberContainerAttribute.cs" />
-    <Compile Include="Compilers\InferredAttribute.cs" />
-    <Compile Include="Compilers\LowerBoundTargetAttribute.cs" />
-    <Compile Include="Compilers\StaticContainerExtensionAttribute.cs" />
+    <Compile Include="Slf\_Internal\Metadata\ExceptionMessage.cs" />
+    <Compile Include="Slf\Compilers\ClassIsHiddenAttribute.cs" />
+    <Compile Include="Slf\Compilers\ClassIsModuleAttribute.cs" />
+    <Compile Include="Slf\_Internal\Metadata\ArgumentWithException.cs" />
+    <Compile Include="Slf\Compilers\GenericParamCtorFailureException.cs" />
+    <Compile Include="Slf\Compilers\GenericParamDataTargetAttribute.cs" />
+    <Compile Include="Slf\Compilers\GlobalMemberContainerAttribute.cs" />
+    <Compile Include="Slf\Compilers\InferredAttribute.cs" />
+    <Compile Include="Slf\Compilers\LowerBoundTargetAttribute.cs" />
+    <Compile Include="Slf\Compilers\StaticContainerExtensionAttribute.cs" />
     <Compile Include="Globalization\CultureIdentifier.cs" />
     <Compile Include="Globalization\CultureIdentifiers.cs" />
     <Compile Include="Globalization\CultureIdentifiers+CountryRegions.cs">
@@ -109,7 +109,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="_Internal\Metadata\ThrowHelper.cs" />
+    <Compile Include="Slf\_Internal\Metadata\ThrowHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Allen Copeland.pfx" />

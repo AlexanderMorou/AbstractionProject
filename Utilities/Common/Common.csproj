@@ -88,6 +88,46 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentWithException.cs" />
+    <Compile Include="Collections\IMultikeyedDictionary`3.cs" />
+    <Compile Include="Collections\IMultikeyedDictionary`4.cs" />
+    <Compile Include="Collections\IMultikeyedDictionary`5.cs" />
+    <Compile Include="Collections\IMultikeyedDictionary`6.cs" />
+    <Compile Include="Collections\IMultikeyedDictionary`7.cs" />
+    <Compile Include="Collections\IMultikeyedDictionary`8.cs" />
+    <Compile Include="Collections\KeysValuePair`2.cs" />
+    <Compile Include="Collections\MultikeyedDictionaryKeys`2.cs" />
+    <Compile Include="Collections\MultikeyedDictionaryKeys`3.cs" />
+    <Compile Include="Collections\MultikeyedDictionaryKeys`4.cs" />
+    <Compile Include="Collections\MultikeyedDictionaryKeys`5.cs" />
+    <Compile Include="Collections\MultikeyedDictionaryKeys`6.cs" />
+    <Compile Include="Collections\MultikeyedDictionaryKeys`7.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`3+Level1.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`3.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`4+Level1.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`4+Level2.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`4.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`5+Level1.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`5+Level2.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`5+Level3.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`5.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`6+Level1.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`6+Level2.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`6+Level3.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`6+Level4.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`6.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`7+Level1.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`7+Level2.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`7+Level3.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`7+Level4.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`7+Level5.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`7.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`8+Level1.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`8+Level2.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`8+Level3.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`8+Level4.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`8+Level5.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`8+Level6.cs" />
+    <Compile Include="Collections\MultikeyedDictionary`8.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -96,12 +136,6 @@
     </Compile>
     <Compile Include="ThrowHelper.cs" />
     <Compile Include="Arrays\Tweaks.cs" />
-    <Compile Include="Collections\IControlledStateMultikeyedTreeLevel.cs" />
-    <Compile Include="Collections\IControlledStateMultikeyedTree.cs" />
-    <Compile Include="Collections\IMultikeyedTree.cs" />
-    <Compile Include="Collections\IMultikeyedTreeLevel.cs" />
-    <Compile Include="Collections\MultikeyedTree.cs" />
-    <Compile Include="Collections\MultikeyedTreeLevel.cs" />
     <Compile Include="Collections\_ISubordinateDictionaryMasterPass.cs" />
     <Compile Include="Collections\ControlledStateCollection{T}.cs" />
     <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}.cs" />

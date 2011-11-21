@@ -996,9 +996,9 @@
     <Compile Include="Translation\IntermediateSpanTranslationClasses.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Utilities\Common\Utilities - Common.csproj">
+    <ProjectReference Include="..\..\..\Utilities\Common\Common.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
-      <Name>Utilities - Common</Name>
+      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Metadata\Metadata Library\Metadata Library.csproj">
       <Project>{A94A88DA-2500-4372-A433-A07AC3BFA05F}</Project>

@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Languages", "Languages", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ownerdrawn Controls", "UI\Ownerdrawn Controls\Ownerdrawn Controls.csproj", "{C39FCBDC-EDED-4327-95BA-3B494FA59A8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities - Common", "Utilities\Common\Utilities - Common.csproj", "{B449E1F5-149C-4F47-BBFC-A82EEE96471A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Utilities\Common\Common.csproj", "{B449E1F5-149C-4F47-BBFC-A82EEE96471A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeSystem Abstract", "SLF\TypeSystems\Abstract\TypeSystem Abstract.csproj", "{161EAA8C-20C6-4B82-925A-4B8B112910AB}"
 EndProject
@@ -26,7 +26,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toy++", "SLF\Languages\Toy+
 		{DF6044A9-AE48-4AC2-A170-EB839BB0058C} = {DF6044A9-AE48-4AC2-A170-EB839BB0058C}
 		{A94A88DA-2500-4372-A433-A07AC3BFA05F} = {A94A88DA-2500-4372-A433-A07AC3BFA05F}
 		{C39FCBDC-EDED-4327-95BA-3B494FA59A8E} = {C39FCBDC-EDED-4327-95BA-3B494FA59A8E}
-		{A9C960F0-7B0D-4ECF-834D-0EE41CE83C2F} = {A9C960F0-7B0D-4ECF-834D-0EE41CE83C2F}
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Supplementary Projects", "Supplementary Projects", "{68E33B8D-8D5C-436B-881C-4EC52CC7723D}"
@@ -41,15 +40,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metadata Library", "SLF\Met
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstraction Compiler Services", "SLF\AST\Abstraction Compiler Services\Abstraction Compiler Services.csproj", "{DF6044A9-AE48-4AC2-A170-EB839BB0058C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultikeyedTreeTest", "Supplementary Projects\MultikeyedTreeTest\MultikeyedTreeTest.csproj", "{A9C960F0-7B0D-4ECF-834D-0EE41CE83C2F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{A41A6D9F-4200-493E-9F33-6E7BF4CD7A01}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc Projects", "Misc Projects", "{A41A6D9F-4200-493E-9F33-6E7BF4CD7A01}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finite Automation", "Utilities\FiniteAutomation\Finite Automation.csproj", "{ECC67B87-6EBA-4F40-BAAE-FE838FF8AFA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities - Finite Automation", "Utilities\FiniteAutomation\Utilities - Finite Automation.csproj", "{ECC67B87-6EBA-4F40-BAAE-FE838FF8AFA3}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{FBCCA75F-27CA-47E3-ADCD-056E0ECF9DFE}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 16
+		SccNumberOfProjects = 12
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs12
 		SccLocalPath0 = .
@@ -77,41 +76,26 @@ Global
 		SccProjectTopLevelParentUniqueName6 = Abstraction.sln
 		SccProjectName6 = SLF/Languages/VisualBasic.NET
 		SccLocalPath6 = SLF\\Languages\\VisualBasic.NET
-		SccProjectUniqueName7 = Intermediate\u0020Type\u0020System\\Intermediate\u0020Type\u0020System.csproj
+		SccProjectUniqueName7 = SLF\\Metadata\\Metadata\u0020Library\\Metadata\u0020Library.csproj
 		SccProjectTopLevelParentUniqueName7 = Abstraction.sln
-		SccProjectName7 = Intermediate\u0020Type\u0020System
-		SccLocalPath7 = Intermediate\u0020Type\u0020System
-		SccProjectUniqueName8 = SLF\\Metadata\\Metadata\u0020Library\\Metadata\u0020Library.csproj
+		SccProjectName7 = SLF/Metadata/Metadata\u0020Library
+		SccLocalPath7 = SLF\\Metadata\\Metadata\u0020Library
+		SccProjectUniqueName8 = SLF\\AST\\Abstraction\u0020Compiler\u0020Services\\Abstraction\u0020Compiler\u0020Services.csproj
 		SccProjectTopLevelParentUniqueName8 = Abstraction.sln
-		SccProjectName8 = SLF/Metadata/Metadata\u0020Library
-		SccLocalPath8 = SLF\\Metadata\\Metadata\u0020Library
-		SccProjectUniqueName9 = SLF\\AST\\Abstraction\u0020Compiler\u0020Services\\Abstraction\u0020Compiler\u0020Services.csproj
+		SccProjectName8 = SLF/AST/Abstraction\u0020Compiler\u0020Services
+		SccLocalPath8 = SLF\\AST\\Abstraction\u0020Compiler\u0020Services
+		SccProjectUniqueName9 = UI\\Ownerdrawn\u0020Controls\\Ownerdrawn\u0020Controls.csproj
 		SccProjectTopLevelParentUniqueName9 = Abstraction.sln
-		SccProjectName9 = SLF/AST/Abstraction\u0020Compiler\u0020Services
-		SccLocalPath9 = SLF\\AST\\Abstraction\u0020Compiler\u0020Services
-		SccProjectUniqueName10 = Supplementary\u0020Projects\\MultikeyedTreeTest\\MultikeyedTreeTest.csproj
+		SccProjectName9 = UI/Ownerdrawn\u0020Controls
+		SccLocalPath9 = UI\\Ownerdrawn\u0020Controls
+		SccProjectUniqueName10 = Utilities\\Common\\Common.csproj
 		SccProjectTopLevelParentUniqueName10 = Abstraction.sln
-		SccProjectName10 = Supplementary\u0020Projects/MultikeyedTreeTest
-		SccLocalPath10 = Supplementary\u0020Projects\\MultikeyedTreeTest
-		SccProjectUniqueName11 = Utilities\\Utilities\u0020-\u0020Common.csproj
+		SccProjectName10 = Utilities/Common
+		SccLocalPath10 = Utilities\\Common
+		SccProjectUniqueName11 = Utilities\\FiniteAutomation\\Finite\u0020Automation.csproj
 		SccProjectTopLevelParentUniqueName11 = Abstraction.sln
-		SccProjectName11 = Utilities
-		SccLocalPath11 = Utilities
-		SccProjectUniqueName12 = FiniteAutomation\\Utilities\u0020-\u0020Finite\u0020Automation.csproj
-		SccProjectTopLevelParentUniqueName12 = Abstraction.sln
-		SccProjectName12 = FiniteAutomation
-		SccLocalPath12 = FiniteAutomation
-		SccProjectUniqueName13 = UI\\Ownerdrawn\u0020Controls\\Ownerdrawn\u0020Controls.csproj
-		SccProjectName13 = UI/Ownerdrawn\u0020Controls
-		SccLocalPath13 = UI\\Ownerdrawn\u0020Controls
-		SccProjectUniqueName14 = Utilities\\Common\\Utilities\u0020-\u0020Common.csproj
-		SccProjectTopLevelParentUniqueName14 = Abstraction.sln
-		SccProjectName14 = Utilities/Common
-		SccLocalPath14 = Utilities\\Common
-		SccProjectUniqueName15 = Utilities\\FiniteAutomation\\Utilities\u0020-\u0020Finite\u0020Automation.csproj
-		SccProjectTopLevelParentUniqueName15 = Abstraction.sln
-		SccProjectName15 = Utilities/FiniteAutomation
-		SccLocalPath15 = Utilities\\FiniteAutomation
+		SccProjectName11 = Utilities/FiniteAutomation
+		SccLocalPath11 = Utilities\\FiniteAutomation
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -201,12 +185,6 @@ Global
 		{DF6044A9-AE48-4AC2-A170-EB839BB0058C}.Release|x64.Build.0 = Release|x64
 		{DF6044A9-AE48-4AC2-A170-EB839BB0058C}.Release|x86.ActiveCfg = Release|x86
 		{DF6044A9-AE48-4AC2-A170-EB839BB0058C}.Release|x86.Build.0 = Release|x86
-		{A9C960F0-7B0D-4ECF-834D-0EE41CE83C2F}.Debug|x64.ActiveCfg = Debug|x86
-		{A9C960F0-7B0D-4ECF-834D-0EE41CE83C2F}.Debug|x86.ActiveCfg = Debug|x86
-		{A9C960F0-7B0D-4ECF-834D-0EE41CE83C2F}.Debug|x86.Build.0 = Debug|x86
-		{A9C960F0-7B0D-4ECF-834D-0EE41CE83C2F}.Release|x64.ActiveCfg = Release|x86
-		{A9C960F0-7B0D-4ECF-834D-0EE41CE83C2F}.Release|x86.ActiveCfg = Release|x86
-		{A9C960F0-7B0D-4ECF-834D-0EE41CE83C2F}.Release|x86.Build.0 = Release|x86
 		{ECC67B87-6EBA-4F40-BAAE-FE838FF8AFA3}.Debug|x64.ActiveCfg = Debug|x64
 		{ECC67B87-6EBA-4F40-BAAE-FE838FF8AFA3}.Debug|x64.Build.0 = Debug|x64
 		{ECC67B87-6EBA-4F40-BAAE-FE838FF8AFA3}.Debug|x86.ActiveCfg = Debug|x86
@@ -230,10 +208,10 @@ Global
 		{DF6044A9-AE48-4AC2-A170-EB839BB0058C} = {460F9AF5-9236-4661-B1AD-42E5CB44CABD}
 		{DA55A92C-B4EE-4350-AC02-B6C25D795723} = {C125AC66-5C9E-4B81-80B2-C9D2D72F9DB7}
 		{9C89419D-F2A1-4882-8408-6708A038E025} = {C125AC66-5C9E-4B81-80B2-C9D2D72F9DB7}
+		{C39FCBDC-EDED-4327-95BA-3B494FA59A8E} = {FBCCA75F-27CA-47E3-ADCD-056E0ECF9DFE}
 		{B449E1F5-149C-4F47-BBFC-A82EEE96471A} = {A41A6D9F-4200-493E-9F33-6E7BF4CD7A01}
 		{ECC67B87-6EBA-4F40-BAAE-FE838FF8AFA3} = {A41A6D9F-4200-493E-9F33-6E7BF4CD7A01}
 		{6F404D32-4996-47B5-BADA-33BB8DD37160} = {68E33B8D-8D5C-436B-881C-4EC52CC7723D}
-		{A9C960F0-7B0D-4ECF-834D-0EE41CE83C2F} = {68E33B8D-8D5C-436B-881C-4EC52CC7723D}
 		{A94A88DA-2500-4372-A433-A07AC3BFA05F} = {AC68F9CE-24E8-450C-B1DA-FF94F41B3C87}
 	EndGlobalSection
 EndGlobal
