@@ -104,9 +104,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Utilities\Common\Utilities - Common.csproj">
+    <ProjectReference Include="..\..\..\Utilities\Common\Common.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
-      <Name>Utilities - Common</Name>
+      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\AST\Objectified Intermediate Language\Objectified Intermediate Language.csproj">
       <Project>{02607DC2-E98B-43AE-B906-FE151A70A68D}</Project>

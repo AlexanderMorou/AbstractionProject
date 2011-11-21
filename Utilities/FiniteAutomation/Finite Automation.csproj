@@ -120,9 +120,9 @@
     <None Include="Allen Copeland.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Utilities - Common.csproj">
+    <ProjectReference Include="..\Common\Common.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
-      <Name>Utilities - Common</Name>
+      <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
