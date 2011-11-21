@@ -11,7 +11,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 {
     public static partial class AstIdentifier
     {
-        private static MultikeyedTree<string, int, IGeneralGenericTypeUniqueIdentifier> GenericTypeCache = new MultikeyedTree<string,int,IGeneralGenericTypeUniqueIdentifier>();
+        private static IMultikeyedDictionary<string, int, IGeneralGenericTypeUniqueIdentifier> GenericTypeCache = new MultikeyedDictionary<string, int, IGeneralGenericTypeUniqueIdentifier>();
         //private static Dictionary<string, Dictionary<int, IGeneralGenericTypeUniqueIdentifier>> GenericTypeCache = new Dictionary<string, Dictionary<int, IGeneralGenericTypeUniqueIdentifier>>();
         private static Dictionary<int, Dictionary<string, IGenericParameterUniqueIdentifier>> GenericTypeParameterCache = new Dictionary<int, Dictionary<string, IGenericParameterUniqueIdentifier>>();
         private static Dictionary<int, Dictionary<string, IGenericParameterUniqueIdentifier>> MemberGenericParameterCache = new Dictionary<int, Dictionary<string, IGenericParameterUniqueIdentifier>>();

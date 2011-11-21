@@ -51,6 +51,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// the current mapping.
         /// </summary>
         IInterfaceType Target { get; }
+
         /// <summary>
         /// Returns the list of implemented properties with
         /// a link back to the original interface member.

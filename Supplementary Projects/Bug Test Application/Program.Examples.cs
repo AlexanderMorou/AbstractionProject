@@ -30,10 +30,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     using AllenCopeland.Abstraction.Globalization;
     using AllenCopeland.Abstraction.Utilities.Collections;
     using AllenCopeland.Abstraction.Slf.Oil.Members;
-
-    internal class TestClass {
-        public virtual event EventHandler Test;
-    }
+    using System.Reflection;
 
     internal static class Program
     {

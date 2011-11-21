@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 int masterIndex = this.owner.Master.Keys.IndexOf(base[index]);
                 if (masterIndex > -1)
                     this.owner.Master.Keys[masterIndex] = value;
-                base[index] = value;
+                base.OnSetKey(index, value);
             }
 
             public override IEnumerator<TSKey> GetEnumerator()
