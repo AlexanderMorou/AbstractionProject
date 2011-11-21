@@ -17,6 +17,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Modules;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Languages;
 using AllenCopeland.Abstraction.Slf.Languages.Cil;
+using System.Runtime.CompilerServices;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -35,14 +36,14 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         private const string nullNamespace_Pattern = ".<NULL>.<{0}>";
 
         /// <summary>
-        /// Randomly generate the 'null namespace' pattern every run.
+        /// The randomly generated the 'null namespace' pattern.
         /// </summary>
         private readonly static string nullNamespace = string.Format(nullNamespace_Pattern, Guid.NewGuid());
         /// <summary>
         /// Contains the <see cref="ISymbolType"/> lookup table that
         /// starts with the symbol, the namespace, then the number of generic parameters.
         /// </summary>
-        private static MultikeyedTree<string, string, int, ISymbolType> SymbolTypeCache = new MultikeyedTree<string, string, int, ISymbolType>();
+        private static IMultikeyedDictionary<string, string, int, ISymbolType> SymbolTypeCache = new MultikeyedDictionary<string, string, int, ISymbolType>();
         /// <summary>
         /// Represents a null value primitive expression.
         /// </summary>
@@ -57,6 +58,12 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         /// </summary>
         private static IDictionary<IType, TypeReferenceExpression> typeReferenceCache = new Dictionary<IType, TypeReferenceExpression>();
 
+        /// <summary>
+        /// Provides a conceptualized type that represents a dynamic static type.
+        /// </summary>
+        /// <remarks>Code elements which emit a type in a public scope yield
+        /// object with a special <see cref="DynamicAttribute"/> to note the
+        /// special way the compiler should treat such objects.</remarks>
         public static readonly DynamicType DynamicType = DynamicType.SingleTon;
 
         /// <summary>
