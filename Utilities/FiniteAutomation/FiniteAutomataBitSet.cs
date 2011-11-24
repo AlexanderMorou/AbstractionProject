@@ -13,6 +13,7 @@ using SlotType = System.UInt32;
 namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
     using OperationSignature = Action<uint, uint, uint, uint, uint, uint, bool, bool, SlotType[], SlotType[], SlotType[]>;
+using AllenCopeland.Abstraction.Utilities.Collections;
 
     /// <summary>
     /// Provides a base implementation of a 
@@ -48,10 +49,12 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// Data member for <see cref="Complement"/>.
         /// </summary>
         private TCheck complement;
-
-        private static Dictionary<TCheck, Dictionary<TCheck, TCheck>> IntersectCache = new Dictionary<TCheck, Dictionary<TCheck, TCheck>>();
-        private static Dictionary<TCheck, Dictionary<TCheck, TCheck>> SymmetricDifferenceCache = new Dictionary<TCheck, Dictionary<TCheck, TCheck>>();
-        private static Dictionary<TCheck, Dictionary<TCheck, TCheck>> UnionCache = new Dictionary<TCheck, Dictionary<TCheck, TCheck>>();
+        private static MultikeyedDictionary<TCheck, TCheck, TCheck> IntersectCache = new MultikeyedDictionary<TCheck, TCheck, TCheck>();
+        private static MultikeyedDictionary<TCheck, TCheck, TCheck> SymmetricDifferenceCache = new MultikeyedDictionary<TCheck, TCheck, TCheck>();
+        private static MultikeyedDictionary<TCheck, TCheck, TCheck> UnionCache = new MultikeyedDictionary<TCheck, TCheck, TCheck>();
+        //private static Dictionary<TCheck, Dictionary<TCheck, TCheck>> IntersectCache = new Dictionary<TCheck, Dictionary<TCheck, TCheck>>();
+        //private static Dictionary<TCheck, Dictionary<TCheck, TCheck>> SymmetricDifferenceCache = new Dictionary<TCheck, Dictionary<TCheck, TCheck>>();
+        //private static Dictionary<TCheck, Dictionary<TCheck, TCheck>> UnionCache = new Dictionary<TCheck, Dictionary<TCheck, TCheck>>();
         internal static TCheck NullInst;
         private static int unionCacheHits = 0;
         private static int intersectionCacheHits = 0;
@@ -411,7 +414,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             Func<bool, bool, bool> inversionPredicate,
             Func<TCheck> checkCreator,
             ref int cacheHits,
-            Dictionary<TCheck, Dictionary<TCheck, TCheck>> dictionaryCache)
+            MultikeyedDictionary<TCheck, TCheck, TCheck> dictionaryCache)
         {
 
             Dictionary<TCheck, TCheck> leftCache;
