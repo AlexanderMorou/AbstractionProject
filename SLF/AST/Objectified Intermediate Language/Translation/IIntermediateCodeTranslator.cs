@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil;
+using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -20,6 +21,10 @@ namespace AllenCopeland.Abstraction.Slf.Translation
         /// to the current <see cref="IIntermediateCodeTranslator"/>.
         /// </summary>
         IIntermediateCodeTranslatorOptions Options { get; }
-
+        /// <summary>
+        /// Returns the <see cref="IReadOnlyCollection{T}"/>
+        /// of intermediate declarations presently being built.
+        /// </summary>
+        IReadOnlyCollection<IIntermediateDeclaration> BuildTrail { get; }
     }
 }

@@ -52,9 +52,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
         private static MultikeyedDictionary<TCheck, TCheck, TCheck> IntersectCache = new MultikeyedDictionary<TCheck, TCheck, TCheck>();
         private static MultikeyedDictionary<TCheck, TCheck, TCheck> SymmetricDifferenceCache = new MultikeyedDictionary<TCheck, TCheck, TCheck>();
         private static MultikeyedDictionary<TCheck, TCheck, TCheck> UnionCache = new MultikeyedDictionary<TCheck, TCheck, TCheck>();
-        //private static Dictionary<TCheck, Dictionary<TCheck, TCheck>> IntersectCache = new Dictionary<TCheck, Dictionary<TCheck, TCheck>>();
-        //private static Dictionary<TCheck, Dictionary<TCheck, TCheck>> SymmetricDifferenceCache = new Dictionary<TCheck, Dictionary<TCheck, TCheck>>();
-        //private static Dictionary<TCheck, Dictionary<TCheck, TCheck>> UnionCache = new Dictionary<TCheck, Dictionary<TCheck, TCheck>>();
+
         internal static TCheck NullInst;
         private static int unionCacheHits = 0;
         private static int intersectionCacheHits = 0;
@@ -67,7 +65,10 @@ using AllenCopeland.Abstraction.Utilities.Collections;
         protected const SlotType SlotBitCount = 0x40;
         protected const SlotType ShiftValue = 1UL;
 #endif
-        private static object cacheLock = new object();
+        private static object unionCacheLock = new object();
+        private static object intersectCacheLock = new object();
+        private static object symmetricDiffCacheLock = new object();
+
         private const SlotType SlotMaxValue = SlotType.MaxValue;
         private static OperationSignature unionOp = UnionProcess;
         private static OperationSignature intersectOp = IntersectionProcess;
@@ -174,7 +175,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
                 return tThis;
             if (other == null)
                 return (TCheck)this;
-            return SetOperation((TCheck)(this), other, unionOp, (li, ri) => li || ri, GetCheck, ref unionCacheHits, UnionCache);
+            return SetOperation((TCheck)(this), other, unionOp, (li, ri) => li || ri, GetCheck, ref unionCacheHits, unionCacheLock, UnionCache);
         }
 
         /// <summary>
@@ -197,7 +198,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
                 result.Set(null, 0, 0, this.FullLength);
                 return result;
             }
-            return SetOperation(tThis, other, intersectOp, (li, ri) => li && ri, GetCheck, ref intersectionCacheHits, IntersectCache);
+            return SetOperation(tThis, other, intersectOp, (li, ri) => li && ri, GetCheck, ref intersectionCacheHits, intersectCacheLock, IntersectCache);
         }
         /// <summary>
         /// Returns the complement of the current <see cref="FiniteAutomataBitSet{TCheck}"/>.
@@ -237,7 +238,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
                 return NullInst;
             if (other == null)
                 return (TCheck)this;
-            return SetOperation((TCheck)this, other, symmetricDifferenceOp, (li, ri) => li ^ ri, GetCheck, ref symmetricDifferenceCacheHits, SymmetricDifferenceCache);
+            return SetOperation((TCheck)this, other, symmetricDifferenceOp, (li, ri) => li ^ ri, GetCheck, ref symmetricDifferenceCacheHits, symmetricDiffCacheLock, SymmetricDifferenceCache);
         }
 
         /// <summary>
@@ -414,25 +415,13 @@ using AllenCopeland.Abstraction.Utilities.Collections;
             Func<bool, bool, bool> inversionPredicate,
             Func<TCheck> checkCreator,
             ref int cacheHits,
+            object cacheLock,
             MultikeyedDictionary<TCheck, TCheck, TCheck> dictionaryCache)
         {
 
-            Dictionary<TCheck, TCheck> leftCache;
-            Dictionary<TCheck, TCheck> rightCache;
-            lock (dictionaryCache)
-            {
-                if (!dictionaryCache.TryGetValue(left, out leftCache))
-                    dictionaryCache.Add(left, leftCache = new Dictionary<TCheck, TCheck>());
-                if (!dictionaryCache.TryGetValue(right, out rightCache))
-                    dictionaryCache.Add(right, rightCache = new Dictionary<TCheck, TCheck>());
-            }
             TCheck operation;
-            bool leftFlag = false;
-            try
+            if (!dictionaryCache.TryGetValue(left, right, out operation))
             {
-                Monitor.Enter(leftCache, ref leftFlag);
-                if (!leftCache.TryGetValue(right, out operation))
-                {
 
                 /* left offset */   uint     lo  = left.offset,
                /* right offset */            ro  = right.offset,
@@ -447,90 +436,73 @@ using AllenCopeland.Abstraction.Utilities.Collections;
           /* right working set */            rws = right.values,
             /* out working set */            ows = oil > 0 ? new SlotType[oil] : null;
 
-                    /* *
-                     * Eases code management when setup/finalization
-                     * logic is in one place.
-                     * *
-                     * Loops and other logic out-sourced to @operator(...).
-                     * */
-                    @operator(lo, ro, ll, rl, mo, nl, li, ri, lws, rws, ows);
-                    /* *
-                     * Different bitwise operations have different rules
-                     * for whether the result set is inverted.
-                     * */
-                    bool invert = inversionPredicate(li, ri);
-                    if (invert)
-                        //If it is inverted, flip the bits of each subset.
-                        for (int i = 0; i < oil; i++)
-                            ows[i] = ~ows[i];
-                    operation = checkCreator();
-                    operation.offset = mo;
-                    operation.length = nl - mo;
-                    operation.isNegativeSet = invert;
-                    operation.fullLength = Math.Max(left.fullLength, right.fullLength);
+                /* *
+                 * Eases code management when setup/finalization
+                 * logic is in one place.
+                 * *
+                 * Loops and other logic out-sourced to @operator(...).
+                 * */
+                @operator(lo, ro, ll, rl, mo, nl, li, ri, lws, rws, ows);
+                /* *
+                 * Different bitwise operations have different rules
+                 * for whether the result set is inverted.
+                 * */
+                bool invert = inversionPredicate(li, ri);
+                if (invert)
+                    //If it is inverted, flip the bits of each subset.
+                    for (int i = 0; i < oil; i++)
+                        ows[i] = ~ows[i];
+                operation = checkCreator();
+                operation.offset = mo;
+                operation.length = nl - mo;
+                operation.isNegativeSet = invert;
+                operation.fullLength = Math.Max(left.fullLength, right.fullLength);
 
-                    SlotType lastMod = (SlotType)operation.length % SlotBitCount;
-                    if (lastMod == 0)
-                        if (nl == 0)
-                        {
-                            operation.lastMod = 0;
-                            operation.lastMask = 0;
-                        }
-                        else
-                        {
-                            operation.lastMask = SlotMaxValue;
-                            operation.lastMod = SlotBitCount;
-                        }
+                SlotType lastMod = (SlotType)operation.length % SlotBitCount;
+                if (lastMod == 0)
+                    if (nl == 0)
+                    {
+                        operation.lastMod = 0;
+                        operation.lastMask = 0;
+                    }
                     else
                     {
-                        operation.lastMod = lastMod;
-                        operation.lastMask = (SlotType)(ShiftValue << (int)lastMod) - 1;
+                        operation.lastMask = SlotMaxValue;
+                        operation.lastMod = SlotBitCount;
                     }
-                    if (invert && oil > 0)
-                        /* *
-                            * On inverted sets, fix the excessive '1' bits that shouldn't be there,
-                            * but get placed due to the lazy nature of the method employed.
-                            * */
-                        ows[ows.Length - 1] &= operation.lastMask;
-                    if (oil > 0)
-                        operation.values = ows;
-                    else
-                        operation.values = null;
-                    /* *
-                        * Reduction especially necessary for exclusive operations
-                        * which only select parts.
-                        * */
-                    operation.Reduce();
-                    if (operation.IsEmpty)
-                    {
-                        operation.values = null;
-                        operation = NullInst;
-                    }
-                    Monitor.Pulse(leftCache);
-                    leftCache.Add(right, operation);
-                    bool rightLock = false;
-                    try
-                    {
-                        Monitor.Enter(rightCache, ref rightLock);
-                        rightCache.Add(left, operation);
-                    }
-                    finally
-                    {
-                        if (rightLock)
-                            Monitor.Exit(rightCache);
-                    }
-                }
                 else
                 {
-                    lock (cacheLock)
-                        cacheHits++;
+                    operation.lastMod = lastMod;
+                    operation.lastMask = (SlotType)(ShiftValue << (int)lastMod) - 1;
+                }
+                if (invert && oil > 0)
+                    /* *
+                     * On inverted sets, fix the excessive '1' bits that shouldn't be there,
+                     * but get placed due to the lazy nature of the method employed.
+                     * */
+                    ows[ows.Length - 1] &= operation.lastMask;
+                if (oil > 0)
+                    operation.values = ows;
+                else
+                    operation.values = null;
+                /* *
+                 * Reduction especially necessary for exclusive operations
+                 * which only select parts.
+                 * */
+                operation.Reduce();
+                if (operation.IsEmpty)
+                {
+                    operation.values = null;
+                    operation = NullInst;
+                }
+                lock (dictionaryCache)
+                {
+                    dictionaryCache.Add(left, right, operation);
+                    dictionaryCache.Add(right, left, operation);
                 }
             }
-            finally
-            {
-                if (leftFlag)
-                    Monitor.Exit(leftCache);
-            }
+            else lock(cacheLock)
+                cacheHits++;
             return operation;
         }
 
@@ -936,12 +908,12 @@ using AllenCopeland.Abstraction.Utilities.Collections;
             return Sum(UnionCache, SymmetricDifferenceCache, IntersectCache);
         }
 
-        private static int Sum(params IDictionary<TCheck, Dictionary<TCheck, TCheck>>[] set)
+        private static int Sum(params IMultikeyedDictionary<TCheck, TCheck, TCheck>[] set)
         {
             //An example of how to abuse C#'s new features.
             int result = 0;
             foreach (var dict in set)
-                result += dict.Values.Sum(p => p.Count);
+                result += dict.Count;
             return result;
         }
 

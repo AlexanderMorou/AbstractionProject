@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Oil;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -13,8 +14,52 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Translation
 {
+    [Flags]
+    public enum TranslationOrderKind
+    {
+        /// <summary>
+        /// The order of the elements is supposed to be
+        /// alphabetic.
+        /// </summary>
+        /* 01001 */
+        Alphabetic = 0x9,
+        /// <summary>
+        /// The order of the elements is supposed to be 
+        /// by the order specified.
+        /// </summary>
+        /* 10010 */
+        Specific = 0x12,
+        /* 11100 */
+        /// <summary>
+        /// The order of the elements is supposed
+        /// to be by the order the elements were inserted.
+        /// </summary>
+        Verbatim = 0x1c,
+    }
+    public enum DeclarationTranslationOrder
+    {
+        BinaryOperatorCoercions,
+        Classes,
+        Constructors,
+        Delegates,
+        Enums,
+        Events,
+        Fields,
+        Indexers,
+        Interfaces,
+        Methods,
+        Properties,
+        Structs,
+        TypeCoercions,
+        UnaryOperatorCoercions,
+    }
     public interface IIntermediateCodeTranslatorOptions
     {
+        /// <summary>
+        /// Returns/sets the method used to determine how the
+        /// elements are translated.
+        /// </summary>
+        TranslationOrderKind ElementOrderingMethod { get; set; }
         /// <summary>
         /// Returns/sets whether the code translator will extend the parent
         /// instance's scope to include the namespace of the type involved
@@ -27,10 +72,5 @@ namespace AllenCopeland.Abstraction.Slf.Translation
         /// written in one file.
         /// </summary>
         bool AllowPartials { get; set; }
-        /// <summary>
-        /// Returns the <see cref="IReadOnlyCollection{T}"/>
-        /// of intermediate declarations presently being built.
-        /// </summary>
-        IReadOnlyCollection<IIntermediateDeclaration> BuildTrail { get; }
     }
 }

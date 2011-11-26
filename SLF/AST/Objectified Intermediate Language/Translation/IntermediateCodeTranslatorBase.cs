@@ -11,6 +11,7 @@ using AllenCopeland.Abstraction.Slf.Oil.Statements;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using System.CodeDom.Compiler;
+using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -33,8 +34,47 @@ namespace AllenCopeland.Abstraction.Slf.Translation
         private IIntermediateCodeTranslatorOptions options;
 
         protected abstract IIntermediateCodeTranslatorOptions InitializeOptions();
-
+        private IReadOnlyCollection<IIntermediateDeclaration> buildTrailReadOnly;
+        private List<IIntermediateDeclaration> buildTrail = new List<IIntermediateDeclaration>();
         #region IIntermediateCodeTranslator Members
+
+        public IReadOnlyCollection<IIntermediateDeclaration> BuildTrail
+        {
+            get
+            {
+                if (buildTrailReadOnly == null)
+                    buildTrailReadOnly = this.InitializeReadOnlyBuildTrail();
+                return this.buildTrailReadOnly;
+            }
+        }
+
+        private IReadOnlyCollection<IIntermediateDeclaration> InitializeReadOnlyBuildTrail()
+        {
+            return new ReadOnlyCollection<IIntermediateDeclaration>(buildTrail);
+        }
+
+        protected void BuildTrailPush(IIntermediateDeclaration declaration)
+        {
+            this.buildTrail.Add(declaration);
+        }
+
+        protected void BuildTrailPop()
+        {
+            this.buildTrail.RemoveAt(buildTrail.Count - 1);
+        }
+
+        protected void BuildTrailPop(IIntermediateDeclaration declaration)
+        {
+            if (buildTrail.Contains(declaration))
+            {
+                for (int i = buildTrail.Count - 1; i >= 0; i--)
+                    if (buildTrail[i] == declaration)
+                    {
+                        buildTrail.RemoveAt(i);
+                        break;
+                    }
+            }
+        }
 
         public IIntermediateCodeTranslatorOptions Options
         {
@@ -48,7 +88,7 @@ namespace AllenCopeland.Abstraction.Slf.Translation
 
         #region IExpressionVisitor Members
 
-        public virtual void Visit<TLeft, TRight>(IBinaryOperationExpression<TLeft, TRight> expression)
+        public virtual void Translate<TLeft, TRight>(IBinaryOperationExpression<TLeft, TRight> expression)
             where TLeft : 
                 INaryOperandExpression
             where TRight : 
@@ -60,7 +100,7 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                     if (expression.LeftSide != null)
                     {
                         expression.LeftSide.Visit(this);
-                        Visit(expression.OperationKind);
+                        Translate(expression.OperationKind);
                     }
                     expression.RightSide.Visit(this);
                     break;
@@ -68,7 +108,7 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                     expression.LeftSide.Visit(this);
                     if (expression.RightSide != null)
                     {
-                        Visit(expression.OperationKind);
+                        Translate(expression.OperationKind);
                         expression.RightSide.Visit(this);
                     }
                     break;
@@ -77,516 +117,516 @@ namespace AllenCopeland.Abstraction.Slf.Translation
             }
         }
 
-        public abstract void Visit(BinaryOperationKind kind);
+        public abstract void Translate(BinaryOperationKind kind);
 
-        public abstract void Visit(IIndexerReferenceExpression expression);
+        public abstract void Translate(IIndexerReferenceExpression expression);
 
         /// <summary>
         /// Visits a conditional expression.
         /// </summary>
         /// <param name="expression">The <see cref="IConditionalExpression"/> to visit.</param>
-        public abstract void Visit(IConditionalExpression expression);
+        public abstract void Translate(IConditionalExpression expression);
 
         /// <summary>
         /// Visits a unary operation expression.
         /// </summary>
         /// <param name="expression">The <see cref="IUnaryOperationExpression"/> to visit.</param>
-        public abstract void Visit(IUnaryOperationExpression expression);
+        public abstract void Translate(IUnaryOperationExpression expression);
 
         /// <summary>
-        /// Visits a type cast expression.
+        /// Translates a type cast expression.
         /// </summary>
         /// <param name="expression">The <see cref="ITypeCastExpression"/> to visit.</param>
-        public abstract void Visit(ITypeCastExpression expression);
+        public abstract void Translate(ITypeCastExpression expression);
 
         /// <summary>
-        /// Visits a type of expression
+        /// Translates a type of expression
         /// </summary>
         /// <param name="expression">The <see cref="ITypeOfExpression"/> to visit.</param>
-        public abstract void Visit(ITypeOfExpression expression);
+        public abstract void Translate(ITypeOfExpression expression);
 
         /// <summary>
-        /// Visits a type reference expression.
+        /// Translates a type reference expression.
         /// </summary>
         /// <param name="expression">The <see cref="ITypeReferenceExpression"/> to visit.</param>
-        public abstract void Visit(ITypeReferenceExpression expression);
+        public abstract void Translate(ITypeReferenceExpression expression);
 
         /// <summary>
-        /// Visits a variadic type cast expression.
+        /// Translates a variadic type cast expression.
         /// </summary>
         /// <param name="expression">The <see cref="IVariadicTypeCastExpression"/> to visit.</param>
-        public abstract void Visit(IVariadicTypeCastExpression expression);
+        public abstract void Translate(IVariadicTypeCastExpression expression);
 
         /// <summary>
-        /// Visits a symbol expression.
+        /// Translates a symbol expression.
         /// </summary>
         /// <param name="expression">The <see cref="ISymbolExpression"/> to visit.</param>
-        public abstract void Visit(ISymbolExpression expression);
+        public abstract void Translate(ISymbolExpression expression);
 
         /// <summary>
         /// Visits an expression which obtains a member handle through a static
         /// reference.
         /// </summary>
         /// <param name="expression">The <see cref="IStaticGetMemberHandleExpression"/> to visit.</param>
-        public abstract void Visit(IStaticGetMemberHandleExpression expression);
+        public abstract void Translate(IStaticGetMemberHandleExpression expression);
 
         /// <summary>
-        /// Visits a special reference expression.
+        /// Translates a special reference expression.
         /// </summary>
         /// <param name="expression">The <see cref="ISpecialReferenceExpression"/> to visit.</param>
-        public abstract void Visit(ISpecialReferenceExpression expression);
+        public abstract void Translate(ISpecialReferenceExpression expression);
 
         /// <summary>
-        /// Visits a property reference expression.
+        /// Translates a property reference expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPropertyReferenceExpression"/> to visit.</param>
-        public abstract void Visit(IPropertyReferenceExpression expression);
+        public abstract void Translate(IPropertyReferenceExpression expression);
 
         /// <summary>
-        /// Visits a parenthesized expression.
+        /// Translates a parenthesized expression.
         /// </summary>
         /// <param name="expression">The <see cref="IParenthesizedExpression"/> to visit.</param>
-        public abstract void Visit(IParenthesizedExpression expression);
+        public abstract void Translate(IParenthesizedExpression expression);
 
         /// <summary>
-        /// Visits a named parameter expression.
+        /// Translates a named parameter expression.
         /// </summary>
         /// <param name="expression">The <see cref="INamedParameterExpression"/> which designates
         /// the name and value of a parameter to pass into a method/constructor/indexer.</param>
-        public abstract void Visit(INamedParameterExpression expression);
+        public abstract void Translate(INamedParameterExpression expression);
 
         /// <summary>
-        /// Visits a method pointer reference expression.
+        /// Translates a method pointer reference expression.
         /// </summary>
         /// <param name="expression">The <see cref="IMethodPointerReferenceExpression"/> to visit.</param>
-        public abstract void Visit(IMethodPointerReferenceExpression expression);
+        public abstract void Translate(IMethodPointerReferenceExpression expression);
 
         /// <summary>
-        /// Visits a method invoke expression.
+        /// Translates a method invoke expression.
         /// </summary>
         /// <param name="expression">The <see cref="IMethodInvokeExpression"/> to visit.</param>
-        public abstract void Visit(IMethodInvokeExpression expression);
+        public abstract void Translate(IMethodInvokeExpression expression);
 
         /// <summary>
-        /// Visits a local reference expression.
+        /// Translates a local reference expression.
         /// </summary>
         /// <param name="expression">The <see cref="ILocalReferenceExpression"/> to visit.</param>
-        public abstract void Visit(ILocalReferenceExpression expression);
+        public abstract void Translate(ILocalReferenceExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IFieldReferenceExpression"/>
         /// to visit.</param>
-        public abstract void Visit(IFieldReferenceExpression expression);
+        public abstract void Translate(IFieldReferenceExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IExpressionToCommaTypeReferenceFusionExpression"/>
         /// to visit.</param>
-        public abstract void Visit(IExpressionToCommaTypeReferenceFusionExpression expression);
+        public abstract void Translate(IExpressionToCommaTypeReferenceFusionExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IExpressionToCommaFusionExpression"/>
         /// to visit.</param>
-        public abstract void Visit(IExpressionToCommaFusionExpression expression);
+        public abstract void Translate(IExpressionToCommaFusionExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IExpressionFusionExpression"/>
         /// to visit.</param>
-        public abstract void Visit(IExpressionFusionExpression expression);
+        public abstract void Translate(IExpressionFusionExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IEventInvokeExpression"/>
         /// to visit.</param>
-        public abstract void Visit(IEventInvokeExpression expression);
+        public abstract void Translate(IEventInvokeExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IDirectionExpression"/>
         /// to visit.</param>
-        public abstract void Visit(IDirectionExpression expression);
+        public abstract void Translate(IDirectionExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IDelegateReferenceExpression"/>
         /// to visit.</param>
-        public abstract void Visit(IDelegateReferenceExpression expression);
+        public abstract void Translate(IDelegateReferenceExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IDelegateMethodPointerReferenceExpression"/>
         /// to visit.</param>
-        public abstract void Visit(IDelegateMethodPointerReferenceExpression expression);
+        public abstract void Translate(IDelegateMethodPointerReferenceExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IDelegateInvokeExpression"/>
         /// to visit.</param>
-        public abstract void Visit(IDelegateInvokeExpression expression);
+        public abstract void Translate(IDelegateInvokeExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IDelegateHolderReferenceExpression"/>
         /// to visit.</param>
-        public abstract void Visit(IDelegateHolderReferenceExpression expression);
+        public abstract void Translate(IDelegateHolderReferenceExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ICreateInstanceMemberAssignment"/>
         /// to visit.</param>
-        public abstract void Visit(ICreateInstanceMemberAssignment expression);
+        public abstract void Translate(ICreateInstanceMemberAssignment expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ICreateInstanceExpression"/>
         /// to visit.</param>
-        public abstract void Visit(ICreateInstanceExpression expression);
+        public abstract void Translate(ICreateInstanceExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ICreateArrayExpression"/>
         /// to visit.</param>
-        public abstract void Visit(ICreateArrayExpression expression);
+        public abstract void Translate(ICreateArrayExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ICreateArrayNestedDetailExpression"/>
         /// to visit.</param>
-        public abstract void Visit(ICreateArrayNestedDetailExpression expression);
+        public abstract void Translate(ICreateArrayNestedDetailExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ICreateArrayDetailExpression"/>
         /// to visit.</param>
-        public abstract void Visit(ICreateArrayDetailExpression expression);
+        public abstract void Translate(ICreateArrayDetailExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ICommaExpression"/>
         /// to visit.</param>
-        public abstract void Visit(ICommaExpression expression);
+        public abstract void Translate(ICommaExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IAnonymousMethodWithParametersExpression"/>
         /// to visit.</param>
-        public abstract void Visit(IAnonymousMethodWithParametersExpression expression);
+        public abstract void Translate(IAnonymousMethodWithParametersExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IAnonymousMethodExpression"/>
         /// to visit.</param>
-        public abstract void Visit(IAnonymousMethodExpression expression);
+        public abstract void Translate(IAnonymousMethodExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ILambdaTypedStatementExpression"/>
         /// to visit.</param>
-        public abstract void Visit(ILambdaTypedStatementExpression expression);
+        public abstract void Translate(ILambdaTypedStatementExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ILambdaTypeInferredStatementExpression"/>
         /// to visit.</param>
-        public abstract void Visit(ILambdaTypeInferredStatementExpression expression);
+        public abstract void Translate(ILambdaTypeInferredStatementExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ILambdaTypedSimpleExpression"/>
         /// to visit.</param>
-        public abstract void Visit(ILambdaTypedSimpleExpression expression);
+        public abstract void Translate(ILambdaTypedSimpleExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ILambdaTypeInferredSimpleExpression"/>
         /// to visit.</param>
-        public abstract void Visit(ILambdaTypeInferredSimpleExpression expression);
+        public abstract void Translate(ILambdaTypeInferredSimpleExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IParameterReferenceExpression"/>
         /// to visit.</param>
-        public abstract void Visit(IParameterReferenceExpression expression);
+        public abstract void Translate(IParameterReferenceExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IConstructorInvokeExpression"/>
         /// to visit.</param>
-        public abstract void Visit(IConstructorInvokeExpression expression);
+        public abstract void Translate(IConstructorInvokeExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="ctorPointerReference"/> provided.
+        /// Translates the <paramref name="ctorPointerReference"/> provided.
         /// </summary>
         /// <param name="ctorPointerReference">The <see cref="IConstructorPointerReferenceExpression"/>
         /// to visit.</param>
-        public abstract void Visit(IConstructorPointerReferenceExpression ctorPointerReference);
+        public abstract void Translate(IConstructorPointerReferenceExpression ctorPointerReference);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ILinqExpression"/>
         /// to visit.</param>
-        public abstract void Visit(ILinqExpression expression);
+        public abstract void Translate(ILinqExpression expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IAssignmentExpression"/>
         /// to visit.</param>
-        public abstract void Visit(IAssignmentExpression expression);
+        public abstract void Translate(IAssignmentExpression expression);
 
         /// <summary>
-        /// Visits the range variable of a language integrated query.
+        /// Translates the range variable of a language integrated query.
         /// </summary>
         /// <param name="expression">The <see cref="ILinqRangeVariableReference"/>
         /// to visit.</param>
-        public abstract void Visit(ILinqRangeVariableReference expression);
+        public abstract void Translate(ILinqRangeVariableReference expression);
 
         /// <summary>
-        /// Visits the <paramref name="expression"/> provided.
+        /// Translates the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IEventReferenceExpression"/> 
         /// to visit.</param>
-        public abstract void Visit(IEventReferenceExpression expression);
+        public abstract void Translate(IEventReferenceExpression expression);
 
         #endregion
 
         #region ILinqVisitor Members
 
-        public abstract void Visit(ILinqSelectBody expression);
+        public abstract void Translate(ILinqSelectBody expression);
 
-        public abstract void Visit(ILinqGroupBody expression);
+        public abstract void Translate(ILinqGroupBody expression);
 
-        public abstract void Visit(ILinqFusionSelectBody expression);
+        public abstract void Translate(ILinqFusionSelectBody expression);
 
-        public abstract void Visit(ILinqFusionGroupBody expression);
+        public abstract void Translate(ILinqFusionGroupBody expression);
 
-        public abstract void Visit(ILinqFromClause linqClause);
+        public abstract void Translate(ILinqFromClause linqClause);
 
-        public abstract void Visit(ILinqJoinClause linqClause);
+        public abstract void Translate(ILinqJoinClause linqClause);
 
-        public abstract void Visit(ILinqLetClause linqClause);
+        public abstract void Translate(ILinqLetClause linqClause);
 
-        public abstract void Visit(ILinqOrderByClause linqClause);
+        public abstract void Translate(ILinqOrderByClause linqClause);
 
-        public abstract void Visit(ILinqTypedFromClause linqClause);
+        public abstract void Translate(ILinqTypedFromClause linqClause);
 
-        public abstract void Visit(ILinqTypedJoinClause linqClause);
+        public abstract void Translate(ILinqTypedJoinClause linqClause);
 
-        public abstract void Visit(ILinqWhereClause linqClause);
+        public abstract void Translate(ILinqWhereClause linqClause);
 
         #endregion
 
         #region IIntermediatePrimitiveVisitor Members
 
         /// <summary>
-        /// Visits a boolean primitive expression.
+        /// Translates a boolean primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
-        public abstract void Visit(IPrimitiveExpression<bool> expression);
+        public abstract void Translate(IPrimitiveExpression<bool> expression);
 
         /// <summary>
-        /// Visits a character primitive expression.
+        /// Translates a character primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
-        public abstract void Visit(IPrimitiveExpression<char> expression);
+        public abstract void Translate(IPrimitiveExpression<char> expression);
 
         /// <summary>
-        /// Visits a string primitive expression.
+        /// Translates a string primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
-        public abstract void Visit(IPrimitiveExpression<string> expression);
+        public abstract void Translate(IPrimitiveExpression<string> expression);
 
         /// <summary>
-        /// Visits a byte primitive expression.
+        /// Translates a byte primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
-        public abstract void Visit(IPrimitiveExpression<byte> expression);
+        public abstract void Translate(IPrimitiveExpression<byte> expression);
 
         /// <summary>
-        /// Visits a sbyte primitive expression.
+        /// Translates a sbyte primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
-        public abstract void Visit(IPrimitiveExpression<sbyte> expression);
+        public abstract void Translate(IPrimitiveExpression<sbyte> expression);
 
         /// <summary>
         /// Visits an unsigned 16-bit primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
-        public abstract void Visit(IPrimitiveExpression<ushort> expression);
+        public abstract void Translate(IPrimitiveExpression<ushort> expression);
 
         /// <summary>
-        /// Visits a 16-bit primitive expression.
+        /// Translates a 16-bit primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
-        public abstract void Visit(IPrimitiveExpression<short> expression);
+        public abstract void Translate(IPrimitiveExpression<short> expression);
 
         /// <summary>
         /// Visits an unsigned 32-bit primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
-        public abstract void Visit(IPrimitiveExpression<uint> expression);
+        public abstract void Translate(IPrimitiveExpression<uint> expression);
 
         /// <summary>
-        /// Visits a 32-bit primitive expression.
+        /// Translates a 32-bit primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
-        public abstract void Visit(IPrimitiveExpression<int> expression);
+        public abstract void Translate(IPrimitiveExpression<int> expression);
 
         /// <summary>
         /// Visits an unsigned 64-bit primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
-        public abstract void Visit(IPrimitiveExpression<ulong> expression);
+        public abstract void Translate(IPrimitiveExpression<ulong> expression);
 
         /// <summary>
-        /// Visits a 64-bit primitive expression.
+        /// Translates a 64-bit primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
-        public abstract void Visit(IPrimitiveExpression<long> expression);
+        public abstract void Translate(IPrimitiveExpression<long> expression);
 
         /// <summary>
-        /// Visits a single precision floating point primitive expression.
+        /// Translates a single precision floating point primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
-        public abstract void Visit(IPrimitiveExpression<float> expression);
+        public abstract void Translate(IPrimitiveExpression<float> expression);
 
         /// <summary>
-        /// Visits a double precision floating point primitive expression.
+        /// Translates a double precision floating point primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
-        public abstract void Visit(IPrimitiveExpression<double> expression);
+        public abstract void Translate(IPrimitiveExpression<double> expression);
 
         /// <summary>
-        /// Visits a decimal primitive expression.
+        /// Translates a decimal primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
-        public abstract void Visit(IPrimitiveExpression<decimal> expression);
+        public abstract void Translate(IPrimitiveExpression<decimal> expression);
 
         /// <summary>
-        /// Visits a null primitive expression.
+        /// Translates a null primitive expression.
         /// </summary>
-        public abstract void VisitNull();
+        public abstract void TranslateNull();
 
         #endregion
 
         #region IStatementVisitor Members
 
-        void VisitStatementSet(IEnumerable<IStatement> statementSet)
+        void TranslateStatementSet(IEnumerable<IStatement> statementSet)
         {
             foreach (var statement in statementSet)
                 statement.Visit(this);
         }
 
-        public abstract void Visit(IBlockStatement statement);
+        public abstract void Translate(IBlockStatement statement);
 
-        public abstract void Visit(IBreakStatement statement);
+        public abstract void Translate(IBreakStatement statement);
 
-        public abstract void Visit(ICallMethodStatement statement);
+        public abstract void Translate(ICallMethodStatement statement);
 
-        public abstract void Visit(IConditionBlockStatement statement);
+        public abstract void Translate(IConditionBlockStatement statement);
 
-        public abstract void Visit(ICallFusionStatement statement);
+        public abstract void Translate(ICallFusionStatement statement);
 
-        public abstract void Visit(IConditionContinuationStatement statement);
+        public abstract void Translate(IConditionContinuationStatement statement);
 
-        public abstract void Visit(IEnumerateSetBreakableBlockStatement statement);
+        public abstract void Translate(IEnumerateSetBreakableBlockStatement statement);
 
-        public abstract void Visit(IExplicitlyTypedLocalVariableDeclarationStatement statement);
+        public abstract void Translate(IExplicitlyTypedLocalVariableDeclarationStatement statement);
 
-        public abstract void Visit(IExpressionStatement statement);
+        public abstract void Translate(IExpressionStatement statement);
 
-        public abstract void Visit(IGoToStatement statement);
+        public abstract void Translate(IGoToStatement statement);
 
-        public abstract void Visit(IJumpTarget statement);
+        public abstract void Translate(IJumpTarget statement);
 
         /// <summary>
         /// Visits the iteration block <paramref name="statement"/> provided.
         /// </summary>
         /// <param name="statement">The <see cref="IIterationBlockStatement"/> to visit.</param>
-        public abstract void Visit(IIterationBlockStatement statement);
+        public abstract void Translate(IIterationBlockStatement statement);
 
         /// <summary>
         /// Visits the jump <paramref name="statement"/> provided.
         /// </summary>
         /// <param name="statement">The <see cref="IJumpStatement"/> to visit.</param>
-        public abstract void Visit(IJumpStatement statement);
+        public abstract void Translate(IJumpStatement statement);
 
         /// <summary>
         /// Visits the label <paramref name="statement"/> provided.
         /// </summary>
         /// <param name="statement">The <see cref="ILabelStatement"/> to visit.</param>
-        public abstract void Visit(ILabelStatement statement);
+        public abstract void Translate(ILabelStatement statement);
 
         /// <summary>
         /// Visits the return <paramref name="statement"/> provided.
         /// </summary>
         /// <param name="statement">The <see cref="IReturnStatement"/> to visit.</param>
-        public abstract void Visit(IReturnStatement statement);
+        public abstract void Translate(IReturnStatement statement);
 
         /// <summary>
         /// Visits the simple iteration <paramref name="statement"/> provided.
         /// </summary>
         /// <param name="statement">The <see cref="ISimpleIterationBlockStatement"/> to visit.</param>
-        public abstract void Visit(ISimpleIterationBlockStatement statement);
+        public abstract void Translate(ISimpleIterationBlockStatement statement);
 
         /// <summary>
         /// Visits the switch case block <paramref name="statement"/> provided.
         /// </summary>
         /// <param name="statement">The <see cref="ISwitchCaseBlockStatement"/> to visit.</param>
-        public abstract void Visit(ISwitchCaseBlockStatement statement);
+        public abstract void Translate(ISwitchCaseBlockStatement statement);
 
         /// <summary>
         /// Visits the switch <paramref name="statement"/> provided.
         /// </summary>
         /// <param name="statement">The <see cref="ISwitchStatement"/> to visit.</param>
-        public abstract void Visit(ISwitchStatement statement);
+        public abstract void Translate(ISwitchStatement statement);
 
         /// <summary>
         /// Visits the try <paramref name="statement"/> provided.
         /// </summary>
         /// <param name="statement">The <see cref="ITryStatement"/> to visit.</param>
-        public abstract void Visit(ITryStatement statement);
+        public abstract void Translate(ITryStatement statement);
 
         /// <summary>
         /// Visits the <paramref name="statement"/> provided.
         /// </summary>
         /// <param name="statement">The <see cref="ILocalDeclarationStatement"/> to visit.</param>
-        public abstract void Visit(ILocalDeclarationStatement statement);
+        public abstract void Translate(ILocalDeclarationStatement statement);
 
         /// <summary>
         /// Visits the change event handler <paramref name="statement"/> provided.
         /// </summary>
         /// <param name="statement">The <see cref="IChangeEventHandlerStatement"/> 
         /// to visit.</param>
-        public abstract void Visit(IChangeEventHandlerStatement statement);
+        public abstract void Translate(IChangeEventHandlerStatement statement);
 
         /// <summary>
         /// Visits the bound change event handler <paramref name="statement"/>
@@ -603,7 +643,7 @@ namespace AllenCopeland.Abstraction.Slf.Translation
         /// <typeparam name="TSignatureParent">The parent that contains the <typeparamref name="TSignature"/> 
         /// instances.</typeparam>
         /// <param name="statement">The <see cref="IBoundChangeEventSignatureHandlerStatement{TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent}"/> to visit.</param>
-        public abstract void Visit<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(IBoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent> statement)
+        public abstract void Translate<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(IBoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent> statement)
             where TEvent :
                 IEventSignatureMember<TEvent, TEventParameter, TEventParent>
             where TEventParent :
@@ -622,30 +662,30 @@ namespace AllenCopeland.Abstraction.Slf.Translation
         /// </summary>
         /// <param name="statement">The <see cref="ICommentStatement"/>
         /// to visit.</param>
-        public abstract void Visit(ICommentStatement statement);
+        public abstract void Translate(ICommentStatement statement);
         #endregion
 
         #region IIntermediateDeclarationVisitor Members
 
-        public abstract void Visit(IIntermediateAssembly assembly);
+        public abstract void Translate(IIntermediateAssembly assembly);
 
-        public abstract void Visit(IIntermediateNamespaceDeclaration @namespace);
+        public abstract void Translate(IIntermediateNamespaceDeclaration @namespace);
 
         #endregion
 
         #region IIntermediateTypeVisitor Members
 
-        public abstract void Visit(IIntermediateClassType @class);
+        public abstract void Translate(IIntermediateClassType @class);
 
-        public abstract void Visit(IIntermediateDelegateType @delegate);
+        public abstract void Translate(IIntermediateDelegateType @delegate);
 
-        public abstract void Visit(IIntermediateEnumType @enum);
+        public abstract void Translate(IIntermediateEnumType @enum);
 
-        public abstract void Visit(IIntermediateInterfaceType @interface);
+        public abstract void Translate(IIntermediateInterfaceType @interface);
 
-        public abstract void Visit(IIntermediateStructType @struct);
+        public abstract void Translate(IIntermediateStructType @struct);
 
-        public abstract void Visit<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>(IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent> parameter)
+        public abstract void Translate<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>(IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent> parameter)
             where TGenericParameter :
                 IGenericParameter<TGenericParameter, TParent>
             where TIntermediateGenericParameter :
@@ -661,9 +701,9 @@ namespace AllenCopeland.Abstraction.Slf.Translation
 
         #region IIntermediateMemberVisitor Members
 
-        public abstract void Visit(ILocalMember local);
+        public abstract void Translate(ILocalMember local);
 
-        public abstract void Visit<TCtor, TIntermediateCtor, TType, TIntermediateType>(IIntermediateConstructorSignatureMember<TCtor, TIntermediateCtor, TType, TIntermediateType> ctor)
+        public abstract void Translate<TCtor, TIntermediateCtor, TType, TIntermediateType>(IIntermediateConstructorSignatureMember<TCtor, TIntermediateCtor, TType, TIntermediateType> ctor)
             where TCtor :
                 IConstructorMember<TCtor, TType>
             where TIntermediateCtor :
@@ -675,7 +715,7 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                 TType,
                 IIntermediateCreatableSignatureParent<TCtor, TIntermediateCtor, TType, TIntermediateType>;
 
-        public abstract void Visit<TCtor, TIntermediateCtor, TType, TIntermediateType>(IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType> ctor)
+        public abstract void Translate<TCtor, TIntermediateCtor, TType, TIntermediateType>(IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType> ctor)
             where TCtor :
                 IConstructorMember<TCtor, TType>
             where TIntermediateCtor :
@@ -687,7 +727,7 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                 TType,
                 IIntermediateCreatableParent<TCtor, TIntermediateCtor, TType, TIntermediateType>;
 
-        public abstract void Visit<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>(IIntermediateEventMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> @event)
+        public abstract void Translate<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>(IIntermediateEventMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> @event)
             where TEvent :
                 IEventMember<TEvent, TEventParent>
             where TIntermediateEvent :
@@ -699,7 +739,7 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                 TEventParent,
                 IIntermediateEventParent<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>;
 
-        public abstract void Visit<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>(IIntermediateEventSignatureMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> @event)
+        public abstract void Translate<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>(IIntermediateEventSignatureMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> @event)
             where TEvent :
                 IEventSignatureMember<TEvent, TEventParent>
             where TIntermediateEvent :
@@ -711,19 +751,19 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                 TEventParent,
                 IIntermediateEventSignatureParent<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>;
 
-        public abstract void Visit<TCoercionParent>(IBinaryOperatorCoercionMember<TCoercionParent> binaryCoercion)
+        public abstract void Translate<TCoercionParent>(IBinaryOperatorCoercionMember<TCoercionParent> binaryCoercion)
             where TCoercionParent :
                 ICoercibleType<IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>;
 
-        public abstract void Visit<TCoercionParent>(ITypeCoercionMember<TCoercionParent> typeCoercion)
+        public abstract void Translate<TCoercionParent>(ITypeCoercionMember<TCoercionParent> typeCoercion)
             where TCoercionParent :
                 ICoercibleType<ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParent>, TCoercionParent>;
 
-        public abstract void Visit<TCoercionParent>(IUnaryOperatorCoercionMember<TCoercionParent> unaryCoercion)
+        public abstract void Translate<TCoercionParent>(IUnaryOperatorCoercionMember<TCoercionParent> unaryCoercion)
             where TCoercionParent :
                 ICoercibleType<IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>;
 
-        public abstract void Visit<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>(IIntermediateFieldMember<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent> field)
+        public abstract void Translate<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>(IIntermediateFieldMember<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent> field)
             where TField :
                 IFieldMember<TField, TFieldParent>
             where TIntermediateField :
@@ -735,9 +775,9 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                 TFieldParent,
                 IIntermediateFieldParent<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>;
 
-        public abstract void Visit(IIntermediateEnumFieldMember field);
+        public abstract void Translate(IIntermediateEnumFieldMember field);
 
-        public abstract void Visit<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>(IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> indexer)
+        public abstract void Translate<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>(IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> indexer)
             where TIndexer :
                 IIndexerMember<TIndexer, TIndexerParent>
             where TIntermediateIndexer :
@@ -749,7 +789,7 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                 TIndexerParent,
                 IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>;
 
-        public abstract void Visit<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>(IIntermediateIndexerSignatureMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> indexerSignature)
+        public abstract void Translate<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>(IIntermediateIndexerSignatureMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> indexerSignature)
             where TIndexer :
                 IIndexerSignatureMember<TIndexer, TIndexerParent>
             where TIntermediateIndexer :
@@ -761,7 +801,7 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                 TIndexerParent,
                 IIntermediateIndexerSignatureParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>;
 
-        public abstract void Visit<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>(IIntermediateMethodMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent> method)
+        public abstract void Translate<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>(IIntermediateMethodMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent> method)
             where TMethod :
                 IMethodMember<TMethod, TMethodParent>
             where TIntermediateMethod :
@@ -773,7 +813,7 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                 IIntermediateMethodParent<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>, 
                 TMethodParent;
 
-        public abstract void Visit<TSignature, TIntermediateSignature, TParent, TIntermediateParent>(IIntermediateMethodSignatureMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent> methodSignature)
+        public abstract void Translate<TSignature, TIntermediateSignature, TParent, TIntermediateParent>(IIntermediateMethodSignatureMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent> methodSignature)
             where TSignature :
                 IMethodSignatureMember<TSignature, TParent>
             where TIntermediateSignature :
@@ -785,7 +825,7 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                 TParent,
                 IIntermediateMethodSignatureParent<TSignature, TIntermediateSignature, TParent, TIntermediateParent>;
 
-        public abstract void Visit<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> propertySignature)
+        public abstract void Translate<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> propertySignature)
             where TProperty :
                 IPropertySignatureMember<TProperty, TPropertyParent>
             where TIntermediateProperty :
@@ -797,7 +837,7 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                 TPropertyParent,
                 IIntermediatePropertySignatureParent<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>;
 
-        public abstract void Visit<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> property)
+        public abstract void Translate<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> property)
             where TProperty :
                 IPropertyMember<TProperty, TPropertyParent>
             where TIntermediateProperty :
@@ -809,32 +849,32 @@ namespace AllenCopeland.Abstraction.Slf.Translation
                 TPropertyParent,
                 IIntermediatePropertyParent<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>;
 
-        public abstract void Visit<TParent, TIntermediateParent>(IIntermediateParameterMember<TParent, TIntermediateParent> parameter)
+        public abstract void Translate<TParent, TIntermediateParent>(IIntermediateParameterMember<TParent, TIntermediateParent> parameter)
             where TParent :
                 IParameterParent
             where TIntermediateParent :
                 TParent,
                 IIntermediateParameterParent;
 
-        public abstract void Visit(ILinqRangeVariable rangeVariable);
+        public abstract void Translate(ILinqRangeVariable rangeVariable);
 
         #endregion
 
         #region IIntermediateInclusionVisitor Members
 
-        public abstract void Visit(INamedInclusionScopeCoercion namedInclusion);
+        public abstract void Translate(INamedInclusionScopeCoercion namedInclusion);
 
-        public abstract void Visit(INamedInclusionRenameScopeCoercion renamedInclusion);
+        public abstract void Translate(INamedInclusionRenameScopeCoercion renamedInclusion);
 
-        public abstract void Visit(INamespaceInclusionScopeCoercion namespaceInclusion);
+        public abstract void Translate(INamespaceInclusionScopeCoercion namespaceInclusion);
 
-        public abstract void Visit(INamespaceInclusionRenameScopeCoercion renamedNamespaceInclusion);
+        public abstract void Translate(INamespaceInclusionRenameScopeCoercion renamedNamespaceInclusion);
 
-        public abstract void Visit(ITypeInclusionScopeCoercion typeInclusion);
+        public abstract void Translate(ITypeInclusionScopeCoercion typeInclusion);
 
-        public abstract void Visit(ITypeInclusionRenameScopeCoercion renamedTypeInclusion);
+        public abstract void Translate(ITypeInclusionRenameScopeCoercion renamedTypeInclusion);
 
-        public abstract void Visit(IStaticInclusionScopeCoercion staticInclusion);
+        public abstract void Translate(IStaticInclusionScopeCoercion staticInclusion);
 
         #endregion
 
@@ -866,5 +906,742 @@ namespace AllenCopeland.Abstraction.Slf.Translation
             }
         }
 
+        protected void TranslateFieldParent<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>(TIntermediateFieldParent parent)
+            where TField :
+                IFieldMember<TField, TFieldParent>
+            where TIntermediateField :
+                TField,
+                IIntermediateFieldMember<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>
+            where TFieldParent :
+                IFieldParent<TField, TFieldParent>
+            where TIntermediateFieldParent :
+                TFieldParent,
+                IIntermediateFieldParent<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>
+        {
+            foreach (var item in parent.Fields.Values)
+                item.Visit(this);
+        }
+
+        protected void TranslateMethodSignatures<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>(IIntermediateMethodSignatureMemberDictionary<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> signatures)
+            where TSignatureParameter :
+                IMethodSignatureParameterMember<TSignatureParameter, TSignature, TParent>
+            where TIntermediateSignatureParameter :
+                IIntermediateMethodSignatureParameterMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature,TParent, TIntermediateParent>,
+                TSignatureParameter
+            where TSignature :
+                IMethodSignatureMember<TSignatureParameter, TSignature, TParent>
+            where TIntermediateSignature :
+                IIntermediateMethodSignatureMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>,
+                TSignature
+            where TParent :
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter,  TParent>
+            where TIntermediateParent :
+                IIntermediateSignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TParent, TIntermediateParent>,
+                TParent
+        {
+            foreach (var method in signatures.Values)
+                method.Visit(this);
+        }
+
+        protected void TranslateTypes<TTypeIdentifier, TType, TIntermediateType>(IIntermediateTypeDictionary<TTypeIdentifier, TType, TIntermediateType> target)
+            where TTypeIdentifier :
+                ITypeUniqueIdentifier
+            where TType :
+                IType<TTypeIdentifier, TType>
+            where TIntermediateType :
+                IIntermediateType,
+                TType
+        {
+            foreach (var type in target.Values)
+                type.Visit(this);
+        }
+
+        protected void TranslateTypeParent(IIntermediateTypeParent parent)
+        {
+            this.TranslateTypes(parent.Classes);
+            this.TranslateTypes(parent.Delegates);
+            this.TranslateTypes(parent.Enums);
+            this.TranslateTypes(parent.Interfaces);
+            this.TranslateTypes(parent.Structs);
+        }
+
+        protected void TranslateNamespaceParent(IIntermediateNamespaceParent parent)
+        {
+            this.TranslateFieldParent<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent>(parent);
+            this.TranslateMethodSignatures(parent.Methods);
+            this.TranslateTypeParent(parent);
+        }
+
+        #region IExpressionVisitor Members
+
+        void IExpressionVisitor.Visit<TLeft, TRight>(IBinaryOperationExpression<TLeft, TRight> expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IIndexerReferenceExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IConditionalExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IUnaryOperationExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(ITypeCastExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(ITypeOfExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(ITypeReferenceExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IVariadicTypeCastExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(ISymbolExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IStaticGetMemberHandleExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(ISpecialReferenceExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IPropertyReferenceExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IParenthesizedExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(INamedParameterExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IMethodPointerReferenceExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IMethodInvokeExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(ILocalReferenceExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IFieldReferenceExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IExpressionToCommaTypeReferenceFusionExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IExpressionToCommaFusionExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IExpressionFusionExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IEventInvokeExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IDirectionExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IDelegateReferenceExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IDelegateMethodPointerReferenceExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IDelegateInvokeExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IDelegateHolderReferenceExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(ICreateInstanceMemberAssignment expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(ICreateInstanceExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(ICreateArrayExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(ICreateArrayNestedDetailExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(ICreateArrayDetailExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(ICommaExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IAnonymousMethodWithParametersExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IAnonymousMethodExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(ILambdaTypedStatementExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(ILambdaTypeInferredStatementExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(ILambdaTypedSimpleExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(ILambdaTypeInferredSimpleExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IParameterReferenceExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IConstructorInvokeExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IConstructorPointerReferenceExpression ctorPointerReference)
+        {
+            this.Translate(ctorPointerReference);
+        }
+
+        void IExpressionVisitor.Visit(ILinqExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IAssignmentExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(ILinqRangeVariableReference expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit(IEventReferenceExpression expression)
+        {
+            this.Translate(expression);
+        }
+
+        #endregion
+
+        #region ILinqVisitor Members
+
+        void ILinqVisitor.Visit(ILinqSelectBody expression)
+        {
+            this.Translate(expression);
+        }
+
+        void ILinqVisitor.Visit(ILinqGroupBody expression)
+        {
+            this.Translate(expression);
+        }
+
+        void ILinqVisitor.Visit(ILinqFusionSelectBody expression)
+        {
+            this.Translate(expression);
+        }
+
+        void ILinqVisitor.Visit(ILinqFusionGroupBody expression)
+        {
+            this.Translate(expression);
+        }
+
+        void ILinqVisitor.Visit(ILinqFromClause linqClause)
+        {
+            this.Translate(linqClause);
+        }
+
+        void ILinqVisitor.Visit(ILinqJoinClause linqClause)
+        {
+            this.Translate(linqClause);
+        }
+
+        void ILinqVisitor.Visit(ILinqLetClause linqClause)
+        {
+            this.Translate(linqClause);
+        }
+
+        void ILinqVisitor.Visit(ILinqOrderByClause linqClause)
+        {
+            this.Translate(linqClause);
+        }
+
+        void ILinqVisitor.Visit(ILinqTypedFromClause linqClause)
+        {
+            this.Translate(linqClause);
+        }
+
+        void ILinqVisitor.Visit(ILinqTypedJoinClause linqClause)
+        {
+            this.Translate(linqClause);
+        }
+
+        void ILinqVisitor.Visit(ILinqWhereClause linqClause)
+        {
+            this.Translate(linqClause);
+        }
+
+        #endregion
+
+        #region IIntermediatePrimitiveVisitor Members
+
+        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<bool> expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<char> expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<string> expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<byte> expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<sbyte> expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<ushort> expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<short> expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<uint> expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<int> expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<ulong> expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<long> expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<float> expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<double> expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<decimal> expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IIntermediatePrimitiveVisitor.VisitNull()
+        {
+            this.TranslateNull();
+        }
+
+        #endregion
+
+        #region IStatementVisitor Members
+
+        void IStatementVisitor.Visit(IBlockStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(IBreakStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(ICallMethodStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(IConditionBlockStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(ICallFusionStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(IConditionContinuationStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(IEnumerateSetBreakableBlockStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(IExplicitlyTypedLocalVariableDeclarationStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(IExpressionStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(IGoToStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(IJumpTarget statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(IIterationBlockStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(IJumpStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(ILabelStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(IReturnStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(ISimpleIterationBlockStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(ISwitchCaseBlockStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(ISwitchStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(ITryStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(ILocalDeclarationStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(IChangeEventHandlerStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(IBoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent> statement)
+        {
+            this.Translate(statement);
+        }
+
+        void IStatementVisitor.Visit(ICommentStatement statement)
+        {
+            this.Translate(statement);
+        }
+
+        #endregion
+
+        #region IIntermediateDeclarationVisitor Members
+
+        void IIntermediateDeclarationVisitor.Visit(IIntermediateAssembly assembly)
+        {
+            this.Translate(assembly);
+        }
+
+        void IIntermediateDeclarationVisitor.Visit(IIntermediateNamespaceDeclaration @namespace)
+        {
+            this.Translate(@namespace);
+        }
+
+        #endregion
+
+        #region IIntermediateTypeVisitor Members
+
+        void IIntermediateTypeVisitor.Visit(IIntermediateClassType @class)
+        {
+            this.Translate(@class);
+        }
+
+        void IIntermediateTypeVisitor.Visit(IIntermediateDelegateType @delegate)
+        {
+            this.Translate(@delegate);
+        }
+
+        void IIntermediateTypeVisitor.Visit(IIntermediateEnumType @enum)
+        {
+            this.Translate(@enum);
+        }
+
+        void IIntermediateTypeVisitor.Visit(IIntermediateInterfaceType @interface)
+        {
+            this.Translate(@interface);
+        }
+
+        void IIntermediateTypeVisitor.Visit(IIntermediateStructType @struct)
+        {
+            this.Translate(@struct);
+        }
+
+        void IIntermediateTypeVisitor.Visit<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>(IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent> parameter)
+        {
+            this.Translate(parameter);
+        }
+
+        #endregion
+
+        #region IIntermediateMemberVisitor Members
+
+        void IIntermediateMemberVisitor.Visit(ILocalMember local)
+        {
+            this.Translate(local);
+        }
+
+        void IIntermediateMemberVisitor.Visit<TCtor, TIntermediateCtor, TType, TIntermediateType>(IIntermediateConstructorSignatureMember<TCtor, TIntermediateCtor, TType, TIntermediateType> ctor)
+        {
+            this.Translate(ctor);
+        }
+
+        void IIntermediateMemberVisitor.Visit<TCtor, TIntermediateCtor, TType, TIntermediateType>(IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType> ctor)
+        {
+            this.Translate(ctor);
+        }
+
+        void IIntermediateMemberVisitor.Visit<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>(IIntermediateEventMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> @event)
+        {
+            this.Translate(@event);
+        }
+
+        void IIntermediateMemberVisitor.Visit<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>(IIntermediateEventSignatureMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> @event)
+        {
+            this.Translate(@event);
+        }
+
+        void IIntermediateMemberVisitor.Visit<TCoercionParent>(IBinaryOperatorCoercionMember<TCoercionParent> binaryCoercion)
+        {
+            this.Translate(binaryCoercion);
+        }
+
+        void IIntermediateMemberVisitor.Visit<TCoercionParent>(ITypeCoercionMember<TCoercionParent> typeCoercion)
+        {
+            this.Translate(typeCoercion);
+        }
+
+        void IIntermediateMemberVisitor.Visit<TCoercionParent>(IUnaryOperatorCoercionMember<TCoercionParent> unaryCoercion)
+        {
+            this.Translate(unaryCoercion);
+        }
+
+        void IIntermediateMemberVisitor.Visit<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>(IIntermediateFieldMember<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent> field)
+        {
+            this.Translate(field);
+        }
+
+        void IIntermediateMemberVisitor.Visit(IIntermediateEnumFieldMember field)
+        {
+            this.Translate(field);
+        }
+
+        void IIntermediateMemberVisitor.Visit<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>(IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> indexer)
+        {
+            this.Translate(indexer);
+        }
+
+        void IIntermediateMemberVisitor.Visit<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>(IIntermediateIndexerSignatureMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> indexerSignature)
+        {
+            this.Translate(indexerSignature);
+        }
+
+        void IIntermediateMemberVisitor.Visit<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>(IIntermediateMethodMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent> method)
+        {
+            this.Translate(method);
+        }
+
+        void IIntermediateMemberVisitor.Visit<TSignature, TIntermediateSignature, TParent, TIntermediateParent>(IIntermediateMethodSignatureMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent> methodSignature)
+        {
+            this.Translate(methodSignature);
+        }
+
+        void IIntermediateMemberVisitor.Visit<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> propertySignature)
+        {
+            this.Translate(propertySignature);
+        }
+
+        void IIntermediateMemberVisitor.Visit<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> property)
+        {
+            this.Translate(property);
+        }
+
+        void IIntermediateMemberVisitor.Visit<TParent, TIntermediateParent>(IIntermediateParameterMember<TParent, TIntermediateParent> parameter)
+        {
+            this.Translate(parameter);
+        }
+
+        void IIntermediateMemberVisitor.Visit(ILinqRangeVariable rangeVariable)
+        {
+            this.Translate(rangeVariable);
+        }
+
+        #endregion
+
+        #region IIntermediateInclusionVisitor Members
+
+        void IIntermediateInclusionVisitor.Visit(INamedInclusionScopeCoercion namedInclusion)
+        {
+            this.Translate(namedInclusion);
+        }
+
+        void IIntermediateInclusionVisitor.Visit(INamedInclusionRenameScopeCoercion renamedInclusion)
+        {
+            this.Translate(renamedInclusion);
+        }
+
+        void IIntermediateInclusionVisitor.Visit(INamespaceInclusionScopeCoercion namespaceInclusion)
+        {
+            this.Translate(namespaceInclusion);
+        }
+
+        void IIntermediateInclusionVisitor.Visit(INamespaceInclusionRenameScopeCoercion renamedNamespaceInclusion)
+        {
+            this.Translate(renamedNamespaceInclusion);
+        }
+
+        void IIntermediateInclusionVisitor.Visit(ITypeInclusionScopeCoercion typeInclusion)
+        {
+            this.Translate(typeInclusion);
+        }
+
+        void IIntermediateInclusionVisitor.Visit(ITypeInclusionRenameScopeCoercion renamedTypeInclusion)
+        {
+            this.Translate(renamedTypeInclusion);
+        }
+
+        void IIntermediateInclusionVisitor.Visit(IStaticInclusionScopeCoercion staticInclusion)
+        {
+            this.Translate(staticInclusion);
+        }
+
+        #endregion
     }
 }

@@ -26,9 +26,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>..\..\..\Build\x64\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
-    <DocumentationFile>bin\Debug\_abs.slf.typesystems.abstract.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\Build\x64\Debug\_abs.slf.typesystems.abstract.XML</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -37,9 +37,9 @@
     <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
+    <OutputPath>..\..\..\Build\x64\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>bin\Release\_abs.slf.typesystems.abstract.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\Build\x64\Release\_abs.slf.typesystems.abstract.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -50,9 +50,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
+    <OutputPath>..\..\..\Build\x86\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
-    <DocumentationFile>bin\Debug\_abs.slf.typesystems.abstract.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\Build\x86\Debug\_abs.slf.typesystems.abstract.XML</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -61,9 +61,9 @@
     <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
+    <OutputPath>..\..\..\Build\x86\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>bin\Release\_abs.slf.typesystems.abstract.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\Build\x86\Release\_abs.slf.typesystems.abstract.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>

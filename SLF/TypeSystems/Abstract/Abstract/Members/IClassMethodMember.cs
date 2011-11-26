@@ -12,6 +12,7 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract.Members
 {
+    [Flags]
     public enum ClassMethodMemberFlags
     {
         /// <summary>

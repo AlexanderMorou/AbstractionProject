@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         new IIntermediateNamespaceParent Parent { get; }
         /// <summary>
         /// Suspends the duality in the type layout where members 
-        /// inserted in methods, properties, events and so on are 
+        /// inserted in methods, fields, classes and so on are 
         /// dually inserted in a verbatim-order master set.
         /// </summary>
         /// <remarks>Incremental function, all resumes must
@@ -43,7 +43,7 @@ namespace AllenCopeland.Abstraction.Slf.Oil
         void SuspendDualLayout();
         /// <summary>
         /// Resumes the duality in the type layout where members
-        /// inserted in methods, properties, events, and so on are
+        /// inserted in methods, fields, classes, and so on are
         /// dually inserted in a verbatim-order master set.
         /// </summary>
         /// <remarks>Incremental function, all resumes must
