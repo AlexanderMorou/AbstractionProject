@@ -25,642 +25,646 @@ namespace AllenCopeland.Abstraction.Slf.Translation
             throw new NotImplementedException();
         }
 
-        public override void Visit(BinaryOperationKind kind)
+        public override void Translate(BinaryOperationKind kind)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IIndexerReferenceExpression expression)
+        public override void Translate(IIndexerReferenceExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IConditionalExpression expression)
+        public override void Translate(IConditionalExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IUnaryOperationExpression expression)
+        public override void Translate(IUnaryOperationExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ITypeCastExpression expression)
+        public override void Translate(ITypeCastExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ITypeOfExpression expression)
+        public override void Translate(ITypeOfExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ITypeReferenceExpression expression)
+        public override void Translate(ITypeReferenceExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IVariadicTypeCastExpression expression)
+        public override void Translate(IVariadicTypeCastExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ISymbolExpression expression)
+        public override void Translate(ISymbolExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IStaticGetMemberHandleExpression expression)
+        public override void Translate(IStaticGetMemberHandleExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ISpecialReferenceExpression expression)
+        public override void Translate(ISpecialReferenceExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IPropertyReferenceExpression expression)
+        public override void Translate(IPropertyReferenceExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IParenthesizedExpression expression)
+        public override void Translate(IParenthesizedExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(INamedParameterExpression expression)
+        public override void Translate(INamedParameterExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IMethodPointerReferenceExpression expression)
+        public override void Translate(IMethodPointerReferenceExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IMethodInvokeExpression expression)
+        public override void Translate(IMethodInvokeExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILocalReferenceExpression expression)
+        public override void Translate(ILocalReferenceExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IFieldReferenceExpression expression)
+        public override void Translate(IFieldReferenceExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IExpressionToCommaTypeReferenceFusionExpression expression)
+        public override void Translate(IExpressionToCommaTypeReferenceFusionExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IExpressionToCommaFusionExpression expression)
+        public override void Translate(IExpressionToCommaFusionExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IExpressionFusionExpression expression)
+        public override void Translate(IExpressionFusionExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IEventInvokeExpression expression)
+        public override void Translate(IEventInvokeExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IDirectionExpression expression)
+        public override void Translate(IDirectionExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IDelegateReferenceExpression expression)
+        public override void Translate(IDelegateReferenceExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IDelegateMethodPointerReferenceExpression expression)
+        public override void Translate(IDelegateMethodPointerReferenceExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IDelegateInvokeExpression expression)
+        public override void Translate(IDelegateInvokeExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IDelegateHolderReferenceExpression expression)
+        public override void Translate(IDelegateHolderReferenceExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ICreateInstanceMemberAssignment expression)
+        public override void Translate(ICreateInstanceMemberAssignment expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ICreateInstanceExpression expression)
+        public override void Translate(ICreateInstanceExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ICreateArrayExpression expression)
+        public override void Translate(ICreateArrayExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ICreateArrayNestedDetailExpression expression)
+        public override void Translate(ICreateArrayNestedDetailExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ICreateArrayDetailExpression expression)
+        public override void Translate(ICreateArrayDetailExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ICommaExpression expression)
+        public override void Translate(ICommaExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IAnonymousMethodWithParametersExpression expression)
+        public override void Translate(IAnonymousMethodWithParametersExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IAnonymousMethodExpression expression)
+        public override void Translate(IAnonymousMethodExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILambdaTypedStatementExpression expression)
+        public override void Translate(ILambdaTypedStatementExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILambdaTypeInferredStatementExpression expression)
+        public override void Translate(ILambdaTypeInferredStatementExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILambdaTypedSimpleExpression expression)
+        public override void Translate(ILambdaTypedSimpleExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILambdaTypeInferredSimpleExpression expression)
+        public override void Translate(ILambdaTypeInferredSimpleExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IParameterReferenceExpression expression)
+        public override void Translate(IParameterReferenceExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IConstructorInvokeExpression expression)
+        public override void Translate(IConstructorInvokeExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IConstructorPointerReferenceExpression ctorPointerReference)
+        public override void Translate(IConstructorPointerReferenceExpression ctorPointerReference)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILinqExpression expression)
+        public override void Translate(ILinqExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IAssignmentExpression expression)
+        public override void Translate(IAssignmentExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILinqRangeVariableReference expression)
+        public override void Translate(ILinqRangeVariableReference expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IEventReferenceExpression expression)
+        public override void Translate(IEventReferenceExpression expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILinqSelectBody expression)
+        public override void Translate(ILinqSelectBody expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILinqGroupBody expression)
+        public override void Translate(ILinqGroupBody expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILinqFusionSelectBody expression)
+        public override void Translate(ILinqFusionSelectBody expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILinqFusionGroupBody expression)
+        public override void Translate(ILinqFusionGroupBody expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILinqFromClause linqClause)
+        public override void Translate(ILinqFromClause linqClause)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILinqJoinClause linqClause)
+        public override void Translate(ILinqJoinClause linqClause)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILinqLetClause linqClause)
+        public override void Translate(ILinqLetClause linqClause)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILinqOrderByClause linqClause)
+        public override void Translate(ILinqOrderByClause linqClause)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILinqTypedFromClause linqClause)
+        public override void Translate(ILinqTypedFromClause linqClause)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILinqTypedJoinClause linqClause)
+        public override void Translate(ILinqTypedJoinClause linqClause)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILinqWhereClause linqClause)
+        public override void Translate(ILinqWhereClause linqClause)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IPrimitiveExpression<bool> expression)
+        public override void Translate(IPrimitiveExpression<bool> expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IPrimitiveExpression<char> expression)
+        public override void Translate(IPrimitiveExpression<char> expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IPrimitiveExpression<string> expression)
+        public override void Translate(IPrimitiveExpression<string> expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IPrimitiveExpression<byte> expression)
+        public override void Translate(IPrimitiveExpression<byte> expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IPrimitiveExpression<sbyte> expression)
+        public override void Translate(IPrimitiveExpression<sbyte> expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IPrimitiveExpression<ushort> expression)
+        public override void Translate(IPrimitiveExpression<ushort> expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IPrimitiveExpression<short> expression)
+        public override void Translate(IPrimitiveExpression<short> expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IPrimitiveExpression<uint> expression)
+        public override void Translate(IPrimitiveExpression<uint> expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IPrimitiveExpression<int> expression)
+        public override void Translate(IPrimitiveExpression<int> expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IPrimitiveExpression<ulong> expression)
+        public override void Translate(IPrimitiveExpression<ulong> expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IPrimitiveExpression<long> expression)
+        public override void Translate(IPrimitiveExpression<long> expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IPrimitiveExpression<float> expression)
+        public override void Translate(IPrimitiveExpression<float> expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IPrimitiveExpression<double> expression)
+        public override void Translate(IPrimitiveExpression<double> expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IPrimitiveExpression<decimal> expression)
+        public override void Translate(IPrimitiveExpression<decimal> expression)
         {
             throw new NotImplementedException();
         }
 
-        public override void VisitNull()
+        public override void TranslateNull()
         {
-            //base.SetTextClass(IntermediateSpanTranslationClasses.Keyword);
         }
 
-        public override void Visit(IBlockStatement statement)
+        public override void Translate(IBlockStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IBreakStatement statement)
+        public override void Translate(IBreakStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ICallMethodStatement statement)
+        public override void Translate(ICallMethodStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IConditionBlockStatement statement)
+        public override void Translate(IConditionBlockStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ICallFusionStatement statement)
+        public override void Translate(ICallFusionStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IConditionContinuationStatement statement)
+        public override void Translate(IConditionContinuationStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IEnumerateSetBreakableBlockStatement statement)
+        public override void Translate(IEnumerateSetBreakableBlockStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IExplicitlyTypedLocalVariableDeclarationStatement statement)
+        public override void Translate(IExplicitlyTypedLocalVariableDeclarationStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IExpressionStatement statement)
+        public override void Translate(IExpressionStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IGoToStatement statement)
+        public override void Translate(IGoToStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IJumpTarget statement)
+        public override void Translate(IJumpTarget statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IIterationBlockStatement statement)
+        public override void Translate(IIterationBlockStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IJumpStatement statement)
+        public override void Translate(IJumpStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILabelStatement statement)
+        public override void Translate(ILabelStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IReturnStatement statement)
+        public override void Translate(IReturnStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ISimpleIterationBlockStatement statement)
+        public override void Translate(ISimpleIterationBlockStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ISwitchCaseBlockStatement statement)
+        public override void Translate(ISwitchCaseBlockStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ISwitchStatement statement)
+        public override void Translate(ISwitchStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ITryStatement statement)
+        public override void Translate(ITryStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILocalDeclarationStatement statement)
+        public override void Translate(ILocalDeclarationStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IChangeEventHandlerStatement statement)
+        public override void Translate(IChangeEventHandlerStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ICommentStatement statement)
+        public override void Translate(ICommentStatement statement)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IIntermediateAssembly assembly)
+        public override void Translate(IIntermediateAssembly assembly)
         {
-            throw new NotImplementedException();
+            if (assembly == null)
+                throw new ArgumentNullException("assembly");
+            if (Options.AllowPartials || assembly.IsRoot)
+            {
+
+            }
         }
 
-        public override void Visit(IIntermediateNamespaceDeclaration @namespace)
+        public override void Translate(IIntermediateNamespaceDeclaration @namespace)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IIntermediateClassType @class)
+        public override void Translate(IIntermediateClassType @class)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IIntermediateDelegateType @delegate)
+        public override void Translate(IIntermediateDelegateType @delegate)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IIntermediateEnumType @enum)
+        public override void Translate(IIntermediateEnumType @enum)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IIntermediateInterfaceType @interface)
+        public override void Translate(IIntermediateInterfaceType @interface)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IIntermediateStructType @struct)
+        public override void Translate(IIntermediateStructType @struct)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>(IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent> parameter)
+        public override void Translate<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>(IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent> parameter)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILocalMember local)
+        public override void Translate(ILocalMember local)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TCtor, TIntermediateCtor, TType, TIntermediateType>(IIntermediateConstructorSignatureMember<TCtor, TIntermediateCtor, TType, TIntermediateType> ctor)
+        public override void Translate<TCtor, TIntermediateCtor, TType, TIntermediateType>(IIntermediateConstructorSignatureMember<TCtor, TIntermediateCtor, TType, TIntermediateType> ctor)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TCtor, TIntermediateCtor, TType, TIntermediateType>(IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType> ctor)
+        public override void Translate<TCtor, TIntermediateCtor, TType, TIntermediateType>(IIntermediateConstructorMember<TCtor, TIntermediateCtor, TType, TIntermediateType> ctor)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>(IIntermediateEventMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> @event)
+        public override void Translate<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>(IIntermediateEventMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> @event)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>(IIntermediateEventSignatureMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> @event)
+        public override void Translate<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>(IIntermediateEventSignatureMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> @event)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TCoercionParent>(IBinaryOperatorCoercionMember<TCoercionParent> binaryCoercion)
+        public override void Translate<TCoercionParent>(IBinaryOperatorCoercionMember<TCoercionParent> binaryCoercion)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TCoercionParent>(ITypeCoercionMember<TCoercionParent> typeCoercion)
+        public override void Translate<TCoercionParent>(ITypeCoercionMember<TCoercionParent> typeCoercion)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TCoercionParent>(IUnaryOperatorCoercionMember<TCoercionParent> unaryCoercion)
+        public override void Translate<TCoercionParent>(IUnaryOperatorCoercionMember<TCoercionParent> unaryCoercion)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>(IIntermediateFieldMember<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent> field)
+        public override void Translate<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>(IIntermediateFieldMember<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent> field)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IIntermediateEnumFieldMember field)
+        public override void Translate(IIntermediateEnumFieldMember field)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>(IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> indexer)
+        public override void Translate<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>(IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> indexer)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>(IIntermediateIndexerSignatureMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> indexerSignature)
+        public override void Translate<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>(IIntermediateIndexerSignatureMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> indexerSignature)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>(IIntermediateMethodMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent> method)
+        public override void Translate<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>(IIntermediateMethodMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent> method)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TSignature, TIntermediateSignature, TParent, TIntermediateParent>(IIntermediateMethodSignatureMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent> methodSignature)
+        public override void Translate<TSignature, TIntermediateSignature, TParent, TIntermediateParent>(IIntermediateMethodSignatureMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent> methodSignature)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> propertySignature)
+        public override void Translate<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(IIntermediatePropertySignatureMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> propertySignature)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> property)
+        public override void Translate<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> property)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TParent, TIntermediateParent>(IIntermediateParameterMember<TParent, TIntermediateParent> parameter)
+        public override void Translate<TParent, TIntermediateParent>(IIntermediateParameterMember<TParent, TIntermediateParent> parameter)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ILinqRangeVariable rangeVariable)
+        public override void Translate(ILinqRangeVariable rangeVariable)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(INamedInclusionScopeCoercion namedInclusion)
+        public override void Translate(INamedInclusionScopeCoercion namedInclusion)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(INamedInclusionRenameScopeCoercion renamedInclusion)
+        public override void Translate(INamedInclusionRenameScopeCoercion renamedInclusion)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(INamespaceInclusionScopeCoercion namespaceInclusion)
+        public override void Translate(INamespaceInclusionScopeCoercion namespaceInclusion)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(INamespaceInclusionRenameScopeCoercion renamedNamespaceInclusion)
+        public override void Translate(INamespaceInclusionRenameScopeCoercion renamedNamespaceInclusion)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ITypeInclusionScopeCoercion typeInclusion)
+        public override void Translate(ITypeInclusionScopeCoercion typeInclusion)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(ITypeInclusionRenameScopeCoercion renamedTypeInclusion)
+        public override void Translate(ITypeInclusionRenameScopeCoercion renamedTypeInclusion)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit(IStaticInclusionScopeCoercion staticInclusion)
+        public override void Translate(IStaticInclusionScopeCoercion staticInclusion)
         {
             throw new NotImplementedException();
         }
 
-        public override void Visit<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(IBoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent> statement)
+        public override void Translate<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(IBoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent> statement)
         {
             throw new NotImplementedException();
         }

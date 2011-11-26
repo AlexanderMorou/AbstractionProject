@@ -10,6 +10,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <summary>
     /// Whether the instance member is static or hide by signature.
     /// </summary>
+    [Flags]
     public enum InstanceMemberFlags
     {
         /// <summary>

@@ -26,9 +26,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>..\..\..\Build\x64\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;NO_ANONYMOUS, TYPESYSTEM_CLI</DefineConstants>
-    <DocumentationFile>bin\Debug\_abs.slf.ast.oil.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\Build\x64\Debug\_abs.slf.ast.oil.xml</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -37,9 +37,9 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
+    <OutputPath>..\..\..\Build\x64\Release\</OutputPath>
     <DefineConstants>TRACE;NO_ANONYMOUS, TYPESYSTEM_CLI</DefineConstants>
-    <DocumentationFile>bin\Release\_abs.slf.ast.oil.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\Build\x64\Release\_abs.slf.ast.oil.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -49,9 +49,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
+    <OutputPath>..\..\..\Build\x86\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;TYPESYSTEM_CLI</DefineConstants>
-    <DocumentationFile>bin\Debug\_abs.slf.ast.oil.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\Build\x86\Debug\_abs.slf.ast.oil.xml</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -63,9 +63,9 @@
     </NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
+    <OutputPath>..\..\..\Build\x86\Release\</OutputPath>
     <DefineConstants>TRACE;NO_ANONYMOUS, TYPESYSTEM_CLI</DefineConstants>
-    <DocumentationFile>bin\Release\_abs.slf.ast.oil.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\Build\x86\Release\_abs.slf.ast.oil.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -999,22 +999,27 @@
     <ProjectReference Include="..\..\..\Utilities\Common\Common.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
       <Name>Common</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\Metadata\Metadata Library\Metadata Library.csproj">
       <Project>{A94A88DA-2500-4372-A433-A07AC3BFA05F}</Project>
       <Name>Metadata Library</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\TypeSystems\Abstract\TypeSystem Abstract.csproj">
       <Project>{161EAA8C-20C6-4B82-925A-4B8B112910AB}</Project>
       <Name>TypeSystem Abstract</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\TypeSystems\Common Language Infrastructure\Common Language Infrastructure.csproj">
       <Project>{4FF91A45-B361-4D8F-8C5B-03D11E5291E6}</Project>
       <Name>Common Language Infrastructure</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Abstraction Compiler Services\Abstraction Compiler Services.csproj">
       <Project>{DF6044A9-AE48-4AC2-A170-EB839BB0058C}</Project>
       <Name>Abstraction Compiler Services</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
