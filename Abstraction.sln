@@ -47,7 +47,48 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Compilers", "Compilers", "{B16F1D40-CD01-4A5F-ACB3-ED372A1358CD}"
 EndProject
 Global
-
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 10
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs12
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = SLF\\TypeSystems\\Abstract\\TypeSystem\u0020Abstract.csproj
+		SccProjectTopLevelParentUniqueName1 = Abstraction.sln
+		SccProjectName1 = SLF/TypeSystems/Abstract
+		SccLocalPath1 = SLF\\TypeSystems\\Abstract
+		SccProjectUniqueName2 = SLF\\TypeSystems\\Common\u0020Language\u0020Infrastructure\\Common\u0020Language\u0020Infrastructure.csproj
+		SccProjectTopLevelParentUniqueName2 = Abstraction.sln
+		SccProjectName2 = SLF/TypeSystems/Common\u0020Language\u0020Infrastructure
+		SccLocalPath2 = SLF\\TypeSystems\\Common\u0020Language\u0020Infrastructure
+		SccProjectUniqueName3 = Supplementary\u0020Projects\\Bug\u0020Test\u0020Application\\Bug\u0020Test\u0020Application.csproj
+		SccProjectTopLevelParentUniqueName3 = Abstraction.sln
+		SccProjectName3 = Supplementary\u0020Projects/Bug\u0020Test\u0020Application
+		SccLocalPath3 = Supplementary\u0020Projects\\Bug\u0020Test\u0020Application
+		SccProjectUniqueName4 = SLF\\Languages\\VisualBasic.NET\\VisualBasic.NET.csproj
+		SccProjectTopLevelParentUniqueName4 = Abstraction.sln
+		SccProjectName4 = SLF/Languages/VisualBasic.NET
+		SccLocalPath4 = SLF\\Languages\\VisualBasic.NET
+		SccProjectUniqueName5 = SLF\\Metadata\\Metadata\u0020Library\\Metadata\u0020Library.csproj
+		SccProjectTopLevelParentUniqueName5 = Abstraction.sln
+		SccProjectName5 = SLF/Metadata/Metadata\u0020Library
+		SccLocalPath5 = SLF\\Metadata\\Metadata\u0020Library
+		SccProjectUniqueName6 = Utilities\\Common\\Common.csproj
+		SccProjectTopLevelParentUniqueName6 = Abstraction.sln
+		SccProjectName6 = Utilities/Common
+		SccLocalPath6 = Utilities\\Common
+		SccProjectUniqueName7 = Utilities\\FiniteAutomation\\Finite\u0020Automation.csproj
+		SccProjectTopLevelParentUniqueName7 = Abstraction.sln
+		SccProjectName7 = Utilities/FiniteAutomation
+		SccLocalPath7 = Utilities\\FiniteAutomation
+		SccProjectUniqueName8 = UI\\Ownerdrawn\u0020Controls\\Ownerdrawn\u0020Controls.csproj
+		SccProjectTopLevelParentUniqueName8 = Abstraction.sln
+		SccProjectName8 = UI/Ownerdrawn\u0020Controls
+		SccLocalPath8 = UI\\Ownerdrawn\u0020Controls
+		SccProjectUniqueName9 = SLF\\Compilers\\Abstraction\u0020Compiler\u0020Services\\Abstraction\u0020Compiler\u0020Services.csproj
+		SccProjectTopLevelParentUniqueName9 = Abstraction.sln
+		SccProjectName9 = SLF/Compilers/Abstraction\u0020Compiler\u0020Services
+		SccLocalPath9 = SLF\\Compilers\\Abstraction\u0020Compiler\u0020Services
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
@@ -170,10 +211,6 @@ Global
 		SccProjectTopLevelParentUniqueName2 = Abstraction.sln
 		SccProjectName2 = SLF/TypeSystems/Common\u0020Language\u0020Infrastructure
 		SccLocalPath2 = SLF\\TypeSystems\\Common\u0020Language\u0020Infrastructure
-		SccProjectUniqueName3 = SLF\\AST\\Objectified\u0020Intermediate\u0020Language.csproj
-		SccProjectTopLevelParentUniqueName3 = Abstraction.sln
-		SccProjectName3 = SLF/AST/Objectified\u0020Intermediate\u0020Language
-		SccLocalPath3 = SLF\\AST\\Objectified\u0020Intermediate\u0020Language
 		SccProjectUniqueName4 = SLF\\Languages\\Toy++\\Toy++.csproj
 		SccProjectTopLevelParentUniqueName4 = Abstraction.sln
 		SccProjectName4 = SLF/Languages/Toy++
