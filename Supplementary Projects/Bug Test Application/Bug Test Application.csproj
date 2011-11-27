@@ -150,12 +150,6 @@
     <None Include="Resources\EditDeleteImage.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SLF\AST\Objectified Intermediate Language\Objectified Intermediate Language.csproj">
-      <Project>{02607DC2-E98B-43AE-B906-FE151A70A68D}</Project>
-      <Name>Objectified Intermediate Language</Name>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\..\SLF\Languages\VisualBasic.NET\VisualBasic.NET.csproj">
       <Project>{9C89419D-F2A1-4882-8408-6708A038E025}</Project>
       <Name>VisualBasic.NET</Name>

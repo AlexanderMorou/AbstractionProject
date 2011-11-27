@@ -14,6 +14,16 @@
     </ErrorReportUrlHistory>
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <StartArguments>
+    </StartArguments>
+    <StartWorkingDirectory>C:\Projects\Code\C#\Abstraction\Supplementary Projects\Bug Test Application\bin\x86\Debug\</StartWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <StartArguments>
+    </StartArguments>
+    <StartWorkingDirectory>C:\Projects\Code\C#\Abstraction\Supplementary Projects\Bug Test Application\bin\x86\Release\</StartWorkingDirectory>
   </PropertyGroup>
 </Project>

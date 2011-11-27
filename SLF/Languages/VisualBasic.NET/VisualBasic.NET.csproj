@@ -109,11 +109,6 @@
       <Name>Common</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\AST\Objectified Intermediate Language\Objectified Intermediate Language.csproj">
-      <Project>{02607DC2-E98B-43AE-B906-FE151A70A68D}</Project>
-      <Name>Objectified Intermediate Language</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\..\TypeSystems\Abstract\TypeSystem Abstract.csproj">
       <Project>{161EAA8C-20C6-4B82-925A-4B8B112910AB}</Project>
       <Name>TypeSystem Abstract</Name>

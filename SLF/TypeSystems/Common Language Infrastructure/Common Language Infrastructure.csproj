@@ -592,18 +592,22 @@
     <ProjectReference Include="..\..\..\Utilities\Common\Common.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
       <Name>Common</Name>
+      <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\AST\Abstraction Compiler Services\Abstraction Compiler Services.csproj">
+    <ProjectReference Include="..\..\Compilers\Abstraction Compiler Services\Abstraction Compiler Services.csproj">
       <Project>{DF6044A9-AE48-4AC2-A170-EB839BB0058C}</Project>
       <Name>Abstraction Compiler Services</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\Metadata\Metadata Library\Metadata Library.csproj">
       <Project>{A94A88DA-2500-4372-A433-A07AC3BFA05F}</Project>
       <Name>Metadata Library</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Abstract\TypeSystem Abstract.csproj">
       <Project>{161EAA8C-20C6-4B82-925A-4B8B112910AB}</Project>
       <Name>TypeSystem Abstract</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

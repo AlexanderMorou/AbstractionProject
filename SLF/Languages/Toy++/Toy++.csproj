@@ -118,9 +118,9 @@
       <Project>{4FF91A45-B361-4D8F-8C5B-03D11E5291E6}</Project>
       <Name>Common Language Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Utilities\Common\Utilities - Common.csproj">
+    <ProjectReference Include="..\..\..\Utilities\Common\Common.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
-      <Name>Common Utilities</Name>
+      <Name>Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
