@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
     {
         private _KC keysCollection;
 
-        protected override ControlledStateDictionary<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>.KeysCollection InitializeKeysCollection()
+        protected override ControlledDictionary<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>.KeysCollection InitializeKeysCollection()
         {
             if (this.keysCollection == null)
                 this.keysCollection = new _KC(this);

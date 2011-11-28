@@ -34,13 +34,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         private class _ValuesCollection :
             ValuesCollection
         {
-            internal ControlledStateDictionary<TDeclarationSpecific, TDeclarationSpecific> values;
+            internal ControlledDictionary<TDeclarationSpecific, TDeclarationSpecific> values;
             private _DeclarationsBase<TDeclarationIdentifier, TDeclaration, TDeclarationSpecificIdentifier, TDeclarationSpecific, TOriginalContainer, TDictionary> ParentTypes { get; set; }
             internal _ValuesCollection(_DeclarationsBase<TDeclarationIdentifier, TDeclaration, TDeclarationSpecificIdentifier, TDeclarationSpecific, TOriginalContainer, TDictionary> parentTypes)
                 : base(parentTypes)
             {
                 this.ParentTypes = parentTypes;
-                this.values = new ControlledStateDictionary<TDeclarationSpecific, TDeclarationSpecific>();
+                this.values = new ControlledDictionary<TDeclarationSpecific, TDeclarationSpecific>();
             }
 
             public override bool Contains(TDeclarationSpecific value)

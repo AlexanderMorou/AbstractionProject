@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <typeparam name="TItem">The type of <see cref="IDeclaration"/> in the current
     /// implementation.</typeparam>
     public interface IDeclarationDictionary<TIdentifier, TItem> :
-        IControlledStateDictionary<TIdentifier, TItem>,
+        IControlledDictionary<TIdentifier, TItem>,
         IDisposable
         where TIdentifier :
             IDeclarationUniqueIdentifier

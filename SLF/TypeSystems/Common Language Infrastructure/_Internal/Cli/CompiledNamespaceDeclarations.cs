@@ -62,11 +62,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        protected override ControlledStateDictionary<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration>.KeysCollection InitializeKeysCollection()
+        protected override ControlledDictionary<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration>.KeysCollection InitializeKeysCollection()
         {
             return new _KeysCollection(this);
         }
-        protected override ControlledStateDictionary<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration>.ValuesCollection InitializeValuesCollection()
+        protected override ControlledDictionary<IGeneralDeclarationUniqueIdentifier, INamespaceDeclaration>.ValuesCollection InitializeValuesCollection()
         {
             return new _ValuesCollection(this);
         }

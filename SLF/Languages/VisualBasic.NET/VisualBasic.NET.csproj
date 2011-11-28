@@ -104,10 +104,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Utilities\Common\Common.csproj">
+    <ProjectReference Include="..\..\..\Utilities\Common\Common Utilities.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
-      <Name>Common</Name>
+      <Name>Common Utilities</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Ast\Abstract Syntax Tree.csproj">
+      <Project>{02607DC2-E98B-43AE-B906-FE151A70A68D}</Project>
+      <Name>Abstract Syntax Tree</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\TypeSystems\Abstract\TypeSystem Abstract.csproj">
       <Project>{161EAA8C-20C6-4B82-925A-4B8B112910AB}</Project>

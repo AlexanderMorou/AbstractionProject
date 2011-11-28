@@ -209,9 +209,9 @@
     <None Include="Resources\CheckDefault.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Utilities\Common\Common.csproj">
+    <ProjectReference Include="..\..\Utilities\Common\Common Utilities.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
-      <Name>Common</Name>
+      <Name>Common Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

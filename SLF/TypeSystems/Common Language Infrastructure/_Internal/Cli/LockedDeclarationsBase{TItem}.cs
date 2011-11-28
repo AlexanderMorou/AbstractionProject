@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     /// <typeparam name="TItem">The type of <see cref="IDeclaration"/> contained by the 
     /// <see cref="LockedDeclarationsBase{TItem}"/>.</typeparam>
     internal partial class LockedDeclarationsBase<TIdentifier, TItem> :
-        ControlledStateDictionary<TIdentifier, TItem>,
+        ControlledDictionary<TIdentifier, TItem>,
         IDeclarationDictionary<TIdentifier, TItem>,
         IDeclarationDictionary
         where TIdentifier :

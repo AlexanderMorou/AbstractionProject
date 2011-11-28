@@ -18,21 +18,21 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// <typeparam name="TKey"></typeparam>
     /// <typeparam name="TValue"></typeparam>
     /// <typeparam name="TNode"></typeparam>
-    public class ControlledStateKeyedTreeNode<TKey, TValue, TNode> :
-        ControlledStateKeyedTree<TKey, TValue, TNode>,
-        IControlledStateKeyedTreeNode<TKey, TValue, TNode>
+    public class ControlledKeyedTreeNode<TKey, TValue, TNode> :
+        ControlledKeyedTree<TKey, TValue, TNode>,
+        IControlledKeyedTreeNode<TKey, TValue, TNode>
         where TNode :
-            ControlledStateKeyedTreeNode<TKey, TValue, TNode>
+            ControlledKeyedTreeNode<TKey, TValue, TNode>
     {
-        public ControlledStateKeyedTreeNode()
+        public ControlledKeyedTreeNode()
         {
         }
-        public ControlledStateKeyedTreeNode(IEnumerable<KeyValuePair<TKey, TNode>> entries)
+        public ControlledKeyedTreeNode(IEnumerable<KeyValuePair<TKey, TNode>> entries)
             : base(entries)
         {
         }
 
-        #region IControlledStateKeyedTreeNode<TKey,TValue,TNode> Members
+        #region IControlledKeyedTreeNode<TKey,TValue,TNode> Members
 
         public TValue Value { get; protected set; }
 

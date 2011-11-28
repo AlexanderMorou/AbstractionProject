@@ -100,12 +100,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             }
         }
 
-        protected override ControlledStateDictionary<TDeclarationSpecificIdentifier, TDeclarationSpecific>.KeysCollection InitializeKeysCollection()
+        protected override ControlledDictionary<TDeclarationSpecificIdentifier, TDeclarationSpecific>.KeysCollection InitializeKeysCollection()
         {
             return new _KeysCollection(this);
         }
 
-        protected override ControlledStateDictionary<TDeclarationSpecificIdentifier, TDeclarationSpecific>.ValuesCollection InitializeValuesCollection()
+        protected override ControlledDictionary<TDeclarationSpecificIdentifier, TDeclarationSpecific>.ValuesCollection InitializeValuesCollection()
         {
             return new _ValuesCollection(this);
         }

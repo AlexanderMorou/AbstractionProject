@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// <typeparam name="TValue">The type used to represent the values
     /// of the dictionary.</typeparam>
     public class MutableDictionary<TKey, TValue> :
-        ControlledStateDictionary<TKey, TValue>
+        ControlledDictionary<TKey, TValue>
     {
         /// <summary>
         /// Creates a new <see cref="MutableDictionary{TKey, TValue}"/>

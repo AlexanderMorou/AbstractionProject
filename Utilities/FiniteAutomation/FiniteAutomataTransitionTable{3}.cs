@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
     [DebuggerDisplay("Count = {Count}")]
     public abstract partial class FiniteAutomataTransitionTable<TCheck, TState, TNodeTarget> :
-        IControlledStateDictionary<TCheck, TNodeTarget>,
+        IControlledDictionary<TCheck, TNodeTarget>,
         IFiniteAutomataTransitionTable<TCheck, TState, TNodeTarget>
         where TCheck :
             IFiniteAutomataSet<TCheck>,
@@ -71,9 +71,9 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// which will contain the <paramref name="state"/>.</returns>
         protected abstract TNodeTarget GetStateTarget(TState state);
 
-        #region IControlledStateDictionary<TCheck,TNodeTarget> Members
+        #region IControlledDictionary<TCheck,TNodeTarget> Members
 
-        public IControlledStateCollection<TCheck> Keys
+        public IControlledCollection<TCheck> Keys
         {
             get
             {
@@ -83,7 +83,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             }
         }
 
-        public IControlledStateCollection<TNodeTarget> Values
+        public IControlledCollection<TNodeTarget> Values
         {
             get
             {
@@ -121,7 +121,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         #endregion
 
-        #region IControlledStateCollection<KeyValuePair<TCheck,TNodeTarget>> Members
+        #region IControlledCollection<KeyValuePair<TCheck,TNodeTarget>> Members
 
         /// <summary>
         /// Gets the number of elements contained in the

@@ -120,9 +120,9 @@
     <None Include="Allen Copeland.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
+    <ProjectReference Include="..\Common\Common Utilities.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
-      <Name>Common</Name>
+      <Name>Common Utilities</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>

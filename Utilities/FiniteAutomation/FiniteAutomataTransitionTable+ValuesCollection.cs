@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             IFiniteAutomataState<TCheck, TState>
     {
         protected class ValuesCollection :
-            IControlledStateCollection<TNodeTarget>
+            IControlledCollection<TNodeTarget>
         {
             private FiniteAutomataTransitionTable<TCheck, TState, TNodeTarget> owner;
             /// <summary>
@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 this.owner = owner;
             }
 
-            #region IControlledStateCollection<TNodeTarget> Members
+            #region IControlledCollection<TNodeTarget> Members
 
             /// <summary>
             /// Gets the number of elements contained in the <see cref="ValuesCollection"/>.</summary>
@@ -117,7 +117,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
             #endregion
 
-            #region IControlledStateCollection<TNodeTarget> Members
+            #region IControlledCollection<TNodeTarget> Members
 
 
             public int IndexOf(TNodeTarget element)

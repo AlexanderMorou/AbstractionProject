@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             TMValue
     {
         private new class KeysCollection :
-            ControlledStateDictionary<TSKey, TSValue>.KeysCollection
+            ControlledDictionary<TSKey, TSValue>.KeysCollection
         {
             private SubordinateDictionary<TSKey, TMKey, TSValue, TMValue> owner;
             public KeysCollection(SubordinateDictionary<TSKey, TMKey, TSValue, TMValue> owner)

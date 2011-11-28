@@ -14,7 +14,7 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
     public interface IMasterDictionary :
-        IControlledStateDictionary
+        IControlledDictionary
     {
         /// <summary>
         /// Returns an enumerable entity that contains the 

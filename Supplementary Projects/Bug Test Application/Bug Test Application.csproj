@@ -150,6 +150,10 @@
     <None Include="Resources\EditDeleteImage.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SLF\Ast\Abstract Syntax Tree.csproj">
+      <Project>{02607DC2-E98B-43AE-B906-FE151A70A68D}</Project>
+      <Name>Abstract Syntax Tree</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SLF\Languages\VisualBasic.NET\VisualBasic.NET.csproj">
       <Project>{9C89419D-F2A1-4882-8408-6708A038E025}</Project>
       <Name>VisualBasic.NET</Name>
@@ -172,9 +176,9 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Utilities\Common\Common.csproj">
+    <ProjectReference Include="..\..\Utilities\Common\Common Utilities.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
-      <Name>Common</Name>
+      <Name>Common Utilities</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <Private>False</Private>
     </ProjectReference>

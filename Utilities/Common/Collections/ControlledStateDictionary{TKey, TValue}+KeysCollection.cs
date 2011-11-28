@@ -13,11 +13,11 @@ using System.Reflection;
 
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
-    partial class ControlledStateDictionary<TKey, TValue>
+    partial class ControlledDictionary<TKey, TValue>
     {
         public class KeysCollection :
-            IControlledStateCollection<TKey>,
-            IControlledStateCollection
+            IControlledCollection<TKey>,
+            IControlledCollection
         {
             private SharedLocals locals;
             private KeysCollection(SharedLocals locals)
@@ -25,11 +25,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 this.locals = locals;
             }
 
-            protected internal KeysCollection(ControlledStateDictionary<TKey, TValue> localOwner)
+            protected internal KeysCollection(ControlledDictionary<TKey, TValue> localOwner)
                 : this(localOwner.locals)
             {
             }
-            #region IControlledStateCollection<TKey> Members
+            #region IControlledCollection<TKey> Members
 
             /// <summary>
             /// Gets the number of elements contained in the <see cref="KeysCollection"/>.</summary>
@@ -184,10 +184,10 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
             #endregion
 
-            #region IControlledStateCollection Members
+            #region IControlledCollection Members
 
 
-            bool IControlledStateCollection.Contains(object item)
+            bool IControlledCollection.Contains(object item)
             {
                 if (item == null)
                     return false;
@@ -196,7 +196,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 return this.Contains((TKey)item);
             }
 
-            void IControlledStateCollection.CopyTo(Array array, int arrayIndex)
+            void IControlledCollection.CopyTo(Array array, int arrayIndex)
             {
                 GeneralCopyTo(array, arrayIndex);
             }
@@ -212,12 +212,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                         array.SetValue(this.locals.entries[i].Key, i + arrayIndex);
             }
 
-            object IControlledStateCollection.this[int index]
+            object IControlledCollection.this[int index]
             {
                 get { return this[index]; }
             }
 
-            int IControlledStateCollection.IndexOf(object element)
+            int IControlledCollection.IndexOf(object element)
             {
                 if (element is TKey)
                     return this.IndexOf((TKey)element);

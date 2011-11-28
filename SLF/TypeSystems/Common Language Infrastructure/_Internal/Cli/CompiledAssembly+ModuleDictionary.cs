@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     partial class CompiledAssembly
     {
         private partial class ModuleDictionary :
-            ControlledStateDictionary<IGeneralDeclarationUniqueIdentifier, IModule>,
+            ControlledDictionary<IGeneralDeclarationUniqueIdentifier, IModule>,
             IModuleDictionary
         {
             private CompiledAssembly parent;

@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// <typeparam name="TValue">The type of value to use in the 
     /// <see cref="MasterDictionaryEntry{TEntry}"/> values.</typeparam>
     public interface IMasterDictionary<TKey, TValue> :
-        IControlledStateDictionary<TKey, MasterDictionaryEntry<TValue>>
+        IControlledDictionary<TKey, MasterDictionaryEntry<TValue>>
         where TValue :
             class
     {

@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// <remarks>At this level of generic the type of the 
     /// master elements is not defined.</remarks>
     public interface ISubordinateDictionary<TKey, TValue> :
-        IControlledStateDictionary<TKey, TValue>
+        IControlledDictionary<TKey, TValue>
     {
     }
 }

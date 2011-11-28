@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Documentation
     /// documentation
     /// </summary>
     public interface IDocCommentSection :
-        IControlledStateCollection<IDocCommentElement>
+        IControlledCollection<IDocCommentElement>
     {
         /// <summary>
         /// Returns the <see cref="String"/> value which

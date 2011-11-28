@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <typeparam name="TItem">The type of <see cref="IDeclaration"/> the
     /// <see cref="DeclarationDictionaryBase{TItem}"/> is used for.</typeparam>
     public class DeclarationDictionaryBase<TItemIdentifier, TItem> :
-        ControlledStateDictionary<TItemIdentifier, TItem>,
+        ControlledDictionary<TItemIdentifier, TItem>,
         IDeclarationDictionary<TItemIdentifier, TItem>,
         IDeclarationDictionary
         where TItemIdentifier :

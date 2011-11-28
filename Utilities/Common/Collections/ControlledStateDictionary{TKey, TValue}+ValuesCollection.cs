@@ -14,11 +14,11 @@ using System.Reflection;
 
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
-    partial class ControlledStateDictionary<TKey, TValue>
+    partial class ControlledDictionary<TKey, TValue>
     {
         public class ValuesCollection :
-            IControlledStateCollection<TValue>,
-            IControlledStateCollection
+            IControlledCollection<TValue>,
+            IControlledCollection
         {
             private SharedLocals locals;
             private ValuesCollection(SharedLocals locals)
@@ -26,11 +26,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 this.locals = locals;
             }
 
-            protected internal ValuesCollection(ControlledStateDictionary<TKey, TValue> localOwner)
+            protected internal ValuesCollection(ControlledDictionary<TKey, TValue> localOwner)
                 : this(localOwner.locals)
             {
             }
-            #region IControlledStateCollection<TValue> Members
+            #region IControlledCollection<TValue> Members
 
             /// <summary>
             /// Returns the <see cref="Int32"/> ordinal index of the 
@@ -186,16 +186,16 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
             #endregion
 
-            #region IControlledStateCollection Members
+            #region IControlledCollection Members
 
-            bool IControlledStateCollection.Contains(object item)
+            bool IControlledCollection.Contains(object item)
             {
                 if (!(item is TValue))
                     throw ThrowHelper.ObtainArgumentException(ArgumentWithException.item, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.item), item.GetType().ToString(), typeof(TValue).GetType().ToString());
                 return this.Contains((TValue)item);
             }
 
-            void IControlledStateCollection.CopyTo(Array array, int arrayIndex)
+            void IControlledCollection.CopyTo(Array array, int arrayIndex)
             {
                 GeneralCopyTo(array, arrayIndex);
             }
@@ -211,12 +211,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                         array.SetValue(this.locals.entries[i].Value, i + arrayIndex);
             }
 
-            object IControlledStateCollection.this[int index]
+            object IControlledCollection.this[int index]
             {
                 get { return this[index]; }
             }
 
-            int IControlledStateCollection.IndexOf(object element)
+            int IControlledCollection.IndexOf(object element)
             {
                 if (element is TValue)
                     return this.IndexOf((TValue)element);

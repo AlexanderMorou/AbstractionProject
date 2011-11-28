@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// larger <see cref="IMasterDictionary"/>.
     /// </summary>
     public interface ISubordinateDictionary :
-        IControlledStateDictionary
+        IControlledDictionary
     {
         /// <summary>
         /// Returns the <see cref="IMasterDictionary"/> which

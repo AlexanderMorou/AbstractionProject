@@ -35,11 +35,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             KeysCollection
         {
             private _DeclarationsBase<TDeclarationIdentifier, TDeclaration, TDeclarationSpecificIdentifier, TDeclarationSpecific, TOriginalContainer, TDictionary> ParentTypes { get; set; }
-            private ControlledStateDictionary<TDeclarationSpecific, TDeclarationSpecificIdentifier> values;
+            private ControlledDictionary<TDeclarationSpecific, TDeclarationSpecificIdentifier> values;
             internal _KeysCollection(_DeclarationsBase<TDeclarationIdentifier, TDeclaration, TDeclarationSpecificIdentifier, TDeclarationSpecific, TOriginalContainer, TDictionary> parentTypes)
                 : base(parentTypes)
             {
-                this.values = new ControlledStateDictionary<TDeclarationSpecific, TDeclarationSpecificIdentifier>();
+                this.values = new ControlledDictionary<TDeclarationSpecific, TDeclarationSpecificIdentifier>();
                 this.ParentTypes = parentTypes;
             }
 

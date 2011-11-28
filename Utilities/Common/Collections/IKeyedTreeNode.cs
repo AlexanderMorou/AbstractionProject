@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// hierarchy.</typeparam>
     public interface IKeyedTreeNode<TKey, TValue, TNode> :
         IKeyedTree<TKey, TValue, TNode>,
-        IControlledStateKeyedTreeNode<TKey, TValue, TNode>
+        IControlledKeyedTreeNode<TKey, TValue, TNode>
         where TNode :
             IKeyedTreeNode<TKey, TValue, TNode>,
             new()

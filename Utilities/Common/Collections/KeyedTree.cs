@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// <typeparam name="TNode">The kind of node used within the current
     /// hierarchy.</typeparam>
     public class KeyedTree<TKey, TValue, TNode> :
-        ControlledStateKeyedTree<TKey, TValue, TNode>,
+        ControlledKeyedTree<TKey, TValue, TNode>,
         IKeyedTree<TKey, TValue, TNode>
         where TNode :
             IKeyedTreeNode<TKey, TValue, TNode>,

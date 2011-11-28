@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
     /// <typeparam name="TNodeTarget">The type used to denote the target
     /// container for the transition table.</typeparam>
     public interface IFiniteAutomataTransitionTable<TCheck, TState, TNodeTarget> :
-        IControlledStateDictionary<TCheck, TNodeTarget>,
+        IControlledDictionary<TCheck, TNodeTarget>,
         IFiniteAutomataTransitionTable<TCheck, TState>
         where TCheck :
             IFiniteAutomataSet<TCheck>,
@@ -44,7 +44,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// the symmetric difference of the points of intersection and
         /// the original <paramref name="condition"/>.</returns>
         TCheck GetColliders(TCheck condition, out  IDictionary<TCheck, IFiniteAutomataTransitionNode<TCheck, TNodeTarget>> colliders);
-        new IControlledStateCollection<TCheck> Keys { get; }
+        new IControlledCollection<TCheck> Keys { get; }
         void Add(TCheck check, TNodeTarget target);
         IFiniteAutomataTransitionNode<TCheck, TNodeTarget> GetNode(TCheck key);
     }
@@ -63,7 +63,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         where TState :
             IFiniteAutomataState<TCheck, TState>
     {
-        IControlledStateCollection<TCheck> Keys { get; }
+        IControlledCollection<TCheck> Keys { get; }
         /// <summary>
         /// Adds a state to the transition table by the 
         /// <paramref name="check"/> required for the transition

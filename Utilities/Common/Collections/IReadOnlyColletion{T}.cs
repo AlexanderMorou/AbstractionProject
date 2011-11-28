@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// <typeparam name="T">The type of element used 
     /// in the <see cref="IReadOnlyCollection"/></typeparam>
     public interface IReadOnlyCollection<T> :
-        IControlledStateCollection<T>
+        IControlledCollection<T>
     {
     }
 }

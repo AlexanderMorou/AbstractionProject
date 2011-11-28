@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Documentation
     /// <typeparam name="TSection">The type of <see cref="IDocCommentSection"/>
     /// that describes the <typeparamref name="TItem"/> elements.</typeparam>
     public interface IDocCommentGroup<TKey, TItem, TSection> :
-        IControlledStateDictionary<TKey, TSection>
+        IControlledDictionary<TKey, TSection>
         where TSection :
             IDocCommentSection
     {

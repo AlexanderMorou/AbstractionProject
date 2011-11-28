@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <typeparam name="TParent">The owner of the <typeparamref name="TGenericParameter"/>
     /// dictionary.</typeparam>
     internal class GenericParameterDictionaryBase<TGenericParameter, TParent> :
-        ControlledStateDictionary<IGenericParameterUniqueIdentifier, TGenericParameter>,
+        ControlledDictionary<IGenericParameterUniqueIdentifier, TGenericParameter>,
         IGenericParameterDictionary<TGenericParameter, TParent>,
         IGenericParameterDictionary
         where TGenericParameter :

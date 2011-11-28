@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// The type of value used in the <see cref="ReadOnlyDictionary{TKey, TValue}"/>.
     /// </typeparam>
     public class ReadOnlyDictionary<TKey, TValue> :
-        ControlledStateDictionary<TKey, TValue>,
+        ControlledDictionary<TKey, TValue>,
         IReadOnlyDictionary<TKey, TValue>,
         IReadOnlyDictionary
     {

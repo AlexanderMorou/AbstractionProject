@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Defines properties and methods for working with a series of <see cref="IDeclaration{TIdentifier}"/> instances.
     /// </summary>
     public interface IDeclarationDictionary :
-        IControlledStateDictionary
+        IControlledDictionary
     {
         /// <summary>
         /// Returns the index of the <paramref name="decl"/> provided.

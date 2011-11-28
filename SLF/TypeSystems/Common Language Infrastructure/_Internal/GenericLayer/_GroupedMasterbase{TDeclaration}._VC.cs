@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
     {
         private _VC valuesCollection;
 
-        protected override ControlledStateDictionary<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>.ValuesCollection InitializeValuesCollection()
+        protected override ControlledDictionary<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>.ValuesCollection InitializeValuesCollection()
         {
             if (this.valuesCollection == null)
                 this.valuesCollection = new _VC(this);
