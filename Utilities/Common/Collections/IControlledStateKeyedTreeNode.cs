@@ -21,14 +21,14 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// node items.</typeparam>
     /// <typeparam name="TNode">The kind of node used within the current
     /// hierarchy.</typeparam>
-    public interface IControlledStateKeyedTreeNode<TKey, TValue, TNode> :
-        IControlledStateKeyedTree<TKey, TValue, TNode>
+    public interface IControlledKeyedTreeNode<TKey, TValue, TNode> :
+        IControlledKeyedTree<TKey, TValue, TNode>
         where TNode :
-            IControlledStateKeyedTreeNode<TKey, TValue, TNode>
+            IControlledKeyedTreeNode<TKey, TValue, TNode>
     {
         /// <summary>
         /// Returns the <typeparamref name="TValue"/> which represents
-        /// the current <see cref="IControlledStateKeyedTreeNode{TKey, TValue, TNode}"/>.
+        /// the current <see cref="IControlledKeyedTreeNode{TKey, TValue, TNode}"/>.
         /// </summary>
         TValue Value { get; }
     }

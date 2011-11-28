@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             this.covariantSource = covariantSource;
         }
 
-        #region IControlledStateCollection<TLower> Members
+        #region IControlledCollection<TLower> Members
 
         public int Count
         {

@@ -247,7 +247,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
         #endregion
 
-        protected override ControlledStateDictionary<TItemIdentifier, TItem>.KeysCollection InitializeKeysCollection()
+        protected override ControlledDictionary<TItemIdentifier, TItem>.KeysCollection InitializeKeysCollection()
         {
             if (this.state == USE_FETCH)
                 return new _KeysCollection(this);
@@ -255,7 +255,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return base.InitializeKeysCollection();
         }
 
-        protected override ControlledStateDictionary<TItemIdentifier, TItem>.ValuesCollection InitializeValuesCollection()
+        protected override ControlledDictionary<TItemIdentifier, TItem>.ValuesCollection InitializeValuesCollection()
         {
             if (this.state == USE_FETCH)
                 return new _ValuesCollection(this);

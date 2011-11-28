@@ -19,29 +19,29 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// <typeparam name="TKey">The type of element used as a key.</typeparam>
     /// <typeparam name="TValue">The type of element used as the values associated to the keys.</typeparam>
     [Serializable]
-    public partial class ControlledStateDictionary<TKey, TValue> :
-        IControlledStateDictionary<TKey, TValue>,
-        IControlledStateDictionary
+    public partial class ControlledDictionary<TKey, TValue> :
+        IControlledDictionary<TKey, TValue>,
+        IControlledDictionary
     {
         private SharedLocals locals;
 
         /// <summary>
-        /// Creates a new <see cref="ControlledStateDictionary{TKey, TValue}"/> initialized
+        /// Creates a new <see cref="ControlledDictionary{TKey, TValue}"/> initialized
         /// to a default state.
         /// </summary>
-        protected internal ControlledStateDictionary()
+        protected internal ControlledDictionary()
         {
             this.locals = new SharedLocals(InitializeKeysCollection, InitializeValuesCollection);
         }
 
         /// <summary>
-        /// Creates a new <see cref="ControlledStateDictionary{TKey, TValue}"/>
+        /// Creates a new <see cref="ControlledDictionary{TKey, TValue}"/>
         /// which contains the same data set as the <paramref name="sibling"/>
         /// provided.
         /// </summary>
-        /// <param name="sibling">The <see cref="ControlledStateDictionary{TKey, TValue}"/>
+        /// <param name="sibling">The <see cref="ControlledDictionary{TKey, TValue}"/>
         /// to mirror the elements of.</param>
-        public ControlledStateDictionary(ControlledStateDictionary<TKey, TValue> sibling)
+        public ControlledDictionary(ControlledDictionary<TKey, TValue> sibling)
         {
             if (sibling == null)
                 throw new ArgumentNullException("sibling");
@@ -49,11 +49,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         }
 
         /// <summary>
-        /// Creates a new <see cref="ControlledStateDictionary{TKey, TValue}"/>
+        /// Creates a new <see cref="ControlledDictionary{TKey, TValue}"/>
         /// with the <paramref name="entries"/> provided.
         /// </summary>
         /// <param name="entries"></param>
-        public ControlledStateDictionary(IEnumerable<KeyValuePair<TKey, TValue>> entries)
+        public ControlledDictionary(IEnumerable<KeyValuePair<TKey, TValue>> entries)
         {
             if (entries == null)
                 throw new ArgumentNullException("entries");
@@ -63,11 +63,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         /// <summary>
         /// Gets a <see cref="KeysCollection"/> containing the 
-        /// <see cref="ControlledStateDictionary{TKey, TValue}"/>'s keys.
+        /// <see cref="ControlledDictionary{TKey, TValue}"/>'s keys.
         /// </summary>
         /// <returns>
         /// A <see cref="KeysCollection"/> with the keys of the 
-        /// <see cref="ControlledStateDictionary{TKey, TValue}"/>.
+        /// <see cref="ControlledDictionary{TKey, TValue}"/>.
         /// </returns>
         public KeysCollection Keys
         {
@@ -79,10 +79,10 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         /// <summary>
         /// Obtains the <see cref="KeysCollection"/> which contains
-        /// the set of keys pertinent to the <see cref="ControlledStateDictionary{TKey, TValue}"/>.
+        /// the set of keys pertinent to the <see cref="ControlledDictionary{TKey, TValue}"/>.
         /// </summary>
         /// <returns>A <see cref="KeysCollection"/> which will maintain the
-        /// keys of the <see cref="ControlledStateDictionary{TKey, TValue}"/>.</returns>
+        /// keys of the <see cref="ControlledDictionary{TKey, TValue}"/>.</returns>
         protected virtual KeysCollection InitializeKeysCollection()
         {
             return new KeysCollection(this);
@@ -90,11 +90,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         /// <summary>
         /// Gets a <see cref="ValuesCollection"/> containing the 
-        /// <see cref="ControlledStateDictionary{TKey, TValue}"/>'s values.
+        /// <see cref="ControlledDictionary{TKey, TValue}"/>'s values.
         /// </summary>
         /// <returns>
         /// A <see cref="ValuesCollection"/> with the values of the 
-        /// <see cref="ControlledStateDictionary{TKey, TValue}"/>.
+        /// <see cref="ControlledDictionary{TKey, TValue}"/>.
         /// </returns>
         public ValuesCollection Values
         {
@@ -107,31 +107,31 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         /// <summary>
         /// Obtains the <see cref="ValuesCollection"/> which contains
-        /// the set of values pertinent to the <see cref="ControlledStateDictionary{TKey, TValue}"/>.
+        /// the set of values pertinent to the <see cref="ControlledDictionary{TKey, TValue}"/>.
         /// </summary>
         /// <returns>A <see cref="ValuesCollection"/> which will maintain the
-        /// values of the <see cref="ControlledStateDictionary{TKey, TValue}"/>.</returns>
+        /// values of the <see cref="ControlledDictionary{TKey, TValue}"/>.</returns>
         protected virtual ValuesCollection InitializeValuesCollection()
         {
             return new ValuesCollection(this);
         }
 
-        #region IControlledStateDictionary<TKey,TValue> Members
+        #region IControlledDictionary<TKey,TValue> Members
 
-        IControlledStateCollection<TKey> IControlledStateDictionary<TKey,TValue>.Keys
+        IControlledCollection<TKey> IControlledDictionary<TKey,TValue>.Keys
         {
             get {
                 return this.Keys;
             }
         }
 
-        IControlledStateCollection<TValue> IControlledStateDictionary<TKey,TValue>.Values
+        IControlledCollection<TValue> IControlledDictionary<TKey,TValue>.Values
         {
             get { return this.Values; }
         }
 
         /// <summary>
-        /// Returns the element of the <see cref="ControlledStateDictionary{TKey, TValue}"/> with the 
+        /// Returns the element of the <see cref="ControlledDictionary{TKey, TValue}"/> with the 
         /// given <paramref name="key"/>.
         /// </summary>
         /// <param name="key">The <typeparamref name="TKey"/> of the element to get.</param>
@@ -140,7 +140,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <paramref name="key"/> is null.
         /// </exception>
         /// <exception cref="System.Collections.Generic.KeyNotFoundException">
-        /// There was no element in the <see cref="ControlledStateDictionary{TKey, TValue}"/> 
+        /// There was no element in the <see cref="ControlledDictionary{TKey, TValue}"/> 
         /// containing the <paramref name="key"/> provided.
         /// </exception>
         public TValue this[TKey key]
@@ -188,7 +188,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         #endregion
 
-        #region IControlledStateCollection<KeyValuePair<TKey,TValue>> Members
+        #region IControlledCollection<KeyValuePair<TKey,TValue>> Members
 
         public int IndexOf(KeyValuePair<TKey, TValue> element)
         {
@@ -203,11 +203,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         /// <summary>
         /// Gets the number of elements contained in the
-        /// <see cref="ControlledStateDictionary{TKey, TValue}"/>.
+        /// <see cref="ControlledDictionary{TKey, TValue}"/>.
         /// </summary>
         /// <returns>
         /// The number of elements contained in the 
-        /// <see cref="ControlledStateDictionary{TKey, TValue}"/>.
+        /// <see cref="ControlledDictionary{TKey, TValue}"/>.
         /// </returns>
         public virtual int Count
         {
@@ -215,14 +215,14 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         }
 
         /// <summary>
-        /// Determines whether the <see cref="ControlledStateDictionary{TKey, TValue}"/> contains a specific 
+        /// Determines whether the <see cref="ControlledDictionary{TKey, TValue}"/> contains a specific 
         /// value.
         /// </summary>
         /// <param name="item">
-        /// The <see cref="KeyValuePair{TKey, TValue}"/> to locate in the <see cref="ControlledStateDictionary{TKey, TValue}"/>.</param>
+        /// The <see cref="KeyValuePair{TKey, TValue}"/> to locate in the <see cref="ControlledDictionary{TKey, TValue}"/>.</param>
         /// <returns>
         /// true if <paramref name="item"/> is found in the
-        /// <see cref="ControlledStateDictionary{TKey, TValue}"/>;
+        /// <see cref="ControlledDictionary{TKey, TValue}"/>;
         /// otherwise, false.
         /// </returns>
         public virtual bool Contains(KeyValuePair<TKey, TValue> item)
@@ -237,13 +237,13 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         }
 
         /// <summary>
-        /// Copies the elements of the <see cref="ControlledStateDictionary{TKey, TValue}"/> to an
+        /// Copies the elements of the <see cref="ControlledDictionary{TKey, TValue}"/> to an
         /// <see cref="System.Array"/>, starting at a particular <see cref="System.Array"/> 
         /// index.
         /// </summary>
         /// <param name="array">
         /// The one-dimensional <see cref="System.Array"/> that is the destination of the 
-        /// elements copied from <see cref="ControlledStateDictionary{TKey, TValue}"/>. The 
+        /// elements copied from <see cref="ControlledDictionary{TKey, TValue}"/>. The 
         /// <see cref="System.Array"/> must
         /// have zero-based indexing.</param>
         /// <param name="arrayIndex">
@@ -255,15 +255,15 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <exception cref="System.ArgumentException">
         /// <paramref name="array"/> is multidimensional.-or-<paramref name="arrayIndex"/> 
         /// is equal to or greater than the length of <paramref name="array"/>.-or-The 
-        /// number of elements in the source <see cref="ControlledStateDictionary{TKey, TValue}"/> is greater 
+        /// number of elements in the source <see cref="ControlledDictionary{TKey, TValue}"/> is greater 
         /// than the available space from <paramref name="arrayIndex"/> to the 
         /// end of the destination <paramref name="array"/>.-or-the underlying <see cref="Type"/>
-        /// of the elements of the <see cref="ControlledStateDictionary{TKey, TValue} "/>
+        /// of the elements of the <see cref="ControlledDictionary{TKey, TValue} "/>
         /// cannot be cast automatically to the type of the destination.
         /// <paramref name="array"/>.</exception>
         /// <exception cref="System.ArrayTypeMismatchException">thrown when the type
         /// of the <paramref name="array"/> does not match the underlying type of
-        /// the elements of the <see cref="ControlledStateDictionary{TKey, TValue}"/>.</exception>
+        /// the elements of the <see cref="ControlledDictionary{TKey, TValue}"/>.</exception>
         public virtual void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
             if (this.Count == 0)
@@ -279,7 +279,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// provided.</returns>
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// <paramref name="index"/> is  beyond the range of the 
-        /// <see cref="ControlledStateDictionary{TKey, TValue}"/>.
+        /// <see cref="ControlledDictionary{TKey, TValue}"/>.
         /// </exception>
         public KeyValuePair<TKey, TValue> this[int index]
         {
@@ -313,7 +313,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         }
 
         /// <summary>
-        /// Obtains the elements of the <see cref="ControlledStateDictionary{TKey, TValue}"/>
+        /// Obtains the elements of the <see cref="ControlledDictionary{TKey, TValue}"/>
         /// as an <see cref="Array"/> of <see cref="KeyValuePair{TKey, TValue}"/>
         /// elements..
         /// </summary>
@@ -333,7 +333,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         /// <summary>
         /// Obtains an <see cref="IEnumerator{T}"/> which iterates the
-        /// elements of the <see cref="ControlledStateDictionary{TKey, TValue}"/>.
+        /// elements of the <see cref="ControlledDictionary{TKey, TValue}"/>.
         /// </summary>
         /// <returns></returns>
         public virtual IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
@@ -353,19 +353,19 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         #endregion
 
-        #region IControlledStateDictionary Members
+        #region IControlledDictionary Members
 
-        IControlledStateCollection IControlledStateDictionary.Keys
+        IControlledCollection IControlledDictionary.Keys
         {
             get { return this.Keys; }
         }
 
-        IControlledStateCollection IControlledStateDictionary.Values
+        IControlledCollection IControlledDictionary.Values
         {
             get { return this.Values; }
         }
 
-        object IControlledStateDictionary.this[object key]
+        object IControlledDictionary.this[object key]
         {
             get {
                 if (!(key is TKey))
@@ -374,42 +374,42 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             }
         }
 
-        bool IControlledStateDictionary.ContainsKey(object key)
+        bool IControlledDictionary.ContainsKey(object key)
         {
             if (!(key is TKey))
                 return false;
             return this.ContainsKey((TKey)key);
         }
 
-        IDictionaryEnumerator IControlledStateDictionary.GetEnumerator()
+        IDictionaryEnumerator IControlledDictionary.GetEnumerator()
         {
             return new SimpleDictionaryEnumerator<TKey, TValue>(this.GetEnumerator());
         }
 
         #endregion
 
-        #region IControlledStateCollection Members
+        #region IControlledCollection Members
 
-        bool IControlledStateCollection.Contains(object item)
+        bool IControlledCollection.Contains(object item)
         {
             if (!(item is KeyValuePair<TKey, TValue>))
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.item, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.item), item.GetType().ToString(), typeof(KeyValuePair<TKey, TValue>).ToString());
             return this.Contains((KeyValuePair<TKey, TValue>)item);
         }
 
-        void IControlledStateCollection.CopyTo(Array array, int arrayIndex)
+        void IControlledCollection.CopyTo(Array array, int arrayIndex)
         {
             CopyToArray(array, arrayIndex);
         }
 
         /// <summary>
-        /// Copies the elements of the <see cref="ControlledStateDictionary{TKey, TValue}"/>
+        /// Copies the elements of the <see cref="ControlledDictionary{TKey, TValue}"/>
         /// to an <see cref="System.Array"/>, starting at a particular
         /// <paramref name="arrayIndex"/>.
         /// </summary>
         /// <param name="array">
         /// The one-dimensional <see cref="System.Array"/> that is the destination of the 
-        /// elements copied from <see cref="ControlledStateDictionary{TKey, TValue}"/>. The 
+        /// elements copied from <see cref="ControlledDictionary{TKey, TValue}"/>. The 
         /// <see cref="System.Array"/> must have zero-based indexing.</param>
         /// <param name="arrayIndex">
         /// The zero-based index in <paramref name="array"/> at which copying begins.</param>
@@ -420,21 +420,21 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <exception cref="System.ArgumentException">
         /// <paramref name="array"/> is multidimensional.-or-<paramref name="arrayIndex"/> 
         /// is equal to or greater than the length of <paramref name="array"/>.-or-The 
-        /// number of elements in the source <see cref="ControlledStateDictionary{TKey, TValue}"/> is greater 
+        /// number of elements in the source <see cref="ControlledDictionary{TKey, TValue}"/> is greater 
         /// than the available space from <paramref name="arrayIndex"/> to the 
         /// end of the destination <paramref name="array"/>.-or-the underlying <see cref="Type"/>
-        /// of the elements of the <see cref="IControlledStateCollection "/>
+        /// of the elements of the <see cref="IControlledCollection "/>
         /// cannot be cast automatically to the type of the destination.
         /// <paramref name="array"/>.</exception>
         /// <exception cref="System.ArrayTypeMismatchException">thrown when the type
         /// of the <paramref name="array"/> does not match the underlying type of
-        /// the elements of the <see cref="ControlledStateDictionary{TKey, TValue}"/>.</exception>
+        /// the elements of the <see cref="ControlledDictionary{TKey, TValue}"/>.</exception>
         protected virtual void CopyToArray(Array array, int arrayIndex = 0)
         {
             Array.ConstrainedCopy(this.locals.entries, 0, array, arrayIndex, this.Count);
         }
 
-        object IControlledStateCollection.this[int index]
+        object IControlledCollection.this[int index]
         {
             get
             {
@@ -444,7 +444,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             }
         }
 
-        int IControlledStateCollection.IndexOf(object element)
+        int IControlledCollection.IndexOf(object element)
         {
             if (element is KeyValuePair<TKey, TValue>)
                 return this.IndexOf((KeyValuePair<TKey, TValue>)element);
@@ -453,11 +453,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         /// <summary>
         /// Gets a value indicating whether access to the 
-        /// <see cref="ControlledStateDictionary{TKey, TValue}"/>
+        /// <see cref="ControlledDictionary{TKey, TValue}"/>
         /// is synchronized (thread safe).
         /// </summary>
         /// <returns>true if access to the 
-        /// <see cref="ControlledStateDictionary{TKey, TValue}"/>
+        /// <see cref="ControlledDictionary{TKey, TValue}"/>
         /// is synchronized (thread safe); false, otherwise.</returns>
         public bool IsSynchronized
         {
@@ -466,7 +466,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         /// <summary>
         /// Gets an object that can be used to synchronize access to the 
-        /// <see cref="ControlledStateDictionary{TKey, TValue}"/>.
+        /// <see cref="ControlledDictionary{TKey, TValue}"/>.
         /// </summary>
         public object SyncRoot
         {
@@ -476,7 +476,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         #endregion
 
         /// <summary>
-        /// Adds an element to the <see cref="ControlledStateDictionary{TKey, TValue}"/>
+        /// Adds an element to the <see cref="ControlledDictionary{TKey, TValue}"/>
         /// with the <paramref name="key"/> and <paramref name="value"/>.
         /// </summary>
         /// <param name="key">The <typeparamref name="TKey"/> of the <paramref name="value"/>
@@ -489,7 +489,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         }
 
         /// <summary>
-        /// Adds a <paramref name="item"/> to the <see cref="ControlledStateDictionary{TKey, TValue}"/>.
+        /// Adds a <paramref name="item"/> to the <see cref="ControlledDictionary{TKey, TValue}"/>.
         /// </summary>
         /// <param name="item">The <see cref="KeyValuePair{TKey, TValue}"/>
         /// which denotes the <typeparamref name="TKey"/> and <typeparamref name="TValue"/>
@@ -502,7 +502,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         /// <summary>
         /// Adds a set of <paramref name="elements"/> to the 
-        /// <see cref="ControlledStateDictionary{TKey, TValue}"/>.
+        /// <see cref="ControlledDictionary{TKey, TValue}"/>.
         /// </summary>
         /// <param name="elements">The <see cref="IEnumerable{T}"/> of
         /// <see cref="KeyValuePair{TKey, TValue}"/> elements to insert.</param>
@@ -518,7 +518,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         /// <summary>
         /// Adds a set of <paramref name="elements"/>
-        /// <see cref="ControlledStateDictionary{TKey, TValue}"/>.
+        /// <see cref="ControlledDictionary{TKey, TValue}"/>.
         /// </summary>
         /// <param name="elements">The <see cref="KeyValuePair{TKey, TValue}"/>
         /// array of items to insert.</param>
@@ -534,7 +534,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         }
 
         /// <summary>
-        /// Removes an element from the <see cref="ControlledStateDictionary{TKey, TValue}"/>
+        /// Removes an element from the <see cref="ControlledDictionary{TKey, TValue}"/>
         /// by the <paramref name="key"/> provided.
         /// </summary>
         /// <param name="key">The <typeparamref name="TKey"/>
@@ -551,11 +551,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         /// <summary>
         /// Removes a series of elements from the
-        /// <see cref="ControlledStateDictionary{TKey, TValue}"/>
+        /// <see cref="ControlledDictionary{TKey, TValue}"/>
         /// by their <typeparamref name="TKey"/>.
         /// </summary>
         /// <param name="keys">The <see cref="IEnumerable{T}"/>
-        /// of entries to remove from the <see cref="ControlledStateDictionary{TKey, TValue}"/>.</param>
+        /// of entries to remove from the <see cref="ControlledDictionary{TKey, TValue}"/>.</param>
         /// <remarks>Protected to ensure the controlled nature of the dictionary.</remarks>
         protected internal void _RemoveSet(IEnumerable<TKey> keys)
         {
@@ -572,7 +572,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         }
 
         /// <summary>
-        /// Removes an element from the <see cref="ControlledStateDictionary{TKey, TValue}"/>
+        /// Removes an element from the <see cref="ControlledDictionary{TKey, TValue}"/>
         /// by its <paramref name="index"/>.
         /// </summary>
         /// <param name="index">The <see cref="Int32"/> ordinal index of the element
@@ -585,7 +585,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         }
 
         /// <summary>
-        /// Clears the <see cref="ControlledStateDictionary{TKey, TValue}"/>.
+        /// Clears the <see cref="ControlledDictionary{TKey, TValue}"/>.
         /// </summary>
         /// <remarks>Protected to ensure the controlled nature of the dictionary.</remarks>
         protected internal virtual void _Clear()

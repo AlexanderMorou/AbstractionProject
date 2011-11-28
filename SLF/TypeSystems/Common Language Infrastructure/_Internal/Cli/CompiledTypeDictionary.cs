@@ -75,12 +75,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return false;
         }
 
-        protected override ControlledStateDictionary<TTypeIdentifier, TType>.KeysCollection InitializeKeysCollection()
+        protected override ControlledDictionary<TTypeIdentifier, TType>.KeysCollection InitializeKeysCollection()
         {
             return new KC(this);
         }
 
-        protected override ControlledStateDictionary<TTypeIdentifier, TType>.ValuesCollection InitializeValuesCollection()
+        protected override ControlledDictionary<TTypeIdentifier, TType>.ValuesCollection InitializeValuesCollection()
         {
             return new VC(this);
         }

@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// a read-only collection.
     /// </summary>
     public interface IReadOnlyCollection :
-        IControlledStateCollection
+        IControlledCollection
     {
     }
 }

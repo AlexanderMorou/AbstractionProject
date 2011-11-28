@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Provides a simple wrapper for simplifying passing multiple typed name series.
     /// </summary>
     public struct TypedNameSeries :
-        IControlledStateCollection<TypedName>
+        IControlledCollection<TypedName>
     {
         /// <summary>
         /// An empty typed name series that cannot be modified.
@@ -202,7 +202,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     this.data[this.actualLength++] = data[i];
         }
 
-        #region IControlledStateCollection<TypedName> Members
+        #region IControlledCollection<TypedName> Members
 
         public int Count
         {
@@ -271,7 +271,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             return new TypedNameSeries(target);
         }
 
-        #region IControlledStateCollection<TypedName> Members
+        #region IControlledCollection<TypedName> Members
 
 
         public int IndexOf(TypedName element)

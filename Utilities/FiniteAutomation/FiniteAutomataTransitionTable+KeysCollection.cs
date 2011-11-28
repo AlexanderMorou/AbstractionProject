@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// Provides a key collection for the transition table.
         /// </summary>
         protected class KeysCollection :
-            IControlledStateCollection<TCheck>
+            IControlledCollection<TCheck>
         {
             private FiniteAutomataTransitionTable<TCheck, TState, TNodeTarget> owner;
             public KeysCollection(FiniteAutomataTransitionTable<TCheck, TState, TNodeTarget> owner)
@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 this.owner = owner;
             }
 
-            #region IControlledStateCollection<TCheck> Members
+            #region IControlledCollection<TCheck> Members
 
             public int Count
             {
@@ -84,7 +84,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
             #endregion
 
-            #region IControlledStateCollection<TCheck> Members
+            #region IControlledCollection<TCheck> Members
 
 
             public int IndexOf(TCheck element)

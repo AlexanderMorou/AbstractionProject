@@ -14,19 +14,19 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     public class ReadOnlyCollectionGroup<TCollection, TItem> : 
         IReadOnlyCollection<TItem>
         where TCollection :
-            IControlledStateCollection
+            IControlledCollection
     {
-        private IControlledStateCollection[] collections;
-        public ReadOnlyCollectionGroup(IControlledStateCollection[] collections)
+        private IControlledCollection[] collections;
+        public ReadOnlyCollectionGroup(IControlledCollection[] collections)
         {
             if (collections == null)
                 throw new ArgumentNullException("collections");
             for (int i = 0; i < collections.Length; i++)
                 if (collections[i] == null)
                     throw ThrowHelper.ObtainArgumentException(ArgumentWithException.collections, ExceptionMessageId.MemberOfSeriesNull, ThrowHelper.GetArgumentName(ArgumentWithException.collections));
-            this.collections = (IControlledStateCollection[])collections.Clone();
+            this.collections = (IControlledCollection[])collections.Clone();
         }
-        #region IControlledStateCollection<TItem> Members
+        #region IControlledCollection<TItem> Members
 
         /// <summary>
         /// Returns the number of elements within the 
@@ -44,7 +44,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         public bool Contains(TItem item)
         {
-            foreach (IControlledStateCollection col in this.collections)
+            foreach (IControlledCollection col in this.collections)
                 if (col.Contains(item))
                     return true;
             return false;
@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         public void CopyTo(TItem[] array, int arrayIndex = 0)
         {
-            IControlledStateCollection current = this.collections[0];
+            IControlledCollection current = this.collections[0];
             for (int i = 0, offset = 0, len = this.collections.Length; i < this.collections.Length; current = (i + 1) < len ? this.collections[++i] : null, offset += current.Count)
             {
                 if (offset + current.Count > array.Length)
@@ -97,7 +97,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         public IEnumerator<TItem> GetEnumerator()
         {
-            foreach (IControlledStateCollection col in this.collections)
+            foreach (IControlledCollection col in this.collections)
                 foreach (TItem item in col)
                     yield return item;
             yield break;

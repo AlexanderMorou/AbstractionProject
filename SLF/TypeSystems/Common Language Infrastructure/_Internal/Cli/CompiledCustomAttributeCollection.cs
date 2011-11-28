@@ -66,7 +66,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             this.attributeObtainer = attributeObtainer;
         }
-        #region IControlledStateCollection<ICustomAttributeInstance> Members
+        #region IControlledCollection<ICustomAttributeInstance> Members
 
         public int Count
         {
@@ -136,9 +136,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 this.attributeWrappers[index] = new CompiledCustomAttributeInstance(Attributes[index], Parent);
         }
 
-        #region IControlledStateCollection Members
+        #region IControlledCollection Members
 
-        bool IControlledStateCollection.Contains(object item)
+        bool IControlledCollection.Contains(object item)
         {
             if (!(item is ICustomAttributeInstance))
                 if (!(item is IType))
@@ -148,7 +148,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.Contains(((ICustomAttributeInstance)(item)));
         }
 
-        void IControlledStateCollection.CopyTo(Array array, int arrayIndex)
+        void IControlledCollection.CopyTo(Array array, int arrayIndex)
         {
             if (array == null)
                 throw new ArgumentNullException("array");
@@ -166,7 +166,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         }
 
-        object IControlledStateCollection.this[int index]
+        object IControlledCollection.this[int index]
         {
             get { return this[index]; }
         }
@@ -293,7 +293,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-        #region IControlledStateCollection<ICustomAttributeInstance> Members
+        #region IControlledCollection<ICustomAttributeInstance> Members
 
         public int IndexOf(ICustomAttributeInstance element)
         {
@@ -305,10 +305,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-        #region IControlledStateCollection Members
+        #region IControlledCollection Members
 
 
-        int IControlledStateCollection.IndexOf(object element)
+        int IControlledCollection.IndexOf(object element)
         {
             if (element is ICustomAttributeInstance)
                 return this.IndexOf((ICustomAttributeInstance)element);

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
-    partial class ControlledStateDictionary<TKey, TValue>
+    partial class ControlledDictionary<TKey, TValue>
     {
         private class SharedLocals
         {

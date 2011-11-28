@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// a read-only dictionary.
     /// </summary>
     public interface IReadOnlyDictionary :
-        IControlledStateDictionary,
+        IControlledDictionary,
         IReadOnlyCollection
     {
 

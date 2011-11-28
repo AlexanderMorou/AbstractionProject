@@ -17,32 +17,32 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// <summary>
     /// A generic collection which is tightly controlled.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the <see cref="ControlledStateCollection{T}"/></typeparam>
-    public class ControlledStateCollection<T> :
-        IControlledStateCollection<T>,
-        IControlledStateCollection
+    /// <typeparam name="T">The type of elements in the <see cref="ControlledCollection{T}"/></typeparam>
+    public class ControlledCollection<T> :
+        IControlledCollection<T>,
+        IControlledCollection
     {
         /// <summary>
         /// The list to wrap.
         /// </summary>
         internal protected IList<T> baseList;
 
-        #region ControlledStateCollection Constructors
+        #region ControlledCollection Constructors
 
         /// <summary>
-        /// Creates a new instance of <see cref="ControlledStateCollection{T}"/> with the 
+        /// Creates a new instance of <see cref="ControlledCollection{T}"/> with the 
         /// <paramref name="baseList"/> to wrap provided.
         /// </summary>
         /// <param name="baseList">The list to wrap.</param>
-        public ControlledStateCollection(IList<T> baseList)
+        public ControlledCollection(IList<T> baseList)
         {
             this.baseList = baseList;
         }
 
         /// <summary>
-        /// Creates a new <see cref="ControlledStateCollection{T}"/> with a default state.
+        /// Creates a new <see cref="ControlledCollection{T}"/> with a default state.
         /// </summary>
-        public ControlledStateCollection()
+        public ControlledCollection()
             : this(new List<T>())
         {
 
@@ -50,13 +50,13 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         #endregion
 
-        #region IControlledStateCollection<T> Members
+        #region IControlledCollection<T> Members
         /// <summary>
-        /// Gets the number of elements contained in the <see cref="ControlledStateCollection{T}"/>.
+        /// Gets the number of elements contained in the <see cref="ControlledCollection{T}"/>.
         /// </summary>
         ///
         /// <returns>
-        /// The number of elements contained in the <see cref="ControlledStateCollection{T}"/>.
+        /// The number of elements contained in the <see cref="ControlledCollection{T}"/>.
         /// </returns>
         public virtual int Count
         {
@@ -64,12 +64,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         }
 
         /// <summary>
-        /// Determines whether the <see cref="ControlledStateCollection{T}"/> contains a specific 
+        /// Determines whether the <see cref="ControlledCollection{T}"/> contains a specific 
         /// value.</summary>
         /// <param name="item">
-        /// The object to locate in the <see cref="ControlledStateCollection{T}"/>.</param>
+        /// The object to locate in the <see cref="ControlledCollection{T}"/>.</param>
         /// <returns>
-        /// true if <paramref name="item"/> is found in the <see cref="ControlledStateCollection{T}"/>;
+        /// true if <paramref name="item"/> is found in the <see cref="ControlledCollection{T}"/>;
         /// otherwise, false.
         /// </returns>
         public virtual bool Contains(T item)
@@ -78,13 +78,13 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         }
 
         /// <summary>
-        /// Copies the elements of the <see cref="ControlledStateCollection{T}"/> to an
+        /// Copies the elements of the <see cref="ControlledCollection{T}"/> to an
         /// <see cref="System.Array"/>, starting at a particular <see cref="System.Array"/> 
         /// index.
         /// </summary>
         /// <param name="array">
         /// The one-dimensional <see cref="System.Array"/> that is the destination of the 
-        /// elements copied from <see cref="ControlledStateCollection{T}"/>. The 
+        /// elements copied from <see cref="ControlledCollection{T}"/>. The 
         /// <see cref="System.Array"/> must
         /// have zero-based indexing.</param>
         /// <param name="arrayIndex">
@@ -96,7 +96,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <exception cref="System.ArgumentException">
         /// <paramref name="array"/> is multidimensional.-or-<paramref name="arrayIndex"/> 
         /// is equal to or greater than the length of <paramref name="array"/>.-or-The 
-        /// number of elements in the source <see cref="ControlledStateCollection{T}"/> is greater 
+        /// number of elements in the source <see cref="ControlledCollection{T}"/> is greater 
         /// than the available space from <paramref name="arrayIndex"/> to the 
         /// end of the destination <paramref name="array"/>.-or-Type <typeparamref name="T"/> 
         /// cannot be cast automatically to the type of the destination
@@ -115,10 +115,10 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         #region IEnumerable<T> Members
 
         /// <summary>
-        /// Returns an enumerator that iterates through the <see cref="ControlledStateCollection{T}"/>.
+        /// Returns an enumerator that iterates through the <see cref="ControlledCollection{T}"/>.
         /// </summary>
         /// <returns>A <see cref="IEnumerator{T}"/> that can be used to iterate through
-        /// the <see cref="ControlledStateCollection{T}"/>.</returns>
+        /// the <see cref="ControlledCollection{T}"/>.</returns>
         public IEnumerator<T> GetEnumerator()
         {
             return OnGetEnumerator();
@@ -131,27 +131,27 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         #endregion
 
-        #region IControlledStateCollection Members
-        bool IControlledStateCollection.Contains(object item)
+        #region IControlledCollection Members
+        bool IControlledCollection.Contains(object item)
         {
             if (!(item is T))
                 return false;
             return this.Contains((T)item);
         }
-        object IControlledStateCollection.this[int index]
+        object IControlledCollection.this[int index]
         {
             get
             {
                 return this[index];
             }
         }
-        void IControlledStateCollection.CopyTo(Array array, int index)
+        void IControlledCollection.CopyTo(Array array, int index)
         {
             this.CopyTo((T[])array, index);
         }
 
 
-        int IControlledStateCollection.IndexOf(object element)
+        int IControlledCollection.IndexOf(object element)
         {
             if (element is T)
                 return this.IndexOf((T)element);
@@ -160,7 +160,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         #endregion
 
         /// <summary>
-        /// Translates the <see cref="ControlledStateCollection{T}"/> into a flat <see cref="System.Array"/>
+        /// Translates the <see cref="ControlledCollection{T}"/> into a flat <see cref="System.Array"/>
         /// of <typeparamref name="T"/> elements.
         /// </summary>
         /// <returns>A new <see cref="System.Array"/> of <typeparamref name="T"/> instances.</returns>
@@ -184,7 +184,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <returns>The instance of <typeparamref name="T"/> at the index provided.</returns>
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// <paramref name="index"/> is  beyond the range of the 
-        /// <see cref="ControlledStateCollection{T}"/>.
+        /// <see cref="ControlledCollection{T}"/>.
         /// </exception>
         public virtual T this[int index]
         {

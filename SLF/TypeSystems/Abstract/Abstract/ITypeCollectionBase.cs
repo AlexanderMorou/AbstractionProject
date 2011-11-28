@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// of types.
     /// </summary>
     public interface ITypeCollectionBase :
-        IControlledStateCollection<IType>,
+        IControlledCollection<IType>,
         IEquatable<ITypeCollectionBase>
     {
         /// <summary>

@@ -98,14 +98,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 array[arrayIndex + i] = new KeyValuePair<IGeneralTypeUniqueIdentifier, MasterDictionaryEntry<IType>>(kCopy[i], vCopy[i]);
         }
 
-        protected override ControlledStateDictionary<IGeneralTypeUniqueIdentifier, MasterDictionaryEntry<IType>>.KeysCollection InitializeKeysCollection()
+        protected override ControlledDictionary<IGeneralTypeUniqueIdentifier, MasterDictionaryEntry<IType>>.KeysCollection InitializeKeysCollection()
         {
             if (kc == null)
                 this.kc = new _KC(this);
             return this.kc;
         }
 
-        protected override ControlledStateDictionary<IGeneralTypeUniqueIdentifier, MasterDictionaryEntry<IType>>.ValuesCollection InitializeValuesCollection()
+        protected override ControlledDictionary<IGeneralTypeUniqueIdentifier, MasterDictionaryEntry<IType>>.ValuesCollection InitializeValuesCollection()
         {
             if (this.vc == null)
                 this.vc = new _VC(this);

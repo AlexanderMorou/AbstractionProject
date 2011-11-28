@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// <typeparam name="T">The type of elements within the
     /// read only collection.</typeparam>
     public class ReadOnlyCollection<T> :
-        ControlledStateCollection<T>,
+        ControlledCollection<T>,
         IReadOnlyCollection<T>
     {
         public ReadOnlyCollection()

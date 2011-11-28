@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// <typeparam name="TValue">The type of value to use in the 
     /// <see cref="MasterDictionaryEntry{TEntry}"/> values.</typeparam>
     public abstract class MasterDictionaryBase<TKey, TValue> :
-        ControlledStateDictionary<TKey, MasterDictionaryEntry<TValue>>,
+        ControlledDictionary<TKey, MasterDictionaryEntry<TValue>>,
         IMasterDictionary<TKey, TValue>,
         IMasterDictionary
         where TValue :

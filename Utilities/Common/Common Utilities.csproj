@@ -150,19 +150,19 @@
     <Compile Include="ThrowHelper.cs" />
     <Compile Include="Arrays\Tweaks.cs" />
     <Compile Include="Collections\_ISubordinateDictionaryMasterPass.cs" />
-    <Compile Include="Collections\ControlledStateCollection{T}.cs" />
-    <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}.cs" />
+    <Compile Include="Collections\ControlledCollection{T}.cs" />
+    <Compile Include="Collections\ControlledDictionary{TKey, TValue}.cs" />
     <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}+KeysCollection.cs">
-      <DependentUpon>ControlledStateDictionary{TKey, TValue}.cs</DependentUpon>
+      <DependentUpon>ControlledDictionary{TKey, TValue}.cs</DependentUpon>
     </Compile>
     <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}+SharedLocals.cs">
-      <DependentUpon>ControlledStateDictionary{TKey, TValue}.cs</DependentUpon>
+      <DependentUpon>ControlledDictionary{TKey, TValue}.cs</DependentUpon>
     </Compile>
     <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}+ValuesCollection.cs">
-      <DependentUpon>ControlledStateDictionary{TKey, TValue}.cs</DependentUpon>
+      <DependentUpon>ControlledDictionary{TKey, TValue}.cs</DependentUpon>
     </Compile>
-    <Compile Include="Collections\ControlledStateKeyedTree.cs" />
-    <Compile Include="Collections\ControlledStateKeyedTreeNode.cs" />
+    <Compile Include="Collections\ControlledKeyedTree.cs" />
+    <Compile Include="Collections\ControlledKeyedTreeNode.cs" />
     <Compile Include="Collections\CovariantReadOnlyCollection.cs" />
     <Compile Include="Collections\GeneralExtensions.cs" />
     <Compile Include="Collections\HashList{T}.cs" />

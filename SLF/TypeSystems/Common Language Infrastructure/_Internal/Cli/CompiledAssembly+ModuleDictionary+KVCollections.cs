@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         partial class ModuleDictionary
         {
             private new sealed class KeysCollection :
-                ControlledStateDictionary<IGeneralDeclarationUniqueIdentifier, IModule>.KeysCollection
+                ControlledDictionary<IGeneralDeclarationUniqueIdentifier, IModule>.KeysCollection
             {
                 private ModuleDictionary owner;
 
@@ -101,7 +101,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
 
             private new sealed class ValuesCollection :
-                ControlledStateDictionary<IGeneralDeclarationUniqueIdentifier, IModule>.ValuesCollection
+                ControlledDictionary<IGeneralDeclarationUniqueIdentifier, IModule>.ValuesCollection
             {
                 private ModuleDictionary owner;
 

@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
-        #region IControlledStateCollection<IType> Members
+        #region IControlledCollection<IType> Members
 
         public int Count
         {

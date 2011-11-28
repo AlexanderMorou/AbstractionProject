@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// <typeparam name="TMValue"></typeparam>
     [DebuggerDisplay("Count: {Count}")]
     public partial class SubordinateDictionary<TSKey, TMKey, TSValue, TMValue> :
-        ControlledStateDictionary<TSKey, TSValue>,
+        ControlledDictionary<TSKey, TSValue>,
         ISubordinateDictionary<TSKey, TMKey, TSValue, TMValue>,
         ISubordinateDictionary,
         _ISubordinateDictionaryMasterPass
@@ -215,7 +215,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         #endregion
 
-        protected override ControlledStateDictionary<TSKey, TSValue>.KeysCollection InitializeKeysCollection()
+        protected override ControlledDictionary<TSKey, TSValue>.KeysCollection InitializeKeysCollection()
         {
             return new KeysCollection(this);
         }

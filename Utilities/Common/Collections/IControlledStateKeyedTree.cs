@@ -21,10 +21,10 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// node items.</typeparam>
     /// <typeparam name="TNode">The kind of node used within the current
     /// hierarchy.</typeparam>
-    public interface IControlledStateKeyedTree<TKey, TValue, TNode> :
-        IControlledStateDictionary<TKey, TNode>
+    public interface IControlledKeyedTree<TKey, TValue, TNode> :
+        IControlledDictionary<TKey, TNode>
         where TNode :
-            IControlledStateKeyedTreeNode<TKey, TValue, TNode>
+            IControlledKeyedTreeNode<TKey, TValue, TNode>
     {
     }
 }

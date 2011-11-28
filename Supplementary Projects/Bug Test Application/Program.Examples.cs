@@ -10,8 +10,8 @@ using AllenCopeland.Abstraction.Slf.Languages.Cil;
 using AllenCopeland.Abstraction.Slf.Languages.CSharp;
 using AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions;
 using AllenCopeland.Abstraction.Slf.Languages.VisualBasic;
-using AllenCopeland.Abstraction.Slf.Oil;
-using AllenCopeland.Abstraction.Slf.Oil.Expressions;
+using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Miscellaneous;
@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
     using AllenCopeland.Abstraction.Globalization;
     using AllenCopeland.Abstraction.Utilities.Collections;
-    using AllenCopeland.Abstraction.Slf.Oil.Members;
+    using AllenCopeland.Abstraction.Slf.Ast.Members;
     using System.Reflection;
 
     internal static class Program
