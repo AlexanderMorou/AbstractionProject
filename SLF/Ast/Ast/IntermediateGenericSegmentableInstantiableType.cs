@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
@@ -12,7 +12,7 @@ using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Utilities.Properties;
 using System.ComponentModel;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright � 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
