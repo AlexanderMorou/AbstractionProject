@@ -275,6 +275,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return this.protectionLevel > 0;
             }
         }
+
+        /// <summary>
+        /// Clears the <see cref="IScopeCoercionCollection"/>
+        /// of all coercions.
+        /// </summary>
+        public void Clear()
+        {
+            this.baseList.Clear();
+        }
         #endregion
 
     }

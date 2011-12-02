@@ -16,12 +16,11 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Ast.Statements
 {
-    public class BlockStatementParentContainer :
+    public partial class BlockStatementParentContainer :
         ControlledCollection<IStatement>,
         IBlockStatementParent,
         IIntermediateTypeParent
     {
-        private IBlockStatementParent owner;
         #region Nested GenericParameter Data Members
         /// <summary>
         /// Data member fro <see cref="Classes"/>.
@@ -54,21 +53,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         private BlockStatementScopeLabelDictionary scopeLabels;
         private BlockStatementLabelDictionary labels;
         private IScopeCoercionCollection scopeCoercions;
+        private object syncObject = new object();
         #endregion
 
         internal BlockStatementParentContainer()
         {
-
-        }
-
-        internal void SetOwner(IBlockStatementParent owner)
-        {
-            this.owner = owner;
+            this.Owner = this;
         }
 
         protected internal BlockStatementParentContainer(IBlockStatementParent owner)
         {
-            this.owner = owner;
+            this.Owner = owner;
         }
 
         #region IBlockStatementParent Members
@@ -77,9 +72,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         {
             get
             {
-                if (this.locals == null)
-                    this.locals = new LocalMemberDictionary(this.Owner);
-                return this.locals;
+                lock (this.syncObject)
+                {
+                    if (this.locals == null)
+                        this.locals = new LocalMemberDictionary(this.Owner);
+                    return this.locals;
+                }
             }
         }
 
@@ -91,9 +89,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// with no value as its result.</returns>
         public IReturnStatement Return()
         {
-            ReturnStatement r = new ReturnStatement(this.Owner);
-            this.baseList.Add(r);
-            return r;
+            var @return = new ReturnStatement(this.Owner);
+            lock (this.syncObject)
+                this.baseList.Add(@return);
+            return @return;
         }
 
         /// <summary>
@@ -108,9 +107,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// for the return.</returns>
         public IReturnStatement Return(IExpression value)
         {
-            ReturnStatement r = new ReturnStatement(this.Owner, value);
-            this.baseList.Add(r);
-            return r;
+            var @return = new ReturnStatement(this.Owner, value);
+            lock (this.syncObject)
+                this.baseList.Add(@return);
+            return @return;
         }
 
         /// <summary>
@@ -124,7 +124,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         public IConditionBlockStatement If(IExpression condition)
         {
             var ifResult = OnIf(condition);
-            this.baseList.Add(ifResult);
+            lock (this.syncObject)
+                this.baseList.Add(ifResult);
             return ifResult;
         }
 
@@ -140,7 +141,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         public ISwitchStatement Switch(IExpression caseCondition)
         {
             var result = new SwitchStatement(this.Owner) { Selection = caseCondition };
-            base.baseList.Add(result);
+            lock (this.syncObject)
+                base.baseList.Add(result);
             return result;
         }
 
@@ -158,9 +160,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// is null.</exception>
         public ICallFusionStatement Call(IExpressionToCommaFusionExpression target)
         {
-            var result = new CallFusionStatement(this.Owner) { Target = target };
-            this.baseList.Add(result);
-            return result;
+            var callFusion = new CallFusionStatement(this.Owner) { Target = target };
+            lock (this.syncObject)
+                this.baseList.Add(callFusion);
+            return callFusion;
         }
 
         /// <summary>
@@ -174,9 +177,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// is null.</exception>
         public ICallMethodStatement Call(IMethodInvokeExpression target)
         {
-            var result = new CallMethodStatement(this.Owner) { Target = target };
-            this.baseList.Add(result);
-            return result;
+            var callMethod = new CallMethodStatement(this.Owner) { Target = target };
+            lock (this.syncObject)
+                this.baseList.Add(callMethod);
+            return callMethod;
         }
 
         /// <summary>
@@ -460,9 +464,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// <paramref name="condition"/> check but before executing the inner block of the iteration.</returns>
         public IIterationBlockStatement Iterate(IEnumerable<IStatementExpression> initializers, IExpression condition, IEnumerable<IStatementExpression> iterations)
         {
-            var result = new IterationBlockStatement(this.Owner, initializers, condition, iterations);
-            this.baseList.Add(result);
-            return result;
+            var iterationBlock = new IterationBlockStatement(this.Owner, initializers, condition, iterations);
+            lock (this.syncObject)
+                this.baseList.Add(iterationBlock);
+            return iterationBlock;
         }
 
         /// <summary>
@@ -483,9 +488,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// a continuation <paramref name="condition"/> and a series of <paramref name="iterations"/>.</returns>
         public IIterationDeclarationBlockStatement Iterate(ILocalDeclarationStatement localDeclaration, IExpression condition, IEnumerable<IStatementExpression> iterations)
         {
-            var result = new IterationDeclarationBlockStatement(this.owner, localDeclaration, condition, iterations);
-            this.baseList.Add(result);
-            return result;
+            var iterationBlock = new IterationDeclarationBlockStatement(this.Owner, localDeclaration, condition, iterations);
+            lock (this.syncObject)
+                this.baseList.Add(iterationBlock);
+            return iterationBlock;
         }
 
         public ISimpleIterationBlockStatement Iterate(ILocalDeclarationStatement target, IExpression start, IExpression end, bool endExclusive = true, IExpression incremental = null)
@@ -511,38 +517,47 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// the operation.</returns>
         public IEnumerateSetBreakableBlockStatement Enumerate(string targetName, IExpression source)
         {
-            var result = new EnumerateSetBreakableBlockStatement(this, targetName) { Source = source };
-            this.baseList.Add(result);
-            return result;
+            var enumerateSet = new EnumerateSetBreakableBlockStatement(this, targetName) { Source = source };
+            lock (this.syncObject)
+                this.baseList.Add(enumerateSet);
+            return enumerateSet;
         }
 
         public ILocalDeclarationStatement DefineLocal(ILocalMember local)
         {
-            var result = local.GetDeclarationStatement();
-            base.baseList.Add(result);
-            return result;
+            var localDeclaration = local.GetDeclarationStatement();
+            lock (this.syncObject)
+                base.baseList.Add(localDeclaration);
+            return localDeclaration;
         }
 
         public ILabelStatement DefineLabel(string name)
         {
             var label = this.Labels.Add(name);
-            this.baseList.Add(label);
+            lock (this.syncObject)
+                this.baseList.Add(label);
             return label;
         }
 
         public void DefineLabel(ILabelStatement label)
         {
-            if (!this.Labels.Values.Contains(label))
-                this.Labels.Add(label);
-            this.baseList.Add(label);
+            lock (this.syncObject)
+            {
+                if (!this.Labels.Values.Contains(label))
+                    this.Labels.Add(label);
+                this.baseList.Add(label);
+            }
         }
 
         public BlockStatementLabelDictionary Labels
         {
             get {
-                if (this.labels == null)
-                    this.labels = new BlockStatementLabelDictionary(this.owner);
-                return this.labels;
+                lock (this.syncObject)
+                {
+                    if (this.labels == null)
+                        this.labels = new BlockStatementLabelDictionary(this.Owner);
+                    return this.labels;
+                }
             }
         }
 
@@ -556,17 +571,21 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         public IBlockStatementLabelDictionary ScopeLabels
         {
             get {
-                if (this.scopeLabels == null)
-                    this.scopeLabels = new BlockStatementScopeLabelDictionary(this);
-                return this.scopeLabels;
+                lock (this.syncObject)
+                {
+                    if (this.scopeLabels == null)
+                        this.scopeLabels = new BlockStatementScopeLabelDictionary(this);
+                    return this.scopeLabels;
+                }
             }
         }
 
         public IExpressionStatement Assign(IMemberReferenceExpression target, AssignmentOperation operation, INaryOperandExpression value)
         {
-            var result = new ExpressionStatement(this.owner, new AssignmentExpression(target, operation, value));
-            base.baseList.Add(result);
-            return result;
+            var expression = new ExpressionStatement(this.Owner, new AssignmentExpression(target, operation, value));
+            lock (this.syncObject)
+                base.baseList.Add(expression);
+            return expression;
         }
 
         public IExpressionStatement Assign(IMemberReferenceExpression target, INaryOperandExpression value)
@@ -576,9 +595,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
 
         public IExpressionStatement Assign(IExpressionFusionExpression target, AssignmentOperation operation, INaryOperandExpression value)
         {
-            var result = new ExpressionStatement(this.owner, new AssignmentExpression(target, operation, value));
-            base.baseList.Add(result);
-            return result;
+            var expression = new ExpressionStatement(this.Owner, new AssignmentExpression(target, operation, value));
+            lock (this.syncObject)
+                base.baseList.Add(expression);
+            return expression;
         }
 
         public IExpressionStatement Assign(IExpressionFusionExpression target, INaryOperandExpression value)
@@ -588,43 +608,49 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
 
         public IExpressionStatement Increment(IAssignTargetExpression target)
         {
-            var result = new ExpressionStatement(this.owner, new UnaryOperationExpression(target, UnaryOperation.Increment | UnaryOperation.PostAction));
-            this.baseList.Add(result);
-            return result;
+            var expression = new ExpressionStatement(this.Owner, new UnaryOperationExpression(target, UnaryOperation.Increment | UnaryOperation.PostAction));
+            lock (this.syncObject)
+                this.baseList.Add(expression);
+            return expression;
         }
 
         public IExpressionStatement Increment(IAssignTargetExpression target, INaryOperandExpression incrementBy)
         {
-            var result = new ExpressionStatement(this.owner, new AssignmentExpression(target, AssignmentOperation.AddAssign, incrementBy));
-            this.baseList.Add(result);
-            return result;
+            var expression = new ExpressionStatement(this.Owner, new AssignmentExpression(target, AssignmentOperation.AddAssign, incrementBy));
+            lock (this.syncObject)
+                this.baseList.Add(expression);
+            return expression;
         }
 
         public IExpressionStatement Decrement(IAssignTargetExpression target)
         {
-            var result = new ExpressionStatement(this.owner, new UnaryOperationExpression(target, UnaryOperation.Decrement | UnaryOperation.PostAction));
-            this.baseList.Add(result);
-            return result;
+            var expression = new ExpressionStatement(this.Owner, new UnaryOperationExpression(target, UnaryOperation.Decrement | UnaryOperation.PostAction));
+            lock (this.syncObject)
+                this.baseList.Add(expression);
+            return expression;
         }
 
         public IExpressionStatement Decrement(IAssignTargetExpression target, INaryOperandExpression decrementBy)
         {
-            var result = new ExpressionStatement(this.owner, new AssignmentExpression(target, AssignmentOperation.SubtractionAssign, decrementBy));
-            this.baseList.Add(result);
-            return result;
+            var expression = new ExpressionStatement(this.Owner, new AssignmentExpression(target, AssignmentOperation.SubtractionAssign, decrementBy));
+            lock (this.syncObject)
+                this.baseList.Add(expression);
+            return expression;
         }
 
         public IJumpStatement Jump(IJumpTarget target)
         {
-            var jumpStatement = new JumpStatement(this.owner, target);
-            this.baseList.Add(jumpStatement);
+            var jumpStatement = new JumpStatement(this.Owner, target);
+            lock (this.syncObject)
+                this.baseList.Add(jumpStatement);
             return jumpStatement;
         }
 
         public IGoToStatement GoTo(ILabelStatement target)
         {
-            var gotoStatement = target.GetGoTo(this.owner);
-            this.baseList.Add(gotoStatement);
+            var gotoStatement = target.GetGoTo(this.Owner);
+            lock (this.syncObject)
+                this.baseList.Add(gotoStatement);
             return gotoStatement;
         }
         #region Event Handler Delegation
@@ -827,9 +853,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
             where TSignatureParent :
                 ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
-            var result = new BoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(this.Owner, @event, changeKind, method.GetMethodReference<TSignatureParameter, TSignature, TSignatureParent>().GetPointer());
-            this.baseList.Add(result);
-            return result;
+            var eventHandler = new BoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(this.Owner, @event, changeKind, method.GetMethodReference<TSignatureParameter, TSignature, TSignatureParent>().GetPointer());
+            lock (this.syncObject)
+                this.baseList.Add(eventHandler);
+            return eventHandler;
         }
 
         /// <summary>
@@ -875,9 +902,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
             where TSignatureParent :
                 ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
         {
-            var result = new BoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(this.owner, targetEvent, changeKind, methodPtr);
-            this.baseList.Add(result);
-            return result;
+            var eventHandler = new BoundChangeEventSignatureHandlerStatement<TEvent, TEventParameter, TEventParent, TSignatureParameter, TSignature, TSignatureParent>(this.Owner, targetEvent, changeKind, methodPtr);
+            lock (this.syncObject)
+                this.baseList.Add(eventHandler);
+            return eventHandler;
         }
         /// <summary>
         /// Creates, inserts and returns a <see cref="IChangeEventHandlerStatement"/>
@@ -902,9 +930,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// </exception>
         public IChangeEventHandlerStatement ChangeHandler(IEventReferenceExpression target, EventHandlerChangeKind changeKind, IMethodPointerReferenceExpression sourceMethod)
         {
-            var result = new ChangeEventHandlerStatement(target, changeKind, sourceMethod, this.Owner);
-            this.baseList.Add(result);
-            return result;
+            var eventHandler = new ChangeEventHandlerStatement(target, changeKind, sourceMethod, this.Owner);
+            lock (this.syncObject)
+                this.baseList.Add(eventHandler);
+            return eventHandler;
         }
 
         /// <summary>
@@ -1113,9 +1142,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
 
         public ICommentStatement Comment(string comment)
         {
-            var result = new CommentStatement(this.Owner, comment);
-            this.baseList.Add(result);
-            return result;
+            var commentStatement = new CommentStatement(this.Owner, comment);
+            lock (this.syncObject)
+                this.baseList.Add(commentStatement);
+            return commentStatement;
         }
         #endregion
 
@@ -1124,13 +1154,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
             return new ConditionBlockStatement(this.Owner) { Condition = condition };
         }
 
-        internal virtual IBlockStatementParent Owner
-        {
-            get
-            {
-                return this.owner;
-            }
-        }
+        internal virtual IBlockStatementParent Owner { get; private set; }
 
         #region IIntermediateTypeParent Members
 
@@ -1138,7 +1162,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         {
             get
             {
-                var current = this.owner;
+                var current = this.Owner;
                 while (current != null)
                 {
                     if (current is IBlockStatement)
@@ -1159,8 +1183,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         {
             get
             {
-                this.CheckClasses();
-                return this.classes;
+                lock (this.syncObject)
+                {
+                    this.CheckClasses();
+                    return this.classes;
+                }
             }
         }
 
@@ -1168,8 +1195,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         {
             get
             {
-                this.CheckDelegates();
-                return this.delegates;
+                lock (this.syncObject)
+                {
+                    this.CheckDelegates();
+                    return this.delegates;
+                }
             }
         }
 
@@ -1177,8 +1207,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         {
             get
             {
-                this.CheckEnums();
-                return this.enums;
+                lock (this.syncObject)
+                {
+                    this.CheckEnums();
+                    return this.enums;
+                }
             }
         }
 
@@ -1186,8 +1219,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         {
             get
             {
-                this.CheckInterfaces();
-                return this.interfaces;
+                lock (this.syncObject)
+                {
+                    this.CheckInterfaces();
+                    return this.interfaces;
+                }
             }
         }
 
@@ -1195,8 +1231,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         {
             get
             {
-                this.CheckStructs();
-                return this.structs;
+                lock (this.syncObject)
+                {
+                    this.CheckStructs();
+                    return this.structs;
+                }
             }
         }
 
@@ -1204,8 +1243,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         {
             get
             {
-                this.Check_Types();
-                return this.types;
+                lock (this.syncObject)
+                {
+                    this.Check_Types();
+                    return this.types;
+                }
             }
         }
 
@@ -1213,12 +1255,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         {
             get
             {
-                this.CheckClasses();
-                this.CheckDelegates();
-                this.CheckEnums();
-                this.CheckInterfaces();
-                this.CheckStructs();
-                return this._Types;
+                lock (this.syncObject)
+                {
+                    this.CheckClasses();
+                    this.CheckDelegates();
+                    this.CheckEnums();
+                    this.CheckInterfaces();
+                    this.CheckStructs();
+                    return this._Types;
+                }
             }
         }
 
@@ -1264,7 +1309,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         public IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get {
-                return this.types.Keys.Cast<IGeneralDeclarationUniqueIdentifier>().Concat(
+                return this.Types.Keys.Cast<IGeneralDeclarationUniqueIdentifier>().Concat(
                     this.Locals.Keys);
             }
         }
@@ -1373,9 +1418,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         {
             get
             {
-                if (this.scopeCoercions == null)
-                    this.scopeCoercions = new ScopeCoercionCollection();
-                return this.scopeCoercions;
+                lock (this.syncObject)
+                {
+                    if (this.scopeCoercions == null)
+                        this.scopeCoercions = new ScopeCoercionCollection();
+                    return this.scopeCoercions;
+                }
             }
         }
 

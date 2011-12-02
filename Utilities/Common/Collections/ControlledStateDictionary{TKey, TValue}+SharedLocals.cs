@@ -31,16 +31,19 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
             internal void EnsureSpaceExists(int newCount)
             {
-                if (this.entries == null)
+                lock (this.syncObject)
                 {
-                    this.entries = new KeyValuePair<TKey, TValue>[Math.Max(newCount, 2)];
-                    return;
+                    if (this.entries == null)
+                    {
+                        this.entries = new KeyValuePair<TKey, TValue>[Math.Max(newCount, 1) * 2];
+                        return;
+                    }
                 }
                 if (this.entries.Length < newCount)
                 {
                     lock (this.syncObject)
                     {
-                        int doubleCount = Math.Max(this.orderings.Count * 2, 4);
+                        int doubleCount = Math.Max(this.orderings.Count, 2) * 2;
                         KeyValuePair<TKey, TValue>[] newEntries = new KeyValuePair<TKey, TValue>[Math.Max(doubleCount, newCount)];
                         Array.ConstrainedCopy(entries, 0, newEntries, 0, this.orderings.Count);
                         this.entries = newEntries;
@@ -61,9 +64,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             {
                 get
                 {
-                    if (this.keys == null)
-                        this.keys = this.keysInitializer();
-                    return this.keys;
+                    lock (this.syncObject)
+                    {
+                        if (this.keys == null)
+                            this.keys = this.keysInitializer();
+                        return this.keys;
+                    }
                 }
             }
 
@@ -71,9 +77,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             {
                 get
                 {
-                    if (this.values == null)
-                        this.values = this.valuesInitializer();
-                    return this.values;
+                    lock (this.syncObject)
+                    {
+                        if (this.values == null)
+                            this.values = this.valuesInitializer();
+                        return this.values;
+                    }
                 }
             }
 
@@ -98,13 +107,13 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 {
                     int count = this.orderings.Count;
                     EnsureSpaceExists(count + elements.Length);
-                    Parallel.For(0, elements.Length, i =>
+                    for (int i = 0; i < elements.Length; i++)
                     {
-                        var newitem = elements[i];
-                        this.entries[count + i] = newitem;
-                        lock (orderings)
-                            this.orderings.Add(newitem.Key, count + i);
-                    });
+                        var newElement = elements[i];
+                        int index = orderings.Count;
+                        this.entries[index] = newElement;
+                        this.orderings.Add(newElement.Key, index);
+                    }
                 }
             }
 
@@ -112,9 +121,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             {
                 if (index < 0 || index >= this.Count)
                     throw new ArgumentOutOfRangeException("index");
-                var removed = this.entries[index];
                 lock (this.syncObject)
                 {
+                    var removed = this.entries[index];
                     for (int i = index; i < this.Count - 1; i++)
                     {
                         var next = this.entries[i + 1];
@@ -127,11 +136,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 return true;
             }
 
-            internal void _RemoveSet(IEnumerable<int> indices)
-            {
-                foreach (var index in indices)
-                    _Remove(index);
-            }
 
             internal void Clear()
             {
@@ -146,11 +150,13 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             {
                 get
                 {
-                    return this.keys;
+                    lock (this.syncObject)
+                        return this.keys;
                 }
                 set
                 {
-                    this.keys = value;
+                    lock (this.syncObject)
+                        this.keys = value;
                 }
             }
 
@@ -158,11 +164,13 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             {
                 get
                 {
-                    return this.values;
+                    lock (this.syncObject)
+                        return this.values;
                 }
                 set
                 {
-                    this.values = value;
+                    lock (this.syncObject)
+                        this.values = value;
                 }
             }
 

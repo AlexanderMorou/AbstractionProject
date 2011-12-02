@@ -25,11 +25,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+        }
+
         private IIntermediateModule declaringModule;
 
         public override IIntermediateAssembly Assembly
         {
             get {
+                if (this.Parent == null)
+                    return null;
                 return this.Parent.Assembly;
             }
         }
@@ -45,6 +52,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get
             {
+                if (this.Parent == null)
+                    return null;
                 if (this.declaringModule == null)
                     return this.Assembly.ManifestModule;
                 return this.declaringModule;

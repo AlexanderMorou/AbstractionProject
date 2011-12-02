@@ -70,10 +70,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         private IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> fields;
         private IFullMemberDictionary members;
+        private object syncObject = new object();
         private byte isDisposed = 0;
 
         #endregion
-        
+
         #region Protected Members
 
         #region Behavior
@@ -103,7 +104,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <returns>An <see cref="IModule"/> instance that contains
         /// the assembly manifest information.</returns>
         protected abstract IModule OnGetManifestModule();
-        
+
         #endregion
 
         #region InitializationMembers
@@ -166,18 +167,32 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         #region Internal members
 
         #region Check members
+        protected object SyncObject
+        {
+            get
+            {
+                return this.GetSyncObject();
+            }
+        }
+
+        internal virtual object GetSyncObject()
+        {
+            return this.syncObject;
+        }
+
         /// <summary>
         /// Checks the initialization status of the <see cref="Fields"/>
         /// associated to the <see cref="AssemblyBase"/>.
         /// </summary>
         internal void CheckFields()
         {
-            if (this.fields == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.fields = this.InitializeFields();
-            }
+            lock (this.SyncObject)
+                if (this.fields == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.fields = this.InitializeFields();
+                }
         }
 
         /// <summary>
@@ -186,12 +201,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         internal void CheckMethods()
         {
-            if (this.methods == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.methods = this.InitializeMethods();
-            }
+            lock (this.SyncObject)
+                if (this.methods == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.methods = this.InitializeMethods();
+                }
         }
 
         /// <summary>
@@ -200,12 +216,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         internal void CheckClasses()
         {
-            if (this.classes == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.classes = this.InitializeClasses();
-            }
+            lock (this.SyncObject)
+                if (this.classes == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.classes = this.InitializeClasses();
+                }
         }
 
         /// <summary>
@@ -214,12 +231,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         internal void CheckDelegates()
         {
-            if (this.delegates == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.delegates = this.InitializeDelegates();
-            }
+            lock (this.SyncObject)
+                if (this.delegates == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.delegates = this.InitializeDelegates();
+                }
         }
 
         /// <summary>
@@ -228,12 +246,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         internal void CheckEnumerators()
         {
-            if (this.enums == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.enums = this.InitializeEnums();
-            }
+            lock (this.SyncObject)
+                if (this.enums == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.enums = this.InitializeEnums();
+                }
         }
 
         /// <summary>
@@ -242,12 +261,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         internal void CheckInterfaces()
         {
-            if (this.interfaces == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.interfaces = this.InitializeInterfaces();
-            }
+            lock (this.SyncObject)
+                if (this.interfaces == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.interfaces = this.InitializeInterfaces();
+                }
         }
 
         /// <summary>
@@ -256,12 +276,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         internal void CheckStructs()
         {
-            if (this.structs == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.structs = this.InitializeStructs();
-            }
+            lock (this.SyncObject)
+                if (this.structs == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.structs = this.InitializeStructs();
+                }
         }
 
         /// <summary>
@@ -270,12 +291,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         internal void CheckTypes()
         {
-            if (this.types == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.types = this.InitializeTypes();
-            }
+            lock (this.SyncObject)
+                if (this.types == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.types = this.InitializeTypes();
+                }
         }
 
         /// <summary>
@@ -284,12 +306,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         internal void CheckModules()
         {
-            if (this.modules == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.modules = this.InitializeModules();
-            }
+            lock (this.SyncObject)
+                if (this.modules == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.modules = this.InitializeModules();
+                }
         }
 
         /// <summary>
@@ -298,12 +321,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         internal void CheckMembers()
         {
-            if (this.members == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.members = this.InitializeMembers();
-            }
+            lock (this.SyncObject)
+                if (this.members == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.members = this.InitializeMembers();
+                }
         }
 
         #endregion
@@ -327,7 +351,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             get
             {
                 CheckClasses();
-                return this.classes;
+                lock (this.SyncObject)
+                    return this.classes;
             }
         }
 
@@ -340,7 +365,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             get
             {
                 CheckDelegates();
-                return this.delegates;
+                lock (this.SyncObject)
+                    return this.delegates;
             }
         }
 
@@ -353,7 +379,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             get
             {
                 CheckEnumerators();
-                return this.enums;
+                lock (this.SyncObject)
+                    return this.enums;
             }
         }
 
@@ -366,7 +393,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             get
             {
                 CheckInterfaces();
-                return this.interfaces;
+                lock (this.SyncObject)
+                    return this.interfaces;
             }
         }
 
@@ -379,7 +407,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             get
             {
                 CheckStructs();
-                return this.structs;
+                lock (this.SyncObject)
+                    return this.structs;
             }
         }
 
@@ -392,7 +421,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             get
             {
                 CheckTypes();
-                return this.types;
+                lock (this.SyncObject)
+                    return this.types;
             }
         }
 
@@ -419,8 +449,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             {
                 if (this.CanCacheManifestModule)
                 {
-                    if (this.manifestModule == null)
-                        this.manifestModule =this.OnGetManifestModule();
+                    lock (this.SyncObject)
+                        if (this.manifestModule == null)
+                            this.manifestModule = this.OnGetManifestModule();
                     return this.manifestModule;
                 }
                 else
@@ -481,44 +512,50 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             try
             {
-                this.manifestModule = null;
-                if (this.attributes != null)
-                    this.attributes.Dispose();
-                if (this.namespaces != null)
-                    this.namespaces.Dispose();
-                if (this.classes != null)
+                lock (this.SyncObject)
                 {
-                    this.classes.Dispose();
-                    this.classes = null;
+                    this.manifestModule = null;
+                    if (this.attributes != null)
+                        this.attributes.Dispose();
+                    if (this.namespaces != null)
+                    {
+                        this.namespaces.Dispose();
+                        this.namespaces = null;
+                    }
+                    if (this.classes != null)
+                    {
+                        this.classes.Dispose();
+                        this.classes = null;
+                    }
+                    if (this.enums != null)
+                    {
+                        this.enums.Dispose();
+                        this.enums = null;
+                    }
+                    if (this.delegates != null)
+                    {
+                        this.delegates.Dispose();
+                        this.delegates = null;
+                    }
+                    if (this.interfaces != null)
+                    {
+                        this.interfaces.Dispose();
+                        this.interfaces = null;
+                    }
+                    if (this.structs != null)
+                    {
+                        this.structs.Dispose();
+                        this.structs = null;
+                    }
+                    if (this.modules != null)
+                    {
+                        foreach (var module in this.modules.Values)
+                            module.Dispose();
+                        this.modules = null;
+                    }
+                    this.types = null;
+                    this.isDisposed = 1;
                 }
-                if (this.enums != null)
-                {
-                    this.enums.Dispose();
-                    this.enums = null;
-                }
-                if (this.delegates != null)
-                {
-                    this.delegates.Dispose();
-                    this.delegates = null;
-                }
-                if (this.interfaces != null)
-                {
-                    this.interfaces.Dispose();
-                    this.interfaces = null;
-                }
-                if (this.structs != null)
-                {
-                    this.structs.Dispose();
-                    this.structs = null;
-                }
-                if (this.modules != null)
-                {
-                    foreach (var module in this.modules.Values)
-                        module.Dispose();
-                    this.modules = null;
-                }
-                this.types = null;
-                this.isDisposed = 1;
             }
             finally
             {
@@ -539,7 +576,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         public IFullMemberDictionary Members
         {
-            get {
+            get
+            {
                 this.CheckMembers();
                 return this.members;
             }
@@ -556,7 +594,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             get
             {
                 if (this.namespaces == null)
-                    this.namespaces = this.InitializeNamespaces();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.namespaces = this.InitializeNamespaces();
                 return this.namespaces;
             }
         }
@@ -720,7 +761,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             get
             {
-                return this.isDisposed == 1;
+                lock (this.SyncObject)
+                    return this.isDisposed == 1;
             }
         }
 

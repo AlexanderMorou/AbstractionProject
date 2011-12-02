@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Diagnostics;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -17,7 +18,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// A generic dictionary whose keys and values are tightly controlled.
     /// </summary>
     /// <typeparam name="TKey">The type of element used as a key.</typeparam>
-    /// <typeparam name="TValue">The type of element used as the values associated to the keys.</typeparam>
+    /// <typeparam name="TValue">The type of element used as the 
+    /// values associated to the keys.</typeparam>
     [Serializable]
     public partial class ControlledDictionary<TKey, TValue> :
         IControlledDictionary<TKey, TValue>,
@@ -52,7 +54,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// Creates a new <see cref="ControlledDictionary{TKey, TValue}"/>
         /// with the <paramref name="entries"/> provided.
         /// </summary>
-        /// <param name="entries"></param>
+        /// <param name="entries">The <see cref="IEnumerable{T}"/> of 
+        /// <see cref="KeyValuePair{TKey, TValue}"/> elements
+        /// to initialize the <see cref="ControlledDictionary{TKey, TValue}"/>.</param>
+        /// <exception cref="System.ArgumentNullException">thrown when the 
+        /// <paramref name="entries"/> provided are null.</exception>
         public ControlledDictionary(IEnumerable<KeyValuePair<TKey, TValue>> entries)
         {
             if (entries == null)
@@ -118,14 +124,15 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         #region IControlledDictionary<TKey,TValue> Members
 
-        IControlledCollection<TKey> IControlledDictionary<TKey,TValue>.Keys
+        IControlledCollection<TKey> IControlledDictionary<TKey, TValue>.Keys
         {
-            get {
+            get
+            {
                 return this.Keys;
             }
         }
 
-        IControlledCollection<TValue> IControlledDictionary<TKey,TValue>.Values
+        IControlledCollection<TValue> IControlledDictionary<TKey, TValue>.Values
         {
             get { return this.Values; }
         }
@@ -155,33 +162,73 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             }
         }
 
+        /// <summary>
+        /// Sets the <paramref name="value"/> at the <paramref name="key"/> provided.
+        /// </summary>
+        /// <param name="key">The <typeparamref name="TKey"/> of the 
+        /// <paramref name="value"/> to set.</param>
+        /// <param name="value">The <typeparamref name="TValue"/> to set at the 
+        /// <paramref name="key"/> provided.</param>
         protected virtual void OnSetThis(TKey key, TValue value)
         {
             int index;
-            if (this.locals.orderings.TryGetValue(key, out index))
-                this.locals.entries[index] = new KeyValuePair<TKey, TValue>(key, value);
-            else
-                this.locals._Add(new KeyValuePair<TKey, TValue>(key, value));
+            lock (this.SyncRoot)
+                if (this.locals.orderings.TryGetValue(key, out index))
+                    this.locals.entries[index] = new KeyValuePair<TKey, TValue>(key, value);
+                else
+                    this.locals._Add(new KeyValuePair<TKey, TValue>(key, value));
         }
 
+        /// <summary>
+        /// Obtians the <typeparamref name="TValue"/> using the
+        /// <paramref name="key"/> provided.
+        /// </summary>
+        /// <param name="key">The <typeparamref name="TKey"/> of the
+        /// <typeparamref name="TValue"/> to retrieve.</param>
+        /// <returns>The <typeparamref name="TValue"/> given the 
+        /// <paramref name="key"/> of the <see cref="KeyValuePair{TKey, TValue}"/>.</returns>
         protected virtual TValue OnGetThis(TKey key)
         {
-            return this.locals.entries[locals.orderings[key]].Value;
+            lock (this.SyncRoot)
+                return this.locals.entries[locals.orderings[key]].Value;
         }
 
+        /// <summary>
+        /// Returns whether an element of the given <paramref name="key"/>
+        /// exists within the <see cref="ControlledDictionary{TKey, TValue}"/>.
+        /// </summary>
+        /// <param name="key">The <typeparamref name="TKey"/> of the element
+        /// to find.</param>
+        /// <returns></returns>
         public virtual bool ContainsKey(TKey key)
         {
-            return this.locals.orderings.ContainsKey(key);
+            lock (this.SyncRoot)
+                return this.locals.orderings.ContainsKey(key);
         }
 
+        /// <summary>
+        /// Returns whether an element of the given <paramref name="key"/> 
+        /// exists within the <see cref="ControlledDictionary{TKey, TValue}"/>,
+        /// if it does, it sets <paramref name="value"/> accordingly, or sets
+        /// it to the default value for <typeparamref name="TValue"/>.
+        /// </summary>
+        /// <param name="key">The <typeparamref name="TKey"/> to attempt to
+        /// retrieve.</param>
+        /// <param name="value">The <typeparamref name="TValue"/> to receive
+        /// the value within the <see cref="ControlledDictionary{TKey, TValue}"/>
+        /// if it exists.</param>
+        /// <returns>true, if an element was found and <paramref name="value"/> was 
+        /// set to its value; false, otherwise where <paramref name="value"/>
+        /// is set to the default value of <typeparamref name="TValue"/>.</returns>
         public bool TryGetValue(TKey key, out TValue value)
         {
             int index;
-            if (locals.orderings.TryGetValue(key, out index))
-            {
-                value = locals.entries[index].Value;
-                return true;
-            }
+            lock (this.SyncRoot)
+                if (locals.orderings.TryGetValue(key, out index))
+                {
+                    value = locals.entries[index].Value;
+                    return true;
+                }
             value = default(TValue);
             return false;
         }
@@ -190,14 +237,23 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         #region IControlledCollection<KeyValuePair<TKey,TValue>> Members
 
+        /// <summary>
+        /// Returns the <see cref="Int32"/> value of the <paramref name="element"/>
+        /// provided.
+        /// </summary>
+        /// <param name="element">The <see cref="KeyValuePair{TKey, TValue}"/>
+        /// which contains the information to look for.</param>
+        /// <returns>true, if an element contains both the key and value of the 
+        /// <paramref name="element"/> provided.</returns>
         public int IndexOf(KeyValuePair<TKey, TValue> element)
         {
             int index;
-            if (this.locals.orderings.TryGetValue(element.Key, out index))
-            {
-                if (this.locals.entries[index].Equals(element.Value))
-                    return index;
-            }
+            lock (this.SyncRoot)
+                if (this.locals.orderings.TryGetValue(element.Key, out index))
+                {
+                    if (this.locals.entries[index].Equals(element.Value))
+                        return index;
+                }
             return -1;
         }
 
@@ -211,7 +267,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// </returns>
         public virtual int Count
         {
-            get { return this.locals.orderings.Count; }
+            get
+            {
+                lock (this.SyncRoot)
+                    return this.locals.orderings.Count;
+            }
         }
 
         /// <summary>
@@ -268,7 +328,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             if (this.Count == 0)
                 return;
-            Array.ConstrainedCopy(this.locals.entries, 0, array, arrayIndex, this.Count);
+            lock (this.SyncRoot)
+                Array.ConstrainedCopy(this.locals.entries, 0, array, arrayIndex, this.Count);
         }
 
         /// <summary>
@@ -278,7 +339,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <returns>The instance of <see cref="System.Object"/> at the <paramref name="index"/>
         /// provided.</returns>
         /// <exception cref="System.ArgumentOutOfRangeException">
-        /// <paramref name="index"/> is  beyond the range of the 
+        /// <paramref name="index"/> is beyond the range of the 
         /// <see cref="ControlledDictionary{TKey, TValue}"/>.
         /// </exception>
         public KeyValuePair<TKey, TValue> this[int index]
@@ -289,15 +350,47 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             }
             protected set
             {
-                if (index < 0 ||
-                    index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
-                this.locals.entries[index] = value;
+                OnSetThis(index, value);
             }
         }
 
         /// <summary>
-        /// Occurs when an element is retrieved by index.
+        /// Sets the <see cref="KeyValuePair{TKey, TValue}"/> at the <paramref name="index"/> 
+        /// provided.
+        /// </summary>
+        /// <param name="index">The <see cref="Int32"/> ordinal index of the
+        /// <paramref name="value"/> to set.</param>
+        /// <param name="value">The <see cref="KeyValuePair{TKey, TValue}"/>
+        /// to set.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">thrown
+        /// when the <paramref name="index"/> is less than zero, or
+        /// greater than or equal to the number of items within the
+        /// <see cref="ControlledDictionary{TKey, TValue}"/>.</exception>
+        protected virtual void OnSetThis(int index, KeyValuePair<TKey, TValue> value)
+        {
+            if (index < 0 ||
+                index >= this.Count)
+                throw new ArgumentOutOfRangeException("index");
+            var newKey = value.Key;
+            var newValue = value.Value;
+            lock (this.SyncRoot)
+            {
+                var oldKey = this.Keys[index];
+                if (oldKey.Equals(newKey))
+                    this.locals.entries[index] = value;
+                else if (!this.ContainsKey(newKey))
+                {
+                    this.locals.orderings.Remove(oldKey);
+                    this.locals.orderings.Add(newKey, index);
+                    this.locals.entries[index] = value;
+                }
+                else
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.value, ExceptionMessageId.DuplicateKeyExists);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves an element by its ordinal index.
         /// </summary>
         /// <param name="index">The <see cref="Int32"/> ordinal index
         /// of the <see cref="KeyValuePair{TKey, TValue}"/> entry
@@ -309,7 +402,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             if (index < 0 ||
                 index >= this.Count)
                 throw new ArgumentOutOfRangeException("index");
-            return this.locals.entries[index];
+            lock (this.SyncRoot)
+                return this.locals.entries[index];
         }
 
         /// <summary>
@@ -335,7 +429,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// Obtains an <see cref="IEnumerator{T}"/> which iterates the
         /// elements of the <see cref="ControlledDictionary{TKey, TValue}"/>.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An <see cref="IEnumerator{T}"/> which enumerates
+        /// the values of the <see cref="ControlledDictionary{TKey, TValue}"/>.
+        /// </returns>
         public virtual IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             for (int i = 0; i < this.Count; i++)
@@ -367,7 +463,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         object IControlledDictionary.this[object key]
         {
-            get {
+            get
+            {
                 if (!(key is TKey))
                     throw ThrowHelper.ObtainArgumentException(ArgumentWithException.key, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.key), key.GetType().ToString(), typeof(TKey).ToString());
                 return this[(TKey)key];
@@ -431,7 +528,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// the elements of the <see cref="ControlledDictionary{TKey, TValue}"/>.</exception>
         protected virtual void CopyToArray(Array array, int arrayIndex = 0)
         {
-            Array.ConstrainedCopy(this.locals.entries, 0, array, arrayIndex, this.Count);
+            lock (this.SyncRoot)
+                Array.ConstrainedCopy(this.locals.entries, 0, array, arrayIndex, this.Count);
         }
 
         object IControlledCollection.this[int index]
@@ -440,7 +538,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             {
                 if (index < 0 || index >= this.Count)
                     throw new ArgumentOutOfRangeException("index");
-                return this.locals.entries[index];
+                lock (this.SyncRoot)
+                    return this.locals.entries[index];
             }
         }
 
@@ -566,11 +665,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                             select index);
         }
 
-        private void _RemoveSet(IEnumerable<int> elements)
+        private void _RemoveSet(IEnumerable<int> indices)
         {
-            this.locals._RemoveSet(elements);
+            foreach (var index in indices.ToArray())
+                _Remove(index);
         }
-
         /// <summary>
         /// Removes an element from the <see cref="ControlledDictionary{TKey, TValue}"/>
         /// by its <paramref name="index"/>.

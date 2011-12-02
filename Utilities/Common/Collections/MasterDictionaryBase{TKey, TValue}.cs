@@ -236,15 +236,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             base[key] = new MasterDictionaryEntry<TValue>((ISubordinateDictionary)subordinate, value);
         }
 
-        protected internal virtual void Subordinate_ItemsRekeyed<TSKey, TSValue>(ISubordinateDictionary<TSKey, TKey, TSValue, TValue> subordinate, IEnumerable<Tuple<TKey, TKey>> oldNewPair)
-            where TSKey :
-                TKey
-            where TSValue :
-                TValue
-        {
-            this.Keys.Rekey(oldNewPair.ToArray());
-        }
-
         /// <summary>
         /// Notifier for subordinate dictionaries 
         /// indicating that an item has been removed.
@@ -270,9 +261,20 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             where TSValue :
                 TValue
         {
-            if (this[key].Subordinate != subordinate)
+            int index = this.Keys.IndexOf(key);
+            /* *
+             * The cause behind this is a caching issue.  Since the CLI types
+             * are singletons, clearing the cache causes the signatures associated
+             * to the members to become invalid since they referenced a type whose
+             * underlying system type is now null.
+             * */
+            if (index == -1)
+                return;
+            MasterDictionaryEntry<TValue> entry = this.Values[index];
+
+            if (entry.Subordinate != subordinate)
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.subordinate, ExceptionMessageId.SubordinateMismatch);
-            this._Remove(key);
+            base._Remove(index);
         }
 
         /// <summary>
@@ -297,25 +299,41 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             where TSValue :
                 TValue
         {
-             /* * * * * * * * * * * * * * * * * * * * * * * * * * *\
-             * LINQ so freaking rocks, and this is just            *
-             * the tip of the iceberg.                             *
-             * OnAllP uses a prefetch to ensure the query executes * 
-             * immediately                                         *
-             \ * * * * * * * * * * * * * * * * * * * * * * * * * **/
-            if (this.__Subordinate_Cleared__removeHelper_cache == null)
-                this.__Subordinate_Cleared__removeHelper_cache = new Action<TKey>(__Subordinate_Cleared__removeHelper);
-            (from kvp in this
-             where kvp.Value.Subordinate == subordinate
-             select kvp.Key).OnAllP<TKey>(__Subordinate_Cleared__removeHelper_cache);
+            var clearHelper = new _RemoveHelperCache<TSKey, TSValue>(this);
+
+            (GetSubordinateClearedItems<TSKey, TSValue>(subordinate)).OnAllP((kvp) =>
+                 clearHelper.__Subordinate_Cleared__removeHelper_cache((ISubordinateDictionary<TSKey, TKey, TSValue, TValue>)kvp.Value.Subordinate, (TSKey)kvp.Key));
         }
 
-        private Action<TKey> __Subordinate_Cleared__removeHelper_cache;
-
-        /// <remarks>Due to compiler warning CS1911</remarks>
-        private void __Subordinate_Cleared__removeHelper(TKey k)
+        internal virtual  IEnumerable<KeyValuePair<TKey, MasterDictionaryEntry<TValue>>> GetSubordinateClearedItems<TSKey, TSValue>(ISubordinateDictionary<TSKey, TKey, TSValue, TValue> subordinate)
+            where TSKey : 
+                TKey
+            where TSValue : 
+                TValue
         {
-            this._Remove(k);
+            return from kvp in this
+                   where kvp.Value.Subordinate == subordinate &&
+                         kvp.Key is TSKey
+                   select kvp;
+        }
+        private class _RemoveHelperCache<TSKey, TSValue>
+            where TSKey :
+                TKey
+            where TSValue :
+                TValue
+        {
+            internal Action<ISubordinateDictionary<TSKey, TKey, TSValue, TValue>, TSKey> __Subordinate_Cleared__removeHelper_cache;
+            private MasterDictionaryBase<TKey, TValue> master;
+            public _RemoveHelperCache(MasterDictionaryBase<TKey, TValue> master)
+            {
+                this.master = master;
+                this.__Subordinate_Cleared__removeHelper_cache = new Action<ISubordinateDictionary<TSKey, TKey, TSValue, TValue>, TSKey>(__Subordinate_Cleared__removeHelper);
+            }
+            /// <remarks>Due to compiler warning CS1911</remarks>
+            public void __Subordinate_Cleared__removeHelper(ISubordinateDictionary<TSKey, TKey, TSValue, TValue> subordinate, TSKey k)
+            {
+                this.master.Subordinate_ItemRemoved<TSKey, TSValue>(subordinate, k);
+            }
         }
 
         #endregion
@@ -361,6 +379,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
              * */
             foreach (ISubordinateDictionary isd in this.subordinates)
                 ((_ISubordinateDictionaryMasterPass)isd).Clear();
+            
         }
 
         protected internal override bool _Remove(int index)

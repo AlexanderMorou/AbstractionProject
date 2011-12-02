@@ -39,7 +39,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal static IGeneralSignatureMemberUniqueIdentifier GetUniqueIdentifier(this EventInfo member)
         {
             var signatureType = member.EventHandlerType.GetTypeReference<IDelegateUniqueIdentifier, IDelegateType>();
-            return AstIdentifier.Signature(member.Name, (signatureType.Parameters.ParameterTypes).SinglePass());
+            if (signatureType == null)
+                return null;
+            var parameters = (signatureType.Parameters.ParameterTypes).SinglePass();
+            return AstIdentifier.Signature(member.Name, parameters);
         }
         internal static IGeneralSignatureMemberUniqueIdentifier GetIndexerUniqueIdentifier(this PropertyInfo property)
         {

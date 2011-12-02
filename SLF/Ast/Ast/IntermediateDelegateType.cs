@@ -340,10 +340,21 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         protected override IDelegateUniqueIdentifier OnGetUniqueIdentifier()
         {
             if (this.TypeParametersInitialized)
-                return AstIdentifier.Delegate(this.Name, this.TypeParameters.Count, this.Parameters.ParameterTypes);
+                if (this.AreParametersInitialized)
+                    return AstIdentifier.Delegate(this.Name, this.TypeParameters.Count, this.Parameters.ParameterTypes);
+                else
+                    return AstIdentifier.Delegate(this.Name, this.TypeParameters.Count);
             else
-                return AstIdentifier.Delegate(this.Name, 0, this.Parameters.ParameterTypes);
+                if (this.AreParametersInitialized)
+                    return AstIdentifier.Delegate(this.Name, 0, this.Parameters.ParameterTypes);
+                else
+                    return AstIdentifier.Delegate(this.Name, 0);
         }
 
+        /// <summary>
+        /// Returns whether the <see cref="Parameters"/> have been
+        /// initialized.
+        /// </summary>
+        protected bool AreParametersInitialized { get { return this.parameters != null; } }
     }
 }

@@ -82,6 +82,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         private new IntermediateFullTypeDictionary types;
         private IIntermediateNamespaceDeclaration defaultNamespace;
         private IntermediateFullMemberDictionary members;
+        /// <summary>
+        /// Data member for <see cref="ScopeCoercions"/>.
+        /// </summary>
         private IScopeCoercionCollection scopeCoercions;
         /* *
          * Placeholders for ensuring that only the root instance contains 
@@ -94,7 +97,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         private IAssemblyUniqueIdentifier uniqueIdentifier;
         private event EventHandler<DeclarationIdentifierChangeEventArgs<IGeneralDeclarationUniqueIdentifier>> _IdentifierChanged;
-
+        internal override object GetSyncObject()
+        {
+            if (this.IsRoot)
+                return base.GetSyncObject();
+            else
+                return this.GetRoot().GetSyncObject();
+        }
         event EventHandler<DeclarationIdentifierChangeEventArgs<IGeneralDeclarationUniqueIdentifier>> IIntermediateDeclaration.IdentifierChanged
         {
             add
@@ -189,16 +198,25 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         private void Check_Types()
         {
             if (this.types == null)
+            {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 this.types = this.Initialize_Types();
+            }
         }
 
         private void CheckAssemblyInformation()
         {
             if (this.assemblyInformation == null)
             {
-                this.assemblyInformation = InitializeAssemblyInformation();
-                this.assemblyInformation.AssemblyVersionChanged += new EventHandler<EventArgsR1R2<Version, Version>>(assemblyInformation_AssemblyVersionChanged);
-                this.assemblyInformation.CultureChanged += new EventHandler<EventArgsR1R2<ICultureIdentifier, ICultureIdentifier>>(assemblyInformation_CultureChanged);
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                else
+                {
+                    this.assemblyInformation = InitializeAssemblyInformation();
+                    this.assemblyInformation.AssemblyVersionChanged += new EventHandler<EventArgsR1R2<Version, Version>>(assemblyInformation_AssemblyVersionChanged);
+                    this.assemblyInformation.CultureChanged += new EventHandler<EventArgsR1R2<ICultureIdentifier, ICultureIdentifier>>(assemblyInformation_CultureChanged);
+                }
             }
         }
 
@@ -400,7 +418,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return InitializeIntermediateNamespaces();
         }
 
-        protected virtual IntermediateNamespaceDictionary InitializeIntermediateNamespaces()
+        protected virtual IIntermediateNamespaceDictionary InitializeIntermediateNamespaces()
         {
             if (this.IsRoot)
                 return new IntermediateNamespaceDictionary(this);
@@ -500,7 +518,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
                 if (this.privateImplementationDetails == null)
-                    this.privateImplementationDetails = new PrivateImplementationDetails(this);
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.privateImplementationDetails = new PrivateImplementationDetails(this);
                 return this.privateImplementationDetails;
             }
         }
@@ -635,14 +656,29 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 if (disposing)
                 {
+                    this.types = null;
                     if (this.attributes != null)
                     {
                         this.attributes.Dispose();
                         this.attributes = null;
                     }
                     if (this.assemblyInformation != null)
+                    {
                         this.assemblyInformation.Dispose();
+                        this.assemblyInformation = null;
+                    }
+                    if (this.privateImplementationDetails != null)
+                    {
+                        this.privateImplementationDetails.Dispose();
+                        this.privateImplementationDetails = null;
+                    }
                     this.name = null;
+                    this.uniqueIdentifier = null;
+                    if (this.scopeCoercions != null)
+                    {
+                        this.scopeCoercions.Clear();
+                        this.scopeCoercions = null;
+                    }
                     if (this.IsRoot)
                     {
                         if (this.parts != null)
@@ -809,7 +845,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 if (this.IsRoot)
                 {
                     if (this.attributes == null)
-                        this.attributes = new CustomAttributeDefinitionCollectionSeries(this);
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                        else
+                            this.attributes = new CustomAttributeDefinitionCollectionSeries(this);
                     return this.attributes;
                 }
                 else
@@ -826,7 +865,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 if (this.IsRoot)
                 {
                     if (this.parts == null)
-                        this.parts = this.InitializeParts();
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                        else
+                            this.parts = this.InitializeParts();
                     return this.parts;
                 }
                 else
@@ -938,7 +980,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
                 if (this.scopeCoercions == null)
-                    this.scopeCoercions = new ScopeCoercionCollection();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.scopeCoercions = new ScopeCoercionCollection();
                 return this.scopeCoercions;
             }
         }
@@ -950,7 +995,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 if (this.IsRoot)
                 {
                     if (this.compilationContext == null)
-                        this.compilationContext = new MalleableCompilationContext();
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                        else
+                            this.compilationContext = new MalleableCompilationContext();
                     return this.compilationContext;
                 }
                 else
@@ -1136,6 +1184,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get
             {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                 if (this.IsRoot)
                 {
                     if (this.uniqueIdentifier == null)

@@ -98,8 +98,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         }
                 return false;
             }
-
-            public new int IndexOf(TMItemIdentifier key)
+            public override int IndexOf(TMItemIdentifier key)
             {
                 int index = 0;
                 bool containsUnloaded = false;

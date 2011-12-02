@@ -26,6 +26,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         CompiledGenericTypeBase<IDelegateUniqueIdentifier, IDelegateType>,
         ICompiledDelegateType
     {
+        private LockedFullMembersBase fullMembers;
         private bool lastIsParams;
         private IDelegateTypeParameterDictionary parameters;
         /// <summary>
@@ -118,16 +119,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IFullMemberDictionary OnGetMembers()
         {
-            return null;
+            if (this.fullMembers == null)
+                this.fullMembers = new LockedFullMembersBase();
+            return this.fullMembers;
         }
 
         #region IParameterParent Members
 
         public bool LastIsParams
         {
-            get {
+            get
+            {
                 ParamsAndReturnCheck();
-                return this.lastIsParams; }
+                return this.lastIsParams;
+            }
         }
 
         #endregion

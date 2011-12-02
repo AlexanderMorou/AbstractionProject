@@ -68,6 +68,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected TItem Fetch(TSourceItem item)
         {
+
             if (this.fetchImpl == null)
                 throw new InvalidOperationException();
             return fetchImpl(item);

@@ -71,9 +71,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     for (int i = 0; i < this.dataCopy.Length; i++)
                         if (this.dataCopy[i] == null)
                         {
-                            TItemIdentifier r = this.source.FetchKey(source.sourceData[i]);
-                            this.dataCopy[i] = r;
-                            if (r.Equals(item))
+                            if ((this.dataCopy[i] = this.source.FetchKey(source.sourceData[i])).Equals(item))
                                 return true;
                         }
                 return false;

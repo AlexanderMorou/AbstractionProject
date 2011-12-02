@@ -656,7 +656,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public static IClassEventMember FindInFamily(this IEventMemberDictionary<IClassEventMember, IClassType> target, string eventName, IDelegateType searchCriteria)
         {
-            var generalIdentifier = AstIdentifier.Signature(eventName, searchCriteria.Parameters.ParameterTypes.SinglePass());
+            var generalIdentifier = AstIdentifier.Signature(eventName, searchCriteria.Parameters.ParameterTypes);
             for (IClassType current = target.Parent; current != null; current = current.BaseType)
                 if (current.Events.Keys.Contains(generalIdentifier))
                 {

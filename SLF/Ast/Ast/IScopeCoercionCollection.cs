@@ -140,5 +140,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <returns>true if the <paramref name="includedType"/> was found within the 
         /// <see cref="IScopeCoercionCollection"/>.</returns>
         bool Remove(IType includedType);
+        /// <summary>
+        /// Clears the <see cref="IScopeCoercionCollection"/>
+        /// of all coercions.
+        /// </summary>
+        void Clear();
     }
 }

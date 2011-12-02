@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Languages.VisualBasic.My;
+using AllenCopeland.Abstraction.Utilities.Properties;
 
 namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 {
@@ -11,7 +12,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         VisualBasicAssembly<IMyVisualBasicAssembly, IMyVisualBasicProvider, MyVisualBasicAssembly>,
         IMyVisualBasicAssembly
     {
-        protected override IntermediateNamespaceDictionary InitializeIntermediateNamespaces()
+        protected override IIntermediateNamespaceDictionary InitializeIntermediateNamespaces()
         {
             var results = base.InitializeIntermediateNamespaces();
             if (this.IsRoot)
@@ -22,7 +23,12 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 
         public IMyNamespaceDeclaration MyNamespace
         {
-            get { return (IMyNamespaceDeclaration)this.Namespaces["My"]; }
+            get
+            {
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                return (IMyNamespaceDeclaration)this.Namespaces["My"];
+            }
         }
 
         #endregion

@@ -14,15 +14,39 @@ using AllenCopeland.Abstraction.Slf.Languages;
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
+    /// <summary>
+    /// Provides a base implementation of an intermediate class dictionary
+    /// which contains a series of classes in intermediate form.
+    /// </summary>
     [DebuggerDisplay("Classes: {Count}")]
     public class IntermediateClassTypeDictionary :
         IntermediateGenericTypeDictionary<IGeneralGenericTypeUniqueIdentifier, IClassType, IIntermediateClassType>,
         IIntermediateClassTypeDictionary
     {
+        /// <summary>
+        /// Creates a new <see cref="IntermediateClassTypeDictionary"/> with the
+        /// <paramref name="parent"/> and <paramref name="master"/> provided.
+        /// </summary>
+        /// <param name="parent">The <see cref="IIntermediateTypeParent"/> which contains the
+        /// <see cref="IntermediateClassTypeDictionary"/>.</param>
+        /// <param name="master">The <see cref="IntermediateFullTypeDictionary"/>
+        /// which contains the set of classes and other types.</param>
         public IntermediateClassTypeDictionary(IIntermediateTypeParent parent, IntermediateFullTypeDictionary master)
             : base(parent, master)
         {
         }
+
+        /// <summary>
+        /// Creates a new <see cref="IntermediateClassTypeDictionary"/> with the
+        /// <paramref name="parent"/> and <paramref name="master"/> and 
+        /// <paramref name="root"/> provided.
+        /// </summary>
+        /// <param name="parent">The <see cref="IIntermediateTypeParent"/> which contains the
+        /// <see cref="IntermediateClassTypeDictionary"/>.</param>
+        /// <param name="master">The <see cref="IntermediateFullTypeDictionary"/>
+        /// which contains the set of classes.</param>
+        /// <param name="root">The <see cref="IntermediateClassTypeDictionary"/> which links
+        /// multiple sets together.</param>
         public IntermediateClassTypeDictionary(IIntermediateTypeParent parent, IntermediateFullTypeDictionary master, IntermediateClassTypeDictionary root)
             : base(parent, master, root)
         {

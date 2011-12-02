@@ -37,6 +37,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Stores the CLI type->SLF type relationships.
         /// </summary>
         internal static IDictionary<Type, IType> CompiledTypeCache = new Dictionary<Type, IType>();
+        private static object freezeLock = new object();
         private static bool cacheFreeze = false;
         /// <summary>
         /// Clears the cache.
@@ -51,9 +52,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 foreach (var assembly in copy)
                     assembly.Dispose();
             }
-            cacheFreeze = true;
+            lock (freezeLock)
+                cacheFreeze = true;
             Parallel.ForEach(CompiledTypeCache.Values.ToArray(), p => p.Dispose());
-            cacheFreeze = false;
+            lock (freezeLock)
+                cacheFreeze = false;
             CompiledTypeCache.Clear();
             GC.Collect();
             GC.WaitForPendingFinalizers();
@@ -106,6 +109,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 IType<TTypeIdentifier, TType>
         {
             IType ict = (type.GetTypeReference());
+            if (ict == null)
+                return default(TType);
             if (!(ict is TType))
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.type, ExceptionMessageId.TypeNotGivenKind, type.GetType().ToString(), typeof(TType).ToString());
             return ((TType)ict);
@@ -169,6 +174,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// provided.</returns>
         public static IType GetTypeReference(this Type type)
         {
+            lock (freezeLock)
+                if (cacheFreeze)
+                    return null;
             /* *
              * Notes: First, remove byref
              *        Second, remove pointers 
