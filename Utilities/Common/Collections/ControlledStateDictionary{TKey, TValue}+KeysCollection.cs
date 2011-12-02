@@ -15,16 +15,32 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 {
     partial class ControlledDictionary<TKey, TValue>
     {
+        /// <summary>
+        /// Provides a <see cref="IControlledCollection{T}"/> relative
+        /// to the <see cref="Keys"/> of the <see cref="ControlledDictionary{TKey, TValue}"/>.
+        /// </summary>
         public class KeysCollection :
             IControlledCollection<TKey>,
             IControlledCollection
         {
             private SharedLocals locals;
+            /// <summary>
+            /// Creates a new <see cref="KeysCollection"/> with the
+            /// <paramref name="locals"/> provided.
+            /// </summary>
+            /// <param name="locals">The <see cref="SharedLocals"/> which
+            /// denote the data source to use.</param>
             private KeysCollection(SharedLocals locals)
             {
                 this.locals = locals;
             }
 
+            /// <summary>
+            /// Creates a new <see cref="KeysCollection"/> with the <paramref name="localOwner"/>
+            /// provided.
+            /// </summary>
+            /// <param name="localOwner">The <see cref="ControlledDictionary"/>
+            /// which contains the <see cref="KeysCollection"/>.</param>
             protected internal KeysCollection(ControlledDictionary<TKey, TValue> localOwner)
                 : this(localOwner.locals)
             {
@@ -51,7 +67,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             /// </returns>
             public virtual bool Contains(TKey item)
             {
-                return this.locals.orderings.ContainsKey(item);
+                lock (this.locals.syncObject)
+                    return this.locals.orderings.ContainsKey(item);
             }
 
             /// <summary>
@@ -111,6 +128,17 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 }
             }
 
+            /// <summary>
+            /// Obtains the <typeparamref name="TKey"/> at the
+            /// <paramref name="index"/> provided.
+            /// </summary>
+            /// <param name="index">The <see cref="Int32"/> value which denotes
+            /// the ordinal index of the <typeparamref name="TKey"/> to retrieve.</param>
+            /// <returns>The <typeparamref name="TKey"/> at the <paramref name="index"/>
+            /// provided.</returns>
+            /// <exception cref="System.ArgumentOutOfRangeException">thrown when
+            /// the <paramref name="index"/> is less than zero, or greater than or equal
+            /// to the number of items within the <see cref="KeysCollection"/>.</exception>
             protected virtual TKey OnGetKey(int index)
             {
                 if (index < 0 || index >= this.Count)
@@ -118,16 +146,31 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 return this.locals.entries[index].Key;
             }
 
+            /// <summary>
+            /// Sets the value of a key within the <see cref="KeysCollection"/>.
+            /// </summary>
+            /// <param name="index">The <see cref="Int32"/> value which denotes the
+            /// ordinal index of the <paramref name="key"/> to change.</param>
+            /// <param name="key">The <typeparamref name="TKey"/> that denotes the
+            /// new value of the key at the <paramref name="index"/> provided.</param>
+            /// <exception cref="System.ArgumentOutOfRangeException">thrown when
+            /// the <paramref name="index"/> is less than zero, or greater than or equal
+            /// to the number of items within the <see cref="KeysCollection"/>.</exception>
             protected internal virtual void OnSetKey(int index, TKey key)
             {
                 if (index < 0 || index >= this.Count)
                     throw new ArgumentOutOfRangeException("index");
-                var currentElement = this.locals.entries[index];
-                if (this.locals.orderings.ContainsKey(key))
-                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.key, ExceptionMessageId.DuplicateKeyExists);
-                this.locals.orderings.Remove(currentElement.Key);
-                this.locals.orderings.Add(key, index);
-                this.locals.entries[index] = new KeyValuePair<TKey, TValue>(key, currentElement.Value);
+                lock (this.locals.syncObject)
+                {
+                    var currentElement = this.locals.entries[index];
+                    if (currentElement.Key.Equals(key))
+                        return;
+                    if (this.locals.orderings.ContainsKey(key))
+                        throw ThrowHelper.ObtainArgumentException(ArgumentWithException.key, ExceptionMessageId.DuplicateKeyExists);
+                    this.locals.orderings.Remove(currentElement.Key);
+                    this.locals.orderings.Add(key, index);
+                    this.locals.entries[index] = new KeyValuePair<TKey, TValue>(key, currentElement.Value);
+                }
             }
 
             /// <summary>
@@ -159,8 +202,9 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             public virtual int IndexOf(TKey key)
             {
                 int index;
-                if (this.locals.orderings.TryGetValue(key, out index))
-                    return index;
+                lock (this.locals.syncObject)
+                    if (this.locals.orderings.TryGetValue(key, out index))
+                        return index;
                 return -1;
             }
             #endregion
@@ -239,27 +283,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             }
 
             #endregion
-
-            internal void Rekey(IEnumerable<Tuple<TKey, TKey>> oldNewSeries)
-            {
-                var cachedElements = oldNewSeries.ToArray();
-                for (int i = 0; i < cachedElements.Length; i++)
-                {
-                    int currentIndex;
-                    var current = cachedElements[i];
-                    var oldKey = current.Item1;
-                    if (this.locals.orderings.TryGetValue(oldKey, out currentIndex))
-                    {
-                        var newKey = current.Item2;
-                        this.locals.orderings.Remove(oldKey);
-                        this.locals.orderings.Add(newKey, currentIndex);
-                        var currentElement = this.locals.entries[currentIndex].Value;
-                        this.locals.entries[currentIndex] = new KeyValuePair<TKey, TValue>(newKey, currentElement);
-                    }
-                    else
-                        throw new KeyNotFoundException(string.Format("The key in element {0} was not found.", i));
-                }
-            }
 
         }
 

@@ -173,7 +173,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public override void Dispose()
         {
             this.RemoveFromCache();
-            this.underlyingSystemType = null;
             this.declaringType = null;
             if (this._members != null)
             {
@@ -181,6 +180,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 this._members = null;
             }
             base.Dispose();
+            this.underlyingSystemType = null;
         }
 
 

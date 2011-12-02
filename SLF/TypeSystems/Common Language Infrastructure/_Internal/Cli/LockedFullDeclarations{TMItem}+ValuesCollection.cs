@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             ValuesCollection
         {
             private LockedFullDeclarations<TMItemIdentifier, TMItem> owner;
-            private List<MasterDictionaryEntry<TMItem>?> dataCopy;
+            internal List<MasterDictionaryEntry<TMItem>?> dataCopy;
             public _ValuesCollection(LockedFullDeclarations<TMItemIdentifier, TMItem> source)
                 : base(source)
             {
@@ -84,7 +84,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             internal void Dispose()
             {
                 for (int i = 0; i < this.dataCopy.Count; i++)
-                    if (!object.ReferenceEquals(this.dataCopy[i], null))
+                    if (this.dataCopy[i] != null)
                     {
                         this.dataCopy[i].Value.Entry.Dispose();
                         this.dataCopy[i] = null;
@@ -141,7 +141,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
 
             #endregion
-
+            internal bool Loaded(int index)
+            {
+                return this.dataCopy[index] != null;
+            }
         }
     }
 }

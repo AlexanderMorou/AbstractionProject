@@ -45,8 +45,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         public override IEnumerator<KeyValuePair<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>> GetEnumerator()
         {
             foreach (var subordinate in this.Subordinates)
-                foreach (var element in subordinate.Count.Range())
-                    yield return new KeyValuePair<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>((TDeclarationIdentifier)subordinate.Keys[element], new MasterDictionaryEntry<TDeclaration>(subordinate, (TDeclaration)subordinate.Values[element]));
+                for (int i = 0, c = subordinate.Count; i < c; i++)
+                    yield return new KeyValuePair<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>((TDeclarationIdentifier)subordinate.Keys[i], new MasterDictionaryEntry<TDeclaration>(subordinate, (TDeclaration)subordinate.Values[i]));
         }
 
         protected override KeyValuePair<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>> OnGetThis(int index)
@@ -85,6 +85,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 for (int j = 0; j < currentSubordinate.Count; j++)
                     array.SetValue(new KeyValuePair<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>((TDeclarationIdentifier)currentSubordinate.Keys[j], new MasterDictionaryEntry<TDeclaration>(currentSubordinate, (TDeclaration)currentSubordinate.Values[j])), offset + j);
             }
+        }
+
+        /// <summary>
+        /// Converts the <see cref="_GroupedMasterBase{TDeclarationIdentifier, TDeclaration}"/>
+        /// to an <see cref="Array"/>.
+        /// </summary>
+        /// <returns>A <see cref="Array"/> of <see cref="KeyValuePair{TKey, TValue}"/>
+        /// instances which represent the elements of the 
+        /// <see cref="_GroupedMasterBase{TDeclarationIdentifier, TDeclaration}"/>.
+        /// </returns>
+        public override KeyValuePair<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>[] ToArray()
+        {
+            var result = new KeyValuePair<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>[this.Count];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = new KeyValuePair<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>(this.Keys[i], this.Values[i]);
+            return result;
         }
 
     }

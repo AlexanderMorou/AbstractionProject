@@ -22,6 +22,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         IGeneralDeclarationsParent<IDelegateType, IDelegateTypeParameterMember>
     {
         private _Parameters parameters;
+        private _FullMembersBase members;
         internal _DelegateTypeBase(IDelegateType original, ITypeCollectionBase genericParameters)
             : base(original, genericParameters)
         {
@@ -98,7 +99,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         protected override IFullMemberDictionary OnGetMembers()
         {
-            throw new NotImplementedException();
+            if (this.members == null)
+                this.members = new _FullMembersBase();
+            return this.members;
         }
 
         protected override IDelegateUniqueIdentifier OnGetUniqueIdentifier()

@@ -90,7 +90,7 @@ namespace AllenCopeland.Abstraction.Utilities.Miscellaneous
         /// <paramref name="action"/> provided.</typeparam>
         /// <param name="action">The <see cref="Action{T}"/>
         /// which takes a single parameter which needs timed function
-        /// produced for it..</param>
+        /// produced for it.</param>
         /// <returns>A new <see cref="Func{T, TResult}"/> for the specified 
         /// <paramref name="action"/> which takes a single parameter of
         /// type <typeparamref name="T"/> which yields a <see cref="TimeSpan"/>

@@ -35,8 +35,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         where TType :
             ICreatableParent<TCtor, TType>
         where TIntermediateType :
-            TType,
-            IIntermediateCreatableParent<TCtor, TIntermediateCtor, TType, TIntermediateType>
+            IIntermediateCreatableParent<TCtor, TIntermediateCtor, TType, TIntermediateType>,
+            TType
     {
         private ICallParameterSet cascadeMembers;
         /// <summary>

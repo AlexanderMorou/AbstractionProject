@@ -351,10 +351,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     if (index < this.Count)
                     {
                         var suspendedInex = index - this.Count;
-                        var suspendedMember = this.suspendedMembers[suspendedInex];
-                        this.OnItemRemoved(new EventArgsR1<TIntermediateDeclaration>((TIntermediateDeclaration)suspendedMember));
-                        suspendedMember.Dispose();
-                        this.suspendedMembers.RemoveAt(suspendedInex);
+                        lock (this.suspendedMembers)
+                        {
+                            var suspendedMember = this.suspendedMembers[suspendedInex];
+                            this.OnItemRemoved(new EventArgsR1<TIntermediateDeclaration>((TIntermediateDeclaration)suspendedMember));
+                            suspendedMember.Dispose();
+                            this.suspendedMembers.RemoveAt(suspendedInex);
+                        }
                         return true;
                     }
                     else

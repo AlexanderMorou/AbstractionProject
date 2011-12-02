@@ -30,7 +30,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
             : base()
         {
             this.parent = parent;
-            base.SetOwner(this);
         }
 
         /// <summary>

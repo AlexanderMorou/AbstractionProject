@@ -147,9 +147,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             method.TypeParameterRemoved += new EventHandler<EventArgsR1<IIntermediateMethodSignatureGenericTypeParameterMember>>(method_TypeParameterAddOrRemove);
             base._Add(key, value);
         }
+
+        /// <summary>
+        /// Attempts to remove an element from the <see cref="IntermediateGroupedMethodSignatureMemberDictionary{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent}"/>
+        /// at the <paramref name="index"/> provided.
+        /// </summary>
+        /// <param name="index">The <see cref="Int32"/> value denoting the ordinal index of
+        /// the element to remove.</param>
+        /// <returns>true, if the element was removed; false, otherwise.</returns>
         protected internal override bool _Remove(int index)
         {
-            if (index > 0 && index < this.Count)
+            if (index >= 0 && index < this.Count)
             {
                 var method = (TIntermediateSignature)base[index].Value;
                 if (method != null)

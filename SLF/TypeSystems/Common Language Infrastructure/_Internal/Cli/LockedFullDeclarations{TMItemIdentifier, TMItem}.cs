@@ -153,6 +153,40 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
+        internal override IEnumerable<KeyValuePair<TMItemIdentifier, MasterDictionaryEntry<TMItem>>> GetSubordinateClearedItems<TSKey, TSValue>(ISubordinateDictionary<TSKey, TMItemIdentifier, TSValue, TMItem> subordinate)
+        {
+            var values = this.valuesInstance as _ValuesCollection;
+            if (values == null)
+                yield break;
+            for (int i = 0; i < this.Count; i++)
+                if (values.Loaded(i))
+                    yield return new KeyValuePair<TMItemIdentifier, MasterDictionaryEntry<TMItem>>(this.Keys[i], values[i]);
+        }
+
+        protected internal override void Subordinate_ItemRemoved<TSKey, TSValue>(ISubordinateDictionary<TSKey, TMItemIdentifier, TSValue, TMItem> subordinate, TSKey key)
+        {
+            int state;
+            lock (syncObject)
+                state = this.state;
+            if (state == USE_FETCH)
+            {
+                int index = this.Keys.IndexOf(key);
+                if (index == -1)
+                    return;
+                MasterDictionaryEntry<TMItem> entry = this.Values[index];
+
+                if (entry.Subordinate != subordinate)
+                    throw ThrowHelper.ObtainArgumentException(ArgumentWithException.subordinate, ExceptionMessageId.SubordinateMismatch);
+                var valueInst = (this.valuesInstance as _ValuesCollection);
+                if (valueInst == null)
+                    return;
+                if (valueInst.Loaded(index))
+                    valueInst.dataCopy[index] = null;
+            }
+            else
+                base.Subordinate_ItemRemoved<TSKey, TSValue>(subordinate, key);
+        }
+
         public override IEnumerator<KeyValuePair<TMItemIdentifier, MasterDictionaryEntry<TMItem>>> GetEnumerator()
         {
             int state;
@@ -189,6 +223,31 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
             else
                 base.CopyToArray(array, arrayIndex);
+        }
+
+        protected override KeyValuePair<TMItemIdentifier, MasterDictionaryEntry<TMItem>> OnGetThis(int index)
+        {
+            if (state == USE_FETCH)
+            {
+                if (index < 0 || index >= this.Count)
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
+                return new KeyValuePair<TMItemIdentifier, MasterDictionaryEntry<TMItem>>(this.Keys[index], this.Values[index]);
+            }
+            else
+                return base.OnGetThis(index);
+        }
+
+        protected override MasterDictionaryEntry<TMItem> OnGetThis(TMItemIdentifier key)
+        {
+            if (state == USE_FETCH)
+            {
+                int index = this.Keys.IndexOf(key);
+                if (index == -1)
+                    throw new KeyNotFoundException();
+                return this.Values[index];
+            }
+            else
+                return base.OnGetThis(key);
         }
 
         #region _LockedRelativeHelper<TMItem> Members
