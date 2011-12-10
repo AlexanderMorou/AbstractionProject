@@ -50,7 +50,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                  * */
                 var sortedDigits = topLevelMethod.Locals.Add("sortedDigits", 
                         LinqHelper
-                        .From("digit", /* in */ digits.GetReference())
+                        .From(new TypedName("digit", typeof(string).GetTypeReference()), /* in */ digits.GetReference())
                             .OrderBy("digit".Fuse("Length"), LinqOrderByDirection.Descending)
                             .ThenBy("digit".GetIndexer(0.ToPrimitive()))
                         .Select("digit").Build(), LocalTypingKind.Implicit);
@@ -64,10 +64,11 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 /* *
                  * Console.WriteLine(CultureInfo.CurrentCulture.TextInfo.ToTitleCase("sorted digits"));
                  * */
-                topLevelMethod.Call("Console".Fuse("WriteLine").Fuse("CultureInfo".Fuse("CurrentCulture").Fuse("TextInfo").Fuse("ToTitleCase").Fuse("sorted digits".ToPrimitive())));
+                topLevelMethod.Call(typeof(Console).GetTypeExpression().GetMethod("WriteLine").Invoke(typeof(CultureInfo).GetTypeExpression().GetProperty("CurrentCulture").GetProperty("TextInfo").GetMethod("ToTitleCase").Invoke("sorted digits".ToPrimitive())));
+                //topLevelMethod.Call("Console".Fuse("WriteLine").Fuse("CultureInfo".Fuse("CurrentCulture").Fuse("TextInfo").Fuse("ToTitleCase").Fuse("sorted digits".ToPrimitive())));
 
                 /* *
-                 * foreach (digit in sortedDigits)
+                 * foreach (var digit in sortedDigits)
                  *     Console.WriteLine(digit);
                  * */
                 var enumerationBlock = topLevelMethod.Enumerate("digit", sortedDigits.GetReference());

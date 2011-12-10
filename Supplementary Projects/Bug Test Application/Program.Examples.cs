@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Ast;
@@ -23,15 +25,15 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     {
         private static void Main()
         {
-            var msLangVendor = LanguageVendors.Microsoft;
-            IIntermediateAssembly iia = msLangVendor.GetVisualBasicLanguage().GetMyProvider().CreateAssembly("TestAssembly");
-            var uas = iia.Methods.Add(new TypedName("TestMethod1", typeof(void).GetTypeReference()), new TypedNameSeries(new TypedName("arg1", "IList".GetSymbolType("T1".GetSymbolType()))), new GenericParameterData("T1"));
-            var uasTC1 = uas.Classes.Add("TestClass1");
-            var uas2 = uasTC1.Methods.Add(new TypedName("TestMethod2", typeof(void).GetTypeReference()));
+            //var msLangVendor = LanguageVendors.Microsoft;
+            //IIntermediateAssembly iia = msLangVendor.GetVisualBasicLanguage().GetMyProvider().CreateAssembly("TestAssembly");
+            //var uas = iia.Methods.Add(new TypedName("TestMethod1", typeof(void).GetTypeReference()), new TypedNameSeries(new TypedName("arg1", "IList".GetSymbolType("T1".GetSymbolType()))), new GenericParameterData("T1"));
+            //var uasTC1 = uas.Classes.Add("TestClass1");
+            //var uas2 = uasTC1.Methods.Add(new TypedName("TestMethod2", typeof(void).GetTypeReference()));
             //var m = typeof(Predicate<string>).GetTypeReference();
             //foreach (var item in m.Members)
             //    Console.WriteLine(item);
-            //RunExamples();
+            RunExamples();
         }
 
         private static void RunExamples()
@@ -40,22 +42,22 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             IMyVisualBasicAssembly vbAssem = null;
             ICSharpAssembly csAssem = null;
 
-            var winFormsVB = MiscHelperMethods.TimeResultFunc(winformExample.CreateStructureVB, () => vbAssem = msLangVendor.GetVisualBasicLanguage().GetMyProvider().CreateAssembly("VB.Net examples"));
-            var winFormsCS = MiscHelperMethods.TimeResultFunc(winformExample.CreateStructureCSharp, () => csAssem = msLangVendor.GetCSharpLanguage().CreateAssembly("CSharp examples"));
+            var linqVB = MiscHelperMethods.TimeResultFunc(linqExample.CreateStructureVB, () => vbAssem = msLangVendor.GetVisualBasicLanguage().GetMyProvider().CreateAssembly("VB.Net examples"));
+            var linqCS = MiscHelperMethods.TimeResultFunc(linqExample.CreateStructureCSharp, () => csAssem = msLangVendor.GetCSharpLanguage().CreateAssembly("CSharp examples"));
 
-            var linqVB = MiscHelperMethods.TimeResultFunc(linqExample.CreateStructureVB, () => vbAssem);
-            var linqCS = MiscHelperMethods.TimeResultFunc(linqExample.CreateStructureCSharp, () => csAssem);
+            var winFormsVB = MiscHelperMethods.TimeResultFunc(winformExample.CreateStructureVB, () => vbAssem);
+            var winFormsCS = MiscHelperMethods.TimeResultFunc(winformExample.CreateStructureCSharp, () => csAssem);
 
             var vbTestFunc = MiscHelperMethods.TimeResultFunc(() =>
             {
-                var winForms = winFormsVB();
                 var linq = linqVB();
+                var winForms = winFormsVB();
                 return Tuple.Create(winForms.Item1, linq.Item1, winForms.Item2, linq.Item2);
             });
             var csTestFunc = MiscHelperMethods.TimeResultFunc(() =>
             {
-                var winForms = winFormsCS();
                 var linq = linqCS();
+                var winForms = winFormsCS();
                 return Tuple.Create(winForms.Item1, linq.Item1, winForms.Item2, linq.Item2);
             });
             Console.WriteLine("Running initial test...");
@@ -71,9 +73,10 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
                 using (csTestFunc().Item2.Item3.Item1) { csAssem = null; }
                 //CLIGateway.ClearCache();
             });
-            //CLIGateway.ClearCache();
             Console.WriteLine("Initial tests took {0}", jitTest);
+            CLIGateway.ClearCache();
             var vbTest = vbTestFunc();
+            CLIGateway.ClearCache();
             var csTest = csTestFunc();
             Console.WriteLine("VB.NET test took: {0}", vbTest.Item1);
             Console.WriteLine("\tWinForms: {0}", vbTest.Item2.Item1);

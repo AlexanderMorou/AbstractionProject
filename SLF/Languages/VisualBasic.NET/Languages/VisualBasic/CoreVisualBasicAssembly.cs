@@ -19,6 +19,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         {
 
         }
+        public CoreVisualBasicAssembly(string name, ICoreVisualBasicProvider provider)
+            : base(name, provider)
+        {
+
+        }
 
         protected override CoreVisualBasicAssembly GetNewPart()
         {

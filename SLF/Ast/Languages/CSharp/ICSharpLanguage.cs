@@ -14,7 +14,8 @@ using AllenCopeland.Abstraction.Slf.Ast;
 namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
 {
     public interface ICSharpLanguage :
-        IVersionedHighLevelLanguage<CSharpLanguageVersion, ICSharpCompilationUnit>
+        IVersionedHighLevelLanguage<CSharpLanguageVersion, ICSharpCompilationUnit>,
+        ILanguage<ICSharpLanguage, ICSharpProvider>
     {
         /// <summary>
         /// Returns a new <see cref="ICSharpProvider"/> associated to the

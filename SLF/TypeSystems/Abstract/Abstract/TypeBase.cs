@@ -664,8 +664,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// contained within the <see cref="TypeBase{TIdentifier}"/>.</returns>
         protected virtual IEnumerable<IDeclaration> OnGetDeclarations()
         {
-            foreach (var member in this.Members.Values)
-                yield return member.Entry;
+            foreach (var item in from item in this.Members.Values
+                                 orderby item.Entry.Name
+                                 select item)
+                yield return item.Entry;
         }
 
         private static IEnumerable<IGeneralDeclarationUniqueIdentifier> GetEmptyIdentifiers()
@@ -683,12 +685,21 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 IType,
                 ITypeParent
         {
+            return from element in GetTypeParentDeclarationsInternal(parent)
+                   orderby element.Name
+                   select element;
+        }
+
+        private static IEnumerable<IDeclaration> GetTypeParentDeclarationsInternal<T>(T parent)
+            where T :
+                IType,
+                ITypeParent
+        {
             foreach (var type in parent.Types.Values)
                 yield return type.Entry;
             foreach (var member in parent.Members.Values)
                 yield return member.Entry;
         }
-
         /// <summary>
         /// Returns a series of string values which relate to the 
         /// identifiers contained within the <see cref="IType"/>.

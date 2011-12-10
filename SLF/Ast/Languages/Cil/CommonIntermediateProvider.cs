@@ -12,51 +12,26 @@ using AllenCopeland.Abstraction.Slf.Ast;
 
 namespace AllenCopeland.Abstraction.Slf.Languages.Cil
 {
-    public class CommonIntermediateProvider :
+    public partial class CommonIntermediateProvider :
+        LanguageProvider<ICommonIntermediateLanguage, ICommonIntermediateProvider>,
         ICommonIntermediateProvider
     {
+        internal CommonIntermediateProvider()
+        {
+            this.RegisterService<IIntermediateAssemblyCtorLanguageService>(LanguageGuids.ConstructorServices.IntermediateAssemblyCreatorService, new AssemblyService(this));
+        }
         #region ICommonIntermediateProvider Members
 
-        /// <summary>
-        /// Returns the 
-        /// <see cref="ICommonIntermediateLanguage">Common Intermediate Language</see>.
-        /// </summary>
-        public ICommonIntermediateLanguage Language
+        public new ICommonIntermediateAssembly CreateAssembly(string name)
         {
-            get { return CommonIntermediateLanguage.Singleton; }
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="ICommonIntermediateAssembly"/>
-        /// with the <paramref name="name"/> provided.
-        /// </summary>
-        /// <param name="name">The <see cref="String"/> value
-        /// representing part of the identity of the assembly.</param>
-        /// <returns>A new <see cref="ICommonIntermediateAssembly"/>
-        /// with the <paramref name="name"/> provided.</returns>
-        /// <exception cref="System.ArgumentNullException">thrown when 
-        /// <paramref name="name"/> is null.</exception>
-        /// <exception cref="System.ArgumentException">thrown when
-        /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
-        public ICommonIntermediateAssembly CreateAssembly(string name)
-        {
-            return new CommonIntermediateAssembly(name, this);
+            return (ICommonIntermediateAssembly)base.CreateAssembly(name);
         }
 
         #endregion
 
-        #region ILanguageProvider Members
-
-        ILanguage ILanguageProvider.Language
+        protected override ICommonIntermediateLanguage OnGetLanguage()
         {
-            get { return this.Language; }
+            return CommonIntermediateLanguage.Singleton;
         }
-
-        IIntermediateAssembly ILanguageProvider.CreateAssembly(string name)
-        {
-            return this.CreateAssembly(name);
-        }
-
-        #endregion
     }
 }

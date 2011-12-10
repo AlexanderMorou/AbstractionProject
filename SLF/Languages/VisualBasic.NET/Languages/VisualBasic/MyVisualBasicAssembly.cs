@@ -38,6 +38,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         {
         }
 
+        public MyVisualBasicAssembly(string name, IMyVisualBasicProvider provider)
+            : base(name, provider)
+        {
+        }
+
         public MyVisualBasicAssembly(MyVisualBasicAssembly root)
             : base(root)
         {

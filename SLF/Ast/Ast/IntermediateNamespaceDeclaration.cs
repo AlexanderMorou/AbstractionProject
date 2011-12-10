@@ -20,6 +20,10 @@ using AllenCopeland.Abstraction.Slf.Cli;
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
+    /// <summary>
+    /// Provides a base implementation of an intermediate namespace
+    /// declaration.
+    /// </summary>
     [EditorBrowsable(EditorBrowsableState.Always)]
     public class IntermediateNamespaceDeclaration :
         IntermediateSegmentableDeclarationBase<IGeneralDeclarationUniqueIdentifier, IIntermediateNamespaceDeclaration, IntermediateNamespaceDeclaration>,
@@ -70,6 +74,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// Data member for <see cref="Fields"/>.
         /// </summary>
         private IntermediateFieldMemberDictionary<ITopLevelFieldMember, IIntermediateTopLevelFieldMember, INamespaceParent, IIntermediateNamespaceParent> fields;
+        /// <summary>
+        /// Data member for <see cref="ScopeCoercions"/>.
+        /// </summary>
         private IScopeCoercionCollection scopeCoercions;
 
         /// <summary>

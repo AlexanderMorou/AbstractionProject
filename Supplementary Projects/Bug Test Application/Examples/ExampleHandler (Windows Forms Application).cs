@@ -47,6 +47,8 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
 
                 //Defines the components of the main dialog.
                 var mdComponents = mainDialogDesigner.Fields.Add(new TypedName("components", typeof(IContainer).GetTypeReference()));
+                //private System.Windows.Forms.Button ClickMeButton;
+                var mdClickMeButton = mainDialogDesigner.Fields.Add(new TypedName(clickMeButtonName, typeof(Button).GetTypeReference()));
 
                 //Defines the dispose method.
                 //protected override void Dispose(bool disposing) {
@@ -54,17 +56,13 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 var mdDisposing = mdDispose.Parameters["disposing"];
                 mdDispose.AccessLevel = AccessLevelModifiers.Protected;
                 mdDispose.IsOverride = true;
-
                 //if (disposing  && this.components != null)
                 var disposeCondition = mdDispose.If(mdDisposing.LogicalAnd(mdComponents.InequalTo(IntermediateGateway.NullValue)));
-                //   this.components.Dispose();
+                //    this.components.Dispose();
                 disposeCondition.Call(mdComponents.GetReference(), "Dispose");
-                //base.Dispose();
+                //    base.Dispose();
                 mdDispose.Call(new SpecialReferenceExpression(SpecialReferenceKind.Base), "Dispose", mdDisposing.GetReference());
                 //}
-
-                //private System.Windows.Forms.Button ClickMeButton;
-                var mdClickMeButton = mainDialogDesigner.Fields.Add(new TypedName(clickMeButtonName, typeof(Button).GetTypeReference()));
 
                 var mdClickMeClick = mainDialog.Methods.Add(clickMeButtonClickName, typeof(EventHandler).GetTypeReference<IDelegateUniqueIdentifier, IDelegateType>());
                 mdClickMeClick.Call("Close");
@@ -72,7 +70,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 var mdInitializeComponent = CreateInitializeComponentMethod(mainDialogDesigner, mdClickMeButton, mdClickMeClick);
                 //private MainDialog() {
                 var mdCtor = mainDialog.DefaultConstructor;
-                //this.InitializeComponent();
+                //    this.InitializeComponent();
                 mdCtor.Call(mdInitializeComponent.GetReference());
                 //}
                 return new Tuple<TAssembly, IIntermediateTopLevelMethodMember, IIntermediateClassType, IIntermediateClassMethodMember, IIntermediateClassMethodMember, IIntermediateClassCtorMember>(assembly, mainMethod, mainDialog, mdDispose, mdInitializeComponent, mdCtor);

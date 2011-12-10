@@ -18,19 +18,12 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
     /// common language infrastructure.
     /// </summary>
     public interface ICommonIntermediateLanguage :
-        ILanguage
+        ILanguage<ICommonIntermediateLanguage, ICommonIntermediateProvider>
     {
         /// <summary>
         /// Returns the <see cref="IMicrosoftLanguageVendor">Microsoft</see> vendor.
         /// </summary>
         new IMicrosoftLanguageVendor Vendor { get; }
-        /// <summary>
-        /// Returns a new <see cref="ICommonIntermediateProvider"/> associated to the current
-        /// <see cref="ILanguage"/>.
-        /// </summary>
-        /// <returns>A new <see cref="ICommonIntermediateProvider"/> for the
-        /// <see cref="ICommonIntermediateLanguage">Common Intermediate Language</see>.</returns>
-        new ICommonIntermediateProvider GetProvider();
         /// <summary>
         /// Creates a new <see cref="ICommonIntermediateAssembly"/>
         /// with the <paramref name="name"/> provided.

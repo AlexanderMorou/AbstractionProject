@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     /// <typeparam name="TRootNode">The type concrete node in the syntax tree
     /// of the language which denotes the root entry for a given parse.</typeparam>
     public interface IHighLevelLanguage<TRootNode> :
-        ILanguage
+        IHighLevelLanguage
         where TRootNode :
             IConcreteNode
     {
@@ -33,5 +33,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// <returns>A new <see cref="IHighLevelLanguageProvider{TRootNode}"/> for the current
         /// <see cref="IHighLevelLanguage{TRootNode}"/>.</returns>
         new IHighLevelLanguageProvider<TRootNode> GetProvider();
+    }
+
+    public interface IHighLevelLanguage :
+        ILanguage
+    {
     }
 }

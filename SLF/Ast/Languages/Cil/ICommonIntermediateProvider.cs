@@ -17,13 +17,8 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
     /// provider for the common intermediate language.
     /// </summary>
     public interface ICommonIntermediateProvider :
-        ILanguageProvider
+        ILanguageProvider<ICommonIntermediateLanguage, ICommonIntermediateProvider>
     {
-        /// <summary>
-        /// Returns the 
-        /// <see cref="ICommonIntermediateLanguage">Common Intermediate Language</see>.
-        /// </summary>
-        new ICommonIntermediateLanguage Language { get; }
         /// <summary>
         /// Creates a new <see cref="ICommonIntermediateAssembly"/>
         /// with the <paramref name="name"/> provided.

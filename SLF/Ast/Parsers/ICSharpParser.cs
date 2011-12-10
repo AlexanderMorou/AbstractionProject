@@ -15,8 +15,8 @@ using AllenCopeland.Abstraction.Slf.Ast;
 namespace AllenCopeland.Abstraction.Slf.Parsers
 {
     /// <summary>
-    /// Defines properties and methods for working with a C&#9839; parser
-    /// which parses a C&#9839; source file.
+    /// Defines properties and methods for working with a parser
+    /// which parses C&#9839; source files.
     /// </summary>
     public interface ICSharpParser :
         ILanguageParser<ICSharpCompilationUnit>
