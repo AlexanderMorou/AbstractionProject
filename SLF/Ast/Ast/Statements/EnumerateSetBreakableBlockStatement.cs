@@ -131,7 +131,20 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
 
         public override string ToString()
         {
-            return string.Format(CultureInfo.CurrentCulture, "foreach ({0} in {1}) {{...", this.Local.Name, this.Source);
+            switch (Local.TypingMethod)
+            {
+                case LocalTypingKind.Dynamic:
+                    return string.Format(CultureInfo.CurrentCulture, "foreach (dynamic {0} in {1}) {{...", this.Local.Name, this.Source);
+                case LocalTypingKind.Explicit:
+                    var typedLocal = this.Local as ITypedLocalMember;
+                    if (typedLocal != null)
+                        return string.Format(CultureInfo.CurrentCulture, "foreach ({0} {1} in {2}) {{...", typedLocal.LocalType,this.Local.Name, this.Source);
+                    else
+                        goto case LocalTypingKind.Implicit;
+                default:
+                case LocalTypingKind.Implicit:
+                    return string.Format(CultureInfo.CurrentCulture, "foreach (var {0} in {1}) {{...", this.Local.Name, this.Source);
+            }
         }
     }
 }

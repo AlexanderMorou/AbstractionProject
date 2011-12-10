@@ -55,9 +55,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             var assembly = this.Parent.Assembly;
             if (assembly != null)
             {
-                var assemblyProvider = assembly.Provider as IIntermediateLanguageTypeProvider;
-                if (assemblyProvider != null)
-                    return assemblyProvider.CreateEnum(name, this.Parent);
+                var assemblyProvider = assembly.Provider;
+                if (assemblyProvider.SupportsService(LanguageGuids.ConstructorServices.IntermediateEnumCreatorService) &&
+                    assemblyProvider.ServiceIs<IIntermediateTypeCtorLanguageService<IIntermediateEnumType>>(LanguageGuids.ConstructorServices.IntermediateEnumCreatorService))
+                    return assemblyProvider.GetService<IIntermediateTypeCtorLanguageService<IIntermediateEnumType>>(LanguageGuids.ConstructorServices.IntermediateEnumCreatorService).GetNew(name, this.Parent);
             }
             return new IntermediateEnumType(name, this.Parent);
         }

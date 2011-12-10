@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Languages.VisualBasic.My;
 using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Slf.Cst;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -27,7 +28,8 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         where TAssembly :
             IVisualBasicAssembly<TAssembly, TProvider>
         where TProvider :
-            IVisualBasicProvider<TAssembly, TProvider>
+            IVersionedHighLevelLanguageProvider<VisualBasicVersion, IVisualBasicStart>,            
+            ILanguageProvider
     {
         private TProvider provider;
         protected VisualBasicAssembly(string name, TProvider provider)
@@ -45,7 +47,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 
         public override IVisualBasicLanguage Language
         {
-            get { return this.Provider.Language; }
+            get { return (IVisualBasicLanguage)this.Provider.Language; }
         }
 
         public override TProvider Provider

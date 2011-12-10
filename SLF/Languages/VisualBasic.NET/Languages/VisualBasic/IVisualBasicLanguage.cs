@@ -18,6 +18,8 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
     /// <see cref="IVisualBasicLanguage">Visual Basic.NET language</see>.
     /// </summary>
     public interface IVisualBasicLanguage :
+        ILanguage<IVisualBasicLanguage, ICoreVisualBasicProvider>,
+        ILanguage<IVisualBasicLanguage, IMyVisualBasicProvider>,
         IVersionedHighLevelLanguage<VisualBasicVersion, IVisualBasicStart>
     {
         /// <summary>

@@ -342,6 +342,8 @@ namespace AllenCopeland.Abstraction
                     return "searchCriteria";
                 case ArgumentWithException.series:
                     return "series";
+                case ArgumentWithException.service:
+                    return "service";
                 case ArgumentWithException.signature:
                     return "signature";
                 case ArgumentWithException.sizes:

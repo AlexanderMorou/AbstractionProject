@@ -81,9 +81,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             var assembly = this.Parent.Assembly;
             if (assembly != null)
             {
-                var assemblyProvider = assembly.Provider as IIntermediateLanguageTypeProvider;
-                if (assemblyProvider != null)
-                    return assemblyProvider.CreateClass(name, this.Parent);
+                var assemblyProvider = assembly.Provider;
+                if (assemblyProvider.SupportsService(LanguageGuids.ConstructorServices.IntermediateClassCreatorService) &&
+                    assemblyProvider.ServiceIs<IIntermediateTypeCtorLanguageService<IIntermediateClassType>>(LanguageGuids.ConstructorServices.IntermediateClassCreatorService))
+                    return assemblyProvider.GetService<IIntermediateTypeCtorLanguageService<IIntermediateClassType>>(LanguageGuids.ConstructorServices.IntermediateClassCreatorService).GetNew(name, this.Parent);
             }
             return new IntermediateClassType(name, this.Parent);
         }

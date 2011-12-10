@@ -2,13 +2,53 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Slf.Cst;
+using AllenCopeland.Abstraction.Slf.Translation;
+using AllenCopeland.Abstraction.Slf.Compilers;
 
 namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 {
-    internal class CoreVisualBasicProvider :
-        VisualBasicProvider<ICoreVisualBasicAssembly, ICoreVisualBasicProvider>,
+    internal partial class CoreVisualBasicProvider :
+        VersionedHighLevelLanguageProvider<IVisualBasicLanguage, ICoreVisualBasicProvider, VisualBasicVersion, IVisualBasicStart>,
+        //IVisualBasicProvider<TAssembly, TProvider>
+        //VisualBasicProvider<ICoreVisualBasicAssembly, ICoreVisualBasicProvider>,
         ICoreVisualBasicProvider
     {
+        internal CoreVisualBasicProvider(VisualBasicVersion version)
+            : base(version)
+        {
+            this.RegisterService<IIntermediateAssemblyCtorLanguageService<ICoreVisualBasicProvider, IVisualBasicLanguage, IVisualBasicStart, ICoreVisualBasicAssembly>>(LanguageGuids.ConstructorServices.IntermediateAssemblyCreatorService, new AssemblyService(this));
+        }
+
+
+        protected override ILanguageParser<IVisualBasicStart> OnGetParser()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override ILanguageCSTTranslator<IVisualBasicStart> OnGetCSTTranslator()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IIntermediateCodeTranslator OnGetTranslator()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IAnonymousTypePatternAid OnGetAnonymousTypePattern()
+        {
+            return IntermediateGateway.VBPattern;
+        }
+
+        protected override IVisualBasicLanguage OnGetLanguage()
+        {
+            return VisualBasicLanguage.Singleton;
+        }
+
+        #region ICoreVisualBasicProvider Members
+
         /// <summary>
         /// Creates a new <see cref="ICoreVisualBasicAssembly"/>
         /// with the <paramref name="name"/> provided.
@@ -21,14 +61,12 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         /// <paramref name="name"/> is null.</exception>
         /// <exception cref="System.ArgumentException">thrown when
         /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
-        public override ICoreVisualBasicAssembly CreateAssembly(string name)
+        public new ICoreVisualBasicAssembly CreateAssembly(string name)
         {
-            return new CoreVisualBasicAssembly(name);
+            return (ICoreVisualBasicAssembly)base.CreateAssembly(name);
         }
 
-        public CoreVisualBasicProvider(VisualBasicVersion version)
-            : base(version)
-        {
-        }
+        #endregion
+
     }
 }

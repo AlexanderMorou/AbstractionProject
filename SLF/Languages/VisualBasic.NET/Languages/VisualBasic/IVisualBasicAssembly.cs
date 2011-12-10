@@ -26,7 +26,8 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         where TAssembly :
             IVisualBasicAssembly<TAssembly, TProvider>
         where TProvider :
-            IVisualBasicProvider<TAssembly, TProvider>
+            IVersionedHighLevelLanguageProvider<VisualBasicVersion, IVisualBasicStart>,
+            ILanguageProvider
     {
 
     }

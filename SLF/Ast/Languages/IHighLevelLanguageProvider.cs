@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 {
 
     public interface IHighLevelLanguageProvider<TRootNode> :
-        ILanguageProvider
+        IHighLevelLanguageProvider
         where TRootNode :
             IConcreteNode
     {
@@ -42,14 +42,16 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// of the current high level language provider instance.
         /// </summary>
         new IHighLevelLanguage<TRootNode> Language { get; }
+    }
+
+    public interface IHighLevelLanguageProvider :
+        ILanguageProvider
+    {
         /// <summary>
         /// Returns the <see cref="IAnonymousTypePatternAid"/> which
         /// provides anonymous types defined within an assembly with
         /// a formatting guideline.
         /// </summary>
         IAnonymousTypePatternAid AnonymousTypePattern { get; }
-
     }
-    
-
 }

@@ -15,12 +15,28 @@ using AllenCopeland.Abstraction.Slf.Translation;
 
 namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
 {
+    /// <summary>
+    /// Defines properties and methods for working with a 
+    /// provider for the C&#9839; language.
+    /// </summary>
     public interface ICSharpProvider :
-        IVersionedHighLevelLanguageProvider<CSharpLanguageVersion, ICSharpCompilationUnit>,
-        IIntermediateLanguageTypeProvider
+        ILanguageProvider<ICSharpLanguage, ICSharpProvider>,
+        IVersionedHighLevelLanguageProvider<CSharpLanguageVersion, ICSharpCompilationUnit>
     {
+        /// <summary>
+        /// Returns the <see cref="ICSharpParser"/>
+        /// of the current high level language provider instance.
+        /// </summary>
         new ICSharpParser Parser { get; }
+        /// <summary>
+        /// Returns the <see cref="ICSharpCSTTranslator"/>
+        /// of the current C&#9839; provider.
+        /// </summary>
         new ICSharpCSTTranslator CSTTranslator { get; }
+        /// <summary>
+        /// Returns the <see cref="ICSharpLanguage"/>
+        /// associated to the current C&#9839; provider.
+        /// </summary>
         new ICSharpLanguage Language { get; }
         /// <summary>
         /// Creates a new <see cref="ICSharpAssembly"/>

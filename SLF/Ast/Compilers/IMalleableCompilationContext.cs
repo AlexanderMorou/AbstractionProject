@@ -11,9 +11,6 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public interface IMalleableCompilationContext :
         ICompilationContext
     {

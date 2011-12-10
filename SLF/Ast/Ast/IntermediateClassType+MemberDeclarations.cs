@@ -707,7 +707,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     foreach (var methodMember in p.Methods.Values)
                         if (methodMember.Name != this.Name ||
                             methodMember.Parameters.Count != this.Parameters.Count ||
-                            methodMember.TypeParameters.Count != this.TypeParameters.Count)
+                            (methodMember.IsGenericConstruct && this.IsGenericConstruct && 
+                             methodMember.TypeParameters.Count != this.TypeParameters.Count))
                             continue;
                         else
                         {

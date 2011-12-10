@@ -61,4 +61,20 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
         IIntermediateAssembly CreateAssembly(string name);
     }
+
+    public interface ILanguage<TLanguage, TProvider> :
+        ILanguage
+        where TLanguage :
+            ILanguage<TLanguage, TProvider>
+        where TProvider :
+            ILanguageProvider<TLanguage, TProvider>
+    {
+        /// <summary>
+        /// Returns a new <typeparamref name="TProvider"/> associated to the current
+        /// <see cref="ILanguage{TLanguage, TProvider}"/>.
+        /// </summary>
+        /// <returns>A new <typeparamref name="TProvider"/> for the current
+        /// <see cref="ILanguage{TLanguage, TProvider}"/>.</returns>
+        new TProvider GetProvider();
+    }
 }

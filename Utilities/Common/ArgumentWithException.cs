@@ -6,8 +6,7 @@ using System.Text;
 namespace AllenCopeland.Abstraction
 {
     /// <summary>
-    /// The argument which caused the <see cref="ArgumentException"/>
-    /// or <see cref="ArgumentOutOfRangeException"/>.
+    /// The argument which caused the exception.
     /// </summary>
     internal enum ArgumentWithException
     {
@@ -159,6 +158,10 @@ namespace AllenCopeland.Abstraction
         /// Parameter 'series'.
         /// </summary>
         series,
+        /// <summary>
+        /// Parameter 'service'.
+        /// </summary>
+        service,
         /// <summary>
         /// Parameter 'signature'.
         /// </summary>
