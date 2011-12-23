@@ -127,9 +127,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         }
 
         /// <summary>
-        /// Provides a base class for the intermediate method signature member parameters to derive from
-        /// when there's a parameter from which the current mirrors.
+        /// Provides a base class for a parameter of a method to mirror
+        /// a parameter from a different kind of member.
         /// </summary>
+        /// <remarks>Used to aid in indexer/event method
+        /// parameter replication.</remarks>
         /// <typeparam name="TAltParent">The kind of parent which contains the 
         /// set of parameters that the current member mirrors a copy of one of.</typeparam>
         /// <typeparam name="TIntermediateAltParent">The kind of parent which
@@ -240,6 +242,24 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 {
                     this.AlternateParameter.Direction = value;
                 }
+            }
+
+            public override IGeneralMemberUniqueIdentifier UniqueIdentifier
+            {
+                get
+                {
+                    return this.AlternateParameter.UniqueIdentifier;
+                }
+            }
+
+            protected override string OnGetName()
+            {
+                return this.AlternateParameter.Name;
+            }
+
+            protected override void OnSetName(string name)
+            {
+                this.AlternateParameter.Name = name;
             }
         }
     }

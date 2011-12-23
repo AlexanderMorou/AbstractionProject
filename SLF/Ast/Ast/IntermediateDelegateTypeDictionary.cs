@@ -53,12 +53,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (name == string.Empty)
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.name, ExceptionMessageId.ArgumentCannotBeEmpty, ThrowHelper.GetArgumentName(ArgumentWithException.name));
             var assembly = this.Parent.Assembly;
-            if (assembly != null)
+            if (assembly != null && assembly.Provider != null)
             {
-                var assemblyProvider = assembly.Provider;
-                if (assemblyProvider.SupportsService(LanguageGuids.ConstructorServices.IntermediateDelegateCreatorService) &&
-                    assemblyProvider.ServiceIs<IIntermediateTypeCtorLanguageService<IIntermediateDelegateType>>(LanguageGuids.ConstructorServices.IntermediateDelegateCreatorService))
-                    return assemblyProvider.GetService<IIntermediateTypeCtorLanguageService<IIntermediateDelegateType>>(LanguageGuids.ConstructorServices.IntermediateDelegateCreatorService).GetNew(name, this.Parent);
+                IIntermediateTypeCtorLanguageService<IIntermediateDelegateType> delegateService;
+                if (assembly.Provider.TryGetService(LanguageGuids.ConstructorServices.IntermediateDelegateCreatorService, out delegateService))
+                    return delegateService.GetNew(name, this.Parent);
             }
             return new IntermediateDelegateType(name, this.Parent);
         }

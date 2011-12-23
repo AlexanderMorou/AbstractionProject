@@ -71,25 +71,6 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                 );
         }
 
-        #if CODE_ANALYSIS
-        /* *
-         * Suppressed Type-Parameter inference code-analysis point.
-         * This is intended to be an explicit cast, the to and from types should be 
-         * expressly known.
-         * */
-        [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
-        #endif
-        public static TDesiredType[] Cast<TDesiredType>(this object[] array)
-        {
-            if (array == null)
-                throw new ArgumentNullException("array");
-            TDesiredType[] r = new TDesiredType[array.Length];
-            for (int i = 0; i < array.Length; i++)
-                r[i] = (TDesiredType)(array[i]);
-            return r;
-        }
-
-
         /// <summary>
         /// Casts an array from the <typeparamref name="TOriginatingType"/> to the <typeparamref name="TDesiredType"/>; truncated
         /// by the number of members that are not of the <typeparamref name="TDesiredType"/>,

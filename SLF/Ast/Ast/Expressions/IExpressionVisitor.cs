@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
     /// </summary>
     public interface IExpressionVisitor :
         ILinqVisitor,
-        IIntermediatePrimitiveVisitor
+        IPrimitiveVisitor
     {
         void Visit<TLeft, TRight>(IBinaryOperationExpression<TLeft, TRight> expression)
             where TLeft :

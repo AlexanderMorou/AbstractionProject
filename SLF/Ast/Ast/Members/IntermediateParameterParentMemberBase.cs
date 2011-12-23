@@ -96,7 +96,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// Returns whether the <see cref="Parameters"/> have been
         /// initialized.
         /// </summary>
-        protected bool AreParametersInitialized { get { return this.parameters != null; } }
+        protected virtual bool AreParametersInitialized { get { return this.parameters != null; } }
 
         private void CheckParameters()
         {
@@ -160,7 +160,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         void parameter_ParameterTypeChanged(object sender, EventArgsR1R2<IType, IType> e)
         {
-            if ((e == null || e.Arg1 == null || e.Arg2 == null) && sender is TIntermediateParameter)
+            if ((e != null || e.Arg1 != null || e.Arg2 != null) && sender is TIntermediateParameter)
                 this.OnIdentifierChanged(this.UniqueIdentifier, DeclarationChangeCause.Signature);
         }
 

@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /* *
              * Initializes the unique identifier, this is a hack.
              * */
-            var m = parent.UniqueIdentifier;
+            //var m = parent.UniqueIdentifier;
         }
 
         protected override bool ShouldDispose(TIntermediateParameter declaration)

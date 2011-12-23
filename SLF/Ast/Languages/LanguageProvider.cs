@@ -57,9 +57,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// <paramref name="name"/> provided.</returns>
         protected virtual IIntermediateAssembly OnCreateAssembly(string name)
         {
-            if (this.SupportsService(LanguageGuids.ConstructorServices.IntermediateAssemblyCreatorService) &&
-                this.ServiceIsImpl<IIntermediateAssemblyCtorLanguageService>(LanguageGuids.ConstructorServices.IntermediateAssemblyCreatorService))
-                return this.GetServiceImpl<IIntermediateAssemblyCtorLanguageService>(LanguageGuids.ConstructorServices.IntermediateAssemblyCreatorService).New(name);
+            IIntermediateAssemblyCtorLanguageService service;
+            if (this.TryGetServiceImpl(LanguageGuids.ConstructorServices.IntermediateAssemblyCreatorService, out service))
+                return service.New(name);
             throw new NotSupportedException(ThrowHelper.GetArgumentName(ArgumentWithException.name));
         }
 
@@ -186,6 +186,53 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             return (TService)result;
         }
 
+        protected virtual bool TryGetServiceImpl<TService>(Guid serviceGuid, out TService service)
+            where TService :
+                ILanguageService
+        {
+            ILanguageService result;
+            lock (cachedServices)
+            {
+                if (this.cachedServices.TryGetValue(serviceGuid, typeof(TService), out result))
+                {
+                    service = (TService)result;
+                    return true;
+                }
+                else
+                    if (this.SupportsUserService(serviceGuid))
+                        if (!UserServiceIs<TService>(serviceGuid))
+                        {
+                            service = default(TService);
+                            return false;
+                        }
+                        else
+                        {
+                            service = (TService)this.supportedServices[serviceGuid];
+                            this.cachedServices.TryAdd(serviceGuid, typeof(TService), result);
+                            return true;
+                        }
+                    else if (this.SupportsDefaultService(serviceGuid))
+                        if (!DefaultServiceIs<TService>(serviceGuid))
+                        {
+                            service = default(TService);
+                            return false;
+                        }
+                        else
+                        {
+                            service = (TService)this.defaultServices[serviceGuid];
+                            this.cachedServices.TryAdd(serviceGuid, typeof(TService), result);
+                            return true;
+                        }
+                    else
+                    {
+                        service = default(TService);
+                        return false;
+                    }
+            }
+            
+        }
+
+
         /// <summary>
         /// Provides a basic implementation to check whether the <paramref name="service"/>
         /// is assignable from the <typeparamref name="TService"/> provided.
@@ -279,6 +326,18 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             return this.ServiceIsImpl<TService>(service);
         }
 
+        public bool TryGetService<TService>(Guid serviceGuid, out TService service)
+            where TService :
+                ILanguageService<TLanguage, TProvider>
+        {
+            return TryGetServiceImpl<TService>(serviceGuid, out service);
+        }
+
         #endregion
+
+        bool ILanguageProvider.TryGetService<TService>(Guid serviceGuid, out TService service)
+        {
+            return TryGetServiceImpl<TService>(serviceGuid, out service);
+        }
     }
 }

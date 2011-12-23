@@ -10,6 +10,7 @@ using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Statements;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -111,7 +112,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
     }
     public class IntermediateStructIndexerMember<TInstanceIntermediateType> :
-        IntermediateGenericSegmentableInstantiableType<IStructCtorMember, IIntermediateStructCtorMember, IStructEventMember, IIntermediateStructEventMember, IntermediateStructEventMember<TInstanceIntermediateType>.EventMethodMember, IStructFieldMember, IIntermediateStructFieldMember, IStructIndexerMember, IIntermediateStructIndexerMember, IntermediateStructIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IStructMethodMember, IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember, IntermediateStructPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IStructType, IIntermediateStructType, TInstanceIntermediateType>.IndexerMember
+        IntermediateGenericSegmentableInstantiableType<IStructCtorMember, IIntermediateStructCtorMember, IStructEventMember, IIntermediateStructEventMember, IntermediateStructEventMember<TInstanceIntermediateType>.EventMethodMember, IStructFieldMember, IIntermediateStructFieldMember, IStructIndexerMember, IIntermediateStructIndexerMember, IntermediateStructIndexerMember<TInstanceIntermediateType>.IndexerMethodMember, IStructMethodMember, IIntermediateStructMethodMember, IStructPropertyMember, IIntermediateStructPropertyMember, IntermediateStructPropertyMember<TInstanceIntermediateType>.PropertyMethodMember, IStructType, IIntermediateStructType, TInstanceIntermediateType>.IndexerMember,
+        IIntermediateStructIndexerMember
         where TInstanceIntermediateType :
             IntermediateStructType<TInstanceIntermediateType>
     {
@@ -129,7 +131,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             IndexerMethodMember,
             IIntermediatePropertySetMethodMember
         {
-            private IIntermediateMethodParameterMember valueParameter;
+            private _ValueParameter valueParameter;
 
             public IndexerSetMethodMember(IntermediateStructIndexerMember<TInstanceIntermediateType> owner)
                 : base(owner, PropertyMethodType.SetMethod)
@@ -144,12 +146,54 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 get
                 {
                     if (this.valueParameter == null)
-                        valueParameter = this.Parameters._Add(new TypedName("value", this.Owner.PropertyType));
+                        valueParameter = (_ValueParameter)this.Parameters["value"];
                     return valueParameter;
                 }
             }
 
             #endregion
+
+            protected override bool AreParametersInitialized
+            {
+                get
+                {
+                    return true;
+                }
+            }
+
+            private class _ValueParameter :
+                ParameterMember
+            {
+
+                public _ValueParameter(IndexerSetMethodMember parent)
+                    : base(parent)
+                {
+                }
+
+                private IndexerSetMethodMember _Parent { get { return (IndexerSetMethodMember)base.Parent; } }
+                protected override void OnSetName(string name)
+                {
+                    throw new NotSupportedException();
+                }
+
+                protected override string OnGetName()
+                {
+                    return "value";
+                }
+
+                public override IType ParameterType
+                {
+                    get
+                    {
+                        return this._Parent.Owner.PropertyType;
+                    }
+                    set
+                    {
+                        this._Parent.Owner.PropertyType = value;
+                    }
+                }
+            }
+
 
             #region IIntermediatePropertySignatureSetMethodMember Members
 
@@ -159,6 +203,30 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
 
             #endregion
+
+            protected override IntermediateParameterMemberDictionary<IStructMethodMember, IIntermediateStructMethodMember, IMethodParameterMember<IStructMethodMember, IStructType>, IIntermediateMethodParameterMember<IStructMethodMember, IIntermediateStructMethodMember, IStructType, IIntermediateStructType>> InitializeParameters()
+            {
+                var result = base.InitializeParameters();
+                result.Unlock();
+                result._Add(AstIdentifier.Member("value"), this.valueParameter = new _ValueParameter(this));
+                lock (this.Owner.Parameters.SyncRoot)
+                    this.Owner.Parameters.ItemAdded += new EventHandler<EventArgsR1<IIntermediateIndexerParameterMember<IStructIndexerMember, IIntermediateStructIndexerMember, IStructType, IIntermediateStructType>>>(OwnerParameters_ItemAdded);
+                result.Lock();
+                return result;
+            }
+
+            void OwnerParameters_ItemAdded(object sender, EventArgsR1<IIntermediateIndexerParameterMember<IStructIndexerMember, IIntermediateStructIndexerMember, IStructType, IIntermediateStructType>> e)
+            {
+                var parameters = this.Parameters as IntermediateParameterMemberDictionary<IStructMethodMember, IIntermediateStructMethodMember, IMethodParameterMember<IStructMethodMember, IStructType>, IIntermediateMethodParameterMember<IStructMethodMember, IIntermediateStructMethodMember, IStructType, IIntermediateStructType>>;
+                lock (this.Owner.Parameters.SyncRoot)
+                {
+                    lock (parameters.SyncRoot)
+                    {
+                        parameters._Remove(valueParameter.UniqueIdentifier);
+                        parameters._Add(valueParameter.UniqueIdentifier, valueParameter);
+                    }
+                }
+            }
         }
 
         public class IndexerMethodMember :
@@ -184,6 +252,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 }
             }
 
+            protected override bool AreParametersInitialized
+            {
+                get
+                {
+                    return base.AreParametersInitialized || this.Owner.AreParametersInitialized;
+                }
+            }
+
             protected override string OnGetName()
             {
                 switch (this.methodType)
@@ -194,6 +270,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         return string.Format("set_{0}", this.owner.Name);
                     default:
                         throw new InvalidOperationException();
+                }
+            }
+
+            private class _WrappedParameter :
+                ParameterMember<IStructIndexerMember, IIntermediateStructIndexerMember, IIndexerParameterMember<IStructIndexerMember, IStructType>, IIntermediateIndexerParameterMember<IStructIndexerMember, IIntermediateStructIndexerMember, IStructType, IIntermediateStructType>>
+            {
+                public _WrappedParameter(IIntermediateIndexerParameterMember<IStructIndexerMember, IIntermediateStructIndexerMember, IStructType, IIntermediateStructType> original, IndexerMethodMember parent)
+                    : base(original, parent)
+                {
                 }
             }
 
@@ -212,9 +297,53 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             protected override IntermediateParameterMemberDictionary<IStructMethodMember, IIntermediateStructMethodMember, IMethodParameterMember<IStructMethodMember, IStructType>, IIntermediateMethodParameterMember<IStructMethodMember, IIntermediateStructMethodMember, IStructType, IIntermediateStructType>> InitializeParameters()
             {
                 var result = base.InitializeParameters();
+                lock (this.Owner.Parameters.SyncRoot)
+                {
+                    var items = this.Owner.Parameters.Values.ToArray();
+                    lock (result.SyncRoot)
+                        foreach (var element in items)
+                            result._Add(AstIdentifier.Member(element.Name), new _WrappedParameter(element, this));
+                    this.owner.Parameters.ItemAdded += new EventHandler<Utilities.Events.EventArgsR1<IIntermediateIndexerParameterMember<IStructIndexerMember, IIntermediateStructIndexerMember, IStructType, IIntermediateStructType>>>(OwnerParameters_ItemAdded);
+                    this.owner.Parameters.ItemRemoved += new EventHandler<EventArgsR1<IIntermediateIndexerParameterMember<IStructIndexerMember, IIntermediateStructIndexerMember, IStructType, IIntermediateStructType>>>(OwnerParameters_ItemRemoved);
+                }
                 result.Lock();
                 return result;
             }
+
+            void OwnerParameters_ItemAdded(object sender, EventArgsR1<IIntermediateIndexerParameterMember<IStructIndexerMember, IIntermediateStructIndexerMember, IStructType, IIntermediateStructType>> e)
+            {
+                lock (this.Owner.Parameters.SyncRoot)
+                {
+                    var parameters = this.Parameters as IntermediateParameterMemberDictionary<IStructMethodMember, IIntermediateStructMethodMember, IMethodParameterMember<IStructMethodMember, IStructType>, IIntermediateMethodParameterMember<IStructMethodMember, IIntermediateStructMethodMember, IStructType, IIntermediateStructType>>;
+                    lock (parameters.SyncRoot)
+                    {
+                        parameters.Unlock();
+                        parameters._Add(e.Arg1.UniqueIdentifier, new _WrappedParameter(e.Arg1, this));
+                        parameters.Lock();
+                    }
+                }
+            }
+
+            void OwnerParameters_ItemRemoved(object sender, EventArgsR1<IIntermediateIndexerParameterMember<IStructIndexerMember, IIntermediateStructIndexerMember, IStructType, IIntermediateStructType>> e)
+            {
+                lock (this.Owner.Parameters.SyncRoot)
+                {
+                    var parameters = this.Parameters as IntermediateParameterMemberDictionary<IStructMethodMember, IIntermediateStructMethodMember, IMethodParameterMember<IStructMethodMember, IStructType>, IIntermediateMethodParameterMember<IStructMethodMember, IIntermediateStructMethodMember, IStructType, IIntermediateStructType>>;
+                    lock (parameters.SyncRoot)
+                    {
+                        parameters.Unlock();
+                        var paramTarget = (from parameter in parameters.Values
+                                           let _param = parameter as _WrappedParameter
+                                           where _param != null
+                                           where _param.AlternateParameter == e.Arg1
+                                           select _param).FirstOrDefault();
+                        if (paramTarget != null)
+                            parameters._Remove(paramTarget.UniqueIdentifier);
+                        parameters.Lock();
+                    }
+                }
+            }
+
         }
 
         protected override IntermediateStructIndexerMember<TInstanceIntermediateType>.IndexerMethodMember GetMethodMember(PropertyMethodType methodType)
@@ -447,7 +576,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (returnType != null)
             {
                 bool isAsync = this.IsAsynchronous;
-                if (returnType == CommonTypeRefs.Void && this.Name.Length >= 5)
+                if (returnType == CommonTypeRefs.Void && this.Name != null && this.Name.Length >= 5)
                 {
                     if (this.Name.Substring(this.Name.Length - 5).ToLower() == "async")
                         this.IsAsynchronousCandidate = true;
@@ -532,7 +661,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             PropertyMethodMember,
             IIntermediatePropertySetMethodMember
         {
-            private IIntermediateMethodParameterMember valueParameter;
+            private _ValueParameter valueParameter;
 
             public PropertySetMethodMember(IntermediateStructPropertyMember<TInstanceIntermediateType> owner)
                 : base(PropertyMethodType.SetMethod, owner)
@@ -546,7 +675,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 get
                 {
                     if (this.valueParameter == null)
-                        return this.Parameters["value"];
+                        this.valueParameter = (_ValueParameter)this.Parameters["value"];
                     return valueParameter;
                 }
             }
@@ -562,10 +691,44 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             #endregion
 
+            private class _ValueParameter :
+                ParameterMember
+            {
+
+                public _ValueParameter(PropertySetMethodMember parent)
+                    : base(parent)
+                {
+                }
+
+                private PropertySetMethodMember _Parent { get { return (PropertySetMethodMember)base.Parent; } }
+                protected override void OnSetName(string name)
+                {
+                    throw new NotSupportedException();
+                }
+
+                protected override string OnGetName()
+                {
+                    return "value";
+                }
+
+                public override IType ParameterType
+                {
+                    get
+                    {
+                        return this._Parent.Owner.PropertyType;
+                    }
+                    set
+                    {
+                        this._Parent.Owner.PropertyType = value;
+                    }
+                }
+            }
+
+
             protected override IntermediateParameterMemberDictionary<IStructMethodMember, IIntermediateStructMethodMember, IMethodParameterMember<IStructMethodMember, IStructType>, IIntermediateMethodParameterMember<IStructMethodMember, IIntermediateStructMethodMember, IStructType, IIntermediateStructType>> InitializeParameters()
             {
                 var result = base.InitializeParameters();
-                this.valueParameter = result._Add(new TypedName("value", this.Owner.PropertyType));
+                result._Add(AstIdentifier.Member("value"), this.valueParameter = new _ValueParameter(this));
                 return result;
             }
 

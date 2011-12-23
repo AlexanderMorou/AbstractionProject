@@ -294,12 +294,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
 
         public override void Visit(IExpressionVisitor visitor)
         {
-            this.Visit((IIntermediatePrimitiveVisitor)visitor);
+            this.Visit((IPrimitiveVisitor)visitor);
         }
 
         #region IPrimitiveExpression Members
 
-        public void Visit(IIntermediatePrimitiveVisitor visitor)
+        public void Visit(IPrimitiveVisitor visitor)
         {
             switch (this.PrimitiveType)
             {

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Resources;
 using System.Text;
+using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Globalization;
@@ -79,7 +80,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         private string path;
         public AssemblyInformation(Assembly assembly)
         {
-            AttributeCollection attrC = new AttributeCollection(assembly.GetCustomAttributes(false).Cast<Attribute>());
+            AttributeCollection attrC = new AttributeCollection(assembly.GetCustomAttributes(false).Cast<Attribute>().ToArray());
             if (attrC[typeof(AssemblyTitleAttribute)] != null)
                 this.title = ((AssemblyTitleAttribute)attrC[typeof(AssemblyTitleAttribute)]).Title;
             if (attrC[typeof(AssemblyDescriptionAttribute)] != null)

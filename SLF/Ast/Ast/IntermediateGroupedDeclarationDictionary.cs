@@ -328,11 +328,27 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         protected internal override void _Add(TDeclarationIdentifier key, TDeclaration value)
         {
             this.OnItemAdded(new EventArgsR1<TIntermediateDeclaration>(((TIntermediateDeclaration)(value))));
+            var intermediateDeclaration = (TIntermediateDeclaration)value;
+            if (intermediateDeclaration != null)
+            {
+                intermediateDeclaration.IdentifierChanged += new EventHandler<DeclarationIdentifierChangeEventArgs<IGeneralDeclarationUniqueIdentifier>>(intermediateDeclaration_IdentifierChanged);
+            }
             if (!this.Suspended)
                 base._Add(key, value);
             else
                 lock (this.suspendedMembers)
                     this.suspendedMembers.Add(value);
+        }
+
+        void intermediateDeclaration_IdentifierChanged(object sender, DeclarationIdentifierChangeEventArgs<IGeneralDeclarationUniqueIdentifier> e)
+        {
+            lock (this.SyncRoot)
+            {
+                int index = this.Keys.IndexOf((TDeclarationIdentifier)e.OldIdentifier);
+                if (index == -1)
+                    return;
+                this.Keys[index] = (TDeclarationIdentifier)e.NewIdentifier;
+            }
         }
 
         /// <summary>

@@ -40,7 +40,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                         "digits",
                         new[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }.ToExpression(), 
                         LocalTypingKind.Implicit);
-
+                
 
                 /* *
                  * var sortedDigits = from digit in digits

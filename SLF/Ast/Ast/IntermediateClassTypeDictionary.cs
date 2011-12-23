@@ -79,12 +79,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (name == string.Empty)
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.name, ExceptionMessageId.ArgumentCannotBeEmpty, ThrowHelper.GetArgumentName(ArgumentWithException.name));
             var assembly = this.Parent.Assembly;
-            if (assembly != null)
+            if (assembly != null && assembly.Provider != null)
             {
-                var assemblyProvider = assembly.Provider;
-                if (assemblyProvider.SupportsService(LanguageGuids.ConstructorServices.IntermediateClassCreatorService) &&
-                    assemblyProvider.ServiceIs<IIntermediateTypeCtorLanguageService<IIntermediateClassType>>(LanguageGuids.ConstructorServices.IntermediateClassCreatorService))
-                    return assemblyProvider.GetService<IIntermediateTypeCtorLanguageService<IIntermediateClassType>>(LanguageGuids.ConstructorServices.IntermediateClassCreatorService).GetNew(name, this.Parent);
+                IIntermediateTypeCtorLanguageService<IIntermediateClassType> classService;
+                if (assembly.Provider.TryGetService(LanguageGuids.ConstructorServices.IntermediateClassCreatorService, out classService))
+                    return classService.GetNew(name, this.Parent);
             }
             return new IntermediateClassType(name, this.Parent);
         }

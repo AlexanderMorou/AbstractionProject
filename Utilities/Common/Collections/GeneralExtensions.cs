@@ -227,7 +227,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             yield break;
         }
 
-        public static IEnumerable<int> RangeFrom(this int source, int exclusiveTo)
+        public static IEnumerable<int> RangeTo(this int source, int exclusiveTo)
         {
             for (int i = source; i < exclusiveTo; i++)
                 yield return i;

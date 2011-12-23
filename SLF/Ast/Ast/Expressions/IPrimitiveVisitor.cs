@@ -11,7 +11,11 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
 {
-    public interface IIntermediatePrimitiveVisitor
+    /// <summary>
+    /// Defines properties and methods for working with a visitor that
+    /// observes primitive expressions.
+    /// </summary>
+    public interface IPrimitiveVisitor
     {
         /// <summary>
         /// Visits a boolean primitive expression.

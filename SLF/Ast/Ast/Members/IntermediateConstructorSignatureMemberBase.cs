@@ -87,6 +87,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 return this.uniqueIdentifier;
             }
         }
+
+        protected override void OnIdentifierChanged(IGeneralSignatureMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+        {
+            this.uniqueIdentifier = null;
+            base.OnIdentifierChanged(oldIdentifier, cause);
+        }
         protected override void OnRenaming(DeclarationRenamingEventArgs e)
         {
             if (!naming && e != null)

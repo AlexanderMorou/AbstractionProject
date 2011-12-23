@@ -12,7 +12,8 @@ using AllenCopeland.Abstraction.Slf.Ast;
 namespace AllenCopeland.Abstraction.Slf.Languages.Cil
 {
     /// <summary>
-    /// Provides a default base type for an intermediate assembly.
+    /// Provides a default base type for an intermediate assembly
+    /// created within the common intermediate language.
     /// </summary>
     public sealed class CommonIntermediateAssembly :
         IntermediateAssembly<ICommonIntermediateLanguage, ICommonIntermediateProvider, CommonIntermediateAssembly>,

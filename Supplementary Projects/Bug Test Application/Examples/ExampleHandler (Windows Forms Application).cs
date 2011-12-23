@@ -129,7 +129,6 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
                 mdInitializeComponent.Assign(clickMeReference.Fuse("UseVisualStyleBackColor"), IntermediateGateway.TrueValue);
                 //this.ClickMeButton.Click += ClickMeButton_Click;
                 var clickReference = ((IClassType)(mdClickMeButton.FieldType)).Events.FindInFamily("Click", typeof(EventHandler).GetTypeReference<IDelegateUniqueIdentifier, IDelegateType>());
-                var uReference = clickReference.Parent.Members[clickReference.UniqueIdentifier];
                 mdInitializeComponent.AddHandler(clickReference.GetReference(mdClickMeButton.GetReference()), mdClickMeClick.GetReference());
                 mdInitializeComponent.Comment("MainDialog setup");
                 //this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);

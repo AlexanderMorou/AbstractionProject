@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Linq;
+using AllenCopeland.Abstraction.Slf.Languages;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -110,42 +111,75 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (name == null)
                 throw new ArgumentNullException("name");
             IIntermediateGenericType rResult = null;
+            var assembly = this.Parent.Assembly;
             switch (kind)
             {
                 case TypeKindGeneric.Class:
                     {
-                        var result = new IntermediateClassType(name, this.Parent);
+                        IIntermediateClassType insertionElement = null;
+                        if (assembly != null)
+                        {
+                            IIntermediateTypeCtorLanguageService<IIntermediateClassType> classService;
+                            if (assembly.Provider.TryGetService(LanguageGuids.ConstructorServices.IntermediateClassCreatorService, out classService))
+                                insertionElement = classService.GetNew(name, this.Parent);
+                        }
+                        if (insertionElement == null)
+                            insertionElement = new IntermediateClassType(name, this.Parent);
                         if (genParamData.Length > 0)
-                            result.TypeParameters.AddRange(genParamData);
-                        rResult = result;
-                        this.Parent.Classes.Add(result);
+                            insertionElement.TypeParameters.AddRange(genParamData);
+                        rResult = insertionElement;
+                        this.Parent.Classes.Add(insertionElement);
                     }
                     break;
                 case TypeKindGeneric.Delegate:
                     {
-                        var result = new IntermediateDelegateType(name, this.Parent);
+                        IIntermediateDelegateType insertionElement = null;
+                        if (assembly != null && assembly.Provider != null)
+                        {
+                            IIntermediateTypeCtorLanguageService<IIntermediateDelegateType> delegateService;
+                            if (assembly.Provider.TryGetService(LanguageGuids.ConstructorServices.IntermediateDelegateCreatorService, out delegateService))
+                                insertionElement = delegateService.GetNew(name, this.Parent);
+                        }
+                        if (insertionElement == null)
+                            insertionElement = new IntermediateDelegateType(name, this.Parent);
                         if (genParamData.Length > 0)
-                            result.TypeParameters.AddRange(genParamData);
-                        rResult = result;
-                        this.Parent.Delegates.Add(result);
+                            insertionElement.TypeParameters.AddRange(genParamData);
+                        rResult = insertionElement;
+                        this.Parent.Delegates.Add(insertionElement);
                     }
                     break;
                 case TypeKindGeneric.Interface:
                     {
-                        var result = new IntermediateInterfaceType(name, this.Parent);
+                        IIntermediateInterfaceType insertionElement = null;
+                        if (assembly != null && assembly.Provider != null)
+                        {
+                            IIntermediateTypeCtorLanguageService<IIntermediateInterfaceType> interfaceService;
+                            if (assembly.Provider.TryGetService(LanguageGuids.ConstructorServices.IntermediateInterfaceCreatorService, out interfaceService))
+                                insertionElement = interfaceService.GetNew(name, this.Parent);
+                        }
+                        if (insertionElement == null)
+                            insertionElement = new IntermediateInterfaceType(name, this.Parent);
                         if (genParamData.Length > 0)
-                            result.TypeParameters.AddRange(genParamData);
-                        rResult = result;
-                        this.Parent.Interfaces.Add(result);
+                            insertionElement.TypeParameters.AddRange(genParamData);
+                        rResult = insertionElement;
+                        this.Parent.Interfaces.Add(insertionElement);
                     }
                     break;
                 case TypeKindGeneric.Struct:
                     {
-                        var result = new IntermediateStructType(name, this.Parent);
+                        IIntermediateStructType insertionElement = null;
+                        if (assembly != null && assembly.Provider != null)
+                        {
+                            IIntermediateTypeCtorLanguageService<IIntermediateStructType> structService;
+                            if (assembly.Provider.TryGetService(LanguageGuids.ConstructorServices.IntermediateStructCreatorService, out structService))
+                                insertionElement = structService.GetNew(name, this.Parent);
+                        }
+                        if (insertionElement == null)
+                            insertionElement = new IntermediateStructType(name, this.Parent);
                         if (genParamData.Length > 0)
-                            result.TypeParameters.AddRange(genParamData);
-                        rResult = result;
-                        this.Parent.Structs.Add(result);
+                            insertionElement.TypeParameters.AddRange(genParamData);
+                        rResult = insertionElement;
+                        this.Parent.Structs.Add(insertionElement);
                     }
                     break;
                 default:
