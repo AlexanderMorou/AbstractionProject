@@ -160,6 +160,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             return new CustomAttributeDefinitionCollectionSeries(this);
         }
 
+        protected override void OnIdentifierChanged(IGeneralMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+        {
+            if (this.uniqueIdentifier != null)
+                this.uniqueIdentifier = null;
+            base.OnIdentifierChanged(oldIdentifier, cause);
+        }
+
         #region ICustomAttributedDeclaration Members
 
         ICustomAttributeCollection ICustomAttributedDeclaration.CustomAttributes

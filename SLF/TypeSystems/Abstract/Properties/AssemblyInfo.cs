@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Abstract Syntax Tree core for the Scripting Language Foundation")]
-[assembly: AssemblyDescription("Provides an Abstract Syntax Tree which defines the core functionality of the type system represented by the Scripting Language Foundation.")]
+[assembly: AssemblyTitle("Abstract Type System for the SLF")]
+[assembly: AssemblyDescription("Provides an Abstract Type System which defines the core functionality of the type system represented by the Static Language Framework")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("None")]
-[assembly: AssemblyProduct("Abstraction - Scripting Language Foundation - Abstract Syntax Tree")]
+[assembly: AssemblyProduct("Abstraction - Static Language Framework - Abstract Type System")]
 [assembly: AssemblyCopyright("Copyright © Allen Copeland Jr. 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

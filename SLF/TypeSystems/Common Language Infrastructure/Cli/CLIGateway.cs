@@ -23,8 +23,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 {
     /// <summary>
     /// Bridges the gap between the common language infrastructure and the
-    /// common typing model used by the Abstraction Scripting Language 
-    /// Foundation.
+    /// common typing model used by the Abstraction Static Language
+    /// Framework.
     /// </summary>
     public static class CLIGateway
     {

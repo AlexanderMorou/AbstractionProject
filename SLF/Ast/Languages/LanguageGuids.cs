@@ -7,8 +7,17 @@ using System.Diagnostics.SymbolStore;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
+    /// <summary>
+    /// Provides the globally unique identifiers for language vendors and
+    /// services.
+    /// </summary>
     public static class LanguageGuids
     {
+        /// <summary>
+        /// Globally unique identifiers for the constructor
+        /// services which aid in creating intermediate types,
+        /// assemblies and so on.
+        /// </summary>
         public static class ConstructorServices
         {
             /// <summary>
@@ -39,12 +48,17 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             /// <remarks>
             /// Guid = { 0x35a208db, 0x30b7, 0x40c1, { 0x98, 0x40, 0x60, 0x10, 0x6b, 0x18, 0x79, 0xc8 } }</remarks>
             public static readonly Guid IntermediateStructCreatorService = new Guid(0x35a208db, 0x30b7, 0x40c1, 0x98, 0x40, 0x60, 0x10, 0x6b, 0x18, 0x79, 0xc8);
+            /// <summary>
+            /// The <see cref="IIntermediateAssembly"/> creation service guid.
+            /// </summary>
+            /// <remarks>Guid = { 0xcfa52a0e, 0x3c49, 0x4f99, { 0x8d, 0x40, 0xdc, 0x24, 0x9c, 0xe9, 0x56, 0x7c } }</remarks>
             public static readonly Guid IntermediateAssemblyCreatorService = new Guid(0xcfa52a0e, 0x3c49, 0x4f99, 0x8d, 0x40, 0xdc, 0x24, 0x9c, 0xe9, 0x56, 0x7c);
-
-
         }
 
-        public static class VendorGuids
+        /// <summary>
+        /// Globally unique identifiers for the language vendors.
+        /// </summary>
+        public static class Vendors
         {
             /// <summary>
             /// The <see cref="IAllenCopelandLanguageVendor"/> guid.

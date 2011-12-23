@@ -11,7 +11,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     partial class IntermediateStructType<TInstanceIntermediateType>
     {
         partial class ImplementedInterfacesDictionary
+            //IIntermediateStructInterfaceMapping
         {
+
         }
     }
 }

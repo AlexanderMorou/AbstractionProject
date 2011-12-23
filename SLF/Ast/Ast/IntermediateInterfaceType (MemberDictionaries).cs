@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             protected override IIntermediateInterfacePropertyMember OnGetProperty(TypedName nameAndType)
             {
-                throw new NotImplementedException();
+                return new PropertyMember(nameAndType.Name, (TInstanceType)this.Parent) { PropertyType = nameAndType.GetTypeRef() };
             }
         }
 

@@ -141,7 +141,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 
         #endregion
 
-
         #region ILanguage<IVisualBasicLanguage,IMyVisualBasicProvider> Members
 
         IMyVisualBasicProvider ILanguage<IVisualBasicLanguage, IMyVisualBasicProvider>.GetProvider()

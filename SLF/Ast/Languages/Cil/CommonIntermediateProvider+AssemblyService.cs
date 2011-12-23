@@ -48,7 +48,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
 
             public IIntermediateAssembly New(string name)
             {
-                return new CommonIntermediateAssembly(name);
+                return new CommonIntermediateAssembly(name, this.Provider);
             }
 
             #endregion

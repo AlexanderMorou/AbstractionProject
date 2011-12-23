@@ -424,20 +424,36 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         void _IIntermediateGenericType<TTypeIdentifier>.CardinalityChanged(TTypeIdentifier oldIdentifier)
         {
+            const int DISP_STATE_DISPOSING = 1;
+            lock (this.SyncObject)
+                if (this.disposeState == DISP_STATE_DISPOSING)
+                    return;
             this.OnIdentifierChanged(oldIdentifier, DeclarationChangeCause.IdentityCardinality);
         }
         void _IIntermediateGenericType<TTypeIdentifier>.Rearranged(int from, int to)
         {
+            const int DISP_STATE_DISPOSING = 1;
+            lock (this.SyncObject)
+                if (this.disposeState == DISP_STATE_DISPOSING)
+                    return;
             this.OnRearrangedInner(from, to);
         }
 
         void _IIntermediateGenericType<TTypeIdentifier>.ItemAdded(IGenericParameter parameter)
         {
+            const int DISP_STATE_DISPOSING = 1;
+            lock (this.SyncObject)
+                if (this.disposeState == DISP_STATE_DISPOSING)
+                    return;
             this.OnTypeParameterAdded(arg1: (IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>)parameter);
         }
 
         void _IIntermediateGenericType<TTypeIdentifier>.ItemRemoved(IGenericParameter parameter)
         {
+            const int DISP_STATE_DISPOSING = 1;
+            lock (this.SyncObject)
+                if (this.disposeState == DISP_STATE_DISPOSING)
+                    return;
             this.OnTypeParameterRemoved(arg1: (IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>)parameter);
         }
 

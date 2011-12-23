@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         internal static IMicrosoftLanguageVendor Singleton = new MicrosoftLanguageVendor();
 
         private MicrosoftLanguageVendor()
-            : base("Microsoft", LanguageGuids.VendorGuids.Microsoft)
+            : base("Microsoft", LanguageGuids.Vendors.Microsoft)
         {
 
         }

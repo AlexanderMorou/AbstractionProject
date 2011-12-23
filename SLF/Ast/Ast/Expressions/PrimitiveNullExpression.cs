@@ -106,7 +106,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             visitor.VisitNull();
         }
 
-        public void Visit(IIntermediatePrimitiveVisitor visitor)
+        public void Visit(IPrimitiveVisitor visitor)
         {
             visitor.VisitNull();
         }

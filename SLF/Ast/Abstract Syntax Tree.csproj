@@ -95,6 +95,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ast\Expressions\ArrayExpressionExtensions.cs" />
+    <Compile Include="Ast\Expressions\CreateArrayByteStream.cs" />
     <Compile Include="Ast\IntermediateAssembly.cs" />
     <Compile Include="Languages\Cil\CommonIntermediateProvider+AssemblyService.cs" />
     <Compile Include="Languages\CSharp\CSharpProvider+AssemblyService.cs" />
@@ -383,7 +385,7 @@
     <Compile Include="Ast\Expressions\IFusionTermExpression.cs" />
     <Compile Include="Ast\Expressions\IFusionTypeCollectionTargetExpression.cs" />
     <Compile Include="Ast\Expressions\IIndexerReferenceExpression.cs" />
-    <Compile Include="Ast\Expressions\IIntermediatePrimitiveVisitor.cs" />
+    <Compile Include="Ast\Expressions\IPrimitiveVisitor.cs" />
     <Compile Include="Ast\Expressions\ILocalReferenceExpression.cs" />
     <Compile Include="Ast\Expressions\IMalleableCreateArrayDetailExpression.cs" />
     <Compile Include="Ast\Expressions\IMalleableCreateArrayExpression.cs" />

@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Abstraction - AST for CLI")]
-[assembly: AssemblyDescription("Abstraction - Abstract Syntax Tree for the CLI")]
+[assembly: AssemblyTitle("Abstraction - Type System for CLI")]
+[assembly: AssemblyDescription("Abstraction - Type System for the Common Language Infrastructure")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("none")]
-[assembly: AssemblyProduct("Abstraction")]
+[assembly: AssemblyProduct("Abstraction - Static Language Framework")]
 [assembly: AssemblyCopyright("Copyright © Allen Copeland Jr. 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -28,6 +28,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// Returns the <see cref="PrimitiveType"/> the <see cref="IPrimitiveExpression"/> is.
         /// </summary>
         PrimitiveType PrimitiveType { get; }
-        void Visit(IIntermediatePrimitiveVisitor visitor);
+        /// <summary>
+        /// Visits the <paramref name="visitor"/> provided using the appropriate overload.
+        /// </summary>
+        /// <param name="visitor">The <see cref="IPrimitiveVisitor"/> to visit.</param>
+        void Visit(IPrimitiveVisitor visitor);
     }
 }

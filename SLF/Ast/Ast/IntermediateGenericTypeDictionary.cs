@@ -80,8 +80,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         public TIntermediateType Add(string name, params GenericParameterData[] typeParameters)
         {
             var result = this.GetNewType(name);
-            foreach (var paramData in typeParameters)
-                result.TypeParameters.Add(paramData);
+            result.TypeParameters.AddRange(typeParameters);
             this.AddDeclaration(result);
             return result;
         }

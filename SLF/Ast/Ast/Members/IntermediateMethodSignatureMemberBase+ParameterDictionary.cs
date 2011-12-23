@@ -67,7 +67,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 ParameterMember result = new ParameterMember(Parent);
                 result.Direction = direction;
                 result.ParameterType = parameterType;
-                result.Name = name;
+                result.AssignName(name);
                 return result;
             }
         }

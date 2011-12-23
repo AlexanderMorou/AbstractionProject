@@ -67,6 +67,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         TService GetService<TService>(Guid service)
             where TService :
                 ILanguageService;
+
+        bool TryGetService<TService>(Guid serviceGuid, out TService service)
+            where TService :
+                ILanguageService;
+
     }
 
     public interface ILanguageProvider<TLanguage, TProvider> :
@@ -85,7 +90,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// Obtains a <typeparamref name="TService"/> by its
         /// <paramref name="service"/> <see cref="Guid"/>.
         /// </summary>
-        /// <typeparam name="TService">The type of <see cref="ILanguageService"/>
+        /// <typeparam name="TService">The type of <see cref="ILanguageService{TLanguage, TProvider}"/>
         /// to retrieve.</typeparam>
         /// <param name="service">The <see cref="Guid"/> unique to the
         /// service requested.</param>
@@ -108,5 +113,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         new bool ServiceIs<TService>(Guid service)
             where TService :
                 ILanguageService<TLanguage, TProvider>;
+
+        new bool TryGetService<TService>(Guid serviceGuid, out TService service)
+            where TService :
+                ILanguageService<TLanguage, TProvider>;
+
     }
 }

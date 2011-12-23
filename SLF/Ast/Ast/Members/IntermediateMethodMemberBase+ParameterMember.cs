@@ -97,6 +97,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
             #endregion
 
+
         }
 
     }

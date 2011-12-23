@@ -11,13 +11,18 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
+    /// <summary>
+    /// The base <see cref="IAllenCopelandLanguageVendor"/> implementation
+    /// which provides access, though a library and extension method, 
+    /// to the OILexer language.
+    /// </summary>
     internal class AllenCopelandLanguageVendor :
         LanguageVendorBase,
         IAllenCopelandLanguageVendor
     {
         public static readonly IAllenCopelandLanguageVendor Singleton = new AllenCopelandLanguageVendor();
         private AllenCopelandLanguageVendor()
-            : base("Allen C. Copeland Jr.", LanguageGuids.VendorGuids.AllenCopeland)
+            : base("Allen C. Copeland Jr.", LanguageGuids.Vendors.AllenCopeland)
         {
 
         }

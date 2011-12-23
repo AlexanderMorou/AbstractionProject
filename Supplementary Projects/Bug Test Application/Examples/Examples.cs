@@ -42,7 +42,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
 
         internal partial class WindowsFormsApplication
         {
-            public static Tuple<IMyVisualBasicAssembly, IIntermediateTopLevelMethodMember, IIntermediateClassType, IIntermediateClassMethodMember, IIntermediateClassMethodMember, IIntermediateClassCtorMember> CreateStructureVB(IMyVisualBasicAssembly assembly)
+            public static Tuple<ICoreVisualBasicAssembly, IIntermediateTopLevelMethodMember, IIntermediateClassType, IIntermediateClassMethodMember, IIntermediateClassMethodMember, IIntermediateClassCtorMember> CreateStructureVB(ICoreVisualBasicAssembly assembly)
             {
                 return CreateStructure(assembly);
             }
@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Exa
 
         internal partial class LanguageIntegratedQuery
         {
-            public static Tuple<IMyVisualBasicAssembly, IIntermediateTopLevelMethodMember> CreateStructureVB(IMyVisualBasicAssembly assembly)
+            public static Tuple<ICoreVisualBasicAssembly, IIntermediateTopLevelMethodMember> CreateStructureVB(ICoreVisualBasicAssembly assembly)
             {
                 return CreateStructure(assembly);
             }

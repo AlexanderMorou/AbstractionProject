@@ -81,12 +81,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (name == string.Empty)
                 throw new ArgumentException("name");
             var assembly = this.Parent.Assembly;
-            if (assembly != null)
+            if (assembly != null && assembly.Provider != null)
             {
-                var assemblyProvider = assembly.Provider;
-                if (assemblyProvider.SupportsService(LanguageGuids.ConstructorServices.IntermediateStructCreatorService) &&
-                    assemblyProvider.ServiceIs<IIntermediateTypeCtorLanguageService<IIntermediateStructType>>(LanguageGuids.ConstructorServices.IntermediateStructCreatorService))
-                    return assemblyProvider.GetService<IIntermediateTypeCtorLanguageService<IIntermediateStructType>>(LanguageGuids.ConstructorServices.IntermediateStructCreatorService).GetNew(name, this.Parent);
+                IIntermediateTypeCtorLanguageService<IIntermediateStructType> structService;
+                if (assembly.Provider.TryGetService(LanguageGuids.ConstructorServices.IntermediateStructCreatorService, out structService))
+                    return structService.GetNew(name, this.Parent);
             }
             return new IntermediateStructType(name, this.Parent);
         }

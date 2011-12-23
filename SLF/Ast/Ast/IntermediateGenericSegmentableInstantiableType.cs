@@ -224,7 +224,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
                 this.CheckConstructors();
-                return this.constructors;
+                lock (this.SyncObject)
+                    return this.constructors;
             }
         }
 
@@ -325,7 +326,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
                 this.CheckMethods();
-                return this.methods;
+                lock (this.SyncObject)
+                    return this.methods;
             }
         }
 
@@ -356,7 +358,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
                 this.CheckProperties();
-                return this.properties;
+                lock (this.SyncObject)
+                    return this.properties;
             }
         }
 
@@ -396,7 +399,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
                 this.CheckFields();
-                return this.fields;
+                lock (this.SyncObject)
+                    return this.fields;
             }
         }
 
@@ -436,7 +440,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
                 this.CheckBinaryOperatorCoercions();
-                return this.binaryOperatorCoercions;
+                lock (this.SyncObject)
+                    return this.binaryOperatorCoercions;
             }
         }
 
@@ -445,7 +450,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
                 this.CheckTypeCoercions();
-                return this.typeCoercions;
+                lock (this.SyncObject)
+                    return this.typeCoercions;
             }
         }
 
@@ -454,7 +460,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
                 this.CheckUnaryOperatorCoercions();
-                return this.unaryOperatorCoercions;
+                lock (this.SyncObject)
+                    return this.unaryOperatorCoercions;
             }
         }
 
@@ -524,7 +531,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
                 this.CheckEvents();
-                return this.events;
+                lock (this.SyncObject)
+                    return this.events;
             }
         }
 
@@ -591,7 +599,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
                 this.CheckIndexers();
-                return this.indexers;
+                lock (this.SyncObject)
+                    return this.indexers;
             }
         }
 
@@ -628,7 +637,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         public IInterfaceMemberMapping<TMethod, TProperty, TEvent, TIndexer, TType> GetInterfaceMap(IInterfaceType type)
         {
-            
+
             throw new NotImplementedException();
         }
 
@@ -648,16 +657,19 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
 
-                if (this._members == null)
+                lock (this.SyncObject)
                 {
-                    if (this.IsDisposed)
-                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                    if (this.IsRoot)
-                        this._members = new IntermediateFullMemberDictionary();
-                    else
-                        this._members = new IntermediateFullMemberDictionary((IntermediateFullMemberDictionary)((TInstanceIntermediateType)this.GetRoot())._Members);
+                    if (this._members == null)
+                    {
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                        if (this.IsRoot)
+                            this._members = new IntermediateFullMemberDictionary();
+                        else
+                            this._members = new IntermediateFullMemberDictionary((IntermediateFullMemberDictionary)((TInstanceIntermediateType)this.GetRoot())._Members);
+                    }
+                    return this._members;
                 }
-                return this._members;
             }
         }
 
@@ -786,101 +798,110 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         private void CheckBinaryOperatorCoercions()
         {
-            if (this.binaryOperatorCoercions == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.binaryOperatorCoercions = InitializeBinaryOperatorCoercions();
-                SuspendCheck(binaryOperatorCoercions, suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.binaryOperatorCoercions == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.binaryOperatorCoercions = InitializeBinaryOperatorCoercions();
+                    SuspendCheck(binaryOperatorCoercions, suspendLevel);
+                }
         }
 
         private void CheckConstructors()
         {
-            if (this.constructors == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.constructors = this.InitializeConstructors();
-                SuspendCheck(constructors, suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.constructors == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.constructors = this.InitializeConstructors();
+                    SuspendCheck(constructors, suspendLevel);
+                }
         }
 
         private void CheckEvents()
         {
-            if (this.events == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.events = this.InitializeEvents();
-                SuspendCheck(events, suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.events == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.events = this.InitializeEvents();
+                    SuspendCheck(events, suspendLevel);
+                }
         }
 
         private void CheckFields()
         {
-            if (this.fields == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.fields = this.InitializeFields();
-                SuspendCheck(fields, suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.fields == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.fields = this.InitializeFields();
+                    SuspendCheck(fields, suspendLevel);
+                }
         }
 
         private void CheckIndexers()
         {
-            if (this.indexers == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.indexers = this.InitializeIndexers();
-                SuspendCheck(indexers, suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.indexers == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.indexers = this.InitializeIndexers();
+                    SuspendCheck(indexers, suspendLevel);
+                }
         }
 
         private void CheckMethods()
         {
-            if (this.methods == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.methods = this.InitializeMethods();
-                SuspendCheck(methods, suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.methods == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.methods = this.InitializeMethods();
+                    SuspendCheck(methods, suspendLevel);
+                }
         }
 
         private void CheckProperties()
         {
-            if (this.properties == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.properties = this.InitializeProperties();
-                SuspendCheck(properties, suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.properties == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.properties = this.InitializeProperties();
+                    SuspendCheck(properties, suspendLevel);
+                }
         }
 
         private void CheckTypeCoercions()
         {
-            if (this.typeCoercions == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.typeCoercions = this.InitializeTypeCoercions();
-                SuspendCheck(typeCoercions, suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.typeCoercions == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.typeCoercions = this.InitializeTypeCoercions();
+                    SuspendCheck(typeCoercions, suspendLevel);
+                }
         }
 
         private void CheckUnaryOperatorCoercions()
         {
-            if (this.unaryOperatorCoercions == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.unaryOperatorCoercions = this.InitializeUnaryOperatorCoercions();
-                SuspendCheck(unaryOperatorCoercions, suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.unaryOperatorCoercions == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.unaryOperatorCoercions = this.InitializeUnaryOperatorCoercions();
+                    SuspendCheck(unaryOperatorCoercions, suspendLevel);
+                }
         }
 
         #endregion
@@ -1024,10 +1045,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             return this.ImplementedInterfaces.GetLocked();
         }
-       
+
         #region IIntermediateInstantiableType Members
         private IBoundSpecialReferenceExpression thisReference;
-        
+
         public IBoundSpecialReferenceExpression GetThis()
         {
             if (this.thisReference == null)
@@ -1099,63 +1120,66 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             try
             {
-                if (this.thisReference != null)
+                lock (this.SyncObject)
                 {
-                    this.thisReference.Dispose();
-                    this.thisReference = null;
-                }
-                if (this.binaryOperatorCoercions != null)
-                {
-                    this.binaryOperatorCoercions.Dispose();
-                    this.binaryOperatorCoercions = null;
-                }
-                if (this.constructors != null)
-                {
-                    this.constructors.Dispose();
-                    this.constructors = null;
-                }
-                if (this.events != null)
-                {
-                    this.events.Dispose();
-                    this.events = null;
-                }
-                if (this.fields != null)
-                {
-                    this.fields.Dispose();
-                    this.fields = null;
-                }
-                if (this.indexers != null)
-                {
-                    this.indexers.Dispose();
-                    this.indexers = null;
-                }
-                if (this.methods != null)
-                {
-                    this.methods.Dispose();
-                    this.methods = null;
-                }
-                if (this.properties != null)
-                {
-                    this.properties.Dispose();
-                    this.properties = null;
-                }
-                if (this.typeCoercions != null)
-                {
-                    this.typeCoercions.Dispose();
-                    this.typeCoercions = null;
-                }
-                if (this.unaryOperatorCoercions != null)
-                {
-                    this.unaryOperatorCoercions.Dispose();
-                    this.unaryOperatorCoercions = null;
-                }
-                if (this._members != null)
-                {
-                    if (this.IsRoot)
-                        this._members.Dispose();
-                    else
-                        this._members.ConditionalRemove(this);
-                    this._members = null;
+                    if (this.thisReference != null)
+                    {
+                        this.thisReference.Dispose();
+                        this.thisReference = null;
+                    }
+                    if (this.binaryOperatorCoercions != null)
+                    {
+                        this.binaryOperatorCoercions.Dispose();
+                        this.binaryOperatorCoercions = null;
+                    }
+                    if (this.constructors != null)
+                    {
+                        this.constructors.Dispose();
+                        this.constructors = null;
+                    }
+                    if (this.events != null)
+                    {
+                        this.events.Dispose();
+                        this.events = null;
+                    }
+                    if (this.fields != null)
+                    {
+                        this.fields.Dispose();
+                        this.fields = null;
+                    }
+                    if (this.indexers != null)
+                    {
+                        this.indexers.Dispose();
+                        this.indexers = null;
+                    }
+                    if (this.methods != null)
+                    {
+                        this.methods.Dispose();
+                        this.methods = null;
+                    }
+                    if (this.properties != null)
+                    {
+                        this.properties.Dispose();
+                        this.properties = null;
+                    }
+                    if (this.typeCoercions != null)
+                    {
+                        this.typeCoercions.Dispose();
+                        this.typeCoercions = null;
+                    }
+                    if (this.unaryOperatorCoercions != null)
+                    {
+                        this.unaryOperatorCoercions.Dispose();
+                        this.unaryOperatorCoercions = null;
+                    }
+                    if (this._members != null)
+                    {
+                        if (this.IsRoot)
+                            this._members.Dispose();
+                        else
+                            this._members.ConditionalRemove(this);
+                        this._members = null;
+                    }
                 }
             }
             finally
@@ -1173,24 +1197,27 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             try
             {
-                if (this.binaryOperatorCoercions != null)
-                    this.binaryOperatorCoercions.Lock();
-                if (this.constructors != null)
-                    this.constructors.Lock();
-                if (this.events != null)
-                    this.events.Lock();
-                if (this.fields != null)
-                    this.fields.Lock();
-                if (this.indexers != null)
-                    this.indexers.Lock();
-                if (this.methods != null)
-                    this.methods.Lock();
-                if (this.properties != null)
-                    this.properties.Lock();
-                if (this.typeCoercions != null)
-                    this.typeCoercions.Lock();
-                if (this.unaryOperatorCoercions != null)
-                    this.unaryOperatorCoercions.Lock();
+                lock (this.SyncObject)
+                {
+                    if (this.binaryOperatorCoercions != null)
+                        this.binaryOperatorCoercions.Lock();
+                    if (this.constructors != null)
+                        this.constructors.Lock();
+                    if (this.events != null)
+                        this.events.Lock();
+                    if (this.fields != null)
+                        this.fields.Lock();
+                    if (this.indexers != null)
+                        this.indexers.Lock();
+                    if (this.methods != null)
+                        this.methods.Lock();
+                    if (this.properties != null)
+                        this.properties.Lock();
+                    if (this.typeCoercions != null)
+                        this.typeCoercions.Lock();
+                    if (this.unaryOperatorCoercions != null)
+                        this.unaryOperatorCoercions.Lock();
+                }
             }
             finally
             {
@@ -1202,24 +1229,27 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             try
             {
-                if (this.binaryOperatorCoercions != null)
-                    this.binaryOperatorCoercions.Unlock();
-                if (this.constructors != null)
-                    this.constructors.Unlock();
-                if (this.events != null)
-                    this.events.Unlock();
-                if (this.fields != null)
-                    this.fields.Unlock();
-                if (this.indexers != null)
-                    this.indexers.Unlock();
-                if (this.methods != null)
-                    this.methods.Unlock();
-                if (this.properties != null)
-                    this.properties.Unlock();
-                if (this.typeCoercions != null)
-                    this.typeCoercions.Unlock();
-                if (this.unaryOperatorCoercions != null)
-                    this.unaryOperatorCoercions.Unlock();
+                lock (this.SyncObject)
+                {
+                    if (this.binaryOperatorCoercions != null)
+                        this.binaryOperatorCoercions.Unlock();
+                    if (this.constructors != null)
+                        this.constructors.Unlock();
+                    if (this.events != null)
+                        this.events.Unlock();
+                    if (this.fields != null)
+                        this.fields.Unlock();
+                    if (this.indexers != null)
+                        this.indexers.Unlock();
+                    if (this.methods != null)
+                        this.methods.Unlock();
+                    if (this.properties != null)
+                        this.properties.Unlock();
+                    if (this.typeCoercions != null)
+                        this.typeCoercions.Unlock();
+                    if (this.unaryOperatorCoercions != null)
+                        this.unaryOperatorCoercions.Unlock();
+                }
             }
             finally
             {
@@ -1229,8 +1259,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected override IGeneralGenericTypeUniqueIdentifier OnGetUniqueIdentifier()
         {
-            if (this.uniqueIdentifier == null)
-                this.uniqueIdentifier = AstIdentifier.Type(this.Name, this.TypeParametersInitialized ? this.TypeParameters.Count : 0);
+            lock (this.SyncObject)
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = AstIdentifier.Type(this.Name, this.TypeParametersInitialized ? this.TypeParameters.Count : 0);
             return this.uniqueIdentifier;
         }
 
@@ -1239,75 +1270,146 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// have been initialized.
         /// </summary>
-        protected bool AreBinaryOperatorCoercionsInitialized { get { return this.binaryOperatorCoercions != null; } }
+        protected bool AreBinaryOperatorCoercionsInitialized
+        {
+            get
+            {
+                lock (this.SyncObject)
+                    return this.binaryOperatorCoercions != null;
+            }
+        }
 
         /// <summary>
         /// Returns whether the constructors of the 
         /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// have been initialized.
         /// </summary>
-        protected bool AreConstructorsInitialized { get { return this.constructors != null; } }
+        protected bool AreConstructorsInitialized
+        {
+            get
+            {
+                lock (this.SyncObject)
+                    return this.constructors != null;
+            }
+        }
 
         /// <summary>
         /// Returns whether the events of the 
         /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// have been initialized.
         /// </summary>
-        protected bool AreEventsInitialized { get { return this.events != null; } }
+        protected bool AreEventsInitialized
+        {
+            get
+            {
+                lock (this.SyncObject)
+                    return this.events != null;
+            }
+        }
 
         /// <summary>
         /// Returns whether the fields of the 
         /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// have been initialized.
         /// </summary>
-        protected bool AreFieldsInitialized { get { return this.fields != null; } }
+        protected bool AreFieldsInitialized
+        {
+            get
+            {
+                lock (this.SyncObject)
+                    return this.fields != null;
+            }
+        }
 
         /// <summary>
         /// Returns whether the indexers of the 
         /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// have been initialized.
         /// </summary>
-        protected bool AreIndexersInitialized { get { return this.indexers != null; } }
+        protected bool AreIndexersInitialized
+        {
+            get
+            {
+                lock (this.SyncObject)
+                    return this.indexers != null;
+            }
+        }
 
         /// <summary>
         /// Returns whether the methods of the 
         /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// have been initialized.
         /// </summary>
-        protected bool AreMethodsInitialized { get { return this.methods != null; } }
+        protected bool AreMethodsInitialized
+        {
+            get
+            {
+                lock (this.SyncObject)
+                    return this.methods != null;
+            }
+        }
 
         /// <summary>
         /// Returns whether the properties of the 
         /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// have been initialized.
         /// </summary>
-        protected bool ArePropertiesInitialized { get { return this.properties != null; } }
+        protected bool ArePropertiesInitialized
+        {
+            get
+            {
+                lock (this.SyncObject)
+                    return this.properties != null;
+            }
+        }
 
         /// <summary>
         /// Returns whether the type coercions of the 
         /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// have been initialized.
         /// </summary>
-        protected bool AreTypeCoercionsInitialized { get { return this.typeCoercions != null; } }
+        protected bool AreTypeCoercionsInitialized
+        {
+            get
+            {
+                lock (this.SyncObject)
+                    return this.typeCoercions != null;
+            }
+        }
 
         /// <summary>
         /// Returns whether the unary operator coercions of the 
         /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// have been initialized.
         /// </summary>
-        protected bool AreUnaryOperatorCoercionsInitialized { get { return this.unaryOperatorCoercions != null; } }
+        protected bool AreUnaryOperatorCoercionsInitialized
+        {
+            get
+            {
+                lock (this.SyncObject)
+                    return this.unaryOperatorCoercions != null;
+            }
+        }
 
         /// <summary>
         /// Returns whether the members of the 
         /// <see cref="IntermediateGenericSegmentableInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType}"/>
         /// have been initialized.
         /// </summary>
-        protected bool AreMembersInitialized { get { return this._members != null; } }
+        protected bool AreMembersInitialized
+        {
+            get
+            {
+                lock (this.SyncObject)
+                    return this._members != null;
+            }
+        }
 
         protected override void OnIdentifierChanged(IGeneralGenericTypeUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
         {
-            if (this.uniqueIdentifier != null)
-                this.uniqueIdentifier = null;
+            lock (this.SyncObject)
+                if (this.uniqueIdentifier != null)
+                    this.uniqueIdentifier = null;
             base.OnIdentifierChanged(oldIdentifier, cause);
         }
 
@@ -1315,28 +1417,29 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get
             {
-                if (this.AreMembersInitialized)
-                    if (this.AreTypesInitialized)
-                        if (this.TypeParametersInitialized)
-                            return this._Members.Keys.Concat(this._Types.Keys.Cast<IGeneralDeclarationUniqueIdentifier>()).Concat(this.TypeParameters.Keys);
+                lock (this.SyncObject)
+                    if (this.AreMembersInitialized)
+                        if (this.AreTypesInitialized)
+                            if (this.TypeParametersInitialized)
+                                return this._Members.Keys.Concat(this._Types.Keys.Cast<IGeneralDeclarationUniqueIdentifier>()).Concat(this.TypeParameters.Keys);
+                            else
+                                return this._Members.Keys.Concat(this._Types.Keys.Cast<IGeneralDeclarationUniqueIdentifier>());
                         else
-                            return this._Members.Keys.Concat(this._Types.Keys.Cast<IGeneralDeclarationUniqueIdentifier>());
+                            if (this.TypeParametersInitialized)
+                                return this._Members.Keys.Concat(this.TypeParameters.Keys);
+                            else
+                                return this._Members.Keys;
                     else
-                        if (this.TypeParametersInitialized)
-                            return this._Members.Keys.Concat(this.TypeParameters.Keys);
+                        if (this.AreTypesInitialized)
+                            if (this.TypeParametersInitialized)
+                                return this._Types.Keys.Concat(this.TypeParameters.Keys);
+                            else
+                                return this._Types.Keys;
                         else
-                            return this._Members.Keys;
-                else
-                    if (this.AreTypesInitialized)
-                        if (this.TypeParametersInitialized)
-                            return this._Types.Keys.Concat(this.TypeParameters.Keys);
-                        else
-                            return this._Types.Keys;
-                    else
-                        if (this.TypeParametersInitialized)
-                            return this.TypeParameters.Keys;
-                        else
-                            return TypeBase<IGeneralGenericTypeUniqueIdentifier, TType>.EmptyIdentifiers;
+                            if (this.TypeParametersInitialized)
+                                return this.TypeParameters.Keys;
+                            else
+                                return TypeBase<IGeneralGenericTypeUniqueIdentifier, TType>.EmptyIdentifiers;
             }
         }
     }

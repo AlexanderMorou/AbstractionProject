@@ -12,15 +12,17 @@ namespace AllenCopeland.Abstraction.Slf.Cli
     public static partial class AstIdentifier
     {
         private static IMultikeyedDictionary<string, int, IGeneralGenericTypeUniqueIdentifier> GenericTypeCache = new MultikeyedDictionary<string, int, IGeneralGenericTypeUniqueIdentifier>();
-        //private static Dictionary<string, Dictionary<int, IGeneralGenericTypeUniqueIdentifier>> GenericTypeCache = new Dictionary<string, Dictionary<int, IGeneralGenericTypeUniqueIdentifier>>();
-        private static Dictionary<int, Dictionary<string, IGenericParameterUniqueIdentifier>> GenericTypeParameterCache = new Dictionary<int, Dictionary<string, IGenericParameterUniqueIdentifier>>();
-        private static Dictionary<int, Dictionary<string, IGenericParameterUniqueIdentifier>> MemberGenericParameterCache = new Dictionary<int, Dictionary<string, IGenericParameterUniqueIdentifier>>();
+        private static IMultikeyedDictionary<int, string, IGenericParameterUniqueIdentifier> TypeGenericParameterCache = new MultikeyedDictionary<int, string, IGenericParameterUniqueIdentifier>();
+        private static IMultikeyedDictionary<int, string, IGenericParameterUniqueIdentifier> MemberGenericParameterCache = new MultikeyedDictionary<int, string, IGenericParameterUniqueIdentifier>();
+
         private static Dictionary<string, IGeneralTypeUniqueIdentifier> GeneralTypeCache = new Dictionary<string, IGeneralTypeUniqueIdentifier>();
+
         public static IGeneralGenericTypeUniqueIdentifier Type(string name, int typeParameters)
         {
             IGeneralGenericTypeUniqueIdentifier result;
-            if (!GenericTypeCache.TryGetValue(name, typeParameters, out result))
-                GenericTypeCache.Add(name, typeParameters, result = new DefaultGenericTypeUniqueIdentifier(name, typeParameters));
+            lock (GenericTypeCache)
+                if (!GenericTypeCache.TryGetValue(name, typeParameters, out result))
+                    GenericTypeCache.Add(name, typeParameters, result = new DefaultGenericTypeUniqueIdentifier(name, typeParameters));
             return result;
         }
 
@@ -41,22 +43,16 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// </returns>
         public static IGenericParameterUniqueIdentifier GenericParameter(int index, string name, bool onType = true)
         {
+            IMultikeyedDictionary<int, string, IGenericParameterUniqueIdentifier> cache;
             if (onType)
-            {
-                if (!GenericTypeParameterCache.ContainsKey(index))
-                    GenericTypeParameterCache.Add(index, new Dictionary<string, IGenericParameterUniqueIdentifier>());
-                if (!GenericTypeParameterCache[index].ContainsKey(name))
-                    GenericTypeParameterCache[index].Add(name, new DefaultGenericParameterUniqueIdentifier(index, name, true));
-                return GenericTypeParameterCache[index][name];
-            }
+                cache = TypeGenericParameterCache;
             else
-            {
-                if (!MemberGenericParameterCache.ContainsKey(index))
-                    MemberGenericParameterCache.Add(index, new Dictionary<string, IGenericParameterUniqueIdentifier>());
-                if (!MemberGenericParameterCache[index].ContainsKey(name))
-                    MemberGenericParameterCache[index].Add(name, new DefaultGenericParameterUniqueIdentifier(index, name, false));
-                return MemberGenericParameterCache[index][name];
-            }
+                cache = MemberGenericParameterCache;
+            IGenericParameterUniqueIdentifier result;
+            lock (cache)
+                if (!cache.TryGetValue(index, name, out result))
+                    cache.Add(index, name, result = new DefaultGenericParameterUniqueIdentifier(index, name, onType));
+            return result;
         }
 
         public static IGenericParameterUniqueIdentifier GenericParameter(int index, bool onType = true)

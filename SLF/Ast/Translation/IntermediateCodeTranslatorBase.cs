@@ -444,7 +444,7 @@ namespace AllenCopeland.Abstraction.Slf.Translation
 
         #endregion
 
-        #region IIntermediatePrimitiveVisitor Members
+        #region IPrimitiveVisitor Members
 
         /// <summary>
         /// Translates a boolean primitive expression.
@@ -1265,79 +1265,79 @@ namespace AllenCopeland.Abstraction.Slf.Translation
 
         #endregion
 
-        #region IIntermediatePrimitiveVisitor Members
+        #region IPrimitiveVisitor Members
 
-        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<bool> expression)
+        void IPrimitiveVisitor.Visit(IPrimitiveExpression<bool> expression)
         {
             this.Translate(expression);
         }
 
-        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<char> expression)
+        void IPrimitiveVisitor.Visit(IPrimitiveExpression<char> expression)
         {
             this.Translate(expression);
         }
 
-        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<string> expression)
+        void IPrimitiveVisitor.Visit(IPrimitiveExpression<string> expression)
         {
             this.Translate(expression);
         }
 
-        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<byte> expression)
+        void IPrimitiveVisitor.Visit(IPrimitiveExpression<byte> expression)
         {
             this.Translate(expression);
         }
 
-        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<sbyte> expression)
+        void IPrimitiveVisitor.Visit(IPrimitiveExpression<sbyte> expression)
         {
             this.Translate(expression);
         }
 
-        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<ushort> expression)
+        void IPrimitiveVisitor.Visit(IPrimitiveExpression<ushort> expression)
         {
             this.Translate(expression);
         }
 
-        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<short> expression)
+        void IPrimitiveVisitor.Visit(IPrimitiveExpression<short> expression)
         {
             this.Translate(expression);
         }
 
-        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<uint> expression)
+        void IPrimitiveVisitor.Visit(IPrimitiveExpression<uint> expression)
         {
             this.Translate(expression);
         }
 
-        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<int> expression)
+        void IPrimitiveVisitor.Visit(IPrimitiveExpression<int> expression)
         {
             this.Translate(expression);
         }
 
-        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<ulong> expression)
+        void IPrimitiveVisitor.Visit(IPrimitiveExpression<ulong> expression)
         {
             this.Translate(expression);
         }
 
-        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<long> expression)
+        void IPrimitiveVisitor.Visit(IPrimitiveExpression<long> expression)
         {
             this.Translate(expression);
         }
 
-        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<float> expression)
+        void IPrimitiveVisitor.Visit(IPrimitiveExpression<float> expression)
         {
             this.Translate(expression);
         }
 
-        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<double> expression)
+        void IPrimitiveVisitor.Visit(IPrimitiveExpression<double> expression)
         {
             this.Translate(expression);
         }
 
-        void IIntermediatePrimitiveVisitor.Visit(IPrimitiveExpression<decimal> expression)
+        void IPrimitiveVisitor.Visit(IPrimitiveExpression<decimal> expression)
         {
             this.Translate(expression);
         }
 
-        void IIntermediatePrimitiveVisitor.VisitNull()
+        void IPrimitiveVisitor.VisitNull()
         {
             this.TranslateNull();
         }
