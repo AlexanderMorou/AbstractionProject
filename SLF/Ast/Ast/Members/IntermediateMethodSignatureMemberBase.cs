@@ -106,12 +106,32 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIntermediateSignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TParent, TIntermediateParent>,
             TParent
     {
+        /// <summary>
+        /// Data member for <see cref="UniqueIdentifier"/>.
+        /// </summary>
         private IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier;
+        /// <summary>
+        /// Data member for <see cref="GenericParameters"/>.
+        /// </summary>
         private GenericParameterCollection genericParameters;
+        /// <summary>
+        /// Data member for maintaining a single-ton view of the generic
+        /// closures of the generic series.
+        /// </summary>
         private IDictionary<ITypeCollectionBase, TSignature> genericCache;
+        /// <summary>
+        /// Data member for <see cref="ReturnType"/>.
+        /// </summary>
         private IType returnType;
+        /// <summary>
+        /// Data member for <see cref="TypeParameters"/>.
+        /// </summary>
         private TypeParameterDictionary typeParameters;
+        /// <summary>
+        /// Data member for <see cref="SignatureTypes"/>.
+        /// </summary>
         private MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes signatureTypes;
+
         /// <summary>
         /// Creates a new <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
         /// with the <paramref name="parent"/> provided.
@@ -174,6 +194,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         #region IMethodSignatureMember Members
 
+        /// <summary>
+        /// Returns whether the current <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
+        /// is a generic construct.
+        /// </summary>
         public bool IsGenericConstruct
         {
             get
@@ -184,6 +208,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
         }
 
+        /// <summary>
+        /// Returns whether the current <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
+        /// is the generic definition of a generic series.
+        /// </summary>
         public bool IsGenericDefinition
         {
             get
@@ -202,6 +230,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             return this.GetGenericDefinition();
         }
 
+        /// <summary>
+        /// Returns the <see cref="ILockedTypeCollection"/> which
+        /// contains the type-parameters associated to the
+        /// current <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.
+        /// </summary>
         public ILockedTypeCollection GenericParameters
         {
             get
@@ -216,6 +249,22 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         #region IMethodSignatureMember<TSignatureParameter,TSignature,TParent> Members
 
+        /// <summary>
+        /// Obtains a variant of the current 
+        /// <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent}"/>
+        /// with the current generic type-parameters 
+        /// replaced with the elements within 
+        /// <paramref name="genericReplacements"/>.
+        /// </summary>
+        /// <param name="genericReplacements">
+        /// The <see cref="IType"/> series to replace the 
+        /// original generic parameters with.</param>
+        /// <returns>A <typeparamref name="TSignature"/> 
+        /// as a variant of the current <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent}"/>
+        /// with the current generic type-parameters 
+        /// replaced with the elements within 
+        /// <paramref name="genericReplacements"/>.
+        /// </returns>
         public TSignature MakeGenericClosure(ITypeCollectionBase genericReplacements)
         {
             if (!this.IsGenericConstruct)
@@ -231,10 +280,22 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
              * _IGenericMethodRegistrar handles cache.
              * */
             var tK = this.OnMakeGenericMethod(genericReplacements);
-            CLICommon.VerifyTypeParameters<TSignatureParameter, TSignature, TParent>(this, genericReplacements);
+            //CLICommon.VerifyTypeParameters<TSignatureParameter, TSignature, TParent>(this, genericReplacements);
             return tK;
         }
 
+        /// <summary>
+        /// Returns a <typeparamref name="TSignature"/> instance that is the 
+        /// closed generic form of the current <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
+        /// using the <paramref name="typeParameters"/> provided.
+        /// </summary>
+        /// <param name="typeParameters">The <see cref="IType"/> 
+        /// collection used to fill in the type-parameters.</param>
+        /// <returns>A new closed <typeparamref name="TSignature"/> instance with 
+        /// the <paramref name="typeParameters"/> provided.</returns>
+        /// <exception cref="System.InvalidOperationException">
+        /// <seealso cref="IsGenericConstruct"/> 
+        /// of the current instance is false.</exception>
         public TSignature MakeGenericClosure(params IType[] typeParameters)
         {
             return this.MakeGenericClosure(typeParameters.ToLockedCollection());
@@ -251,15 +312,39 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             return true;
         }
 
+        /// <summary>
+        /// Returns the original generic form of the current
+        /// <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent}"/> 
+        /// generic variant.
+        /// </summary>
+        /// <returns>A <typeparamref name="TSignature"/> 
+        /// which denotes the original generic variant
+        /// of the current <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.</returns>
+        /// <exception cref="System.InvalidOperationException">
+        /// Thrown when the <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent}"/>
+        /// is not a generic closure of the current generic method.</exception>
         protected abstract TSignature OnMakeGenericMethod(ITypeCollectionBase genericReplacements);
 
+        /// <summary>
+        /// Returns the original generic form of the current
+        /// <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent}"/> 
+        /// generic variant.
+        /// </summary>
+        /// <returns>A <typeparamref name="TSignature"/> 
+        /// which denotes the original generic variant of the current
+        /// <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.</returns>
+        /// <exception cref="System.InvalidOperationException">thrown always.</exception>
         public TSignature GetGenericDefinition()
         {
-            return null;
+            throw new InvalidOperationException();
         }
 
         #endregion
 
+        /// <summary>
+        /// Returns the <see cref="TypeParameterDictionary"/> containing the 
+        /// type-parameters for the current <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.
+        /// </summary>
         public TypeParameterDictionary TypeParameters
         {
             get
@@ -270,11 +355,21 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
         }
 
+        /// <summary>
+        /// Initializes the type-parameters of the <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.
+        /// </summary>
+        /// <returns>A <see cref="TypeParameterDictionary"/> which contains the type-parameters
+        /// for the <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.</returns>
         protected virtual TypeParameterDictionary InitializeTypeParameters()
         {
             return new TypeParameterDictionary(this);
         }
 
+
+        /// <summary>
+        /// Returns/sets the <see cref="IType"/> which is returned from the <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
+        /// on invocation.
+        /// </summary>
         public IType ReturnType
         {
             get
@@ -326,20 +421,32 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
         }
 
+        /// <summary>
+        /// Returns whether the type-parameters of the <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
+        /// have been initialized or not.
+        /// </summary>
+        protected bool AreTypeParametersInitialized
+        {
+            get
+            {
+                return this.typeParameters != null;
+            }
+        }
+
         public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier
         {
             get {
                 if (this.uniqueIdentifier == null)
                 {
-                    if (this.typeParameters != null)
+                    if (this.AreTypeParametersInitialized)
                         if (this.AreParametersInitialized)
-                            return AstIdentifier.GenericSignature(this.Name, this.typeParameters.Count, this.Parameters.ParameterTypes.ToArray());
+                            this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name, this.typeParameters.Count, this.Parameters.ParameterTypes.ToArray());
                         else
-                            return AstIdentifier.GenericSignature(this.Name, this.typeParameters.Count);
+                            this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name, this.typeParameters.Count);
                     else if (this.AreParametersInitialized)
-                        return AstIdentifier.GenericSignature(this.Name, this.Parameters.ParameterTypes.ToArray());
+                        this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name, this.Parameters.ParameterTypes.ToArray());
                     else
-                        return AstIdentifier.GenericSignature(this.Name);
+                        this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name);
                 }
                 return this.uniqueIdentifier;
             }
