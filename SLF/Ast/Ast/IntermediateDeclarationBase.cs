@@ -172,6 +172,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #endregion
 
+        /// <summary>
+        /// Raises the <see cref="IdentifierChanged"/> event handler with the <paramref name="oldIdentifier"/> provided
+        /// and the <paramref name="cause"/> which resulted in the call.
+        /// </summary>
+        /// <param name="oldIdentifier">The <typeparamref name="TIdentifier"/> which represents the 
+        /// uniqueness information about the declaration before the change.</param>
+        /// <param name="cause">The <see cref="DeclarationChangeCause"/> which denotes the
+        /// aspect of the declaration that changed which caused the event.</param>
+        /// <remarks>The new, current, identifier will be obtained in the default implementation.</remarks>
         protected virtual void OnIdentifierChanged(TIdentifier oldIdentifier, DeclarationChangeCause cause)
         {
             var newIdentifier = this.UniqueIdentifier;
@@ -258,6 +267,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
+        /// <summary>
+        /// Converts the current intermediate declaration into a <see cref="String"/>.
+        /// </summary>
+        /// <returns>A <see cref="String"/> which represents the current
+        /// intermediate declaration.</returns>
         public override string ToString()
         {
             return this.UniqueIdentifier.ToString();

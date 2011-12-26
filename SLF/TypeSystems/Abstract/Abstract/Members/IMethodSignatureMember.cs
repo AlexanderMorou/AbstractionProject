@@ -13,7 +13,8 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Abstract.Members
 {
     /// <summary>
-    /// Defines generic properties and methods for working with a method signature.
+    /// Defines generic properties and methods for
+    /// working with a method signature.
     /// </summary>
     /// <typeparam name="TSignature">The type of <see cref="IMethodSignatureMember{TSignature, TSignatureParent}"/> in
     /// the abstract type system.</typeparam>
@@ -28,12 +29,15 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     {
     }
     /// <summary>
-    /// Defines generic properties and methods for working with a method signature.
+    /// Defines generic properties and methods for working with a method
+    /// signature.
     /// </summary>
-    /// <typeparam name="TSignatureParameter">The type of parameter used in the <typeparamref name="TSignature"/>.</typeparam>
-    /// <typeparam name="TSignature">The type of signature used as a parent of <typeparamref name="TSignatureParameter"/> instances.</typeparam>
-    /// <typeparam name="TSignatureParent">The parent that contains the <typeparamref name="TSignature"/> 
-    /// instances.</typeparam>
+    /// <typeparam name="TSignatureParameter">The type of parameter used
+    /// in the <typeparamref name="TSignature"/>.</typeparam>
+    /// <typeparam name="TSignature">The type of signature used as a
+    /// parent of <typeparamref name="TSignatureParameter"/> instances.</typeparam>
+    /// <typeparam name="TSignatureParent">The parent that contains the
+    /// <typeparamref name="TSignature"/> instances.</typeparam>
     public interface IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent> :
         ISignatureMember<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>,
         IMethodSignatureMember
@@ -45,19 +49,19 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
             ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
     {
         /// <summary>
-        /// Obtains a variant of the current 
+        /// Obtains a variant of the current
         /// <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent}"/>
         /// with the current generic type-parameters 
         /// replaced with the elements within 
         /// <paramref name="genericReplacements"/>.
         /// </summary>
         /// <param name="genericReplacements">
-        /// The <see cref="IType"/> series to replace the 
+        /// The <see cref="IType"/> series to replace the
         /// original generic parameters with.</param>
-        /// <returns>A <typeparamref name="TSignature"/> 
+        /// <returns>A <typeparamref name="TSignature"/>
         /// as a variant of the current <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent}"/>
-        /// with the current generic type-parameters 
-        /// replaced with the elements within 
+        /// with the current generic type-parameters
+        /// replaced with the elements within
         /// <paramref name="genericReplacements"/>.
         /// </returns>
         new TSignature MakeGenericClosure(ITypeCollectionBase genericReplacements);
@@ -67,24 +71,25 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// generic variant.
         /// </summary>
         /// <returns>A <typeparamref name="TSignature"/> 
-        /// which denotes the original generic variant
-        /// of the current <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent}"/>.</returns>
+        /// which denotes the original generic variant of the current
+        /// <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent}"/>.</returns>
         /// <exception cref="System.InvalidOperationException">
         /// Thrown when the <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent}"/>
-        /// is not a generic method.</exception>
+        /// is not a generic closure of the current generic method.
+        /// </exception>
         new TSignature GetGenericDefinition();
         /// <summary>
-        /// Returns a <typeparamref name="TSignature"/> instance that is the 
-        /// closed generic form of the current <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent}"/> 
+        /// Returns a <typeparamref name="TSignature"/> instance that
+        /// is the closed generic form of the current <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent}"/>
         /// using the <paramref name="typeParameters"/> provided.
         /// </summary>
-        /// <param name="typeParameters">The <see cref="IType"/> 
+        /// <param name="typeParameters">The <see cref="IType"/>
         /// collection used to fill in the type-parameters.</param>
-        /// <returns>A new closed <typeparamref name="TSignature"/> instance with 
+        /// <returns>A new closed <typeparamref name="TSignature"/> instance with
         /// the <paramref name="typeParameters"/> provided.</returns>
         /// <exception cref="System.InvalidOperationException">
-        /// <seealso cref="IGenericParamParent.IsGenericConstruct"/> 
-        /// of the current instance is false.</exception>
+        /// <seealso cref="IGenericParamParent.IsGenericConstruct"/> of
+        /// the current instance is false.</exception>
         new TSignature MakeGenericClosure(params IType[] typeParameters);
     }
     /// <summary>
@@ -105,12 +110,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// Returns the original generic form of the current
         /// <see cref="IMethodSignatureMember"/> generic variant.
         /// </summary>
-        /// <returns>A <see cref="IMethodSignatureMember"/> 
+        /// <returns>A <see cref="IMethodSignatureMember"/>
         /// which denotes the original generic variant
         /// of the current <see cref="IMethodSignatureMember"/>.</returns>
         /// <exception cref="System.InvalidOperationException">
         /// Thrown when the <see cref="IMethodSignatureMember"/>
-        /// is not a generic variant.</exception>
+        /// is not a generic closure of the current generic method.</exception>
         IMethodSignatureMember GetGenericDefinition();
         /// <summary>
         /// Returns the <see cref="ILockedTypeCollection"/> of 

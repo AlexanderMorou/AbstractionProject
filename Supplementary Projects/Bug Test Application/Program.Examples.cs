@@ -34,11 +34,13 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     {
         private static void Main()
         {
-            var test = (new decimal[,,] { { { decimal.MinValue / 9470.53M, decimal.MaxValue, decimal.MinValue, decimal.MaxValue / 3M, -3, -1, -2, -1 }, { 3, 4, -2, -5, -3, -3, -4, -2 }, { -2, -3, -3, -4, 4, 3, -5, -2 } }, { { 5, 6, -3, -5, -3, -5, -6, -3 }, { 7, 8, -4, -5, -3, -7, -8, -4 }, { -4, -3, -7, -8, 8, 7, -5, -4 } }, { { 9, 0, -5, -5, -3, -9, -0, -5 }, { 0, 1, -6, -5, -3, -0, -1, -6 }, { -6, -3, -0, -1, 1, 0, -5, -6 } }, { { 2, 3, -7, -5, -3, -2, -3, -7 }, { 4, 5, -8, -5, -3, -4, -5, -8 }, { -8, -3, -4, -5, 5, 4, -5, -8 } }, { { 6, 7, -9, -5, -3, -6, -7, -9 }, { 6, -7, -9, -2, -3, -3, -4, 0 }, { 8, 9, short.MinValue, 5, 2, 3, 5, 7 } } }).ToExpression();
+            Test1();
+            Tuple<TimeSpan, byte[]> u;
+
+            var m = (u = MiscHelperMethods.TimeResult(Test1)).Item2;
             /* *
              * Testing simplicity of GZipStream.  Easy peasy.
              * */
-            var m = test.ConvertToByteArray();
             MemoryStream ms = new MemoryStream();
             GZipStream gzs = new GZipStream(ms, CompressionMode.Compress, true);
             gzs.Write(m, 0, m.Length);
@@ -53,6 +55,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             gzs = new GZipStream(ms, CompressionMode.Decompress, true);
             byte[] r = new byte[m.Length];
             gzs.Read(r, 0, r.Length);
+            Console.WriteLine(u.Item1);
             //TimedMirrorTest();
             //CreationTest();
             //ExtensionsTest();
@@ -65,6 +68,12 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             //foreach (var item in m.Members)
             //    Console.WriteLine(item);
             //RunExamples();
+        }
+
+        private static byte[] Test1()
+        {
+            var test = (new decimal[,,] { { { decimal.MinValue / 9470.53M, decimal.MaxValue / 9, decimal.MinValue / 2, decimal.MaxValue / 3M, -3, -1, -2, -1 }, { 3, 4, -2, -5, -3, -3, -4, -2 }, { -2, -3, -3, -4, 4, 3, -5, -2 } }, { { 5, 6, -3, -5, -3, -5, -6, -3 }, { 7, 8, -4, -5, -3, -7, -8, -4 }, { -4, -3, -7, -8, 8, 7, -5, -4 } }, { { 9, 0, -5, -5, -3, -9, -0, -5 }, { 0, 1, -6, -5, -3, -0, -1, -6 }, { -6, -3, -0, -1, 1, 0, -5, -6 } }, { { 2, 3, -7, -5, -3, -2, -3, -7 }, { 4, 5, -8, -5, -3, -4, -5, -8 }, { -8, -3, -4, -5, 5, 4, -5, -8 } }, { { 6, 7, -9, -5, -3, -6, -7, -9 }, { 6, -7, -9, -2, -3, -3, -4, 0 }, { 8, 9, short.MinValue, 5, 2, 3, 5, 7 } } }).ToExpression();
+            return test.ConvertToByteArray();
         }
 
         private static void TimedMirrorTest()

@@ -12,6 +12,18 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Ast.Members
 {
+    /// <summary>
+    /// Provides a base member class which provides the underlying functionality of an
+    /// intermediate member.
+    /// </summary>
+    /// <typeparam name="TIdentifier">The kind of identifier used to differentiate
+    /// the members of the same kind, and of varying kinds, from one another.</typeparam>
+    /// <typeparam name="TParent">The type of <see cref="IMemberParent"/>
+    /// which contains the <see cref="IntermediateMemberBase{TIdentifier, TParent, TIntermediateParent}"/>
+    /// in the abstract type system.</typeparam>
+    /// <typeparam name="TIntermediateParent">The type of <see cref="IMemberParent"/>
+    /// which contains the <see cref="IntermediateMemberBase{TIdentifier, TParent, TIntermediateParent}"/>
+    /// in the intermediate abstract syntax tree.</typeparam>
     public abstract class IntermediateMemberBase<TIdentifier, TParent, TIntermediateParent> :
         IntermediateDeclarationBase<TIdentifier>,
         IIntermediateMember<TIdentifier, TParent, TIntermediateParent>
@@ -117,6 +129,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         #region IIntermediateMember Members
 
+        /// <summary>
+        /// Visits the <paramref name="visitor"/> provided.
+        /// </summary>
+        /// <param name="visitor">The <see cref="IIntermediateMemberVisitor"/>
+        /// to observe the proper overload of.</param>
         public abstract void Visit(IIntermediateMemberVisitor visitor);
 
         #endregion
