@@ -127,9 +127,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// Data member for <see cref="TypeParameters"/>.
         /// </summary>
         private TypeParameterDictionary typeParameters;
-        /// <summary>
-        /// Data member for <see cref="SignatureTypes"/>.
-        /// </summary>
         private MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes signatureTypes;
 
         /// <summary>

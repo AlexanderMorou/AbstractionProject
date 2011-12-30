@@ -55,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 return new ParameterMember(this.Parent)
                 {
-                    ParameterType = parameterType,
+                    ParameterType = parameterType.SimpleSymbolDisambiguation(this.Parent),
                     Name = name,
                     Direction = direction
                 };

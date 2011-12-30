@@ -10,6 +10,7 @@ using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Modules;
 using System.ComponentModel;
 using AllenCopeland.Abstraction.Utilities;
+using AllenCopeland.Abstraction.Slf._Internal.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -534,6 +535,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             var identifierChanged = this.IdentifierChanged;
             if (identifierChanged != null)
                 identifierChanged(this, new DeclarationIdentifierChangeEventArgs<TTypeIdentifier>(oldIdentifier, newIdentifier, cause));
+        }
+
+        protected override bool IsAttributeInheritable(IType attribute)
+        {
+            if (attribute is ICompiledType)
+            {
+                var cType = attribute as ICompiledType;
+                return CliAssist.GetAttributeUsage(cType.UnderlyingSystemType).AllowMultiple;
+            }
+            else
+                return CliAssist.GetAttributeUsage(attribute).AllowMultiple;
         }
     }
 }

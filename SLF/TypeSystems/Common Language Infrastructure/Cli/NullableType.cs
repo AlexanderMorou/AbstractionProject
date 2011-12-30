@@ -383,6 +383,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             return false;
         }
 
+        public bool IsDefined(IType attributeType, bool inherited)
+        {
+            return false;
+        }
+
         #endregion
 
         public override string ToString()
@@ -423,5 +428,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         }
 
         #endregion
+
+        
     }
 }

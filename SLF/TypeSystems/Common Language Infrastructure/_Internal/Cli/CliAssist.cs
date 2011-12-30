@@ -245,7 +245,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             var q = target.ReturnType;
             var r = (from parameter in target.GetParameters()
-                     select parameter.ParameterType.GetTypeReference()).SinglePass();
+                     select parameter.ParameterType.GetTypeReference()).ToArray();
             int tpCnt = 0;
             if (target.IsGenericMethod)
                 tpCnt = target.GetGenericArguments().Length;
@@ -289,6 +289,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 attributeUsageCache.Add(attr, result);
                 return result;
             }
+        }
+
+        internal static AttributeUsage GetAttributeUsage(this IType attr)
+        {
+            AttributeUsage result;
+            if (attr.IsDefined(typeof(AttributeUsageAttribute).GetTypeReference(), true))
+            {
+                ICustomAttributeInstance allowMult = attr.CustomAttributes[typeof(AttributeUsageAttribute).GetTypeReference()];
+                if (allowMult != null)
+                    result = new AttributeUsage(allowMult.WrappedAttribute as AttributeUsageAttribute);
+                else
+                    result = new AttributeUsage(new AttributeUsageAttribute(AttributeTargets.All) { Inherited = true });
+            }
+            else
+                result = new AttributeUsage(new AttributeUsageAttribute(AttributeTargets.All) { Inherited = true });
+            return result;
         }
 
         public static IEnumerable<IGeneralDeclarationUniqueIdentifier> GetAggregateIdentifiers(this INamespaceParent target)

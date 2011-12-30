@@ -115,6 +115,7 @@
     <Compile Include="Abstract\IGenericParameterUniqueIdentifier.cs" />
     <Compile Include="Abstract\IGenericParamParentUniqueIdentifier{TIdentifier}.cs" />
     <Compile Include="Abstract\IGroupedTypeDictionary.cs" />
+    <Compile Include="Abstract\ITypeExposedMetadata.cs" />
     <Compile Include="Abstract\Members\ExtendedMethodMemberFlags.cs" />
     <Compile Include="Abstract\Members\IBinaryOperatorUniqueIdentifier.cs" />
     <Compile Include="Abstract\Members\IExtendedMethodMember.cs" />

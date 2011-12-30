@@ -313,7 +313,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     return (TInstanceIntermediateType)base.Parent;
                 }
             }
-            public override TIntermediateIndexer Add(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true)
+            protected override TIntermediateIndexer GetNew(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true)
             {
                 var result = (TIntermediateIndexer)(object)this.Parent.GetNewIndexer(nameAndReturn);
                 if (parameters.Count > 0)
@@ -332,7 +332,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 }
                 result.CanRead = canGet;
                 result.CanWrite = canSet;
-                base._Add(result.UniqueIdentifier, result);
                 return result;
             }
         }
@@ -347,6 +346,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return paramType.MakeByReference();
             return paramType;
         }
+
         protected sealed class MethodDictionary :
             IntermediateMethodMemberDictionary<TMethod, TIntermediateMethod, TType, TIntermediateType>
         {

@@ -211,7 +211,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
                 result[offI] = (byte)((current & 0xFF000000) >> 24);
                 result[offI + 1] = (byte)((current & 0xFF0000) >> 16);
                 result[offI + 2] = (byte)((current & 0xFF00) >> 8);
-                result[offI + 3] = (byte)(current & 0xFF00);
+                result[offI + 3] = (byte)(current & 0xFF);
             }
             return result;
         }
@@ -224,7 +224,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
                 result[offI] = (byte)((current & 0xFF000000) >> 24);
                 result[offI + 1] = (byte)((current & 0xFF0000) >> 16);
                 result[offI + 2] = (byte)((current & 0xFF00) >> 8);
-                result[offI + 3] = (byte)(current & 0xFF00);
+                result[offI + 3] = (byte)(current & 0xFF);
             }
             return result;
         }
@@ -271,7 +271,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
                 result[offI] = (byte)((current & 0xFF000000) >> 24);
                 result[offI + 1] = (byte)((current & 0xFF0000) >> 16);
                 result[offI + 2] = (byte)((current & 0xFF00) >> 8);
-                result[offI + 3] = (byte)(current & 0xFF00);
+                result[offI + 3] = (byte)(current & 0xFF);
             }
             return result;
         }

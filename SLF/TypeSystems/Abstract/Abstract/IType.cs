@@ -198,5 +198,25 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         new IGeneralTypeUniqueIdentifier UniqueIdentifier { get; }
 
+        /// <summary>
+        /// Determines whether the <paramref name="attributeType"/> 
+        /// is defined on the current 
+        /// <see cref="IType"/> and whether to consider
+        /// the type hierarchy.
+        /// </summary>
+        /// <param name="attributeType">The <see cref="IType"/> of
+        /// the attribute to check the presence of.</param>
+        /// <param name="inherited">Whether or not to check the type
+        /// hierarchy if the <paramref name="attributeType"/>
+        /// isn't found at this point in the inheritance chain.</param>
+        /// <returns>true if an attribute of the given 
+        /// <paramref name="attributeType"/> is defined
+        /// on the current <see cref="IType"/>.
+        /// </returns>
+        /// <remarks><paramref name="inherited"/> is ignored if
+        /// the type defined by <paramref name="attributeType"/>
+        /// is not an inheritable attribute.
+        /// </remarks>
+        bool IsDefined(IType attributeType, bool inherited);
     }
 }

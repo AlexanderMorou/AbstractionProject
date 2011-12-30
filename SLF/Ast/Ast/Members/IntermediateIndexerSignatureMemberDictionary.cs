@@ -83,8 +83,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             return this.Add(new TypedName(null, returnType), parameters, canGet, canSet);
         }
 
-        public abstract TIntermediateIndexer Add(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true);
+        public TIntermediateIndexer Add(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true)
+        {
+            var result = this.GetNew(nameAndReturn, parameters, canGet, canSet);
+            base._Add(result.UniqueIdentifier, result);
+            return result;
+        }
 
+        protected abstract TIntermediateIndexer GetNew(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet, bool canSet);
         #endregion
 
 

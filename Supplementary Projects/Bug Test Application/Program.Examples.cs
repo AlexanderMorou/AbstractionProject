@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -20,6 +21,7 @@ using AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using System.IO;
 using System.IO.Compression;
+using System.Reflection;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -34,10 +36,27 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     {
         private static void Main()
         {
-            Test1();
+            //CompressionTest();
+            //ExtensionsTest();
+            //TimedMirrorTest();
+            CreationTest();
+            //var msLangVendor = LanguageVendors.Microsoft;
+            //IIntermediateAssembly iia = msLangVendor.GetVisualBasicLanguage().GetMyProvider().CreateAssembly("TestAssembly");
+            //var uas = iia.Methods.Add(new TypedName("TestMethod1", typeof(void).GetTypeReference()), new TypedNameSeries(new TypedName("arg1", "IList".GetSymbolType("T1".GetSymbolType()))), new GenericParameterData("T1"));
+            //var uasTC1 = uas.Classes.Add("TestClass1");
+            //var uas2 = uasTC1.Methods.Add(new TypedName("TestMethod2", typeof(void).GetTypeReference()));
+            //var m = typeof(Predicate<string>).GetTypeReference();
+            //foreach (var item in m.Members)
+            //    Console.WriteLine(item);
+            //RunExamples();
+        }
+
+        private static void CompressionTest()
+        {
+            ArrayToExpressionToByteArrayTest();
             Tuple<TimeSpan, byte[]> u;
 
-            var m = (u = MiscHelperMethods.TimeResult(Test1)).Item2;
+            var m = (u = MiscHelperMethods.TimeResult(ArrayToExpressionToByteArrayTest)).Item2;
             /* *
              * Testing simplicity of GZipStream.  Easy peasy.
              * */
@@ -56,24 +75,16 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             byte[] r = new byte[m.Length];
             gzs.Read(r, 0, r.Length);
             Console.WriteLine(u.Item1);
-            //TimedMirrorTest();
-            //CreationTest();
-            //ExtensionsTest();
-            //var msLangVendor = LanguageVendors.Microsoft;
-            //IIntermediateAssembly iia = msLangVendor.GetVisualBasicLanguage().GetMyProvider().CreateAssembly("TestAssembly");
-            //var uas = iia.Methods.Add(new TypedName("TestMethod1", typeof(void).GetTypeReference()), new TypedNameSeries(new TypedName("arg1", "IList".GetSymbolType("T1".GetSymbolType()))), new GenericParameterData("T1"));
-            //var uasTC1 = uas.Classes.Add("TestClass1");
-            //var uas2 = uasTC1.Methods.Add(new TypedName("TestMethod2", typeof(void).GetTypeReference()));
-            //var m = typeof(Predicate<string>).GetTypeReference();
-            //foreach (var item in m.Members)
-            //    Console.WriteLine(item);
-            //RunExamples();
+            Debug.Assert(r.SequenceEqual(m));
         }
 
-        private static byte[] Test1()
+        private static byte[] ArrayToExpressionToByteArrayTest()
         {
-            var test = (new decimal[,,] { { { decimal.MinValue / 9470.53M, decimal.MaxValue / 9, decimal.MinValue / 2, decimal.MaxValue / 3M, -3, -1, -2, -1 }, { 3, 4, -2, -5, -3, -3, -4, -2 }, { -2, -3, -3, -4, 4, 3, -5, -2 } }, { { 5, 6, -3, -5, -3, -5, -6, -3 }, { 7, 8, -4, -5, -3, -7, -8, -4 }, { -4, -3, -7, -8, 8, 7, -5, -4 } }, { { 9, 0, -5, -5, -3, -9, -0, -5 }, { 0, 1, -6, -5, -3, -0, -1, -6 }, { -6, -3, -0, -1, 1, 0, -5, -6 } }, { { 2, 3, -7, -5, -3, -2, -3, -7 }, { 4, 5, -8, -5, -3, -4, -5, -8 }, { -8, -3, -4, -5, 5, 4, -5, -8 } }, { { 6, 7, -9, -5, -3, -6, -7, -9 }, { 6, -7, -9, -2, -3, -3, -4, 0 }, { 8, 9, short.MinValue, 5, 2, 3, 5, 7 } } }).ToExpression();
-            return test.ConvertToByteArray();
+            short[, , , ,] result = new short[5, 6, 7, 8, 9];
+            short i = 0;
+            foreach (var indices in result.Iterate())
+                result.SetValue((short)((++i)%254), indices);
+            return result.ToExpression<short>(ExpressionExtensions.ToPrimitive).ConvertToByteArray();
         }
 
         private static void TimedMirrorTest()
@@ -159,6 +170,51 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 
         private static void Execute()
         {
+            //SeriesCreationTest();
+            var assembly = LanguageVendors.Microsoft.GetVisualBasicLanguage().GetMyProvider().CreateAssembly("TestAssembly");
+            var testNamespace = assembly.Namespaces.Add("TestNamespace");
+            var testMethod = assembly.Methods.Add(new TypedName("TestMethod", typeof(int).GetTypeReference()));
+            var testField = assembly.Fields.Add(new TypedName("testField", typeof(double).GetTypeReference()));
+            var testClass = assembly.Classes.Add("TestClass");
+            var testInterface = assembly.Interfaces.Add("ITestInterface");
+            var testDelegate = assembly.Delegates.Add("TestDelegate");
+            var testEnum = assembly.Enums.Add("TestEnum");
+            var testStruct = assembly.Structs.Add("TestStruct");
+            var testClassMethod = testClass.Methods.Add(new TypedName("TestClassMethod", CommonTypeRefs.Void));
+            var testClassProperty = testClass.Properties.Add(new TypedName("TestClassProperty", CommonTypeRefs.Object));
+            var testClassBinaryCoercion = testClass.BinaryOperatorCoercions.Add(Slf.Abstract.Members.CoercibleBinaryOperators.Add, typeof(int).GetTypeReference());
+            var testClassConstructor = testClass.Constructors.Add(new TypedName("testParam", typeof(double).GetTypeReference()));
+            var testClassEvent = testClass.Events.Add(new TypedName("testClassEvent", typeof(Action).GetTypeReference()));
+            var testClassField = testClass.Fields.Add(new TypedName("testClassField", typeof(float).GetTypeReference()));
+            var testClassIndexer = testClass.Indexers.Add(new TypedName("TestClassIndexer", typeof(Decimal).GetTypeReference()), new TypedNameSeries() { { "index", typeof(int).GetTypeReference() } }, true, false);
+            var testClassTypeCoercion = testClass.TypeCoercions.Add(TypeConversionRequirement.Explicit, TypeConversionDirection.FromContainingType, typeof(int).GetTypeReference());
+            var testClassUnaryOperator = testClass.UnaryOperatorCoercions.Add(CoercibleUnaryOperators.Complement);
+            var testStructMethod = testStruct.Methods.Add(new TypedName("TestStructMethod", CommonTypeRefs.Void));
+            var testStructProperty = testStruct.Properties.Add(new TypedName("TestStructProperty", CommonTypeRefs.Object));
+            var testStructBinaryCoercion = testStruct.BinaryOperatorCoercions.Add(Slf.Abstract.Members.CoercibleBinaryOperators.Add, typeof(int).GetTypeReference());
+            var testStructConstructor = testStruct.Constructors.Add(new TypedName("testParam", typeof(double).GetTypeReference()));
+            var testStructEvent = testStruct.Events.Add(new TypedName("testStructEvent", typeof(Action).GetTypeReference()));
+            var testStructField = testStruct.Fields.Add(new TypedName("testStructField", typeof(float).GetTypeReference()));
+            var testStructIndexer = testStruct.Indexers.Add(new TypedName("TestStructIndexer", typeof(Decimal).GetTypeReference()), new TypedNameSeries() { { "index", typeof(int).GetTypeReference() } }, true, true);
+            var testStructTypeCoercion = testStruct.TypeCoercions.Add(TypeConversionRequirement.Explicit, TypeConversionDirection.FromContainingType, typeof(int).GetTypeReference());
+            var testStructUnaryOperator = testStruct.UnaryOperatorCoercions.Add(CoercibleUnaryOperators.Complement);
+            var testStructIndexerSetMethod = (IIntermediateStructMethodMember)testStructIndexer.SetMethod;
+            testStructIndexerSetMethod.Assign(testStructField.GetReference(testStruct.GetThis()), 0F.ToPrimitive());
+            var testInterfaceMethod = testInterface.Methods.Add(new TypedName("TestInterfaceMethod", CommonTypeRefs.Void));
+            var testInterfaceProperty = testInterface.Properties.Add(new TypedName("TestInterfaceProperty", CommonTypeRefs.TaskOfT.MakeGenericClosure(typeof(int))));
+            var testInterfacePropertySetMethod = (IIntermediateInterfaceMethodMember)testInterfaceProperty.SetMethod;
+            var testInterfaceIndexer = testInterface.Indexers.Add(new TypedName("TestInterfaceIndexer", typeof(Decimal).GetTypeReference()), new TypedNameSeries() { { "index", typeof(int).GetTypeReference() } }, true, true);
+            var testInterfaceIndexerSetMethod = (IIntermediateInterfaceMethodMember)testInterfaceIndexer.SetMethod;
+            var valueParam = testInterfacePropertySetMethod.Parameters[AstIdentifier.Member("value")];
+            //CLIGateway.ClearCache();
+            //GC.Collect();
+            //GC.WaitForPendingFinalizers();
+            var me=typeof(EqualityComparer<>);
+            
+        }
+
+        private static void SeriesCreationTest()
+        {
 #if DEBUG
             const int testCount = 60;
             const int paramCount = 60;
@@ -169,7 +225,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             int pC = 0;
             object pcLock = new object();
             var assembly = LanguageVendors.Microsoft.GetVisualBasicLanguage().GetMyProvider().CreateAssembly("TestAssembly");
-            Parallel.For(1, testCount + 1, new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount / 2}, i =>
+            Parallel.For(1, testCount + 1, new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount / 2 }, i =>
             //for (int i = 1; i <= testCount; i++)
             {
                 var currentStruct = (IIntermediateStructType)assembly.Structs.Add("TestType", (from k in 1.RangeTo(i)
@@ -195,63 +251,9 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
                                      let Set = indexer.SetMethod as IIntermediateStructMethodMember
                                      select new { Indexer = indexer, Get = new { Method = Get, Parameters = Get.Parameters.Values.ToArray() }, Set = new { Method = Set, Parameters = Set.Parameters.Values.ToArray() } }).ToArray()
                      }).ToArray();
-            Random r = new Random();
-            var current = m[r.Next(0, m.Length)];
-            var currentIndexer = current.Indexers[r.Next(0, current.Indexers.Length)].Indexer;
-            currentIndexer.IdentifierChanged += new EventHandler<DeclarationIdentifierChangeEventArgs<IGeneralSignatureMemberUniqueIdentifier>>(Indexer_IdentifierChanged);
-
-            currentIndexer.Name = "O_o";
-            if (currentIndexer.Parameters.Count > 0)
-            {
-                var parameter = currentIndexer.Parameters.Values[r.Next(0, currentIndexer.Parameters.Count)];
-                parameter.ParameterType = typeof(ushort).GetTypeReference();
-            }
             assembly.Dispose();
-            //CLIGateway.ClearCache();
-            //GC.Collect();
-            //GC.WaitForPendingFinalizers();
-            //var testNamespace = assembly.Namespaces.Add("TestNamespace");
-            //var testMethod = assembly.Methods.Add(new TypedName("TestMethod", typeof(int).GetTypeReference()));
-            //var testField = assembly.Fields.Add(new TypedName("testField", typeof(double).GetTypeReference()));
-            //var testClass = assembly.Classes.Add("TestClass");
-            //var testInterface = assembly.Interfaces.Add("ITestInterface");
-            //var testDelegate = assembly.Delegates.Add("TestDelegate");
-            //var testEnum = assembly.Enums.Add("TestEnum");
-            //var testStruct = assembly.Structs.Add("TestStruct");
-            //var testClassMethod = testClass.Methods.Add(new TypedName("TestClassMethod", CommonTypeRefs.Void));
-            //var testClassProperty = testClass.Properties.Add(new TypedName("TestClassProperty", CommonTypeRefs.Object));
-            //var testClassBinaryCoercion = testClass.BinaryOperatorCoercions.Add(Slf.Abstract.Members.CoercibleBinaryOperators.Add, typeof(int).GetTypeReference());
-            //var testClassConstructor = testClass.Constructors.Add(new TypedName("testParam", typeof(double).GetTypeReference()));
-            //var testClassEvent = testClass.Events.Add(new TypedName("testClassEvent", typeof(Action).GetTypeReference()));
-            //var testClassField = testClass.Fields.Add(new TypedName("testClassField", typeof(float).GetTypeReference()));
-            //var testClassIndexer = testClass.Indexers.Add(new TypedName("TestClassIndexer", typeof(Decimal).GetTypeReference()), new TypedNameSeries() { { "index", typeof(int).GetTypeReference() } }, true, false);
-            //var testClassTypeCoercion = testClass.TypeCoercions.Add(TypeConversionRequirement.Explicit, TypeConversionDirection.FromContainingType, typeof(int).GetTypeReference());
-            //var testClassUnaryOperator = testClass.UnaryOperatorCoercions.Add(CoercibleUnaryOperators.Complement);
-            //var testStructMethod = testStruct.Methods.Add(new TypedName("TestStructMethod", CommonTypeRefs.Void));
-            //var testStructProperty = testStruct.Properties.Add(new TypedName("TestStructProperty", CommonTypeRefs.Object));
-            //var testStructBinaryCoercion = testStruct.BinaryOperatorCoercions.Add(Slf.Abstract.Members.CoercibleBinaryOperators.Add, typeof(int).GetTypeReference());
-            //var testStructConstructor = testStruct.Constructors.Add(new TypedName("testParam", typeof(double).GetTypeReference()));
-            //var testStructEvent = testStruct.Events.Add(new TypedName("testStructEvent", typeof(Action).GetTypeReference()));
-            //var testStructField = testStruct.Fields.Add(new TypedName("testStructField", typeof(float).GetTypeReference()));
-            //var testStructIndexer = testStruct.Indexers.Add(new TypedName("TestStructIndexer", typeof(Decimal).GetTypeReference()), new TypedNameSeries() { { "index", typeof(int).GetTypeReference() } }, true, true);
-            //var testStructTypeCoercion = testStruct.TypeCoercions.Add(TypeConversionRequirement.Explicit, TypeConversionDirection.FromContainingType, typeof(int).GetTypeReference());
-            //var testStructUnaryOperator = testStruct.UnaryOperatorCoercions.Add(CoercibleUnaryOperators.Complement);
-            //testStructIndexer.Name = "LOL";
-            //var testStructIndexerSetMethod = (IIntermediateStructMethodMember)testStructIndexer.SetMethod;
-            //var @params = testStructIndexerSetMethod.Parameters;
-            //testStructIndexer.IdentifierChanged += new EventHandler<DeclarationIdentifierChangeEventArgs<IGeneralSignatureMemberUniqueIdentifier>>(testStructIndexer_IdentifierChanged);
-            //@params.Values[0].ParameterType = typeof(long).GetTypeReference();
-            //var testInterfaceMethod = testInterface.Methods.Add(new TypedName("TestInterfaceMethod", CommonTypeRefs.Void));
-            //var testInterfaceProperty = testInterface.Properties.Add(new TypedName("TestProperty", CommonTypeRefs.TaskOfT.MakeGenericClosure(typeof(int))));
-            //var testInterfacePropertySetMethod = (IIntermediateInterfaceMethodMember)testInterfaceProperty.SetMethod;
-            //var valueParam = testInterfacePropertySetMethod.Parameters[AstIdentifier.Member("value")];
+            CLIGateway.ClearCache();
         }
-
-        static void Indexer_IdentifierChanged(object sender, DeclarationIdentifierChangeEventArgs<IGeneralSignatureMemberUniqueIdentifier> e)
-        {
-        }
-
-
 
         private static void RunExamples()
         {
