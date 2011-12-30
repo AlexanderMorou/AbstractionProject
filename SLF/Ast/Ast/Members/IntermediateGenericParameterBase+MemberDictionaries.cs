@@ -157,7 +157,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
             #endregion
 
-            public override IIntermediateGenericParameterIndexerMember<TGenericParameter, TIntermediateGenericParameter> Add(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true)
+            protected override IIntermediateGenericParameterIndexerMember<TGenericParameter, TIntermediateGenericParameter> GetNew(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true)
             {
                 throw new NotImplementedException();
             }

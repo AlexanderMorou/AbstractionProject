@@ -317,6 +317,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
                 return this.original.IsDefined(attributeType);
             }
 
+            public bool IsDefined(IType attributeType, bool inherited)
+            {
+                return this.original.IsDefined(attributeType, inherited);
+            }
+
             #endregion
 
             #region IDeclaration Members

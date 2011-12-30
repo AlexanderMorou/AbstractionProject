@@ -21,8 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     [DebuggerDisplay("Name = {Name}, FullName = {FullName}")]
     public abstract class TypeBase<TIdentifier> :
         DeclarationBase<TIdentifier>,
-        IType,
-        ICustomAttributedDeclaration
+        IType
         where TIdentifier :
             ITypeUniqueIdentifier
     {
@@ -633,6 +632,23 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     return true;
             return false;
         }
+
+        public bool IsDefined(IType attributeType, bool inherited)
+        {
+            bool? canInherit = null;
+            for (IType targetType = this; targetType != null; targetType = targetType.BaseType)
+            {
+                if (targetType.IsDefined(attributeType))
+                    return true;
+                if (canInherit == null)
+                    canInherit = IsAttributeInheritable(attributeType);
+                else if (!canInherit.Value)
+                    return false;
+            }
+            return false;
+        }
+
+        protected abstract bool IsAttributeInheritable(IType attribute);
 
         #endregion
 

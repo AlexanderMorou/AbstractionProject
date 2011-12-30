@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf._Internal.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -44,5 +45,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 gtRegistrar.RegisterGenericClosure(result, genericParameters);
             return result;
         }
+
     }
 }

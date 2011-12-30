@@ -327,28 +327,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Returns whether the <see cref="IClassType"/> has the attribute defined.
-        /// </summary>
-        /// <param name="attributeType">The type of attribute to check the 
-        /// existence of.</param>
-        /// <param name="inherit">Whether to check the inherited attributes of the
-        /// <see cref="IClassType"/>.</param>
-        /// <returns>true if the <paramref name="attributeType"/>
-        /// is present on the current <see cref="IClassType"/> or one of
-        /// its bases; false, otherwise.</returns>
-        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="attributeType"/> is null.</exception>
-        public bool IsDefined(IType attributeType, bool inherit)
-        {
-            if (!this.IsRoot)
-                return this.GetRoot().IsDefined(attributeType, inherit);
-            if (inherit && this.BaseType != null)
-                return this.CustomAttributes.Contains(attributeType) || 
-                       this.BaseType.IsDefined(attributeType, true);
-            else
-                return this.CustomAttributes.Contains(attributeType);
-        }
-
         #endregion
 
         protected override FieldMember GetNewField(TypedName nameAndType)

@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
+using System.Threading.Tasks;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -32,10 +33,37 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             }
 
-            public override IIntermediateInterfaceIndexerMember Add(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true)
+            protected override IIntermediateInterfaceIndexerMember GetNew(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true)
             {
-                throw new NotImplementedException();
+                var result = new IndexerMember(nameAndReturn.Name, (TInstanceType)this.Parent);
+                if (parameters.Count > 0)
+                {
+                    TypedName[] adjustedParameters = new TypedName[parameters.Count];
+                    Parallel.For(0, parameters.Count, i =>
+                    {
+                        TypedName currentItem = parameters[i];
+                        IType paramType = currentItem.GetTypeRef();
+                        if (paramType.ContainsSymbols())
+                            paramType = paramType.SimpleSymbolDisambiguation(result);
+                        paramType = AdjustTypeReference(paramType, currentItem.Direction);
+                        adjustedParameters[i] = new TypedName(currentItem.Name, paramType);
+                    });
+                    result.Parameters.AddRange(adjustedParameters);
+                }
+                result.CanRead = canGet;
+                result.CanWrite = canSet;
+                return result;
             }
+        }
+        private static IType AdjustTypeReference(IType paramType, ParameterDirection parameterDirection)
+        {
+            if (paramType == null)
+                return null;
+            if (parameterDirection == ParameterDirection.In)
+                return paramType;
+            else if (paramType.ElementClassification != TypeElementClassification.Reference)
+                return paramType.MakeByReference();
+            return paramType;
         }
 
         private class PropertyMembers :

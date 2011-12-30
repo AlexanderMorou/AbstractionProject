@@ -274,5 +274,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             return (TTypeIdentifier)this.underlyingSystemType.GetUniqueIdentifier();
         }
+
+        protected override TypeKind TypeImpl
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        protected override bool IsAttributeInheritable(IType attribute)
+        {
+            if (attribute is ICompiledType)
+            {
+                var cType = attribute as ICompiledType;
+                return CliAssist.GetAttributeUsage(cType.UnderlyingSystemType).AllowMultiple;
+            }
+            else
+                return CliAssist.GetAttributeUsage(attribute).AllowMultiple;
+        }
+
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

@@ -511,5 +511,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             }
             return this.uniqueIdentifier;
         }
+
+        protected override bool IsAttributeInheritable(IType attribute)
+        {
+            if (attribute is ICompiledType)
+            {
+                var cType = attribute as ICompiledType;
+                return CliAssist.GetAttributeUsage(cType.UnderlyingSystemType).AllowMultiple;
+            }
+            else
+                return CliAssist.GetAttributeUsage(attribute).AllowMultiple;
+        }
     }
 }

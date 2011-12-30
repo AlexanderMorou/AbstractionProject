@@ -118,21 +118,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         SpecialClassModifier SpecialModifier { get; }
         /// <summary>
-        /// Returns whether the <see cref="IClassType"/> has the 
-        /// attribute defined.
-        /// </summary>
-        /// <param name="attributeType">The type of attribute to check
-        /// the existence of.</param>
-        /// <param name="inherit">Whether to check the inherited 
-        /// attributes of the <see cref="IClassType"/>.</param>
-        /// <returns>true if the <paramref name="attributeType"/>
-        /// is present on the current <see cref="IClassType"/> or one 
-        /// of its bases; false, otherwise.</returns>
-        /// <exception cref="System.ArgumentNullException">
-        /// thrown when <paramref name="attributeType"/> is null.
-        /// </exception>
-        bool IsDefined(IType attributeType, bool inherit);
-        /// <summary>
         /// Returns the type from which the current <see cref="IClassType"/>
         /// derives.
         /// </summary>

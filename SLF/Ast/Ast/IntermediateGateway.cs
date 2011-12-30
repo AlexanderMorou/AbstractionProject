@@ -369,6 +369,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return result.ToCollection();
         }
 
+        internal static IIndexerSignatureReferenceExpression<TIndexer, TIndexerParent> GetIndexerSignatureReference<TIndexer, TIndexerParent>(this TIndexer target, IMemberParentReferenceExpression source, IEnumerable<IExpression> parameters)
+            where TIndexer :
+                IIndexerSignatureMember<TIndexer, TIndexerParent>
+            where TIndexerParent :
+                IIndexerSignatureParent<TIndexer, TIndexerParent>
+        {
+            return new IndexerSignatureReferenceExpression<TIndexer, TIndexerParent>(target, parameters, source);
+        }
+
         internal static IPropertySignatureReferenceExpression<TProperty, TPropertyParent> GetPropertySignatureReference<TProperty, TPropertyParent>(this TProperty target, IMemberParentReferenceExpression source)
             where TProperty :
                 IPropertySignatureMember<TProperty, TPropertyParent>

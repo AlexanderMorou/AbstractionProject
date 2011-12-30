@@ -128,5 +128,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             return AstIdentifier.Type("dynamic");
         }
+
+        protected override bool IsAttributeInheritable(IType attribute)
+        {
+            if (attribute is ICompiledType)
+            {
+                var cType = attribute as ICompiledType;
+                return CliAssist.GetAttributeUsage(cType.UnderlyingSystemType).AllowMultiple;
+            }
+            else
+                return CliAssist.GetAttributeUsage(attribute).AllowMultiple;
+        }
     }
 }

@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf._Internal.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -430,6 +431,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         protected override IGeneralTypeUniqueIdentifier OnGetUniqueIdentifier()
         {
             return AstIdentifier.Type(this.Name);
+        }
+
+        protected override bool IsAttributeInheritable(IType attribute)
+        {
+            if (attribute is ICompiledType)
+            {
+                var cType = attribute as ICompiledType;
+                return CliAssist.GetAttributeUsage(cType.UnderlyingSystemType).AllowMultiple;
+            }
+            else
+                return CliAssist.GetAttributeUsage(attribute).AllowMultiple;
         }
     }
 }
