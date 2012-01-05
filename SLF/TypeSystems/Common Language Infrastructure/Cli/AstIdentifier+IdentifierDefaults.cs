@@ -811,6 +811,13 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             #endregion
 
+            public override bool Equals(object obj)
+            {
+                if (obj is ITypeCoercionUniqueIdentifier)
+                    return this.Equals((ITypeCoercionUniqueIdentifier)obj);
+                return false;
+            }
+
             #region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
 
             public bool Equals(IGeneralDeclarationUniqueIdentifier other)
@@ -906,6 +913,13 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
 
             #endregion
+
+            public override bool Equals(object obj)
+            {
+                if (obj is IGeneralGenericSignatureMemberUniqueIdentifier)
+                    return this.Equals((IGeneralGenericSignatureMemberUniqueIdentifier)obj);
+                return false;
+            }
 
             #region IEquatable<IGeneralMemberUniqueIdentifier> Members
 
@@ -1041,6 +1055,13 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
 
             #endregion
+
+            public override bool Equals(object obj)
+            {
+                if (obj is IDelegateUniqueIdentifier)
+                    return this.Equals((IDelegateUniqueIdentifier)obj);
+                return false;
+            }
 
             #region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
 

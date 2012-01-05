@@ -25,9 +25,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         Attribute WrappedAttribute { get; }
         /// <summary>
-        /// The <see cref="ICustomAttributedDeclaration"/> on which the <see cref="ICustomAttributeInstance"/> 
+        /// The <see cref="ICustomAttributedEntity"/> on which the <see cref="ICustomAttributeInstance"/> 
         /// was declared.
         /// </summary>
-        ICustomAttributedDeclaration DeclarationPoint { get; }
+        ICustomAttributedEntity DeclarationPoint { get; }
     }
 }

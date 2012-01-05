@@ -88,9 +88,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             base.Dispose();
         }
 
-        protected override ICustomAttributeCollection InitializeCustomAttributes()
+        protected override IModifiersAndAttributesMetadata InitializeMetadata()
         {
-            return new CompiledCustomAttributeCollection(this.parameterInfo.GetCustomAttributes);
+            return new ParameterInfoModifiersAndAttributesMetadata(this.ParameterInfo);
         }
+
     }
 }

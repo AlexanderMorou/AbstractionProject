@@ -39,6 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         private ICustomAttributeCollection customAttributesBack;
         private IGeneralMemberUniqueIdentifier uniqueIdentifier;
+        private IIntermediateModifiersAndAttributesMetadata metadata;
         /// <summary>
         /// Creates a new <see cref="IntermediateParameterMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>
         /// with the <paramref name="parent"/> provided.
@@ -133,7 +134,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         #endregion
 
-        #region IIntermediateCustomAttributedDeclaration Members
+        #region IIntermediateCustomAttributedEntity Members
 
         public ICustomAttributeDefinitionCollectionSeries CustomAttributes
         {
@@ -167,9 +168,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             base.OnIdentifierChanged(oldIdentifier, cause);
         }
 
-        #region ICustomAttributedDeclaration Members
+        #region ICustomAttributedEntity Members
 
-        ICustomAttributeCollection ICustomAttributedDeclaration.CustomAttributes
+        ICustomAttributeCollection ICustomAttributedEntity.CustomAttributes
         {
             get
             {
@@ -181,7 +182,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         public bool IsDefined(IType attributeType)
         {
-            return this.CustomAttributes.Contains(attributeType);
+            return this.StandardIsDefined(attributeType);
         }
 
         #endregion
@@ -233,6 +234,24 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         public override void Visit(IIntermediateMemberVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        IModifiersAndAttributesMetadata IParameterMember.Metadata
+        {
+            get
+            {
+                return this.Metadata;
+            }
+        }
+
+        public IIntermediateModifiersAndAttributesMetadata Metadata
+        {
+            get
+            {
+                if (this.metadata == null)
+                    this.metadata = new IntermediateModifiersAndAttributesMetadata();
+                return this.metadata;
+            }
         }
     }
 

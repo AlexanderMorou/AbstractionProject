@@ -22,6 +22,8 @@ using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using System.IO;
 using System.IO.Compression;
 using System.Reflection;
+using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -36,6 +38,21 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     {
         private static void Main()
         {
+            //AssemblyName an = new AssemblyName("TestAssembly");
+            //AssemblyBuilder ab = AppDomain.CurrentDomain.DefineDynamicAssembly(an, AssemblyBuilderAccess.Save);
+            //var mod = ab.DefineDynamicModule("TestAssembly.dll");
+            //var type = mod.DefineType("AllenCopeland.Abstraction.SupplementaryProjects.TestAssembly.TestType", TypeAttributes.AnsiClass | TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.Public);
+            //var field = type.DefineField("testField", typeof(int), new Type[0], new[] { typeof(IsLong) }, FieldAttributes.Public | FieldAttributes.Static);
+            //var prop = type.DefineProperty("TestProperty", PropertyAttributes.None, CallingConventions.Standard, typeof(long), new[] { typeof(IsLong) }, new Type[0], null, null, null);
+            //var propSetMethod = type.DefineMethod("set_TestProperty", MethodAttributes.SpecialName | MethodAttributes.Static | MethodAttributes.Public, typeof(long), new Type[0]);
+            //var propSetMethodILGen = propSetMethod.GetILGenerator();
+            //propSetMethodILGen.Emit(OpCodes.Ldc_I4_0);
+            //propSetMethodILGen.Emit(OpCodes.Conv_I8);
+            //propSetMethodILGen.Emit(OpCodes.Ret);
+            //prop.SetGetMethod(propSetMethod);
+            //type.CreateType();
+            //ab.Save("TestAssembly.dll");
+            
             //CompressionTest();
             //ExtensionsTest();
             //TimedMirrorTest();
@@ -50,6 +67,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             //    Console.WriteLine(item);
             //RunExamples();
         }
+
 
         private static void CompressionTest()
         {
@@ -174,6 +192,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             var assembly = LanguageVendors.Microsoft.GetVisualBasicLanguage().GetMyProvider().CreateAssembly("TestAssembly");
             var testNamespace = assembly.Namespaces.Add("TestNamespace");
             var testMethod = assembly.Methods.Add(new TypedName("TestMethod", typeof(int).GetTypeReference()));
+            testMethod.ReturnTypeMetadata.OptionalModifiers.Add(typeof(IsLong).GetTypeReference());
             var testField = assembly.Fields.Add(new TypedName("testField", typeof(double).GetTypeReference()));
             var testClass = assembly.Classes.Add("TestClass");
             var testInterface = assembly.Interfaces.Add("ITestInterface");
@@ -206,10 +225,10 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             var testInterfaceIndexer = testInterface.Indexers.Add(new TypedName("TestInterfaceIndexer", typeof(Decimal).GetTypeReference()), new TypedNameSeries() { { "index", typeof(int).GetTypeReference() } }, true, true);
             var testInterfaceIndexerSetMethod = (IIntermediateInterfaceMethodMember)testInterfaceIndexer.SetMethod;
             var valueParam = testInterfacePropertySetMethod.Parameters[AstIdentifier.Member("value")];
+            valueParam.Metadata.OptionalModifiers.Add(typeof(int).GetTypeReference());
             //CLIGateway.ClearCache();
             //GC.Collect();
             //GC.WaitForPendingFinalizers();
-            var me=typeof(EqualityComparer<>);
             
         }
 

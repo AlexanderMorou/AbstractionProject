@@ -33,6 +33,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// Data member for <see cref="SetMethod"/>.
         /// </summary>
         private TIndexerMethod setMethod;
+        private IModifiersAndAttributesMetadata metadata;
 
         /// <summary>
         /// Creates a new <see cref="IndexerSignatureMemberBase{TIndexer, TIndexerParent, TIndexerMethod, TMethod, TMethodParent}"/>
@@ -129,5 +130,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// </summary>
         protected abstract bool CanCachePropertyType { get; }
 
+        public IModifiersAndAttributesMetadata Metadata
+        {
+            get
+            {
+                if (this.metadata == null)
+                    this.metadata = this.InitializeMetadata();
+                return this.metadata;
+            }
+        }
+        protected abstract IModifiersAndAttributesMetadata InitializeMetadata();
     }
 }

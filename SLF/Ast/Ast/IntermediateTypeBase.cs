@@ -413,7 +413,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
 
-        #region IIntermediateCustomAttributedDeclaration Members
+        #region IIntermediateCustomAttributedEntity Members
 
         public virtual new ICustomAttributeDefinitionCollectionSeries CustomAttributes
         {

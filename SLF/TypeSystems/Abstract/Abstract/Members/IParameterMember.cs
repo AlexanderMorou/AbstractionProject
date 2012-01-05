@@ -28,13 +28,18 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// Defines properties and methods for working with a parameter member.
     /// </summary>
     public interface IParameterMember :
-        ICustomAttributedDeclaration,
         IMember
     {
         /// <summary>
         /// Returns the parent of the <see cref="IParameterMember"/>.
         /// </summary>
         new IParameterParent Parent { get; }
+        /// <summary>
+        /// Returns the <see cref="IModifiersAndAttributesMetadata"/> which 
+        /// describes the custom attributes, and the required and optional 
+        /// modifiers specified on the member.
+        /// </summary>
+        IModifiersAndAttributesMetadata Metadata { get; }
         /// <summary>
         /// Returns the type that the <see cref="IParameterMember"/> is defined as.
         /// </summary>

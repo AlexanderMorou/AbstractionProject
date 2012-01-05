@@ -21,6 +21,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         where TParent :
             IParameterParent
     {
+        private IModifiersAndAttributesMetadata metadata;
         private ICustomAttributeCollection customAttributes;
         /// <summary>
         /// Creates a new <see cref="ParameterMemberBase{TParent}"/> with the <paramref name="parent"/> provided.
@@ -44,28 +45,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public abstract ParameterDirection Direction { get; }
 
-        #endregion
-
-        #region ICustomAttributedDeclaration Members
-
-        public ICustomAttributeCollection CustomAttributes
+        public IModifiersAndAttributesMetadata Metadata
         {
             get
             {
-                if (this.customAttributes == null)
-                    this.customAttributes = this.InitializeCustomAttributes();
-                return this.customAttributes;
+                if (this.metadata == null)
+                    this.metadata = this.InitializeMetadata();
+                return this.metadata;
             }
-        }
-
-        public bool IsDefined(IType attributeType)
-        {
-            return this.CustomAttributes.Contains(attributeType);
         }
 
         #endregion
 
-        protected abstract ICustomAttributeCollection InitializeCustomAttributes();
+        protected abstract IModifiersAndAttributesMetadata InitializeMetadata();
+
 
     }
 }

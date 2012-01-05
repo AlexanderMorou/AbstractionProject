@@ -613,7 +613,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <see cref="AssemblyBase"/>.</returns>
         protected abstract INamespaceDictionary InitializeNamespaces();
 
-        #region ICustomAttributedDeclaration Members
+        #region ICustomAttributedEntity Members
 
         /// <summary>
         /// Returns the <see cref="ICustomAttributeCollection"/> 
@@ -642,10 +642,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </returns>
         public bool IsDefined(IType attributeType)
         {
-            foreach (var item in this.CustomAttributes)
-                if (attributeType.IsAssignableFrom(item.Type))
-                    return true;
-            return false;
+            return this.StandardIsDefined(attributeType);
         }
 
         #endregion

@@ -75,6 +75,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// Data member for <see cref="UniqueIdentifier"/>.
         /// </summary>
         private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
+        private IIntermediateModifiersAndAttributesMetadata metadata;
 
         /// <summary>
         /// Creates a new <see cref="IntermediateIndexerSignatureMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>
@@ -293,5 +294,23 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         }
 
         #endregion
+
+        IModifiersAndAttributesMetadata IPropertySignatureMember.Metadata
+        {
+            get
+            {
+                return this.Metadata;
+            }
+        }
+
+        public IIntermediateModifiersAndAttributesMetadata Metadata
+        {
+            get
+            {
+                if (this.metadata == null)
+                    this.metadata = new IntermediateModifiersAndAttributesMetadata();
+                return this.metadata;
+            }
+        }
     }
 }

@@ -62,7 +62,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return false;
             }
 
-            public ICustomAttributedDeclaration Parent
+            public ICustomAttributedEntity Parent
             {
                 get { return this.assembly; }
             }

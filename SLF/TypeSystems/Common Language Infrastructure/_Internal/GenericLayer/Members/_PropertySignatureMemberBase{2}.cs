@@ -128,10 +128,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             }
         }
 
-        #endregion
-
-        #region IPropertySignatureMember Members
-
         /// <summary>
         /// Returns the type that the <see cref="IPropertySignatureMember"/> is defined as.
         /// </summary>
@@ -165,6 +161,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         public bool CanWrite
         {
             get { return this.Original.CanWrite; }
+        }
+
+        public IModifiersAndAttributesMetadata Metadata
+        {
+            get { return this.Original.Metadata; }
         }
 
         #endregion

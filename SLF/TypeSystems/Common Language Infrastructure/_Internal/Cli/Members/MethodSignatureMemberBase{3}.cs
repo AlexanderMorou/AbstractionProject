@@ -30,6 +30,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         where TSignatureParent :
             ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
     {
+        private IModifiersAndAttributesMetadata returnTypeMetadata;
         /// <summary>
         /// Data member for <see cref="TypeParameters"/>.
         /// </summary>
@@ -47,18 +48,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// </summary>
         private ILockedTypeCollection genericParameters;
 
-        /// <summary>
-        /// Data member used to store the state of whether
-        /// the <see cref="MethodSignatureMemberBase{TSignatureParameter, TSignature, TSignatureParent}"/>
-        /// can cache its generic type-parameters.
-        /// </summary>
-        private bool canCacheTypeParameters = false;
-
+        private ICustomAttributeCollection customAttributes;
 
         protected MethodSignatureMemberBase(TSignatureParent parent)
             : base(parent)
         {
-            this.canCacheTypeParameters = this.CanCacheGenericParameters;
         }
 
         //public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier
@@ -144,7 +138,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get
             {
-                if (this.canCacheTypeParameters)
+                if (this.CanCacheGenericParameters)
                 {
                     if (this.genericParameters == null)
                         this.genericParameters = this.OnGetGenericParameters();
@@ -196,6 +190,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         protected abstract bool CanCacheReturn { get; }
 
         /// <summary>
+        /// Returns whether the <see cref="MethodSignatureMemberBase{TSIgnatureParameter, TSignature, TSignatureParent}"/>
+        /// can cache the <see cref="ReturnTypeMetadata"/>.
+        /// </summary>
+        protected abstract bool CanCacheReturnMetadata { get; }
+
+        /// <summary>
         /// Returns whether the <see cref="MethodSignatureMemberBase{TSignatureParameter, TSignature, TSignatureParent}"/>
         /// can cache the <see cref="GenericParameters"/>.
         /// </summary>
@@ -206,10 +206,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         protected abstract bool CanCacheGenericParameters { get; }
 
         /// <summary>
+        /// Returns whether the <see cref="MethodSignatureMemberBase{TSIgnatureParameter, TSignature, TSignatureParent}"/>
+        /// can cache the <see cref="CustomAttributes"/>.
+        /// </summary>
+        protected abstract bool CanCacheCustomAttributes { get; }
+
+        /// <summary>
         /// Obtains the <see cref="IType"/> that the <see cref="MethodSignatureMemberBase{TSignatureParameter, TSignature, TSignatureParent}"/>
         /// yields upon return.
         /// </summary>
         protected abstract IType OnGetReturnType();
+
+        protected abstract IModifiersAndAttributesMetadata OnGetReturnMetadata();
+        protected abstract ICustomAttributeCollection OnGetCustomAttributes();
 
         #region IMethodSignatureMember<TSignatureParameter,TSignature,TSignatureParent> Members
 
@@ -262,5 +271,40 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             }
         }
 
+
+        public IModifiersAndAttributesMetadata ReturnTypeMetadata
+        {
+            get
+            {
+                if (CanCacheReturnMetadata)
+                {
+                    if (this.returnTypeMetadata == null)
+                        this.returnTypeMetadata = this.OnGetReturnMetadata();
+                    return this.returnTypeMetadata;
+                }
+                else
+                    return this.OnGetReturnMetadata();
+            }
+        }
+
+        public ICustomAttributeCollection CustomAttributes
+        {
+            get
+            {
+                if (this.CanCacheCustomAttributes)
+                {
+                    if (this.customAttributes == null)
+                        this.customAttributes = this.OnGetCustomAttributes();
+                    return this.customAttributes;
+                }
+                else
+                    return this.OnGetCustomAttributes();
+            }
+        }
+
+        public bool IsDefined(IType attributeType)
+        {
+            return this.StandardIsDefined(attributeType);
+        }
     }
 }

@@ -179,6 +179,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             get { return this.SetMethod; }
         }
 
+        public IModifiersAndAttributesMetadata Metadata
+        {
+            get { return this.Original.Metadata; }
+        }
+
         #endregion
 
         #region IExtendedInstanceMember Members
@@ -272,5 +277,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
                 return this.uniqueIdentifier;
             }
         }
+
     }
 }

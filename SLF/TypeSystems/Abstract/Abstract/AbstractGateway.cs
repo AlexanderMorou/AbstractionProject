@@ -91,5 +91,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     return 0;
             }
         }
+
+        public static bool StandardIsDefined(this ICustomAttributedEntity target, IType attributeType)
+        {
+            foreach (ICustomAttributeInstance inst in target.CustomAttributes)
+                if (attributeType.IsAssignableFrom(inst.Type))
+                    return true;
+            return false;
+        }
     }
 }

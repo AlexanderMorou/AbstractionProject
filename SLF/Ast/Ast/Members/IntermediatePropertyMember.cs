@@ -80,6 +80,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// Data member for <see cref="UniqueIdentifier"/>.
         /// </summary>
         private IGeneralMemberUniqueIdentifier uniqueIdentifier;
+        private IIntermediateModifiersAndAttributesMetadata metadata;
 
         /// <summary>
         /// Creates a new <see cref="IntermediatePropertyMember{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent, TMethodMember}"/>
@@ -506,6 +507,24 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 if (this.uniqueIdentifier == null)
                     this.uniqueIdentifier = AstIdentifier.Member(this.Name);
                 return this.uniqueIdentifier;
+            }
+        }
+
+        IModifiersAndAttributesMetadata IPropertySignatureMember.Metadata
+        {
+            get
+            {
+                return this.Metadata;
+            }
+        }
+
+        public IIntermediateModifiersAndAttributesMetadata Metadata
+        {
+            get
+            {
+                if (this.metadata == null)
+                    this.metadata = new IntermediateModifiersAndAttributesMetadata();
+                return this.metadata;
             }
         }
     }

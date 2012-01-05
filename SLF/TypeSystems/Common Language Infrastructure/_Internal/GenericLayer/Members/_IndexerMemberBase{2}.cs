@@ -244,6 +244,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         #endregion
 
+
+        public IModifiersAndAttributesMetadata Metadata
+        {
+            get { return this.Original.Metadata; }
+        }
         public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier
         {
             get { return AstIdentifier.Signature(this.Name, this.Parameters.ParameterTypes); }
