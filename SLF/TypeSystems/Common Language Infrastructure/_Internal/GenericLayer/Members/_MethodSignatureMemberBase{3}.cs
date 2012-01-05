@@ -198,5 +198,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
                     return AstIdentifier.GenericSignature(this.Name, 0, this.Parameters.ParameterTypes);
             }
         }
+
+         protected override bool CanCacheReturnMetadata
+        {
+            get { return false; }
+        }
+
+        protected override IModifiersAndAttributesMetadata OnGetReturnMetadata()
+        {
+            return this.Original.ReturnTypeMetadata;
+        }
+
+
+        protected override bool CanCacheCustomAttributes
+        {
+            get { return false; }
+        }
+
+        protected override ICustomAttributeCollection OnGetCustomAttributes()
+        {
+            return this.Original.CustomAttributes;
+        }
+
     }
 }

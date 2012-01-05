@@ -596,7 +596,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             return this.BuildTypeName(true);
         }
 
-        #region ICustomAttributedDeclaration Members
+        #region ICustomAttributedEntity Members
 
         /// <summary>
         /// Returns the <see cref="ICustomAttributeCollection"/> associated to the
@@ -627,10 +627,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// the <see cref="TypeBase{TIdentifier}"/>.</returns>
         public bool IsDefined(IType attributeType)
         {
-            foreach (ICustomAttributeInstance inst in this.CustomAttributes)
-                if (attributeType.IsAssignableFrom(inst.Type))
-                    return true;
-            return false;
+            return this.StandardIsDefined(attributeType);
         }
 
         public bool IsDefined(IType attributeType, bool inherited)

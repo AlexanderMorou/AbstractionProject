@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         ICustomAttributeCollection,
         IReadOnlyCollection
     {
-        private ICustomAttributedDeclaration parent;
+        private ICustomAttributedEntity parent;
         private Attribute[] attributes;
         private ICustomAttributeInstance[] attributeWrappers;
         private Dictionary<Attribute, Type> parentRelationships;
@@ -223,7 +223,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return false;
         }
 
-        public ICustomAttributedDeclaration Parent
+        public ICustomAttributedEntity Parent
         {
             get { return this.parent; }
         }

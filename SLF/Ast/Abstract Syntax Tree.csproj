@@ -97,7 +97,9 @@
   <ItemGroup>
     <Compile Include="Ast\Expressions\ArrayExpressionExtensions.cs" />
     <Compile Include="Ast\Expressions\CreateArrayByteStream.cs" />
+    <Compile Include="Ast\IIntermediateModifiersAndAttributesMetadata.cs" />
     <Compile Include="Ast\IntermediateAssembly.cs" />
+    <Compile Include="Ast\IntermediateModifiersAndAttributesMetadata.cs" />
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember+ParametersDictionary+ParameterMember.cs" />
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember+ParametersDictionary.cs" />
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember.cs" />

@@ -10,7 +10,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>
-    /// Provides a series of custom attributes on a <see cref="ICustomAttributedDeclaration"/>.
+    /// Provides a series of custom attributes on a <see cref="ICustomAttributedEntity"/>.
     /// </summary>
     public interface ICustomAttributeCollection :
         IReadOnlyCollection<ICustomAttributeInstance>,
@@ -28,10 +28,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         bool Contains(IType attributeType);
 
         /// <summary>
-        /// Returns the <see cref="ICustomAttributedDeclaration"/> which contains
+        /// Returns the <see cref="ICustomAttributedEntity"/> which contains
         /// the current <see cref="ICustomAttributeCollection"/>.
         /// </summary>
-        ICustomAttributedDeclaration Parent { get; }
+        ICustomAttributedEntity Parent { get; }
         /// <summary>
         /// Returns the <see cref="ICustomAttributeInstance"/> of the
         /// <paramref name="attributeType"/> provided.

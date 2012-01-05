@@ -11,24 +11,23 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Defines properties and methods for working with a declaration
     /// that contains custom attributes.
     /// </summary>
-    public interface ICustomAttributedDeclaration :
-        IDeclaration
+    public interface ICustomAttributedEntity
     {
         /// <summary>
         /// Returns the <see cref="ICustomAttributeCollection"/> 
-        /// associated to the <see cref="ICustomAttributedDeclaration"/>.
+        /// associated to the <see cref="ICustomAttributedEntity"/>.
         /// </summary>
         ICustomAttributeCollection CustomAttributes { get; }
         /// <summary>
         /// Determines whether the <paramref name="attributeType"/> 
         /// is defined on the current 
-        /// <see cref="ICustomAttributedDeclaration"/>.
+        /// <see cref="ICustomAttributedEntity"/>.
         /// </summary>
         /// <param name="attributeType">The <see cref="IType"/> of
         /// the attribute to check the presence of.</param>
         /// <returns>true if an attribute of the given 
         /// <paramref name="attributeType"/> is defined
-        /// on the current <see cref="ICustomAttributedDeclaration"/>.
+        /// on the current <see cref="ICustomAttributedEntity"/>.
         /// </returns>
         bool IsDefined(IType attributeType);
     }

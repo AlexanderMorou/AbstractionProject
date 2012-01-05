@@ -19,12 +19,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             ICustomAttributeCollection
         {
 
-            internal Wrapper(IIntermediateCustomAttributedDeclaration owner)
+            internal Wrapper(IIntermediateCustomAttributedEntity owner)
             {
                 this.Parent = owner;
             }
 
-            public IIntermediateCustomAttributedDeclaration Parent { get; private set; }
+            public IIntermediateCustomAttributedEntity Parent { get; private set; }
 
             #region ICustomAttributeCollection Members
 
@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return Parent.CustomAttributes.Contains(attributeType);
             }
 
-            ICustomAttributedDeclaration ICustomAttributeCollection.Parent
+            ICustomAttributedEntity ICustomAttributeCollection.Parent
             {
                 get { return this.Parent; }
             }

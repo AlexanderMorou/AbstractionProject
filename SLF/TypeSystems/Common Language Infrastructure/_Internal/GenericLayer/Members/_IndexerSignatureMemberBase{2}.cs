@@ -172,6 +172,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             get { return this.Original.CanWrite; }
         }
 
+
+        public IModifiersAndAttributesMetadata Metadata
+        {
+            get { return this.Original.Metadata; }
+        }
+
         #endregion
 
         public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier

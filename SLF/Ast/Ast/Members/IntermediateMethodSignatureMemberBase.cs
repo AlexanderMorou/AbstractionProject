@@ -123,12 +123,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// Data member for <see cref="ReturnType"/>.
         /// </summary>
         private IType returnType;
+        private IIntermediateModifiersAndAttributesMetadata returnTypeMetadata;
         /// <summary>
         /// Data member for <see cref="TypeParameters"/>.
         /// </summary>
         private TypeParameterDictionary typeParameters;
         private MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes signatureTypes;
-
+        private ICustomAttributeDefinitionCollectionSeries customAttributes;
+        private ICustomAttributeCollection _customAttributes;
         /// <summary>
         /// Creates a new <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
         /// with the <paramref name="parent"/> provided.
@@ -604,5 +606,54 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         #endregion
 
+    
+        #region IIntermediateMethodSignatureMember Members
+
+        public IIntermediateModifiersAndAttributesMetadata ReturnTypeMetadata
+        {
+            get
+            {
+                if (this.returnTypeMetadata == null)
+                    this.returnTypeMetadata = new IntermediateModifiersAndAttributesMetadata();
+                return this.returnTypeMetadata;
+            }
+        }
+
+        #endregion
+
+        #region IMethodSignatureMember Members
+
+
+        IModifiersAndAttributesMetadata IMethodSignatureMember.ReturnTypeMetadata
+        {
+            get { return this.ReturnTypeMetadata; }
+        }
+
+        #endregion
+
+        ICustomAttributeCollection ICustomAttributedEntity.CustomAttributes
+        {
+            get
+            {
+                if (this._customAttributes != null)
+                    this._customAttributes = ((CustomAttributeDefinitionCollectionSeries)(this.CustomAttributes)).GetWrapper();
+                return this._customAttributes;
+            }
+        }
+
+        public ICustomAttributeDefinitionCollectionSeries CustomAttributes
+        {
+            get
+            {
+                if (this.customAttributes != null)
+                    this.customAttributes = new CustomAttributeDefinitionCollectionSeries(this);
+                return this.customAttributes;
+            }
+        }
+
+        public bool IsDefined(IType attributeType)
+        {
+            return this.StandardIsDefined(attributeType);
+        }
     }
 }

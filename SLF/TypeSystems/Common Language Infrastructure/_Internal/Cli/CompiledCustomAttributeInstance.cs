@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     internal class CompiledCustomAttributeInstance :
         ICustomAttributeInstance
     {
-        public CompiledCustomAttributeInstance(Attribute attribute, ICustomAttributedDeclaration declarationPoint)
+        public CompiledCustomAttributeInstance(Attribute attribute, ICustomAttributedEntity declarationPoint)
         {
             this.DeclarationPoint = declarationPoint;
             this.WrappedAttribute = attribute;
@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public Attribute WrappedAttribute { get; private set; }
 
-        public ICustomAttributedDeclaration DeclarationPoint { get; private set; }
+        public ICustomAttributedEntity DeclarationPoint { get; private set; }
 
         #endregion
 

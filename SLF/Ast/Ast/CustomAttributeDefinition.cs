@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 {
     /// <summary>
     /// Provides an implementation of a custom attribute definition for
-    /// <see cref="ICustomAttributedDeclaration"/> instances.
+    /// <see cref="ICustomAttributedEntity"/> instances.
     /// </summary>
     public sealed partial class CustomAttributeDefinition :
         ICustomAttributeDefinition
@@ -30,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
          * Created upon request.
          * */
         private Attribute wrappedAttribute;
-        private IIntermediateCustomAttributedDeclaration declarationPoint;
+        private IIntermediateCustomAttributedEntity declarationPoint;
         private CustomAttributeDefinitionParameterCollection parameters;
         private IType attributeType;
 
@@ -38,7 +38,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// Creates a new <see cref="CustomAttributeDefinition"/>
         /// with the <paramref name="declarationPoint"/> provided.
         /// </summary>
-        /// <param name="declarationPoint">The <see cref="IIntermediateCustomAttributedDeclaration"/>
+        /// <param name="declarationPoint">The <see cref="IIntermediateCustomAttributedEntity"/>
         /// on which the current <see cref="CustomAttributeDefinition"/>
         /// is declared.</param>
         /// <param name="data">The <see cref="CustomAttributeDefinition.ParameterValueCollection"/>
@@ -49,7 +49,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// which does not have properties, or is not an attribute.</exception>
         /// <exception cref="System.ArgumentNullException"><paramref name="declarationPoint"/> is null; -or-
         /// <paramref name="data"/>'s <see cref="CustomAttributeDefinition.ParameterValueCollection.AttributeType"/> is null.</exception>
-        public CustomAttributeDefinition(IIntermediateCustomAttributedDeclaration declarationPoint, CustomAttributeDefinition.ParameterValueCollection data)
+        public CustomAttributeDefinition(IIntermediateCustomAttributedEntity declarationPoint, CustomAttributeDefinition.ParameterValueCollection data)
         {
             if (data.AttributeType == null)
                 throw new ArgumentNullException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_ArgumentNull_CustomAttribute_ctor_data, "data"), "data");
@@ -134,7 +134,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
-        public IIntermediateCustomAttributedDeclaration DeclarationPoint
+        public IIntermediateCustomAttributedEntity DeclarationPoint
         {
             get { return this.declarationPoint; }
         }
@@ -244,7 +244,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
-        ICustomAttributedDeclaration ICustomAttributeInstance.DeclarationPoint
+        ICustomAttributedEntity ICustomAttributeInstance.DeclarationPoint
         {
             get { return this.DeclarationPoint; }
         }

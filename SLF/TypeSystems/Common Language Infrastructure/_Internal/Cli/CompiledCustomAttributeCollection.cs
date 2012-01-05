@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     {
         private Attribute[] attributes;
         private ICustomAttributeInstance[] attributeWrappers;
-        private ICustomAttributedDeclaration parent;
+        private ICustomAttributedEntity parent;
         private Func<bool, object[]> attributeObtainer;
         private ICustomAttributeInstance[] mruList;
         private const int mruListLength = 7;
@@ -177,9 +177,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IEnumerator<ICustomAttributeInstance> GetEnumerator()
         {
-            if (this.attributes == null ||
-                this.attributes.Length == 0)
-                yield break;
             for (int i = 0; i < this.Count; i++)
             {
                 this.CheckItemAt(i);
@@ -214,7 +211,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return false;
         }
 
-        public ICustomAttributedDeclaration Parent
+        public ICustomAttributedEntity Parent
         {
             get { return this.parent; }
         }

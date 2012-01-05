@@ -233,5 +233,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 return this.uniqueIdentifier;
             }
         }
+
+        protected override IModifiersAndAttributesMetadata InitializeMetadata()
+        {
+            return new AnonymousModifiersAndAttributesMetadata(this.MemberInfo.GetRequiredCustomModifiers, this.MemberInfo.GetOptionalCustomModifiers, this.MemberInfo.GetCustomAttributes);
+        }
     }
 }

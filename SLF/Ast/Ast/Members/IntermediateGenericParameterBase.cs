@@ -714,7 +714,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
         }
 
-        #region IIntermediateCustomAttributedDeclaration Members
+        #region IIntermediateCustomAttributedEntity Members
 
         /// <summary>
         /// Returns the <see cref="ICustomAttributeDefinitionCollectionSeries"/> associated

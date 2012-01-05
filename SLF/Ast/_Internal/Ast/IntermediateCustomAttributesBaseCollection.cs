@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             return ((IEnumerable<ICustomAttributeInstance>)(this)).Any(i => i.Type.IsAssignableFrom(attributeType));
         }
 
-        public ICustomAttributedDeclaration Parent
+        public ICustomAttributedEntity Parent
         {
             get { return parent; }
         }

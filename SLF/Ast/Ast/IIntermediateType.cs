@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     /// </summary>
     public interface IIntermediateType :
         IEquatable<IIntermediateType>,
-        IIntermediateCustomAttributedDeclaration,
+        IIntermediateCustomAttributedEntity,
         IIntermediateScopedDeclaration,
         IType
     {

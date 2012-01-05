@@ -82,6 +82,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </summary>
         private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
 
+        private IIntermediateModifiersAndAttributesMetadata metadata;
         /// <summary>
         /// Creates a new <see cref="IntermediateIndexerMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>
         /// with the <paramref name="parent"/> provided.
@@ -605,6 +606,24 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             if (this.uniqueIdentifier != null)
                 this.uniqueIdentifier = null;
             base.OnIdentifierChanged(oldIdentifier, cause);
+        }
+
+        IModifiersAndAttributesMetadata IPropertySignatureMember.Metadata
+        {
+            get
+            {
+                return this.Metadata;
+            }
+        }
+
+        public IIntermediateModifiersAndAttributesMetadata Metadata
+        {
+            get
+            {
+                if (this.metadata == null)
+                    this.metadata = new IntermediateModifiersAndAttributesMetadata();
+                return this.metadata;
+            }
         }
     }
 }

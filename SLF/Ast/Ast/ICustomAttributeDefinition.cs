@@ -26,10 +26,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         new IType Type { get; set; }
         /// <summary>
-        /// The <see cref="IIntermediateCustomAttributedDeclaration"/> on which the <see cref="ICustomAttributeDefinition"/> 
+        /// The <see cref="IIntermediateCustomAttributedEntity"/> on which the <see cref="ICustomAttributeDefinition"/> 
         /// was declared.
         /// </summary>
-        new IIntermediateCustomAttributedDeclaration DeclarationPoint { get; }
+        new IIntermediateCustomAttributedEntity DeclarationPoint { get; }
         /// <summary>
         /// Returns the <see cref="ICustomAttributeDefinitionParameterCollection"/>
         /// which determines the constructor arguments and properties set on the

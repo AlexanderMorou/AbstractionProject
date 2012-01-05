@@ -305,7 +305,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
             #endregion
 
-            #region ICustomAttributedDeclaration Members
+            #region ICustomAttributedEntity Members
 
             public ICustomAttributeCollection CustomAttributes
             {

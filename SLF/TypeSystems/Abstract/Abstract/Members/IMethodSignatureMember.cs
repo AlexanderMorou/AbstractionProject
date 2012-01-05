@@ -98,6 +98,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// </summary>
     public interface IMethodSignatureMember :
         ISignatureMember,
+        ICustomAttributedEntity,
         IGenericParamParent<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember>,
         IMember
     {
@@ -106,6 +107,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// yields upon return.
         /// </summary>
         IType ReturnType { get; }
+        /// <summary>
+        /// Returns the <see cref="IModifiersAndAttributesMetadata"/> which defines 
+        /// meta-data about the return-type's custom attributes, and the return-type's
+        /// required and optional parameters.
+        /// </summary>
+        IModifiersAndAttributesMetadata ReturnTypeMetadata { get; }
         /// <summary>
         /// Returns the original generic form of the current
         /// <see cref="IMethodSignatureMember"/> generic variant.

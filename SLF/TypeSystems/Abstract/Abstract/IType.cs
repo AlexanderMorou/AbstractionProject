@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// </summary>
     public interface IType :
         IEquatable<IType>,
-        ICustomAttributedDeclaration,
+        ICustomAttributedEntity,
         IScopedDeclaration
     {
         /// <summary>

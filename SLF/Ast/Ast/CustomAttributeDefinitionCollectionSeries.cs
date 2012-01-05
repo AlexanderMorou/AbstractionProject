@@ -24,14 +24,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// Creates a new <see cref="CustomAttributeDefinitionCollectionSeries"/> with
         /// the <paramref name="parent"/> provided.
         /// </summary>
-        /// <param name="parent">The <see cref="IIntermediateCustomAttributedDeclaration"/>
+        /// <param name="parent">The <see cref="IIntermediateCustomAttributedEntity"/>
         /// which needs the attribute collection series.</param>
-        public CustomAttributeDefinitionCollectionSeries(IIntermediateCustomAttributedDeclaration parent)
+        public CustomAttributeDefinitionCollectionSeries(IIntermediateCustomAttributedEntity parent)
         {
             this.Parent = parent;
         }
 
-        public CustomAttributeDefinitionCollectionSeries(CustomAttributeDefinitionCollectionSeries wrapped, IIntermediateCustomAttributedDeclaration parent)
+        public CustomAttributeDefinitionCollectionSeries(CustomAttributeDefinitionCollectionSeries wrapped, IIntermediateCustomAttributedEntity parent)
             : base(wrapped.baseList)
         {
         }
@@ -81,10 +81,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
 
         /// <summary>
-        /// Returns the <see cref="IIntermediateCustomAttributedDeclaration"/>
+        /// Returns the <see cref="IIntermediateCustomAttributedEntity"/>
         /// which contains the <see cref="CustomAttributeDefinitionCollectionSeries"/>.
         /// </summary>
-        public IIntermediateCustomAttributedDeclaration Parent { get; private set; }
+        public IIntermediateCustomAttributedEntity Parent { get; private set; }
 
         public ICustomAttributeDefinition[] Flatten()
         {

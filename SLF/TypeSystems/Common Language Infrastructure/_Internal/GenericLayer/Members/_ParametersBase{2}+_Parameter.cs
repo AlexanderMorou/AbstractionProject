@@ -75,28 +75,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
                 get { return this.Original.Direction; }
             }
 
+            public IModifiersAndAttributesMetadata Metadata
+            {
+                get
+                {
+                    return this.Original.Metadata;
+                }
+            }
+
             #endregion
 
             public override IGeneralMemberUniqueIdentifier UniqueIdentifier
             {
                 get { return this.Original.UniqueIdentifier; }
             }
-            #region ICustomAttributedDeclaration Members
-
-            public ICustomAttributeCollection CustomAttributes
-            {
-                get
-                {
-                    return this.Original.CustomAttributes;
-                }
-            }
-
-            public bool IsDefined(IType attributeType)
-            {
-                return this.Original.IsDefined(attributeType);
-            }
-
-            #endregion
         }
     }
 }

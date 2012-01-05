@@ -401,7 +401,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 this.arrayCache = new TypeArrayCache(this, k => new ArrayType(this, k), l => new ArrayType(this, l));
         }
 
-        #region ICustomAttributedDeclaration Members
+        #region ICustomAttributedEntity Members
 
         public ICustomAttributeCollection CustomAttributes
         {

@@ -818,7 +818,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #endregion
 
-        #region IIntermediateCustomAttributedDeclaration Members
+        #region IIntermediateCustomAttributedEntity Members
         /// <summary>
         /// Returns the custom attribute definition collection series associated
         /// to the current assembly.

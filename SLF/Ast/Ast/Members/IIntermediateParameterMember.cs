@@ -40,9 +40,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     /// </summary>
     public interface IIntermediateParameterMember :
         IIntermediateMember,
-        IIntermediateCustomAttributedDeclaration,
+        IIntermediateCustomAttributedEntity,
         IParameterMember
     {
+        /// <summary>
+        /// Returns the <see cref="IIntermediateModifiersAndAttributesMetadata"/> which 
+        /// describes the custom attributes, and the required and optional 
+        /// modifiers specified on the member.
+        /// </summary>
+        new IIntermediateModifiersAndAttributesMetadata Metadata { get; }
         /// <summary>
         /// Returns the parent of the <see cref="IIntermediateParameterMember"/>.
         /// </summary>

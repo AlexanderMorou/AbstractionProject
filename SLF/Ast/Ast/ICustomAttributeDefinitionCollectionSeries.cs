@@ -45,10 +45,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <returns></returns>
         ICustomAttributeDefinitionCollection Add(params CustomAttributeDefinition.ParameterValueCollection[] attributeData);
         /// <summary>
-        /// Returns the <see cref="IIntermediateCustomAttributedDeclaration"/>
+        /// Returns the <see cref="IIntermediateCustomAttributedEntity"/>
         /// which contains the <see cref="ICustomAttributeDefinitionCollectionSeries"/>.
         /// </summary>
-        IIntermediateCustomAttributedDeclaration Parent { get; }
+        IIntermediateCustomAttributedEntity Parent { get; }
         /// <summary>
         /// Flattens the <see cref="ICustomAttributeDefinitionCollectionSeries"/> into a single 
         /// array of <see cref="ICustomAttributeDefinition"/>.

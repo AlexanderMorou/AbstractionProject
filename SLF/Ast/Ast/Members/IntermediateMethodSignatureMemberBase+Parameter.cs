@@ -220,7 +220,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// <returns>A new <see cref="CustomAttributeDefinitionCollectionSeries"/>
             /// instance which refers to the parameters defined on the 
             /// <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter}"/>.</returns>
-            /// <remarks>Links directly to the <see cref="IIntermediateCustomAttributedDeclaration.CustomAttributes"/>
+            /// <remarks>Links directly to the <see cref="IIntermediateCustomAttributedEntity.CustomAttributes"/>
             /// defined on the <see cref="AlternateParameter"/>.</remarks>
             protected override CustomAttributeDefinitionCollectionSeries InitializeCustomAttributes()
             {

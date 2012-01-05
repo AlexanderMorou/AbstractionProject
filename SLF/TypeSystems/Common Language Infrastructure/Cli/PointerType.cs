@@ -252,7 +252,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         }
         #endregion
 
-        #region ICustomAttributedDeclaration Members
+        #region ICustomAttributedEntity Members
 
         public ICustomAttributeCollection CustomAttributes
         {

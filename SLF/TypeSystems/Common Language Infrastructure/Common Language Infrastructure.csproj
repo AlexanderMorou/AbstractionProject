@@ -308,6 +308,7 @@
     <Compile Include="_Internal\Cli\LockedParameterMembersBase{TParent, TParameter}.cs" />
     <Compile Include="_Internal\Cli\LockedPropertySignatureMemberDictionary{4}.cs" />
     <Compile Include="_Internal\Cli\LockedSignatureMembersBase`3.cs" />
+    <Compile Include="_Internal\Cli\Members\AnonymousModifiersAndAttributesMetadata.cs" />
     <Compile Include="_Internal\Cli\Members\BinaryOperatorCoercionMemberBase{TCoercionParent}.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledBinaryOperatorCoercionMemberBase{TCoercionParent}.cs" />
     <Compile Include="_Internal\Cli\Members\CompiledConstructorMemberBase{TCtor, TCtorParent}.cs" />
@@ -397,16 +398,19 @@
     <Compile Include="_Internal\Cli\Members\MemberBase{TIdentifier, TParent}.cs" />
     <Compile Include="_Internal\Cli\Members\MemberExtensions.cs" />
     <Compile Include="_Internal\Cli\Members\MembersBase{TParent, TItem}.cs" />
+    <Compile Include="_Internal\Cli\Members\MethodInfoModifiersAndAttributesMetaData.cs" />
     <Compile Include="_Internal\Cli\Members\MethodMemberBase{TMethod, TMethodParent}.cs" />
     <Compile Include="_Internal\Cli\Members\MethodMembersBase`2.cs" />
     <Compile Include="_Internal\Cli\Members\MethodSignatureMemberBase{2}.cs" />
     <Compile Include="_Internal\Cli\Members\MethodSignatureMemberBase{3}.cs" />
     <Compile Include="_Internal\Cli\Members\MethodSignatureMembersBase`6.cs" />
+    <Compile Include="_Internal\Cli\Members\ParameterInfoModifiersAndAttributesMetadata.cs" />
     <Compile Include="_Internal\Cli\Members\ParameterMemberBase`1.cs" />
     <Compile Include="_Internal\Cli\Members\ParameterMemberDictionaryTypes.cs" />
     <Compile Include="_Internal\Cli\Members\ParameterMembersBase`2.cs" />
     <Compile Include="_Internal\Cli\Members\PropertyMemberBase{TProperty, TPropertyParent}.cs" />
     <Compile Include="_Internal\Cli\Members\PropertySignatureMemberBase.cs" />
+    <Compile Include="_Internal\Cli\Members\ModifiersAndAttributesMetadata.cs" />
     <Compile Include="_Internal\Cli\Members\SignatureMemberBase{3}.cs" />
     <Compile Include="_Internal\Cli\Members\SignatureMembersBase{TSignature, TSignatureParameter, TSignatureParent}.cs" />
     <Compile Include="_Internal\Cli\Members\TypeCoercionMemberBase`1.cs" />

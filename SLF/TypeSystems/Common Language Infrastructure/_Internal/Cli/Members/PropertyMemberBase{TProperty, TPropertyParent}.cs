@@ -46,6 +46,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private IGeneralMemberUniqueIdentifier uniqueIdentifier;
         private TPropertyMethod getMethod;
         private TPropertyMethod setMethod;
+        private IModifiersAndAttributesMetadata metadata;
+
         public PropertyMemberBase(TPropertyParent parent)
             : base(parent)
         {
@@ -278,5 +280,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 return this.uniqueIdentifier;
             }
         }
+
+        public IModifiersAndAttributesMetadata Metadata
+        {
+            get
+            {
+                if (this.metadata == null)
+                    this.metadata = this.InitializeMetadata();
+                return this.metadata;
+            }
+        }
+        protected abstract IModifiersAndAttributesMetadata InitializeMetadata();
     }
 }

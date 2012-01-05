@@ -53,9 +53,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 get { return this.original.Direction; }
             }
 
-            protected override ICustomAttributeCollection InitializeCustomAttributes()
+            protected override IModifiersAndAttributesMetadata InitializeMetadata()
             {
-                return this.original.CustomAttributes;
+                return this.original.Metadata;
             }
 
             protected override string OnGetName()

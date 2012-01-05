@@ -130,5 +130,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 return this.uniqueIdentifier;
             }
         }
+
+        protected override bool CanCacheReturnMetadata
+        {
+            get { return true; }
+        }
+
+        protected override IModifiersAndAttributesMetadata OnGetReturnMetadata()
+        {
+            return new MethodInfoModifiersAndAttributesMetadata(this.MemberInfo);
+        }
+
+        protected override bool CanCacheCustomAttributes
+        {
+            get { return true; }
+        }
+
+        protected override ICustomAttributeCollection OnGetCustomAttributes()
+        {
+            return new CompiledCustomAttributeCollection(this.MemberInfo.GetCustomAttributes);
+        }
     }
 }

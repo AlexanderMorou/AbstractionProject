@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
          * *
          * The parent is the simple type which needs the empty custom attribute collection.
          * */
-        public LockedEmptyCustomAttributeCollection(ICustomAttributedDeclaration parent)
+        public LockedEmptyCustomAttributeCollection(ICustomAttributedEntity parent)
             : base()
         {
             this.Parent = parent;
@@ -60,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region ICustomAttributeCollection Members
 
-        public ICustomAttributedDeclaration Parent { get; private set; }
+        public ICustomAttributedEntity Parent { get; private set; }
 
         #endregion
 

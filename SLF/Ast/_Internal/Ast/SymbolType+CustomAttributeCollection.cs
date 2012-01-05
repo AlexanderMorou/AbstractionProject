@@ -18,8 +18,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             ReadOnlyCollection<ICustomAttributeInstance>,
             ICustomAttributeCollection
         {
-            private ICustomAttributedDeclaration parent;
-            public CustomAttributeCollection(ICustomAttributedDeclaration parent)
+            private ICustomAttributedEntity parent;
+            public CustomAttributeCollection(ICustomAttributedEntity parent)
                 : base()
             {
                 this.parent = parent;
@@ -32,7 +32,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 return false;
             }
 
-            public ICustomAttributedDeclaration Parent
+            public ICustomAttributedEntity Parent
             {
                 get { return this.parent; }
             }
