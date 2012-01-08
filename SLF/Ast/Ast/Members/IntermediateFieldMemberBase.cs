@@ -5,6 +5,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -39,7 +40,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIntermediateFieldParent<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>
     {
         private IGeneralMemberUniqueIdentifier uniqueIdentifier;
-
+        private IType fieldType;
         protected IntermediateFieldMemberBase(string name, TIntermediateFieldParent parent)
             : base(parent)
         {
@@ -48,7 +49,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         #region IIntermediateFieldMember Members
 
-        public virtual IType FieldType { get; set; }
+        public virtual IType FieldType
+        {
+            get
+            {
+                return this.fieldType;
+            }
+            set
+            {
+                this.fieldType = value;
+            }
+        }
 
         IFieldReferenceExpression IIntermediateFieldMember.GetReference(IMemberParentReferenceExpression source)
         {
@@ -77,7 +88,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get {
                 if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.uniqueIdentifier = AstIdentifier.Member(this.Name);
                 return this.uniqueIdentifier;
             }
         }
@@ -87,6 +101,20 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             if (this.uniqueIdentifier != null)
                 this.uniqueIdentifier = null;
             base.OnIdentifierChanged(oldIdentifier, cause);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            try
+            {
+                if (this.uniqueIdentifier != null)
+                    this.uniqueIdentifier = null;
+                this.fieldType = null;
+            }
+            finally
+            {
+                base.Dispose(disposing);
+            }
         }
     }
 }

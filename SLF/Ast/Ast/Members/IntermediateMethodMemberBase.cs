@@ -1368,5 +1368,21 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             visitor.Visit(this);
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            try
+            {
+                if (this.statementContainer != null)
+                {
+                    this.statementContainer.baseList.Clear();
+                    this.statementContainer = null;
+                }
+            }
+            finally
+            {
+                base.Dispose(disposing);
+            }
+        }
     }
 }

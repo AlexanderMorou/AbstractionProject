@@ -267,11 +267,44 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             PropertyMethodMember,
             IIntermediatePropertySetMethodMember
         {
-            private IIntermediateMethodParameterMember valueParameter;
+            private _ValueParameter valueParameter;
 
             public PropertySetMethodMember(IntermediateClassPropertyMember<TInstanceIntermediateType> owner, TInstanceIntermediateType parent)
                 : base(PropertyMethodType.SetMethod,owner, parent)
             {
+
+            }
+            private class _ValueParameter :
+                ParameterMember
+            {
+
+                public _ValueParameter(PropertySetMethodMember parent)
+                    : base(parent)
+                {
+                }
+
+                private PropertySetMethodMember _Parent { get { return (PropertySetMethodMember)base.Parent; } }
+                protected override void OnSetName(string name)
+                {
+                    throw new NotSupportedException();
+                }
+
+                protected override string OnGetName()
+                {
+                    return "value";
+                }
+
+                public override IType ParameterType
+                {
+                    get
+                    {
+                        return this._Parent.Owner.PropertyType;
+                    }
+                    set
+                    {
+                        this._Parent.Owner.PropertyType = value;
+                    }
+                }
             }
 
             #region IIntermediatePropertySetMethodMember Members
@@ -280,7 +313,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 get {
                     if (this.valueParameter == null)
-                        return this.Parameters["value"];
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                        else
+                            return this.valueParameter = (_ValueParameter)this.Parameters["value"];
                     return valueParameter;
                 }
             }
@@ -291,7 +327,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 var result = base.InitializeParameters();
                 result.Unlock();
-                this.valueParameter = result.Add(new TypedName("value", this.Owner.PropertyType));
+                result._Add(AstIdentifier.Member("value"), this.valueParameter = new _ValueParameter(this));
                 result.Lock();
                 return result;
             }
@@ -348,7 +384,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             protected override IntermediateParameterMemberDictionary<IClassMethodMember, IIntermediateClassMethodMember, IMethodParameterMember<IClassMethodMember, IClassType>, IIntermediateMethodParameterMember<IClassMethodMember, IIntermediateClassMethodMember, IClassType, IIntermediateClassType>> InitializeParameters()
             {
-                var result =  base.InitializeParameters();
+                var result = base.InitializeParameters();
                 result.Lock();
                 return result;
             }
@@ -357,6 +393,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 var result = base.InitializeTypeParameters();
                 result.Lock();
                 return result;
+            }
+
+            protected override void Dispose(bool disposing)
+            {
+                try
+                {
+                    this.Owner = null;
+                }
+                finally
+                {
+                    base.Dispose(disposing);
+                }
             }
         }
 

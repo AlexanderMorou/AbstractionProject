@@ -146,7 +146,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 get
                 {
                     if (this.valueParameter == null)
-                        valueParameter = (_ValueParameter)this.Parameters["value"];
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                        else
+                            valueParameter = (_ValueParameter)this.Parameters["value"];
                     return valueParameter;
                 }
             }
@@ -225,6 +228,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         parameters._Remove(valueParameter.UniqueIdentifier);
                         parameters._Add(valueParameter.UniqueIdentifier, valueParameter);
                     }
+                }
+            }
+
+            protected override void Dispose(bool disposing)
+            {
+                try
+                {
+                    this.valueParameter = null;
+                }
+                finally
+                {
+                    base.Dispose(disposing);
                 }
             }
         }
@@ -326,6 +341,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             void OwnerParameters_ItemRemoved(object sender, EventArgsR1<IIntermediateIndexerParameterMember<IStructIndexerMember, IIntermediateStructIndexerMember, IStructType, IIntermediateStructType>> e)
             {
+                if (this.owner == null)
+                    return;
                 lock (this.Owner.Parameters.SyncRoot)
                 {
                     var parameters = this.Parameters as IntermediateParameterMemberDictionary<IStructMethodMember, IIntermediateStructMethodMember, IMethodParameterMember<IStructMethodMember, IStructType>, IIntermediateMethodParameterMember<IStructMethodMember, IIntermediateStructMethodMember, IStructType, IIntermediateStructType>>;
@@ -344,6 +361,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 }
             }
 
+            protected override void Dispose(bool disposing)
+            {
+                try
+                {
+                    this.owner = null;
+                }
+                finally
+                {
+                    base.Dispose(disposing);
+                }
+            }
         }
 
         protected override IntermediateStructIndexerMember<TInstanceIntermediateType>.IndexerMethodMember GetMethodMember(PropertyMethodType methodType)
@@ -675,7 +703,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 get
                 {
                     if (this.valueParameter == null)
-                        this.valueParameter = (_ValueParameter)this.Parameters["value"];
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                        else
+                            this.valueParameter = (_ValueParameter)this.Parameters["value"];
                     return valueParameter;
                 }
             }
@@ -732,6 +763,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return result;
             }
 
+            protected override void Dispose(bool disposing)
+            {
+                try
+                {
+                    this.valueParameter = null;
+                }
+                finally
+                {
+                    base.Dispose(disposing);
+                }
+            }
         }
         public class PropertyMethodMember :
             IntermediateStructMethodMember<TInstanceIntermediateType>,
@@ -794,6 +836,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return result;
             }
 
+            protected override void Dispose(bool disposing)
+            {
+                try
+                {
+                    this.owner = null;
+                }
+                finally
+                {
+                    base.Dispose(disposing);
+                }
+            }
         }
 
         protected override IntermediateStructPropertyMember<TInstanceIntermediateType>.PropertyMethodMember GetMethodMember(PropertyMethodType methodType)

@@ -103,6 +103,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         return AstIdentifier.GenericSignature(this.Name);
                     }
                 }
+
+                protected override void Dispose(bool disposing)
+                {
+                    try
+                    {
+                        this.Owner = null;
+                    }
+                    finally
+                    {
+                        base.Dispose(disposing);
+                    }
+                }
             }
 
             internal sealed class PropertySetMethod :
@@ -165,7 +177,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     get
                     {
                         if (this.valueParameter == null)
-                            return this.Parameters["value"];
+                            if (this.IsDisposed)
+                                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                            else
+                                return this.valueParameter = (_ValueParameter)this.Parameters["value"];
                         return valueParameter;
                     }
                 }
@@ -188,6 +203,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         return AstIdentifier.GenericSignature(this.Name, this.Owner.PropertyType);
                     }
                 }
+
+                protected override void Dispose(bool disposing)
+                {
+                    try
+                    {
+                        this.valueParameter = null;
+                    }
+                    finally
+                    {
+                        base.Dispose(disposing);
+                    }
+                }
             }
 
             protected override PropertyMethod GetMethodSignatureMember(PropertyMethodType methodType)
@@ -206,6 +233,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 visitor.Visit(this);
             }
+
         }
 
         private class IndexerMember :
@@ -258,7 +286,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     }
                 }
 
-
                 protected override IntermediateParameterMemberDictionary<IInterfaceMethodMember, IIntermediateInterfaceMethodMember, IMethodSignatureParameterMember<IInterfaceMethodMember, IInterfaceType>, IIntermediateMethodSignatureParameterMember<IInterfaceMethodMember, IIntermediateInterfaceMethodMember, IInterfaceType, IIntermediateInterfaceType>> InitializeParameters()
                 {
                     var result = base.InitializeParameters();
@@ -271,6 +298,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     get
                     {
                         return AstIdentifier.GenericSignature(this.Name);
+                    }
+                }
+
+                protected override void Dispose(bool disposing)
+                {
+                    try
+                    {
+                        this.Owner = null;
+                    }
+                    finally
+                    {
+                        base.Dispose(disposing);
                     }
                 }
             }
@@ -335,7 +374,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     get
                     {
                         if (this.valueParameter == null)
-                            return this.Parameters["value"];
+                            if (this.IsDisposed)
+                                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                            else
+                                return this.valueParameter = (_ValueParameter)this.Parameters["value"];
                         return valueParameter;
                     }
                 }
@@ -356,6 +398,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     get
                     {
                         return AstIdentifier.GenericSignature(this.Name, this.Owner.PropertyType);
+                    }
+                }
+
+                protected override void Dispose(bool disposing)
+                {
+                    try
+                    {
+                        this.valueParameter = null;
+                    }
+                    finally
+                    {
+                        base.Dispose(disposing);
                     }
                 }
             }

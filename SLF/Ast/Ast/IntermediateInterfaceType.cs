@@ -570,5 +570,46 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return this.uniqueIdentifier;
         }
 
+        public override void Dispose()
+        {
+            try
+            {
+                if (this.events != null)
+                {
+                    this.events.Dispose();
+                    this.events = null;
+                }
+
+                if (this.indexers != null)
+                {
+                    this.indexers.Dispose();
+                    this.indexers = null;
+                }
+                if (this.properties != null)
+                {
+                    this.properties.Dispose();
+                    this.properties = null;
+                }
+
+                if (this.methods != null)
+                {
+                    this.methods.Dispose();
+                    this.methods = null;
+                }
+                if (this.members != null)
+                {
+                    if (this.IsRoot)
+                        this.members.Dispose();
+                    else
+                        this.members.ConditionalRemove(this);
+                    this.members = null;
+                }
+            }
+            finally
+            {
+                base.Dispose();
+            }
+        }
+
     }
 }
