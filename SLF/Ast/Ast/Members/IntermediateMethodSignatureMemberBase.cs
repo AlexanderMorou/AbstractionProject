@@ -349,7 +349,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             get
             {
                 if (this.typeParameters == null)
-                    this.typeParameters = this.InitializeTypeParameters();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                    else
+                        this.typeParameters = this.InitializeTypeParameters();
                 return this.typeParameters;
             }
         }
@@ -412,6 +415,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     if (this.typeParameters != null)
                         this.typeParameters.Dispose();
                     this.returnType = null;
+                    this.returnTypeMetadata = null;
+                    this.uniqueIdentifier = null;
+                    if (this.customAttributes != null)
+                    {
+                        this.customAttributes.Dispose();
+                        this.customAttributes = null;
+                    }
+                    if (this._customAttributes != null)
+                    {
+                        this._customAttributes.Dispose();
+                        this._customAttributes = null;
+                    }
                 }
             }
             finally
@@ -437,15 +452,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             get {
                 if (this.uniqueIdentifier == null)
                 {
-                    if (this.AreTypeParametersInitialized)
-                        if (this.AreParametersInitialized)
-                            this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name, this.typeParameters.Count, this.Parameters.ParameterTypes.ToArray());
-                        else
-                            this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name, this.typeParameters.Count);
-                    else if (this.AreParametersInitialized)
-                        this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name, this.Parameters.ParameterTypes.ToArray());
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
                     else
-                        this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name);
+                        if (this.AreTypeParametersInitialized)
+                            if (this.AreParametersInitialized)
+                                this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name, this.typeParameters.Count, this.Parameters.ParameterTypes.ToArray());
+                            else
+                                this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name, this.typeParameters.Count);
+                        else if (this.AreParametersInitialized)
+                            this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name, this.Parameters.ParameterTypes.ToArray());
+                        else
+                            this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name);
                 }
                 return this.uniqueIdentifier;
             }
@@ -510,7 +528,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         private MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes GetSignatureTypes()
         {
             if (signatureTypes == null)
-                this.signatureTypes = new MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes((TIntermediateSignature)(object)this);
+                if (this.IsDisposed)
+                    throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                else
+                    this.signatureTypes = new MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes((TIntermediateSignature)(object)this);
             return this.signatureTypes;
         }
 
@@ -614,7 +635,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             get
             {
                 if (this.returnTypeMetadata == null)
-                    this.returnTypeMetadata = new IntermediateModifiersAndAttributesMetadata();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                    else
+                        this.returnTypeMetadata = new IntermediateModifiersAndAttributesMetadata();
                 return this.returnTypeMetadata;
             }
         }
@@ -636,7 +660,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             get
             {
                 if (this._customAttributes != null)
-                    this._customAttributes = ((CustomAttributeDefinitionCollectionSeries)(this.CustomAttributes)).GetWrapper();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                    else
+                        this._customAttributes = ((CustomAttributeDefinitionCollectionSeries)(this.CustomAttributes)).GetWrapper();
                 return this._customAttributes;
             }
         }
@@ -646,7 +673,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             get
             {
                 if (this.customAttributes != null)
-                    this.customAttributes = new CustomAttributeDefinitionCollectionSeries(this);
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                    else
+                        this.customAttributes = new CustomAttributeDefinitionCollectionSeries(this);
                 return this.customAttributes;
             }
         }
@@ -655,5 +685,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             return this.StandardIsDefined(attributeType);
         }
+
     }
 }

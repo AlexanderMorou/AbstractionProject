@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Utilities.Events;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -121,8 +122,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 if (this.canRead)
                 {
-                    if (this.IsGetMethodInitialized)
-                        this.getMethod = this.GetMethodMember(PropertyMethodType.GetMethod);
+                    if (this.getMethod == null)
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                        else
+                            this.getMethod = this.GetMethodMember(PropertyMethodType.GetMethod);
                     return this.getMethod;
                 }
                 else
@@ -130,13 +134,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
         }
 
-        internal bool IsGetMethodInitialized
-        {
-            get
-            {
-                return this.getMethod == null;
-            }
-        }
 
 
         protected abstract TMethodMember GetMethodMember(PropertyMethodType methodType);
@@ -153,8 +150,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 if (this.canWrite)
                 {
-                    if (this.IsSetMethodInitialized)
-                        this.setMethod = this.GetMethodMember(PropertyMethodType.SetMethod);
+                    if (setMethod == null)
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                        else
+                            this.setMethod = this.GetMethodMember(PropertyMethodType.SetMethod);
                     return this.setMethod;
                 }
                 else
@@ -162,13 +162,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
         }
 
-        internal bool IsSetMethodInitialized
-        {
-            get
-            {
-                return this.setMethod == null;
-            }
-        }
         IIntermediatePropertyMethodMember IIntermediatePropertyMember.GetMethod
         {
             get
@@ -591,12 +584,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier
         {
-            get {
+            get
+            {
                 if (this.uniqueIdentifier == null)
-                    if (this.AreParametersInitialized)
-                        this.uniqueIdentifier = AstIdentifier.Signature(this.Name, this.Parameters.ParameterTypes.ToArray());
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                     else
-                        this.uniqueIdentifier = AstIdentifier.Signature(this.Name);
+                        if (this.AreParametersInitialized)
+                            this.uniqueIdentifier = AstIdentifier.Signature(this.Name, this.Parameters.ParameterTypes.ToArray());
+                        else
+                            this.uniqueIdentifier = AstIdentifier.Signature(this.Name);
                 return this.uniqueIdentifier;
             }
         }
@@ -621,8 +618,41 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             get
             {
                 if (this.metadata == null)
-                    this.metadata = new IntermediateModifiersAndAttributesMetadata();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.metadata = new IntermediateModifiersAndAttributesMetadata();
                 return this.metadata;
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            try
+            {
+                if (this.uniqueIdentifier != null)
+                    this.uniqueIdentifier = null;
+                if (this.metadata != null)
+                    this.metadata = null;
+                if (this.canRead)
+                    this.canRead = false;
+                if (this.getMethod != null)
+                {
+                    this.getMethod.Dispose();
+                    this.getMethod = null;
+                }
+                if (this.canWrite)
+                    this.canWrite = false;
+                if (this.setMethod != null)
+                {
+                    this.setMethod.Dispose();
+                    this.setMethod = null;
+                }
+                this.propertyType = null;
+            }
+            finally
+            {
+                base.Dispose(disposing);
             }
         }
     }

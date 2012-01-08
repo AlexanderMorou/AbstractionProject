@@ -38,25 +38,27 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     {
         private static void Main()
         {
-            //AssemblyName an = new AssemblyName("TestAssembly");
-            //AssemblyBuilder ab = AppDomain.CurrentDomain.DefineDynamicAssembly(an, AssemblyBuilderAccess.Save);
-            //var mod = ab.DefineDynamicModule("TestAssembly.dll");
-            //var type = mod.DefineType("AllenCopeland.Abstraction.SupplementaryProjects.TestAssembly.TestType", TypeAttributes.AnsiClass | TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.Public);
-            //var field = type.DefineField("testField", typeof(int), new Type[0], new[] { typeof(IsLong) }, FieldAttributes.Public | FieldAttributes.Static);
-            //var prop = type.DefineProperty("TestProperty", PropertyAttributes.None, CallingConventions.Standard, typeof(long), new[] { typeof(IsLong) }, new Type[0], null, null, null);
-            //var propSetMethod = type.DefineMethod("set_TestProperty", MethodAttributes.SpecialName | MethodAttributes.Static | MethodAttributes.Public, typeof(long), new Type[0]);
-            //var propSetMethodILGen = propSetMethod.GetILGenerator();
-            //propSetMethodILGen.Emit(OpCodes.Ldc_I4_0);
-            //propSetMethodILGen.Emit(OpCodes.Conv_I8);
-            //propSetMethodILGen.Emit(OpCodes.Ret);
-            //prop.SetGetMethod(propSetMethod);
-            //type.CreateType();
-            //ab.Save("TestAssembly.dll");
+            AssemblyName an = new AssemblyName("TestAssembly");
+            AssemblyBuilder ab = AppDomain.CurrentDomain.DefineDynamicAssembly(an, AssemblyBuilderAccess.Save);
+            var mod = ab.DefineDynamicModule("TestAssembly.dll");
+            var type = mod.DefineType("AllenCopeland.Abstraction.SupplementaryProjects.TestAssembly.TestType", TypeAttributes.AnsiClass | TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.Public);
+            var field = type.DefineField("testField", typeof(int), new Type[0], new[] { typeof(IsLong) }, FieldAttributes.Public | FieldAttributes.Static);
+            var prop = type.DefineProperty("TestProperty", PropertyAttributes.None, CallingConventions.Standard, typeof(long), new[] { typeof(IsLong) }, new Type[0], null, null, null);
+            var propSetMethod = type.DefineMethod("set_TestProperty", MethodAttributes.SpecialName | MethodAttributes.Static | MethodAttributes.Public, typeof(long), new Type[0]);
+            var propSetMethodILGen = propSetMethod.GetILGenerator();
+            propSetMethodILGen.Emit(OpCodes.Ldc_I4_0);
+            propSetMethodILGen.Emit(OpCodes.Conv_I8);
+            propSetMethodILGen.Emit(OpCodes.Ret);
+            prop.SetGetMethod(propSetMethod);
+            type.CreateType();
+            var glField = mod.DefineInitializedData("TestData$PST04", new byte[] { 0, 1, 2, 3, 4, 5 }, FieldAttributes.PrivateScope);
+            mod.CreateGlobalFunctions();
+            ab.Save("TestAssembly.dll");
             
             //CompressionTest();
             //ExtensionsTest();
             //TimedMirrorTest();
-            CreationTest();
+            //CreationTest();
             //var msLangVendor = LanguageVendors.Microsoft;
             //IIntermediateAssembly iia = msLangVendor.GetVisualBasicLanguage().GetMyProvider().CreateAssembly("TestAssembly");
             //var uas = iia.Methods.Add(new TypedName("TestMethod1", typeof(void).GetTypeReference()), new TypedNameSeries(new TypedName("arg1", "IList".GetSymbolType("T1".GetSymbolType()))), new GenericParameterData("T1"));
@@ -171,16 +173,19 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
         {
             Console.WriteLine("Took {0} primarily", MiscHelperMethods.TimeAction(Execute));
             Console.WriteLine("Press any key to continue...");
+            CLIGateway.ClearCache();
             GC.Collect();
             GC.WaitForPendingFinalizers();
             Console.ReadKey(true);
             Console.WriteLine("Took {0} secondarily", MiscHelperMethods.TimeAction(Execute));
             Console.WriteLine("Press any key to continue...");
+            CLIGateway.ClearCache();
             GC.Collect();
             GC.WaitForPendingFinalizers();
             Console.ReadKey(true);
             Console.WriteLine("Took {0} tertiarily", MiscHelperMethods.TimeAction(Execute));
             Console.WriteLine("Press any key to exit...");
+            CLIGateway.ClearCache();
             GC.Collect();
             GC.WaitForPendingFinalizers();
             Console.ReadKey(true);
@@ -189,7 +194,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
         private static void Execute()
         {
             //SeriesCreationTest();
-            var assembly = LanguageVendors.Microsoft.GetVisualBasicLanguage().GetMyProvider().CreateAssembly("TestAssembly");
+            var assembly = LanguageVendors.Microsoft.GetVisualBasicLanguage().GetProvider().CreateAssembly("TestAssembly");
             var testNamespace = assembly.Namespaces.Add("TestNamespace");
             var testMethod = assembly.Methods.Add(new TypedName("TestMethod", typeof(int).GetTypeReference()));
             testMethod.ReturnTypeMetadata.OptionalModifiers.Add(typeof(IsLong).GetTypeReference());
@@ -205,9 +210,11 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             var testClassConstructor = testClass.Constructors.Add(new TypedName("testParam", typeof(double).GetTypeReference()));
             var testClassEvent = testClass.Events.Add(new TypedName("testClassEvent", typeof(Action).GetTypeReference()));
             var testClassField = testClass.Fields.Add(new TypedName("testClassField", typeof(float).GetTypeReference()));
-            var testClassIndexer = testClass.Indexers.Add(new TypedName("TestClassIndexer", typeof(Decimal).GetTypeReference()), new TypedNameSeries() { { "index", typeof(int).GetTypeReference() } }, true, false);
+            var testClassIndexer = testClass.Indexers.Add(new TypedName("TestClassIndexer", typeof(Decimal).GetTypeReference()), new TypedNameSeries() { { "index", typeof(int).GetTypeReference() } }, true, true);
             var testClassTypeCoercion = testClass.TypeCoercions.Add(TypeConversionRequirement.Explicit, TypeConversionDirection.FromContainingType, typeof(int).GetTypeReference());
             var testClassUnaryOperator = testClass.UnaryOperatorCoercions.Add(CoercibleUnaryOperators.Complement);
+            var testClassIndexerSetMethod = testClassIndexer.SetMethod;
+            testClassIndexerSetMethod.Assign(testClassField.GetReference(), 0F.ToPrimitive());
             var testStructMethod = testStruct.Methods.Add(new TypedName("TestStructMethod", CommonTypeRefs.Void));
             var testStructProperty = testStruct.Properties.Add(new TypedName("TestStructProperty", CommonTypeRefs.Object));
             var testStructBinaryCoercion = testStruct.BinaryOperatorCoercions.Add(Slf.Abstract.Members.CoercibleBinaryOperators.Add, typeof(int).GetTypeReference());
@@ -226,7 +233,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             var testInterfaceIndexerSetMethod = (IIntermediateInterfaceMethodMember)testInterfaceIndexer.SetMethod;
             var valueParam = testInterfacePropertySetMethod.Parameters[AstIdentifier.Member("value")];
             valueParam.Metadata.OptionalModifiers.Add(typeof(int).GetTypeReference());
-            //CLIGateway.ClearCache();
+            assembly.Dispose();
             //GC.Collect();
             //GC.WaitForPendingFinalizers();
             
@@ -298,6 +305,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
                 var winForms = winFormsCS();
                 return Tuple.Create(winForms.Item1, linq.Item1, winForms.Item2, linq.Item2);
             });
+            
             Console.WriteLine("Running initial test...");
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * *");
             Console.WriteLine("* If the native image has been generated for    *");

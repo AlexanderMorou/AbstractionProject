@@ -261,6 +261,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             if (disposing)
             {
+                this.IdentifierChanged = null;
+                this._IdentifierChanged = null;
                 this._Renamed = null;
                 this._Renaming = null;
                 this.name = null;

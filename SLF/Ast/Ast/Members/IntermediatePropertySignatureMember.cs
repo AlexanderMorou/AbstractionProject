@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -166,7 +167,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 if (this.canRead)
                 {
                     if (this.getMethod == null)
-                        this.getMethod = this.GetMethodSignatureMember(PropertyMethodType.GetMethod);
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                        else
+                            this.getMethod = this.GetMethodSignatureMember(PropertyMethodType.GetMethod);
                     return this.getMethod;
                 }
                 else
@@ -187,7 +191,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 if (this.canWrite)
                 {
                     if (this.setMethod == null)
-                        this.setMethod = this.GetMethodSignatureMember(PropertyMethodType.SetMethod);
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                        else
+                            this.setMethod = this.GetMethodSignatureMember(PropertyMethodType.SetMethod);
                     return (IIntermediatePropertySignatureSetMethodMember)this.setMethod;
                 }
                 else
@@ -241,7 +248,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get {
                 if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.uniqueIdentifier = AstIdentifier.Member(this.Name);
                 return this.uniqueIdentifier;
             }
         }
@@ -259,8 +269,41 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             get
             {
                 if (this.metadata == null)
-                    this.metadata = new IntermediateModifiersAndAttributesMetadata();
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.metadata = new IntermediateModifiersAndAttributesMetadata();
                 return this.metadata;
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            try
+            {
+                if (this.uniqueIdentifier != null)
+                    this.uniqueIdentifier = null;
+                if (this.metadata != null)
+                    this.metadata = null;
+                if (this.canRead)
+                    this.canRead = false;
+                if (this.getMethod != null)
+                {
+                    this.getMethod.Dispose();
+                    this.getMethod = null;
+                }
+                if (this.canWrite)
+                    this.canWrite = false;
+                if (this.setMethod != null)
+                {
+                    this.setMethod.Dispose();
+                    this.setMethod = null;
+                }
+                this.propertyType = null;
+            }
+            finally
+            {
+                base.Dispose(disposing);
             }
         }
     }

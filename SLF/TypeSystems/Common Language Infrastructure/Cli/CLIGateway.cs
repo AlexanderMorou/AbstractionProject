@@ -37,27 +37,34 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Stores the CLI type->SLF type relationships.
         /// </summary>
         internal static IDictionary<Type, IType> CompiledTypeCache = new Dictionary<Type, IType>();
-        private static object freezeLock = new object();
+        private static object cacheLock = new object();
         private static bool cacheFreeze = false;
+        private static object cacheClearClock = new object();
         /// <summary>
         /// Clears the cache.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static void ClearCache()
         {
+
             if (assemblyCache != null)
             {
-                var copy = assemblyCache.Values.ToArray();
-                assemblyCache.Clear();
-                foreach (var assembly in copy)
+                ICompiledAssembly[] cacheCopy;
+                lock (cacheClearClock)
+                    lock (cacheLock)
+                    {
+                        cacheCopy = assemblyCache.Values.ToArray();
+                        assemblyCache.Clear();
+                    }
+                foreach (var assembly in cacheCopy)
                     assembly.Dispose();
             }
-            lock (freezeLock)
-                cacheFreeze = true;
-            Parallel.ForEach(CompiledTypeCache.Values.ToArray(), p => p.Dispose());
-            lock (freezeLock)
-                cacheFreeze = false;
-            CompiledTypeCache.Clear();
+            lock (cacheClearClock)
+                lock (cacheLock)
+                {
+                    Parallel.ForEach(CompiledTypeCache.Values.ToArray(), p => p.Dispose());
+                    CompiledTypeCache.Clear();
+                }
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
@@ -174,215 +181,215 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// provided.</returns>
         public static IType GetTypeReference(this Type type)
         {
-            lock (freezeLock)
-                if (cacheFreeze)
-                    return null;
-            /* *
-             * Notes: First, remove byref
-             *        Second, remove pointers 
-             *        Third, remove arrays
-             *        Fourth, remove 'nullable' status
-             *        Finally, Breakdown generic-type
-             * */
-            /* *
-             * Cache note: The breakdown stage cache points are to
-             *             re-establish the System.Type with the
-             *             staged built IType that results from
-             *             this call.  So each permutation
-             *             is available in cache for later use.
-             * *
-             *             This reduces further call overhead with
-             *             a light memory cost and single reference
-             *             per stage.
-             * */
-            Type t = type;
-            if (t == null)
-                throw new ArgumentNullException("type");
-            //lock (CLIGateway.CompiledTypeCache)
-            IType result;
-            lock (CLIGateway.CompiledTypeCache)
-                if (CLIGateway.CompiledTypeCache.TryGetValue(t, out result))
-                    return result;
-            Type byRefType = null;
-            #region GenericParameter breakdown
-
-            #region ByReference
-            bool byRef = t.IsByRef;
-            if (byRef)
+            lock (cacheClearClock)
             {
-                byRefType = t;
-                t = t.GetElementType();
-            }
-            #endregion
+                /* *
+                 * Notes: First, remove byref
+                 *        Second, remove pointers 
+                 *        Third, remove arrays
+                 *        Fourth, remove 'nullable' status
+                 *        Finally, Breakdown generic-type
+                 * */
+                /* *
+                 * Cache note: The breakdown stage cache points are to
+                 *             re-establish the System.Type with the
+                 *             staged built IType that results from
+                 *             this call.  So each permutation
+                 *             is available in cache for later use.
+                 * *
+                 *             This reduces further call overhead with
+                 *             a light memory cost and single reference
+                 *             per stage.
+                 * */
+                Type t = type;
+                if (t == null)
+                    throw new ArgumentNullException("type");
+                //lock (CLIGateway.CompiledTypeCache)
+                IType result;
+                lock (cacheLock)
+                    if (CLIGateway.CompiledTypeCache.TryGetValue(t, out result))
+                        return result;
+                Type byRefType = null;
+                #region GenericParameter breakdown
 
-            #region Array Breakdown
-
-            int arrayDepth = 0;
-            for (Type j = t; j.IsArray; j = j.GetElementType())
-                arrayDepth++;
-            int[] ranks = new int[arrayDepth];
-            int rankCount = arrayDepth;
-            arrayDepth = 0;
-            /* *
-             * Fill in the array ranks.
-             * Ignore that it's reversed order since 
-             * the type system by default is in reverse rank
-             * order.
-             * */
-            Stack<Type> arrayTypes = new Stack<Type>();
-            for (; t.IsArray; t = t.GetElementType())
-            {
-                ranks[rankCount - ++arrayDepth] = t.GetArrayRank();
-                arrayTypes.Push(t);
-            }
-            if (arrayTypes.Count == 0)
-                arrayTypes = null;
-            #endregion
-
-            #region Pointers
-            int ptrThreshold = 0;
-            Stack<Type> pointerTypes = new Stack<Type>();
-            while (t.IsPointer)
-            {
-                pointerTypes.Push(t);
-                t = t.GetElementType();
-                ptrThreshold++;
-            }
-            if (pointerTypes.Count == 0)
-                pointerTypes = null;
-            #endregion
-
-            #region Nullable breakdown
-            bool nullable = false;
-            Type nullableType = null;
-            if (t.IsGenericType && (!t.IsGenericTypeDefinition && t.GetGenericTypeDefinition() == typeof(Nullable<>)))
-            {
-                nullableType = t;
-                nullable = true;
-                t = t.GetGenericArguments()[0];
-            }
-            #endregion
-
-            #region Closed GenericType breakdown
-            ITypeCollection typeParameters = null;
-            Type closedGenericType = null;
-            if (t.IsGenericType && !t.IsGenericTypeDefinition)
-            {
-                closedGenericType = t;
-                typeParameters = t.GetGenericArguments().ToCollection();
-                t = t.GetGenericTypeDefinition();
-            }
-            #endregion
-
-            #endregion
-
-            #region Initial type instantiation/retrieval.
-
-            if (CompiledTypeCache.ContainsKey(t))
-                result = CompiledTypeCache[t];
-            else if (t.IsGenericParameter)
-            {
-                #region GenericParameter-Parameter resolution.
-                bool positiveMatch = true;
-                if (t.DeclaringMethod == null && t.DeclaringType != null)
+                #region ByReference
+                bool byRef = t.IsByRef;
+                if (byRef)
                 {
-                    IGenericType lookupPoint = (IGenericType)t.DeclaringType.GetTypeReference();
-                    if (!(t.GenericParameterPosition < 0 || t.GenericParameterPosition >= lookupPoint.GenericParameters.Count))
-                    {
-                        result = lookupPoint.GenericParameters[t.GenericParameterPosition];
-                        positiveMatch = true;
-                    }
-                }
-                else if (t.DeclaringMethod != null)
-                {
-                    IType lookupAid = t.DeclaringMethod.DeclaringType.GetTypeReference();
-                    if (lookupAid is IMethodParent)
-                    {
-                        IMethodParent lookupAid2 = (IMethodParent)lookupAid;
-                        foreach (ICompiledMethodMember icmm in lookupAid2.Methods.Values)
-                            if (icmm.MemberInfo == t.DeclaringMethod)
-                                foreach (ICompiledGenericParameter icgp in icmm.TypeParameters.Values)
-                                    if (icgp.UnderlyingSystemType == t)
-                                    {
-                                        result = icgp;
-                                        positiveMatch = true;
-                                    }
-                    }
-                    else if (lookupAid is IMethodSignatureParent)
-                    {
-                        IMethodSignatureParent lookupAid2 = (IMethodSignatureParent)lookupAid;
-                        foreach (ICompiledMethodSignatureMember icmm in lookupAid2.Methods.Values)
-                            if (icmm.MemberInfo == t.DeclaringMethod)
-                                foreach (ICompiledGenericParameter icgp in icmm.TypeParameters.Values)
-                                    if (icgp.UnderlyingSystemType == t)
-                                    {
-                                        result = icgp;
-                                        positiveMatch = true;
-                                    }
-                    }
+                    byRefType = t;
+                    t = t.GetElementType();
                 }
                 #endregion
-                if (!positiveMatch)
-                    return null;
-            }
-            else if (t.IsEnum)
-                result = new CompiledEnumType(t);
-            else if (t.IsSubclassOf(typeof(Delegate)) && t != typeof(MulticastDelegate))
-                result = new CompiledDelegateType(t);
-            else if (t.IsClass)
-                result = new CompiledClassType(t);
-            else if (t.IsValueType ||
-                     t == typeof(Enum))
-                result = new CompiledStructType(t);
-            else if (t.IsInterface)
-                result = new CompiledInterfaceType(t);
-            #endregion
 
-            CacheAdd(t, result);
+                #region Array Breakdown
 
-            #region GenericParameter production
-            IGenericType gType;
-            if (typeParameters != null && result.IsGenericConstruct && result is IGenericType && (gType = ((IGenericType)(result))).IsGenericDefinition)
-            {
-                result = gType.MakeGenericClosure(typeParameters);
-                CacheAdd(closedGenericType, result);
-            }
-            if (nullable)
-                CacheAdd(nullableType, result = result.MakeNullable());
-            if (ptrThreshold > 0)
-                while (ptrThreshold-- > 0)
-                    CacheAdd(pointerTypes.Pop(), result = result.MakePointer());
-            if (arrayTypes != null)
-            {
-                for (int i = 0; i < arrayDepth; i++)
+                int arrayDepth = 0;
+                for (Type j = t; j.IsArray; j = j.GetElementType())
+                    arrayDepth++;
+                int[] ranks = new int[arrayDepth];
+                int rankCount = arrayDepth;
+                arrayDepth = 0;
+                /* *
+                 * Fill in the array ranks.
+                 * Ignore that it's reversed order since 
+                 * the type system by default is in reverse rank
+                 * order.
+                 * */
+                Stack<Type> arrayTypes = new Stack<Type>();
+                for (; t.IsArray; t = t.GetElementType())
                 {
-                    var arrayType = arrayTypes.Pop();
-                    if (ranks[i] == 1)
-                    {
-                        //Make sure it's a vector array.
-                        if (arrayType.GetElementType().MakeArrayType() == arrayType)
-                            CacheAdd(arrayType, result = result.MakeArray(ranks[i]));
-                        else
-                            /* *
-                             * Single-dimensional arrays which are not equivalent to the 
-                             * above 'make vector array' result are not supported
-                             * as actual types of elements.
-                             * */
-                            CacheAdd(arrayType, result = result.MakeArray(new int[] { 0 }));
-                    }
-                    else
-                        CacheAdd(arrayType, result = result.MakeArray(ranks[i]));
+                    ranks[rankCount - ++arrayDepth] = t.GetArrayRank();
+                    arrayTypes.Push(t);
                 }
+                if (arrayTypes.Count == 0)
+                    arrayTypes = null;
+                #endregion
+
+                #region Pointers
+                int ptrThreshold = 0;
+                Stack<Type> pointerTypes = new Stack<Type>();
+                while (t.IsPointer)
+                {
+                    pointerTypes.Push(t);
+                    t = t.GetElementType();
+                    ptrThreshold++;
+                }
+                if (pointerTypes.Count == 0)
+                    pointerTypes = null;
+                #endregion
+
+                #region Nullable breakdown
+                bool nullable = false;
+                Type nullableType = null;
+                if (t.IsGenericType && (!t.IsGenericTypeDefinition && t.GetGenericTypeDefinition() == typeof(Nullable<>)))
+                {
+                    nullableType = t;
+                    nullable = true;
+                    t = t.GetGenericArguments()[0];
+                }
+                #endregion
+
+                #region Closed GenericType breakdown
+                ITypeCollection typeParameters = null;
+                Type closedGenericType = null;
+                if (t.IsGenericType && !t.IsGenericTypeDefinition)
+                {
+                    closedGenericType = t;
+                    typeParameters = t.GetGenericArguments().ToCollection();
+                    t = t.GetGenericTypeDefinition();
+                }
+                #endregion
+
+                #endregion
+
+                #region Initial type instantiation/retrieval.
+
+                if (CompiledTypeCache.ContainsKey(t))
+                    result = CompiledTypeCache[t];
+                else if (t.IsGenericParameter)
+                {
+                    #region GenericParameter-Parameter resolution.
+                    bool positiveMatch = true;
+                    if (t.DeclaringMethod == null && t.DeclaringType != null)
+                    {
+                        IGenericType lookupPoint = (IGenericType)t.DeclaringType.GetTypeReference();
+                        if (!(t.GenericParameterPosition < 0 || t.GenericParameterPosition >= lookupPoint.GenericParameters.Count))
+                        {
+                            result = lookupPoint.GenericParameters[t.GenericParameterPosition];
+                            positiveMatch = true;
+                        }
+                    }
+                    else if (t.DeclaringMethod != null)
+                    {
+                        IType lookupAid = t.DeclaringMethod.DeclaringType.GetTypeReference();
+                        if (lookupAid is IMethodParent)
+                        {
+                            IMethodParent lookupAid2 = (IMethodParent)lookupAid;
+                            foreach (ICompiledMethodMember icmm in lookupAid2.Methods.Values)
+                                if (icmm.MemberInfo == t.DeclaringMethod)
+                                    foreach (ICompiledGenericParameter icgp in icmm.TypeParameters.Values)
+                                        if (icgp.UnderlyingSystemType == t)
+                                        {
+                                            result = icgp;
+                                            positiveMatch = true;
+                                        }
+                        }
+                        else if (lookupAid is IMethodSignatureParent)
+                        {
+                            IMethodSignatureParent lookupAid2 = (IMethodSignatureParent)lookupAid;
+                            foreach (ICompiledMethodSignatureMember icmm in lookupAid2.Methods.Values)
+                                if (icmm.MemberInfo == t.DeclaringMethod)
+                                    foreach (ICompiledGenericParameter icgp in icmm.TypeParameters.Values)
+                                        if (icgp.UnderlyingSystemType == t)
+                                        {
+                                            result = icgp;
+                                            positiveMatch = true;
+                                        }
+                        }
+                    }
+                    #endregion
+                    if (!positiveMatch)
+                        return null;
+                }
+                else if (t.IsEnum)
+                    result = new CompiledEnumType(t);
+                else if (t.IsSubclassOf(typeof(Delegate)) && t != typeof(MulticastDelegate))
+                    result = new CompiledDelegateType(t);
+                else if (t.IsClass)
+                    result = new CompiledClassType(t);
+                else if (t.IsValueType ||
+                         t == typeof(Enum))
+                    result = new CompiledStructType(t);
+                else if (t.IsInterface)
+                    result = new CompiledInterfaceType(t);
+                #endregion
+
+                CacheAdd(t, result);
+
+                #region GenericParameter production
+                IGenericType gType;
+                if (typeParameters != null && result.IsGenericConstruct && result is IGenericType && (gType = ((IGenericType)(result))).IsGenericDefinition)
+                {
+                    result = gType.MakeGenericClosure(typeParameters);
+                    CacheAdd(closedGenericType, result);
+                }
+                if (nullable)
+                    CacheAdd(nullableType, result = result.MakeNullable());
+                if (ptrThreshold > 0)
+                    while (ptrThreshold-- > 0)
+                        CacheAdd(pointerTypes.Pop(), result = result.MakePointer());
+                if (arrayTypes != null)
+                {
+                    for (int i = 0; i < arrayDepth; i++)
+                    {
+                        var arrayType = arrayTypes.Pop();
+                        if (ranks[i] == 1)
+                        {
+                            //Make sure it's a vector array.
+                            if (arrayType.GetElementType().MakeArrayType() == arrayType)
+                                CacheAdd(arrayType, result = result.MakeArray(ranks[i]));
+                            else
+                                /* *
+                                 * Single-dimensional arrays which are not equivalent to the 
+                                 * above 'make vector array' result are not supported
+                                 * as actual types of elements.
+                                 * */
+                                CacheAdd(arrayType, result = result.MakeArray(new int[] { 0 }));
+                        }
+                        else
+                            CacheAdd(arrayType, result = result.MakeArray(ranks[i]));
+                    }
+                }
+                if (byRef)
+                    CacheAdd(byRefType, result = result.MakeByReference());
+                #endregion
+                return result;
             }
-            if (byRef)
-                CacheAdd(byRefType, result = result.MakeByReference());
-            #endregion
-            return result;
         }
 
         private static void CacheAdd(Type t, IType result)
         {
-            lock (CompiledTypeCache)
+            lock (cacheLock)
                 if (!CompiledTypeCache.ContainsKey(t))
                 {
 #if DEBUG
@@ -443,11 +450,15 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 throw new ArgumentNullException("assembly");
             if (assemblyCache == null)
                 assemblyCache = new Dictionary<Assembly, ICompiledAssembly>();
-            if (assemblyCache.ContainsKey(assembly))
-                return assemblyCache[assembly];
-            CompiledAssembly result = new CompiledAssembly(assembly);
-            assemblyCache.Add(assembly, result);
-            return result;
+            lock (cacheClearClock)
+                lock (cacheLock)
+                {
+                    if (assemblyCache.ContainsKey(assembly))
+                        return assemblyCache[assembly];
+                    CompiledAssembly result = new CompiledAssembly(assembly);
+                    assemblyCache.Add(assembly, result);
+                    return result;
+                }
         }
 
         public static ICompiledModule GetModuleReference(this Module module)
