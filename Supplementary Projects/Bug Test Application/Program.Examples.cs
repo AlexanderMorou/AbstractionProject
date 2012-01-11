@@ -24,6 +24,8 @@ using System.IO.Compression;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
+using AllenCopeland.Abstraction.Slf.Compilers;
+using System.Runtime.InteropServices;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -38,27 +40,13 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     {
         private static void Main()
         {
-            AssemblyName an = new AssemblyName("TestAssembly");
-            AssemblyBuilder ab = AppDomain.CurrentDomain.DefineDynamicAssembly(an, AssemblyBuilderAccess.Save);
-            var mod = ab.DefineDynamicModule("TestAssembly.dll");
-            var type = mod.DefineType("AllenCopeland.Abstraction.SupplementaryProjects.TestAssembly.TestType", TypeAttributes.AnsiClass | TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.Public);
-            var field = type.DefineField("testField", typeof(int), new Type[0], new[] { typeof(IsLong) }, FieldAttributes.Public | FieldAttributes.Static);
-            var prop = type.DefineProperty("TestProperty", PropertyAttributes.None, CallingConventions.Standard, typeof(long), new[] { typeof(IsLong) }, new Type[0], null, null, null);
-            var propSetMethod = type.DefineMethod("set_TestProperty", MethodAttributes.SpecialName | MethodAttributes.Static | MethodAttributes.Public, typeof(long), new Type[0]);
-            var propSetMethodILGen = propSetMethod.GetILGenerator();
-            propSetMethodILGen.Emit(OpCodes.Ldc_I4_0);
-            propSetMethodILGen.Emit(OpCodes.Conv_I8);
-            propSetMethodILGen.Emit(OpCodes.Ret);
-            prop.SetGetMethod(propSetMethod);
-            type.CreateType();
-            var glField = mod.DefineInitializedData("TestData$PST04", new byte[] { 0, 1, 2, 3, 4, 5 }, FieldAttributes.PrivateScope);
-            mod.CreateGlobalFunctions();
-            ab.Save("TestAssembly.dll");
-            
+            AssemblyBuilderTest();
+            //AssemblyBuilderTest();
             //CompressionTest();
             //ExtensionsTest();
             //TimedMirrorTest();
             //CreationTest();
+            //SeriesCreationTest();
             //var msLangVendor = LanguageVendors.Microsoft;
             //IIntermediateAssembly iia = msLangVendor.GetVisualBasicLanguage().GetMyProvider().CreateAssembly("TestAssembly");
             //var uas = iia.Methods.Add(new TypedName("TestMethod1", typeof(void).GetTypeReference()), new TypedNameSeries(new TypedName("arg1", "IList".GetSymbolType("T1".GetSymbolType()))), new GenericParameterData("T1"));
@@ -68,43 +56,54 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             //foreach (var item in m.Members)
             //    Console.WriteLine(item);
             //RunExamples();
+            var d = new float[ ] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
         }
 
-
-        private static void CompressionTest()
+        [StructLayout(LayoutKind.Explicit, Size=6, Pack=1)]
+        private struct TestSizeStruct
         {
-            ArrayToExpressionToByteArrayTest();
-            Tuple<TimeSpan, byte[]> u;
+        }
+        private static byte[] data;
+        private static TestSizeStruct tss = new TestSizeStruct();
+        private static void AssemblyBuilderTest()
+        {
+            AssemblyName an = new AssemblyName("TestAssembly");
+            AssemblyBuilder ab = AppDomain.CurrentDomain.DefineDynamicAssembly(an, AssemblyBuilderAccess.Save);
+            
+            var mod = ab.DefineDynamicModule("TestAssembly.dll");
+            var type = mod.DefineType("AllenCopeland.Abstraction.SupplementaryProjects.TestAssembly.TestType", TypeAttributes.AnsiClass | TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.Public);
+            var field = type.DefineField("testField", typeof(int), new Type[0], new[] { typeof(IsLong) }, FieldAttributes.Public | FieldAttributes.Static);
+            var prop = type.DefineProperty("TestProperty", PropertyAttributes.None, CallingConventions.Standard, typeof(decimal[ , , , , ]), new Type[ 0 ], new Type[ 0 ], null, null, null);
+            var propGetMethod = type.DefineMethod("get_TestProperty", MethodAttributes.Public | MethodAttributes.Static, CallingConventions.Standard, typeof(decimal[ , , , , ]), new Type[0]);
+            var propGetILGen = propGetMethod.GetILGenerator();
+            var byteStream = ArrayToExpressionToByteArrayTest();
+            var compressedByteStream = StandardCompilerAids.CompressByteStream(byteStream);
+            var glField = mod.DefineInitializedData("TestData", compressedByteStream, FieldAttributes.PrivateScope);//$PST04
+            propGetILGen.Emit(OpCodes.Ldc_I4, compressedByteStream.Length);
+            propGetILGen.Emit(OpCodes.Ldc_I4, 5);
+            propGetILGen.Emit(OpCodes.Ldc_I4, 6);
+            propGetILGen.Emit(OpCodes.Ldc_I4, 7);
+            propGetILGen.Emit(OpCodes.Ldc_I4, 8);
+            propGetILGen.Emit(OpCodes.Ldc_I4, 9);
+            propGetILGen.Emit(OpCodes.Ldtoken, glField);
+            var targetType = typeof(StandardCompilerAids);
+            var targetMethod = targetType.GetMethod("InitializeCompressedDecimalArray", BindingFlags.Static | BindingFlags.Public, Type.DefaultBinder, CallingConventions.Standard, new Type[ ] { typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(RuntimeFieldHandle) }, null);
+            propGetILGen.Emit(OpCodes.Call, targetMethod);
+            propGetILGen.Emit(OpCodes.Ret);
+            prop.SetGetMethod(propGetMethod);
+            type.CreateType();
 
-            var m = (u = MiscHelperMethods.TimeResult(ArrayToExpressionToByteArrayTest)).Item2;
-            /* *
-             * Testing simplicity of GZipStream.  Easy peasy.
-             * */
-            MemoryStream ms = new MemoryStream();
-            GZipStream gzs = new GZipStream(ms, CompressionMode.Compress, true);
-            gzs.Write(m, 0, m.Length);
-            gzs.Flush();
-            gzs.Dispose();
-            ms.Seek(0, SeekOrigin.Begin);
-
-            BinaryReader sr = new BinaryReader(ms);
-            byte[] result = new byte[ms.Length];
-            sr.Read(result, 0, result.Length);
-            ms.Seek(0, SeekOrigin.Begin);
-            gzs = new GZipStream(ms, CompressionMode.Decompress, true);
-            byte[] r = new byte[m.Length];
-            gzs.Read(r, 0, r.Length);
-            Console.WriteLine(u.Item1);
-            Debug.Assert(r.SequenceEqual(m));
+            mod.CreateGlobalFunctions();
+            ab.Save("TestAssembly.dll");
         }
 
         private static byte[] ArrayToExpressionToByteArrayTest()
         {
-            short[, , , ,] result = new short[5, 6, 7, 8, 9];
+            var result = new decimal[5, 6, 7, 8, 9];
             short i = 0;
             foreach (var indices in result.Iterate())
-                result.SetValue((short)((++i)%254), indices);
-            return result.ToExpression<short>(ExpressionExtensions.ToPrimitive).ConvertToByteArray();
+                result.SetValue((decimal)((++i) % 254), indices);
+            return result.ToExpression<decimal>(ExpressionExtensions.ToPrimitive).ConvertToByteArray();
         }
 
         private static void TimedMirrorTest()
@@ -157,6 +156,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             int parameterCount = 0;
             object locker = new object();
             var set = (from m in type.Methods.Values
+                       where m.IsExtensionMethod
                        orderby m.Name ascending
                        select m).ToArray();
             Parallel.ForEach(set, method =>
@@ -241,6 +241,41 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 
         private static void SeriesCreationTest()
         {
+            Console.WriteLine("Took {0} primarily", MiscHelperMethods.TimeAction(CreateSeries));
+            Console.WriteLine("Press any key to continue...");
+            CLIGateway.ClearCache();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            Console.ReadKey(true);
+            Console.WriteLine("Took {0} secondarily", MiscHelperMethods.TimeAction(CreateSeries));
+            Console.WriteLine("Press any key to continue...");
+            CLIGateway.ClearCache();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            Console.ReadKey(true);
+            Console.WriteLine("Took {0} tertiarily", MiscHelperMethods.TimeAction(CreateSeries));
+            Console.WriteLine("Press any key to exit...");
+            CLIGateway.ClearCache();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            Console.ReadKey(true);
+        }
+
+        private class TestLockContext
+        {
+            public int TestIndex { get; private set; }
+            public TestLockContext(int testIndex)
+            {
+                this.TestIndex = testIndex;
+            }
+            public override string ToString()
+            {
+                return string.Format("Lock {0}", this.TestIndex);
+            }
+        }
+
+        private static void CreateSeries()
+        {
 #if DEBUG
             const int testCount = 60;
             const int paramCount = 60;
@@ -251,23 +286,55 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             int pC = 0;
             object pcLock = new object();
             var assembly = LanguageVendors.Microsoft.GetVisualBasicLanguage().GetMyProvider().CreateAssembly("TestAssembly");
-            Parallel.For(1, testCount + 1, new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount / 2 }, i =>
-            //for (int i = 1; i <= testCount; i++)
+            //Parallel.For(1, testCount + 1, new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount / 3 }, i =>
+            var dataSet =
+                (from i in 1.RangeTo(testCount + 1)
+                 let lockObject = new TestLockContext(i)
+                 let genericParameters = (from k in 1.RangeTo(i)
+                                          select new GenericParameterData(string.Format("T{0}", k))).ToArray()
+                 let Identifier = AstIdentifier.Type("TestType", i - 1)
+                 from j in 0.RangeTo(paramCount)
+                 select new
+                 {
+                     CurrentI = i,
+                     CurrentJ = j,
+                     GenericParameterData = genericParameters,
+                     Identifier = Identifier,
+                     LockContext = lockObject
+                 }).ToArray();
+            Parallel.ForEach(dataSet, dataElement =>
             {
-                var currentStruct = (IIntermediateStructType)assembly.Structs.Add("TestType", (from k in 1.RangeTo(i)
-                                                                                               select new GenericParameterData(string.Format("T{0}", k))).ToArray());
-                currentStruct.SuspendDualLayout();
-                Parallel.For(0, paramCount, new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount / 2 }, j =>
-                //for (int j = 0; j < paramCount; j++)
+                IIntermediateStructType currentStruct;
+                IStructType currentStructRef;
+                lock (dataElement.LockContext)
                 {
-                    var parameters = (from k in 1.RangeTo(j + 1)
-                                      select new TypedName(string.Format("param{0}", k), (k < i) ? currentStruct.TypeParameters.Values[k - 1] : typeof(int).GetTypeReference()));
-                    currentStruct.Indexers.Add(new TypedName(string.Format("TestIndexer{0}", j + 1), CommonTypeRefs.ObjectArray), new TypedNameSeries(parameters.ToArray()));
-                });
-                lock (pcLock)
-                    pC += (int)((double)paramCount * (((double)paramCount - 1) / 2));
-                currentStruct.ResumeDualLayout();
+                    if (!assembly.Structs.TryGetValue(dataElement.Identifier, out currentStructRef))
+                        currentStruct = assembly.Structs.Add("TestType", dataElement.GenericParameterData);
+                    else
+                        currentStruct = (IIntermediateStructType)currentStructRef;
+
+                }
+                var parameters = (from k in 1.RangeTo(dataElement.CurrentJ + 1)
+                                  select new TypedName(string.Format("param{0}", k), (k < dataElement.CurrentI) ? currentStruct.TypeParameters.Values[k - 1] : typeof(int).GetTypeReference()));
+                currentStruct.Indexers.Add(new TypedName(string.Format("TestIndexer{0}", dataElement.CurrentJ + 1), CommonTypeRefs.ObjectArray), new TypedNameSeries(parameters.ToArray()));
             });
+            //for (int i = 1; i <= testCount; i++)
+            //{
+            //    var currentStruct = (IIntermediateStructType)assembly.Structs.Add("TestType", (from k in 1.RangeTo(i)
+            //                                                                                   select new GenericParameterData(string.Format("T{0}", k))).ToArray());
+            //    currentStruct.SuspendDualLayout();
+            //    Parallel.For(0, paramCount, new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount / 2 }, j =>
+            //    //for (int j = 0; j < paramCount; j++)
+            //    {
+            //        var parameters = (from k in 1.RangeTo(j + 1)
+            //                          select new TypedName(string.Format("param{0}", k), (k < i) ? currentStruct.TypeParameters.Values[k - 1] : typeof(int).GetTypeReference()));
+            //        currentStruct.Indexers.Add(new TypedName(string.Format("TestIndexer{0}", j + 1), CommonTypeRefs.ObjectArray), new TypedNameSeries(parameters.ToArray()));
+            //    });
+            //    lock (pcLock)
+            //        pC += (int)((double)paramCount * (((double)paramCount - 1) / 2));
+            //    currentStruct.ResumeDualLayout();
+            //}//);
+
             var m = (from currentStruct in assembly.Structs.Values
                      select new
                      {
@@ -278,7 +345,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
                                      select new { Indexer = indexer, Get = new { Method = Get, Parameters = Get.Parameters.Values.ToArray() }, Set = new { Method = Set, Parameters = Set.Parameters.Values.ToArray() } }).ToArray()
                      }).ToArray();
             assembly.Dispose();
-            CLIGateway.ClearCache();
+            //CLIGateway.ClearCache();
         }
 
         private static void RunExamples()

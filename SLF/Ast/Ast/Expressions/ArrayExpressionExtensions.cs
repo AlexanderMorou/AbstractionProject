@@ -161,11 +161,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             for (int i = 0, offI = 0; i < set.Length; i++, offI += sizeof(char))
             {
                 ushort current = (ushort)set[i].Value;
-                result[offI] = (byte)((current & 0xFF00) >> 8);
-                result[offI + 1] = (byte)(current & 0xFF);
+                result[offI] = (byte)(current & 0xFF);
+                result[offI + 1] = (byte)((current & 0xFF00) >> 8);
             }
             return result;
         }
+
         private static byte[] Convert(IPrimitiveExpression<byte>[] set)
         {
             var result = new byte[set.Length];
@@ -186,8 +187,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             for (int i = 0, offI = 0; i < set.Length; i++, offI += sizeof(ushort))
             {
                 ushort current = set[i].Value;
-                result[offI] = (byte)((current & 0xFF00) >> 8);
-                result[offI + 1] = (byte)(current & 0xFF);
+                result[offI] = (byte)(current & 0xFF);
+                result[offI + 1] = (byte)((current & 0xFF00) >> 8);
             }
             return result;
         }
@@ -197,8 +198,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             for (int i = 0, offI = 0; i < set.Length; i++, offI += sizeof(short))
             {
                 short current = set[i].Value;
-                result[offI] = (byte)((current & 0xFF00) >> 8);
-                result[offI + 1] = (byte)(current & 0xFF);
+                result[offI] = (byte)(current & 0xFF);
+                result[offI + 1] = (byte)((current & 0xFF00) >> 8);
             }
             return result;
         }
@@ -208,10 +209,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             for (int i = 0, offI = 0; i < set.Length; i++, offI += sizeof(uint))
             {
                 uint current = set[i].Value;
-                result[offI] = (byte)((current & 0xFF000000) >> 24);
-                result[offI + 1] = (byte)((current & 0xFF0000) >> 16);
-                result[offI + 2] = (byte)((current & 0xFF00) >> 8);
-                result[offI + 3] = (byte)(current & 0xFF);
+                result[offI] = (byte)(current & 0xFF);
+                result[offI + 1] = (byte)((current & 0xFF00) >> 8);
+                result[offI + 2] = (byte)((current & 0xFF0000) >> 16);
+                result[offI + 3] = (byte)((current & 0xFF000000) >> 24);
             }
             return result;
         }
@@ -221,10 +222,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             for (int i = 0, offI = 0; i < set.Length; i++, offI += sizeof(int))
             {
                 int current = set[i].Value;
-                result[offI] = (byte)((current & 0xFF000000) >> 24);
-                result[offI + 1] = (byte)((current & 0xFF0000) >> 16);
-                result[offI + 2] = (byte)((current & 0xFF00) >> 8);
-                result[offI + 3] = (byte)(current & 0xFF);
+                result[offI] = (byte)(current & 0xFF);
+                result[offI + 1] = (byte)((current & 0xFF00) >> 8);
+                result[offI + 2] = (byte)((current & 0xFF0000) >> 16);
+                result[offI + 3] = (byte)((current & 0xFF000000) >> 24);
             }
             return result;
         }
@@ -234,14 +235,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             for (int i = 0, offI = 0; i < set.Length; i++, offI += sizeof(ulong))
             {
                 ulong current = set[i].Value;
-                result[offI] =     (byte)((current & 0xFF00000000000000UL) >> 56);
-                result[offI + 1] = (byte)((current & 0xFF000000000000UL) >> 48);
-                result[offI + 2] = (byte)((current & 0xFF0000000000UL) >> 40);
-                result[offI + 3] = (byte)((current & 0xFF00000000UL) >> 32);
-                result[offI + 4] = (byte)((current & 0xFF000000UL) >> 24);
-                result[offI + 5] = (byte)((current & 0xFF0000UL) >> 16);
-                result[offI + 6] = (byte)((current & 0xFF00UL) >> 8);
-                result[offI + 7] =  (byte)(current & 0xFFUL);
+                result[offI] =  (byte)(current & 0xFFUL);
+                result[offI + 1] = (byte)((current & 0xFF00UL) >> 8);
+                result[offI + 2] = (byte)((current & 0xFF0000UL) >> 16);
+                result[offI + 3] = (byte)((current & 0xFF000000UL) >> 24);
+                result[offI + 4] = (byte)((current & 0xFF00000000UL) >> 32);
+                result[offI + 5] = (byte)((current & 0xFF0000000000UL) >> 40);
+                result[offI + 6] = (byte)((current & 0xFF000000000000UL) >> 48);
+                result[offI + 7] = (byte)((current & 0xFF00000000000000UL) >> 56);
             }
             return result;
         }
@@ -251,14 +252,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             for (int i = 0, offI = 0; i < set.Length; i++, offI += sizeof(long))
             {
                 long current = set[i].Value;
-                result[offI] =     (byte)((((ulong)current) & 0xFF00000000000000UL) >> 56);
-                result[offI + 1] = (byte)((current & 0xFF000000000000L) >> 48);
-                result[offI + 2] = (byte)((current & 0xFF0000000000L) >> 40);
-                result[offI + 3] = (byte)((current & 0xFF00000000L) >> 32);
-                result[offI + 4] = (byte)((current & 0xFF000000L) >> 24);
-                result[offI + 5] = (byte)((current & 0xFF0000L) >> 16);
-                result[offI + 6] = (byte)((current & 0xFF00L) >> 8);
-                result[offI + 7] =  (byte)(current & 0xFFL);
+                result[offI] =  (byte)(current & 0xFFL);
+                result[offI + 1] = (byte)((current & 0xFF00L) >> 8);
+                result[offI + 2] = (byte)((current & 0xFF0000L) >> 16);
+                result[offI + 3] = (byte)((current & 0xFF000000L) >> 24);
+                result[offI + 4] = (byte)((current & 0xFF00000000L) >> 32);
+                result[offI + 5] = (byte)((current & 0xFF0000000000L) >> 40);
+                result[offI + 6] = (byte)((current & 0xFF000000000000L) >> 48);
+                result[offI + 7] = (byte)((((ulong)current) & 0xFF00000000000000UL) >> 56);
             }
             return result;
         }
@@ -268,10 +269,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             for (int i = 0, offI = 0; i < set.Length; i++, offI += sizeof(float))
             {
                 uint current = (uint)BitConverter.DoubleToInt64Bits(set[i].Value);
-                result[offI] = (byte)((current & 0xFF000000) >> 24);
-                result[offI + 1] = (byte)((current & 0xFF0000) >> 16);
-                result[offI + 2] = (byte)((current & 0xFF00) >> 8);
-                result[offI + 3] = (byte)(current & 0xFF);
+                result[offI] = (byte)(current & 0xFF);
+                result[offI + 1] = (byte)((current & 0xFF00) >> 8);
+                result[offI + 2] = (byte)((current & 0xFF0000) >> 16);
+                result[offI + 3] = (byte)((current & 0xFF000000) >> 24);
             }
             return result;
         }
@@ -281,14 +282,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             for (int i = 0, offI = 0; i < set.Length; i++, offI += sizeof(double))
             {
                 ulong current = (ulong)BitConverter.DoubleToInt64Bits(set[i].Value);
-                result[offI] =     (byte)((current & 0xFF00000000000000UL) >> 56);
-                result[offI + 1] = (byte)((current & 0xFF000000000000UL) >> 48);
-                result[offI + 2] = (byte)((current & 0xFF0000000000UL) >> 40);
-                result[offI + 3] = (byte)((current & 0xFF00000000UL) >> 32);
-                result[offI + 4] = (byte)((current & 0xFF000000UL) >> 24);
-                result[offI + 5] = (byte)((current & 0xFF0000UL) >> 16);
-                result[offI + 6] = (byte)((current & 0xFF00UL) >> 8);
-                result[offI + 7] = (byte)(current  & 0xFFUL);
+                result[offI + 1] = (byte)((current & 0xFF00UL) >> 8);
+                result[offI + 2] = (byte)((current & 0xFF0000UL) >> 16);
+                result[offI + 3] = (byte)((current & 0xFF000000UL) >> 24);
+                result[offI + 4] = (byte)((current & 0xFF00000000UL) >> 32);
+                result[offI + 5] = (byte)((current & 0xFF0000000000UL) >> 40);
+                result[offI + 6] = (byte)((current & 0xFF000000000000UL) >> 48);
+                result[offI + 7] = (byte)((current & 0xFF00000000000000UL) >> 56);
+                result[offI] = (byte)(current & 0xFFUL);
             }
             return result;
         }
@@ -298,24 +299,24 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             for (int i = 0, offI = 0; i < set.Length; i++, offI += sizeof(decimal))
             {
                 int[] bits = Decimal.GetBits(set[i].Value);
-                ulong first = (((ulong)bits[0]) << 32) | (uint)bits[1];
-                ulong second = (((ulong)bits[2]) << 32) | (uint)bits[3];
-                result[offI] = (byte)((first & 0xFF00000000000000UL) >> 56);
-                result[offI + 1] = (byte)((first & 0xFF000000000000UL) >> 48);
-                result[offI + 2] = (byte)((first & 0xFF0000000000UL) >> 40);
-                result[offI + 3] = (byte)((first & 0xFF00000000UL) >> 32);
-                result[offI + 4] = (byte)((first & 0xFF000000UL) >> 24);
-                result[offI + 5] = (byte)((first & 0xFF0000UL) >> 16);
-                result[offI + 6] = (byte)((first & 0xFF00UL) >> 8);
-                result[offI + 7] = (byte)(first & 0xFFUL);
-                result[offI + 8] = (byte)((second & 0xFF00000000000000UL) >> 56);
-                result[offI + 9] = (byte)((second & 0xFF000000000000UL) >> 48);
-                result[offI + 10] = (byte)((second & 0xFF0000000000UL) >> 40);
-                result[offI + 11] = (byte)((second & 0xFF00000000UL) >> 32);
-                result[offI + 12] = (byte)((second & 0xFF000000UL) >> 24);
-                result[offI + 13] = (byte)((second & 0xFF0000UL) >> 16);
-                result[offI + 14] = (byte)((second & 0xFF00UL) >> 8);
-                result[offI + 15] = (byte)(second & 0xFFUL);
+                ulong first = (((ulong)bits[3]) << 32) | (uint)bits[2];
+                ulong second = (((ulong)bits[1]) << 32) | (uint)bits[0];
+                result[offI] = (byte)(second & 0xFFUL);
+                result[offI + 01] = (byte)((first & 0xFF00UL) >> 8);
+                result[offI + 02] = (byte)((first & 0xFF0000UL) >> 16);
+                result[offI + 03] = (byte)((first & 0xFF000000UL) >> 24);
+                result[offI + 04] = (byte)((first & 0xFF00000000UL) >> 32);
+                result[offI + 05] = (byte)((first & 0xFF0000000000UL) >> 40);
+                result[offI + 06] = (byte)((first & 0xFF000000000000UL) >> 48);
+                result[offI + 07] = (byte)((first & 0xFF00000000000000UL) >> 56);
+                result[offI + 08] = (byte)(second & 0xFFUL);
+                result[offI + 09] = (byte)((second & 0xFF00UL) >> 8);
+                result[offI + 10] = (byte)((second & 0xFF0000UL) >> 16);
+                result[offI + 11] = (byte)((second & 0xFF000000UL) >> 24);
+                result[offI + 12] = (byte)((second & 0xFF00000000UL) >> 32);
+                result[offI + 13] = (byte)((second & 0xFF0000000000UL) >> 40);
+                result[offI + 14] = (byte)((second & 0xFF000000000000UL) >> 48);
+                result[offI + 15] = (byte)((second & 0xFF00000000000000UL) >> 56);
             }
             return result;
         }
