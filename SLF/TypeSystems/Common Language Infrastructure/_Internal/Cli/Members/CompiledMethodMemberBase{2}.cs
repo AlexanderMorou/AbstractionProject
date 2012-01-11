@@ -38,10 +38,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// Data member for <see cref="MemberInfo"/>.
         /// </summary>
         private MethodInfo memberInfo;
-        /// <summary>
-        /// Data member used to store the unique identifier of the <see cref="CompiledMethodMemberBase{TMethod, TMethodParent}"/>.
-        /// </summary>
-        private IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier;
 
         /// <summary>
         /// Creates a new <see cref="CompiledMethodMemberBase{TMethod, TMethodParent}"/> with the
@@ -55,13 +51,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             : base(parent)
         {
             this.memberInfo = memberInfo;
-            this.uniqueIdentifier = memberInfo.GetUniqueIdentifier();
         }
+
+        private IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier;
 
         public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier
         {
             get
             {
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = memberInfo.GetUniqueIdentifier();
                 return this.uniqueIdentifier;
             }
         }
