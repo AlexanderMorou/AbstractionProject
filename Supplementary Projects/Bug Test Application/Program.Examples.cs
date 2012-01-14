@@ -26,6 +26,7 @@ using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using System.Runtime.InteropServices;
+using System.Diagnostics.SymbolStore;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -56,7 +57,6 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             //foreach (var item in m.Members)
             //    Console.WriteLine(item);
             //RunExamples();
-            var d = new float[ ] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
         }
 
         [StructLayout(LayoutKind.Explicit, Size=6, Pack=1)]
@@ -69,27 +69,45 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
         {
             AssemblyName an = new AssemblyName("TestAssembly");
             AssemblyBuilder ab = AppDomain.CurrentDomain.DefineDynamicAssembly(an, AssemblyBuilderAccess.Save);
-            
-            var mod = ab.DefineDynamicModule("TestAssembly.dll");
-            var type = mod.DefineType("AllenCopeland.Abstraction.SupplementaryProjects.TestAssembly.TestType", TypeAttributes.AnsiClass | TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.Public);
-            var field = type.DefineField("testField", typeof(int), new Type[0], new[] { typeof(IsLong) }, FieldAttributes.Public | FieldAttributes.Static);
-            var prop = type.DefineProperty("TestProperty", PropertyAttributes.None, CallingConventions.Standard, typeof(decimal[ , , , , ]), new Type[ 0 ], new Type[ 0 ], null, null, null);
-            var propGetMethod = type.DefineMethod("get_TestProperty", MethodAttributes.Public | MethodAttributes.Static, CallingConventions.Standard, typeof(decimal[ , , , , ]), new Type[0]);
-            var propGetILGen = propGetMethod.GetILGenerator();
+            var mod = ab.DefineDynamicModule("TestAssembly.dll", true);
+            var testILDocument = mod.DefineDocument("TestAssembly.il", SymLanguageType.ILAssembly, SymLanguageVendor.Microsoft, SymDocumentType.Text);
             var byteStream = ArrayToExpressionToByteArrayTest();
             var compressedByteStream = StandardCompilerAids.CompressByteStream(byteStream);
-            var glField = mod.DefineInitializedData("TestData", compressedByteStream, FieldAttributes.PrivateScope);//$PST04
+            var sizeType = mod.DefineType(string.Format("$ArrayType${0}", compressedByteStream.Length), TypeAttributes.AnsiClass | TypeAttributes.Sealed | TypeAttributes.ExplicitLayout | TypeAttributes.NotPublic, typeof(ValueType), PackingSize.Size1, compressedByteStream.Length);
+            
+            var type = mod.DefineType("AllenCopeland.Abstraction.SupplementaryProjects.TestAssembly.TestType", TypeAttributes.AnsiClass | TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.Public);
+            var field = type.DefineField("testField", typeof(int), new Type[0], new[] { typeof(IsLong) }, FieldAttributes.Public | FieldAttributes.Static);
+            var prop = type.DefineProperty("TestProperty", PropertyAttributes.None, CallingConventions.Standard, typeof(short[ , , , , ]), new Type[ 0 ], new Type[ 0 ], null, null, null);
+            var propGetMethod = type.DefineMethod("get_TestProperty", MethodAttributes.Public | MethodAttributes.Static, CallingConventions.Standard, typeof(short[, , , ,]), new Type[0]);
+            var propGetILGen = propGetMethod.GetILGenerator();
+            propGetILGen.MarkSequencePoint(testILDocument, 49, 3, 49, 4);
+            
+            var glField = type.DefineInitializedData("TestData", compressedByteStream, FieldAttributes.PrivateScope);//$PST04
+            sizeType.CreateType();
+            propGetILGen.BeginScope();
+            propGetILGen.Emit(OpCodes.Nop);
+            propGetILGen.MarkSequencePoint(testILDocument, 52, 15, 52, 31);
             propGetILGen.Emit(OpCodes.Ldc_I4, compressedByteStream.Length);
+            propGetILGen.MarkSequencePoint(testILDocument, 53, 15, 53, 29);
             propGetILGen.Emit(OpCodes.Ldc_I4, 5);
+            propGetILGen.MarkSequencePoint(testILDocument, 54, 15, 54, 29);
             propGetILGen.Emit(OpCodes.Ldc_I4, 6);
+            propGetILGen.MarkSequencePoint(testILDocument, 55, 15, 55, 29);
             propGetILGen.Emit(OpCodes.Ldc_I4, 7);
+            propGetILGen.MarkSequencePoint(testILDocument, 56, 15, 56, 29);
             propGetILGen.Emit(OpCodes.Ldc_I4, 8);
+            propGetILGen.MarkSequencePoint(testILDocument, 57, 15, 57, 29);
             propGetILGen.Emit(OpCodes.Ldc_I4, 9);
+            propGetILGen.MarkSequencePoint(testILDocument, 58, 15, 58, 156);
             propGetILGen.Emit(OpCodes.Ldtoken, glField);
+            propGetILGen.EndScope();
             var targetType = typeof(StandardCompilerAids);
-            var targetMethod = targetType.GetMethod("InitializeCompressedDecimalArray", BindingFlags.Static | BindingFlags.Public, Type.DefaultBinder, CallingConventions.Standard, new Type[ ] { typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(RuntimeFieldHandle) }, null);
+            var targetMethod = targetType.GetMethod("InitializeCompressedInt16Array", BindingFlags.Static | BindingFlags.Public, Type.DefaultBinder, CallingConventions.Standard, new Type[] { typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(RuntimeFieldHandle) }, null);
+            propGetILGen.MarkSequencePoint(testILDocument, 59, 15, 65, 230);
             propGetILGen.Emit(OpCodes.Call, targetMethod);
+            propGetILGen.MarkSequencePoint(testILDocument, 66, 15, 66, 18);
             propGetILGen.Emit(OpCodes.Ret);
+            propGetILGen.MarkSequencePoint(testILDocument, 67, 3, 67, 4);
             prop.SetGetMethod(propGetMethod);
             type.CreateType();
 
@@ -99,11 +117,11 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 
         private static byte[] ArrayToExpressionToByteArrayTest()
         {
-            var result = new decimal[5, 6, 7, 8, 9];
+            var result = new short[5, 6, 7, 8, 9];
             short i = 0;
             foreach (var indices in result.Iterate())
-                result.SetValue((decimal)((++i) % 254), indices);
-            return result.ToExpression<decimal>(ExpressionExtensions.ToPrimitive).ConvertToByteArray();
+                result.SetValue((short) ((++i) % 254), indices);
+            return result.ToExpression<short>(ExpressionExtensions.ToPrimitive).ConvertToByteArray();
         }
 
         private static void TimedMirrorTest()
