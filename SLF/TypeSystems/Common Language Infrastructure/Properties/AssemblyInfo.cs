@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Abstraction - Type System for CLI")]
+[assembly: AssemblyTitle("The Abstraction Project - Type System for CLI")]
 [assembly: AssemblyDescription("Abstraction - Type System for the Common Language Infrastructure")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("none")]
@@ -19,7 +19,6 @@ using System.Runtime.InteropServices;
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
 // COM, set the ComVisible attribute to true on that type.
-[assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("2B7ED79B-16ED-4afe-AC57-4B12E328E8FC")]
@@ -42,3 +41,4 @@ using System.Runtime.InteropServices;
              [assembly: InternalsVisibleTo("Abstraction.BugTest, PublicKey=002400000480000094000000060200000024000052534131000400000100010009e0756ea3c80f41287e7a2b53118c84bd8c573361b8a085268d639dbb675c68adec8c1f5d750cbf75635bdae6a15635762b759daba1cdcc1439a8ab5288a0d204483205a214786c5a23e68c1f0ad76efc12061a3715a280d1ae5ee1e732a9064e826e6396fe4ba5ad62f44500dab91ef574b9e51ebe8fdd04cd356658d69cbe")]
 [module: SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Scope = "namespace", Target = "AllenCopeland.Abstraction.Slf", MessageId = "Slf")]
 [module: SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "typesystems")]
+[assembly: ComVisible(false)]

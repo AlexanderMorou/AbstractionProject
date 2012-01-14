@@ -11,21 +11,22 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
 {
     public static class StandardCompilerAids
     {
-        public static byte[ ] DecompressByteStream(byte[ ] compressedData, int originalLength)
+
+        public static byte[] DecompressByteStream(byte[] compressedData, int originalLength)
         {
             MemoryStream memoryStream = new MemoryStream();
             //memoryStream.SetLength(Math.Max(originalLength, compressedData.Length));
             memoryStream.Write(compressedData, 0, compressedData.Length);
             memoryStream.Seek(0, SeekOrigin.Begin);
             GZipStream gzStream = new GZipStream(memoryStream, CompressionMode.Decompress, true);
-            byte[ ] result = new byte[ originalLength ];
+            byte[] result = new byte[originalLength];
             gzStream.Read(result, 0, originalLength);
             gzStream.Dispose();
             memoryStream.Dispose();
             return result;
         }
 
-        public static byte[ ] CompressByteStream(byte[ ] decompressedData)
+        public static byte[] CompressByteStream(byte[] decompressedData)
         {
             MemoryStream memoryStream = new MemoryStream();
             GZipStream gzStream = new GZipStream(memoryStream, CompressionMode.Compress, true);
@@ -34,247 +35,736 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             gzStream.Dispose();
             memoryStream.Seek(0, SeekOrigin.Begin);
             BinaryReader memoryReader = new BinaryReader(memoryStream);
-            byte[ ] result = memoryReader.ReadBytes((int) memoryStream.Length);
+            byte[] result = memoryReader.ReadBytes((int) memoryStream.Length);
             memoryReader.Dispose();
             memoryStream.Dispose();
             return result;
         }
 
-        public unsafe static int[ ] InitializeCompressedInt32Array(int length, RuntimeFieldHandle handle)
+        public unsafe static decimal[] InitializeCompressedDecimalArray(int length, RuntimeFieldHandle handle)
         {
-            int fullByteSize = length * sizeof(int);
-            byte[ ] compressedData = new byte[ fullByteSize ];
+            int fullByteSize = length * sizeof(decimal);
+            byte[] compressedData = new byte[fullByteSize];
             RuntimeHelpers.InitializeArray(compressedData, handle);
-            return ConvertByteArrayToInt32Array(fullByteSize, compressedData);
+            return ConvertByteArrayToDecimalArray(fullByteSize, compressedData);
         }
-
-        public unsafe static decimal[ , , , , ] InitializeCompressedDecimalArray(int originalByteSize, int length1, int length2, int length3, int length4, int length5, RuntimeFieldHandle handle)
+        public unsafe static decimal[,] InitializeCompressedDecimalArray(int originalByteSize, int length1, int length2, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * sizeof(decimal);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToDecimalArray(length1, length2, compressedData);
+        }
+        public unsafe static decimal[, ,] InitializeCompressedDecimalArray(int originalByteSize, int length1, int length2, int length3, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * sizeof(decimal);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToDecimalArray(length1, length2, length3, compressedData);
+        }
+        public unsafe static decimal[, , ,] InitializeCompressedDecimalArray(int originalByteSize, int length1, int length2, int length3, int length4, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4 * sizeof(decimal);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToDecimalArray(length1, length2, length3, length4, compressedData);
+        }
+        public unsafe static decimal[, , , ,] InitializeCompressedDecimalArray(int originalByteSize, int length1, int length2, int length3, int length4, int length5, RuntimeFieldHandle handle)
         {
             int fullByteSize = length1 * length2 * length3 * length4 * length5 * sizeof(decimal);
-            if (fullByteSize % sizeof(int) != 0)
-                throw new ArgumentException(string.Format("fullByteSize must be divisible by {0}, the size of the {1} primitive type.", sizeof(int), typeof(int)));
-            byte[ ] compressedData = new byte[ originalByteSize ];
+            byte[] compressedData = new byte[originalByteSize];
             RuntimeHelpers.InitializeArray(compressedData, handle);
             return ConvertByteArrayToDecimalArray(length1, length2, length3, length4, length5, compressedData);
         }
-        private unsafe static decimal[ ] ConvertByteArrayToDecimalArray(int length, byte[ ] compressedData)
+        private unsafe static decimal[] ConvertByteArrayToDecimalArray(int length, byte[] compressedData)
         {
-            decimal[ ] result = new decimal[ length ];
+            decimal[] result = new decimal[length];
             fixed (decimal* resultPtr = result)
                 CopyData(length * sizeof(decimal), resultPtr, compressedData);
             return result;
         }
-        private unsafe static decimal[ , ] ConvertByteArrayToDecimalArray(int dimension1, int dimension2, byte[ ] compressedData)
+        private unsafe static decimal[,] ConvertByteArrayToDecimalArray(int length1, int length2, byte[] compressedData)
         {
-            decimal[ , ] result = new decimal[ dimension1, dimension2 ];
+            decimal[,] result = new decimal[length1, length2];
             fixed (decimal* resultPtr = result)
-                CopyData(dimension1 * dimension2 * sizeof(decimal), resultPtr, compressedData);
+                CopyData(length1 * length2 * sizeof(decimal), resultPtr, compressedData);
             return result;
         }
-        private unsafe static decimal[ , , ] ConvertByteArrayToDecimalArray(int dimension1, int dimension2, int dimension3, byte[ ] compressedData)
+        private unsafe static decimal[, ,] ConvertByteArrayToDecimalArray(int length1, int length2, int length3, byte[] compressedData)
         {
-            decimal[ , , ] result = new decimal[ dimension1, dimension2, dimension3 ];
+            decimal[, ,] result = new decimal[length1, length2, length3];
             fixed (decimal* resultPtr = result)
-                CopyData(dimension1 * dimension2 * dimension3 * sizeof(decimal), resultPtr, compressedData);
+                CopyData(length1 * length2 * length3 * sizeof(decimal), resultPtr, compressedData);
             return result;
         }
-        private unsafe static decimal[ , , , ] ConvertByteArrayToDecimalArray(int dimension1, int dimension2, int dimension3, int dimension4, byte[ ] compressedData)
+        private unsafe static decimal[, , ,] ConvertByteArrayToDecimalArray(int length1, int length2, int length3, int length4, byte[] compressedData)
         {
-            decimal[ , , , ] result = new decimal[ dimension1, dimension2, dimension3, dimension4 ];
+            decimal[, , ,] result = new decimal[length1, length2, length3, length4];
             fixed (decimal* resultPtr = result)
-                CopyData(dimension1 * dimension2 * dimension3 * dimension4 * sizeof(decimal), resultPtr, compressedData);
+                CopyData(length1 * length2 * length3 * length4 * sizeof(decimal), resultPtr, compressedData);
             return result;
         }
-        private unsafe static decimal[ , , , , ] ConvertByteArrayToDecimalArray(int dimension1, int dimension2, int dimension3, int dimension4, int dimension5, byte[ ] compressedData)
+        private unsafe static decimal[, , , ,] ConvertByteArrayToDecimalArray(int length1, int length2, int length3, int length4, int length5, byte[] compressedData)
         {
-            decimal[ , , , , ] result = new decimal[ dimension1, dimension2, dimension3, dimension4, dimension5 ];
+            decimal[, , , ,] result = new decimal[length1, length2, length3, length4, length5];
             fixed (decimal* resultPtr = result)
-                CopyData(dimension1 * dimension2 * dimension3 * dimension4 * dimension5 * sizeof(decimal), resultPtr, compressedData);
+                CopyData(length1 * length2 * length3 * length4 * length5 * sizeof(decimal), resultPtr, compressedData);
             return result;
         }
-        private unsafe static sbyte[ ] ConvertByteArrayToSByteArray(int length, byte[ ] compressedData)
+
+        public unsafe static sbyte[] InitializeCompressedSByteArray(int length, RuntimeFieldHandle handle)
         {
-            sbyte[ ] result = new sbyte[ length ];
+            int fullByteSize = length * sizeof(sbyte);
+            byte[] compressedData = new byte[fullByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToSByteArray(fullByteSize, compressedData);
+        }
+        public unsafe static sbyte[,] InitializeCompressedSByteArray(int originalByteSize, int length1, int length2, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2;
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToSByteArray(length1, length2, compressedData);
+        }
+        public unsafe static sbyte[, ,] InitializeCompressedSByteArray(int originalByteSize, int length1, int length2, int length3, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3;
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToSByteArray(length1, length2, length3, compressedData);
+        }
+        public unsafe static sbyte[, , ,] InitializeCompressedSByteArray(int originalByteSize, int length1, int length2, int length3, int length4, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4;
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToSByteArray(length1, length2, length3, length4, compressedData);
+        }
+        public unsafe static sbyte[, , , ,] InitializeCompressedSByteArray(int originalByteSize, int length1, int length2, int length3, int length4, int length5, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4 * length5;
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToSByteArray(length1, length2, length3, length4, length5, compressedData);
+        }
+
+
+        public unsafe static short[] InitializeCompressedInt16Array(int length, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length * sizeof(short);
+            byte[] compressedData = new byte[fullByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToInt16Array(fullByteSize, compressedData);
+        }
+        public unsafe static short[,] InitializeCompressedInt16Array(int originalByteSize, int length1, int length2, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * sizeof(short);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToInt16Array(length1, length2, compressedData);
+        }
+        public unsafe static short[, ,] InitializeCompressedInt16Array(int originalByteSize, int length1, int length2, int length3, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * sizeof(short);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToInt16Array(length1, length2, length3, compressedData);
+        }
+        public unsafe static short[, , ,] InitializeCompressedInt16Array(int originalByteSize, int length1, int length2, int length3, int length4, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4 * sizeof(short);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToInt16Array(length1, length2, length3, length4, compressedData);
+        }
+        public unsafe static short[, , , ,] InitializeCompressedInt16Array(int originalByteSize, int length1, int length2, int length3, int length4, int length5, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4 * length5 * sizeof(short);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToInt16Array(length1, length2, length3, length4, length5, compressedData);
+        }
+
+        public unsafe static ushort[] InitializeCompressedUInt16Array(int length, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length * sizeof(ushort);
+            byte[] compressedData = new byte[fullByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToUInt16Array(fullByteSize, compressedData);
+        }
+        public unsafe static ushort[,] InitializeCompressedUInt16Array(int originalByteSize, int length1, int length2, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * sizeof(ushort);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToUInt16Array(length1, length2, compressedData);
+        }
+        public unsafe static ushort[, ,] InitializeCompressedUInt16Array(int originalByteSize, int length1, int length2, int length3, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * sizeof(ushort);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToUInt16Array(length1, length2, length3, compressedData);
+        }
+        public unsafe static ushort[, , ,] InitializeCompressedUInt16Array(int originalByteSize, int length1, int length2, int length3, int length4, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4 * sizeof(ushort);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToUInt16Array(length1, length2, length3, length4, compressedData);
+        }
+        public unsafe static ushort[, , , ,] InitializeCompressedUInt16Array(int originalByteSize, int length1, int length2, int length3, int length4, int length5, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4 * length5 * sizeof(ushort);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToUInt16Array(length1, length2, length3, length4, length5, compressedData);
+        }
+
+        public unsafe static int[] InitializeCompressedInt32Array(int length, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length * sizeof(int);
+            byte[] compressedData = new byte[fullByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToInt32Array(fullByteSize, compressedData);
+        }
+        public unsafe static int[,] InitializeCompressedInt32Array(int originalByteSize, int length1, int length2, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * sizeof(int);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToInt32Array(length1, length2, compressedData);
+        }
+        public unsafe static int[, ,] InitializeCompressedInt32Array(int originalByteSize, int length1, int length2, int length3, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * sizeof(int);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToInt32Array(length1, length2, length3, compressedData);
+        }
+        public unsafe static int[, , ,] InitializeCompressedInt32Array(int originalByteSize, int length1, int length2, int length3, int length4, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4 * sizeof(int);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToInt32Array(length1, length2, length3, length4, compressedData);
+        }
+        public unsafe static int[, , , ,] InitializeCompressedInt32Array(int originalByteSize, int length1, int length2, int length3, int length4, int length5, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4 * length5 * sizeof(int);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToInt32Array(length1, length2, length3, length4, length5, compressedData);
+        }
+
+        public unsafe static uint[] InitializeCompressedUInt32Array(int length, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length * sizeof(uint);
+            byte[] compressedData = new byte[fullByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToUInt32Array(fullByteSize, compressedData);
+        }
+        public unsafe static uint[,] InitializeCompressedUInt32Array(int originalByteSize, int length1, int length2, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * sizeof(uint);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToUInt32Array(length1, length2, compressedData);
+        }
+        public unsafe static uint[, ,] InitializeCompressedUInt32Array(int originalByteSize, int length1, int length2, int length3, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * sizeof(uint);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToUInt32Array(length1, length2, length3, compressedData);
+        }
+        public unsafe static uint[, , ,] InitializeCompressedUInt32Array(int originalByteSize, int length1, int length2, int length3, int length4, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4 * sizeof(uint);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToUInt32Array(length1, length2, length3, length4, compressedData);
+        }
+        public unsafe static uint[, , , ,] InitializeCompressedUInt32Array(int originalByteSize, int length1, int length2, int length3, int length4, int length5, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4 * length5 * sizeof(uint);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToUInt32Array(length1, length2, length3, length4, length5, compressedData);
+        }
+        public unsafe static long[] InitializeCompressedInt64Array(int length, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length * sizeof(long);
+            byte[] compressedData = new byte[fullByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToInt64Array(fullByteSize, compressedData);
+        }
+        public unsafe static long[,] InitializeCompressedInt64Array(int originalByteSize, int length1, int length2, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * sizeof(long);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToInt64Array(length1, length2, compressedData);
+        }
+        public unsafe static long[, ,] InitializeCompressedInt64Array(int originalByteSize, int length1, int length2, int length3, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * sizeof(long);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToInt64Array(length1, length2, length3, compressedData);
+        }
+        public unsafe static long[, , ,] InitializeCompressedInt64Array(int originalByteSize, int length1, int length2, int length3, int length4, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4 * sizeof(long);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToInt64Array(length1, length2, length3, length4, compressedData);
+        }
+        public unsafe static long[, , , ,] InitializeCompressedInt64Array(int originalByteSize, int length1, int length2, int length3, int length4, int length5, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4 * length5 * sizeof(long);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToInt64Array(length1, length2, length3, length4, length5, compressedData);
+        }
+
+        public unsafe static ulong[] InitializeCompressedUInt64Array(int length, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length * sizeof(ulong);
+            byte[] compressedData = new byte[fullByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToUInt64Array(fullByteSize, compressedData);
+        }
+        public unsafe static ulong[,] InitializeCompressedUInt64Array(int originalByteSize, int length1, int length2, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * sizeof(ulong);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToUInt64Array(length1, length2, compressedData);
+        }
+        public unsafe static ulong[, ,] InitializeCompressedUInt64Array(int originalByteSize, int length1, int length2, int length3, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * sizeof(ulong);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToUInt64Array(length1, length2, length3, compressedData);
+        }
+        public unsafe static ulong[, , ,] InitializeCompressedUInt64Array(int originalByteSize, int length1, int length2, int length3, int length4, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4 * sizeof(ulong);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToUInt64Array(length1, length2, length3, length4, compressedData);
+        }
+        public unsafe static ulong[, , , ,] InitializeCompressedUInt64Array(int originalByteSize, int length1, int length2, int length3, int length4, int length5, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4 * length5 * sizeof(ulong);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToUInt64Array(length1, length2, length3, length4, length5, compressedData);
+        }
+
+        public unsafe static float[] InitializeCompressedSingleArray(int length, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length * sizeof(float);
+            byte[] compressedData = new byte[fullByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToSingleArray(fullByteSize, compressedData);
+        }
+        public unsafe static float[,] InitializeCompressedSingleArray(int originalByteSize, int length1, int length2, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * sizeof(float);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToSingleArray(length1, length2, compressedData);
+        }
+        public unsafe static float[, ,] InitializeCompressedSingleArray(int originalByteSize, int length1, int length2, int length3, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * sizeof(float);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToSingleArray(length1, length2, length3, compressedData);
+        }
+        public unsafe static float[, , ,] InitializeCompressedSingleArray(int originalByteSize, int length1, int length2, int length3, int length4, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4 * sizeof(float);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToSingleArray(length1, length2, length3, length4, compressedData);
+        }
+        public unsafe static float[, , , ,] InitializeCompressedSingleArray(int originalByteSize, int length1, int length2, int length3, int length4, int length5, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4 * length5 * sizeof(float);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToSingleArray(length1, length2, length3, length4, length5, compressedData);
+        }
+        public unsafe static double[] InitializeCompressedDoubleArray(int length, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length * sizeof(double);
+            byte[] compressedData = new byte[fullByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToDoubleArray(fullByteSize, compressedData);
+        }
+        public unsafe static double[,] InitializeCompressedDoubleArray(int originalByteSize, int length1, int length2, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * sizeof(double);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToDoubleArray(length1, length2, compressedData);
+        }
+        public unsafe static double[, ,] InitializeCompressedDoubleArray(int originalByteSize, int length1, int length2, int length3, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * sizeof(double);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToDoubleArray(length1, length2, length3, compressedData);
+        }
+        public unsafe static double[, , ,] InitializeCompressedDoubleArray(int originalByteSize, int length1, int length2, int length3, int length4, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4 * sizeof(double);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToDoubleArray(length1, length2, length3, length4, compressedData);
+        }
+        public unsafe static double[, , , ,] InitializeCompressedDoubleArray(int originalByteSize, int length1, int length2, int length3, int length4, int length5, RuntimeFieldHandle handle)
+        {
+            int fullByteSize = length1 * length2 * length3 * length4 * length5 * sizeof(double);
+            byte[] compressedData = new byte[originalByteSize];
+            RuntimeHelpers.InitializeArray(compressedData, handle);
+            return ConvertByteArrayToDoubleArray(length1, length2, length3, length4, length5, compressedData);
+        }
+        private unsafe static double[] ConvertByteArrayToDoubleArray(int length, byte[] compressedData)
+        {
+            double[] result = new double[length];
+            fixed (double* resultPtr = result)
+                CopyData(length * sizeof(double), resultPtr, compressedData);
+            return result;
+        }
+        private unsafe static double[,] ConvertByteArrayToDoubleArray(int length1, int length2, byte[] compressedData)
+        {
+            double[,] result = new double[length1, length2];
+            fixed (double* resultPtr = result)
+                CopyData(length1 * length2 * sizeof(double), resultPtr, compressedData);
+            return result;
+        }
+        private unsafe static double[, ,] ConvertByteArrayToDoubleArray(int length1, int length2, int length3, byte[] compressedData)
+        {
+            double[, ,] result = new double[length1, length2, length3];
+            fixed (double* resultPtr = result)
+                CopyData(length1 * length2 * length3 * sizeof(double), resultPtr, compressedData);
+            return result;
+        }
+        private unsafe static double[, , ,] ConvertByteArrayToDoubleArray(int length1, int length2, int length3, int length4, byte[] compressedData)
+        {
+            double[, , ,] result = new double[length1, length2, length3, length4];
+            fixed (double* resultPtr = result)
+                CopyData(length1 * length2 * length3 * length4 * sizeof(double), resultPtr, compressedData);
+            return result;
+        }
+        private unsafe static double[, , , ,] ConvertByteArrayToDoubleArray(int length1, int length2, int length3, int length4, int length5, byte[] compressedData)
+        {
+            double[, , , ,] result = new double[length1, length2, length3, length4, length5];
+            fixed (double* resultPtr = result)
+                CopyData(length1 * length2 * length3 * length4 * length5 * sizeof(double), resultPtr, compressedData);
+            return result;
+        }
+
+        private unsafe static float[] ConvertByteArrayToSingleArray(int length, byte[] compressedData)
+        {
+            float[] result = new float[length];
+            fixed (float* resultPtr = result)
+                CopyData(length * sizeof(float), resultPtr, compressedData);
+            return result;
+        }
+        private unsafe static float[,] ConvertByteArrayToSingleArray(int length1, int length2, byte[] compressedData)
+        {
+            float[,] result = new float[length1, length2];
+            fixed (float* resultPtr = result)
+                CopyData(length1 * length2 * sizeof(float), resultPtr, compressedData);
+            return result;
+        }
+        private unsafe static float[, ,] ConvertByteArrayToSingleArray(int length1, int length2, int length3, byte[] compressedData)
+        {
+            float[, ,] result = new float[length1, length2, length3];
+            fixed (float* resultPtr = result)
+                CopyData(length1 * length2 * length3 * sizeof(float), resultPtr, compressedData);
+            return result;
+        }
+        private unsafe static float[, , ,] ConvertByteArrayToSingleArray(int length1, int length2, int length3, int length4, byte[] compressedData)
+        {
+            float[, , ,] result = new float[length1, length2, length3, length4];
+            fixed (float* resultPtr = result)
+                CopyData(length1 * length2 * length3 * length4 * sizeof(float), resultPtr, compressedData);
+            return result;
+        }
+        private unsafe static float[, , , ,] ConvertByteArrayToSingleArray(int length1, int length2, int length3, int length4, int length5, byte[] compressedData)
+        {
+            float[, , , ,] result = new float[length1, length2, length3, length4, length5];
+            fixed (float* resultPtr = result)
+                CopyData(length1 * length2 * length3 * length4 * length5 * sizeof(float), resultPtr, compressedData);
+            return result;
+        }
+
+
+        private unsafe static ulong[] ConvertByteArrayToUInt64Array(int length, byte[] compressedData)
+        {
+            ulong[] result = new ulong[length];
+            fixed (ulong* resultPtr = result)
+                CopyData(length * sizeof(ulong), resultPtr, compressedData);
+            return result;
+        }
+        private unsafe static ulong[,] ConvertByteArrayToUInt64Array(int length1, int length2, byte[] compressedData)
+        {
+            ulong[,] result = new ulong[length1, length2];
+            fixed (ulong* resultPtr = result)
+                CopyData(length1 * length2 * sizeof(ulong), resultPtr, compressedData);
+            return result;
+        }
+        private unsafe static ulong[, ,] ConvertByteArrayToUInt64Array(int length1, int length2, int length3, byte[] compressedData)
+        {
+            ulong[, ,] result = new ulong[length1, length2, length3];
+            fixed (ulong* resultPtr = result)
+                CopyData(length1 * length2 * length3 * sizeof(ulong), resultPtr, compressedData);
+            return result;
+        }
+        private unsafe static ulong[, , ,] ConvertByteArrayToUInt64Array(int length1, int length2, int length3, int length4, byte[] compressedData)
+        {
+            ulong[, , ,] result = new ulong[length1, length2, length3, length4];
+            fixed (ulong* resultPtr = result)
+                CopyData(length1 * length2 * length3 * length4 * sizeof(ulong), resultPtr, compressedData);
+            return result;
+        }
+        private unsafe static ulong[, , , ,] ConvertByteArrayToUInt64Array(int length1, int length2, int length3, int length4, int length5, byte[] compressedData)
+        {
+            ulong[, , , ,] result = new ulong[length1, length2, length3, length4, length5];
+            fixed (ulong* resultPtr = result)
+                CopyData(length1 * length2 * length3 * length4 * length5 * sizeof(ulong), resultPtr, compressedData);
+            return result;
+        }
+
+
+        private unsafe static long[] ConvertByteArrayToInt64Array(int length, byte[] compressedData)
+        {
+            long[] result = new long[length];
+            fixed (long* resultPtr = result)
+                CopyData(length * sizeof(long), resultPtr, compressedData);
+            return result;
+        }
+        private unsafe static long[,] ConvertByteArrayToInt64Array(int length1, int length2, byte[] compressedData)
+        {
+            long[,] result = new long[length1, length2];
+            fixed (long* resultPtr = result)
+                CopyData(length1 * length2 * sizeof(long), resultPtr, compressedData);
+            return result;
+        }
+        private unsafe static long[, ,] ConvertByteArrayToInt64Array(int length1, int length2, int length3, byte[] compressedData)
+        {
+            long[, ,] result = new long[length1, length2, length3];
+            fixed (long* resultPtr = result)
+                CopyData(length1 * length2 * length3 * sizeof(long), resultPtr, compressedData);
+            return result;
+        }
+        private unsafe static long[, , ,] ConvertByteArrayToInt64Array(int length1, int length2, int length3, int length4, byte[] compressedData)
+        {
+            long[, , ,] result = new long[length1, length2, length3, length4];
+            fixed (long* resultPtr = result)
+                CopyData(length1 * length2 * length3 * length4 * sizeof(long), resultPtr, compressedData);
+            return result;
+        }
+        private unsafe static long[, , , ,] ConvertByteArrayToInt64Array(int length1, int length2, int length3, int length4, int length5, byte[] compressedData)
+        {
+            long[, , , ,] result = new long[length1, length2, length3, length4, length5];
+            fixed (long* resultPtr = result)
+                CopyData(length1 * length2 * length3 * length4 * length5 * sizeof(long), resultPtr, compressedData);
+            return result;
+        }
+
+
+        private unsafe static sbyte[] ConvertByteArrayToSByteArray(int length, byte[] compressedData)
+        {
+            sbyte[] result = new sbyte[length];
             fixed (sbyte* resultPtr = result)
                 CopyData(length, resultPtr, compressedData);
             return result;
         }
-        private unsafe static sbyte[ , ] ConvertByteArrayToSByteArray(int dimension1, int dimension2, byte[ ] compressedData)
+        private unsafe static sbyte[,] ConvertByteArrayToSByteArray(int length1, int length2, byte[] compressedData)
         {
-            sbyte[ , ] result = new sbyte[ dimension1, dimension2 ];
+            sbyte[,] result = new sbyte[length1, length2];
             fixed (sbyte* resultPtr = result)
-                CopyData(dimension1 * dimension2, resultPtr, compressedData);
+                CopyData(length1 * length2, resultPtr, compressedData);
             return result;
         }
-        private unsafe static sbyte[ , , ] ConvertByteArrayToSByteArray(int dimension1, int dimension2, int dimension3, byte[ ] compressedData)
+        private unsafe static sbyte[, ,] ConvertByteArrayToSByteArray(int length1, int length2, int length3, byte[] compressedData)
         {
-            sbyte[ , , ] result = new sbyte[ dimension1, dimension2, dimension3 ];
+            sbyte[, ,] result = new sbyte[length1, length2, length3];
             fixed (sbyte* resultPtr = result)
-                CopyData(dimension1 * dimension2 * dimension3, resultPtr, compressedData);
+                CopyData(length1 * length2 * length3, resultPtr, compressedData);
             return result;
         }
-        private unsafe static sbyte[ , , , ] ConvertByteArrayToSByteArray(int dimension1, int dimension2, int dimension3, int dimension4, byte[ ] compressedData)
+        private unsafe static sbyte[, , ,] ConvertByteArrayToSByteArray(int length1, int length2, int length3, int length4, byte[] compressedData)
         {
-            sbyte[ , , , ] result = new sbyte[ dimension1, dimension2, dimension3, dimension4 ];
+            sbyte[, , ,] result = new sbyte[length1, length2, length3, length4];
             fixed (sbyte* resultPtr = result)
-                CopyData(dimension1 * dimension2 * dimension3 * dimension4, resultPtr, compressedData);
+                CopyData(length1 * length2 * length3 * length4, resultPtr, compressedData);
             return result;
         }
-        private unsafe static sbyte[ , , , , ] ConvertByteArrayToSByteArray(int dimension1, int dimension2, int dimension3, int dimension4, int dimension5, byte[ ] compressedData)
+        private unsafe static sbyte[, , , ,] ConvertByteArrayToSByteArray(int length1, int length2, int length3, int length4, int length5, byte[] compressedData)
         {
-            sbyte[ , , , , ] result = new sbyte[ dimension1, dimension2, dimension3, dimension4, dimension5 ];
+            sbyte[, , , ,] result = new sbyte[length1, length2, length3, length4, length5];
             fixed (sbyte* resultPtr = result)
-                CopyData(dimension1 * dimension2 * dimension3 * dimension4 * dimension5, resultPtr, compressedData);
+                CopyData(length1 * length2 * length3 * length4 * length5, resultPtr, compressedData);
             return result;
         }
 
 
-        private unsafe static short[ ] ConvertByteArrayToInt16Array(int length, byte[ ] compressedData)
+        private unsafe static short[] ConvertByteArrayToInt16Array(int length, byte[] compressedData)
         {
-            short[ ] result = new short[ length ];
+            short[] result = new short[length];
             fixed (short* resultPtr = result)
                 CopyData(length * sizeof(short), resultPtr, compressedData);
             return result;
         }
-        private unsafe static short[ , ] ConvertByteArrayToInt16Array(int dimension1, int dimension2, byte[ ] compressedData)
+        private unsafe static short[,] ConvertByteArrayToInt16Array(int length1, int length2, byte[] compressedData)
         {
-            short[ , ] result = new short[ dimension1, dimension2 ];
+            short[,] result = new short[length1, length2];
             fixed (short* resultPtr = result)
-                CopyData(dimension1 * dimension2 * sizeof(short), resultPtr, compressedData);
+                CopyData(length1 * length2 * sizeof(short), resultPtr, compressedData);
             return result;
         }
-        private unsafe static short[ , , ] ConvertByteArrayToInt16Array(int dimension1, int dimension2, int dimension3, byte[ ] compressedData)
+        private unsafe static short[, ,] ConvertByteArrayToInt16Array(int length1, int length2, int length3, byte[] compressedData)
         {
-            short[ , , ] result = new short[ dimension1, dimension2, dimension3 ];
+            short[, ,] result = new short[length1, length2, length3];
             fixed (short* resultPtr = result)
-                CopyData(dimension1 * dimension2 * dimension3 * sizeof(short), resultPtr, compressedData);
+                CopyData(length1 * length2 * length3 * sizeof(short), resultPtr, compressedData);
             return result;
         }
-        private unsafe static short[ , , , ] ConvertByteArrayToInt16Array(int dimension1, int dimension2, int dimension3, int dimension4, byte[ ] compressedData)
+        private unsafe static short[, , ,] ConvertByteArrayToInt16Array(int length1, int length2, int length3, int length4, byte[] compressedData)
         {
-            short[ , , , ] result = new short[ dimension1, dimension2, dimension3, dimension4 ];
+            short[, , ,] result = new short[length1, length2, length3, length4];
             fixed (short* resultPtr = result)
-                CopyData(dimension1 * dimension2 * dimension3 * dimension4 * sizeof(short), resultPtr, compressedData);
+                CopyData(length1 * length2 * length3 * length4 * sizeof(short), resultPtr, compressedData);
             return result;
         }
-        private unsafe static short[ , , , , ] ConvertByteArrayToInt16Array(int dimension1, int dimension2, int dimension3, int dimension4, int dimension5, byte[ ] compressedData)
+        private unsafe static short[, , , ,] ConvertByteArrayToInt16Array(int length1, int length2, int length3, int length4, int length5, byte[] compressedData)
         {
-            short[ , , , , ] result = new short[ dimension1, dimension2, dimension3, dimension4, dimension5 ];
+            short[, , , ,] result = new short[length1, length2, length3, length4, length5];
             fixed (short* resultPtr = result)
-                CopyData(dimension1 * dimension2 * dimension3 * dimension4 * dimension5 * sizeof(short), resultPtr, compressedData);
+                CopyData(length1 * length2 * length3 * length4 * length5 * sizeof(short), resultPtr, compressedData);
             return result;
         }
 
 
-        private unsafe static ushort[ ] ConvertByteArrayToUInt16Array(int length, byte[ ] compressedData)
+        private unsafe static ushort[] ConvertByteArrayToUInt16Array(int length, byte[] compressedData)
         {
-            ushort[ ] result = new ushort[ length ];
+            ushort[] result = new ushort[length];
             fixed (ushort* resultPtr = result)
                 CopyData(length * sizeof(ushort), resultPtr, compressedData);
             return result;
         }
-        private unsafe static ushort[ , ] ConvertByteArrayToUInt16Array(int dimension1, int dimension2, byte[ ] compressedData)
+        private unsafe static ushort[,] ConvertByteArrayToUInt16Array(int length1, int length2, byte[] compressedData)
         {
-            ushort[ , ] result = new ushort[ dimension1, dimension2 ];
+            ushort[,] result = new ushort[length1, length2];
             fixed (ushort* resultPtr = result)
-                CopyData(dimension1 * dimension2 * sizeof(ushort), resultPtr, compressedData);
+                CopyData(length1 * length2 * sizeof(ushort), resultPtr, compressedData);
             return result;
         }
-        private unsafe static ushort[ , , ] ConvertByteArrayToUInt16Array(int dimension1, int dimension2, int dimension3, byte[ ] compressedData)
+        private unsafe static ushort[, ,] ConvertByteArrayToUInt16Array(int length1, int length2, int length3, byte[] compressedData)
         {
-            ushort[ , , ] result = new ushort[ dimension1, dimension2, dimension3 ];
+            ushort[, ,] result = new ushort[length1, length2, length3];
             fixed (ushort* resultPtr = result)
-                CopyData(dimension1 * dimension2 * dimension3 * sizeof(ushort), resultPtr, compressedData);
+                CopyData(length1 * length2 * length3 * sizeof(ushort), resultPtr, compressedData);
             return result;
         }
-        private unsafe static ushort[ , , , ] ConvertByteArrayToUInt16Array(int dimension1, int dimension2, int dimension3, int dimension4, byte[ ] compressedData)
+        private unsafe static ushort[, , ,] ConvertByteArrayToUInt16Array(int length1, int length2, int length3, int length4, byte[] compressedData)
         {
-            ushort[ , , , ] result = new ushort[ dimension1, dimension2, dimension3, dimension4 ];
+            ushort[, , ,] result = new ushort[length1, length2, length3, length4];
             fixed (ushort* resultPtr = result)
-                CopyData(dimension1 * dimension2 * dimension3 * dimension4 * sizeof(ushort), resultPtr, compressedData);
+                CopyData(length1 * length2 * length3 * length4 * sizeof(ushort), resultPtr, compressedData);
             return result;
         }
-        private unsafe static ushort[ , , , , ] ConvertByteArrayToUInt16Array(int dimension1, int dimension2, int dimension3, int dimension4, int dimension5, byte[ ] compressedData)
+        private unsafe static ushort[, , , ,] ConvertByteArrayToUInt16Array(int length1, int length2, int length3, int length4, int length5, byte[] compressedData)
         {
-            ushort[ , , , , ] result = new ushort[ dimension1, dimension2, dimension3, dimension4, dimension5 ];
+            ushort[, , , ,] result = new ushort[length1, length2, length3, length4, length5];
             fixed (ushort* resultPtr = result)
-                CopyData(dimension1 * dimension2 * dimension3 * dimension4 * dimension5 * sizeof(ushort), resultPtr, compressedData);
+                CopyData(length1 * length2 * length3 * length4 * length5 * sizeof(ushort), resultPtr, compressedData);
             return result;
         }
 
-        private unsafe static int[ ] ConvertByteArrayToInt32Array(int length, byte[ ] compressedData)
+        private unsafe static int[] ConvertByteArrayToInt32Array(int length, byte[] compressedData)
         {
-            int[ ] result = new int[ length ];
+            int[] result = new int[length];
             fixed (int* resultPtr = result)
                 CopyData(length * sizeof(int), resultPtr, compressedData);
             return result;
         }
-        private unsafe static int[ , ] ConvertByteArrayToInt32Array(int dimension1, int dimension2, byte[ ] compressedData)
+        private unsafe static int[,] ConvertByteArrayToInt32Array(int length1, int length2, byte[] compressedData)
         {
-            int[ , ] result = new int[ dimension1, dimension2 ];
+            int[,] result = new int[length1, length2];
             fixed (int* resultPtr = result)
-                CopyData(dimension1 * dimension2 * sizeof(int), resultPtr, compressedData);
+                CopyData(length1 * length2 * sizeof(int), resultPtr, compressedData);
             return result;
         }
-        private unsafe static int[ , , ] ConvertByteArrayToInt32Array(int dimension1, int dimension2, int dimension3, byte[ ] compressedData)
+        private unsafe static int[, ,] ConvertByteArrayToInt32Array(int length1, int length2, int length3, byte[] compressedData)
         {
-            int[ , , ] result = new int[ dimension1, dimension2, dimension3 ];
+            int[, ,] result = new int[length1, length2, length3];
             fixed (int* resultPtr = result)
-                CopyData(dimension1 * dimension2 * dimension3 * sizeof(int), resultPtr, compressedData);
+                CopyData(length1 * length2 * length3 * sizeof(int), resultPtr, compressedData);
             return result;
         }
-        private unsafe static int[ , , , ] ConvertByteArrayToInt32Array(int dimension1, int dimension2, int dimension3, int dimension4, byte[ ] compressedData)
+        private unsafe static int[, , ,] ConvertByteArrayToInt32Array(int length1, int length2, int length3, int length4, byte[] compressedData)
         {
-            int[ , , , ] result = new int[ dimension1, dimension2, dimension3, dimension4 ];
+            int[, , ,] result = new int[length1, length2, length3, length4];
             fixed (int* resultPtr = result)
-                CopyData(dimension1 * dimension2 * dimension3 * dimension4 * sizeof(int), resultPtr, compressedData);
+                CopyData(length1 * length2 * length3 * length4 * sizeof(int), resultPtr, compressedData);
             return result;
         }
-        private unsafe static int[ , , , , ] ConvertByteArrayToInt32Array(int dimension1, int dimension2, int dimension3, int dimension4, int dimension5, byte[ ] compressedData)
+        private unsafe static int[, , , ,] ConvertByteArrayToInt32Array(int length1, int length2, int length3, int length4, int length5, byte[] compressedData)
         {
-            int[ , , , , ] result = new int[ dimension1, dimension2, dimension3, dimension4, dimension5 ];
+            int[, , , ,] result = new int[length1, length2, length3, length4, length5];
             fixed (int* resultPtr = result)
-                CopyData(dimension1 * dimension2 * dimension3 * dimension4 * dimension5 * sizeof(int), resultPtr, compressedData);
+                CopyData(length1 * length2 * length3 * length4 * length5 * sizeof(int), resultPtr, compressedData);
             return result;
         }
 
-        private unsafe static uint[ ] ConvertByteArrayToUInt32Array(int length, byte[ ] compressedData)
+        private unsafe static uint[] ConvertByteArrayToUInt32Array(int length, byte[] compressedData)
         {
-            uint[ ] result = new uint[ length ];
+            uint[] result = new uint[length];
             fixed (uint* resultPtr = result)
-                CopyData(length*sizeof(uint), resultPtr, compressedData);
+                CopyData(length * sizeof(uint), resultPtr, compressedData);
             return result;
         }
-        private unsafe static uint[ , ] ConvertByteArrayToUInt32Array(int dimension1, int dimension2, byte[ ] compressedData)
+        private unsafe static uint[,] ConvertByteArrayToUInt32Array(int length1, int length2, byte[] compressedData)
         {
-            uint[ , ] result = new uint[ dimension1, dimension2 ];
+            uint[,] result = new uint[length1, length2];
             fixed (uint* resultPtr = result)
-                CopyData(dimension1 * dimension2 * sizeof(uint), resultPtr, compressedData);
+                CopyData(length1 * length2 * sizeof(uint), resultPtr, compressedData);
             return result;
         }
-        private unsafe static uint[ , , ] ConvertByteArrayToUInt32Array(int dimension1, int dimension2, int dimension3, byte[ ] compressedData)
+        private unsafe static uint[, ,] ConvertByteArrayToUInt32Array(int length1, int length2, int length3, byte[] compressedData)
         {
-            uint[ , , ] result = new uint[ dimension1, dimension2, dimension3 ];
+            uint[, ,] result = new uint[length1, length2, length3];
             fixed (uint* resultPtr = result)
-                CopyData(dimension1 * dimension2 * dimension3 * sizeof(uint), resultPtr, compressedData);
+                CopyData(length1 * length2 * length3 * sizeof(uint), resultPtr, compressedData);
             return result;
         }
-        private unsafe static uint[ , , , ] ConvertByteArrayToUInt32Array(int dimension1, int dimension2, int dimension3, int dimension4, byte[ ] compressedData)
+        private unsafe static uint[, , ,] ConvertByteArrayToUInt32Array(int length1, int length2, int length3, int length4, byte[] compressedData)
         {
-            uint[ , , , ] result = new uint[ dimension1, dimension2, dimension3, dimension4 ];
+            uint[, , ,] result = new uint[length1, length2, length3, length4];
             fixed (uint* resultPtr = result)
-                CopyData(dimension1 * dimension2 * dimension3 * dimension4 * sizeof(uint), resultPtr, compressedData);
+                CopyData(length1 * length2 * length3 * length4 * sizeof(uint), resultPtr, compressedData);
             return result;
         }
-        private unsafe static uint[ , , , , ] ConvertByteArrayToUInt32Array(int dimension1, int dimension2, int dimension3, int dimension4, int dimension5, byte[ ] compressedData)
+        private unsafe static uint[, , , ,] ConvertByteArrayToUInt32Array(int length1, int length2, int length3, int length4, int length5, byte[] compressedData)
         {
-            uint[ , , , , ] result = new uint[ dimension1, dimension2, dimension3, dimension4, dimension5 ];
+            const int test = sizeof(int);
+            uint[, , , ,] result = new uint[length1, length2, length3, length4, length5];
             fixed (uint* resultPtr = result)
-                CopyData(dimension1 * dimension2 * dimension3 * dimension4 * dimension5 * sizeof(uint), resultPtr, compressedData);
+                CopyData(length1 * length2 * length3 * length4 * length5 * sizeof(uint), resultPtr, compressedData);
             return result;
         }
 
-        private static unsafe void CopyData(int fullByteSize, byte* dataPointer, byte[ ] compressedData)
+        private static unsafe void CopyData(int fullByteSize, byte* dataPointer, byte[] compressedData)
         {
             var decompressedData = DecompressByteStream(compressedData, fullByteSize);
             fixed (byte* sourceFPtr = decompressedData)
@@ -282,11 +772,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                 byte* sourceDPtr = (byte*) sourceFPtr;
                 byte* resultDPtr = dataPointer;
                 for (int i = 0; i < fullByteSize; i++)
-                    resultDPtr[ i ] = sourceDPtr[ i ];
+                    resultDPtr[i] = sourceDPtr[i];
             }
         }
 
-        private static unsafe void CopyData(int fullByteSize, sbyte* dataPointer, byte[ ] compressedData)
+        private static unsafe void CopyData(int fullByteSize, sbyte* dataPointer, byte[] compressedData)
         {
             var decompressedData = DecompressByteStream(compressedData, fullByteSize);
             fixed (byte* sourceFPtr = decompressedData)
@@ -298,7 +788,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             }
         }
 
-        private static unsafe void CopyData(int fullByteSize, decimal* dataPointer, byte[ ] compressedData)
+        private static unsafe void CopyData(int fullByteSize, decimal* dataPointer, byte[] compressedData)
         {
             var decompressedData = DecompressByteStream(compressedData, fullByteSize);
             int diminishedSize = fullByteSize / sizeof(decimal);
@@ -311,7 +801,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             }
         }
 
-        private static unsafe void CopyData(int fullByteSize, short* dataPointer, byte[ ] compressedData)
+        private static unsafe void CopyData(int fullByteSize, short* dataPointer, byte[] compressedData)
         {
             var decompressedData = DecompressByteStream(compressedData, fullByteSize);
             int diminishedSize = fullByteSize / sizeof(short);
@@ -324,7 +814,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             }
         }
 
-        private static unsafe void CopyData(int fullByteSize, ushort* dataPointer, byte[ ] compressedData)
+        private static unsafe void CopyData(int fullByteSize, ushort* dataPointer, byte[] compressedData)
         {
             var decompressedData = DecompressByteStream(compressedData, fullByteSize);
             int diminishedSize = fullByteSize / sizeof(ushort);
@@ -337,7 +827,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             }
         }
 
-        private static unsafe void CopyData(int fullByteSize, int* dataPointer, byte[ ] compressedData)
+        private static unsafe void CopyData(int fullByteSize, int* dataPointer, byte[] compressedData)
         {
             var decompressedData = DecompressByteStream(compressedData, fullByteSize);
             int diminishedSize = fullByteSize / sizeof(int);
@@ -350,7 +840,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             }
         }
 
-        private static unsafe void CopyData(int fullByteSize, uint* dataPointer, byte[ ] compressedData)
+        private static unsafe void CopyData(int fullByteSize, uint* dataPointer, byte[] compressedData)
         {
             var decompressedData = DecompressByteStream(compressedData, fullByteSize);
             int diminishedSize = fullByteSize / sizeof(uint);
@@ -362,7 +852,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                     *(resultDPtr) = *(sourceDPtr);
             }
         }
-        private static unsafe void CopyData(int fullByteSize, long* dataPointer, byte[ ] compressedData)
+        private static unsafe void CopyData(int fullByteSize, long* dataPointer, byte[] compressedData)
         {
             var decompressedData = DecompressByteStream(compressedData, fullByteSize);
             int diminishedSize = fullByteSize / sizeof(long);
@@ -374,7 +864,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                     *(resultDPtr) = *(sourceDPtr);
             }
         }
-        private static unsafe void CopyData(int fullByteSize, ulong* dataPointer, byte[ ] compressedData)
+        private static unsafe void CopyData(int fullByteSize, ulong* dataPointer, byte[] compressedData)
         {
             var decompressedData = DecompressByteStream(compressedData, fullByteSize);
             int diminishedSize = fullByteSize / sizeof(ulong);
@@ -386,7 +876,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                     *(resultDPtr) = *(sourceDPtr);
             }
         }
-        private static unsafe void CopyData(int fullByteSize, float* dataPointer, byte[ ] compressedData)
+        private static unsafe void CopyData(int fullByteSize, float* dataPointer, byte[] compressedData)
         {
             var decompressedData = DecompressByteStream(compressedData, fullByteSize);
             int diminishedSize = fullByteSize / sizeof(float);
@@ -398,7 +888,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                     *(resultDPtr) = *(sourceDPtr);
             }
         }
-        private static unsafe void CopyData(int fullByteSize, double* dataPointer, byte[ ] compressedData)
+        private static unsafe void CopyData(int fullByteSize, double* dataPointer, byte[] compressedData)
         {
             var decompressedData = DecompressByteStream(compressedData, fullByteSize);
             int diminishedSize = fullByteSize / sizeof(double);

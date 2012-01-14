@@ -6,6 +6,7 @@
  \-------------------------------------------------------------------- */
 
 
+using System.Runtime.InteropServices;
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>

@@ -61,6 +61,7 @@
     <WarningsAsErrors>0162, 0108, 0649, 1712, 1573, 1574, 1572</WarningsAsErrors>
     <NoWarn>
     </NoWarn>
+    <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\..\Build\x86\Release\</OutputPath>
@@ -1059,10 +1060,12 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>$(SolutionDir)BuildAssistant.bat $(PlatformName) "$(TargetDir)$(TargetFileName)" "$(ProjectName)" uninstall</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>$(SolutionDir)BuildAssistant.bat $(PlatformName) "$(TargetDir)$(TargetFileName)" "$(ProjectName)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
