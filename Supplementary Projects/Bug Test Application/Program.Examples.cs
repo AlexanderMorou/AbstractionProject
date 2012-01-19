@@ -27,6 +27,7 @@ using System.Runtime.CompilerServices;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using System.Runtime.InteropServices;
 using System.Diagnostics.SymbolStore;
+using AllenCopeland.Abstraction.Slf._Internal.Ast;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -41,7 +42,8 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     {
         private static void Main()
         {
-            AssemblyBuilderTest();
+            StrongNameTest();
+            //AssemblyBuilderTest();
             //AssemblyBuilderTest();
             //CompressionTest();
             //ExtensionsTest();
@@ -59,6 +61,34 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             //RunExamples();
         }
 
+        private static void StrongNameTest()
+        {
+            const int firstBitCount = 400;
+            const int lastBitCount = 2048;
+            for (int i = firstBitCount; i <= lastBitCount; i += 16)
+                WriteStrongName(i);
+        }
+
+        private static void WriteStrongName(int bitCount)
+        {
+            Stopwatch sw = Stopwatch.StartNew();
+            IStrongNamePrivateKeyInfo keyPair = new StrongNamePrivateKeyInfo(bitCount);
+            sw.Stop();
+            var keyPairCreation = sw.Elapsed;
+            sw.Restart();
+            var privateFile = string.Format("KeyData [{0}, Private].snk", bitCount);
+            var publicFile = string.Format("KeyData [{0}, Public].snk", bitCount);
+            keyPair.WriteTo(privateFile);
+            sw.Stop();
+            var privateKeyWrite = sw.Elapsed;
+            sw.Restart();
+            keyPair.PublicKey.WriteTo(publicFile);
+            sw.Stop();
+            var publicKeyWrite = sw.Elapsed;
+            Console.WriteLine("It took {0} to generate a {1} bit key.", keyPairCreation, bitCount);
+            Console.WriteLine("Writing the public key took {0}, the private key took {1}.", publicKeyWrite, privateKeyWrite);
+        }
+
         [StructLayout(LayoutKind.Explicit, Size=6, Pack=1)]
         private struct TestSizeStruct
         {
@@ -70,7 +100,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             AssemblyName an = new AssemblyName("TestAssembly");
             AssemblyBuilder ab = AppDomain.CurrentDomain.DefineDynamicAssembly(an, AssemblyBuilderAccess.Save);
             var mod = ab.DefineDynamicModule("TestAssembly.dll", true);
-            var testILDocument = mod.DefineDocument("TestAssembly.il", SymLanguageType.ILAssembly, SymLanguageVendor.Microsoft, SymDocumentType.Text);
+            var testILDocument = mod.DefineDocument("TestAssembly.il", LanguageGuids.CommonIntermediateLanguage, LanguageGuids.Vendors.Microsoft, SymDocumentType.Text);
             var byteStream = ArrayToExpressionToByteArrayTest();
             var compressedByteStream = StandardCompilerAids.CompressByteStream(byteStream);
             var sizeType = mod.DefineType(string.Format("$ArrayType${0}", compressedByteStream.Length), TypeAttributes.AnsiClass | TypeAttributes.Sealed | TypeAttributes.ExplicitLayout | TypeAttributes.NotPublic, typeof(ValueType), PackingSize.Size1, compressedByteStream.Length);

@@ -108,7 +108,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 
         public Guid Guid
         {
-            get { return SymLanguageType.Basic; }
+            get { return LanguageGuids.VisualBasic; }
         }
 
         #endregion

@@ -976,17 +976,29 @@ namespace AllenCopeland.Abstraction.Slf.Translation
 
         void IExpressionVisitor.Visit<TLeft, TRight>(IBinaryOperationExpression<TLeft, TRight> expression)
         {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
             this.Translate(expression);
         }
 
         void IExpressionVisitor.Visit(IIndexerReferenceExpression expression)
         {
+            if (expression == null)
+                throw new ArgumentNullException("expression");
             this.Translate(expression);
         }
 
         void IExpressionVisitor.Visit(IConditionalExpression expression)
         {
-            this.Translate(expression);
+            if (expression == null)
+                throw new ArgumentNullException("expression");
+            if (expression.Type == ExpressionKind.ConditionalForwardTerm)
+            {
+                if (expression.CheckPart != null)
+                    expression.CheckPart.Visit(this);
+            }
+            else
+                this.Translate(expression);
         }
 
         void IExpressionVisitor.Visit(IUnaryOperationExpression expression)

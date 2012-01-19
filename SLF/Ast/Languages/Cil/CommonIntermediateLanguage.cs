@@ -64,7 +64,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         /// </summary>
         public Guid Guid
         {
-            get { return SymLanguageType.ILAssembly; }
+            get { return LanguageGuids.CommonIntermediateLanguage; }
         }
 
         IIntermediateAssembly ILanguage.CreateAssembly(string name)
