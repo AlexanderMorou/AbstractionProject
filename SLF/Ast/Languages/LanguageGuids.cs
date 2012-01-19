@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Ast;
 using System.Diagnostics.SymbolStore;
+using AllenCopeland.Abstraction.Slf.Languages.CSharp;
+using AllenCopeland.Abstraction.Slf.Languages.Cil;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
@@ -13,6 +15,22 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     /// </summary>
     public static class LanguageGuids
     {
+        /// <summary>
+        /// The <see cref="Guid"/> for the <see cref="CSharpLanguage">C&#9839; Language</see>.
+        /// </summary>
+        public static readonly Guid CSharp = SymLanguageType.CSharp;
+        /// <summary>
+        /// The <see cref="Guid"/> for the Visual Basic.NET Language.
+        /// </summary>
+        public static readonly Guid VisualBasic = SymLanguageType.Basic;
+        /// <summary>
+        /// The <see cref="Guid"/> for the <see cref="Cil.CommonIntermediateLanguage">Common Intermediate Language</see>.
+        /// </summary>
+        public static readonly Guid CommonIntermediateLanguage = SymLanguageType.ILAssembly;
+        /// <summary>
+        /// The <see cref="Guid"/> for the Objectified Intermediate Language Lexical Analysis program generator, aka: OILexer.
+        /// </summary>
+        public static readonly Guid Oilexer = new Guid(0xED13FCAD, 0xE20F, 0x4C81, 0xA6, 0xFE, 0xAF, 0xAD, 0xE2, 0x99, 0xB9, 0xC0);
         /// <summary>
         /// Globally unique identifiers for the constructor
         /// services which aid in creating intermediate types,

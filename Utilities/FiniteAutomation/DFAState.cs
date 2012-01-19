@@ -222,7 +222,6 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         
         protected static void Reduce(TState target, bool recognizer)
         {
-            var blackListed = new List<TState>();
             int last = 0;
         Repeat:
             Dictionary<TState, List<TState>> forwardDuplications = new Dictionary<TState, List<TState>>();

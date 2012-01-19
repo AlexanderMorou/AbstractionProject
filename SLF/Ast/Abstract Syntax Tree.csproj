@@ -101,9 +101,16 @@
     <Compile Include="Ast\IIntermediateModifiersAndAttributesMetadata.cs" />
     <Compile Include="Ast\IntermediateAssembly.cs" />
     <Compile Include="Ast\IntermediateModifiersAndAttributesMetadata.cs" />
+    <Compile Include="Ast\IStrongNamePrivateKeyInfo.cs" />
+    <Compile Include="Ast\IStrongNamePublicKeyInfo.cs" />
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember+ParametersDictionary+ParameterMember.cs" />
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember+ParametersDictionary.cs" />
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember.cs" />
+    <Compile Include="Ast\IStrongNameKeyInfo.cs" />
+    <Compile Include="Ast\StrongNameKeyInfoType.cs" />
+    <Compile Include="Ast\StrongNamePrivateKeyInfo+LinkedPublicKey.cs" />
+    <Compile Include="Ast\StrongNamePrivateKeyInfo.cs" />
+    <Compile Include="Ast\StrongNamePublicKeyInfo.cs" />
     <Compile Include="Languages\Cil\CommonIntermediateProvider+AssemblyService.cs" />
     <Compile Include="Languages\CSharp\CSharpProvider+AssemblyService.cs" />
     <Compile Include="Languages\IIntermediateAssemblyCtorLanguageService.cs" />
@@ -130,6 +137,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="_Internal\Ast\StrongNameKeyPairHelper.cs" />
     <Compile Include="_Internal\Ast\_IIntermediateGenericType.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\ILinqBodyBuilderParent.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqBodyBuilderBase.cs" />
@@ -1043,6 +1051,7 @@
   <ItemGroup>
     <None Include="Allen Copeland.pfx" />
     <None Include="Ast\Statements\Readme.txt" />
+    <None Include="Resources\RandomRSAData.blob" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

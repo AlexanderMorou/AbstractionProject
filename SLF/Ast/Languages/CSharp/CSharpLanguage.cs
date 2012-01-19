@@ -77,6 +77,14 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
                 )
             );
 
+        public IMicrosoftLanguageVendor Vendor
+        {
+            get
+            {
+                return LanguageVendors.Microsoft;
+            }
+        }
+
         #region ILanguage Members
 
         /// <summary>
@@ -94,46 +102,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
             return this.GetProvider();
         }
 
-        #endregion
-
-        #region ICSharpLanguage Members
-
-        /// <summary>
-        /// Returns a new <see cref="ICSharpProvider"/> associated to the
-        /// <see cref="CSharpLanguage">C&#9839; language</see>.
-        /// </summary>
-        /// <returns>A new <see cref="ICSharpProvider"/> for the 
-        /// <see cref="CSharpLanguage">C&#9839; language</see>.</returns>
-        public ICSharpProvider GetProvider()
-        {
-            return this.GetProvider(CSharpLanguage.DefaultVersion);
-        }
-
-        #endregion
-
-        #region IHighLevelLanguage<ICSharpCompilationUnit> Members
-
-        IHighLevelLanguageProvider<ICSharpCompilationUnit> IHighLevelLanguage<ICSharpCompilationUnit>.GetProvider()
-        {
-            return this.GetProvider();
-        }
-
-        public Guid Guid
-        {
-            get { return SymLanguageType.CSharp; }
-        }
-
-        #endregion
-
-        public IMicrosoftLanguageVendor Vendor
-        {
-            get
-            {
-                return LanguageVendors.Microsoft;
-            }
-        }
-
-        #region ILanguage Members
         /// <summary>
         /// Returns the level of functionality support the 
         /// compiler contains.
@@ -193,10 +161,25 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
             return GetProvider(version);
         }
 
+        IIntermediateAssembly IVersionedHighLevelLanguage<CSharpLanguageVersion, ICSharpCompilationUnit>.CreateAssembly(string name, CSharpLanguageVersion version)
+        {
+            return this.CreateAssembly(name, version);
+        }
+
         #endregion
 
-
         #region ICSharpLanguage Members
+
+        /// <summary>
+        /// Returns a new <see cref="ICSharpProvider"/> associated to the
+        /// <see cref="CSharpLanguage">C&#9839; language</see>.
+        /// </summary>
+        /// <returns>A new <see cref="ICSharpProvider"/> for the 
+        /// <see cref="CSharpLanguage">C&#9839; language</see>.</returns>
+        public ICSharpProvider GetProvider()
+        {
+            return this.GetProvider(CSharpLanguage.DefaultVersion);
+        }
 
         /// <summary>
         /// Returns a new <see cref="ICSharpProvider"/> associated to the
@@ -212,10 +195,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         {
             return new CSharpProvider(version);
         }
-
-        #endregion
-
-        #region ICSharpLanguage Members
 
         /// <summary>
         /// Creates a new <see cref="ICSharpAssembly"/>
@@ -260,17 +239,17 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
 
         #endregion
 
-        #region IVersionedHighLevelLanguage<CSharpLanguageVersion,ICSharpCompilationUnit> Members
+        #region IHighLevelLanguage<ICSharpCompilationUnit> Members
 
-
-        IIntermediateAssembly IVersionedHighLevelLanguage<CSharpLanguageVersion, ICSharpCompilationUnit>.CreateAssembly(string name, CSharpLanguageVersion version)
+        IHighLevelLanguageProvider<ICSharpCompilationUnit> IHighLevelLanguage<ICSharpCompilationUnit>.GetProvider()
         {
-            return this.CreateAssembly(name, version);
+            return this.GetProvider();
         }
 
-        #endregion
-
-        #region IHighLevelLanguage<ICSharpCompilationUnit> Members
+        public Guid Guid
+        {
+            get { return LanguageGuids.CSharp; }
+        }
 
         IIntermediateAssembly ILanguage.CreateAssembly(string name)
         {

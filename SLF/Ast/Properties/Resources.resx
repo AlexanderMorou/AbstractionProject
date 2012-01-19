@@ -2892,6 +2892,10 @@
   <data name="Exception_ReturnType_Mismatch" xml:space="preserve">
     <value>Result type does not match.</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="RSAKeyPair" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RandomRSAData.blob;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Statement_Return_Keyword" xml:space="preserve">
     <value>return</value>
   </data>

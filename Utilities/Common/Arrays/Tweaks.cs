@@ -212,6 +212,29 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             return result;
         }
 
+        public static T[] Interleave<T>(T[] itemsA, T[] itemsB)
+        {
+            T[] result = new T[itemsA.Length * 2];
+            for (int i = 0, k = 0; i < itemsA.Length; i++, k++)
+            {
+                result[k] = itemsA[i];
+                result[++k] = itemsB[i];
+            }
+            return result;
+        }
+
+        public static Tuple<T[], T[]> SeparateInterleave<T>(T[] source)
+        {
+            T[] resultA = new T[source.Length / 2];
+            T[] resultB = new T[resultA.Length];
+            for (int i = 0, k = 0; i < resultA.Length; i++, k++)
+            {
+                resultA[i] = source[k];
+                resultB[i] = source[++k];
+            }
+            return new Tuple<T[], T[]>(resultA, resultB);
+        }
+
         /// <summary>
         /// Obtains an enumerable object which can iterate through all of
         /// the indices of an <see cref="Array"/> regardless of its 
@@ -526,12 +549,12 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
 
         public static T[][] Chunk<T>(this T[] series, int chunkSize)
         {
-            int chunkCount = (int)Math.Ceiling(((double)series.Length) / chunkSize);
+            int chunkCount = (series.Length + chunkSize - 1) / chunkSize;
             T[][] result = new T[chunkCount][];
-            for (int i = 0, c = series.Length; i < chunkCount; i++)
+            for (int i = 0; i < chunkCount; i++)
             {
                 int min = i * chunkSize;
-                int max = Math.Min((i + 1) * chunkSize, c);
+                int max = Math.Min((i + 1) * chunkSize, series.Length);
                 int size = max - min;
                 T[] current = result[i] = new T[size];
                 for (int j = 0; j < size; j++)
