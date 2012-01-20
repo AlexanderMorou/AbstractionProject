@@ -42,9 +42,8 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     {
         private static void Main()
         {
-            StrongNameTest();
-            //AssemblyBuilderTest();
-            //AssemblyBuilderTest();
+            //StrongNameTest();
+            AssemblyBuilderTest();
             //CompressionTest();
             //ExtensionsTest();
             //TimedMirrorTest();
@@ -89,16 +88,11 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             Console.WriteLine("Writing the public key took {0}, the private key took {1}.", publicKeyWrite, privateKeyWrite);
         }
 
-        [StructLayout(LayoutKind.Explicit, Size=6, Pack=1)]
-        private struct TestSizeStruct
-        {
-        }
-        private static byte[] data;
-        private static TestSizeStruct tss = new TestSizeStruct();
         private static void AssemblyBuilderTest()
         {
-            AssemblyName an = new AssemblyName("TestAssembly");
+            AssemblyName an = new AssemblyName("TestAssembly") { KeyPair = new StrongNamePrivateKeyInfo(384).CreateStrongName() };
             AssemblyBuilder ab = AppDomain.CurrentDomain.DefineDynamicAssembly(an, AssemblyBuilderAccess.Save);
+
             var mod = ab.DefineDynamicModule("TestAssembly.dll", true);
             var testILDocument = mod.DefineDocument("TestAssembly.il", LanguageGuids.CommonIntermediateLanguage, LanguageGuids.Vendors.Microsoft, SymDocumentType.Text);
             var byteStream = ArrayToExpressionToByteArrayTest();
