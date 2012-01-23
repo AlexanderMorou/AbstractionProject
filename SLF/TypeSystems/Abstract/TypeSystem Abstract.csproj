@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -51,7 +51,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\..\Build\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS, DEBUG_SNK</DefineConstants>
     <DocumentationFile>..\..\..\Build\x86\Debug\_abs.slf.typesystems.abstract.XML</DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -117,6 +117,10 @@
     <Compile Include="Abstract\IGenericParamParentUniqueIdentifier{TIdentifier}.cs" />
     <Compile Include="Abstract\IGroupedTypeDictionary.cs" />
     <Compile Include="Abstract\IModifiersAndAttributesMetadata.cs" />
+    <Compile Include="Abstract\IStrongNameKeyInfo.cs" />
+    <Compile Include="Abstract\IStrongNamePrivateKeyInfo.cs" />
+    <Compile Include="Abstract\IStrongNamePublicKeyInfo.cs" />
+    <Compile Include="Abstract\IVersion.cs" />
     <Compile Include="Abstract\Members\ExtendedMethodMemberFlags.cs" />
     <Compile Include="Abstract\Members\IBinaryOperatorUniqueIdentifier.cs" />
     <Compile Include="Abstract\Members\IExtendedMethodMember.cs" />
@@ -133,6 +137,11 @@
     <Compile Include="Abstract\Members\ISignatureMemberUniqueIdentifier.cs" />
     <Compile Include="Abstract\Members\ITypeCoercionUniqueIdentifier.cs" />
     <Compile Include="Abstract\Members\IUnaryOperatorUniqueIdentifier.cs" />
+    <Compile Include="Abstract\PublicKeyTokenData.cs" />
+    <Compile Include="Abstract\StrongNameKeyInfoType.cs" />
+    <Compile Include="Abstract\StrongNamePrivateKeyInfo+LinkedPublicKey.cs" />
+    <Compile Include="Abstract\StrongNamePrivateKeyInfo.cs" />
+    <Compile Include="Abstract\StrongNamePublicKeyInfo.cs" />
     <Compile Include="IProtectableComponent.cs" />
     <Compile Include="Abstract\IMassTargetHandler.cs" />
     <Compile Include="Abstract\MassDisposalAid.cs" />
@@ -329,6 +338,7 @@
     <Compile Include="Abstract\TypedNameSeries.cs" />
     <Compile Include="Abstract\IDeclarationUniqueIdentifier.cs" />
     <Compile Include="Abstract\ITypeUniqueIdentifier.cs" />
+    <Compile Include="_Internal\Abstract\StrongNameKeyPairHelper.cs" />
     <Compile Include="_Internal\Abstract\TypeArrayCache.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -357,7 +367,9 @@
   <ItemGroup>
     <Compile Include="Abstract\Members\IGeneralSignatureMemberUniqueIdentifier.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

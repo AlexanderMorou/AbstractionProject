@@ -70,6 +70,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         private IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> fields;
         private IFullMemberDictionary members;
+        private IStrongNamePublicKeyInfo publicKeyInfo;
         private object syncObject = new object();
         private byte isDisposed = 0;
 
@@ -85,6 +86,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// from <see cref="OnGetManifestModule"/>.
         /// </summary>
         protected abstract bool CanCacheManifestModule { get; }
+
+        protected abstract bool CanCachePublicKeyInfo { get; }
 
         #endregion
 
@@ -104,6 +107,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <returns>An <see cref="IModule"/> instance that contains
         /// the assembly manifest information.</returns>
         protected abstract IModule OnGetManifestModule();
+
+        protected abstract IStrongNamePublicKeyInfo OnGetPublicKeyInfo();
 
         #endregion
 
@@ -429,6 +434,19 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         #endregion
 
         #region IAssembly Members
+
+        public IStrongNamePublicKeyInfo PublicKeyInfo
+        {
+            get {
+                if (this.CanCachePublicKeyInfo)
+                {
+                    if (this.publicKeyInfo != null)
+                        this.publicKeyInfo = this.OnGetPublicKeyInfo();
+                    return this.publicKeyInfo;
+                }
+                return this.OnGetPublicKeyInfo();
+            }
+        }
 
         /// <summary>
         /// Returns the <see cref="IAssemblyInformation"/> about the current <see cref="AssemblyBase"/>
@@ -915,6 +933,5 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 return fields != null;
             }
         }
-
     }
 }

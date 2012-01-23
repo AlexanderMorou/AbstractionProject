@@ -214,7 +214,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 else
                 {
                     this.assemblyInformation = InitializeAssemblyInformation();
-                    this.assemblyInformation.AssemblyVersionChanged += new EventHandler<EventArgsR1R2<Version, Version>>(assemblyInformation_AssemblyVersionChanged);
+                    this.assemblyInformation.AssemblyVersionChanged += new EventHandler<EventArgsR1R2<IVersion, IVersion>>(assemblyInformation_AssemblyVersionChanged);
                     this.assemblyInformation.CultureChanged += new EventHandler<EventArgsR1R2<ICultureIdentifier, ICultureIdentifier>>(assemblyInformation_CultureChanged);
                 }
             }
@@ -232,7 +232,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
-        void assemblyInformation_AssemblyVersionChanged(object sender, EventArgsR1R2<Version, Version> e)
+        void assemblyInformation_AssemblyVersionChanged(object sender, EventArgsR1R2<IVersion, IVersion> e)
         {
             if (this.uniqueIdentifier == null)
                 this.OnIdentifierChanged(AstIdentifier.Assembly(this.Name, e.Arg1, this.AssemblyInformation.Culture, this.PublicKey), DeclarationChangeCause.Signature);
@@ -1248,6 +1248,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         public abstract TProvider Provider { get; }
 
+        public IStrongNamePrivateKeyInfo PrivateKeyInfo
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
         #endregion
 
         ILanguageProvider IIntermediateAssembly.Provider
@@ -1264,6 +1275,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 return this.Language;
             }
+        }
+
+        protected override bool CanCachePublicKeyInfo
+        {
+            get { return false; }
+        }
+
+        protected override IStrongNamePublicKeyInfo OnGetPublicKeyInfo()
+        {
+            throw new NotImplementedException();
         }
     }
 }

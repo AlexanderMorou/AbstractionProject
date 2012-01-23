@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AllenCopeland.Abstraction.Slf._Internal.Ast;
-using System.Reflection;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 
-namespace AllenCopeland.Abstraction.Slf.Ast
+namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     internal partial class StrongNamePrivateKeyInfo :
         IStrongNamePrivateKeyInfo
@@ -18,6 +18,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             this.keySize = keySize;
             this.data = StrongNameKeyPairHelper.GetNewStrongNameData(keySize);
+        }
+
+        internal StrongNamePrivateKeyInfo(bool o, byte[] data, int l, int ks) {
+            this.keySize = keySize;
+            this.data = new Tuple<int, byte[], bool>(l, data, o);
         }
 
         #region IStrongNamePrivateKeyInfo Members

@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
@@ -98,6 +99,24 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 if (attributeType.IsAssignableFrom(inst.Type))
                     return true;
             return false;
+        }
+
+        public static IStrongNamePrivateKeyInfo GetStrongNameKeyPair(string filename)
+        {
+            return (IStrongNamePrivateKeyInfo) StrongNameKeyPairHelper.LoadStrongNameKeyData(filename);
+        }
+        public static IStrongNamePublicKeyInfo GetStrongNamePublicKey(string filename)
+        {
+            return (IStrongNamePublicKeyInfo) StrongNameKeyPairHelper.LoadStrongNameKeyData(filename, false);
+        }
+        public static IStrongNamePrivateKeyInfo GetStrongNameKeyPair(byte[] data)
+        {
+            return (IStrongNamePrivateKeyInfo) StrongNameKeyPairHelper.LoadStrongNameKeyData(data);
+        }
+
+        public static IStrongNamePublicKeyInfo GetStrongNamePublicKey(byte[] data)
+        {
+            return (IStrongNamePublicKeyInfo) StrongNameKeyPairHelper.LoadStrongNameKeyData(data, false);
         }
     }
 }

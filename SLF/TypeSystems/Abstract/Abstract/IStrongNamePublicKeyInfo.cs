@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
-namespace AllenCopeland.Abstraction.Slf.Ast
+namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>
     /// Defines properties and methods for working with a information
@@ -27,5 +27,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// thrown when <see cref="PrivateKeyAvailable"/> is false.
         /// </exception>
         IStrongNamePrivateKeyInfo PrivateKey { get; }
+        /// <summary>
+        /// Returns the <see cref="PublicKeyTokenData"/>
+        /// </summary>
+        PublicKeyTokenData PublicToken { get; }
     }
 }

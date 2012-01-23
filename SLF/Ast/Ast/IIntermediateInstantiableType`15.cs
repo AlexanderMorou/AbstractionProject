@@ -44,14 +44,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     /// <typeparam name="TIntermediateType">The type kind of type used within the intermediate abstract syntax
     /// tree to represent the malleable form of the type during design time.</typeparam>
     public interface IIntermediateInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TTypeIdentifier, TType, TIntermediateType> :
-        IIntermediateCreatableParent<TCtor, TIntermediateCtor, TType, TIntermediateType>,
+        IIntermediateSegmentableType<TTypeIdentifier, TType, TIntermediateType>,
         IIntermediateMethodParent<TMethod, TIntermediateMethod, TType, TIntermediateType>,
+        IIntermediateCreatableParent<TCtor, TIntermediateCtor, TType, TIntermediateType>,
         IIntermediatePropertyParent<TProperty, TIntermediateProperty, TType, TIntermediateType>,
         IIntermediateFieldParent<TField, TIntermediateField, TType, TIntermediateType>,
         IIntermediateCoercibleType<TType, TIntermediateType>,
         IIntermediateEventParent<TEvent, TIntermediateEvent, TType, TIntermediateType>,
         IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TType, TIntermediateType>,
-        IIntermediateSegmentableType<TTypeIdentifier, TType, TIntermediateType>,
         IIntermediateInstantiableType,
         IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TTypeIdentifier, TType>
         where TCtor :
@@ -103,11 +103,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         new IIntermediateInstantiableTypeImplementedInterfaces<TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> ImplementedInterfaces { get; }
     }
     public interface IIntermediateInstantiableType :
+        IIntermediateTypeParent,
+        IIntermediateMethodParent,
         IIntermediateCreatableParent,
         IIntermediatePropertyParent,
         IIntermediateFieldParent,
-        IIntermediateTypeParent,
-        IIntermediateMethodParent,
+        IIntermediateEventParent,
         IInstantiableType
     {
         /// <summary>

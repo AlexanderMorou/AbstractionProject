@@ -87,10 +87,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             switch (methodType)
             {
                 case PropertyMethodType.GetMethod:
-                    this.MemberInfo.GetGetMethod(true);
+                    mi = this.MemberInfo.GetGetMethod(true);
                     break;
                 case PropertyMethodType.SetMethod:
-                    this.MemberInfo.GetSetMethod(true);
+                    mi = this.MemberInfo.GetSetMethod(true);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("methodType");

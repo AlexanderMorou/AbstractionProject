@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
-namespace AllenCopeland.Abstraction.Slf.Ast
+namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>
     /// Defines properties and methods for working with a information

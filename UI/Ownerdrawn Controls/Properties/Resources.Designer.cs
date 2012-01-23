@@ -66,5 +66,12 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Color CheckDefaultTransparencyColor {
+            get {
+                object obj = ResourceManager.GetObject("CheckDefaultTransparencyColor", resourceCulture);
+                return ((System.Drawing.Color)(obj));
+            }
+        }
     }
 }

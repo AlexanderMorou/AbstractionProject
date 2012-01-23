@@ -5,7 +5,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using System.Globalization;
 using AllenCopeland.Abstraction.Globalization;
 using StringChangeArgs= AllenCopeland.Abstraction.Utilities.Events.EventArgsR1R2<string, string>;
-using VersionChangeArgs = AllenCopeland.Abstraction.Utilities.Events.EventArgsR1R2<System.Version, System.Version>;
+using VersionChangeArgs = AllenCopeland.Abstraction.Utilities.Events.EventArgsR1R2<AllenCopeland.Abstraction.Slf.Abstract.IVersion, AllenCopeland.Abstraction.Slf.Abstract.IVersion>;
 using CultureChangeArgs = AllenCopeland.Abstraction.Utilities.Events.EventArgsR1R2<AllenCopeland.Abstraction.Globalization.ICultureIdentifier, AllenCopeland.Abstraction.Globalization.ICultureIdentifier>;
 
  /*---------------------------------------------------------------------\
@@ -91,7 +91,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <summary>
         /// Returns/sets the version of the assembly file.
         /// </summary>
-        new Version FileVersion { get; set; }
+        new IIntermediateVersion FileVersion { get; set; }
         /// <summary>
         /// Occurs when the file version of the assembly changes.
         /// </summary>
@@ -99,7 +99,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <summary>
         /// Returns/sets the version of the assembly.
         /// </summary>
-        new Version AssemblyVersion { get; set; }
+        new IIntermediateVersion AssemblyVersion { get; set; }
         /// <summary>
         /// Occurs when the assembly version changes.
         /// </summary>

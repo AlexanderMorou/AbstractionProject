@@ -544,5 +544,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return this._members;
             }
         }
+
+        protected override bool CanCachePublicKeyInfo
+        {
+            get { return true; }
+        }
+
+        protected override IStrongNamePublicKeyInfo OnGetPublicKeyInfo()
+        {
+            return new _PublicKeyInfo(this);
+        }
     }
 }

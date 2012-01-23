@@ -24,8 +24,8 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         internal CSharpProvider(CSharpLanguageVersion version)
             : base(version)
         {
-            var service = new AssemblyService(this);
-            this.RegisterService<IIntermediateAssemblyCtorLanguageService<ICSharpProvider, ICSharpLanguage, ICSharpCompilationUnit, ICSharpAssembly>>(LanguageGuids.ConstructorServices.IntermediateAssemblyCreatorService, service);
+            this.RegisterService<IIntermediateAssemblyCtorLanguageService<ICSharpProvider, ICSharpLanguage, ICSharpCompilationUnit, ICSharpAssembly>>(LanguageGuids.ConstructorServices.IntermediateAssemblyCreatorService, new AssemblyService(this));
+            //this.RegisterService<IIntermediateTypeCtorLanguageService<ICSharpProvider, ICSharpLanguage, ICSharpCompilationUnit, IIntermediateClassType>>(LanguageGuids.ConstructorServices.IntermediateClassCreatorService, new ClassService(this));
         }
 
         protected override ILanguageParser<ICSharpCompilationUnit> OnGetParser()

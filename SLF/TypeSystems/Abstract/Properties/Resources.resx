@@ -183,4 +183,8 @@ Reason: {2}</value>
   <data name="TypeConstraintFailure_InvalidType_AbstractSealed" xml:space="preserve">
     <value>Type '{0}' not valid as a generic type parameter, due to the type being both abstract and sealed.</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="RSAKeyPair" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RandomRSAData.blob;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

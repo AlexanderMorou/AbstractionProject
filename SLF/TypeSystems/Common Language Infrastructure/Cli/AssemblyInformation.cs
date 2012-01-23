@@ -70,11 +70,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// <summary>
         /// Data member for <see cref="FileVersion"/>.
         /// </summary>
-        private Version fileVersion;
+        private _Version fileVersion;
         /// <summary>
         /// Data member for <see cref="AssemblyVersion"/>.
         /// </summary>
-        private Version assemblyVersion;
+        private _Version assemblyVersion;
         private bool loadedFromGac;
         private bool strongName;
         private string path;
@@ -195,16 +195,55 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
         }
 
-        public Version FileVersion
+        public IVersion FileVersion
         {
             get { return this.fileVersion; }
         }
 
-        public Version AssemblyVersion
+        public IVersion AssemblyVersion
         {
             get { return this.assemblyVersion; }
         }
 
         #endregion
+
+        private class _Version :
+            IVersion
+        {
+            Version source;
+            public _Version(Version source)
+            {
+                this.source = source;
+            }
+
+            #region IVersion Members
+
+            public int Major
+            {
+                get { return this.source.Major; }
+            }
+
+            public int Minor
+            {
+                get { return this.source.Minor; }
+            }
+
+            public int Build
+            {
+                get { return this.source.Build; }
+            }
+
+            public int Revision
+            {
+                get { return this.source.Revision; }
+            }
+
+            #endregion
+
+            public static implicit operator _Version(Version source)
+            {
+                return new _Version(source);
+            }
+        }
     }
 }

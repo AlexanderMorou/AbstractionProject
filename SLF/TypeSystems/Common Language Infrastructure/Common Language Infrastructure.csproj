@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -50,7 +50,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\..\Build\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;DEBUG_SNK</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -147,6 +147,7 @@
     <Compile Include="_Internal\Cli\CompiledAssembly+ModuleDictionary.cs">
       <DependentUpon>CompiledAssembly.cs</DependentUpon>
     </Compile>
+    <Compile Include="_Internal\Cli\CompiledAssembly+_PublicKeyInfo.cs" />
     <Compile Include="_Internal\Cli\CompiledAssembly.cs" />
     <Compile Include="_Internal\Cli\CompiledClassType+ConstructorMember.cs">
       <DependentUpon>CompiledClassType.cs</DependentUpon>
@@ -590,7 +591,7 @@
     <Compile Include="_Internal\_CoreHelperMethods.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Allen Copeland.pfx"  Condition="'$(Configuration)' == 'Release'"/>
+    <None Include="Allen Copeland.pfx" Condition="'$(Configuration)' == 'Release'" />
     <None Include="CLI TypeSystem Addendum.html" />
   </ItemGroup>
   <ItemGroup>

@@ -30,7 +30,7 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
         {
             this.components = new System.ComponentModel.Container();
             this.WindowsListView = new System.Windows.Forms.ListView();
-            this.WindowsNameColumn = new System.Windows.Forms.ColumnHeader();
+            this.WindowsNameColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.WindowsImageList = new System.Windows.Forms.ImageList(this.components);
             this.WindowsActivateButton = new System.Windows.Forms.Button();
             this.WindowsCloseButton = new System.Windows.Forms.Button();
@@ -41,9 +41,9 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
             // 
             // WindowsListView
             // 
-            this.WindowsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.WindowsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.WindowsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.WindowsNameColumn});
             this.WindowsListView.Location = new System.Drawing.Point(12, 12);
@@ -52,8 +52,9 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
             this.WindowsListView.Size = new System.Drawing.Size(375, 240);
             this.WindowsListView.SmallImageList = this.WindowsImageList;
             this.WindowsListView.TabIndex = 0;
+            this.WindowsListView.UseCompatibleStateImageBehavior = false;
             this.WindowsListView.View = System.Windows.Forms.View.Details;
-            this.WindowsListView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(WindowsListView_ColumnClick);
+            this.WindowsListView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.WindowsListView_ColumnClick);
             this.WindowsListView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.WindowsListView_ItemSelectionChanged);
             // 
             // WindowsNameColumn
