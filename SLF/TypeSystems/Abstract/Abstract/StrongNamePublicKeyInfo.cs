@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reflection;
+using System.Text;
 
-namespace AllenCopeland.Abstraction.Slf.Ast
+namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     internal abstract class StrongNamePublicKeyInfo :
         IStrongNamePublicKeyInfo
@@ -15,6 +15,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         public abstract bool PrivateKeyAvailable { get; }
 
         public abstract IStrongNamePrivateKeyInfo PrivateKey { get; }
+
+        public abstract PublicKeyTokenData PublicToken { get; }
 
         #endregion
 

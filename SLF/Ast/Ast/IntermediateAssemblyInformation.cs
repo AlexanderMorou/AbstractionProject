@@ -26,9 +26,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         where TAssembly :
             IntermediateAssembly<TLanguage, TProvider, TAssembly>
     {
-        private static readonly Version defaultVersion = new Version(1, 0, 0, 0);
-        private Version fileVersion;
-        private Version assemblyVersion;
+        private static readonly IIntermediateVersion defaultVersion = new IntermediateVersion(1, 0);
+        private IIntermediateVersion fileVersion;
+        private IIntermediateVersion assemblyVersion;
         private TAssembly owner;
         private ICultureIdentifier identifier;
         internal IntermediateAssemblyInformation(TAssembly owner)
@@ -80,7 +80,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
-        public Version FileVersion
+        public IIntermediateVersion FileVersion
         {
             get
             {
@@ -101,7 +101,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
-        public Version AssemblyVersion
+        public IIntermediateVersion AssemblyVersion
         {
             get
             {
@@ -113,13 +113,27 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 if (this.assemblyVersion == value) 
                     return;
-                if (Object.ReferenceEquals(value, IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly>.defaultVersion))
+                var original = this.assemblyVersion;
+                try
                 {
-                    this.assemblyVersion = null;
-                    return;
+                    if (Object.ReferenceEquals(value, IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly>.defaultVersion))
+                    {
+                        this.assemblyVersion = null;
+                        return;
+                    }
+                    this.assemblyVersion = value;
                 }
-                this.assemblyVersion = value;
+                finally {
+                    this.OnAssemblyVersionChanged(original, this.assemblyVersion);
+                }
             }
+        }
+
+        private void OnAssemblyVersionChanged(IVersion oldVersion, IVersion newVersion)
+        {
+            var assemblyVersionChanged = this.AssemblyVersionChanged;
+            if (assemblyVersionChanged != null)
+                assemblyVersionChanged(this, new EventArgsR1R2<IVersion,IVersion>(oldVersion, newVersion));
         }
 
         public void ReadyAssemblyMetaData(bool full = true)
@@ -169,27 +183,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 }
             }
         }
-        #endregion
-
-        public void Dispose()
-        {
-            try
-            {
-                this.owner = null;
-                if (this.fileVersion != null)
-                    this.fileVersion = null;
-                if (this.assemblyVersion != null)
-                    this.assemblyVersion = null;
-                if (this.identifier != null)
-                    this.identifier = null;
-            }
-            finally
-            {
-                GC.SuppressFinalize(this);
-            }
-        }
-
-        #region IIntermediateAssemblyInformation Members
 
         /// <summary>
         /// Occurs when the title of the assembly changes.
@@ -229,13 +222,46 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <summary>
         /// Occurs when the file version of the assembly changes.
         /// </summary>
-        public event EventHandler<EventArgsR1R2<Version, Version>> FileVersionChanged;
+        public event EventHandler<EventArgsR1R2<IVersion, IVersion>> FileVersionChanged;
 
         /// <summary>
         /// Occurs when the assembly version changes.
         /// </summary>
-        public event EventHandler<EventArgsR1R2<Version, Version>> AssemblyVersionChanged;
+        public event EventHandler<EventArgsR1R2<IVersion, IVersion>> AssemblyVersionChanged;
 
         #endregion
+
+        #region IAssemblyInformation Members
+
+        IVersion IAssemblyInformation.FileVersion
+        {
+            get { return this.FileVersion; }
+        }
+
+        IVersion IAssemblyInformation.AssemblyVersion
+        {
+            get { return this.AssemblyVersion; }
+        }
+
+        #endregion
+        public void Dispose()
+        {
+            try
+            {
+                this.owner = null;
+                if (this.fileVersion != null)
+                    this.fileVersion = null;
+                if (this.assemblyVersion != null)
+                    this.assemblyVersion = null;
+                if (this.identifier != null)
+                    this.identifier = null;
+            }
+            finally
+            {
+                GC.SuppressFinalize(this);
+            }
+        }
+
+
     }
 }

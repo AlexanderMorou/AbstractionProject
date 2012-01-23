@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using AllenCopeland.Abstraction.Slf._Internal.Abstract;
+using System.Security.Cryptography;
 
-namespace AllenCopeland.Abstraction.Slf.Ast
+namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     partial class StrongNamePrivateKeyInfo 
     {
@@ -14,6 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             StrongNamePublicKeyInfo
         {
             private StrongNamePrivateKeyInfo privateKey;
+            private PublicKeyTokenData? publicToken;
             /// <summary>
             /// Creates a new <see cref="LinkedPublicKeyInfo"/> instance
             /// with the owner <paramref name="privateKey"/>.
@@ -63,6 +65,20 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             #endregion
 
+            public override PublicKeyTokenData PublicToken
+            {
+                get {
+                    if (publicToken == null)
+                    {
+                        var shaHash = SHA1.Create();
+                        var bytes = StrongNameKeyPairHelper.CreateNewPublicKey(StrongNameKeyPairHelper.LoadKeyData(StrongNameKeyPairHelper.DecryptRsaData(this.privateKey.data.Item2, this.privateKey.data.Item1), this.privateKey.data.Item3), this.privateKey.keySize);
+                        var shaResult = shaHash.ComputeHash(bytes);
+                        int shaLength = shaResult.Length;
+                        publicToken = new PublicKeyTokenData(shaResult[shaLength - 8], shaResult[shaLength - 7], shaResult[shaLength - 6], shaResult[shaLength - 5], shaResult[shaLength - 4], shaResult[shaLength - 3], shaResult[shaLength - 2], shaResult[shaLength - 1]);
+                    }
+                    return this.publicToken.Value;
+                }
+            }
         }
     }
 }

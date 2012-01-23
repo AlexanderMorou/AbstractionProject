@@ -1144,7 +1144,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             IAssemblyUniqueIdentifier
         {
 
-            public DefaultAssemblyUniqueIdentifier(string name, Version version, ICultureIdentifier cultureIdentifier, byte[] publicKeyToken = null)
+            public DefaultAssemblyUniqueIdentifier(string name, IVersion version, ICultureIdentifier cultureIdentifier, byte[] publicKeyToken = null)
             {
                 this.Name = name;
                 this.Version = version;
@@ -1153,7 +1153,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
             #region IAssemblyUniqueIdentifier Members
 
-            public Version Version { get; private set; }
+            public IVersion Version { get; private set; }
 
             public ICultureIdentifier Culture { get; private set; }
 

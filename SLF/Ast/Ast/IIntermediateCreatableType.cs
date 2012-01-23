@@ -52,9 +52,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     /// Defines properties and methods for working with a creatable (instantiable) type.
     /// </summary>
     public interface IIntermediateCreatableParent :
+        IIntermediateType,
         IIntermediateCreatableSignatureParent,
         IIntermediateSignatureParent,
-        IIntermediateType,
         ICreatableParent
     {
         /// <summary>

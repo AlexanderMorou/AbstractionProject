@@ -132,6 +132,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Properties {
             }
         }
         
+        internal static byte[] RSAKeyPair {
+            get {
+                object obj = ResourceManager.GetObject("RSAKeyPair", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to The type {0} does not meet the constraints placed upon {1}.
         ///Reason: {2}.

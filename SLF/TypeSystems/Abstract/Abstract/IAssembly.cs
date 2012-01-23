@@ -52,5 +52,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// disposed.
         /// </summary>
         bool IsDisposed { get; }
+        /// <summary>
+        /// Returns the <see cref="IStrongNamePublicKeyInfo"/>
+        /// associated to the <see cref="IAssembly"/>.
+        /// </summary>
+        IStrongNamePublicKeyInfo PublicKeyInfo { get; }
     }
 }

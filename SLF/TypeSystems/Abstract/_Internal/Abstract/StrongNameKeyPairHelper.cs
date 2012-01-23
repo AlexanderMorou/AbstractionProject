@@ -6,10 +6,11 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Linq;
 using System.Reflection;
-using AllenCopeland.Abstraction.Slf.Ast.Properties;
+using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Utilities.Arrays;
+using AllenCopeland.Abstraction.Slf.Abstract;
 
-namespace AllenCopeland.Abstraction.Slf._Internal.Ast
+namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 {
     internal class StrongNameKeyPairHelper
     {
@@ -179,7 +180,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         /// Provides a structure for the <see cref="StrongNameKeyPair"/>'s public key 
         /// file.
         /// </summary>
-        private struct PublicKeyData
+        private class PublicKeyData :
+            IStrongNamePublicKeyInfo
         {
             uint signingAlgorithm;
             uint hashAlgorithm;
@@ -203,6 +205,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 this.header.Write(writer);
                 writer.Write(modulus.Reverse().ToArray(), 0, modulus.Length);
             }
+            internal PublicKeyData() { }
             public PublicKeyData(RSAParameters parameters, int keySize)
             {
                 this.signingAlgorithm = RSASigningAlgorithmId;
@@ -232,9 +235,63 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 var targetHash = targetSha.ComputeHash(resultBytes);
                 byte[] result = new byte[8];
                 for (int i = 0; i < 8; i++)
-                    result[i] = targetHash[targetHash.Length - 8 + i];
+                    result[i] = targetHash[targetHash.Length - 1 - i];
                 return new Tuple<byte[], byte[]>(resultBytes, result);
             }
+
+            #region IStrongNamePublicKeyInfo Members
+
+            public bool PrivateKeyAvailable
+            {
+                get { return false; }
+            }
+
+            public IStrongNamePrivateKeyInfo PrivateKey
+            {
+                get { throw new NotSupportedException(); }
+            }
+
+            public PublicKeyTokenData PublicToken
+            {
+                get {
+                    byte[] sourceBytes = null;
+                    using (MemoryStream targetStream = new MemoryStream())
+                    {
+                        BinaryWriter targetWriter = new BinaryWriter(targetStream);
+                        this.Write(targetWriter);
+                        sourceBytes = targetStream.ToArray();
+                    }
+
+                    byte[] resultHash = null;
+                    using (SHA1 target = SHA1.Create())
+                        resultHash = target.ComputeHash(sourceBytes);
+                    int resultLength = resultHash.Length;
+                    return new PublicKeyTokenData(resultHash[resultLength - 1], resultHash[resultLength - 2], resultHash[resultLength - 3], resultHash[resultLength - 4], resultHash[resultLength - 5], resultHash[resultLength - 6], resultHash[resultLength - 7], resultHash[resultLength - 8]);
+                }
+            }
+
+            #endregion
+
+            #region IStrongNameKeyInfo Members
+
+            public StrongNameKeyInfoType InformationType
+            {
+                get { return StrongNameKeyInfoType.Public; }
+            }
+
+            public int KeySize
+            {
+                get { return (int)this.header.BitLength; }
+            }
+
+            public void WriteTo(string filename)
+            {
+                using (FileStream targetStream = new FileStream(filename, FileMode.Create, FileAccess.Write))
+                    using (BinaryWriter targetWriter = new BinaryWriter(targetStream))
+                        this.Write(targetWriter);
+            }
+
+            #endregion
         }
 
         private static void ReverseArray<T>(T[] source)
@@ -258,7 +315,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             /// Data member which contains the general key's
             /// header information.
             /// </summary>
-            GeneralKeyHeader header;
+            public GeneralKeyHeader header;
             /// <summary>
             /// Data member which contains the modulus of the
             /// Cryptography instance.
@@ -339,6 +396,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 writer.Write(coefficient2.Reverse().ToArray(), 0, coefficient2.Length);
             }
 
+
+            public Tuple<int, byte[], bool> GetData()
+            {
+                RSAParameters parameters = new RSAParameters();
+                parameters.Modulus = this.modulus;
+                parameters.P = this.prime1;
+                parameters.Q = this.prime2;
+                parameters.DP = this.exponent1;
+                parameters.DQ = this.exponent2;
+                parameters.InverseQ = this.coefficient1;
+                parameters.D = this.coefficient2;
+                byte[] exponent = new byte[4];
+                var exponentInt = this.header.Exponent;
+                exponent[0] = (byte) ((exponentInt >> 24) & 0xFF);
+                exponent[1] = (byte) ((exponentInt >> 16) & 0xFF);
+                exponent[2] = (byte) ((exponentInt >> 8) & 0xFF);
+                exponent[3] = (byte)  (exponentInt & 0xFF);
+                parameters.Exponent = exponent;
+                return DataFromRSAParameters((int) this.header.BitLength, parameters);
+            }
         }
         internal static RSACryptoServiceProvider strongNameEncoder;
         internal static readonly int strongNameBufferSize;
@@ -368,13 +445,61 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             return new RSAParameters() { P = epT.Item2, Q = pcT.Item1, DP = c1, DQ = epT.Item1, InverseQ = pcT.Item2, D = mcT.Item2, Modulus = mcT.Item1, Exponent = new byte[] { keyData[pcepmc.Length], keyData[pcepmc.Length + 1], keyData[pcepmc.Length + 2], keyData[pcepmc.Length + 3] } };
         }
 
+        internal static IStrongNameKeyInfo LoadStrongNameKeyData(string filename, bool @private = true)
+        {
+            using (FileStream targetStream = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            {
+                if (@private)
+                {
+                    PrivateKeyData targetData = new PrivateKeyData();
+                    using (var targetReader = new BinaryReader(targetStream))
+                        targetData.Read(targetReader);
+                    var data = targetData.GetData();
+                    StrongNamePrivateKeyInfo result = new StrongNamePrivateKeyInfo(data.Item3, data.Item2, data.Item1, (int) targetData.header.BitLength);
+                    return result;
+                }
+                else
+                {
+                    PublicKeyData targetData = new PublicKeyData();
+                    using (var targetReader = new BinaryReader(targetStream))
+                        targetData.Read(targetReader);
+                    return targetData;
+                }
+            }
+        }
+
+        internal static IStrongNameKeyInfo LoadStrongNameKeyData(byte[] data, bool @private = true)
+        {
+            using (MemoryStream targetStream = new MemoryStream(data))
+            {
+                if (@private)
+                {
+                    PrivateKeyData targetData = new PrivateKeyData();
+                    using (var targetReader = new BinaryReader(targetStream))
+                        targetData.Read(targetReader);
+                    var resultData = targetData.GetData();
+                    StrongNamePrivateKeyInfo result = new StrongNamePrivateKeyInfo(resultData.Item3, resultData.Item2, resultData.Item1, (int)targetData.header.BitLength);
+                    return result;
+                }
+                else
+                {
+                    PublicKeyData targetData = new PublicKeyData();
+                    using (var targetReader = new BinaryReader(targetStream))
+                        targetData.Read(targetReader);
+                    return targetData;
+                }
+            }
+        }
+
         internal static Tuple<int, byte[], bool> GetNewStrongNameData(int keySize)
+        {
+            return DataFromRSAParameters(keySize, new RSACryptoServiceProvider(keySize).ExportParameters(true));
+        }
+
+        private static Tuple<int, byte[], bool> DataFromRSAParameters(int keySize, RSAParameters parameters)
         {
             var dataStream = new MemoryStream();
             BinaryWriter keyWriter = new BinaryWriter(dataStream);
-
-            var provider = new RSACryptoServiceProvider(keySize);
-            var parameters = provider.ExportParameters(true);
             var modulus = parameters.Modulus;
             var prime1 = parameters.P;
             var prime2 = parameters.Q;
@@ -388,7 +513,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             ReverseArray(publicExponentArray);
             uint publicExponent = ((uint) publicExponentArray[0] | (uint) publicExponentArray[1] << 8 | (uint) publicExponentArray[2] << 16 | (uint) publicExponentArray[3] << 24);
             bool oddStroke = (keySize / 8) % 2 != 0;
-            var interleaved =
+            byte[] interleaved =
                 ArrayExtensions.Interleave(
                     ArrayExtensions.Interleave(
                         ArrayExtensions.Interleave(
@@ -400,6 +525,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     ArrayExtensions.Interleave(
                     oddStroke ? coefficient2.Add((byte) 0) : modulus,
                     oddStroke ? modulus.Add((byte) 0) : coefficient2));
+
             keyWriter.Write(interleaved, 0, interleaved.Length);
             keyWriter.Write(publicExponent);
             keyWriter.Write(exponent1, 0, exponent1.Length);
@@ -455,5 +581,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             }
             return new Tuple<int, byte[]>(chunks.Length, ArrayExtensions.MergeArrays(chunks));
         }
+
     }
 }

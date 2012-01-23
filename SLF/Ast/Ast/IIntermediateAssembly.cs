@@ -99,5 +99,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         /// <remarks>May be null.</remarks>
         ILanguage Language { get; }
+        /// <summary>
+        /// Returns the <see cref="IStrongNamePrivateKeyInfo"/> which denotes
+        /// the strong-name key pair information for the <see cref="IIntermediateAssembly"/>.
+        /// </summary>
+        IStrongNamePrivateKeyInfo PrivateKeyInfo { get; set; }
     }
 }

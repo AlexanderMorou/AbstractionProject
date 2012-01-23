@@ -198,7 +198,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             return TypeOperator(TypeConversionRequirement.Implicit, TypeConversionDirection.FromContainingType, coercionType);
         }
 
-        public static IAssemblyUniqueIdentifier Assembly(string name, Version assemblyVersion, ICultureIdentifier culture, byte[] publicKey = null)
+        public static IAssemblyUniqueIdentifier Assembly(string name, IVersion assemblyVersion, ICultureIdentifier culture, byte[] publicKey = null)
         {
             if (publicKey != null && publicKey.Length != 8)
                 throw new ArgumentOutOfRangeException("publicKey");

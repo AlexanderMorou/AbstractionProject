@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AllenCopeland.Abstraction.Slf.Ast
+namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>
     /// The kind of information stored within the strong name
@@ -11,7 +11,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     /// </summary>
     public enum StrongNameKeyInfoType
     {
+        /// <summary>
+        /// The key information represents data about a public key.
+        /// </summary>
         Public,
+        /// <summary>
+        /// The key information represents data about a private key.
+        /// </summary>
         Private
     }
 }

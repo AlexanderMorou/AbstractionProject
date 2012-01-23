@@ -50,10 +50,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Returns the version of the assembly file.
         /// </summary>
-        Version FileVersion { get; }
+        IVersion FileVersion { get; }
         /// <summary>
         /// Returns the version of the assembly.
         /// </summary>
-        Version AssemblyVersion { get; }
+        IVersion AssemblyVersion { get; }
     }
 }

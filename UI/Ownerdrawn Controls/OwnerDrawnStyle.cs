@@ -222,7 +222,7 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
             if (defaultItemCheckedImage == null)
             {
                 defaultItemCheckedImage = (System.Drawing.Bitmap)Resources.CheckDefault.Clone();
-                defaultItemCheckedImage.MakeTransparent(Color.Aqua);
+                defaultItemCheckedImage.MakeTransparent(Resources.CheckDefaultTransparencyColor);
                 ProcessStyles(defaultItemCheckedImage, ref defaultItemCheckedImageDisabled, ref defaultItemCheckedImageShadow);
             }
         }

@@ -28,6 +28,8 @@ using AllenCopeland.Abstraction.Slf.Compilers;
 using System.Runtime.InteropServices;
 using System.Diagnostics.SymbolStore;
 using AllenCopeland.Abstraction.Slf._Internal.Ast;
+using System.Security.Cryptography;
+using AllenCopeland.Abstraction.OwnerDrawnControls;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -42,10 +44,11 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     {
         private static void Main()
         {
+            var a = typeof(Program).Assembly;
             //StrongNameTest();
-            AssemblyBuilderTest();
+            //AssemblyBuilderTest();
             //CompressionTest();
-            //ExtensionsTest();
+            ExtensionsTest();
             //TimedMirrorTest();
             //CreationTest();
             //SeriesCreationTest();
@@ -105,7 +108,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             var propGetMethod = type.DefineMethod("get_TestProperty", MethodAttributes.Public | MethodAttributes.Static, CallingConventions.Standard, typeof(short[, , , ,]), new Type[0]);
             var propGetILGen = propGetMethod.GetILGenerator();
             propGetILGen.MarkSequencePoint(testILDocument, 49, 3, 49, 4);
-            
+
             var glField = type.DefineInitializedData("TestData", compressedByteStream, FieldAttributes.PrivateScope);//$PST04
             sizeType.CreateType();
             propGetILGen.BeginScope();
@@ -134,7 +137,6 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             propGetILGen.MarkSequencePoint(testILDocument, 67, 3, 67, 4);
             prop.SetGetMethod(propGetMethod);
             type.CreateType();
-
             mod.CreateGlobalFunctions();
             ab.Save("TestAssembly.dll");
         }
@@ -158,29 +160,62 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 
         private static void MirrorTest()
         {
+            Stopwatch sw = Stopwatch.StartNew();
             var targetType = typeof(CSharpExpressionExtensions);
             var assembly = LanguageVendors.Microsoft.GetCSharpLanguage().CreateAssembly("Mirror Test");
-            assembly.AssemblyInformation.AssemblyVersion = new Version(1, 2, 0, 0);
+            assembly.AssemblyInformation.AssemblyVersion = new IntermediateVersion(1, 2, 345);
             assembly.DefaultNamespace = assembly.Namespaces.Add("AllenCopeland.Abstraction.SupplementaryProjects.MirrorTest");
             var classCopy = assembly.DefaultNamespace.Classes.Add(targetType.Name);
+            sw.Stop();
+            var dk = sw.Elapsed;
+            sw.Reset();
+            sw.Start();
             classCopy.SpecialModifier = SpecialClassModifier.Static;
             var targetTypeRef = targetType.GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-            var set = (from m in targetTypeRef.Methods.Values
-                       orderby m.Name ascending
-                       select m).ToArray();
             /* *
              * Parallel manipulation
              * */
-            Parallel.ForEach(set, method =>
-            //foreach (var method in set)
-            {
-                var parameters = new TypedNameSeries();
-                foreach (var parameter in method.Parameters.Values)
-                    parameters.Add(new TypedName(parameter.Name, parameter.ParameterType, parameter.Direction));
-                classCopy.Methods.Add(new TypedName(method.Name, method.ReturnType), parameters);
-            }
-            //*
-            );//*/
+            sw.Stop();
+            var dk2 = sw.Elapsed;
+            sw.Restart();
+            classCopy.SuspendDualLayout();
+            sw.Stop();
+            var dk3 = sw.Elapsed;
+            sw.Restart();
+            //(from m in targetTypeRef.Methods.Values.AsParallel()
+            // let method = classCopy.Methods.Add(new TypedName(m.Name, m.ReturnType),
+            //                              new TypedNameSeries(from parameter in m.Parameters.Values
+            //                                                  select new TypedName(parameter.Name, parameter.ParameterType, parameter.Direction)))
+            // let call = method.Call(m.GetReference(), (from parameter in method.Parameters.Values
+            //                                           select parameter.GetReference()).ToArray())
+            // select method).ToArray();
+            Parallel.ForEach(targetTypeRef.Methods.Values,
+                originalMethod =>
+                {
+                    var originalParameterValues = originalMethod.Parameters.Values;
+                    int paramCount = originalMethod.Parameters.Count;
+                    TypedName[] parameters = new TypedName[paramCount];
+                    IParameterReferenceExpression[] parameterReferences = new IParameterReferenceExpression[paramCount];
+                    for (int i = 0; i < paramCount; i++)
+                    {
+                        var originalParameter = originalParameterValues[i];
+                        parameters[i] = new TypedName(originalParameter.Name, originalParameter.ParameterType, originalParameter.Direction);
+                    }
+                    var newMethod = classCopy.Methods.Add(new TypedName(originalMethod.Name, originalMethod.ReturnType), new TypedNameSeries(parameters));
+                    var newParameterValues = newMethod.Parameters.Values;
+
+                    for (int i = 0; i < paramCount; i++)
+                        parameterReferences[i] = newParameterValues[i].GetReference();
+                    //newMethod.Call(originalMethod.GetReference(), parameterReferences);
+                    
+                });
+            sw.Stop();
+            var dk4 = sw.Elapsed;
+            sw.Restart();
+            classCopy.ResumeDualLayout();
+            sw.Stop();
+            var dk5 = sw.Elapsed;
+            Console.WriteLine("{0} - {1} - {2} - {3} - {4}", dk, dk2, dk3, dk4, dk5);
         }
 
         private static void ExtensionsTest()
@@ -443,9 +478,13 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             Console.WriteLine();
             vbAssem.Dispose();
             csAssem.Dispose();
-            var cacheEnum = CLIGateway.CacheEnumerator.ToArray();
+            var dict = typeof(IDictionary<double,float>).GetTypeReference();
+            var prop = (IInterfacePropertyMember)dict.Members[AstIdentifier.Member("Keys")].Entry;
+            var propGet = prop.GetMethod;
+            var pgrt = propGet.ReturnType;
+            var cacheCount = CLIGateway.CacheEnumerator.Count();
             var cacheClear = MiscHelperMethods.TimeAction(CLIGateway.ClearCache);
-            Console.WriteLine("It took {0} to clear the type-reference cache.", cacheClear);
+            Console.WriteLine("It took {0} to clear the type-reference cache of {1} types.", cacheClear, cacheCount);
         }
 
     }

@@ -11,9 +11,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IEquatable<IAssemblyUniqueIdentifier>
     {
         /// <summary>
-        /// Returns the <see cref="Version"/> of the assembly.
+        /// Returns the <see cref="IVersion"/> of the assembly.
         /// </summary>
-        Version Version { get; }
+        IVersion Version { get; }
         /// <summary>
         /// Returns the <see cref="ICultureIdentifier"/> which denotes the culture
         /// of the assembly.

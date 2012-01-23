@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using AllenCopeland.Abstraction.Slf._Internal;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Arrays;
@@ -60,6 +61,15 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     this.data[i] = data[i];
             actualLength = data.Length;
             frozen = false;
+        }
+
+        public TypedNameSeries(IEnumerable<TypedName> data)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+            this.data = data.ToArray();
+            this.actualLength = this.data.Length;
+            this.frozen = false;
         }
 
         private TypedNameSeries(bool frozen)
