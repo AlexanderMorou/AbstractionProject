@@ -6,6 +6,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
+using System.ComponentModel;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -18,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <summary>
     /// Provides a base class for <see cref="IType"/> implementations.
     /// </summary>
-    [DebuggerDisplay("Name = {Name}, FullName = {FullName}")]
+    [DebuggerDisplay("Name = {UniqueIdentifierString}, FullName = {FullName}")]
     public abstract class TypeBase<TIdentifier> :
         DeclarationBase<TIdentifier>,
         IType
@@ -730,5 +731,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         #endregion
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public string UniqueIdentifierString
+        {
+            get
+            {
+                return this.UniqueIdentifier.ToString();
+            }
+        }
     }
 }
