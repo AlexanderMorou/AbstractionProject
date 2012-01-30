@@ -11,6 +11,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Members;
 using System.ComponentModel;
 #if DEBUG
 using System.Diagnostics;
+using AllenCopeland.Abstraction.Utilities.Collections;
 #endif
 /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
@@ -28,6 +29,90 @@ namespace AllenCopeland.Abstraction.Slf.Cli
     /// </summary>
     public static class CLIGateway
     {
+
+        private static readonly HashSet<TypeCode> intrinsicSet = new HashSet<TypeCode> { TypeCode.Boolean, TypeCode.Byte, TypeCode.SByte, TypeCode.Char, TypeCode.UInt16, TypeCode.Int16, TypeCode.UInt32, TypeCode.Int32, TypeCode.UInt64, TypeCode.Int64, TypeCode.Single, TypeCode.Double, TypeCode.Decimal };
+        private static readonly HashSet<TypeCode> extrinsicSet = new HashSet<TypeCode> { TypeCode.Empty, TypeCode.Object, TypeCode.DBNull, TypeCode.DateTime, TypeCode.String };
+        internal static MultikeyedDictionary<TypeCode, TypeCode, bool> conversionInfo2 = GetConversionInfo2();
+
+        private static MultikeyedDictionary<TypeCode, TypeCode, bool> GetConversionInfo2()
+        {
+            MultikeyedDictionary<TypeCode, TypeCode, bool> result = new MultikeyedDictionary<TypeCode, TypeCode, bool>();
+            TypeCode[] intrinsicSet = CLIGateway.intrinsicSet.ToArray();
+            TypeCode[] extrinsicSet = CLIGateway.extrinsicSet.ToArray();
+            result[TypeCode.Char, TypeCode.UInt16] = true;
+            result[TypeCode.Char, TypeCode.UInt32] = true;
+            result[TypeCode.Char, TypeCode.UInt64] = true;
+            result[TypeCode.Char, TypeCode.Int32] = true;
+            result[TypeCode.Char, TypeCode.Int64] = true;
+            result[TypeCode.Char, TypeCode.Single] = true;
+            result[TypeCode.Char, TypeCode.Double] = true;
+            result[TypeCode.Char, TypeCode.Decimal] = true;
+
+            result[TypeCode.Byte, TypeCode.Char] = true;
+            result[TypeCode.Byte, TypeCode.UInt16] = true;
+            result[TypeCode.Byte, TypeCode.UInt32] = true;
+            result[TypeCode.Byte, TypeCode.UInt64] = true;
+            result[TypeCode.Byte, TypeCode.Int16] = true;
+            result[TypeCode.Byte, TypeCode.Int32] = true;
+            result[TypeCode.Byte, TypeCode.Int64] = true;
+            result[TypeCode.Byte, TypeCode.Single] = true;
+            result[TypeCode.Byte, TypeCode.Double] = true;
+            result[TypeCode.Byte, TypeCode.Decimal] = true;
+
+            result[TypeCode.SByte, TypeCode.Int16] = true;
+            result[TypeCode.SByte, TypeCode.Int32] = true;
+            result[TypeCode.SByte, TypeCode.Int64] = true;
+            result[TypeCode.SByte, TypeCode.Single] = true;
+            result[TypeCode.SByte, TypeCode.Double] = true;
+            result[TypeCode.SByte, TypeCode.Decimal] = true;
+
+            result[TypeCode.UInt16, TypeCode.UInt32] = true;
+            result[TypeCode.UInt16, TypeCode.UInt64] = true;
+            result[TypeCode.UInt16, TypeCode.Int32] = true;
+            result[TypeCode.UInt16, TypeCode.Int64] = true;
+            result[TypeCode.UInt16, TypeCode.Single] = true;
+            result[TypeCode.UInt16, TypeCode.Double] = true;
+            result[TypeCode.UInt16, TypeCode.Decimal] = true;
+
+            result[TypeCode.Int16, TypeCode.Int32] = true;
+            result[TypeCode.Int16, TypeCode.Int64] = true;
+            result[TypeCode.Int16, TypeCode.Single] = true;
+            result[TypeCode.Int16, TypeCode.Double] = true;
+            result[TypeCode.Int16, TypeCode.Decimal] = true;
+
+            result[TypeCode.UInt32, TypeCode.UInt64] = true;
+            result[TypeCode.UInt32, TypeCode.Int64] = true;
+            result[TypeCode.UInt32, TypeCode.Single] = true;
+            result[TypeCode.UInt32, TypeCode.Double] = true;
+            result[TypeCode.UInt32, TypeCode.Decimal] = true;
+
+            result[TypeCode.Int32, TypeCode.Int64] = true;
+            result[TypeCode.Int32, TypeCode.Single] = true;
+            result[TypeCode.Int32, TypeCode.Double] = true;
+            result[TypeCode.Int32, TypeCode.Decimal] = true;
+
+            result[TypeCode.UInt64, TypeCode.Single] = true;
+            result[TypeCode.UInt64, TypeCode.Double] = true;
+            result[TypeCode.UInt64, TypeCode.Decimal] = true;
+
+            result[TypeCode.Int64, TypeCode.Single] = true;
+            result[TypeCode.Int64, TypeCode.Double] = true;
+            result[TypeCode.Int64, TypeCode.Decimal] = true;
+
+            result[TypeCode.Single, TypeCode.Double] = true;
+
+            for (int i = 0; i < intrinsicSet.Length; i++)
+            {
+                for (int j = 0; j < intrinsicSet.Length; j++)
+                {
+                    bool dummy;
+                    if (!result.TryGetValue(intrinsicSet[i], intrinsicSet[j], out dummy))
+                        result[intrinsicSet[i], intrinsicSet[j]] = false;
+                }
+            }
+            return result;
+        }
+
         static CLIGateway()
         {
 //            Console.WriteLine();
@@ -486,37 +571,57 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// </summary>
         /// <param name="type">The <see cref="IType"/> to retrieve the <see cref="TypeCode"/> of.</param>
         /// <returns>A <see cref="TypeCode"/> relative to the <paramref name="type"/> provided.</returns>
-        internal static TypeCode GetTypeCode(this IType type)
+        public static TypeCode GetTypeCode(this IType type)
         {
             //If it's a standard compiled type, without any element, obtain the type code from 
             //System.Type.GetTypeCode(System.Type).
             if (type is ICompiledType && type.ElementClassification == TypeElementClassification.None)
-                return Type.GetTypeCode(((ICompiledType)(type)).UnderlyingSystemType);
+                return Type.GetTypeCode(((ICompiledType) (type)).UnderlyingSystemType);
             return TypeCode.Object;
         }
-        /// <summary>
-        /// Checks to see if you can go <paramref name="from"/> one type <paramref name="to"/> another.
-        /// </summary>
-        /// <param name="from">The type to check conversion of.</param>
-        /// <param name="to">The type to see if <paramref name="from"/> can go to.</param>
-        /// <returns>True if <paramref name="from"/> can be cast/converted <paramref name="to"/>; otherwise false.</returns>
-        public static bool CanConvertFrom(this IType from, IType to)
+
+        public static bool CanConvertTo(this Type from, Type to)
         {
-            TypeCode fromTC = GetTypeCode(from);
-            TypeCode toTC = GetTypeCode(to);
-            try
-            {
-                if (fromTC != toTC)
-                    return TypeExtensions.conversionInfo[fromTC][toTC];
-                else if (fromTC == TypeCode.Object)
-                    return (to.IsAssignableFrom(from));
-                else
-                    return true;
-            }
-            catch
-            {
-                return false;
-            }
+            TypeCode fromTC = Type.GetTypeCode(from);
+            TypeCode toTC = Type.GetTypeCode(to);
+            if (fromTC != toTC)
+                if (!(extrinsicSet.Contains(fromTC) || extrinsicSet.Contains(toTC)))
+                    return conversionInfo2[fromTC, toTC];
+            return to.IsAssignableFrom(from) ||
+                TypesAreImplicitlyConvertible(from.GetTypeReference(), to.GetTypeReference());
         }
+
+        public static bool CanConvertTo(this IType from, IType to)
+        {
+            TypeCode fromTC = from.GetTypeCode();
+            TypeCode toTC = to.GetTypeCode();
+            if (fromTC != toTC)
+                if (!(extrinsicSet.Contains(fromTC) || extrinsicSet.Contains(toTC)))
+                    return conversionInfo2[fromTC, toTC];
+            return to.IsAssignableFrom(from) ||
+                TypesAreImplicitlyConvertible(from, to);
+        }
+
+        private static bool TypesAreImplicitlyConvertible(IType from, IType to)
+        {
+            if (from is ICoercibleType)
+            {
+                ICoercibleType ctFrom = (ICoercibleType) from;
+
+                if (to is ICoercibleType)
+                {
+                    ICoercibleType ctTo = (ICoercibleType) to;
+                    return ctTo.TypeCoercions.HasImplicitCoercionFrom(from) || ctFrom.TypeCoercions.HasImplicitCoercionTo(to);
+                }
+                return ctFrom.TypeCoercions.HasImplicitCoercionTo(to);
+            }
+            else if (to is ICoercibleType)
+            {
+                ICoercibleType ctTo = (ICoercibleType) to;
+                return ctTo.TypeCoercions.HasImplicitCoercionFrom(from);
+            }
+            return false;
+        }
+
     }
 }

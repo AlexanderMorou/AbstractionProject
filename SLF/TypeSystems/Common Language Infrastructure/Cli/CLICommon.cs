@@ -335,7 +335,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         {
             if (a.Equals(b))
                 return true;
-            else if (b.CanConvertFrom(a))
+            else if (b.CanConvertTo(a))
             {
                 //Increase how far it deviated.
                 deviations[t]++;

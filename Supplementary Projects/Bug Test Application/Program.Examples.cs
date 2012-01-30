@@ -30,6 +30,7 @@ using System.Diagnostics.SymbolStore;
 using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using System.Security.Cryptography;
 using AllenCopeland.Abstraction.OwnerDrawnControls;
+using System.Windows.Forms;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -42,13 +43,33 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 
     internal static class Program
     {
+        static IType[] intrinsicSet = new[] { typeof(sbyte), typeof(byte), typeof(short), typeof(ushort), typeof(int), typeof(uint), typeof(long), typeof(ulong), typeof(float), typeof(double), typeof(decimal), typeof(char) }.ToCollection().ToArray();
         private static void Main()
         {
-            var a = typeof(Program).Assembly;
+            IntermediateCompilerBase icb = new IntermediateCompilerBase();
+            /* *
+             * Easy is the goal.
+             * */
+            bool first = true;
+            for (int i = 0; i < intrinsicSet.Length; i++)
+            {
+                if (first)
+                    first = false;
+                else
+                    Console.WriteLine();
+                var outterType = intrinsicSet[i];
+                for (int j = 0; j < intrinsicSet.Length; j++)
+                {
+                    if (j == i)
+                        continue;
+                    var innerType = intrinsicSet[j];
+                    Console.WriteLine("{0} can{1} implicitly convert to {2}", GetIntrinsicTypeShortName(outterType), outterType.CanConvertTo(innerType) ? string.Empty : "not", GetIntrinsicTypeShortName(innerType));
+                }
+            }
             //StrongNameTest();
             //AssemblyBuilderTest();
             //CompressionTest();
-            ExtensionsTest();
+            //ExtensionsTest();
             //TimedMirrorTest();
             //CreationTest();
             //SeriesCreationTest();
@@ -61,6 +82,39 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             //foreach (var item in m.Members)
             //    Console.WriteLine(item);
             //RunExamples();
+        }
+
+        public static string GetIntrinsicTypeShortName(IType intrinsicType)
+        {
+            switch (intrinsicSet.GetIndexOf(intrinsicType))
+            {
+                case 0:
+                    return "sbyte";
+                case 1:
+                    return "byte";
+                case 2:
+                    return "short";
+                case 3:
+                    return "ushort";
+                case 4:
+                    return "int";
+                case 5:
+                    return "uint";
+                case 6:
+                    return "long";
+                case 7:
+                    return "ulong";
+                case 8:
+                    return "float";
+                case 9:
+                    return "double";
+                case 10:
+                    return "decimal";
+                case 11:
+                    return "char";
+                default:
+                    return null;
+            }
         }
 
         private static void StrongNameTest()
@@ -108,7 +162,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             var propGetMethod = type.DefineMethod("get_TestProperty", MethodAttributes.Public | MethodAttributes.Static, CallingConventions.Standard, typeof(short[, , , ,]), new Type[0]);
             var propGetILGen = propGetMethod.GetILGenerator();
             propGetILGen.MarkSequencePoint(testILDocument, 49, 3, 49, 4);
-
+            
             var glField = type.DefineInitializedData("TestData", compressedByteStream, FieldAttributes.PrivateScope);//$PST04
             sizeType.CreateType();
             propGetILGen.BeginScope();
@@ -139,6 +193,104 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             type.CreateType();
             mod.CreateGlobalFunctions();
             ab.Save("TestAssembly.dll");
+        }
+
+        private static void ImplicitIntrinsicDataTypeConversions()
+        {
+            ImplicitIntrisicDataTypeConversions_Add(0, 0, 0, 0, 0, 0, '\0', 0, 0, 0, 0, 0);
+        }
+
+
+
+        private static void ImplicitIntrisicDataTypeConversions_Add(
+            byte vUInt8, ushort vUInt16, uint vUInt32, ulong vUInt64, float vSingle, double vDouble, char vChar,
+            sbyte vInt8, short vInt16, int vInt32, long vInt64, decimal vDecimal)
+        {
+            var addUInt8_1 = vUInt8 + vUInt8;
+            var addUInt8_2 = vUInt8 + vUInt16;
+            var addUInt8_3 = vUInt8 + vUInt32;
+            var addUInt8_4 = vUInt8 + vUInt64;
+            var addUInt8_5 = vUInt8 + vSingle;
+            var addUInt8_6 = vUInt8 + vDouble;
+            var addUInt8_7 = vUInt8 + vChar;
+            var addUInt8_8 = vUInt8 + vInt8;
+            var addUInt8_9 = vUInt8 + vInt16;
+            var addUInt8_10 = vUInt8 + vInt32;
+            var addUInt8_11 = vUInt8 + vInt64;
+            var addUInt8_12 = vUInt8 + vDecimal;
+
+            var addUInt16_1 = vUInt16 + vUInt16;
+            var addUInt16_2 = vUInt16 + vUInt32;
+            var addUInt16_3 = vUInt16 + vUInt64;
+            var addUInt16_4 = vUInt16 + vSingle;
+            var addUInt16_5 = vUInt16 + vDouble;
+            var addUInt16_6 = vUInt16 + vChar;
+            var addUInt16_7 = vUInt16 + vInt8;
+            var addUInt16_8 = vUInt16 + vInt16;
+            var addUInt16_9 = vUInt16 + vInt32;
+            var addUInt16_10 = vUInt16 + vInt64;
+            var addUInt16_11 = vUInt16 + vDecimal;
+
+            var addUInt32_1 = vUInt32 + vUInt32;
+            var addUInt32_2 = vUInt32 + vUInt64;
+            var addUInt32_3 = vUInt32 + vSingle;
+            var addUInt32_4 = vUInt32 + vDouble;
+            var addUInt32_5 = vUInt32 + vChar;
+            var addUInt32_6 = vUInt32 + vInt8;
+            var addUInt32_7 = vUInt32 + vInt16;
+            var addUInt32_8 = vUInt32 + vInt32;
+            var addUInt32_9 = vUInt32 + vInt64;
+            var addUInt32_10 = vUInt32 + vDecimal;
+
+            var addUInt64_1 = vUInt64 + vUInt64;
+            var addUInt64_2 = vUInt64 + vSingle;
+            var addUInt64_3 = vUInt64 + vDouble;
+            var addUInt64_4 = vUInt64 + vChar;
+            var addUInt64_5 = vUInt64 + vDecimal;
+
+            var addSingle_1 = vSingle + vSingle;
+            var addSingle_2 = vSingle + vDouble;
+            var addSingle_3 = vSingle + vChar;
+            var addSingle_4 = vSingle + vInt8;
+            var addSingle_5 = vSingle + vInt16;
+            var addSingle_6 = vSingle + vInt32;
+            var addSingle_7 = vSingle + vInt64;
+
+            var addDouble_1 = vDouble + vDouble;
+            var addDouble_2 = vDouble + vChar;
+            var addDouble_3 = vDouble + vInt8;
+            var addDouble_4 = vDouble + vInt16;
+            var addDouble_5 = vDouble + vInt32;
+            var addDouble_6 = vDouble + vInt64;
+
+            var addChar_1 = vChar + vChar;
+            var addChar_2 = vChar + vInt8;
+            var addChar_3 = vChar + vInt16;
+            var addChar_4 = vChar + vInt32;
+            var addChar_5 = vChar + vInt64;
+            var addChar_6 = vChar + vDecimal;
+
+
+            var addInt8_1 = vInt8 + vInt8;
+            var addInt8_2 = vInt8 + vInt16;
+            var addInt8_3 = vInt8 + vInt32;
+            var addInt8_4 = vInt8 + vInt64;
+            var addInt8_5 = vInt8 + vDecimal;
+
+            var addInt16_1 = vInt16 + vInt16;
+            var addInt16_2 = vInt16 + vInt32;
+            var addInt16_3 = vInt16 + vInt64;
+            var addInt16_4 = vInt16 + vDecimal;
+
+            var addInt32_1 = vInt32 + vInt32;
+            var addInt32_2 = vInt32 + vInt64;
+            var addInt32_3 = vInt32 + vDecimal;
+
+            var addInt64_1 = vInt64 + vInt64;
+            var addInt64_2 = vInt64 + vDecimal;
+
+            var addDecimal = vDecimal + vDecimal;
+
         }
 
         private static byte[] ArrayToExpressionToByteArrayTest()

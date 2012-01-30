@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             foreach (var coercion in this.Values)
                 if (coercion.Requirement == TypeConversionRequirement.Explicit &&
-                    coercion.Direction == TypeConversionDirection.ToContainingType &&
+                    coercion.Direction == TypeConversionDirection.FromContainingType &&
                     target.IsAssignableFrom(coercion.CoercionType))
                     return true;
             return false;
@@ -45,7 +45,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             foreach (var coercion in this.Values)
                 if (coercion.Requirement == TypeConversionRequirement.Implicit &&
-                    coercion.Direction == TypeConversionDirection.ToContainingType &&
+                    coercion.Direction == TypeConversionDirection.FromContainingType &&
                     target.IsAssignableFrom(coercion.CoercionType))
                     return true;
             return false;
@@ -55,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             foreach (var coercion in this.Values)
                 if (coercion.Requirement == TypeConversionRequirement.Explicit &&
-                    coercion.Direction == TypeConversionDirection.FromContainingType &&
+                    coercion.Direction == TypeConversionDirection.ToContainingType &&
                     coercion.CoercionType.IsAssignableFrom(target))
                     return true;
             return false;
@@ -65,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             foreach (var coercion in this.Values)
                 if (coercion.Requirement == TypeConversionRequirement.Implicit &&
-                    coercion.Direction == TypeConversionDirection.FromContainingType &&
+                    coercion.Direction == TypeConversionDirection.ToContainingType &&
                     coercion.CoercionType.IsAssignableFrom(target))
                     return true;
             return false;

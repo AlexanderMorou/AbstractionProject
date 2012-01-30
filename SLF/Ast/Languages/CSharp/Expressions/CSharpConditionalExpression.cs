@@ -181,9 +181,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
                 trueType = TruePart.GetEvaluationType();
                 falseType = FalsePart.GetEvaluationType();
                 IImplicitChain iic = null;
-                if (trueType.CanConvertFrom(falseType))
+                if (trueType.CanConvertTo(falseType))
                     this.forwardType = trueType;
-                else if (falseType.CanConvertFrom(trueType))
+                else if (falseType.CanConvertTo(trueType))
                     this.forwardType = falseType;
             }
         }
