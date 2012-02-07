@@ -142,11 +142,57 @@
     <Compile Include="Collections\ReadonlyMultikeyedDictionary`8.cs" />
     <Compile Include="Collections\SubKeyNotFoundException.cs" />
     <Compile Include="ICloneable.cs" />
+    <Compile Include="MiscHelperMethods.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Numerics\BinaryBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Numerics\CharacterBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Numerics\DuosexagesimalBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Numerics\DWord.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Numerics\GameGenieBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Numerics\NumericBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Numerics\NumericBaseController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Numerics\OctalBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Numerics\OctodecimalBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Numerics\QWord.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Numerics\SeptemvigesimalBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Numerics\SexatrigesimalBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Numerics\Word.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="StringHandling.cs" />
+    <Compile Include="StringHandling.cs">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="ThrowHelper.cs" />
     <Compile Include="Arrays\Tweaks.cs" />
@@ -198,21 +244,6 @@
     <Compile Include="Collections\SubordinateDictionary{TKey, TSValue, TMValue}+KC.cs">
       <DependentUpon>SubordinateDictionary{TKey, TSValue, TMValue}.cs</DependentUpon>
     </Compile>
-    <Compile Include="Miscellaneous\BinaryBase.cs" />
-    <Compile Include="Miscellaneous\CharacterBase.cs" />
-    <Compile Include="Miscellaneous\DuosexagesimalBase.cs" />
-    <Compile Include="Miscellaneous\DWord.cs" />
-    <Compile Include="Miscellaneous\GameGenieBase.cs" />
-    <Compile Include="Miscellaneous\MiscHelperMethods.cs" />
-    <Compile Include="Miscellaneous\NumericBase.cs" />
-    <Compile Include="Miscellaneous\NumericBaseController.cs" />
-    <Compile Include="Miscellaneous\OctalBase.cs" />
-    <Compile Include="Miscellaneous\OctodecimalBase.cs" />
-    <Compile Include="Miscellaneous\QWord.cs" />
-    <Compile Include="Miscellaneous\SeptemvigesimalBase.cs" />
-    <Compile Include="Miscellaneous\SexatrigesimalBase.cs" />
-    <Compile Include="Miscellaneous\StringHandling.cs" />
-    <Compile Include="Miscellaneous\Word.cs" />
     <Compile Include="EnumerableExtensions+SinglePass{T}.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Events\EventArgs{T}.cs" />

@@ -11,7 +11,7 @@ using System.Text;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Utilities.Miscellaneous
+namespace AllenCopeland.Abstraction.Numerics
 {
     /// <summary>
     /// Provides a few basic string handling functions.
@@ -177,6 +177,7 @@ namespace AllenCopeland.Abstraction.Utilities.Miscellaneous
             }
             return b;
         }
+
         internal static string GetRelativeRoot(this IEnumerable<string> files)
         {
             var parts = (from f in files
