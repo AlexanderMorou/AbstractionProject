@@ -10,7 +10,7 @@ using AllenCopeland.Abstraction.Slf.Languages;
 using AllenCopeland.Abstraction.Slf.Languages.CSharp;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Languages.VisualBasic;
-using AllenCopeland.Abstraction.Utilities.Miscellaneous;
+using AllenCopeland.Abstraction.Numerics;
 using linqExample = AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples.ExampleHandler.LanguageIntegratedQuery;
 using winformExample = AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples.ExampleHandler.WindowsFormsApplication;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
@@ -31,6 +31,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using System.Security.Cryptography;
 using AllenCopeland.Abstraction.OwnerDrawnControls;
 using System.Windows.Forms;
+using System.Numerics;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -43,29 +44,10 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 
     internal static class Program
     {
-        static IType[] intrinsicSet = new[] { typeof(sbyte), typeof(byte), typeof(short), typeof(ushort), typeof(int), typeof(uint), typeof(long), typeof(ulong), typeof(float), typeof(double), typeof(decimal), typeof(char) }.ToCollection().ToArray();
         private static void Main()
         {
-            IntermediateCompilerBase icb = new IntermediateCompilerBase();
-            /* *
-             * Easy is the goal.
-             * */
-            bool first = true;
-            for (int i = 0; i < intrinsicSet.Length; i++)
-            {
-                if (first)
-                    first = false;
-                else
-                    Console.WriteLine();
-                var outterType = intrinsicSet[i];
-                for (int j = 0; j < intrinsicSet.Length; j++)
-                {
-                    if (j == i)
-                        continue;
-                    var innerType = intrinsicSet[j];
-                    Console.WriteLine("{0} can{1} implicitly convert to {2}", GetIntrinsicTypeShortName(outterType), outterType.CanConvertTo(innerType) ? string.Empty : "not", GetIntrinsicTypeShortName(innerType));
-                }
-            }
+            ImplicitConversionCheck();
+            Console.ReadKey(true);
             //StrongNameTest();
             //AssemblyBuilderTest();
             //CompressionTest();
@@ -84,34 +66,64 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             //RunExamples();
         }
 
-        public static string GetIntrinsicTypeShortName(IType intrinsicType)
+        private static void ImplicitConversionCheck()
+        {
+            bool b = typeof(BigInteger).CanConvertTo(typeof(GameGenieBase));
+        }
+
+        private static void IntrinsicTypeConversions()
+        {
+            IType[] intrinsicSet = new[] { typeof(char), typeof(sbyte), typeof(byte), typeof(short), typeof(ushort), typeof(int), typeof(uint), typeof(long), typeof(ulong), typeof(float), typeof(double), typeof(decimal) }.ToCollection().ToArray();
+            IntermediateCompilerBase icb = new IntermediateCompilerBase();
+            /* *
+             * Easy is the goal.
+             * */
+            bool first = true;
+            for (int i = 0; i < intrinsicSet.Length; i++)
+            {
+                if (first)
+                    first = false;
+                else
+                    Console.WriteLine();
+                var outterType = intrinsicSet[i];
+                for (int j = 0; j < intrinsicSet.Length; j++)
+                {
+                    if (j == i)
+                        continue;
+                    var innerType = intrinsicSet[j];
+                    Console.WriteLine("{0} can{1} implicitly convert to {2}", GetIntrinsicTypeShortName(outterType, intrinsicSet), outterType.CanConvertTo(innerType) ? string.Empty : "not", GetIntrinsicTypeShortName(innerType, intrinsicSet));
+                }
+            }
+        }
+
+        public static string GetIntrinsicTypeShortName(IType intrinsicType, IType[] intrinsicSet)
         {
             switch (intrinsicSet.GetIndexOf(intrinsicType))
             {
                 case 0:
-                    return "sbyte";
-                case 1:
-                    return "byte";
-                case 2:
-                    return "short";
-                case 3:
-                    return "ushort";
-                case 4:
-                    return "int";
-                case 5:
-                    return "uint";
-                case 6:
-                    return "long";
-                case 7:
-                    return "ulong";
-                case 8:
-                    return "float";
-                case 9:
-                    return "double";
-                case 10:
-                    return "decimal";
-                case 11:
                     return "char";
+                case 1:
+                    return "sbyte";
+                case 2:
+                    return "byte";
+                case 3:
+                    return "short";
+                case 4:
+                    return "ushort";
+                case 5:
+                    return "int";
+                case 6:
+                    return "uint";
+                case 7:
+                    return "long";
+                case 8:
+                    return "ulong";
+                case 9:
+                    return "float";
+                case 10:
+                    return "double";
+                case 11:
+                    return "decimal";
                 default:
                     return null;
             }

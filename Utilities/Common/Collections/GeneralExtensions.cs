@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Utilities.Arrays;
-using AllenCopeland.Abstraction.Utilities.Miscellaneous;
+using AllenCopeland.Abstraction.Numerics;
 using System.ComponentModel;
 //using AllenCopeland.Abstraction.Utilities.Tuples;
  /*---------------------------------------------------------------------\

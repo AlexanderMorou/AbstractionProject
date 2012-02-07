@@ -5,7 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Globalization;
-using AllenCopeland.Abstraction.Utilities.Miscellaneous;
+using AllenCopeland.Abstraction.Numerics;
 
 namespace AllenCopeland.Abstraction.Slf.Cli
 {

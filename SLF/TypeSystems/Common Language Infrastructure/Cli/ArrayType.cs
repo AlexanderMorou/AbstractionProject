@@ -6,7 +6,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Cli;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
-using AllenCopeland.Abstraction.Utilities.Miscellaneous;
+using AllenCopeland.Abstraction.Numerics;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|

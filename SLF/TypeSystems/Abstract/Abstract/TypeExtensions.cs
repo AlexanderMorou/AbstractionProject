@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AllenCopeland.Abstraction.Utilities.Collections;
-using AllenCopeland.Abstraction.Utilities.Miscellaneous;
+using AllenCopeland.Abstraction.Numerics;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
