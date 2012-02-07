@@ -10,7 +10,7 @@ using System.Numerics;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Utilities.Miscellaneous
+namespace AllenCopeland.Abstraction.Numerics
 {
     /// <summary>
     /// Provides a numeric base which can vary based upon the finite

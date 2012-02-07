@@ -10,45 +10,44 @@ using System.Numerics;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Utilities.Miscellaneous
+namespace AllenCopeland.Abstraction.Numerics
 {
-    [CLSCompliant(false)]
-    public class BinaryBase :
+    public class SexatrigesimalBase :
         NumericBase
     {
         private static Controller controller = new Controller();
-        public BinaryBase()
+        public SexatrigesimalBase()
             : base(controller)
         {
 
         }
-
-        public BinaryBase(string value)
+        public SexatrigesimalBase(BigInteger value)
             : base(controller, value)
         {
         }
-
-        public BinaryBase(BigInteger value)
+        public SexatrigesimalBase(string value)
             : base(controller, value)
         {
-        }
-        private class Controller :
-            NumericBaseController
-        {
-            public Controller()
-                : base("01")
-            {
-            }
         }
 
         protected override NumericBase GetNew(BigInteger value)
         {
-            return new BinaryBase(value);
+            return new SexatrigesimalBase(value);
         }
 
-        public static implicit operator BinaryBase(BigInteger value)
+        public static implicit operator SexatrigesimalBase(BigInteger value)
         {
-            return new BinaryBase(value);
+            return new SexatrigesimalBase(value);
         }
+
+        private class Controller :
+            NumericBaseController
+        {
+            public Controller()
+                : base("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", false)
+            {
+            }
+        }
+
     }
 }

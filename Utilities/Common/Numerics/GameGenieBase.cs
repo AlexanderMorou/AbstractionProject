@@ -10,23 +10,27 @@ using System.Numerics;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Utilities.Miscellaneous
+namespace AllenCopeland.Abstraction.Numerics
 {
+    /// <summary>
+    /// Provides a simplistic Game-genie base transformer which
+    /// goes to->from the code as needed.
+    /// </summary>
     [CLSCompliant(false)]
-    public class OctalBase :
+    public class GameGenieBase :
         NumericBase
     {
         private static Controller controller = new Controller();
-        public OctalBase()
+
+        public GameGenieBase()
             : base(controller)
         {
-
         }
-        public OctalBase(BigInteger value)
+        public GameGenieBase(BigInteger value)
             : base(controller, value)
         {
         }
-        public OctalBase(string value)
+        public GameGenieBase(string value)
             : base(controller, value)
         {
         }
@@ -34,19 +38,19 @@ namespace AllenCopeland.Abstraction.Utilities.Miscellaneous
             NumericBaseController
         {
             public Controller()
-                : base("01234567")
+                : base("APZLGITYEOXUKSVN")
             {
+
             }
         }
 
+        public static implicit operator GameGenieBase(BigInteger value)
+        {
+            return new GameGenieBase(value);
+        }
         protected override NumericBase GetNew(BigInteger value)
         {
-            return new OctalBase(value);
-        }
-
-        public static implicit operator OctalBase(BigInteger value)
-        {
-            return new OctalBase(value);
+            return new GameGenieBase(value);
         }
     }
 }

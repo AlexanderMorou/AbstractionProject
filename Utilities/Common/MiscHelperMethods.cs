@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using AllenCopeland.Abstraction.Utilities.Tuples;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -13,7 +12,7 @@ using AllenCopeland.Abstraction.Utilities.Tuples;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Utilities.Miscellaneous
+namespace AllenCopeland.Abstraction.Utilities
 {
     /// <summary>
     /// Provides miscellaneous helper methods.
@@ -103,7 +102,7 @@ namespace AllenCopeland.Abstraction.Utilities.Miscellaneous
         }
 
         /// <summary>
-        /// Creates a <see cref="Func{TResult}"/> with a <paramref name="TimeSpan"/> and
+        /// Creates a <see cref="Func{TResult}"/> with a <see cref="TimeSpan"/> and
         /// <typeparamref name="TResult"/> as the return within a <see cref="Tuple{T1, T2}"/>
         /// as a pair.
         /// </summary>
@@ -111,7 +110,7 @@ namespace AllenCopeland.Abstraction.Utilities.Miscellaneous
         /// create a time function for.</typeparam>
         /// <param name="func">The <see cref="Func{TResult}"/> which needs a time metric
         /// function applied to it.</param>
-        /// <returns>A <see cref="Func{TResult}"/> with a <paramref name="TimeSpan"/> and
+        /// <returns>A <see cref="Func{TResult}"/> with a <see cref="TimeSpan"/> and
         /// <typeparamref name="TResult"/> as the return within a <see cref="Tuple{T1, T2}"/>
         /// as a pair.</returns>
         public static Func<Tuple<TimeSpan, TResult>> TimeResultFunc<TResult>(this Func<TResult> func)
@@ -119,15 +118,19 @@ namespace AllenCopeland.Abstraction.Utilities.Miscellaneous
             return () => TimeResult(func);
         }
         /// <summary>
-        /// Creates a <see cref="Func{TResult}"/> with a <paramref name="TimeSpan"/> and
+        /// Creates a <see cref="Func{TResult}"/> with a <see cref="TimeSpan"/> and
         /// <typeparamref name="TResult"/> as the return within a <see cref="Tuple{T1, T2}"/>
         /// as a pair.
         /// </summary>
+        /// <typeparam name="T">The type of the first parameter accepted by
+        /// <paramref name="func"/>.</typeparam>
         /// <typeparam name="TResult">The type of the result of the <paramref name="func"/> to
         /// create a time function for.</typeparam>
         /// <param name="func">The <see cref="Func{TResult}"/> which needs a time metric
         /// function applied to it.</param>
-        /// <returns>A <see cref="Func{TResult}"/> with a <paramref name="TimeSpan"/> and
+        /// <param name="arg">The <see cref="Func{TResult}"/> which yields the first argument
+        /// to pass to <paramref name="func"/>.</param>
+        /// <returns>A <see cref="Func{TResult}"/> with a <see cref="TimeSpan"/> and
         /// <typeparamref name="TResult"/> as the return within a <see cref="Tuple{T1, T2}"/>
         /// as a pair.</returns>
         public static Func<Tuple<TimeSpan, TResult>> TimeResultFunc<T, TResult>(this Func<T, TResult> func, Func<T> arg)
@@ -135,15 +138,19 @@ namespace AllenCopeland.Abstraction.Utilities.Miscellaneous
             return () => TimeResult(func, arg());
         }
         /// <summary>
-        /// Creates a <see cref="Func{TResult}"/> with a <paramref name="TimeSpan"/> and
+        /// Creates a <see cref="Func{TResult}"/> with a <see cref="TimeSpan"/> and
         /// <typeparamref name="TResult"/> as the return within a <see cref="Tuple{T1, T2}"/>
         /// as a pair.
         /// </summary>
+        /// <typeparam name="T">The type of the first parameter accepted by
+        /// <paramref name="func"/>.</typeparam>
         /// <typeparam name="TResult">The type of the result of the <paramref name="func"/> to
         /// create a time function for.</typeparam>
         /// <param name="func">The <see cref="Func{TResult}"/> which needs a time metric
         /// function applied to it.</param>
-        /// <returns>A <see cref="Func{TResult}"/> with a <paramref name="TimeSpan"/> and
+        /// <param name="arg">The <typeparamref name="T"/> value to pass to the <paramref name="func"/>
+        /// when timing the function.</param>
+        /// <returns>A <see cref="Func{TResult}"/> with a <see cref="TimeSpan"/> and
         /// <typeparamref name="TResult"/> as the return within a <see cref="Tuple{T1, T2}"/>
         /// as a pair.</returns>
         public static Func<Tuple<TimeSpan, TResult>> TimeResultFunc<T, TResult>(this Func<T, TResult> func, T arg)
@@ -268,8 +275,8 @@ namespace AllenCopeland.Abstraction.Utilities.Miscellaneous
                 for (int j = start2; j < end2; j += step2)
                     for (int k = start3; k < end3; k++)
                         for (int l = start4; l < end4; l++)
-                            for (int m = start4; m < end4; m++)
-                                yield return new Tuple<int, int, int, int, int>(i, j, k, l, m);
+                            for (int m = start5; m < end5; m++)
+                                yield return Tuple.Create(i, j, k, l, m);
         }
 
         public static IEnumerable<Tuple<int, int, int, int, int, int>> Iterate(int start1, int start2, int start3, int start4, int start5, int start6, int end1, int end2, int end3, int end4, int end5, int end6, int step1 = 1, int step2 = 1, int step3 = 1, int step4 = 1, int step5 = 1, int step6 = 1)
@@ -290,9 +297,9 @@ namespace AllenCopeland.Abstraction.Utilities.Miscellaneous
                 for (int j = start2; j < end2; j += step2)
                     for (int k = start3; k < end3; k += step3)
                         for (int l = start4; l < end4; l += step4)
-                            for (int m = start4; m < end4; m += step5)
-                                for (int n = start3; n < end3; n += step6)
-                                    yield return new Tuple<int, int, int, int, int, int>(i, j, k, l, m, n);
+                            for (int m = start5; m < end5; m += step5)
+                                for (int n = start6; n < end6; n += step6)
+                                    yield return Tuple.Create(i, j, k, l, m, n);
         }
 
         public static IEnumerable<Tuple<int, int, int, int, int, int, int>> Iterate(int start1, int start2, int start3, int start4, int start5, int start6, int start7, int end1, int end2, int end3, int end4, int end5, int end6, int end7, int step1 = 1, int step2 = 1, int step3 = 1, int step4 = 1, int step5 = 1, int step6 = 1, int step7 = 1)
@@ -313,12 +320,12 @@ namespace AllenCopeland.Abstraction.Utilities.Miscellaneous
                 step7 = -step7;
             for (int i = start1; i <= end1; i += step1)
                 for (int j = start2; j < end2; j += step2)
-                    for (int k = start3; k < end3; k+=step3)
-                        for (int l = start4; l < end4; l+=step4)
-                            for (int m = start4; m < end4; m+=step5)
-                                for (int n = start3; n < end3; n+=step6)
-                                    for (int o = start4; o < end4; o+=step7)
-                                        yield return new Tuple<int, int, int, int, int, int, int>(i, j, k, l, m, n, o);
+                    for (int k = start3; k < end3; k += step3)
+                        for (int l = start4; l < end4; l += step4)
+                            for (int m = start5; m < end5; m += step5)
+                                for (int n = start6; n < end6; n += step6)
+                                    for (int o = start7; o < end7; o += step7)
+                                        yield return Tuple.Create(i, j, k, l, m, n, o);
         }
 
         public static IEnumerable<Tuple<int, int, int, int, int, int, int, Tuple<int>>> Iterate(int start1, int start2, int start3, int start4, int start5, int start6, int start7, int start8, int end1, int end2, int end3, int end4, int end5, int end6, int end7, int end8, int step1 = 1, int step2 = 1, int step3 = 1, int step4 = 1, int step5 = 1, int step6 = 1, int step7 = 1, int step8 = 1)
@@ -343,11 +350,11 @@ namespace AllenCopeland.Abstraction.Utilities.Miscellaneous
                 for (int j = start2; j < end2; j += step2)
                     for (int k = start3; k < end3; k += step3)
                         for (int l = start4; l < end4; l += step4)
-                            for (int m = start4; m < end4; m += step5)
-                                for (int n = start3; n < end3; n += step6)
-                                    for (int o = start4; o < end4; o += step7)
-                                        for (int p = start4; p < end4; p += step8)
-                                            yield return new Tuple<int, int, int, int, int, int, int, Tuple<int>>(i, j, k, l, m, n, o, new Tuple<int>(p));
+                            for (int m = start5; m < end5; m += step5)
+                                for (int n = start6; n < end6; n += step6)
+                                    for (int o = start7; o < end7; o += step7)
+                                        for (int p = start8; p < end8; p += step8)
+                                            yield return Tuple.Create(i, j, k, l, m, n, o, p);
         }
 
         /// <summary>

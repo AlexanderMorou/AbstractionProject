@@ -14,16 +14,22 @@
     </ErrorReportUrlHistory>
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <StartArguments>
     </StartArguments>
-    <StartWorkingDirectory>C:\Projects\Code\C#\Abstraction\Supplementary Projects\Bug Test Application\bin\x86\Debug\</StartWorkingDirectory>
+    <StartWorkingDirectory>C:\Projects\Code\C#\Abstraction\Build\x86\Debug</StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <StartArguments>
     </StartArguments>
-    <StartWorkingDirectory>C:\Projects\Code\C#\Abstraction\Supplementary Projects\Bug Test Application\bin\x86\Release\</StartWorkingDirectory>
+    <StartWorkingDirectory>C:\Projects\Code\C#\Abstraction\Build\x86\Release</StartWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <StartWorkingDirectory>C:\Projects\Code\C#\Abstraction\Build\x64\Debug</StartWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <StartWorkingDirectory>C:\Projects\Code\C#\Abstraction\Build\x64\Release</StartWorkingDirectory>
   </PropertyGroup>
 </Project>
