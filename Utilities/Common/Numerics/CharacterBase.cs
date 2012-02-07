@@ -10,23 +10,24 @@ using System.Numerics;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Utilities.Miscellaneous
+namespace AllenCopeland.Abstraction.Numerics
 {
-    public class OctodecimalBase :
+    [CLSCompliant(false)]
+    public class CharacterBase :
         NumericBase
     {
         private static Controller controller = new Controller();
-        public OctodecimalBase()
+        public CharacterBase()
             : base(controller)
         {
 
         }
-        public OctodecimalBase(BigInteger value)
+
+        public CharacterBase(BigInteger value)
             : base(controller, value)
         {
         }
-
-        public OctodecimalBase(string value)
+        public CharacterBase(string value)
             : base(controller, value)
         {
         }
@@ -34,19 +35,27 @@ namespace AllenCopeland.Abstraction.Utilities.Miscellaneous
             NumericBaseController
         {
             public Controller()
-                : base("0123456789ABCDEFGH", false)
+                : base(GetCharRange(), true)
             {
+            }
+
+            private static IEnumerable<char> GetCharRange()
+            {
+                char[] k = new char[char.MaxValue+1];
+                for (int i = 0; i < k.Length; i++)
+                    k[i] = (char)i;
+                return k;
             }
         }
 
         protected override NumericBase GetNew(BigInteger value)
         {
-            return new OctodecimalBase(value);
+            return new CharacterBase(value);
         }
 
-        public static implicit operator OctodecimalBase(BigInteger value)
+        public static implicit operator CharacterBase(BigInteger value)
         {
-            return new OctodecimalBase(value);
+            return new CharacterBase(value);
         }
     }
 }

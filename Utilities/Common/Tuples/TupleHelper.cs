@@ -10,7 +10,7 @@ using AllenCopeland.Abstraction.Slf.Compilers;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Utilities.Tuples
+namespace AllenCopeland.Abstraction.Utilities
 {
     // Module: RootModule
     /// <summary>
