@@ -112,7 +112,15 @@
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember.cs" />
     <Compile Include="Compilers\PrimitiveTypeSizes.cs" />
     <Compile Include="Languages\Cil\CommonIntermediateProvider+AssemblyService.cs" />
+    <Compile Include="Languages\CSharp\CSharpCompilerMessages %28Message Creator%29.cs" />
+    <Compile Include="Languages\CSharp\CSharpCompilerReferenceError.cs" />
+    <Compile Include="Languages\CSharp\CSharpCompilerReferenceWarning.cs" />
+    <Compile Include="Languages\CSharp\CSharpErrorIdentifiers.cs" />
     <Compile Include="Languages\CSharp\CSharpProvider+AssemblyService.cs" />
+    <Compile Include="Languages\CSharp\CSharpWarningIdentifiers.cs" />
+    <Compile Include="Languages\CSharp\CSharpWarningLevels.cs" />
+    <Compile Include="Languages\CSharp\ICSharpCompilerReferenceError.cs" />
+    <Compile Include="Languages\CSharp\ICSharpCompilerReferenceWarning.cs" />
     <Compile Include="Languages\IIntermediateAssemblyCtorLanguageService.cs" />
     <Compile Include="Languages\IIntermediateTypeCtorLanguageService.cs" />
     <Compile Include="Languages\IHighLevelLanguageService.cs" />
@@ -187,8 +195,8 @@
     <Compile Include="Compilers\CompilerSourceModelWarning{T1-T4}.cs" />
     <Compile Include="Compilers\CompilerSupport.cs" />
     <Compile Include="Compilers\CompilerWarning.cs" />
-    <Compile Include="Compilers\CSharpCompilerMessages.cs" />
-    <Compile Include="Compilers\CSharpCompilerMessages+Formatter.cs">
+    <Compile Include="Languages\CSharp\CSharpCompilerMessages.cs" />
+    <Compile Include="Languages\CSharp\CSharpCompilerMessages+Formatter.cs">
       <DependentUpon>CSharpCompilerMessages.cs</DependentUpon>
     </Compile>
     <Compile Include="Compilers\DebugSupport.cs" />

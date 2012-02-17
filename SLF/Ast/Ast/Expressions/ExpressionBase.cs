@@ -9,7 +9,6 @@ using System.Text;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-
 namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
 {
     /// <summary>
@@ -358,6 +357,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             return new UnaryOperationExpression((IUnaryOperationPrimaryTerm)(left.AffixTo(OperatorPrecedences.UnaryTerm)), CSharpUnaryOperationFlags.Negate);
         }
 #endif
+
         public static implicit operator ExpressionBase(int value)
         {
             return value.ToPrimitive();
@@ -402,7 +402,5 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         {
             return value.ToPrimitive();
         }
-
-
     }
 }

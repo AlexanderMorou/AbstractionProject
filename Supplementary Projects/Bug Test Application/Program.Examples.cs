@@ -1,37 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using AllenCopeland.Abstraction.Utilities.Arrays;
-using AllenCopeland.Abstraction.Slf.Abstract;
-using AllenCopeland.Abstraction.Slf.Ast;
-using AllenCopeland.Abstraction.Slf.Cli;
-using AllenCopeland.Abstraction.Slf.Languages;
-using AllenCopeland.Abstraction.Slf.Languages.CSharp;
-using AllenCopeland.Abstraction.Utilities.Collections;
-using AllenCopeland.Abstraction.Slf.Languages.VisualBasic;
-using AllenCopeland.Abstraction.Numerics;
-using linqExample = AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples.ExampleHandler.LanguageIntegratedQuery;
-using winformExample = AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples.ExampleHandler.WindowsFormsApplication;
-using AllenCopeland.Abstraction.Slf.Abstract.Members;
-using AllenCopeland.Abstraction.Slf.Ast.Members;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions;
-using AllenCopeland.Abstraction.Slf.Ast.Expressions;
+using System.Diagnostics.SymbolStore;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
+using System.Numerics;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
-using AllenCopeland.Abstraction.Slf.Compilers;
 using System.Runtime.InteropServices;
-using System.Diagnostics.SymbolStore;
-using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using System.Security.Cryptography;
-using AllenCopeland.Abstraction.OwnerDrawnControls;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Numerics;
+using AllenCopeland.Abstraction.Numerics;
+using AllenCopeland.Abstraction.OwnerDrawnControls;
+using AllenCopeland.Abstraction.Slf._Internal.Ast;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Slf.Ast.Expressions;
+using AllenCopeland.Abstraction.Slf.Ast.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Compilers;
+using AllenCopeland.Abstraction.Slf.Languages;
+using AllenCopeland.Abstraction.Slf.Languages.CSharp;
+using AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions;
+using AllenCopeland.Abstraction.Slf.Languages.VisualBasic;
+using AllenCopeland.Abstraction.Utilities.Arrays;
+using AllenCopeland.Abstraction.Utilities.Collections;
+using linqExample = AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples.ExampleHandler.LanguageIntegratedQuery;
+using winformExample = AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples.ExampleHandler.WindowsFormsApplication;
+using AllenCopeland.Abstraction.Utilities;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -46,14 +47,13 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     {
         private static void Main()
         {
-            ImplicitConversionCheck();
-            Console.ReadKey(true);
+            //TimedMirrorTest();
             //StrongNameTest();
             //AssemblyBuilderTest();
             //CompressionTest();
             //ExtensionsTest();
             //TimedMirrorTest();
-            //CreationTest();
+            CreationTest();
             //SeriesCreationTest();
             //var msLangVendor = LanguageVendors.Microsoft;
             //IIntermediateAssembly iia = msLangVendor.GetVisualBasicLanguage().GetMyProvider().CreateAssembly("TestAssembly");
@@ -64,6 +64,13 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             //foreach (var item in m.Members)
             //    Console.WriteLine(item);
             //RunExamples();
+        }
+
+        private static void TimedAssemblyBuilderTest()
+        {
+            var timedBuilderTest = MiscHelperMethods.TimeActionFunc(AssemblyBuilderTest);
+            var time = timedBuilderTest();
+            Console.WriteLine(time);
         }
 
         private static void ImplicitConversionCheck()
@@ -207,104 +214,6 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             ab.Save("TestAssembly.dll");
         }
 
-        private static void ImplicitIntrinsicDataTypeConversions()
-        {
-            ImplicitIntrisicDataTypeConversions_Add(0, 0, 0, 0, 0, 0, '\0', 0, 0, 0, 0, 0);
-        }
-
-
-
-        private static void ImplicitIntrisicDataTypeConversions_Add(
-            byte vUInt8, ushort vUInt16, uint vUInt32, ulong vUInt64, float vSingle, double vDouble, char vChar,
-            sbyte vInt8, short vInt16, int vInt32, long vInt64, decimal vDecimal)
-        {
-            var addUInt8_1 = vUInt8 + vUInt8;
-            var addUInt8_2 = vUInt8 + vUInt16;
-            var addUInt8_3 = vUInt8 + vUInt32;
-            var addUInt8_4 = vUInt8 + vUInt64;
-            var addUInt8_5 = vUInt8 + vSingle;
-            var addUInt8_6 = vUInt8 + vDouble;
-            var addUInt8_7 = vUInt8 + vChar;
-            var addUInt8_8 = vUInt8 + vInt8;
-            var addUInt8_9 = vUInt8 + vInt16;
-            var addUInt8_10 = vUInt8 + vInt32;
-            var addUInt8_11 = vUInt8 + vInt64;
-            var addUInt8_12 = vUInt8 + vDecimal;
-
-            var addUInt16_1 = vUInt16 + vUInt16;
-            var addUInt16_2 = vUInt16 + vUInt32;
-            var addUInt16_3 = vUInt16 + vUInt64;
-            var addUInt16_4 = vUInt16 + vSingle;
-            var addUInt16_5 = vUInt16 + vDouble;
-            var addUInt16_6 = vUInt16 + vChar;
-            var addUInt16_7 = vUInt16 + vInt8;
-            var addUInt16_8 = vUInt16 + vInt16;
-            var addUInt16_9 = vUInt16 + vInt32;
-            var addUInt16_10 = vUInt16 + vInt64;
-            var addUInt16_11 = vUInt16 + vDecimal;
-
-            var addUInt32_1 = vUInt32 + vUInt32;
-            var addUInt32_2 = vUInt32 + vUInt64;
-            var addUInt32_3 = vUInt32 + vSingle;
-            var addUInt32_4 = vUInt32 + vDouble;
-            var addUInt32_5 = vUInt32 + vChar;
-            var addUInt32_6 = vUInt32 + vInt8;
-            var addUInt32_7 = vUInt32 + vInt16;
-            var addUInt32_8 = vUInt32 + vInt32;
-            var addUInt32_9 = vUInt32 + vInt64;
-            var addUInt32_10 = vUInt32 + vDecimal;
-
-            var addUInt64_1 = vUInt64 + vUInt64;
-            var addUInt64_2 = vUInt64 + vSingle;
-            var addUInt64_3 = vUInt64 + vDouble;
-            var addUInt64_4 = vUInt64 + vChar;
-            var addUInt64_5 = vUInt64 + vDecimal;
-
-            var addSingle_1 = vSingle + vSingle;
-            var addSingle_2 = vSingle + vDouble;
-            var addSingle_3 = vSingle + vChar;
-            var addSingle_4 = vSingle + vInt8;
-            var addSingle_5 = vSingle + vInt16;
-            var addSingle_6 = vSingle + vInt32;
-            var addSingle_7 = vSingle + vInt64;
-
-            var addDouble_1 = vDouble + vDouble;
-            var addDouble_2 = vDouble + vChar;
-            var addDouble_3 = vDouble + vInt8;
-            var addDouble_4 = vDouble + vInt16;
-            var addDouble_5 = vDouble + vInt32;
-            var addDouble_6 = vDouble + vInt64;
-
-            var addChar_1 = vChar + vChar;
-            var addChar_2 = vChar + vInt8;
-            var addChar_3 = vChar + vInt16;
-            var addChar_4 = vChar + vInt32;
-            var addChar_5 = vChar + vInt64;
-            var addChar_6 = vChar + vDecimal;
-
-
-            var addInt8_1 = vInt8 + vInt8;
-            var addInt8_2 = vInt8 + vInt16;
-            var addInt8_3 = vInt8 + vInt32;
-            var addInt8_4 = vInt8 + vInt64;
-            var addInt8_5 = vInt8 + vDecimal;
-
-            var addInt16_1 = vInt16 + vInt16;
-            var addInt16_2 = vInt16 + vInt32;
-            var addInt16_3 = vInt16 + vInt64;
-            var addInt16_4 = vInt16 + vDecimal;
-
-            var addInt32_1 = vInt32 + vInt32;
-            var addInt32_2 = vInt32 + vInt64;
-            var addInt32_3 = vInt32 + vDecimal;
-
-            var addInt64_1 = vInt64 + vInt64;
-            var addInt64_2 = vInt64 + vDecimal;
-
-            var addDecimal = vDecimal + vDecimal;
-
-        }
-
         private static byte[] ArrayToExpressionToByteArrayTest()
         {
             var result = new short[5, 6, 7, 8, 9];
@@ -436,9 +345,14 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
         {
             //SeriesCreationTest();
             var assembly = LanguageVendors.Microsoft.GetVisualBasicLanguage().GetProvider().CreateAssembly("TestAssembly");
+            var inclusion = assembly.ScopeCoercions.Add("System");
+            inclusion.Start = new LineColumnPair(1,1);
+            inclusion.End = new LineColumnPair(1, 13);
+            var inclusionWarning = CSharpCompilerMessages.WarningCS0105(inclusion);
             var testNamespace = assembly.Namespaces.Add("TestNamespace");
             var testMethod = assembly.Methods.Add(new TypedName("TestMethod", typeof(int).GetTypeReference()));
             testMethod.ReturnTypeMetadata.OptionalModifiers.Add(typeof(IsLong).GetTypeReference());
+            
             var testField = assembly.Fields.Add(new TypedName("testField", typeof(double).GetTypeReference()));
             var testClass = assembly.Classes.Add("TestClass");
             var testInterface = assembly.Interfaces.Add("ITestInterface");
@@ -455,6 +369,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             var testClassTypeCoercion = testClass.TypeCoercions.Add(TypeConversionRequirement.Explicit, TypeConversionDirection.FromContainingType, typeof(int).GetTypeReference());
             var testClassUnaryOperator = testClass.UnaryOperatorCoercions.Add(CoercibleUnaryOperators.Complement);
             var testClassIndexerSetMethod = testClassIndexer.SetMethod;
+            var classWarning = CSharpCompilerMessages.WarningCS0028(testClassMethod);
             testClassIndexerSetMethod.Assign(testClassField.GetReference(), 0F.ToPrimitive());
             var testStructMethod = testStruct.Methods.Add(new TypedName("TestStructMethod", CommonTypeRefs.Void));
             var testStructProperty = testStruct.Properties.Add(new TypedName("TestStructProperty", CommonTypeRefs.Object));

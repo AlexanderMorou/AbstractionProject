@@ -1,0 +1,202 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Ast.Members;
+using AllenCopeland.Abstraction.Slf.Compilers;
+using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Slf.Ast.Expressions;
+using AllenCopeland.Abstraction.Slf.Ast.Statements;
+using AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions;
+
+namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
+{
+    public static partial class CSharpCompilerMessages
+    {
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 4) &#35;28:</para><para>{0} has the wrong signature to be an entry point </para></summary>
+        /// <param name="method">The <see cref="IIntermediateClassMethodMember"/></param>
+        public static ICompilerSourceModelWarning<IIntermediateClassMethodMember> WarningCS0028(IIntermediateClassMethodMember method)
+        {
+            //ToDo: Add location information to methods.
+            return new CompilerSourceModelWarning<IIntermediateClassMethodMember>(CS0028, method, null, 0, 0, method.UniqueIdentifier.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 4) &#35;28:</para><para>{0} has the wrong signature to be an entry point </para></summary>
+        public static ICompilerSourceModelWarning<IIntermediateStructMethodMember> WarningCS0028(IIntermediateStructMethodMember method)
+        {
+            //ToDo: Add location information to methods.
+            return new CompilerSourceModelWarning<IIntermediateStructMethodMember>(CS0028, method, null, 0, 0, method.UniqueIdentifier.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 3) &#35;67:</para><para>The event {0} is never used</para></summary>
+        /// <param name="event">The <see cref="IIntermediateClassEventMember"/> which is never used.</param>
+        public static ICompilerSourceModelWarning<IIntermediateClassEventMember> WarningCS0067(IIntermediateClassEventMember @event)
+        {
+            return new CompilerSourceModelWarning<IIntermediateClassEventMember>(CS0067, @event, null, 0, 0, @event.UniqueIdentifier.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 3) &#35;67:</para><para>The event {0} is never used</para></summary>
+        /// <param name="event">The <see cref="IIntermediateStructEventMember"/> which is never used.</param>
+        public static ICompilerSourceModelWarning<IIntermediateStructEventMember> WarningCS0067(IIntermediateStructEventMember @event)
+        {
+            return new CompilerSourceModelWarning<IIntermediateStructEventMember>(CS0067, @event, null, 0, 0, @event.UniqueIdentifier.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 4) &#35;78:</para><para>The 'l' suffix is easily confused with the digit '1' -- use 'L' for clarity</para></summary>
+        /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> of type <see cref="UInt64"/>
+        /// which contains the potentially confusing suffix.</param>
+        public static ICompilerSourceModelWarning<IPrimitiveExpression<ulong>> WarningCS0078(IPrimitiveExpression<ulong> expression)
+        {
+            var location = (expression.Start ?? expression.End ?? new LineColumnPair(0, 0));
+            return new CompilerSourceModelWarning<IPrimitiveExpression<ulong>>(CS0078, expression, expression.FileName, location.Line, location.Column);
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 3) &#35;105:</para><para>The using directive for '<paramref name="coercion"/>' appeared previously in this namespace</para></summary>
+        /// <param name="coercion">The <see cref="INamespaceInclusionScopeCoercion"/> which appeared previously in the 
+        /// active scope.</param>
+        public static ICompilerSourceModelWarning<INamespaceInclusionScopeCoercion> WarningCS0105(INamespaceInclusionScopeCoercion coercion)
+        {
+            var location = (coercion.Start ?? coercion.End ?? new LineColumnPair(0, 0));
+            return new CompilerSourceModelWarning<INamespaceInclusionScopeCoercion>(CS0105, coercion, coercion.FileName, location.Line, location.Column, coercion.Namespace);
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 3) &#35;105:</para><para>The using directive for '<paramref name="coercion"/>' appeared previously in this namespace</para></summary>
+        /// <param name="coercion">The <see cref="INamespaceInclusionRenameScopeCoercion"/> which appeared previously in the 
+        /// active scope.</param>
+        public static ICompilerSourceModelWarning<INamespaceInclusionRenameScopeCoercion> WarningCS0105(INamespaceInclusionRenameScopeCoercion coercion)
+        {
+            var location = (coercion.Start ?? coercion.End ?? new LineColumnPair(0, 0));
+            return new CompilerSourceModelWarning<INamespaceInclusionRenameScopeCoercion>(CS0105, coercion, coercion.FileName, location.Line, location.Column, coercion.NewName);
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 3) &#35;105:</para><para>The using directive for <paramref name="coercion"/> appeared previously in this namespace</para></summary>
+        /// <param name="coercion">The <see cref="ITypeInclusionScopeCoercion"/> which appeared previously in the 
+        /// active scope.</param>
+        public static ICompilerSourceModelWarning<ITypeInclusionScopeCoercion> WarningCS0105(ITypeInclusionScopeCoercion coercion)
+        {
+            var location = (coercion.Start ?? coercion.End ?? new LineColumnPair(0, 0));
+            return new CompilerSourceModelWarning<ITypeInclusionScopeCoercion>(CS0105, coercion, coercion.FileName, location.Line, location.Column, coercion.IncludedType.FullName);
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 3) &#35;105:</para><para>The using directive for '<paramref name="coercion"/>' appeared previously in this namespace</para></summary>
+        /// <param name="coercion">The <see cref="ITypeInclusionRenameScopeCoercion"/> which appeared previously in the 
+        /// active scope.</param>
+        public static ICompilerSourceModelWarning<ITypeInclusionRenameScopeCoercion> WarningCS0105(ITypeInclusionRenameScopeCoercion coercion)
+        {
+            var location = (coercion.Start ?? coercion.End ?? new LineColumnPair(0, 0));
+            return new CompilerSourceModelWarning<ITypeInclusionRenameScopeCoercion>(CS0105, coercion, coercion.FileName, location.Line, location.Column, coercion.NewName);
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 2) &#35;108:</para><para>{0} hides inherited member {1}. Use the new keyword if hiding was intended.</para></summary>
+        public static ICompilerSourceModelWarning<TMemberType, TBaseMemberType> WarningCS0108<TMemberType, TBaseMemberType>(TMemberType member, TBaseMemberType original)
+            where TMemberType :
+                IIntermediateMember,
+                ISourceElement
+            where TBaseMemberType :
+                IMember
+        {
+            var location = (member.Start ?? member.End ?? new LineColumnPair(0, 0));
+            return new CompilerSourceModelWarning<TMemberType, TBaseMemberType>(CS0108, member, original, member.FileName, location.Line, location.Column, member.UniqueIdentifier.ToString(), original.UniqueIdentifier.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 4) &#35;109:</para><para>The member '<paramref name="member"/>' does not hide an inherited member. The new keyword is not required</para></summary>
+        /// <param name="member">The <see cref="IIntermediateMember"/> that is also a <see cref="ISourceElement"/>
+        /// which does not hide an inherited member, but the definition of the member indicates it does.</param>
+        public static ICompilerSourceModelWarning<TMember> WarningCS0109<TMember>(TMember member)
+            where TMember :
+                IIntermediateMember,
+                ISourceElement
+        {
+            var location = (member.Start ?? member.End ?? new LineColumnPair(0, 0));
+            return new CompilerSourceModelWarning<TMember>(CS0109, member, member.FileName, location.Line, location.Column, member.UniqueIdentifier.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 2) &#35;114:</para><para>'<paramref name="member"/>' hides inherited member '<paramref name="original"/>'. To make the current method override that implementation, add the override keyword. Otherwise add the new keyword.</para></summary>
+        /// <param name="member">The <see cref="IIntermediateMember"/> which is also a <see cref="ISourceElement"/> that hides the 
+        /// <paramref name="original"/> definition without overriding it.</param>
+        /// <param name="original">The <see cref="IMember"/> which is eclipsed by <paramref name="member"/>
+        /// but not overridden by it.</param>
+        public static ICompilerSourceModelWarning<TMemberType, TBaseMemberType> WarningCS0114<TMemberType, TBaseMemberType>(TMemberType member, TBaseMemberType original)
+            where TMemberType :
+                IIntermediateMember,
+                ISourceElement
+            where TBaseMemberType :
+                IMember
+        {
+            var location = (member.Start ?? member.End ?? new LineColumnPair(0, 0));
+            return new CompilerSourceModelWarning<TMemberType, TBaseMemberType>(CS0114, member, original, member.FileName, location.Line, location.Column, member.UniqueIdentifier.ToString(), original.UniqueIdentifier.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 2) &#35;162:</para><para>Unreachable code detected</para></summary>
+        /// <param name="unreachableStatement">The <see cref="IStatement"/> which is unreachable within the method body.</param>
+        public static ICompilerSourceModelWarning<IStatement> WarningCS0162(IStatement unreachableStatement)
+        {
+            //ToDo: Add location information to statements.
+            return new CompilerSourceModelWarning<IStatement>(CS0162, unreachableStatement, null, 0, 0, unreachableStatement.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 2) &#35;162:</para><para>Unreachable code detected</para></summary>
+        /// <param name="unreachableExpression">The <see cref="IExpression"/> which is unreachable based off of the
+        /// short-circuiting of the expression.</param>
+        public static ICompilerSourceModelWarning<IExpression> WarningCS0162(IExpression unreachableExpression)
+        {
+            var location = (unreachableExpression.Start ?? unreachableExpression.End ?? new LineColumnPair(0, 0));
+            return new CompilerSourceModelWarning<IExpression>(CS0162, unreachableExpression, unreachableExpression.FileName, location.Line, location.Column, unreachableExpression.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 2) &#35;164:</para><para>This label has not been referenced</para></summary>
+        /// <param name="unreferencedLabel">The <see cref="ILabelStatement"/> which was not referenced 
+        /// within the defining method body.</param>
+        public static ICompilerSourceModelWarning<ILabelStatement> WarningCS0164(ILabelStatement unreferencedLabel)
+        {
+            return new CompilerSourceModelWarning<ILabelStatement>(CS0164, unreferencedLabel, null, 0, 0);
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
+        /// abstract model, (level 3) &#35;168:</para><para>The variable
+        /// '<paramref name="assignedButUnusedLocalVariable"/>' is assigned but
+        /// its value is never used</para></summary>
+        /// <param name="assignedButUnusedLocalVariable">The <see cref="ILocalMember"/> which is assigned
+        /// a value, but unused within the scope of the method.</param>
+        public static ICompilerSourceModelWarning<ILocalMember> WarningCS0168(ILocalMember assignedButUnusedLocalVariable)
+        {
+            //ToDo: Add location information to local variables.
+            return new CompilerSourceModelWarning<ILocalMember>(CS0168, assignedButUnusedLocalVariable, null, 0, 0, assignedButUnusedLocalVariable.UniqueIdentifier.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
+        /// abstract model, (level 3) &#35;169:</para>
+        /// <para>The private field '<paramref name="unusedPrivateField"/>' is never used</para></summary>
+        /// <param name="unusedPrivateField">The <see cref="IIntermediateClassFieldMember"/> which is
+        /// defined, but never used.</param>
+        public static ICompilerSourceModelWarning<IIntermediateClassFieldMember> WarningCS0169(IIntermediateClassFieldMember unusedPrivateField)
+        {
+            //ToDo: Add location information to fields.
+            return new CompilerSourceModelWarning<IIntermediateClassFieldMember>(CS0169, unusedPrivateField, null, 0, 0, unusedPrivateField.UniqueIdentifier.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
+        /// abstract model, (level 3) &#35;169:</para>
+        /// <para>The private field '<paramref name="unusedPrivateField"/>' is never used</para></summary>
+        /// <param name="unusedPrivateField">The <see cref="IIntermediateStructFieldMember"/> which is
+        /// defined, but never used.</param>
+        public static ICompilerSourceModelWarning<IIntermediateStructFieldMember> WarningCS0169(IIntermediateStructFieldMember unusedPrivateField)
+        {
+            //ToDo: Add location information to fields.
+            return new CompilerSourceModelWarning<IIntermediateStructFieldMember>(CS0169, unusedPrivateField, null, 0, 0, unusedPrivateField.UniqueIdentifier.ToString());
+        }
+
+        /// <summary><para>C&#9839; compiler warning (level 1) &#35;183:</para><para>The given expression is always of the provided (<see cref="IBinaryOperationExpression{TLeft,TRight}.RightSide"/>) type.</para></summary>
+        /// <param name="relationalConstant">The <see cref="ICSharpRelationalExpression"/>
+        /// which always yields true, because the <see cref="IBinaryOperationExpression{TLeft, TRight}.LeftSide"/>
+        /// is always the type provided within <see cref="IBinaryOperationExpression{TLeft, TRight}.RightSide"/>.</param>
+        public static ICompilerSourceModelWarning<ICSharpRelationalExpression> WarningCS0183(ICSharpRelationalExpression relationalConstant)
+        {
+            var location = (relationalConstant.Start ?? relationalConstant.End ?? new LineColumnPair(0, 0));
+            return new CompilerSourceModelWarning<ICSharpRelationalExpression>(CS0183, relationalConstant, relationalConstant.FileName, location.Line, location.Column, relationalConstant.ToString());
+        }
+    }
+}

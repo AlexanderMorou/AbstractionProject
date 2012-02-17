@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Ast.Properties;
 
-namespace AllenCopeland.Abstraction.Slf.Compilers
+namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
 {
     partial class CSharpCompilerMessages
     {
