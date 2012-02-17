@@ -190,7 +190,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="StringHandling.cs" />
     <Compile Include="StringHandling.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -9,9 +9,9 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
 using System.ComponentModel;
+using AllenCopeland.Abstraction.Utilities.Collections;
 #if DEBUG
 using System.Diagnostics;
-using AllenCopeland.Abstraction.Utilities.Collections;
 #endif
 /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |

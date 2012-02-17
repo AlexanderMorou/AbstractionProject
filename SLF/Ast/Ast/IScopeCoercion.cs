@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -15,7 +16,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     /// Defines properties and methods for working with a scope coercion
     /// element.
     /// </summary>
-    public interface IScopeCoercion
+    public interface IScopeCoercion :
+        ISourceElement
     {
 
     }
