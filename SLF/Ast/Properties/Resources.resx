@@ -2431,25 +2431,25 @@
     <value>Program {0} does not contain a static 'Main' method suitable for an entry point</value>
   </data>
   <data name="CSharpWarnings_CS0028" xml:space="preserve">
-    <value>{0} has the wrong signature to be an entry point </value>
+    <value>'{0}' has the wrong signature to be an entry point </value>
   </data>
   <data name="CSharpWarnings_CS0067" xml:space="preserve">
-    <value>The event {0} is never used</value>
+    <value>The event '{0}' is never used.</value>
   </data>
   <data name="CSharpWarnings_CS0078" xml:space="preserve">
-    <value>The 'l' suffix is easily confused with the digit '1' -- use 'L' for clarity</value>
+    <value>The 'l' suffix is easily confused with the digit '1': use 'L' for clarity.</value>
   </data>
   <data name="CSharpWarnings_CS0105" xml:space="preserve">
-    <value>The using directive for {0} appeared previously in this namespace</value>
+    <value>The using directive for '{0}' appeared previously in this namespace.</value>
   </data>
   <data name="CSharpWarnings_CS0108" xml:space="preserve">
-    <value>{0} hides inherited member {1}. Use the new keyword if hiding was intended.</value>
+    <value>'{0}' hides inherited member '{1}'. Use the new keyword if hiding was intended.</value>
   </data>
   <data name="CSharpWarnings_CS0109" xml:space="preserve">
-    <value>The member {0} does not hide an inherited member. The new keyword is not required</value>
+    <value>The member '{0}' does not hide an inherited member. The new keyword is not required.</value>
   </data>
   <data name="CSharpWarnings_CS0114" xml:space="preserve">
-    <value>{0} hides inherited member {1}. To make the current method override that implementation, add the override keyword. Otherwise add the new keyword.</value>
+    <value>'{0}' hides inherited member '{1}'. To make the current method override that implementation, add the override keyword. Otherwise add the new keyword.</value>
   </data>
   <data name="CSharpWarnings_CS0162" xml:space="preserve">
     <value>Unreachable code detected</value>
@@ -2458,10 +2458,10 @@
     <value>This label has not been referenced</value>
   </data>
   <data name="CSharpWarnings_CS0168" xml:space="preserve">
-    <value>The variable {0} is assigned but its value is never used</value>
+    <value>The variable '{0}' is assigned but its value is never used</value>
   </data>
   <data name="CSharpWarnings_CS0169" xml:space="preserve">
-    <value>The private field {0} is never used</value>
+    <value>The private field '{0}' is never used</value>
   </data>
   <data name="CSharpWarnings_CS0183" xml:space="preserve">
     <value>The given expression is always of the provided ({0}) type</value>
@@ -2470,43 +2470,43 @@
     <value>The given expression is never of the provided ({0}) type</value>
   </data>
   <data name="CSharpWarnings_CS0197" xml:space="preserve">
-    <value>Passing {0} as ref or out or taking its address may cause a runtime exception because it is a field of a marshal-by-reference class</value>
+    <value>Passing '{0}' as ref or out or taking its address may cause a runtime exception because it is a field of a marshal-by-reference class</value>
   </data>
   <data name="CSharpWarnings_CS0219" xml:space="preserve">
-    <value>The variable {0} is assigned but its value is never used</value>
+    <value>The variable '{0}' is assigned but its value is never used</value>
   </data>
   <data name="CSharpWarnings_CS0251" xml:space="preserve">
     <value>Indexing an array with a negative index (array indices always start at zero)</value>
   </data>
   <data name="CSharpWarnings_CS0252" xml:space="preserve">
-    <value>Possible unintended reference comparison; to get a value comparison, cast the left hand side to type {0}</value>
+    <value>Possible unintended reference comparison; to get a value comparison, cast the left hand side to type '{0}'.</value>
   </data>
   <data name="CSharpWarnings_CS0253" xml:space="preserve">
-    <value>Possible unintended reference comparison; to get a value comparison, cast the right hand side to type {0}</value>
+    <value>Possible unintended reference comparison; to get a value comparison, cast the right hand side to type '{0}'.</value>
   </data>
   <data name="CSharpWarnings_CS0278" xml:space="preserve">
-    <value>{0} does not implement the {1} pattern. {2} is ambiguous with {2}.</value>
+    <value>'{0}' does not implement the '{1}' pattern. '{2}' is ambiguous with '{2}'.</value>
   </data>
   <data name="CSharpWarnings_CS0279" xml:space="preserve">
-    <value>{0} does not implement the {1} pattern. {2} is either static or not public.</value>
+    <value>'{0}' does not implement the '{1}' pattern. '{2}' is either static or not public.</value>
   </data>
   <data name="CSharpWarnings_CS0280" xml:space="preserve">
-    <value>{0} does not implement the {1} pattern. {2} has the wrong signature.</value>
+    <value>'{0}' does not implement the '{1}' pattern. '{2}' has the wrong signature.</value>
   </data>
   <data name="CSharpWarnings_CS0282" xml:space="preserve">
-    <value>There is no defined ordering between fields in multiple declarations of partial class or struct {0}. To specify an ordering, all instance fields must be in the same declaration.</value>
+    <value>There is no defined ordering between fields in multiple declarations of partial class or struct '{0}'. To specify an ordering, all instance fields must be in the same declaration.</value>
   </data>
   <data name="CSharpWarnings_CS0402" xml:space="preserve">
-    <value>{0} : an entry point cannot be generic or in a generic type</value>
+    <value>'{0}' : an entry point cannot be generic or in a generic type</value>
   </data>
   <data name="CSharpWarnings_CS0414" xml:space="preserve">
-    <value>The private field {0} is assigned but its value is never used</value>
+    <value>The private field '{0}' is assigned but its value is never used</value>
   </data>
   <data name="CSharpWarnings_CS0419" xml:space="preserve">
-    <value>Ambiguous reference in cref attribute: {0}. Assuming {1}, but could have also matched other overloads including {2}.</value>
+    <value>Ambiguous reference in cref attribute: '{0}'. Assuming '{1}', but could have also matched other overloads including '{2}'.</value>
   </data>
   <data name="CSharpWarnings_CS0420" xml:space="preserve">
-    <value>{0}: a reference to a volatile field will not be treated as volatile</value>
+    <value>'{0}': a reference to a volatile field will not be treated as volatile</value>
   </data>
   <data name="CSharpWarnings_CS0422" xml:space="preserve">
     <value>The /incremental option is no longer supported</value>
@@ -2515,100 +2515,100 @@
     <value>Unreachable expression code detected </value>
   </data>
   <data name="CSharpWarnings_CS0435" xml:space="preserve">
-    <value>The namespace {0} in {1} conflicts with the imported type {2} in {3}. Using the namespace defined in {1}..</value>
+    <value>The namespace '{0}' in '{1}' conflicts with the imported type '{2}' in '{3}'. Using the namespace defined in '{1}'.</value>
   </data>
   <data name="CSharpWarnings_CS0436" xml:space="preserve">
-    <value>The type {0} in {1} conflicts with the imported type {2} in {3}. Using the type defined in {1}.</value>
+    <value>The type '{0}' in '{1}' conflicts with the imported type '{2}' in '{3}'. Using the type defined in '{1}'.</value>
   </data>
   <data name="CSharpWarnings_CS0437" xml:space="preserve">
-    <value>The type {0} in {1} conflicts with the imported namespace {2} in {3}. Using the type defined in {1}.</value>
+    <value>The type '{0}' in '{1}' conflicts with the imported namespace '{2}' in '{3}'. Using the type defined in '{1}'.</value>
   </data>
   <data name="CSharpWarnings_CS0440" xml:space="preserve">
     <value>Defining an alias named 'global' is ill-advised since 'global::' always references the global namespace and not an alias</value>
   </data>
   <data name="CSharpWarnings_CS0444" xml:space="preserve">
-    <value>Predefined type {0} was not found in {1} but was found in {2}</value>
+    <value>Predefined type '{0}' was not found in '{1}' but was found in '{2}'</value>
   </data>
   <data name="CSharpWarnings_CS0458" xml:space="preserve">
-    <value>The result of the expression is always 'null' of type {0}</value>
+    <value>The result of the expression is always 'null' of type '{0}'</value>
   </data>
   <data name="CSharpWarnings_CS0464" xml:space="preserve">
-    <value>Comparing with null of type {0} always produces 'false'</value>
+    <value>Comparing with null of type '{0}' always produces 'false'</value>
   </data>
   <data name="CSharpWarnings_CS0465" xml:space="preserve">
     <value>Introducing a 'Finalize' method can interfere with destructor invocation. Did you intend to declare a destructor?</value>
   </data>
   <data name="CSharpWarnings_CS0467" xml:space="preserve">
-    <value>Ambiguity between method {0} and non-method {1}. Using method group.</value>
+    <value>Ambiguity between method '{0}' and non-method '{1}'. Using method group.</value>
   </data>
   <data name="CSharpWarnings_CS0469" xml:space="preserve">
-    <value>The {0} value is not implicitly convertible to type {1}</value>
+    <value>The '{0}' value is not implicitly convertible to type '{1}'.</value>
   </data>
   <data name="CSharpWarnings_CS0472" xml:space="preserve">
-    <value>The result of the expression is always {0} since a value of type {1} is never equal to 'null' of type {1}</value>
+    <value>The result of the expression is always '{0}' since a value of type '{1}' is never equal to 'null' of type '{1}'.</value>
   </data>
   <data name="CSharpWarnings_CS0602" xml:space="preserve">
-    <value>The feature {0} is deprecated. Please use {1} instead</value>
+    <value>The feature '{0}' is deprecated. Please use '{1}' instead.</value>
   </data>
   <data name="CSharpWarnings_CS0612" xml:space="preserve">
-    <value>{0} is obsolete</value>
+    <value>'{0}' is obsolete.</value>
   </data>
   <data name="CSharpWarnings_CS0618" xml:space="preserve">
-    <value>{0} is obsolete: {1}</value>
+    <value>'{0}' is obsolete: '{1}'.</value>
   </data>
   <data name="CSharpWarnings_CS0626" xml:space="preserve">
-    <value>Method, operator, or accessor {0} is marked external and has no attributes on it. Consider adding a DllImport attribute to specify the external implementation</value>
+    <value>Method, operator, or accessor '{0}' is marked external and has no attributes on it. Consider adding a DllImport attribute to specify the external implementation.</value>
   </data>
   <data name="CSharpWarnings_CS0628" xml:space="preserve">
-    <value>{0} : new protected member declared in sealed class</value>
+    <value>'{0}' : new protected member declared in sealed class.</value>
   </data>
   <data name="CSharpWarnings_CS0642" xml:space="preserve">
     <value>Possible mistaken empty statement</value>
   </data>
   <data name="CSharpWarnings_CS0649" xml:space="preserve">
-    <value>Field {0} is never assigned to, and will always have its default value {1}</value>
+    <value>Field '{0}' is never assigned to, and will always have its default value '{1}'.</value>
   </data>
   <data name="CSharpWarnings_CS0652" xml:space="preserve">
-    <value>Comparison to integral constant is useless; the constant is outside the range of type {0}</value>
+    <value>Comparison to integral constant is useless; the constant is outside the range of type '{0}'.</value>
   </data>
   <data name="CSharpWarnings_CS0657" xml:space="preserve">
-    <value>{0} is not a valid attribute location for this declaration. Valid attribute locations for this declaration are {1}. All attributes in this block will be ignored.</value>
+    <value>'{0}' is not a valid attribute location for this declaration. Valid attribute locations for this declaration are '{1}'. All attributes in this block will be ignored.</value>
   </data>
   <data name="CSharpWarnings_CS0658" xml:space="preserve">
-    <value>{0} is not a recognized attribute location. All attributes in this block will be ignored.</value>
+    <value>'{0}' is not a recognized attribute location. All attributes in this block will be ignored.</value>
   </data>
   <data name="CSharpWarnings_CS0659" xml:space="preserve">
-    <value>{0} overrides Object.Equals(object o) but does not override Object.GetHashCode()</value>
+    <value>'{0}' overrides Object.Equals(object o) but does not override 'Object.GetHashCode()'.</value>
   </data>
   <data name="CSharpWarnings_CS0660" xml:space="preserve">
-    <value>{0} defines operator == or operator != but does not override Object.Equals(object o)</value>
+    <value>'{0}' defines operator == or operator != but does not override 'Object.Equals(object o)'.</value>
   </data>
   <data name="CSharpWarnings_CS0661" xml:space="preserve">
-    <value>{0} defines operator == or operator != but does not override Object.GetHashCode()</value>
+    <value>'{0}' defines operator == or operator != but does not override 'Object.GetHashCode()'.</value>
   </data>
   <data name="CSharpWarnings_CS0665" xml:space="preserve">
     <value>Assignment in conditional expression is always constant; did you mean to use '==' instead of '='?</value>
   </data>
   <data name="CSharpWarnings_CS0672" xml:space="preserve">
-    <value>Member {0} overrides obsolete member '{1}. Add the Obsolete attribute to {0}</value>
+    <value>Member '{0}' overrides obsolete member '{1}'. Add the Obsolete attribute to '{0}'.</value>
   </data>
   <data name="CSharpWarnings_CS0675" xml:space="preserve">
     <value>Bitwise-or operator used on a sign-extended operand; consider casting to a smaller unsigned type first</value>
   </data>
   <data name="CSharpWarnings_CS0693" xml:space="preserve">
-    <value>Type parameter {0} has the same name as the type parameter from outer type {1}</value>
+    <value>Type parameter '{0}' has the same name as the type parameter from outer type '{1}'.</value>
   </data>
   <data name="CSharpWarnings_CS0728" xml:space="preserve">
-    <value>Possibly incorrect assignment to local {0} which is the argument to a using or lock statement. The Dispose call or unlocking will happen on the original value of the local.</value>
+    <value>Possibly incorrect assignment to local '{0}' which is the argument to a using or lock statement. The Dispose call or unlocking will happen on the original value of the local.</value>
   </data>
   <data name="CSharpWarnings_CS0809" xml:space="preserve">
-    <value>Obsolete member {0} overrides non-obsolete member {1}.</value>
+    <value>Obsolete member '{0}' overrides non-obsolete member '{1}'.</value>
   </data>
   <data name="CSharpWarnings_CS0824" xml:space="preserve">
-    <value>Constructor {0} is marked external.</value>
+    <value>Constructor '{0}' is marked external.</value>
   </data>
   <data name="CSharpWarnings_CS1030" xml:space="preserve">
-    <value>#warning: {0}</value>
+    <value>#warning: '{0}'.</value>
   </data>
   <data name="CSharpWarnings_CS1058" xml:space="preserve">
     <value>A previous catch clause already catches all exceptions. All exceptions thrown will be wrapped in a System.Runtime.CompilerServices.RuntimeWrappedException</value>
@@ -2620,55 +2620,55 @@
     <value>Empty switch block</value>
   </data>
   <data name="CSharpWarnings_CS1570" xml:space="preserve">
-    <value>XML comment on {0} has badly formed XML — {1}</value>
+    <value>XML comment on '{0}' has badly formed XML: {1}</value>
   </data>
   <data name="CSharpWarnings_CS1571" xml:space="preserve">
-    <value>XML comment on {0} has a duplicate param tag for {1}</value>
+    <value>XML comment on '{0}' has a duplicate param tag for '{1}'.</value>
   </data>
   <data name="CSharpWarnings_CS1572" xml:space="preserve">
-    <value>XML comment on {0} has a param tag for {1}, but there is no parameter by that name</value>
+    <value>XML comment on '{0}' has a param tag for '{1}', but there is no parameter by that name.</value>
   </data>
   <data name="CSharpWarnings_CS1573" xml:space="preserve">
-    <value>Parameter {0} has no matching param tag in the XML comment for {0} (but other parameters do)</value>
+    <value>Parameter '{0}' has no matching param tag in the XML comment for '{0}' (but other parameters do).</value>
   </data>
   <data name="CSharpWarnings_CS1574" xml:space="preserve">
-    <value>XML comment on {0} has cref attribute {1} that could not be resolved.</value>
+    <value>XML comment on '{0}' has cref attribute '{1}' that could not be resolved.</value>
   </data>
   <data name="CSharpWarnings_CS1580" xml:space="preserve">
-    <value>Invalid type for parameter {0} in XML comment cref attribute</value>
+    <value>Invalid type for parameter '{0}' in XML comment cref attribute.</value>
   </data>
   <data name="CSharpWarnings_CS1581" xml:space="preserve">
     <value>Invalid return type in XML comment cref attribute</value>
   </data>
   <data name="CSharpWarnings_CS1584" xml:space="preserve">
-    <value>XML comment on {0} has syntactically incorrect cref attribute {1}</value>
+    <value>XML comment on '{0}' has syntactically incorrect cref attribute '{1}'.</value>
   </data>
   <data name="CSharpWarnings_CS1587" xml:space="preserve">
     <value>XML comment is not placed on a valid language element</value>
   </data>
   <data name="CSharpWarnings_CS1589" xml:space="preserve">
-    <value>Unable to include XML fragment {0} of file {1} -- {1}</value>
+    <value>Unable to include XML fragment '{0}' of file '{1}': {2}</value>
   </data>
   <data name="CSharpWarnings_CS1590" xml:space="preserve">
     <value>Invalid XML include element -- Missing file attribute</value>
   </data>
   <data name="CSharpWarnings_CS1591" xml:space="preserve">
-    <value>Missing XML comment for publicly visible type or member {0}</value>
+    <value>Missing XML comment for publicly visible type or member '{0}'.</value>
   </data>
   <data name="CSharpWarnings_CS1592" xml:space="preserve">
-    <value>Badly formed XML in included comments file -- {0}</value>
+    <value>Badly formed XML in included comments file -- '{0}'.</value>
   </data>
   <data name="CSharpWarnings_CS1598" xml:space="preserve">
-    <value>XML parser could not be loaded for the following reason: {0}. The XML documentation file {1} will not be generated.</value>
+    <value>XML parser could not be loaded for the following reason: '{0}'. The XML documentation file '{1}' will not be generated.</value>
   </data>
   <data name="CSharpWarnings_CS1607" xml:space="preserve">
-    <value>Assembly generation -- {0}</value>
+    <value>Assembly generation: {0}</value>
   </data>
   <data name="CSharpWarnings_CS1610" xml:space="preserve">
-    <value>Unable to delete temporary file {0} used for default Win32 resource -- {1}</value>
+    <value>Unable to delete temporary file '{0}' used for default Win32 resource -- {1}</value>
   </data>
   <data name="CSharpWarnings_CS1616" xml:space="preserve">
-    <value>Option {0} overrides attribute {1} given in a source file or added module</value>
+    <value>Option '{0}' overrides attribute '{1}' given in a source file or added module.</value>
   </data>
   <data name="CSharpWarnings_CS1633" xml:space="preserve">
     <value>Unrecognized #pragma directive</value>
@@ -2677,82 +2677,82 @@
     <value>Expected disable or restore</value>
   </data>
   <data name="CSharpWarnings_CS1635" xml:space="preserve">
-    <value>Cannot restore warning {0} because it was disabled globally</value>
+    <value>Cannot restore warning '{0}' because it was disabled globally.</value>
   </data>
   <data name="CSharpWarnings_CS1645" xml:space="preserve">
-    <value>Feature {0} is not part of the standardized ISO C# language specification, and may not be accepted by other compilers</value>
+    <value>Feature '{0}' is not part of the standardized ISO C# language specification, and may not be accepted by other compilers.</value>
   </data>
   <data name="CSharpWarnings_CS1658" xml:space="preserve">
     <value>{0}. See also error: {1}</value>
   </data>
   <data name="CSharpWarnings_CS1668" xml:space="preserve">
-    <value>Invalid search path 'path' specified in {0} -- {1}</value>
+    <value>Invalid search path '{0}' specified in '{1}': {2}</value>
   </data>
   <data name="CSharpWarnings_CS1682" xml:space="preserve">
-    <value>Reference to type {0} claims it is nested within {1}, but it could not be found</value>
+    <value>Reference to type '{0}' claims it is nested within '{1}', but it could not be found.</value>
   </data>
   <data name="CSharpWarnings_CS1683" xml:space="preserve">
-    <value>Reference to type {0} claims it is defined in this assembly, but it is not defined in source or any added modules</value>
+    <value>Reference to type '{0}' claims it is defined in this assembly, but it is not defined in source or any added modules.</value>
   </data>
   <data name="CSharpWarnings_CS1684" xml:space="preserve">
-    <value>Reference to type {0} claims it is defined in {1}, but it could not be found</value>
+    <value>Reference to type '{0}' claims it is defined in '{1}', but it could not be found.</value>
   </data>
   <data name="CSharpWarnings_CS1685" xml:space="preserve">
-    <value>The predefined type {0} is defined in multiple assemblies in the global alias; using definition from {1}</value>
+    <value>The predefined type '{0}' is defined in multiple assemblies in the global alias; using definition from '{1}'.</value>
   </data>
   <data name="CSharpWarnings_CS1687" xml:space="preserve">
     <value>Source file has exceeded the limit of 16,707,565 lines representable in the PDB, debug information will be incorrect</value>
   </data>
   <data name="CSharpWarnings_CS1690" xml:space="preserve">
-    <value>Accessing a member on {0} may cause a runtime exception because it is a field of a marshal-by-reference class</value>
+    <value>Accessing a member on '{0}' may cause a runtime exception because it is a field of a marshal-by-reference class</value>
   </data>
   <data name="CSharpWarnings_CS1691" xml:space="preserve">
-    <value>{0} is not a valid warning number</value>
+    <value>'{0}' is not a valid warning number</value>
   </data>
   <data name="CSharpWarnings_CS1692" xml:space="preserve">
-    <value>Invalid number</value>
+    <value>Invalid number.</value>
   </data>
   <data name="CSharpWarnings_CS1694" xml:space="preserve">
     <value>Invalid filename specified for preprocessor directive. Filename is too long or not a valid filename.</value>
   </data>
   <data name="CSharpWarnings_CS1695" xml:space="preserve">
-    <value>Invalid #pragma checksum syntax; should be #pragma checksum ""filename"" ""{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}"" ""XXXX...""</value>
+    <value>Invalid #pragma checksum syntax; should be #pragma checksum "filename" "{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}" "XXXX...".</value>
   </data>
   <data name="CSharpWarnings_CS1696" xml:space="preserve">
-    <value>Single-line comment or end-of-line expected</value>
+    <value>Single-line comment or end-of-line expected.</value>
   </data>
   <data name="CSharpWarnings_CS1697" xml:space="preserve">
-    <value>Different checksum values given for {0}</value>
+    <value>Different checksum values given for '{0}'.</value>
   </data>
   <data name="CSharpWarnings_CS1698" xml:space="preserve">
-    <value>Circular assembly reference {0} does not match the output assembly name {1}. Try adding a reference to {0} or changing the output assembly name to match.</value>
+    <value>Circular assembly reference '{0}' does not match the output assembly name '{1}'. Try adding a reference to '{0}' or changing the output assembly name to match.</value>
   </data>
   <data name="CSharpWarnings_CS1699" xml:space="preserve">
-    <value>Use command line option {0} or appropriate project settings instead of {1}</value>
+    <value>Use command line option '{0}' or appropriate project settings instead of '{1}'.</value>
   </data>
   <data name="CSharpWarnings_CS1700" xml:space="preserve">
     <value>Assembly reference Assembly Name is invalid and cannot be resolved</value>
   </data>
   <data name="CSharpWarnings_CS1701" xml:space="preserve">
-    <value>Assuming assembly reference {0} matches {1}, you may need to supply runtime policy </value>
+    <value>Assuming assembly reference '{0}' matches '{1}', you may need to supply runtime policy.</value>
   </data>
   <data name="CSharpWarnings_CS1702" xml:space="preserve">
-    <value>Assuming assembly reference {0} matches {1}, you may need to supply runtime policy</value>
+    <value>Assuming assembly reference '{0}' matches '{1}', you may need to supply runtime policy.</value>
   </data>
   <data name="CSharpWarnings_CS1707" xml:space="preserve">
-    <value>Delegate {0} bound to {1} instead of {2} because of new language rules</value>
+    <value>Delegate '{0}' bound to '{1}' instead of '{2}' because of new language rules</value>
   </data>
   <data name="CSharpWarnings_CS1709" xml:space="preserve">
-    <value>Filename specified for preprocessor directive is empty</value>
+    <value>Filename specified for preprocessor directive is empty.</value>
   </data>
   <data name="CSharpWarnings_CS1710" xml:space="preserve">
-    <value>XML comment on {0} has a duplicate typeparam tag for {1}</value>
+    <value>XML comment on '{0}' has a duplicate typeparam tag for '{1}'.</value>
   </data>
   <data name="CSharpWarnings_CS1711" xml:space="preserve">
-    <value>XML comment on {0} has a typeparam tag for {1}, but there is no type parameter by that name</value>
+    <value>XML comment on '{0}' has a typeparam tag for '{1}', but there is no type parameter by that name.</value>
   </data>
   <data name="CSharpWarnings_CS1712" xml:space="preserve">
-    <value>Type parameter {0} has no matching typeparam tag in the XML comment on {1} (but other type parameters do)</value>
+    <value>Type parameter '{0}' has no matching typeparam tag in the XML comment on '{1}' (but other type parameters do.)</value>
   </data>
   <data name="CSharpWarnings_CS1717" xml:space="preserve">
     <value>Assignment made to same variable; did you mean to assign something else?</value>

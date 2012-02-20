@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -16,8 +17,8 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         ISourceRelatedError
     {
 
-        public SourceRelatedError(string errorText, int line, int column, string fileName)
-            : base(errorText, line, column, fileName)
+        public SourceRelatedError(string errorText, LineColumnPair start, LineColumnPair end, string fileName)
+            : base(errorText, start, end, fileName)
         {
         }
     }

@@ -26,10 +26,16 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         string Message { get; }
 
         /// <summary>
-        /// Returns the <see cref="LineColumnPair"/> which denotes the position within <see cref="FileName"/>
-        /// the <see cref="ISourceRelatedMessage"/> refers to.
+        /// Returns the <see cref="LineColumnPair"/> which denotes the position, within <see cref="FileName"/>,
+        /// in which the <see cref="ISourceRelatedMessage"/> starts.
         /// </summary>
-        LineColumnPair Location { get; }
+        LineColumnPair Start { get; }
+
+        /// <summary>
+        /// Returns the <see cref="LineColumnPair"/> which denotes the position, within the <see cref="FileName"/>,
+        /// at which the <see cref="ISourceRelatedMessage"/> ends.
+        /// </summary>
+        LineColumnPair End { get; }
         
         /// <summary>
         /// Returns the <see cref="String"/> which denotes the specific file

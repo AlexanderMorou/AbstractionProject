@@ -194,7 +194,7 @@
     <Compile Include="Compilers\CompilerSourceModelError{T1-T4}.cs" />
     <Compile Include="Compilers\CompilerSourceModelWarning{T1-T4}.cs" />
     <Compile Include="Compilers\CompilerSupport.cs" />
-    <Compile Include="Compilers\CompilerWarning.cs" />
+    <Compile Include="Compilers\CompilerSourceWarning.cs" />
     <Compile Include="Languages\CSharp\CSharpCompilerMessages.cs" />
     <Compile Include="Languages\CSharp\CSharpCompilerMessages+Formatter.cs">
       <DependentUpon>CSharpCompilerMessages.cs</DependentUpon>

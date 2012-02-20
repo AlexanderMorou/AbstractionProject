@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Languages;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -29,17 +30,18 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
         /// </summary>
         /// <param name="errorText">The <see cref="String"/> representing the
         /// specifics of the syntax error.</param>
-        /// <param name="line">The <see cref="Int32"/> pertinent to the syntax error's line.</param>
-        /// <param name="column">The <see cref="Int32"/> pertinent to the syntax error's column
-        /// on the <paramref name="line"/> provided.</param>
+        /// <param name="start">The <see cref="LineColumnPair"/> value which denotes
+        /// the start of the <see cref="IParserSyntaxError"/> which results.</param>
+        /// <param name="end">The <see cref="LineColumnPair"/> value which denotes
+        /// the end of the <see cref="IParserSyntaxError"/> which results.</param>
         /// <param name="fileName">The <see cref="String"/>
         /// value associated to the file on which the error occurred.</param>
         /// <returns>A new <see cref="IParserSyntaxError"/>
         /// which denotes the point within the source on which the 
         /// syntax error occurred.</returns>
-        public IParserSyntaxError SyntaxError(string errorText, int line, int column, string fileName)
+        public IParserSyntaxError SyntaxError(string errorText, LineColumnPair start, LineColumnPair end, string fileName)
         {
-            var result = new ParserSyntaxError(errorText, line, column, fileName);
+            var result = new ParserSyntaxError(errorText, start, end, fileName);
             base.AddImpl(result);
             return result;
         }
