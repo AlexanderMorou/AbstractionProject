@@ -16,11 +16,20 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     public class SourceRelatedMessage :
         ISourceRelatedMessage
     {
-
-        protected SourceRelatedMessage(string message, int line, int column, string fileName)
+        /// <summary>
+        /// Creates a new <see cref="SourceRelatedMessage"/> with the
+        /// <paramref name="message"/>, <paramref name="start"/>,
+        /// <paramref name="end"/> and <paramref name="fileName"/> provided.
+        /// </summary>
+        /// <param name="message">The <see cref="String"/> which denotes the message </param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="fileName"></param>
+        protected SourceRelatedMessage(string message, LineColumnPair start, LineColumnPair end, string fileName)
         {
             this.Message = message;
-            this.Location = new LineColumnPair(line, column);
+            this.Start = start;
+            this.End = end;
             this.FileName = fileName;
         }
 
@@ -28,11 +37,20 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
         /// <summary>
         /// Returns the <see cref="String"/> associated to the 
-        /// <see cref="ISourceRelatedMessage"/>.
+        /// <see cref="SourceRelatedMessage"/>.
         /// </summary>
         public string Message { get; private set; }
 
-        public LineColumnPair Location { get; private set; }
+        /// <summary>
+        /// Returns the <see cref="LineColumnPair"/> which denotes the position, within <see cref="FileName"/>,
+        /// in which the <see cref="SourceRelatedMessage"/> starts.
+        /// </summary>
+        public LineColumnPair Start { get; private set; }
+        /// <summary>
+        /// Returns the <see cref="LineColumnPair"/> which denotes the position, within the <see cref="FileName"/>,
+        /// at which the <see cref="SourceRelatedMessage"/> ends.
+        /// </summary>
+        public LineColumnPair End { get; private set; }
 
         /// <summary>
         /// Returns the <see cref="String"/> which denotes the specific file

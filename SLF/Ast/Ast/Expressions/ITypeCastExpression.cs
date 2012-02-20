@@ -28,6 +28,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// </summary>
         IType CastType { get; set; }
         /// <summary>
+        /// Returns the <see cref="ITypeCollection"/> which denotes the
+        /// required modifiers of the cast.
+        /// </summary>
+        ITypeCollection RequiredModifiers { get; }
+        /// <summary>
+        /// Returns the <see cref="ITypeCollection"/> which denotes the
+        /// optional modifiers of the cast.
+        /// </summary>
+        ITypeCollection OptionalModifiers { get; }
+        /// <summary>
         /// Returns/sets the <see cref="IExpression"/> the 
         /// <see cref="ITypeCastExpression"/> casts to
         /// <see cref="CastType"/>.

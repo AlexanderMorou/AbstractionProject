@@ -13,13 +13,26 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
-    public class CompilerSourceError :
-        ICompilerSourceError
+    public class CompilerSourceWarning : 
+        ICompilerSourceWarning
     {
         private string[] replacements;
-        private ICompilerReferenceError message;
+        private ICompilerReferenceWarning message;
 
-        public CompilerSourceError(ICompilerReferenceError message, string fileName, LineColumnPair start, LineColumnPair end, params string[] replacements) 
+        /// <summary>
+        /// Creates a new <see cref="CompilerSourceWarning"/> instance with the <paramref name="message"/>, <paramref name="fileName"/>, <paramref name="line"/>,
+        /// <paramref name="column"/>, and <paramref name="replacements"/> provided.
+        /// </summary>
+        /// <param name="message">The <see cref="ICompilerReferenceWarning"/> which denotes
+        /// the base message text to use along with <paramref name="replacements"/>.</param>
+        /// <param name="fileName">The <see cref="String"/> value representing the location of the 
+        /// warning in source.</param>
+        /// <param name="start">The <see cref="LineColumnPair"/> value which denotes
+        /// the start of the <see cref="CompilerSourceWarning"/> which results.</param>
+        /// <param name="end">The <see cref="LineColumnPair"/> value which denotes
+        /// the end of the <see cref="CompilerSourceWarning"/> which results.</param>
+        /// <param name="replacements"></param>
+        public CompilerSourceWarning(ICompilerReferenceWarning message, string fileName, LineColumnPair start, LineColumnPair end, params string[] replacements) 
         {
             if (message == null)
                 throw new ArgumentNullException("message");
@@ -52,11 +65,17 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             return string.Format("{0} in {1}:({2})", this.Message, this.FileName, this.Start.ToString());
         }
 
+        #region ICompilerSourceWarning Members
+
+        public int Level { get { return this.message.WarningLevel; } }
+
+        #endregion
+
         #region ISourceRelatedMessage Members
 
         /// <summary>
         /// Returns the <see cref="String"/> associated to the 
-        /// <see cref="CompilerSourceError"/>.
+        /// <see cref="CompilerSourceWarning"/>.
         /// </summary>
         public string Message
         {
@@ -68,24 +87,21 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
 
         /// <summary>
         /// Returns the <see cref="LineColumnPair"/> which denotes the position, within <see cref="FileName"/>,
-        /// in which the <see cref="CompilerSourceError"/> starts.
+        /// in which the <see cref="CompilerSourceWarning"/> starts.
         /// </summary>
         public LineColumnPair Start { get; private set; }
         /// <summary>
         /// Returns the <see cref="LineColumnPair"/> which denotes the position, within the <see cref="FileName"/>,
-        /// at which the <see cref="CompilerSourceError"/> ends.
+        /// at which the <see cref="CompilerSourceWarning"/> ends.
         /// </summary>
         public LineColumnPair End { get; private set; }
+
         /// <summary>
         /// Returns the <see cref="String"/> which denotes the specific file
-        /// in which the <see cref="CompilerSourceError"/> pertains to.
+        /// in which the <see cref="CompilerSourceWarning"/> pertains to.
         /// </summary>
         public string FileName { get; private set; }
 
-        /// <summary>
-        /// Returns the <see cref="Int32"/> value which is language specific
-        /// that denotes the unique identifier of the message.
-        /// </summary>
         public int MessageIdentifier
         {
             get { return this.message.MessageIdentifier; }

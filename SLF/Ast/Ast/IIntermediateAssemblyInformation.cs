@@ -28,10 +28,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         IAssemblyInformation,
         IDisposable
     {
+
         /// <summary>
         /// Returns/sets the name of the assembly.
         /// </summary>
         new string AssemblyName { get; set; }
+        /// <summary>
+        /// Occurs when <see cref="AssemblyName"/> changes.
+        /// </summary>
+        event StringChangeHandler AssemblyNameChanged;
         /// <summary>
         /// Returns/sets the title of the assembly.
         /// </summary>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Languages;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -17,8 +18,8 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
         IParserSyntaxError
     {
 
-        public ParserSyntaxError(string errorText, int line, int column, string fileName)
-            : base(errorText, line, column, fileName)
+        public ParserSyntaxError(string errorText, LineColumnPair start, LineColumnPair end, string fileName)
+            : base(errorText, start, end, fileName)
         {
         }
     }

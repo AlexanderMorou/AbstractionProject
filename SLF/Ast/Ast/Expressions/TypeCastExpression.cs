@@ -34,6 +34,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         private IExpression target;
 
         /// <summary>
+        /// Data member for <see cref="RequiredModifiers"/>.
+        /// </summary>
+        private ITypeCollection requiredModifiers;
+        /// <summary>
+        /// Data member for <see cref="OptionalModifiers"/>.
+        /// </summary>
+        private ITypeCollection optionalModifiers;
+
+        /// <summary>
         /// Creates a new <see cref="TypeCastExpression"/>
         /// with the <paramref name="castType"/> and 
         /// <paramref name="target"/> provided.
@@ -53,6 +62,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         {
             return string.Format("({0}){1}", this.CastType, this.Target);
         }
+
+        public override ExpressionKind Type
+        {
+            get { return ExpressionKind.TypeCast; }
+        }
+
+        public override void Visit(IExpressionVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
         #region ITypeCastExpression Members
 
         /// <summary>
@@ -88,32 +108,32 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             }
         }
 
+        /// <summary>
+        /// Returns the <see cref="ITypeCollection"/> which denotes the
+        /// required modifiers of the cast.
+        /// </summary>
+        public ITypeCollection RequiredModifiers
+        {
+            get {
+                if (this.requiredModifiers == null)
+                    this.requiredModifiers = new TypeCollection();
+                return this.requiredModifiers;
+            }
+        }
+
+        /// <summary>
+        /// Returns the <see cref="ITypeCollection"/> which denotes the
+        /// optional modifiers of the cast.
+        /// </summary>
+        public ITypeCollection OptionalModifiers
+        {
+            get {
+                if (this.optionalModifiers == null)
+                    this.optionalModifiers = new TypeCollection();
+                return this.optionalModifiers;
+            }
+        }
+
         #endregion
-
-        public override ExpressionKind Type
-        {
-            get { return ExpressionKind.TypeCast; }
-        }
-        /*
-        public override IType ForwardType
-        {
-            get { return castType; }
-        }
-
-        protected override void OnLink()
-        {
-            /* *
-             * Casting requires immediate linking
-             * through castType on initialization.
-             * Ergo, Do: Nothing.
-             * *//*
-            return;
-        }
-        */
-
-        public override void Visit(IExpressionVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
     }
 }

@@ -17,6 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// </summary>
     public struct LineColumnPair
     {
+        public static LineColumnPair Zero = new LineColumnPair();
         /// <summary>
         /// Returns the <see cref="Int32"/> value
         /// representing the line associated to the
@@ -46,6 +47,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             this.Line = line;
             this.Column = column;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0}, {1}", this.Line, this.Column);
         }
     }
 }

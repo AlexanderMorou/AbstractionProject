@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         IVersionedHighLevelLanguage<VisualBasicVersion, IVisualBasicStart>
     {
         /// <summary>
-        /// Returns a new <see cref="IICoreVisualBasicProvider"/> associated to the current
+        /// Returns a new <see cref="ICoreVisualBasicProvider"/> associated to the current
         /// <see cref="IVisualBasicLanguage"/>.
         /// </summary>
         /// <returns>A new <see cref="ICoreVisualBasicProvider"/> for the

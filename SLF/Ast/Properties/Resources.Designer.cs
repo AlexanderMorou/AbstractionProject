@@ -7000,7 +7000,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} has the wrong signature to be an entry point .
+        ///   Looks up a localized string similar to &apos;{0}&apos; has the wrong signature to be an entry point .
         /// </summary>
         internal static string CSharpWarnings_CS0028 {
             get {
@@ -7009,7 +7009,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The event {0} is never used.
+        ///   Looks up a localized string similar to The event &apos;{0}&apos; is never used..
         /// </summary>
         internal static string CSharpWarnings_CS0067 {
             get {
@@ -7018,7 +7018,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The &apos;l&apos; suffix is easily confused with the digit &apos;1&apos; -- use &apos;L&apos; for clarity.
+        ///   Looks up a localized string similar to The &apos;l&apos; suffix is easily confused with the digit &apos;1&apos;: use &apos;L&apos; for clarity..
         /// </summary>
         internal static string CSharpWarnings_CS0078 {
             get {
@@ -7027,7 +7027,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The using directive for {0} appeared previously in this namespace.
+        ///   Looks up a localized string similar to The using directive for &apos;{0}&apos; appeared previously in this namespace..
         /// </summary>
         internal static string CSharpWarnings_CS0105 {
             get {
@@ -7036,7 +7036,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} hides inherited member {1}. Use the new keyword if hiding was intended..
+        ///   Looks up a localized string similar to &apos;{0}&apos; hides inherited member &apos;{1}&apos;. Use the new keyword if hiding was intended..
         /// </summary>
         internal static string CSharpWarnings_CS0108 {
             get {
@@ -7045,7 +7045,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The member {0} does not hide an inherited member. The new keyword is not required.
+        ///   Looks up a localized string similar to The member &apos;{0}&apos; does not hide an inherited member. The new keyword is not required..
         /// </summary>
         internal static string CSharpWarnings_CS0109 {
             get {
@@ -7054,7 +7054,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} hides inherited member {1}. To make the current method override that implementation, add the override keyword. Otherwise add the new keyword..
+        ///   Looks up a localized string similar to &apos;{0}&apos; hides inherited member &apos;{1}&apos;. To make the current method override that implementation, add the override keyword. Otherwise add the new keyword..
         /// </summary>
         internal static string CSharpWarnings_CS0114 {
             get {
@@ -7081,7 +7081,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The variable {0} is assigned but its value is never used.
+        ///   Looks up a localized string similar to The variable &apos;{0}&apos; is assigned but its value is never used.
         /// </summary>
         internal static string CSharpWarnings_CS0168 {
             get {
@@ -7090,7 +7090,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The private field {0} is never used.
+        ///   Looks up a localized string similar to The private field &apos;{0}&apos; is never used.
         /// </summary>
         internal static string CSharpWarnings_CS0169 {
             get {
@@ -7117,7 +7117,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Passing {0} as ref or out or taking its address may cause a runtime exception because it is a field of a marshal-by-reference class.
+        ///   Looks up a localized string similar to Passing &apos;{0}&apos; as ref or out or taking its address may cause a runtime exception because it is a field of a marshal-by-reference class.
         /// </summary>
         internal static string CSharpWarnings_CS0197 {
             get {
@@ -7126,7 +7126,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The variable {0} is assigned but its value is never used.
+        ///   Looks up a localized string similar to The variable &apos;{0}&apos; is assigned but its value is never used.
         /// </summary>
         internal static string CSharpWarnings_CS0219 {
             get {
@@ -7144,7 +7144,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Possible unintended reference comparison; to get a value comparison, cast the left hand side to type {0}.
+        ///   Looks up a localized string similar to Possible unintended reference comparison; to get a value comparison, cast the left hand side to type &apos;{0}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS0252 {
             get {
@@ -7153,7 +7153,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Possible unintended reference comparison; to get a value comparison, cast the right hand side to type {0}.
+        ///   Looks up a localized string similar to Possible unintended reference comparison; to get a value comparison, cast the right hand side to type &apos;{0}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS0253 {
             get {
@@ -7162,7 +7162,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} does not implement the {1} pattern. {2} is ambiguous with {2}..
+        ///   Looks up a localized string similar to &apos;{0}&apos; does not implement the &apos;{1}&apos; pattern. &apos;{2}&apos; is ambiguous with &apos;{2}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS0278 {
             get {
@@ -7171,7 +7171,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} does not implement the {1} pattern. {2} is either static or not public..
+        ///   Looks up a localized string similar to &apos;{0}&apos; does not implement the &apos;{1}&apos; pattern. &apos;{2}&apos; is either static or not public..
         /// </summary>
         internal static string CSharpWarnings_CS0279 {
             get {
@@ -7180,7 +7180,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} does not implement the {1} pattern. {2} has the wrong signature..
+        ///   Looks up a localized string similar to &apos;{0}&apos; does not implement the &apos;{1}&apos; pattern. &apos;{2}&apos; has the wrong signature..
         /// </summary>
         internal static string CSharpWarnings_CS0280 {
             get {
@@ -7189,7 +7189,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is no defined ordering between fields in multiple declarations of partial class or struct {0}. To specify an ordering, all instance fields must be in the same declaration..
+        ///   Looks up a localized string similar to There is no defined ordering between fields in multiple declarations of partial class or struct &apos;{0}&apos;. To specify an ordering, all instance fields must be in the same declaration..
         /// </summary>
         internal static string CSharpWarnings_CS0282 {
             get {
@@ -7198,7 +7198,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} : an entry point cannot be generic or in a generic type.
+        ///   Looks up a localized string similar to &apos;{0}&apos; : an entry point cannot be generic or in a generic type.
         /// </summary>
         internal static string CSharpWarnings_CS0402 {
             get {
@@ -7207,7 +7207,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The private field {0} is assigned but its value is never used.
+        ///   Looks up a localized string similar to The private field &apos;{0}&apos; is assigned but its value is never used.
         /// </summary>
         internal static string CSharpWarnings_CS0414 {
             get {
@@ -7216,7 +7216,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ambiguous reference in cref attribute: {0}. Assuming {1}, but could have also matched other overloads including {2}..
+        ///   Looks up a localized string similar to Ambiguous reference in cref attribute: &apos;{0}&apos;. Assuming &apos;{1}&apos;, but could have also matched other overloads including &apos;{2}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS0419 {
             get {
@@ -7225,7 +7225,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}: a reference to a volatile field will not be treated as volatile.
+        ///   Looks up a localized string similar to &apos;{0}&apos;: a reference to a volatile field will not be treated as volatile.
         /// </summary>
         internal static string CSharpWarnings_CS0420 {
             get {
@@ -7252,7 +7252,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The namespace {0} in {1} conflicts with the imported type {2} in {3}. Using the namespace defined in {1}...
+        ///   Looks up a localized string similar to The namespace &apos;{0}&apos; in &apos;{1}&apos; conflicts with the imported type &apos;{2}&apos; in &apos;{3}&apos;. Using the namespace defined in &apos;{1}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS0435 {
             get {
@@ -7261,7 +7261,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type {0} in {1} conflicts with the imported type {2} in {3}. Using the type defined in {1}..
+        ///   Looks up a localized string similar to The type &apos;{0}&apos; in &apos;{1}&apos; conflicts with the imported type &apos;{2}&apos; in &apos;{3}&apos;. Using the type defined in &apos;{1}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS0436 {
             get {
@@ -7270,7 +7270,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type {0} in {1} conflicts with the imported namespace {2} in {3}. Using the type defined in {1}..
+        ///   Looks up a localized string similar to The type &apos;{0}&apos; in &apos;{1}&apos; conflicts with the imported namespace &apos;{2}&apos; in &apos;{3}&apos;. Using the type defined in &apos;{1}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS0437 {
             get {
@@ -7288,7 +7288,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Predefined type {0} was not found in {1} but was found in {2}.
+        ///   Looks up a localized string similar to Predefined type &apos;{0}&apos; was not found in &apos;{1}&apos; but was found in &apos;{2}&apos;.
         /// </summary>
         internal static string CSharpWarnings_CS0444 {
             get {
@@ -7297,7 +7297,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The result of the expression is always &apos;null&apos; of type {0}.
+        ///   Looks up a localized string similar to The result of the expression is always &apos;null&apos; of type &apos;{0}&apos;.
         /// </summary>
         internal static string CSharpWarnings_CS0458 {
             get {
@@ -7306,7 +7306,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Comparing with null of type {0} always produces &apos;false&apos;.
+        ///   Looks up a localized string similar to Comparing with null of type &apos;{0}&apos; always produces &apos;false&apos;.
         /// </summary>
         internal static string CSharpWarnings_CS0464 {
             get {
@@ -7324,7 +7324,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ambiguity between method {0} and non-method {1}. Using method group..
+        ///   Looks up a localized string similar to Ambiguity between method &apos;{0}&apos; and non-method &apos;{1}&apos;. Using method group..
         /// </summary>
         internal static string CSharpWarnings_CS0467 {
             get {
@@ -7333,7 +7333,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The {0} value is not implicitly convertible to type {1}.
+        ///   Looks up a localized string similar to The &apos;{0}&apos; value is not implicitly convertible to type &apos;{1}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS0469 {
             get {
@@ -7342,7 +7342,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The result of the expression is always {0} since a value of type {1} is never equal to &apos;null&apos; of type {1}.
+        ///   Looks up a localized string similar to The result of the expression is always &apos;{0}&apos; since a value of type &apos;{1}&apos; is never equal to &apos;null&apos; of type &apos;{1}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS0472 {
             get {
@@ -7351,7 +7351,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The feature {0} is deprecated. Please use {1} instead.
+        ///   Looks up a localized string similar to The feature &apos;{0}&apos; is deprecated. Please use &apos;{1}&apos; instead..
         /// </summary>
         internal static string CSharpWarnings_CS0602 {
             get {
@@ -7360,7 +7360,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} is obsolete.
+        ///   Looks up a localized string similar to &apos;{0}&apos; is obsolete..
         /// </summary>
         internal static string CSharpWarnings_CS0612 {
             get {
@@ -7369,7 +7369,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} is obsolete: {1}.
+        ///   Looks up a localized string similar to &apos;{0}&apos; is obsolete: &apos;{1}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS0618 {
             get {
@@ -7378,7 +7378,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Method, operator, or accessor {0} is marked external and has no attributes on it. Consider adding a DllImport attribute to specify the external implementation.
+        ///   Looks up a localized string similar to Method, operator, or accessor &apos;{0}&apos; is marked external and has no attributes on it. Consider adding a DllImport attribute to specify the external implementation..
         /// </summary>
         internal static string CSharpWarnings_CS0626 {
             get {
@@ -7387,7 +7387,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} : new protected member declared in sealed class.
+        ///   Looks up a localized string similar to &apos;{0}&apos; : new protected member declared in sealed class..
         /// </summary>
         internal static string CSharpWarnings_CS0628 {
             get {
@@ -7405,7 +7405,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Field {0} is never assigned to, and will always have its default value {1}.
+        ///   Looks up a localized string similar to Field &apos;{0}&apos; is never assigned to, and will always have its default value &apos;{1}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS0649 {
             get {
@@ -7414,7 +7414,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Comparison to integral constant is useless; the constant is outside the range of type {0}.
+        ///   Looks up a localized string similar to Comparison to integral constant is useless; the constant is outside the range of type &apos;{0}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS0652 {
             get {
@@ -7423,7 +7423,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} is not a valid attribute location for this declaration. Valid attribute locations for this declaration are {1}. All attributes in this block will be ignored..
+        ///   Looks up a localized string similar to &apos;{0}&apos; is not a valid attribute location for this declaration. Valid attribute locations for this declaration are &apos;{1}&apos;. All attributes in this block will be ignored..
         /// </summary>
         internal static string CSharpWarnings_CS0657 {
             get {
@@ -7432,7 +7432,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} is not a recognized attribute location. All attributes in this block will be ignored..
+        ///   Looks up a localized string similar to &apos;{0}&apos; is not a recognized attribute location. All attributes in this block will be ignored..
         /// </summary>
         internal static string CSharpWarnings_CS0658 {
             get {
@@ -7441,7 +7441,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} overrides Object.Equals(object o) but does not override Object.GetHashCode().
+        ///   Looks up a localized string similar to &apos;{0}&apos; overrides Object.Equals(object o) but does not override &apos;Object.GetHashCode()&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS0659 {
             get {
@@ -7450,7 +7450,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} defines operator == or operator != but does not override Object.Equals(object o).
+        ///   Looks up a localized string similar to &apos;{0}&apos; defines operator == or operator != but does not override &apos;Object.Equals(object o)&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS0660 {
             get {
@@ -7459,7 +7459,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} defines operator == or operator != but does not override Object.GetHashCode().
+        ///   Looks up a localized string similar to &apos;{0}&apos; defines operator == or operator != but does not override &apos;Object.GetHashCode()&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS0661 {
             get {
@@ -7477,7 +7477,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Member {0} overrides obsolete member &apos;{1}. Add the Obsolete attribute to {0}.
+        ///   Looks up a localized string similar to Member &apos;{0}&apos; overrides obsolete member &apos;{1}&apos;. Add the Obsolete attribute to &apos;{0}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS0672 {
             get {
@@ -7495,7 +7495,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type parameter {0} has the same name as the type parameter from outer type {1}.
+        ///   Looks up a localized string similar to Type parameter &apos;{0}&apos; has the same name as the type parameter from outer type &apos;{1}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS0693 {
             get {
@@ -7504,7 +7504,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Possibly incorrect assignment to local {0} which is the argument to a using or lock statement. The Dispose call or unlocking will happen on the original value of the local..
+        ///   Looks up a localized string similar to Possibly incorrect assignment to local &apos;{0}&apos; which is the argument to a using or lock statement. The Dispose call or unlocking will happen on the original value of the local..
         /// </summary>
         internal static string CSharpWarnings_CS0728 {
             get {
@@ -7513,7 +7513,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Obsolete member {0} overrides non-obsolete member {1}..
+        ///   Looks up a localized string similar to Obsolete member &apos;{0}&apos; overrides non-obsolete member &apos;{1}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS0809 {
             get {
@@ -7522,7 +7522,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Constructor {0} is marked external..
+        ///   Looks up a localized string similar to Constructor &apos;{0}&apos; is marked external..
         /// </summary>
         internal static string CSharpWarnings_CS0824 {
             get {
@@ -7531,7 +7531,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to #warning: {0}.
+        ///   Looks up a localized string similar to #warning: &apos;{0}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS1030 {
             get {
@@ -7567,7 +7567,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to XML comment on {0} has badly formed XML — {1}.
+        ///   Looks up a localized string similar to XML comment on &apos;{0}&apos; has badly formed XML: {1}.
         /// </summary>
         internal static string CSharpWarnings_CS1570 {
             get {
@@ -7576,7 +7576,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to XML comment on {0} has a duplicate param tag for {1}.
+        ///   Looks up a localized string similar to XML comment on &apos;{0}&apos; has a duplicate param tag for &apos;{1}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS1571 {
             get {
@@ -7585,7 +7585,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to XML comment on {0} has a param tag for {1}, but there is no parameter by that name.
+        ///   Looks up a localized string similar to XML comment on &apos;{0}&apos; has a param tag for &apos;{1}&apos;, but there is no parameter by that name..
         /// </summary>
         internal static string CSharpWarnings_CS1572 {
             get {
@@ -7594,7 +7594,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parameter {0} has no matching param tag in the XML comment for {0} (but other parameters do).
+        ///   Looks up a localized string similar to Parameter &apos;{0}&apos; has no matching param tag in the XML comment for &apos;{0}&apos; (but other parameters do)..
         /// </summary>
         internal static string CSharpWarnings_CS1573 {
             get {
@@ -7603,7 +7603,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to XML comment on {0} has cref attribute {1} that could not be resolved..
+        ///   Looks up a localized string similar to XML comment on &apos;{0}&apos; has cref attribute &apos;{1}&apos; that could not be resolved..
         /// </summary>
         internal static string CSharpWarnings_CS1574 {
             get {
@@ -7612,7 +7612,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid type for parameter {0} in XML comment cref attribute.
+        ///   Looks up a localized string similar to Invalid type for parameter &apos;{0}&apos; in XML comment cref attribute..
         /// </summary>
         internal static string CSharpWarnings_CS1580 {
             get {
@@ -7630,7 +7630,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to XML comment on {0} has syntactically incorrect cref attribute {1}.
+        ///   Looks up a localized string similar to XML comment on &apos;{0}&apos; has syntactically incorrect cref attribute &apos;{1}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS1584 {
             get {
@@ -7648,7 +7648,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to include XML fragment {0} of file {1} -- {1}.
+        ///   Looks up a localized string similar to Unable to include XML fragment &apos;{0}&apos; of file &apos;{1}&apos;: {2}.
         /// </summary>
         internal static string CSharpWarnings_CS1589 {
             get {
@@ -7666,7 +7666,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Missing XML comment for publicly visible type or member {0}.
+        ///   Looks up a localized string similar to Missing XML comment for publicly visible type or member &apos;{0}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS1591 {
             get {
@@ -7675,7 +7675,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Badly formed XML in included comments file -- {0}.
+        ///   Looks up a localized string similar to Badly formed XML in included comments file -- &apos;{0}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS1592 {
             get {
@@ -7684,7 +7684,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to XML parser could not be loaded for the following reason: {0}. The XML documentation file {1} will not be generated..
+        ///   Looks up a localized string similar to XML parser could not be loaded for the following reason: &apos;{0}&apos;. The XML documentation file &apos;{1}&apos; will not be generated..
         /// </summary>
         internal static string CSharpWarnings_CS1598 {
             get {
@@ -7693,7 +7693,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Assembly generation -- {0}.
+        ///   Looks up a localized string similar to Assembly generation: {0}.
         /// </summary>
         internal static string CSharpWarnings_CS1607 {
             get {
@@ -7702,7 +7702,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to delete temporary file {0} used for default Win32 resource -- {1}.
+        ///   Looks up a localized string similar to Unable to delete temporary file &apos;{0}&apos; used for default Win32 resource -- {1}.
         /// </summary>
         internal static string CSharpWarnings_CS1610 {
             get {
@@ -7711,7 +7711,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Option {0} overrides attribute {1} given in a source file or added module.
+        ///   Looks up a localized string similar to Option &apos;{0}&apos; overrides attribute &apos;{1}&apos; given in a source file or added module..
         /// </summary>
         internal static string CSharpWarnings_CS1616 {
             get {
@@ -7738,7 +7738,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot restore warning {0} because it was disabled globally.
+        ///   Looks up a localized string similar to Cannot restore warning &apos;{0}&apos; because it was disabled globally..
         /// </summary>
         internal static string CSharpWarnings_CS1635 {
             get {
@@ -7747,7 +7747,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Feature {0} is not part of the standardized ISO C# language specification, and may not be accepted by other compilers.
+        ///   Looks up a localized string similar to Feature &apos;{0}&apos; is not part of the standardized ISO C# language specification, and may not be accepted by other compilers..
         /// </summary>
         internal static string CSharpWarnings_CS1645 {
             get {
@@ -7765,7 +7765,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid search path &apos;path&apos; specified in {0} -- {1}.
+        ///   Looks up a localized string similar to Invalid search path &apos;{0}&apos; specified in &apos;{1}&apos;: {2}.
         /// </summary>
         internal static string CSharpWarnings_CS1668 {
             get {
@@ -7774,7 +7774,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reference to type {0} claims it is nested within {1}, but it could not be found.
+        ///   Looks up a localized string similar to Reference to type &apos;{0}&apos; claims it is nested within &apos;{1}&apos;, but it could not be found..
         /// </summary>
         internal static string CSharpWarnings_CS1682 {
             get {
@@ -7783,7 +7783,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reference to type {0} claims it is defined in this assembly, but it is not defined in source or any added modules.
+        ///   Looks up a localized string similar to Reference to type &apos;{0}&apos; claims it is defined in this assembly, but it is not defined in source or any added modules..
         /// </summary>
         internal static string CSharpWarnings_CS1683 {
             get {
@@ -7792,7 +7792,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reference to type {0} claims it is defined in {1}, but it could not be found.
+        ///   Looks up a localized string similar to Reference to type &apos;{0}&apos; claims it is defined in &apos;{1}&apos;, but it could not be found..
         /// </summary>
         internal static string CSharpWarnings_CS1684 {
             get {
@@ -7801,7 +7801,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The predefined type {0} is defined in multiple assemblies in the global alias; using definition from {1}.
+        ///   Looks up a localized string similar to The predefined type &apos;{0}&apos; is defined in multiple assemblies in the global alias; using definition from &apos;{1}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS1685 {
             get {
@@ -7819,7 +7819,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accessing a member on {0} may cause a runtime exception because it is a field of a marshal-by-reference class.
+        ///   Looks up a localized string similar to Accessing a member on &apos;{0}&apos; may cause a runtime exception because it is a field of a marshal-by-reference class.
         /// </summary>
         internal static string CSharpWarnings_CS1690 {
             get {
@@ -7828,7 +7828,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} is not a valid warning number.
+        ///   Looks up a localized string similar to &apos;{0}&apos; is not a valid warning number.
         /// </summary>
         internal static string CSharpWarnings_CS1691 {
             get {
@@ -7837,7 +7837,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid number.
+        ///   Looks up a localized string similar to Invalid number..
         /// </summary>
         internal static string CSharpWarnings_CS1692 {
             get {
@@ -7855,7 +7855,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid #pragma checksum syntax; should be #pragma checksum &quot;&quot;filename&quot;&quot; &quot;&quot;{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}&quot;&quot; &quot;&quot;XXXX...&quot;&quot;.
+        ///   Looks up a localized string similar to Invalid #pragma checksum syntax; should be #pragma checksum &quot;filename&quot; &quot;{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}&quot; &quot;XXXX...&quot;..
         /// </summary>
         internal static string CSharpWarnings_CS1695 {
             get {
@@ -7864,7 +7864,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Single-line comment or end-of-line expected.
+        ///   Looks up a localized string similar to Single-line comment or end-of-line expected..
         /// </summary>
         internal static string CSharpWarnings_CS1696 {
             get {
@@ -7873,7 +7873,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Different checksum values given for {0}.
+        ///   Looks up a localized string similar to Different checksum values given for &apos;{0}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS1697 {
             get {
@@ -7882,7 +7882,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Circular assembly reference {0} does not match the output assembly name {1}. Try adding a reference to {0} or changing the output assembly name to match..
+        ///   Looks up a localized string similar to Circular assembly reference &apos;{0}&apos; does not match the output assembly name &apos;{1}&apos;. Try adding a reference to &apos;{0}&apos; or changing the output assembly name to match..
         /// </summary>
         internal static string CSharpWarnings_CS1698 {
             get {
@@ -7891,7 +7891,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use command line option {0} or appropriate project settings instead of {1}.
+        ///   Looks up a localized string similar to Use command line option &apos;{0}&apos; or appropriate project settings instead of &apos;{1}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS1699 {
             get {
@@ -7909,7 +7909,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Assuming assembly reference {0} matches {1}, you may need to supply runtime policy .
+        ///   Looks up a localized string similar to Assuming assembly reference &apos;{0}&apos; matches &apos;{1}&apos;, you may need to supply runtime policy..
         /// </summary>
         internal static string CSharpWarnings_CS1701 {
             get {
@@ -7918,7 +7918,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Assuming assembly reference {0} matches {1}, you may need to supply runtime policy.
+        ///   Looks up a localized string similar to Assuming assembly reference &apos;{0}&apos; matches &apos;{1}&apos;, you may need to supply runtime policy..
         /// </summary>
         internal static string CSharpWarnings_CS1702 {
             get {
@@ -7927,7 +7927,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delegate {0} bound to {1} instead of {2} because of new language rules.
+        ///   Looks up a localized string similar to Delegate &apos;{0}&apos; bound to &apos;{1}&apos; instead of &apos;{2}&apos; because of new language rules.
         /// </summary>
         internal static string CSharpWarnings_CS1707 {
             get {
@@ -7936,7 +7936,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Filename specified for preprocessor directive is empty.
+        ///   Looks up a localized string similar to Filename specified for preprocessor directive is empty..
         /// </summary>
         internal static string CSharpWarnings_CS1709 {
             get {
@@ -7945,7 +7945,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to XML comment on {0} has a duplicate typeparam tag for {1}.
+        ///   Looks up a localized string similar to XML comment on &apos;{0}&apos; has a duplicate typeparam tag for &apos;{1}&apos;..
         /// </summary>
         internal static string CSharpWarnings_CS1710 {
             get {
@@ -7954,7 +7954,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to XML comment on {0} has a typeparam tag for {1}, but there is no type parameter by that name.
+        ///   Looks up a localized string similar to XML comment on &apos;{0}&apos; has a typeparam tag for &apos;{1}&apos;, but there is no type parameter by that name..
         /// </summary>
         internal static string CSharpWarnings_CS1711 {
             get {
@@ -7963,7 +7963,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type parameter {0} has no matching typeparam tag in the XML comment on {1} (but other type parameters do).
+        ///   Looks up a localized string similar to Type parameter &apos;{0}&apos; has no matching typeparam tag in the XML comment on &apos;{1}&apos; (but other type parameters do.).
         /// </summary>
         internal static string CSharpWarnings_CS1712 {
             get {

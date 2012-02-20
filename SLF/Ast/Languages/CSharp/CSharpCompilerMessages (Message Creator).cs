@@ -15,34 +15,33 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
 {
     public static partial class CSharpCompilerMessages
     {
-
         /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 4) &#35;28:</para><para>{0} has the wrong signature to be an entry point </para></summary>
         /// <param name="method">The <see cref="IIntermediateClassMethodMember"/></param>
         public static ICompilerSourceModelWarning<IIntermediateClassMethodMember> WarningCS0028(IIntermediateClassMethodMember method)
         {
             //ToDo: Add location information to methods.
-            return new CompilerSourceModelWarning<IIntermediateClassMethodMember>(CS0028, method, null, 0, 0, method.UniqueIdentifier.ToString());
+            return new CompilerSourceModelWarning<IIntermediateClassMethodMember>(CS0028, method, null, LineColumnPair.Zero, LineColumnPair.Zero, method.UniqueIdentifier.ToString());
         }
 
         /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 4) &#35;28:</para><para>{0} has the wrong signature to be an entry point </para></summary>
         public static ICompilerSourceModelWarning<IIntermediateStructMethodMember> WarningCS0028(IIntermediateStructMethodMember method)
         {
             //ToDo: Add location information to methods.
-            return new CompilerSourceModelWarning<IIntermediateStructMethodMember>(CS0028, method, null, 0, 0, method.UniqueIdentifier.ToString());
+            return new CompilerSourceModelWarning<IIntermediateStructMethodMember>(CS0028, method, null, LineColumnPair.Zero, LineColumnPair.Zero, method.UniqueIdentifier.ToString());
         }
 
         /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 3) &#35;67:</para><para>The event {0} is never used</para></summary>
         /// <param name="event">The <see cref="IIntermediateClassEventMember"/> which is never used.</param>
         public static ICompilerSourceModelWarning<IIntermediateClassEventMember> WarningCS0067(IIntermediateClassEventMember @event)
         {
-            return new CompilerSourceModelWarning<IIntermediateClassEventMember>(CS0067, @event, null, 0, 0, @event.UniqueIdentifier.ToString());
+            return new CompilerSourceModelWarning<IIntermediateClassEventMember>(CS0067, @event, null, LineColumnPair.Zero, LineColumnPair.Zero, @event.UniqueIdentifier.ToString());
         }
 
         /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 3) &#35;67:</para><para>The event {0} is never used</para></summary>
         /// <param name="event">The <see cref="IIntermediateStructEventMember"/> which is never used.</param>
         public static ICompilerSourceModelWarning<IIntermediateStructEventMember> WarningCS0067(IIntermediateStructEventMember @event)
         {
-            return new CompilerSourceModelWarning<IIntermediateStructEventMember>(CS0067, @event, null, 0, 0, @event.UniqueIdentifier.ToString());
+            return new CompilerSourceModelWarning<IIntermediateStructEventMember>(CS0067, @event, null, LineColumnPair.Zero, LineColumnPair.Zero, @event.UniqueIdentifier.ToString());
         }
 
         /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 4) &#35;78:</para><para>The 'l' suffix is easily confused with the digit '1' -- use 'L' for clarity</para></summary>
@@ -50,8 +49,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// which contains the potentially confusing suffix.</param>
         public static ICompilerSourceModelWarning<IPrimitiveExpression<ulong>> WarningCS0078(IPrimitiveExpression<ulong> expression)
         {
-            var location = (expression.Start ?? expression.End ?? new LineColumnPair(0, 0));
-            return new CompilerSourceModelWarning<IPrimitiveExpression<ulong>>(CS0078, expression, expression.FileName, location.Line, location.Column);
+            var start = expression.Start ?? LineColumnPair.Zero;
+            var end = expression.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<IPrimitiveExpression<ulong>>(CS0078, expression, expression.FileName, start, end);
         }
 
         /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 3) &#35;105:</para><para>The using directive for '<paramref name="coercion"/>' appeared previously in this namespace</para></summary>
@@ -59,8 +59,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// active scope.</param>
         public static ICompilerSourceModelWarning<INamespaceInclusionScopeCoercion> WarningCS0105(INamespaceInclusionScopeCoercion coercion)
         {
-            var location = (coercion.Start ?? coercion.End ?? new LineColumnPair(0, 0));
-            return new CompilerSourceModelWarning<INamespaceInclusionScopeCoercion>(CS0105, coercion, coercion.FileName, location.Line, location.Column, coercion.Namespace);
+            var start = coercion.Start ?? LineColumnPair.Zero;
+            var end = coercion.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<INamespaceInclusionScopeCoercion>(CS0105, coercion, coercion.FileName, start, end, coercion.Namespace);
         }
 
         /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 3) &#35;105:</para><para>The using directive for '<paramref name="coercion"/>' appeared previously in this namespace</para></summary>
@@ -68,8 +69,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// active scope.</param>
         public static ICompilerSourceModelWarning<INamespaceInclusionRenameScopeCoercion> WarningCS0105(INamespaceInclusionRenameScopeCoercion coercion)
         {
-            var location = (coercion.Start ?? coercion.End ?? new LineColumnPair(0, 0));
-            return new CompilerSourceModelWarning<INamespaceInclusionRenameScopeCoercion>(CS0105, coercion, coercion.FileName, location.Line, location.Column, coercion.NewName);
+            var start = coercion.Start ?? LineColumnPair.Zero;
+            var end = coercion.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<INamespaceInclusionRenameScopeCoercion>(CS0105, coercion, coercion.FileName, start, end, coercion.NewName);
         }
 
         /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 3) &#35;105:</para><para>The using directive for <paramref name="coercion"/> appeared previously in this namespace</para></summary>
@@ -77,8 +79,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// active scope.</param>
         public static ICompilerSourceModelWarning<ITypeInclusionScopeCoercion> WarningCS0105(ITypeInclusionScopeCoercion coercion)
         {
-            var location = (coercion.Start ?? coercion.End ?? new LineColumnPair(0, 0));
-            return new CompilerSourceModelWarning<ITypeInclusionScopeCoercion>(CS0105, coercion, coercion.FileName, location.Line, location.Column, coercion.IncludedType.FullName);
+            var start = coercion.Start ?? LineColumnPair.Zero;
+            var end = coercion.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<ITypeInclusionScopeCoercion>(CS0105, coercion, coercion.FileName, start, end, coercion.IncludedType.FullName);
         }
 
         /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 3) &#35;105:</para><para>The using directive for '<paramref name="coercion"/>' appeared previously in this namespace</para></summary>
@@ -86,8 +89,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// active scope.</param>
         public static ICompilerSourceModelWarning<ITypeInclusionRenameScopeCoercion> WarningCS0105(ITypeInclusionRenameScopeCoercion coercion)
         {
-            var location = (coercion.Start ?? coercion.End ?? new LineColumnPair(0, 0));
-            return new CompilerSourceModelWarning<ITypeInclusionRenameScopeCoercion>(CS0105, coercion, coercion.FileName, location.Line, location.Column, coercion.NewName);
+            var start = coercion.Start ?? LineColumnPair.Zero;
+            var end = coercion.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<ITypeInclusionRenameScopeCoercion>(CS0105, coercion, coercion.FileName, start, end, coercion.NewName);
         }
 
         /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 2) &#35;108:</para><para>{0} hides inherited member {1}. Use the new keyword if hiding was intended.</para></summary>
@@ -98,8 +102,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
             where TBaseMemberType :
                 IMember
         {
-            var location = (member.Start ?? member.End ?? new LineColumnPair(0, 0));
-            return new CompilerSourceModelWarning<TMemberType, TBaseMemberType>(CS0108, member, original, member.FileName, location.Line, location.Column, member.UniqueIdentifier.ToString(), original.UniqueIdentifier.ToString());
+            var start = member.Start ?? LineColumnPair.Zero;
+            var end = member.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<TMemberType, TBaseMemberType>(CS0108, member, original, member.FileName, start, end, member.UniqueIdentifier.ToString(), original.UniqueIdentifier.ToString());
         }
 
         /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 4) &#35;109:</para><para>The member '<paramref name="member"/>' does not hide an inherited member. The new keyword is not required</para></summary>
@@ -110,8 +115,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
                 IIntermediateMember,
                 ISourceElement
         {
-            var location = (member.Start ?? member.End ?? new LineColumnPair(0, 0));
-            return new CompilerSourceModelWarning<TMember>(CS0109, member, member.FileName, location.Line, location.Column, member.UniqueIdentifier.ToString());
+            var start = member.Start ?? LineColumnPair.Zero;
+            var end = member.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<TMember>(CS0109, member, member.FileName, start, end, member.UniqueIdentifier.ToString());
         }
 
         /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 2) &#35;114:</para><para>'<paramref name="member"/>' hides inherited member '<paramref name="original"/>'. To make the current method override that implementation, add the override keyword. Otherwise add the new keyword.</para></summary>
@@ -126,8 +132,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
             where TBaseMemberType :
                 IMember
         {
-            var location = (member.Start ?? member.End ?? new LineColumnPair(0, 0));
-            return new CompilerSourceModelWarning<TMemberType, TBaseMemberType>(CS0114, member, original, member.FileName, location.Line, location.Column, member.UniqueIdentifier.ToString(), original.UniqueIdentifier.ToString());
+            var start = member.Start ?? LineColumnPair.Zero;
+            var end = member.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<TMemberType, TBaseMemberType>(CS0114, member, original, member.FileName, start, end, member.UniqueIdentifier.ToString(), original.UniqueIdentifier.ToString());
         }
 
         /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 2) &#35;162:</para><para>Unreachable code detected</para></summary>
@@ -135,7 +142,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         public static ICompilerSourceModelWarning<IStatement> WarningCS0162(IStatement unreachableStatement)
         {
             //ToDo: Add location information to statements.
-            return new CompilerSourceModelWarning<IStatement>(CS0162, unreachableStatement, null, 0, 0, unreachableStatement.ToString());
+            return new CompilerSourceModelWarning<IStatement>(CS0162, unreachableStatement, null, LineColumnPair.Zero, LineColumnPair.Zero, unreachableStatement.ToString());
         }
 
         /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 2) &#35;162:</para><para>Unreachable code detected</para></summary>
@@ -143,8 +150,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// short-circuiting of the expression.</param>
         public static ICompilerSourceModelWarning<IExpression> WarningCS0162(IExpression unreachableExpression)
         {
-            var location = (unreachableExpression.Start ?? unreachableExpression.End ?? new LineColumnPair(0, 0));
-            return new CompilerSourceModelWarning<IExpression>(CS0162, unreachableExpression, unreachableExpression.FileName, location.Line, location.Column, unreachableExpression.ToString());
+            var start = unreachableExpression.Start ?? LineColumnPair.Zero;
+            var end = unreachableExpression.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<IExpression>(CS0162, unreachableExpression, unreachableExpression.FileName, start, end, unreachableExpression.ToString());
         }
 
         /// <summary><para>Creates a C&#9839; compiler warning, relative to the abstract model, (level 2) &#35;164:</para><para>This label has not been referenced</para></summary>
@@ -152,7 +160,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// within the defining method body.</param>
         public static ICompilerSourceModelWarning<ILabelStatement> WarningCS0164(ILabelStatement unreferencedLabel)
         {
-            return new CompilerSourceModelWarning<ILabelStatement>(CS0164, unreferencedLabel, null, 0, 0);
+            return new CompilerSourceModelWarning<ILabelStatement>(CS0164, unreferencedLabel, null, LineColumnPair.Zero, LineColumnPair.Zero);
         }
 
         /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
@@ -164,7 +172,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         public static ICompilerSourceModelWarning<ILocalMember> WarningCS0168(ILocalMember assignedButUnusedLocalVariable)
         {
             //ToDo: Add location information to local variables.
-            return new CompilerSourceModelWarning<ILocalMember>(CS0168, assignedButUnusedLocalVariable, null, 0, 0, assignedButUnusedLocalVariable.UniqueIdentifier.ToString());
+            return new CompilerSourceModelWarning<ILocalMember>(CS0168, assignedButUnusedLocalVariable, null, LineColumnPair.Zero, LineColumnPair.Zero, assignedButUnusedLocalVariable.UniqueIdentifier.ToString());
         }
 
         /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
@@ -175,7 +183,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         public static ICompilerSourceModelWarning<IIntermediateClassFieldMember> WarningCS0169(IIntermediateClassFieldMember unusedPrivateField)
         {
             //ToDo: Add location information to fields.
-            return new CompilerSourceModelWarning<IIntermediateClassFieldMember>(CS0169, unusedPrivateField, null, 0, 0, unusedPrivateField.UniqueIdentifier.ToString());
+            return new CompilerSourceModelWarning<IIntermediateClassFieldMember>(CS0169, unusedPrivateField, null, LineColumnPair.Zero, LineColumnPair.Zero, unusedPrivateField.UniqueIdentifier.ToString());
         }
 
         /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
@@ -186,7 +194,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         public static ICompilerSourceModelWarning<IIntermediateStructFieldMember> WarningCS0169(IIntermediateStructFieldMember unusedPrivateField)
         {
             //ToDo: Add location information to fields.
-            return new CompilerSourceModelWarning<IIntermediateStructFieldMember>(CS0169, unusedPrivateField, null, 0, 0, unusedPrivateField.UniqueIdentifier.ToString());
+            return new CompilerSourceModelWarning<IIntermediateStructFieldMember>(CS0169, unusedPrivateField, null, LineColumnPair.Zero, LineColumnPair.Zero, unusedPrivateField.UniqueIdentifier.ToString());
         }
 
         /// <summary><para>C&#9839; compiler warning (level 1) &#35;183:</para><para>The given expression is always of the provided (<see cref="IBinaryOperationExpression{TLeft,TRight}.RightSide"/>) type.</para></summary>
@@ -195,8 +203,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// is always the type provided within <see cref="IBinaryOperationExpression{TLeft, TRight}.RightSide"/>.</param>
         public static ICompilerSourceModelWarning<ICSharpRelationalExpression> WarningCS0183(ICSharpRelationalExpression relationalConstant)
         {
-            var location = (relationalConstant.Start ?? relationalConstant.End ?? new LineColumnPair(0, 0));
-            return new CompilerSourceModelWarning<ICSharpRelationalExpression>(CS0183, relationalConstant, relationalConstant.FileName, location.Line, location.Column, relationalConstant.ToString());
+            var start = relationalConstant.Start ?? LineColumnPair.Zero;
+            var end = relationalConstant.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<ICSharpRelationalExpression>(CS0183, relationalConstant, relationalConstant.FileName, start, end, relationalConstant.ToString());
         }
     }
 }

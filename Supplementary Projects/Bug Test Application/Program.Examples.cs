@@ -33,6 +33,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 using linqExample = AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples.ExampleHandler.LanguageIntegratedQuery;
 using winformExample = AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication.Examples.ExampleHandler.WindowsFormsApplication;
 using AllenCopeland.Abstraction.Utilities;
+using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -47,6 +48,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     {
         private static void Main()
         {
+
             //TimedMirrorTest();
             //StrongNameTest();
             //AssemblyBuilderTest();
@@ -346,13 +348,13 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             //SeriesCreationTest();
             var assembly = LanguageVendors.Microsoft.GetVisualBasicLanguage().GetProvider().CreateAssembly("TestAssembly");
             var inclusion = assembly.ScopeCoercions.Add("System");
+            inclusion.FileName = "Test.psc";
             inclusion.Start = new LineColumnPair(1,1);
             inclusion.End = new LineColumnPair(1, 13);
             var inclusionWarning = CSharpCompilerMessages.WarningCS0105(inclusion);
             var testNamespace = assembly.Namespaces.Add("TestNamespace");
             var testMethod = assembly.Methods.Add(new TypedName("TestMethod", typeof(int).GetTypeReference()));
             testMethod.ReturnTypeMetadata.OptionalModifiers.Add(typeof(IsLong).GetTypeReference());
-            
             var testField = assembly.Fields.Add(new TypedName("testField", typeof(double).GetTypeReference()));
             var testClass = assembly.Classes.Add("TestClass");
             var testInterface = assembly.Interfaces.Add("ITestInterface");
@@ -389,11 +391,13 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             var testInterfaceIndexerSetMethod = (IIntermediateInterfaceMethodMember)testInterfaceIndexer.SetMethod;
             var valueParam = testInterfacePropertySetMethod.Parameters[AstIdentifier.Member("value")];
             valueParam.Metadata.OptionalModifiers.Add(typeof(int).GetTypeReference());
+            assembly.AssemblyInformation.ReadyAssemblyMetaData();
             assembly.Dispose();
             //GC.Collect();
             //GC.WaitForPendingFinalizers();
             
         }
+
 
         private static void SeriesCreationTest()
         {
@@ -437,7 +441,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
             const int paramCount = 60;
 #else
             const int testCount = 203;
-            const int paramCount = 100;
+            const int paramCount = 60;
 #endif
             int pC = 0;
             object pcLock = new object();
@@ -472,7 +476,7 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
                 }
                 var parameters = (from k in 1.RangeTo(dataElement.CurrentJ + 1)
                                   select new TypedName(string.Format("param{0}", k), (k < dataElement.CurrentI) ? currentStruct.TypeParameters.Values[k - 1] : typeof(int).GetTypeReference()));
-                currentStruct.Indexers.Add(new TypedName(string.Format("TestIndexer{0}", dataElement.CurrentJ + 1), CommonTypeRefs.ObjectArray), new TypedNameSeries(parameters.ToArray()));
+                currentStruct.Indexers.Add(new TypedName(string.Format("TestIndexer{0}", dataElement.CurrentJ + 1), CommonTypeRefs.ObjectArray), new TypedNameSeries(parameters));
             });
             //for (int i = 1; i <= testCount; i++)
             //{

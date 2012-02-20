@@ -18,6 +18,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     /// </summary>
     public interface ICompilerMessage
     {
+        /// <summary>
+        /// Returns the <see cref="Int32"/> value which is language specific
+        /// that denotes the unique identifier of the message.
+        /// </summary>
         int MessageIdentifier { get; }
     }
 }
