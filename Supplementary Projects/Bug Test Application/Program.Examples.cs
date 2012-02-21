@@ -48,7 +48,6 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
     {
         private static void Main()
         {
-
             //TimedMirrorTest();
             //StrongNameTest();
             //AssemblyBuilderTest();
@@ -345,6 +344,11 @@ namespace AllenCopeland.Abstraction.SupplementaryProjects.BugTestApplication
 
         private static void Execute()
         {
+            Console.Write("{0} - ", CLIGateway.CacheSize);
+            var cseis = typeof(CSharpExpressionExtensions).GetTypeReference() as IClassType;
+            foreach (var method in cseis.Members.Values)
+                string.Format("{0} - {1} - {2}", CLIGateway.CacheSize, method.Entry.UniqueIdentifier, CLIGateway.CacheSize);
+            Console.WriteLine(CLIGateway.CacheSize);
             //SeriesCreationTest();
             var assembly = LanguageVendors.Microsoft.GetVisualBasicLanguage().GetProvider().CreateAssembly("TestAssembly");
             var inclusion = assembly.ScopeCoercions.Add("System");

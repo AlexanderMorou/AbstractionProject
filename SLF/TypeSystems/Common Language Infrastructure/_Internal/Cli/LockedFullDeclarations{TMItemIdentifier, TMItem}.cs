@@ -160,7 +160,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 yield break;
             for (int i = 0; i < this.Count; i++)
                 if (values.Loaded(i))
-                    yield return new KeyValuePair<TMItemIdentifier, MasterDictionaryEntry<TMItem>>(this.Keys[i], values[i]);
+                {
+                    var value = values[i];
+                    if (value.Subordinate != subordinate)
+                        continue;
+                    if (!(this.Keys[i] is TSKey))
+                        continue;
+                    if (!(value is TSValue))
+                        continue;
+                    yield return new KeyValuePair<TMItemIdentifier, MasterDictionaryEntry<TMItem>>(this.Keys[i], value);
+                }
         }
 
         protected internal override void Subordinate_ItemRemoved<TSKey, TSValue>(ISubordinateDictionary<TSKey, TMItemIdentifier, TSValue, TMItem> subordinate, TSKey key)
