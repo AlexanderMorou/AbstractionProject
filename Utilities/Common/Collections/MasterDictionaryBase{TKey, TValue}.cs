@@ -300,8 +300,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 TValue
         {
             var clearHelper = new _RemoveHelperCache<TSKey, TSValue>(this);
-
-            (GetSubordinateClearedItems<TSKey, TSValue>(subordinate)).OnAllP((kvp) =>
+            var elements = GetSubordinateClearedItems<TSKey, TSValue>(subordinate).ToArray();
+            elements.OnAll((kvp) =>
                  clearHelper.__Subordinate_Cleared__removeHelper_cache((ISubordinateDictionary<TSKey, TKey, TSValue, TValue>)kvp.Value.Subordinate, (TSKey)kvp.Key));
         }
 
@@ -313,6 +313,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             return from kvp in this
                    where kvp.Value.Subordinate == subordinate &&
+                         kvp.Value.Entry is TValue &&
                          kvp.Key is TSKey
                    select kvp;
         }

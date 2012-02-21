@@ -8,587 +8,587 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
     public enum CSharpWarningIdentifiers
     {
         /// <summary>
-        /// {0} has the wrong signature to be an entry point.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0028"]/value/text()'/>
         /// </summary>
         CS0028 = 0028,
         /// <summary>
-        /// The event {0} is never used.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0067"]/value/text()'/>
         /// </summary>
         CS0067 = 0067,
         /// <summary>
-        /// The 'l' suffix is easily confused with the digit '1' -- use 'L' for clarity.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0078"]/value/text()'/>
         /// </summary>
         CS0078 = 0078,
         /// <summary>
-        /// The using directive for {0} appeared previously in this namespace.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0105"]/value/text()'/>
         /// </summary>
         CS0105 = 0105,
         /// <summary>
-        /// {0} hides inherited member {1}. Use the new keyword if hiding was intended.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0108"]/value/text()'/>
         /// </summary>
         CS0108 = 0108,
         /// <summary>
-        /// The member {0} does not hide an inherited member. The new keyword is not required.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0109"]/value/text()'/>
         /// </summary>
         CS0109 = 0109,
         /// <summary>
-        /// {0} hides inherited member {1}. To make the current method override that implementation, add the override keyword. Otherwise add the new keyword.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0114"]/value/text()'/>
         /// </summary>
         CS0114 = 0114,
         /// <summary>
-        /// Unreachable code detected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0162"]/value/text()'/>
         /// </summary>
         CS0162 = 0162,
         /// <summary>
-        /// This label has not been referenced
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0164"]/value/text()'/>
         /// </summary>
         CS0164 = 0164,
         /// <summary>
-        /// The variable {0} is assigned but its value is never used
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0168"]/value/text()'/>
         /// </summary>
         CS0168 = 0168,
         /// <summary>
-        /// The private field {0} is never used
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0169"]/value/text()'/>
         /// </summary>
         CS0169 = 0169,
         /// <summary>
-        /// The given expression is always of the provided ({0}) type.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0183"]/value/text()'/>
         /// </summary>
         CS0183 = 0183,
         /// <summary>
-        /// The given expression is never of the provided ({0}) type.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0184"]/value/text()'/>
         /// </summary>
         CS0184 = 0184,
         /// <summary>
-        /// Passing {0} as ref or out or taking its address may cause a runtime exception because it is a field of a marshal-by-reference class
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0197"]/value/text()'/>
         /// </summary>
         CS0197 = 0197,
         /// <summary>
-        /// The variable {0} is assigned but its value is never used
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0219"]/value/text()'/>
         /// </summary>
         CS0219 = 0219,
         /// <summary>
-        /// Indexing an array with a negative index (array indices always start at zero)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0251"]/value/text()'/>
         /// </summary>
         CS0251 = 0251,
         /// <summary>
-        /// Possible unintended reference comparison; to get a value comparison, cast the left hand side to type {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0252"]/value/text()'/>
         /// </summary>
         CS0252 = 0252,
         /// <summary>
-        /// Possible unintended reference comparison; to get a value comparison, cast the right hand side to type {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0253"]/value/text()'/>
         /// </summary>
         CS0253 = 0253,
         /// <summary>
-        /// {0} does not implement the {1} pattern. {2} is ambiguous with {2}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0278"]/value/text()'/>
         /// </summary>
         CS0278 = 0278,
         /// <summary>
-        /// {0} does not implement the {1} pattern. {2} is either static or not public.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0279"]/value/text()'/>
         /// </summary>
         CS0279 = 0279,
         /// <summary>
-        /// {0} does not implement the {1} pattern. {2} has the wrong signature.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0280"]/value/text()'/>
         /// </summary>
         CS0280 = 0280,
         /// <summary>
-        /// There is no defined ordering between fields in multiple declarations of partial class or struct {0}. To specify an ordering, all instance fields must be in the same declaration.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0282"]/value/text()'/>
         /// </summary>
         CS0282 = 0282,
         /// <summary>
-        /// {0} : an entry point cannot be generic or in a generic type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0402"]/value/text()'/>
         /// </summary>
         CS0402 = 0402,
         /// <summary>
-        /// The private field {0} is assigned but its value is never used
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0414"]/value/text()'/>
         /// </summary>
         CS0414 = 0414,
         /// <summary>
-        /// Ambiguous reference in cref attribute: {0}. Assuming {1}, but could have also matched other overloads including {2}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0419"]/value/text()'/>
         /// </summary>
         CS0419 = 0419,
         /// <summary>
-        /// {0}: a reference to a volatile field will not be treated as volatile
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0420"]/value/text()'/>
         /// </summary>
         CS0420 = 0420,
         /// <summary>
-        /// The /incremental option is no longer supported
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0422"]/value/text()'/>
         /// </summary>
         CS0422 = 0422,
         /// <summary>
-        /// Unreachable expression code detected 
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0429"]/value/text()'/>
         /// </summary>
         CS0429 = 0429,
         /// <summary>
-        /// The namespace {0} in {1} conflicts with the imported type {2} in {3}. Using the namespace defined in {1}..
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0435"]/value/text()'/>
         /// </summary>
         CS0435 = 0435,
         /// <summary>
-        /// The type {0} in {1} conflicts with the imported type {2} in {3}. Using the type defined in {1}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0436"]/value/text()'/>
         /// </summary>
         CS0436 = 0436,
         /// <summary>
-        /// The type {0} in {1} conflicts with the imported namespace {2} in {3}. Using the type defined in {1}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0437"]/value/text()'/>
         /// </summary>
         CS0437 = 0437,
         /// <summary>
-        /// Defining an alias named 'global' is ill-advised since 'global::' always references the global namespace and not an alias
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0440"]/value/text()'/>
         /// </summary>
         CS0440 = 0440,
         /// <summary>
-        /// Predefined type {0} was not found in {1} but was found in {2}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0444"]/value/text()'/>
         /// </summary>
         CS0444 = 0444,
         /// <summary>
-        /// The result of the expression is always 'null' of type {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0458"]/value/text()'/>
         /// </summary>
         CS0458 = 0458,
         /// <summary>
-        /// Comparing with null of type {0} always produces 'false'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0464"]/value/text()'/>
         /// </summary>
         CS0464 = 0464,
         /// <summary>
-        /// Introducing a 'Finalize' method can interfere with destructor invocation. Did you intend to declare a destructor?
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0465"]/value/text()'/>
         /// </summary>
         CS0465 = 0465,
         /// <summary>
-        /// Ambiguity between method {0} and non-method {1}. Using method group.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0467"]/value/text()'/>
         /// </summary>
         CS0467 = 0467,
         /// <summary>
-        /// The {0} value is not implicitly convertible to type {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0469"]/value/text()'/>
         /// </summary>
         CS0469 = 0469,
         /// <summary>
-        /// The result of the expression is always {0} since a value of type {1} is never equal to 'null' of type {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0472"]/value/text()'/>
         /// </summary>
         CS0472 = 0472,
         /// <summary>
-        /// The feature {0} is deprecated. Please use {1} instead
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0602"]/value/text()'/>
         /// </summary>
         CS0602 = 0602,
         /// <summary>
-        /// {0} is obsolete
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0612"]/value/text()'/>
         /// </summary>
         CS0612 = 0612,
         /// <summary>
-        /// {0} is obsolete: {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0618"]/value/text()'/>
         /// </summary>
         CS0618 = 0618,
         /// <summary>
-        /// Method, operator, or accessor {0} is marked external and has no attributes on it. Consider adding a DllImport attribute to specify the external implementation
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0626"]/value/text()'/>
         /// </summary>
         CS0626 = 0626,
         /// <summary>
-        /// {0} : new protected member declared in sealed class
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0628"]/value/text()'/>
         /// </summary>
         CS0628 = 0628,
         /// <summary>
-        /// Possible mistaken empty statement
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0642"]/value/text()'/>
         /// </summary>
         CS0642 = 0642,
         /// <summary>
-        /// Field {0} is never assigned to, and will always have its default value {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0649"]/value/text()'/>
         /// </summary>
         CS0649 = 0649,
         /// <summary>
-        /// Comparison to integral constant is useless; the constant is outside the range of type {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0652"]/value/text()'/>
         /// </summary>
         CS0652 = 0652,
         /// <summary>
-        /// {0} is not a valid attribute location for this declaration. Valid attribute locations for this declaration are {1}. All attributes in this block will be ignored.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0657"]/value/text()'/>
         /// </summary>
         CS0657 = 0657,
         /// <summary>
-        /// {0} is not a recognized attribute location. All attributes in this block will be ignored.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0658"]/value/text()'/>
         /// </summary>
         CS0658 = 0658,
         /// <summary>
-        /// {0} overrides Object.Equals(object o) but does not override Object.GetHashCode()
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0659"]/value/text()'/>
         /// </summary>
         CS0659 = 0659,
         /// <summary>
-        /// {0} defines operator == or operator != but does not override Object.Equals(object o)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0660"]/value/text()'/>
         /// </summary>
         CS0660 = 0660,
         /// <summary>
-        /// {0} defines operator == or operator != but does not override Object.GetHashCode()
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0661"]/value/text()'/>
         /// </summary>
         CS0661 = 0661,
         /// <summary>
-        /// Assignment in conditional expression is always constant; did you mean to use '==' instead of '='?
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0665"]/value/text()'/>
         /// </summary>
         CS0665 = 0665,
         /// <summary>
-        /// Member {0} overrides obsolete member '{1}. Add the Obsolete attribute to {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0672"]/value/text()'/>
         /// </summary>
         CS0672 = 0672,
         /// <summary>
-        /// Bitwise-or operator used on a sign-extended operand; consider casting to a smaller unsigned type first
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0675"]/value/text()'/>
         /// </summary>
         CS0675 = 0675,
         /// <summary>
-        /// Type parameter {0} has the same name as the type parameter from outer type {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0693"]/value/text()'/>
         /// </summary>
         CS0693 = 0693,
         /// <summary>
-        /// Possibly incorrect assignment to local {0} which is the argument to a using or lock statement. The Dispose call or unlocking will happen on the original value of the local.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0728"]/value/text()'/>
         /// </summary>
         CS0728 = 0728,
         /// <summary>
-        /// Obsolete member {0} overrides non-obsolete member {1}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0809"]/value/text()'/>
         /// </summary>
         CS0809 = 0809,
         /// <summary>
-        /// Constructor {0} is marked external.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS0824"]/value/text()'/>
         /// </summary>
         CS0824 = 0824,
         /// <summary>
-        /// #warning: {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1030"]/value/text()'/>
         /// </summary>
         CS1030 = 1030,
         /// <summary>
-        /// A previous catch clause already catches all exceptions. All exceptions thrown will be wrapped in a System.Runtime.CompilerServices.RuntimeWrappedException
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1058"]/value/text()'/>
         /// </summary>
         CS1058 = 1058,
         /// <summary>
-        /// Use of possibly unassigned field 'name'. Struct instance variables are initially unassigned if struct is unassigned.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1060"]/value/text()'/>
         /// </summary>
         CS1060 = 1060,
         /// <summary>
-        /// Empty switch block
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1522"]/value/text()'/>
         /// </summary>
         CS1522 = 1522,
         /// <summary>
-        /// XML comment on {0} has badly formed XML — {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1570"]/value/text()'/>
         /// </summary>
         CS1570 = 1570,
         /// <summary>
-        /// XML comment on {0} has a duplicate param tag for {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1571"]/value/text()'/>
         /// </summary>
         CS1571 = 1571,
         /// <summary>
-        /// XML comment on {0} has a param tag for {1}, but there is no parameter by that name
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1572"]/value/text()'/>
         /// </summary>
         CS1572 = 1572,
         /// <summary>
-        /// Parameter {0} has no matching param tag in the XML comment for {0} (but other parameters do)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1573"]/value/text()'/>
         /// </summary>
         CS1573 = 1573,
         /// <summary>
-        /// XML comment on {0} has cref attribute {1} that could not be resolved.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1574"]/value/text()'/>
         /// </summary>
         CS1574 = 1574,
         /// <summary>
-        /// Invalid type for parameter {0} in XML comment cref attribute
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1580"]/value/text()'/>
         /// </summary>
         CS1580 = 1580,
         /// <summary>
-        /// Invalid return type in XML comment cref attribute
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1581"]/value/text()'/>
         /// </summary>
         CS1581 = 1581,
         /// <summary>
-        /// XML comment on {0} has syntactically incorrect cref attribute {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1584"]/value/text()'/>
         /// </summary>
         CS1584 = 1584,
         /// <summary>
-        /// XML comment is not placed on a valid language element
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1587"]/value/text()'/>
         /// </summary>
         CS1587 = 1587,
         /// <summary>
-        /// Unable to include XML fragment {0} of file {1} -- {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1589"]/value/text()'/>
         /// </summary>
         CS1589 = 1589,
         /// <summary>
-        /// Invalid XML include element -- Missing file attribute
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1590"]/value/text()'/>
         /// </summary>
         CS1590 = 1590,
         /// <summary>
-        /// Missing XML comment for publicly visible type or member {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1591"]/value/text()'/>
         /// </summary>
         CS1591 = 1591,
         /// <summary>
-        /// Badly formed XML in included comments file -- {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1592"]/value/text()'/>
         /// </summary>
         CS1592 = 1592,
         /// <summary>
-        /// XML parser could not be loaded for the following reason: {0}. The XML documentation file {1} will not be generated.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1598"]/value/text()'/>
         /// </summary>
         CS1598 = 1598,
         /// <summary>
-        /// Assembly generation -- {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1607"]/value/text()'/>
         /// </summary>
         CS1607 = 1607,
         /// <summary>
-        /// Unable to delete temporary file {0} used for default Win32 resource -- {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1610"]/value/text()'/>
         /// </summary>
         CS1610 = 1610,
         /// <summary>
-        /// Option {0} overrides attribute {1} given in a source file or added module
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1616"]/value/text()'/>
         /// </summary>
         CS1616 = 1616,
         /// <summary>
-        /// Unrecognized #pragma directive
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1633"]/value/text()'/>
         /// </summary>
         CS1633 = 1633,
         /// <summary>
-        /// Expected disable or restore
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1634"]/value/text()'/>
         /// </summary>
         CS1634 = 1634,
         /// <summary>
-        /// Cannot restore warning {0} because it was disabled globally
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1635"]/value/text()'/>
         /// </summary>
         CS1635 = 1635,
         /// <summary>
-        /// Feature {0} is not part of the standardized ISO C# language specification, and may not be accepted by other compilers
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1645"]/value/text()'/>
         /// </summary>
         CS1645 = 1645,
         /// <summary>
-        /// {0}. See also error: {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1658"]/value/text()'/>
         /// </summary>
         CS1658 = 1658,
         /// <summary>
-        /// Invalid search path 'path' specified in {0} -- {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1668"]/value/text()'/>
         /// </summary>
         CS1668 = 1668,
         /// <summary>
-        /// Reference to type {0} claims it is nested within {1}, but it could not be found
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1682"]/value/text()'/>
         /// </summary>
         CS1682 = 1682,
         /// <summary>
-        /// Reference to type {0} claims it is defined in this assembly, but it is not defined in source or any added modules
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1683"]/value/text()'/>
         /// </summary>
         CS1683 = 1683,
         /// <summary>
-        /// Reference to type {0} claims it is defined in {1}, but it could not be found
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1684"]/value/text()'/>
         /// </summary>
         CS1684 = 1684,
         /// <summary>
-        /// The predefined type {0} is defined in multiple assemblies in the global alias; using definition from {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1685"]/value/text()'/>
         /// </summary>
         CS1685 = 1685,
         /// <summary>
-        /// Source file has exceeded the limit of 16,707,565 lines representable in the PDB, debug information will be incorrect
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1687"]/value/text()'/>
         /// </summary>
         CS1687 = 1687,
         /// <summary>
-        /// Accessing a member on {0} may cause a runtime exception because it is a field of a marshal-by-reference class
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1690"]/value/text()'/>
         /// </summary>
         CS1690 = 1690,
         /// <summary>
-        /// {0} is not a valid warning number
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1691"]/value/text()'/>
         /// </summary>
         CS1691 = 1691,
         /// <summary>
-        /// Invalid number
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1692"]/value/text()'/>
         /// </summary>
         CS1692 = 1692,
         /// <summary>
-        /// Invalid filename specified for preprocessor directive. Filename is too long or not a valid filename.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1694"]/value/text()'/>
         /// </summary>
         CS1694 = 1694,
         /// <summary>
-        /// Invalid #pragma checksum syntax; should be #pragma checksum ""filename"" ""{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}"" ""XXXX...""
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1695"]/value/text()'/>
         /// </summary>
         CS1695 = 1695,
         /// <summary>
-        /// Single-line comment or end-of-line expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1696"]/value/text()'/>
         /// </summary>
         CS1696 = 1696,
         /// <summary>
-        /// Different checksum values given for {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1697"]/value/text()'/>
         /// </summary>
         CS1697 = 1697,
         /// <summary>
-        /// Circular assembly reference {0} does not match the output assembly name {1}. Try adding a reference to {0} or changing the output assembly name to match.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1698"]/value/text()'/>
         /// </summary>
         CS1698 = 1698,
         /// <summary>
-        /// Use command line option {0} or appropriate project settings instead of {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1699"]/value/text()'/>
         /// </summary>
         CS1699 = 1699,
         /// <summary>
-        /// Assembly reference Assembly Name is invalid and cannot be resolved
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1700"]/value/text()'/>
         /// </summary>
         CS1700 = 1700,
         /// <summary>
-        /// Assuming assembly reference {0} matches {1}, you may need to supply runtime policy 
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1701"]/value/text()'/>
         /// </summary>
         CS1701 = 1701,
         /// <summary>
-        /// Assuming assembly reference {0} matches {1}, you may need to supply runtime policy
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1702"]/value/text()'/>
         /// </summary>
         CS1702 = 1702,
         /// <summary>
-        /// Delegate {0} bound to {1} instead of {2} because of new language rules
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1707"]/value/text()'/>
         /// </summary>
         CS1707 = 1707,
         /// <summary>
-        /// Filename specified for preprocessor directive is empty
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1709"]/value/text()'/>
         /// </summary>
         CS1709 = 1709,
         /// <summary>
-        /// XML comment on {0} has a duplicate typeparam tag for {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1710"]/value/text()'/>
         /// </summary>
         CS1710 = 1710,
         /// <summary>
-        /// XML comment on {0} has a typeparam tag for {1}, but there is no type parameter by that name
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1711"]/value/text()'/>
         /// </summary>
         CS1711 = 1711,
         /// <summary>
-        /// Type parameter {0} has no matching typeparam tag in the XML comment on {1} (but other type parameters do)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1712"]/value/text()'/>
         /// </summary>
         CS1712 = 1712,
         /// <summary>
-        /// Assignment made to same variable; did you mean to assign something else?
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1717"]/value/text()'/>
         /// </summary>
         CS1717 = 1717,
         /// <summary>
-        /// Comparison made to same variable; did you mean to compare something else?
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1718"]/value/text()'/>
         /// </summary>
         CS1718 = 1718,
         /// <summary>
-        /// Expression will always cause a System.NullReferenceException because the default value of {0} is null
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1720"]/value/text()'/>
         /// </summary>
         CS1720 = 1720,
         /// <summary>
-        /// XML comment on {0} has cref attribute {1} that refers to a type parameter
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1723"]/value/text()'/>
         /// </summary>
         CS1723 = 1723,
         /// <summary>
-        /// Access to member {0} through a 'base' keyword from an anonymous method, lambda expression, query expression, or iterator results in unverifiable code. Consider moving the access into a helper method on the containing type.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1911"]/value/text()'/>
         /// </summary>
         CS1911 = 1911,
         /// <summary>
-        /// Ignoring /win32manifest for module because it only applies to assemblies.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1927"]/value/text()'/>
         /// </summary>
         CS1927 = 1927,
         /// <summary>
-        /// Member {0} implements interface member {0} in type {1}. There are multiple matches for the interface member at run-time. It is implementation dependent which method will be called.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1956"]/value/text()'/>
         /// </summary>
         CS1956 = 1956,
         /// <summary>
-        /// Member {0} overrides {1}. There are multiple override candidates at run-time. It is implementation dependent which method will be called.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS1957"]/value/text()'/>
         /// </summary>
         CS1957 = 1957,
         /// <summary>
-        /// Source file {0} specified multiple times
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS2002"]/value/text()'/>
         /// </summary>
         CS2002 = 2002,
         /// <summary>
-        /// Compiler option {0} is obsolete, please use {1} instead
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS2014"]/value/text()'/>
         /// </summary>
         CS2014 = 2014,
         /// <summary>
-        /// Ignoring /noconfig option because it was specified in a response file
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS2023"]/value/text()'/>
         /// </summary>
         CS2023 = 2023,
         /// <summary>
-        /// Invalid value for '/define'; {0} is not a valid identifier
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS2029"]/value/text()'/>
         /// </summary>
         CS2029 = 2029,
         /// <summary>
-        /// Methods with variable arguments are not CLS-compliant
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3000"]/value/text()'/>
         /// </summary>
         CS3000 = 3000,
         /// <summary>
-        /// Argument type {0} is not CLS-compliant
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3001"]/value/text()'/>
         /// </summary>
         CS3001 = 3001,
         /// <summary>
-        /// Return type of {0} is not CLS-compliant
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3002"]/value/text()'/>
         /// </summary>
         CS3002 = 3002,
         /// <summary>
-        /// Type of {0} is not CLS-compliant
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3003"]/value/text()'/>
         /// </summary>
         CS3003 = 3003,
         /// <summary>
-        /// Mixed and decomposed Unicode characters are not CLS-compliant
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3004"]/value/text()'/>
         /// </summary>
         CS3004 = 3004,
         /// <summary>
-        /// Identifier {0} differing only in case is not CLS-compliant
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3005"]/value/text()'/>
         /// </summary>
         CS3005 = 3005,
         /// <summary>
-        /// Overloaded method {0} differing only in ref or out, or in array rank, is not CLS-compliant
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3006"]/value/text()'/>
         /// </summary>
         CS3006 = 3006,
         /// <summary>
-        /// Overloaded method {0} differing only by unnamed array types is not CLS-compliant
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3007"]/value/text()'/>
         /// </summary>
         CS3007 = 3007,
         /// <summary>
-        /// Identifier {0} differing only in case is not CLS-compliant
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3008"]/value/text()'/>
         /// </summary>
         CS3008 = 3008,
         /// <summary>
-        /// {0}: base type {0} is not CLS-compliant
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3009"]/value/text()'/>
         /// </summary>
         CS3009 = 3009,
         /// <summary>
-        /// {0}: CLS-compliant interfaces must have only CLS-compliant members
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3010"]/value/text()'/>
         /// </summary>
         CS3010 = 3010,
         /// <summary>
-        /// {0}: only CLS-compliant members can be abstract
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3011"]/value/text()'/>
         /// </summary>
         CS3011 = 3011,
         /// <summary>
-        /// You cannot specify the CLSCompliant attribute on a module that differs from the CLSCompliant attribute on the assembly
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3012"]/value/text()'/>
         /// </summary>
         CS3012 = 3012,
         /// <summary>
-        /// Added modules must be marked with the CLSCompliant attribute to match the assembly
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3013"]/value/text()'/>
         /// </summary>
         CS3013 = 3013,
         /// <summary>
-        /// {0} does not need a CLSCompliant attribute because the assembly does not have a CLSCompliant attribute
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3014"]/value/text()'/>
         /// </summary>
         CS3014 = 3014,
         /// <summary>
-        /// {0} has no accessible constructors which use only CLS-compliant types
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3015"]/value/text()'/>
         /// </summary>
         CS3015 = 3015,
         /// <summary>
-        /// Arrays as attribute arguments is not CLS-compliant
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3016"]/value/text()'/>
         /// </summary>
         CS3016 = 3016,
         /// <summary>
-        /// You cannot specify the CLSCompliant attribute on a module that differs from the CLSCompliant attribute on the assembly
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3017"]/value/text()'/>
         /// </summary>
         CS3017 = 3017,
         /// <summary>
-        /// {0} cannot be marked as CLS-Compliant because it is a member of non CLS-compliant type {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3018"]/value/text()'/>
         /// </summary>
         CS3018 = 3018,
         /// <summary>
-        /// CLS compliance checking will not be performed on {0} because it is not visible from outside this assembly.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3019"]/value/text()'/>
         /// </summary>
         CS3019 = 3019,
         /// <summary>
-        /// {0} does not need a CLSCompliant attribute because the assembly does not have a CLSCompliant attribute
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3021"]/value/text()'/>
         /// </summary>
         CS3021 = 3021,
         /// <summary>
-        /// CLSCompliant attribute has no meaning when applied to parameters. Try putting it on the method instead.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3022"]/value/text()'/>
         /// </summary>
         CS3022 = 3022,
         /// <summary>
-        /// CLSCompliant attribute has no meaning when applied to return types. Try putting it on the method instead.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3023"]/value/text()'/>
         /// </summary>
         CS3023 = 3023,
         /// <summary>
-        /// CLS-compliant field {0} cannot be volatile
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3026"]/value/text()'/>
         /// </summary>
         CS3026 = 3026,
         /// <summary>
-        /// {0} is not CLS-compliant because base interface {1} is not CLS-compliant
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS3027"]/value/text()'/>
         /// </summary>
         CS3027 = 3027,
         /// <summary>
-        /// Unknown compiler option {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpWarnings_CS5000"]/value/text()'/>
         /// </summary>
         CS5000 = 5000,
     }

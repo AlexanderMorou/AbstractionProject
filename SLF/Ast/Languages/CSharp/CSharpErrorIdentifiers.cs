@@ -8,3087 +8,3087 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
     public enum CSharpErrorIdentifiers
     {
         /// <summary>
-        /// Internal compiler error
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0001"]/value/text()'/>
         /// </summary>
         CS0001 = 0001,
         /// <summary>
-        /// Out of memory
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0003"]/value/text()'/>
         /// </summary>
         CS0003 = 0003,
         /// <summary>
-        /// Warning treated as error
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0004"]/value/text()'/>
         /// </summary>
         CS0004 = 0004,
         /// <summary>
-        /// Compiler option {0} must be followed by an argument
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0005"]/value/text()'/>
         /// </summary>
         CS0005 = 0005,
         /// <summary>
-        /// Metadata file {0} could not be found
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0006"]/value/text()'/>
         /// </summary>
         CS0006 = 0006,
         /// <summary>
-        /// Unexpected common language runtime initialization error — {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0007"]/value/text()'/>
         /// </summary>
         CS0007 = 0007,
         /// <summary>
-        /// Unexpected error reading metadata from file 'file' — {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0008"]/value/text()'/>
         /// </summary>
         CS0008 = 0008,
         /// <summary>
-        /// Metadata file {0} could not be opened — {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0009"]/value/text()'/>
         /// </summary>
         CS0009 = 0009,
         /// <summary>
-        /// Unexpected fatal error -- {0}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0010"]/value/text()'/>
         /// </summary>
         CS0010 = 0010,
         /// <summary>
-        /// The base class or interface {0} in assembly {1} referenced by type {2} could not be resolved
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0011"]/value/text()'/>
         /// </summary>
         CS0011 = 0011,
         /// <summary>
-        /// The type {0} is defined in an assembly that is not referenced. You must add a reference to assembly {1}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0012"]/value/text()'/>
         /// </summary>
         CS0012 = 0012,
         /// <summary>
-        /// Unexpected error writing metadata to file {0} -- {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0013"]/value/text()'/>
         /// </summary>
         CS0013 = 0013,
         /// <summary>
-        /// Required file {0} could not be found
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0014"]/value/text()'/>
         /// </summary>
         CS0014 = 0014,
         /// <summary>
-        /// The name of type {0} is too long
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0015"]/value/text()'/>
         /// </summary>
         CS0015 = 0015,
         /// <summary>
-        /// Could not write to output file {0} — {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0016"]/value/text()'/>
         /// </summary>
         CS0016 = 0016,
         /// <summary>
-        /// Program {0} has more than one entry point defined. Compile with /main to specify the type that contains the entry point.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0017"]/value/text()'/>
         /// </summary>
         CS0017 = 0017,
         /// <summary>
-        /// Operator {0} cannot be applied to operands of type {1} and {2}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0019"]/value/text()'/>
         /// </summary>
         CS0019 = 0019,
         /// <summary>
-        /// Division by constant zero
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0020"]/value/text()'/>
         /// </summary>
         CS0020 = 0020,
         /// <summary>
-        /// Cannot apply indexing with [] to an expression of type {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0021"]/value/text()'/>
         /// </summary>
         CS0021 = 0021,
         /// <summary>
-        /// Wrong number of indices inside [], expected {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0022"]/value/text()'/>
         /// </summary>
         CS0022 = 0022,
         /// <summary>
-        /// Operator {0} cannot be applied to operand of type {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0023"]/value/text()'/>
         /// </summary>
         CS0023 = 0023,
         /// <summary>
-        /// Standard library file {0} could not be found
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0025"]/value/text()'/>
         /// </summary>
         CS0025 = 0025,
         /// <summary>
-        /// Keyword 'this' is not valid in a static property, static method, or static field initializer
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0026"]/value/text()'/>
         /// </summary>
         CS0026 = 0026,
         /// <summary>
-        /// Keyword 'this' is not available in the current context
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0027"]/value/text()'/>
         /// </summary>
         CS0027 = 0027,
         /// <summary>
-        /// Cannot implicitly convert type {0} to {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0029"]/value/text()'/>
         /// </summary>
         CS0029 = 0029,
         /// <summary>
-        /// Cannot convert type {0} to {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0030"]/value/text()'/>
         /// </summary>
         CS0030 = 0030,
         /// <summary>
-        /// Constant value {0} cannot be converted to a {1}. (use 'unchecked' syntax to override)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0031"]/value/text()'/>
         /// </summary>
         CS0031 = 0031,
         /// <summary>
-        /// Operator {0} is ambiguous on operands of type {1} and {2}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0034"]/value/text()'/>
         /// </summary>
         CS0034 = 0034,
         /// <summary>
-        /// Operator {0} is ambiguous on an operand of type {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0035"]/value/text()'/>
         /// </summary>
         CS0035 = 0035,
         /// <summary>
-        /// An out parameter cannot have the '[In]' attribute
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0036"]/value/text()'/>
         /// </summary>
         CS0036 = 0036,
         /// <summary>
-        /// Cannot convert null to {0} because it is a non-nullable value type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0037"]/value/text()'/>
         /// </summary>
         CS0037 = 0037,
         /// <summary>
-        /// Cannot access a nonstatic member of outer type {0} via nested type {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0038"]/value/text()'/>
         /// </summary>
         CS0038 = 0038,
         /// <summary>
-        /// Cannot convert type {0} to {1} via a reference conversion, boxing conversion, unboxing conversion, wrapping conversion, or null type conversion
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0039"]/value/text()'/>
         /// </summary>
         CS0039 = 0039,
         /// <summary>
-        /// Unexpected error creating debug information file — {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0040"]/value/text()'/>
         /// </summary>
         CS0040 = 0040,
         /// <summary>
-        /// The fully qualified name for {0} is too long for debug information. Compile without '/debug' option.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0041"]/value/text()'/>
         /// </summary>
         CS0041 = 0041,
         /// <summary>
-        /// Unexpected error creating debug information file {0} — {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0042"]/value/text()'/>
         /// </summary>
         CS0042 = 0042,
         /// <summary>
-        /// PDB file {0} has an incorrect or out-of-date format. Delete it and rebuild.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0043"]/value/text()'/>
         /// </summary>
         CS0043 = 0043,
         /// <summary>
-        /// Inconsistent accessibility: return type {0} is less accessible than method {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0050"]/value/text()'/>
         /// </summary>
         CS0050 = 0050,
         /// <summary>
-        /// Inconsistent accessibility: parameter type {0} is less accessible than method {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0051"]/value/text()'/>
         /// </summary>
         CS0051 = 0051,
         /// <summary>
-        /// Inconsistent accessibility: field type {0} is less accessible than field {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0052"]/value/text()'/>
         /// </summary>
         CS0052 = 0052,
         /// <summary>
-        /// Inconsistent accessibility: property type {0} is less accessible than property {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0053"]/value/text()'/>
         /// </summary>
         CS0053 = 0053,
         /// <summary>
-        /// Inconsistent accessibility: indexer return type {0} is less accessible than indexer {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0054"]/value/text()'/>
         /// </summary>
         CS0054 = 0054,
         /// <summary>
-        /// Inconsistent accessibility: parameter type {0} is less accessible than indexer {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0055"]/value/text()'/>
         /// </summary>
         CS0055 = 0055,
         /// <summary>
-        /// Inconsistent accessibility: return type {0} is less accessible than operator {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0056"]/value/text()'/>
         /// </summary>
         CS0056 = 0056,
         /// <summary>
-        /// Inconsistent accessibility: parameter type {0} is less accessible than operator {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0057"]/value/text()'/>
         /// </summary>
         CS0057 = 0057,
         /// <summary>
-        /// Inconsistent accessibility: return type {0} is less accessible than delegate {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0058"]/value/text()'/>
         /// </summary>
         CS0058 = 0058,
         /// <summary>
-        /// Inconsistent accessibility: parameter type {0} is less accessible than delegate {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0059"]/value/text()'/>
         /// </summary>
         CS0059 = 0059,
         /// <summary>
-        /// Inconsistent accessibility: base class {0} is less accessible than class {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0060"]/value/text()'/>
         /// </summary>
         CS0060 = 0060,
         /// <summary>
-        /// Inconsistent accessibility: base interface {0} is less accessible than interface {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0061"]/value/text()'/>
         /// </summary>
         CS0061 = 0061,
         /// <summary>
-        /// {0}: event property must have both add and remove accessors
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0065"]/value/text()'/>
         /// </summary>
         CS0065 = 0065,
         /// <summary>
-        /// {0}: event must be of a delegate type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0066"]/value/text()'/>
         /// </summary>
         CS0066 = 0066,
         /// <summary>
-        /// {0}: event in interface cannot have initializer
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0068"]/value/text()'/>
         /// </summary>
         CS0068 = 0068,
         /// <summary>
-        /// An event in an interface cannot have add or remove accessors
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0069"]/value/text()'/>
         /// </summary>
         CS0069 = 0069,
         /// <summary>
-        /// The event {0} can only appear on the left hand side of += or -= (except when used from within the type {1})
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0070"]/value/text()'/>
         /// </summary>
         CS0070 = 0070,
         /// <summary>
-        /// An explicit interface implementation of an event must use event accessor syntax
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0071"]/value/text()'/>
         /// </summary>
         CS0071 = 0071,
         /// <summary>
-        /// {0} : cannot override; {1} is not an event
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0072"]/value/text()'/>
         /// </summary>
         CS0072 = 0072,
         /// <summary>
-        /// An add or remove accessor must have a body
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0073"]/value/text()'/>
         /// </summary>
         CS0073 = 0073,
         /// <summary>
-        /// {0}: abstract event cannot have initializer
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0074"]/value/text()'/>
         /// </summary>
         CS0074 = 0074,
         /// <summary>
-        /// To cast a negative value, you must enclose the value in parentheses
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0075"]/value/text()'/>
         /// </summary>
         CS0075 = 0075,
         /// <summary>
-        /// The enumerator name 'value__' is reserved and cannot be used
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0076"]/value/text()'/>
         /// </summary>
         CS0076 = 0076,
         /// <summary>
-        /// The as operator must be used with a reference type or nullable type ({0} is a non-nullable value type).
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0077"]/value/text()'/>
         /// </summary>
         CS0077 = 0077,
         /// <summary>
-        /// The event {0} can only appear on the left hand side of += or -=
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0079"]/value/text()'/>
         /// </summary>
         CS0079 = 0079,
         /// <summary>
-        /// Constraints are not allowed on non-generic declarations
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0080"]/value/text()'/>
         /// </summary>
         CS0080 = 0080,
         /// <summary>
-        /// Type parameter declaration must be an identifier not a type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0081"]/value/text()'/>
         /// </summary>
         CS0081 = 0081,
         /// <summary>
-        /// Type {0} already reserves a member called {1} with the same parameter types
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0082"]/value/text()'/>
         /// </summary>
         CS0082 = 0082,
         /// <summary>
-        /// The parameter name {0} is a duplicate
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0100"]/value/text()'/>
         /// </summary>
         CS0100 = 0100,
         /// <summary>
-        /// The namespace {0} already contains a definition for {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0101"]/value/text()'/>
         /// </summary>
         CS0101 = 0101,
         /// <summary>
-        /// The type {0} already contains a definition for {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0102"]/value/text()'/>
         /// </summary>
         CS0102 = 0102,
         /// <summary>
-        /// The name {0} does not exist in the current context
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0103"]/value/text()'/>
         /// </summary>
         CS0103 = 0103,
         /// <summary>
-        /// {0} is an ambiguous reference between {1} and {2}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0104"]/value/text()'/>
         /// </summary>
         CS0104 = 0104,
         /// <summary>
-        /// The modifier {0} is not valid for this item
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0106"]/value/text()'/>
         /// </summary>
         CS0106 = 0106,
         /// <summary>
-        /// More than one protection modifier
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0107"]/value/text()'/>
         /// </summary>
         CS0107 = 0107,
         /// <summary>
-        /// The evaluation of the constant value for {0} involves a circular definition
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0110"]/value/text()'/>
         /// </summary>
         CS0110 = 0110,
         /// <summary>
-        /// Type {0} already defines a member called {1} with the same parameter types
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0111"]/value/text()'/>
         /// </summary>
         CS0111 = 0111,
         /// <summary>
-        /// A static member {0} cannot be marked as override, virtual or abstract
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0112"]/value/text()'/>
         /// </summary>
         CS0112 = 0112,
         /// <summary>
-        /// A member {0} marked as override cannot be marked as new or virtual
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0113"]/value/text()'/>
         /// </summary>
         CS0113 = 0113,
         /// <summary>
-        /// {0} : no suitable method found to override
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0115"]/value/text()'/>
         /// </summary>
         CS0115 = 0115,
         /// <summary>
-        /// A namespace does not directly contain members such as fields or methods
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0116"]/value/text()'/>
         /// </summary>
         CS0116 = 0116,
         /// <summary>
-        /// {0} does not contain a definition for 'identifier'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0117"]/value/text()'/>
         /// </summary>
         CS0117 = 0117,
         /// <summary>
-        /// {0} is a {1} but is used like a {2}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0118"]/value/text()'/>
         /// </summary>
         CS0118 = 0118,
         /// <summary>
-        /// {0} is a {1}, which is not valid in the given context.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0119"]/value/text()'/>
         /// </summary>
         CS0119 = 0119,
         /// <summary>
-        /// An object reference is required for the nonstatic field, method, or property {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0120"]/value/text()'/>
         /// </summary>
         CS0120 = 0120,
         /// <summary>
-        /// The call is ambiguous between the following methods or properties: {0} and {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0121"]/value/text()'/>
         /// </summary>
         CS0121 = 0121,
         /// <summary>
-        /// {0} is inaccessible due to its protection level
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0122"]/value/text()'/>
         /// </summary>
         CS0122 = 0122,
         /// <summary>
-        /// No overload for {0} matches delegate {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0123"]/value/text()'/>
         /// </summary>
         CS0123 = 0123,
         /// <summary>
-        /// An object of a type convertible to {0} is required
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0126"]/value/text()'/>
         /// </summary>
         CS0126 = 0126,
         /// <summary>
-        /// Since {0} returns void, a return keyword must not be followed by an object expression
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0127"]/value/text()'/>
         /// </summary>
         CS0127 = 0127,
         /// <summary>
-        /// A local variable named {0} is already defined in this scope
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0128"]/value/text()'/>
         /// </summary>
         CS0128 = 0128,
         /// <summary>
-        /// The left-hand side of an assignment must be a variable, property or indexer
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0131"]/value/text()'/>
         /// </summary>
         CS0131 = 0131,
         /// <summary>
-        /// {0} : a static constructor must be parameterless
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0132"]/value/text()'/>
         /// </summary>
         CS0132 = 0132,
         /// <summary>
-        /// The expression being assigned to {0} must be constant
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0133"]/value/text()'/>
         /// </summary>
         CS0133 = 0133,
         /// <summary>
-        /// {0} is of type {1}. A const field of a reference type other than string can only be initialized with null.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0134"]/value/text()'/>
         /// </summary>
         CS0134 = 0134,
         /// <summary>
-        /// {0} conflicts with the declaration {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0135"]/value/text()'/>
         /// </summary>
         CS0135 = 0135,
         /// <summary>
-        /// A local variable named {0} cannot be declared in this scope because it would give a different meaning to {0}, which is already used in a 'parent or current/child' scope to denote something else
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0136"]/value/text()'/>
         /// </summary>
         CS0136 = 0136,
         /// <summary>
-        /// A using namespace directive can only be applied to namespaces; {0} is a type not a namespace
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0138"]/value/text()'/>
         /// </summary>
         CS0138 = 0138,
         /// <summary>
-        /// No enclosing loop out of which to break or continue
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0139"]/value/text()'/>
         /// </summary>
         CS0139 = 0139,
         /// <summary>
-        /// The label {0} is a duplicate
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0140"]/value/text()'/>
         /// </summary>
         CS0140 = 0140,
         /// <summary>
-        /// The type {0} has no constructors defined
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0143"]/value/text()'/>
         /// </summary>
         CS0143 = 0143,
         /// <summary>
-        /// Cannot create an instance of the abstract class or interface {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0144"]/value/text()'/>
         /// </summary>
         CS0144 = 0144,
         /// <summary>
-        /// A const field requires a value to be provided
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0145"]/value/text()'/>
         /// </summary>
         CS0145 = 0145,
         /// <summary>
-        /// Circular base class dependency involving {0} and {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0146"]/value/text()'/>
         /// </summary>
         CS0146 = 0146,
         /// <summary>
-        /// The delegate {0} does not have a valid constructor
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0148"]/value/text()'/>
         /// </summary>
         CS0148 = 0148,
         /// <summary>
-        /// Method name expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0149"]/value/text()'/>
         /// </summary>
         CS0149 = 0149,
         /// <summary>
-        /// A constant value is expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0150"]/value/text()'/>
         /// </summary>
         CS0150 = 0150,
         /// <summary>
-        /// A value of an integral type expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0151"]/value/text()'/>
         /// </summary>
         CS0151 = 0151,
         /// <summary>
-        /// The label {0} already occurs in this switch statement
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0152"]/value/text()'/>
         /// </summary>
         CS0152 = 0152,
         /// <summary>
-        /// A goto case is only valid inside a switch statement
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0153"]/value/text()'/>
         /// </summary>
         CS0153 = 0153,
         /// <summary>
-        /// The property or indexer 'property' cannot be used in this context because it lacks the get accessor
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0154"]/value/text()'/>
         /// </summary>
         CS0154 = 0154,
         /// <summary>
-        /// The type caught or thrown must be derived from System.Exception
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0155"]/value/text()'/>
         /// </summary>
         CS0155 = 0155,
         /// <summary>
-        /// A throw statement with no arguments is not allowed in a finally clause that is nested inside the nearest enclosing catch clause
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0156"]/value/text()'/>
         /// </summary>
         CS0156 = 0156,
         /// <summary>
-        /// Control cannot leave the body of a finally clause
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0157"]/value/text()'/>
         /// </summary>
         CS0157 = 0157,
         /// <summary>
-        /// The label {0} shadows another label by the same name in a contained scope
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0158"]/value/text()'/>
         /// </summary>
         CS0158 = 0158,
         /// <summary>
-        /// No such label {0} within the scope of the goto statement
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0159"]/value/text()'/>
         /// </summary>
         CS0159 = 0159,
         /// <summary>
-        /// A previous catch clause already catches all exceptions of this or of a super type ({0})
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0160"]/value/text()'/>
         /// </summary>
         CS0160 = 0160,
         /// <summary>
-        /// {0}: not all code paths return a value
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0161"]/value/text()'/>
         /// </summary>
         CS0161 = 0161,
         /// <summary>
-        /// Control cannot fall through from one case label ({0}) to another
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0163"]/value/text()'/>
         /// </summary>
         CS0163 = 0163,
         /// <summary>
-        /// Use of unassigned local variable {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0165"]/value/text()'/>
         /// </summary>
         CS0165 = 0165,
         /// <summary>
-        /// The delegate {0} is missing the Invoke method
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0167"]/value/text()'/>
         /// </summary>
         CS0167 = 0167,
         /// <summary>
-        /// Use of possibly unassigned field {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0170"]/value/text()'/>
         /// </summary>
         CS0170 = 0170,
         /// <summary>
-        /// Backing field for automatically implemented property {0} must be fully assigned before control is returned to the caller. Consider calling the default constructor from a constructor initializer.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0171"]/value/text()'/>
         /// </summary>
         CS0171 = 0171,
         /// <summary>
-        /// Type of conditional expression cannot be determined because {0} and {1} implicitly convert to one another
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0172"]/value/text()'/>
         /// </summary>
         CS0172 = 0172,
         /// <summary>
-        /// Type of conditional expression cannot be determined because there is no implicit conversion between {0} and {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0173"]/value/text()'/>
         /// </summary>
         CS0173 = 0173,
         /// <summary>
-        /// A base class is required for a 'base' reference
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0174"]/value/text()'/>
         /// </summary>
         CS0174 = 0174,
         /// <summary>
-        /// Use of keyword 'base' is not valid in this context
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0175"]/value/text()'/>
         /// </summary>
         CS0175 = 0175,
         /// <summary>
-        /// Static member {0} cannot be accessed with an instance reference; qualify it with a type name instead
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0176"]/value/text()'/>
         /// </summary>
         CS0176 = 0176,
         /// <summary>
-        /// The out parameter {0} must be assigned to before control leaves the current method
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0177"]/value/text()'/>
         /// </summary>
         CS0177 = 0177,
         /// <summary>
-        /// Invalid rank specifier: expected ',' or ']'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0178"]/value/text()'/>
         /// </summary>
         CS0178 = 0178,
         /// <summary>
-        /// {0} cannot be extern and declare a body
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0179"]/value/text()'/>
         /// </summary>
         CS0179 = 0179,
         /// <summary>
-        /// {0} cannot be both extern and abstract
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0180"]/value/text()'/>
         /// </summary>
         CS0180 = 0180,
         /// <summary>
-        /// An attribute argument must be a constant expression, typeof expression or array creation expression of an attribute parameter type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0182"]/value/text()'/>
         /// </summary>
         CS0182 = 0182,
         /// <summary>
-        /// {0} is not a reference type as required by the lock statement
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0185"]/value/text()'/>
         /// </summary>
         CS0185 = 0185,
         /// <summary>
-        /// Use of null is not valid in this context 
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0186"]/value/text()'/>
         /// </summary>
         CS0186 = 0186,
         /// <summary>
-        /// The 'this' object cannot be used before all of its fields are assigned to
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0188"]/value/text()'/>
         /// </summary>
         CS0188 = 0188,
         /// <summary>
-        /// Property or indexer {0} cannot be assigned to -- it is read only
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0191"]/value/text()'/>
         /// </summary>
         CS0191 = 0191,
         /// <summary>
-        /// Fields of static readonly field {0} cannot be passed ref or out (except in a static constructor)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0192"]/value/text()'/>
         /// </summary>
         CS0192 = 0192,
         /// <summary>
-        /// The * or -> operator must be applied to a pointer
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0193"]/value/text()'/>
         /// </summary>
         CS0193 = 0193,
         /// <summary>
-        /// A pointer must be indexed by only one value
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0196"]/value/text()'/>
         /// </summary>
         CS0196 = 0196,
         /// <summary>
-        /// Fields of static readonly field {0} cannot be assigned to (except in a static constructor or a variable initializer)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0198"]/value/text()'/>
         /// </summary>
         CS0198 = 0198,
         /// <summary>
-        /// Fields of static readonly field {0} cannot be passed ref or out (except in a static constructor)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0199"]/value/text()'/>
         /// </summary>
         CS0199 = 0199,
         /// <summary>
-        /// Property or indexer {0} cannot be assigned to — it is read only
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0200"]/value/text()'/>
         /// </summary>
         CS0200 = 0200,
         /// <summary>
-        /// Only assignment, call, increment, decrement, and new object expressions can be used as a statement
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0201"]/value/text()'/>
         /// </summary>
         CS0201 = 0201,
         /// <summary>
-        /// foreach requires that the return type {0} of '{1}.GetEnumerator()' must have a suitable public MoveNext method and public Current property
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0202"]/value/text()'/>
         /// </summary>
         CS0202 = 0202,
         /// <summary>
-        /// Only 65534 locals are allowed
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0204"]/value/text()'/>
         /// </summary>
         CS0204 = 0204,
         /// <summary>
-        /// Cannot call an abstract base member: {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0205"]/value/text()'/>
         /// </summary>
         CS0205 = 0205,
         /// <summary>
-        /// A property or indexer may not be passed as an out or ref parameter
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0206"]/value/text()'/>
         /// </summary>
         CS0206 = 0206,
         /// <summary>
-        /// Cannot take the address of, get the size of, or declare a pointer to a managed type ({0})
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0208"]/value/text()'/>
         /// </summary>
         CS0208 = 0208,
         /// <summary>
-        /// The type of local declared in a fixed statement must be a pointer type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0209"]/value/text()'/>
         /// </summary>
         CS0209 = 0209,
         /// <summary>
-        /// You must provide an initializer in a fixed or using statement declaration
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0210"]/value/text()'/>
         /// </summary>
         CS0210 = 0210,
         /// <summary>
-        /// Cannot take the address of the given expression
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0211"]/value/text()'/>
         /// </summary>
         CS0211 = 0211,
         /// <summary>
-        /// You can only take the address of an unfixed expression inside of a fixed statement initializer
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0212"]/value/text()'/>
         /// </summary>
         CS0212 = 0212,
         /// <summary>
-        /// You cannot use the fixed statement to take the address of an already fixed expression
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0213"]/value/text()'/>
         /// </summary>
         CS0213 = 0213,
         /// <summary>
-        /// Pointers and fixed size buffers may only be used in an unsafe context
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0214"]/value/text()'/>
         /// </summary>
         CS0214 = 0214,
         /// <summary>
-        /// The return type of operator True or False must be bool
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0215"]/value/text()'/>
         /// </summary>
         CS0215 = 0215,
         /// <summary>
-        /// The operator {0} requires a matching operator {1} to also be defined
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0216"]/value/text()'/>
         /// </summary>
         CS0216 = 0216,
         /// <summary>
-        /// In order to be applicable as a short circuit operator a user-defined logical operator ({0}) must have the same return type as the type of its 2 parameters.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0217"]/value/text()'/>
         /// </summary>
         CS0217 = 0217,
         /// <summary>
-        /// The type ({0}) must contain declarations of operator true and operator false
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0218"]/value/text()'/>
         /// </summary>
         CS0218 = 0218,
         /// <summary>
-        /// The operation overflows at compile time in checked mode
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0220"]/value/text()'/>
         /// </summary>
         CS0220 = 0220,
         /// <summary>
-        /// Constant value {0} cannot be converted to a {1} (use 'unchecked' syntax to override)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0221"]/value/text()'/>
         /// </summary>
         CS0221 = 0221,
         /// <summary>
-        /// The params parameter must be a single dimensional array
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0225"]/value/text()'/>
         /// </summary>
         CS0225 = 0225,
         /// <summary>
-        /// An __arglist expression may only appear inside of a call or new expression.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0226"]/value/text()'/>
         /// </summary>
         CS0226 = 0226,
         /// <summary>
-        /// Unsafe code may only appear if compiling with /unsafe
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0227"]/value/text()'/>
         /// </summary>
         CS0227 = 0227,
         /// <summary>
-        /// {0} does not contain a definition for {1}, or it is not accessible
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0228"]/value/text()'/>
         /// </summary>
         CS0228 = 0228,
         /// <summary>
-        /// Ambiguity between {0} and {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0229"]/value/text()'/>
         /// </summary>
         CS0229 = 0229,
         /// <summary>
-        /// Type and identifier are both required in a foreach statement
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0230"]/value/text()'/>
         /// </summary>
         CS0230 = 0230,
         /// <summary>
-        /// A params parameter must be the last parameter in a formal parameter list.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0231"]/value/text()'/>
         /// </summary>
         CS0231 = 0231,
         /// <summary>
-        /// {0} does not have a predefined size, therefore sizeof can only be used in an unsafe context (consider using System.Runtime.InteropServices.Marshal.SizeOf)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0233"]/value/text()'/>
         /// </summary>
         CS0233 = 0233,
         /// <summary>
-        /// The type or namespace name {0} does not exist in the namespace {1} (are you missing an assembly reference?)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0234"]/value/text()'/>
         /// </summary>
         CS0234 = 0234,
         /// <summary>
-        /// A field initializer cannot reference the nonstatic field, method, or property {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0236"]/value/text()'/>
         /// </summary>
         CS0236 = 0236,
         /// <summary>
-        /// {0} cannot be sealed because it is not an override
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0238"]/value/text()'/>
         /// </summary>
         CS0238 = 0238,
         /// <summary>
-        /// {0} : cannot override inherited member {1} because it is sealed
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0239"]/value/text()'/>
         /// </summary>
         CS0239 = 0239,
         /// <summary>
-        /// Default parameter specifiers are not permitted
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0241"]/value/text()'/>
         /// </summary>
         CS0241 = 0241,
         /// <summary>
-        /// The operation in question is undefined on void pointers
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0242"]/value/text()'/>
         /// </summary>
         CS0242 = 0242,
         /// <summary>
-        /// The Conditional attribute is not valid on 'method' because it is an override method
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0243"]/value/text()'/>
         /// </summary>
         CS0243 = 0243,
         /// <summary>
-        /// Neither 'is' nor 'as' is valid on pointer types
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0244"]/value/text()'/>
         /// </summary>
         CS0244 = 0244,
         /// <summary>
-        /// Destructors and object.Finalize cannot be called directly. Consider calling IDisposable.Dispose if available.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0245"]/value/text()'/>
         /// </summary>
         CS0245 = 0245,
         /// <summary>
-        /// The type or namespace name {0} could not be found (are you missing a using directive or an assembly reference?)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0246"]/value/text()'/>
         /// </summary>
         CS0246 = 0246,
         /// <summary>
-        /// Cannot use a negative size with stackalloc
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0247"]/value/text()'/>
         /// </summary>
         CS0247 = 0247,
         /// <summary>
-        /// Cannot create an array with a negative size
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0248"]/value/text()'/>
         /// </summary>
         CS0248 = 0248,
         /// <summary>
-        /// Do not override object.Finalize. Instead, provide a destructor.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0249"]/value/text()'/>
         /// </summary>
         CS0249 = 0249,
         /// <summary>
-        /// Do not directly call your base class Finalize method. It is called automatically from your destructor.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0250"]/value/text()'/>
         /// </summary>
         CS0250 = 0250,
         /// <summary>
-        /// The right hand side of a fixed statement assignment may not be a cast expression
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0254"]/value/text()'/>
         /// </summary>
         CS0254 = 0254,
         /// <summary>
-        /// stackalloc may not be used in a catch or finally block
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0255"]/value/text()'/>
         /// </summary>
         CS0255 = 0255,
         /// <summary>
-        /// Missing partial modifier on declaration of type {0}; another partial declaration of this type exists
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0260"]/value/text()'/>
         /// </summary>
         CS0260 = 0260,
         /// <summary>
-        /// Partial declarations of {0} must be all classes, all structs, or all interfaces
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0261"]/value/text()'/>
         /// </summary>
         CS0261 = 0261,
         /// <summary>
-        /// Partial declarations of {0} have conflicting accessibility modifiers
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0262"]/value/text()'/>
         /// </summary>
         CS0262 = 0262,
         /// <summary>
-        /// Partial declarations of {0} must not specify different base classes
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0263"]/value/text()'/>
         /// </summary>
         CS0263 = 0263,
         /// <summary>
-        /// Partial declarations of {0} must have the same type parameter names in the same order
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0264"]/value/text()'/>
         /// </summary>
         CS0264 = 0264,
         /// <summary>
-        /// Partial declarations of {0} have inconsistent constraints for type parameter {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0265"]/value/text()'/>
         /// </summary>
         CS0265 = 0265,
         /// <summary>
-        /// Cannot implicitly convert type {0} to {1}. An explicit conversion exists (are you missing a cast?)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0266"]/value/text()'/>
         /// </summary>
         CS0266 = 0266,
         /// <summary>
-        /// The partial modifier can only appear immediately before 'class', 'struct', or 'interface'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0267"]/value/text()'/>
         /// </summary>
         CS0267 = 0267,
         /// <summary>
-        /// Imported type {0} is invalid. It contains a circular base class dependency.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0268"]/value/text()'/>
         /// </summary>
         CS0268 = 0268,
         /// <summary>
-        /// Use of unassigned out parameter {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0269"]/value/text()'/>
         /// </summary>
         CS0269 = 0269,
         /// <summary>
-        /// Array size cannot be specified in a variable declaration (try initializing with a 'new' expression)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0270"]/value/text()'/>
         /// </summary>
         CS0270 = 0270,
         /// <summary>
-        /// The property or indexer {0} cannot be used in this context because the get accessor is inaccessible
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0271"]/value/text()'/>
         /// </summary>
         CS0271 = 0271,
         /// <summary>
-        /// The property or indexer {0} cannot be used in this context because the set accessor is inaccessible
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0272"]/value/text()'/>
         /// </summary>
         CS0272 = 0272,
         /// <summary>
-        /// The accessibility modifier of the {0} accessor must be more restrictive than the property or indexer {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0273"]/value/text()'/>
         /// </summary>
         CS0273 = 0273,
         /// <summary>
-        /// Cannot specify accessibility modifiers for both accessors of the property or indexer {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0274"]/value/text()'/>
         /// </summary>
         CS0274 = 0274,
         /// <summary>
-        /// {0}: accessibility modifiers may not be used on accessors in an interface
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0275"]/value/text()'/>
         /// </summary>
         CS0275 = 0275,
         /// <summary>
-        /// {0}: accessibility modifiers on accessors may only be used if the property or indexer has both a get and a set accessor
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0276"]/value/text()'/>
         /// </summary>
         CS0276 = 0276,
         /// <summary>
-        /// {0} does not implement interface member {1}. {2} is not public
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0277"]/value/text()'/>
         /// </summary>
         CS0277 = 0277,
         /// <summary>
-        /// Friend access was granted to {0}, but the output assembly is named {1}. Try adding a reference to {0} or changing the output assembly name to match.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0281"]/value/text()'/>
         /// </summary>
         CS0281 = 0281,
         /// <summary>
-        /// The type {0} cannot be declared const
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0283"]/value/text()'/>
         /// </summary>
         CS0283 = 0283,
         /// <summary>
-        /// Cannot create an instance of the variable type {0} because it does not have the new() constraint
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0304"]/value/text()'/>
         /// </summary>
         CS0304 = 0304,
         /// <summary>
-        /// Using the generic type {0} requires {1} type arguments
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0305"]/value/text()'/>
         /// </summary>
         CS0305 = 0305,
         /// <summary>
-        /// The type {0} may not be used as a type argument
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0306"]/value/text()'/>
         /// </summary>
         CS0306 = 0306,
         /// <summary>
-        /// The {0} {1} is not a generic method. If you intended an expression list, use parentheses around the < expression.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0307"]/value/text()'/>
         /// </summary>
         CS0307 = 0307,
         /// <summary>
-        /// The non-generic type-or-method {0} cannot be used with type arguments.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0308"]/value/text()'/>
         /// </summary>
         CS0308 = 0308,
         /// <summary>
-        /// The type {0} must be a non-abstract type with a public parameterless constructor in order to use it as parameter {1} in the generic type or method {2}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0310"]/value/text()'/>
         /// </summary>
         CS0310 = 0310,
         /// <summary>
-        /// The type {0} cannot be used as type parameter {2} in the generic type or method {3}. There is no implicit reference conversion from {0} to {1}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0311"]/value/text()'/>
         /// </summary>
         CS0311 = 0311,
         /// <summary>
-        /// The type {0} cannot be used as type parameter {1} in the generic type or method {2}. The nullable type {0} does not satisfy the constraint of {3}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0312"]/value/text()'/>
         /// </summary>
         CS0312 = 0312,
         /// <summary>
-        /// The type {0} cannot be used as type parameter {1} in the generic type or method {2}. The nullable type {0} does not satisfy the constraint of {2}. Nullable types cannot satisfy any interface constraints.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0313"]/value/text()'/>
         /// </summary>
         CS0313 = 0313,
         /// <summary>
-        /// The type {0} cannot be used as type parameter {1} in the generic type or method {2}. There is no boxing conversion or type parameter conversion from {3} to {4}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0314"]/value/text()'/>
         /// </summary>
         CS0314 = 0314,
         /// <summary>
-        /// The type {0} cannot be used as type parameter '{1}' in the generic type or method '{2}'. There is no boxing conversion from '{3}' to '{4}'.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0315"]/value/text()'/>
         /// </summary>
         CS0315 = 0315,
         /// <summary>
-        /// The parameter name {0} conflicts with an automatically-generated parameter name.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0316"]/value/text()'/>
         /// </summary>
         CS0316 = 0316,
         /// <summary>
-        /// The type or namespace name {0} could not be found in the global namespace (are you missing an assembly reference?)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0400"]/value/text()'/>
         /// </summary>
         CS0400 = 0400,
         /// <summary>
-        /// The new() constraint must be the last constraint specified
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0401"]/value/text()'/>
         /// </summary>
         CS0401 = 0401,
         /// <summary>
-        /// Cannot convert null to type parameter {0} because it could be a non-nullable value type. Consider using default({0}) instead.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0403"]/value/text()'/>
         /// </summary>
         CS0403 = 0403,
         /// <summary>
-        /// '<' unexpected : attributes cannot be generic
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0404"]/value/text()'/>
         /// </summary>
         CS0404 = 0404,
         /// <summary>
-        /// Duplicate constraint {0} for type parameter {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0405"]/value/text()'/>
         /// </summary>
         CS0405 = 0405,
         /// <summary>
-        /// The class type constraint {0} must come before any other constraints
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0406"]/value/text()'/>
         /// </summary>
         CS0406 = 0406,
         /// <summary>
-        /// {0} has the wrong return type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0407"]/value/text()'/>
         /// </summary>
         CS0407 = 0407,
         /// <summary>
-        /// A constraint clause has already been specified for type parameter {0}. All of the constraints for a type parameter must be specified in a single where clause.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0409"]/value/text()'/>
         /// </summary>
         CS0409 = 0409,
         /// <summary>
-        /// No overload for {0} has the correct parameter and return types
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0410"]/value/text()'/>
         /// </summary>
         CS0410 = 0410,
         /// <summary>
-        /// The type arguments for method {0} cannot be inferred from the usage. Try specifying the type arguments explicitly.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0411"]/value/text()'/>
         /// </summary>
         CS0411 = 0411,
         /// <summary>
-        /// {0}: a parameter or local variable cannot have the same name as a method type parameter
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0412"]/value/text()'/>
         /// </summary>
         CS0412 = 0412,
         /// <summary>
-        /// The type parameter {0} cannot be used with the 'as' operator because it does not have a class type constraint nor a constraint that is a class
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0413"]/value/text()'/>
         /// </summary>
         CS0413 = 0413,
         /// <summary>
-        /// The {0} attribute is valid only on an indexer that is not an explicit interface member declaration
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0415"]/value/text()'/>
         /// </summary>
         CS0415 = 0415,
         /// <summary>
-        /// {0}: an attribute argument cannot use type parameters
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0416"]/value/text()'/>
         /// </summary>
         CS0416 = 0416,
         /// <summary>
-        /// {0}: cannot provide arguments when creating an instance of a variable type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0417"]/value/text()'/>
         /// </summary>
         CS0417 = 0417,
         /// <summary>
-        /// {0}: an abstract class cannot be sealed or static
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0418"]/value/text()'/>
         /// </summary>
         CS0418 = 0418,
         /// <summary>
-        /// Since {0} has the ComImport attribute, {1} must be extern or abstract
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0423"]/value/text()'/>
         /// </summary>
         CS0423 = 0423,
         /// <summary>
-        /// {0}: a class with the ComImport attribute cannot specify a base class
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0424"]/value/text()'/>
         /// </summary>
         CS0424 = 0424,
         /// <summary>
-        /// The constraints for type parameter {0} of method {1} must match the constraints for type parameter {2} of interface method {3}. Consider using an explicit interface implementation instead.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0425"]/value/text()'/>
         /// </summary>
         CS0425 = 0425,
         /// <summary>
-        /// The type name {0} does not exist in the type {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0426"]/value/text()'/>
         /// </summary>
         CS0426 = 0426,
         /// <summary>
-        /// Cannot convert method group {0} to non-delegate type {1}. Did you intend to invoke the method?
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0428"]/value/text()'/>
         /// </summary>
         CS0428 = 0428,
         /// <summary>
-        /// The extern alias {0} was not specified in a /reference option
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0430"]/value/text()'/>
         /// </summary>
         CS0430 = 0430,
         /// <summary>
-        /// Cannot use alias {0} with '::' since the alias references a type. Use '.' instead.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0431"]/value/text()'/>
         /// </summary>
         CS0431 = 0431,
         /// <summary>
-        /// Alias {0} not found
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0432"]/value/text()'/>
         /// </summary>
         CS0432 = 0432,
         /// <summary>
-        /// The type {0} exists in both {1} and {2}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0433"]/value/text()'/>
         /// </summary>
         CS0433 = 0433,
         /// <summary>
-        /// The namespace {0} in {1} conflicts with the type {2} in {3}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0434"]/value/text()'/>
         /// </summary>
         CS0434 = 0434,
         /// <summary>
-        /// The type {0} in {1} conflicts with the namespace {2} in {3}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0438"]/value/text()'/>
         /// </summary>
         CS0438 = 0438,
         /// <summary>
-        /// An extern alias declaration must precede all other elements defined in the namespace
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0439"]/value/text()'/>
         /// </summary>
         CS0439 = 0439,
         /// <summary>
-        /// {0}: a class cannot be both static and sealed
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0441"]/value/text()'/>
         /// </summary>
         CS0441 = 0441,
         /// <summary>
-        /// {0}: abstract properties cannot have private accessors
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0442"]/value/text()'/>
         /// </summary>
         CS0442 = 0442,
         /// <summary>
-        /// Syntax error, value expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0443"]/value/text()'/>
         /// </summary>
         CS0443 = 0443,
         /// <summary>
-        /// Cannot modify the result of an unboxing conversion
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0445"]/value/text()'/>
         /// </summary>
         CS0445 = 0445,
         /// <summary>
-        /// Foreach cannot operate on a {0}. Did you intend to invoke the {0}?
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0446"]/value/text()'/>
         /// </summary>
         CS0446 = 0446,
         /// <summary>
-        /// Attributes cannot be used on type arguments, only on type parameters
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0447"]/value/text()'/>
         /// </summary>
         CS0447 = 0447,
         /// <summary>
-        /// The return type for ++ or -- operator must be the containing type or derived from the containing type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0448"]/value/text()'/>
         /// </summary>
         CS0448 = 0448,
         /// <summary>
-        /// The 'class' or 'struct' constraint must come before any other constraints
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0449"]/value/text()'/>
         /// </summary>
         CS0449 = 0449,
         /// <summary>
-        /// {0}: cannot specify both a constraint class and the 'class' or 'struct' constraint
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0450"]/value/text()'/>
         /// </summary>
         CS0450 = 0450,
         /// <summary>
-        /// The 'new()' constraint cannot be used with the 'struct' constraint
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0451"]/value/text()'/>
         /// </summary>
         CS0451 = 0451,
         /// <summary>
-        /// The type {0} must be a reference type in order to use it as parameter {1} in the generic type or method {2}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0452"]/value/text()'/>
         /// </summary>
         CS0452 = 0452,
         /// <summary>
-        /// The type {0} must be a non-nullable value type in order to use it as parameter {1} in the generic type or method {2}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0453"]/value/text()'/>
         /// </summary>
         CS0453 = 0453,
         /// <summary>
-        /// Circular constraint dependency involving {0} and {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0454"]/value/text()'/>
         /// </summary>
         CS0454 = 0454,
         /// <summary>
-        /// Type parameter {0} inherits conflicting constraints {1} and {2}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0455"]/value/text()'/>
         /// </summary>
         CS0455 = 0455,
         /// <summary>
-        /// Type parameter {0} has the 'struct' constraint so {0} cannot be used as a constraint for {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0456"]/value/text()'/>
         /// </summary>
         CS0456 = 0456,
         /// <summary>
-        /// Ambiguous user defined conversions {0} and {1} when converting from {2} to {3}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0457"]/value/text()'/>
         /// </summary>
         CS0457 = 0457,
         /// <summary>
-        /// Cannot take the address of a read-only local variable
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0459"]/value/text()'/>
         /// </summary>
         CS0459 = 0459,
         /// <summary>
-        /// Constraints for override and explicit interface implementation methods are inherited from the base method, so they cannot be specified directly
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0460"]/value/text()'/>
         /// </summary>
         CS0460 = 0460,
         /// <summary>
-        /// The inherited members {0} and {1} have the same signature in type {1}, so they cannot be overridden
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0462"]/value/text()'/>
         /// </summary>
         CS0462 = 0462,
         /// <summary>
-        /// Evaluation of the decimal constant expression failed with error: {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0463"]/value/text()'/>
         /// </summary>
         CS0463 = 0463,
         /// <summary>
-        /// {0} should not have a params parameter since {1} does not
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0466"]/value/text()'/>
         /// </summary>
         CS0466 = 0466,
         /// <summary>
-        /// Ambiguity between type {0} and type {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0468"]/value/text()'/>
         /// </summary>
         CS0468 = 0468,
         /// <summary>
-        /// Method {0} cannot implement interface accessor {1} for type {2}. Use an explicit interface implementation.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0470"]/value/text()'/>
         /// </summary>
         CS0470 = 0470,
         /// <summary>
-        /// The method [0} is not a generic method. If you intended an expression list, use parentheses around the &lt; expression.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0471"]/value/text()'/>
         /// </summary>
         CS0471 = 0471,
         /// <summary>
-        /// Explicit interface implementation {0} matches more than one interface member. Which interface member is actually chosen is implementation-dependent. Consider using a non-explicit implementation instead.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0473"]/value/text()'/>
         /// </summary>
         CS0473 = 0473,
         /// <summary>
-        /// {0} cannot declare a body because it is marked abstract
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0500"]/value/text()'/>
         /// </summary>
         CS0500 = 0500,
         /// <summary>
-        /// {0} must declare a body because it is not marked abstract, extern, or partial
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0501"]/value/text()'/>
         /// </summary>
         CS0501 = 0501,
         /// <summary>
-        /// {0} cannot be both abstract and sealed
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0502"]/value/text()'/>
         /// </summary>
         CS0502 = 0502,
         /// <summary>
-        /// The abstract method {0} cannot be marked virtual
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0503"]/value/text()'/>
         /// </summary>
         CS0503 = 0503,
         /// <summary>
-        /// The constant {0} cannot be marked static
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0504"]/value/text()'/>
         /// </summary>
         CS0504 = 0504,
         /// <summary>
-        /// {0}: cannot override because {1} is not a function
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0505"]/value/text()'/>
         /// </summary>
         CS0505 = 0505,
         /// <summary>
-        /// {0} : cannot override inherited member {1} because it is not marked 'virtual', 'abstract', or 'override'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0506"]/value/text()'/>
         /// </summary>
         CS0506 = 0506,
         /// <summary>
-        /// {0} : cannot change access modifiers when overriding {1} inherited member {2}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0507"]/value/text()'/>
         /// </summary>
         CS0507 = 0507,
         /// <summary>
-        /// {0}: return type must be {1} to match overridden member {2}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0508"]/value/text()'/>
         /// </summary>
         CS0508 = 0508,
         /// <summary>
-        /// {0} : cannot derive from sealed type {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0509"]/value/text()'/>
         /// </summary>
         CS0509 = 0509,
         /// <summary>
-        /// {0} is abstract but it is contained in nonabstract class {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0513"]/value/text()'/>
         /// </summary>
         CS0513 = 0513,
         /// <summary>
-        /// {0} : static constructor cannot have an explicit 'this' or 'base' constructor call
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0514"]/value/text()'/>
         /// </summary>
         CS0514 = 0514,
         /// <summary>
-        /// {0} : access modifiers are not allowed on static constructors
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0515"]/value/text()'/>
         /// </summary>
         CS0515 = 0515,
         /// <summary>
-        /// Constructor {0} can not call itself
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0516"]/value/text()'/>
         /// </summary>
         CS0516 = 0516,
         /// <summary>
-        /// {0} has no base class and cannot call a base constructor
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0517"]/value/text()'/>
         /// </summary>
         CS0517 = 0517,
         /// <summary>
-        /// Predefined type {0} is not defined or imported
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0518"]/value/text()'/>
         /// </summary>
         CS0518 = 0518,
         /// <summary>
-        /// Predefined type {0} is declared incorrectly
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0520"]/value/text()'/>
         /// </summary>
         CS0520 = 0520,
         /// <summary>
-        /// {0} : structs cannot call base class constructors
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0522"]/value/text()'/>
         /// </summary>
         CS0522 = 0522,
         /// <summary>
-        /// Struct member {0} of type {1} causes a cycle in the struct layout
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0523"]/value/text()'/>
         /// </summary>
         CS0523 = 0523,
         /// <summary>
-        /// {0} : interfaces cannot declare types
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0524"]/value/text()'/>
         /// </summary>
         CS0524 = 0524,
         /// <summary>
-        /// Interfaces cannot contain fields
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0525"]/value/text()'/>
         /// </summary>
         CS0525 = 0525,
         /// <summary>
-        /// Interfaces cannot contain constructors
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0526"]/value/text()'/>
         /// </summary>
         CS0526 = 0526,
         /// <summary>
-        /// Type {0} in interface list is not an interface
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0527"]/value/text()'/>
         /// </summary>
         CS0527 = 0527,
         /// <summary>
-        /// {0} is already listed in interface list
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0528"]/value/text()'/>
         /// </summary>
         CS0528 = 0528,
         /// <summary>
-        /// Inherited interface {0} causes a cycle in the interface hierarchy of {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0529"]/value/text()'/>
         /// </summary>
         CS0529 = 0529,
         /// <summary>
-        /// {0} : interface members cannot have a definition
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0531"]/value/text()'/>
         /// </summary>
         CS0531 = 0531,
         /// <summary>
-        /// {0} hides inherited abstract member {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0533"]/value/text()'/>
         /// </summary>
         CS0533 = 0533,
         /// <summary>
-        /// {0} does not implement inherited abstract member {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0534"]/value/text()'/>
         /// </summary>
         CS0534 = 0534,
         /// <summary>
-        /// {0} does not implement interface member {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0535"]/value/text()'/>
         /// </summary>
         CS0535 = 0535,
         /// <summary>
-        /// The class System.Object cannot have a base class or implement an interface
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0537"]/value/text()'/>
         /// </summary>
         CS0537 = 0537,
         /// <summary>
-        /// {0} in explicit interface declaration is not an interface
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0538"]/value/text()'/>
         /// </summary>
         CS0538 = 0538,
         /// <summary>
-        /// {0} in explicit interface declaration is not a member of interface
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0539"]/value/text()'/>
         /// </summary>
         CS0539 = 0539,
         /// <summary>
-        /// {0} : containing type does not implement interface {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0540"]/value/text()'/>
         /// </summary>
         CS0540 = 0540,
         /// <summary>
-        /// {0} : explicit interface declaration can only be declared in a class or struct
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0541"]/value/text()'/>
         /// </summary>
         CS0541 = 0541,
         /// <summary>
-        /// {0} : member names cannot be the same as their enclosing type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0542"]/value/text()'/>
         /// </summary>
         CS0542 = 0542,
         /// <summary>
-        /// {0} : the enumerator value is too large to fit in its type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0543"]/value/text()'/>
         /// </summary>
         CS0543 = 0543,
         /// <summary>
-        /// {0}: cannot override because {1} is not a property
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0544"]/value/text()'/>
         /// </summary>
         CS0544 = 0544,
         /// <summary>
-        /// {0} : cannot override because {1} does not have an overridable get accessor
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0545"]/value/text()'/>
         /// </summary>
         CS0545 = 0545,
         /// <summary>
-        /// {0} : cannot override because {1} does not have an overridable set accessor
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0546"]/value/text()'/>
         /// </summary>
         CS0546 = 0546,
         /// <summary>
-        /// {0} : property or indexer cannot have void type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0547"]/value/text()'/>
         /// </summary>
         CS0547 = 0547,
         /// <summary>
-        /// {0} : property or indexer must have at least one accessor
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0548"]/value/text()'/>
         /// </summary>
         CS0548 = 0548,
         /// <summary>
-        /// {0} is a new virtual member in sealed class {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0549"]/value/text()'/>
         /// </summary>
         CS0549 = 0549,
         /// <summary>
-        /// {0} adds an accessor not found in interface member {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0550"]/value/text()'/>
         /// </summary>
         CS0550 = 0550,
         /// <summary>
-        /// Explicit interface implementation {0} is missing accessor {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0551"]/value/text()'/>
         /// </summary>
         CS0551 = 0551,
         /// <summary>
-        /// {0} : user defined conversion to/from interface
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0552"]/value/text()'/>
         /// </summary>
         CS0552 = 0552,
         /// <summary>
-        /// {0} : user defined conversion to/from base class
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0553"]/value/text()'/>
         /// </summary>
         CS0553 = 0553,
         /// <summary>
-        /// {0} : user defined conversion to/from derived class
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0554"]/value/text()'/>
         /// </summary>
         CS0554 = 0554,
         /// <summary>
-        /// User-defined operator cannot take an object of the enclosing type and convert to an object of the enclosing type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0555"]/value/text()'/>
         /// </summary>
         CS0555 = 0555,
         /// <summary>
-        /// User-defined conversion must convert to or from the enclosing type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0556"]/value/text()'/>
         /// </summary>
         CS0556 = 0556,
         /// <summary>
-        /// Duplicate user-defined conversion in type {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0557"]/value/text()'/>
         /// </summary>
         CS0557 = 0557,
         /// <summary>
-        /// User-defined operator {0} must be declared static and public
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0558"]/value/text()'/>
         /// </summary>
         CS0558 = 0558,
         /// <summary>
-        /// The parameter type for ++ or -- operator must be the containing type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0559"]/value/text()'/>
         /// </summary>
         CS0559 = 0559,
         /// <summary>
-        /// The parameter of a unary operator must be the containing type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0562"]/value/text()'/>
         /// </summary>
         CS0562 = 0562,
         /// <summary>
-        /// One of the parameters of a binary operator must be the containing type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0563"]/value/text()'/>
         /// </summary>
         CS0563 = 0563,
         /// <summary>
-        /// The first operand of an overloaded shift operator must have the same type as the containing type, and the type of the second operand must be int
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0564"]/value/text()'/>
         /// </summary>
         CS0564 = 0564,
         /// <summary>
-        /// Interfaces cannot contain operators
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0567"]/value/text()'/>
         /// </summary>
         CS0567 = 0567,
         /// <summary>
-        /// Structs cannot contain explicit parameterless constructors
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0568"]/value/text()'/>
         /// </summary>
         CS0568 = 0568,
         /// <summary>
-        /// {1} : cannot override {0} because it is not supported by the language
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0569"]/value/text()'/>
         /// </summary>
         CS0569 = 0569,
         /// <summary>
-        /// Property, indexer, or event {0} is not supported by the language; try directly calling accessor method {1}!
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0570"]/value/text()'/>
         /// </summary>
         CS0570 = 0570,
         /// <summary>
-        /// {0} : cannot explicitly call operator or accessor
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0571"]/value/text()'/>
         /// </summary>
         CS0571 = 0571,
         /// <summary>
-        /// {0} : cannot reference a type through an expression; try {1} instead
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0572"]/value/text()'/>
         /// </summary>
         CS0572 = 0572,
         /// <summary>
-        /// {0} : cannot have instance field initializers in structs
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0573"]/value/text()'/>
         /// </summary>
         CS0573 = 0573,
         /// <summary>
-        /// Name of destructor must match name of class
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0574"]/value/text()'/>
         /// </summary>
         CS0574 = 0574,
         /// <summary>
-        /// Only class types can contain destructors
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0575"]/value/text()'/>
         /// </summary>
         CS0575 = 0575,
         /// <summary>
-        /// Namespace {0} contains a definition conflicting with alias {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0576"]/value/text()'/>
         /// </summary>
         CS0576 = 0576,
         /// <summary>
-        /// The Conditional attribute is not valid on {0} because it is a constructor, destructor, operator, or explicit interface implementation
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0577"]/value/text()'/>
         /// </summary>
         CS0577 = 0577,
         /// <summary>
-        /// The Conditional attribute is not valid on {0} because its return type is not void
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0578"]/value/text()'/>
         /// </summary>
         CS0578 = 0578,
         /// <summary>
-        /// Duplicate {0} attribute
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0579"]/value/text()'/>
         /// </summary>
         CS0579 = 0579,
         /// <summary>
-        /// The Conditional not valid on interface members
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0582"]/value/text()'/>
         /// </summary>
         CS0582 = 0582,
         /// <summary>
-        /// Internal Compiler Error. An internal error has occurred in the compiler. To work around this problem, try simplifying or changing the program near the locations listed below. Locations at the top of the list are closer to the point at which the internal error occurred. Errors such as this can be reported to Microsoft by using the /errorreport option.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0583"]/value/text()'/>
         /// </summary>
         CS0583 = 0583,
         /// <summary>
-        /// Internal Compiler Error: stage {0} symbol {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0584"]/value/text()'/>
         /// </summary>
         CS0584 = 0584,
         /// <summary>
-        /// Internal Compiler Error: stage {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0585"]/value/text()'/>
         /// </summary>
         CS0585 = 0585,
         /// <summary>
-        /// Internal Compiler Error: stage {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0586"]/value/text()'/>
         /// </summary>
         CS0586 = 0586,
         /// <summary>
-        /// Internal Compiler Error: stage {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0587"]/value/text()'/>
         /// </summary>
         CS0587 = 0587,
         /// <summary>
-        /// Internal Compiler Error: stage 'LEX'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0588"]/value/text()'/>
         /// </summary>
         CS0588 = 0588,
         /// <summary>
-        /// Internal Compiler Error: stage 'PARSE'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0589"]/value/text()'/>
         /// </summary>
         CS0589 = 0589,
         /// <summary>
-        /// User-defined operators cannot return void
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0590"]/value/text()'/>
         /// </summary>
         CS0590 = 0590,
         /// <summary>
-        /// Invalid value for argument to {0} attribute
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0591"]/value/text()'/>
         /// </summary>
         CS0591 = 0591,
         /// <summary>
-        /// Attribute {0} is not valid on this declaration type. It is valid on {1} declarations only.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0592"]/value/text()'/>
         /// </summary>
         CS0592 = 0592,
         /// <summary>
-        /// Floating-point constant is outside the range of type {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0594"]/value/text()'/>
         /// </summary>
         CS0594 = 0594,
         /// <summary>
-        /// The Guid attribute must be specified with the ComImport attribute
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0596"]/value/text()'/>
         /// </summary>
         CS0596 = 0596,
         /// <summary>
-        /// Invalid value for named attribute argument {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0599"]/value/text()'/>
         /// </summary>
         CS0599 = 0599,
         /// <summary>
-        /// The DllImport attribute must be specified on a method marked 'static' and 'extern'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0601"]/value/text()'/>
         /// </summary>
         CS0601 = 0601,
         /// <summary>
-        /// Cannot set the IndexerName attribute on an indexer marked override
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0609"]/value/text()'/>
         /// </summary>
         CS0609 = 0609,
         /// <summary>
-        /// Field or property cannot be of type {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0610"]/value/text()'/>
         /// </summary>
         CS0610 = 0610,
         /// <summary>
-        /// Array elements cannot be of type {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0611"]/value/text()'/>
         /// </summary>
         CS0611 = 0611,
         /// <summary>
-        /// {0} is not an attribute class
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0616"]/value/text()'/>
         /// </summary>
         CS0616 = 0616,
         /// <summary>
-        /// {0} is not a valid named attribute argument because it is not a valid attribute parameter type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0617"]/value/text()'/>
         /// </summary>
         CS0617 = 0617,
         /// <summary>
-        /// {0} is obsolete: {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0619"]/value/text()'/>
         /// </summary>
         CS0619 = 0619,
         /// <summary>
-        /// Indexers cannot have void type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0620"]/value/text()'/>
         /// </summary>
         CS0620 = 0620,
         /// <summary>
-        /// {0} : virtual or abstract members cannot be private
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0621"]/value/text()'/>
         /// </summary>
         CS0621 = 0621,
         /// <summary>
-        /// Can only use array initializer expressions to assign to array types. Try using a new expression instead.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0622"]/value/text()'/>
         /// </summary>
         CS0622 = 0622,
         /// <summary>
-        /// Array initializers can only be used in a variable or field initializer. Try using a new expression instead.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0623"]/value/text()'/>
         /// </summary>
         CS0623 = 0623,
         /// <summary>
-        /// {0}: instance field types marked with StructLayout(LayoutKind.Explicit) must have a FieldOffset attribute
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0625"]/value/text()'/>
         /// </summary>
         CS0625 = 0625,
         /// <summary>
-        /// Conditional member {0} cannot implement interface member {1} in type {2}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0629"]/value/text()'/>
         /// </summary>
         CS0629 = 0629,
         /// <summary>
-        /// ref and out are not valid in this context
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0631"]/value/text()'/>
         /// </summary>
         CS0631 = 0631,
         /// <summary>
-        /// The argument to the {0} attribute must be a valid identifier
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0633"]/value/text()'/>
         /// </summary>
         CS0633 = 0633,
         /// <summary>
-        /// {0} : System.Interop.UnmanagedType.CustomMarshaller requires named arguments ComType and Marshal
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0635"]/value/text()'/>
         /// </summary>
         CS0635 = 0635,
         /// <summary>
-        /// The FieldOffset attribute can only be placed on members of types marked with the StructLayout(LayoutKind.Explicit)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0636"]/value/text()'/>
         /// </summary>
         CS0636 = 0636,
         /// <summary>
-        /// The FieldOffset attribute is not allowed on static or const fields
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0637"]/value/text()'/>
         /// </summary>
         CS0637 = 0637,
         /// <summary>
-        /// {0} : attribute is only valid on classes derived from System.Attribute
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0641"]/value/text()'/>
         /// </summary>
         CS0641 = 0641,
         /// <summary>
-        /// {0} duplicate named attribute argument
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0643"]/value/text()'/>
         /// </summary>
         CS0643 = 0643,
         /// <summary>
-        /// {0} cannot derive from special class {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0644"]/value/text()'/>
         /// </summary>
         CS0644 = 0644,
         /// <summary>
-        /// Identifier too long
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0645"]/value/text()'/>
         /// </summary>
         CS0645 = 0645,
         /// <summary>
-        /// Cannot specify the DefaultMember attribute on a type containing an indexer
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0646"]/value/text()'/>
         /// </summary>
         CS0646 = 0646,
         /// <summary>
-        /// Error emitting {0} attribute -- {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0647"]/value/text()'/>
         /// </summary>
         CS0647 = 0647,
         /// <summary>
-        /// {0} is a type not supported by the language
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0648"]/value/text()'/>
         /// </summary>
         CS0648 = 0648,
         /// <summary>
-        /// Bad array declarator: To declare a managed array the rank specifier precedes the variable's identifier. To declare a fixed size buffer field, use the fixed keyword before the field type.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0650"]/value/text()'/>
         /// </summary>
         CS0650 = 0650,
         /// <summary>
-        /// Cannot apply attribute class {0} because it is abstract
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0653"]/value/text()'/>
         /// </summary>
         CS0653 = 0653,
         /// <summary>
-        /// {0} is not a valid named attribute argument because it is not a valid attribute parameter type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0655"]/value/text()'/>
         /// </summary>
         CS0655 = 0655,
         /// <summary>
-        /// Missing compiler required member {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0656"]/value/text()'/>
         /// </summary>
         CS0656 = 0656,
         /// <summary>
-        /// {0} cannot specify only Out attribute on a ref parameter. Use both In and Out attributes, or neither.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0662"]/value/text()'/>
         /// </summary>
         CS0662 = 0662,
         /// <summary>
-        /// Cannot define overloaded methods that differ only on ref and out.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0663"]/value/text()'/>
         /// </summary>
         CS0663 = 0663,
         /// <summary>
-        /// Literal of type double cannot be implicitly converted to type {0}; use an {1} suffix to create a literal of this type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0664"]/value/text()'/>
         /// </summary>
         CS0664 = 0664,
         /// <summary>
-        /// {0} : new protected member declared in struct
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0666"]/value/text()'/>
         /// </summary>
         CS0666 = 0666,
         /// <summary>
-        /// The feature {0} is deprecated. Please use {1} instead.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0667"]/value/text()'/>
         /// </summary>
         CS0667 = 0667,
         /// <summary>
-        /// Two indexers have different names; the IndexerName attribute must be used with the same name on every indexer within a type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0668"]/value/text()'/>
         /// </summary>
         CS0668 = 0668,
         /// <summary>
-        /// A class with the ComImport attribute cannot have a user-defined constructor
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0669"]/value/text()'/>
         /// </summary>
         CS0669 = 0669,
         /// <summary>
-        /// Field cannot have void type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0670"]/value/text()'/>
         /// </summary>
         CS0670 = 0670,
         /// <summary>
-        /// System.Void cannot be used from C# -- use typeof(void) to get the void type object.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0673"]/value/text()'/>
         /// </summary>
         CS0673 = 0673,
         /// <summary>
-        /// Do not use 'System.ParamArrayAttribute'. Use the 'params' keyword instead.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0674"]/value/text()'/>
         /// </summary>
         CS0674 = 0674,
         /// <summary>
-        /// {0}: a volatile field cannot be of the type {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0677"]/value/text()'/>
         /// </summary>
         CS0677 = 0677,
         /// <summary>
-        /// {0}: a field can not be both volatile and readonly
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0678"]/value/text()'/>
         /// </summary>
         CS0678 = 0678,
         /// <summary>
-        /// The modifier 'abstract' is not valid on fields. Try using a property instead
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0681"]/value/text()'/>
         /// </summary>
         CS0681 = 0681,
         /// <summary>
-        /// {0} cannot implement {1} because it is not supported by the language
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0682"]/value/text()'/>
         /// </summary>
         CS0682 = 0682,
         /// <summary>
-        /// {0} explicit method implementation cannot implement {1} because it is an accessor
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0683"]/value/text()'/>
         /// </summary>
         CS0683 = 0683,
         /// <summary>
-        /// Conditional member {0} cannot have an out parameter
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0685"]/value/text()'/>
         /// </summary>
         CS0685 = 0685,
         /// <summary>
-        /// Accessor {0} cannot implement interface member {1} for type {2}. Use an explicit interface implementation.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0686"]/value/text()'/>
         /// </summary>
         CS0686 = 0686,
         /// <summary>
-        /// The namespace alias qualifier '::' always resolves to a type or namespace so is illegal here. Consider using '.' instead.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0687"]/value/text()'/>
         /// </summary>
         CS0687 = 0687,
         /// <summary>
-        /// Cannot derive from {0} because it is a type parameter
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0689"]/value/text()'/>
         /// </summary>
         CS0689 = 0689,
         /// <summary>
-        /// Input file {0} contains invalid metadata.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0690"]/value/text()'/>
         /// </summary>
         CS0690 = 0690,
         /// <summary>
-        /// Duplicate type parameter {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0692"]/value/text()'/>
         /// </summary>
         CS0692 = 0692,
         /// <summary>
-        /// Type parameter {0} has the same name as the containing type, or method
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0694"]/value/text()'/>
         /// </summary>
         CS0694 = 0694,
         /// <summary>
-        /// {0} cannot implement both {1} and {1} because they may unify for some type parameter substitutions
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0695"]/value/text()'/>
         /// </summary>
         CS0695 = 0695,
         /// <summary>
-        /// A generic type cannot derive from {0} because it is an attribute class
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0698"]/value/text()'/>
         /// </summary>
         CS0698 = 0698,
         /// <summary>
-        /// {0} does not define type parameter {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0699"]/value/text()'/>
         /// </summary>
         CS0699 = 0699,
         /// <summary>
-        /// {0} is not a valid constraint. A type used as a constraint must be an interface, a non-sealed class or a type parameter.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0701"]/value/text()'/>
         /// </summary>
         CS0701 = 0701,
         /// <summary>
-        /// Constraint cannot be special class {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0702"]/value/text()'/>
         /// </summary>
         CS0702 = 0702,
         /// <summary>
-        /// Inconsistent accessibility: constraint type {0} is less accessible than {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0703"]/value/text()'/>
         /// </summary>
         CS0703 = 0703,
         /// <summary>
-        /// Cannot do member lookup in {0} because it is a type parameter
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0704"]/value/text()'/>
         /// </summary>
         CS0704 = 0704,
         /// <summary>
-        /// Invalid constraint type. A type used as a constraint must be an interface, a non-sealed class or a type parameter.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0706"]/value/text()'/>
         /// </summary>
         CS0706 = 0706,
         /// <summary>
-        /// {0}: cannot declare instance members in a static class
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0708"]/value/text()'/>
         /// </summary>
         CS0708 = 0708,
         /// <summary>
-        /// {0}: cannot derive from static class {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0709"]/value/text()'/>
         /// </summary>
         CS0709 = 0709,
         /// <summary>
-        /// Static classes cannot have instance constructors
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0710"]/value/text()'/>
         /// </summary>
         CS0710 = 0710,
         /// <summary>
-        /// Static classes cannot contain destructors
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0711"]/value/text()'/>
         /// </summary>
         CS0711 = 0711,
         /// <summary>
-        /// Cannot create an instance of the static class {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0712"]/value/text()'/>
         /// </summary>
         CS0712 = 0712,
         /// <summary>
-        /// Static class {0} cannot derive from type {1}. Static classes must derive from object.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0713"]/value/text()'/>
         /// </summary>
         CS0713 = 0713,
         /// <summary>
-        /// {0} : static classes cannot implement interfaces
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0714"]/value/text()'/>
         /// </summary>
         CS0714 = 0714,
         /// <summary>
-        /// {0} : static classes cannot contain user defined operators
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0715"]/value/text()'/>
         /// </summary>
         CS0715 = 0715,
         /// <summary>
-        /// Cannot convert to static type {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0716"]/value/text()'/>
         /// </summary>
         CS0716 = 0716,
         /// <summary>
-        /// {0}: static classes cannot be used as constraints
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0717"]/value/text()'/>
         /// </summary>
         CS0717 = 0717,
         /// <summary>
-        /// {0}: static types cannot be used as type arguments
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0718"]/value/text()'/>
         /// </summary>
         CS0718 = 0718,
         /// <summary>
-        /// {0}: array elements cannot be of static type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0719"]/value/text()'/>
         /// </summary>
         CS0719 = 0719,
         /// <summary>
-        /// {0}: cannot declare indexers in a static class
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0720"]/value/text()'/>
         /// </summary>
         CS0720 = 0720,
         /// <summary>
-        /// {0}: static types cannot be used as parameters
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0721"]/value/text()'/>
         /// </summary>
         CS0721 = 0721,
         /// <summary>
-        /// {0}: static types cannot be used as return types
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0722"]/value/text()'/>
         /// </summary>
         CS0722 = 0722,
         /// <summary>
-        /// Cannot declare variable of static type {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0723"]/value/text()'/>
         /// </summary>
         CS0723 = 0723,
         /// <summary>
-        /// does not need a CLSCompliant attribute because the assembly does not have a CLSCompliant attribute
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0724"]/value/text()'/>
         /// </summary>
         CS0724 = 0724,
         /// <summary>
-        /// Type {0} is defined in this assembly, but a type forwarder is specified for it
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0729"]/value/text()'/>
         /// </summary>
         CS0729 = 0729,
         /// <summary>
-        /// Cannot forward type {0} because it is a nested type of {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0730"]/value/text()'/>
         /// </summary>
         CS0730 = 0730,
         /// <summary>
-        /// The type forwarder for type {0} in assembly {1} causes a cycle
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0731"]/value/text()'/>
         /// </summary>
         CS0731 = 0731,
         /// <summary>
-        /// Cannot forward generic type, {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0733"]/value/text()'/>
         /// </summary>
         CS0733 = 0733,
         /// <summary>
-        /// The /moduleassemblyname option may only be specified when building a target type of 'module'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0734"]/value/text()'/>
         /// </summary>
         CS0734 = 0734,
         /// <summary>
-        /// Invalid type specified as an argument for TypeForwardedTo attribute
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0735"]/value/text()'/>
         /// </summary>
         CS0735 = 0735,
         /// <summary>
-        /// {0} does not implement interface member {1}. {2} cannot implement an interface member because it is static.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0736"]/value/text()'/>
         /// </summary>
         CS0736 = 0736,
         /// <summary>
-        /// {0} does not implement interface member {1}. {2} cannot implement an interface member because it is not public.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0737"]/value/text()'/>
         /// </summary>
         CS0737 = 0737,
         /// <summary>
-        /// {0} does not implement interface member {1}. {2} cannot implement {1} because it does not have the matching return type of {3}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0738"]/value/text()'/>
         /// </summary>
         CS0738 = 0738,
         /// <summary>
-        /// {0} duplicate TypeForwardedToAttribute.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0739"]/value/text()'/>
         /// </summary>
         CS0739 = 0739,
         /// <summary>
-        /// A query body must end with a select clause or a group clause
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0742"]/value/text()'/>
         /// </summary>
         CS0742 = 0742,
         /// <summary>
-        /// Expected contextual keyword 'on'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0743"]/value/text()'/>
         /// </summary>
         CS0743 = 0743,
         /// <summary>
-        /// Expected contextual keyword 'equals'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0744"]/value/text()'/>
         /// </summary>
         CS0744 = 0744,
         /// <summary>
-        /// Expected contextual keyword 'by'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0745"]/value/text()'/>
         /// </summary>
         CS0745 = 0745,
         /// <summary>
-        /// Invalid anonymous type member declarator. Anonymous type members must be declared with a member assignment, simple name or member access.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0746"]/value/text()'/>
         /// </summary>
         CS0746 = 0746,
         /// <summary>
-        /// Invalid initializer member declarator.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0747"]/value/text()'/>
         /// </summary>
         CS0747 = 0747,
         /// <summary>
-        /// Inconsistent lambda parameter usage; all parameter types must either be explicit or implicit.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0748"]/value/text()'/>
         /// </summary>
         CS0748 = 0748,
         /// <summary>
-        /// A partial method cannot have access modifiers or the virtual, abstract, override, new, sealed, or extern modifiers.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0750"]/value/text()'/>
         /// </summary>
         CS0750 = 0750,
         /// <summary>
-        /// A partial method must be declared in a partial class or partial struct
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0751"]/value/text()'/>
         /// </summary>
         CS0751 = 0751,
         /// <summary>
-        /// A partial method cannot have out parameters
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0752"]/value/text()'/>
         /// </summary>
         CS0752 = 0752,
         /// <summary>
-        /// Only methods, classes, structs, or interfaces may be partial.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0753"]/value/text()'/>
         /// </summary>
         CS0753 = 0753,
         /// <summary>
-        /// A partial method may not explicitly implement an interface method.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0754"]/value/text()'/>
         /// </summary>
         CS0754 = 0754,
         /// <summary>
-        /// Both partial method declarations must be extension methods or neither may be an extension method.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0755"]/value/text()'/>
         /// </summary>
         CS0755 = 0755,
         /// <summary>
-        /// A partial method may not have multiple defining declarations.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0756"]/value/text()'/>
         /// </summary>
         CS0756 = 0756,
         /// <summary>
-        /// A partial method may not have multiple implementing declarations.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0757"]/value/text()'/>
         /// </summary>
         CS0757 = 0757,
         /// <summary>
-        /// Both partial method declarations must use a params parameter or neither may use a params parameter
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0758"]/value/text()'/>
         /// </summary>
         CS0758 = 0758,
         /// <summary>
-        /// No defining declaration found for implementing declaration of partial method {0}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0759"]/value/text()'/>
         /// </summary>
         CS0759 = 0759,
         /// <summary>
-        /// Partial method declarations of {0} have inconsistent type parameter constraints.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0761"]/value/text()'/>
         /// </summary>
         CS0761 = 0761,
         /// <summary>
-        /// Cannot create delegate from method {0} because it is a partial method without an implementing declaration
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0762"]/value/text()'/>
         /// </summary>
         CS0762 = 0762,
         /// <summary>
-        /// Both partial method declarations must be static or neither may be static.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0763"]/value/text()'/>
         /// </summary>
         CS0763 = 0763,
         /// <summary>
-        /// Both partial method declarations must be unsafe or neither may be unsafe
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0764"]/value/text()'/>
         /// </summary>
         CS0764 = 0764,
         /// <summary>
-        /// Partial methods with only a defining declaration or removed conditional methods cannot be used in expression trees
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0765"]/value/text()'/>
         /// </summary>
         CS0765 = 0765,
         /// <summary>
-        /// Partial methods must have a void return type.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0766"]/value/text()'/>
         /// </summary>
         CS0766 = 0766,
         /// <summary>
-        /// The fully qualified name for {0} is too long for debug information. Compile without '/debug' option.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0811"]/value/text()'/>
         /// </summary>
         CS0811 = 0811,
         /// <summary>
-        /// Cannot assign {0} to an implicitly typed local
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0815"]/value/text()'/>
         /// </summary>
         CS0815 = 0815,
         /// <summary>
-        /// Implicitly typed locals must be initialized
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0818"]/value/text()'/>
         /// </summary>
         CS0818 = 0818,
         /// <summary>
-        /// Implicitly typed locals cannot have multiple declarators.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0819"]/value/text()'/>
         /// </summary>
         CS0819 = 0819,
         /// <summary>
-        /// Cannot assign array initializer to an implicitly typed local
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0820"]/value/text()'/>
         /// </summary>
         CS0820 = 0820,
         /// <summary>
-        /// Implicitly typed locals cannot be fixed
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0821"]/value/text()'/>
         /// </summary>
         CS0821 = 0821,
         /// <summary>
-        /// Implicitly typed locals cannot be const
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0822"]/value/text()'/>
         /// </summary>
         CS0822 = 0822,
         /// <summary>
-        /// The contextual keyword 'var' may only appear within a local variable declaration.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0825"]/value/text()'/>
         /// </summary>
         CS0825 = 0825,
         /// <summary>
-        /// No best type found for implicitly typed array.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0826"]/value/text()'/>
         /// </summary>
         CS0826 = 0826,
         /// <summary>
-        /// Cannot assign {0} to anonymous type property.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0828"]/value/text()'/>
         /// </summary>
         CS0828 = 0828,
         /// <summary>
-        /// An expression tree may not contain a base access.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0831"]/value/text()'/>
         /// </summary>
         CS0831 = 0831,
         /// <summary>
-        /// An expression tree may not contain an assignment operator.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0832"]/value/text()'/>
         /// </summary>
         CS0832 = 0832,
         /// <summary>
-        /// An anonymous type cannot have multiple properties with the same name.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0833"]/value/text()'/>
         /// </summary>
         CS0833 = 0833,
         /// <summary>
-        /// A lambda expression must have an expression body to be converted to an expression tree.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0834"]/value/text()'/>
         /// </summary>
         CS0834 = 0834,
         /// <summary>
-        /// Cannot convert lambda to an expression tree whose type argument {0} is not a delegate type.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0835"]/value/text()'/>
         /// </summary>
         CS0835 = 0835,
         /// <summary>
-        /// Cannot use anonymous type in a constant expression.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0836"]/value/text()'/>
         /// </summary>
         CS0836 = 0836,
         /// <summary>
-        /// The first operand of an 'is' or 'as' operator may not be a lambda expression or anonymous method.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0837"]/value/text()'/>
         /// </summary>
         CS0837 = 0837,
         /// <summary>
-        /// An expression tree may not contain a multidimensional array initializer.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0838"]/value/text()'/>
         /// </summary>
         CS0838 = 0838,
         /// <summary>
-        /// Argument missing.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0839"]/value/text()'/>
         /// </summary>
         CS0839 = 0839,
         /// <summary>
-        /// {0} must declare a body because it is not marked abstract or extern. Automatically implemented properties must define both get and set accessors.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0840"]/value/text()'/>
         /// </summary>
         CS0840 = 0840,
         /// <summary>
-        /// Cannot use variable {0} before it is declared.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0841"]/value/text()'/>
         /// </summary>
         CS0841 = 0841,
         /// <summary>
-        /// Automatically implemented properties cannot be used inside a type marked with StructLayout(LayoutKind.Explicit).
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0842"]/value/text()'/>
         /// </summary>
         CS0842 = 0842,
         /// <summary>
-        /// Backing field for automatically implemented property {0} must be fully assigned before control is returned to the caller. Consider calling the default constructor from a constructor initializer.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0843"]/value/text()'/>
         /// </summary>
         CS0843 = 0843,
         /// <summary>
-        /// Cannot use local variable {0} before it is declared. The declaration of the local variable hides the field {0}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0844"]/value/text()'/>
         /// </summary>
         CS0844 = 0844,
         /// <summary>
-        /// An expression tree lambda may not contain a coalescing operator with a null literal left-hand side.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS0845"]/value/text()'/>
         /// </summary>
         CS0845 = 0845,
         /// <summary>
-        /// Identifier expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1001"]/value/text()'/>
         /// </summary>
         CS1001 = 1001,
         /// <summary>
-        /// ; expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1002"]/value/text()'/>
         /// </summary>
         CS1002 = 1002,
         /// <summary>
-        /// Syntax error, 'char' expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1003"]/value/text()'/>
         /// </summary>
         CS1003 = 1003,
         /// <summary>
-        /// Duplicate {0} modifier
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1004"]/value/text()'/>
         /// </summary>
         CS1004 = 1004,
         /// <summary>
-        /// Property accessor already defined
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1007"]/value/text()'/>
         /// </summary>
         CS1007 = 1007,
         /// <summary>
-        /// Type byte, sbyte, short, ushort, int, uint, long, or ulong expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1008"]/value/text()'/>
         /// </summary>
         CS1008 = 1008,
         /// <summary>
-        /// Unrecognized escape sequence
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1009"]/value/text()'/>
         /// </summary>
         CS1009 = 1009,
         /// <summary>
-        /// Newline in constant
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1010"]/value/text()'/>
         /// </summary>
         CS1010 = 1010,
         /// <summary>
-        /// Empty character literal
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1011"]/value/text()'/>
         /// </summary>
         CS1011 = 1011,
         /// <summary>
-        /// Too many characters in character literal
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1012"]/value/text()'/>
         /// </summary>
         CS1012 = 1012,
         /// <summary>
-        /// Invalid number
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1013"]/value/text()'/>
         /// </summary>
         CS1013 = 1013,
         /// <summary>
-        /// A get or set accessor expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1014"]/value/text()'/>
         /// </summary>
         CS1014 = 1014,
         /// <summary>
-        /// An object, string, or class type expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1015"]/value/text()'/>
         /// </summary>
         CS1015 = 1015,
         /// <summary>
-        /// Named attribute argument expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1016"]/value/text()'/>
         /// </summary>
         CS1016 = 1016,
         /// <summary>
-        /// Catch clauses cannot follow the general catch clause of a try statement
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1017"]/value/text()'/>
         /// </summary>
         CS1017 = 1017,
         /// <summary>
-        /// Keyword 'this' or 'base' expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1018"]/value/text()'/>
         /// </summary>
         CS1018 = 1018,
         /// <summary>
-        /// Overloadable unary operator expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1019"]/value/text()'/>
         /// </summary>
         CS1019 = 1019,
         /// <summary>
-        /// Overloadable binary operator expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1020"]/value/text()'/>
         /// </summary>
         CS1020 = 1020,
         /// <summary>
-        /// Integral constant is too large
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1021"]/value/text()'/>
         /// </summary>
         CS1021 = 1021,
         /// <summary>
-        /// Type or namespace definition, or end-of-file expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1022"]/value/text()'/>
         /// </summary>
         CS1022 = 1022,
         /// <summary>
-        /// Embedded statement cannot be a declaration or labeled statement
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1023"]/value/text()'/>
         /// </summary>
         CS1023 = 1023,
         /// <summary>
-        /// Preprocessor directive expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1024"]/value/text()'/>
         /// </summary>
         CS1024 = 1024,
         /// <summary>
-        /// Single-line comment or end-of-line expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1025"]/value/text()'/>
         /// </summary>
         CS1025 = 1025,
         /// <summary>
-        /// ) expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1026"]/value/text()'/>
         /// </summary>
         CS1026 = 1026,
         /// <summary>
-        /// #endif directive expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1027"]/value/text()'/>
         /// </summary>
         CS1027 = 1027,
         /// <summary>
-        /// Unexpected preprocessor directive
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1028"]/value/text()'/>
         /// </summary>
         CS1028 = 1028,
         /// <summary>
-        /// #error: {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1029"]/value/text()'/>
         /// </summary>
         CS1029 = 1029,
         /// <summary>
-        /// Type expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1031"]/value/text()'/>
         /// </summary>
         CS1031 = 1031,
         /// <summary>
-        /// Cannot define/undefine preprocessor symbols after first token in file
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1032"]/value/text()'/>
         /// </summary>
         CS1032 = 1032,
         /// <summary>
-        /// Source file has exceeded the limit of 16,707,565 lines representable in the PDB; debug information will be incorrect
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1033"]/value/text()'/>
         /// </summary>
         CS1033 = 1033,
         /// <summary>
-        /// Compiler limit exceeded: Line cannot exceed 'number' characters
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1034"]/value/text()'/>
         /// </summary>
         CS1034 = 1034,
         /// <summary>
-        /// End-of-file found, '*/' expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1035"]/value/text()'/>
         /// </summary>
         CS1035 = 1035,
         /// <summary>
-        /// ( or . expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1036"]/value/text()'/>
         /// </summary>
         CS1036 = 1036,
         /// <summary>
-        /// Overloadable operator expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1037"]/value/text()'/>
         /// </summary>
         CS1037 = 1037,
         /// <summary>
-        /// #endregion directive expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1038"]/value/text()'/>
         /// </summary>
         CS1038 = 1038,
         /// <summary>
-        /// Unterminated string literal
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1039"]/value/text()'/>
         /// </summary>
         CS1039 = 1039,
         /// <summary>
-        /// Preprocessor directives must appear as the first non-whitespace character on a line
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1040"]/value/text()'/>
         /// </summary>
         CS1040 = 1040,
         /// <summary>
-        /// Identifier expected, 'keyword' is a keyword
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1041"]/value/text()'/>
         /// </summary>
         CS1041 = 1041,
         /// <summary>
-        /// { or ; expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1043"]/value/text()'/>
         /// </summary>
         CS1043 = 1043,
         /// <summary>
-        /// Cannot use more than one type in a for, using, fixed, or declaration statement
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1044"]/value/text()'/>
         /// </summary>
         CS1044 = 1044,
         /// <summary>
-        /// An add or remove accessor expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1055"]/value/text()'/>
         /// </summary>
         CS1055 = 1055,
         /// <summary>
-        /// Unexpected character 'character'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1056"]/value/text()'/>
         /// </summary>
         CS1056 = 1056,
         /// <summary>
-        /// {0}: static classes cannot contain protected members
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1057"]/value/text()'/>
         /// </summary>
         CS1057 = 1057,
         /// <summary>
-        /// The operand of an increment or decrement operator must be a variable, property or indexer.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1059"]/value/text()'/>
         /// </summary>
         CS1059 = 1059,
         /// <summary>
-        /// {0} does not contain a definition for {1} and no extension method {2} accepting a first argument of type {0} could be found (are you missing a using directive or an assembly reference?).
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1061"]/value/text()'/>
         /// </summary>
         CS1061 = 1061,
         /// <summary>
-        /// Method {0} has a parameter modifier 'this' which is not on the first parameter.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1100"]/value/text()'/>
         /// </summary>
         CS1100 = 1100,
         /// <summary>
-        /// The parameter modifier 'ref' cannot be used with 'this'.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1101"]/value/text()'/>
         /// </summary>
         CS1101 = 1101,
         /// <summary>
-        /// The parameter modifier 'out' cannot be used with 'this'.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1102"]/value/text()'/>
         /// </summary>
         CS1102 = 1102,
         /// <summary>
-        /// The first parameter of an extension method cannot be of type {0}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1103"]/value/text()'/>
         /// </summary>
         CS1103 = 1103,
         /// <summary>
-        /// A parameter array cannot be used with 'this' modifier on an extension method.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1104"]/value/text()'/>
         /// </summary>
         CS1104 = 1104,
         /// <summary>
-        /// Extension methods must be static.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1105"]/value/text()'/>
         /// </summary>
         CS1105 = 1105,
         /// <summary>
-        /// Extension methods must be defined in a non generic static class.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1106"]/value/text()'/>
         /// </summary>
         CS1106 = 1106,
         /// <summary>
-        /// A parameter can only have one {0} modifier.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1107"]/value/text()'/>
         /// </summary>
         CS1107 = 1107,
         /// <summary>
-        /// A parameter cannot have all the specified modifiers; there are too many modifiers on the parameter.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1108"]/value/text()'/>
         /// </summary>
         CS1108 = 1108,
         /// <summary>
-        /// Extension Methods must be defined on top level static classes, {0} is a nested class.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1109"]/value/text()'/>
         /// </summary>
         CS1109 = 1109,
         /// <summary>
-        /// Cannot use 'this' modifier on first parameter of method declaration without a reference to System.Core.dll. Add a reference to System.Core.dll or remove 'this' modifier from the method declaration.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1110"]/value/text()'/>
         /// </summary>
         CS1110 = 1110,
         /// <summary>
-        /// Do not use 'System.Runtime.CompilerServices.ExtensionAttribute'. Use the 'this' keyword instead.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1112"]/value/text()'/>
         /// </summary>
         CS1112 = 1112,
         /// <summary>
-        /// Extension methods {0} defined on value type {1} cannot be used to create delegates.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1113"]/value/text()'/>
         /// </summary>
         CS1113 = 1113,
         /// <summary>
-        /// No overload for method {0} takes {1} arguments
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1501"]/value/text()'/>
         /// </summary>
         CS1501 = 1501,
         /// <summary>
-        /// The best overloaded Add method {0} for the collection initializer has some invalid arguments
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1502"]/value/text()'/>
         /// </summary>
         CS1502 = 1502,
         /// <summary>
-        /// The best overloaded Add method {0} for the collection initializer has some invalid arguments
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1503"]/value/text()'/>
         /// </summary>
         CS1503 = 1503,
         /// <summary>
-        /// Source file {0} could not be opened ({1})
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1504"]/value/text()'/>
         /// </summary>
         CS1504 = 1504,
         /// <summary>
-        /// Cannot link resource file {0} when building a module
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1507"]/value/text()'/>
         /// </summary>
         CS1507 = 1507,
         /// <summary>
-        /// Resource identifier {0} has already been used in this assembly
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1508"]/value/text()'/>
         /// </summary>
         CS1508 = 1508,
         /// <summary>
-        /// Referenced file {0} is not an assembly; use '/addmodule' option instead
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1509"]/value/text()'/>
         /// </summary>
         CS1509 = 1509,
         /// <summary>
-        /// A ref or out argument must be an assignable variable
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1510"]/value/text()'/>
         /// </summary>
         CS1510 = 1510,
         /// <summary>
-        /// Keyword 'base' is not available in a static method
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1511"]/value/text()'/>
         /// </summary>
         CS1511 = 1511,
         /// <summary>
-        /// Keyword 'base' is not available in the current context
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1512"]/value/text()'/>
         /// </summary>
         CS1512 = 1512,
         /// <summary>
-        /// } expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1513"]/value/text()'/>
         /// </summary>
         CS1513 = 1513,
         /// <summary>
-        /// { expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1514"]/value/text()'/>
         /// </summary>
         CS1514 = 1514,
         /// <summary>
-        /// 'in' expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1515"]/value/text()'/>
         /// </summary>
         CS1515 = 1515,
         /// <summary>
-        /// Invalid preprocessor expression
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1517"]/value/text()'/>
         /// </summary>
         CS1517 = 1517,
         /// <summary>
-        /// Expected class, delegate, enum, interface, or struct
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1518"]/value/text()'/>
         /// </summary>
         CS1518 = 1518,
         /// <summary>
-        /// Invalid token {0} in class, struct, or interface member declaration
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1519"]/value/text()'/>
         /// </summary>
         CS1519 = 1519,
         /// <summary>
-        /// Method must have a return type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1520"]/value/text()'/>
         /// </summary>
         CS1520 = 1520,
         /// <summary>
-        /// Invalid base type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1521"]/value/text()'/>
         /// </summary>
         CS1521 = 1521,
         /// <summary>
-        /// Expected catch or finally
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1524"]/value/text()'/>
         /// </summary>
         CS1524 = 1524,
         /// <summary>
-        /// Invalid expression term {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1525"]/value/text()'/>
         /// </summary>
         CS1525 = 1525,
         /// <summary>
-        /// A new expression requires (), [], or {} after type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1526"]/value/text()'/>
         /// </summary>
         CS1526 = 1526,
         /// <summary>
-        /// Elements defined in a namespace cannot be explicitly declared as private, protected, or protected internal
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1527"]/value/text()'/>
         /// </summary>
         CS1527 = 1527,
         /// <summary>
-        /// Expected ; or = (cannot specify constructor arguments in declaration)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1528"]/value/text()'/>
         /// </summary>
         CS1528 = 1528,
         /// <summary>
-        /// A using clause must precede all other elements defined in the namespace except extern alias declarations
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1529"]/value/text()'/>
         /// </summary>
         CS1529 = 1529,
         /// <summary>
-        /// Keyword 'new' is not allowed on elements defined in a namespace
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1530"]/value/text()'/>
         /// </summary>
         CS1530 = 1530,
         /// <summary>
-        /// Overloaded binary operator {0} takes two parameters
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1534"]/value/text()'/>
         /// </summary>
         CS1534 = 1534,
         /// <summary>
-        /// Overloaded unary operator {0} takes one parameter
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1535"]/value/text()'/>
         /// </summary>
         CS1535 = 1535,
         /// <summary>
-        /// Invalid parameter type void
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1536"]/value/text()'/>
         /// </summary>
         CS1536 = 1536,
         /// <summary>
-        /// The using alias {0} appeared previously in this namespace
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1537"]/value/text()'/>
         /// </summary>
         CS1537 = 1537,
         /// <summary>
-        /// Cannot access protected member {0} via a qualifier of type {1}; the qualifier must be of type {2} (or derived from it)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1540"]/value/text()'/>
         /// </summary>
         CS1540 = 1540,
         /// <summary>
-        /// Invalid reference option: {0} — cannot reference directories
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1541"]/value/text()'/>
         /// </summary>
         CS1541 = 1541,
         /// <summary>
-        /// {0} cannot be added to this assembly because it already is an assembly; use '/R' option instead
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1542"]/value/text()'/>
         /// </summary>
         CS1542 = 1542,
         /// <summary>
-        /// Property, indexer, or event {0} is not supported by the language; try directly calling accessor methods {1} or {2}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1545"]/value/text()'/>
         /// </summary>
         CS1545 = 1545,
         /// <summary>
-        /// Property, indexer, or event {0} is not supported by the language; try directly calling accessor method {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1546"]/value/text()'/>
         /// </summary>
         CS1546 = 1546,
         /// <summary>
-        /// Keyword 'void' cannot be used in this context
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1547"]/value/text()'/>
         /// </summary>
         CS1547 = 1547,
         /// <summary>
-        /// Cryptographic failure while signing assembly {0} — {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1548"]/value/text()'/>
         /// </summary>
         CS1548 = 1548,
         /// <summary>
-        /// Appropriate cryptographic service not found
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1549"]/value/text()'/>
         /// </summary>
         CS1549 = 1549,
         /// <summary>
-        /// Indexers must have at least one parameter
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1551"]/value/text()'/>
         /// </summary>
         CS1551 = 1551,
         /// <summary>
-        /// Array type specifier, [], must appear before parameter name
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1552"]/value/text()'/>
         /// </summary>
         CS1552 = 1552,
         /// <summary>
-        /// Declaration is not valid; use '{0} operator {1} (...' instead
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1553"]/value/text()'/>
         /// </summary>
         CS1553 = 1553,
         /// <summary>
-        /// Declaration is not valid; use '{0} operator {1} (...' instead
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1554"]/value/text()'/>
         /// </summary>
         CS1554 = 1554,
         /// <summary>
-        /// Could not find {0} specified for Main method
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1555"]/value/text()'/>
         /// </summary>
         CS1555 = 1555,
         /// <summary>
-        /// {0} specified for Main method must be a valid class or struct
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1556"]/value/text()'/>
         /// </summary>
         CS1556 = 1556,
         /// <summary>
-        /// Cannot use {0} for Main method because it is in a different output file
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1557"]/value/text()'/>
         /// </summary>
         CS1557 = 1557,
         /// <summary>
-        /// {0} does not have a suitable static Main method
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1558"]/value/text()'/>
         /// </summary>
         CS1558 = 1558,
         /// <summary>
-        /// Cannot use {0} for Main method because it is imported
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1559"]/value/text()'/>
         /// </summary>
         CS1559 = 1559,
         /// <summary>
-        /// Invalid filename specified for preprocessor directive. Filename is too long or not a valid filename
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1560"]/value/text()'/>
         /// </summary>
         CS1560 = 1560,
         /// <summary>
-        /// Output filename is too long or invalid
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1561"]/value/text()'/>
         /// </summary>
         CS1561 = 1561,
         /// <summary>
-        /// Outputs without source must have the /out option specified
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1562"]/value/text()'/>
         /// </summary>
         CS1562 = 1562,
         /// <summary>
-        /// Output {0} does not have any source files
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1563"]/value/text()'/>
         /// </summary>
         CS1563 = 1563,
         /// <summary>
-        /// Conflicting options specified: Win32 resource file; Win32 manifest.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1564"]/value/text()'/>
         /// </summary>
         CS1564 = 1564,
         /// <summary>
-        /// Conflicting options specified: Win32 resource file; Win32 icon
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1565"]/value/text()'/>
         /// </summary>
         CS1565 = 1565,
         /// <summary>
-        /// Error reading resource file {0} — {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1566"]/value/text()'/>
         /// </summary>
         CS1566 = 1566,
         /// <summary>
-        /// Error generating Win32 resource: {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1567"]/value/text()'/>
         /// </summary>
         CS1567 = 1567,
         /// <summary>
-        /// Error generating XML documentation file {0} ({1})
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1569"]/value/text()'/>
         /// </summary>
         CS1569 = 1569,
         /// <summary>
-        /// A stackalloc expression requires [] after type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1575"]/value/text()'/>
         /// </summary>
         CS1575 = 1575,
         /// <summary>
-        /// The line number specified for #line directive is missing or invalid
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1576"]/value/text()'/>
         /// </summary>
         CS1576 = 1576,
         /// <summary>
-        /// Assembly generation failed — reason
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1577"]/value/text()'/>
         /// </summary>
         CS1577 = 1577,
         /// <summary>
-        /// Filename, single-line comment or end-of-line expected
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1578"]/value/text()'/>
         /// </summary>
         CS1578 = 1578,
         /// <summary>
-        /// foreach statement cannot operate on variables of type {0} because {1} does not contain a public definition for {2}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1579"]/value/text()'/>
         /// </summary>
         CS1579 = 1579,
         /// <summary>
-        /// {0} is not a valid Win32 resource file
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1583"]/value/text()'/>
         /// </summary>
         CS1583 = 1583,
         /// <summary>
-        /// Member modifier {0} must precede the member type and name
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1585"]/value/text()'/>
         /// </summary>
         CS1585 = 1585,
         /// <summary>
-        /// Array creation must have array size or array initializer
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1586"]/value/text()'/>
         /// </summary>
         CS1586 = 1586,
         /// <summary>
-        /// Cannot determine common language runtime directory -- {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1588"]/value/text()'/>
         /// </summary>
         CS1588 = 1588,
         /// <summary>
-        /// Delegate {0} does not take {1} arguments
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1593"]/value/text()'/>
         /// </summary>
         CS1593 = 1593,
         /// <summary>
-        /// Delegate {0} has some invalid arguments
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1594"]/value/text()'/>
         /// </summary>
         CS1594 = 1594,
         /// <summary>
-        /// Semicolon after method or accessor block is not valid
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1597"]/value/text()'/>
         /// </summary>
         CS1597 = 1597,
         /// <summary>
-        /// Method or delegate cannot return type {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1599"]/value/text()'/>
         /// </summary>
         CS1599 = 1599,
         /// <summary>
-        /// Compilation cancelled by user
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1600"]/value/text()'/>
         /// </summary>
         CS1600 = 1600,
         /// <summary>
-        /// Method or delegate parameter cannot be of type {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1601"]/value/text()'/>
         /// </summary>
         CS1601 = 1601,
         /// <summary>
-        /// Cannot assign to {0} because it is read-only
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1604"]/value/text()'/>
         /// </summary>
         CS1604 = 1604,
         /// <summary>
-        /// Cannot pass {0} as a ref or out argument because it is read-only
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1605"]/value/text()'/>
         /// </summary>
         CS1605 = 1605,
         /// <summary>
-        /// Assembly signing failed; output may not be signed -- {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1606"]/value/text()'/>
         /// </summary>
         CS1606 = 1606,
         /// <summary>
-        /// The Required attribute is not permitted on C# types
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1608"]/value/text()'/>
         /// </summary>
         CS1608 = 1608,
         /// <summary>
-        /// Modifiers cannot be placed on event accessor declarations
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1609"]/value/text()'/>
         /// </summary>
         CS1609 = 1609,
         /// <summary>
-        /// The params parameter cannot be declared as ref or out
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1611"]/value/text()'/>
         /// </summary>
         CS1611 = 1611,
         /// <summary>
-        /// Cannot modify the return value of {0} because it is not a variable
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1612"]/value/text()'/>
         /// </summary>
         CS1612 = 1612,
         /// <summary>
-        /// The managed coclass wrapper class {0} for interface {1} cannot be found (are you missing an assembly reference?)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1613"]/value/text()'/>
         /// </summary>
         CS1613 = 1613,
         /// <summary>
-        /// {0} is ambiguous; between {1} and {2}. use either '@{0}' or '{0}Attribute'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1614"]/value/text()'/>
         /// </summary>
         CS1614 = 1614,
         /// <summary>
-        /// Argument {0} should not be passed with the {1} keyword
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1615"]/value/text()'/>
         /// </summary>
         CS1615 = 1615,
         /// <summary>
-        /// Invalid option {0} for /langversion; must be ISO-1, ISO-2 or Default
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1617"]/value/text()'/>
         /// </summary>
         CS1617 = 1617,
         /// <summary>
-        /// Cannot create delegate with {0} because it has a Conditional attribute
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1618"]/value/text()'/>
         /// </summary>
         CS1618 = 1618,
         /// <summary>
-        /// Cannot create temporary file {0} -- {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1619"]/value/text()'/>
         /// </summary>
         CS1619 = 1619,
         /// <summary>
-        /// Argument {0} must be passed with the {1} keyword
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1620"]/value/text()'/>
         /// </summary>
         CS1620 = 1620,
         /// <summary>
-        /// The yield statement cannot be used inside an anonymous method or lambda expression
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1621"]/value/text()'/>
         /// </summary>
         CS1621 = 1621,
         /// <summary>
-        /// Cannot return a value from an iterator. Use the yield return statement to return a value, or yield break to end the iteration.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1622"]/value/text()'/>
         /// </summary>
         CS1622 = 1622,
         /// <summary>
-        /// Iterators cannot have ref or out parameters
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1623"]/value/text()'/>
         /// </summary>
         CS1623 = 1623,
         /// <summary>
-        /// The body of {0} cannot be an iterator block because {1} is not an iterator interface type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1624"]/value/text()'/>
         /// </summary>
         CS1624 = 1624,
         /// <summary>
-        /// Cannot yield in the body of a finally clause
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1625"]/value/text()'/>
         /// </summary>
         CS1625 = 1625,
         /// <summary>
-        /// Cannot yield a value in the body of a try block with a catch clause
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1626"]/value/text()'/>
         /// </summary>
         CS1626 = 1626,
         /// <summary>
-        /// Expression expected after yield return
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1627"]/value/text()'/>
         /// </summary>
         CS1627 = 1627,
         /// <summary>
-        /// Cannot use ref or out parameter {0} inside an anonymous method, lambda expression, or query expression
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1628"]/value/text()'/>
         /// </summary>
         CS1628 = 1628,
         /// <summary>
-        /// Unsafe code may not appear in iterators
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1629"]/value/text()'/>
         /// </summary>
         CS1629 = 1629,
         /// <summary>
-        /// Invalid option {0} for /errorreport; must be prompt, send, queue, or none
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1630"]/value/text()'/>
         /// </summary>
         CS1630 = 1630,
         /// <summary>
-        /// Cannot yield a value in the body of a catch clause
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1631"]/value/text()'/>
         /// </summary>
         CS1631 = 1631,
         /// <summary>
-        /// Control cannot leave the body of an anonymous method or lambda expression
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1632"]/value/text()'/>
         /// </summary>
         CS1632 = 1632,
         /// <summary>
-        /// Iterators cannot have unsafe parameters or yield types
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1637"]/value/text()'/>
         /// </summary>
         CS1637 = 1637,
         /// <summary>
-        /// {0} is a reserved identifier and cannot be used when ISO language version mode is used
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1638"]/value/text()'/>
         /// </summary>
         CS1638 = 1638,
         /// <summary>
-        /// The managed coclass wrapper class signature {0} for interface {1} is not a valid class name signature
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1639"]/value/text()'/>
         /// </summary>
         CS1639 = 1639,
         /// <summary>
-        /// foreach statement cannot operate on variables of type {0} because it implements multiple instantiations of {1}, try casting to a specific interface instantiation
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1640"]/value/text()'/>
         /// </summary>
         CS1640 = 1640,
         /// <summary>
-        /// A fixed size buffer field must have the array size specifier after the field name
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1641"]/value/text()'/>
         /// </summary>
         CS1641 = 1641,
         /// <summary>
-        /// Fixed size buffer fields may only be members of structs.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1642"]/value/text()'/>
         /// </summary>
         CS1642 = 1642,
         /// <summary>
-        /// Not all code paths return a value in method of type {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1643"]/value/text()'/>
         /// </summary>
         CS1643 = 1643,
         /// <summary>
-        /// Feature {0} is not part of the standardized ISO C# language specification, and may not be accepted by other compilers
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1644"]/value/text()'/>
         /// </summary>
         CS1644 = 1644,
         /// <summary>
-        /// Keyword, identifier, or string expected after verbatim specifier: 
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1646"]/value/text()'/>
         /// </summary>
         CS1646 = 1646,
         /// <summary>
-        /// An expression is too long or complex to compile near {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1647"]/value/text()'/>
         /// </summary>
         CS1647 = 1647,
         /// <summary>
-        /// Members of readonly field {0} cannot be modified (except in a constructor or a variable initializer)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1648"]/value/text()'/>
         /// </summary>
         CS1648 = 1648,
         /// <summary>
-        /// Members of readonly field {0} cannot be passed ref or out (except in a constructor)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1649"]/value/text()'/>
         /// </summary>
         CS1649 = 1649,
         /// <summary>
-        /// Fields of static readonly field {0} cannot be assigned to (except in a static constructor or a variable initializer)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1650"]/value/text()'/>
         /// </summary>
         CS1650 = 1650,
         /// <summary>
-        /// Fields of static readonly field {0} cannot be passed ref or out (except in a static constructor)
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1651"]/value/text()'/>
         /// </summary>
         CS1651 = 1651,
         /// <summary>
-        /// Cannot modify members of {0} because it is a {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1654"]/value/text()'/>
         /// </summary>
         CS1654 = 1654,
         /// <summary>
-        /// Cannot pass fields of {0} as a ref or out argument because it is a {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1655"]/value/text()'/>
         /// </summary>
         CS1655 = 1655,
         /// <summary>
-        /// Cannot assign to {0} because it is a {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1656"]/value/text()'/>
         /// </summary>
         CS1656 = 1656,
         /// <summary>
-        /// Cannot pass {0} as a ref or out argument because {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1657"]/value/text()'/>
         /// </summary>
         CS1657 = 1657,
         /// <summary>
-        /// Cannot convert anonymous method block to type {0} because it is not a delegate type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1660"]/value/text()'/>
         /// </summary>
         CS1660 = 1660,
         /// <summary>
-        /// Cannot convert anonymous method block to delegate type {0} because the specified block's parameter types do not match the delegate parameter types
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1661"]/value/text()'/>
         /// </summary>
         CS1661 = 1661,
         /// <summary>
-        /// Cannot convert anonymous method block to delegate type {0} because some of the return types in the block are not implicitly convertible to the delegate return type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1662"]/value/text()'/>
         /// </summary>
         CS1662 = 1662,
         /// <summary>
-        /// Fixed size buffer type must be one of the following: bool, byte, short, int, long, char, sbyte, ushort, uint, ulong, float or double
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1663"]/value/text()'/>
         /// </summary>
         CS1663 = 1663,
         /// <summary>
-        /// Fixed size buffer of length {0} and type {1} is too big
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1664"]/value/text()'/>
         /// </summary>
         CS1664 = 1664,
         /// <summary>
-        /// Fixed size buffers must have a length greater than zero
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1665"]/value/text()'/>
         /// </summary>
         CS1665 = 1665,
         /// <summary>
-        /// You cannot use fixed size buffers contained in unfixed expressions. Try using the fixed statement.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1666"]/value/text()'/>
         /// </summary>
         CS1666 = 1666,
         /// <summary>
-        /// Attribute {0} is not valid on property or event accessors. It is valid on {1} declarations only.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1667"]/value/text()'/>
         /// </summary>
         CS1667 = 1667,
         /// <summary>
-        /// params is not valid in this context
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1670"]/value/text()'/>
         /// </summary>
         CS1670 = 1670,
         /// <summary>
-        /// A namespace declaration cannot have modifiers or attributes
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1671"]/value/text()'/>
         /// </summary>
         CS1671 = 1671,
         /// <summary>
-        /// Invalid option {0} for /platform; must be anycpu, x86, Itanium or x64
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1672"]/value/text()'/>
         /// </summary>
         CS1672 = 1672,
         /// <summary>
-        /// Anonymous methods, lambda expressions, and query expressions inside structs cannot access instance members of 'this'. Consider copying 'this' to a local variable outside the anonymous method, lambda expression or query expression and using the local instead.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1673"]/value/text()'/>
         /// </summary>
         CS1673 = 1673,
         /// <summary>
-        /// {0}: type used in a using statement must be implicitly convertible to 'System.IDisposable'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1674"]/value/text()'/>
         /// </summary>
         CS1674 = 1674,
         /// <summary>
-        /// Enums cannot have type parameters
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1675"]/value/text()'/>
         /// </summary>
         CS1675 = 1675,
         /// <summary>
-        /// Parameter {0} must be declared with the {1} keyword
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1676"]/value/text()'/>
         /// </summary>
         CS1676 = 1676,
         /// <summary>
-        /// Parameter {0} should not be declared with the {1} keyword
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1677"]/value/text()'/>
         /// </summary>
         CS1677 = 1677,
         /// <summary>
-        /// Parameter {0} is declared as type {1} but should be {2}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1678"]/value/text()'/>
         /// </summary>
         CS1678 = 1678,
         /// <summary>
-        /// Invalid extern alias for {0}; {1} is not a valid identifier
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1679"]/value/text()'/>
         /// </summary>
         CS1679 = 1679,
         /// <summary>
-        /// Invalid reference alias option: 'alias=' -- missing filename.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1680"]/value/text()'/>
         /// </summary>
         CS1680 = 1680,
         /// <summary>
-        /// You cannot redefine the global extern alias
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1681"]/value/text()'/>
         /// </summary>
         CS1681 = 1681,
         /// <summary>
-        /// Local {0} or its members cannot have their address taken and be used inside an anonymous method or lambda expression
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1686"]/value/text()'/>
         /// </summary>
         CS1686 = 1686,
         /// <summary>
-        /// Cannot convert anonymous method block without a parameter list to delegate type {0} because it has one or more out parameters
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1688"]/value/text()'/>
         /// </summary>
         CS1688 = 1688,
         /// <summary>
-        /// Attribute {0} is only valid on methods or attribute classes
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1689"]/value/text()'/>
         /// </summary>
         CS1689 = 1689,
         /// <summary>
-        /// An assembly with the same simple name {0} has already been imported. Try removing one of the references or sign them to enable side-by-side.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1703"]/value/text()'/>
         /// </summary>
         CS1703 = 1703,
         /// <summary>
-        /// An assembly with the same simple name {0} has already been imported. Try removing one of the references or sign them to enable side-by-side.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1704"]/value/text()'/>
         /// </summary>
         CS1704 = 1704,
         /// <summary>
-        /// Assembly {0} uses {1} which has a higher version than referenced assembly {2}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1705"]/value/text()'/>
         /// </summary>
         CS1705 = 1705,
         /// <summary>
-        /// Expression cannot contain anonymous methods or lambda expressions
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1706"]/value/text()'/>
         /// </summary>
         CS1706 = 1706,
         /// <summary>
-        /// Fixed size buffers can only be accessed through locals or fields
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1708"]/value/text()'/>
         /// </summary>
         CS1708 = 1708,
         /// <summary>
-        /// Unexpected error building metadata name for type {0} — {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1713"]/value/text()'/>
         /// </summary>
         CS1713 = 1713,
         /// <summary>
-        /// The base class or interface of {0} could not be resolved or is invalid
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1714"]/value/text()'/>
         /// </summary>
         CS1714 = 1714,
         /// <summary>
-        /// {0}: type must be {1} to match overridden member {2}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1715"]/value/text()'/>
         /// </summary>
         CS1715 = 1715,
         /// <summary>
-        /// Do not use 'System.Runtime.CompilerServices.FixedBuffer' attribute. Use the 'fixed' field modifier instead.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1716"]/value/text()'/>
         /// </summary>
         CS1716 = 1716,
         /// <summary>
-        /// Error reading Win32 resource file {0} -- {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1719"]/value/text()'/>
         /// </summary>
         CS1719 = 1719,
         /// <summary>
-        /// Class {0} cannot have multiple base classes: {1} and {2}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1721"]/value/text()'/>
         /// </summary>
         CS1721 = 1721,
         /// <summary>
-        /// Base class {0} must come before any interfaces
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1722"]/value/text()'/>
         /// </summary>
         CS1722 = 1722,
         /// <summary>
-        /// Value specified for the argument to 'System.Runtime.InteropServices.DefaultCharSetAttribute' is not valid
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1724"]/value/text()'/>
         /// </summary>
         CS1724 = 1724,
         /// <summary>
-        /// Friend assembly reference {0} is invalid. InternalsVisibleTo declarations cannot have a version, culture, public key token, or processor architecture specified.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1725"]/value/text()'/>
         /// </summary>
         CS1725 = 1725,
         /// <summary>
-        /// Friend assembly reference {0} is invalid. Strong-name signed assemblies must specify a public key in their InternalsVisibleTo declarations.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1726"]/value/text()'/>
         /// </summary>
         CS1726 = 1726,
         /// <summary>
-        /// Cannot send error report automatically without authorization. Please visit {0} to authorize sending error report.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1727"]/value/text()'/>
         /// </summary>
         CS1727 = 1727,
         /// <summary>
-        /// Cannot bind delegate to {0} because it is a member of {1}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1728"]/value/text()'/>
         /// </summary>
         CS1728 = 1728,
         /// <summary>
-        /// {0} does not contain a constructor that takes {1} arguments.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1729"]/value/text()'/>
         /// </summary>
         CS1729 = 1729,
         /// <summary>
-        /// Assembly and module attributes must precede all other elements defined in a file except using clauses and extern alias declarations.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1730"]/value/text()'/>
         /// </summary>
         CS1730 = 1730,
         /// <summary>
-        /// Cannot convert {0} to delegate because some of the return types in the block are not implicitly convertible to the delegate return type.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1731"]/value/text()'/>
         /// </summary>
         CS1731 = 1731,
         /// <summary>
-        /// Expected parameter.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1732"]/value/text()'/>
         /// </summary>
         CS1732 = 1732,
         /// <summary>
-        /// Expected expression.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1733"]/value/text()'/>
         /// </summary>
         CS1733 = 1733,
         /// <summary>
-        /// Warning level must be in the range 0-4
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1900"]/value/text()'/>
         /// </summary>
         CS1900 = 1900,
         /// <summary>
-        /// Invalid option {0} for /debug; must be full or pdbonly
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1902"]/value/text()'/>
         /// </summary>
         CS1902 = 1902,
         /// <summary>
-        /// Invalid option {0}; Resource visibility must be either 'public' or 'private'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1906"]/value/text()'/>
         /// </summary>
         CS1906 = 1906,
         /// <summary>
-        /// The type of the argument to the DefaultValue attribute must match the parameter type
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1908"]/value/text()'/>
         /// </summary>
         CS1908 = 1908,
         /// <summary>
-        /// The DefaultValue attribute is not applicable on parameters of type {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1909"]/value/text()'/>
         /// </summary>
         CS1909 = 1909,
         /// <summary>
-        /// Argument of type {0} is not applicable for the DefaultValue attribute
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1910"]/value/text()'/>
         /// </summary>
         CS1910 = 1910,
         /// <summary>
-        /// Duplicate initialization of member {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1912"]/value/text()'/>
         /// </summary>
         CS1912 = 1912,
         /// <summary>
-        /// Member {0} cannot be initialized. It is not a field or property.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1913"]/value/text()'/>
         /// </summary>
         CS1913 = 1913,
         /// <summary>
-        /// Static field {0} cannot be assigned in an object initializer
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1914"]/value/text()'/>
         /// </summary>
         CS1914 = 1914,
         /// <summary>
-        /// Members of read-only field {0} of type {1} cannot be assigned with an object initializer because it is of a value type.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1917"]/value/text()'/>
         /// </summary>
         CS1917 = 1917,
         /// <summary>
-        /// Members of property {0} of type {1} cannot be assigned with an object initializer because it is of a value type.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1918"]/value/text()'/>
         /// </summary>
         CS1918 = 1918,
         /// <summary>
-        /// Unsafe type {0} cannot be used in object creation.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1919"]/value/text()'/>
         /// </summary>
         CS1919 = 1919,
         /// <summary>
-        /// Element initializer cannot be empty.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1920"]/value/text()'/>
         /// </summary>
         CS1920 = 1920,
         /// <summary>
-        /// The best overloaded method match for {0} has wrong signature for the initializer element. The initializable Add must be an accessible instance method.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1921"]/value/text()'/>
         /// </summary>
         CS1921 = 1921,
         /// <summary>
-        /// Collection initializer requires its type {0} to implement System.Collections.IEnumerable.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1922"]/value/text()'/>
         /// </summary>
         CS1922 = 1922,
         /// <summary>
-        /// Cannot initialize object of type {0} with a collection initializer.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1925"]/value/text()'/>
         /// </summary>
         CS1925 = 1925,
         /// <summary>
-        /// Error reading Win32 manifest file {0} -- {1}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1926"]/value/text()'/>
         /// </summary>
         CS1926 = 1926,
         /// <summary>
-        /// {0} does not contain a definition for {1} and the best extension method overload {2} has some invalid arguments.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1928"]/value/text()'/>
         /// </summary>
         CS1928 = 1928,
         /// <summary>
-        /// Instance argument: cannot convert from {0} to {1}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1929"]/value/text()'/>
         /// </summary>
         CS1929 = 1929,
         /// <summary>
-        /// The range variable {0} has already been declared
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1930"]/value/text()'/>
         /// </summary>
         CS1930 = 1930,
         /// <summary>
-        /// The range variable {0} conflicts with a previous declaration of {1}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1931"]/value/text()'/>
         /// </summary>
         CS1931 = 1931,
         /// <summary>
-        /// Cannot assign {0} to a range variable.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1932"]/value/text()'/>
         /// </summary>
         CS1932 = 1932,
         /// <summary>
-        /// Expression cannot contain query expressions
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1933"]/value/text()'/>
         /// </summary>
         CS1933 = 1933,
         /// <summary>
-        /// Could not find an implementation of the query pattern for source type {0}. {1} not found. Consider explicitly specifying the type of the range variable {2}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1934"]/value/text()'/>
         /// </summary>
         CS1934 = 1934,
         /// <summary>
-        /// Could not find an implementation of the query pattern for source type {0}. {1} not found. Are you missing a reference to 'System.Core.dll' or a using directive for 'System.Linq'?
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1935"]/value/text()'/>
         /// </summary>
         CS1935 = 1935,
         /// <summary>
-        /// Could not find an implementation of the query pattern for source type {0}. {1} not found.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1936"]/value/text()'/>
         /// </summary>
         CS1936 = 1936,
         /// <summary>
-        /// The name {0} is not in scope on the left side of 'equals'. Consider swapping the expressions on either side of 'equals'.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1937"]/value/text()'/>
         /// </summary>
         CS1937 = 1937,
         /// <summary>
-        /// The name {0} is not in scope on the right side of 'equals'. Consider swapping the expressions on either side of 'equals'.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1938"]/value/text()'/>
         /// </summary>
         CS1938 = 1938,
         /// <summary>
-        /// Cannot pass the range variable {0} as an out or ref parameter.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1939"]/value/text()'/>
         /// </summary>
         CS1939 = 1939,
         /// <summary>
-        /// Multiple implementations of the query pattern were found for source type {0}. Ambiguous call to {1}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1940"]/value/text()'/>
         /// </summary>
         CS1940 = 1940,
         /// <summary>
-        /// The type of one of the expressions in the {0} clause is incorrect. Type inference failed in the call to {1}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1941"]/value/text()'/>
         /// </summary>
         CS1941 = 1941,
         /// <summary>
-        /// The type of the expression in the {0} clause is incorrect. Type inference failed in the call to {1}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1942"]/value/text()'/>
         /// </summary>
         CS1942 = 1942,
         /// <summary>
-        /// An expression of type {0} is not allowed in a subsequent from clause in a query expression with source type {1}. Type inference failed in the call to {2}.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1943"]/value/text()'/>
         /// </summary>
         CS1943 = 1943,
         /// <summary>
-        /// An expression tree may not contain an unsafe pointer operation
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1944"]/value/text()'/>
         /// </summary>
         CS1944 = 1944,
         /// <summary>
-        /// An expression tree may not contain an anonymous method expression.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1945"]/value/text()'/>
         /// </summary>
         CS1945 = 1945,
         /// <summary>
-        /// An anonymous method expression cannot be converted to an expression tree.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1946"]/value/text()'/>
         /// </summary>
         CS1946 = 1946,
         /// <summary>
-        /// Range variable {0} cannot be assigned to -- it is read only.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1947"]/value/text()'/>
         /// </summary>
         CS1947 = 1947,
         /// <summary>
-        /// The range variable {0} cannot have the same name as a method type parameter
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1948"]/value/text()'/>
         /// </summary>
         CS1948 = 1948,
         /// <summary>
-        /// The contextual keyword 'var' cannot be used in a range variable declaration.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1949"]/value/text()'/>
         /// </summary>
         CS1949 = 1949,
         /// <summary>
-        /// The best overloaded Add method {0} for the collection initializer has some invalid arguments.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1950"]/value/text()'/>
         /// </summary>
         CS1950 = 1950,
         /// <summary>
-        /// An expression tree lambda may not contain an out or ref parameter.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1951"]/value/text()'/>
         /// </summary>
         CS1951 = 1951,
         /// <summary>
-        /// An expression tree lambda may not contain a method with variable arguments
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1952"]/value/text()'/>
         /// </summary>
         CS1952 = 1952,
         /// <summary>
-        /// An expression tree lambda may not contain a method group.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1953"]/value/text()'/>
         /// </summary>
         CS1953 = 1953,
         /// <summary>
-        /// The best overloaded method match {0} for the collection initializer element cannot be used. Collection initializer 'Add' methods cannot have ref or out parameters.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1954"]/value/text()'/>
         /// </summary>
         CS1954 = 1954,
         /// <summary>
-        /// Non-invocable member {0} cannot be used like a method.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1955"]/value/text()'/>
         /// </summary>
         CS1955 = 1955,
         /// <summary>
-        /// Object and collection initializer expressions may not be applied to a delegate creation expression,
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1958"]/value/text()'/>
         /// </summary>
         CS1958 = 1958,
         /// <summary>
-        /// {0} is of type {1}. The type specified in a constant declaration must be sbyte, byte, short, ushort, int, uint, long, ulong, char, float, double, decimal, bool, string, an enum-type, or a reference-type.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS1959"]/value/text()'/>
         /// </summary>
         CS1959 = 1959,
         /// <summary>
-        /// Source file {0} could not be found
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2001"]/value/text()'/>
         /// </summary>
         CS2001 = 2001,
         /// <summary>
-        /// Response file {0} included multiple times
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2003"]/value/text()'/>
         /// </summary>
         CS2003 = 2003,
         /// <summary>
-        /// Missing file specification for {0} option
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2005"]/value/text()'/>
         /// </summary>
         CS2005 = 2005,
         /// <summary>
-        /// Command-line syntax error: Missing {0} for {1} option
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2006"]/value/text()'/>
         /// </summary>
         CS2006 = 2006,
         /// <summary>
-        /// Unrecognized command-line option: {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2007"]/value/text()'/>
         /// </summary>
         CS2007 = 2007,
         /// <summary>
-        /// No inputs specified
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2008"]/value/text()'/>
         /// </summary>
         CS2008 = 2008,
         /// <summary>
-        /// Unable to open response file {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2011"]/value/text()'/>
         /// </summary>
         CS2011 = 2011,
         /// <summary>
-        /// Cannot open {0} for writing
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2012"]/value/text()'/>
         /// </summary>
         CS2012 = 2012,
         /// <summary>
-        /// Invalid image base number {0}
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2013"]/value/text()'/>
         /// </summary>
         CS2013 = 2013,
         /// <summary>
-        /// {0} is a binary file instead of a text file
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2015"]/value/text()'/>
         /// </summary>
         CS2015 = 2015,
         /// <summary>
-        /// Code page {0} is invalid or not installed
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2016"]/value/text()'/>
         /// </summary>
         CS2016 = 2016,
         /// <summary>
-        /// Cannot specify /main if building a module or library
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2017"]/value/text()'/>
         /// </summary>
         CS2017 = 2017,
         /// <summary>
-        /// Unable to find messages file 'cscmsgs.dll'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2018"]/value/text()'/>
         /// </summary>
         CS2018 = 2018,
         /// <summary>
-        /// Invalid target type for /target: must specify 'exe', 'winexe', 'library', or 'module'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2019"]/value/text()'/>
         /// </summary>
         CS2019 = 2019,
         /// <summary>
-        /// Only the first set of input files can build a target other than 'module'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2020"]/value/text()'/>
         /// </summary>
         CS2020 = 2020,
         /// <summary>
-        /// File name {0} is too long or invalid
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2021"]/value/text()'/>
         /// </summary>
         CS2021 = 2021,
         /// <summary>
-        /// Options '/out' and '/target' must appear before source file names
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2022"]/value/text()'/>
         /// </summary>
         CS2022 = 2022,
         /// <summary>
-        /// Invalid file section alignment number '#'
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2024"]/value/text()'/>
         /// </summary>
         CS2024 = 2024,
         /// <summary>
-        /// Character {0} is not allowed on the command-line or in response files
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2032"]/value/text()'/>
         /// </summary>
         CS2032 = 2032,
         /// <summary>
-        /// Cannot create short filename {0} when a long filename with the same short filename already exists
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2033"]/value/text()'/>
         /// </summary>
         CS2033 = 2033,
         /// <summary>
-        /// A /reference option that declares an extern alias can only have one filename. To specify multiple aliases or filenames, use multiple /reference options.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2034"]/value/text()'/>
         /// </summary>
         CS2034 = 2034,
         /// <summary>
-        /// >Command-line syntax error: Missing ':&lt;number&gt;' for {0} option
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2035"]/value/text()'/>
         /// </summary>
         CS2035 = 2035,
         /// <summary>
-        /// The /pdb option requires that the /debug option also be used.
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS2036"]/value/text()'/>
         /// </summary>
         CS2036 = 2036,
         /// <summary>
-        /// Program {0} does not contain a static 'Main' method suitable for an entry point
+        /// <include file='..\..\Properties\Resources.resx' path='root/data[@name="CSharpErrors_CS5001"]/value/text()'/>
         /// </summary>
         CS5001 = 5001,
     }
