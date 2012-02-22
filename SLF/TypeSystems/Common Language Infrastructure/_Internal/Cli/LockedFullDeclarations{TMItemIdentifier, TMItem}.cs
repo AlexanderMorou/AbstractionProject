@@ -50,7 +50,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (sourceData == null)
                 throw new ArgumentNullException("sourceData");
             if (subordinate == null)
-                throw new ArgumentNullException("subordinate");
+                throw new ArgumentNullException(ThrowHelper.GetArgumentName(ArgumentWithException.subordinate));
             if (!this.Subordinates.Contains((ISubordinateDictionary)subordinate))
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.subordinate, ExceptionMessageId.SubordinateDoesNotExist);
             lock (syncObject)
@@ -65,6 +65,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 this._fetchValues.SetRange(this._fetchValues.Count + sourceData.Length);
         }
 
+        /// <summary>
+        /// Returns whether the <paramref name="key"/> is present within the
+        /// <see cref="LockedFullDeclarations{TMItemIdentifier, TMItem}"/>.
+        /// </summary>
+        /// <param name="key">The <typeparamref name="TMItemIdentifier"/> which denotes
+        /// the unique identifier of the member to check for.</param>
+        /// <returns></returns>
         public override bool ContainsKey(TMItemIdentifier key)
         {
             int state;

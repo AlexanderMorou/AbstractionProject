@@ -41,6 +41,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             return ArrayExtensions.MergeArrays(target.ToArray(), inlineElements);
         }
+
         /// <summary>
         /// Performs <paramref name="method"/> on all <typeparamref name="T"/> intances in <paramref name="source"/>.
         /// </summary>
@@ -53,6 +54,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             foreach (T t in source)
                 method(t);
         }
+
         /// <summary>
         /// Performs <paramref name="method"/> on all <typeparamref name="T"/> 
         /// intances in <paramref name="source"/> using a prefetch of the
@@ -154,12 +156,13 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         public static IDictionary<TKey, TValue> ToDictionaryAlt<TKey, TValue>(this IEnumerable<TKey> source, Func<TKey, TValue> valueGen)
         {
             if (source == null)
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(ThrowHelper.GetArgumentName(ArgumentWithException.source));
             else if (valueGen == null)
                 throw new ArgumentNullException("valueGen");
             Dictionary<TKey, TValue> result = new Dictionary<TKey, TValue>();
             //Lambda expressions seem allow for light obfuscation?
-            source.OnAll((tk, target, method) => target.Add(tk, method(tk)), result, valueGen);
+
+            source.OnAll((key, target, method) => target.Add(key, method(key)), result, valueGen);
             return result;
         }
         
