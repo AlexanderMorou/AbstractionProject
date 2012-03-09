@@ -116,6 +116,7 @@
     <Compile Include="Abstract\IGenericParameterUniqueIdentifier.cs" />
     <Compile Include="Abstract\IGenericParamParentUniqueIdentifier{TIdentifier}.cs" />
     <Compile Include="Abstract\IGroupedTypeDictionary.cs" />
+    <Compile Include="Abstract\IIdentityManager.cs" />
     <Compile Include="Abstract\IModifiersAndAttributesMetadata.cs" />
     <Compile Include="Abstract\IStrongNameKeyInfo.cs" />
     <Compile Include="Abstract\IStrongNamePrivateKeyInfo.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="Abstract\Members\ISignatureMemberUniqueIdentifier.cs" />
     <Compile Include="Abstract\Members\ITypeCoercionUniqueIdentifier.cs" />
     <Compile Include="Abstract\Members\IUnaryOperatorUniqueIdentifier.cs" />
+    <Compile Include="Abstract\PrimitiveTypes.cs" />
     <Compile Include="Abstract\PublicKeyTokenData.cs" />
     <Compile Include="Abstract\StrongNameKeyInfoType.cs" />
     <Compile Include="Abstract\StrongNamePrivateKeyInfo+LinkedPublicKey.cs" />

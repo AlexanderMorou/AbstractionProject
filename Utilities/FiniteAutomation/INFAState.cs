@@ -60,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         void Concat(TState target);
         /// <summary>
         /// Creates a union between the current state's transitions and
-        /// the <typeparamref name="target"/> <typeparamref name="TState"/>.
+        /// the <paramref name="target"/> <typeparamref name="TState"/>.
         /// </summary>
         /// <param name="target">The <typeparamref name="TState"/>
         /// to create a union with.</param>

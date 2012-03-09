@@ -40,7 +40,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstract Syntax Tree", "SLF
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 11
+		SccNumberOfProjects = 12
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs12
 		SccLocalPath0 = .
@@ -84,6 +84,10 @@ Global
 		SccProjectTopLevelParentUniqueName10 = Abstraction.sln
 		SccProjectName10 = Utilities/Common
 		SccLocalPath10 = Utilities\\Common
+		SccProjectUniqueName11 = Java\u0020Type\u0020System\\Java\u0020Type\u0020System.csproj
+		SccProjectTopLevelParentUniqueName11 = Abstraction.sln
+		SccProjectName11 = Java\u0020Type\u0020System
+		SccLocalPath11 = Java\u0020Type\u0020System
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

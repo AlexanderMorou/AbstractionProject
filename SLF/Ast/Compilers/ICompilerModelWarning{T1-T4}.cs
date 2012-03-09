@@ -42,8 +42,14 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     /// reference to which the <see cref="ICompilerModelWarning{T1, T2}"/>
     /// relates.</typeparam>
     public interface ICompilerModelWarning<T1, T2> :
-        ICompilerModelWarning<T1>
+        ICompilerModelMessage
     {
+        /// <summary>
+        /// Returns the <typeparamref name="T1"/>
+        /// which denotes the first element relative to
+        /// the model warning.
+        /// </summary>
+        T1 Item1 { get; }
         /// <summary>
         /// Returns the <typeparamref name="T2"/>
         /// which denotes the second element relative to 
@@ -67,8 +73,20 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     /// reference to which the <see cref="ICompilerModelWarning{T1, T2, T3}"/>
     /// relates.</typeparam>
     public interface ICompilerModelWarning<T1, T2, T3> :
-        ICompilerModelWarning<T1, T2>
+        ICompilerModelMessage
     {
+        /// <summary>
+        /// Returns the <typeparamref name="T1"/>
+        /// which denotes the first element relative to
+        /// the model warning.
+        /// </summary>
+        T1 Item1 { get; }
+        /// <summary>
+        /// Returns the <typeparamref name="T2"/>
+        /// which denotes the second element relative to 
+        /// the model warning.
+        /// </summary>
+        T2 Item2 { get; }
         /// <summary>
         /// Returns the <typeparamref name="T3"/>
         /// which denotes the third element relative to 
@@ -77,8 +95,26 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         T3 Item3 { get; }
     }
     public interface ICompilerModelWarning<T1, T2, T3, T4> :
-        ICompilerModelWarning<T1, T2, T3>
+        ICompilerModelMessage
     {
+        /// <summary>
+        /// Returns the <typeparamref name="T1"/>
+        /// which denotes the first element relative to
+        /// the model warning.
+        /// </summary>
+        T1 Item1 { get; }
+        /// <summary>
+        /// Returns the <typeparamref name="T2"/>
+        /// which denotes the second element relative to 
+        /// the model warning.
+        /// </summary>
+        T2 Item2 { get; }
+        /// <summary>
+        /// Returns the <typeparamref name="T3"/>
+        /// which denotes the third element relative to 
+        /// the model warning.
+        /// </summary>
+        T3 Item3 { get; }
         /// <summary>
         /// Returns the <typeparamref name="T4"/>
         /// which denotes the fourth element relative to 

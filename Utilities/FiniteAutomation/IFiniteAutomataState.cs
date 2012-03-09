@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
     /// <typeparam name="TCheck">The type of set used in the
     /// automation.</typeparam>
     /// <typeparam name="TState">The type of state used in the automation.</typeparam>
-    /// <typeparam name="TNodeTarget">The type used to denote the target
+    /// <typeparam name="TForwardNodeTarget">The type used to denote the target
     /// container for the transition table.</typeparam>
     /// <typeparam name="TSourceElement">The type used to represent the
     /// source elements from which the automation is derived.</typeparam>

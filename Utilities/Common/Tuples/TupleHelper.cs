@@ -182,7 +182,6 @@ namespace AllenCopeland.Abstraction.Utilities
         /// <typeparam name="T11">The type of the tredecuple's undenary component.</typeparam>
         /// <typeparam name="T12">The type of the tredecuple's duodenary component.</typeparam>
         /// <typeparam name="T13">The type of the tredecuple's tredenary component.</typeparam>
-        /// <typeparam name="T14">The type of the tredecuple's quattuordenary component.</typeparam>
         /// <param name="item1">The value of the tredecuple's primary component.</param>
         /// <param name="item2">The value of the tredecuple's secondary component.</param>
         /// <param name="item3">The value of the tredecuple's tertiary component.</param>

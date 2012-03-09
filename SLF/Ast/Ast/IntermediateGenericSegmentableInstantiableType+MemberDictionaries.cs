@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Properties;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Threading.Tasks;
+using System.Linq;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -316,36 +317,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             protected override TIntermediateIndexer GetNew(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true)
             {
                 var result = (TIntermediateIndexer)(object)this.Parent.GetNewIndexer(nameAndReturn);
+
                 if (parameters.Count > 0)
-                {
-                    TypedName[] adjustedParameters = new TypedName[parameters.Count];
-                    Parallel.For(0, parameters.Count, i =>
-                    {
-                        TypedName currentItem = parameters[i];
-                        IType paramType = currentItem.GetTypeRef();
-                        if (paramType.ContainsSymbols())
-                            paramType = paramType.SimpleSymbolDisambiguation(result);
-                        paramType = AdjustTypeReference(paramType, currentItem.Direction);
-                        adjustedParameters[i] = new TypedName(currentItem.Name, paramType);
-                    });
-                    result.Parameters.AddRange(adjustedParameters);
-                }
+                    result.Parameters.AddRange(parameters.ToArray());
                 result.CanRead = canGet;
                 result.CanWrite = canSet;
                 return result;
             }
         }
 
-        private static IType AdjustTypeReference(IType paramType, ParameterDirection parameterDirection)
-        {
-            if (paramType == null)
-                return null;
-            if (parameterDirection == ParameterDirection.In)
-                return paramType;
-            else if (paramType.ElementClassification != TypeElementClassification.Reference)
-                return paramType.MakeByReference();
-            return paramType;
-        }
 
         protected sealed class MethodDictionary :
             IntermediateMethodMemberDictionary<TMethod, TIntermediateMethod, TType, TIntermediateType>

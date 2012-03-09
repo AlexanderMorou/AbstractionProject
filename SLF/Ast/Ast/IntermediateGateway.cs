@@ -914,6 +914,139 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return new MalleableCreateArrayExpression(underlyingSystemType.GetTypeReference(), sizes);
         }
 
+        /// <summary>
+        /// Returns the number of elements within the <paramref name="dictionary"/> which
+        /// belong to the <paramref name="dictionary"/>'s owning parent partial instance.
+        /// </summary>
+        /// <typeparam name="TMemberIdentifier"></typeparam>
+        /// <typeparam name="TMember"></typeparam>
+        /// <typeparam name="TIntermediateMember"></typeparam>
+        /// <typeparam name="TParent"></typeparam>
+        /// <typeparam name="TIntermediateParent"></typeparam>
+        /// <param name="dictionary"></param>
+        /// <returns></returns>
+        public static int PartialCount<TMemberIdentifier, TMember, TIntermediateMember, TParent, TIntermediateParent>(this IIntermediateGroupedMemberDictionary<TParent, TIntermediateParent, TMemberIdentifier, TMember, TIntermediateMember> dictionary)
+            where TMemberIdentifier :
+                IMemberUniqueIdentifier,
+                IGeneralMemberUniqueIdentifier
+            where TMember :
+                IMember<TMemberIdentifier, TParent>
+            where TIntermediateMember :
+                IIntermediateMember<TMemberIdentifier, TParent, TIntermediateParent>,
+                TMember
+            where TParent :
+                IMemberParent
+            where TIntermediateParent :
+                IIntermediateMemberParent,
+                IIntermediateSegmentableDeclaration,
+                TParent
+        {
+            int count = 0;
+            var parent = dictionary.Parent;
+            foreach (var item in dictionary.Values)
+                if (object.ReferenceEquals(item.Parent, parent))
+                    count++;
+            return count;
+        }
+
+        public static int PartialCount<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>(this IIntermediateMethodSignatureMemberDictionary<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent> dictionary)
+            where TSignatureParameter :
+                IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
+            where TIntermediateSignatureParameter :
+                IIntermediateMethodSignatureParameterMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
+                TSignatureParameter
+            where TSignature :
+                IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
+            where TIntermediateSignature :
+                IIntermediateMethodSignatureMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
+                TSignature
+            where TSignatureParent :
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
+            where TIntermediateSignatureParent :
+                TSignatureParent,
+                IIntermediateSegmentableDeclaration,
+                IIntermediateSignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
+        {
+            int count = 0;
+            var parent = dictionary.Parent;
+            foreach (var item in dictionary.Values)
+                if (object.ReferenceEquals(item.Parent, parent))
+                    count++;
+            return count;
+        }
+
+        public static IEnumerable<KeyValuePair<IGeneralGenericSignatureMemberUniqueIdentifier, TIntermediateSignature>> GetPartialItems<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>(this IIntermediateMethodSignatureMemberDictionary<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent> dictionary)
+            where TSignatureParameter :
+                IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
+            where TIntermediateSignatureParameter :
+                IIntermediateMethodSignatureParameterMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
+                TSignatureParameter
+            where TSignature :
+                IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
+            where TIntermediateSignature :
+                IIntermediateMethodSignatureMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
+                TSignature
+            where TSignatureParent :
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
+            where TIntermediateSignatureParent :
+                TSignatureParent,
+                IIntermediateSegmentableDeclaration,
+                IIntermediateSignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
+        {
+            var parent = dictionary.Parent;
+            foreach (var item in dictionary.Values)
+                if (object.ReferenceEquals(item.Parent, parent))
+                    yield return new KeyValuePair<IGeneralGenericSignatureMemberUniqueIdentifier, TIntermediateSignature>(item.UniqueIdentifier, item);
+        }
+
+        public static IEnumerable<IGeneralGenericSignatureMemberUniqueIdentifier> GetPartialKeys<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>(this IIntermediateMethodSignatureMemberDictionary<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent> dictionary)
+            where TSignatureParameter :
+                IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
+            where TIntermediateSignatureParameter :
+                IIntermediateMethodSignatureParameterMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
+                TSignatureParameter
+            where TSignature :
+                IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
+            where TIntermediateSignature :
+                IIntermediateMethodSignatureMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
+                TSignature
+            where TSignatureParent :
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
+            where TIntermediateSignatureParent :
+                TSignatureParent,
+                IIntermediateSegmentableDeclaration,
+                IIntermediateSignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
+        {
+            var parent = dictionary.Parent;
+            foreach (var item in dictionary.Values)
+                if (object.ReferenceEquals(item.Parent, parent))
+                    yield return item.UniqueIdentifier;
+        }
+
+        public static IEnumerable<TIntermediateSignature> GetPartialValues<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>(this IIntermediateMethodSignatureMemberDictionary<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent> dictionary)
+            where TSignatureParameter :
+                IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
+            where TIntermediateSignatureParameter :
+                IIntermediateMethodSignatureParameterMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
+                TSignatureParameter
+            where TSignature :
+                IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
+            where TIntermediateSignature :
+                IIntermediateMethodSignatureMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
+                TSignature
+            where TSignatureParent :
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
+            where TIntermediateSignatureParent :
+                TSignatureParent,
+                IIntermediateSegmentableDeclaration,
+                IIntermediateSignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>
+        {
+            var parent = dictionary.Parent;
+            foreach (var item in dictionary.Values)
+                if (object.ReferenceEquals(item.Parent, parent))
+                    yield return item;
+        }
+
         internal static bool IsDeclarationGenericConstruct(this IIntermediateDeclaration target)
         {
             var current = target;
@@ -954,5 +1087,28 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return false;
         }
 
+        internal static IType AdjustParameterType(TypedName nameAndType, IIntermediateDeclaration originPoint)
+        {
+            IType resultType;
+            switch (nameAndType.Source)
+            {
+                case TypedNameSource.TypeReference:
+                    if (nameAndType.TypeReference.ContainsSymbols())
+                        resultType = nameAndType.TypeReference.SimpleSymbolDisambiguation(originPoint);
+                    else
+                        resultType = nameAndType.TypeReference;
+                    break;
+                case TypedNameSource.SymbolReference:
+                    resultType = nameAndType.SymbolReference.GetSymbolType().SimpleSymbolDisambiguation(originPoint);
+                    break;
+                case TypedNameSource.InvalidReference:
+                default:
+                    throw new ArgumentException("nameAndType");
+            }
+            if (nameAndType.Direction != ParameterDirection.In)
+                if (resultType.ElementClassification != TypeElementClassification.Reference)
+                    resultType = resultType.MakeByReference();
+            return resultType;
+        }
     }
 }

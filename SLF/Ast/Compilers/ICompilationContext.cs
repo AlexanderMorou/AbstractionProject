@@ -27,8 +27,8 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// </summary>
         bool AllowUnsafeCode { get; }
         /// <summary>
-        /// Returns whether the compiler should generate an accompanying 
-        /// XML documentation set.
+        /// Returns whether the compiler should generate an
+        /// accompanying XML documentation set.
         /// </summary>
         bool GenerateXMLDocs { get; }
         /// <summary>
@@ -36,15 +36,18 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// </summary>
         DebugSupport DebugSupport { get; }
         /// <summary>
-        /// Returns the type of assembly that will result from the compile operation.
+        /// Returns the type of assembly that will result from the
+        /// compile operation.
         /// </summary>
         AssemblyOutputType OutputType { get; }
         /// <summary>
-        /// Returns the level of warnings displayed by the compiler.
+        /// Returns the level of warnings displayed by the
+        /// compiler.
         /// </summary>
         WarningLevel WarnLevel { get; }
         /// <summary>
-        /// Returns whether arithmetic overflow checks are on by default.
+        /// Returns whether arithmetic overflow checks are on
+        /// by default.
         /// </summary>
         bool ArithmeticOverflowChecks { get; }
     }

@@ -64,9 +64,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// <returns>A new <see cref="ParameterMember"/> instance.</returns>
             protected override IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetNewParameter(string name, IType parameterType, ParameterDirection direction)
             {
-                ParameterMember result = new ParameterMember(Parent);
-                result.Direction = direction;
-                result.ParameterType = parameterType;
+                ParameterMember result = new ParameterMember(Parent) { Direction = direction, ParameterType = parameterType };
                 result.AssignName(name);
                 return result;
             }

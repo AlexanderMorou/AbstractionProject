@@ -100,31 +100,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             if (typeParameters.Length > 0)
                 method.TypeParameters.AddRange(typeParameters);
             if (parameters.Count > 0)
-            {
-                TypedName[] adjustedParameters = new TypedName[parameters.Count];
-                Parallel.For(0, parameters.Count, i =>
-                    {
-                        TypedName currentItem = parameters[i];
-                        IType paramType = currentItem.GetTypeRef();
-                        if (paramType.ContainsSymbols())
-                            paramType = paramType.SimpleSymbolDisambiguation(method);
-                        paramType = AdjustTypeReference(paramType, currentItem.Direction);
-                        adjustedParameters[i] = new TypedName(currentItem.Name, paramType);
-                    });
-                method.Parameters.AddRange(adjustedParameters);
-            }
+                method.Parameters.AddRange(parameters.ToArray());
             return method;
-        }
-
-        private static IType AdjustTypeReference(IType paramType, ParameterDirection parameterDirection)
-        {
-            if (paramType == null)
-                return null;
-            if (parameterDirection == ParameterDirection.In)
-                return paramType;
-            else if (paramType.ElementClassification != TypeElementClassification.Reference)
-                return paramType.MakeByReference();
-            return paramType;
         }
 
         /// <summary>
@@ -486,12 +463,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         private TIntermediateSignature GetNewMethodWithParameters(string name, TypedNameSeries parameters)
         {
             var method = this.GetNewMethod(name);
-            foreach (var item in parameters)
-            {
-                IType paramType = GetTypeReference(item);
-                paramType = AdjustTypeReference(paramType, item.Direction);
-                method.Parameters.Add(item.Name, paramType, item.Direction);
-            }
+            method.Parameters.AddRange(parameters.ToArray());
             return method;
         }
 
@@ -502,29 +474,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             var method = this.GetNewMethod(name);
             method.TypeParameters.AddRange(typeParameters);
-            if (parameters.Count > 0)
-            {
-                TypedName[] adjustedParameters = new TypedName[parameters.Count];
-                Parallel.For(0, parameters.Count, i =>
-                {
-                    TypedName currentItem = parameters[i];
-                    IType paramType = GetTypeReference(currentItem, p => method.TypeParameters.ContainsName(p) ? method.TypeParameters[p] : null);
-                    paramType = AdjustTypeReference(paramType, currentItem.Direction);
-                    adjustedParameters[i] = new TypedName(currentItem.Name, paramType);
-                });
-                method.Parameters.AddRange(adjustedParameters);
-            }
+            method.Parameters.AddRange(parameters.ToArray());
             return method;
-        }
-
-        private static IType AdjustTypeReference(IType paramType, ParameterDirection parameterDirection)
-        {
-            if (paramType == null)
-                return null;
-            if (parameterDirection == ParameterDirection.In)
-                return paramType;
-            else
-                return paramType.MakeByReference();
         }
 
         #region IIntermediateMethodSignatureMemberDictionary<TSignatureParameter,TIntermediateSignatureParameter,TSignature,TIntermediateSignature,TSignatureParent,TIntermediateSignatureParent> Members

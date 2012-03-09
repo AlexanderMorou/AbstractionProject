@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <summary>
     /// Provides a simple wrapper for simplifying passing multiple typed name series.
     /// </summary>
-    public struct TypedNameSeries :
+    public class TypedNameSeries :
         IControlledCollection<TypedName>
     {
         /// <summary>
@@ -46,7 +46,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <param name="data">The <see cref="TypedName"/> array that the
         /// <see cref="TypedNameSeries"/> represents.</param>
         public TypedNameSeries(params TypedName[] data)
-            : this()
         {
             if (data == null)
                 throw new ArgumentNullException("data");

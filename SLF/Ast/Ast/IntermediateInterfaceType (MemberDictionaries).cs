@@ -37,33 +37,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 var result = new IndexerMember(nameAndReturn.Name, (TInstanceType)this.Parent);
                 if (parameters.Count > 0)
-                {
-                    TypedName[] adjustedParameters = new TypedName[parameters.Count];
-                    Parallel.For(0, parameters.Count, i =>
-                    {
-                        TypedName currentItem = parameters[i];
-                        IType paramType = currentItem.GetTypeRef();
-                        if (paramType.ContainsSymbols())
-                            paramType = paramType.SimpleSymbolDisambiguation(result);
-                        paramType = AdjustTypeReference(paramType, currentItem.Direction);
-                        adjustedParameters[i] = new TypedName(currentItem.Name, paramType);
-                    });
-                    result.Parameters.AddRange(adjustedParameters);
-                }
+                    result.Parameters.AddRange(parameters.ToArray());
                 result.CanRead = canGet;
                 result.CanWrite = canSet;
                 return result;
             }
-        }
-        private static IType AdjustTypeReference(IType paramType, ParameterDirection parameterDirection)
-        {
-            if (paramType == null)
-                return null;
-            if (parameterDirection == ParameterDirection.In)
-                return paramType;
-            else if (paramType.ElementClassification != TypeElementClassification.Reference)
-                return paramType.MakeByReference();
-            return paramType;
         }
 
         private class PropertyMembers :

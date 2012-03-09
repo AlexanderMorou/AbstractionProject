@@ -198,7 +198,8 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
             return new CompilerSourceModelWarning<IIntermediateStructFieldMember>(CS0169, unusedPrivateField, null, LineColumnPair.Zero, LineColumnPair.Zero, unusedPrivateField.UniqueIdentifier.ToString());
         }
 
-        /// <summary><para>C&#9839; compiler warning (level 1) &#35;183:</para><para>The given expression is always of the provided (<see cref="IBinaryOperationExpression{TLeft,TRight}.RightSide"/>) type.</para></summary>
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
+        /// abstract model, (level 1) &#35;183:</para><para>The given expression is always of the provided (<see cref="IBinaryOperationExpression{TLeft,TRight}.RightSide"/>) type.</para></summary>
         /// <param name="relationalConstant">The <see cref="ICSharpRelationalExpression"/>
         /// which always yields true, because the <see cref="IBinaryOperationExpression{TLeft, TRight}.LeftSide"/>
         /// is always the type provided within <see cref="IBinaryOperationExpression{TLeft, TRight}.RightSide"/>.</param>
@@ -208,5 +209,147 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
             var end = relationalConstant.End ?? LineColumnPair.Zero;
             return new CompilerSourceModelWarning<ICSharpRelationalExpression>(CS0183, relationalConstant, relationalConstant.FileName, start, end, relationalConstant.ToString());
         }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
+        /// abstract model, (level 1) &#35;184:</para><para>The given expression is never of the provided ({0}) type</para></summary>
+        public static ICompilerSourceModelWarning<ICSharpRelationalExpression> WarningCS0184(ICSharpRelationalExpression relationalConstant)
+        {
+            var start = relationalConstant.Start ?? LineColumnPair.Zero;
+            var end = relationalConstant.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<ICSharpRelationalExpression>(CS0184, relationalConstant, relationalConstant.FileName, start, end, relationalConstant.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
+        /// abstract model, (level 1) &#35;197:</para><para>Passing {0} as ref or out or taking its address may cause a runtime exception because it is a field of a marshal-by-reference class</para></summary>
+        public static ICompilerSourceModelWarning<IDirectionExpression> WarningCS0197(IDirectionExpression directedExpression)
+        {
+
+            var start = directedExpression.Directed.Start ?? LineColumnPair.Zero;
+            var end = directedExpression.Directed.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<IDirectionExpression>(CS0197, directedExpression, directedExpression.FileName, start, end, directedExpression.Directed.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
+        /// abstract model, (level 3) &#35;219:</para><para>The variable {0} is assigned but its value is never used</para></summary>
+        public static ICompilerSourceModelWarning<ILocalMember> WarningCS0219(ILocalMember targetMember)
+        {
+            //ToDo: Add location information to local members.
+            return new CompilerSourceModelWarning<ILocalMember>(CS0219, targetMember, null, LineColumnPair.Zero, LineColumnPair.Zero, targetMember.UniqueIdentifier.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
+        /// abstract model, (level 2) &#35;251:</para><para>Indexing an array with a negative index (array indices always start at zero)</para></summary>
+        public static ICompilerSourceModelWarning<IIndexerReferenceExpression> WarningCS0251(IIndexerReferenceExpression indexingExpression)
+        {
+            var start = indexingExpression.Start ?? LineColumnPair.Zero;
+            var end = indexingExpression.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<IIndexerReferenceExpression>(CS0251, indexingExpression, indexingExpression.FileName, start, end, indexingExpression.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
+        /// abstract model, (level 2) &#35;251:</para><para>Indexing an array with a negative index (array indices always start at zero)</para></summary>
+        public static ICompilerSourceModelWarning<IIndexerReferenceExpression<IClassIndexerMember, IClassType>> WarningCS0251(IIndexerReferenceExpression<IClassIndexerMember, IClassType> indexingExpression)
+        {
+            var start = indexingExpression.Start ?? LineColumnPair.Zero;
+            var end = indexingExpression.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<IIndexerReferenceExpression<IClassIndexerMember, IClassType>>(CS0251, indexingExpression, indexingExpression.FileName, start, end, indexingExpression.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
+        /// abstract model, (level 2) &#35;251:</para><para>Indexing an array with a negative index (array indices always start at zero)</para></summary>
+        public static ICompilerSourceModelWarning<IIndexerReferenceExpression<IStructIndexerMember, IStructType>> WarningCS0251(IIndexerReferenceExpression<IStructIndexerMember, IStructType> indexingExpression)
+        {
+            var start = indexingExpression.Start ?? LineColumnPair.Zero;
+            var end = indexingExpression.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<IIndexerReferenceExpression<IStructIndexerMember, IStructType>>(CS0251, indexingExpression, indexingExpression.FileName, start, end, indexingExpression.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
+        /// abstract model, (level 2) &#35;251:</para><para>Indexing an array with a negative index (array indices always start at zero)</para></summary>
+        public static ICompilerSourceModelWarning<IIndexerSignatureReferenceExpression<IInterfaceIndexerMember, IInterfaceType>> WarningCS0251(IIndexerSignatureReferenceExpression<IInterfaceIndexerMember, IInterfaceType> indexingExpression)
+        {
+            var start = indexingExpression.Start ?? LineColumnPair.Zero;
+            var end = indexingExpression.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<IIndexerSignatureReferenceExpression<IInterfaceIndexerMember, IInterfaceType>>(CS0251, indexingExpression, indexingExpression.FileName, start, end, indexingExpression.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
+        /// abstract model, (level 2) &#35;252:</para><para>Possible unintended reference
+        /// comparison; to get a value comparison, cast the left hand side to type {0}</para></summary>
+        public static ICompilerSourceModelWarning<ICSharpInequalityExpression> WarningCS0252(ICSharpInequalityExpression inequalityExpression)
+        {
+            var start = inequalityExpression.Start ?? LineColumnPair.Zero;
+            var end = inequalityExpression.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<ICSharpInequalityExpression>(CS0252, inequalityExpression, inequalityExpression.FileName, start, end, inequalityExpression.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
+        /// abstract model, (level 2) &#35;253:
+        /// </para><para>Possible unintended reference comparison; to get
+        /// a value comparison, cast the right hand side to type {0}</para></summary>
+        public static ICompilerSourceModelWarning<ICSharpInequalityExpression> WarningCS0253(ICSharpInequalityExpression inequalityExpression)
+        {
+            var start = inequalityExpression.Start ?? LineColumnPair.Zero;
+            var end = inequalityExpression.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<ICSharpInequalityExpression>(CS0253, inequalityExpression, inequalityExpression.FileName, start, end, inequalityExpression.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
+        /// abstract model, (level 2) &#35;278:</para><para><paramref name="offendingType"/> does not implement the <paramref name="patternName"/>. <paramref name="patternMethod1"/> is ambiguous with <paramref name="patternMethod2"/>.</para></summary>
+        public static ICompilerSourceModelWarning<IExpression, IType, IMethodSignatureMember, IMethodSignatureMember> WarningCS0278(IExpression offendingExpression, IType offendingType, string patternName, IMethodSignatureMember patternMethod1, IMethodSignatureMember patternMethod2)
+        {
+            var start = offendingExpression.Start ?? LineColumnPair.Zero;
+            var end = offendingExpression.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<IExpression, IType, IMethodSignatureMember, IMethodSignatureMember>(CS0278, offendingExpression, offendingType, patternMethod1, patternMethod2, offendingExpression.FileName, start, end, offendingType.UniqueIdentifier.ToString(), patternName, patternMethod1.UniqueIdentifier.ToString(), patternMethod2.UniqueIdentifier.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
+        /// abstract model, (level 2) &#35;279:</para>
+        /// <para><paramref name="offendingType"/> does not implement the <paramref name="patternName"/>. <paramref name="offendingMethod"/> is either static or not public.</para></summary>
+        public static ICompilerSourceModelWarning<IExpression, IType, string, IMethodSignatureMember> WarningCS0279(IExpression offendingExpression, IType offendingType, string patternName, IMethodSignatureMember offendingMethod)
+        {
+            var start = offendingExpression.Start ?? LineColumnPair.Zero;
+            var end = offendingExpression.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<IExpression, IType, string, IMethodSignatureMember>(CS0279, offendingExpression, offendingType, patternName, offendingMethod, offendingExpression.FileName, start, end, offendingType.UniqueIdentifier.ToString(), patternName, offendingMethod.UniqueIdentifier.ToString());
+        }
+        /// <summary><para>Creates a C&#9839; compiler warning, relative to the 
+        /// abstract model, (level 2) &#35;280:</para><para><paramref name="offendingType"/> does not implement the <paramref name="patternName"/>. <paramref name="offendingMethod"/> has the wrong signature.</para></summary>
+        public static ICompilerSourceModelWarning<IExpression, IType, string, IMethodSignatureMember> WarningCS0280(IExpression offendingExpression, IType offendingType, string patternName, IMethodSignatureMember offendingMethod)
+        {
+            var start = offendingExpression.Start ?? LineColumnPair.Zero;
+            var end = offendingExpression.End ?? LineColumnPair.Zero;
+            return new CompilerSourceModelWarning<IExpression, IType, string, IMethodSignatureMember>(CS0280, offendingExpression, offendingType, patternName, offendingMethod, offendingExpression.FileName, start, end, offendingType.UniqueIdentifier.ToString(), patternName, offendingMethod.UniqueIdentifier.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative
+        /// to the abstract model, (level 3) &#35;282:</para>
+        /// <para>There is no defined ordering between fields in multiple
+        /// declarations of <paramref name="offendingStruct"/>. To specify an
+        /// ordering, all instance fields must be in the same declaration.
+        /// </para></summary>
+        public static ICompilerSourceModelWarning<IIntermediateStructType> WarningCS0282(IIntermediateStructType offendingStruct)
+        {
+            //ToDo: Add location information to structs.
+            return new CompilerSourceModelWarning<IIntermediateStructType>(CS0282, offendingStruct, null, LineColumnPair.Zero, LineColumnPair.Zero, offendingStruct.UniqueIdentifier.ToString());
+        }
+
+        /// <summary><para>Creates a C&#9839; compiler warning, relative
+        /// to the abstract model, (level 3) &#35;282:</para>
+        /// <para>There is no defined ordering between fields in multiple
+        /// declarations of <paramref name="offendingClass"/>. To specify an
+        /// ordering, all instance fields must be in the same declaration.
+        /// </para></summary>
+        /// <param name="offendingClass">The <see cref="IIntermediateClassType"/>
+        /// which contains one or more partial instance which contains
+        /// fields.</param>
+        /// <remarks>The ordering of the fields will become inconsistent
+        /// unless all instance fields reside within the same partial instance.</remarks>
+        public static ICompilerSourceModelWarning<IIntermediateClassType> WarningCS0282(IIntermediateClassType offendingClass)
+        {
+            //ToDo: Add location information to classes.
+            return new CompilerSourceModelWarning<IIntermediateClassType>(CS0282, offendingClass, null, LineColumnPair.Zero, LineColumnPair.Zero, offendingClass.UniqueIdentifier.ToString());
+        }
+
+
     }
 }

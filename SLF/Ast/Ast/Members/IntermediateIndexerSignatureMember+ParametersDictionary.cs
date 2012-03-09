@@ -33,14 +33,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
             protected override IIntermediateIndexerSignatureParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> GetNewParameter(string name, IType parameterType, ParameterDirection direction)
             {
-                var result = new ParameterMember(name, this.Parent);
-                return new ParameterMember(this.Parent)
-                {
-                    ParameterType = parameterType.SimpleSymbolDisambiguation(this.Parent),
-                    Name = name,
-                    Direction = direction
-                };
-
+                ParameterMember result = new ParameterMember(Parent) { Direction = direction, ParameterType = parameterType };
+                result.AssignName(name);
+                return result;
             }
         }
     }

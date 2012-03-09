@@ -157,5 +157,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             return v.Parent == this.Parent;
         }
+    
     }
 }
