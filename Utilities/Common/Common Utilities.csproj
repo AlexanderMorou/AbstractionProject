@@ -141,7 +141,8 @@
     <Compile Include="Collections\ReadonlyMultikeyedDictionary`7.cs" />
     <Compile Include="Collections\ReadonlyMultikeyedDictionary`8.cs" />
     <Compile Include="Collections\SubKeyNotFoundException.cs" />
-    <Compile Include="ICloneable.cs" />
+    <Compile Include="IO\EndianAwareBinaryWriter .cs" />
+    <Compile Include="IO\EndianAwareBinaryReader.cs" />
     <Compile Include="MiscHelperMethods.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -157,6 +158,7 @@
     <Compile Include="Numerics\DWord.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Numerics\Endianness.cs" />
     <Compile Include="Numerics\GameGenieBase.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -166,6 +168,7 @@
     <Compile Include="Numerics\NumericBaseController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Numerics\NumericCommon.cs" />
     <Compile Include="Numerics\OctalBase.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -82,17 +82,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         public new TIntermediateCtor Add(TypedNameSeries parameters)
         {
             TIntermediateCtor item = this.GetConstructor();
-            TypedName[] adjustedParameters = new TypedName[parameters.Count];
-            Parallel.For(0, adjustedParameters.Length, i =>
-            {
-                var currentParam = parameters[i];
-                var kind = currentParam.GetTypeRef();
-                if (kind.ContainsSymbols())
-                    kind = kind.SimpleSymbolDisambiguation(this.Parent);
-
-                adjustedParameters[i] = new TypedName(currentParam.Name, kind, currentParam.Direction);
-            });
-            item.Parameters.AddRange(adjustedParameters);
+            item.Parameters.AddRange(parameters.ToArray());
             if (this.ContainsKey(item.UniqueIdentifier))
                 throw new ArgumentException("parameters");
             this.AddDeclaration(item);

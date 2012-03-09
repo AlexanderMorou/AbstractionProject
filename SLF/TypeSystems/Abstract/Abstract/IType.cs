@@ -90,8 +90,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <returns>A <see cref="IArrayType"/> </returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="lowerBounds"/>
         /// is null.</exception>
-        /// <exception cref="System.ArgumentException"><paramref name="lowerBounds"/>
-        /// had zero elements.</exception>
+        /// <exception cref="System.ArgumentException">
+        /// <paramref name="lowerBounds"/> had zero elements.</exception>
         IArrayType MakeArray(params int[] lowerBounds);
 
         /// <summary>

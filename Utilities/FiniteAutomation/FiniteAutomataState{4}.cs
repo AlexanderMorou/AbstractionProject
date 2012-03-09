@@ -223,12 +223,15 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         }
 
         /// <summary>
-        /// Iterates and assigns all elements within the state transition
-        /// scope their uniqueness value continuing from the 
-        /// <paramref name="stateValue"/> provided.
+        /// Sets the state-value of the current state and increments the
+        /// <paramref name="stateValue"/>.
         /// </summary>
         /// <param name="stateValue">The most recently calculated state
         /// value.</param>
+        /// <param name="enumStack">The <see cref="List{T}"/> of states
+        /// that have already been enumerated.</param>
+        /// <remarks>Does nothing if the state has already been enumerated 
+        /// (is within the <paramref name="enumStack"/> list.</remarks>
         internal void EnumerateSet(ref int stateValue, List<TState> enumStack)
         {
             if (enumStack.Contains((TState)this))
@@ -238,6 +241,15 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 this.StateValue = stateValue++;
         }
 
+        /// <summary>
+        /// Iterates and assigns all elements within the state transition
+        /// scope their uniqueness value continuing from the 
+        /// <paramref name="stateValue"/> provided.
+        /// </summary>
+        /// <param name="stateValue">The most recently calculated state
+        /// value.</param>
+        /// <param name="enumStack">The <see cref="List{T}"/> of states
+        /// that have already been enumerated.</param>
         private void Enumerate(ref int stateValue, List<TState> enumStack)
         {
             var thisTState = this as TState;
@@ -300,7 +312,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             foreach (TSourceElement source in target.sources.Keys)
                 this.sources.Add(source, target.sources[source]);
         }
-
+#pragma warning disable 693
         internal void ReplicateSourcesToAlt<TState2, TForwardNodeTarget>(TState2 altTarget)
             where TState2 :
                 FiniteAutomataState<TCheck, TState2, TForwardNodeTarget, TSourceElement>
@@ -311,6 +323,8 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 else
                     altTarget.sources[source] |= this.sources[source];
         }
+#pragma warning restore 693
+
         internal void ReplicateSources(TState target)
         {
             ReplicateSourcesToAlt<TState, TForwardNodeTarget>(target);

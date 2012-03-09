@@ -111,15 +111,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         private TIntermediateParameter AddInternal(string name, IType parameterType, ParameterDirection direction)
         {
             TIntermediateParameter item = this.GetNewParameter(name, parameterType, direction);
+
             this._Add(item.UniqueIdentifier, item);
             return item;
         }
 
         public TIntermediateParameter Add(TypedName parameterInfo)
         {
-            var paramKind = parameterInfo.GetTypeRef();
-            if (paramKind.ContainsSymbols())
-                paramKind = paramKind.SimpleSymbolDisambiguation(this.Parent);
+            var paramKind = IntermediateGateway.AdjustParameterType(parameterInfo, this.Parent);
             return this.Add(parameterInfo.Name, paramKind, parameterInfo.Direction);
         }
 
@@ -141,10 +140,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             Parallel.For(0, parameterInfo.Length, i =>
                 {
                     var currentParamInfo = parameterInfo[i];
-                    var currentParamType = currentParamInfo.GetTypeRef();
-                    if (currentParamType.ContainsSymbols())
-                        currentParamType = currentParamType.SimpleSymbolDisambiguation(this.Parent);
-                    result[i] = this.GetNewParameter(currentParamInfo.Name, currentParamType, currentParamInfo.Direction);
+                    var paramType = IntermediateGateway.AdjustParameterType(currentParamInfo, this.Parent);
+                    result[i] = this.GetNewParameter(currentParamInfo.Name, paramType, currentParamInfo.Direction);
                 });
             foreach (var element in result)
                 this._Add(element.UniqueIdentifier, element);

@@ -215,11 +215,11 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         /// <summary>
         /// Translates the <see cref="FiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>
-        /// into a flat <see cref="System.Array"/> of <typeparamref name="T"/>
+        /// into a flat <see cref="System.Array"/> of <see cref="KeyValuePair{TKey, TValue}"/>
         /// elements.
         /// </summary>
         /// <returns>
-        /// A new <see cref="System.Array"/> of <typeparamref name="T"/>
+        /// A new <see cref="System.Array"/> of <see cref="KeyValuePair{TKey, TValue}"/>
         /// instances.</returns>
         public KeyValuePair<TCheck, TNodeTarget>[] ToArray()
         {

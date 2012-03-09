@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             IFiniteAutomataState<TCheck, TState>
     {
         /// <summary>
-        /// Inserts a new item into the <see cref="FIniteAutomataSingleTargetTransitionTable{TCheck, TState}"/>
+        /// Inserts a new item into the <see cref="FiniteAutomataSingleTargetTransitionTable{TCheck, TState}"/>
         /// with the <paramref name="check"/> and <paramref name="target"/> 
         /// provided.
         /// </summary>
@@ -60,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// <summary>
         /// The <see cref="IEnumerable{T}"/> series that denotes the
         /// full set of states transitioned into by the 
-        /// <see cref="FIniteAutomataSingleTargetTransitionTable{TCheck, TState}"/>.
+        /// <see cref="FiniteAutomataSingleTargetTransitionTable{TCheck, TState}"/>.
         /// </summary>
         public override IEnumerable<TState> Targets
         {

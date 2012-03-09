@@ -7,6 +7,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -17,80 +18,6 @@ using AllenCopeland.Abstraction.Slf.Ast;
 
 namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
 {
-    /// <summary>
-    /// The kind of primitive the <see cref="IPrimitiveExpression{T}"/> is.
-    /// </summary>
-    public enum PrimitiveType
-    {
-        /// <summary>
-        /// The <see cref="IPrimitiveExpression"/> is a boolean value.
-        /// </summary>
-        Boolean,
-        /// <summary>
-        /// The <see cref="IPrimitiveExpression"/> is a byte value.
-        /// </summary>
-        Byte,
-        /// <summary>
-        /// The <see cref="IPrimitiveExpression"/> is a signed byte value.
-        /// </summary>
-        SByte,
-        /// <summary>
-        /// The <see cref="IPrimitiveExpression"/> is a signed
-        /// 16-bit value.
-        /// </summary>
-        Int16,
-        /// <summary>
-        /// The <see cref="IPrimitiveExpression"/> is an unsigned
-        /// 16-bit value.
-        /// </summary>
-        UInt16,
-        /// <summary>
-        /// The <see cref="IPrimitiveExpression"/> is a signed
-        /// 32-bit value.
-        /// </summary>
-        Int32,
-        /// <summary>
-        /// The <see cref="IPrimitiveExpression"/> is an unsigned
-        /// 32-bit value.
-        /// </summary>
-        UInt32,
-        /// <summary>
-        /// The <see cref="IPrimitiveExpression"/> is a signed
-        /// 64-bit value.
-        /// </summary>
-        Int64,
-        /// <summary>
-        /// The <see cref="IPrimitiveExpression"/> is an unsigned
-        /// 64-bit value.
-        /// </summary>
-        UInt64,
-        /// <summary>
-        /// The <see cref="IPrimitiveExpression"/> is decimal value.
-        /// </summary>
-        Decimal,
-        /// <summary>
-        /// The <see cref="IPrimitiveExpression"/> is single precision
-        /// floating point value.
-        /// </summary>
-        Float,
-        /// <summary>
-        /// The <see cref="IPrimitiveExpression"/> is double precision
-        /// floating point value.
-        /// </summary>
-        Double,
-        /// <summary>
-        /// The <see cref="IPrimitiveExpression"/> is a unicode character.
-        /// </summary>
-        Char,
-        /// <summary>
-        /// The <see cref="IPrimitiveExpression"/> is a string of characters.
-        /// </summary>
-        String,
-        /// <summary>
-        /// The <see cref="IPrimitiveExpression"/> is a primitive null value.
-        /// </summary>
-        Null
-    }
 
     [DebuggerDisplay("{Value} /* {PrimitiveType} */")]
     public class PrimitiveExpression<T> :

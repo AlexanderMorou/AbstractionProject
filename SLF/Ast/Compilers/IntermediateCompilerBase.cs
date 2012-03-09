@@ -15,134 +15,125 @@ using AllenCopeland.Abstraction.Slf.Cli;
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
 
-    public class IntermediateCompilerBase 
+    public class IntermediateCompilerBase
     {
-        private static MultikeyedDictionary<IType, IType, IType> IntrinsicOperationResults = ConstructIntrinsicOperationResultTypes();
+        private static MultikeyedDictionary<TypeCode, TypeCode, TypeCode> IntrinsicOperationResults = ConstructIntrinsicOperationResultTypes();
 
 
-        internal static IType GetIntrinsicBinaryOperationResult(IType left, IType right)
+        internal static TypeCode GetIntrinsicBinaryOperationResult(IType left, IType right)
         {
-            IType result;
-            if (IntrinsicOperationResults.TryGetValue(left, right, out result))
+            TypeCode result;
+            var tcL = left.GetTypeCode();
+            var tcR = right.GetTypeCode();
+            if (IntrinsicOperationResults.TryGetValue(tcL, tcR, out result))
                 return result;
-            return null;
+            return TypeCode.Empty;
         }
 
-        private static MultikeyedDictionary<IType, IType, IType> ConstructIntrinsicOperationResultTypes()
+        private static MultikeyedDictionary<TypeCode, TypeCode, TypeCode> ConstructIntrinsicOperationResultTypes()
         {
-            var unorderedIntrinsicResults = new MultikeyedDictionary<IType, IType, IType>();
-            IType intrinsicUInt8 = typeof(byte).GetTypeReference();
-            IType intrinsicUInt16 = typeof(ushort).GetTypeReference();
-            IType intrinsicUInt32 = typeof(uint).GetTypeReference();
-            IType intrinsicUInt64 = typeof(ulong).GetTypeReference();
-            IType intrinsicSingle = typeof(float).GetTypeReference();
-            IType intrinsicDouble = typeof(double).GetTypeReference();
-            IType intrinsicChar = typeof(char).GetTypeReference();
-            IType intrinsicInt8 = typeof(sbyte).GetTypeReference();
-            IType intrinsicInt16 = typeof(short).GetTypeReference();
-            IType intrinsicInt32 = typeof(int).GetTypeReference();
-            IType intrinsicInt64 = typeof(long).GetTypeReference();
-            IType intrinsicDecimal = typeof(decimal).GetTypeReference();
-            unorderedIntrinsicResults.Add(intrinsicUInt8, intrinsicUInt8, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicUInt8, intrinsicUInt16, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicUInt8, intrinsicUInt32, intrinsicUInt32);
-            unorderedIntrinsicResults.Add(intrinsicUInt8, intrinsicUInt64, intrinsicUInt64);
-            unorderedIntrinsicResults.Add(intrinsicUInt8, intrinsicSingle, intrinsicSingle);
-            unorderedIntrinsicResults.Add(intrinsicUInt8, intrinsicDouble, intrinsicDouble);
-            unorderedIntrinsicResults.Add(intrinsicUInt8, intrinsicChar, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicUInt8, intrinsicInt8, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicUInt8, intrinsicInt16, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicUInt8, intrinsicInt32, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicUInt8, intrinsicInt64, intrinsicInt64);
-            unorderedIntrinsicResults.Add(intrinsicUInt8, intrinsicDecimal, intrinsicDecimal);
+            var unorderedIntrinsicResults = new MultikeyedDictionary<TypeCode, TypeCode, TypeCode>();
+            unorderedIntrinsicResults.Add(TypeCode.Byte, TypeCode.Byte, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.Byte, TypeCode.UInt16, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.Byte, TypeCode.UInt32, TypeCode.UInt32);
+            unorderedIntrinsicResults.Add(TypeCode.Byte, TypeCode.UInt64, TypeCode.UInt64);
+            unorderedIntrinsicResults.Add(TypeCode.Byte, TypeCode.Single, TypeCode.Single);
+            unorderedIntrinsicResults.Add(TypeCode.Byte, TypeCode.Double, TypeCode.Double);
+            unorderedIntrinsicResults.Add(TypeCode.Byte, TypeCode.Char, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.Byte, TypeCode.SByte, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.Byte, TypeCode.Int16, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.Byte, TypeCode.Int32, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.Byte, TypeCode.Int64, TypeCode.Int64);
+            unorderedIntrinsicResults.Add(TypeCode.Byte, TypeCode.Decimal, TypeCode.Decimal);
 
-            unorderedIntrinsicResults.Add(intrinsicUInt16, intrinsicUInt16, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicUInt16, intrinsicUInt32, intrinsicUInt32);
-            unorderedIntrinsicResults.Add(intrinsicUInt16, intrinsicUInt64, intrinsicUInt64);
-            unorderedIntrinsicResults.Add(intrinsicUInt16, intrinsicSingle, intrinsicSingle);
-            unorderedIntrinsicResults.Add(intrinsicUInt16, intrinsicDouble, intrinsicDouble);
-            unorderedIntrinsicResults.Add(intrinsicUInt16, intrinsicChar, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicUInt16, intrinsicInt8, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicUInt16, intrinsicInt16, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicUInt16, intrinsicInt32, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicUInt16, intrinsicInt64, intrinsicInt64);
-            unorderedIntrinsicResults.Add(intrinsicUInt16, intrinsicDecimal, intrinsicDecimal);
+            unorderedIntrinsicResults.Add(TypeCode.UInt16, TypeCode.UInt16, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.UInt16, TypeCode.UInt32, TypeCode.UInt32);
+            unorderedIntrinsicResults.Add(TypeCode.UInt16, TypeCode.UInt64, TypeCode.UInt64);
+            unorderedIntrinsicResults.Add(TypeCode.UInt16, TypeCode.Single, TypeCode.Single);
+            unorderedIntrinsicResults.Add(TypeCode.UInt16, TypeCode.Double, TypeCode.Double);
+            unorderedIntrinsicResults.Add(TypeCode.UInt16, TypeCode.Char, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.UInt16, TypeCode.SByte, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.UInt16, TypeCode.Int16, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.UInt16, TypeCode.Int32, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.UInt16, TypeCode.Int64, TypeCode.Int64);
+            unorderedIntrinsicResults.Add(TypeCode.UInt16, TypeCode.Decimal, TypeCode.Decimal);
 
-            unorderedIntrinsicResults.Add(intrinsicUInt32, intrinsicUInt32, intrinsicUInt32);
-            unorderedIntrinsicResults.Add(intrinsicUInt32, intrinsicUInt64, intrinsicUInt64);
-            unorderedIntrinsicResults.Add(intrinsicUInt32, intrinsicSingle, intrinsicSingle);
-            unorderedIntrinsicResults.Add(intrinsicUInt32, intrinsicDouble, intrinsicDouble);
-            unorderedIntrinsicResults.Add(intrinsicUInt32, intrinsicChar, intrinsicUInt32);
-            unorderedIntrinsicResults.Add(intrinsicUInt32, intrinsicInt8, intrinsicInt64);
-            unorderedIntrinsicResults.Add(intrinsicUInt32, intrinsicInt16, intrinsicInt64);
-            unorderedIntrinsicResults.Add(intrinsicUInt32, intrinsicInt32, intrinsicInt64);
-            unorderedIntrinsicResults.Add(intrinsicUInt32, intrinsicInt64, intrinsicInt64);
-            unorderedIntrinsicResults.Add(intrinsicUInt32, intrinsicDecimal, intrinsicDecimal);
+            unorderedIntrinsicResults.Add(TypeCode.UInt32, TypeCode.UInt32, TypeCode.UInt32);
+            unorderedIntrinsicResults.Add(TypeCode.UInt32, TypeCode.UInt64, TypeCode.UInt64);
+            unorderedIntrinsicResults.Add(TypeCode.UInt32, TypeCode.Single, TypeCode.Single);
+            unorderedIntrinsicResults.Add(TypeCode.UInt32, TypeCode.Double, TypeCode.Double);
+            unorderedIntrinsicResults.Add(TypeCode.UInt32, TypeCode.Char, TypeCode.UInt32);
+            unorderedIntrinsicResults.Add(TypeCode.UInt32, TypeCode.SByte, TypeCode.Int64);
+            unorderedIntrinsicResults.Add(TypeCode.UInt32, TypeCode.Int16, TypeCode.Int64);
+            unorderedIntrinsicResults.Add(TypeCode.UInt32, TypeCode.Int32, TypeCode.Int64);
+            unorderedIntrinsicResults.Add(TypeCode.UInt32, TypeCode.Int64, TypeCode.Int64);
+            unorderedIntrinsicResults.Add(TypeCode.UInt32, TypeCode.Decimal, TypeCode.Decimal);
 
-            unorderedIntrinsicResults.Add(intrinsicUInt64, intrinsicUInt32, intrinsicUInt32);
-            unorderedIntrinsicResults.Add(intrinsicUInt64, intrinsicUInt64, intrinsicUInt64);
-            unorderedIntrinsicResults.Add(intrinsicUInt64, intrinsicSingle, intrinsicSingle);
-            unorderedIntrinsicResults.Add(intrinsicUInt64, intrinsicDouble, intrinsicDouble);
-            unorderedIntrinsicResults.Add(intrinsicUInt64, intrinsicChar, intrinsicUInt32);
-            unorderedIntrinsicResults.Add(intrinsicUInt64, intrinsicDecimal, intrinsicDecimal);
+            unorderedIntrinsicResults.Add(TypeCode.UInt64, TypeCode.UInt32, TypeCode.UInt32);
+            unorderedIntrinsicResults.Add(TypeCode.UInt64, TypeCode.UInt64, TypeCode.UInt64);
+            unorderedIntrinsicResults.Add(TypeCode.UInt64, TypeCode.Single, TypeCode.Single);
+            unorderedIntrinsicResults.Add(TypeCode.UInt64, TypeCode.Double, TypeCode.Double);
+            unorderedIntrinsicResults.Add(TypeCode.UInt64, TypeCode.Char, TypeCode.UInt32);
+            unorderedIntrinsicResults.Add(TypeCode.UInt64, TypeCode.Decimal, TypeCode.Decimal);
 
-            unorderedIntrinsicResults.Add(intrinsicSingle, intrinsicSingle, intrinsicSingle);
-            unorderedIntrinsicResults.Add(intrinsicSingle, intrinsicDouble, intrinsicDouble);
-            unorderedIntrinsicResults.Add(intrinsicSingle, intrinsicChar, intrinsicSingle);
-            unorderedIntrinsicResults.Add(intrinsicSingle, intrinsicInt8, intrinsicSingle);
-            unorderedIntrinsicResults.Add(intrinsicSingle, intrinsicInt16, intrinsicSingle);
-            unorderedIntrinsicResults.Add(intrinsicSingle, intrinsicInt32, intrinsicSingle);
-            unorderedIntrinsicResults.Add(intrinsicSingle, intrinsicInt64, intrinsicSingle);
+            unorderedIntrinsicResults.Add(TypeCode.Single, TypeCode.Single, TypeCode.Single);
+            unorderedIntrinsicResults.Add(TypeCode.Single, TypeCode.Double, TypeCode.Double);
+            unorderedIntrinsicResults.Add(TypeCode.Single, TypeCode.Char, TypeCode.Single);
+            unorderedIntrinsicResults.Add(TypeCode.Single, TypeCode.SByte, TypeCode.Single);
+            unorderedIntrinsicResults.Add(TypeCode.Single, TypeCode.Int16, TypeCode.Single);
+            unorderedIntrinsicResults.Add(TypeCode.Single, TypeCode.Int32, TypeCode.Single);
+            unorderedIntrinsicResults.Add(TypeCode.Single, TypeCode.Int64, TypeCode.Single);
 
-            unorderedIntrinsicResults.Add(intrinsicDouble, intrinsicDouble, intrinsicDouble);
-            unorderedIntrinsicResults.Add(intrinsicDouble, intrinsicChar, intrinsicDouble);
-            unorderedIntrinsicResults.Add(intrinsicDouble, intrinsicInt8, intrinsicDouble);
-            unorderedIntrinsicResults.Add(intrinsicDouble, intrinsicInt16, intrinsicDouble);
-            unorderedIntrinsicResults.Add(intrinsicDouble, intrinsicInt32, intrinsicDouble);
-            unorderedIntrinsicResults.Add(intrinsicDouble, intrinsicInt64, intrinsicDouble);
+            unorderedIntrinsicResults.Add(TypeCode.Double, TypeCode.Double, TypeCode.Double);
+            unorderedIntrinsicResults.Add(TypeCode.Double, TypeCode.Char, TypeCode.Double);
+            unorderedIntrinsicResults.Add(TypeCode.Double, TypeCode.SByte, TypeCode.Double);
+            unorderedIntrinsicResults.Add(TypeCode.Double, TypeCode.Int16, TypeCode.Double);
+            unorderedIntrinsicResults.Add(TypeCode.Double, TypeCode.Int32, TypeCode.Double);
+            unorderedIntrinsicResults.Add(TypeCode.Double, TypeCode.Int64, TypeCode.Double);
 
-            unorderedIntrinsicResults.Add(intrinsicChar, intrinsicChar, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicChar, intrinsicInt8, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicChar, intrinsicInt16, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicChar, intrinsicInt32, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicChar, intrinsicInt64, intrinsicInt64);
-            unorderedIntrinsicResults.Add(intrinsicChar, intrinsicDecimal, intrinsicDecimal);
+            unorderedIntrinsicResults.Add(TypeCode.Char, TypeCode.Char, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.Char, TypeCode.SByte, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.Char, TypeCode.Int16, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.Char, TypeCode.Int32, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.Char, TypeCode.Int64, TypeCode.Int64);
+            unorderedIntrinsicResults.Add(TypeCode.Char, TypeCode.Decimal, TypeCode.Decimal);
 
-            unorderedIntrinsicResults.Add(intrinsicInt8, intrinsicInt8, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicInt8, intrinsicInt16, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicInt8, intrinsicInt32, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicInt8, intrinsicInt64, intrinsicInt64);
-            unorderedIntrinsicResults.Add(intrinsicInt8, intrinsicDecimal, intrinsicDecimal);
+            unorderedIntrinsicResults.Add(TypeCode.SByte, TypeCode.SByte, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.SByte, TypeCode.Int16, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.SByte, TypeCode.Int32, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.SByte, TypeCode.Int64, TypeCode.Int64);
+            unorderedIntrinsicResults.Add(TypeCode.SByte, TypeCode.Decimal, TypeCode.Decimal);
 
-            unorderedIntrinsicResults.Add(intrinsicInt16, intrinsicInt16, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicInt16, intrinsicInt32, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicInt16, intrinsicInt64, intrinsicInt64);
-            unorderedIntrinsicResults.Add(intrinsicInt16, intrinsicDecimal, intrinsicDecimal);
+            unorderedIntrinsicResults.Add(TypeCode.Int16, TypeCode.Int16, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.Int16, TypeCode.Int32, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.Int16, TypeCode.Int64, TypeCode.Int64);
+            unorderedIntrinsicResults.Add(TypeCode.Int16, TypeCode.Decimal, TypeCode.Decimal);
 
-            unorderedIntrinsicResults.Add(intrinsicInt32, intrinsicInt32, intrinsicInt32);
-            unorderedIntrinsicResults.Add(intrinsicInt32, intrinsicInt64, intrinsicInt64);
-            unorderedIntrinsicResults.Add(intrinsicInt32, intrinsicDecimal, intrinsicDecimal);
+            unorderedIntrinsicResults.Add(TypeCode.Int32, TypeCode.Int32, TypeCode.Int32);
+            unorderedIntrinsicResults.Add(TypeCode.Int32, TypeCode.Int64, TypeCode.Int64);
+            unorderedIntrinsicResults.Add(TypeCode.Int32, TypeCode.Decimal, TypeCode.Decimal);
 
-            unorderedIntrinsicResults.Add(intrinsicInt64, intrinsicInt64, intrinsicInt64);
-            unorderedIntrinsicResults.Add(intrinsicInt64, intrinsicDecimal, intrinsicDecimal);
+            unorderedIntrinsicResults.Add(TypeCode.Int64, TypeCode.Int64, TypeCode.Int64);
+            unorderedIntrinsicResults.Add(TypeCode.Int64, TypeCode.Decimal, TypeCode.Decimal);
 
-            unorderedIntrinsicResults.Add(intrinsicDecimal, intrinsicDecimal, intrinsicDecimal);
+            unorderedIntrinsicResults.Add(TypeCode.Decimal, TypeCode.Decimal, TypeCode.Decimal);
 
             foreach (var keysValue in unorderedIntrinsicResults.ToArray())
             {
-                IType dummyType;
+                TypeCode dummyType;
                 if (!unorderedIntrinsicResults.TryGetValue(keysValue.Keys.Key2, keysValue.Keys.Key1, out dummyType))
                     unorderedIntrinsicResults.Add(keysValue.Keys.Key2, keysValue.Keys.Key1, unorderedIntrinsicResults[keysValue.Keys.Key1, keysValue.Keys.Key2]);
             }
             var ksvsSet =
                 from ksv in unorderedIntrinsicResults
-                orderby ksv.Keys.Key1.UniqueIdentifier.ToString(), ksv.Keys.Key2.UniqueIdentifier.ToString()
+                orderby ksv.Keys.Key1, ksv.Keys.Key2
                 select ksv;
-            var orderedIntrinsicResults = new MultikeyedDictionary<IType, IType, IType>();
+            var orderedIntrinsicResults = new MultikeyedDictionary<TypeCode, TypeCode, TypeCode>();
             foreach (var element in ksvsSet)
                 orderedIntrinsicResults.Add(element.Keys.Key1, element.Keys.Key2, element.Value);
             return orderedIntrinsicResults;
         }
+
 
 
     }

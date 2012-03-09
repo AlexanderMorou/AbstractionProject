@@ -144,7 +144,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         /// <summary>
         /// Returns the string representation of the 
-        /// <see cref="DFASTate{TCheck, TState, TSourceElement}"/>.
+        /// <see cref="DFAState{TCheck, TState, TSourceElement}"/>.
         /// </summary>
         /// <returns>A <see cref="String"/> value representing
         /// the state.</returns>
