@@ -49,7 +49,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IGeneralSignatureMemberUniqueIdentifier FetchKey(ConstructorInfo item)
         {
-            return item.GetUniqueIdentifier();
+            return item.GetUniqueIdentifier(this.Manager);
+        }
+
+        protected override ICliManager Manager
+        {
+            get { return ((ICompiledType) this.Parent).Manager; }
         }
     }
 }

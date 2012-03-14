@@ -10,10 +10,10 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
-    internal interface _ICustomAttributeDefinitionParameterCollection :
-        ICustomAttributeDefinitionParameterCollection
+    internal interface _IMetadatumDefinitionParameterCollection :
+        IMetadataDefinitionParameterCollection
     {
-        ICustomAttributeDefinitionParameter AddInternal<T>(T value);
-        ICustomAttributeDefinitionParameter AddInternal<T>(string name, T value);
+        IMetadatumDefinitionParameter AddInternal<T>(T value);
+        IMetadatumDefinitionParameter AddInternal<T>(string name, T value);
     }
 }

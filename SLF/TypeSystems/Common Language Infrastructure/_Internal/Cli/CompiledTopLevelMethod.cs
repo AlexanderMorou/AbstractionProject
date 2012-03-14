@@ -23,9 +23,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         ITopLevelMethodMember
     {
 
-        public CompiledTopLevelMethod(MethodInfo memberInfo, INamespaceParent parent)
+        public CompiledTopLevelMethod(MethodInfo memberInfo, _ICompiledNamespaceParent parent)
             : base(memberInfo, parent)
         {
+        }
+
+        public new _ICompiledNamespaceParent Parent
+        {
+            get
+            {
+                return (_ICompiledNamespaceParent) base.Parent;
+            }
         }
 
         protected override ITopLevelMethodMember OnMakeGenericClosure(ITypeCollectionBase genericReplacements)
@@ -36,9 +44,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IModule DeclaringModule
         {
-            get {
-                return this.MemberInfo.Module.GetModuleReference();
-            }
+            get { return this.MemberInfo.Module.GetModuleReference(this.Parent.Assembly.Manager); }
         }
 
         public string FullName

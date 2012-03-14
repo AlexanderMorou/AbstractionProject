@@ -41,6 +41,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// Data member for <see cref="UnderlyingSystemType"/>.
         /// </summary>
         private Type underlyingSystemType;
+
+        /// <summary>
+        /// Data member representing the manager responsible for
+        /// marshalling instances to the current
+        /// <see cref="CompiledTypeBase{TTypeIdentifier, TType}"/>.
+        /// </summary>
+        private ICliManager manager;
         #endregion
 
         /// <summary>
@@ -49,10 +56,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         /// <param name="underlyingSystemType">The <see cref="System.Type"/> from which the current
         /// <see cref="CompiledTypeBase{TIdentifier, TType}"/> is based.</param>
-        internal CompiledTypeBase(Type underlyingSystemType)
+        internal CompiledTypeBase(Type underlyingSystemType, ICliManager manager)
             : base()
         {
             this.underlyingSystemType = underlyingSystemType;
+            this.manager = manager;
         }
 
         /// <summary>
@@ -63,7 +71,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (this.UnderlyingSystemType.DeclaringType == null)
                 return null;
             else
-                this.declaringType = this.UnderlyingSystemType.DeclaringType.GetTypeReference();
+                this.declaringType = this.Manager.ObtainTypeReference(this.UnderlyingSystemType.DeclaringType);
             return this.declaringType;
         }
 
@@ -153,7 +161,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.UnderlyingSystemType.BaseType == null)
                     return null;
-                return this.UnderlyingSystemType.BaseType.GetTypeReference();
+                return this.Manager.ObtainTypeReference(this.UnderlyingSystemType.BaseType);
             }
         }
 
@@ -163,7 +171,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         protected override ILockedTypeCollection OnGetImplementedInterfaces()
         {
-            return this.UnderlyingSystemType.GetInterfaces().ToLockedCollection();
+            return this.UnderlyingSystemType.GetInterfaces().ToLockedCollection(this.Manager);
         }
         protected override bool CanCacheImplementsList
         {
@@ -188,7 +196,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             if (this.ElementClassification == TypeElementClassification.None)
             {
-                return this.UnderlyingSystemType.Assembly.GetAssemblyReference();
+                return this.UnderlyingSystemType.Assembly.GetAssemblyReference(this.Manager);
             }
             else
                 return this.ElementType.Assembly;
@@ -217,7 +225,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override bool IsSubclassOfImpl(IType other)
         {
-            return other.Equals(CommonTypeRefs.Object);
+            return other.Equals(this.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.RootType));
         }
 
         protected override IArrayType OnMakeArray(int rank)
@@ -249,10 +257,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// Initializes the <see cref="TypeBase.CustomAttributes"/> for the current
         /// <see cref="CompiledTypeBase{TIdentifier, TType}"/>.
         /// </summary>
-        /// <returns>A <see cref="ICustomAttributeCollection"/> of
+        /// <returns>A <see cref="IMetadataCollection"/> of
         /// attributes relative to the current compiled type's
         /// <see cref="UnderlyingSystemType"/>.</returns>
-        protected override ICustomAttributeCollection InitializeCustomAttributes()
+        protected override IMetadataCollection InitializeCustomAttributes()
         {
             return new CompiledTypeCustomAttributeCollection(this);
         }
@@ -272,7 +280,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override TTypeIdentifier OnGetUniqueIdentifier()
         {
-            return (TTypeIdentifier)this.underlyingSystemType.GetUniqueIdentifier();
+            return (TTypeIdentifier)this.underlyingSystemType.GetUniqueIdentifier(this.Manager);
         }
 
         protected override TypeKind TypeImpl
@@ -280,15 +288,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { throw new NotImplementedException(); }
         }
 
-        protected override bool IsAttributeInheritable(IType attribute)
+        /// <summary>
+        /// Returns the <see cref="ICliManager"/> which is responsible for maintaining
+        /// the identity of the <see cref="Type"/> which represents the current
+        /// <see cref="CompiledTypeBase{TTypeIdentifier, TType}"/>
+        /// </summary>
+        public new ICliManager Manager
         {
-            if (attribute is ICompiledType)
+            get
             {
-                var cType = attribute as ICompiledType;
-                return CliAssist.GetAttributeUsage(cType.UnderlyingSystemType).AllowMultiple;
+                return this.manager;
             }
-            else
-                return CliAssist.GetAttributeUsage(attribute).AllowMultiple;
+        }
+
+        protected override ITypeIdentityManager OnGetManager()
+        {
+            return this.Manager;
         }
 
         public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers

@@ -30,8 +30,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         private IFieldMemberDictionary<IEnumFieldMember, IEnumType> fields;
 
-        internal CompiledEnumType(Type underlyingSystemType)
-            : base(underlyingSystemType)
+        internal CompiledEnumType(Type underlyingSystemType, ICliManager manager)
+            : base(underlyingSystemType, manager)
         {
             if (!underlyingSystemType.IsEnum)
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.underlyingSystemType, ExceptionMessageId.CompiledType_NotProperKind, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.@enum));

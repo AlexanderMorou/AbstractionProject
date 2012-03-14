@@ -26,8 +26,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IGenericTypeParameter<TTypeIdentifier, TType>
         {
 
-            public GenericTypeParameter(TType parent, Type underlyingSystemType)
-                : base(parent, underlyingSystemType)
+            public GenericTypeParameter(TType parent, Type underlyingSystemType, ICliManager manager)
+                : base(parent, underlyingSystemType, manager)
             {
 
             }

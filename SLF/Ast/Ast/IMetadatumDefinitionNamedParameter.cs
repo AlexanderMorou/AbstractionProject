@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
@@ -12,17 +11,16 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
     /// <summary>
-    /// Defines properties and methods for working with a 
-    /// custom attribute definition parameter.
+    /// Defines properties and methods for working with a named parameter
+    /// on a custom attribute.
     /// </summary>
-    public interface ICustomAttributeDefinitionParameter :
-        IDisposable
+    public interface IMetadatumDefinitionNamedParameter :
+        IMetadatumDefinitionParameter
     {
         /// <summary>
-        /// Returns the <see cref="ICustomAttributeDefinitionParameter"/>
-        /// value defined on one of the <see cref="ICustomAttributeDefinition"/>'s
-        /// constructor argument(s).
+        /// Returns/sets the name of the parameter
+        /// defined on the custom attribute.
         /// </summary>
-        object Value { get; }
+        string Name { get; set; }
     }
 }

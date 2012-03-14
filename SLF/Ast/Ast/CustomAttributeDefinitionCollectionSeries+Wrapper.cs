@@ -13,46 +13,46 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
-    partial class CustomAttributeDefinitionCollectionSeries
+    partial class MetadataDefinitionCollection
     {
         protected internal class Wrapper :
-            ICustomAttributeCollection
+            IMetadataCollection
         {
 
-            internal Wrapper(IIntermediateCustomAttributedEntity owner)
+            internal Wrapper(IIntermediateMetadataEntity owner)
             {
                 this.Parent = owner;
             }
 
-            public IIntermediateCustomAttributedEntity Parent { get; private set; }
+            public IIntermediateMetadataEntity Parent { get; private set; }
 
-            #region ICustomAttributeCollection Members
+            #region IMetadataCollection Members
 
             public bool Contains(IType attributeType)
             {
                 return Parent.CustomAttributes.Contains(attributeType);
             }
 
-            ICustomAttributedEntity ICustomAttributeCollection.Parent
+            IMetadataEntity IMetadataCollection.Parent
             {
                 get { return this.Parent; }
             }
 
-            public ICustomAttributeInstance this[IType attributeType]
+            public IMetadatum this[IType attributeType]
             {
                 get { return Parent.CustomAttributes[attributeType]; }
             }
 
             #endregion
 
-            #region IControlledCollection<ICustomAttributeInstance> Members
+            #region IControlledCollection<IMetadatum> Members
 
             public int Count
             {
                 get { return Parent.CustomAttributes.FullCount; }
             }
 
-            public bool Contains(ICustomAttributeInstance item)
+            public bool Contains(IMetadatum item)
             {
                 foreach (var _item in Parent.CustomAttributes.Flatten())
                     if (_item == item)
@@ -60,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return false;
             }
 
-            public int IndexOf(ICustomAttributeInstance element)
+            public int IndexOf(IMetadatum element)
             {
                 int index = 0;
                 foreach (var _item in Parent.CustomAttributes.Flatten())
@@ -71,12 +71,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return -1;
             }
 
-            public void CopyTo(ICustomAttributeInstance[] array, int arrayIndex = 0)
+            public void CopyTo(IMetadatum[] array, int arrayIndex = 0)
             {
                 this.ToArray().CopyTo(array, arrayIndex);
             }
 
-            public ICustomAttributeInstance this[int index]
+            public IMetadatum this[int index]
             {
                 get
                 {
@@ -92,9 +92,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 }
             }
 
-            public ICustomAttributeInstance[] ToArray()
+            public IMetadatum[] ToArray()
             {
-                ICustomAttributeInstance[] result = new ICustomAttributeInstance[this.Count];
+                IMetadatum[] result = new IMetadatum[this.Count];
                 int i = 0;
                 foreach (var definitions in this.Parent.CustomAttributes)
                     foreach (var definition in definitions)
@@ -104,9 +104,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             #endregion
 
-            #region IEnumerable<ICustomAttributeInstance> Members
+            #region IEnumerable<IMetadatum> Members
 
-            public IEnumerator<ICustomAttributeInstance> GetEnumerator()
+            public IEnumerator<IMetadatum> GetEnumerator()
             {
                 foreach (var definitions in this.Parent.CustomAttributes)
                     foreach (var definition in definitions)

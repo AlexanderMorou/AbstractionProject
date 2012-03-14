@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using System.Reflection;
+using AllenCopeland.Abstraction.Slf.Cli;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
@@ -11,7 +12,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         ModifiersAndAttributesMetadata
     {
         private ParameterInfo parameterInfo;
-        public ParameterInfoModifiersAndAttributesMetadata(ParameterInfo parameterInfo)
+        public ParameterInfoModifiersAndAttributesMetadata(ParameterInfo parameterInfo, ICliManager manager)
+            : base(manager)
         {
             this.parameterInfo = parameterInfo;
         }

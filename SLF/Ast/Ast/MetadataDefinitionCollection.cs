@@ -14,49 +14,49 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
-    [DebuggerDisplay("Attribute Groups: {Count}")]
-    public partial class CustomAttributeDefinitionCollectionSeries :
-        ControlledCollection<ICustomAttributeDefinitionCollection>,
-        ICustomAttributeDefinitionCollectionSeries
+    [DebuggerDisplay("Metadata sets: {Count}")]
+    public partial class MetadataDefinitionCollection :
+        ControlledCollection<IMetadataDefinition>,
+        IMetadataDefinitionCollection
     {
         private Wrapper wrapper;
         /// <summary>
-        /// Creates a new <see cref="CustomAttributeDefinitionCollectionSeries"/> with
+        /// Creates a new <see cref="MetadataDefinitionCollection"/> with
         /// the <paramref name="parent"/> provided.
         /// </summary>
-        /// <param name="parent">The <see cref="IIntermediateCustomAttributedEntity"/>
+        /// <param name="parent">The <see cref="IIntermediateMetadataEntity"/>
         /// which needs the attribute collection series.</param>
-        public CustomAttributeDefinitionCollectionSeries(IIntermediateCustomAttributedEntity parent)
+        public MetadataDefinitionCollection(IIntermediateMetadataEntity parent)
         {
             this.Parent = parent;
         }
 
-        public CustomAttributeDefinitionCollectionSeries(CustomAttributeDefinitionCollectionSeries wrapped, IIntermediateCustomAttributedEntity parent)
+        public MetadataDefinitionCollection(MetadataDefinitionCollection wrapped, IIntermediateMetadataEntity parent)
             : base(wrapped.baseList)
         {
         }
 
-        #region ICustomAttributeDefinitionCollectionSeries Members
+        #region IMetadataDefinitionCollection Members
 
-        public ICustomAttributeDefinitionCollection Add()
+        public IMetadataDefinition Add()
         {
-            CustomAttributeDefinitionCollection target = new CustomAttributeDefinitionCollection(this);
+            MetadataDefinition target = new MetadataDefinition(this);
             base.baseList.Add(target);
             return target;
         }
 
-        public ICustomAttributeDefinitionCollection Add(params CustomAttributeDefinition.ParameterValueCollection[] attributeData)
+        public IMetadataDefinition Add(params MetadatumDefinitionParameterValueCollection[] attributeData)
         {
-            CustomAttributeDefinitionCollection target = new CustomAttributeDefinitionCollection(this);
+            MetadataDefinition target = new MetadataDefinition(this);
             foreach (var item in attributeData)
                 target.Add(item);
             base.baseList.Add(target);
             return target;
         }
 
-        public ICustomAttributeDefinitionCollection Add(params ICustomAttributeDefinition[] attributes)
+        public IMetadataDefinition Add(params IMetadatumDefinition[] attributes)
         {
-            CustomAttributeDefinitionCollection target = new CustomAttributeDefinitionCollection(this);
+            MetadataDefinition target = new MetadataDefinition(this);
             foreach (var item in attributes)
                 target.Add(item);
             base.baseList.Add(target);
@@ -64,9 +64,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Returns the full count of <see cref="ICustomAttributeDefinition"/> elements
-        /// contained within all <see cref="ICustomAttributeDefinitionCollection"/>
-        /// in the current <see cref="CustomAttributeDefinitionCollectionSeries"/>.
+        /// Returns the full count of <see cref="IMetadatumDefinition"/> elements
+        /// contained within all <see cref="IMetadataDefinition"/>
+        /// in the current <see cref="MetadataDefinitionCollection"/>.
         /// </summary>
         public int FullCount
         {
@@ -81,17 +81,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
 
         /// <summary>
-        /// Returns the <see cref="IIntermediateCustomAttributedEntity"/>
-        /// which contains the <see cref="CustomAttributeDefinitionCollectionSeries"/>.
+        /// Returns the <see cref="IIntermediateMetadataEntity"/>
+        /// which contains the <see cref="MetadataDefinitionCollection"/>.
         /// </summary>
-        public IIntermediateCustomAttributedEntity Parent { get; private set; }
+        public IIntermediateMetadataEntity Parent { get; private set; }
 
-        public ICustomAttributeDefinition[] Flatten()
+        public IMetadatumDefinition[] Flatten()
         {
             int count = 0;
             foreach (var set in this.baseList)
                 count += set.Count;
-            ICustomAttributeDefinition[] result = new ICustomAttributeDefinition[count];
+            IMetadatumDefinition[] result = new IMetadatumDefinition[count];
             int k = 0;
             foreach (var item in this)
                 foreach (var decl in item)
@@ -107,7 +107,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return false;
         }
 
-        public ICustomAttributeDefinition this[IType attributeType]
+        public IMetadatumDefinition this[IType attributeType]
         {
             get {
                 /* *
@@ -118,14 +118,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                  * I *could* setup a versioning system for the definition sets and adjust
                  * the MRU as needed, but that's a bit of a pain, and not worth the effort.
                  * */
-                ICustomAttributeDefinitionCollection containing = null;
+                IMetadataDefinition containing = null;
                 foreach (var item in this)
                     if (item.Contains(attributeType))
                     {
                         containing = item;
                         break;
                     }
-                ICustomAttributeDefinition closeMatch = null;
+                IMetadatumDefinition closeMatch = null;
                 if (containing == null)
                     return null;
                 foreach (var item in containing)
@@ -149,10 +149,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return ((TAttribute)(this[k].WrappedAttribute));
         }
 
-        public void Remove(ICustomAttributeDefinition customAttribute)
+        public void Remove(IMetadatumDefinition customAttribute)
         {
             bool found = false;
-            List<ICustomAttributeDefinitionCollection> containers = new List<ICustomAttributeDefinitionCollection>();
+            List<IMetadataDefinition> containers = new List<IMetadataDefinition>();
             foreach (var set in base.baseList)
                 if (set.Contains(customAttribute))
                 {
@@ -167,9 +167,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 throw new ArgumentException("customAttribute provided was not found in any collection of the series.", "customAttribute");
         }
 
-        public void RemoveSet(IEnumerable<ICustomAttributeDefinition> series)
+        public void RemoveSet(IEnumerable<IMetadatumDefinition> series)
         {
-            List<ICustomAttributeDefinitionCollection> containers = new List<ICustomAttributeDefinitionCollection>();
+            List<IMetadataDefinition> containers = new List<IMetadataDefinition>();
             foreach (var item in series)
             {
                 foreach (var set in base.baseList)
@@ -191,7 +191,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #region IDisposable Members
         /// <summary>
-        /// Disposes the <see cref="CustomAttributeDefinitionCollectionSeries"/>.
+        /// Disposes the <see cref="MetadataDefinitionCollection"/>.
         /// </summary>
         public void Dispose()
         {

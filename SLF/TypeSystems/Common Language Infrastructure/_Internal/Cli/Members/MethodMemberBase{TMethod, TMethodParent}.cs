@@ -55,10 +55,5 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
-        public override string ToString()
-        {
-            return this.UniqueIdentifier.ToString();
-        }
-
     }
 }

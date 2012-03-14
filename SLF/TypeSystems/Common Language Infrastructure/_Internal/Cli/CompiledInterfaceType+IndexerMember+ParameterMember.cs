@@ -6,6 +6,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -23,8 +24,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 CompiledParameterMemberBase<IInterfaceIndexerMember>,
                 IIndexerSignatureParameterMember<IInterfaceIndexerMember, IInterfaceType>
             {
-                internal ParameterMember(ParameterInfo paramInfo, IInterfaceIndexerMember parent)
-                    : base(paramInfo, parent)
+                internal ParameterMember(ParameterInfo paramInfo, IInterfaceIndexerMember parent, ICliManager manager)
+                    : base(paramInfo, parent, manager)
                 {
                 }
 

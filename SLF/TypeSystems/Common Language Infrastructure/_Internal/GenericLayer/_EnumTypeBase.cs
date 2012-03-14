@@ -95,7 +95,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         }
         public override void Dispose()
         {
-            if (CLIGateway.CompiledTypeCache.Values.Contains(this))
+            if (CliGateway.CompiledTypeCache.Values.Contains(this))
                 this.RemoveFromCache();
             if (this.IsDisposed)
                 return;
@@ -212,10 +212,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         {
             if (this.IsDisposed)
                 throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            return other.Equals(CommonTypeRefs.Object);
+            return other.Equals(original.BaseType);
         }
 
-        protected override ICustomAttributeCollection InitializeCustomAttributes()
+        protected override IMetadataCollection InitializeCustomAttributes()
         {
             if (this.IsDisposed)
                 throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
@@ -333,15 +333,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return this.Original.Name;
         }
 
-        #region IGenericType Members
-
-        public void ReverifyTypeParameters()
-        {
-            return;
-        }
-
-        #endregion
-
         #region IGenericParamParent Members
 
         IGenericParameterDictionary IGenericParamParent.TypeParameters
@@ -433,15 +424,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return AstIdentifier.Type(this.Name);
         }
 
-        protected override bool IsAttributeInheritable(IType attribute)
+        protected override ITypeIdentityManager OnGetManager()
         {
-            if (attribute is ICompiledType)
-            {
-                var cType = attribute as ICompiledType;
-                return CliAssist.GetAttributeUsage(cType.UnderlyingSystemType).AllowMultiple;
-            }
-            else
-                return CliAssist.GetAttributeUsage(attribute).AllowMultiple;
+            return this.Original.Manager;
         }
     }
 }

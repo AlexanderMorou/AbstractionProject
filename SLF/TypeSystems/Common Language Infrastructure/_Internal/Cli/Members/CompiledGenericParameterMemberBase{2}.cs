@@ -62,8 +62,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// </summary>
         private IGenericParameterConstructorMemberDictionary<TGenericParameter> constructors;
         private object constraintLock = new object();
-        protected CompiledGenericParameterMemberBase(TParent parent, Type underlyingSystemType)
-            : base(underlyingSystemType)
+        protected CompiledGenericParameterMemberBase(TParent parent, Type underlyingSystemType, ICliManager manager)
+            : base(underlyingSystemType, manager)
         {
             this.parent = parent;
         }
@@ -257,7 +257,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                          t.GetGenericTypeDefinition() == typeof(Nullable<>)))
                         return false;
                     return true;
-                }).OnAll(t => t.GetTypeReference()).ToCollection();
+                }).OnAll(t => this.Manager.ObtainTypeReference(t)).ToCollection();
         }
 
         #endregion

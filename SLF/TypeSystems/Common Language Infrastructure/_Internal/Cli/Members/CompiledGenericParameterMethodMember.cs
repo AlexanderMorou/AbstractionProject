@@ -47,8 +47,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override IGenericParameterDictionary<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember> InitializeTypeParameters()
         {
+            ICliManager manager = null;
+            if (this.Parent is ICompiledType)
+            {
+                var parent = this.Parent as ICompiledType;
+                manager = parent.Manager;
+            }
             return new LockedGenericParameters<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember>(this, this.MemberInfo.GetGenericArguments().OnAll(gParamType =>
-                    (IMethodSignatureGenericTypeParameterMember)new GenericParameterMember(this, gParamType)));
+                    (IMethodSignatureGenericTypeParameterMember) new GenericParameterMember(this, gParamType, manager)));
         }
 
         protected override ILockedTypeCollection OnGetGenericParameters()
@@ -73,7 +79,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override IType OnGetReturnType()
         {
-            return this.MemberInfo.ReturnType.GetTypeReference();
+            return ((ICompiledType) this.Parent).Manager.ObtainTypeReference(this.MemberInfo.ReturnType);
         }
 
         private bool ContainsGenericMethodSignature(ITypeCollectionBase typeParameters, ref _GenericParameterMethodMemberBase<TGenericParameter> r)
@@ -96,9 +102,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             /* *
              * _IGenericMethodSignatureRegistrar handles cache.
              * */
-            var v = new _GenericParameterMethodMemberBase<TGenericParameter>(this, genericReplacements);
-            CLICommon.VerifyTypeParameters<IMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, TGenericParameter>, IGenericParameterMethodMember<TGenericParameter>, TGenericParameter>(this, genericReplacements);
-            return v;
+            return new _GenericParameterMethodMemberBase<TGenericParameter>(this, genericReplacements);
             //*/
         }
 
@@ -121,12 +125,41 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             return this.MemberInfo.Name;
         }
+        private ICliManager manager;
+        private ICliManager Manager
+        {
+            get
+            {
+                if (this.manager == null)
+                {
+                    var parent = this.Parent as ICompiledType;
+                    if (parent == null)
+                    {
+                        var aParent = this.Parent as ICompiledAssembly;
+                        if (aParent == null)
+                        {
+                            var nParent = this.Parent as INamespaceDeclaration;
+                            if (nParent == null ||
+                                !(nParent.Assembly is ICompiledAssembly))
+                                throw new InvalidOperationException();
+                            else
+                                manager = (nParent.Assembly as ICompiledAssembly).Manager;
+                        }
+                        else
+                            manager = aParent.Manager;
+                    }
+                    else
+                        manager = parent.Manager;
+                }
+                return manager;
+            }
+        }
 
         public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier
         {
             get {
                 if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = this.MemberInfo.GetUniqueIdentifier();
+                    this.uniqueIdentifier = this.MemberInfo.GetUniqueIdentifier(this.Manager);
                 return this.uniqueIdentifier;
             }
         }
@@ -138,7 +171,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override IModifiersAndAttributesMetadata OnGetReturnMetadata()
         {
-            return new MethodInfoModifiersAndAttributesMetadata(this.MemberInfo);
+            return new MethodInfoModifiersAndAttributesMetadata(this.MemberInfo, this.Manager);
         }
 
         protected override bool CanCacheCustomAttributes
@@ -146,9 +179,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             get { return true; }
         }
 
-        protected override ICustomAttributeCollection OnGetCustomAttributes()
+        protected override IMetadataCollection OnGetCustomAttributes()
         {
-            return new CompiledCustomAttributeCollection(this.MemberInfo.GetCustomAttributes);
+            return new CompiledCustomAttributeCollection(this.MemberInfo.GetCustomAttributes, this.Manager);
         }
     }
 }

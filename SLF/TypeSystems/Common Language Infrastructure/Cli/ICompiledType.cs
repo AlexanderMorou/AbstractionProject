@@ -23,5 +23,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="System.Type"/> which the <see cref="ICompiledType"/> refers to.
         /// </summary>
         Type UnderlyingSystemType { get; }
+        /// <summary>
+        /// Returns the <see cref="ICliManager"/> which is responsible for maintaining
+        /// the <see cref="Type"/> identity which represents the <see cref="ICompiledType"/>
+        /// </summary>
+        ICliManager Manager { get; }
     }
 }

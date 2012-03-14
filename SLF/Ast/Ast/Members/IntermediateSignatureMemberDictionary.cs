@@ -93,7 +93,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
         public IFilteredSignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(bool strict, ITypeCollectionBase search)
         {
-            return CLICommon.FindCache<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(((ISignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>)this).Values, search, strict);
+            return CliCommon.FindCache<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(((ISignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>)this).Values, search, strict);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="search"/> is null.</exception>
         public IFilteredSignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(bool strict, params IType[] search)
         {
-            return CLICommon.FindCache<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(((ISignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>)this).Values, search, strict);
+            return CliCommon.FindCache<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(((ISignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>)this).Values, search, strict);
         }
 
         /// <summary>

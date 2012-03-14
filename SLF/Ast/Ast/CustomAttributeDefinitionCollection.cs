@@ -12,56 +12,56 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
-    public class CustomAttributeDefinitionCollection :
-        ControlledCollection<ICustomAttributeDefinition>,
-        ICustomAttributeDefinitionCollection
+    public class MetadataDefinition :
+        ControlledCollection<IMetadatumDefinition>,
+        IMetadataDefinition
     {
 
-        private ICustomAttributeDefinitionCollectionSeries parent;
-        public CustomAttributeDefinitionCollection(ICustomAttributeDefinitionCollectionSeries parent)
+        private IMetadataDefinitionCollection parent;
+        public MetadataDefinition(IMetadataDefinitionCollection parent)
         {
             this.parent = parent;
         }
 
-        #region ICustomAttributeDefinitionCollection Members
+        #region IMetadataDefinition Members
 
-        public ICustomAttributeDefinitionCollectionSeries Parent
+        public IMetadataDefinitionCollection Parent
         {
             get { return this.parent; ; }
         }
 
         /// <summary>
-        /// Adds a <see cref="ICustomAttributeDefinition"/> with the
+        /// Adds a <see cref="IMetadatumDefinition"/> with the
         /// <paramref name="values"/> provided.
         /// </summary>
         /// <param name="values">A series of varied type values and possible names.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinition"/> instance with the
+        /// <returns>A <see cref="IMetadatumDefinition"/> instance with the
         /// <paramref name="values"/> provided.</returns>
         /// <exception cref="System.ArgumentException">thrown when the <paramref name="values"/> points to a compiled attribute type
         /// which has no public constructor that matches the values given, or a property referenced in the named value series did not exist.</exception>
-        /// <exception cref="System.ArgumentNullException"><paramref name="values"/>' <see cref="CustomAttributeDefinition.ParameterValueCollection.AttributeType"/> is null.</exception>
-        public ICustomAttributeDefinition Add(CustomAttributeDefinition.ParameterValueCollection values)
+        /// <exception cref="System.ArgumentNullException"><paramref name="values"/>' <see cref="MetadatumDefinitionParameterValueCollection.AttributeType"/> is null.</exception>
+        public IMetadatumDefinition Add(MetadatumDefinitionParameterValueCollection values)
         {
-            CustomAttributeDefinition definition = new CustomAttributeDefinition(this.parent.Parent, values);
+            MetadatumDefinition definition = new MetadatumDefinition(this.parent.Parent, values);
             this.baseList.Add(definition);
             return definition;
         }
 
         /// <summary>
-        /// Returns whether the <see cref="CustomAttributeDefinitionCollection"/> contains the
-        /// an attribute of the <paramref name="attributeType"/> provided.
+        /// Returns whether the <see cref="MetadataDefinition"/> contains the
+        /// an attribute of the <paramref name="metadatumType"/> provided.
         /// </summary>
-        /// <param name="attributeType">The <see cref="IType"/> of the attribute
+        /// <param name="metadatumType">The <see cref="IType"/> of the attribute
         /// to search for.</param>
         /// <returns>true if a definition of an attribute is of or derived from
-        /// the <paramref name="attributeType"/> provided.</returns>
-        public bool Contains(IType attributeType)
+        /// the <paramref name="metadatumType"/> provided.</returns>
+        public bool Contains(IType metadatumType)
         {
             foreach (var item in this)
             {
-                if (item.Type == attributeType)
+                if (item.Type == metadatumType)
                     return true;
-                else if (attributeType.IsAssignableFrom(item.Type))
+                else if (metadatumType.IsAssignableFrom(item.Type))
                     return true;
             }
             return false;
@@ -69,11 +69,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         /// <summary>
         /// Removes the <paramref name="customAttribute"/> defined within the
-        /// <see cref="CustomAttributeDefinitionCollection"/>.
+        /// <see cref="MetadataDefinition"/>.
         /// </summary>
-        /// <param name="customAttribute">The <see cref="ICustomAttributeDefinition"/>
+        /// <param name="customAttribute">The <see cref="IMetadatumDefinition"/>
         /// to remove.</param>
-        public void Remove(ICustomAttributeDefinition customAttribute)
+        public void Remove(IMetadatumDefinition customAttribute)
         {
             if (!this.baseList.Contains(customAttribute))
                 throw new ArgumentException("customAttribute");
@@ -82,7 +82,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #endregion
 
-        internal void Add(ICustomAttributeDefinition definition)
+        internal void Add(IMetadatumDefinition definition)
         {
             this.baseList.Add(definition);
         }

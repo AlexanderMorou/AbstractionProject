@@ -25,11 +25,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <remarks><para>The type that results from the typeof expression
         /// will change based off of the kind of type passed in.</para>
         /// <list type="bullet">
-        /// <item><description>Classes will use <see cref="IClassType"/> via <see cref="AllenCopeland.Abstraction.Slf.Cli.CLIGateway.GetTypeReference&lt;IDelegateUniqueIdentifier, IDelegateType&gt;(Type)"/>.</description></item>
-        /// <item><description>Delegates will use <see cref="IDelegateType"/> via <see cref="CLIGateway.GetTypeReference{TTypeIdentifier, TType}(Type)"/>.</description></item>
-        /// <item><description>Enums will use <see cref="IEnumType"/> via <see cref="CLIGateway.GetTypeReference{TTypeIdentifier, TType}(Type)"/>.</description></item>
-        /// <item><description>Interfaces will use <see cref="IInterfaceType"/> via <see cref="CLIGateway.GetTypeReference{TTypeIdentifier, TType}(Type)"/>.</description></item>
-        /// <item><description>Structs will use <see cref="IStructType"/> via <see cref="CLIGateway.GetTypeReference{TTypeIdentifier, TType}(Type)"/>.</description></item>
+        /// <item><description>Classes will use <see cref="IClassType"/> via <see cref="AllenCopeland.Abstraction.Slf.Cli.CliGateway.GetTypeReference&lt;IDelegateUniqueIdentifier, IDelegateType&gt;(Type)"/>.</description></item>
+        /// <item><description>Delegates will use <see cref="IDelegateType"/> via <see cref="CliGateway.GetTypeReference{TTypeIdentifier, TType}(Type)"/>.</description></item>
+        /// <item><description>Enums will use <see cref="IEnumType"/> via <see cref="CliGateway.GetTypeReference{TTypeIdentifier, TType}(Type)"/>.</description></item>
+        /// <item><description>Interfaces will use <see cref="IInterfaceType"/> via <see cref="CliGateway.GetTypeReference{TTypeIdentifier, TType}(Type)"/>.</description></item>
+        /// <item><description>Structs will use <see cref="IStructType"/> via <see cref="CliGateway.GetTypeReference{TTypeIdentifier, TType}(Type)"/>.</description></item>
         /// </list></remarks>
         Specific
     }

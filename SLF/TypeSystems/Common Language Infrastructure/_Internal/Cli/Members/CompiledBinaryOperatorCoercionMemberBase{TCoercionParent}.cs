@@ -76,6 +76,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             return returnType;
         }
 
+        private ICompiledType Parent { get { return (ICompiledType) base.Parent; } }
+
         #region ICompiledMember Members
 
         MemberInfo ICompiledMember.MemberInfo
@@ -96,37 +98,37 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             switch (this.Operator)
             {
                 case CoercibleBinaryOperators.Add:
-                    return CLICommon.BinaryOperatorNames.Addition;
+                    return CliCommon.BinaryOperatorNames.Addition;
                 case CoercibleBinaryOperators.Subtract:
-                    return CLICommon.BinaryOperatorNames.Subtraction;
+                    return CliCommon.BinaryOperatorNames.Subtraction;
                 case CoercibleBinaryOperators.Multiply:
-                    return CLICommon.BinaryOperatorNames.Multiply;
+                    return CliCommon.BinaryOperatorNames.Multiply;
                 case CoercibleBinaryOperators.Divide:
-                    return CLICommon.BinaryOperatorNames.Division;
+                    return CliCommon.BinaryOperatorNames.Division;
                 case CoercibleBinaryOperators.Modulus:
-                    return CLICommon.BinaryOperatorNames.Modulus;
+                    return CliCommon.BinaryOperatorNames.Modulus;
                 case CoercibleBinaryOperators.BitwiseAnd:
-                    return CLICommon.BinaryOperatorNames.BitwiseAnd;
+                    return CliCommon.BinaryOperatorNames.BitwiseAnd;
                 case CoercibleBinaryOperators.BitwiseOr:
-                    return CLICommon.BinaryOperatorNames.BitwiseOr;
+                    return CliCommon.BinaryOperatorNames.BitwiseOr;
                 case CoercibleBinaryOperators.ExclusiveOr:
-                    return CLICommon.BinaryOperatorNames.ExclusiveOr;
+                    return CliCommon.BinaryOperatorNames.ExclusiveOr;
                 case CoercibleBinaryOperators.LeftShift:
-                    return CLICommon.BinaryOperatorNames.LeftShift;
+                    return CliCommon.BinaryOperatorNames.LeftShift;
                 case CoercibleBinaryOperators.RightShift:
-                    return CLICommon.BinaryOperatorNames.RightShift;
+                    return CliCommon.BinaryOperatorNames.RightShift;
                 case CoercibleBinaryOperators.IsEqualTo:
-                    return CLICommon.BinaryOperatorNames.Equality;
+                    return CliCommon.BinaryOperatorNames.Equality;
                 case CoercibleBinaryOperators.IsNotEqualTo:
-                    return CLICommon.BinaryOperatorNames.Inequality;
+                    return CliCommon.BinaryOperatorNames.Inequality;
                 case CoercibleBinaryOperators.LessThan:
-                    return CLICommon.BinaryOperatorNames.LessThan;
+                    return CliCommon.BinaryOperatorNames.LessThan;
                 case CoercibleBinaryOperators.GreaterThan:
-                    return CLICommon.BinaryOperatorNames.GreaterThan;
+                    return CliCommon.BinaryOperatorNames.GreaterThan;
                 case CoercibleBinaryOperators.LessThanOrEqualTo:
-                    return CLICommon.BinaryOperatorNames.LessThanOrEqual;
+                    return CliCommon.BinaryOperatorNames.LessThanOrEqual;
                 case CoercibleBinaryOperators.GreaterThanOrEqualTo:
-                    return CLICommon.BinaryOperatorNames.GreaterThanOrEqual;
+                    return CliCommon.BinaryOperatorNames.GreaterThanOrEqual;
                 default:
                     return null;
             }
@@ -139,20 +141,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             Type[] _params = this.MemberInfo.GetParameters().OnAll(p => p.ParameterType).ToArray();
             if (_params.Length != 2)
                 throw new InvalidOperationException("object in invalid state, member info not of proper kind.");
-            Type pType = ((ICompiledType)(this.Parent)).UnderlyingSystemType;
-            this.returnType = this.MemberInfo.ReturnType.GetTypeReference();
+            var thisParent = this.Parent;
+            Type pType = thisParent.UnderlyingSystemType;
+            this.returnType = thisParent.Manager.ObtainTypeReference(this.MemberInfo.ReturnType);
             if (_params[0] == pType)
                 if (_params[1] == pType)
                     containingSide = BinaryOpCoercionContainingSide.Both;
                 else
                 {
                     containingSide = BinaryOpCoercionContainingSide.LeftSide;
-                    otherSide = _params[1].GetTypeReference();
+                    otherSide = thisParent.Manager.ObtainTypeReference(_params[1]);
                 }
             else if (_params[1] == pType)
             {
                 containingSide = BinaryOpCoercionContainingSide.RightSide;
-                otherSide = _params[0].GetTypeReference();
+                otherSide = thisParent.Manager.ObtainTypeReference(_params[0]);
             }
             else
                 throw new InvalidOperationException("object in invalid state, binary operation doesn't work on containing type.");
@@ -160,52 +163,52 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             //CLI operator overload names.
             switch (s)
             {
-                case CLICommon.BinaryOperatorNames.Addition: //                '+'      - op_Addition
+                case CliCommon.BinaryOperatorNames.Addition: //                '+'      - op_Addition
                     this._operator = CoercibleBinaryOperators.Add;
                     break;
-                case CLICommon.BinaryOperatorNames.BitwiseAnd: //          '&' or 'And' - op_BitwiseAnd
+                case CliCommon.BinaryOperatorNames.BitwiseAnd: //          '&' or 'And' - op_BitwiseAnd
                     this._operator = CoercibleBinaryOperators.BitwiseAnd;
                     break;
-                case CLICommon.BinaryOperatorNames.BitwiseOr: //           '|' or "Or"  - op_BitwiseOr
+                case CliCommon.BinaryOperatorNames.BitwiseOr: //           '|' or "Or"  - op_BitwiseOr
                     this._operator = CoercibleBinaryOperators.BitwiseOr;
                     break;
-                case CLICommon.BinaryOperatorNames.Division: //                '/'      - op_Division
+                case CliCommon.BinaryOperatorNames.Division: //                '/'      - op_Division
                     this._operator = CoercibleBinaryOperators.Divide;
                     break;
-                case CLICommon.BinaryOperatorNames.ExclusiveOr: //         '^' or 'XOr' - op_ExclusiveOr
+                case CliCommon.BinaryOperatorNames.ExclusiveOr: //         '^' or 'XOr' - op_ExclusiveOr
                     this._operator = CoercibleBinaryOperators.ExclusiveOr;
                     break;
-                case CLICommon.BinaryOperatorNames.GreaterThan: //             '>'      - op_GreaterThan
+                case CliCommon.BinaryOperatorNames.GreaterThan: //             '>'      - op_GreaterThan
                     this._operator = CoercibleBinaryOperators.GreaterThan;
                     break;
-                case CLICommon.BinaryOperatorNames.GreaterThanOrEqual: //  ">="         - op_GreaterThanOrEqual
+                case CliCommon.BinaryOperatorNames.GreaterThanOrEqual: //  ">="         - op_GreaterThanOrEqual
                     this._operator = CoercibleBinaryOperators.GreaterThanOrEqualTo;
                     break;
-                case CLICommon.BinaryOperatorNames.Equality: //            "==" or '='  - op_Equality
+                case CliCommon.BinaryOperatorNames.Equality: //            "==" or '='  - op_Equality
                     this._operator = CoercibleBinaryOperators.IsEqualTo;
                     break;
-                case CLICommon.BinaryOperatorNames.Inequality: //          "!=" or "<>" - op_Inequality
+                case CliCommon.BinaryOperatorNames.Inequality: //          "!=" or "<>" - op_Inequality
                     this._operator = CoercibleBinaryOperators.IsNotEqualTo;
                     break;
-                case CLICommon.BinaryOperatorNames.LeftShift: //               "<<"     - op_LeftShift
+                case CliCommon.BinaryOperatorNames.LeftShift: //               "<<"     - op_LeftShift
                     this._operator = CoercibleBinaryOperators.LeftShift;
                     break;
-                case CLICommon.BinaryOperatorNames.LessThan: //                '<'      - op_LessThan
+                case CliCommon.BinaryOperatorNames.LessThan: //                '<'      - op_LessThan
                     this._operator = CoercibleBinaryOperators.LessThan;
                     break;
-                case CLICommon.BinaryOperatorNames.LessThanOrEqual: //         "<="     - op_LessThanOrEqual
+                case CliCommon.BinaryOperatorNames.LessThanOrEqual: //         "<="     - op_LessThanOrEqual
                     this._operator = CoercibleBinaryOperators.LessThanOrEqualTo;
                     break;
-                case CLICommon.BinaryOperatorNames.Modulus: //             '%' or "Mod" - op_Modulus
+                case CliCommon.BinaryOperatorNames.Modulus: //             '%' or "Mod" - op_Modulus
                     this._operator = CoercibleBinaryOperators.Modulus;
                     break;
-                case CLICommon.BinaryOperatorNames.Multiply: //                '*'      - op_Multiply
+                case CliCommon.BinaryOperatorNames.Multiply: //                '*'      - op_Multiply
                     this._operator = CoercibleBinaryOperators.Multiply;
                     break;
-                case CLICommon.BinaryOperatorNames.RightShift: //             ">>"      - op_RightShift
+                case CliCommon.BinaryOperatorNames.RightShift: //             ">>"      - op_RightShift
                     this._operator = CoercibleBinaryOperators.RightShift;
                     break;
-                case CLICommon.BinaryOperatorNames.Subtraction: //             '-'      - op_Subtraction
+                case CliCommon.BinaryOperatorNames.Subtraction: //             '-'      - op_Subtraction
                     this._operator = CoercibleBinaryOperators.Subtract;
                     break;
                 default:

@@ -284,7 +284,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             }
         }
 
-        protected override ICustomAttributeCollection InitializeCustomAttributes()
+        protected override IMetadataCollection InitializeCustomAttributes()
         {
             return new CustomAttributeCollection(this);
         }

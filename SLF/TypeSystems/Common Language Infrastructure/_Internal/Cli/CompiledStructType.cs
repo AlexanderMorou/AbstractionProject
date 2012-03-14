@@ -28,8 +28,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         /// <param name="underlyingSystemType">The <see cref="System.Type"/> from which the current
         /// <see cref="CompiledStructType"/> is based.</param>
-        internal CompiledStructType(System.Type underlyingSystemType)
-            : base(underlyingSystemType)
+        internal CompiledStructType(Type underlyingSystemType, ICliManager manager)
+            : base(underlyingSystemType, manager)
         {
             if (!underlyingSystemType.IsValueType)
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.underlyingSystemType, ExceptionMessageId.CompiledType_NotProperKind, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.@struct));

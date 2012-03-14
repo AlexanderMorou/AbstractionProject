@@ -98,7 +98,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// </summary>
     public interface IMethodSignatureMember :
         ISignatureMember,
-        ICustomAttributedEntity,
+        IMetadataEntity,
         IGenericParamParent<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember>,
         IMember
     {

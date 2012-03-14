@@ -3,6 +3,7 @@ using System.Reflection;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -26,7 +27,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override ITypeCoercionUniqueIdentifier FetchKey(MethodInfo item)
         {
-            return item.GetTypeCoercionUniqueIdentifier();
+            ICompiledType parent = this.Parent as ICompiledType;
+            if (parent == null)
+                throw new InvalidOperationException();
+            return item.GetTypeCoercionUniqueIdentifier(parent.Manager);
         }
 
         #region ITypeCoercionMemberDictionary<TCoercionParent> Members

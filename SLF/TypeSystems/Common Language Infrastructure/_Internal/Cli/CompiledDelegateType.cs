@@ -39,8 +39,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         /// <param name="underlyingSystemType">The <see cref="System.Type"/> from which the current
         /// <see cref="CompiledDelegateType"/> is based.</param>
-        internal CompiledDelegateType(Type underlyingSystemType)
-            : base(underlyingSystemType)
+        internal CompiledDelegateType(Type underlyingSystemType, ICliManager manager)
+            : base(underlyingSystemType, manager)
         {
             if (!(underlyingSystemType.IsSubclassOf(typeof(Delegate)) && underlyingSystemType != typeof(MulticastDelegate)))
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.underlyingSystemType, ExceptionMessageId.CompiledType_NotProperKind, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.@delegate));
@@ -70,8 +70,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.lastIsParams = invokeMethod.LastParameterIsParams();
             IDelegateTypeParameterMember[] idtpma = new IDelegateTypeParameterMember[parameters.Length];
             for (int i = 0; i < parameters.Length; i++)
-                idtpma[i] = new ParameterMember(parameters[i], this);
-            returnType = invokeMethod.ReturnType.GetTypeReference();
+                idtpma[i] = new ParameterMember(parameters[i], this, this.Manager);
+            returnType = this.Manager.ObtainTypeReference(invokeMethod.ReturnType);
             return new ParametersDictionary(this, idtpma);
         }
 

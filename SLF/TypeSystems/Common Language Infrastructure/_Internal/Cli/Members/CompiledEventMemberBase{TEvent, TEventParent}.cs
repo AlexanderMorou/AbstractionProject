@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Members;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
+using System.Runtime.CompilerServices;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -244,7 +245,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 if (this.source == null)
                 {
                     var signatureType = this.SignatureType;
-                    if (signatureType.CustomAttributes.Contains(CommonTypeRefs.CompilerGeneratedAttribute))
+                    if (signatureType.CustomAttributes.Contains(this.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.CompilerGeneratedMetadatum)))
                         source = EventSignatureSource.Declared;
                     else
                         source = EventSignatureSource.Delegate;
@@ -256,9 +257,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override IParameterMemberDictionary<TEvent, IEventParameterMember<TEvent, TEventParent>> InitializeParameters()
         {
-            var delegateType = this.memberInfo.EventHandlerType.GetTypeReference<IDelegateUniqueIdentifier, IDelegateType>();
+            var delegateType = (IDelegateType) this.Manager.ObtainTypeReference(this.memberInfo.EventHandlerType);
             return new ParameterMemberDictionary(this, from delegateParameter in delegateType.Parameters.Values
                                                        select new ParameterMember(delegateParameter, this));
+        }
+        private ICliManager Manager
+        {
+            get
+            {
+                return ((ICompiledType) (this.Parent)).Manager;
+            }
         }
 
         protected override bool LastIsParamsImpl
@@ -283,7 +291,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override IDelegateType SignatureTypeImpl
         {
-            get { return this.memberInfo.EventHandlerType.GetTypeReference<IDelegateUniqueIdentifier, IDelegateType>(); }
+            get { return (IDelegateType)this.Manager.ObtainTypeReference(this.memberInfo.EventHandlerType); }
         }
 
         public override IType ReturnType
@@ -293,7 +301,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier
         {
-            get { return this.memberInfo.GetUniqueIdentifier(); }
+            get { return this.memberInfo.GetUniqueIdentifier(this.Manager); }
         }
     }
 }

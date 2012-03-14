@@ -29,263 +29,279 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// <summary>
         /// Data member for <see cref="ParameterArrayAttribute"/>.
         /// </summary>
-        private static IClassType parameterArrayAttribute;
+        private IClassType parameterArrayAttribute;
         /// <summary>
         /// Data member for <see cref="Delegate"/>.
         /// </summary>
-        private static IClassType @delegate;
+        private IClassType @delegate;
         /// <summary>
         /// Data member for <see cref="MulticastDelegate"/>.
         /// </summary>
-        private static IClassType multicastDelegate;
+        private IClassType multicastDelegate;
 
         /// <summary>
-        /// Data member for <see cref="CommonTypeRefs.Object"/>.
+        /// Data member for <see cref="this.Object"/>.
         /// </summary>
-        private static IClassType @object;
+        private IClassType @object;
 
         /// <summary>
-        /// Data member for <see cref="CommonTypeRefs.Void"/>.
+        /// Data member for <see cref="this.Void"/>.
         /// </summary>
-        private static IStructType @void;
+        private IStructType @void;
 
         /// <summary>
         /// Data member for <see cref="ExtensionAttribute"/>.
         /// </summary>
-        private static IClassType extensionAttribute;
+        private IClassType extensionAttribute;
 
         /// <summary>
         /// Data member for <see cref="ValueType"/>.
         /// </summary>
-        private static IClassType valueType;
+        private IClassType valueType;
 
         /// <summary>
         /// Data member for <see cref="Enum"/>.
         /// </summary>
-        private static IClassType @enum;
+        private IClassType @enum;
 
         /// <summary>
         /// Data member for <see cref="String"/>.
         /// </summary>
-        private static IClassType @string;
+        private IClassType @string;
 
         /// <summary>
         /// Data member for <see cref="Boolean"/>.
         /// </summary>
-        private static IStructType boolean;
+        private IStructType boolean;
 
         /// <summary>
         /// Data member for <see cref="CompilerGeneratedAttribute"/>
         /// </summary>
-        private static IClassType compilerGeneratedAttribute;
+        private IClassType compilerGeneratedAttribute;
 
-        private static IClassType task;
-        private static IClassType taskOfT;
+        private IClassType task;
+        private IClassType taskOfT;
         /// <summary>
         /// Data member for <see cref="EditorBrowsableAttribute"/>
         /// </summary>
-        private static IClassType editorBrowsableAttribute;
+        private IClassType editorBrowsableAttribute;
         /// <summary>
         /// Data member for <see cref="ClassIsModuleAttribute"/>.
         /// </summary>
-        private static IClassType classIsModuleAttribute;
+        private IClassType classIsModuleAttribute;
         /// <summary>
         /// Data member for <see cref="ClassIsHiddenAttribute"/>
         /// </summary>
-        private static IClassType classIsHiddenAttribute;
+        private IClassType classIsHiddenAttribute;
+
+        private ICliManager manager;
+
+        private static Dictionary<ICliManager, CommonTypeRefs> managerCache;
         #endregion
 
-        #region IType Dispose section
-        static void void_Disposed(object sender, EventArgs e)
+        private CommonTypeRefs(ICliManager manager)
         {
-            if (CommonTypeRefs.@void != null)
+            this.manager = manager;
+        }
+
+        internal static CommonTypeRefs GetCommonTypeRefs(ICliManager manager)
+        {
+            if (!managerCache.ContainsKey(manager))
+                managerCache.Add(manager, new CommonTypeRefs(manager));
+            return managerCache[manager];
+        }
+
+        #region IType Dispose section
+        private void void_Disposed(object sender, EventArgs e)
+        {
+            if (this.@void != null)
             {
 #if DEBUG
                 Debug.WriteLine("Void Disposed.");
 #endif
-                CommonTypeRefs.@void.Disposed -= new EventHandler(void_Disposed);
-                CommonTypeRefs.@void = null;
+                this.@void.Disposed -= new EventHandler(void_Disposed);
+                this.@void = null;
             }
         }
 
-        static void parameterArrayAttribute_Disposed(object sender, EventArgs e)
+        private void parameterArrayAttribute_Disposed(object sender, EventArgs e)
         {
-            if (CommonTypeRefs.parameterArrayAttribute != null)
+            if (this.parameterArrayAttribute != null)
             {
 #if DEBUG
                 Debug.WriteLine("ParameterArrayAttribute Disposed.");
 #endif
-                CommonTypeRefs.parameterArrayAttribute.Disposed -= new EventHandler(parameterArrayAttribute_Disposed);
-                CommonTypeRefs.parameterArrayAttribute = null;
+                this.parameterArrayAttribute.Disposed -= new EventHandler(parameterArrayAttribute_Disposed);
+                this.parameterArrayAttribute = null;
             }
         }
 
-        static void object_Disposed(object sender, EventArgs e)
+        private void object_Disposed(object sender, EventArgs e)
         {
-            if (CommonTypeRefs.@object != null)
+            if (this.@object != null)
             {
 #if DEBUG
                 Debug.WriteLine("Object Disposed.");
 #endif
-                CommonTypeRefs.@object.Disposed -= new EventHandler(object_Disposed);
-                CommonTypeRefs.@object = null;
+                this.@object.Disposed -= new EventHandler(object_Disposed);
+                this.@object = null;
             }
         }
 
-        static void extensionAttribute_Disposed(object sender, EventArgs e)
+        private void extensionAttribute_Disposed(object sender, EventArgs e)
         {
-            if (CommonTypeRefs.extensionAttribute != null)
+            if (this.extensionAttribute != null)
             {
 #if DEBUG
                 Debug.WriteLine("ExtensionAttribute Disposed.");
 #endif
-                CommonTypeRefs.extensionAttribute.Disposed -= new EventHandler(extensionAttribute_Disposed);
-                CommonTypeRefs.extensionAttribute = null;
+                this.extensionAttribute.Disposed -= new EventHandler(extensionAttribute_Disposed);
+                this.extensionAttribute = null;
             }
         }
 
-        static void valueType_Disposed(object sender, EventArgs e)
+        private void valueType_Disposed(object sender, EventArgs e)
         {
-            if (CommonTypeRefs.valueType != null)
+            if (this.valueType != null)
             {
 #if DEBUG
                 Debug.WriteLine("ValueType Disposed.");
 #endif
-                CommonTypeRefs.valueType.Disposed -= valueType_Disposed;
-                CommonTypeRefs.valueType = null;
+                this.valueType.Disposed -= valueType_Disposed;
+                this.valueType = null;
             }
         }
 
-        static void enum_Disposed(object sender, EventArgs e)
+        private void enum_Disposed(object sender, EventArgs e)
         {
-            if (CommonTypeRefs.@enum != null)
+            if (this.@enum != null)
             {
 #if DEBUG
                 Debug.WriteLine("Enum Disposed.");
 #endif
-                CommonTypeRefs.@enum.Disposed -= enum_Disposed;
-                CommonTypeRefs.@enum = null;
+                this.@enum.Disposed -= enum_Disposed;
+                this.@enum = null;
             }
         }
 
-        static void delegate_Disposed(object sender, EventArgs e)
+        private void delegate_Disposed(object sender, EventArgs e)
         {
-            if (CommonTypeRefs.@delegate != null)
+            if (this.@delegate != null)
             {
 #if DEBUG
                 Debug.WriteLine("Delegate Disposed.");
 #endif
-                CommonTypeRefs.@delegate.Disposed -= delegate_Disposed;
-                CommonTypeRefs.@delegate = null;
+                this.@delegate.Disposed -= delegate_Disposed;
+                this.@delegate = null;
             }
         }
 
-        static void multicastDelegate_Disposed(object sender, EventArgs e)
+        private void multicastDelegate_Disposed(object sender, EventArgs e)
         {
-            if (CommonTypeRefs.multicastDelegate != null)
+            if (this.multicastDelegate != null)
             {
 #if DEBUG
                 Debug.WriteLine("MulticastDelegate Disposed.");
 #endif
-                CommonTypeRefs.multicastDelegate.Disposed -= multicastDelegate_Disposed;
-                CommonTypeRefs.multicastDelegate = null;
+                this.multicastDelegate.Disposed -= multicastDelegate_Disposed;
+                this.multicastDelegate = null;
             }
         }
 
-        static void string_Disposed(object sender, EventArgs e)
+        private void string_Disposed(object sender, EventArgs e)
         {
-            if (CommonTypeRefs.@string != null)
+            if (this.@string != null)
             {
 #if DEBUG
                 Debug.WriteLine("String Disposed.");
 #endif
-                CommonTypeRefs.@string.Disposed -= string_Disposed;
-                CommonTypeRefs.@string = null;
+                this.@string.Disposed -= string_Disposed;
+                this.@string = null;
             }
         }
 
-        static void boolean_Disposed(object sender, EventArgs e)
+        private void boolean_Disposed(object sender, EventArgs e)
         {
-            if (CommonTypeRefs.boolean != null)
+            if (this.boolean != null)
             {
 #if DEBUG
                 Debug.WriteLine("Boolean Disposed.");
 #endif
-                CommonTypeRefs.boolean.Disposed -= boolean_Disposed;
-                CommonTypeRefs.boolean = null;
+                this.boolean.Disposed -= boolean_Disposed;
+                this.boolean = null;
             }
         }
 
-        static void compilerGeneratedAttribute_Disposed(object sender, EventArgs e)
+        private void compilerGeneratedAttribute_Disposed(object sender, EventArgs e)
         {
-            if (CommonTypeRefs.compilerGeneratedAttribute != null)
+            if (this.compilerGeneratedAttribute != null)
             {
 #if DEBUG
                 Debug.WriteLine("CompilerGeneratedAttribute Disposed.");
 #endif
-                CommonTypeRefs.compilerGeneratedAttribute.Disposed -= compilerGeneratedAttribute_Disposed;
-                CommonTypeRefs.compilerGeneratedAttribute = null;
+                this.compilerGeneratedAttribute.Disposed -= compilerGeneratedAttribute_Disposed;
+                this.compilerGeneratedAttribute = null;
             }
         }
 
 
-        static void task_Disposed(object sender, EventArgs e)
+        private void task_Disposed(object sender, EventArgs e)
         {
-            if (CommonTypeRefs.task != null)
+            if (this.task != null)
             {
 #if DEBUG
                 Debug.WriteLine("Task Disposed.");
 #endif
-                CommonTypeRefs.task.Disposed -= task_Disposed;
-                CommonTypeRefs.task = null;
+                this.task.Disposed -= task_Disposed;
+                this.task = null;
             }
         }
 
-        static void taskOfT_Disposed(object sender, EventArgs e)
+        private void taskOfT_Disposed(object sender, EventArgs e)
         {
-            if (CommonTypeRefs.taskOfT != null)
+            if (this.taskOfT != null)
             {
 #if DEBUG
                 Debug.WriteLine("Task<TResult> Disposed.");
 #endif
-                CommonTypeRefs.taskOfT.Disposed -= taskOfT_Disposed;
-                CommonTypeRefs.taskOfT = null;
+                this.taskOfT.Disposed -= taskOfT_Disposed;
+                this.taskOfT = null;
             }
         }
 
-        static void editorBrowsableAttribute_Disposed(object sender, EventArgs e)
+        private void editorBrowsableAttribute_Disposed(object sender, EventArgs e)
         {
-            if (CommonTypeRefs.editorBrowsableAttribute != null)
+            if (this.editorBrowsableAttribute != null)
             {
 #if DEBUG
                 Debug.WriteLine("EditorBrowsableAttribute Disposed.");
 #endif
-                CommonTypeRefs.editorBrowsableAttribute.Disposed -= editorBrowsableAttribute_Disposed;
-                CommonTypeRefs.editorBrowsableAttribute = null;
+                this.editorBrowsableAttribute.Disposed -= editorBrowsableAttribute_Disposed;
+                this.editorBrowsableAttribute = null;
             }
         }
 
-        static void classIsModuleAttribute_Disposed(object sender, EventArgs e)
+        private void classIsModuleAttribute_Disposed(object sender, EventArgs e)
         {
-            if (CommonTypeRefs.classIsModuleAttribute != null)
+            if (this.classIsModuleAttribute != null)
             {
 #if DEBUG
                 Debug.WriteLine("ClassIsModuleAttribute Disposed.");
 #endif
-                CommonTypeRefs.classIsModuleAttribute.Disposed -= classIsModuleAttribute_Disposed;
-                CommonTypeRefs.classIsModuleAttribute = null;
+                this.classIsModuleAttribute.Disposed -= classIsModuleAttribute_Disposed;
+                this.classIsModuleAttribute = null;
             }
         }
 
-        static void classIsHiddenAttribute_Disposed(object sender, EventArgs e)
+        private void classIsHiddenAttribute_Disposed(object sender, EventArgs e)
         {
-            if (CommonTypeRefs.classIsHiddenAttribute != null)
+            if (this.classIsHiddenAttribute != null)
             {
 #if DEBUG
                 Debug.WriteLine("ClassIsHiddenAttribute Disposed.");
 #endif
-                CommonTypeRefs.classIsHiddenAttribute.Disposed -= classIsHiddenAttribute_Disposed;
-                CommonTypeRefs.classIsHiddenAttribute = null;
+                this.classIsHiddenAttribute.Disposed -= classIsHiddenAttribute_Disposed;
+                this.classIsHiddenAttribute = null;
             }
         }
 
@@ -296,19 +312,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// for the <see cref="System.Runtime.CompilerServices.ExtensionAttribute"/>
         /// system type.
         /// </summary>
-        public static IClassType ExtensionAttribute
+        public IClassType ExtensionAttribute
         {
             get
             {
-                if (CommonTypeRefs.extensionAttribute == null)
+                if (this.extensionAttribute == null)
                 {
 #if DEBUG
                     Debug.WriteLine("ExtensionAttribute initialized.");
 #endif
-                    CommonTypeRefs.extensionAttribute = typeof(ExtensionAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonTypeRefs.extensionAttribute.Disposed += CommonTypeRefs.extensionAttribute_Disposed;
+                    this.extensionAttribute = (IClassType) this.manager.ObtainTypeReference(typeof(ExtensionAttribute));
+                    this.extensionAttribute.Disposed += this.extensionAttribute_Disposed;
                 }
-                return CommonTypeRefs.extensionAttribute;
+                return this.extensionAttribute;
             }
         }
 
@@ -316,20 +332,20 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="IClassType"/> reference wrapper for the <see cref="System.ParamArrayAttribute"/>
         /// system type.
         /// </summary>
-        public static IClassType ParameterArrayAttribute
+        public IClassType ParameterArrayAttribute
         {
             get
             {
-                if (CommonTypeRefs.parameterArrayAttribute == null)
+                if (this.parameterArrayAttribute == null)
                 {
 #if DEBUG
                     Debug.WriteLine("ParameterArrayAttribute initialized.");
 #endif
-                    CommonTypeRefs.parameterArrayAttribute = typeof(ParamArrayAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonTypeRefs.parameterArrayAttribute.Disposed += CommonTypeRefs.parameterArrayAttribute_Disposed;
+                    this.parameterArrayAttribute = (IClassType) this.manager.ObtainTypeReference(typeof(ParamArrayAttribute));
+                    this.parameterArrayAttribute.Disposed += this.parameterArrayAttribute_Disposed;
                 }
 
-                return CommonTypeRefs.parameterArrayAttribute;
+                return this.parameterArrayAttribute;
             }
         }
 
@@ -338,19 +354,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="IClassType"/> reference wrapper for the <see cref="System.Object"/>
         /// system type.
         /// </summary>
-        public static IClassType Object
+        public IClassType Object
         {
             get
             {
-                if (CommonTypeRefs.@object == null)
+                if (this.@object == null)
                 {
 #if DEBUG
                     Debug.WriteLine("Object initialized.");
 #endif
-                    CommonTypeRefs.@object = typeof(Object).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonTypeRefs.@object.Disposed += CommonTypeRefs.object_Disposed;
+                    this.@object = (IClassType) this.manager.ObtainTypeReference(typeof(Object));
+                    this.@object.Disposed += this.object_Disposed;
                 }
-                return CommonTypeRefs.@object;
+                return this.@object;
             }
         }
 
@@ -358,7 +374,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="IArrayType"/> reference wrapper for the <see cref="System.Object"/>
         /// system type as an array.
         /// </summary>
-        public static IArrayType ObjectArray
+        public IArrayType ObjectArray
         {
             get
             {
@@ -370,19 +386,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="IStructType"/> reference wrapper for the <see cref="System.Void"/>
         /// system type.
         /// </summary>
-        public static IStructType Void
+        public IStructType Void
         {
             get
             {
-                if (CommonTypeRefs.@void == null)
+                if (this.@void == null)
                 {
 #if DEBUG
                     Debug.WriteLine("Void initialized.");
 #endif
-                    CommonTypeRefs.@void = typeof(void).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IStructType>();
-                    CommonTypeRefs.@void.Disposed += CommonTypeRefs.void_Disposed;
+                    this.@void = (IStructType) this.manager.ObtainTypeReference(typeof(void));
+                    this.@void.Disposed += this.void_Disposed;
                 }
-                return CommonTypeRefs.@void;
+                return this.@void;
             }
         }
 
@@ -390,19 +406,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="IClassType"/> reference wrapper for the <see cref="ValueType"/>
         /// system type.
         /// </summary>
-        public static IClassType ValueType
+        public IClassType ValueType
         {
             get
             {
-                if (CommonTypeRefs.valueType == null)
+                if (this.valueType == null)
                 {
 #if DEBUG
                     Debug.WriteLine("ValueType initialized.");
 #endif
-                    CommonTypeRefs.valueType = typeof(ValueType).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonTypeRefs.valueType.Disposed += CommonTypeRefs.valueType_Disposed;
+                    this.valueType = (IClassType) this.manager.ObtainTypeReference(typeof(ValueType));
+                    this.valueType.Disposed += this.valueType_Disposed;
                 }
-                return CommonTypeRefs.valueType;
+                return this.valueType;
             }
         }
 
@@ -410,19 +426,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="IClassType"/> reference wrapper for the <see cref="Enum"/>
         /// system type.
         /// </summary>
-        public static IClassType Enum
+        public IClassType Enum
         {
             get
             {
-                if (CommonTypeRefs.@enum == null)
+                if (this.@enum == null)
                 {
 #if DEBUG
                     Debug.WriteLine("Enum initialized.");
 #endif
-                    CommonTypeRefs.@enum = typeof(Enum).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonTypeRefs.@enum.Disposed += CommonTypeRefs.enum_Disposed;
+                    this.@enum = (IClassType) this.manager.ObtainTypeReference(typeof(Enum));
+                    this.@enum.Disposed += this.enum_Disposed;
                 }
-                return CommonTypeRefs.@enum;
+                return this.@enum;
             }
         }
 
@@ -430,19 +446,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="IClassType"/> reference wrapper for the <see cref="Delegate"/>
         /// system type.
         /// </summary>
-        public static IClassType Delegate
+        public IClassType Delegate
         {
             get
             {
-                if (CommonTypeRefs.@delegate == null)
+                if (this.@delegate == null)
                 {
 #if DEBUG
                     Debug.WriteLine("Delegate initialized.");
 #endif
-                    CommonTypeRefs.@delegate = typeof(Delegate).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonTypeRefs.@delegate.Disposed += CommonTypeRefs.delegate_Disposed;
+                    this.@delegate = (IClassType) this.manager.ObtainTypeReference(typeof(Delegate));
+                    this.@delegate.Disposed += this.delegate_Disposed;
                 }
-                return CommonTypeRefs.@delegate;
+                return this.@delegate;
             }
         }
 
@@ -450,19 +466,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="IClassType"/> reference wrapper for the <see cref="MulticastDelegate"/>
         /// system type.
         /// </summary>
-        public static IClassType MulticastDelegate
+        public IClassType MulticastDelegate
         {
             get
             {
-                if (CommonTypeRefs.multicastDelegate == null)
+                if (this.multicastDelegate == null)
                 {
 #if DEBUG
                     Debug.WriteLine("MulticastDelegate initialized.");
 #endif
-                    CommonTypeRefs.multicastDelegate = typeof(MulticastDelegate).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonTypeRefs.multicastDelegate.Disposed += CommonTypeRefs.multicastDelegate_Disposed;
+                    this.multicastDelegate = (IClassType) this.manager.ObtainTypeReference(typeof(MulticastDelegate));
+                    this.multicastDelegate.Disposed += this.multicastDelegate_Disposed;
                 }
-                return CommonTypeRefs.multicastDelegate;
+                return this.multicastDelegate;
             }
         }
 
@@ -471,19 +487,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="IClassType"/> reference wrapper for the <see cref="System.String"/>
         /// system type.
         /// </summary>
-        public static IClassType String
+        public IClassType String
         {
             get
             {
-                if (CommonTypeRefs.@string == null)
+                if (this.@string == null)
                 {
 #if DEBUG
                     Debug.WriteLine("String initialized.");
 #endif
-                    CommonTypeRefs.@string = typeof(string).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonTypeRefs.@string.Disposed += string_Disposed;
+                    this.@string = (IClassType) this.manager.ObtainTypeReference(typeof(string));
+                    this.@string.Disposed += string_Disposed;
                 }
-                return CommonTypeRefs.@string;
+                return this.@string;
             }
         }
 
@@ -493,19 +509,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// <see cref="System.Runtime.CompilerServices.CompilerGeneratedAttribute"/>
         /// system type.
         /// </summary>
-        public static IClassType CompilerGeneratedAttribute
+        public IClassType CompilerGeneratedAttribute
         {
             get
             {
-                if (CommonTypeRefs.compilerGeneratedAttribute == null)
+                if (this.compilerGeneratedAttribute == null)
                 {
 #if DEBUG
                     Debug.WriteLine("CompilerGeneratedAttribute initialized.");
 #endif
-                    CommonTypeRefs.compilerGeneratedAttribute = typeof(CompilerGeneratedAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonTypeRefs.compilerGeneratedAttribute.Disposed += compilerGeneratedAttribute_Disposed;
+                    this.compilerGeneratedAttribute = (IClassType) this.manager.ObtainTypeReference(typeof(CompilerGeneratedAttribute));
+                    this.compilerGeneratedAttribute.Disposed += compilerGeneratedAttribute_Disposed;
                 }
-                return CommonTypeRefs.compilerGeneratedAttribute;
+                return this.compilerGeneratedAttribute;
             }
         }
 
@@ -513,7 +529,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="IArrayType"/> reference wrapper for the <see cref="System.String"/>
         /// system type as an array.
         /// </summary>
-        public static IArrayType StringArray
+        public IArrayType StringArray
         {
             get
             {
@@ -525,19 +541,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="IStructType"/> reference wrapper for the <see cref="System.Boolean"/>
         /// system type.
         /// </summary>
-        public static IStructType Boolean
+        public IStructType Boolean
         {
             get
             {
-                if (CommonTypeRefs.boolean == null)
+                if (this.boolean == null)
                 {
 #if DEBUG
                     Debug.WriteLine("Boolean initialized.");
 #endif
-                    CommonTypeRefs.boolean = typeof(bool).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IStructType>();
-                    CommonTypeRefs.boolean.Disposed += new EventHandler(boolean_Disposed);
+                    this.boolean = (IStructType) this.manager.ObtainTypeReference(typeof(bool));
+                    this.boolean.Disposed += new EventHandler(boolean_Disposed);
                 }
-                return CommonTypeRefs.boolean;
+                return this.boolean;
             }
         }
 
@@ -545,7 +561,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="IArrayType"/> reference wrapper for the <see cref="System.Boolean"/>
         /// system type as an array.
         /// </summary>
-        public static IArrayType BooleanArray
+        public IArrayType BooleanArray
         {
             get
             {
@@ -557,17 +573,17 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="IClassType"/> reference wrapper for the <see cref="Task"/>
         /// system type.
         /// </summary>
-        public static IClassType Task
+        public IClassType Task
         {
             get
             {
-                if (CommonTypeRefs.task == null)
+                if (this.task == null)
                 {
 #if DEBUG
                     Debug.WriteLine("Task initialized");
 #endif
-                    CommonTypeRefs.task = typeof(Task).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonTypeRefs.task.Disposed += new EventHandler(task_Disposed);
+                    this.task = (IClassType) this.manager.ObtainTypeReference(typeof(Task));
+                    this.task.Disposed += new EventHandler(task_Disposed);
                 }
                 return task;
             }
@@ -577,17 +593,17 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="IClassType"/> reference wrapper for the <see cref="Task{T}"/>
         /// system type.
         /// </summary>
-        public static IClassType TaskOfT
+        public IClassType TaskOfT
         {
             get
             {
-                if (CommonTypeRefs.taskOfT == null)
+                if (this.taskOfT == null)
                 {
 #if DEBUG
                     Debug.WriteLine("Task<TResult> initialized");
 #endif
-                    CommonTypeRefs.taskOfT = typeof(Task<>).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonTypeRefs.taskOfT.Disposed += new EventHandler(taskOfT_Disposed);
+                    this.taskOfT = (IClassType)this.manager.ObtainTypeReference(typeof(Task<>));
+                    this.taskOfT.Disposed += new EventHandler(taskOfT_Disposed);
                 }
                 return taskOfT;
             }
@@ -597,19 +613,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="IClassType"/> reference wrapper for the
         /// <see cref="EditorBrowsableAttribute"/> system type.
         /// </summary>
-        public static IClassType EditorBrowsableAttribute
+        public IClassType EditorBrowsableAttribute
         {
             get
             {
-                if (CommonTypeRefs.editorBrowsableAttribute == null)
+                if (this.editorBrowsableAttribute == null)
                 {
 #if DEBUG
                     Debug.WriteLine("EditorBrowsableAttribute initialized");
 #endif
-                    CommonTypeRefs.editorBrowsableAttribute = typeof(EditorBrowsableAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonTypeRefs.editorBrowsableAttribute.Disposed += new EventHandler(editorBrowsableAttribute_Disposed);
+                    this.editorBrowsableAttribute = (IClassType) this.manager.ObtainTypeReference(typeof(EditorBrowsableAttribute));
+                    this.editorBrowsableAttribute.Disposed += new EventHandler(editorBrowsableAttribute_Disposed);
                 }
-                return CommonTypeRefs.editorBrowsableAttribute;
+                return this.editorBrowsableAttribute;
             }
         }
 
@@ -617,19 +633,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="IClassType"/> reference wrapper for the 
         /// <see cref="ClassIsModuleAttribute"/> metadata type.
         /// </summary>
-        public static IClassType ClassIsModuleAttribute
+        public IClassType ClassIsModuleAttribute
         {
             get
             {
-                if (CommonTypeRefs.classIsModuleAttribute == null)
+                if (this.classIsModuleAttribute == null)
                 {
 #if DEBUG
                     Debug.WriteLine("ClassIsModuleAttribute initialized");
 #endif
-                    CommonTypeRefs.classIsModuleAttribute = typeof(ClassIsModuleAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonTypeRefs.classIsModuleAttribute.Disposed += new EventHandler(classIsModuleAttribute_Disposed);
+                    this.classIsModuleAttribute = (IClassType) this.manager.ObtainTypeReference(typeof(ClassIsModuleAttribute));
+                    this.classIsModuleAttribute.Disposed += new EventHandler(classIsModuleAttribute_Disposed);
                 }
-                return CommonTypeRefs.classIsModuleAttribute;
+                return this.classIsModuleAttribute;
             }
         }
 
@@ -637,19 +653,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="IClassType"/> reference wrapper for the 
         /// <see cref="ClassIsHiddenAttribute"/> metadata type.
         /// </summary>
-        public static IClassType ClassIsHiddenAttribute
+        public IClassType ClassIsHiddenAttribute
         {
             get
             {
-                if (CommonTypeRefs.classIsHiddenAttribute == null)
+                if (this.classIsHiddenAttribute == null)
                 {
 #if DEBUG
                     Debug.WriteLine("ClassIsHiddenAttribute initialized");
 #endif
-                    CommonTypeRefs.classIsHiddenAttribute = typeof(ClassIsHiddenAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonTypeRefs.classIsHiddenAttribute.Disposed += new EventHandler(classIsHiddenAttribute_Disposed);
+                    this.classIsHiddenAttribute = (IClassType) this.manager.ObtainTypeReference(typeof(ClassIsHiddenAttribute));
+                    this.classIsHiddenAttribute.Disposed += new EventHandler(classIsHiddenAttribute_Disposed);
                 }
-                return CommonTypeRefs.classIsHiddenAttribute;
+                return this.classIsHiddenAttribute;
             }
         }
 

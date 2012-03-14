@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Data member for <see cref="CustomAttributes"/>.
         /// </summary>
-        private ICustomAttributeCollection customAttributes;
+        private IMetadataCollection customAttributes;
         /// <summary>
         /// Data member for the pointer cache.
         /// </summary>
@@ -597,13 +597,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             return this.BuildTypeName(true);
         }
 
-        #region ICustomAttributedEntity Members
+        #region IMetadataEntity Members
 
         /// <summary>
-        /// Returns the <see cref="ICustomAttributeCollection"/> associated to the
+        /// Returns the <see cref="IMetadataCollection"/> associated to the
         /// <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
-        public ICustomAttributeCollection CustomAttributes
+        public IMetadataCollection CustomAttributes
         {
             get
             {
@@ -621,32 +621,30 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// is defined within the custom attributes of the 
         /// <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
-        /// <param name="attributeType">The <see cref="IType"/> which determines
+        /// <param name="metadatumType">The <see cref="IType"/> which determines
         /// the </param>
-        /// <returns>true if <see cref="attributeType"/> can be assigned to
+        /// <returns>true if <see cref="metadatumType"/> can be assigned to
         /// from a type of one of the custom attributes contained within 
         /// the <see cref="TypeBase{TIdentifier}"/>.</returns>
-        public bool IsDefined(IType attributeType)
+        public bool IsDefined(IType metadatumType)
         {
-            return this.StandardIsDefined(attributeType);
+            return this.StandardIsDefined(metadatumType);
         }
 
-        public bool IsDefined(IType attributeType, bool inherited)
+        public bool IsDefined(IType metadatumType, bool inherited)
         {
             bool? canInherit = null;
             for (IType targetType = this; targetType != null; targetType = targetType.BaseType)
             {
-                if (targetType.IsDefined(attributeType))
+                if (targetType.IsDefined(metadatumType))
                     return true;
                 if (canInherit == null)
-                    canInherit = IsAttributeInheritable(attributeType);
+                    canInherit = this.Manager.IsMetadatumInheritable(metadatumType);
                 else if (!canInherit.Value)
                     return false;
             }
             return false;
         }
-
-        protected abstract bool IsAttributeInheritable(IType attribute);
 
         #endregion
 
@@ -654,9 +652,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Initializes the <see cref="CustomAttributes"/> for the current
         /// <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
-        /// <returns>A <see cref="ICustomAttributeCollection"/> of
+        /// <returns>A <see cref="IMetadataCollection"/> of
         /// attributes relative to the current instance.</returns>
-        protected abstract ICustomAttributeCollection InitializeCustomAttributes();
+        protected abstract IMetadataCollection InitializeCustomAttributes();
 
         /// <summary>
         /// Returns a <see cref="IEnumerable{T}"/> of the elements
@@ -724,11 +722,24 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #region IType Members
 
-
         IGeneralTypeUniqueIdentifier IType.UniqueIdentifier
         {
             get { return (IGeneralTypeUniqueIdentifier)this.UniqueIdentifier; }
         }
+
+        /// <summary>
+        /// Returns the <see cref="ITypeIdentityManager"/> which was used
+        /// to construct the current <see cref="IType"/>.
+        /// </summary>
+        public ITypeIdentityManager Manager
+        {
+            get
+            {
+                return this.OnGetManager();
+            }
+        }
+
+        protected abstract ITypeIdentityManager OnGetManager();
 
         #endregion
 
@@ -740,5 +751,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 return this.UniqueIdentifier.ToString();
             }
         }
+
+
     }
 }

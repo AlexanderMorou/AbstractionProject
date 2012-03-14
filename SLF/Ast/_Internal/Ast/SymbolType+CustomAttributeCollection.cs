@@ -15,31 +15,31 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
     partial class SymbolType
     {
         protected class CustomAttributeCollection :
-            ReadOnlyCollection<ICustomAttributeInstance>,
-            ICustomAttributeCollection
+            ReadOnlyCollection<IMetadatum>,
+            IMetadataCollection
         {
-            private ICustomAttributedEntity parent;
-            public CustomAttributeCollection(ICustomAttributedEntity parent)
+            private IMetadataEntity parent;
+            public CustomAttributeCollection(IMetadataEntity parent)
                 : base()
             {
                 this.parent = parent;
             }
 
-            #region ICustomAttributeCollection Members
+            #region IMetadataCollection Members
 
-            public bool Contains(IType attributeType)
+            public bool Contains(IType metadatumType)
             {
                 return false;
             }
 
-            public ICustomAttributedEntity Parent
+            public IMetadataEntity Parent
             {
                 get { return this.parent; }
             }
 
-            public ICustomAttributeInstance this[IType attributeType]
+            public IMetadatum this[IType metadatumType]
             {
-                get { throw new ArgumentException("attributeType"); }
+                get { throw new ArgumentException("metadatumType"); }
             }
 
             #endregion

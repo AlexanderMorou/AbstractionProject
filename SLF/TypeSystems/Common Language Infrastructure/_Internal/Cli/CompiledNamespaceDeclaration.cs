@@ -56,6 +56,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
+        public ICliManager Manager { get { return this.Assembly.Manager; } }
+
         #region _ICompiledNamespaceParent Members
 
         public _ICompiledAssembly Assembly

@@ -129,8 +129,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </summary>
         private TypeParameterDictionary typeParameters;
         private MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes signatureTypes;
-        private ICustomAttributeDefinitionCollectionSeries customAttributes;
-        private ICustomAttributeCollection _customAttributes;
+        private IMetadataDefinitionCollection customAttributes;
+        private IMetadataCollection _customAttributes;
         /// <summary>
         /// Creates a new <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
         /// with the <paramref name="parent"/> provided.
@@ -279,7 +279,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
              * _IGenericMethodRegistrar handles cache.
              * */
             var tK = this.OnMakeGenericMethod(genericReplacements);
-            //CLICommon.VerifyTypeParameters<TSignatureParameter, TSignature, TParent>(this, genericReplacements);
+            //CliCommon.VerifyTypeParameters<TSignatureParameter, TSignature, TParent>(this, genericReplacements);
             return tK;
         }
 
@@ -655,7 +655,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         #endregion
 
-        ICustomAttributeCollection ICustomAttributedEntity.CustomAttributes
+        IMetadataCollection IMetadataEntity.CustomAttributes
         {
             get
             {
@@ -663,12 +663,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     if (this.IsDisposed)
                         throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
                     else
-                        this._customAttributes = ((CustomAttributeDefinitionCollectionSeries)(this.CustomAttributes)).GetWrapper();
+                        this._customAttributes = ((MetadataDefinitionCollection)(this.CustomAttributes)).GetWrapper();
                 return this._customAttributes;
             }
         }
 
-        public ICustomAttributeDefinitionCollectionSeries CustomAttributes
+        public IMetadataDefinitionCollection CustomAttributes
         {
             get
             {
@@ -676,7 +676,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     if (this.IsDisposed)
                         throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
                     else
-                        this.customAttributes = new CustomAttributeDefinitionCollectionSeries(this);
+                        this.customAttributes = new MetadataDefinitionCollection(this);
                 return this.customAttributes;
             }
         }

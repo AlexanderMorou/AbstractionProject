@@ -12,24 +12,24 @@ using AllenCopeland.Abstraction.Utilities.Events;
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
-    public class CustomAttributeDefinitionParameterCollection :
-        ControlledCollection<ICustomAttributeDefinitionParameter>,
-        _ICustomAttributeDefinitionParameterCollection
+    public class MetadatumDefinitionParameterCollection :
+        ControlledCollection<IMetadatumDefinitionParameter>,
+        _IMetadatumDefinitionParameterCollection
     {
         private int namelessParamCount = 0;
         private HashSet<string> namedParameterNames = new HashSet<string>();
         /// <summary>
-        /// Returns the <see cref="ICustomAttributeDefinition"/> which contains the <see cref="CustomAttributeDefinitionParameterCollection"/>
+        /// Returns the <see cref="IMetadatumDefinition"/> which contains the <see cref="MetadatumDefinitionParameterCollection"/>
         /// </summary>
-        public ICustomAttributeDefinition Parent { get; private set; }
+        public IMetadatumDefinition Parent { get; private set; }
         /// <summary>
-        /// Creates a new <see cref="CustomAttributeDefinitionParameterCollection"/> with the <paramref name="parent"/>
+        /// Creates a new <see cref="MetadatumDefinitionParameterCollection"/> with the <paramref name="parent"/>
         /// provided.
         /// </summary>
-        /// <param name="parent">The <see cref="ICustomAttributeDefinition"/> which contains the <see cref="CustomAttributeDefinitionParameterCollection"/></param>
+        /// <param name="parent">The <see cref="IMetadatumDefinition"/> which contains the <see cref="MetadatumDefinitionParameterCollection"/></param>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="parent"/>
         /// is null.</exception>
-        internal CustomAttributeDefinitionParameterCollection(ICustomAttributeDefinition parent)
+        internal MetadatumDefinitionParameterCollection(IMetadatumDefinition parent)
         {
             if (parent == null)
                 throw new ArgumentNullException("parent");
@@ -41,435 +41,435 @@ namespace AllenCopeland.Abstraction.Slf.Ast
          * *
          * ToDo: Add parameter array support.
          * */
-        private ICustomAttributeDefinitionParameter<T> AddInternal<T>(T value)
+        private IMetadatumDefinitionParameter<T> AddInternal<T>(T value)
         {
-            CustomAttributeDefinitionParameter<T> parameter = new CustomAttributeDefinitionParameter<T>(value, this);
+            MetadatumDefinitionParameter<T> parameter = new MetadatumDefinitionParameter<T>(value, this);
             base.baseList.Add(parameter);
             namelessParamCount++;
             return parameter;
         }
-        private ICustomAttributeDefinitionNamedParameter<T> AddInternal<T>(string name, T value)
+        private IMetadatumDefinitionNamedParameter<T> AddInternal<T>(string name, T value)
         {
             if (namedParameterNames.Contains(name))
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.name, ExceptionMessageId.DuplicateKeyExists);
-            CustomAttributeDefinitionNamedParameter<T> parameter = new CustomAttributeDefinitionNamedParameter<T>(name, value, this);
+            MetadatumDefinitionNamedParameter<T> parameter = new MetadatumDefinitionNamedParameter<T>(name, value, this);
             base.baseList.Add(parameter);
             this.namedParameterNames.Add(name);
             return parameter;
         }
-        #region ICustomAttributeDefinitionParameterCollection Members
+        #region IMetadataDefinitionParameterCollection Members
 
-        public ICustomAttributeDefinitionParameter[] AddSeries(CustomAttributeDefinition.ParameterValueCollection values)
+        public IMetadatumDefinitionParameter[] AddSeries(MetadatumDefinitionParameterValueCollection values)
         {
             return values.AddInternal(this);
         }
 
         /// <summary>
-        /// Adds a <see cref="Boolean"/> <paramref name="value"/> parameter to the <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// Adds a <see cref="Boolean"/> <paramref name="value"/> parameter to the <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="Boolean"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionParameter{T}"/> typed
+        /// <returns>A <see cref="IMetadatumDefinitionParameter{T}"/> typed
         /// as a <see cref="Boolean"/> parameter.</returns>
-        public ICustomAttributeDefinitionParameter<bool> Add(bool value)
+        public IMetadatumDefinitionParameter<bool> Add(bool value)
         {
             return AddInternal(value);
         }
 
         /// <summary>
-        /// Adds a <see cref="String"/> <paramref name="value"/> parameter to the <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// Adds a <see cref="String"/> <paramref name="value"/> parameter to the <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="String"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionParameter{T}"/> typed
+        /// <returns>A <see cref="IMetadatumDefinitionParameter{T}"/> typed
         /// as a <see cref="String"/> parameter.</returns>
-        public ICustomAttributeDefinitionParameter<string> Add(string value)
+        public IMetadatumDefinitionParameter<string> Add(string value)
         {
             return AddInternal(value);
         }
 
         /// <summary>
-        /// Adds a <see cref="Type"/> <paramref name="value"/> parameter to the <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// Adds a <see cref="Type"/> <paramref name="value"/> parameter to the <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="Type"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionParameter{T}"/> typed
+        /// <returns>A <see cref="IMetadatumDefinitionParameter{T}"/> typed
         /// as a <see cref="Type"/> parameter.</returns>
-        public ICustomAttributeDefinitionParameter<Type> Add(Type value)
+        public IMetadatumDefinitionParameter<Type> Add(Type value)
         {
             return AddInternal(value);
         }
 
         /// <summary>
-        /// Adds a <see cref="Byte"/> <paramref name="value"/> parameter to the <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// Adds a <see cref="Byte"/> <paramref name="value"/> parameter to the <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="Byte"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionParameter{T}"/> typed
+        /// <returns>A <see cref="IMetadatumDefinitionParameter{T}"/> typed
         /// as a <see cref="Byte"/> parameter.</returns>
-        public ICustomAttributeDefinitionParameter<byte> Add(byte value)
+        public IMetadatumDefinitionParameter<byte> Add(byte value)
         {
             return AddInternal(value);
         }
 
         /// <summary>
-        /// Adds a <see cref="SByte"/> <paramref name="value"/> parameter to the <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// Adds a <see cref="SByte"/> <paramref name="value"/> parameter to the <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="SByte"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionParameter{T}"/> typed
+        /// <returns>A <see cref="IMetadatumDefinitionParameter{T}"/> typed
         /// as a <see cref="SByte"/> parameter.</returns>
-        public ICustomAttributeDefinitionParameter<sbyte> Add(sbyte value)
+        public IMetadatumDefinitionParameter<sbyte> Add(sbyte value)
         {
             return AddInternal(value);
         }
 
         /// <summary>
-        /// Adds a <see cref="UInt16"/> <paramref name="value"/> parameter to the <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// Adds a <see cref="UInt16"/> <paramref name="value"/> parameter to the <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="UInt16"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionParameter{T}"/> typed
+        /// <returns>A <see cref="IMetadatumDefinitionParameter{T}"/> typed
         /// as a <see cref="UInt16"/> parameter.</returns>
-        public ICustomAttributeDefinitionParameter<ushort> Add(ushort value)
+        public IMetadatumDefinitionParameter<ushort> Add(ushort value)
         {
             return AddInternal(value);
         }
 
         /// <summary>
-        /// Adds a <see cref="Int16"/> <paramref name="value"/> parameter to the <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// Adds a <see cref="Int16"/> <paramref name="value"/> parameter to the <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="Int16"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionParameter{T}"/> typed
+        /// <returns>A <see cref="IMetadatumDefinitionParameter{T}"/> typed
         /// as a <see cref="Int16"/> parameter.</returns>
-        public ICustomAttributeDefinitionParameter<short> Add(short value)
+        public IMetadatumDefinitionParameter<short> Add(short value)
         {
             return AddInternal(value);
         }
 
         /// <summary>
-        /// Adds a <see cref="Int32"/> <paramref name="value"/> parameter to the <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// Adds a <see cref="Int32"/> <paramref name="value"/> parameter to the <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="Int32"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionParameter{T}"/> typed
+        /// <returns>A <see cref="IMetadatumDefinitionParameter{T}"/> typed
         /// as a <see cref="Int32"/> parameter.</returns>
-        public ICustomAttributeDefinitionParameter<int> Add(int value)
+        public IMetadatumDefinitionParameter<int> Add(int value)
         {
             return AddInternal(value);
         }
 
         /// <summary>
-        /// Adds a <see cref="UInt32"/> <paramref name="value"/> parameter to the <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// Adds a <see cref="UInt32"/> <paramref name="value"/> parameter to the <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="UInt32"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionParameter{T}"/> typed
+        /// <returns>A <see cref="IMetadatumDefinitionParameter{T}"/> typed
         /// as a <see cref="UInt32"/> parameter.</returns>
-        public ICustomAttributeDefinitionParameter<uint> Add(uint value)
+        public IMetadatumDefinitionParameter<uint> Add(uint value)
         {
             return AddInternal(value);
         }
 
         /// <summary>
-        /// Adds a <see cref="Int64"/> <paramref name="value"/> parameter to the <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// Adds a <see cref="Int64"/> <paramref name="value"/> parameter to the <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="Int64"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionParameter{T}"/> typed
+        /// <returns>A <see cref="IMetadatumDefinitionParameter{T}"/> typed
         /// as a <see cref="Int64"/> parameter.</returns>
-        public ICustomAttributeDefinitionParameter<long> Add(long value)
+        public IMetadatumDefinitionParameter<long> Add(long value)
         {
             return AddInternal(value);
         }
 
         /// <summary>
-        /// Adds a <see cref="UInt64"/> <paramref name="value"/> parameter to the <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// Adds a <see cref="UInt64"/> <paramref name="value"/> parameter to the <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="UInt64"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionParameter{T}"/> typed
+        /// <returns>A <see cref="IMetadatumDefinitionParameter{T}"/> typed
         /// as a <see cref="UInt64"/> parameter.</returns>
-        public ICustomAttributeDefinitionParameter<ulong> Add(ulong value)
+        public IMetadatumDefinitionParameter<ulong> Add(ulong value)
         {
             return AddInternal(value);
         }
 
         /// <summary>
-        /// Adds a <see cref="Single"/> <paramref name="value"/> parameter to the <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// Adds a <see cref="Single"/> <paramref name="value"/> parameter to the <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="Single"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionParameter{T}"/> typed
+        /// <returns>A <see cref="IMetadatumDefinitionParameter{T}"/> typed
         /// as a <see cref="Single"/> parameter.</returns>
-        public ICustomAttributeDefinitionParameter<float> Add(float value)
+        public IMetadatumDefinitionParameter<float> Add(float value)
         {
             return AddInternal(value);
         }
 
         /// <summary>
-        /// Adds a <see cref="Double"/> <paramref name="value"/> parameter to the <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// Adds a <see cref="Double"/> <paramref name="value"/> parameter to the <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="Double"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionParameter{T}"/> typed
+        /// <returns>A <see cref="IMetadatumDefinitionParameter{T}"/> typed
         /// as a <see cref="Double"/> parameter.</returns>
-        public ICustomAttributeDefinitionParameter<double> Add(double value)
+        public IMetadatumDefinitionParameter<double> Add(double value)
         {
             return AddInternal(value);
         }
 
         /// <summary>
-        /// Adds a <see cref="Decimal"/> <paramref name="value"/> parameter to the <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// Adds a <see cref="Decimal"/> <paramref name="value"/> parameter to the <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="Decimal"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionParameter{T}"/> typed
+        /// <returns>A <see cref="IMetadatumDefinitionParameter{T}"/> typed
         /// as a <see cref="Decimal"/> parameter.</returns>
-        public ICustomAttributeDefinitionParameter<decimal> Add(decimal value)
+        public IMetadatumDefinitionParameter<decimal> Add(decimal value)
         {
             return AddInternal(value);
         }
 
         /// <summary>
         /// Adds a <paramref name="name"/>d <see cref="Boolean"/> <paramref name="value"/> to the
-        /// <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="name">The name of the new value to add.</param>
         /// <param name="value">The <see cref="Boolean"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionNamedParameter{T}"/> with the given
+        /// <returns>A <see cref="IMetadatumDefinitionNamedParameter{T}"/> with the given
         /// <paramref name="name"/>, and typed as a <see cref="Boolean"/> parameter.</returns>
         /// <exception cref="System.ArgumentException">thrown when a parameter by the 
         /// <paramref name="name"/> provided already exists.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> 
         /// is null.</exception>
-        public ICustomAttributeDefinitionNamedParameter<bool> Add(string name, bool value)
+        public IMetadatumDefinitionNamedParameter<bool> Add(string name, bool value)
         {
             return this.AddInternal(name, value);
         }
 
         /// <summary>
         /// Adds a <paramref name="name"/>d <see cref="String"/> <paramref name="value"/> to the
-        /// <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="name">The name of the new value to add.</param>
         /// <param name="value">The <see cref="String"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionNamedParameter{T}"/> with the given
+        /// <returns>A <see cref="IMetadatumDefinitionNamedParameter{T}"/> with the given
         /// <paramref name="name"/>, and typed as a <see cref="String"/> parameter.</returns>
         /// <exception cref="System.ArgumentException">thrown when a parameter by the 
         /// <paramref name="name"/> provided already exists.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> 
         /// is null.</exception>
-        public ICustomAttributeDefinitionNamedParameter<string> Add(string name, string value)
+        public IMetadatumDefinitionNamedParameter<string> Add(string name, string value)
         {
             return this.AddInternal(name, value);
         }
 
         /// <summary>
         /// Adds a <paramref name="name"/>d <see cref="Type"/> <paramref name="value"/> to the
-        /// <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="name">The name of the new value to add.</param>
         /// <param name="value">The <see cref="Type"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionNamedParameter{T}"/> with the given
+        /// <returns>A <see cref="IMetadatumDefinitionNamedParameter{T}"/> with the given
         /// <paramref name="name"/>, and typed as a <see cref="Type"/> parameter.</returns>
         /// <exception cref="System.ArgumentException">thrown when a parameter by the 
         /// <paramref name="name"/> provided already exists.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> 
         /// is null.</exception>
-        public ICustomAttributeDefinitionNamedParameter<Type> Add(string name, Type value)
+        public IMetadatumDefinitionNamedParameter<Type> Add(string name, Type value)
         {
             return this.AddInternal(name, value);
         }
 
         /// <summary>
         /// Adds a <paramref name="name"/>d <see cref="Byte"/> <paramref name="value"/> to the
-        /// <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="name">The name of the new value to add.</param>
         /// <param name="value">The <see cref="Byte"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionNamedParameter{T}"/> with the given
+        /// <returns>A <see cref="IMetadatumDefinitionNamedParameter{T}"/> with the given
         /// <paramref name="name"/>, and typed as a <see cref="Byte"/> parameter.</returns>
         /// <exception cref="System.ArgumentException">thrown when a parameter by the 
         /// <paramref name="name"/> provided already exists.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> 
         /// is null.</exception>
-        public ICustomAttributeDefinitionNamedParameter<byte> Add(string name, byte value)
+        public IMetadatumDefinitionNamedParameter<byte> Add(string name, byte value)
         {
             return this.AddInternal(name, value);
         }
 
         /// <summary>
         /// Adds a <paramref name="name"/>d <see cref="SByte"/> <paramref name="value"/> to the
-        /// <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="name">The name of the new value to add.</param>
         /// <param name="value">The <see cref="SByte"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionNamedParameter{T}"/> with the given
+        /// <returns>A <see cref="IMetadatumDefinitionNamedParameter{T}"/> with the given
         /// <paramref name="name"/>, and typed as a <see cref="SByte"/> parameter.</returns>
         /// <exception cref="System.ArgumentException">thrown when a parameter by the 
         /// <paramref name="name"/> provided already exists.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> 
         /// is null.</exception>
         [CLSCompliant(false)]
-        public ICustomAttributeDefinitionNamedParameter<sbyte> Add(string name, sbyte value)
+        public IMetadatumDefinitionNamedParameter<sbyte> Add(string name, sbyte value)
         {
             return this.AddInternal(name, value);
         }
 
         /// <summary>
         /// Adds a <paramref name="name"/>d <see cref="Int16"/> <paramref name="value"/> to the
-        /// <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="name">The name of the new value to add.</param>
         /// <param name="value">The <see cref="Int16"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionNamedParameter{T}"/> with the given
+        /// <returns>A <see cref="IMetadatumDefinitionNamedParameter{T}"/> with the given
         /// <paramref name="name"/>, and typed as a <see cref="Int16"/> parameter.</returns>
         /// <exception cref="System.ArgumentException">thrown when a parameter by the 
         /// <paramref name="name"/> provided already exists.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> 
         /// is null.</exception>
-        public ICustomAttributeDefinitionNamedParameter<short> Add(string name, short value)
+        public IMetadatumDefinitionNamedParameter<short> Add(string name, short value)
         {
             return this.AddInternal(name, value);
         }
 
         /// <summary>
         /// Adds a <paramref name="name"/>d <see cref="UInt16"/> <paramref name="value"/> to the
-        /// <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="name">The name of the new value to add.</param>
         /// <param name="value">The <see cref="UInt16"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionNamedParameter{T}"/> with the given
+        /// <returns>A <see cref="IMetadatumDefinitionNamedParameter{T}"/> with the given
         /// <paramref name="name"/>, and typed as a <see cref="UInt16"/> parameter.</returns>
         /// <exception cref="System.ArgumentException">thrown when a parameter by the 
         /// <paramref name="name"/> provided already exists.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> 
         /// is null.</exception>
         [CLSCompliant(false)]
-        public ICustomAttributeDefinitionNamedParameter<ushort> Add(string name, ushort value)
+        public IMetadatumDefinitionNamedParameter<ushort> Add(string name, ushort value)
         {
             return this.AddInternal(name, value);
         }
 
         /// <summary>
         /// Adds a <paramref name="name"/>d <see cref="Int32"/> <paramref name="value"/> to the
-        /// <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="name">The name of the new value to add.</param>
         /// <param name="value">The <see cref="Int32"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionNamedParameter{T}"/> with the given
+        /// <returns>A <see cref="IMetadatumDefinitionNamedParameter{T}"/> with the given
         /// <paramref name="name"/>, and typed as a <see cref="Int32"/> parameter.</returns>
         /// <exception cref="System.ArgumentException">thrown when a parameter by the 
         /// <paramref name="name"/> provided already exists.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> 
         /// is null.</exception>
-        public ICustomAttributeDefinitionNamedParameter<int> Add(string name, int value)
+        public IMetadatumDefinitionNamedParameter<int> Add(string name, int value)
         {
             return this.AddInternal(name, value);
         }
 
         /// <summary>
         /// Adds a <paramref name="name"/>d <see cref="UInt32"/> <paramref name="value"/> to the
-        /// <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="name">The name of the new value to add.</param>
         /// <param name="value">The <see cref="UInt32"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionNamedParameter{T}"/> with the given
+        /// <returns>A <see cref="IMetadatumDefinitionNamedParameter{T}"/> with the given
         /// <paramref name="name"/>, and typed as a <see cref="UInt32"/> parameter.</returns>
         /// <exception cref="System.ArgumentException">thrown when a parameter by the 
         /// <paramref name="name"/> provided already exists.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> 
         /// is null.</exception>
         [CLSCompliant(false)]
-        public ICustomAttributeDefinitionNamedParameter<uint> Add(string name, uint value)
+        public IMetadatumDefinitionNamedParameter<uint> Add(string name, uint value)
         {
             return this.AddInternal(name, value);
         }
 
         /// <summary>
         /// Adds a <paramref name="name"/>d <see cref="Int64"/> <paramref name="value"/> to the
-        /// <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="name">The name of the new value to add.</param>
         /// <param name="value">The <see cref="Int64"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionNamedParameter{T}"/> with the given
+        /// <returns>A <see cref="IMetadatumDefinitionNamedParameter{T}"/> with the given
         /// <paramref name="name"/>, and typed as a <see cref="Int64"/> parameter.</returns>
         /// <exception cref="System.ArgumentException">thrown when a parameter by the 
         /// <paramref name="name"/> provided already exists.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> 
         /// is null.</exception>
-        public ICustomAttributeDefinitionNamedParameter<long> Add(string name, long value)
+        public IMetadatumDefinitionNamedParameter<long> Add(string name, long value)
         {
             return this.AddInternal(name, value);
         }
 
         /// <summary>
         /// Adds a <paramref name="name"/>d <see cref="UInt64"/> <paramref name="value"/> to the
-        /// <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="name">The name of the new value to add.</param>
         /// <param name="value">The <see cref="UInt64"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionNamedParameter{T}"/> with the given
+        /// <returns>A <see cref="IMetadatumDefinitionNamedParameter{T}"/> with the given
         /// <paramref name="name"/>, and typed as a <see cref="UInt64"/> parameter.</returns>
         /// <exception cref="System.ArgumentException">thrown when a parameter by the 
         /// <paramref name="name"/> provided already exists.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> 
         /// is null.</exception>
         [CLSCompliant(false)]
-        public ICustomAttributeDefinitionNamedParameter<ulong> Add(string name, ulong value)
+        public IMetadatumDefinitionNamedParameter<ulong> Add(string name, ulong value)
         {
             return this.AddInternal(name, value);
         }
 
         /// <summary>
         /// Adds a <paramref name="name"/>d <see cref="Single"/> <paramref name="value"/> to the
-        /// <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="name">The name of the new value to add.</param>
         /// <param name="value">The <see cref="Single"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionNamedParameter{T}"/> with the given
+        /// <returns>A <see cref="IMetadatumDefinitionNamedParameter{T}"/> with the given
         /// <paramref name="name"/>, and typed as a <see cref="Single"/> parameter.</returns>
         /// <exception cref="System.ArgumentException">thrown when a parameter by the 
         /// <paramref name="name"/> provided already exists.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> 
         /// is null.</exception>
-        public ICustomAttributeDefinitionNamedParameter<float> Add(string name, float value)
+        public IMetadatumDefinitionNamedParameter<float> Add(string name, float value)
         {
             return this.AddInternal(name, value);
         }
 
         /// <summary>
         /// Adds a <paramref name="name"/>d <see cref="Double"/> <paramref name="value"/> to the
-        /// <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="name">The name of the new value to add.</param>
         /// <param name="value">The <see cref="Double"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionNamedParameter{T}"/> with the given
+        /// <returns>A <see cref="IMetadatumDefinitionNamedParameter{T}"/> with the given
         /// <paramref name="name"/>, and typed as a <see cref="Double"/> parameter.</returns>
         /// <exception cref="System.ArgumentException">thrown when a parameter by the 
         /// <paramref name="name"/> provided already exists.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> 
         /// is null.</exception>
-        public ICustomAttributeDefinitionNamedParameter<double> Add(string name, double value)
+        public IMetadatumDefinitionNamedParameter<double> Add(string name, double value)
         {
             return this.AddInternal(name, value);
         }
 
         /// <summary>
         /// Adds a <paramref name="name"/>d <see cref="Decimal"/> <paramref name="value"/> to the
-        /// <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <param name="name">The name of the new value to add.</param>
         /// <param name="value">The <see cref="Decimal"/> value to add.</param>
-        /// <returns>A <see cref="ICustomAttributeDefinitionNamedParameter{T}"/> with the given
+        /// <returns>A <see cref="IMetadatumDefinitionNamedParameter{T}"/> with the given
         /// <paramref name="name"/>, and typed as a <see cref="Decimal"/> parameter.</returns>
         /// <exception cref="System.ArgumentException">thrown when a parameter by the 
         /// <paramref name="name"/> provided already exists.</exception>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> 
         /// is null.</exception>
-        public ICustomAttributeDefinitionNamedParameter<decimal> Add(string name, decimal value)
+        public IMetadatumDefinitionNamedParameter<decimal> Add(string name, decimal value)
         {
             return this.AddInternal(name, value);
         }
 
         #endregion
 
-        #region _ICustomAttributeDefinitionParameterCollection Members
+        #region _IMetadatumDefinitionParameterCollection Members
 
-        ICustomAttributeDefinitionParameter _ICustomAttributeDefinitionParameterCollection.AddInternal<T>(T value)
+        IMetadatumDefinitionParameter _IMetadatumDefinitionParameterCollection.AddInternal<T>(T value)
         {
             return this.AddInternal(value);
         }
 
-        ICustomAttributeDefinitionParameter _ICustomAttributeDefinitionParameterCollection.AddInternal<T>(string name, T value)
+        IMetadatumDefinitionParameter _IMetadatumDefinitionParameterCollection.AddInternal<T>(string name, T value)
         {
             return this.AddInternal(name, value);
         }
@@ -501,7 +501,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #endregion
 
-        #region ICustomAttributeDefinitionParameterCollection Members
+        #region IMetadataDefinitionParameterCollection Members
 
         /// <summary>
         /// Occurs when the a nameless parameter changes value or a member is added/removed.
@@ -514,18 +514,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <remarks><para>Dynamic attribute wrapper uses this to keep its wrapped instance up to date.</para>
         /// <para>When a parameter is renamed it needs recreated to ensure the data is an accurate reflection
         /// of the attribute emitted.</para></remarks>
-        public event EventHandler<EventArgsR1<ICustomAttributeDefinitionNamedParameter>> NamedParameterChangedName;
+        public event EventHandler<EventArgsR1<IMetadatumDefinitionNamedParameter>> NamedParameterChangedName;
 
         /// <summary>
         /// Occurs when a named parameter changed its value.
         /// </summary>
         /// <remarks><para>Dynamic attribute wrapper uses this to keep its wrapped instance up to date.</para>
         /// <para>When a named parameter's value changes, the value on the wrapper can simply be updated.</para></remarks>
-        public event EventHandler<EventArgsR1<ICustomAttributeDefinitionNamedParameter>> NamedParameterChangedValue;
+        public event EventHandler<EventArgsR1<IMetadatumDefinitionNamedParameter>> NamedParameterChangedValue;
 
         /// <summary>
         /// Clears the parameters contained within the
-        /// <see cref="ICustomAttributeDefinitionParameterCollection"/>.
+        /// <see cref="IMetadataDefinitionParameterCollection"/>.
         /// </summary>
         /// <remarks>Raises <see cref="NamelessParametersChanged"/> if there were
         /// nameless parameters.</remarks>
@@ -562,7 +562,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 throw new ArgumentOutOfRangeException("index");
             int _index = 0;
             foreach (var item in this)
-                if (!(item is ICustomAttributeDefinitionNamedParameter))
+                if (!(item is IMetadatumDefinitionNamedParameter))
                     if (_index == index)
                     {
                         base.baseList.Remove(item);
@@ -590,7 +590,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (!this.namedParameterNames.Contains(name))
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.name, ExceptionMessageId.DuplicateKeyExists);
             foreach (var item in this)
-                if (item is ICustomAttributeDefinitionNamedParameter && ((ICustomAttributeDefinitionNamedParameter)(item)).Name == name)
+                if (item is IMetadatumDefinitionNamedParameter && ((IMetadatumDefinitionNamedParameter)(item)).Name == name)
                 {
                     this.namedParameterNames.Remove(name);
                     base.baseList.Remove(item);
@@ -603,7 +603,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #endregion
 
-        internal void OnItemRename<T>(CustomAttributeDefinitionNamedParameter<T> item, string oldName, string newName)
+        internal void OnItemRename<T>(MetadatumDefinitionNamedParameter<T> item, string oldName, string newName)
         {
             if (this.namedParameterNames.Contains(oldName))
             {
@@ -613,27 +613,27 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 throw new ArgumentException("item");
         }
 
-        internal void OnItemValueChanged<T>(CustomAttributeDefinitionParameter<T> item)
+        internal void OnItemValueChanged<T>(MetadatumDefinitionParameter<T> item)
         {
-            if (item is ICustomAttributeDefinitionNamedParameter)
-                this.OnNamedParameterChangedValue((ICustomAttributeDefinitionNamedParameter)item);
+            if (item is IMetadatumDefinitionNamedParameter)
+                this.OnNamedParameterChangedValue((IMetadatumDefinitionNamedParameter)item);
             else
                 this.OnNamelessParametersChanged(EventArgs.Empty);
         }
 
-        private void OnNamedParameterChangedValue(ICustomAttributeDefinitionNamedParameter item)
+        private void OnNamedParameterChangedValue(IMetadatumDefinitionNamedParameter item)
         {
             var namedParameterChangedValue = this.NamedParameterChangedValue;
             if (namedParameterChangedValue != null)
-                namedParameterChangedValue(this, new EventArgsR1<ICustomAttributeDefinitionNamedParameter>(item));
+                namedParameterChangedValue(this, new EventArgsR1<IMetadatumDefinitionNamedParameter>(item));
         }
 
-        private void OnNamedParameterChangedName(ICustomAttributeDefinitionNamedParameter item)
+        private void OnNamedParameterChangedName(IMetadatumDefinitionNamedParameter item)
         {
             var namedParameterChangedName = this.NamedParameterChangedName;
 
             if (namedParameterChangedName != null)
-                namedParameterChangedName(this, new EventArgsR1<ICustomAttributeDefinitionNamedParameter>(item));
+                namedParameterChangedName(this, new EventArgsR1<IMetadatumDefinitionNamedParameter>(item));
         }
     }
 }

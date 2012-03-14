@@ -26,9 +26,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 IMethodSignatureGenericTypeParameterMember
             {
                 internal GenericParameterMember(IInterfaceMethodMember parent, Type underlyingSystemType)
-                    : base(parent, underlyingSystemType)
+                    : base(parent, underlyingSystemType, ExtractCliManager(parent))
                 {
 
+                }
+
+                private static ICliManager ExtractCliManager(IInterfaceMethodMember parent)
+                {
+                    if (parent.Parent != null &&
+                        parent.Parent is ICompiledInterfaceType)
+                    {
+                        var compiledGrandparent = parent.Parent as ICompiledInterfaceType;
+                        if (compiledGrandparent != null)
+                            return compiledGrandparent.Manager;
+                    }
+                    throw new InvalidOperationException();
                 }
 
                 /// <summary>

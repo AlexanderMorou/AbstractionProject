@@ -308,26 +308,26 @@
     <Compile Include="Linkers\ISymbolLookupTable.cs" />
     <Compile Include="Ast\_ICustomAttributeDefinitionParameterCollection.cs" />
     <Compile Include="Ast\AnonymousType.cs" />
-    <Compile Include="Ast\CustomAttributeDefinition.cs" />
+    <Compile Include="Ast\MetadatumDefinition.cs" />
     <Compile Include="Ast\CustomAttributeDefinition+AttributeWrapper.cs">
-      <DependentUpon>CustomAttributeDefinition.cs</DependentUpon>
+      <DependentUpon>MetadatumDefinition.cs</DependentUpon>
     </Compile>
     <Compile Include="Ast\CustomAttributeDefinition+AttributeWrapper+AttributeCollection.cs">
       <DependentUpon>CustomAttributeDefinition+AttributeWrapper.cs</DependentUpon>
     </Compile>
     <Compile Include="Ast\CustomAttributeDefinition+ParameterValueCollection.cs">
-      <DependentUpon>CustomAttributeDefinition.cs</DependentUpon>
+      <DependentUpon>MetadatumDefinition.cs</DependentUpon>
     </Compile>
     <Compile Include="Ast\CustomAttributeDefinitionCollection.cs" />
-    <Compile Include="Ast\CustomAttributeDefinitionCollectionSeries.cs" />
+    <Compile Include="Ast\MetadataDefinitionCollection.cs" />
     <Compile Include="Ast\CustomAttributeDefinitionCollectionSeries+Wrapper.cs">
-      <DependentUpon>CustomAttributeDefinitionCollectionSeries.cs</DependentUpon>
+      <DependentUpon>MetadataDefinitionCollection.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ast\CustomAttributeDefinitionNamedParameter.cs" />
-    <Compile Include="Ast\CustomAttributeDefinitionNamedParameterValue.cs" />
-    <Compile Include="Ast\CustomAttributeDefinitionParameter.cs" />
-    <Compile Include="Ast\CustomAttributeDefinitionParameterCollection.cs" />
-    <Compile Include="Ast\CustomAttributeDefinitionParameterValue.cs" />
+    <Compile Include="Ast\MetadatumDefinitionNamedParameter{T}.cs" />
+    <Compile Include="Ast\MetadatumDefinitionNamedParameterValue.cs" />
+    <Compile Include="Ast\MetadatumDefinitionParameter{T}.cs" />
+    <Compile Include="Ast\MetadatumDefinitionParameterCollection.cs" />
+    <Compile Include="Ast\MetadatumDefinitionParameterValue.cs" />
     <Compile Include="Ast\DataSizeType.cs" />
     <Compile Include="Ast\DeclarationNameChangedEventArgs.cs" />
     <Compile Include="Ast\DeclarationRenamingEventArgs.cs" />
@@ -536,15 +536,15 @@
     <Compile Include="Ast\Expressions\UnboundPropertyReferenceExpression.cs" />
     <Compile Include="Ast\IAnonymousTypeCollection.cs" />
     <Compile Include="Ast\IAnonymousTypeManager.cs" />
-    <Compile Include="Ast\ICustomAttributeDefinition.cs" />
-    <Compile Include="Ast\ICustomAttributeDefinitionCollection.cs" />
-    <Compile Include="Ast\ICustomAttributeDefinitionCollectionSeries.cs" />
-    <Compile Include="Ast\ICustomAttributeDefinitionNamedParameter.cs" />
-    <Compile Include="Ast\ICustomAttributeDefinitionNamedParameter{T}.cs" />
-    <Compile Include="Ast\ICustomAttributeDefinitionParameter.cs" />
-    <Compile Include="Ast\ICustomAttributeDefinitionParameter{T}.cs" />
-    <Compile Include="Ast\ICustomAttributeDefinitionParameterCollection.cs" />
-    <Compile Include="Ast\ICustomAttributeDefinitionParameterValue.cs" />
+    <Compile Include="Ast\IMetadatumDefinition.cs" />
+    <Compile Include="Ast\IMetadataDefinition.cs" />
+    <Compile Include="Ast\IMetadataDefinitionCollection.cs" />
+    <Compile Include="Ast\IMetadatumDefinitionNamedParameter.cs" />
+    <Compile Include="Ast\IMetadatumDefinitionNamedParameter{T}.cs" />
+    <Compile Include="Ast\IMetadatumDefinitionParameter.cs" />
+    <Compile Include="Ast\IMetadatumDefinitionParameter{T}.cs" />
+    <Compile Include="Ast\IMetadataDefinitionParameterCollection.cs" />
+    <Compile Include="Ast\_IMetadatumDefinitionParameterValue.cs" />
     <Compile Include="Ast\IDataSizeType.cs" />
     <Compile Include="Ast\IHighLevelIntermediateAssembly.cs" />
     <Compile Include="Ast\IIntermediateAssembly.cs" />

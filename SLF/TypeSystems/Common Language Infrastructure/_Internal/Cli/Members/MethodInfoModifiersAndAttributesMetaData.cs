@@ -14,7 +14,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private MethodInfo memberInfo;
         private CompiledCustomAttributeCollection attributes;
 
-        public MethodInfoModifiersAndAttributesMetadata(MethodInfo memberInfo)
+        public MethodInfoModifiersAndAttributesMetadata(MethodInfo memberInfo, ICliManager manager)
+            : base(manager)
         {
             this.memberInfo = memberInfo;
         }

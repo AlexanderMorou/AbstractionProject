@@ -335,7 +335,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         private object disposeLock = new object();
         public override void Dispose()
         {
-            if (CLIGateway.CompiledTypeCache.Values.Contains(this))
+            if (CliGateway.CompiledTypeCache.Values.Contains(this))
                 this.RemoveFromCache();
             if (this.IsDisposed)
                 return;
@@ -353,13 +353,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         public override bool IsGenericConstruct
         {
             get { return true; }
-        }
-
-        public void ReverifyTypeParameters()
-        {
-            if (this.IsDisposed)
-                return;
-            this.ElementType.VerifyTypeParameters(this.GenericParameters);
         }
 
         protected override IArrayType OnMakeArray(int rank)
@@ -401,10 +394,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         {
             if (this.IsDisposed)
                 throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            return other.Equals(CommonTypeRefs.Object);
+            return other.Equals(this.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.RootType));
         }
 
-        protected override ICustomAttributeCollection InitializeCustomAttributes()
+        protected override IMetadataCollection InitializeCustomAttributes()
         {
             if (this.IsDisposed)
                 throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
@@ -470,15 +463,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #endregion
 
-        protected override bool IsAttributeInheritable(IType attribute)
+        protected override ITypeIdentityManager OnGetManager()
         {
-            if (attribute is ICompiledType)
-            {
-                var cType = attribute as ICompiledType;
-                return CliAssist.GetAttributeUsage(cType.UnderlyingSystemType).AllowMultiple;
-            }
-            else
-                return CliAssist.GetAttributeUsage(attribute).AllowMultiple;
+            return this.Original.Manager;
         }
     }
 }

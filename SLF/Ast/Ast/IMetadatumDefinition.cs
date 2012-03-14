@@ -13,28 +13,27 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
     /// <summary>
-    /// Defines properties and methods for working with a series
-    /// of custom attributes.
+    /// Defines properties and methods for working with a custom attribute definition.
     /// </summary>
-    public interface ICustomAttributeDefinition :
-        ICustomAttributeInstance
+    public interface IMetadatumDefinition :
+        IMetadatum
     {
         /// <summary>
         /// Returns/sets the <see cref="IType"/>
-        /// which the <see cref="ICustomAttributeDefinition"/>
+        /// which the <see cref="IMetadatumDefinition"/>
         /// defines.
         /// </summary>
         new IType Type { get; set; }
         /// <summary>
-        /// The <see cref="IIntermediateCustomAttributedEntity"/> on which the <see cref="ICustomAttributeDefinition"/> 
+        /// The <see cref="IIntermediateMetadataEntity"/> on which the <see cref="IMetadatumDefinition"/> 
         /// was declared.
         /// </summary>
-        new IIntermediateCustomAttributedEntity DeclarationPoint { get; }
+        new IIntermediateMetadataEntity DeclarationPoint { get; }
         /// <summary>
-        /// Returns the <see cref="ICustomAttributeDefinitionParameterCollection"/>
+        /// Returns the <see cref="IMetadataDefinitionParameterCollection"/>
         /// which determines the constructor arguments and properties set on the
-        /// <see cref="ICustomAttributeDefinition"/>.
+        /// <see cref="IMetadatumDefinition"/>.
         /// </summary>
-        ICustomAttributeDefinitionParameterCollection Parameters { get; }
+        IMetadataDefinitionParameterCollection Parameters { get; }
     }
 }

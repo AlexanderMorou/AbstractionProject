@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         partial class CustomAttributeCollection
         {
             private class CustomAttributeInstance :
-                ICustomAttributeInstance
+                IMetadatum
             {
                 private CompiledAssembly assembly;
                 private Attribute attribute;
@@ -29,11 +29,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     this.attribute = attribute;
                 }
 
-                #region ICustomAttributeInstance Members
+                #region IMetadatum Members
 
                 public IType Type
                 {
-                    get { return this.attribute.GetType().GetTypeReference(); }
+                    get { return this.assembly.Manager.ObtainTypeReference(this.attribute.GetType()); }
                 }
 
                 public Attribute WrappedAttribute
@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     get { return this.attribute; }
                 }
 
-                public ICustomAttributedEntity DeclarationPoint
+                public IMetadataEntity DeclarationPoint
                 {
                     get { return this.assembly; }
                 }

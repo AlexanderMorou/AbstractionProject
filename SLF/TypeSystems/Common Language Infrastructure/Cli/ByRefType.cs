@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         IType
     {
         private IType elementType;
-        private ICustomAttributeCollection customAttributes;
+        private IMetadataCollection customAttributes;
         /// <summary>
         /// Creates a new <see cref="ByRefType"/> with the <paramref name="elementType"/>
         /// provided.
@@ -262,9 +262,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         }
         #endregion
 
-        #region ICustomAttributedEntity Members
+        #region IMetadataEntity Members
 
-        public ICustomAttributeCollection CustomAttributes
+        public IMetadataCollection CustomAttributes
         {
             get
             {
@@ -274,17 +274,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
         }
 
-        public bool IsDefined(IType attributeType)
+        public bool IsDefined(IType metadatumType)
         {
             return false;
         }
 
-        public bool IsDefined(IType attributeType, bool inherited)
+        public bool IsDefined(IType metadatumType, bool inherited)
         {
             return false;
         }
 
         #endregion
+
+        public ITypeIdentityManager Manager { get { return this.ElementType.Manager; } }
 
         public override string ToString()
         {

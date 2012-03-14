@@ -12,22 +12,22 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Defines properties and methods for working with a custom attribute defined
     /// on a custom attributed declaration.
     /// </summary>
-    public interface ICustomAttributeInstance :
+    public interface IMetadatum :
         IDisposable
     {
         /// <summary>
-        /// Returns the <see cref="IType"/> the <see cref="ICustomAttributeInstance"/>
+        /// Returns the <see cref="IType"/> the <see cref="IMetadatum"/>
         /// is.
         /// </summary>
         IType Type { get; }
         /// <summary>
-        /// The <see cref="Attribute"/> represented by the <see cref="ICustomAttributeInstance"/>.
+        /// The <see cref="Attribute"/> represented by the <see cref="IMetadatum"/>.
         /// </summary>
         Attribute WrappedAttribute { get; }
         /// <summary>
-        /// The <see cref="ICustomAttributedEntity"/> on which the <see cref="ICustomAttributeInstance"/> 
+        /// The <see cref="IMetadataEntity"/> on which the <see cref="IMetadatum"/> 
         /// was declared.
         /// </summary>
-        ICustomAttributedEntity DeclarationPoint { get; }
+        IMetadataEntity DeclarationPoint { get; }
     }
 }

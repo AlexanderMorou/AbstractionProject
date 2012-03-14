@@ -15,28 +15,28 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     /// named value structure.
     /// </summary>
     /// <typeparam name="T">The type of parameter.</typeparam>
-    public struct CustomAttributeDefinitionNamedParameterValue<T> :
-        _ICustomAttributeDefinitionParameterValue
+    public struct MetadatumDefinitionNamedParameterValue<T> :
+        _IMetadatumDefinitionParameterValue
     {
         /// <summary>
         /// Returns/sets the <typeparamref name="T"/> value.
         /// </summary>
         T Value { get; set; }
         /// <summary>
-        /// Returns/sets the <see cref="String"/> which the <see cref="CustomAttributeDefinitionNamedParameterValue{T}"/>
+        /// Returns/sets the <see cref="String"/> which the <see cref="MetadatumDefinitionNamedParameterValue{T}"/>
         /// is known by.
         /// </summary>
         string Name { get; set; }
-        internal CustomAttributeDefinitionNamedParameterValue(string name, T value)
+        internal MetadatumDefinitionNamedParameterValue(string name, T value)
             : this()
         {
             this.Name = name;
             this.Value = value;
         }
 
-        #region _ICustomAttributeDefinitionParameterValue Members
+        #region _IMetadatumDefinitionParameterValue Members
 
-        ICustomAttributeDefinitionParameter _ICustomAttributeDefinitionParameterValue.AddSelf(_ICustomAttributeDefinitionParameterCollection target)
+        IMetadatumDefinitionParameter _IMetadatumDefinitionParameterValue.AddSelf(_IMetadatumDefinitionParameterCollection target)
         {
             return target.AddInternal(this.Name, this.Value);
         }
@@ -44,9 +44,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         #endregion
 
 
-        #region ICustomAttributeDefinitionParameterValue Members
+        #region IMetadatumDefinitionParameterValue Members
 
-        object ICustomAttributeDefinitionParameterValue.Value
+        object IMetadatumDefinitionParameterValue.Value
         {
             get { return this.Value; }
         }

@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         IDelegateTypeDictionary
     {
         internal CompiledDelegateTypeDictionary(_ICompiledTypeParent parent, MasterDictionaryBase<IGeneralTypeUniqueIdentifier, IType> master)
-            : base(parent, master, parent.UnderlyingSystemTypes.Filter(p => p.IsSubclassOf(typeof(Delegate))))
+            : base(parent, master, parent.UnderlyingSystemTypes.Filter(p => p.IsSubclassOf(typeof(Delegate)) && p != typeof(MulticastDelegate)))
         {
         }
 

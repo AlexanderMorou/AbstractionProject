@@ -6,7 +6,7 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     public interface IModifiersAndAttributesMetadata :
-        ICustomAttributedEntity
+        IMetadataEntity
     {
         /// <summary>
         /// Returns a series of <see cref="IType"/> instances

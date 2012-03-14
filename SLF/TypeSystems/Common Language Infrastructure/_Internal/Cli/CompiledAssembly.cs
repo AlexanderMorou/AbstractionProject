@@ -12,12 +12,12 @@ using AllenCopeland.Abstraction.Numerics;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
@@ -32,7 +32,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private Type globalMemberType;
         private bool globalMemberTypeRetrieved;
         private CompiledFullTypeDictionary _types;
-        private LockedFullMembersBase members;
         private bool initializedCustomAttributes;
         private Type[] assemblyTypes;
         private Type[] assemblyRootLevelTypes;
@@ -61,9 +60,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         /// <param name="underlyingAssembly">The <see cref="Assembly"/> from which the <see cref="CompiledAssembly"/>
         /// relates to.</param>
-        internal CompiledAssembly(Assembly underlyingAssembly)
+        internal CompiledAssembly(Assembly underlyingAssembly, ICliManager manager)
         {
             this.underlyingAssembly = underlyingAssembly;
+            this.Manager = manager;
         }
         #region ICompiledAssembly Members
 
@@ -97,7 +97,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IStructTypeDictionary InitializeStructs()
         {
-            return new CompiledStructTypeDictionary(this, this._Types); 
+            return new CompiledStructTypeDictionary(this, this._Types);
         }
 
         protected override IInterfaceTypeDictionary InitializeInterfaces()
@@ -167,7 +167,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public override IAssemblyUniqueIdentifier UniqueIdentifier
         {
-            get {
+            get
+            {
                 if (this.uniqueIdentifier == null)
                     this.uniqueIdentifier = AstIdentifier.Assembly(this.AssemblyInformation.AssemblyName, this.AssemblyInformation.AssemblyVersion, this.AssemblyInformation.Culture, this.PublicKeyToken);
                 return this.uniqueIdentifier;
@@ -199,6 +200,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public Tuple<FieldInfo[], MethodInfo[]> GetNamespaceMembers(string @namespace)
         {
             this.CheckGlobals();
+            if (this.globals == null)
+                return new Tuple<FieldInfo[], MethodInfo[]>(new FieldInfo[0], new MethodInfo[0]);
             if (!this.globals.ContainsKey(@namespace))
             {
                 bool found = false;
@@ -268,16 +271,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return this.GetNamespaceMembers(string.Empty).Item1;
             }
         }
-        
+
 
         public MethodInfo[] UnderlyingGlobalMethods
         {
-            get {
+            get
+            {
                 return this.GetNamespaceMembers(string.Empty).Item2;
             }
         }
 
-        
+
         _ICompiledAssembly _ICompiledNamespaceParent.Assembly
         {
             get { return this; }
@@ -285,12 +289,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public new _ICompiledNamespaceDeclarations Namespaces
         {
-            get { return (_ICompiledNamespaceDeclarations)base.Namespaces; }
+            get { return (_ICompiledNamespaceDeclarations) base.Namespaces; }
         }
 
         public IList<string> NamespaceNames
         {
-            get {
+            get
+            {
                 if (this.namespaceNames == null)
                     this.namespaceNames = InitializeNamespaceNames();
                 return this.namespaceNames;
@@ -308,7 +313,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         result.Add(topLevel);
                 }
                 else if (!result.Contains(s))
-                        result.Add(s);
+                    result.Add(s);
             return result;
         }
 
@@ -319,7 +324,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IList<string> FullNamespaceNames
         {
-            get {
+            get
+            {
                 if (fullNamespaceNames == null)
                     this.fullNamespaceNames = InitializeFullNamespaceNames();
                 return this.fullNamespaceNames;
@@ -352,7 +358,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (disposing)
                 {
-                    this.RemoveFromCache();
+                    if (this.Manager != null)
+                    {
+                        if (this.Manager is CliManager)
+                            ((CliManager) this.Manager).RemoveFromCache(this);
+                        this.Manager = null;
+                    }
                     if (this.namespaceNames != null)
                     {
                         this.namespaceNames.Clear();
@@ -362,7 +373,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         this.publicKeyToken = null;
                     if (this.types != null)
                     {
-                        ((CompiledFullTypeDictionary)this.types).Dispose();
+                        ((CompiledFullTypeDictionary) this.types).Dispose();
                         this.types = null;
                     }
                     if (this.assemblyInfo != null)
@@ -384,7 +395,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public Type[] UnderlyingSystemTypes
         {
-            get {
+            get
+            {
                 if (assemblyRootLevelTypes == null)
                     assemblyRootLevelTypes = this.InitializeAssemblyLevelTypes();
                 return this.assemblyRootLevelTypes;
@@ -416,7 +428,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (this._types == null)
                     this._types = new CompiledFullTypeDictionary(this);
                 return this._types;
-           
+
             }
         }
 
@@ -427,7 +439,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 try
                 {
                     var globalMemberContainer = (from o in this.underlyingAssembly.GetCustomAttributes(typeof(GlobalMemberContainerAttribute), false)
-                                                 select (GlobalMemberContainerAttribute)o).FirstOrDefault();
+                                                 select (GlobalMemberContainerAttribute) o).FirstOrDefault();
 
                     if (globalMemberContainer != null)
                     {
@@ -497,7 +509,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
         public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
-            get {
+            get
+            {
                 return this.GetAggregateIdentifiers();
             }
         }
@@ -536,7 +549,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return new CompiledTopLevelField(memberInfo, this);
         }
 
-        public LockedFullMembersBase _Members {
+        public LockedFullMembersBase _Members
+        {
             get
             {
                 if (this._members == null)
@@ -554,5 +568,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             return new _PublicKeyInfo(this);
         }
+
+        public ICliManager Manager { get; private set; }
     }
 }

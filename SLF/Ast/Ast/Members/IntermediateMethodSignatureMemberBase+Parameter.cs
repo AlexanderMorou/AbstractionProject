@@ -213,18 +213,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
 
             /// <summary>
-            /// Initializes the <see cref="CustomAttributeDefinitionCollectionSeries"/> which
+            /// Initializes the <see cref="MetadataDefinitionCollection"/> which
             /// denotes the groups of attributes defined on
             /// the <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter}"/>.
             /// </summary>
-            /// <returns>A new <see cref="CustomAttributeDefinitionCollectionSeries"/>
+            /// <returns>A new <see cref="MetadataDefinitionCollection"/>
             /// instance which refers to the parameters defined on the 
             /// <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter}"/>.</returns>
-            /// <remarks>Links directly to the <see cref="IIntermediateCustomAttributedEntity.CustomAttributes"/>
+            /// <remarks>Links directly to the <see cref="IIntermediateMetadataEntity.CustomAttributes"/>
             /// defined on the <see cref="AlternateParameter"/>.</remarks>
-            protected override CustomAttributeDefinitionCollectionSeries InitializeCustomAttributes()
+            protected override MetadataDefinitionCollection InitializeCustomAttributes()
             {
-                return new CustomAttributeDefinitionCollectionSeries((CustomAttributeDefinitionCollectionSeries)this.AlternateParameter.CustomAttributes, this);
+                return new MetadataDefinitionCollection((MetadataDefinitionCollection)this.AlternateParameter.CustomAttributes, this);
             }
 
             /// <summary>

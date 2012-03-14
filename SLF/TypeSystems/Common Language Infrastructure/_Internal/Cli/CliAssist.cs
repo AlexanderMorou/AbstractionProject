@@ -24,11 +24,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     /// <summary>
     /// Defines the attribute usage from an <see cref="AttributeUsageAttribute"/>.
     /// </summary>
-    internal struct AttributeUsage
+    internal struct MetadatumUsage
     {
         public readonly bool AllowMultiple;
         public bool Inherited;
-        public AttributeUsage(AttributeUsageAttribute attr)
+        public MetadatumUsage(AttributeUsageAttribute attr)
         {
             this.AllowMultiple = attr.AllowMultiple;
             this.Inherited = attr.Inherited;
@@ -36,27 +36,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     }
     internal static class CliAssist
     {
-        internal static IGeneralSignatureMemberUniqueIdentifier GetUniqueIdentifier(this EventInfo member)
+        internal static IGeneralSignatureMemberUniqueIdentifier GetUniqueIdentifier(this EventInfo member, ICliManager manager)
         {
-            var signatureType = member.EventHandlerType.GetTypeReference<IDelegateUniqueIdentifier, IDelegateType>();
+            var signatureType = (IDelegateType) manager.ObtainTypeReference(member.EventHandlerType);
             if (signatureType == null)
                 return null;
             var parameters = (signatureType.Parameters.ParameterTypes).SinglePass();
             return AstIdentifier.Signature(member.Name, parameters);
         }
-        internal static IGeneralSignatureMemberUniqueIdentifier GetIndexerUniqueIdentifier(this PropertyInfo property)
+        internal static IGeneralSignatureMemberUniqueIdentifier GetIndexerUniqueIdentifier(this PropertyInfo property, ICliManager manager)
         {
             return AstIdentifier.Signature(property.Name, (from param in property.GetIndexParameters()
-                                                           select param.ParameterType.GetTypeReference()).SinglePass());
+                                                           select manager.ObtainTypeReference(param.ParameterType)).SinglePass());
         }
 
-        internal static IGeneralSignatureMemberUniqueIdentifier GetUniqueIdentifier(this ConstructorInfo constructor)
+        internal static IGeneralSignatureMemberUniqueIdentifier GetUniqueIdentifier(this ConstructorInfo constructor, ICliManager manager)
         {
             if (constructor.IsStatic)
                 return AstIdentifier.CtorSignature();
             else
                 return AstIdentifier.CtorSignature((from param in constructor.GetParameters()
-                                                    select param.ParameterType.GetTypeReference()).SinglePass());
+                                                    select manager.ObtainTypeReference(param.ParameterType)).SinglePass());
         }
 
         internal static IGeneralMemberUniqueIdentifier GetUniqueIdentifier(this PropertyInfo property)
@@ -69,7 +69,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return AstIdentifier.Member(field.Name);
         }
 
-        internal static IBinaryOperatorUniqueIdentifier GetBinaryOperatorUniqueIdentifier(this MethodInfo target)
+        internal static IBinaryOperatorUniqueIdentifier GetBinaryOperatorUniqueIdentifier(this MethodInfo target, ICliManager manager)
         {
             BinaryOpCoercionContainingSide containingSide;
             CoercibleBinaryOperators _operator;
@@ -84,12 +84,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 else
                 {
                     containingSide = BinaryOpCoercionContainingSide.LeftSide;
-                    otherSide = _params[1].GetTypeReference();
+                    otherSide = manager.ObtainTypeReference(_params[1]);
                 }
             else if (_params[1] == pType)
             {
                 containingSide = BinaryOpCoercionContainingSide.RightSide;
-                otherSide = _params[0].GetTypeReference();
+                otherSide = manager.ObtainTypeReference(_params[0]);
             }
             else
                 throw new InvalidOperationException("object in invalid state, binary operation doesn't work on containing type.");
@@ -97,52 +97,52 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             //CLI operator overload names.
             switch (s)
             {
-                case CLICommon.BinaryOperatorNames.Addition: //                '+'      - op_Addition
+                case CliCommon.BinaryOperatorNames.Addition: //                '+'      - op_Addition
                     _operator = CoercibleBinaryOperators.Add;
                     break;
-                case CLICommon.BinaryOperatorNames.BitwiseAnd: //          '&' or 'And' - op_BitwiseAnd
+                case CliCommon.BinaryOperatorNames.BitwiseAnd: //          '&' or 'And' - op_BitwiseAnd
                     _operator = CoercibleBinaryOperators.BitwiseAnd;
                     break;
-                case CLICommon.BinaryOperatorNames.BitwiseOr: //           '|' or "Or"  - op_BitwiseOr
+                case CliCommon.BinaryOperatorNames.BitwiseOr: //           '|' or "Or"  - op_BitwiseOr
                     _operator = CoercibleBinaryOperators.BitwiseOr;
                     break;
-                case CLICommon.BinaryOperatorNames.Division: //                '/'      - op_Division
+                case CliCommon.BinaryOperatorNames.Division: //                '/'      - op_Division
                     _operator = CoercibleBinaryOperators.Divide;
                     break;
-                case CLICommon.BinaryOperatorNames.ExclusiveOr: //         '^' or 'XOr' - op_ExclusiveOr
+                case CliCommon.BinaryOperatorNames.ExclusiveOr: //         '^' or 'XOr' - op_ExclusiveOr
                     _operator = CoercibleBinaryOperators.ExclusiveOr;
                     break;
-                case CLICommon.BinaryOperatorNames.GreaterThan: //             '>'      - op_GreaterThan
+                case CliCommon.BinaryOperatorNames.GreaterThan: //             '>'      - op_GreaterThan
                     _operator = CoercibleBinaryOperators.GreaterThan;
                     break;
-                case CLICommon.BinaryOperatorNames.GreaterThanOrEqual: //  ">="         - op_GreaterThanOrEqual
+                case CliCommon.BinaryOperatorNames.GreaterThanOrEqual: //  ">="         - op_GreaterThanOrEqual
                     _operator = CoercibleBinaryOperators.GreaterThanOrEqualTo;
                     break;
-                case CLICommon.BinaryOperatorNames.Equality: //            "==" or '='  - op_Equality
+                case CliCommon.BinaryOperatorNames.Equality: //            "==" or '='  - op_Equality
                     _operator = CoercibleBinaryOperators.IsEqualTo;
                     break;
-                case CLICommon.BinaryOperatorNames.Inequality: //          "!=" or "<>" - op_Inequality
+                case CliCommon.BinaryOperatorNames.Inequality: //          "!=" or "<>" - op_Inequality
                     _operator = CoercibleBinaryOperators.IsNotEqualTo;
                     break;
-                case CLICommon.BinaryOperatorNames.LeftShift: //               "<<"     - op_LeftShift
+                case CliCommon.BinaryOperatorNames.LeftShift: //               "<<"     - op_LeftShift
                     _operator = CoercibleBinaryOperators.LeftShift;
                     break;
-                case CLICommon.BinaryOperatorNames.LessThan: //                '<'      - op_LessThan
+                case CliCommon.BinaryOperatorNames.LessThan: //                '<'      - op_LessThan
                     _operator = CoercibleBinaryOperators.LessThan;
                     break;
-                case CLICommon.BinaryOperatorNames.LessThanOrEqual: //         "<="     - op_LessThanOrEqual
+                case CliCommon.BinaryOperatorNames.LessThanOrEqual: //         "<="     - op_LessThanOrEqual
                     _operator = CoercibleBinaryOperators.LessThanOrEqualTo;
                     break;
-                case CLICommon.BinaryOperatorNames.Modulus: //             '%' or "Mod" - op_Modulus
+                case CliCommon.BinaryOperatorNames.Modulus: //             '%' or "Mod" - op_Modulus
                     _operator = CoercibleBinaryOperators.Modulus;
                     break;
-                case CLICommon.BinaryOperatorNames.Multiply: //                '*'      - op_Multiply
+                case CliCommon.BinaryOperatorNames.Multiply: //                '*'      - op_Multiply
                     _operator = CoercibleBinaryOperators.Multiply;
                     break;
-                case CLICommon.BinaryOperatorNames.RightShift: //             ">>"      - op_RightShift
+                case CliCommon.BinaryOperatorNames.RightShift: //             ">>"      - op_RightShift
                     _operator = CoercibleBinaryOperators.RightShift;
                     break;
-                case CLICommon.BinaryOperatorNames.Subtraction: //             '-'      - op_Subtraction
+                case CliCommon.BinaryOperatorNames.Subtraction: //             '-'      - op_Subtraction
                     _operator = CoercibleBinaryOperators.Subtract;
                     break;
                 default:
@@ -151,7 +151,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return AstIdentifier.BinaryOperator(_operator, containingSide, otherSide);
         }
 
-        internal static ITypeCoercionUniqueIdentifier GetTypeCoercionUniqueIdentifier(this MethodInfo target)
+        internal static ITypeCoercionUniqueIdentifier GetTypeCoercionUniqueIdentifier(this MethodInfo target, ICliManager manager)
         {
             IType coercionType = null;
             TypeConversionDirection direction;
@@ -159,12 +159,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             var firstParam = target.GetParameters().First();
             if (declaringType == target.ReturnType)
             {
-                coercionType = firstParam.ParameterType.GetTypeReference();
+                coercionType = manager.ObtainTypeReference(firstParam.ParameterType);
                 direction = TypeConversionDirection.ToContainingType;
             }
             else
             {
-                coercionType = target.ReturnType.GetTypeReference();
+                coercionType = manager.ObtainTypeReference(target.ReturnType);
                 direction = TypeConversionDirection.FromContainingType;
             }
             return AstIdentifier.TypeOperator(target.GetTypeCoercionRequirement(), direction, coercionType);
@@ -176,9 +176,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                !string.IsNullOrEmpty(target.Name))
                 switch (target.Name)
                 {
-                    case CLICommon.TypeCoercionNames.Explicit:
+                    case CliCommon.TypeCoercionNames.Explicit:
                         return TypeConversionRequirement.Explicit;
-                    case CLICommon.TypeCoercionNames.Implicit:
+                    case CliCommon.TypeCoercionNames.Implicit:
                         return TypeConversionRequirement.Implicit;
                 }
             throw new InvalidOperationException();
@@ -188,21 +188,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             switch (target.Name)
             {
-                case CLICommon.UnaryOperatorNames.Plus:
+                case CliCommon.UnaryOperatorNames.Plus:
                     return AstIdentifier.UnaryOperator(CoercibleUnaryOperators.Plus);
-                case CLICommon.UnaryOperatorNames.Negation:
+                case CliCommon.UnaryOperatorNames.Negation:
                     return AstIdentifier.UnaryOperator(CoercibleUnaryOperators.Negation);
-                case CLICommon.UnaryOperatorNames.False:
+                case CliCommon.UnaryOperatorNames.False:
                     return AstIdentifier.UnaryOperator(CoercibleUnaryOperators.EvaluatesToFalse);
-                case CLICommon.UnaryOperatorNames.True:
+                case CliCommon.UnaryOperatorNames.True:
                     return AstIdentifier.UnaryOperator(CoercibleUnaryOperators.EvaluatesToTrue);
-                case CLICommon.UnaryOperatorNames.LogicalNot:
+                case CliCommon.UnaryOperatorNames.LogicalNot:
                     return AstIdentifier.UnaryOperator(CoercibleUnaryOperators.LogicalInvert);
-                case CLICommon.UnaryOperatorNames.OnesComplement:
+                case CliCommon.UnaryOperatorNames.OnesComplement:
                     return AstIdentifier.UnaryOperator(CoercibleUnaryOperators.Complement);
-                case CLICommon.UnaryOperatorNames.Increment:
+                case CliCommon.UnaryOperatorNames.Increment:
                     return AstIdentifier.UnaryOperator(CoercibleUnaryOperators.Increment);
-                case CLICommon.UnaryOperatorNames.Decrement:
+                case CliCommon.UnaryOperatorNames.Decrement:
                     return AstIdentifier.UnaryOperator(CoercibleUnaryOperators.Decrement);
                 default:
                     if (target.Name.Length < 3)
@@ -212,14 +212,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        internal static IGeneralTypeUniqueIdentifier GetUniqueIdentifier(this Type target)
+        internal static IGeneralTypeUniqueIdentifier GetUniqueIdentifier(this Type target, ICliManager manager)
         {
             if (target.IsEnum)
                 return AstIdentifier.Type(target.Name);
             else
             {
                 if (target.IsSubclassOf(typeof(Delegate)) && target != typeof(MulticastDelegate))
-                    return AstIdentifier.Delegate(target.Name, target.GetGenericArguments().Length, target.GetTypeReference<IDelegateUniqueIdentifier, IDelegateType>().Parameters.ParameterTypes.SinglePass());
+                    return AstIdentifier.Delegate(target.Name, target.GetGenericArguments().Length, ((IDelegateType)manager.ObtainTypeReference(target)).Parameters.ParameterTypes.SinglePass());
                 else
                 {
                     if (target.IsGenericParameter)
@@ -241,49 +241,49 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        internal static IGeneralGenericSignatureMemberUniqueIdentifier GetUniqueIdentifier(this MethodInfo target)
+        internal static IGeneralGenericSignatureMemberUniqueIdentifier GetUniqueIdentifier(this MethodInfo target, ICliManager manager)
         {
             var q = target.ReturnType;
             var r = (from parameter in target.GetParameters()
-                     select parameter.ParameterType.GetTypeReference()).ToArray();
+                     select manager.ObtainTypeReference(parameter.ParameterType)).ToArray();
             int tpCnt = 0;
             if (target.IsGenericMethod)
                 tpCnt = target.GetGenericArguments().Length;
             return AstIdentifier.GenericSignature(target.Name, tpCnt, r);
         }
 
-        private static Dictionary<Type, AttributeUsage> attributeUsageCache;
+        private static Dictionary<Type, MetadatumUsage> attributeUsageCache;
 
         static CliAssist()
         {
-            attributeUsageCache = new Dictionary<Type, AttributeUsage>();
+            attributeUsageCache = new Dictionary<Type, MetadatumUsage>();
         }
         /// <summary>
         /// Obtains the usage information on an attribute.
         /// </summary>
         /// <param name="attr">The attribute to check the usage of.</param>
-        /// <returns>An <see cref="AttributeUsage"/> structure defining the usage of an attribute.</returns>
-        internal static AttributeUsage GetAttributeUsage(this Type attr)
+        /// <returns>An <see cref="MetadatumUsage"/> structure defining the usage of an attribute.</returns>
+        internal static MetadatumUsage GetAttributeUsage(this Type attr)
         {
             if (attributeUsageCache.ContainsKey(attr))
                 return attributeUsageCache[attr];
             else
             {
-                AttributeUsage result;
+                MetadatumUsage result;
                 if (attr.IsDefined(typeof(AttributeUsageAttribute), true))
                 {
                     Attribute[] allowMult = ArrayExtensions.Cast<Attribute, object>(attr.GetCustomAttributes(typeof(AttributeUsageAttribute), true));
                     if (allowMult.Length > 0 && allowMult[0] is AttributeUsageAttribute)
-                        result = new AttributeUsage((AttributeUsageAttribute)allowMult[0]);
+                        result = new MetadatumUsage((AttributeUsageAttribute)allowMult[0]);
                     else
                     {
-                        result = new AttributeUsage();
+                        result = new MetadatumUsage();
                         result.Inherited = true;
                     }
                 }
                 else
                 {
-                    result = new AttributeUsage();
+                    result = new MetadatumUsage();
                     result.Inherited = true;
                 }
                 attributeUsageCache.Add(attr, result);
@@ -291,19 +291,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        internal static AttributeUsage GetAttributeUsage(this IType attr)
+        internal static MetadatumUsage GetAttributeUsage(this IType attr, ICliManager manager)
         {
-            AttributeUsage result;
-            if (attr.IsDefined(typeof(AttributeUsageAttribute).GetTypeReference(), true))
+            MetadatumUsage result;
+            if (attr.IsDefined(manager.ObtainTypeReference(typeof(AttributeUsageAttribute)), true))
             {
-                ICustomAttributeInstance allowMult = attr.CustomAttributes[typeof(AttributeUsageAttribute).GetTypeReference()];
+                IMetadatum allowMult = attr.CustomAttributes[manager.ObtainTypeReference(typeof(AttributeUsageAttribute))];
                 if (allowMult != null)
-                    result = new AttributeUsage(allowMult.WrappedAttribute as AttributeUsageAttribute);
+                    result = new MetadatumUsage(allowMult.WrappedAttribute as AttributeUsageAttribute);
                 else
-                    result = new AttributeUsage(new AttributeUsageAttribute(AttributeTargets.All) { Inherited = true });
+                    result = new MetadatumUsage(new AttributeUsageAttribute(AttributeTargets.All) { Inherited = true });
             }
             else
-                result = new AttributeUsage(new AttributeUsageAttribute(AttributeTargets.All) { Inherited = true });
+                result = new MetadatumUsage(new AttributeUsageAttribute(AttributeTargets.All) { Inherited = true });
             return result;
         }
 
@@ -327,7 +327,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 Attribute[] custAttrs = ArrayExtensions.Cast<Attribute, object>(current.GetCustomAttributes(false));
                 foreach (Attribute attr in custAttrs)
                 {
-                    AttributeUsage attrUsage = GetAttributeUsage(attr.GetType());
+                    MetadatumUsage attrUsage = GetAttributeUsage(attr.GetType());
                     if (/* * 
                          * If the current element is the top-level in the hierarchy,
                          * all elements will be added.

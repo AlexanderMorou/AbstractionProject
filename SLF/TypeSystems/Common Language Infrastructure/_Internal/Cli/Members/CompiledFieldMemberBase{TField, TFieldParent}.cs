@@ -71,6 +71,35 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             return this.MemberInfo.Name;
         }
+        private ICliManager manager;
+        private ICliManager Manager
+        {
+            get
+            {
+                if (this.manager == null)
+                {
+                    var parent = this.Parent as ICompiledType;
+                    if (parent == null)
+                    {
+                        var aParent = this.Parent as ICompiledAssembly;
+                        if (aParent == null)
+                        {
+                            var nParent = this.Parent as INamespaceDeclaration;
+                            if (nParent == null ||
+                                !(nParent.Assembly is ICompiledAssembly))
+                                throw new InvalidOperationException();
+                            else
+                                manager = (nParent.Assembly as ICompiledAssembly).Manager;
+                        }
+                        else
+                            manager = aParent.Manager;
+                    }
+                    else
+                        manager = parent.Manager;
+                }
+                return manager;
+            }
+        }
 
         /// <summary>
         /// Returns the <see cref="IType"/> related to the <see cref="FieldMemberBase{TField, TFieldParent}.FieldType"/> of the
@@ -82,7 +111,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <see cref="CompiledFieldMemberBase{TField, TFieldParent}"/>.</returns>
         protected override IType OnGetFieldType()
         {
-            return this.MemberInfo.FieldType.GetTypeReference();
+            return this.Manager.ObtainTypeReference(this.MemberInfo.FieldType);
         }
 
         #region ICompiledFieldMember Members

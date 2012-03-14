@@ -14,29 +14,29 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     /// Provides a base class for custom attribute property assignments.
     /// </summary>
     /// <typeparam name="T">The type of value the property is.</typeparam>
-    public class CustomAttributeDefinitionNamedParameter<T> :
-        CustomAttributeDefinitionParameter<T>,
-        ICustomAttributeDefinitionNamedParameter<T>
+    public class MetadatumDefinitionNamedParameter<T> :
+        MetadatumDefinitionParameter<T>,
+        IMetadatumDefinitionNamedParameter<T>
     {
         private string name;
         /// <summary>
-        /// Creates a new <see cref="CustomAttributeDefinitionNamedParameter{T}"/>
+        /// Creates a new <see cref="MetadatumDefinitionNamedParameter{T}"/>
         /// instance with the <paramref name="name"/> and <paramref name="value"/>
         /// provided.
         /// </summary>
-        /// <param name="name">The name of the <see cref="CustomAttributeDefinitionNamedParameter{T}"/>
+        /// <param name="name">The name of the <see cref="MetadatumDefinitionNamedParameter{T}"/>
         /// relative to the property that is set on the custom attribute.</param>
         /// <param name="value">The <typeparamref name="T"/> instance
-        /// which the <see cref="CustomAttributeDefinitionNamedParameter{T}"/> is typed as.</param>
-        /// <param name="owner">The <see cref="CustomAttributeDefinitionParameterCollection"/>
-        /// which contains the <see cref="CustomAttributeDefinitionNamedParameter{T}"/>.</param>
-        internal CustomAttributeDefinitionNamedParameter(string name, T value, CustomAttributeDefinitionParameterCollection owner) :
+        /// which the <see cref="MetadatumDefinitionNamedParameter{T}"/> is typed as.</param>
+        /// <param name="owner">The <see cref="MetadatumDefinitionParameterCollection"/>
+        /// which contains the <see cref="MetadatumDefinitionNamedParameter{T}"/>.</param>
+        internal MetadatumDefinitionNamedParameter(string name, T value, MetadatumDefinitionParameterCollection owner) :
             base(value, owner)
         {
             this.name = name;
         }
 
-        #region ICustomAttributeDefinitionNamedParameter<T> Members
+        #region IMetadatumDefinitionNamedParameter<T> Members
 
         /// <summary>
         /// Returns/sets the name of the parameter

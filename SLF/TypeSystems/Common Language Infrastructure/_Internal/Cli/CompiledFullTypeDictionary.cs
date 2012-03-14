@@ -32,7 +32,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public override bool ContainsKey(IGeneralTypeUniqueIdentifier key)
         {
             foreach (var t in this.parent.UnderlyingSystemTypes)
-                if (t.GetTypeReference().UniqueIdentifier.Equals(key))
+                if (this.parent.Manager.ObtainTypeReference(t).UniqueIdentifier.Equals(key))
                     return true;
             return false;
         }

@@ -93,7 +93,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IGeneralGenericSignatureMemberUniqueIdentifier FetchKey(MethodInfo item)
         {
-            return item.GetUniqueIdentifier();
+            return item.GetUniqueIdentifier(this.Manager);
         }
 
     }

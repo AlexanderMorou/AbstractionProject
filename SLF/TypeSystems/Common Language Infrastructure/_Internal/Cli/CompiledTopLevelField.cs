@@ -21,17 +21,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         CompiledFieldMemberBase<ITopLevelFieldMember, INamespaceParent>,
         ITopLevelFieldMember
     {
-        public CompiledTopLevelField(FieldInfo memberInfo, INamespaceParent parent)
+        public CompiledTopLevelField(FieldInfo memberInfo, _ICompiledNamespaceParent parent)
             : base(memberInfo, parent)
         {
 
+        }
+
+        public new _ICompiledNamespaceParent Parent
+        {
+            get
+            {
+                return (_ICompiledNamespaceParent) base.Parent;
+            }
         }
 
         #region ITopLevelFieldMember Members
 
         public IModule DeclaringModule
         {
-            get { return this.MemberInfo.Module.GetModuleReference(); }
+            get { return this.MemberInfo.Module.GetModuleReference(this.Parent.Assembly.Manager); }
         }
 
         #endregion

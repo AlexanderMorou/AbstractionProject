@@ -25,7 +25,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
     internal abstract partial class CompiledMethodMemberBase<TMethod, TMethodParent> :
         MethodMemberBase<TMethod, TMethodParent>,
         ICompiledMethodMember,
-        _IGenericMethodRegistrar
+        _IGenericMethodRegistrar,
+        _ICompiledMethodSignatureMember
         where TMethod :
             IMethodMember<TMethod, TMethodParent>
         where TMethodParent :
@@ -54,13 +55,42 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         }
 
         private IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier;
+        private ICliManager manager;
+        private ICliManager Manager
+        {
+            get
+            {
+                if (this.manager == null)
+                {
+                    var parent = this.Parent as ICompiledType;
+                    if (parent == null)
+                    {
+                        var aParent = this.Parent as ICompiledAssembly;
+                        if (aParent == null)
+                        {
+                            var nParent = this.Parent as INamespaceDeclaration;
+                            if (nParent == null ||
+                                !(nParent.Assembly is ICompiledAssembly))
+                                throw new InvalidOperationException();
+                            else
+                                manager = (nParent.Assembly as ICompiledAssembly).Manager;
+                        }
+                        else
+                            manager = aParent.Manager;
+                    }
+                    else
+                        manager = parent.Manager;
+                }
+                return manager;
+            }
+        }
 
         public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier
         {
             get
             {
                 if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = memberInfo.GetUniqueIdentifier();
+                    this.uniqueIdentifier = memberInfo.GetUniqueIdentifier(this.Manager);
                 return this.uniqueIdentifier;
             }
         }
@@ -124,8 +154,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <returns>A new <see cref="IGenericParameterDictionary{TParameter, TParent}"/> instance.</returns>
         protected override IGenericParameterDictionary<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember> InitializeTypeParameters()
         {
-            return new LockedGenericParameters<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember>(((TMethod)((object)(this))), this.MemberInfo.GetGenericArguments().OnAll(gParamType =>
-                (IMethodSignatureGenericTypeParameterMember)new GenericParameterMember(((TMethod)((object)(this))), gParamType)));
+            return new LockedGenericParameters<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember>(((TMethod) ((object) (this))), this.MemberInfo.GetGenericArguments().OnAll(gParamType =>
+                (IMethodSignatureGenericTypeParameterMember) new GenericParameterMember(((TMethod) ((object) (this))), gParamType, this.Manager)));
         }
 
 
@@ -144,10 +174,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             get { return true; }
         }
 
-
         protected override IType OnGetReturnType()
         {
-            IType returnType = this.MemberInfo.ReturnType.GetTypeReference();
+            IType returnType = this.Manager.ObtainTypeReference(this.MemberInfo.ReturnType);
             if (returnType.ElementClassification == TypeElementClassification.Array && 
                 this.MemberInfo.ReturnTypeCustomAttributes.IsDefined(typeof(LowerBoundTargetAttribute), true))
             {
@@ -249,9 +278,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             /* *
              * _IGenericMethodRegistrar handles cache.
              * */
-            var tK = this.OnMakeGenericClosure(genericReplacements);
-            CLICommon.VerifyTypeParameters<IMethodParameterMember<TMethod, TMethodParent>, TMethod, TMethodParent>(this, genericReplacements);
-            return tK;
+            return this.OnMakeGenericClosure(genericReplacements);
         }
 
         protected abstract TMethod OnMakeGenericClosure(ITypeCollectionBase genericReplacements);
@@ -313,7 +340,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override IModifiersAndAttributesMetadata OnGetReturnMetadata()
         {
-            return new MethodInfoModifiersAndAttributesMetadata(this.MemberInfo);
+            return new MethodInfoModifiersAndAttributesMetadata(this.MemberInfo, this.Manager);
         }
 
 
@@ -322,9 +349,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             get { return true; }
         }
 
-        protected override ICustomAttributeCollection OnGetCustomAttributes()
+        protected override IMetadataCollection OnGetCustomAttributes()
         {
-            return new CompiledCustomAttributeCollection(this.MemberInfo.GetCustomAttributes);
+            return new CompiledCustomAttributeCollection(this.MemberInfo.GetCustomAttributes, this.Manager);
         }
+        #region _ICompiledMethodSignatureMember Members
+
+        public ICompiledGenericParameter GetGenericParameterFor(Type underlyingSystemType)
+        {
+            if (!this.IsGenericConstruct)
+                throw new InvalidOperationException();
+            foreach (ICompiledGenericParameter param in this.TypeParameters.Values)
+                if (param.UnderlyingSystemType == underlyingSystemType)
+                    return param;
+            throw new InvalidOperationException();
+        }
+
+        #endregion
     }
 }

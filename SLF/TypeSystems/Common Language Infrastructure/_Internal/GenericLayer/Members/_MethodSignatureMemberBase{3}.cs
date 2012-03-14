@@ -215,7 +215,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             get { return false; }
         }
 
-        protected override ICustomAttributeCollection OnGetCustomAttributes()
+        protected override IMetadataCollection OnGetCustomAttributes()
         {
             return this.Original.CustomAttributes;
         }

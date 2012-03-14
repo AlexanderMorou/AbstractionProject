@@ -71,7 +71,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public IFilteredSignatureMemberDictionary<IGeneralSignatureMemberUniqueIdentifier, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>> Find(bool strict, ITypeCollectionBase search)
         {
-            return CLICommon.FindCache<IGeneralSignatureMemberUniqueIdentifier, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>(this.Values, search, strict);
+            return CliCommon.FindCache<IGeneralSignatureMemberUniqueIdentifier, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>(this.Values, search, strict);
         }
 
         public IFilteredSignatureMemberDictionary<IGeneralSignatureMemberUniqueIdentifier, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>> Find(ITypeCollectionBase search)
@@ -81,7 +81,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public IFilteredSignatureMemberDictionary<IGeneralSignatureMemberUniqueIdentifier, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>> Find(bool strict, params IType[] search)
         {
-            return CLICommon.FindCache<IGeneralSignatureMemberUniqueIdentifier, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>(this.Values, search, strict);
+            return CliCommon.FindCache<IGeneralSignatureMemberUniqueIdentifier, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>(this.Values, search, strict);
         }
 
         public IFilteredSignatureMemberDictionary<IGeneralSignatureMemberUniqueIdentifier, IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IConstructorParameterMember<IGenericParameterConstructorMember<IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>>, IGenericTypeParameter<TTypeIdentifier, TType>> Find(params IType[] search)
@@ -93,7 +93,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override IGeneralSignatureMemberUniqueIdentifier FetchKey(ConstructorInfo item)
         {
-            return item.GetUniqueIdentifier();
+            return item.GetUniqueIdentifier(this.Parent.Manager);
         }
     }
 }

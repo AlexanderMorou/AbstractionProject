@@ -43,10 +43,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         /// <param name="underlyingSystemType">The <see cref="System.Type"/> from which the current
         /// <see cref="CompiledClassType"/> is based.</param>
-        internal CompiledClassType(Type underlyingSystemType)
-            : base(underlyingSystemType)
+        internal CompiledClassType(Type underlyingSystemType, ICliManager manager)
+            : base(underlyingSystemType, manager)
         {
-            if (!underlyingSystemType.IsClass)
+            if (!underlyingSystemType.IsClass ||
+                 ((typeof(Delegate).IsAssignableFrom(underlyingSystemType) && (typeof(Delegate) != underlyingSystemType || typeof(MulticastDelegate) != underlyingSystemType))))
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.underlyingSystemType, ExceptionMessageId.CompiledType_NotProperKind, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.@class));
         }
 
@@ -185,12 +186,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public bool IsDefined(IType attributeType, bool inherit)
+        public bool IsDefined(IType metadatumType, bool inherit)
         {
-            if (attributeType == null)
-                throw new ArgumentNullException("attributeType");
-            foreach (ICustomAttributeInstance attributeInstance in this.CustomAttributes)
-                if (attributeType.IsAssignableFrom(attributeInstance.Type))
+            if (metadatumType == null)
+                throw new ArgumentNullException("metadatumType");
+            foreach (IMetadatum attributeInstance in this.CustomAttributes)
+                if (metadatumType.IsAssignableFrom(attributeInstance.Type))
                     if (inherit || attributeInstance.DeclarationPoint == this)
                         return true;
             return false;
@@ -206,7 +207,5 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get { return TypeKind.Class; }
         }
-
-
     }
 }

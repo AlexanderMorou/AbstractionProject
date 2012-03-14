@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
@@ -10,13 +11,15 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
-    internal interface _ICustomAttributeDefinitionParameterValue :
-        ICustomAttributeDefinitionParameterValue
+    public interface IMetadatumDefinitionParameter<T> :
+        IMetadatumDefinitionParameter
     {
-        ICustomAttributeDefinitionParameter AddSelf(_ICustomAttributeDefinitionParameterCollection target);
-    }
-    public interface ICustomAttributeDefinitionParameterValue
-    {
-        object Value { get; }
+        /// <summary>
+        /// Returns/sets the <typeparamref name="T"/> 
+        /// value defined on one of the 
+        /// <see cref="IMetadatumDefinition"/>'s
+        /// constructor argument(s).
+        /// </summary>
+        new T Value { get; set; }
     }
 }

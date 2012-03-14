@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -25,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         internal CompiledGenericParameterConstructorMemberBase(TGenericParameter parent, ConstructorInfo ctorInfo)
             : base(parent)
         {
-            this.uniqueIdentifier = ctorInfo.GetUniqueIdentifier();
+            this.uniqueIdentifier = ctorInfo.GetUniqueIdentifier(((ICompiledType) parent).Manager);
             this.ctorInfo = ctorInfo;
             this.lastIsParams = ctorInfo.LastParameterIsParams();
         }

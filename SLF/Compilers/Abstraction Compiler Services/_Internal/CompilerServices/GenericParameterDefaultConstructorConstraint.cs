@@ -56,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.CompilerServices
             get { return this.genericParameter; }
         }
 
-        public override object[] GetCustomAttributes(Type attributeType, bool inherit)
+        public override object[] GetCustomAttributes(Type metadatumType, bool inherit)
         {
             return emptyAttributeSet;
         }
@@ -66,7 +66,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.CompilerServices
             return emptyAttributeSet;
         }
 
-        public override bool IsDefined(Type attributeType, bool inherit)
+        public override bool IsDefined(Type metadatumType, bool inherit)
         {
             return false;
         }

@@ -6,6 +6,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -35,7 +36,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
         protected override IGeneralSignatureMemberUniqueIdentifier FetchKey(PropertyInfo item)
         {
-            return item.GetIndexerUniqueIdentifier();
+            return item.GetIndexerUniqueIdentifier(((ICompiledType) this.Parent).Manager);
         }
 
         #region IIndexerSignatureMemberDictionary Members

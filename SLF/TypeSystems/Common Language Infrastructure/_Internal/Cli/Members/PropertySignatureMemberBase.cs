@@ -182,5 +182,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             }
         }
         protected abstract IModifiersAndAttributesMetadata InitializeMetadata();
+
+        public override string ToString()
+        {
+            return string.Format("{0} {5}::{1} {{ {2}{3}{4} }}", this.PropertyType.Name, this.Name, this.CanRead ? "get;" : string.Empty, this.CanRead && this.CanWrite ? " " : string.Empty, this.CanWrite ? "set;" : string.Empty, this.Parent);
+        }
     }
 }

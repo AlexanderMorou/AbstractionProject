@@ -328,7 +328,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             var fileVersion = full ? this.FileVersion : this.fileVersion;
             var assemblyVersion = full ? this.AssemblyVersion : this.assemblyVersion;
-            List<CustomAttributeDefinition.ParameterValueCollection> toAdd = null;
+            List<MetadatumDefinitionParameterValueCollection> toAdd = null;
             StandardAttributeCheck(this.owner, typeof(AssemblyFileVersionAttribute), fileVersion, ref toAdd);
             StandardAttributeCheck(this.owner, typeof(AssemblyVersionAttribute), assemblyVersion, ref toAdd);
             StandardAttributeCheck(this.owner, typeof(AssemblyTitleAttribute), this.Title, ref toAdd);
@@ -345,7 +345,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
-        private static void StandardAttributeCheck<T>(TAssembly owner, Type attributeType, T value, ref List<CustomAttributeDefinition.ParameterValueCollection> toAdd)
+        private static void StandardAttributeCheck<T>(TAssembly owner, Type attributeType, T value, ref List<MetadatumDefinitionParameterValueCollection> toAdd)
             where T :
                 class
         {
@@ -355,19 +355,19 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 if (owner._CustomAttributes.Contains(attributeTypeInternal))
                 {
                     var attributeDecl = owner._CustomAttributes[attributeTypeInternal];
-                    if (attributeDecl.Parameters.Count != 1 || !(attributeDecl.Parameters[0] is ICustomAttributeDefinitionParameter<string>) || attributeDecl.Parameters[0] is ICustomAttributeDefinitionNamedParameter)
+                    if (attributeDecl.Parameters.Count != 1 || !(attributeDecl.Parameters[0] is IMetadatumDefinitionParameter<string>) || attributeDecl.Parameters[0] is IMetadatumDefinitionNamedParameter)
                     {
                         attributeDecl.Parameters.Clear();
                         attributeDecl.Parameters.Add(value.ToString());
                     }
                     else
-                        ((ICustomAttributeDefinitionParameter<string>)(attributeDecl.Parameters[0])).Value = value.ToString();
+                        ((IMetadatumDefinitionParameter<string>)(attributeDecl.Parameters[0])).Value = value.ToString();
                 }
                 else
                 {
                     if (toAdd == null)
-                        toAdd = new List<CustomAttributeDefinition.ParameterValueCollection>();
-                    toAdd.Add(new CustomAttributeDefinition.ParameterValueCollection(attributeTypeInternal) { { value.ToString() } });
+                        toAdd = new List<MetadatumDefinitionParameterValueCollection>();
+                    toAdd.Add(new MetadatumDefinitionParameterValueCollection(attributeTypeInternal) { { value.ToString() } });
                 }
             }
         }

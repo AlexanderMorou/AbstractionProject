@@ -19,8 +19,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
      * array, byreference, nullable, and pointer types.
      * */
     internal class LockedEmptyCustomAttributeCollection : 
-        ReadOnlyCollection<ICustomAttributeInstance>,
-        ICustomAttributeCollection
+        ReadOnlyCollection<IMetadatum>,
+        IMetadataCollection
     {
         /* *
          * Creates a new LockedEmptyCustomAttributeCollection instance with the parent
@@ -28,15 +28,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
          * *
          * The parent is the simple type which needs the empty custom attribute collection.
          * */
-        public LockedEmptyCustomAttributeCollection(ICustomAttributedEntity parent)
+        public LockedEmptyCustomAttributeCollection(IMetadataEntity parent)
             : base()
         {
             this.Parent = parent;
         }
 
-        #region ICustomAttributeCollection Members
+        #region IMetadataCollection Members
 
-        public bool Contains(IType attributeType)
+        public bool Contains(IType metadatumType)
         {
             return false;
         }
@@ -58,15 +58,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-        #region ICustomAttributeCollection Members
+        #region IMetadataCollection Members
 
-        public ICustomAttributedEntity Parent { get; private set; }
+        public IMetadataEntity Parent { get; private set; }
 
         #endregion
 
-        #region ICustomAttributeCollection Members
+        #region IMetadataCollection Members
 
-        public ICustomAttributeInstance this[IType attributeType]
+        public IMetadatum this[IType metadatumType]
         {
             get { return null; }
         }

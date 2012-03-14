@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Cli;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
@@ -12,7 +13,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private Func<Type[]> optionalModifiersPtr;
         private Func<bool, object[]> customAttributesPtr;
 
-        public AnonymousModifiersAndAttributesMetadata(Func<Type[]> requiredModifiersPtr, Func<Type[]> optionalModifiersPtr, Func<bool, object[]> customAttributesPtr)
+        public AnonymousModifiersAndAttributesMetadata(Func<Type[]> requiredModifiersPtr, Func<Type[]> optionalModifiersPtr, Func<bool, object[]> customAttributesPtr, ICliManager manager)
+            : base(manager)
         {
             this.requiredModifiersPtr = requiredModifiersPtr;
             this.optionalModifiersPtr = requiredModifiersPtr;

@@ -26,8 +26,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 CompiledParameterMemberBase<IInterfaceMethodMember>,
                 IMethodSignatureParameterMember<IInterfaceMethodMember, IInterfaceType>
             {
-                internal ParameterMember(ParameterInfo parameterInfo, IInterfaceMethodMember parent)
-                    : base(parameterInfo, parent)
+                internal ParameterMember(ParameterInfo parameterInfo, IInterfaceMethodMember parent, ICliManager manager)
+                    : base(parameterInfo, parent, manager)
                 {
                 }
 

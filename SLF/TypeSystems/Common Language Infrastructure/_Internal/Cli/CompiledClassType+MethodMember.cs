@@ -179,16 +179,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     if (this.isAsync == null)
                     {
                         var returnType = this.ReturnType;
-                        if (returnType == CommonTypeRefs.Void && this.Name.Length >= 5)
+                        if (returnType == this.Parent.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.VoidType) && this.Name.Length >= 5)
                         {
                             if (this.Name.Substring(this.Name.Length - 5).ToLower() == "async")
                                 this.isAsync = true;
                             else
                                 this.isAsync = false;
                         }
-                        else if (returnType == CommonTypeRefs.Task)
+                        else if (returnType == this.Parent.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.AsynchronousTask))
                             this.isAsync = true;
-                        else if (returnType.ElementClassification == TypeElementClassification.GenericTypeDefinition && returnType.ElementType != null && returnType.ElementType == CommonTypeRefs.TaskOfT)
+                        else if (returnType.ElementClassification == TypeElementClassification.GenericTypeDefinition && returnType.ElementType != null && returnType.ElementType == this.Parent.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.AsynchronousTaskOfT))
                             this.isAsync = true;
                         else
                             this.isAsync = false;
@@ -251,11 +251,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         //Obtain the base definition from the member info.
                         var baseMember = this.MemberInfo.GetBaseDefinition();
                         //Obtain the type containing the base member.
-                        IClassType baseDefinitionType = baseMember.DeclaringType.GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
+                        IClassType baseDefinitionType = (IClassType) this.Parent.Manager.ObtainTypeReference(baseMember.DeclaringType);
                         //Iterate through its methods.
                         var baseMethodParameterTypes = 
                             (from p in baseMember.GetParameters()
-                             select p.ParameterType.GetTypeReference()).ToArray();
+                             select this.Parent.Manager.ObtainTypeReference(p.ParameterType)).ToArray();
                         foreach (IClassMethodMember member in baseDefinitionType.Methods.Values)
                             //When the method handles equal one another: Match found.
                             if (member.Name == baseMember.Name &&
@@ -278,7 +278,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
 
             #endregion
-
+            
         }
     }
 }
