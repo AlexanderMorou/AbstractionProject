@@ -56,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Data member for <see cref="CustomAttributes"/>.
         /// </summary>
-        private ICustomAttributeCollection attributes;
+        private IMetadataCollection attributes;
         /// <summary>
         /// Data member for <see cref="Modules"/>.
         /// </summary>
@@ -631,13 +631,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <see cref="AssemblyBase"/>.</returns>
         protected abstract INamespaceDictionary InitializeNamespaces();
 
-        #region ICustomAttributedEntity Members
+        #region IMetadataEntity Members
 
         /// <summary>
-        /// Returns the <see cref="ICustomAttributeCollection"/> 
+        /// Returns the <see cref="IMetadataCollection"/> 
         /// associated to the <see cref="AssemblyBase"/>.
         /// </summary>
-        public ICustomAttributeCollection CustomAttributes
+        public IMetadataCollection CustomAttributes
         {
             get
             {
@@ -648,29 +648,29 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         /// <summary>
-        /// Determines whether the <paramref name="attributeType"/> 
+        /// Determines whether the <paramref name="metadatumType"/> 
         /// is defined on the current <see cref="AssemblyBase"/>.
         /// </summary>
-        /// <param name="attributeType">The <see cref="IType"/> of
+        /// <param name="metadatumType">The <see cref="IType"/> of
         /// the attribute to check the presence of.</param>
         /// <returns>true if an attribute of the given 
-        /// <paramref name="attributeType"/> is defined
+        /// <paramref name="metadatumType"/> is defined
         /// on the current <see cref="AssemblyBase"/>; false,
         /// otherwise.
         /// </returns>
-        public bool IsDefined(IType attributeType)
+        public bool IsDefined(IType metadatumType)
         {
-            return this.StandardIsDefined(attributeType);
+            return this.StandardIsDefined(metadatumType);
         }
 
         #endregion
 
         /// <summary>
-        /// Initializes the <see cref="ICustomAttributeCollection"/> relative to the 
+        /// Initializes the <see cref="IMetadataCollection"/> relative to the 
         /// current <see cref="AssemblyBase"/>.
         /// </summary>
-        /// <returns>A <see cref="ICustomAttributeCollection"/> instance.</returns>
-        protected abstract ICustomAttributeCollection InitializeCustomAttributes();
+        /// <returns>A <see cref="IMetadataCollection"/> instance.</returns>
+        protected abstract IMetadataCollection InitializeCustomAttributes();
 
 
         #region IDeclaration Members

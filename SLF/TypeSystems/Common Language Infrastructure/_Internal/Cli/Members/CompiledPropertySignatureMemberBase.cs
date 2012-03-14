@@ -47,7 +47,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override IType OnGetPropertyType()
         {
-            return this.MemberInfo.PropertyType.GetTypeReference();
+            return ((ICompiledType) this.Parent).Manager.ObtainTypeReference(this.MemberInfo.PropertyType);
         }
 
         protected override bool CanCachePropertyType
@@ -152,9 +152,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
+        private ICliManager Manager
+        {
+            get
+            {
+                return ((ICompiledType) (this.Parent)).Manager;
+            }
+        }
         protected override IModifiersAndAttributesMetadata InitializeMetadata()
         {
-            return new AnonymousModifiersAndAttributesMetadata(this.MemberInfo.GetRequiredCustomModifiers, this.MemberInfo.GetOptionalCustomModifiers, this.MemberInfo.GetCustomAttributes);
+            return new AnonymousModifiersAndAttributesMetadata(this.MemberInfo.GetRequiredCustomModifiers, this.MemberInfo.GetOptionalCustomModifiers, this.MemberInfo.GetCustomAttributes, this.Manager);
         }
     }
 }

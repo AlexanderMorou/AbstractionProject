@@ -113,9 +113,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             /* *
              * _IGenericMethodRegistrar handles cache.
              * */
-            var q = this.OnMakeGenericMethod(genericReplacements);
-            CLICommon.VerifyTypeParameters<IMethodSignatureParameterMember<TSignature, TSignatureParent>, TSignature, TSignatureParent>(this, genericReplacements);
-            return q;
+            return this.OnMakeGenericMethod(genericReplacements);
         }
 
         protected abstract TSignature OnMakeGenericMethod(ITypeCollectionBase genericReplacements);

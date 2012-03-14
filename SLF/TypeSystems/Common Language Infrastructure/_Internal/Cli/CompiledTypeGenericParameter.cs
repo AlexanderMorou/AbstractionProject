@@ -28,8 +28,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             class,
             IGenericType<TTypeIdentifier, TType>
     {
-        protected CompiledGenericTypeParameter(TType parent, Type type)
-            : base(parent, type)
+        protected CompiledGenericTypeParameter(TType parent, Type type, ICliManager manager)
+            : base(parent, type, manager)
         {
         }
 

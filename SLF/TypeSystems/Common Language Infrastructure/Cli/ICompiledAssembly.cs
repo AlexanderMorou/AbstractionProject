@@ -25,5 +25,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// relates to.
         /// </summary>
         Assembly UnderlyingAssembly { get; }
+        /// <summary>
+        /// Returns the <see cref="ICliManager"/> which is responsible for maintaining
+        /// the <see cref="Assembly"/> identity which represents the <see cref="ICompiledAssembly"/>.
+        /// </summary>
+        ICliManager Manager { get; }
     }
 }

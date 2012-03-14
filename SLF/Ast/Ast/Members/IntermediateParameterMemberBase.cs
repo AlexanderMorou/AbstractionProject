@@ -35,9 +35,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     {
         private IType parameterType;
         private ParameterDirection direction;
-        private ICustomAttributeDefinitionCollectionSeries customAttributes;
+        private IMetadataDefinitionCollection customAttributes;
 
-        private ICustomAttributeCollection customAttributesBack;
+        private IMetadataCollection customAttributesBack;
         private IGeneralMemberUniqueIdentifier uniqueIdentifier;
         private IIntermediateModifiersAndAttributesMetadata metadata;
         /// <summary>
@@ -87,7 +87,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                         }
                         else
                         {
-                            var customAttribute = new CustomAttributeDefinition.ParameterValueCollection(lowerBoundsTargetType);
+                            var customAttribute = new MetadatumDefinitionParameterValueCollection(lowerBoundsTargetType);
                             foreach (var element in arrayValue.LowerBounds)
                                 customAttribute.Add(element);
                             this.CustomAttributes.Add(customAttribute);
@@ -134,9 +134,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         #endregion
 
-        #region IIntermediateCustomAttributedEntity Members
+        #region IIntermediateMetadataEntity Members
 
-        public ICustomAttributeDefinitionCollectionSeries CustomAttributes
+        public IMetadataDefinitionCollection CustomAttributes
         {
             get
             {
@@ -149,16 +149,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         #endregion
 
         /// <summary>
-        /// Initializes the <see cref="CustomAttributeDefinitionCollectionSeries"/> which
+        /// Initializes the <see cref="MetadataDefinitionCollection"/> which
         /// denotes the groups of attributes defined on
         /// the <see cref="IntermediateParameterMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>.
         /// </summary>
-        /// <returns>A new <see cref="CustomAttributeDefinitionCollectionSeries"/>
+        /// <returns>A new <see cref="MetadataDefinitionCollection"/>
         /// instance which refers to the parameters defined on the 
         /// <see cref="IntermediateParameterMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>.</returns>
-        protected virtual CustomAttributeDefinitionCollectionSeries InitializeCustomAttributes()
+        protected virtual MetadataDefinitionCollection InitializeCustomAttributes()
         {
-            return new CustomAttributeDefinitionCollectionSeries(this);
+            return new MetadataDefinitionCollection(this);
         }
 
         protected override void OnIdentifierChanged(IGeneralMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
@@ -168,14 +168,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             base.OnIdentifierChanged(oldIdentifier, cause);
         }
 
-        #region ICustomAttributedEntity Members
+        #region IMetadataEntity Members
 
-        ICustomAttributeCollection ICustomAttributedEntity.CustomAttributes
+        IMetadataCollection IMetadataEntity.CustomAttributes
         {
             get
             {
                 if (this.customAttributesBack == null)
-                    this.customAttributesBack = ((CustomAttributeDefinitionCollectionSeries)(this.CustomAttributes)).GetWrapper();
+                    this.customAttributesBack = ((MetadataDefinitionCollection)(this.CustomAttributes)).GetWrapper();
                 return this.customAttributesBack;
             }
         }

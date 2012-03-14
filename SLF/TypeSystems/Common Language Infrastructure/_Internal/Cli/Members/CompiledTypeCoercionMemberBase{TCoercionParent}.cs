@@ -35,12 +35,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             var firstParam = this.MemberInfo.GetParameters().First();
             if (declaringType == this.MemberInfo.ReturnType)
             {
-                this.coercionType = firstParam.ParameterType.GetTypeReference();
+                this.coercionType = this.Parent.Manager.ObtainTypeReference(firstParam.ParameterType);
                 this.direction = TypeConversionDirection.ToContainingType;
             }
             else
             {
-                this.coercionType = MemberInfo.ReturnType.GetTypeReference();
+                this.coercionType = this.Parent.Manager.ObtainTypeReference(MemberInfo.ReturnType);
                 this.direction = TypeConversionDirection.FromContainingType;
             }
             uniqueIdentifier = AstIdentifier.TypeOperator(Requirement, direction, coercionType);
@@ -53,6 +53,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 if (this.requirement == null)
                     this.requirement = this.MemberInfo.GetTypeCoercionRequirement();
                 return this.requirement.Value;
+            }
+        }
+
+        private new ICompiledType Parent
+        {
+            get
+            {
+                return (ICompiledType) base.Parent;
             }
         }
 

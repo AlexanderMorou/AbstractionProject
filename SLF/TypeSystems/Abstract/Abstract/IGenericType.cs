@@ -24,14 +24,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         new bool IsGenericConstruct { get; }
 
         /// <summary>
-        /// Forces the system to revalidate the type-parameters used
-        /// for the given <see cref="IGenericType"/> instance.
-        /// </summary>
-        /// <exception cref="System.InvalidOperationException">thrown when the 
-        /// <see cref="IGenericType"/> is a generic type definition.</exception>
-        void ReverifyTypeParameters();
-
-        /// <summary>
         /// Returns a <see cref="IGenericType"/> instance that is 
         /// the closed generic form of the current <see cref="IGenericType"/> 
         /// using the <paramref name="typeParameters"/> provided.

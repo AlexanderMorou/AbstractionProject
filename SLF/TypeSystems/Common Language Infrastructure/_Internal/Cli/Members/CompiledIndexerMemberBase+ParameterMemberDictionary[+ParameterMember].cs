@@ -35,8 +35,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private class ParameterDictionary :
             LockedParameterMembersBase<TIndexer, IIndexerParameterMember<TIndexer, TIndexerParent>>
         {
-            public ParameterDictionary(TIndexer parent, IEnumerable<ParameterInfo> parameters)
-                : base(parent, parameters.Select(p => (IIndexerParameterMember<TIndexer, TIndexerParent>)new ParameterMember(p, parent)))
+            public ParameterDictionary(CompiledIndexerMemberBase<TIndexer, TIndexerParent, TIndexerMethod, TMethod, TMethodParent> parent, IEnumerable<ParameterInfo> parameters)
+                : base((TIndexer)(object)parent, parameters.Select(p => (IIndexerParameterMember<TIndexer, TIndexerParent>)new ParameterMember(p, parent)))
             {
             }
 
@@ -44,8 +44,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 CompiledParameterMemberBase<TIndexer>,
                 IIndexerParameterMember<TIndexer, TIndexerParent>
             {
-                public ParameterMember(ParameterInfo memberInfo, TIndexer parent)
-                    : base(memberInfo, parent)
+                public ParameterMember(ParameterInfo memberInfo, CompiledIndexerMemberBase<TIndexer, TIndexerParent, TIndexerMethod, TMethod, TMethodParent> parent)
+                    : base(memberInfo, (TIndexer)(object)parent, parent.Manager)
                 {
                 }
 

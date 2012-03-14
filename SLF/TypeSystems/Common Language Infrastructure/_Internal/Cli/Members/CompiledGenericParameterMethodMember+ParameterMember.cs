@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             IMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, TGenericParameter>
         {
             internal ParameterMember(ParameterInfo paramInfo, CompiledGenericParameterMethodMember<TGenericParameter> parent)
-                : base(paramInfo, parent)
+                : base(paramInfo, parent, parent.Manager)
             {
 
             }

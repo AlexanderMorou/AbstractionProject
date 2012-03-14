@@ -15,15 +15,16 @@ using AllenCopeland.Abstraction.Slf.Cli;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal class CompiledCustomAttributeInstance :
-        ICustomAttributeInstance
+        IMetadatum
     {
-        public CompiledCustomAttributeInstance(Attribute attribute, ICustomAttributedEntity declarationPoint)
+        private ICliManager manager;
+        public CompiledCustomAttributeInstance(Attribute attribute, IMetadataEntity declarationPoint, ICliManager manager)
         {
             this.DeclarationPoint = declarationPoint;
             this.WrappedAttribute = attribute;
         }
 
-        #region ICustomAttributeInstance Members
+        #region IMetadatum Members
 
         public IType Type
         {
@@ -31,13 +32,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.WrappedAttribute == null)
                     throw new InvalidOperationException();
-                return this.WrappedAttribute.GetType().GetTypeReference();
+                return manager.ObtainTypeReference(this.WrappedAttribute.GetType());
             }
         }
 
         public Attribute WrappedAttribute { get; private set; }
 
-        public ICustomAttributedEntity DeclarationPoint { get; private set; }
+        public IMetadataEntity DeclarationPoint { get; private set; }
 
         #endregion
 

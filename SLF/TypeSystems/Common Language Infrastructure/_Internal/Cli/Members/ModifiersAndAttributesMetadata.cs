@@ -19,6 +19,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private object _optionalLock = new object();
         private Func<bool, object[]> getCustomAttributes;
         private CompiledCustomAttributeCollection attributes;
+        private ICliManager manager;
+
+        public ModifiersAndAttributesMetadata(ICliManager manager)
+        {
+            this.manager = manager;
+        }
 
         protected abstract Type[] GetRequiredModifiers();
 
@@ -49,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                     lock (this._requiredLock)
                     {
                         if (this.requiredModifiers[i] == null)
-                            current = this.requiredModifiers[i] = requiredModifiers[i].GetTypeReference();
+                            current = this.requiredModifiers[i] = this.manager.ObtainTypeReference(requiredModifiers[i]);
                         else
                             current = this.requiredModifiers[i];
                     }
@@ -79,7 +85,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                     lock (this._optionalLock)
                     {
                         if (this.optionalModifiers[i] == null)
-                            current = this.optionalModifiers[i] = optionalModifiers[i].GetTypeReference();
+                            current = this.optionalModifiers[i] = this.manager.ObtainTypeReference(optionalModifiers[i]);
                         else
                             current = this.optionalModifiers[i];
                     }
@@ -90,24 +96,24 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
-        #region ICustomAttributedEntity Members
+        #region IMetadataEntity Members
 
-        public ICustomAttributeCollection CustomAttributes
+        public IMetadataCollection CustomAttributes
         {
             get
             {
                 lock (this._attributesLock)
                 {
                     if (this.attributes == null)
-                        this.attributes = new CompiledCustomAttributeCollection(this.GetCustomAttributes);
+                        this.attributes = new CompiledCustomAttributeCollection(this.GetCustomAttributes, this.manager);
                     return this.attributes;
                 }
             }
         }
 
-        public bool IsDefined(IType attributeType)
+        public bool IsDefined(IType metadatumType)
         {
-            return this.StandardIsDefined(attributeType);
+            return this.StandardIsDefined(metadatumType);
         }
 
         #endregion

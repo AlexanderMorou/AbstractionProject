@@ -10,37 +10,37 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>
-    /// Provides a series of custom attributes on a <see cref="ICustomAttributedEntity"/>.
+    /// Provides a series of custom attributes on a <see cref="IMetadataEntity"/>.
     /// </summary>
-    public interface ICustomAttributeCollection :
-        IReadOnlyCollection<ICustomAttributeInstance>,
+    public interface IMetadataCollection :
+        IReadOnlyCollection<IMetadatum>,
         IDisposable
     {
         /// <summary>
         /// Returns whether an attribute of the
-        /// <paramref name="attributeType"/> provided is in the 
-        /// <see cref="ICustomAttributeCollection"/>.
+        /// <paramref name="metadatumType"/> provided is in the 
+        /// <see cref="IMetadataCollection"/>.
         /// </summary>
-        /// <param name="attributeType">The type of attribute to check for.</param>
-        /// <returns>true if an attribute of the <paramref name="attributeType"/>
+        /// <param name="metadatumType">The type of attribute to check for.</param>
+        /// <returns>true if an attribute of the <paramref name="metadatumType"/>
         /// provided exists; false, otherwise.</returns>
-        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="attributeType"/> is null.</exception>
-        bool Contains(IType attributeType);
+        /// <exception cref="System.ArgumentNullException">thrown when <paramref name="metadatumType"/> is null.</exception>
+        bool Contains(IType metadatumType);
 
         /// <summary>
-        /// Returns the <see cref="ICustomAttributedEntity"/> which contains
-        /// the current <see cref="ICustomAttributeCollection"/>.
+        /// Returns the <see cref="IMetadataEntity"/> which contains
+        /// the current <see cref="IMetadataCollection"/>.
         /// </summary>
-        ICustomAttributedEntity Parent { get; }
+        IMetadataEntity Parent { get; }
         /// <summary>
-        /// Returns the <see cref="ICustomAttributeInstance"/> of the
-        /// <paramref name="attributeType"/> provided.
+        /// Returns the <see cref="IMetadatum"/> of the
+        /// <paramref name="metadatumType"/> provided.
         /// </summary>
-        /// <param name="attributeType">The <see cref="IType"/>
-        /// of the attribute to return the <see cref="ICustomAttributeInstance"/>
+        /// <param name="metadatumType">The <see cref="IType"/>
+        /// of the attribute to return the <see cref="IMetadatum"/>
         /// of.</param>
-        /// <returns>The <see cref="ICustomAttributeInstance"/> of the
-        /// <paramref name="attributeType"/> provided.</returns>
-        ICustomAttributeInstance this[IType attributeType] {get;}
+        /// <returns>The <see cref="IMetadatum"/> of the
+        /// <paramref name="metadatumType"/> provided.</returns>
+        IMetadatum this[IType metadatumType] {get;}
     }
 }

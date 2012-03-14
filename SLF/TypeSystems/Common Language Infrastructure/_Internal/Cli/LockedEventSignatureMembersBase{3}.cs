@@ -29,6 +29,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         where TEventParent :
             IEventSignatureParent<TEvent, TEventSignatureParameter, TEventParent>
     {
+
         internal LockedEventSignatureMembersBase(LockedFullMembersBase master, TEventParent parent, EventInfo[] sourceData, Func<EventInfo, TEvent> fetchImpl)
             : base(master, parent, sourceData, fetchImpl, GetName)
         {
@@ -44,7 +45,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IGeneralSignatureMemberUniqueIdentifier FetchKey(EventInfo item)
         {
-            return item.GetUniqueIdentifier();
+            return item.GetUniqueIdentifier(this.Manager);
         }
 
         #region IEventSignatureMemberDictionary<TEvent,TEventSignatureParameter,TEventParent> Members
@@ -60,6 +61,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         #endregion
+
+        protected override ICliManager Manager
+        {
+            get { return ((ICompiledType) this.Parent).Manager; }
+        }
 
 
         #region IEventSignatureMemberDictionary Members

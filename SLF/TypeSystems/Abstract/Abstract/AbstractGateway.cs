@@ -93,10 +93,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
 
-        public static bool StandardIsDefined(this ICustomAttributedEntity target, IType attributeType)
+        public static bool StandardIsDefined(this IMetadataEntity target, IType metadatumType)
         {
-            foreach (ICustomAttributeInstance inst in target.CustomAttributes)
-                if (attributeType.IsAssignableFrom(inst.Type))
+            foreach (IMetadatum inst in target.CustomAttributes)
+                if (metadatumType.IsAssignableFrom(inst.Type))
                     return true;
             return false;
         }

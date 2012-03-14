@@ -19,48 +19,63 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         /// <summary>
         /// Data member for <see cref="HideModuleNameAttribute"/>
         /// </summary>
-        private static IClassType hideModuleNameAttribute;
+        private IClassType hideModuleNameAttribute;
 
         /// <summary>
         /// Data member for <see cref="StandardModuleAttribute"/>
         /// </summary>
-        private static IClassType standardModuleAttribute;
-        private static IClassType applicationBase;
-        private static IClassType consoleApplicationBase;
-        private static IClassType generatedCodeAttribute;
-        #endregion 
+        private IClassType standardModuleAttribute;
+        private IClassType applicationBase;
+        private IClassType consoleApplicationBase;
+        private IClassType generatedCodeAttribute;
+        private ICliManager manager;
+
+        private static Dictionary<ICliManager, CommonVBTypeRefs> managerCache;
+        #endregion
+
+        internal static CommonVBTypeRefs GetCommonTypeRefs(ICliManager manager)
+        {
+            if (!managerCache.ContainsKey(manager))
+                managerCache.Add(manager, new CommonVBTypeRefs(manager));
+            return managerCache[manager];
+        }
+
+        private CommonVBTypeRefs(ICliManager manager)
+        {
+            this.manager = manager;
+        }
 
         #region Properties
 
-        public static IClassType ApplicationBase
+        public IClassType ApplicationBase
         {
             get
             {
-                if (CommonVBTypeRefs.applicationBase == null)
+                if (this.applicationBase == null)
                 {
 #if DEBUG
                     Debug.WriteLine("ApplicationBase initialized.");
 #endif
-                    CommonVBTypeRefs.applicationBase = typeof(ApplicationBase).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonVBTypeRefs.applicationBase.Disposed += new EventHandler(applicationBase_Disposed);
+                    this.applicationBase = (IClassType) this.manager.ObtainTypeReference(typeof(ApplicationBase));
+                    this.applicationBase.Disposed += new EventHandler(applicationBase_Disposed);
                 }
-                return CommonVBTypeRefs.applicationBase;
+                return this.applicationBase;
             }
         }
 
-        public static IClassType ConsoleApplicationBase
+        public IClassType ConsoleApplicationBase
         {
             get
             {
-                if (CommonVBTypeRefs.consoleApplicationBase == null)
+                if (this.consoleApplicationBase == null)
                 {
 #if DEBUG
                     Debug.WriteLine("ConsoleApplicationBase initialized.");
 #endif
-                    CommonVBTypeRefs.consoleApplicationBase = typeof(ConsoleApplicationBase).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonVBTypeRefs.consoleApplicationBase.Disposed += new EventHandler(consoleApplicationBase_Disposed);
+                    this.consoleApplicationBase = (IClassType) this.manager.ObtainTypeReference(typeof(ConsoleApplicationBase));
+                    this.consoleApplicationBase.Disposed += new EventHandler(consoleApplicationBase_Disposed);
                 }
-                return CommonVBTypeRefs.consoleApplicationBase;
+                return this.consoleApplicationBase;
             }
         }
 
@@ -68,19 +83,19 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         /// Returns the <see cref="IClassType"/> reference wrapper for the <see cref="HideModuleNameAttribute"/>
         /// system type.
         /// </summary>
-        public static IClassType HideModuleNameAttribute
+        public IClassType HideModuleNameAttribute
         {
             get
             {
-                if (CommonVBTypeRefs.hideModuleNameAttribute == null)
+                if (this.hideModuleNameAttribute == null)
                 {
 #if DEBUG
                     Debug.WriteLine("HideModuleNameAttribute initialized.");
 #endif
-                    CommonVBTypeRefs.hideModuleNameAttribute = typeof(HideModuleNameAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonVBTypeRefs.hideModuleNameAttribute.Disposed += new EventHandler(hideModuleNameAttribute_Disposed);
+                    this.hideModuleNameAttribute = (IClassType) this.manager.ObtainTypeReference(typeof(HideModuleNameAttribute));
+                    this.hideModuleNameAttribute.Disposed += new EventHandler(hideModuleNameAttribute_Disposed);
                 }
-                return CommonVBTypeRefs.hideModuleNameAttribute;
+                return this.hideModuleNameAttribute;
             }
         }
 
@@ -89,35 +104,35 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         /// <see cref="Microsoft.VisualBasic.CompilerServices.StandardModuleAttribute"/>
         /// system type.
         /// </summary>
-        public static IClassType StandardModuleAttribute
+        public IClassType StandardModuleAttribute
         {
             get
             {
-                if (CommonVBTypeRefs.standardModuleAttribute == null)
+                if (this.standardModuleAttribute == null)
                 {
 #if DEBUG
                     Debug.WriteLine("StandardModuleAttribute initialized.");
 #endif
-                    CommonVBTypeRefs.standardModuleAttribute = typeof(StandardModuleAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonVBTypeRefs.standardModuleAttribute.Disposed += CommonVBTypeRefs.standardModuleAttribute_Disposed;
+                    this.standardModuleAttribute = (IClassType) this.manager.ObtainTypeReference(typeof(StandardModuleAttribute));
+                    this.standardModuleAttribute.Disposed += this.standardModuleAttribute_Disposed;
                 }
-                return CommonVBTypeRefs.standardModuleAttribute;
+                return this.standardModuleAttribute;
             }
         }
 
-        public static IClassType GeneratedCodeAttribute
+        public IClassType GeneratedCodeAttribute
         {
             get
             {
-                if (CommonVBTypeRefs.generatedCodeAttribute == null)
+                if (this.generatedCodeAttribute == null)
                 {
 #if DEBUG
                     Debug.WriteLine("GeneratedCodeAttribute initialized");
 #endif
-                    CommonVBTypeRefs.generatedCodeAttribute = typeof(GeneratedCodeAttribute).GetTypeReference<IGeneralGenericTypeUniqueIdentifier, IClassType>();
-                    CommonVBTypeRefs.generatedCodeAttribute.Disposed += new EventHandler(generatedCodeAttribute_Disposed);
+                    this.generatedCodeAttribute = (IClassType) this.manager.ObtainTypeReference(typeof(GeneratedCodeAttribute));
+                    this.generatedCodeAttribute.Disposed += new EventHandler(generatedCodeAttribute_Disposed);
                 }
-                return CommonVBTypeRefs.generatedCodeAttribute;
+                return this.generatedCodeAttribute;
             }
         }
 
@@ -125,63 +140,63 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 
         #region Dispose Methods
 
-        static void applicationBase_Disposed(object sender, EventArgs e)
+        private void applicationBase_Disposed(object sender, EventArgs e)
         {
-            if (CommonVBTypeRefs.applicationBase != null)
+            if (this.applicationBase != null)
             {
 #if DEBUG
                 Debug.WriteLine("ApplicationBase Disposed.");
 #endif
-                CommonVBTypeRefs.applicationBase.Disposed -= applicationBase_Disposed;
-                CommonVBTypeRefs.applicationBase = null;
+                this.applicationBase.Disposed -= applicationBase_Disposed;
+                this.applicationBase = null;
             }
         }
 
-        static void consoleApplicationBase_Disposed(object sender, EventArgs e)
+        private void consoleApplicationBase_Disposed(object sender, EventArgs e)
         {
-            if (CommonVBTypeRefs.consoleApplicationBase != null)
+            if (this.consoleApplicationBase != null)
             {
 #if DEBUG
                 Debug.WriteLine("ConsoleApplicationBase Disposed.");
 #endif
-                CommonVBTypeRefs.consoleApplicationBase.Disposed -= consoleApplicationBase_Disposed;
-                CommonVBTypeRefs.consoleApplicationBase = null;
+                this.consoleApplicationBase.Disposed -= consoleApplicationBase_Disposed;
+                this.consoleApplicationBase = null;
             }
         }
 
-        static void hideModuleNameAttribute_Disposed(object sender, EventArgs e)
+        private void hideModuleNameAttribute_Disposed(object sender, EventArgs e)
         {
-            if (CommonVBTypeRefs.hideModuleNameAttribute != null)
+            if (this.hideModuleNameAttribute != null)
             {
 #if DEBUG
                 Debug.WriteLine("HideModuleNameAttribute Disposed.");
 #endif
-                CommonVBTypeRefs.hideModuleNameAttribute.Disposed -= hideModuleNameAttribute_Disposed;
-                CommonVBTypeRefs.hideModuleNameAttribute = null;
+                this.hideModuleNameAttribute.Disposed -= hideModuleNameAttribute_Disposed;
+                this.hideModuleNameAttribute = null;
             }
         }
 
-        static void standardModuleAttribute_Disposed(object sender, EventArgs e)
+        private void standardModuleAttribute_Disposed(object sender, EventArgs e)
         {
-            if (CommonVBTypeRefs.standardModuleAttribute != null)
+            if (this.standardModuleAttribute != null)
             {
 #if DEBUG
                 Debug.WriteLine("StandardModuleAttribute Disposed.");
 #endif
-                CommonVBTypeRefs.standardModuleAttribute.Disposed -= standardModuleAttribute_Disposed;
-                CommonVBTypeRefs.standardModuleAttribute = null;
+                this.standardModuleAttribute.Disposed -= standardModuleAttribute_Disposed;
+                this.standardModuleAttribute = null;
             }
         }
 
-        static void generatedCodeAttribute_Disposed(object sender, EventArgs e)
+        private void generatedCodeAttribute_Disposed(object sender, EventArgs e)
         {
-            if (CommonVBTypeRefs.generatedCodeAttribute != null)
+            if (this.generatedCodeAttribute != null)
             {
 #if DEBUG
                 Debug.WriteLine("GeneratedCodeAttribute Disposed.");
 #endif
-                CommonVBTypeRefs.generatedCodeAttribute.Disposed -= generatedCodeAttribute_Disposed;
-                CommonVBTypeRefs.generatedCodeAttribute = null;
+                this.generatedCodeAttribute.Disposed -= generatedCodeAttribute_Disposed;
+                this.generatedCodeAttribute = null;
             }
         }
         #endregion

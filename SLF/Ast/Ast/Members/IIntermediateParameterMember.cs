@@ -40,7 +40,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     /// </summary>
     public interface IIntermediateParameterMember :
         IIntermediateMember,
-        IIntermediateCustomAttributedEntity,
+        IIntermediateMetadataEntity,
         IParameterMember
     {
         /// <summary>

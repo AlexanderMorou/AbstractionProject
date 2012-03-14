@@ -28,8 +28,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             IMethodSignatureGenericTypeParameterMember
             //ICompiledGenericTypeParameter<TMethod>
         {
-            internal GenericParameterMember(TMethod parent, Type underlyingSystemType)
-                : base(parent, underlyingSystemType)
+            internal GenericParameterMember(TMethod parent, Type underlyingSystemType, ICliManager manager)
+                : base(parent, underlyingSystemType, manager)
             {
 
             }

@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic.My
         public MyApplicationClass(IIntermediateTypeParent parent)
             : base("MyApplication", parent)
         {
-            this.CustomAttributes.Add(new CustomAttributeDefinition.ParameterValueCollection(CommonTypeRefs.EditorBrowsableAttribute) { (int)EditorBrowsableState.Never }, new CustomAttributeDefinition.ParameterValueCollection(CommonVBTypeRefs.GeneratedCodeAttribute) { "MyTemplate", string.Format("{0}.0.0.0", (int)this.Assembly.Provider.Version) });
+            this.CustomAttributes.Add(new MetadatumDefinitionParameterValueCollection(CommonTypeRefs.EditorBrowsableAttribute) { (int)EditorBrowsableState.Never }, new MetadatumDefinitionParameterValueCollection(CommonVBTypeRefs.GeneratedCodeAttribute) { "MyTemplate", string.Format("{0}.0.0.0", (int)this.Assembly.Provider.Version) });
         }
 
         private MyApplicationClass(MyApplicationClass root, IIntermediateTypeParent parent)

@@ -33,12 +33,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// </summary>
         private TypeArrayCache arrayCache;
 
-        private static string _NamespaceName = "System";
-
         private PointerType pointer;
         private ByRefType byRef;
-        private ICustomAttributeCollection customAttributes;
-        private static INamespaceDeclaration @namespace;
+        private IMetadataCollection customAttributes;
         private IGenericType actualType;
         /// <summary>
         /// Creates a new <see cref="NullableType"/> with the 
@@ -177,7 +174,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public bool IsSubclassOf(IType other)
         {
-            if (other.Equals(typeof(ValueType).GetTypeReference()))
+            if (other.Equals(this.BaseType))
                 return true;
             return false;
         }
@@ -196,7 +193,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         {
             get
             {
-                return _Namespace;
+                return this.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.NullableBaseType).Namespace;
             }
         }
 
@@ -204,42 +201,16 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         {
             get
             {
-                return _NamespaceName;
-            }
-        }
-
-        private static INamespaceDeclaration _Namespace
-        {
-            get
-            {
-                if (@namespace == null)
-                {
-                    var assem = typeof(Nullable<>).Assembly.GetAssemblyReference();
-                    @namespace = assem.Namespaces[_NamespaceName];
-                    @namespace.Disposed += new EventHandler(namespace_Disposed);
-                }
-                return @namespace;
-            }
-        }
-
-        static void namespace_Disposed(object sender, EventArgs e)
-        {
-            if (@namespace != null)
-            {
-                @namespace.Disposed -= new EventHandler(namespace_Disposed);
-                @namespace = null;
-            }
-            else if (sender is INamespaceDeclaration)
-            {
-                var ns = (INamespaceDeclaration)sender;
-                ns.Disposed -= new EventHandler(namespace_Disposed);
-                ns = null;
+                return Namespace.Name;
             }
         }
 
         public IType BaseType
         {
-            get { return typeof(ValueType).GetTypeReference(); }
+            get
+            {
+                return this.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.NullableBaseType);
+            }
         }
 
         public ILockedTypeCollection ImplementedInterfaces
@@ -249,7 +220,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public IAssembly Assembly
         {
-            get { return typeof(Nullable<>).Assembly.GetAssemblyReference(); }
+            get { return this.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.NullableBaseType).Assembly; }
         }
 
         public IFullMemberDictionary Members
@@ -271,7 +242,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         {
             if (this.actualType != null)
             {
-                this.actualType = ((IGenericType)(typeof(Nullable<>).GetTypeReference()))
+                this.actualType = ((IGenericType)(this.elementType.Manager.ObtainTypeReference(typeof(Nullable<>))))
                     .MakeGenericClosure(this.elementType);
             }
         }
@@ -366,9 +337,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 this.arrayCache = new TypeArrayCache(this, k => new ArrayType(this, k), l => new ArrayType(this, l));
         }
 
-        #region ICustomAttributedEntity Members
+        #region IMetadataEntity Members
 
-        public ICustomAttributeCollection CustomAttributes
+        public IMetadataCollection CustomAttributes
         {
             get
             {
@@ -378,12 +349,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
         }
 
-        public bool IsDefined(IType attributeType)
+        public bool IsDefined(IType metadatumType)
         {
             return false;
         }
 
-        public bool IsDefined(IType attributeType, bool inherited)
+        public bool IsDefined(IType metadatumType, bool inherited)
         {
             return false;
         }
@@ -394,6 +365,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         {
             return this.BuildTypeName(true);
         }
+
+        public ITypeIdentityManager Manager { get { return this.ElementType.Manager; } }
 
 
         #region IType Members

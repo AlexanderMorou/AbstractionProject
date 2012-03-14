@@ -92,17 +92,17 @@
     <Compile Include="Cli\AstIdentifier+IdentifierDefaults.cs" />
     <Compile Include="Cli\AstIdentifier.cs" />
     <Compile Include="Cli\ByRefType.cs" />
-    <Compile Include="Cli\CLICommon.cs" />
+    <Compile Include="Cli\CliCommon.cs" />
     <Compile Include="Cli\CLICommon+BinaryOperatorNames.cs">
-      <DependentUpon>CLICommon.cs</DependentUpon>
+      <DependentUpon>CliCommon.cs</DependentUpon>
     </Compile>
     <Compile Include="Cli\CLICommon+TypeCoercionNames.cs">
-      <DependentUpon>CLICommon.cs</DependentUpon>
+      <DependentUpon>CliCommon.cs</DependentUpon>
     </Compile>
     <Compile Include="Cli\CLICommon+UnaryOperatorNames.cs">
-      <DependentUpon>CLICommon.cs</DependentUpon>
+      <DependentUpon>CliCommon.cs</DependentUpon>
     </Compile>
-    <Compile Include="Cli\CLIGateway.cs" />
+    <Compile Include="Cli\CliGateway.cs" />
     <Compile Include="Cli\CommonTypeRefs.cs" />
     <Compile Include="Cli\GenericTypeCache.cs" />
     <Compile Include="Cli\ICompiledAssembly.cs" />
@@ -135,6 +135,7 @@
     <Compile Include="Cli\PointerType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_Internal\Cli\CliAssist.cs" />
+    <Compile Include="_Internal\Cli\CliManager.cs" />
     <Compile Include="_Internal\Cli\CompiledAssembly+CustomAttributeCollection+CustomAttributeInstance.cs">
       <DependentUpon>CompiledAssembly+CustomAttributeCollection.cs</DependentUpon>
     </Compile>
@@ -274,7 +275,7 @@
     </Compile>
     <Compile Include="_Internal\Cli\CompiledTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\CompiledTypeGenericParameter.cs" />
-    <Compile Include="_Internal\Cli\GenericVerificationParameter.cs" />
+    <Compile Include="Cli\ICliManager.cs" />
     <Compile Include="_Internal\Cli\ICompiledTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\ICompiledTypeParent.cs" />
     <Compile Include="_Internal\Cli\LockedConstructorMembers`2.cs" />
@@ -386,6 +387,8 @@
     <Compile Include="_Internal\Cli\Members\FullMembersBase.cs" />
     <Compile Include="_Internal\Cli\Members\GenericParameterConstructorMemberBase`3.cs" />
     <Compile Include="_Internal\Cli\Members\GroupedMembersBase{TParent, TItem}.cs" />
+    <Compile Include="_Internal\Cli\Members\_ICompiledMethodSignatureMember.cs" />
+    <Compile Include="_Internal\Cli\Members\_ICompiledMethodSignatureParent.cs" />
     <Compile Include="_Internal\Cli\Members\IndexerMemberBase.cs" />
     <Compile Include="_Internal\Cli\Members\IndexerSignatureMemberBase.cs" />
     <Compile Include="_Internal\Cli\Members\LockedBinaryOperatorCoercionMembers{TType}.cs" />

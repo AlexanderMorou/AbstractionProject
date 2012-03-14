@@ -171,8 +171,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     var value = values[i];
                     if (value.Subordinate != subordinate)
                         continue;
-                    if (!(this.Keys[i] is TSKey))
-                        continue;
                     if (!(value is TSValue))
                         continue;
                     yield return new KeyValuePair<TMItemIdentifier, MasterDictionaryEntry<TMItem>>(this.Keys[i], value);

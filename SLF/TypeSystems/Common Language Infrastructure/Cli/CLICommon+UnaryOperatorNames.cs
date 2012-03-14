@@ -11,7 +11,7 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
-    partial class CLICommon
+    partial class CliCommon
     {
         /// <summary>
         /// Defines a series of constant string values which denote the

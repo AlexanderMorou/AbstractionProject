@@ -48,7 +48,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// </summary>
         private ILockedTypeCollection genericParameters;
 
-        private ICustomAttributeCollection customAttributes;
+        private IMetadataCollection customAttributes;
 
         protected MethodSignatureMemberBase(TSignatureParent parent)
             : base(parent)
@@ -164,7 +164,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// </returns>
         public override string ToString()
         {
-            return this.UniqueIdentifier.ToString();
+            return string.Format(this.UniqueIdentifier.ToString(this.Parent.ToString()));
         }
 
         #region IMethodSignatureMember<TSignatureParameter,TSignature,TSignatureParent> Members
@@ -218,7 +218,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         protected abstract IType OnGetReturnType();
 
         protected abstract IModifiersAndAttributesMetadata OnGetReturnMetadata();
-        protected abstract ICustomAttributeCollection OnGetCustomAttributes();
+        protected abstract IMetadataCollection OnGetCustomAttributes();
 
         #region IMethodSignatureMember<TSignatureParameter,TSignature,TSignatureParent> Members
 
@@ -287,7 +287,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             }
         }
 
-        public ICustomAttributeCollection CustomAttributes
+        public IMetadataCollection CustomAttributes
         {
             get
             {
@@ -302,9 +302,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             }
         }
 
-        public bool IsDefined(IType attributeType)
+        public bool IsDefined(IType metadatumType)
         {
-            return this.StandardIsDefined(attributeType);
+            return this.StandardIsDefined(metadatumType);
         }
     }
 }

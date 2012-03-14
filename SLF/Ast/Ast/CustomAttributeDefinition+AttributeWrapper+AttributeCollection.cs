@@ -11,15 +11,15 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
-    partial class CustomAttributeDefinition
+    partial class MetadatumDefinition
     {
         partial class AttributeWrapper
         {
             private class _AttributeCollection :
                 AttributeCollection
             {
-                private CustomAttributeDefinition attr;
-                public _AttributeCollection(CustomAttributeDefinition attr, AttributeWrapper[] attributes)
+                private MetadatumDefinition attr;
+                public _AttributeCollection(MetadatumDefinition attr, AttributeWrapper[] attributes)
                     : base(attributes)
                 {
                     this.attr = attr;

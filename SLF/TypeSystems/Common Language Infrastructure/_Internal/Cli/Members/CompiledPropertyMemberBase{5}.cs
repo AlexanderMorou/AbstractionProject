@@ -59,10 +59,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override IType OnGetPropertyType()
         {
-            IType t = this.MemberInfo.PropertyType.GetTypeReference();
-            if (this.Parent is IGenericType && t.ContainsGenericParameters())
-                t = t.Disambiguify(((IGenericType)base.Parent).GenericParameters, null, TypeParameterSources.Type);
-            return t;
+            return ((ICompiledType) this.Parent).Manager.ObtainTypeReference(this.MemberInfo.PropertyType);
         }
 
         protected override sealed TPropertyMethod OnGetMethod(PropertyMethodType methodType)
@@ -289,9 +286,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
+        private ICliManager Manager
+        {
+            get
+            {
+                return ((ICompiledType) (this.Parent)).Manager;
+            }
+        }
         protected override IModifiersAndAttributesMetadata InitializeMetadata()
         {
-            return new AnonymousModifiersAndAttributesMetadata(this.MemberInfo.GetRequiredCustomModifiers, this.MemberInfo.GetOptionalCustomModifiers, this.MemberInfo.GetCustomAttributes);
+            return new AnonymousModifiersAndAttributesMetadata(this.MemberInfo.GetRequiredCustomModifiers, this.MemberInfo.GetOptionalCustomModifiers, this.MemberInfo.GetCustomAttributes, this.Manager);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -20,8 +21,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             CompiledGenericParameterMemberBase<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember>,
             IMethodSignatureGenericTypeParameterMember
         {
-            public GenericParameterMember(CompiledGenericParameterMethodMember<TGenericParameter> parent, Type underlyingSystemType)
-                : base(parent, underlyingSystemType)
+            public GenericParameterMember(CompiledGenericParameterMethodMember<TGenericParameter> parent, Type underlyingSystemType, ICliManager manager)
+                : base(parent, underlyingSystemType, manager)
             {
             }
 

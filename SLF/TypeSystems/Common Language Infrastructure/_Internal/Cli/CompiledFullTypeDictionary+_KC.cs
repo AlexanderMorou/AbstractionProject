@@ -57,7 +57,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (index < 0 || index >= this.Count)
                     throw new ArgumentOutOfRangeException("index");
-                this.dataCopy[index] = this.parent.parent.UnderlyingSystemTypes[index].GetUniqueIdentifier();
+                this.dataCopy[index] = this.parent.parent.UnderlyingSystemTypes[index].GetUniqueIdentifier(this.parent.parent.Manager);
             }
             public override void CopyTo(IGeneralTypeUniqueIdentifier[] array, int arrayIndex = 0)
             {
@@ -126,7 +126,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 var types = this.parent.parent.UnderlyingSystemTypes;
                 for (int i = 0; i < this.dataCopy.Length; i++)
                 {
-                    this.dataCopy[i] = types[i].GetUniqueIdentifier();
+                    this.dataCopy[i] = types[i].GetUniqueIdentifier(this.parent.parent.Manager);
                     yield return dataCopy[i];
                 }
                 yield break;

@@ -21,42 +21,42 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 {
     /// <summary>
     /// Provides an implementation of a custom attribute definition for
-    /// <see cref="ICustomAttributedEntity"/> instances.
+    /// <see cref="IMetadataEntity"/> instances.
     /// </summary>
-    public sealed partial class CustomAttributeDefinition :
-        ICustomAttributeDefinition
+    public sealed partial class MetadatumDefinition :
+        IMetadatumDefinition
     {
         /* *
          * Created upon request.
          * */
         private Attribute wrappedAttribute;
-        private IIntermediateCustomAttributedEntity declarationPoint;
-        private CustomAttributeDefinitionParameterCollection parameters;
-        private IType attributeType;
+        private IIntermediateMetadataEntity declarationPoint;
+        private MetadatumDefinitionParameterCollection parameters;
+        private IType metadatumType;
 
         /// <summary>
-        /// Creates a new <see cref="CustomAttributeDefinition"/>
+        /// Creates a new <see cref="MetadatumDefinition"/>
         /// with the <paramref name="declarationPoint"/> provided.
         /// </summary>
-        /// <param name="declarationPoint">The <see cref="IIntermediateCustomAttributedEntity"/>
-        /// on which the current <see cref="CustomAttributeDefinition"/>
+        /// <param name="declarationPoint">The <see cref="IIntermediateMetadataEntity"/>
+        /// on which the current <see cref="MetadatumDefinition"/>
         /// is declared.</param>
-        /// <param name="data">The <see cref="CustomAttributeDefinition.ParameterValueCollection"/>
-        /// which contains the information about the <see cref="CustomAttributeDefinition"/>.</param>
+        /// <param name="data">The <see cref="MetadatumDefinitionParameterValueCollection"/>
+        /// which contains the information about the <see cref="MetadatumDefinition"/>.</param>
         /// <exception cref="System.ArgumentException">thrown when the <paramref name="data"/> points to a compiled attribute type
         /// which has no public constructor that matches the values given, or a property referenced in the named value series did not exist.-or-
-        /// <paramref name="data"/>'s <see cref="CustomAttributeDefinition.ParameterValueCollection.AttributeType"/> contains a type
+        /// <paramref name="data"/>'s <see cref="MetadatumDefinitionParameterValueCollection.AttributeType"/> contains a type
         /// which does not have properties, or is not an attribute.</exception>
         /// <exception cref="System.ArgumentNullException"><paramref name="declarationPoint"/> is null; -or-
-        /// <paramref name="data"/>'s <see cref="CustomAttributeDefinition.ParameterValueCollection.AttributeType"/> is null.</exception>
-        public CustomAttributeDefinition(IIntermediateCustomAttributedEntity declarationPoint, CustomAttributeDefinition.ParameterValueCollection data)
+        /// <paramref name="data"/>'s <see cref="MetadatumDefinitionParameterValueCollection.AttributeType"/> is null.</exception>
+        public MetadatumDefinition(IIntermediateMetadataEntity declarationPoint, MetadatumDefinitionParameterValueCollection data)
         {
             if (data.AttributeType == null)
                 throw new ArgumentNullException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_ArgumentNull_CustomAttribute_ctor_data, "data"), "data");
             if (!typeof(Attribute).GetTypeReference().IsAssignableFrom(data.AttributeType))
                 throw new ArgumentException(Resources.Exception_Argument_CustomAttribute_Type_MustBeAttribute, "value");
             this.declarationPoint = declarationPoint;
-            this.attributeType = data.AttributeType;
+            this.metadatumType = data.AttributeType;
             this.AddSeries(data);
             if (!this.VerifyAttributeType())
                 throw new ArgumentException("data");
@@ -64,22 +64,22 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         private bool VerifyAttributeType()
         {
-            if (this.attributeType is ICompiledType)
+            if (this.metadatumType is ICompiledType)
             {
-                if (this.attributeType is ICreatableParent)
+                if (this.metadatumType is ICreatableParent)
                 {
                     if (this.parameters != null)
                     {
-                        if (this.Parameters.Any(q => q is ICustomAttributeDefinitionNamedParameter))
-                            if (!(this.attributeType is IPropertyParent))
+                        if (this.Parameters.Any(q => q is IMetadatumDefinitionNamedParameter))
+                            if (!(this.metadatumType is IPropertyParent))
                                 return false;
                             else
                             {
-                                IEnumerable<ICustomAttributeDefinitionNamedParameter> namedParameters =
+                                IEnumerable<IMetadatumDefinitionNamedParameter> namedParameters =
                                     from p in this.Parameters
-                                    where p is ICustomAttributeDefinitionNamedParameter
-                                    select (ICustomAttributeDefinitionNamedParameter)p;
-                                IPropertyParent propertyParent = ((IPropertyParent)(this.attributeType));
+                                    where p is IMetadatumDefinitionNamedParameter
+                                    select (IMetadatumDefinitionNamedParameter)p;
+                                IPropertyParent propertyParent = ((IPropertyParent)(this.metadatumType));
                                 foreach (var propertyValue in namedParameters)
                                     if (!propertyParent.Properties.ContainsKey(propertyValue.Name))
                                         return false;
@@ -90,11 +90,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     if (parameters != null)
                         ctorSignature =
                             from r in this.Parameters
-                            where !(r is ICustomAttributeDefinitionNamedParameter)
+                            where !(r is IMetadatumDefinitionNamedParameter)
                             select r.Value.GetType().GetTypeReference();
                     else
                         ctorSignature = TypeCollection.Empty;
-                    ICreatableParent creatableParent = (ICreatableParent)this.attributeType;
+                    ICreatableParent creatableParent = (ICreatableParent)this.metadatumType;
                     if (creatableParent.Constructors.Find(false, ctorSignature.ToCollection()).Count == 0)
                         return false;
                 }
@@ -102,7 +102,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     return false;
                 return true;
             }
-            else if (this.attributeType is IIntermediateClassType)
+            else if (this.metadatumType is IIntermediateClassType)
             {
                 return true;
             }
@@ -110,17 +110,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return false;
         }
 
-        #region ICustomAttributeDefinition Members
+        #region IMetadatumDefinition Members
 
         public IType Type
         {
             get
             {
-                return this.attributeType;
+                return this.metadatumType;
             }
             set
             {
-                if (value == this.attributeType)
+                if (value == this.metadatumType)
                     return;
                 if (value == null)
                     throw new ArgumentNullException("value");
@@ -128,18 +128,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     this.wrappedAttribute = null;
                 if (!typeof(Attribute).GetTypeReference().IsAssignableFrom(value))
                     throw new ArgumentException(Resources.Exception_Argument_CustomAttribute_Type_MustBeAttribute, "value");
-                this.attributeType = value;
+                this.metadatumType = value;
                 if (!this.VerifyAttributeType())
                     throw new ArgumentException("value");
             }
         }
 
-        public IIntermediateCustomAttributedEntity DeclarationPoint
+        public IIntermediateMetadataEntity DeclarationPoint
         {
             get { return this.declarationPoint; }
         }
 
-        public ICustomAttributeDefinitionParameterCollection Parameters
+        public IMetadataDefinitionParameterCollection Parameters
         {
             get
             {
@@ -152,9 +152,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             if (this.parameters == null)
             {
-                this.parameters = new CustomAttributeDefinitionParameterCollection(this);
-                this.parameters.NamedParameterChangedName += new EventHandler<AllenCopeland.Abstraction.Utilities.Events.EventArgsR1<ICustomAttributeDefinitionNamedParameter>>(parameters_NamedParameterChangedName);
-                this.parameters.NamedParameterChangedValue += new EventHandler<AllenCopeland.Abstraction.Utilities.Events.EventArgsR1<ICustomAttributeDefinitionNamedParameter>>(parameters_NamedParameterChangedValue);
+                this.parameters = new MetadatumDefinitionParameterCollection(this);
+                this.parameters.NamedParameterChangedName += new EventHandler<AllenCopeland.Abstraction.Utilities.Events.EventArgsR1<IMetadatumDefinitionNamedParameter>>(parameters_NamedParameterChangedName);
+                this.parameters.NamedParameterChangedValue += new EventHandler<AllenCopeland.Abstraction.Utilities.Events.EventArgsR1<IMetadatumDefinitionNamedParameter>>(parameters_NamedParameterChangedValue);
                 this.parameters.NamelessParametersChanged += new EventHandler(parameters_NamelessParametersChanged);
             }
         }
@@ -165,16 +165,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 this.wrappedAttribute = null;
         }
 
-        void parameters_NamedParameterChangedValue(object sender, EventArgsR1<ICustomAttributeDefinitionNamedParameter> e)
+        void parameters_NamedParameterChangedValue(object sender, EventArgsR1<IMetadatumDefinitionNamedParameter> e)
         {
             //Needless if the wrapped attribute isn't instantiated.
             if (this.wrappedAttribute == null)
                 return;
-            if (this.attributeType is ICompiledType)
+            if (this.metadatumType is ICompiledType)
             {
-                if (!(this.attributeType is IPropertyParent))
+                if (!(this.metadatumType is IPropertyParent))
                     throw new InvalidOperationException();
-                IPropertyParent parent = ((IPropertyParent)(this.attributeType));
+                IPropertyParent parent = ((IPropertyParent)(this.metadatumType));
                 if (parent.Properties.ContainsKey(e.Arg1.Name))
                 {
                     ICompiledPropertyMember property = (ICompiledPropertyMember)parent.Properties[e.Arg1.Name];
@@ -186,7 +186,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
-        void parameters_NamedParameterChangedName(object sender, EventArgsR1<ICustomAttributeDefinitionNamedParameter> e)
+        void parameters_NamedParameterChangedName(object sender, EventArgsR1<IMetadatumDefinitionNamedParameter> e)
         {
             if (this.wrappedAttribute != null)
                 this.wrappedAttribute = null;
@@ -194,7 +194,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #endregion
 
-        #region ICustomAttributeInstance Members
+        #region IMetadatum Members
 
 
         public Attribute WrappedAttribute
@@ -206,13 +206,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     List<object> ctorParamValues = new List<object>();
                     Dictionary<string, object> ctorParamNamedValues = new Dictionary<string, object>();
                     foreach (var item in this.Parameters)
-                        if (!(item is ICustomAttributeDefinitionNamedParameter))
+                        if (!(item is IMetadatumDefinitionNamedParameter))
                         {
                             ctorParamTypes.Add(item.Value.GetType().GetTypeReference());
                             ctorParamValues.Add(item.Value);
                         }
                         else
-                            ctorParamNamedValues.Add(((ICustomAttributeDefinitionNamedParameter)(item)).Name, item.Value);
+                            ctorParamNamedValues.Add(((IMetadatumDefinitionNamedParameter)(item)).Name, item.Value);
                     if (this.Type is ICreatableParent)
                     {
                         ICreatableParent creatableType = (ICreatableParent)this.Type;
@@ -244,7 +244,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
-        ICustomAttributedEntity ICustomAttributeInstance.DeclarationPoint
+        IMetadataEntity IMetadatum.DeclarationPoint
         {
             get { return this.DeclarationPoint; }
         }
@@ -258,13 +258,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (this.parameters != null)
                 this.Parameters.Dispose();
             this.declarationPoint = null;
-            this.attributeType = null;
+            this.metadatumType = null;
             this.wrappedAttribute = null;
         }
 
         #endregion
 
-        internal void AddSeries(CustomAttributeDefinition.ParameterValueCollection values)
+        internal void AddSeries(MetadatumDefinitionParameterValueCollection values)
         {
             if (values.Count() > 0)
             {

@@ -71,7 +71,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     /// </summary>
     public interface IIntermediateMethodSignatureMember :
         IIntermediateSignatureMember,
-        IIntermediateCustomAttributedEntity,
+        IIntermediateMetadataEntity,
         IIntermediateGenericParameterParent<IMethodSignatureGenericTypeParameterMember, IIntermediateMethodSignatureGenericTypeParameterMember, IMethodSignatureMember, IIntermediateMethodSignatureMember>,
         IIntermediateMember,
         IMethodSignatureMember

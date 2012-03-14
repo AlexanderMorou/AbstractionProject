@@ -15,13 +15,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     /// Defines properties and methods for working with a declaration that can contain
     /// a series of custom attribute definition series.
     /// </summary>
-    public interface IIntermediateCustomAttributedEntity :
-        ICustomAttributedEntity
+    public interface IIntermediateMetadataEntity :
+        IMetadataEntity
     {
         /// <summary>
-        /// Returns the <see cref="ICustomAttributeDefinitionCollectionSeries"/> associated
-        /// to the current <see cref="IIntermediateCustomAttributedEntity"/>.
+        /// Returns the <see cref="IMetadataDefinitionCollection"/> associated
+        /// to the current <see cref="IIntermediateMetadataEntity"/>.
         /// </summary>
-        new ICustomAttributeDefinitionCollectionSeries CustomAttributes { get; }
+        new IMetadataDefinitionCollection CustomAttributes { get; }
     }
 }

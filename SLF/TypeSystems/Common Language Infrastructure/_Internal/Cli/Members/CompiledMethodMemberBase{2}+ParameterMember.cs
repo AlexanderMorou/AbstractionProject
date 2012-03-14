@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             IMethodParameterMember
         {
             public ParameterMember(ParameterInfo paramInfo, CompiledMethodMemberBase<TMethod, TMethodParent> parent)
-                : base(paramInfo, (TMethod)(object)parent)
+                : base(paramInfo, (TMethod)(object)parent, parent.Manager)
             {
             }
 

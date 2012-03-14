@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -20,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             IConstructorParameterMember<IGenericParameterConstructorMember<TGenericParameter>, TGenericParameter>
         {
             public Parameter(ParameterInfo parameterInfo, IGenericParameterConstructorMember<TGenericParameter> parent)
-                : base(parameterInfo, parent)
+                : base(parameterInfo, parent, ((ICompiledType)parent.Parent).Manager)
             {
 
             }

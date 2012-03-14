@@ -39,6 +39,37 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         where TSignatureParent :
             ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
     {
+
+        private ICliManager manager;
+        protected override ICliManager Manager
+        {
+            get
+            {
+                if (this.manager == null)
+                {
+                    var parent = this.Parent as ICompiledType;
+                    if (parent == null)
+                    {
+                        var aParent = this.Parent as ICompiledAssembly;
+                        if (aParent == null)
+                        {
+                            var nParent = this.Parent as INamespaceDeclaration;
+                            if (nParent == null ||
+                                !(nParent.Assembly is ICompiledAssembly))
+                                throw new InvalidOperationException();
+                            else
+                                manager = (nParent.Assembly as ICompiledAssembly).Manager;
+                        }
+                        else
+                            manager = aParent.Manager;
+                    }
+                    else
+                        manager = parent.Manager;
+                }
+                return manager;
+            }
+        }
+
         /// <summary>
         /// Creates a new 
         /// <see cref="LockedMethodSignatureMembersBase{TSignatureParameter, TSignature, TSignatureParent}"/> 
@@ -163,7 +194,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, ITypeCollection search)
         {
-            return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, this.Values, name, search, strict);
+            return CliCommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, this.Values, name, search, strict);
         }
 
         public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, ITypeCollection search)
@@ -173,7 +204,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, params IType[] search)
         {
-            return CLICommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, this.Values, name, search, strict);
+            return CliCommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, this.Values, name, search, strict);
         }
 
         public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, params IType[] search)
@@ -233,15 +264,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
+
         protected override IGeneralGenericSignatureMemberUniqueIdentifier FetchKey(MethodInfo item)
         {
             if (item.IsGenericMethod)
                 return AstIdentifier.GenericSignature(item.Name, item.GetGenericArguments().Length, (from parameter in item.GetParameters()
-                                                                                                     select parameter.ParameterType.GetTypeReference()).SinglePass());
+                                                                                                     select this.Manager.ObtainTypeReference(parameter.ParameterType)).SinglePass());
             else
                 return AstIdentifier.GenericSignature(item.Name, (from parameter in item.GetParameters()
-                                                                  select parameter.ParameterType.GetTypeReference()).SinglePass());
+                                                                  select this.Manager.ObtainTypeReference(parameter.ParameterType)).SinglePass());
         }
-
     }
 }

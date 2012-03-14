@@ -28,7 +28,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         CompiledGenericTypeBase<IGeneralGenericTypeUniqueIdentifier, IInterfaceType>,
         ICompiledInterfaceType,
         IEventSignatureParent,
-        _ICompiledTypeParent
+        _ICompiledTypeParent,
+        _ICompiledMethodSignatureParent
     {
         private IMethodSignatureMemberDictionary<IInterfaceMethodMember, IInterfaceType> methods;
         private IPropertySignatureMemberDictionary<IInterfacePropertyMember, IInterfaceType> properties;
@@ -59,6 +60,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         private CompiledFullTypeDictionary types;
         private Type[] underlyingSystemTypes;
+        private MethodInfo[] methodMembers;
 
         /// <summary>
         /// Creates a new <see cref="CompiledInterfaceType"/> with the 
@@ -66,8 +68,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         /// <param name="underlyingSystemType">The <see cref="System.Type"/> from which the current
         /// <see cref="CompiledInterfaceType"/> is based.</param>
-        internal CompiledInterfaceType(Type underlyingSystemType) 
-            : base(underlyingSystemType)
+        internal CompiledInterfaceType(Type underlyingSystemType, ICliManager manager)
+            : base(underlyingSystemType, manager)
         {
             if (!underlyingSystemType.IsInterface)
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.underlyingSystemType, ExceptionMessageId.CompiledType_NotProperKind, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.@interface));
@@ -92,8 +94,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private IMethodSignatureMemberDictionary<IInterfaceMethodMember, IInterfaceType> InitializeMethods()
         {
             return new LockedMethodSignatureMembersBase<IInterfaceMethodMember, IInterfaceType>(((LockedFullMembersBase)(this._Members)),
-                ((IInterfaceType)(this)), UnderlyingSystemType.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static).Filter(method =>
-                !method.IsSpecialName), new Func<MethodInfo,IInterfaceMethodMember>(GetMethod));
+                ((IInterfaceType) (this)), this.MethodInfos, new Func<MethodInfo, IInterfaceMethodMember>(GetMethod));
         }
 
         private IEventSignatureMemberDictionary<IInterfaceEventMember, IInterfaceType> InitializeEvents()
@@ -462,6 +463,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         orderby identifier.Name
                         select identifier).SinglePass();
             }
+        }
+    
+        #region _ICompiledMethodSignatureParent Members
+
+        public MethodInfo[] MethodInfos
+        {
+            get {
+                if (this.methodMembers == null)
+                    this.methodMembers = this.UnderlyingSystemType.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static)
+                        .Filter(method => !method.IsSpecialName);
+                return this.methodMembers;
+            }
+        }
+
+        #endregion
+
+        public _ICompiledMethodSignatureMember GetSignatureFor(MethodBase info)
+        {
+            return (_ICompiledMethodSignatureMember) ((LockedMethodSignatureMembersBase<IInterfaceMethodMember, IInterfaceType>) this.Methods).FetchByItem((MethodInfo) info);
         }
     }
 }

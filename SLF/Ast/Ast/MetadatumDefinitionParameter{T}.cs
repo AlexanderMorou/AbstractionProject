@@ -13,33 +13,33 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     /// <summary>
     /// Provides a base class for custom attribute constructor parameters.
     /// </summary>
-    /// <typeparam name="T">The type of value the <see cref="CustomAttributeDefinitionParameter{T}"/>
+    /// <typeparam name="T">The type of value the <see cref="MetadatumDefinitionParameter{T}"/>
     /// is.</typeparam>
-    public class CustomAttributeDefinitionParameter<T> :
-        ICustomAttributeDefinitionParameter<T>
+    public class MetadatumDefinitionParameter<T> :
+        IMetadatumDefinitionParameter<T>
     {
         private T value;
-        internal CustomAttributeDefinitionParameterCollection Owner { get; private set; }
+        internal MetadatumDefinitionParameterCollection Owner { get; private set; }
         /// <summary>
-        /// Creates a new <see cref="CustomAttributeDefinitionParameter{T}"/> with the
+        /// Creates a new <see cref="MetadatumDefinitionParameter{T}"/> with the
         /// <paramref name="value"/> provided.
         /// </summary>
         /// <param name="value">The <typeparamref name="T"/> instance
-        /// which the <see cref="CustomAttributeDefinitionParameter{T}"/> is typed as.</param>
-        /// <param name="owner">The <see cref="CustomAttributeDefinitionParameterCollection"/>
-        /// which contains the <see cref="CustomAttributeDefinitionParameter{T}"/>.</param>
-        internal CustomAttributeDefinitionParameter(T value, CustomAttributeDefinitionParameterCollection owner)
+        /// which the <see cref="MetadatumDefinitionParameter{T}"/> is typed as.</param>
+        /// <param name="owner">The <see cref="MetadatumDefinitionParameterCollection"/>
+        /// which contains the <see cref="MetadatumDefinitionParameter{T}"/>.</param>
+        internal MetadatumDefinitionParameter(T value, MetadatumDefinitionParameterCollection owner)
         {
             this.value = value;
             this.Owner = owner;
         }
 
-        #region ICustomAttributeDefinitionParameter<T> Members
+        #region IMetadatumDefinitionParameter<T> Members
 
         /// <summary>
         /// Returns/sets the <typeparamref name="T"/> 
         /// value defined on one of the 
-        /// <see cref="CustomAttributeDefinition"/>'s
+        /// <see cref="MetadatumDefinition"/>'s
         /// constructor argument(s).
         /// </summary>
         public T Value
@@ -60,9 +60,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #endregion
 
-        #region ICustomAttributeDefinitionParameter Members
+        #region IMetadatumDefinitionParameter Members
 
-        object ICustomAttributeDefinitionParameter.Value
+        object IMetadatumDefinitionParameter.Value
         {
             get { return this.Value; }
         }

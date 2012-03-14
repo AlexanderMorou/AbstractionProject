@@ -32,6 +32,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
             }
 
+            private new ICompiledStructType Parent { get { return (ICompiledStructType) base.Parent; } }
+
             #region IInstantiableMember Members
 
             private bool? isAsync;
@@ -46,14 +48,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     if (isAsync == null)
                     {
                         var returnType = this.ReturnType;
-                        if (returnType == CommonTypeRefs.Void && this.Name.Length >= 5)
+                        if (returnType == this.Parent.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.VoidType) && this.Name.Length >= 5)
                         {
                             if (this.Name.Substring(this.Name.Length - 5).ToLower() == "async")
                                 this.isAsync = true;
                         }
-                        else if (returnType == CommonTypeRefs.Task)
+                        else if (returnType == this.Parent.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.AsynchronousTask))
                             this.isAsync = true;
-                        else if (returnType.ElementClassification == TypeElementClassification.GenericTypeDefinition && returnType.ElementType == CommonTypeRefs.TaskOfT)
+                        else if (returnType.ElementClassification == TypeElementClassification.GenericTypeDefinition && returnType.ElementType == this.Parent.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.AsynchronousTaskOfT))
                             this.isAsync = true;
                         else
                             this.isAsync = false;
@@ -162,8 +164,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     if (!this.IsOverride)
                         throw new InvalidOperationException();
                     MethodInfo q = this.MemberInfo.GetBaseDefinition();
-                    var p = q.DeclaringType.GetTypeReference();
-                    foreach (ICompiledMethodMember member in ((IClassType)(p)).Methods.Values)
+                    IClassType p = (IClassType)this.Parent.Manager.ObtainTypeReference(q.DeclaringType);
+                    foreach (ICompiledMethodMember member in p.Methods.Values)
                         if (member.MemberInfo == q)
                             return (IClassMethodMember)member;
                     //Shouldn't occur.

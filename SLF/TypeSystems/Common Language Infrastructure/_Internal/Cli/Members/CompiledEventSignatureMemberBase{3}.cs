@@ -48,6 +48,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                                                        select new ParameterMember(delegateParameter, this));
         }
 
+        private ICliManager Manager
+        {
+            get
+            {
+                return ((ICompiledType) (this.Parent)).Manager;
+            }
+        }
+
         protected override bool LastIsParamsImpl
         {
             get { return SignatureType.LastIsParams; }
@@ -60,7 +68,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override IDelegateType SignatureTypeImpl
         {
-            get { return this.memberInfo.EventHandlerType.GetTypeReference<IDelegateUniqueIdentifier, IDelegateType>(); }
+            get { return (IDelegateType) this.Manager.ObtainTypeReference(this.memberInfo.EventHandlerType); }
         }
 
         public override IType ReturnType
@@ -73,7 +81,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             get
             {
                 if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = this.memberInfo.GetUniqueIdentifier();
+                    this.uniqueIdentifier = this.memberInfo.GetUniqueIdentifier(Manager);
                 return this.uniqueIdentifier;
             }
         }

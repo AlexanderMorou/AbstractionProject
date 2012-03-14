@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             IParameterParent
     {
         private IModifiersAndAttributesMetadata metadata;
-        private ICustomAttributeCollection customAttributes;
+        private IMetadataCollection customAttributes;
         /// <summary>
         /// Creates a new <see cref="ParameterMemberBase{TParent}"/> with the <paramref name="parent"/> provided.
         /// </summary>

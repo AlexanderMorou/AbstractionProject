@@ -3,6 +3,7 @@ using System.Reflection;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -73,7 +74,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override IBinaryOperatorUniqueIdentifier FetchKey(MethodInfo item)
         {
-            return item.GetBinaryOperatorUniqueIdentifier();
+            ICompiledType parent = this.Parent as ICompiledType;
+            return item.GetBinaryOperatorUniqueIdentifier(parent.Manager);
         }
 
     }

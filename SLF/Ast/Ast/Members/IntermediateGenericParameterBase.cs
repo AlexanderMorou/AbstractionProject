@@ -45,7 +45,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     {
         private ITypeCollection constraints;
         private ILockedTypeCollection _constraints;
-        private ICustomAttributeDefinitionCollectionSeries customAttributes;
+        private IMetadataDefinitionCollection customAttributes;
         private IntermediateFullMemberDictionary _members;
         private ConstructorMemberDictionary constructors;
         private EventMemberDictionary events;
@@ -714,17 +714,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
         }
 
-        #region IIntermediateCustomAttributedEntity Members
+        #region IIntermediateMetadataEntity Members
 
         /// <summary>
-        /// Returns the <see cref="ICustomAttributeDefinitionCollectionSeries"/> associated
+        /// Returns the <see cref="IMetadataDefinitionCollection"/> associated
         /// to the current <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>.
         /// </summary>
-        public new ICustomAttributeDefinitionCollectionSeries CustomAttributes
+        public new IMetadataDefinitionCollection CustomAttributes
         {
             get {
                 if (this.customAttributes == null)
-                    this.customAttributes = new CustomAttributeDefinitionCollectionSeries(this);
+                    this.customAttributes = new MetadataDefinitionCollection(this);
                 return this.customAttributes;
             }
         }

@@ -15,31 +15,31 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     /// value structure.
     /// </summary>
     /// <typeparam name="T">The type of parameter.</typeparam>
-    public struct CustomAttributeDefinitionParameterValue<T> :
-        _ICustomAttributeDefinitionParameterValue
+    public struct MetadatumDefinitionParameterValue<T> :
+        _IMetadatumDefinitionParameterValue
     {
         /// <summary>
         /// Returns/sets the <typeparamref name="T"/> value.
         /// </summary>
         T Value { get; set; }
-        internal CustomAttributeDefinitionParameterValue(T value)
+        internal MetadatumDefinitionParameterValue(T value)
             : this()
         {
             this.Value = value;
         }
 
-        #region _ICustomAttributeDefinitionParameterValue Members
+        #region _IMetadatumDefinitionParameterValue Members
 
-        ICustomAttributeDefinitionParameter _ICustomAttributeDefinitionParameterValue.AddSelf(_ICustomAttributeDefinitionParameterCollection target)
+        IMetadatumDefinitionParameter _IMetadatumDefinitionParameterValue.AddSelf(_IMetadatumDefinitionParameterCollection target)
         {
             return target.AddInternal(Value);
         }
 
         #endregion
 
-        #region ICustomAttributeDefinitionParameterValue Members
+        #region IMetadatumDefinitionParameterValue Members
 
-        object ICustomAttributeDefinitionParameterValue.Value
+        object IMetadatumDefinitionParameterValue.Value
         {
             get { return this.Value; }
         }

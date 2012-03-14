@@ -48,15 +48,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         protected override IParameterMemberDictionary<TCtor, IConstructorParameterMember<TCtor, TCtorParent>> InitializeParameters()
         {
             return new ParametersDictionary(this, from paramInfo in this.MemberInfo.GetParameters()
-                                                  select new ParameterMember(paramInfo, this));
+                                                  select new ParameterMember(paramInfo, this, ((ICompiledType) this.Parent).Manager));
         }
 
         private class ParameterMember :
             CompiledParameterMemberBase<TCtor>,
             IConstructorParameterMember<TCtor, TCtorParent>
         {
-            public ParameterMember(ParameterInfo paramInfo, CompiledConstructorMemberBase<TCtor, TCtorParent> parent)
-                : base(paramInfo, (TCtor)(object)parent)
+            public ParameterMember(ParameterInfo paramInfo, CompiledConstructorMemberBase<TCtor, TCtorParent> parent, ICliManager manager)
+                : base(paramInfo, (TCtor)(object)parent, manager)
             {
             }
 
@@ -105,7 +105,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             get
             {
                 if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = ctorInfo.GetUniqueIdentifier();
+                    this.uniqueIdentifier = ctorInfo.GetUniqueIdentifier(((ICompiledType) this.Parent).Manager);
                 return this.uniqueIdentifier;
             }
         }

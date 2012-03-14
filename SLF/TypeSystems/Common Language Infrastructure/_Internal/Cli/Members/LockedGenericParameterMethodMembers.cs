@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -28,7 +29,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override IGeneralGenericSignatureMemberUniqueIdentifier FetchKey(MethodInfo item)
         {
-            return item.GetUniqueIdentifier();
+            ICliManager manager = null;
+            var tParent = this.Parent as ICompiledType;
+            if (tParent == null)
+                throw new InvalidOperationException();
+            else
+                manager = tParent.Manager;
+            return item.GetUniqueIdentifier(manager);
         }
 
         IGenericParameter IGenericParameterMethodMemberDictionary.Parent

@@ -6,6 +6,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -24,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 IParameterMemberDictionary<IInterfaceIndexerMember, IIndexerSignatureParameterMember<IInterfaceIndexerMember, IInterfaceType>>
             {
                 internal ParameterMemberDictionary(IndexerMember parent, IEnumerable<ParameterInfo> parameters)
-                    : base(parent, parameters.Select(p => (IIndexerSignatureParameterMember<IInterfaceIndexerMember, IInterfaceType>)new ParameterMember(p, parent)))
+                    : base(parent, parameters.Select(p => (IIndexerSignatureParameterMember<IInterfaceIndexerMember, IInterfaceType>)new ParameterMember(p, parent, ((ICompiledInterfaceType)parent.Parent).Manager)))
                 {
                 }
             }

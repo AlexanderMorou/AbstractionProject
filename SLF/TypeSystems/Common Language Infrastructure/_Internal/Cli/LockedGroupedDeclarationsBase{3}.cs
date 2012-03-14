@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 
 /* *
@@ -80,7 +81,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.state = USE_FETCH;
             this.sourceData = sourceData;
             this.fetchImpl = fetchImpl;
-            ((_LockedRelativeHelper<TMItemIdentifier, TMItem>)master).RelateSubordinateMembers<TItemIdentifier, TItem, TSourceItem>(sourceData, this);
+            ((_LockedRelativeHelper<TMItemIdentifier, TMItem>) master).RelateSubordinateMembers<TItemIdentifier, TItem, TSourceItem>(sourceData, this);
             this.nameImpl = nameImpl;
         }
 
@@ -175,7 +176,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (this.state == USE_FETCH)
                 {
                     if (this.ContainsKey(key))
-                        return this.Values[((_KeysCollection)this.Keys).IndexOf(key)];
+                        return this.Values[((_KeysCollection) this.Keys).IndexOf(key)];
                     throw new KeyNotFoundException();
                 }
                 else
@@ -195,8 +196,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             if (this.state == USE_FETCH)
             {
-                _ValuesCollection vc = ((_ValuesCollection)this.valuesInstance);
-                _KeysCollection kc = ((_KeysCollection)this.keysInstance);
+                _ValuesCollection vc = ((_ValuesCollection) this.valuesInstance);
+                _KeysCollection kc = ((_KeysCollection) this.keysInstance);
                 if (vc != null)
                 {
                     vc.Dispose();
@@ -242,7 +243,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (nameImpl == null)
                 return null;
             if (source is TSourceItem)
-                return nameImpl((TSourceItem)source);
+                return nameImpl((TSourceItem) source);
             else
                 return null;
         }
@@ -321,7 +322,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (this.state == USE_FETCH)
             {
                 if (this.ContainsKey(key))
-                    return this.Values[((_KeysCollection)this.Keys).IndexOf(key)];
+                    return this.Values[((_KeysCollection) this.Keys).IndexOf(key)];
                 throw new KeyNotFoundException();
             }
             else
@@ -333,7 +334,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (decl == null)
                 return -1;
             if (decl is TItem)
-                return this.IndexOf((TItem)(decl));
+                return this.IndexOf((TItem) (decl));
             throw ThrowHelper.ObtainArgumentException(ArgumentWithException.decl, ExceptionMessageId.ValueIsWrongType, ThrowHelper.GetArgumentName(ArgumentWithException.decl), decl.GetType().ToString(), typeof(TItem).ToString());
         }
 
@@ -344,7 +345,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (this.state == USE_FETCH)
             {
                 for (int i = 0; i < this.Count; i++)
-                    if (object.ReferenceEquals(((_ValuesCollection)this.Values).dataCopy[i], decl))
+                    if (object.ReferenceEquals(((_ValuesCollection) this.Values).dataCopy[i], decl))
                         return i;
             }
             else
@@ -359,5 +360,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return -1;
         }
 
+        internal TItem FetchByItem(TSourceItem source)
+        {
+            int index = this.sourceData.GetIndexOf(source);
+            if (index >= 0)
+                return this.Values[index];
+            throw new InvalidOperationException();
+        }
     }
 }

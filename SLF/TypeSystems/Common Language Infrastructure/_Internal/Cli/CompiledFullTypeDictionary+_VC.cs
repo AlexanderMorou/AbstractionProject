@@ -75,7 +75,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     foreach (ISubordinateDictionary isd in this.parent.Subordinates)
                         if (((ICompiledTypeDictionary)isd).FilteredSeries.Contains(t))
                         {
-                            this.dataCopy[index] = new MasterDictionaryEntry<IType>(isd, t.GetTypeReference());
+                            this.dataCopy[index] = new MasterDictionaryEntry<IType>(isd, this.parent.parent.Manager.ObtainTypeReference(t));
                             break;
                         }
                 }

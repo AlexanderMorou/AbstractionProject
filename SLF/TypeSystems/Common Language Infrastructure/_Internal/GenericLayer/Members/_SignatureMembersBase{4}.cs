@@ -43,12 +43,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         public virtual IFilteredSignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(bool strict, ITypeCollectionBase search)
         {
-            return CLICommon.FindCache<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(this.Values, search, strict);
+            return CliCommon.FindCache<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(this.Values, search, strict);
         }
 
         public virtual IFilteredSignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(bool strict, params IType[] search)
         {
-            return CLICommon.FindCache<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(this.Values, search, strict);
+            return CliCommon.FindCache<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>(this.Values, search, strict);
         }
 
         public virtual IFilteredSignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(ITypeCollectionBase search)

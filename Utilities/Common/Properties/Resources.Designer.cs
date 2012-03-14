@@ -618,6 +618,13 @@ namespace AllenCopeland.Abstraction.Utilities.Properties {
             }
         }
         
+        internal static byte[] BitCounts {
+            get {
+                object obj = ResourceManager.GetObject("BitCounts", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Cannot alter a {0} while it is locked..
         /// </summary>

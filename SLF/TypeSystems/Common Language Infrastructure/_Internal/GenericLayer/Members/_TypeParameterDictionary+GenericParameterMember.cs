@@ -99,6 +99,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             #endregion
 
             #region IType Members
+            public ITypeIdentityManager Manager { get { return this.original.Manager; } }
 
             public TypeElementClassification ElementClassification
             {
@@ -241,7 +242,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
             public bool IsSubclassOf(IType other)
             {
-                return other.Equals(CommonTypeRefs.Object);
+                return other.Equals(this.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.RootType));
             }
 
             public bool IsAssignableFrom(IType target)
@@ -266,7 +267,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
             public IType BaseType
             {
-                get { return CommonTypeRefs.Object; }
+                get { return this.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.RootType); }
             }
 
             public ILockedTypeCollection ImplementedInterfaces
@@ -305,21 +306,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
             #endregion
 
-            #region ICustomAttributedEntity Members
+            #region IMetadataEntity Members
 
-            public ICustomAttributeCollection CustomAttributes
+            public IMetadataCollection CustomAttributes
             {
                 get { return this.original.CustomAttributes; }
             }
 
-            public bool IsDefined(IType attributeType)
+            public bool IsDefined(IType metadatumType)
             {
-                return this.original.IsDefined(attributeType);
+                return this.original.IsDefined(metadatumType);
             }
 
-            public bool IsDefined(IType attributeType, bool inherited)
+            public bool IsDefined(IType metadatumType, bool inherited)
             {
-                return this.original.IsDefined(attributeType, inherited);
+                return this.original.IsDefined(metadatumType, inherited);
             }
 
             #endregion

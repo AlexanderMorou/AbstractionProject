@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
     public interface IIntermediateModifiersAndAttributesMetadata :
-        IIntermediateCustomAttributedEntity,
+        IIntermediateMetadataEntity,
         IModifiersAndAttributesMetadata
     {
         /// <summary>

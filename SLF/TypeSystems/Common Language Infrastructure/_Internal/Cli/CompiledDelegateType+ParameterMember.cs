@@ -24,8 +24,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             CompiledParameterMemberBase<IDelegateType>,
             IDelegateTypeParameterMember
         {
-            public ParameterMember(ParameterInfo info, IDelegateType parent)
-                : base(info, parent)
+            public ParameterMember(ParameterInfo info, IDelegateType parent, ICliManager manager)
+                : base(info, parent, manager)
             {
 
             }

@@ -22,8 +22,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
      * type.
      * */
     internal class IntermediateCustomAttributesBaseCollection :
-        IReadOnlyCollection<ICustomAttributeInstance>,
-        ICustomAttributeCollection,
+        IReadOnlyCollection<IMetadatum>,
+        IMetadataCollection,
         IReadOnlyCollection
     {
         /* *
@@ -46,13 +46,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             this.parent = parent;
         }
 
-        #region ICustomAttributeCollection Members
-        public bool Contains(IType attributeType)
+        #region IMetadataCollection Members
+        public bool Contains(IType metadatumType)
         {
-            return ((IEnumerable<ICustomAttributeInstance>)(this)).Any(i => i.Type.IsAssignableFrom(attributeType));
+            return ((IEnumerable<IMetadatum>) (this)).Any(i => i.Type.IsAssignableFrom(metadatumType));
         }
 
-        public ICustomAttributedEntity Parent
+        public IMetadataEntity Parent
         {
             get { return parent; }
         }
@@ -69,24 +69,24 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         #endregion
 
-        #region IControlledCollection<ICustomAttributeInstance> Members
+        #region IControlledCollection<IMetadatum> Members
 
         public int Count
         {
             get { return this.Count(); }
         }
 
-        public bool Contains(ICustomAttributeInstance item)
+        public bool Contains(IMetadatum item)
         {
-            return ((IEnumerable<ICustomAttributeInstance>)(this)).Contains(item);
+            return ((IEnumerable<IMetadatum>)(this)).Contains(item);
         }
 
-        public void CopyTo(ICustomAttributeInstance[] array, int arrayIndex = 0)
+        public void CopyTo(IMetadatum[] array, int arrayIndex = 0)
         {
             this.ToArray().CopyTo(array, arrayIndex);
         }
 
-        public ICustomAttributeInstance this[int index]
+        public IMetadatum this[int index]
         {
             get {
                 int i = 0;
@@ -100,24 +100,24 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             }
         }
 
-        public ICustomAttributeInstance[] ToArray()
+        public IMetadatum[] ToArray()
         {
-            return new List<ICustomAttributeInstance>(this).ToArray();
+            return new List<IMetadatum>(this).ToArray();
         }
 
-        public int IndexOf(ICustomAttributeInstance element)
+        public int IndexOf(IMetadatum element)
         {
             return this.GetIndexOf(element);
         }
 
         #endregion
 
-        #region IEnumerable<ICustomAttributeInstance> Members
+        #region IEnumerable<IMetadatum> Members
         /* *
          * To note: this doesn't consider types that are neither
          * compiled nor a part of the intermediate system built.
          * */
-        public IEnumerator<ICustomAttributeInstance> GetEnumerator()
+        public IEnumerator<IMetadatum> GetEnumerator()
         {
             HashList<ICompiledType> noMultipleEncounters = new HashList<ICompiledType>();
             HashList<IIntermediateType> noMultipleEncountersInter = new HashList<IIntermediateType>();
@@ -153,7 +153,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
          * Determines whether an attribute, based upon the current hierarchy structure of the 
          * parent, should be included in the series.
          * */
-        private bool CheckAttribute(HashList<ICompiledType> noMultipleEncounters, HashList<IIntermediateType> noMultipleEncountersInter, ICompiledClassType attrUType, ICustomAttributeInstance item)
+        private bool CheckAttribute(HashList<ICompiledType> noMultipleEncounters, HashList<IIntermediateType> noMultipleEncountersInter, ICompiledClassType attrUType, IMetadatum item)
         {
             ICompiledType k = null;
             if (item.Type is ICompiledType && (!(noMultipleEncounters.Contains(k = (ICompiledType)item.Type))))
@@ -163,7 +163,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                  * Use the method compiled classes uses to determine attribute usage
                  * and use that to determine inclusion.
                  * */
-                AttributeUsage kUsage = k.UnderlyingSystemType.GetAttributeUsage();
+                MetadataUsage kUsage = k.UnderlyingSystemType.GetAttributeUsage();
                 if (!kUsage.Inherited)
                     return false;
                 if (!kUsage.AllowMultiple)
@@ -202,7 +202,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                              * */
                             break;
                         }
-                    AttributeUsage lUsage = new AttributeUsage((attrTypeIsIntermediate ? (attrTypeI.CustomAttributes[typeof(AttributeUsageAttribute).GetTypeReference()].WrappedAttribute) : (attrType.CustomAttributes[typeof(AttributeUsageAttribute).GetTypeReference()].WrappedAttribute)) as AttributeUsageAttribute);
+                    MetadataUsage lUsage = new MetadataUsage((attrTypeIsIntermediate ? (attrTypeI.CustomAttributes[typeof(AttributeUsageAttribute).GetTypeReference()].WrappedAttribute) : (attrType.CustomAttributes[typeof(AttributeUsageAttribute).GetTypeReference()].WrappedAttribute)) as AttributeUsageAttribute);
                     if (!lUsage.Inherited)
                         return false;
                     if (!lUsage.AllowMultiple)
@@ -234,8 +234,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         {
             if (item is IType)
                 return this.Contains((IType)item);
-            else if (item is ICustomAttributeInstance)
-                return this.Contains((ICustomAttributeInstance)item);
+            else if (item is IMetadatum)
+                return this.Contains((IMetadatum)item);
             return false;
         }
 
@@ -244,7 +244,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             if (array == null) 
                 throw new ArgumentNullException("array");
 
-            ICustomAttributeInstance[] insts = this.ToArray();
+            IMetadatum[] insts = this.ToArray();
             if (insts.Length + arrayIndex > array.Length)
                 throw new ArgumentOutOfRangeException("arrayIndex");
             for (int i = 0; i < insts.Length; i++)
@@ -261,24 +261,24 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         int IControlledCollection.IndexOf(object element)
         {
-            if (element is ICustomAttributeInstance)
-                return this.IndexOf((ICustomAttributeInstance)element);
+            if (element is IMetadatum)
+                return this.IndexOf((IMetadatum)element);
             return -1;
         }
 
         #endregion
 
-        #region ICustomAttributeCollection Members
+        #region IMetadataCollection Members
 
 
-        public ICustomAttributeInstance this[IType attributeType]
+        public IMetadatum this[IType metadatumType]
         {
             get {
-                ICustomAttributeInstance closeMatch = null;
+                IMetadatum closeMatch = null;
                 foreach (var item in this)
-                    if (item.Type.Equals(attributeType))
+                    if (item.Type.Equals(metadatumType))
                         return item;
-                    else if (attributeType.IsAssignableFrom(item.Type))
+                    else if (metadatumType.IsAssignableFrom(item.Type))
                         closeMatch=item;
                 return closeMatch;
             }

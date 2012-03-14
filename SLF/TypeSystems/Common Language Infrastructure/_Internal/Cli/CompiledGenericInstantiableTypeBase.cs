@@ -36,7 +36,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         CompiledGenericTypeBase<IGeneralGenericTypeUniqueIdentifier, TType>,
         IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, IGeneralGenericTypeUniqueIdentifier, TType>,
         IEventSignatureParent,
-        _ICompiledTypeParent
+        _ICompiledTypeParent,
+        _ICompiledMethodSignatureParent
         where TIndexer :
             class,
             IIndexerMember<TIndexer, TType>
@@ -69,6 +70,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private TCtor typeInitializer;
         private bool bCheckedInitializer;
         private IDictionary<IInterfaceType, IInterfaceMemberMapping<TMethod, TProperty, TEvent, TIndexer, TType>> interfaceMaps = null;
+
         /// <summary>
         /// Data member for <see cref="Classes"/>.
         /// </summary>
@@ -130,12 +132,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         private IPropertyMemberDictionary<TProperty, TType> properties;
 
+        private MethodInfo[] methodMembers;
+
         /// <summary>
         /// Data member which holds the references to the nested child types
         /// of the current compiled generic instantiable type.
         /// </summary>
         private Type[] underlyingSystemTypes;
-        #endregion 
+        #endregion
 
         #region CompiledGenericInstantiableTypeBase<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType> Constructor Members
         /// <summary>
@@ -144,8 +148,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         /// <param name="underlyingSystemType">The <see cref="System.Type"/> from which the current
         /// <see cref="CompiledGenericInstantiableTypeBase{TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType}"/> is based.</param>
-        internal CompiledGenericInstantiableTypeBase(Type underlyingSystemType)
-            : base(underlyingSystemType)
+        internal CompiledGenericInstantiableTypeBase(Type underlyingSystemType, ICliManager manager)
+            : base(underlyingSystemType, manager)
         {
         }
 
@@ -153,7 +157,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region Member Initialization Checks
         private object memberInitSynch = new object();
-        private void CheckConstructor()
+        private void CheckBinaryOperatorCoercions()
+        {
+            lock (memberInitSynch)
+                if (this.binaryOperatorCoercions == null)
+                    this.binaryOperatorCoercions = this.InitializeBinaryOperatorCoercions();
+        }
+
+
+        private void CheckConstructors()
         {
             lock (memberInitSynch)
                 if (this.constructors == null)
@@ -194,6 +206,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (this.properties == null)
                     this.properties = this.InitializeProperties();
         }
+
+        private void CheckTypeCoercions()
+        {
+            lock (memberInitSynch)
+                if (this.typeCoercions == null)
+                    this.typeCoercions = this.InitializeTypeCoercions();
+        }
+
+        private void CheckUnaryOperatorCoercions()
+        {
+            lock (memberInitSynch)
+                if (this.unaryOperatorCoercions == null)
+                    this.unaryOperatorCoercions = this.InitializeUnaryOperatorCoercions();
+        }
+
+
         #endregion
 
         #region Initialize Members
@@ -201,26 +229,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private IBinaryOperatorCoercionMemberDictionary<TType> InitializeBinaryOperatorCoercions()
         {
             List<string> opNames = new List<string>() { 
-                CLICommon.BinaryOperatorNames.Addition, CLICommon.BinaryOperatorNames.Subtraction, CLICommon.BinaryOperatorNames.Multiply,
-                CLICommon.BinaryOperatorNames.Division, CLICommon.BinaryOperatorNames.Modulus, CLICommon.BinaryOperatorNames.BitwiseAnd, 
-                CLICommon.BinaryOperatorNames.BitwiseOr, CLICommon.BinaryOperatorNames.ExclusiveOr, CLICommon.BinaryOperatorNames.LeftShift,
-                CLICommon.BinaryOperatorNames.RightShift, CLICommon.BinaryOperatorNames.Equality, CLICommon.BinaryOperatorNames.Inequality,
-                CLICommon.BinaryOperatorNames.LessThan, CLICommon.BinaryOperatorNames.GreaterThan, CLICommon.BinaryOperatorNames.LessThanOrEqual, 
-                CLICommon.BinaryOperatorNames.GreaterThanOrEqual };
-            return new LockedBinaryOperatorCoercionMembers<TType>(this._Members, ((TType)(object)(this)),
-                UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledBinaryOperatorCoercionMemberBase<TType>(methInfo, ((TType)(object)(this))));
+                CliCommon.BinaryOperatorNames.Addition, CliCommon.BinaryOperatorNames.Subtraction, CliCommon.BinaryOperatorNames.Multiply,
+                CliCommon.BinaryOperatorNames.Division, CliCommon.BinaryOperatorNames.Modulus, CliCommon.BinaryOperatorNames.BitwiseAnd, 
+                CliCommon.BinaryOperatorNames.BitwiseOr, CliCommon.BinaryOperatorNames.ExclusiveOr, CliCommon.BinaryOperatorNames.LeftShift,
+                CliCommon.BinaryOperatorNames.RightShift, CliCommon.BinaryOperatorNames.Equality, CliCommon.BinaryOperatorNames.Inequality,
+                CliCommon.BinaryOperatorNames.LessThan, CliCommon.BinaryOperatorNames.GreaterThan, CliCommon.BinaryOperatorNames.LessThanOrEqual, 
+                CliCommon.BinaryOperatorNames.GreaterThanOrEqual };
+            return new LockedBinaryOperatorCoercionMembers<TType>(this._Members, ((TType) (object) (this)),
+                UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledBinaryOperatorCoercionMemberBase<TType>(methInfo, ((TType) (object) (this))));
         }
 
         private ITypeCoercionMemberDictionary<TType> InitializeTypeCoercions()
         {
-            List<string> opNames = new List<string>() { CLICommon.TypeCoercionNames.Implicit, CLICommon.TypeCoercionNames.Explicit };
-            return new LockedTypeCoercionMemberDictionary<TType>(this._Members, ((TType)(object)(this)),
-                UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledTypeCoercionMemberBase<TType>(methInfo, ((TType)(object)(this))));
+            List<string> opNames = new List<string>() { CliCommon.TypeCoercionNames.Implicit, CliCommon.TypeCoercionNames.Explicit };
+            return new LockedTypeCoercionMemberDictionary<TType>(this._Members, ((TType) (object) (this)),
+                UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledTypeCoercionMemberBase<TType>(methInfo, ((TType) (object) (this))));
         }
 
         private IUnaryOperatorCoercionMemberDictionary<TType> InitializeUnaryOperatorCoercions()
         {
-            
+
             /* *
              *  +       - op_UnaryPlus
              *  -       - op_UnaryNegation
@@ -230,11 +258,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
              *  ~       - op_OnesComplement
              * */
             List<string> opNames = new List<string>() { 
-                CLICommon.UnaryOperatorNames.Plus, CLICommon.UnaryOperatorNames.Negation, CLICommon.UnaryOperatorNames.False, 
-                CLICommon.UnaryOperatorNames.True, CLICommon.UnaryOperatorNames.LogicalNot, CLICommon.UnaryOperatorNames.OnesComplement, 
-                CLICommon.UnaryOperatorNames.Increment, CLICommon.UnaryOperatorNames.Decrement };
-            return new LockedUnaryOperatorCoercionMembers<TType>(this._Members, ((TType)(object)(this)),
-                UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledUnaryOperatorCoercionMemberBase<TType>(methInfo, ((TType)(object)(this))));
+                CliCommon.UnaryOperatorNames.Plus, CliCommon.UnaryOperatorNames.Negation, CliCommon.UnaryOperatorNames.False, 
+                CliCommon.UnaryOperatorNames.True, CliCommon.UnaryOperatorNames.LogicalNot, CliCommon.UnaryOperatorNames.OnesComplement, 
+                CliCommon.UnaryOperatorNames.Increment, CliCommon.UnaryOperatorNames.Decrement };
+            return new LockedUnaryOperatorCoercionMembers<TType>(this._Members, ((TType) (object) (this)),
+                UnderlyingSystemType.GetMethods().Filter(m => m.IsSpecialName && opNames.Contains(m.Name)).ToArray(), methInfo => new CompiledUnaryOperatorCoercionMemberBase<TType>(methInfo, ((TType) (object) (this))));
         }
 
         /// <summary>
@@ -245,36 +273,36 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private IConstructorMemberDictionary<TCtor, TType> InitializeCtors()
         {
             return new LockedConstructorMembers<TCtor, TType>(this._Members,
-                ((TType)((object)(this))),
+                ((TType) ((object) (this))),
                 UnderlyingSystemType.GetConstructors(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).Filter(constructor => constructor.GetAccessModifiers().IsModifierAccessible()), GetConstructor);
         }
 
         private IEventMemberDictionary<TEvent, TType> InitializeEvents()
         {
             return new LockedEventMembersBase<TEvent, TType>(this._Members,
-                ((TType)(object)(this)), UnderlyingSystemType.GetEvents(
+                ((TType) (object) (this)), UnderlyingSystemType.GetEvents(
                     BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static |
                     BindingFlags.Public | BindingFlags.DeclaredOnly).Filter(eventInfo => eventInfo.GetAccessModifiers().IsModifierAccessible()), this.GetEvent);
         }
 
         private IFieldMemberDictionary<TField, TType> InitializeFields()
         {
-            return new LockedFieldMembersBase<TField, TType>(this._Members, ((TType)((object)(this))), UnderlyingSystemType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly).Filter(field => field.GetAccessModifiers().IsModifierAccessible() && !(field.IsSpecialName || field.IsDefined(typeof(CompilerGeneratedAttribute), true))), this.GetField);
+            return new LockedFieldMembersBase<TField, TType>(this._Members, ((TType) ((object) (this))), UnderlyingSystemType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly).Filter(field => field.GetAccessModifiers().IsModifierAccessible() && !(field.IsSpecialName || field.IsDefined(typeof(CompilerGeneratedAttribute), true))), this.GetField);
         }
 
         private IIndexerMemberDictionary<TIndexer, TType> InitializeIndexers()
         {
-            return new LockedIndexerMemberDictionary<TIndexer, TType>(this._Members, ((TType)((object)(this))), UnderlyingSystemType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly).Filter(indexerInfo => indexerInfo.GetAccessModifiers().IsModifierAccessible() && !(indexerInfo.IsSpecialName || indexerInfo.IsDefined(typeof(CompilerGeneratedAttribute), true)) && indexerInfo.GetIndexParameters().Length > 0), GetIndexer);
+            return new LockedIndexerMemberDictionary<TIndexer, TType>(this._Members, ((TType) ((object) (this))), UnderlyingSystemType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly).Filter(indexerInfo => indexerInfo.GetAccessModifiers().IsModifierAccessible() && !(indexerInfo.IsSpecialName || indexerInfo.IsDefined(typeof(CompilerGeneratedAttribute), true)) && indexerInfo.GetIndexParameters().Length > 0), GetIndexer);
         }
 
         private IMethodMemberDictionary<TMethod, TType> InitializeMethods()
         {
-            return new LockedMethodMembersBase<TMethod, TType>(this._Members, ((TType)((object)(this))), this.UnderlyingSystemType.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly).Filter(method => method.GetAccessModifiers().IsModifierAccessible() && !(method.IsSpecialName || method.IsDefined(typeof(CompilerGeneratedAttribute), true))), GetMethod);
+            return new LockedMethodMembersBase<TMethod, TType>(this._Members, ((TType) ((object) (this))), this.MethodInfos, GetMethod);
         }
 
         private IPropertyMemberDictionary<TProperty, TType> InitializeProperties()
         {
-            return new LockedPropertyMembersBase<TProperty, TType>(this._Members, ((TType)((object)(this))), UnderlyingSystemType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly).Filter(property => property.GetAccessModifiers().IsModifierAccessible() && !(property.IsSpecialName || property.IsDefined(typeof(CompilerGeneratedAttribute), true) || property.GetIndexParameters().Length != 0)), GetProperty);
+            return new LockedPropertyMembersBase<TProperty, TType>(this._Members, ((TType) ((object) (this))), UnderlyingSystemType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly).Filter(property => property.GetAccessModifiers().IsModifierAccessible() && !(property.IsSpecialName || property.IsDefined(typeof(CompilerGeneratedAttribute), true) || property.GetIndexParameters().Length != 0)), GetProperty);
         }
 
         #endregion
@@ -440,16 +468,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// the <see cref="CompiledGenericInstantiableTypeBase{TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType}"/>.</returns>
         protected sealed override IFullMemberDictionary OnGetMembers()
         {
-            this.CheckConstructor();
+            this.CheckBinaryOperatorCoercions();
+            this.CheckConstructors();
             this.CheckEvents();
             this.CheckFields();
             this.CheckIndexers();
             this.CheckMethods();
             this.CheckProperties();
-
+            this.CheckTypeCoercions();
+            this.CheckUnaryOperatorCoercions();
             return base.OnGetMembers();
         }
-        
+
         /// <summary>
         /// Obtains a <typeparamref name="TCtor"/> for the <paramref name="info"/> 
         /// provided.
@@ -522,7 +552,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                CheckConstructor();
+                CheckConstructors();
                 return this.constructors;
             }
         }
@@ -533,7 +563,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IMethodMemberDictionary<TMethod, TType> Methods
         {
-            get {
+            get
+            {
                 CheckMethods();
                 return this.methods;
             }
@@ -544,9 +575,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IPropertyMemberDictionary<TProperty, TType> Properties
         {
-            get {
+            get
+            {
                 CheckProperties();
-                return this.properties; }
+                return this.properties;
+            }
         }
         #endregion
 
@@ -554,7 +587,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IFieldMemberDictionary<TField, TType> Fields
         {
-            get {
+            get
+            {
                 if (this.fields == null)
                     this.fields = this.InitializeFields();
                 return this.fields;
@@ -567,7 +601,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IConstructorMemberDictionary ICreatableParent.Constructors
         {
-            get { return (IConstructorMemberDictionary)this.Constructors; }
+            get { return (IConstructorMemberDictionary) this.Constructors; }
         }
 
         #endregion
@@ -576,7 +610,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IMethodMemberDictionary IMethodParent.Methods
         {
-            get { return (IMethodMemberDictionary)this.Methods; }
+            get { return (IMethodMemberDictionary) this.Methods; }
         }
 
         #endregion
@@ -585,7 +619,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IPropertyMemberDictionary IPropertyParent.Properties
         {
-            get { return (IPropertyMemberDictionary)this.Properties; }
+            get { return (IPropertyMemberDictionary) this.Properties; }
         }
 
         #endregion
@@ -594,8 +628,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IFieldMemberDictionary IFieldParent.Fields
         {
-            get {
-                return (IFieldMemberDictionary)this.Fields;
+            get
+            {
+                return (IFieldMemberDictionary) this.Fields;
             }
         }
 
@@ -609,12 +644,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         public IBinaryOperatorCoercionMemberDictionary<TType> BinaryOperatorCoercions
         {
-            get {
-                if (this.binaryOperatorCoercions == null)
-                    this.binaryOperatorCoercions = this.InitializeBinaryOperatorCoercions();
+            get
+            {
+                CheckBinaryOperatorCoercions();
                 return this.binaryOperatorCoercions;
             }
         }
+
 
         /// <summary>
         /// Returns the <see cref="ITypeCoercionMemberDictionary{TCoercionParent}"/> 
@@ -624,12 +660,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.typeCoercions == null)
-                    this.typeCoercions = this.InitializeTypeCoercions();
+                CheckTypeCoercions();
                 return this.typeCoercions;
             }
         }
-
         /// <summary>
         /// Returns the <see cref="IUnaryOperatorCoercionMemberDictionary{TCoercionParent}"/> 
         /// assocaited to the <typeparamref name="TType"/>.
@@ -638,8 +672,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.unaryOperatorCoercions == null)
-                    this.unaryOperatorCoercions = this.InitializeUnaryOperatorCoercions();
+                CheckUnaryOperatorCoercions();
                 return this.unaryOperatorCoercions;
             }
         }
@@ -650,17 +683,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IBinaryOperatorCoercionMemberDictionary ICoercibleType.BinaryOperatorCoercions
         {
-            get { return (IBinaryOperatorCoercionMemberDictionary)this.BinaryOperatorCoercions; }
+            get { return (IBinaryOperatorCoercionMemberDictionary) this.BinaryOperatorCoercions; }
         }
 
         ITypeCoercionMemberDictionary ICoercibleType.TypeCoercions
         {
-            get { return (ITypeCoercionMemberDictionary)this.TypeCoercions; }
+            get { return (ITypeCoercionMemberDictionary) this.TypeCoercions; }
         }
 
         IUnaryOperatorCoercionMemberDictionary ICoercibleType.UnaryOperatorCoercions
         {
-            get { return (IUnaryOperatorCoercionMemberDictionary)this.UnaryOperatorCoercions; }
+            get { return (IUnaryOperatorCoercionMemberDictionary) this.UnaryOperatorCoercions; }
         }
 
         #endregion
@@ -804,7 +837,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IEventSignatureMemberDictionary IEventSignatureParent.Events
         {
-            get { return (IEventSignatureMemberDictionary)this.Events; }
+            get { return (IEventSignatureMemberDictionary) this.Events; }
         }
 
         #endregion
@@ -826,8 +859,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IIndexerMemberDictionary IIndexerParent.Indexers
         {
-            get {
-                return (IIndexerMemberDictionary)this.Indexers;
+            get
+            {
+                return (IIndexerMemberDictionary) this.Indexers;
             }
         }
 
@@ -935,8 +969,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
-            get {
-                return (from identifier in 
+            get
+            {
+                return (from identifier in
                             (from memberName in (this.Members as LockedFullMembersBase).GetAggregateIdentifiers()
                              select memberName)
                             .Concat(
@@ -945,6 +980,34 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         orderby identifier.Name ascending
                         select identifier);
             }
+        }
+
+        #region _ICompiledMethodSignatureParent Members
+
+        public MethodInfo[] MethodInfos
+        {
+            get
+            {
+                if (this.methodMembers == null)
+                    this.methodMembers = this.UnderlyingSystemType
+                        .GetMethods(BindingFlags.NonPublic   |
+                                    BindingFlags.Public      |
+                                    BindingFlags.Instance    |
+                                    BindingFlags.Static      |
+                                    BindingFlags.DeclaredOnly)
+                        .Filter(method =>
+                                method.GetAccessModifiers().IsModifierAccessible() &&
+                              !(method.IsSpecialName        ||
+                                method.IsDefined(typeof(CompilerGeneratedAttribute), true)));
+                return this.methodMembers;
+            }
+        }
+
+        #endregion
+
+        public _ICompiledMethodSignatureMember GetSignatureFor(MethodBase info)
+        {
+            return (_ICompiledMethodSignatureMember) ((LockedMethodMembersBase<TMethod, TType>) this.Methods).FetchByItem((MethodInfo) info);
         }
     }
 }

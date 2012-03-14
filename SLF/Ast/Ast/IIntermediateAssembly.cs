@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     public interface IIntermediateAssembly :
         IIntermediateNamespaceParent,
         IIntermediateSegmentableDeclaration<IAssemblyUniqueIdentifier, IIntermediateAssembly>,
-        IIntermediateCustomAttributedEntity,
+        IIntermediateMetadataEntity,
         IAssembly
     {
         /// <summary>

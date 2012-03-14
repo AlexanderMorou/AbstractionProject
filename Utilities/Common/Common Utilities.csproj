@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentWithException.cs" />
+    <Compile Include="Collections\BitVector.cs" />
     <Compile Include="Collections\IMultikeyedDictionary`3.cs" />
     <Compile Include="Collections\IMultikeyedDictionary`4.cs" />
     <Compile Include="Collections\IMultikeyedDictionary`5.cs" />
@@ -270,6 +271,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Allen Copeland.pfx" Condition="'$(Configuration)' == 'Release'" />
+    <None Include="Resources\BitCounts" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SLF\Metadata\Metadata Library\Metadata Library.csproj">

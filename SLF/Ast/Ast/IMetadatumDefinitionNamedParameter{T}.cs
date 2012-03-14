@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
@@ -11,16 +12,15 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
     /// <summary>
-    /// Defines properties and methods for working with a named parameter
-    /// on a custom attribute.
+    /// Defines properties and methdos for working with
+    /// a named parameter on a custom attribute to be stored
+    /// in the assembly's meta-data.
     /// </summary>
-    public interface ICustomAttributeDefinitionNamedParameter :
-        ICustomAttributeDefinitionParameter
+    /// <typeparam name="T">The type of value associated to the
+    /// named parameter.</typeparam>
+    public interface IMetadatumDefinitionNamedParameter<T> :
+        IMetadatumDefinitionParameter<T>,
+        IMetadatumDefinitionNamedParameter
     {
-        /// <summary>
-        /// Returns/sets the name of the parameter
-        /// defined on the custom attribute.
-        /// </summary>
-        string Name { get; set; }
     }
 }

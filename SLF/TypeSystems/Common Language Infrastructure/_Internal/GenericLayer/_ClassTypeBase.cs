@@ -81,9 +81,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #region IClassType Members
 
-        public bool IsDefined(IType attributeType, bool inherit)
+        public bool IsDefined(IType metadatumType, bool inherit)
         {
-            return this.Original.IsDefined(attributeType, inherit);
+            return this.Original.IsDefined(metadatumType, inherit);
         }
 
 

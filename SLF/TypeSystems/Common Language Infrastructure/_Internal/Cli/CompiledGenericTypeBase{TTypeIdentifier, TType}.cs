@@ -59,8 +59,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         /// <param name="underlyingSystemType">The <see cref="System.Type"/> from which the current
         /// <see cref="CompiledGenericTypeBase{TIdentifier, TType}"/> is based.</param>
-        public CompiledGenericTypeBase(System.Type underlyingSystemType)
-            : base(underlyingSystemType)
+        public CompiledGenericTypeBase(System.Type underlyingSystemType, ICliManager manager)
+            : base(underlyingSystemType, manager)
         {
         }
 
@@ -121,7 +121,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 LockedGenericParameters<IGenericTypeParameter<TTypeIdentifier, TType>, TType> typeParams = new LockedGenericParameters<IGenericTypeParameter<TTypeIdentifier, TType>, TType>(((TType)(object)(this)));
                 foreach (Type t in parameters)
                 {
-                    GenericTypeParameter param = new GenericTypeParameter(((TType)(object)(this)), t);
+                    GenericTypeParameter param = new GenericTypeParameter(((TType)(object)(this)), t, this.Manager);
                     typeParams._AddInternal(param.UniqueIdentifier, param);
                 }
                 int parentParamCount = 0;
@@ -304,11 +304,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         #endregion
-
-        public void ReverifyTypeParameters()
-        {
-            throw new InvalidOperationException(Resources.TypeConstraintFailure_GenericTypeDefinition);
-        }
 
         public void BeginExodus()
         {

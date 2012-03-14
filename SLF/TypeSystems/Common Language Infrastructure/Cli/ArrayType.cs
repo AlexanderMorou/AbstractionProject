@@ -42,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         private ByRefType byRef;
 
         private int[] lowerBounds;
-        private ICustomAttributeCollection customAttributes;
+        private IMetadataCollection customAttributes;
 
         /// <summary>
         /// Creates a new <see cref="ArrayType"/> with the
@@ -79,6 +79,14 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             this.lowerBounds = lowerBounds;
             this.rank = lowerBounds.Length;
             isVectorArray = false;
+        }
+
+        public ITypeIdentityManager Manager
+        {
+            get
+            {
+                return this.elementType.Manager;
+            }
         }
 
         #region IArrayType Members
@@ -227,9 +235,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public bool IsSubclassOf(IType other)
         {
+            if (other == null)
+                return false;
             //return false;
-            return typeof(Array).GetTypeReference().Equals(other) ||
-                   CommonTypeRefs.Object.Equals(other);
+            return this.BaseType.Equals(other) ||
+                   other != null && other.Equals(this.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.RootType));
         }
 
         public bool IsAssignableFrom(IType target)
@@ -257,7 +267,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public IType BaseType
         {
-            get { return typeof(Array).GetTypeReference(); }
+            get
+            {
+                return this.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.ArrayType);
+            }
         }
 
         public ILockedTypeCollection ImplementedInterfaces
@@ -274,22 +287,22 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         {
             if (this.ArrayRank == 1)
                 return new LockedTypeCollection(
-                        typeof(ICloneable).GetTypeReference(),
-                        typeof(IList).GetTypeReference(),
-                        typeof(ICollection).GetTypeReference(),
-                        typeof(IEnumerable).GetTypeReference(),
-                        ((IGenericType)(typeof(IList<>).GetTypeReference()))
+                        this.Manager.ObtainTypeReference(typeof(ICloneable)),
+                        this.Manager.ObtainTypeReference(typeof(IList)),
+                        this.Manager.ObtainTypeReference(typeof(ICollection)),
+                        this.Manager.ObtainTypeReference(typeof(IEnumerable)),
+                        ((IGenericType) this.Manager.ObtainTypeReference((typeof(IList<>))))
                             .MakeGenericClosure(this.ElementType),
-                        ((IGenericType)(typeof(ICollection<>).GetTypeReference()))
+                        ((IGenericType) this.Manager.ObtainTypeReference((typeof(ICollection<>))))
                             .MakeGenericClosure(this.ElementType),
-                        ((IGenericType)(typeof(IEnumerable<>).GetTypeReference()))
+                        ((IGenericType) this.Manager.ObtainTypeReference((typeof(IEnumerable<>))))
                             .MakeGenericClosure(this.ElementType));
             else
                 return new LockedTypeCollection(
-                        typeof(ICloneable).GetTypeReference(),
-                        typeof(IList).GetTypeReference(),
-                        typeof(ICollection).GetTypeReference(),
-                        typeof(IEnumerable).GetTypeReference());
+                        this.Manager.ObtainTypeReference(typeof(ICloneable)),
+                        this.Manager.ObtainTypeReference(typeof(IList)),
+                        this.Manager.ObtainTypeReference(typeof(ICollection)),
+                        this.Manager.ObtainTypeReference(typeof(IEnumerable)));
         }
 
         public IAssembly Assembly
@@ -401,9 +414,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 this.arrayCache = new TypeArrayCache(this, k => new ArrayType(this, k), l => new ArrayType(this, l));
         }
 
-        #region ICustomAttributedEntity Members
+        #region IMetadataEntity Members
 
-        public ICustomAttributeCollection CustomAttributes
+        public IMetadataCollection CustomAttributes
         {
             get
             {
@@ -413,12 +426,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
         }
 
-        public bool IsDefined(IType attributeType)
+        public bool IsDefined(IType metadatumType)
         {
             return false;
         }
 
-        public bool IsDefined(IType attributeType, bool inherited)
+        public bool IsDefined(IType metadatumType, bool inherited)
         {
             return false;
         }

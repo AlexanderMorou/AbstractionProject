@@ -110,7 +110,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get { return null; }
         }
 
-        protected override ICustomAttributeCollection InitializeCustomAttributes()
+        protected override IMetadataCollection InitializeCustomAttributes()
         {
             return null;
         }

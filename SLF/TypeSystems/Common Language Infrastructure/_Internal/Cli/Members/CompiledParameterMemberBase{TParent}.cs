@@ -28,10 +28,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// </summary>
         private ParameterInfo parameterInfo;
         private IGeneralMemberUniqueIdentifier uniqueIdentifier;
-        protected CompiledParameterMemberBase(ParameterInfo parameterInfo, TParent parent) 
+        private ICliManager manager;
+        protected CompiledParameterMemberBase(ParameterInfo parameterInfo, TParent parent, ICliManager manager)
             : base(parent)
         {
             this.parameterInfo = parameterInfo;
+            this.manager = manager;
         }
 
         #region ICompiledParameterMember Members
@@ -47,7 +49,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get
             {
-                return this.ParameterInfo.ParameterType.GetTypeReference();
+                return this.manager.ObtainTypeReference(this.ParameterInfo.ParameterType);
             }
         }
 
@@ -90,7 +92,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override IModifiersAndAttributesMetadata InitializeMetadata()
         {
-            return new ParameterInfoModifiersAndAttributesMetadata(this.ParameterInfo);
+            return new ParameterInfoModifiersAndAttributesMetadata(this.ParameterInfo, this.manager);
         }
 
     }

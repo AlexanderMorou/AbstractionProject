@@ -8,8 +8,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     public class IntermediateModifiersAndAttributesMetadata :
         IIntermediateModifiersAndAttributesMetadata
     {
-        private CustomAttributeDefinitionCollectionSeries attributes;
-        private ICustomAttributeCollection _attributes;
+        private MetadataDefinitionCollection attributes;
+        private IMetadataCollection _attributes;
         private ITypeCollection requiredModifiers;
         private ITypeCollection optionalModifiers;
 
@@ -34,28 +34,28 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #endregion
 
-        #region IIntermediateCustomAttributedEntity Members
+        #region IIntermediateMetadataEntity Members
 
-        public ICustomAttributeDefinitionCollectionSeries CustomAttributes
+        public IMetadataDefinitionCollection CustomAttributes
         {
             get
             {
                 if (this.attributes == null)
-                    this.attributes = new CustomAttributeDefinitionCollectionSeries(this);
+                    this.attributes = new MetadataDefinitionCollection(this);
                 return this.attributes;
             }
         }
 
         #endregion
 
-        #region ICustomAttributedEntity Members
+        #region IMetadataEntity Members
 
-        ICustomAttributeCollection ICustomAttributedEntity.CustomAttributes
+        IMetadataCollection IMetadataEntity.CustomAttributes
         {
             get
             {
                 if (this._attributes == null)
-                    this._attributes = ((CustomAttributeDefinitionCollectionSeries)(this.CustomAttributes)).GetWrapper();
+                    this._attributes = ((MetadataDefinitionCollection)(this.CustomAttributes)).GetWrapper();
                 return this._attributes;
             }
         }

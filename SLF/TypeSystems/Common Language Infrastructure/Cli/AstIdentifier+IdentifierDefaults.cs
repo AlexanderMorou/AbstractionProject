@@ -434,37 +434,37 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                     switch (this.Operator)
                     {
                         case CoercibleBinaryOperators.Add:
-                            return CLICommon.BinaryOperatorNames.Addition;
+                            return CliCommon.BinaryOperatorNames.Addition;
                         case CoercibleBinaryOperators.Subtract:
-                            return CLICommon.BinaryOperatorNames.Subtraction;
+                            return CliCommon.BinaryOperatorNames.Subtraction;
                         case CoercibleBinaryOperators.Multiply:
-                            return CLICommon.BinaryOperatorNames.Multiply;
+                            return CliCommon.BinaryOperatorNames.Multiply;
                         case CoercibleBinaryOperators.Divide:
-                            return CLICommon.BinaryOperatorNames.Division;
+                            return CliCommon.BinaryOperatorNames.Division;
                         case CoercibleBinaryOperators.Modulus:
-                            return CLICommon.BinaryOperatorNames.Modulus;
+                            return CliCommon.BinaryOperatorNames.Modulus;
                         case CoercibleBinaryOperators.BitwiseAnd:
-                            return CLICommon.BinaryOperatorNames.BitwiseAnd;
+                            return CliCommon.BinaryOperatorNames.BitwiseAnd;
                         case CoercibleBinaryOperators.BitwiseOr:
-                            return CLICommon.BinaryOperatorNames.BitwiseOr;
+                            return CliCommon.BinaryOperatorNames.BitwiseOr;
                         case CoercibleBinaryOperators.ExclusiveOr:
-                            return CLICommon.BinaryOperatorNames.ExclusiveOr;
+                            return CliCommon.BinaryOperatorNames.ExclusiveOr;
                         case CoercibleBinaryOperators.LeftShift:
-                            return CLICommon.BinaryOperatorNames.LeftShift;
+                            return CliCommon.BinaryOperatorNames.LeftShift;
                         case CoercibleBinaryOperators.RightShift:
-                            return CLICommon.BinaryOperatorNames.RightShift;
+                            return CliCommon.BinaryOperatorNames.RightShift;
                         case CoercibleBinaryOperators.IsEqualTo:
-                            return CLICommon.BinaryOperatorNames.Equality;
+                            return CliCommon.BinaryOperatorNames.Equality;
                         case CoercibleBinaryOperators.IsNotEqualTo:
-                            return CLICommon.BinaryOperatorNames.Inequality;
+                            return CliCommon.BinaryOperatorNames.Inequality;
                         case CoercibleBinaryOperators.LessThan:
-                            return CLICommon.BinaryOperatorNames.LessThan;
+                            return CliCommon.BinaryOperatorNames.LessThan;
                         case CoercibleBinaryOperators.GreaterThan:
-                            return CLICommon.BinaryOperatorNames.GreaterThan;
+                            return CliCommon.BinaryOperatorNames.GreaterThan;
                         case CoercibleBinaryOperators.LessThanOrEqualTo:
-                            return CLICommon.BinaryOperatorNames.LessThanOrEqual;
+                            return CliCommon.BinaryOperatorNames.LessThanOrEqual;
                         case CoercibleBinaryOperators.GreaterThanOrEqualTo:
-                            return CLICommon.BinaryOperatorNames.GreaterThanOrEqual;
+                            return CliCommon.BinaryOperatorNames.GreaterThanOrEqual;
                         default:
                             return null;
                     }
@@ -562,21 +562,21 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                     switch (this.Operator)
                     {
                         case CoercibleUnaryOperators.Plus:
-                            return CLICommon.UnaryOperatorNames.Plus;
+                            return CliCommon.UnaryOperatorNames.Plus;
                         case CoercibleUnaryOperators.Negation:
-                            return CLICommon.UnaryOperatorNames.Negation;
+                            return CliCommon.UnaryOperatorNames.Negation;
                         case CoercibleUnaryOperators.EvaluatesToFalse:
-                            return CLICommon.UnaryOperatorNames.False;
+                            return CliCommon.UnaryOperatorNames.False;
                         case CoercibleUnaryOperators.EvaluatesToTrue:
-                            return CLICommon.UnaryOperatorNames.True;
+                            return CliCommon.UnaryOperatorNames.True;
                         case CoercibleUnaryOperators.LogicalInvert:
-                            return CLICommon.UnaryOperatorNames.LogicalNot;
+                            return CliCommon.UnaryOperatorNames.LogicalNot;
                         case CoercibleUnaryOperators.Complement:
-                            return CLICommon.UnaryOperatorNames.OnesComplement;
+                            return CliCommon.UnaryOperatorNames.OnesComplement;
                         case CoercibleUnaryOperators.Increment:
-                            return CLICommon.UnaryOperatorNames.Increment;
+                            return CliCommon.UnaryOperatorNames.Increment;
                         case CoercibleUnaryOperators.Decrement:
-                            return CLICommon.UnaryOperatorNames.Decrement;
+                            return CliCommon.UnaryOperatorNames.Decrement;
                         default:
                             return string.Empty;
                     }
@@ -705,7 +705,17 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             public override string ToString()
             {
+                return this.ToString(null);
+            }
+
+            public string ToString(string parentName)
+            {
                 StringBuilder builder = new StringBuilder();
+                if (!parentName.IsEmptyOrNull())
+                {
+                    builder.Append(parentName);
+                    builder.Append("::");
+                }
                 builder.Append(this.Name);
                 builder.Append('(');
                 bool first = true;
@@ -961,7 +971,17 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             public override string ToString()
             {
+                return this.ToString(null);
+            }
+
+            public string ToString(string parentName)
+            {
                 StringBuilder builder = new StringBuilder();
+                if (!parentName.IsEmptyOrNull())
+                {
+                    builder.Append(parentName);
+                    builder.Append("::");
+                }
                 builder.Append(this.Name);
                 if (this.IsGenericConstruct)
                     builder.AppendFormat("`{0}", this.TypeParameters);
@@ -1138,6 +1158,15 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 builder.Append(')');
                 return builder.ToString();
             }
+
+            #region IGenericSignatureMemberUniqueIdentifier Members
+
+            public string ToString(string parentName)
+            {
+                return ToString();
+            }
+
+            #endregion
         }
 
         private class DefaultAssemblyUniqueIdentifier :

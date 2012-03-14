@@ -127,7 +127,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 this.CheckParameters();
                 var lastParameter = this.Parameters.Values[this.Parameters.Count - 1];
                 if (value)
-                    lastParameter.CustomAttributes.Add(new CustomAttributeDefinition.ParameterValueCollection(CommonTypeRefs.ParameterArrayAttribute));
+                    lastParameter.CustomAttributes.Add(new MetadatumDefinitionParameterValueCollection(CommonTypeRefs.ParameterArrayAttribute));
                 else
                 {
                     var customAttrDef = lastParameter.CustomAttributes[CommonTypeRefs.ParameterArrayAttribute];

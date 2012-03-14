@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     public interface IAssembly :
         IDeclaration<IAssemblyUniqueIdentifier>,
         INamespaceParent,
-        ICustomAttributedEntity,
+        IMetadataEntity,
         IDisposable
     {
         /// <summary>

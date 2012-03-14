@@ -97,7 +97,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     {
                         if (i == index)
                         {
-                            this.values[i] = (TType)(v.GetTypeReference());
+                            this.values[i] = (TType)(this.parent.parent.Manager.ObtainTypeReference(v));
                             //Update the master dictionary.
                             //((MasterDictionaryBase<string, IType>)(this.parent.Master)).Subordinate_ItemAdded(this.parent, this.parent.Keys[index], (TType)v);
                             break;

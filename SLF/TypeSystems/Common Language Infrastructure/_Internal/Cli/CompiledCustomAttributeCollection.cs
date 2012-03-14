@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Cli;
 /*----------------------------------------\
 | Copyright © 2012 Allen Copeland Jr.     |
 |-----------------------------------------|
@@ -17,16 +18,18 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal class CompiledCustomAttributeCollection :
-        IReadOnlyCollection<ICustomAttributeInstance>,
-        ICustomAttributeCollection,
+        IReadOnlyCollection<IMetadatum>,
+        IMetadataCollection,
         IReadOnlyCollection
     {
         private Attribute[] attributes;
-        private ICustomAttributeInstance[] attributeWrappers;
-        private ICustomAttributedEntity parent;
+        private IMetadatum[] attributeWrappers;
+        private IMetadataEntity parent;
         private Func<bool, object[]> attributeObtainer;
-        private ICustomAttributeInstance[] mruList;
+        private IMetadatum[] mruList;
         private const int mruListLength = 7;
+
+        private ICliManager manager;
 
         private Attribute[] Attributes
         {
@@ -40,6 +43,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return this.attributes;
             }
         }
+
+        public ICliManager Manager { get { return this.manager; } }
 
         public void Dispose()
         {
@@ -62,11 +67,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public CompiledCustomAttributeCollection(Func<bool, object[]> attributeObtainer)
+        public CompiledCustomAttributeCollection(Func<bool, object[]> attributeObtainer, ICliManager manager)
         {
             this.attributeObtainer = attributeObtainer;
+            this.manager = manager;
         }
-        #region IControlledCollection<ICustomAttributeInstance> Members
+        #region IControlledCollection<IMetadatum> Members
 
         public int Count
         {
@@ -79,7 +85,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public bool Contains(ICustomAttributeInstance item)
+        public bool Contains(IMetadatum item)
         {
             for (int i = 0; i < this.Count; i++)
                 if (this.attributeWrappers[i] == item)
@@ -93,7 +99,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return false;
         }
 
-        public void CopyTo(ICustomAttributeInstance[] array, int arrayIndex = 0)
+        public void CopyTo(IMetadatum[] array, int arrayIndex = 0)
         {
             if (array == null)
                 throw new ArgumentNullException("array");
@@ -110,7 +116,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ICustomAttributeInstance this[int index]
+        public IMetadatum this[int index]
         {
             get
             {
@@ -119,9 +125,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ICustomAttributeInstance[] ToArray()
+        public IMetadatum[] ToArray()
         {
-            ICustomAttributeInstance[] result = new ICustomAttributeInstance[this.Count];
+            IMetadatum[] result = new IMetadatum[this.Count];
             this.CopyTo(result, 0);
             return result;
         }
@@ -131,21 +137,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private void CheckItemAt(int index)
         {
             if (this.attributeWrappers == null)
-                this.attributeWrappers = new ICustomAttributeInstance[this.Count];
+                this.attributeWrappers = new IMetadatum[this.Count];
             if (this.attributeWrappers[index] == null)
-                this.attributeWrappers[index] = new CompiledCustomAttributeInstance(Attributes[index], Parent);
+                this.attributeWrappers[index] = new CompiledCustomAttributeInstance(Attributes[index], Parent, this.Manager);
         }
 
         #region IControlledCollection Members
 
         bool IControlledCollection.Contains(object item)
         {
-            if (!(item is ICustomAttributeInstance))
+            if (!(item is IMetadatum))
                 if (!(item is IType))
                     return false;
                 else
                     return this.Contains((IType)(item));
-            return this.Contains(((ICustomAttributeInstance)(item)));
+            return this.Contains(((IMetadatum)(item)));
         }
 
         void IControlledCollection.CopyTo(Array array, int arrayIndex)
@@ -173,9 +179,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-        #region IEnumerable<ICustomAttributeInstance> Members
+        #region IEnumerable<IMetadatum> Members
 
-        public IEnumerator<ICustomAttributeInstance> GetEnumerator()
+        public IEnumerator<IMetadatum> GetEnumerator()
         {
             for (int i = 0; i < this.Count; i++)
             {
@@ -196,42 +202,42 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-        #region ICustomAttributeCollection Members
+        #region IMetadataCollection Members
 
-        public bool Contains(IType attributeType)
+        public bool Contains(IType metadatumType)
         {
             for (int i = 0; i < this.Count; i++)
             {
                 this.CheckItemAt(i);
-                if (this.attributeWrappers[i].Type.Equals(attributeType))
+                if (this.attributeWrappers[i].Type.Equals(metadatumType))
                     return true;
-                else if (attributeType.IsAssignableFrom(this.attributeWrappers[i].Type))
+                else if (metadatumType.IsAssignableFrom(this.attributeWrappers[i].Type))
                     return true;
             }
             return false;
         }
 
-        public ICustomAttributedEntity Parent
+        public IMetadataEntity Parent
         {
             get { return this.parent; }
         }
 
         #endregion
 
-        #region ICustomAttributeCollection Members
+        #region IMetadataCollection Members
 
-        public ICustomAttributeInstance this[IType attributeType]
+        public IMetadatum this[IType metadatumType]
         {
             get
             {
-                ICustomAttributeInstance mruClose = null;
+                IMetadatum mruClose = null;
                 if (this.mruList == null)
-                    mruList = new ICustomAttributeInstance[mruListLength];
+                    mruList = new IMetadatum[mruListLength];
                 for (int i = 0; i < mruListLength; i++)
                 {
                     if (mruList[i] == null)
                         break;
-                    if (mruList[i].Type == attributeType)
+                    if (mruList[i].Type == metadatumType)
                     {
                         if (i == 0)
                             //Avoid unnecessary work.
@@ -252,20 +258,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         ShiftMRU();
                         return (mruList[0] = mruClose);
                     }
-                    if (attributeType.IsAssignableFrom(mruList[i].Type) && mruClose == null)
+                    if (metadatumType.IsAssignableFrom(mruList[i].Type) && mruClose == null)
                         mruClose = mruList[i];
                 }
-                ICustomAttributeInstance fullClose = null;
+                IMetadatum fullClose = null;
                 for (int i = 0; i < this.Count; i++)
                 {
                     var item = this[i];
-                    if (item.Type == attributeType)
+                    if (item.Type == metadatumType)
                     {
                         ShiftMRU();
                         mruList[0] = item;
                         return item;
                     }
-                    else if (attributeType.IsAssignableFrom(item.Type) && fullClose == null)
+                    else if (metadatumType.IsAssignableFrom(item.Type) && fullClose == null)
                         fullClose = item;
                 }
                 //Potentially null.
@@ -290,9 +296,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-        #region IControlledCollection<ICustomAttributeInstance> Members
+        #region IControlledCollection<IMetadatum> Members
 
-        public int IndexOf(ICustomAttributeInstance element)
+        public int IndexOf(IMetadatum element)
         {
             for (int i = 0; i < this.Count; i++)
                 if (this.attributeWrappers[i] == element)
@@ -307,8 +313,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         int IControlledCollection.IndexOf(object element)
         {
-            if (element is ICustomAttributeInstance)
-                return this.IndexOf((ICustomAttributeInstance)element);
+            if (element is IMetadatum)
+                return this.IndexOf((IMetadatum)element);
             return -1;
         }
 

@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <summary>
         /// Data member for <see cref="CustomAttributes"/>.
         /// </summary>
-        private ICustomAttributeDefinitionCollectionSeries customAttributes;
+        private IMetadataDefinitionCollection customAttributes;
         /// <summary>
         /// Data member for <see cref="AccessLevel"/>.
         /// </summary>
@@ -407,15 +407,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return new NullableType(this);
         }
 
-        protected override ICustomAttributeCollection InitializeCustomAttributes()
+        protected override IMetadataCollection InitializeCustomAttributes()
         {
             return new IntermediateCustomAttributesBaseCollection(this);
         }
 
 
-        #region IIntermediateCustomAttributedEntity Members
+        #region IIntermediateMetadataEntity Members
 
-        public virtual new ICustomAttributeDefinitionCollectionSeries CustomAttributes
+        public virtual new IMetadataDefinitionCollection CustomAttributes
         {
             get
             {
@@ -427,7 +427,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         private void CheckCustomAttributes()
         {
             if (this.customAttributes == null)
-                this.customAttributes = new CustomAttributeDefinitionCollectionSeries(this);
+                this.customAttributes = new MetadataDefinitionCollection(this);
         }
 
         #endregion

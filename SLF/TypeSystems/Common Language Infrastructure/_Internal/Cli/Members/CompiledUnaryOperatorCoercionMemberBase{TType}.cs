@@ -39,35 +39,43 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             : base(parent)
         {
             this.memberInfo = memberInfo;
-            this.resultedType = memberInfo.ReturnType.GetTypeReference();
+            this.resultedType = this.Parent.Manager.ObtainTypeReference(memberInfo.ReturnType);
             switch (memberInfo.Name)
             {
-                case CLICommon.UnaryOperatorNames.Plus:
+                case CliCommon.UnaryOperatorNames.Plus:
                     this._operator = CoercibleUnaryOperators.Plus;
                     break;
-                case CLICommon.UnaryOperatorNames.Negation:
+                case CliCommon.UnaryOperatorNames.Negation:
                     this._operator = CoercibleUnaryOperators.Negation;
                     break;
-                case CLICommon.UnaryOperatorNames.False:
+                case CliCommon.UnaryOperatorNames.False:
                     this._operator = CoercibleUnaryOperators.EvaluatesToFalse;
                     break;
-                case CLICommon.UnaryOperatorNames.True:
+                case CliCommon.UnaryOperatorNames.True:
                     this._operator = CoercibleUnaryOperators.EvaluatesToTrue;
                     break;
-                case CLICommon.UnaryOperatorNames.LogicalNot:
+                case CliCommon.UnaryOperatorNames.LogicalNot:
                     this._operator = CoercibleUnaryOperators.LogicalInvert;
                     break;
-                case CLICommon.UnaryOperatorNames.OnesComplement:
+                case CliCommon.UnaryOperatorNames.OnesComplement:
                     this._operator = CoercibleUnaryOperators.Complement;
                     break;
-                case CLICommon.UnaryOperatorNames.Increment:
+                case CliCommon.UnaryOperatorNames.Increment:
                     this._operator = CoercibleUnaryOperators.Increment;
                     break;
-                case CLICommon.UnaryOperatorNames.Decrement:
+                case CliCommon.UnaryOperatorNames.Decrement:
                     this._operator = CoercibleUnaryOperators.Decrement;
                     break;
                 default:
                     throw new InvalidOperationException(string.Format("object in invalid state, unary operation ({0}) not supported.", memberInfo.Name.Substring(3)));
+            }
+        }
+
+        private new ICompiledType Parent
+        {
+            get
+            {
+                return (ICompiledType) base.Parent;
             }
         }
 
@@ -134,28 +142,28 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             switch (this.Operator)
             {
                 case CoercibleUnaryOperators.Plus:
-                    p = CLICommon.UnaryOperatorNames.Plus;
+                    p = CliCommon.UnaryOperatorNames.Plus;
                     break;
                 case CoercibleUnaryOperators.Negation:
-                    p = CLICommon.UnaryOperatorNames.Negation;
+                    p = CliCommon.UnaryOperatorNames.Negation;
                     break;
                 case CoercibleUnaryOperators.EvaluatesToFalse:
-                    p = CLICommon.UnaryOperatorNames.False;
+                    p = CliCommon.UnaryOperatorNames.False;
                     break;
                 case CoercibleUnaryOperators.EvaluatesToTrue:
-                    p = CLICommon.UnaryOperatorNames.True;
+                    p = CliCommon.UnaryOperatorNames.True;
                     break;
                 case CoercibleUnaryOperators.LogicalInvert:
-                    p = CLICommon.UnaryOperatorNames.LogicalNot;
+                    p = CliCommon.UnaryOperatorNames.LogicalNot;
                     break;
                 case CoercibleUnaryOperators.Complement:
-                    p = CLICommon.UnaryOperatorNames.OnesComplement;
+                    p = CliCommon.UnaryOperatorNames.OnesComplement;
                     break;
                 case CoercibleUnaryOperators.Increment:
-                    p = CLICommon.UnaryOperatorNames.Increment;
+                    p = CliCommon.UnaryOperatorNames.Increment;
                     break;
                 case CoercibleUnaryOperators.Decrement:
-                    p = CLICommon.UnaryOperatorNames.Decrement;
+                    p = CliCommon.UnaryOperatorNames.Decrement;
                     break;
                 default:
                     return null;

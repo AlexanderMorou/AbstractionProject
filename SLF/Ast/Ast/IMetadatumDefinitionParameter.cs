@@ -12,15 +12,17 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
     /// <summary>
-    /// Defines properties and methdos for working with
-    /// a named parameter on a custom attribute to be stored
-    /// in the assembly's meta-data.
+    /// Defines properties and methods for working with a 
+    /// custom attribute definition parameter.
     /// </summary>
-    /// <typeparam name="T">The type of value associated to the
-    /// named parameter.</typeparam>
-    public interface ICustomAttributeDefinitionNamedParameter<T> :
-        ICustomAttributeDefinitionParameter<T>,
-        ICustomAttributeDefinitionNamedParameter
+    public interface IMetadatumDefinitionParameter :
+        IDisposable
     {
+        /// <summary>
+        /// Returns the <see cref="IMetadatumDefinitionParameter"/>
+        /// value defined on one of the <see cref="IMetadatumDefinition"/>'s
+        /// constructor argument(s).
+        /// </summary>
+        object Value { get; }
     }
 }

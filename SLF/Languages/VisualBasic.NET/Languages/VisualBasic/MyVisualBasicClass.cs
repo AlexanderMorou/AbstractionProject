@@ -75,14 +75,14 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
                     value = (value & ~SpecialClassModifier.TypeExtensionSource) | SpecialClassModifier.Module;
                     isExtensionSource = false;
                 }
-                IList<ICustomAttributeDefinition> toRemove = new List<ICustomAttributeDefinition>();
-                IList<CustomAttributeDefinition.ParameterValueCollection> toAdd = new List<CustomAttributeDefinition.ParameterValueCollection>();
+                IList<IMetadatumDefinition> toRemove = new List<IMetadatumDefinition>();
+                IList<MetadatumDefinitionParameterValueCollection> toAdd = new List<MetadatumDefinitionParameterValueCollection>();
                 if (isModule)
                 {
                     if (!this.IsDefined(CommonVBTypeRefs.StandardModuleAttribute))
-                        toAdd.Add(new CustomAttributeDefinition.ParameterValueCollection(CommonVBTypeRefs.StandardModuleAttribute));
+                        toAdd.Add(new MetadatumDefinitionParameterValueCollection(CommonVBTypeRefs.StandardModuleAttribute));
                     if (isHidden && !this.IsDefined(CommonVBTypeRefs.HideModuleNameAttribute))
-                        toAdd.Add(new CustomAttributeDefinition.ParameterValueCollection(CommonVBTypeRefs.HideModuleNameAttribute));
+                        toAdd.Add(new MetadatumDefinitionParameterValueCollection(CommonVBTypeRefs.HideModuleNameAttribute));
                     else if (!isHidden && this.IsDefined(CommonVBTypeRefs.HideModuleNameAttribute))
                         toRemove.Add(this.CustomAttributes[CommonVBTypeRefs.HideModuleNameAttribute]);
                 }
@@ -97,7 +97,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
                 if (isHidden && !isModule)
                 {
                     if (!this.IsDefined(CommonTypeRefs.ClassIsHiddenAttribute))
-                        toAdd.Add(new CustomAttributeDefinition.ParameterValueCollection(CommonTypeRefs.ClassIsHiddenAttribute));
+                        toAdd.Add(new MetadatumDefinitionParameterValueCollection(CommonTypeRefs.ClassIsHiddenAttribute));
                 }
                 else if (!(isHidden || isModule))
                 {
@@ -107,7 +107,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
                 if (isExtensionSource)
                 {
                     if (!this.IsDefined(CommonTypeRefs.ExtensionAttribute))
-                        toAdd.Add(new CustomAttributeDefinition.ParameterValueCollection(CommonTypeRefs.ExtensionAttribute));
+                        toAdd.Add(new MetadatumDefinitionParameterValueCollection(CommonTypeRefs.ExtensionAttribute));
                 }
                 else if (this.IsDefined(CommonTypeRefs.ExtensionAttribute))
                     toRemove.Add(this.CustomAttributes[CommonTypeRefs.ExtensionAttribute]);

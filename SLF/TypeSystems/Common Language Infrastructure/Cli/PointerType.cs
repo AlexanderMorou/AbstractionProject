@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         private IType elementType;
         private ByRefType byRef;
         private PointerType pointer;
-        private ICustomAttributeCollection customAttributes;
+        private IMetadataCollection customAttributes;
         /// <summary>
         /// Data member for <see cref="MakeArray(Int32)"/>.
         /// </summary>
@@ -252,9 +252,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         }
         #endregion
 
-        #region ICustomAttributedEntity Members
+        #region IMetadataEntity Members
 
-        public ICustomAttributeCollection CustomAttributes
+        public IMetadataCollection CustomAttributes
         {
             get
             {
@@ -264,17 +264,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
         }
 
-        public bool IsDefined(IType attributeType)
+        public bool IsDefined(IType metadatumType)
         {
             return false;
         }
 
-        public bool IsDefined(IType attributeType, bool inherited)
+        public bool IsDefined(IType metadatumType, bool inherited)
         {
             return false;
         }
 
         #endregion
+
+        public ITypeIdentityManager Manager { get { return this.ElementType.Manager; } }
 
         public override string ToString()
         {

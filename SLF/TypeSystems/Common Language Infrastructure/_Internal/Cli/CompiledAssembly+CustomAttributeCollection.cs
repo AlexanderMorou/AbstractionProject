@@ -17,18 +17,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     partial class CompiledAssembly
     {
 
-        protected override ICustomAttributeCollection InitializeCustomAttributes()
+        protected override IMetadataCollection InitializeCustomAttributes()
         {
             this.initializedCustomAttributes = true;
             return new CustomAttributeCollection(this);
         }
 
         private partial class CustomAttributeCollection :
-            ReadOnlyCollection<ICustomAttributeInstance>,
-            ICustomAttributeCollection
+            ReadOnlyCollection<IMetadatum>,
+            IMetadataCollection
         {
             private CompiledAssembly assembly;
-            private ICustomAttributeInstance[] mruList;
+            private IMetadatum[] mruList;
             private const int mruListLength = 7;
             public CustomAttributeCollection(CompiledAssembly assembly)
             {
@@ -52,33 +52,33 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             #endregion
 
-            #region ICustomAttributeCollection Members
+            #region IMetadataCollection Members
 
-            public bool Contains(IType attributeType)
+            public bool Contains(IType metadatumType)
             {
                 foreach (var item in this.baseList)
-                    if (item.Type.Equals(attributeType))
+                    if (item.Type.Equals(metadatumType))
                         return true;
                 return false;
             }
 
-            public ICustomAttributedEntity Parent
+            public IMetadataEntity Parent
             {
                 get { return this.assembly; }
             }
 
-            public ICustomAttributeInstance this[IType attributeType]
+            public IMetadatum this[IType metadatumType]
             {
                 get
                 {
-                    ICustomAttributeInstance mruClose = null;
+                    IMetadatum mruClose = null;
                     if (this.mruList == null)
-                        mruList = new ICustomAttributeInstance[mruListLength];
+                        mruList = new IMetadatum[mruListLength];
                     for (int i = 0; i < mruListLength; i++)
                     {
                         if (mruList[i] == null)
                             break;
-                        if (mruList[i].Type == attributeType)
+                        if (mruList[i].Type == metadatumType)
                         {
                             if (i == 0)
                                 //Avoid unnecessary work.
@@ -99,20 +99,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             ShiftMRU();
                             return (mruList[0] = mruClose);
                         }
-                        if (attributeType.IsAssignableFrom(mruList[i].Type) && mruClose == null)
+                        if (metadatumType.IsAssignableFrom(mruList[i].Type) && mruClose == null)
                             mruClose = mruList[i];
                     }
-                    ICustomAttributeInstance fullClose = null;
+                    IMetadatum fullClose = null;
                     for (int i = 0; i < this.Count; i++)
                     {
                         var item = this[i];
-                        if (item.Type == attributeType)
+                        if (item.Type == metadatumType)
                         {
                             ShiftMRU();
                             mruList[0] = item;
                             return item;
                         }
-                        else if (attributeType.IsAssignableFrom(item.Type) && fullClose == null)
+                        else if (metadatumType.IsAssignableFrom(item.Type) && fullClose == null)
                             fullClose = item;
                     }
                     //Potentially null.

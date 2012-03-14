@@ -96,7 +96,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     {
                         if (i == index)
                         {
-                            this.names[i] = (TTypeIdentifier)v.GetUniqueIdentifier();
+                            this.names[i] = (TTypeIdentifier)v.GetUniqueIdentifier(this.parent.parent.Manager);
                             break;
                         }
                         i++;

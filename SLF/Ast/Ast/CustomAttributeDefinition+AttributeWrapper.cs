@@ -12,7 +12,7 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
-    partial class CustomAttributeDefinition
+    partial class MetadatumDefinition
     {
         private partial class AttributeWrapper :
             Attribute
@@ -20,15 +20,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             public AttributeWrapper()
             {
             }
-
-            //#region IDynamicMetaObjectProvider Members
-
-            //public DynamicMetaObject GetMetaObject(System.Linq.Expressions.Expression parameter)
-            //{
-            //    throw new NotImplementedException();
-            //}
-
-            //#endregion
         }
     }
 }

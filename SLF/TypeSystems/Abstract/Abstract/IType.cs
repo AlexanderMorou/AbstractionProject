@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// </summary>
     public interface IType :
         IEquatable<IType>,
-        ICustomAttributedEntity,
+        IMetadataEntity,
         IScopedDeclaration
     {
         /// <summary>
@@ -199,24 +199,30 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         new IGeneralTypeUniqueIdentifier UniqueIdentifier { get; }
 
         /// <summary>
-        /// Determines whether the <paramref name="attributeType"/> 
+        /// Determines whether the <paramref name="metadatumType"/> 
         /// is defined on the current 
         /// <see cref="IType"/> and whether to consider
         /// the type hierarchy.
         /// </summary>
-        /// <param name="attributeType">The <see cref="IType"/> of
+        /// <param name="metadatumType">The <see cref="IType"/> of
         /// the attribute to check the presence of.</param>
         /// <param name="inherited">Whether or not to check the type
-        /// hierarchy if the <paramref name="attributeType"/>
+        /// hierarchy if the <paramref name="metadatumType"/>
         /// isn't found at this point in the inheritance chain.</param>
         /// <returns>true if an attribute of the given 
-        /// <paramref name="attributeType"/> is defined
+        /// <paramref name="metadatumType"/> is defined
         /// on the current <see cref="IType"/>.
         /// </returns>
         /// <remarks><paramref name="inherited"/> is ignored if
-        /// the type defined by <paramref name="attributeType"/>
+        /// the type defined by <paramref name="metadatumType"/>
         /// is not an inheritable attribute.
         /// </remarks>
-        bool IsDefined(IType attributeType, bool inherited);
+        bool IsDefined(IType metadatumType, bool inherited);
+
+        /// <summary>
+        /// Returns the <see cref="ITypeIdentityManager"/> which was used
+        /// to construct the current <see cref="IType"/>.
+        /// </summary>
+        ITypeIdentityManager Manager { get; }
     }
 }

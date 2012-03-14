@@ -122,9 +122,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
              * _IGenericMethodRegistrar handles cache.
              * */
             TMethod tK = default(TMethod);
-            tK = this.OnMakeGenericMethod(genericReplacements);
-            CLICommon.VerifyTypeParameters<IMethodParameterMember<TMethod, TMethodParent>, TMethod, TMethodParent>(this, genericReplacements);
-            return tK;
+            return this.OnMakeGenericMethod(genericReplacements);
         }
 
         protected abstract TMethod OnMakeGenericMethod(ITypeCollectionBase genericReplacements);

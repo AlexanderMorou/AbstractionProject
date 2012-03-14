@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <summary>
         /// Data member for <see cref="CustomAttributes"/>.
         /// </summary>
-        private ICustomAttributeDefinitionCollectionSeries attributes;
+        private IMetadataDefinitionCollection attributes;
         /// <summary>
         /// Data member for <see cref="Parts"/>.
         /// </summary>
@@ -641,9 +641,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #endregion
 
-        protected sealed override ICustomAttributeCollection InitializeCustomAttributes()
+        protected sealed override IMetadataCollection InitializeCustomAttributes()
         {
-            return ((CustomAttributeDefinitionCollectionSeries)(this.CustomAttributes)).GetWrapper();
+            return ((MetadataDefinitionCollection)(this.CustomAttributes)).GetWrapper();
         }
 
         /// <summary>
@@ -818,12 +818,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #endregion
 
-        #region IIntermediateCustomAttributedEntity Members
+        #region IIntermediateMetadataEntity Members
         /// <summary>
         /// Returns the custom attribute definition collection series associated
         /// to the current assembly.
         /// </summary>
-        public new ICustomAttributeDefinitionCollectionSeries CustomAttributes
+        public new IMetadataDefinitionCollection CustomAttributes
         {
             get
             {
@@ -838,7 +838,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
-        internal ICustomAttributeDefinitionCollectionSeries _CustomAttributes
+        internal IMetadataDefinitionCollection _CustomAttributes
         {
             get
             {
@@ -848,7 +848,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         if (this.IsDisposed)
                             throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                         else
-                            this.attributes = new CustomAttributeDefinitionCollectionSeries(this);
+                            this.attributes = new MetadataDefinitionCollection(this);
                     return this.attributes;
                 }
                 else
