@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -119,10 +119,9 @@
       <Name>TypeSystem Abstract</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\TypeSystems\Common Language Infrastructure\Common Language Infrastructure.csproj">
-      <Project>{4FF91A45-B361-4D8F-8C5B-03D11E5291E6}</Project>
-      <Name>Common Language Infrastructure</Name>
-      <Private>False</Private>
+    <ProjectReference Include="..\..\TypeSystems\Ecma-335 Common Type System\Ecma-335 Common Type System.csproj">
+      <Project>{D455D4FF-54FD-431E-BD27-43DA130A0FAA}</Project>
+      <Name>Ecma-335 Common Type System</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

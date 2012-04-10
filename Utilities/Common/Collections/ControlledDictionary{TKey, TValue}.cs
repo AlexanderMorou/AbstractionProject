@@ -220,7 +220,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <returns>true, if an element was found and <paramref name="value"/> was 
         /// set to its value; false, otherwise where <paramref name="value"/>
         /// is set to the default value of <typeparamref name="TValue"/>.</returns>
-        public bool TryGetValue(TKey key, out TValue value)
+        public virtual bool TryGetValue(TKey key, out TValue value)
         {
             int index;
             lock (this.SyncRoot)
@@ -275,11 +275,14 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         }
 
         /// <summary>
-        /// Determines whether the <see cref="ControlledDictionary{TKey, TValue}"/> contains a specific 
+        /// Determines whether the <see cref="ControlledDictionary{TKey, TValue}"/>
+        /// contains a specific 
         /// value.
         /// </summary>
         /// <param name="item">
-        /// The <see cref="KeyValuePair{TKey, TValue}"/> to locate in the <see cref="ControlledDictionary{TKey, TValue}"/>.</param>
+        /// The <see cref="KeyValuePair{TKey, TValue}"/> to locate in
+        /// the <see cref="ControlledDictionary{TKey, TValue}"/>.
+        /// </param>
         /// <returns>
         /// true if <paramref name="item"/> is found in the
         /// <see cref="ControlledDictionary{TKey, TValue}"/>;
@@ -297,15 +300,16 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         }
 
         /// <summary>
-        /// Copies the elements of the <see cref="ControlledDictionary{TKey, TValue}"/> to an
-        /// <see cref="System.Array"/>, starting at a particular <see cref="System.Array"/> 
-        /// index.
+        /// Copies the elements of the <see cref="ControlledDictionary{TKey, TValue}"/>
+        /// to an <see cref="System.Array"/>, starting at a particular
+        /// <see cref="System.Array"/> index.
         /// </summary>
         /// <param name="array">
-        /// The one-dimensional <see cref="System.Array"/> that is the destination of the 
-        /// elements copied from <see cref="ControlledDictionary{TKey, TValue}"/>. The 
-        /// <see cref="System.Array"/> must
-        /// have zero-based indexing.</param>
+        /// The one-dimensional <see cref="System.Array"/> that is the
+        /// destination of the elements copied from <see
+        /// cref="ControlledDictionary{TKey, TValue}"/>. The
+        /// <see cref="System.Array"/> must have zero-based indexing.
+        /// </param>
         /// <param name="arrayIndex">
         /// The zero-based index in <paramref name="array"/> at which copying begins.</param>
         /// <exception cref="System.ArgumentOutOfRangeException">

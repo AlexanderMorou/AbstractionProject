@@ -25,6 +25,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             Func<ValuesCollection> valuesInitializer;
             public SharedLocals(Func<KeysCollection> keysInitializer, Func<ValuesCollection> valuesInitializer)
             {
+                this.entries = new KeyValuePair<TKey, TValue>[0];
                 this.keysInitializer = keysInitializer;
                 this.valuesInitializer = valuesInitializer;
             }
