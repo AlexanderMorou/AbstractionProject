@@ -399,9 +399,6 @@
     <None Include="Allen Copeland.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="article.html" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Common\Common Utilities.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
       <Name>Common Utilities</Name>
